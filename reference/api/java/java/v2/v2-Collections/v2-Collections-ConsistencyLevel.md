@@ -9,6 +9,20 @@ description: "This is an enumeration that provides the following constants. | Ja
 type: docx
 token: Q8IidbqKMopplgxSxaicS2o9nwc
 sidebar_position: 3
+keywords: 
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - ConsistencyLevel
+  - javaV2
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: javaSidebar
 
 ---

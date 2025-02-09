@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

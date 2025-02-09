@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - range search
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

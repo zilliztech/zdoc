@@ -10,19 +10,19 @@ type: docx
 token: QI87dhVnioL9JLxnNKxcM8jWnkh
 sidebar_position: 3
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
-  - pymilvus25
+  - python
+  - open source vector database
   - Vector index
   - vector database open source
   - open source vector db
-  - vector database example
 displayed_sidebar: pythonSidebar
 
 ---

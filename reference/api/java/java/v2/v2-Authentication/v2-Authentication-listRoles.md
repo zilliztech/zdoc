@@ -9,6 +9,20 @@ description: "This operation lists all custom roles. | Java | v2"
 type: docx
 token: XIIyd3bMzoAVx3xVsoLcnQ2pnKh
 sidebar_position: 9
+keywords: 
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - listRoles()
+  - javaV2
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 displayed_sidebar: javaSidebar
 
 ---

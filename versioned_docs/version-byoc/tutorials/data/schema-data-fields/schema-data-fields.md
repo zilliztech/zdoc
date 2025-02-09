@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

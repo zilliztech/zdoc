@@ -18,11 +18,11 @@ keywords:
   - zilliz cloud
   - cloud
   - encode_documents()
-  - pymilvus25
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - python
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 ---

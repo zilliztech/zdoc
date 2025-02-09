@@ -10,19 +10,19 @@ type: docx
 token: SuePdciB0o4du5xtpIhcMVyYnPb
 sidebar_position: 40
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - transfer_replica()
-  - pymilvus25
+  - python
+  - Zilliz vector database
   - Zilliz database
   - Unstructured Data
   - vector database
-  - IVF
 displayed_sidebar: pythonSidebar
 
 ---

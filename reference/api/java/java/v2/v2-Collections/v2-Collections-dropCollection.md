@@ -9,6 +9,20 @@ description: "This operation drops a collection. | Java | v2"
 type: docx
 token: PsAGd1CNqosvirxDJ5ncIHudnSg
 sidebar_position: 11
+keywords: 
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - dropCollection()
+  - javaV2
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: javaSidebar
 
 ---

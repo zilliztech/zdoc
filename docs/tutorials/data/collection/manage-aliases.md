@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Zilliz Cloud provides alias management capabilities. This page demonstrates the procedures to create, list, alter, and drop aliases. | Cloud"
 type: origin
 token: OLn1wMgW0iceBlkuey2cBD91neb
-sidebar_position: 8
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

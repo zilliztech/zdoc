@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

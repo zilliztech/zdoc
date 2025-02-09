@@ -9,6 +9,20 @@ description: "This operation lists all existing aliases for a specific collectio
 type: docx
 token: RvZDdxU1howmQ7x2V31c8eC7nJb
 sidebar_position: 15
+keywords: 
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - listAliases()
+  - javaV2
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: javaSidebar
 
 ---

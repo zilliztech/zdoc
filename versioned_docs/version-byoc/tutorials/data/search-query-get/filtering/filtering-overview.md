@@ -17,10 +17,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 
@@ -68,6 +68,29 @@ filter='history_temperatures[10] > 23'
 ```
 
 For more information on these basic operators, refer to [Basic Operators](./basic-filtering-operators).
+
+## Filter expression templates{#filter-expression-templates}
+
+When filtering using CJK characters, processing can be more complex due to their larger character sets and encoding differences. This can result in slower performance, especially with the `IN` operator.
+
+Zilliz Cloud introduces filter expression templating to optimize performance when working with CJK characters. By separating dynamic values from the filter expression, the query engine handles parameter insertion more efficiently.
+
+### Example{#example}
+
+To find individuals over the age of 25 living in either "北京" (Beijing) or "上海" (Shanghai), use the following template expression:
+
+```python
+filter = "age > 25 AND city IN ['北京', '上海']"
+```
+
+To improve performance, use this variation with parameters:
+
+```python
+filter = "age > {age} AND city in {city}",
+filter_params = {"age": 25, "city": ["北京", "上海"]}
+```
+
+This approach reduces parsing overhead and improves query speed. For more information, see [Filter Templating](./filtering-templating).
 
 ## Data type-specific operators{#data-type-specific-operators}
 
@@ -130,3 +153,14 @@ filter="ARRAY_LENGTH(history_temperatures) < 10"
 
 For more details on array operators, see [ARRAY Operators](./array-filtering-operators).
 
+### VARCHAR field-specific operators{#varchar-field-specific-operators}
+
+The `Text_Match` operator allows precise document retrieval based on specific query terms. It is particularly useful for filtered searches that combine scalar filters with vector similarity searches. Unlike semantic searches, Text Match focuses on exact term occurrences.
+
+Zilliz Cloud uses Tantivy to support inverted indexing and term-based text search. The process involves:
+
+1. **Analyzer**: Tokenizes and processes input text.
+
+1. **Indexing**: Creates an inverted index mapping unique tokens to documents.
+
+For more details, refer to [Text Match](./text-match).

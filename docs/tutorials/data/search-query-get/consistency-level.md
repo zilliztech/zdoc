@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

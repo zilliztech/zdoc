@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - DML
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

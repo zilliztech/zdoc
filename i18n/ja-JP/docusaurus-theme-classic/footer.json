@@ -1,0 +1,90 @@
+{
+  "link.title.Documents": {
+    "message": "書類",
+    "description": "The title of the footer links column with title=Documents in the footer"
+  },
+  "link.title.Product": {
+    "message": "製品",
+    "description": "The title of the footer links column with title=Product in the footer"
+  },
+  "link.title.Media": {
+    "message": "メディア",
+    "description": "The title of the footer links column with title=Media in the footer"
+  },
+  "link.title.Resources": {
+    "message": "資料",
+    "description": "The title of the footer links column with title=Resources in the footer"
+  },
+  "link.item.label.Developer Guides": {
+    "message": "開発者ガイド",
+    "description": "The label of footer link with label=Developer Guides linking to /docs/quick-start"
+  },
+  "link.item.label.RESTful API": {
+    "message": "RESTful API",
+    "description": "The label of footer link with label=RESTful API linking to /reference/restful"
+  },
+  "link.item.label.Python SDK": {
+    "message": "Python SDK",
+    "description": "The label of footer link with label=Python SDK linking to /reference/python"
+  },
+  "link.item.label.Java SDK": {
+    "message": "Java SDK",
+    "description": "The label of footer link with label=Java SDK linking to /reference/java"
+  },
+  "link.item.label.Go SDK": {
+    "message": "Go SDK",
+    "description": "The label of footer link with label=Go SDK linking to /reference/go"
+  },
+  "link.item.label.Node.js SDK": {
+    "message": "Node.js SDK",
+    "description": "The label of footer link with label=Node.js SDK linking to /reference/nodejs"
+  },
+  "link.item.label.Zilliz Cloud": {
+    "message": "Zilliz Cloud",
+    "description": "The label of footer link with label=Zilliz Cloud linking to https://zilliz.com/cloud"
+  },
+  "link.item.label.YouTube": {
+    "message": "YouTube",
+    "description": "The label of footer link with label=YouTube linking to https://www.youtube.com/c/MilvusVectorDatabase"
+  },
+  "link.item.label.LinkedIn": {
+    "message": "LinkedIn",
+    "description": "The label of footer link with label=LinkedIn linking to https://www.linkedin.com/company/zilliz"
+  },
+  "link.item.label.Twitter": {
+    "message": "Twitter",
+    "description": "The label of footer link with label=Twitter linking to https://twitter.com/zilliz_universe"
+  },
+  "link.item.label.GitHub": {
+    "message": "GitHub",
+    "description": "The label of footer link with label=GitHub linking to https://github.com/zilliztech"
+  },
+  "link.item.label.Blogs": {
+    "message": "ブログ",
+    "description": "The label of footer link with label=Blogs linking to https://zilliz.com/blog"
+  },
+  "link.item.label.Whitepapers": {
+    "message": "白書",
+    "description": "The label of footer link with label=Whitepapers linking to https://zilliz.com/resources?tag=whitepapers"
+  },
+  "link.item.label.Webinars": {
+    "message": "ウェビナー",
+    "description": "The label of footer link with label=Webinars linking to https://zilliz.com/resources?tag=webinars"
+  },
+  "link.item.label.Trainings": {
+    "message": "トレーニング",
+    "description": "The label of footer link with label=Trainings linking to https://zilliz.com/resources?tag=trainings"
+  },
+  "link.item.label.Events": {
+    "message": "イベント",
+    "description": "The label of footer link with label=Events linking to https://zilliz.com/event"
+  },
+  "copyright": {
+    "message": "LF AI、LF AI & data、Milvus、および関連するオープンソースプロジェクト名は、Linux Foundationの商標です。<br/>© Zilliz 2025 全著作権所有。<a class=\"setting-cookie-btn\">クッキー設定</a>",
+    "description": "The footer copyright"
+  },
+  "logo.alt": {
+    "message": "Zilliz",
+    "description": "The alt text of footer logo"
+  }
+}

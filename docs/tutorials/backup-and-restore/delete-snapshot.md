@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
-  - what are vector databases
   - vector databases comparison
   - Faiss
   - Video search
+  - AI Hallucination
 
 ---
 

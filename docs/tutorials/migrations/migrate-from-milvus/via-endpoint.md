@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

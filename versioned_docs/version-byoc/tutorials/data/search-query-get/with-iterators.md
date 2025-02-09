@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

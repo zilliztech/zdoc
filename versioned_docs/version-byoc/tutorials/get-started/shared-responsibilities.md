@@ -2,7 +2,7 @@
 title: "Shared Responsibilities | BYOC"
 slug: /shared-responsibilities
 sidebar_label: "Shared Responsibilities"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page outlines the responsibilities of Zilliz Cloud and BYOC users to clarify the division of tasks related to cloud management, upgrades, security, access control, service availability, and technical support, ensuring smooth collaboration while maintaining a secure and efficient operation environment. | BYOC"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - milvus
   - vector database
   - shared responsibilities
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
 
 ---
 

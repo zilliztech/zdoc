@@ -16,10 +16,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

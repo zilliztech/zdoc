@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This guide provides step-by-step instructions for creating and managing collections in Zilliz Cloud. It is intended for users who prefer a visual interface. If you are familiar with SDKs, you can also create and manage collections through them. For more information, refer to Collection. | BYOC"
 type: origin
 token: CmR5wFcybi3iMokOJBxcXDQcntg
-sidebar_position: 10
+sidebar_position: 11
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - collection
   - manage
   - console
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

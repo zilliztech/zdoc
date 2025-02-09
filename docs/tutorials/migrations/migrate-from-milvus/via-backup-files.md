@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

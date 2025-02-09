@@ -9,6 +9,20 @@ description: "This operation creates an index for a specific collection. | Java 
 type: docx
 token: OCjUdfc6eo0VihxNUGmcqb7FnTh
 sidebar_position: 1
+keywords: 
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - createIndex()
+  - javaV2
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 displayed_sidebar: javaSidebar
 
 ---

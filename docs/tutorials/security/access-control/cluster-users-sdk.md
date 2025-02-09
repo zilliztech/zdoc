@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - users
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "An easy-to-use alternative to the legacy PyMilvus SDK. | Python | MilvusClient"
 type: folder
-token: YHQ9fF9IDlENsMd9RZucYalqnNg
-sidebar_position: 2
+token: ICGwfi8ZClVQLHdLn9Hc3oeFn1d
+sidebar_position: 3
 sidebar_label: "MilvusClient"
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClient
-  - pymilvus25
+  - python
 displayed_sidebar: pythonSidebar
 ---
 

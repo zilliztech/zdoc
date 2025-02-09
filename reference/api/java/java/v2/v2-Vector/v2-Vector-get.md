@@ -9,6 +9,20 @@ description: "This operation gets specific entities by their IDs. | Java | v2"
 type: docx
 token: UcacdecoZoAyxsxJzOGcTqWzn7d
 sidebar_position: 2
+keywords: 
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - get()
+  - javaV2
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: javaSidebar
 
 ---

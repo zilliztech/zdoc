@@ -8,6 +8,16 @@ type: folder
 token: YkL6fqkaNlgeWXdNaWLcltkZnRc
 sidebar_position: 6
 sidebar_label: "Partitions"
+keywords: 
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Partitions
+  - javaV2
 displayed_sidebar: javaSidebar
 ---
 

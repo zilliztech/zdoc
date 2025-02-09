@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

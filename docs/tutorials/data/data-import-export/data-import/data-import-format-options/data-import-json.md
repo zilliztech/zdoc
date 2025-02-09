@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - json
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

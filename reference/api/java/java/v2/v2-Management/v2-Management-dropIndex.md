@@ -9,6 +9,20 @@ description: "This operation drops an index from a specific collection. | Java |
 type: docx
 token: KdFEdP8ZToYvZ1xmmQgcE62unUf
 sidebar_position: 3
+keywords: 
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - dropIndex()
+  - javaV2
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 displayed_sidebar: javaSidebar
 
 ---

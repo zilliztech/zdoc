@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

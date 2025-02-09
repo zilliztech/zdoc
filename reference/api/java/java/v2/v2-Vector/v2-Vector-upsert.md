@@ -9,6 +9,20 @@ description: "This operation inserts or updates data in a specific collection. |
 type: docx
 token: A0UBd45iyoGah2xaFjQc4bp6n2b
 sidebar_position: 9
+keywords: 
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - upsert()
+  - javaV2
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 displayed_sidebar: javaSidebar
 
 ---

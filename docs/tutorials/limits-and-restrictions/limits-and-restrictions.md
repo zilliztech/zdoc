@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

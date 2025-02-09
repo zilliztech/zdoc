@@ -88,7 +88,7 @@ Currently, the rate limit for loading collection requests on Zilliz Cloud is 1 p
 
 ### Why do I fail to load collections? What can I do?{#why-do-i-fail-to-load-collections-what-can-i-do}
 
-The failure is caused due to insufficient memory in your cluster. Please try [scaling up](./manage-cluster) your cluster to larger CU sizes.
+The failure is caused due to insufficient memory in your cluster. Please try [scaling up](./scale-cluster) your cluster to larger CU sizes.
 
 ### Is there any limit to the number of fields I can add in a collection?{#is-there-any-limit-to-the-number-of-fields-i-can-add-in-a-collection}
 

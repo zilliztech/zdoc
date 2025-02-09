@@ -14,10 +14,10 @@ keywords:
   - cloud
   - basics
   - milvus
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

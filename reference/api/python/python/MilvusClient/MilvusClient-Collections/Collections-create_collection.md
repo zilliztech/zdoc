@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation supports creating a collection in two distinct ways quick setup or custom setup. | Python | MilvusClient"
 type: docx
-token: H7eOdq9hOo7so7xes5LchIVwnrb
+token: TziHdCu4VoURrfxAMsUcsRhQnub
 sidebar_position: 5
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
   - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - create_collection()
-  - pymilvus25
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - python
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: pythonSidebar
 
 ---
@@ -194,10 +194,6 @@ create_collection(
         - **mmap.enabled** (*bool*) -
 
             Whether to enable mmap for the raw data and indexes of all fields in the collection.
-
-        - **partitionkey.isolation** (bool) -
-
-            Whether to enable partition key isolation. For details, refer to [Use Partition Key](/docs/use-partition-key).
 
 **RETURN TYPE:**
 

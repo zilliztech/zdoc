@@ -14,10 +14,10 @@ keywords:
   - cloud
   - marketplace
   - gcp
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 
@@ -28,7 +28,7 @@ import Admonition from '@theme/Admonition';
 
 This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on GCP Marketplace.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="Note">
 
 <p>Once subscribed, you can pay for the usage of Google Cloud clusters via Google Cloud Marketplace. If you have clusters deployed on other cloud providers, you can also use Google Cloud Marketplace to pay.</p>
 
@@ -102,7 +102,7 @@ After successfully subscribing from GCP Marketplace, you can always update your 
 
 1. Cancel your Zilliz Cloud subscription. Refer to [Cancel your plan](https://cloud.google.com/marketplace/docs/manage-billing#saas-products) for more details.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="Note">
 
     <p>Please rest assured that canceling the subscription will not delete your Zilliz Cloud data.</p>
 
@@ -116,7 +116,7 @@ After successfully subscribing from GCP Marketplace, you can always update your 
 
 1. Follow steps 1 to 4 in the [Subscribe on GCP Marketplace](./subscribe-on-gcp-marketplace#subscribe-on-gcp-marketplace) section to complete your subscription to Zilliz Cloud with the new account.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="Note">
 
     <p>When updating GCP Marketplace subscription, you must click the Manage on Provider button to link your new subscription with Zilliz Cloud organization.</p>
 
@@ -126,7 +126,7 @@ After successfully subscribing from GCP Marketplace, you can always update your 
 
     ![view-gcp-subscription-id](/img/view-gcp-subscription-id.png)
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="Note">
 
 <p>We recommend completing the operations within 1 hour to avoid service interruption.</p>
 
@@ -138,7 +138,7 @@ After successfully subscribing from GCP Marketplace, you can always update your 
 
 1. Cancel your Zilliz Cloud subscription. Refer to [Cancel your plan](https://cloud.google.com/marketplace/docs/manage-billing#saas-products) for more details.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="Note">
 
     <p>Please rest assured that canceling the subscription will not delete your Zilliz Cloud data.</p>
 

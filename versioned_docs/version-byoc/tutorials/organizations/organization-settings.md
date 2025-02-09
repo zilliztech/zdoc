@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
+  - Zilliz database
+  - Unstructured Data
   - vector database
   - IVF
-  - knn
-  - Image Search
 
 ---
 

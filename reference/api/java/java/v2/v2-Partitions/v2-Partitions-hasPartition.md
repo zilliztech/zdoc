@@ -9,6 +9,20 @@ description: "This operation checks whether the specified partition exists in th
 type: docx
 token: NS1xdv6f4oQlN4xqnOGc6ssWnTf
 sidebar_position: 3
+keywords: 
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - hasPartition()
+  - javaV2
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 displayed_sidebar: javaSidebar
 
 ---

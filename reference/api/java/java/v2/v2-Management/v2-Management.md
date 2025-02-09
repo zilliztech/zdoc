@@ -8,6 +8,16 @@ type: folder
 token: PohgfmtiBlwuPRdcACmc9JDZnve
 sidebar_position: 5
 sidebar_label: "Management"
+keywords: 
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Management
+  - javaV2
 displayed_sidebar: javaSidebar
 ---
 

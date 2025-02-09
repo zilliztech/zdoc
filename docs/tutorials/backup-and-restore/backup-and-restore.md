@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

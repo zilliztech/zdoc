@@ -9,6 +9,20 @@ description: "This operation releases the partitions in a specified collection f
 type: docx
 token: VsyQdDkXnoloWYxfjXNchc0dnng
 sidebar_position: 6
+keywords: 
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - releasePartitions()
+  - javaV2
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 displayed_sidebar: javaSidebar
 
 ---

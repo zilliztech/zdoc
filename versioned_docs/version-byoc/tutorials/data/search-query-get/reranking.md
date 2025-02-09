@@ -16,10 +16,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

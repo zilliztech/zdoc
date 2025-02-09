@@ -3,6 +3,7 @@ import Link from '@docusaurus/Link'
 import Heading from '@theme-original/Heading';
 import {useDoc} from '@docusaurus/plugin-content-docs/client';
 import styles from './styles.module.css';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const BetaTag = (tag) => {
   var tag_caption = "";
@@ -126,10 +127,42 @@ const OpenInButtonLink = ({
   }
 } 
 
+function Banner({ message, backgroundColor = '#f0f0f0', textColor = '#333', onClose }) {
+  const [isVisible, setIsVisible] = React.useState(true);
+
+  const handleClose = () => {
+    setIsVisible(false);
+    if (onClose) {
+      onClose(); // TODO: Call the onClose callback if provided 
+    }
+  };
+
+  if (!isVisible) {
+    return null; // Don't render the banner if it's closed
+  }
+
+  return (
+    <div
+      className={styles.banner}
+      style={{ backgroundColor, color: textColor }}
+    >
+      <div className={styles.bannerContent}>
+        {message}
+        {onClose && ( // Conditionally render the close button
+          <button className={styles.bannerCloseButton} onClick={handleClose}>
+            &times; {/* Use an "X" symbol */}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function HeadingWrapper(props) {
   try {
     const { frontMatter } = useDoc();
     const { beta, notebook, tags } = frontMatter;
+    const { siteConfig } = useDocusaurusContext();
 
     if (props.as === 'h1' && beta) {
       props = {
@@ -144,7 +177,7 @@ export default function HeadingWrapper(props) {
   
     return (
       <>
-        { tags.length > 0 && <span style={{ fontWeight: '400', color: 'rgb(18, 17, 66)'  }}>{tags[0]}</span> }
+        { tags?.length > 0 && <span style={{ fontWeight: '400', color: 'rgb(18, 17, 66)'  }}>{tags[0]}</span> }
         <Heading {...props} />
   
         {
@@ -153,6 +186,14 @@ export default function HeadingWrapper(props) {
               <OpenInButtonLink caption="colab" icon={<Colab />} notebook={notebook} />
               <OpenInButtonLink caption="github codespaces" icon={<Github />} />
             </div>
+          )
+        }
+
+        {
+          props.as === 'h1' && siteConfig.baseUrl === '/ja-JP/' && (
+            <Banner 
+              message="このページは英語ページを機械翻訳したものです。内容が正確でない場合があります。"
+              backgroundColor="rgb(255, 248, 230)"/>
           )
         }
       </>

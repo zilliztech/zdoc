@@ -7,16 +7,16 @@ notebook: FALSE
 description: "In this release, Zilliz Cloud has unveiled an array of new features backed by Milvus 2.4, including sparse vector support, enhanced multi-vector and hybrid search, an inverted index and fuzzy matching for faster queries, and grouping search for document-level recall. It also introduces Float16 and BFloat16 data types for improved search efficiency. In addition, the Pipelines feature now tracks token usage stats with every data ingestion and search request, streamlining performance monitoring. You can find detailed stats on the invoice page. | Cloud"
 type: origin
 token: GanXwLnJkiymKVkNPhecdi9MnGf
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

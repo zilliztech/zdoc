@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

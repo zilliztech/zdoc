@@ -10,19 +10,19 @@ type: docx
 token: Bzb6dwkckop6XfxVm2lclXG2nJg
 sidebar_position: 17
 keywords: 
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - hybrid_search()
-  - pymilvus25
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - python
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 displayed_sidebar: pythonSidebar
 
 ---

@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 
@@ -130,6 +130,8 @@ You need to complete this step on your cloud provider console using either the U
         When the endpoint is created, navigate to the [Google Cloud Private Service Connect page](https://console.cloud.google.com/net-services/psc/list/consumers) and copy the name of the endpoint you just created. 
 
 ### Authorize your endpoint{#authorize-your-endpoint}
+
+Paste the endpoint ID and project ID you obtained from the Google Cloud console into the **Endpoint ID** and **Project ID** box respectively on Zilliz Cloud. Click **Create**.
 
 ## Obtain a private link{#obtain-a-private-link}
 

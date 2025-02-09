@@ -7,16 +7,16 @@ notebook: FALSE
 description: "We are excited to announce the launch of Zilliz Cloud. This release includes a variety of enhancements and features, including expanded region support and enhanced usability features, such as migration and serverless instance management. In addition, we have enhanced the RESTful API with Bulk-insert and Dedicated Cluster support. | Cloud"
 type: origin
 token: Ti5uwysf0iZhuyk4xvjcFmsSnhG
-sidebar_position: 15
+sidebar_position: 16
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

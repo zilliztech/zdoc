@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
 
 ---
 

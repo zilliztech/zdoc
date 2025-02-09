@@ -14,10 +14,10 @@ keywords:
   - cloud
   - basics
   - milvus
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

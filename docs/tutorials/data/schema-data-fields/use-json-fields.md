@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - json field
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

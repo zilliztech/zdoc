@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

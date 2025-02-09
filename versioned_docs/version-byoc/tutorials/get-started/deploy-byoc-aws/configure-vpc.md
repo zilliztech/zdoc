@@ -2,7 +2,7 @@
 title: "Configure a Customer-Managed VPC | BYOC"
 slug: /configure-vpc
 sidebar_label: "Configure a Customer-Managed VPC"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "The Zilliz Cloud Bring-Your-Own-Cloud (BYOC) solution enables you to set up a project within your own Virtual Private Cloud (VPC). With a Zilliz Cloud project running in a customer-managed VPC, you gain greater control over your network configurations, allowing you to meet specific cloud security and governance standards required by your organization. | BYOC"
 type: origin
@@ -18,10 +18,10 @@ keywords:
   - subnet
   - milvus
   - vector database
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 
@@ -34,13 +34,34 @@ The Zilliz Cloud Bring-Your-Own-Cloud (BYOC) solution enables you to set up a pr
 
 This page enumerates the minimum requirements for you to host a Zilliz Cloud BYOC project in a customer-managed VPC that meets these requirements. 
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+</Admonition>
+
 ## VPC requirements{#vpc-requirements}
 
 Your VPC must meet the requirements enumerated in this section to host a Zilliz Cloud project. If you prefer to use an existing VPC for your BYOC project, ensure that your VPC meets these requirements. 
 
-### VPC region{#vpc-region}
+### VPC regions{#vpc-regions}
 
 The following table lists the AWS cloud regions the Zilliz Cloud BYOC solution supports. If you cannot find your cloud regions on the Zilliz Cloud console, please contact us at support@zilliz.com.
+
+<table>
+   <tr>
+     <th><p>AWS Region</p></th>
+     <th><p>Location</p></th>
+   </tr>
+   <tr>
+     <td><p>us-west-2</p></td>
+     <td><p>Oregon</p></td>
+   </tr>
+   <tr>
+     <td><p>eu-central-1</p></td>
+     <td><p>Frankfurt</p></td>
+   </tr>
+</table>
 
 ### VPC IP address ranges{#vpc-ip-address-ranges}
 
@@ -195,7 +216,12 @@ VPC endpoint ensures secure cluster connectivity relay and enables private calls
        <tr>
          <td><p>us-west-2</p></td>
          <td><p>Oregon</p></td>
-         <td><p><code>com.amazonaws.vpce.us-west-2.vpce-svc-03c2ea94c80806411</code></p></td>
+         <td><p><code>com.amazonaws.vpce.us-west-2.vpce-svc-0654fb016640c364a</code></p></td>
+       </tr>
+       <tr>
+         <td><p>eu-central-1</p></td>
+         <td><p>Frankfurt</p></td>
+         <td><p><code>com.amazonaws.vpce.eu-central-1.vpce-svc-0d5ce1ec4decbc7df</code></p></td>
        </tr>
     </table>
 

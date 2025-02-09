@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

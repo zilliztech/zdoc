@@ -16,10 +16,10 @@ keywords:
   - data
   - vector search
   - ann
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 
@@ -54,6 +54,8 @@ For details on AUTOINDEX and applicable metric types, refer to [AUTOINDEX Explai
 - [Use limit and offset](./single-vector-search#use-limit-and-offset)
 
 - [Use level](./single-vector-search#use-level)
+
+- [Get Recall Rate](./single-vector-search#get-recall-rate)
 
 - [Enhancing ANN search](./single-vector-search#enhancing-ann-search)
 

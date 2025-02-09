@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "Methods related to CRUD operations within a collection. | Python | MilvusClient"
 type: folder
-token: BCcWfIoxvlY1oOdsLcXcqTtcnMf
+token: ZA7LfYxQHltI94dGs2Fc62AvnSh
 sidebar_position: 7
 sidebar_label: "Vector"
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - Vector
-  - pymilvus25
+  - python
 displayed_sidebar: pythonSidebar
 ---
 

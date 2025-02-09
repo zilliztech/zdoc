@@ -9,6 +9,20 @@ description: "This operation drops a specified collection alias. | Java | v2"
 type: docx
 token: MBy3dDXFbo0buwxkh0IczwLInPf
 sidebar_position: 10
+keywords: 
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - dropAlias()
+  - javaV2
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: javaSidebar
 
 ---

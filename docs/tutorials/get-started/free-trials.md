@@ -14,10 +14,10 @@ keywords:
   - cloud
   - free trial
   - milvus
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

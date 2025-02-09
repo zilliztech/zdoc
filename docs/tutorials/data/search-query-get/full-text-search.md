@@ -19,10 +19,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 
@@ -60,11 +60,11 @@ Full text search simplifies the process of text-based searching by eliminating t
 
 To use full text search, follow these main steps:
 
-1. [Create a collection](./full-text-search): Set up a collection with necessary fields and define a function to convert raw text into sparse embeddings.
+1. [Create a collection](./full-text-search#create-a-collection-for-full-text-search): Set up a collection with necessary fields and define a function to convert raw text into sparse embeddings.
 
-1. [Insert data](./full-text-search): Ingest your raw text documents to the collection.
+1. [Insert data](./full-text-search#insert-text-data): Ingest your raw text documents to the collection.
 
-1. [Perform searches](./full-text-search): Use query texts to search through your collection and retrieve relevant results.
+1. [Perform searches](./full-text-search#perform-full-text-search): Use query texts to search through your collection and retrieve relevant results.
 
 ## Create a collection for full text search{#create-a-collection-for-full-text-search}
 
@@ -196,7 +196,7 @@ In this configuration,
 
 - `id`: serves as the primary key and is automatically generated with `auto_id=True`.
 
-- `text`: stores your raw text data for full text search operations. The data type must be `VARCHAR`, as `VARCHAR` is Zilliz Cloud' string data type for text storage. Set `enable_analyzer=True` to allow Zilliz Cloud to tokenize the text. By default, Zilliz Cloud uses the `standard`[ analyzer](./standard-analyzer) for text analysis. To configure a different analyzer, refer to [Analyzer Overview](./analyzer-overview).
+- `text`: stores your raw text data for full text search operations. The data type must be `VARCHAR`, as `VARCHAR` is Zilliz Cloud string data type for text storage. Set `enable_analyzer=True` to allow Zilliz Cloud to tokenize the text. By default, Zilliz Cloud uses the `standard`[ analyzer](./standard-analyzer) for text analysis. To configure a different analyzer, refer to [Analyzer Overview](./analyzer-overview).
 
 - `sparse`: a vector field reserved to store internally generated sparse embeddings for full text search operations. The data type must be `SPARSE_FLOAT_VECTOR`.
 
@@ -349,7 +349,7 @@ import io.milvus.v2.common.IndexParam;
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
         .fieldName("sparse")
-        .indexType(IndexParam.IndexType.SPARSE_INVERTED_INDEX)
+        .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.BM25)
         .build());
 ```

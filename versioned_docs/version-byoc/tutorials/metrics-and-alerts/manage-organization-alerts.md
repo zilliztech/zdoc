@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

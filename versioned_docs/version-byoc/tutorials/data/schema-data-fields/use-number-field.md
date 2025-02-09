@@ -18,10 +18,10 @@ keywords:
   - int
   - integer
   - float
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

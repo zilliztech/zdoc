@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "Methods related to CRUD operations within a collection. | Node.js"
 type: folder
-token: IguLfmHgXlJoojdRU8kcohXZnE1
-sidebar_position: 5
+token: XhBJfuQ6slBh8Tdj7BEc4Mp6n4b
+sidebar_position: 7
 sidebar_label: "Vector"
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - Vector
-  - nodejs25
+  - node
 displayed_sidebar: nodeSidebar
 ---
 

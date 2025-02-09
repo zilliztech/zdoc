@@ -10,19 +10,19 @@ type: docx
 token: UxOXdeKF1oOIBuxTjPhcKBtPnRb
 sidebar_position: 7
 keywords: 
+  - nlp search
   - hallucinations llm
   - Multimodal search
   - vector search algorithms
-  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - releaseCollection()
-  - nodejs25
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - node
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: nodeSidebar
 
 ---

@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - quick-setup
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

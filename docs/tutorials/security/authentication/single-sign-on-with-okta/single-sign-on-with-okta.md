@@ -2,7 +2,7 @@
 title: "Single Sign-on with Okta | Cloud"
 slug: /single-sign-on-with-okta
 sidebar_label: "SSO with Okta"
-beta: PUBLIC
+beta: CONTACT SALES
 notebook: FALSE
 description: "Single sign-on (SSO) is a feature that allows users to log in to multiple applications or services with a single set of credentials, rather than requiring separate logins for each. | Cloud"
 type: origin
@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 
@@ -28,6 +28,14 @@ import Admonition from '@theme/Admonition';
 Single sign-on (SSO) is a feature that allows users to log in to multiple applications or services with a single set of credentials, rather than requiring separate logins for each.
 
 Zilliz Cloud supports using [Okta](https://www.okta.com/) as the identity provider (IdP) to enable SSO via the OpenID Connect ([OIDC](https://help.okta.com/en-us/content/topics/apps/apps_app_integration_wizard_oidc.htm)) or [SAML 2.0](https://help.okta.com/en-us/content/topics/apps/apps_app_integration_wizard_saml.htm) protocol. This feature works at the organization level. By integrating with Okta, you can sign in using your Okta credentials to access Zilliz Cloud resources.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud SSO is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+</Admonition>
+
+
 
 import DocCardList from '@theme/DocCardList';
 

@@ -9,6 +9,20 @@ description: "This operation prepares index parameters to build indexes for a sp
 type: docx
 token: QecOdXKyfo9JtMxkHZxcLNqknxh
 sidebar_position: 5
+keywords: 
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - IndexParam
+  - javaV2
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: javaSidebar
 
 ---

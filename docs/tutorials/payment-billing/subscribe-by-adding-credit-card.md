@@ -14,10 +14,10 @@ keywords:
   - cloud
   - credit card
   - subscribe
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 
@@ -28,7 +28,7 @@ import Admonition from '@theme/Admonition';
 
 This guide provides comprehensive instructions on how to add a payment credit card for your organization on Zilliz Cloud.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="Note">
 
 <ul>
 <li><strong>Taxation:</strong> Taxes on the invoices are calculated based on the billing address you provide. For companies that require to enter VAT or GST ID, please <a href="http://support.zilliz.com">contact us</a>.</li>
@@ -138,7 +138,7 @@ For those who prefer to transition from a credit card payment method to an AWS, 
 
 Upon successful subscription via AWS Marketplace, your existing credit card information will be automatically replaced. You can verify the update in the **Payment Method** section on the **Billing Overview** page.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="Note">
 
 <p>Please allow a few minutes for the billing overview to reflect the changes.</p>
 

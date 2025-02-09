@@ -13,10 +13,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

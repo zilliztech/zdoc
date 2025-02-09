@@ -18,11 +18,11 @@ keywords:
   - zilliz cloud
   - cloud
   - listRoles()
-  - nodejs25
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - node
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: nodeSidebar
 
 ---

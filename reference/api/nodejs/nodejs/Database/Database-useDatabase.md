@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation sets the active database for the gRPC client. | Node.js"
 type: docx
-token: NDcldy9OLo62DLxw1a9cFSLsnYb
+token: SddwdNBoMo3RAfxgcgBc0Akwnih
 sidebar_position: 4
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - useDatabase()
-  - nodejs25
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - node
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 displayed_sidebar: nodeSidebar
 
 ---
@@ -50,9 +50,9 @@ milvusClient.useDatabase({
 
 - **db_name** (*string*) -
 
-    The name of the database to use.
+    The name of the database to create.
 
-    There should be a database with the specified name. Otherwise, exceptions will occur.
+    There should be a database that has the specified name. Otherwise, exceptions will occur.
 
 **RETURNS** *Promise |\<ResStatus>*
 

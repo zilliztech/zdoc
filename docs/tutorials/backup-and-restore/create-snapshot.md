@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

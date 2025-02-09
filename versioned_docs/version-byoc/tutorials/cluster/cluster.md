@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

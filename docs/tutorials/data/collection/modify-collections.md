@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

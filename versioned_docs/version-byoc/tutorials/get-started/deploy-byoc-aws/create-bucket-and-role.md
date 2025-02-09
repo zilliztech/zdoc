@@ -2,7 +2,7 @@
 title: "Create S3 Bucket and IAM Role | BYOC"
 slug: /create-bucket-and-role
 sidebar_label: "Create S3 Bucket and IAM Role"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page describes how to create and configure root storage for a Bring-Your-Own-Cloud (BYOC) project with proper permissions. | BYOC"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 
@@ -29,6 +29,12 @@ import Admonition from '@theme/Admonition';
 # Create S3 Bucket and IAM Role
 
 This page describes how to create and configure root storage for a Bring-Your-Own-Cloud (BYOC) project with proper permissions.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+</Admonition>
 
 ## Best practices for the S3 bucket{#best-practices-for-the-s3-bucket}
 

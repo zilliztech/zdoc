@@ -9,6 +9,20 @@ description: "This operation revokes the role assigned to a user. | Java | v2"
 type: docx
 token: Znb7dcNoeobIkkxGLGfcpVfUnIX
 sidebar_position: 12
+keywords: 
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - revokeRole()
+  - javaV2
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: javaSidebar
 
 ---

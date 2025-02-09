@@ -10,19 +10,19 @@ type: docx
 token: ZMs1dJJOGobyBjxRo7icXtE8nPe
 sidebar_position: 1
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - zilliz
-  - zilliz cloud
-  - cloud
-  - encode_documents()
-  - pymilvus25
   - vector search algorithms
   - Question answering system
   - llm-as-a-judge
   - hybrid vector search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - encode_documents()
+  - python
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: pythonSidebar
 
 ---

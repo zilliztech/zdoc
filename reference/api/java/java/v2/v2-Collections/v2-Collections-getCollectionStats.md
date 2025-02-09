@@ -9,6 +9,20 @@ description: "This operation lists the statistics collected on a specific collec
 type: docx
 token: XgfcdpBWCof3pfxhUudcRZajnPc
 sidebar_position: 13
+keywords: 
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - getCollectionStats()
+  - javaV2
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: javaSidebar
 
 ---

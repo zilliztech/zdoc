@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cu
   - select
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

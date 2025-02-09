@@ -7,7 +7,7 @@ notebook: FALSE
 description: "You can drop a collection if it is no longer needed. | Cloud"
 type: origin
 token: DEUuwEwM4iMLOikU7XpcpNnKnGd
-sidebar_position: 9
+sidebar_position: 10
 keywords: 
   - zilliz
   - vector database
@@ -16,10 +16,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

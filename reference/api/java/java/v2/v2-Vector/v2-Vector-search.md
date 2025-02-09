@@ -9,6 +9,20 @@ description: "This operation conducts a vector similarity search with an optiona
 type: docx
 token: RycIdCl3LoLMAMxNOEhcgMutnig
 sidebar_position: 7
+keywords: 
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - search()
+  - javaV2
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: javaSidebar
 
 ---

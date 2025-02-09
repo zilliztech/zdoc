@@ -6,18 +6,18 @@ notebook: false
 description: "Methods related to implement role-based access control to your resources. | Node.js"
 type: folder
 token: H1JWfZh74lkVhgdfGiKcQfsinPg
-sidebar_position: 6
+sidebar_position: 1
 sidebar_label: "Authentication"
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - Authentication
-  - nodejs25
+  - node
 displayed_sidebar: nodeSidebar
 ---
 

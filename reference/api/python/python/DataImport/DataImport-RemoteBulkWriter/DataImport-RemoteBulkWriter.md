@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "A RemoteBulkWriter instance writes your raw data in a format that Zilliz Cloud understands into an AWS-S3-compatible bucket. | Python"
 type: docx
-token: BDP4dew9to9tQoxNEMPcBR5xnZb
+token: G77zdbzpPo4pOaxTDcccgRNfnVc
 sidebar_position: 4
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - RemoteBulkWriter
-  - pymilvus25
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - python
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 displayed_sidebar: pythonSidebar
 
 ---
@@ -99,27 +99,6 @@ writer = RemoteBulkWriter(
     The type of the output file.
 
     The value defaults to **BulkFileType.PARQUET**. 
-
-    Possible options are **BulkFileType.JSON**, **BulkFileType.PARQUET**, **BulkFileType.CSV**.
-
-- **config** (*dict*)
-
-    A dictionary specifying optional configurations for processing CSV files. This parameter is available only when **file_type** is set to **BulkFileType.CSV**. Example configuration:
-
-    ```python
-    config={
-        "sep": "\t",
-        "nullkey": "NULL"
-    }
-    ```
-
-    -  **sep** (*string*)
-
-        The delimiter of CSV file. The value must be a string of length 1, which defaults to `","`. The following strings are not allowed: `"\0"`, `"\n"`, `"\r"`, `"""`.
-
-    - **nullkey** (*string*)
-
-        Special string representing null value. The value defaults to empty string: `""`.
 
 **RETURN TYPE:**
 

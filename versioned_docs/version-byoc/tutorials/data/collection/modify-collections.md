@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

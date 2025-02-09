@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 
@@ -155,13 +155,13 @@ A CU is the basic unit of compute resources used for parallel processing of data
    </tr>
    <tr>
      <td><p>Dedicated (Standard)</p></td>
-     <td><p>CU size * Replica Count &lt;=32</p></td>
-     <td><p>On the console, you can create up to 32 CUs for a single cluster. </p><p>However, the limit is CU size * Replica Count &lt;=32 if replicas are added.</p></td>
+     <td><p>CU size x Replica Count &lt;=32</p></td>
+     <td><p>On the console, you can create up to 32 CUs for a single cluster. </p><p>However, the limit is CU size x Replica Count &lt;=32 if replicas are added.</p></td>
    </tr>
    <tr>
      <td><p>Dedicated (Enterprise)</p></td>
-     <td><p>CU size * Replica Count &lt;=256</p></td>
-     <td><p>On the console, you can create up to 256 CUs for a single cluster.</p><p>However, the limit is CU size * Replica Count &lt;=256 if replicas are added.</p></td>
+     <td><p>CU size x Replica Count &lt;=256</p></td>
+     <td><p>On the console, you can create up to 256 CUs for a single cluster.</p><p>However, the limit is CU size x Replica Count &lt;=256 if replicas are added.</p></td>
    </tr>
 </table>
 
@@ -229,9 +229,9 @@ To add replicas, the cluster needs to have **8 CUs or more**. The following limi
      <td><p>You can create a maximum of 10 replicas.</p></td>
    </tr>
    <tr>
-     <td><p>Replica count * CU size</p></td>
+     <td><p>Replica count x CU size</p></td>
      <td><p>&lt;= 256</p></td>
-     <td><p>The cluster CU size * Replica count should not exceed 256.</p></td>
+     <td><p>The cluster CU size x Replica count should not exceed 256.</p></td>
    </tr>
 </table>
 

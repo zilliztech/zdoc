@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

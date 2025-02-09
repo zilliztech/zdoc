@@ -10,19 +10,19 @@ type: docx
 token: JzDLdkv3QoCY8OxKpBjc5zsmnId
 sidebar_position: 1
 keywords: 
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - CohereEmbeddingFunction
-  - pymilvus25
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - python
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: pythonSidebar
 
 ---

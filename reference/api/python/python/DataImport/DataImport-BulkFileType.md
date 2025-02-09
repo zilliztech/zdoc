@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This is an enumeration that provides the following constants. | Python"
 type: docx
-token: NV3Ud1M9iojhaSxZY4ec8RjgnlP
+token: CROadSmHNoV2CuxREnccTkaen0e
 sidebar_position: 1
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - BulkFileType
-  - pymilvus25
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - python
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---
@@ -36,30 +36,22 @@ This is an enumeration that provides the following constants.
 
 ## Constants{#constants}
 
-- **NPY** = 1
-
-    Sets the file type to **NumPy** (*.npy*).
-
-- **JSON_RB** = 2
+- **JSON** = 2
 Sets the file type to **JSON** (*.json*).
 
 - **PARQUET** = 3
 Sets the file type to [Parquet](https://parquet.apache.org/) (*.parquet*).
 
-- **CSV** = 4
-
-    Sets the file type to **CSV** (*.csv*).
-
 ## Examples{#examples}
 
 ```python
-from pymilvus import LocalBulkWriter, BulkFileType
+from pymilvus.bulk_writer import LocalBulkWriter, BulkFileType
 
 local_writer = LocalBulkWriter(
     schema=schema,
     local_path=Path(OUTPUT_PATH).joinpath('json'),
-    segment_size=4*1024*1024,
+    chunk_size=4*1024*1024,
     # highlight-next
-    file_type=BulkFileType.JSON_RB
+    file_type=BulkFileType.JSON
 )
 ```

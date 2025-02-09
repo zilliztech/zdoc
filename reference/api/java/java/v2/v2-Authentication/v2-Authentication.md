@@ -8,6 +8,16 @@ type: folder
 token: U16KfBnGVlNp5edR7DycvFF1nfy
 sidebar_position: 1
 sidebar_label: "Authentication"
+keywords: 
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Authentication
+  - javaV2
 displayed_sidebar: javaSidebar
 ---
 

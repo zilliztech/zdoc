@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

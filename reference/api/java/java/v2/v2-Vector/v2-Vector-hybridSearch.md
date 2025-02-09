@@ -9,6 +9,20 @@ description: "This operation performs multi-vector search on a collection and re
 type: docx
 token: PemMdzGFnovhaWxOzFzceaH3ncd
 sidebar_position: 3
+keywords: 
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - hybridSearch()
+  - javaV2
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: javaSidebar
 
 ---

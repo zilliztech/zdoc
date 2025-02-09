@@ -15,10 +15,10 @@ keywords:
   - milvus
   - performance
   - benchmark
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 
@@ -85,6 +85,18 @@ Closely mimicking real-world production environments, VectorDBBench has set up d
 ## Procedures{#procedures}
 
 ### Set up testing environment{#set-up-testing-environment}
+
+1. Provision a machine.
+
+    To test the ultimate performance of Zilliz Cloud, we recommend provisioning a client machines with more than 8 vCPUs to ensure multiple threads.
+
+1. Configure network.
+
+    Network communication will influence the test results, especially in the query testing scenario. To reduce the impact of network latency, we recommend:
+
+    - Deploying the client in the same cloud provider and region as your Zilliz Cloud cluster.
+
+    - Configure your client so that it shares the same VPC with your Zilliz Cloud cluster. Compared to public Internet, VPC can have lower latency. Learn more at [Set up a Private Link](/docs/set-up-a-private-link).
 
 ### Install and start VectorDBBench{#install-and-start-vectordbbench}
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

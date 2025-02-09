@@ -9,6 +9,20 @@ description: "This operation updates the password of a specific user. | Java | v
 type: docx
 token: GQH8dgqlPoRY1sxFhCRcLlgInNc
 sidebar_position: 13
+keywords: 
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - updatePassword()
+  - javaV2
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: javaSidebar
 
 ---

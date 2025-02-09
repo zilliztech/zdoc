@@ -9,6 +9,20 @@ description: "This operation creates a collection either with default or customi
 type: docx
 token: LtCFdAg8FoxWmBxOInfcUSagnHb
 sidebar_position: 5
+keywords: 
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - createCollection()
+  - javaV2
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: javaSidebar
 
 ---

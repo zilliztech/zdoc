@@ -32,6 +32,10 @@ jobs:
         npx docusaurus fetch-lark-docs -man nodejs25 -tar zilliz
         npx docusaurus fetch-lark-docs -man nodejs25 -tar zilliz -post
         npx docusaurus fetch-apifox-docs -s plugins/apifox-docs/meta/openapi.json
+        npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.saas
+        npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.saas -post
+        npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.paas -skipS
+        npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.paas -post
       env:
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -56,7 +60,7 @@ jobs:
         npx docusaurus report-to-lark -m "🔥 Docs built! Checking links..."
         curl -H "Authorization: token $TOKEN" https://raw.githubusercontent.com/zilliztech/zilliz-cloud-client/release_2.0.0/packages/CommonService/client/src/consts/Link.ts -o plugins/link-checks/meta/Link.ts
         npx docusaurus link-checks
-    - name: commit to dev
+    - name: commit to dev-multi-lingua
       uses: stefanzweifel/git-auto-commit-action@v5
       with:
         branch: dev

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - console
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

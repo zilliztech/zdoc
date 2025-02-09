@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

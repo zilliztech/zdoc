@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - milvus
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

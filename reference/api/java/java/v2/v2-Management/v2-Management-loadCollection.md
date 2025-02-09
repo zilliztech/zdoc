@@ -9,6 +9,20 @@ description: "This operation loads the data of a specific collection into memory
 type: docx
 token: XEWvdbuFHoLOo7xKrAJcqip6n5J
 sidebar_position: 7
+keywords: 
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - loadCollection()
+  - javaV2
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 displayed_sidebar: javaSidebar
 
 ---

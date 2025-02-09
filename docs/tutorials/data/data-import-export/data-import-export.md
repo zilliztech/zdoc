@@ -15,10 +15,10 @@ keywords:
   - data import
   - export
   - milvus
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

@@ -10,19 +10,19 @@ type: docx
 token: Da9KdvvWroKX9cxOwsmcLRBxnVb
 sidebar_position: 5
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - zilliz
-  - zilliz cloud
-  - cloud
-  - describeUser()
-  - nodejs25
   - Audio similarity search
   - Elastic vector database
   - Pinecone vs Milvus
   - Chroma vs Milvus
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - describeUser()
+  - node
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: nodeSidebar
 
 ---

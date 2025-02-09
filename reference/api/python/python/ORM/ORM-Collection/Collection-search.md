@@ -10,19 +10,19 @@ type: docx
 token: OaM5dkbPjohKhNxHvKNcfnYMnVb
 sidebar_position: 25
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - search()
-  - pymilvus25
+  - python
+  - private llms
+  - nn search
   - llm eval
   - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
 displayed_sidebar: pythonSidebar
 
 ---

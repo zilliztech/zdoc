@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

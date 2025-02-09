@@ -16,10 +16,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - Natural language search
-  - Similarity Search
   - multimodal RAG
   - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

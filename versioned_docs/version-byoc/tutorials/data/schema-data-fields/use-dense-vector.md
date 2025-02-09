@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

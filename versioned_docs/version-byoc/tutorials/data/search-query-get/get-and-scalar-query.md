@@ -17,10 +17,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - Large language model
   - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
 
 ---
 

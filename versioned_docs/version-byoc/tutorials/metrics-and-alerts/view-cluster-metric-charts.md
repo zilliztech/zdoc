@@ -15,10 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

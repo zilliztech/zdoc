@@ -9,6 +9,20 @@ description: "This operation creates a partition in the target collection. | Jav
 type: docx
 token: CadTdZ5YGocDymxaIOvcr08pnxd
 sidebar_position: 1
+keywords: 
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - createPartition()
+  - javaV2
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: javaSidebar
 
 ---

@@ -9,6 +9,20 @@ description: "This operation lists the partitions in a specified collection. | J
 type: docx
 token: RJcgdJpGDouomlxPTqZc5S8Lngc
 sidebar_position: 4
+keywords: 
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - listPartitions()
+  - javaV2
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 displayed_sidebar: javaSidebar
 
 ---

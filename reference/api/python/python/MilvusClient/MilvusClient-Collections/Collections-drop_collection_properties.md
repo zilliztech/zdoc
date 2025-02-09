@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation drops the specified collection properties. | Python | MilvusClient"
 type: docx
-token: WjNRdifU9o3xl5xG0W7ch4Fjnme
+token: JLFIdAyIsoSYc8xQWo0cpmisnDW
 sidebar_position: 12
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - drop_collection_properties()
-  - pymilvus25
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - python
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 displayed_sidebar: pythonSidebar
 
 ---
@@ -59,8 +59,6 @@ drop_collection_properties(
     - `collection.ttl.seconds`
 
     - `mmap.enabled`
-
-    - `partitionkey.isolation`
 
 - **timeout** (*Optional[float]*) - 
 

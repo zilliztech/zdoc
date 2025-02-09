@@ -9,6 +9,20 @@ description: "This is an enumeration that provides the following constants. | Ja
 type: docx
 token: QYPIdgWL7oDWrWxVUx0clo32nz4
 sidebar_position: 7
+keywords: 
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - DataType
+  - javaV2
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: javaSidebar
 
 ---

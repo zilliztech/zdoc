@@ -17,10 +17,10 @@ keywords:
   - integrate
   - object
   - storage
-  - Recommender systems
-  - information retrieval
   - dimension reduction
   - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

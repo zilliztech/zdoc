@@ -20,10 +20,10 @@ keywords:
   - go
   - node
   - nodejs
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

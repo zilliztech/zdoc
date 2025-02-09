@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

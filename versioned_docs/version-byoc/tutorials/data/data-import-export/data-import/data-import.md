@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

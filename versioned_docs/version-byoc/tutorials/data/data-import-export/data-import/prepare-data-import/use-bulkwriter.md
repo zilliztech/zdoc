@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
   - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

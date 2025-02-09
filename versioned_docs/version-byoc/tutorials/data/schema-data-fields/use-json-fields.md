@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - json field
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

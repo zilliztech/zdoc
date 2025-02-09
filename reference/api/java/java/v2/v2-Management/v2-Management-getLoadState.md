@@ -9,6 +9,20 @@ description: "This operation displays whether a specified collection or partitio
 type: docx
 token: QcaFdMJE9oHX1Axe11rcqfiynEd
 sidebar_position: 4
+keywords: 
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - getLoadState()
+  - javaV2
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: javaSidebar
 
 ---

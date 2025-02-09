@@ -9,6 +9,20 @@ description: "This operation displays the details of an alias. | Java | v2"
 type: docx
 token: B57cdiaEkotJQnxl7I9cJqotnPb
 sidebar_position: 8
+keywords: 
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - describeAlias()
+  - javaV2
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 displayed_sidebar: javaSidebar
 
 ---

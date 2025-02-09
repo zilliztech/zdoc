@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation lists all existing databases. | Node.js"
 type: docx
-token: Kp9Dd2dIgoxyDixuqtqctPZXnFb
+token: IgUndv7TCoRpWOxS5hkcXrypndd
 sidebar_position: 3
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - zilliz
-  - zilliz cloud
-  - cloud
-  - listDatabases()
-  - nodejs25
   - llm-as-a-judge
   - hybrid vector search
   - Video deduplication
   - Video similarity search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - listDatabases()
+  - node
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: nodeSidebar
 
 ---

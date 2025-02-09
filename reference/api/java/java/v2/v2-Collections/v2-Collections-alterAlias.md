@@ -9,6 +9,20 @@ description: "This operation reassigns the alias of one collection to another. |
 type: docx
 token: QasfdVW4voAzfwxfSc1civsHnVf
 sidebar_position: 1
+keywords: 
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - alterAlias()
+  - javaV2
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 displayed_sidebar: javaSidebar
 
 ---

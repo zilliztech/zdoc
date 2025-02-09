@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - json
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

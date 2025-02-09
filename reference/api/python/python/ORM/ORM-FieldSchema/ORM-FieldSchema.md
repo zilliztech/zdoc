@@ -18,11 +18,11 @@ keywords:
   - zilliz cloud
   - cloud
   - FieldSchema
-  - pymilvus25
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - python
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: pythonSidebar
 
 ---

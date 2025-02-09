@@ -8,6 +8,16 @@ type: folder
 token: KzitfU6c4lFXdodYOQJcupB2nJe
 sidebar_position: 3
 sidebar_label: "Collections"
+keywords: 
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Collections
+  - javaV2
 displayed_sidebar: javaSidebar
 ---
 

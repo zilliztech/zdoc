@@ -17,10 +17,10 @@ keywords:
   - integrate
   - object
   - storage
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

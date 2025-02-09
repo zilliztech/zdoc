@@ -2,7 +2,7 @@
 title: "Create EKS IAM Role | BYOC"
 slug: /create-eks-role
 sidebar_label: "Create EKS IAM Role"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page describes how to create and configure an IAM role for Zilliz Cloud to deploy an EKS cluster for your Zilliz Cloud project. | BYOC"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 
@@ -29,6 +29,12 @@ import Admonition from '@theme/Admonition';
 # Create EKS IAM Role
 
 This page describes how to create and configure an IAM role for Zilliz Cloud to deploy an EKS cluster for your Zilliz Cloud project.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+</Admonition>
 
 ## Procedure{#procedure}
 

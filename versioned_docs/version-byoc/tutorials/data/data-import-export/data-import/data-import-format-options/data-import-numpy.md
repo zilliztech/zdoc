@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

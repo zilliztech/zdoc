@@ -9,6 +9,20 @@ description: "This operation creates a user. | Java | v2"
 type: docx
 token: OTMXd9uNWoMwe4xvg70cg49Pnmh
 sidebar_position: 2
+keywords: 
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - createUser()
+  - javaV2
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: javaSidebar
 
 ---

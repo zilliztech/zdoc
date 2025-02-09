@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

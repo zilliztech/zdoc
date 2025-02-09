@@ -9,15 +9,15 @@ token: W9SBfQfXUlZAXDdK6nTcop4rnFd
 sidebar_position: 1
 sidebar_label: "Authentication"
 keywords: 
-  - Knowledge base
   - natural language processing
   - AI chatbots
   - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - Authentication
-  - pymilvus25
+  - python
 displayed_sidebar: pythonSidebar
 ---
 

@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "A LocalBulkWriter instance rewrites your raw data locally in a format that Zilliz Cloud understands. | Python"
 type: docx
-token: RcvXdmCVBog9M8xNyUFcwefnneh
+token: Tn2jd8OH1oMukFxJDsgcOSxCnrg
 sidebar_position: 3
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - LocalBulkWriter
-  - pymilvus25
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - python
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 displayed_sidebar: pythonSidebar
 
 ---
@@ -95,26 +95,7 @@ writer = LocalBulkWriter(
 
     The value defaults to **BulkFileType.PARQUET**. 
 
-    Possible options are **BulkFileType.JSON**, **BulkFileType.PARQUET**, **BulkFileType.CSV**.
-
-- **config** (*dict*)
-
-    A dictionary specifying optional configurations for processing CSV files. This parameter is available only when **file_type** is set to **BulkFileType.CSV**. Example configuration:
-
-    ```python
-    config={
-        "sep": "\t",
-        "nullkey": "NULL"
-    }
-    ```
-
-    -  **sep** (*string*)
-
-        The delimiter of CSV file. The value must be a string of length 1, which defaults to `","`. The following strings are not allowed: `"\0"`, `"\n"`, `"\r"`, `"""`.
-
-    - **nullkey** (*string*)
-
-        Special string representing null value. The value defaults to empty string: `""`.
+    Possible options are **BulkFileType.JSON** and **BulkFileType.PARQUET**.
 
 **RETURN TYPE:**
 

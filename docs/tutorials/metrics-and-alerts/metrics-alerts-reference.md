@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

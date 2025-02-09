@@ -17,10 +17,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

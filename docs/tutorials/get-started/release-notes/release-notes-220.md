@@ -7,16 +7,16 @@ notebook: FALSE
 description: "We are pleased to announce the release of Zilliz Cloud, which boasts a suite of new features designed to enhance your user experience, including data migration across Zilliz Cloud clusters and from ElasticSearch, a brand-new ticket system going live, and enhanced data import capabilities. | Cloud"
 type: origin
 token: GqyhwKVspiYRwDk8OaucNfgJnhd
-sidebar_position: 14
+sidebar_position: 15
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

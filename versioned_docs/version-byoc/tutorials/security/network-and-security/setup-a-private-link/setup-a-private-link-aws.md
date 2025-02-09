@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 
@@ -47,7 +47,7 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
 
     Amazon Route 53 is a web-based DNS service. Create a hosted DNS zone so that you can add DNS records to it.
 
-    ![BH85bO1UjoHobsxQZJWcE9NWnjf](/byoc/BH85bO1UjoHobsxQZJWcE9NWnjf.png)
+    ![O8dObi5aBogsL1xDBY4cgEtInCb](/byoc/O8dObi5aBogsL1xDBY4cgEtInCb.png)
 
     1. Log into your AWS account and go to [Hosted zones](https://us-east-1.console.aws.amazon.com/route53/v2/hostedzones#).
 
@@ -62,7 +62,7 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
            </tr>
            <tr>
              <td><p><strong>Domain name</strong></p></td>
-             <td><p>Set it to <code>zilliz-byoc-us.byoc.zillizcloud.com</code>.</p></td>
+             <td><p></p><p></p><p>Use <code>byoc.zillizcloud.com</code>.</p><p></p></td>
            </tr>
            <tr>
              <td><p><strong>Description</strong></p></td>
@@ -80,9 +80,26 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
 
     An alias record is a type of DNS record that maps an alias name to a true or canonical domain name. Create an alias record to map the private link allocated by Zilliz Cloud to the DNS name of your VPC endpoint. Then, you can use the private link to access your cluster privately.
 
-    ![WoOubh9M2oZuwSxCTBtcmGGwnAd](/byoc/WoOubh9M2oZuwSxCTBtcmGGwnAd.png)
+    ![KVjsbqBGRofmmxxmqvBccvOanDf](/byoc/KVjsbqBGRofmmxxmqvBccvOanDf.png)
 
     1. In the created hosted zone, click **Create record**.
+
+    1. Set **Record name** to match the cloud region where your current project is deployed.
+
+        <table>
+           <tr>
+             <th><p>AWS Region</p></th>
+             <th><p>Record name</p></th>
+           </tr>
+           <tr>
+             <td><p>us-west-2</p></td>
+             <td><p><code>zilliz-byoc-us</code></p></td>
+           </tr>
+           <tr>
+             <td><p>eu-central-1</p></td>
+             <td><p><code>zilliz-byoc-eu</code></p></td>
+           </tr>
+        </table>
 
     1. On the **Create record** page, switch on **Alias**, and select Route traffic to as follows:
 

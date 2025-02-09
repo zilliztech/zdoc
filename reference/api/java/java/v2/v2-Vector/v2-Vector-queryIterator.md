@@ -9,6 +9,20 @@ description: "This method returns a query iterator to iterate data. | Java | v2"
 type: docx
 token: ByLVdf2nRocLcxxwH3Gc9CyFnbb
 sidebar_position: 6
+keywords: 
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - queryIterator()
+  - javaV2
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: javaSidebar
 
 ---

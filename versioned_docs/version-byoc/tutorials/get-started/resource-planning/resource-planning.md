@@ -14,10 +14,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

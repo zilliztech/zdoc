@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation adds a field to the schema of a collection. | Python | ORM"
 type: docx
-token: H9IFdpWWUouzXOxKlx9cImP8nnd
+token: TG3Rd9aM5offvFxKy2CcKXn9nWc
 sidebar_position: 1
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - add_field()
-  - pymilvus25
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - python
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: pythonSidebar
 
 ---
@@ -39,8 +39,7 @@ This operation adds a field to the schema of a collection.
 ```python
 add_field(
     field_name: str,
-    datatype: DataType,
-    **kwargs
+    datatype: DataType
 )
 ```
 

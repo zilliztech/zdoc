@@ -8,6 +8,16 @@ type: folder
 token: I78jfSEHvl292Tdwoy7cO2KVn0g
 sidebar_position: 7
 sidebar_label: "Vector"
+keywords: 
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - Vector
+  - javaV2
 displayed_sidebar: javaSidebar
 ---
 

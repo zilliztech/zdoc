@@ -10,19 +10,19 @@ type: docx
 token: LCQTdebkConhUqxwnk7c3EbPnWh
 sidebar_position: 34
 keywords: 
+  - vectordb
+  - multimodal vector database retrieval
   - Retrieval Augmented Generation
   - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_datetime()
-  - pymilvus25
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - python
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: pythonSidebar
 
 ---

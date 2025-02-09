@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation creates a database. | Node.js"
 type: docx
-token: JmlKdBz7Io91Ffx9rpKce3vUnMc
+token: LhOCdpDOlor6mbxsI90caXsTnPb
 sidebar_position: 1
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - createDatabase()
-  - nodejs25
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - node
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,18 +38,11 @@ This operation creates a database.
 createDatabase(data): Promise<ResStatus>
 ```
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>This method applies only to dedicated clusters.</p>
-
-</Admonition>
-
 ## Request Syntax{#request-syntax}
 
 ```javascript
 milvusClient.createDatabase({
     db_name: string,
-    properties?: Object
     timeout?: number
 })
 ```
@@ -61,34 +54,6 @@ milvusClient.createDatabase({
     The name of the database to create.
 
     There should be no database that has the specified name. Otherwise, exceptions will occur.
-
-- **properties** (*Object*) -
-
-    Properties to set along with database creation. Possible database properties are as follows:
-
-    - **database.replica.number** (*int*) -
-
-        Number of replicas for the database.
-
-    - **database.resource_groups** (*[]str*) -
-
-        Resource groups dedicated to the database.
-
-    - **database.diskQuota.mb** (*int*) -
-
-        Disk quota allocated to the database in megabytes (**MB**).
-
-    - **database.max.collections** (*int*) -
-
-        Maximum number of collections allowed in the database.
-
-    - **database.force.deny.writing** (*bool*) -
-
-        Whether to deny all write operations in the database.
-
-    - **database.force.deny.reading** (*bool*) -
-
-        Whether to deny all read operations in the database.
 
 - **timeout** (*number*) -
 

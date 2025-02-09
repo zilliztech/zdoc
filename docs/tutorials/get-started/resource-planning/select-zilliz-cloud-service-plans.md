@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster plan
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 
@@ -228,7 +228,7 @@ Zilliz Cloud categorizes its offerings into five distinct plans: **Free**, **Ser
      <td><p><strong>Alerts</strong></p></td>
      <td><p>Not Available</p></td>
      <td><p>Not Available</p></td>
-     <td><p>Not Available</p></td>
+     <td><p>Available</p></td>
      <td><p>Available</p></td>
      <td><p>Available</p></td>
    </tr>

@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

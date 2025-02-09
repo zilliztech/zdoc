@@ -14,10 +14,10 @@ keywords:
   - cloud
   - marketplace
   - azure
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 
@@ -28,7 +28,7 @@ import Admonition from '@theme/Admonition';
 
 This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on Azure Marketplace.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="Note">
 
 <p>Once subscribed, you can pay for the usage of Azure clusters via Azure Marketplace. If you have clusters deployed on other cloud providers, you can also use Azure Marketplace to pay.</p>
 
@@ -66,7 +66,7 @@ Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and star
 
     1. Configure the **SaaS Details**. Name your subscription to easily identify it later. Choose **On** for **Recurring Billing**.
 
-        <Admonition type="info" icon="📘" title="Notes">
+        <Admonition type="info" icon="📘" title="Note">
 
         <p>When recurring billing is on, you will be automatically subscribed to Zilliz Cloud on Azure at the end of each month. When recurring billing is off, your subscription will end at the end of the month and your Zilliz Cloud organization and account will be automatically unlinked from this Azure Marketplace susbcription.</p>
 
@@ -112,7 +112,7 @@ You can verify the update in the **Payment Method** section on the **Billing Ove
 
 1. Cancel or delete your Zilliz Cloud subscription. Refer to [Cancel subscription](https://learn.microsoft.com/en-us/marketplace/saas-subscription-lifecycle-management#cancel-subscription) and [Delete subscription](https://learn.microsoft.com/en-us/marketplace/saas-subscription-lifecycle-management#delete-subscription) for more details.
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="Note">
 
     <p>It takes a few minutes for Azure Marketplace to complete the cancellation process.</p>
 

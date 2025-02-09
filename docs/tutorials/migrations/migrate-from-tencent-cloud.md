@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - tencent cloud
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

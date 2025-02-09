@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "Methods for you to manage database. | Node.js"
 type: folder
-token: CEYUfuKoYlVIfod63clcDaS9nxc
-sidebar_position: 2
+token: WLCxfLtfylemvudOJa7cDBXdnsh
+sidebar_position: 4
 sidebar_label: "Database"
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - Database
-  - nodejs25
+  - node
 displayed_sidebar: nodeSidebar
 ---
 

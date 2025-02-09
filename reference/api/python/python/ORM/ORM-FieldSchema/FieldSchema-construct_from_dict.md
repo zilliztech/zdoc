@@ -10,19 +10,19 @@ type: docx
 token: DCLUdOpVjohl8HxPUx1cGjokngf
 sidebar_position: 1
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
-  - zilliz
-  - zilliz cloud
-  - cloud
-  - construct_from_dict()
-  - pymilvus25
   - knn algorithm
   - HNSW
   - What is unstructured data
   - Vector embeddings
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - construct_from_dict()
+  - python
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: pythonSidebar
 
 ---

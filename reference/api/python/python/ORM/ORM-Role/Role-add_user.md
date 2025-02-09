@@ -10,19 +10,19 @@ type: docx
 token: W7GJdpYrYoYhSaxW6uzcVAZinYf
 sidebar_position: 1
 keywords: 
+  - Recommender systems
+  - information retrieval
   - dimension reduction
   - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - add_user()
-  - pymilvus25
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - python
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: pythonSidebar
 
 ---

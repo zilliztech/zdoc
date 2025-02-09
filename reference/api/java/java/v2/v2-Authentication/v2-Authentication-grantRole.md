@@ -9,6 +9,20 @@ description: "This operation grants a role to a user. | Java | v2"
 type: docx
 token: JB90dbBNRoz1I2xZY5rcSmJ1nSb
 sidebar_position: 8
+keywords: 
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - grantRole()
+  - javaV2
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 displayed_sidebar: javaSidebar
 
 ---

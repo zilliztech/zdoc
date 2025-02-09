@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "Methods for you to manage collections. | Node.js"
 type: folder
-token: SU7xfa1bal8yS0dioBmcCncYn5c
-sidebar_position: 1
+token: WKkof79XQltPmgdgU18c2tLUnOd
+sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - Collections
-  - nodejs25
+  - node
 displayed_sidebar: nodeSidebar
 ---
 

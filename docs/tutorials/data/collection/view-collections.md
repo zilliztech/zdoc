@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 
@@ -130,8 +130,7 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/list" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
--d '{}
-}'
+-d '{}'
 ```
 
 </TabItem>

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

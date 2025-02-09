@@ -14,10 +14,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 
@@ -168,6 +168,14 @@ Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
    <tr>
      <td><p>East US</p></td>
      <td><p>Virginia, USA</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
+   </tr>
+   <tr>
+     <td><p>Central US</p></td>
+     <td><p>Lowa, USA</p></td>
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>

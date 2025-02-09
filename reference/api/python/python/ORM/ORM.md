@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "PyMilvus ORM modules, classes, and methods | Python | ORM"
 type: folder
-token: QYo4fSeVFlex8ZdeGZ4cAlmcnof
-sidebar_position: 3
+token: NZa5fZusilxYZ5d3Q1Dc1l8BnOd
+sidebar_position: 4
 sidebar_label: "ORM"
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - ORM
-  - pymilvus25
+  - python
 displayed_sidebar: pythonSidebar
 ---
 
