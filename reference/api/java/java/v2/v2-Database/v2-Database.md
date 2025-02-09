@@ -9,10 +9,10 @@ token: Ja2Wf1J9glm6oCdCxfDc9BzPnoc
 sidebar_position: 4
 sidebar_label: "Database"
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud

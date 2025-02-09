@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

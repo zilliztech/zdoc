@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

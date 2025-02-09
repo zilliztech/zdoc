@@ -1,12 +1,12 @@
 ---
-title: "Zilliz Cloud Limits | BYOC"
+title: "Zillizクラウドの制限 | BYOC"
 slug: /limits
-sidebar_label: "Zilliz Cloud Limits"
+sidebar_label: "Zillizクラウドの制限"
 beta: FALSE
 notebook: FALSE
-description: "This page provides information about limits on the Zilliz Cloud platform. You can use the OPS system that Zilliz provides to tune most of the settings mentioned on this page. You can still contact us if you need further help. | BYOC"
+description: "このページでは、Zilliz Cloudプラットフォームの制限に関する情報を提供します。Zillizが提供するOPSシステムを使用して、このページに記載されているほとんどの設定を調整できます。さらにヘルプが必要な場合は、引き続きお問い合わせください。 | BYOC"
 type: origin
-token: PuxkwMWvbiHxvTkHsVkcMZP9n5f
+token: WOB5ww3CziJbjGkZLVuc2tEXnTf
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,330 +14,350 @@ keywords:
   - cloud
   - milvus
   - limits
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Zilliz Cloud Limits
+# Zillizクラウドの制限
 
-This page provides information about limits on the Zilliz Cloud platform. You can use the OPS system that Zilliz provides to tune most of the settings mentioned on this page. You can still [contact us](https://support.zilliz.com/hc/en-us) if you need further help.
+このページでは、Zilliz Cloudプラットフォームの制限に関する情報を提供します。Zillizが提供するOPSシステムを使用して、このページに記載されているほとんどの設定を調整できます。さらにヘルプが必要な場合は、引き続き[お問い合わせ](https://support.zilliz.com/hc/en-us)ください。
 
-## Organizations & Projects{#organizations-and-projects}
+## 組織とプロジェクト{#organizations-and-projects}{#organizations-and-projects}
 
-The following table lists the limits on the maximum number of organizations and projects allowed for a single user.
+次の表に、1人のユーザーに許可される組織とプロジェクトの最大数の制限を示します。
 
 <table>
    <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Max Number</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
+     <th><p><strong>アイテム</strong></p></th>
+     <th><p><strong>マックス数</strong></p></th>
+     <th><p><strong>備考</strong></p></th>
    </tr>
    <tr>
-     <td><p>Project</p></td>
+     <td><p></p></td>
+     <td><p></p></td>
+     <td><p>アカウント登録が完了すると、Zilliz Cloudは自動的に1つの組織を作成します。それ以上の組織が必要な場合は、<a href="http://support.zilliz.com">サポートチケットを作成</a>してください。ユーザーは複数の組織に参加できます。</p></td>
+   </tr>
+   <tr>
+     <td><p>プロジェクト</p></td>
      <td><p>100</p></td>
-     <td><p>Each user can create up to 100 projects in 1 organization.</p></td>
+     <td><p>各ユーザーは1つの組織で最大100のプロジェクトを作成できます。</p></td>
    </tr>
 </table>
 
-## Collections{#collections}
+## コレクション{#collections}{#collections}
 
 <table>
    <tr>
-     <th><p><strong>Cluster Plan</strong></p></th>
-     <th><p><strong>Max Number</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
+     <th><p><strong>クラスタ計画</strong></p></th>
+     <th><p><strong>マックス数</strong></p></th>
+     <th><p><strong>備考</strong></p></th>
    </tr>
    <tr>
-     <td><p>Dedicated cluster</p></td>
-     <td><p>64 per CU, and &lt;= 4096</p></td>
-     <td><p>You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster.</p></td>
+     <td><p></p></td>
+     <td><p></p></td>
+     <td><p>最大5つのコレクションを作成できます。</p></td>
+   </tr>
+   <tr>
+     <td><p></p></td>
+     <td><p></p></td>
+     <td><p>最大100個のコレクションを作成できます。</p></td>
+   </tr>
+   <tr>
+     <td><p>専用クラスタ</p></td>
+     <td><p>CUあたり64、および&lt;=409 6</p></td>
+     <td><p>専用クラスターで使用されるCUごとに最大64個のコレクションを作成でき、クラスター内には4,096個を超えるコレクションは作成できません。</p></td>
    </tr>
 </table>
 
-In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity. The following formula shows how Zilliz Cloud calculates the general capacity of a cluster. The consumed capacity should be less than the general capacity available.
+クラスタあたりのコレクション数の制限に加えて、Zilliz Cloudは消費容量にも制限を適用します。以下のレシピは、Zilliz Cloudがクラスタの一般的な容量を計算する方法を示しています。消費容量は、利用可能な一般的な容量よりも小なりである必要があります。
 
 ```java
 General Capacity = 512 x Number of CUs
 ```
 
-<Admonition type="info" icon="📘" title="How can I know the general capacity of a cluster?">
+<Admonition type="info" icon="📘" title="クラスタの一般的な容量を知るにはどうすればよいですか?">
 
-<p>The general capacity of a cluster indicates the maximum physical resources allocated to the cluster, and it can be determined using the following formula:</p>
-<p><strong>\<= 512 x Number of CUs</strong></p>
-<p>For instance, </p>
+<p>クラスタの一般的な容量は、クラスタに割り当てられた最大物理リソースを示し、次のレシピを使用して決定できます。</p>
+<p><strong>\<=512 x CUの数</strong></p>
+<p>例えば、</p>
 <ul>
-<li><p>In a cluster of <strong>2</strong> CUs, you can create a maximum of <strong>128</strong> collections with a general capacity of <strong>1,024</strong>.</p></li>
-<li><p>In a cluster of <strong>12</strong> CUs, you can create a maximum of <strong>768</strong> collections with a general capacity of <strong>6,144</strong>.</p></li>
-<li><p>In a cluster of <strong>32</strong> CUs or more, you can create a maximum of <strong>4,096</strong> collections with a general capacity of <strong>16,384</strong>. </p></li>
+<li><p>クラスタを<strong>2</strong>つのCUで構成すると、最大<strong>128</strong>個のコレクションを作成でき、一般容量は<strong>1,024</strong>個です。</p></li>
+<li><p>クラスタは<strong>12</strong>個のCUで、最大<strong>768</strong>個のコレクションを作成できます。一般容量は<strong>6</strong>,144個です。</p></li>
+<li><p>クラスタが<strong>32</strong>CU以上の場合、最大<strong>4,096</strong>コレクションを作成でき、一般容量は16,384で<strong>す</strong>。</p></li>
 </ul>
 
 </Admonition>
 
-<Admonition type="info" icon="📘" title="How can I know the consumed capacity of a cluster?">
+<Admonition type="info" icon="📘" title="クラスタの消費容量を知るにはどうすればよいですか?">
 
-<p>The consumed capacity of a cluster indicates the physical resources consumed by the cluster. </p>
-<p>For instance, let's assume that you have created <strong>50</strong> collections in a cluster; each of the first <strong>20</strong> collections has <strong>20</strong> partitions, while each of the remaining <strong>30</strong> collections has <strong>10</strong> partition. The consumed capacity of the cluster can be calculated as follows:</p>
-<p><strong>20 (collections) x 20 (partitions) + 30 (collections) x 10 (partitions) = 400 + 300 = 700</strong></p>
-<p>Based on the above calculation, Zilliz Cloud regards the cluster has a consumed capacity of <strong>700</strong>.</p>
+<p>クラスタの消費容量は、クラスタによって消費される物理リソースを示します。</p>
+<p>例えば、クラスタ内に<strong>50</strong>のコレクションを作成したとします。最初の<strong>20</strong>のコレクションにはそれぞれ<strong>20</strong>のパーティションがあり、残りの<strong>30</strong>のコレクションにはそれぞれ<strong>10</strong>のパーティションがあります。クラスタの消費容量は以下のように計算できます:</p>
+<p><strong>20(コレクション)x 20(パーティション)+30(コレクション)x 10(パーティション)=400+300=70 0</strong></p>
+<p>上記の計算に基づいて、Zilliz Cloudはクラスタの消費容量を<strong>700</strong>と見なしています。</p>
 
 </Admonition>
 
-Zilliz Cloud also imposed rate limits on collection operations including creating, loading, releasing, and dropping collections. The following rate limit applies to collections in both Serverless and Dedicated clusters.
+Zilliz Cloudは、コレクションの作成、読み込み、リリース、削除を含むコレクション操作に対してレート制限を課しました。以下のレート制限は、サーバーレスおよび専用クラスターのコレクションに適用されます。
 
 <table>
    <tr>
      <th></th>
-     <th><p><strong>Rate Limit</strong></p></th>
+     <th><p><strong>レート制限</strong></p></th>
    </tr>
    <tr>
-     <td><p>Collection Operation (create, load, release, drop)</p></td>
-     <td><p>5 req/s per cluster</p></td>
+     <td><p>コレクションオペレーション(作成、ロード、リリース、ドロップ)</p></td>
+     <td><p>クラスタあたり5 req/s</p></td>
    </tr>
 </table>
 
-### Partitions{#partitions}
+### パーティション{#partitions}{#partitions}
 
 <table>
    <tr>
-     <th><p><strong>Cluster Type</strong></p></th>
-     <th><p><strong>Max Number (Per Collection)</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
+     <th><p><strong>クラスタタイプ</strong></p></th>
+     <th><p><strong>一つのコレクションあたりの最大数</strong></p></th>
+     <th><p><strong>備考</strong></p></th>
    </tr>
    <tr>
-     <td><p>Dedicated cluster</p></td>
+     <td><p></p></td>
+     <td><p></p></td>
+     <td><p>サーバーレスクラスターでは、コレクションごとに最大1,024個のパーティションを作成できます。</p></td>
+   </tr>
+   <tr>
+     <td><p>専用クラスタ</p></td>
      <td><p>1,024</p></td>
-     <td><p>You can create up to 1,024 partitions per collection in a dedicated cluster.</p></td>
+     <td><p>専用クラスターでは、コレクションごとに最大1,024のパーティションを作成できます。</p></td>
    </tr>
 </table>
 
-When calculating the consumed and general capacity, refer to the notes in [Collections](./limits#collections). Additionally, the rate limit for creating partitions is **1** partition/s per cluster.
+消費容量と一般容量を計算する場合は、[コレクション](./limits#collections)のノートを参照してください。さらに、パーティション作成のレート制限はクラスタあたり**1**パーティション/秒です。
 
-### Fields{#fields}
+### フィールド{#fields}{#fields}
 
 <table>
    <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Max Number</strong></p></th>
+     <th><p><strong>アイテム</strong></p></th>
+     <th><p><strong>マックス数</strong></p></th>
    </tr>
    <tr>
-     <td><p>Fields per collection</p></td>
+     <td><p>コレクションごとのフィールド</p></td>
      <td><p>64</p></td>
    </tr>
    <tr>
-     <td><p>Vector fields per collection</p></td>
+     <td><p>コレクションごとのベクトルフィールド</p></td>
      <td><p>4</p></td>
    </tr>
 </table>
 
-Other limits on fields:
+他のフィールドの制限:
 
-- Null values are not supported by any field types.
+- Null値はどのフィールドタイプでもサポートされていません。
 
-- Some fields, such as VarChar or JSON, use more memory than expected and can cause the cluster to become full.
+- VarCharやJSONなどの一部のフィールドは、予想よりも多くのメモリを使用し、クラスターがいっぱいになる可能性があります。
 
-### Dimensions{#dimensions}
+### ディメンション{#dimensions}{#dimensions}
 
-The maximum number of dimensions of a vector field is **32,768**.
+ベクトル場の最大次元数は32,768であ**る**。
 
-## Operations{#operations}
+## オペレーション{#operations}{#operations}
 
-This section focuses on the rate limit for common data operations in Zilliz Cloud clusters.
+このセクションでは、Zilliz Cloudクラスターでの一般的なデータ操作のレート制限に焦点を当てています。
 
-### Insert{#insert}
+### 挿入する{#insert}{#insert}
 
-Each insert request/response should be no greater than **64** MB.
+各挿入要求/応答は大なり**64**MBでなければなりません。
 
-The rate limit that applies varies with the cluster types and the number of CUs in use. The following table lists the rate limits for insert operations.
-
-<table>
-   <tr>
-     <th></th>
-     <th><p>Maximum Insert Rate Limits</p></th>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster 1 - 2 CUs</p></td>
-     <td><p>8 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
-     <td><p>12 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
-     <td><p>16 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster [24 CUs, 64 CUs)</p></td>
-     <td><p>24 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster [64 CUs, 128CUs)</p></td>
-     <td><p>36 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster [128 CUs, 256CUs)</p></td>
-     <td><p>48 MB/s</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster &gt;= 256 CUs</p></td>
-     <td><p>64 MB/s</p></td>
-   </tr>
-</table>
-
-When inserting data, include all schema-defined fields. Exclude the primary key if the collection has AutoID enabled.
-
-To make inserted entities immediately retrievable in searches and queries, consider changing the consistency level in the search or query requests to **Strong**. Read [Consistency Level](./consistency-level) for more.
-
-### Upsert{#upsert}
-
-Each upsert request/response should be no greater than **64** MB.
-
-The rate limit that applies varies with the cluster types and the number of CUs in use. The following table lists the rate limits for upsert operations.
+適用されるレート制限は、クラスターの種類と使用中のCUの数によって異なります。次の表に、挿入操作のレート制限を示します。
 
 <table>
    <tr>
      <th></th>
-     <th><p>Maximum Upsert Rate Limits</p></th>
+     <th><p>最大挿入レート制限</p></th>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 1 - 2 CUs</p></td>
-     <td><p>8 MB/s</p></td>
+     <td><p>専用クラスタ1-2 CU</p></td>
+     <td><p>8メガバイト/秒</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
-     <td><p>12 MB/s</p></td>
+     <td><p>専用クラスタ4-8 CU</p></td>
+     <td><p>12メガバイト/秒</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
-     <td><p>16 MB/s</p></td>
+     <td><p>専用クラスタ12-20 CU</p></td>
+     <td><p>16メガバイト/秒</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster [24 CUs, 64 CUs)</p></td>
-     <td><p>24 MB/s</p></td>
+     <td><p>専用クラスタ[24 CU、64 CU]</p></td>
+     <td><p>24メガバイト/秒</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster [64 CUs, 128CUs)</p></td>
-     <td><p>36 MB/s</p></td>
+     <td><p>専用クラスタ[64 CUs,128 CUs)</p></td>
+     <td><p>36メガバイト/秒</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster [128 CUs, 256CUs)</p></td>
-     <td><p>48 MB/s</p></td>
+     <td><p>専用クラスタ[128 CUs,256 CUs)</p></td>
+     <td><p>48メガバイト/秒</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster &gt;= 256 CUs</p></td>
-     <td><p>64 MB/s</p></td>
+     <td><p>256 CU以上の専用クラスタ</p></td>
+     <td><p>64メガバイト/秒</p></td>
    </tr>
 </table>
 
-When upserting data, include all schema-defined fields. 
+データを挿入するときは、すべてのスキーマ定義フィールドを含めます。コレクションでAutoIDが有効になっている場合は、主キーを除外します。
 
-To make upserted entities immediately retrievable in searches and queries, consider changing the consistency level in the search or query requests to **Strong**. Read [Consistency Level](./consistency-level) for more.
+挿入されたエンティティを検索やクエリですぐに取得できるようにするには、検索またはクエリリクエストの一貫性レベルを**強く**することを検討してください。詳細については、[一貫性レベル](./consistency-level)を参照してください。
 
-### Index{#index}
+### アップサート{#upsert}{#upsert}
 
-Index types vary with field types. The following table lists the indexable field types and the corresponding index types.
+各upsertリクエスト/レスポンスは**64**MB以上である必要があります。
+
+適用されるレート制限は、クラスターの種類と使用中のCUの数によって異なります。次の表に、upsert操作のレート制限を示します。
 
 <table>
    <tr>
-     <th><p><strong>Field Type</strong></p></th>
-     <th><p><strong>Index Type</strong></p></th>
-     <th><p><strong>Metric Type</strong></p></th>
+     <th></th>
+     <th><p>最大Upsertレート制限</p></th>
    </tr>
    <tr>
-     <td><p>Vector Field</p></td>
+     <td><p>専用クラスタ1-2 CU</p></td>
+     <td><p>8メガバイト/秒</p></td>
+   </tr>
+   <tr>
+     <td><p>専用クラスタ4-8 CU</p></td>
+     <td><p>12メガバイト/秒</p></td>
+   </tr>
+   <tr>
+     <td><p>専用クラスタ12-20 CU</p></td>
+     <td><p>16メガバイト/秒</p></td>
+   </tr>
+   <tr>
+     <td><p>専用クラスタ[24 CU、64 CU]</p></td>
+     <td><p>24メガバイト/秒</p></td>
+   </tr>
+   <tr>
+     <td><p>専用クラスタ[64 CUs,128 CUs)</p></td>
+     <td><p>36メガバイト/秒</p></td>
+   </tr>
+   <tr>
+     <td><p>専用クラスタ[128 CUs,256 CUs)</p></td>
+     <td><p>48メガバイト/秒</p></td>
+   </tr>
+   <tr>
+     <td><p>256 CU以上の専用クラスタ</p></td>
+     <td><p>64メガバイト/秒</p></td>
+   </tr>
+</table>
+
+データを更新する際には、スキーマで定義されたすべてのフィールドを含めてください。
+
+挿入されたエンティティを検索やクエリですぐに取得できるようにするには、検索またはクエリ要求の一貫性レベルを**強く**することを検討してください。詳細については、[一貫性レベル](./consistency-level)を参照してください。
+
+### インデックス{#index}{#index}
+
+インデックスの種類はフィールドの種類によって異なります。次の表に、インデックス可能なフィールドの種類と対応するインデックスの種類を示します。
+
+<table>
+   <tr>
+     <th><p><strong>フィールドタイプ</strong></p></th>
+     <th><p><strong>インデックスタイプ</strong></p></th>
+     <th><p><strong>メートルタイプ</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>ベクトル場</p></td>
      <td><p>AUTOINDEX</p></td>
-     <td><p>L2, IP, and COSINE</p></td>
+     <td><p>L 2、IP、およびCOSINE</p></td>
    </tr>
    <tr>
-     <td><p>VarChar Field</p></td>
+     <td><p>VarCharフィールド</p></td>
      <td><p>TRIE</p></td>
      <td><p>N/A</p></td>
    </tr>
    <tr>
-     <td><p>Int8/16/32/64</p></td>
-     <td><p>STL_SORT</p></td>
+     <td><p>Int 8/16/32/64</p></td>
+     <td><p>STLソート</p></td>
      <td><p>N/A</p></td>
    </tr>
    <tr>
-     <td><p>Float32/64</p></td>
-     <td><p>STL_SORT</p></td>
+     <td><p>フロート32/64</p></td>
+     <td><p>STLソート</p></td>
      <td><p>N/A</p></td>
    </tr>
 </table>
 
-### Flush{#flush}
+### フラッシュ{#flush}{#flush}
 
-The rate limit for flush requests is 0.1 requests per second, imposed at the collection level for specific cluster types. This rate limit applies to:
+フラッシュ要求のレート制限は、特定のクラスタータイプのコレクションレベルで課せられる1秒あたり0.1要求です。このレート制限は、以下に適用されます。
 
-- Serverless clusters compatible with Milvus 2.4.x or later.
+- Milvus 2.4. x以降に対応したサーバーレスクラスター。
 
-- Dedicated clusters upgraded to the beta version, compatible with Milvus 2.4.x or later.
+- Milvus 2.4. x以降に対応したベータ版にアップグレードされた専用クラスタ。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>You are not advised to perform flush operations manually. Zilliz Cloud clusters handle it gracefully for you.</p>
-
-</Admonition>
-
-### Load{#load}
-
-The rate limit for load requests is **5** req/s per cluster.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>You do not need to perform the load collection for collections that are already loaded, even if new data is coming into these collections.</p>
+<p>手動でフラッシュ操作を実行することはお勧めできません。Zilliz Cloudクラスターが優雅に処理します。</p>
 
 </Admonition>
 
-### Search{#search}
+### ロードする{#load}{#load}
 
-Each search request/response should be no greater than **64** MB.
+ロード要求のレート制限は、クラスターあたり**5**req/sです。
 
-The number of query vectors that each search request carries (usually known as **nq**) varies with your subscription plan:
+<Admonition type="info" icon="📘" title="ノート">
 
-- For Free and Serverless clusters, the **nq** is no greater than **10**.
+<p>新しいデータがこれらのコレクションに入ってくる場合でも、すでにロードされているコレクションのロードコレクションを実行する必要はありません。</p>
 
-- For Dedicated clusters, the **nq** is no greater than **16,384**.
+</Admonition>
 
-The number that each search response carries (usually known as **topK**) varies with your subscription plan:
+### 検索する{#search}{#search}
 
-- For Free and Serverless clusters, the **topK** is no greater than **1,024** entities in return.
+各検索リクエスト/レスポンスは**64**MB以上である必要があります。
 
-- For Dedicated clusters, the **topK** is no greater than **16,384** entities in return.
+各検索要求に含まれるクエリベクトルの数(通常は**nq**と呼ばれます)は、サブスクリプションプランによって異なります。
 
-### Query{#query}
+- FreeおよびServerlessクラスタの場合、**nq**は大なり**10**ではありません。
 
-Each query request/response should be no greater than **64** MB.
+- Dedicatedクラスタの場合、**nq**は16,384ではな**い**。
 
-Each query response carries no more than 16,384 entities in return (usually known as **topK**).
+各検索応答に含まれる番号（通常は**topK**と呼ばれます）は、サブスクリプションプランによって異なります。
 
-### Delete{#delete}
+- FreeクラスタとServerlessクラスタの場合、**topK**は**1,024**個のエンティティとは異なります。
 
-Each delete request/response should be no greater than **64** MB.
+- Dedicatedクラスタの場合、**topK**は16,**384**個のエンティティを返しません。
 
-The rate limit for delete requests is **0.5** MB/s per cluster.
+### クエリ{#query}{#query}
 
-### Drop{#drop}
+各クエリリクエスト/レスポンスは**64**MB以上である必要があります。
 
-The rate limit for drop requests is **5** req/s per cluster.
+各クエリ応答には、通常**topK**として知られる16,384個を超えるエンティティは含まれません。
 
-### Data import{#data-import}
+### 削除する{#delete}{#delete}
 
-You can have up to **10** running or pending import jobs in a collection.
+各削除要求/応答は、大なり**64**MBであってはならない。
 
-Zilliz Cloud also imposes limits on the files to import on the web console.
+削除要求のレート制限は、クラスターあたり**0.5**MB/sです。
+
+### ドロップとす{#drop}{#drop}
+
+ドロップ要求のレート制限は、クラスターあたり**5**req/sです。
+
+### データのインポート{#data-import}{#data-import}
+
+1つのコレクションには、実行中または保留中のインポートジョブを最大**10**件まで含めることができます。
+
+Zilliz Cloudは、Webコンソールにインポートするファイルに制限を課しています。
 
 <table>
    <tr>
-     <th><p>File Type</p></th>
-     <th><p>Local upload</p></th>
-     <th><p>Sync from S3/GCS/Other OSS</p></th>
+     <th><p>ファイルタイプ</p></th>
+     <th><p>ローカルアップロード</p></th>
+     <th><p>S 3/GCS/その他のOSSからの同期</p></th>
    </tr>
    <tr>
      <td><p>JSON</p></td>
@@ -346,40 +366,40 @@ Zilliz Cloud also imposes limits on the files to import on the web console.
    </tr>
    <tr>
      <td><p>Numpy</p></td>
-     <td><p>Not support</p></td>
-     <td><p>The maximum size of the folder is 100 GB and the maximum size of each subdirectory is 15 GB</p></td>
+     <td><p>サポートしない</p></td>
+     <td><p>フォルダの最大体格は100 GBで、各サブディレクトリの最大体格は15 GBです。</p></td>
    </tr>
    <tr>
-     <td><p>Parquet</p></td>
-     <td><p>Not support</p></td>
-     <td><p>10 GB</p></td>
+     <td><p>パーケット</p></td>
+     <td><p>サポートしない</p></td>
+     <td><p>10ギガバイト</p></td>
    </tr>
 </table>
 
-For details, refer to [Storage Options](./data-import-storage-options) and [Format Options](./data-import-format-options).
+詳細については、[ストレージオプション](./data-import-storage-options)と[書式オプション](./data-import-format-options)を参照してください。
 
-## Backup on Console{#backup-on-console}
+## コンソールでのバックアップ{#backup-on-console}{#backup-on-console}
 
-Manually created backups are permanently retained.
+手動で作成したバックアップは永久に保持されます。
 
-The maximum retention period for automatically created backups is 30 days. 
+自動的に作成されたバックアップの最大保存期間は30日間です。
 
-## Restore on Console{#restore-on-console}
+## コンソールでの復元{#restore-on-console}{#yuanrestore-on-console}
 
-You can restore a snapshot in the same region as the original cluster of the snapshot. The target cluster of the restoration should use the same CU type as the original one.
+スナップショットの元のクラスタと同じリージョンのスナップショットを復元することができます。復元の対象クラスタは、元のクラスタと同じCUタイプを使用する必要があります。
 
-## IP Access List{#ip-access-list}
+## IPアクセスリスト{#ip-access-list}{#ipip-access-list}
 
 <table>
    <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Max Number</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
+     <th><p><strong>アイテム</strong></p></th>
+     <th><p><strong>マックス数</strong></p></th>
+     <th><p><strong>備考</strong></p></th>
    </tr>
    <tr>
-     <td><p>IP Address (CIDR)</p></td>
+     <td><p>IPアドレス(CIDR)</p></td>
      <td><p>20</p></td>
-     <td><p>You can add up to 20 IP addresses to the allow list.</p></td>
+     <td><p>許可リストには最大20個のIPアドレスを追加できます。</p></td>
    </tr>
 </table>
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

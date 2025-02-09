@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster plan
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 
@@ -228,7 +228,7 @@ Zilliz Cloud categorizes its offerings into five distinct plans: **Free**, **Ser
      <td><p><strong>Alerts</strong></p></td>
      <td><p>Not Available</p></td>
      <td><p>Not Available</p></td>
-     <td><p>Not Available</p></td>
+     <td><p>Available</p></td>
      <td><p>Available</p></td>
      <td><p>Available</p></td>
    </tr>

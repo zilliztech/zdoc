@@ -8,21 +8,21 @@ notebook: false
 description: "This operation supports creating a collection in two distinct ways quick setup or custom setup. | Python | MilvusClient"
 type: docx
 token: TziHdCu4VoURrfxAMsUcsRhQnub
-sidebar_position: 3
+sidebar_position: 5
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - create_collection()
   - python
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: pythonSidebar
 
 ---
@@ -190,6 +190,10 @@ create_collection(
         - **collection.ttl.seconds** (*int*)
 
             The time-to-live (TTL) of a collection in seconds.
+
+        - **mmap.enabled** (*bool*) -
+
+            Whether to enable mmap for the raw data and indexes of all fields in the collection.
 
 **RETURN TYPE:**
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

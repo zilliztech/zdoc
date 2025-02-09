@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - console
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

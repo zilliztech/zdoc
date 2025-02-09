@@ -2,7 +2,7 @@
 title: "BYOC Overview | BYOC"
 slug: /byoc-intro
 sidebar_label: "BYOC Overview"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "Bring Your Own Cloud (BYOC) is a deployment option for organizations to host applications and data in their own cloud accounts instead of using Zilliz Cloud's infrastructure. This solution is ideal for organizations with specific security requirements or regulatory compliance needs that require maintaining full data control sovereignty. | BYOC"
 type: origin
@@ -13,10 +13,10 @@ keywords:
   - byoc
   - milvus
   - vector database
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 
@@ -26,6 +26,12 @@ import Admonition from '@theme/Admonition';
 # BYOC Overview
 
 Bring Your Own Cloud (BYOC) is a deployment option for organizations to host applications and data in their own cloud accounts instead of using Zilliz Cloud's infrastructure. This solution is ideal for organizations with specific security requirements or regulatory compliance needs that require maintaining full data control sovereignty.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+</Admonition>
 
 ## Why use Zilliz BYOC{#why-use-zilliz-byoc}
 
@@ -66,12 +72,6 @@ Additionally, Zilliz Cloud establishes two separate planes for communication wit
 - **Data Plane**
 
     The data plane allows communication between your applications/services and the Milvus instance deployed in your VPC, specifically for data storage and retrieval.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>Zilliz BYOC is currently available in <strong>Private Preview</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
-
-</Admonition>
 
 ## Security assurance{#security-assurance}
 

@@ -1,12 +1,12 @@
 ---
-title: "Format Options | BYOC"
+title: "書式オプション | BYOC"
 slug: /data-import-format-options
-sidebar_label: "Format Options"
+sidebar_label: "書式オプション"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud supports importing data in various formats, including Parquet (recommended), JSON, and NumPy files. In this section, you will find the procedures for importing data in these formats and the aspects you should pay attention to to. | BYOC"
+description: "Zilliz Cloudは、Parquet（推奨）、JSON、NumPyファイルなど、さまざまな形式のデータのインポートをサポートしています。このセクションでは、これらの形式でデータをインポートする手順と、注意すべき点について説明します。 | BYOC"
 type: origin
-token: MtGywZwmXiHg0AkJMavcWAtxnCg
+token: OPv7wuxYdiwnzXkDGYhcC971nfb
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -15,19 +15,19 @@ keywords:
   - data import
   - milvus
   - format options
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Format Options
+# 書式オプション
 
-Zilliz Cloud supports importing data in various formats, including Parquet (recommended), JSON, and NumPy files. In this section, you will find the procedures for importing data in these formats and the aspects you should pay attention to to.
+Zilliz Cloudは、Parquet（推奨）、JSON、NumPyファイルなど、さまざまな形式のデータのインポートをサポートしています。このセクションでは、これらの形式でデータをインポートする手順と、注意すべき点について説明します。
 
 import DocCardList from '@theme/DocCardList';
 

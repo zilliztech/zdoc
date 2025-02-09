@@ -1,31 +1,31 @@
 ---
-title: "Data Export | BYOC"
+title: "データエクスポート | BYOC"
 slug: /data-export
-sidebar_label: "Data Export"
+sidebar_label: "データエクスポート"
 beta: FALSE
 notebook: FALSE
-description: "This guide offers examples of how to export data from Zilliz Cloud using various methods. | BYOC"
+description: "このガイドでは、さまざまな方法を使用してZilliz Cloudからデータをエクスポートする方法の例を紹介します。 | BYOC"
 type: origin
-token: CeH9wPtUfiOdDckoPszcAuLonce
+token: OyMpwQi09iopGikeSojcMGTDnsh
 sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - cloud
   - data export
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Data Export
+# データエクスポート
 
-This guide offers examples of how to export data from Zilliz Cloud using various methods.
+このガイドでは、さまざまな方法を使用してZilliz Cloudからデータをエクスポートする方法の例を紹介します。
 
 
 

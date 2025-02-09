@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

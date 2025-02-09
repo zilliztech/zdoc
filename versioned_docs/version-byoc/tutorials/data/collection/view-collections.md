@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
@@ -130,8 +130,7 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/list" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
--d '{}
-}'
+-d '{}'
 ```
 
 </TabItem>

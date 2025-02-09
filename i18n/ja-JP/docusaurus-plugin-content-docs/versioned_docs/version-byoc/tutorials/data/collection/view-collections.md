@@ -1,12 +1,12 @@
 ---
-title: "View Collections | BYOC"
+title: "コレクションを見る | BYOC"
 slug: /view-collections
-sidebar_label: "View Collections"
+sidebar_label: "コレクションを見る"
 beta: FALSE
 notebook: FALSE
-description: "You can obtain the name list of all the collections in the currently connected database, and check the details of a specific collection. | BYOC"
+description: "現在接続されているデータベース内のすべてのコレクションの名前リストを取得し、特定のコレクションの詳細を確認できます。 | BYOC"
 type: origin
-token: VAirw0c7ZiKCSqkjtDscAsC4nAf
+token: RWOjwFwsDi7MPykySlEc35v1nTb
 sidebar_position: 4
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 
@@ -25,13 +25,13 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# View Collections
+# コレクションを見る
 
-You can obtain the name list of all the collections in the currently connected database, and check the details of a specific collection.
+現在接続されているデータベース内のすべてのコレクションの名前リストを取得し、特定のコレクションの詳細を確認できます。
 
-## List Collections{#list-collections}
+## リストコレクション{#list-collections}{#list-collections}
 
-The following example demonstrates how to obtain the name list of all collections in the currently connected database.
+次の例は、現在接続されているデータベース内のすべてのコレクションの名前リストを取得する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -137,15 +137,15 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-If you have already created a collection named `quick_setup`, the result of the above example should be similar to the following.
+すでに`quick_setup`という名前のコレクションを作成している場合、上記の例の結果は次のようになります。
 
 ```json
 ["quick_setup"]
 ```
 
-## Describe Collection{#describe-collection}
+## コレクションを説明する{#describe-collection}{#describe-collection}
 
-You can also obtain the details of a specific collection. The following example assumes that you have already created a collection named quick_setup.
+特定のコレクションの詳細を取得することもできます。次の例では、すでにquick_setupという名前のコレクションを作成していることを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -236,7 +236,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-The result of the above example should be similar to the following.
+上記の例の結果は、次のようになります。
 
 ```json
 // TO BE ADDED

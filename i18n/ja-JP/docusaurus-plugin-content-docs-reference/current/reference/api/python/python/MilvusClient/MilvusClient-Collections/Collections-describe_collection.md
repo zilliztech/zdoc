@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists detailed information about a specific collection. | Python | MilvusClient"
 type: docx
 token: MCkjdiRNKo2HCCxzHReclrgAnbg
-sidebar_position: 7
+sidebar_position: 9
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - describe_collection()
   - python
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: pythonSidebar
 
 ---

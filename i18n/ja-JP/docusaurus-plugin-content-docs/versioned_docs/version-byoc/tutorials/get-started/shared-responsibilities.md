@@ -1,12 +1,12 @@
 ---
-title: "Shared Responsibilities | BYOC"
+title: "責任の共有 | BYOC"
 slug: /shared-responsibilities
-sidebar_label: "Shared Responsibilities"
+sidebar_label: "責任の共有"
 beta: PRIVATE
 notebook: FALSE
-description: "This page outlines the responsibilities of Zilliz Cloud and BYOC users to clarify the division of tasks related to cloud management, upgrades, security, access control, service availability, and technical support, ensuring smooth collaboration while maintaining a secure and efficient operation environment. | BYOC"
+description: "このページでは、Zilliz CloudとBYOCのユーザーが、クラウド管理、アップグレード、セキュリティ、アクセス制御、サービスの可用性、技術サポートに関するタスクの分担を明確にし、安全で効率的な運用環境を維持しながらスムーズなコラボレーションを実現するための責任を概説しています。 | BYOC"
 type: origin
-token: QqtGwq7lSimnHJk6IuXcM9synWg
+token: X0MBwUNIqipdMvkTbqDcN3LHnNh
 sidebar_position: 9
 keywords: 
   - zilliz
@@ -14,150 +14,156 @@ keywords:
   - milvus
   - vector database
   - shared responsibilities
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Shared Responsibilities
+# 責任の共有
 
-This page outlines the responsibilities of Zilliz Cloud and BYOC users to clarify the division of tasks related to cloud management, upgrades, security, access control, service availability, and technical support, ensuring smooth collaboration while maintaining a secure and efficient operation environment.
+このページでは、Zilliz CloudとBYOCのユーザーが、クラウド管理、アップグレード、セキュリティ、アクセス制御、サービスの可用性、技術サポートに関するタスクの分担を明確にし、安全で効率的な運用環境を維持しながらスムーズなコラボレーションを実現するための責任を概説しています。
 
-## Cloud Management{#cloud-management}
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>Zilliz BYOCは現在<strong>一般提供</strong>中です。アクセスと実装の詳細については、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p>
+
+</Admonition>
+
+## クラウド管理{#cloud-management}{#cloud-management}
 
 <table>
    <tr>
-     <th><p>Task</p></th>
-     <th><p>Zilliz BYOC</p></th>
-     <th><p>Customer</p></th>
+     <th><p>タスク</p></th>
+     <th><p>ジリズBYOC</p></th>
+     <th><p>お客様</p></th>
    </tr>
    <tr>
-     <td><p>Set up VPC</p></td>
+     <td><p>VPCの設定</p></td>
      <td></td>
      <td><p>✔</p></td>
    </tr>
    <tr>
-     <td><p>Manage EC2 instances</p></td>
+     <td><p>EC 2インスタンスの管理</p></td>
      <td><p>✔</p></td>
      <td></td>
    </tr>
    <tr>
-     <td><p>Manage Kubernetes cluster</p></td>
+     <td><p>Kubernetesクラスタの管理</p></td>
      <td><p>✔</p></td>
      <td></td>
    </tr>
    <tr>
-     <td><p>Manage S3 bucket</p></td>
+     <td><p>S 3バケットの管理</p></td>
      <td></td>
      <td><p>✔</p></td>
    </tr>
    <tr>
-     <td><p>Provision Milvus instance</p></td>
+     <td><p>Milvusインスタンスのプロビジョニング</p></td>
      <td><p>✔</p></td>
      <td></td>
    </tr>
 </table>
 
-## Upgrade and security{#upgrade-and-security}
+## アップグレードとセキュリティ{#upgrade-and-security}{#upgrade-and-security}
 
 <table>
    <tr>
-     <th><p>Task</p></th>
-     <th><p>Zilliz BYOC</p></th>
-     <th><p>Customer</p></th>
+     <th><p>タスク</p></th>
+     <th><p>ジリズBYOC</p></th>
+     <th><p>お客様</p></th>
    </tr>
    <tr>
-     <td><p>Upgrade Milvus instance</p></td>
+     <td><p>Milvusインスタンスをアップグレードする</p></td>
      <td><p>✔</p></td>
      <td></td>
    </tr>
    <tr>
-     <td><p>Patch software vulnerabilities</p></td>
+     <td><p>パッチソフトウェアの脆弱性</p></td>
      <td><p>✔</p></td>
      <td></td>
    </tr>
    <tr>
-     <td><p>Patch infrastructure vulnerabilities</p></td>
+     <td><p>インフラストラクチャの脆弱性を修正する</p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>
    </tr>
    <tr>
-     <td><p>Scale resoures</p></td>
+     <td><p>スケールリソース</p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>
    </tr>
 </table>
 
-## Access control{#access-control}
+## アクセス制御{#access-control}{#access-control}
 
 <table>
    <tr>
-     <th><p>Task</p></th>
-     <th><p>Zilliz BYOC</p></th>
-     <th><p>Customer</p></th>
+     <th><p>タスク</p></th>
+     <th><p>ジリズBYOC</p></th>
+     <th><p>お客様</p></th>
    </tr>
    <tr>
-     <td><p>Manage IAM roles and service accounts</p></td>
+     <td><p>IAMロールとサービスアカウントを管理する</p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>
    </tr>
    <tr>
-     <td><p>Implement access control &amp; auditing</p></td>
+     <td><p>アクセス制御と監査を実装する</p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>
    </tr>
 </table>
 
-## Service availability{#service-availability}
+## サービスの可用性{#service-availability}{#service-availability}
 
 <table>
    <tr>
-     <th><p>Task</p></th>
-     <th><p>Zilliz BYOC</p></th>
-     <th><p>Customer</p></th>
+     <th><p>タスク</p></th>
+     <th><p>ジリズBYOC</p></th>
+     <th><p>お客様</p></th>
    </tr>
    <tr>
-     <td><p>Disaster recovery (DR)</p></td>
+     <td><p>ディザスタリカバリ(DR)</p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>
    </tr>
    <tr>
-     <td><p>Service level agreement (SLA)</p></td>
+     <td><p>サービスレベル契約（SLA）</p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>
    </tr>
 </table>
 
-## Technical support{#technical-support}
+## 技術サポート{#technical-support}{#technical-support}
 
 <table>
    <tr>
-     <th><p>Task</p></th>
-     <th><p>Zilliz BYOC</p></th>
-     <th><p>Customer</p></th>
+     <th><p>タスク</p></th>
+     <th><p>ジリズBYOC</p></th>
+     <th><p>お客様</p></th>
    </tr>
    <tr>
-     <td><p>Logging</p></td>
+     <td><p>ロギング</p></td>
      <td></td>
      <td><p>✔</p></td>
    </tr>
    <tr>
-     <td><p>Audit logging</p></td>
+     <td><p>監査ログ</p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>
    </tr>
    <tr>
-     <td><p>Monitoring</p></td>
+     <td><p>モニタリング</p></td>
      <td><p>✔</p></td>
      <td></td>
    </tr>
    <tr>
-     <td><p>Break-glass access</p></td>
+     <td><p>ブレイクグラスアクセス</p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>
    </tr>

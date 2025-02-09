@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

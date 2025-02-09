@@ -1,12 +1,12 @@
 ---
-title: "Dynamic Field | BYOC"
+title: "ダイナミックフィールド | BYOC"
 slug: /enable-dynamic-field
-sidebar_label: "Dynamic Field"
+sidebar_label: "ダイナミックフィールド"
 beta: FALSE
 notebook: FALSE
-description: "All fields defined in the schema of a collection must be included in the entities to be inserted. If you want some fields to be optional, consider enabling the dynamic field. This topic describes how to enable and use the dynamic field. | BYOC"
+description: "コレクションのスキーマで定義されたすべてのフィールドは、挿入するエンティティに含める必要があります。一部のフィールドをオプションにしたい場合は、動的フィールドを有効にすることを検討してください。このトピックでは、動的フィールドを有効にして使用する方法について説明します。 | BYOC"
 type: origin
-token: OVxRwZWxNi4pYrkdKxCcOuY2nf1
+token: U7IXwIV00iggkCkRvxmcLhj2nyI
 sidebar_position: 10
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 
@@ -26,21 +26,21 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Dynamic Field
+# ダイナミックフィールド
 
-All fields defined in the schema of a collection must be included in the entities to be inserted. If you want some fields to be optional, consider enabling the dynamic field. This topic describes how to enable and use the dynamic field.
+コレクションのスキーマで定義されたすべてのフィールドは、挿入するエンティティに含める必要があります。一部のフィールドをオプションにしたい場合は、動的フィールドを有効にすることを検討してください。このトピックでは、動的フィールドを有効にして使用する方法について説明します。
 
-## Overview{#overview}
+## 概要について{#overview}{#overview}
 
-In , you can create a collection schema by setting the names and data types for each field in the collection. When you add a field to the schema, make sure that this field is included in the entity you intend to insert. If you want some fields to be optional, enabling the dynamic field is one option.
+では、コレクション内の各フィールドの名前とデータ型を設定することで、コレクションスキーマを作成できます。スキーマにフィールドを追加する場合は、挿入するエンティティにこのフィールドが含まれていることを確認してください。一部のフィールドをオプションにしたい場合は、動的フィールドを有効にすることもできます。
 
-The dynamic field is a reserved field named `$meta`, which is of the JavaScript Object Notation (JSON) type. Any fields in the entities that are not defined in the schema will be stored in this reserved JSON field as key-value pairs.
+動的フィールドは`$meta`という名前の予約フィールドで、Java Script Object Notation(JSON)タイプです。スキーマで定義されていないエンティティのフィールドは、この予約JSONフィールドにキーと値のペアとして保存されます。
 
-For a collection with the dynamic field enabled, you can use keys in the dynamic field for scalar filtering, just as you would with fields explicitly defined in the schema.
+動的フィールドが有効になっているコレクションでは、スキーマで明示的に定義されたフィールドと同様に、動的フィールドのキーをスカラーフィルターに使用できます。
 
-## Enable dynamic field{#enable-dynamic-field}
+## ダイナミックフィールドを有効にする{#enable-dynamic-field}{#enable-dynamic-field}
 
-Collections created using the method described in [Create Collection Instantly](./quick-setup-collections) have the dynamic field enabled by default. You can also enable the dynamic field manually when creating a collection with custom settings.
+「[コレクションを即座に作成](./quick-setup-collections)」で説明されている方法を使用して作成されたコレクションには、動的フィールドがデフォルト有効になります。カスタム設定でコレクションを作成するときに、動的フィールドを手動で有効にすることもできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -118,11 +118,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Use dynamic field{#use-dynamic-field}
+## ダイナミックフィールドを使用する{#use-dynamic-field}{#use-dynamic-field}
 
-When the dynamic field is enabled in your collection, all fields and their values that are not defined in the schema will be stored as key-value pairs in the dynamic field.
+コレクションで動的フィールドが有効になっている場合、スキーマで定義されていないすべてのフィールドとその値は、動的フィールドにキーと値のペアとして保存されます。
 
-For example, suppose your collection schema defines only two fields, named `id` and `vector`, with the dynamic field enabled. Now, insert the following dataset into this collection.
+例えば、コレクションスキーマが`id`と`vector`という2つのフィールドのみを定義し、動的フィールドが有効になっているとします。次のデータセットをこのコレクションに挿入します。
 
 ```json
 [
@@ -139,11 +139,11 @@ For example, suppose your collection schema defines only two fields, named `id` 
 ]
 ```
 
-The dataset above contains 10 entities, each including the fields `id`, `vector`, and `color`. Here, the `color` field is not defined in the schema. Since the collection has the dynamic field enabled, the field `color` will be stored as a key-value pair within the dynamic field.
+上記のデータセットには、`id`、`vector`、`color`の各フィールドを含む10個のエンティティが含まれています。ここでは、`color`フィールドはスキーマで定義されていません。コレクションには動的フィールドが有効になっているため、フィールドの`色`は動的フィールド内のキーと値のペアとして保存されます。
 
-### Insert data{#insert-data}
+### データの挿入{#insert-data}{#insert-data}
 
-The following code demonstrates how to insert this dataset into the collection.
+次のコードは、このデータセットをコレクションに挿入する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -297,9 +297,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Query and search with dynamic field{#query-and-search-with-dynamic-field}
+### ダイナミックフィールドを使用したクエリと検索{#query-search-with-dynamic-field}{#query-search-with-dynamic-field}
 
- supports the use of filter expressions during queries and searches, allowing you to specify which fields to include in the results. The following example demonstrates how to perform queries and searches using the `color` field, which is not defined in the schema, by using the dynamic field.
+は、クエリや検索中にフィルター式を使用することをサポートしており、結果に含めるフィールドを指定できます。次の例は、スキーマで定義されていない`カラー`フィールドを使用して、動的フィールドを使用してクエリや検索を実行する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -398,7 +398,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In the filter expression used in the code example above, `color like "red%" and likes > 50`, the conditions specify that the value of the `color` field must start with **"red"**. In the sample data, only two entities meet this condition. Thus, when `limit` (topK) is set to `3` or fewer, both of these entities will be returned.
+上記のコード例で使用されているフィルタ式では、`color like"red%"and likes>50`という条件で、`color`フィールドの値は**"red"**で始まる必要があります。サンプルデータでは、この条件を満たすエンティティは2つしかありません。したがって、`limit`(topK)を`3`以下に設定すると、これらのエンティティの両方が返されます。
 
 ```json
 [

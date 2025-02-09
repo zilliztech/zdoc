@@ -1,165 +1,112 @@
 ---
-title: "Migrate from PostgreSQL to Zilliz Cloud | BYOC"
+title: "テンセントクラウドからZilliz Cloudへの移行 | BYOC"
 slug: /migrate-from-pgvector
-sidebar_label: "Migrate from PostgreSQL"
+sidebar_label: "テンセントクラウドからZilliz Cloudへの移行"
 beta: FALSE
 notebook: FALSE
-description: "PostgreSQL](https//www.postgresql.org/) is a robust, open-source, object-relational database engine renowned for its extensibility, data integrity, and performance. By utilizing the [pgvector extension, PostgreSQL gains the capability to store and manage vector data. | BYOC"
+description: "テンセントクラウド VectorDB は、類似検索用に設計されたベクトルデータベースソリューションです。テンセントクラウドVectorDBからZilliz Cloudへのデータ移行により、ユーザーはZilliz Cloudの強化されたベクトル分析機能とスケーラブルなデータ管理を活用することができます。 | BYOC"
 type: origin
-token: CiVHwbwPwipX5SkFkqVcLpESnfe
-sidebar_position: 7
+token: FAn9woVv7igIzpkYvTPctzXAnud
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
   - cloud
   - migrations
   - postgresql
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Migrate from PostgreSQL to Zilliz Cloud
+# テンセントクラウドからZilliz Cloudへの移行
 
-[PostgreSQL](https://www.postgresql.org/) is a robust, open-source, object-relational database engine renowned for its extensibility, data integrity, and performance. By utilizing the [pgvector](https://github.com/pgvector/pgvector) extension, PostgreSQL gains the capability to store and manage vector data.
+[テンセントクラウド VectorDB ](https://www.tencentcloud.com/products/vdb)は、類似検索用に設計されたベクトルデータベースソリューションです。テンセントクラウドVectorDBからZilliz Cloudへのデータ移行により、ユーザーはZilliz Cloudの強化されたベクトル分析機能とスケーラブルなデータ管理を活用することができます。
 
-If you have PostgreSQL databases with [pgvector](https://github.com/pgvector/pgvector) installed—whether on-premises or cloud-hosted, you can seamlessly migrate them to your Zilliz Cloud cluster. This migration process involves establishing a connection with your existing source database and replicating its data from the source tables to the corresponding target collections on Zilliz Cloud.
+このガイドでは、テンセントクラウドVectorDBからZilliz Cloudへのデータの移行について説明します。
 
-## Considerations{#considerations}
+## 考慮事項{#considerations}{#considerations}
 
-- You can migrate the following PostgreSQL data types: **vector**, **text**/**varchar**/**date**/**time**/**json**, **bigint**, **integer**, **smallint**, **double precision**, **real**, **boolean**, **array**. If your table has fields with unsupported data types, you can choose not to migrate those fields or submit a [support ticket](https://support.zilliz.com/hc/en-us/requests/new). For information on how PostgreSQL data types are mapped to Zilliz Cloud, refer to [Field mapping reference](./migrate-from-pgvector#field-mapping-reference).
+- テンセントクラウドVectorDBからZilliz Cloudにデータを移行すると、ベクトルフィールドが直接転送されます。一方、テンセントクラウドVectorDBのスカラーフィールドは、Zilliz Cloud上の動的フィールドにJSON形式で保存されます。動的フィールド機能の詳細については、「[ダイナミックフィールド](./enable-dynamic-field)」を参照してください。
 
-- To ensure compatibility, Auto ID will be disabled and cannot be modified for each target collection on Zilliz Cloud.
+- 互換性を確保するため、Auto IDは無効になり、Zilliz Cloud上の各ターゲットコレクションに対して変更することはできません。
 
-- For each migration task, you can select only one vector field from each source table.
+- 各移行タスクは、単一のソーステンセントCloud VectorDBインスタンスに制限されます。複数のソースクラスタにデータがある場合は、それぞれに別々の移行ジョブを設定できます。
 
-- Each migration task is limited to a single source PostgreSQL database. You may enable multiple migration jobs if you have data in multiple source databases.
+## 始める前に{#before-you-start}{#before-you-start}
 
-## Before you start{#before-you-start}
+- ソースのテンセントクラウドVectorDBインスタンスは、パブリックインターネットからアクセスできます。
 
-Make sure the following prerequisites are met:
+- ソースクラスターに必要な接続資格情報(インスタンスURLとAPIキー)を取得しました。
 
-- The source PostgreSQL database is accessible from the public internet.
+- Zilliz Cloudでは、組織オーナーまたはプロジェクト管理者の役割が付与されています。必要な権限がない場合は、Zilliz Cloudの管理者にお問い合わせください。
 
-- If you have an allowlist configured in your network environment, ensure that Zilliz Cloud IP addresses are added to it. For more information, refer to [Zilliz Cloud IPs](./zilliz-cloud-ips).
+## テンセントクラウドからZilliz Cloudへの移行{#migrate-from-tencent-cloud-to-zilliz-cloud}{#zilliz-cloudmigrate-from-tencent-cloud-to-zilliz-cloud}
 
-- You have been granted the Organization Owner or Project Admin role. If you do not have the necessary permissions, contact your Zilliz Cloud administrator.
+![migrate_from_vectordb](/byoc/ja-JP/migrate_from_vectordb.png)
 
-## Migrate from PostgreSQL to Zilliz Cloud{#migrate-from-postgresql-to-zilliz-cloud}
+ソースデータを任意のプランレベルのZilliz Cloudクラスタに移行できます(CU体格がソースデータに対応している場合)。
 
-You can migrate source data to a Zilliz Cloud cluster of any plan tier, provided its CU size can accommodate the source data.
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)にログインします。
 
-![migrate_from_pgvector](/byoc/migrate_from_pgvector.png)
+1. ターゲットプロジェクトページに移動し、**移行**>**テンセントクラウドVectorDB**を選択してください。
 
-1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
+1. [**データソースに接続**]ステップで、**インスタンスURL**と**APIキー**を入力します。次に、[**次**へ]をクリックします。
 
-1. Go to the target project and select **Migrations** > **PostgreSQL**.
+1. 「**ソースとターゲットを選択**」ステップで、ソースElasticsearchクラスタとターゲットZilliz Cloudクラスタの設定を行います。次に、「**次**へ」をクリックします。
 
-1. In the **Connect to Data Source** step, enter the endpoint of the source PostgreSQL database in the **Database Endpoint** field, provide the username and password associated with the database, and click **Next**.
+    <Admonition type="info" icon="📘" title="ノート">
 
-    <Admonition type="info" icon="📘" title="Notes">
-
-    <p>For details on connection information, refer to <a href="https://jdbc.postgresql.org/documentation/use/#connecting-to-the-database">Connecting to the Database</a>.</p>
+    <p>テンセントCloud VectorDBから移行する各ソースインデックスには、ベクトルフィールドを含める必要があります。</p>
 
     </Admonition>
 
-1. In the **Select Source and Target** step, configure settings for the source database and target Zilliz Cloud cluster. Then, click **Next**.
+1. 「**スキーマ構成**」ステップでは、
 
-    <Admonition type="info" icon="📘" title="Notes">
+    1. [**スキーマプレビュー**]で、テンセントCloud VectorDBコレクションと対応するZilliz Cloudコレクションのフィールドマッピングを確認します。
 
-    <p>Each table you choose to migrate from PostgreSQL must include a vector field.</p>
+        <Admonition type="info" icon="📘" title="ノート">
 
-    </Admonition>
+        <ul>
+        <li><p>Auto IDは解除され、変更できません。</p></li>
+        <li><p>テンセントクラウドVectorDBのレコードIDは、Zilliz Cloudの<code>VARCHAR</code>フィールドにプライマリフィールドとしてマップされ、<code>max_length</code>の範囲は1から65,535文字です。エンティティを挿入または挿入する場合は、<code>VARCHAR</code>フィールドの値がこの制限内に収まるようにしてください。</p></li>
+        <li><p>フィールドの名前を変更することはできますが、データ型は固定されており、変更できません。</p></li>
+        </ul>
 
-1. In the **Configure Schema** step,
+        </Admonition>
 
-    1. Verify the data mapping between your PostgreSQL data and the corresponding Zilliz Cloud data types. Zilliz Cloud has a default mechanism for mapping PostgreSQL data types to its own, but you can review and make necessary adjustments. Currently, you can rename fields, but cannot change the underlying data types.
+    1. 「**詳細設定**」で、**ダイナミックフィールド**と**パーティションキー**の設定を確認してください。
 
-    1. In **Advanced Settings**, configure **Dynamic Field** and **Partition Key**. For more information, refer to [Dynamic Field](./enable-dynamic-field) and [Use Partition Key](./use-partition-key).
+        1. **ダイナミックフィールド**:デフォルトで有効になっており、変更できません。ソースコレクションからスカラーフィールドを保存し、一貫性を確保し、柔軟性を維持します。
 
-    1. In **Target Collection Name** and **Description**, customize the target collection name and description. The collection name must be unique in each cluster. If the name duplicates an existing one, rename the collection.
+        1. **パーティションキー**:デフォルトで無効になっており、変更できません。これは、テンセントクラウドVectorDBのスカラーフィールドが動的フィールドにJSONとして保存され、パーティションキーとして機能しないためです。Zilliz Cloudでは、スキーマで明示的に定義されたスカラーフィールドのみがパーティションキーとして使用できます。
 
-1. Click **Migrate**.
+    1. [**ターゲットコレクション名**と**説明**]で、ターゲットコレクション名と説明をカスタマイズします。コレクション名は、各クラスターで一意である必要があります。名前が既存の名前と重複する場合は、コレクション名を変更します。
 
-## Monitor the migration process{#monitor-the-migration-process}
+1. [**移行**]をクリックします。
 
-Once you click **Migrate**, a migration job will be generated. You can check the migration progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the migration is complete.
+## 移行過程を監視する{#monitor-the-migration-process}{#monitor-the-migration-process}
 
-<Admonition type="info" icon="📘" title="Notes">
+「**移行**」をクリックすると、移行ジョブが生成されます。[ジョブ](./job-center)ページで移行の進捗状況を確認できます。ジョブのステータスが「**IN PROGRESS**」から「**SUCCESS FUL**」に切り替わると、移行が完了します。
 
-<p>After migration, verify that the number of collections and entities in the target cluster matches the data source. If discrepancies are found, delete the collections with missing entities and re-migrate them.</p>
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>移行後、ターゲットクラスタ内のコレクションとエンティティの数がデータソースと一致していることを確認してください。不一致が見つかった場合は、エンティティが欠落しているコレクションを削除して再移行してください。</p>
 
 </Admonition>
 
-![verify_collection](/byoc/verify_collection.png)
+![verify_collection](/byoc/ja-JP/verify_collection.png)
 
-## Cancel migration job{#cancel-migration-job}
+## 移行ジョブをキャンセル{#cancel-migration-job}{#cancel-migration-job}
 
-If the migration process encounters any issues, you can take the following steps to troubleshoot and resume the migration:
+移行過程で問題が発生した場合は、次の手順に従ってトラブルシューティングを行い、移行を再開できます。
 
-1. On the [Jobs](./job-center) page, identify the failed migration job and cancel it.
+1. [[ジョブ](./job-center)]ページで、失敗した移行ジョブを特定してキャンセルします。
 
-1. Click **View Details** in the **Actions** column to access the error log.
-
-## Field mapping reference{#field-mapping-reference}
-
-Review the table below to understand how PostgreSQL field types map to Zilliz Cloud field types.
-
-<table>
-   <tr>
-     <th><p>PostgreSQL Field Type</p></th>
-     <th><p>Zilliz Cloud Field Type</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p>vector</p></td>
-     <td><p>FloatVector</p></td>
-     <td><p>Vector dimensions remain unchanged. Specify <strong>L2</strong> or <strong>IP</strong> as the metric type.</p></td>
-   </tr>
-   <tr>
-     <td><p>text/varchar/date/time/json</p></td>
-     <td><p>VarChar</p></td>
-     <td><p>Set Max Length (1 to 65,535). Strings exceeding the limit can trigger migration errors.</p></td>
-   </tr>
-   <tr>
-     <td><p>bigint</p></td>
-     <td><p>Int64</p></td>
-     <td><p>-</p></td>
-   </tr>
-   <tr>
-     <td><p>integer</p></td>
-     <td><p>Int32</p></td>
-     <td><p>-</p></td>
-   </tr>
-   <tr>
-     <td><p>smallint</p></td>
-     <td><p>int16</p></td>
-     <td><p>-</p></td>
-   </tr>
-   <tr>
-     <td><p>double precision</p></td>
-     <td><p>Double</p></td>
-     <td><p>-</p></td>
-   </tr>
-   <tr>
-     <td><p>real</p></td>
-     <td><p>Float</p></td>
-     <td><p>-</p></td>
-   </tr>
-   <tr>
-     <td><p>boolean</p></td>
-     <td><p>Bool</p></td>
-     <td><p>-</p></td>
-   </tr>
-   <tr>
-     <td><p>array</p></td>
-     <td><p>array</p></td>
-     <td><p>-</p></td>
-   </tr>
-</table>
+1. [アクション]列の[**詳細**を**表示**]をクリックして、エラーログにアクセスします。
 

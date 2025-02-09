@@ -1,101 +1,99 @@
 ---
-title: "FAQ: Collection | BYOC"
+title: "FAQ:コレクション | BYOC"
 slug: /faq-collection
-sidebar_label: "FAQ: Collection"
+sidebar_label: "FAQ:コレクション"
 beta: FALSE
 notebook: FALSE
-description: "This topic lists the possible issues that you may encounter while you use Zilliz Cloud collections and the corresponding solution. | BYOC"
+description: "このトピックでは、Zilliz Cloudコレクションを使用する際に発生する可能性のある問題と、それに対応する解決策について説明します。 | BYOC"
 type: origin
-token: EV41wG08BiOWW8kbo9xcTGoPnKd
+token: LKxiwykkhi5VyLkTfAGcE3LinBe
 sidebar_position: 3
 
 ---
 
-# FAQ: Collection
+# FAQ:コレクション
 
-This topic lists the possible issues that you may encounter while you use Zilliz Cloud collections and the corresponding solution.
+このトピックでは、Zilliz Cloudコレクションを使用する際に発生する可能性のある問題と、それに対応する解決策について説明します。
 
 ## Contents
 
-- [How many collections are allowed in a single cluster?](#how-many-collections-are-allowed-in-a-single-cluster)
-- [How can I know if dynamic schema is enabled for my collection?](#how-can-i-know-if-dynamic-schema-is-enabled-for-my-collection)
-- [If dynamic schema was disabled when the collection was created, can I enable it later?](#if-dynamic-schema-was-disabled-when-the-collection-was-created-can-i-enable-it-later)
-- [What are the indexing metric types supported by Zilliz Cloud?](#what-are-the-indexing-metric-types-supported-by-zilliz-cloud)
-- [How to set the TTL (time to live) property of a created collection?](#how-to-set-the-ttl-time-to-live-property-of-a-created-collection)
-- [What is the concurrency for collection loading requests? How can I increase the number of concurrent requests?](#what-is-the-concurrency-for-collection-loading-requests-how-can-i-increase-the-number-of-concurrent-requests)
-- [Why do I fail to load collections? What can I do?](#why-do-i-fail-to-load-collections-what-can-i-do)
-- [Is there any limit to the number of fields I can add in a collection?](#is-there-any-limit-to-the-number-of-fields-i-can-add-in-a-collection)
-- [What's the difference between partitions and partition keys?](#whats-the-difference-between-partitions-and-partition-keys)
+- [1つのクラスターには何個のコレクションが許可されていますか?](#how-many-collections-are-allowed-in-a-single-cluster)
+- [コレクションで動的スキーマが有効になっているかどうかを知るにはどうすればよいですか?](#how-can-i-know-if-dynamic-schema-is-enabled-for-my-collection)
+- [コレクションが作成されたときに動的スキーマが無効になっていた場合、後で有効にできますか?](#if-dynamic-schema-was-disabled-when-the-collection-was-created-can-i-enable-it-later)
+- [Zilliz Cloudでサポートされているインデックスメトリックタイプは何ですか?](#what-are-the-indexing-metric-types-supported-by-zilliz-cloud)
+- [作成したコレクションのTTL（Time to Live）プロパティを設定する方法は?](#how-to-set-the-ttl-time-to-live-property-of-a-created-collection)
+- [コレクションのロード要求の同時性は何ですか?同時要求の数を増やすにはどうすればよいですか?](#what-is-the-concurrency-for-collection-loading-requests-how-can-i-increase-the-number-of-concurrent-requests)
+- [コレクションの読み込みに失敗するのはなぜですか?どうすればいいですか?](#why-do-i-fail-to-load-collections-what-can-i-do)
+- [コレクションに追加できるフィールドの数に制限はありますか?](#is-there-any-limit-to-the-number-of-fields-i-can-add-in-a-collection)
+- [パーティションとパーティションキーの違いは何ですか?](#whats-the-difference-between-partitions-and-partition-keys)
 
 ## FAQs
 
 
 
 
-### How many collections are allowed in a single cluster?{#how-many-collections-are-allowed-in-a-single-cluster}
+### 1つのクラスターには何個のコレクションが許可されていますか?{#how-many-collections-are-allowed-in-a-single-cluster}
 
-The number of collections allowed in a  cluster varies with the cluster CU size. For more information, please refer to [Zilliz Cloud Limits](./limits#collections).
+クラスターで許可されるコレクション数は、クラスターCUの体格によって異なります。詳細については、「[Zillizクラウドの制限](./limits)」を参照してください。
 
-If you have reached the maximum number of collections allowed in a cluster, you can:
+クラスターで許可されるコレクションの最大数に達した場合は、次の操作を実行できます。
 
-1. [Scale](./manage-cluster) your cluster to larger CU sizes.
+1. [クラスタ](./manage-cluster)をより大きなCUサイズにスケーリングします。
 
-1. [Drop](./drop-collection) unused collections.
+1. [未使用](./manage-collections-console)のコレクションを削除する。
 
-1. Try creating [partitions](./manage-partitions) instead of collections.
+1. コレクションの代わりに[パーティション](./manage-partitions)を作成してみてください。
 
-### How can I know if dynamic schema is enabled for my collection?{#how-can-i-know-if-dynamic-schema-is-enabled-for-my-collection}
+### コレクションで動的スキーマが有効になっているかどうかを知るにはどうすればよいですか?{#how-can-i-know-if-dynamic-schema-is-enabled-for-my-collection}
 
-You can view the status of dynamic schema via Zilliz Cloud web console. Choose the collection and navigate to the **Overview** tab. You can see if dynamic schema is enabled or not. For more details, see [Dynamic Field](./enable-dynamic-field).
+Zilliz Cloudのウェブコンソールから動的スキーマの状態を閲覧できます。コレクションを選択し、**概要**タブに移動します。動的スキーマが有効かどうかを確認できます。詳細については、「[ダイナミックフィールド](./enable-dynamic-field)」を参照してください。
 
-![faq_dynamic_schema_enabled](/byoc/faq_dynamic_schema_enabled.png)
+![faq_dynamic_schema_enabled](/byoc/ja-JP/faq_dynamic_schema_enabled.png)
 
-### If dynamic schema was disabled when the collection was created, can I enable it later?{#if-dynamic-schema-was-disabled-when-the-collection-was-created-can-i-enable-it-later}
+### コレクションが作成されたときに動的スキーマが無効になっていた場合、後で有効にできますか?{#if-dynamic-schema-was-disabled-when-the-collection-was-created-can-i-enable-it-later}
 
-No. Once you have enabled/disabled dynamic schema when creating a collection, you cannot modify the status of dynamic schema later. For more details, see [Dynamic Field](./enable-dynamic-field).
+いいえ。コレクションを作成する際に動的スキーマを有効または無効にした場合、後で動的スキーマの状態を変更することはできません。詳細については、「[ダイナミックフィールド](./enable-dynamic-field)」を参照してください。
 
-### What are the indexing metric types supported by Zilliz Cloud?{#what-are-the-indexing-metric-types-supported-by-zilliz-cloud}
+### Zilliz Cloudでサポートされているインデックスメトリックタイプは何ですか?{#what-are-the-indexing-metric-types-supported-by-zilliz-cloud}
 
-Zilliz Cloud supports 3 types of metrics.
+Zilliz Cloudは3種類のメトリックをサポートしています。
 
-1. **Euclidean (L2)** measures the distance between two vectors in a plane. The smaller the result, the more similar the two vectors are.
+1. **ユークリッド(L 2)**は、平面内の2つのベクトル間の距離を測定します。結果が小さいほど、2つのベクトルはより類似しています。
 
-1. **Inner Product (IP)** multiplies two vectors. The more positive the result, the more similar the two vectors are.
+1. **内積(IP)**は2つのベクトルを乗算します。結果がより正であるほど、2つのベクトルはより類似しています。
 
-1. **Cosine** measures the cosine value of the angle between two vectors.
+1. **コサイン**は、2つのベクトル間の角度のコサイン値を測定します。
 
-1. **Jaccard** measures the dissimilarity between data sets and is obtained by subtracting the JACCARD similarity coefficient from 1.
+1. **Jaccard**はデータセット間の相違度を測定し、1からJACC ARD類似度係数を引くことによって得られます。
 
-1. **Hamming** measures binary data strings. The distance between two strings of equal length is the number of bit positions at which the bits are different.
+1. **ハミング**はバイナリデータ文字列を測定します。等しい長さの2つの文字列間の距離は、ビットが異なるビット位置の数です。
 
-### How to set the TTL (time to live) property of a created collection?{#how-to-set-the-ttl-time-to-live-property-of-a-created-collection}
+### 作成したコレクションのTTL（Time to Live）プロパティを設定する方法は?{#how-to-set-the-ttl-time-to-live-property-of-a-created-collection}
 
-You can set the TTL of a collection with our PyMilvus SDK by providing the value of the parameter **collection.ttl.seconds**.
+PyMilvus SDKを使用して、パラメータcollection. ttl.secondsの値を指定することで、コレクションのTTLを設定できま**す**。
 
-The following example sets the TTL to 1800 seconds.
+次の例では、TTLを1800秒に設定します。
 
 ```python
 collection.set_properties(properties={"collection.ttl.seconds": 1800})
 ```
 
-### What is the concurrency for collection loading requests? How can I increase the number of concurrent requests?{#what-is-the-concurrency-for-collection-loading-requests-how-can-i-increase-the-number-of-concurrent-requests}
+### コレクションのロード要求の同時性は何ですか?同時要求の数を増やすにはどうすればよいですか?{#what-is-the-concurrency-for-collection-loading-requests-how-can-i-increase-the-number-of-concurrent-requests}
 
-Currently, the rate limit for loading collection requests on Zilliz Cloud is 1 per second. This is the recommended value for a 1 CU cluster. If you need to increase the number of concurrent requests, please[ submit a request](https://support.zilliz.com/hc/en-us).
+現在、Zilliz Cloudでの収集リクエストの読み込みのレート制限は1秒あたり1です。これは1 CUクラスタの推奨値です。同時リクエスト数を増やす必要がある場合は、[リクエストを送信](https://support.zilliz.com/hc/en-us)してください。
 
-### Why do I fail to load collections? What can I do?{#why-do-i-fail-to-load-collections-what-can-i-do}
+### コレクションの読み込みに失敗するのはなぜですか?どうすればいいですか?{#why-do-i-fail-to-load-collections-what-can-i-do}
 
-The failure is caused due to insufficient memory in your cluster. Please try [scaling up](./manage-cluster) your cluster to larger CU sizes.
+クラスタ内のメモリが不足しているため、障害が発生しています。クラスタをより大きなCUサイズに[スケーリングアップ](./scale-cluster)してみてください。
 
-### Is there any limit to the number of fields I can add in a collection?{#is-there-any-limit-to-the-number-of-fields-i-can-add-in-a-collection}
+### コレクションに追加できるフィールドの数に制限はありますか?{#is-there-any-limit-to-the-number-of-fields-i-can-add-in-a-collection}
 
-Yes. You can have a maximum of 64 fields in 1 collection.
+はい。1つのコレクションに最大64個のフィールドを持つことができます。
 
-### What's the difference between partitions and partition keys?{#whats-the-difference-between-partitions-and-partition-keys}
+### パーティションとパーティションキーの違いは何ですか?{#whats-the-difference-between-partitions-and-partition-keys}
 
-Partitions are used to organize data based on certain criteria.
+パーティションは、特定の基準に基づいてデータを整理するために使用されます。
 
-The partition key groups entities by the same key and speed up query performance.
+パーティションキーはエンティティを同じキーでグループ化し、クエリのパフォーマンスを高速化します。
 
-The difference is that data are physically isolated in partitions while partition keys group data logically. 
-
-For details, refer to [Manage Partitions](./manage-partitions) and [Use Partition Key](./use-partition-key).
+違いは、データがパーティションに物理的に分離されているのに対し、パーティションキーはデータを論理的にグループ化することです。

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 
@@ -130,8 +130,7 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/list" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
--d '{}
-}'
+-d '{}'
 ```
 
 </TabItem>

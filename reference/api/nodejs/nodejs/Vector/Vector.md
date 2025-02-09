@@ -9,10 +9,10 @@ token: XhBJfuQ6slBh8Tdj7BEc4Mp6n4b
 sidebar_position: 7
 sidebar_label: "Vector"
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud

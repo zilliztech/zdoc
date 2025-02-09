@@ -14,10 +14,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

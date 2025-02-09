@@ -1,12 +1,12 @@
 ---
-title: "Hybrid Search | BYOC"
+title: "ハイブリッド検索 | BYOC"
 slug: /hybrid-search
-sidebar_label: "Hybrid Search"
+sidebar_label: "ハイブリッド検索"
 beta: FALSE
 notebook: FALSE
-description: "Hybrid Search refers to a search method that conducts multiple ANN searches simultaneously, reranks multiple sets of results from these ANN searches, and ultimately returns a single set of results. Using Hybrid Search can enhance the search accuracy. Zilliz Cloud supports conducting Hybrid Search on a collection with multiple vector fields. | BYOC"
+description: "ハイブリッド検索とは、複数のANN検索を同時に実行し、それらのANN検索から複数の結果セットを再ランク付けし、最終的に単一の結果セットを返す検索方法を指します。ハイブリッド検索を使用することで、検索精度を向上させることができます。Zilliz Cloudは、複数のベクトルフィールドを持つコレクションでハイブリッド検索を実行することをサポートしています。 | BYOC"
 type: origin
-token: WTsmwWdgOiKnwpkdZdScp093njh
+token: TPwUw1z9XiJalhkJAFdcyq5ZnCc
 sidebar_position: 6
 keywords: 
   - zilliz
@@ -16,10 +16,10 @@ keywords:
   - data
   - hybrid search
   - combine sparse and dense vectors
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 
@@ -27,71 +27,71 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Hybrid Search
+# ハイブリッド検索
 
-Hybrid Search refers to a search method that conducts multiple ANN searches simultaneously, reranks multiple sets of results from these ANN searches, and ultimately returns a single set of results. Using Hybrid Search can enhance the search accuracy. Zilliz Cloud supports conducting Hybrid Search on a collection with multiple vector fields. 
+ハイブリッド検索とは、複数のANN検索を同時に実行し、それらのANN検索から複数の結果セットを再ランク付けし、最終的に単一の結果セットを返す検索方法を指します。ハイブリッド検索を使用することで、検索精度を向上させることができます。Zilliz Cloudは、複数のベクトルフィールドを持つコレクションでハイブリッド検索を実行することをサポートしています。
 
-Hybrid Search is most commonly used in scenarios including sparse-dense vector searches and multimodal searches. This guide will demonstrate how to conduct a Hybrid Search in Zilliz Cloud with a specific example.
+ハイブリッド検索は、疎密度ベクトル検索やマルチモーダル検索などのシナリオで最も一般的に使用されます。このガイドでは、特定の例を使用して、Zilliz Cloudでハイブリッド検索を実行する方法を示します。
 
-## Scenarios{#scenarios}
+## シナリオ{#scenarios}{#scenarios}
 
-Hybrid Search is suitable for the following two scenarios:
+ハイブリッド検索は、次の2つのシナリオに適しています:
 
-### Sparse-Dense Vector Search{#sparse-dense-vector-search}
+### 疎密度ベクトル検索{#sparse-dense-vector-search}{#sparse-dense-vector-search}
 
-Different types of vectors can represent different information, and using various embedding models can more comprehensively represent different features and aspects of the data. For example, using different embedding models for the same sentence can generate a dense vector to represent the semantic meaning and a sparse vector to represent the word frequency in the sentence.
+異なる種類のベクトルは異なる情報を表すことができ、様々な埋め込みモデルを使用することで、データの異なる特徴や側面をより包括的に表現することができます。例えば、同じ文に対して異なる埋め込みモデルを使用することで、意味的な意味を表す密なベクトルと、文中の単語の頻度を表す疎なベクトルを生成することができます。
 
-- **Sparse vectors:** Sparse vectors are characterized by their high vector dimensionality and the presence of few non-zero values. This structure makes them particularly well-suited for traditional information retrieval applications. In most cases, the number of dimensions used in sparse vectors correspond to different tokens across one or more languages. Each dimension is assigned a value that indicates the relative importance of that token within the document. This layout proves advantageous for tasks that involve keyword matching.
+- **疎ベクトル:**疎ベクトルは、高いベクトル次元と非ゼロ値の存在が特徴です。この構造により、従来の情報検索アプリケーションに特に適しています。ほとんどの場合、疎ベクトルで使用される次元数は、1つ以上の言語で異なるトークンに対応しています。各次元には、ドキュメント内でそのトークンの相対的な重要性を示す値が割り当てられます。このレイアウトは、キーワードマッチングを必要とするタスクに有利です。
 
-- **Dense vectors:** Dense vectors are embeddings derived from neural networks. When arranged in an ordered array, these vectors capture the semantic essence of the input text. Note that dense vectors are not limited to text processing; they are also extensively used in computer vision to represent the semantics of visual data. These dense vectors, usually generated by text embedding models, are characterized by most or all elements being non-zero. Thus, dense vectors are particularly effective for semantic search applications, as they can return the most similar results based on vector distance even in the absence of exact keyword matches. This capability allows for more nuanced and context-aware search results, often capturing relationships between concepts that might be missed by keyword-based approaches.
+- **密集ベクトル:**密集ベクトルは、ニューラルネットワークから派生した埋め込みです。順序付けられた配列に配置されると、これらのベクトルは入力テキストの意味論的本質を捉えます。密集ベクトルはテキスト処理に限定されず、視覚データの意味論を表現するためにコンピュータビジョンでも広く使用されています。これらの密集ベクトルは、通常、テキスト埋め込みモデルによって生成され、ほとんどまたはすべての要素が非ゼロであることを特徴としています。したがって、密集ベクトルは、正確なキーワード一致がなくてもベクトル距離に基づいて最も類似した結果を返すことができるため、意味論的検索アプリケーションに特に効果的です。この機能により、キーワードベースのアプローチでは見逃される可能性がある概念間の関係を捉えることができ、より微妙で文脈に応じた検索結果が得られます。
 
-For more details, refer to [Sparse Vector](./use-sparse-vector) and [Dense Vector](./use-dense-vector).
+詳細については、「[疎ベクトル](./use-sparse-vector)」と「[密集ベクトル](./use-dense-vector)」を参照してください。
 
-### Multimodal Search{#multimodal-search}
+### マルチモーダル検索{#multimodal-search}{#multimodal-search}
 
-Multimodal search refers to the similarity search of unstructured data across multiple modalities (such as images, videos, audio, text, etc). For instance, a person can be represented using various modalities of data such as fingerprints, voiceprints, and facial features. Hybrid Search supports multiple searches simultaneously. For example searching a person with both similar fingerprints and voiceprints.
+マルチモーダル検索とは、複数のモダリティ(画像、動画、音声、テキストなど)にわたる非構造化データの類似性検索を指します。例えば、指紋、声紋、顔の特徴など、様々なモダリティのデータを使用して人物を表現することができます。ハイブリッド検索は、複数の検索を同時にサポートしています。例えば、類似した指紋と声紋を持つ人物を検索することができます。
 
-## Workflow{#workflow}
+## ワークフロー{#workflow}{#workflow}
 
-The main workflow for conducting a Hybrid Search is as follows:
+ハイブリッド検索を実行するための主なワークフローは次のとおりです:
 
-1. Generate dense vectors through embedding models like [BERT](https://zilliz.com/learn/explore-colbert-token-level-embedding-and-ranking-model-for-similarity-search#A-Quick-Recap-of-BERT) and [Transformers](https://zilliz.com/learn/NLP-essentials-understanding-transformers-in-AI).
+1. [BERT](https://zilliz.com/learn/explore-colbert-token-level-embedding-and-ranking-model-for-similarity-search#A-Quick-Recap-of-BERT)や[Transformers](https://zilliz.com/learn/NLP-essentials-understanding-transformers-in-AI)などの埋め込みモデルを使用して、密集したベクトルを生成します。
 
-1. Generate sparse vectors through embedding models like [BM25](https://zilliz.com/learn/mastering-bm25-a-deep-dive-into-the-algorithm-and-application-in-milvus), [BGE-M3](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings#BGE-M3), [SPLADE](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings#SPLADE), etc.
+1. [BM25](https://zilliz.com/learn/mastering-bm25-a-deep-dive-into-the-algorithm-and-application-in-milvus)、[BGE](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings#BGE-M3)[-M3](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings#BGE-M3)、[SPLADE](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings#SPLADE)などの埋め込みモデルを使用して疎ベクトルを生成[し](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings#SPLADE)ます。
 
-1. Create a collection in Zilliz Cloud and define the collection schema which includes both dense and sparse vector fields.
+1. Zilliz Cloudにコレクションを作成し、密集ベクトルフィールドと疎ベクトルフィールドの両方を含むコレクションスキーマを定義します。
 
-1. Insert sparse-dense vectors into the collection just created in the previous step.
+1. 前のステップで作成したコレクションに疎密度ベクトルを挿入します。
 
-1. Conduct a Hybrid Search: ANN Search on dense vectors will return a set of top-K most similar results, and text match on sparse vectors will also return a set of top-K results.
+1. ハイブリッド検索の実行:密なベクトルに対するANN検索は、上位K件の最も類似した結果のセットを返し、疎なベクトルに対するテキストマッチも上位K件の結果のセットを返します。
 
-1. Normalization: Normalize the scores of the two sets of top-K results, converting the scores to a range between [0,1].
+1. 正規化:上位Kの2つの結果のスコアを正規化し、[0,1]の範囲に変換します。
 
-1. Choose an appropriate reranking strategy to merge and rerank the two sets of top-K results and ultimately return a final set of top-K results.
+1. 適切な再ランキング戦略を選択して、2つのトップKの結果セットをマージして再ランキングし、最終的にトップKの結果セットを返します。
 
-![UZkfwo6uXhexxpb0uc2cpD7qnxL](/byoc/UZkfwo6uXhexxpb0uc2cpD7qnxL.png)
+![SLTxwACw6hp4Dhb0d3DcmCTLnfd](/byoc/ja-JP/SLTxwACw6hp4Dhb0d3DcmCTLnfd.png)
 
-## Examples{#examples}
+## 例{#examples}{#examples}
 
-This section will use a specific example to illustrate how to conduct a Hybrid Search on sparse-dense vectors to enhance the accuracy of text searches.
+このセクションでは、テキスト検索の精度を高めるために疎密度ベクトルでハイブリッド検索を実行する方法を説明するために、具体的な例を使用します。
 
-### Create a collection with multiple vector fields{#create-a-collection-with-multiple-vector-fields}
+### 複数のベクトルフィールドを持つコレクションを作成する{#create-a-collection-with-multiple-vector-fields}{#create-a-collection-with-multiple-vector-fields}
 
-The process of creating a collection includes three parts: defining the collection schema, configuring the index parameters, and creating the collection.
+コレクションを作成する過程には、コレクションスキーマの定義、インデックスパラメーターの構成、コレクションの作成の3つの部分があります。
 
-#### Define schema{#define-schema}
+#### スキーマの定義{#define-schema}{#define-schema}
 
-In this example, multiple vector fields need to be defined within the collection schema. Currently, each collection can include up to 4 vector fields by default. But you can also modify the value of  `proxy.maxVectorFieldNum`  to include up to 10 vector fields in a collection as needed.
+この例では、コレクションスキーマ内で複数のベクトルフィールドを定義する必要があります。現在、各コレクションはデフォルトで最大4つのベクトルフィールドを含めることができます。ただし、必要に応じて`proxy.maxVectorFieldNum`の値を変更して、コレクションに最大10個のベクトルフィールドを含めることもできます。
 
-The following example defines a collection schema, where `dense` and `sparse` are the two vector fields:
+次の例では、`dense`と`sparse`が2つのベクトルフィールドであるコレクションスキーマを定義します。
 
-- `id`: This field serves as the primary key for storing text IDs. The data type of this field is INT64.
+- `id`:このフィールドは、テキストIDを格納するためのプライマリキーとして機能します。このフィールドのデータ型はINT64です。
 
-- `text`: This field is used for storing textual content. The data type of this field is VARCHAR, with a maximum length of 1000 characters.
+- `text`:このフィールドは、テキストコンテンツを格納するために使用されます。このフィールドのデータ型はVARCHARで、最大長は1000文字です。
 
-- `dense`: This field is used to store the dense vectors of the texts. The data type of this field is FLOAT_VECTOR, with a vector dimension of 768.
+- `dense`:このフィールドは、テキストの密度ベクトルを格納するために使用されます。このフィールドのデータ型はFLOAT_VECTORで、ベクトルの次元は768です。
 
-- `sparse`: This field is used to store the sparse vectors of the texts. The data type of this field is SPARSE_FLOAT_VECTOR.
+- `sparse`:このフィールドは、テキストの疎なベクトルを格納するために使用されます。このフィールドのデータ型はSPARSE_FLOAT_VECTORです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -245,11 +245,11 @@ export schema='{
 </TabItem>
 </Tabs>
 
-During sparse vector searches, you can simplify the process of generating sparse embedding vectors by leveraging Full-Text Search capabilities. For more details, see [Full Text Search](./full-text-search).
+スパースベクトル検索では、全文検索機能を利用してスパース埋め込みベクトルを生成する過程を簡素化できます。詳細については、「[フルテキスト検索](./full-text-search)」を参照してください。
 
-#### Create index{#create-index}
+#### インデックス作成{#create-index}{#create-index}
 
-After defining the collection schema, it is necessary to set up the vector indexes and the similarity metrics. In this example, an index of the **AUTOINDEX** type is created for both the dense vector field `dense`, and the sparse vector field `sparse`. 
+コレクションスキーマを定義した後、ベクトルインデックスと類似度メトリックを設定する必要があります。この例では、AUTOINDEX**型** のインデックスが、密度の高いベクトルフィールドの両方、`dense`ベクトルフィールドと`sparse`ベクトルフィールド、疎なベクトルフィールドの両方に対して作成されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -352,9 +352,9 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-#### Create collection{#create-collection}
+#### コレクションを作成{#create-collection}{#create-collection}
 
-Create a collection named `demo` with the collection schema and indexes configured in the previous two steps.
+前の2つの手順で構成したコレクションスキーマとインデックスを使用して、`demo`という名前のコレクションを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -416,9 +416,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Insert data{#insert-data}
+### データの挿入{#insert-data}{#insert-data}
 
-Insert the sparse-dense vectors into the the collection `demo`.
+疎密度ベクトルをコレクションの`demo`に挿入します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -516,17 +516,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Create multiple AnnSearchRequest instances{#create-multiple-annsearchrequest-instances}
+### 複数のAnn SearchRequestインスタンスを作成{#create-multiple-annsearchrequest-instances}{#ann-searchrequestcreate-multiple-annsearchrequest-instances}
 
-Hybrid Search is implemented by creating multiple `AnnSearchRequest` in the `hybrid_search()` function, where each `AnnSearchRequest` represents a basic ANN search request for a specific vector field. Therefore, before conducting a Hybrid Search, it is necessary to create an `AnnSearchRequest` for each vector field.
+ハイブリッド検索は、複数の`AnnSearchRequest`を`hybrid_search()`関数で作成することによって実装されます。各`AnnSearchRequest`は、特定のベクトル場に対する基本的なANN検索要求を表します。したがって、ハイブリッド検索を実行する前に、各ベクトル場に対して`AnnSearchRequest`を作成する必要があります。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>In Hybrid Search, each <code>AnnSearchRequest</code> supports only one query vector.</p>
+<p>ハイブリッド検索では、各An SearchRequestは<code>1</code>つのクエリベクトルのみをサポートします。</p>
 
 </Admonition>
 
-Suppose the query text "Who started AI research?" has already been converted into sparse and dense vectors. Based on this, two `AnnSearchRequest` search requests are created for the `sparse` and `dense` vector fields respectively, as shown in the following example.
+クエリテキスト「AI研究を始めたのは誰ですか?」がすでに疎ベクトルと密ベクトルに変換されているとします。これに基づいて、次の例に示すように、2つの`Ann SearchRequest`検索リクエストがそれぞれ`疎`ベクトルフィールドと`密`ベクトルフィールドに対して作成されます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -658,23 +658,23 @@ export req='[
 </TabItem>
 </Tabs>
 
-Since the parameter `limit` is set to 2, each `AnnSearchRequest` returns 2 search results. In this example, 2 `AnnSearchRequest` are created, therefore a total of 4 search results will be returned.
+パラメータの`制限`が2に設定されているため、各`An SearchRequest`は2つの検索結果を返します。この例では、2つの`An SearchRequest`が作成されるため、合計4つの検索結果が返されます。
 
-### Configure a reranking strategy{#configure-a-reranking-strategy}
+### リランキング戦略を設定する{#configure-a-reranking-strategy}{#configure-a-reranking-strategy}
 
-To merge and rerank the two sets of ANN search results, it is necessary to select an appropriate reranking strategy. Zilliz Cloud supports two types of reranking strategy: **WeightedRanker** and **RRFRanker**. When choosing a reranking strategy, one thing to consider is whether to there is any emphasis for one or more basic ANN search on the vector fields.
+2つのANN検索結果をマージして再ランキングするには、適切な再ランキング戦略を選択する必要があります。Zilliz Cloudは、**WeightedRanker**と**RRFRanker**の2種類の再ランキング戦略をサポートしています。再ランキング戦略を選択する際に考慮すべきことは、ベクトル場に対して1つ以上の基本的なANN検索に重点が置かれているかどうかです。
 
-- **WeightedRanker**: This strategy is recommended if you require the results to emphasize a particular vector field. The WeightedRanker allows you to assign higher weights to certain vector fields, emphasizing them more. For instance, in multimodal searches, textual descriptions of an image might be considered more important than the colors in this image.
+- **WeightedRanker**:この戦略は、特定のベクトルフィールドを強調する必要がある場合に推奨されます。WeightedRankerを使用すると、特定のベクトルフィールドにより高い重みを割り当て、それらをより強調することができます。たとえば、マルチモーダル検索では、画像のテキストの説明が、この画像の色よりも重要と考えられる場合があります。
 
-- **RRFRanker (Reciprocal Rank Fusion Ranker)**: This strategy is recommended when there is no specific emphasis. The RRF can effectively balance the importance of each vector field.
+- **RRFRanker(Reciprocal Rank Fusion Ranker)**:この戦略は、特定の強調がない場合に推奨されます。RRFは、各ベクトル場の重要性を効果的にバランスさせることができます。
 
-For more details about the mechanisms of these two reranking strategies, refer to [Reranking](./reranking).
+これら2つのリランキング戦略のメカニズムの詳細については、「[リランキング](./reranking)」を参照してください。
 
-The following  two examples demonstrate how to use the WeightedRanker and RRFRanker reranking strategies:
+次の2つの例は、WeightedRankerとRRFRankerの再ランキング戦略の使用方法を示しています。
 
-1. **Example 1: Using WeightedRanker**
+1. **例1: WeightedRankerの使用**
 
-    When using the WeightedRanker strategy, you need to input weight values into the `WeightedRanker` function. The number of basic ANN searches in a Hybrid Search corresponds to the number of values that need to be inputted. The input values should be in the range [0,1], with values closer to 1 indicating greater importance.
+    WeightedRanker戦略を使用する場合、`WeightedRanker`関数に重み値を入力する必要があります。ハイブリッド検索の基本ANN検索の数は、入力する必要がある値の数に対応します。入力値は[0,1]の範囲内であり、1に近い値ほど重要度が高いことを示します。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -720,9 +720,9 @@ The following  two examples demonstrate how to use the WeightedRanker and RRFRan
     </TabItem>
     </Tabs>
 
-1. **Example 2: Using RRFRanker**
+1. **例2: RRFRankerを使用する**
 
-    When using the RRFRanker strategy, you need to input the parameter value `k` into the RRFRanker. The default value of `k` is 60. This parameter helps to determine how the ranks are combined from different ANN searches, aiming to balance and blend the importance across all searches.
+    RRFRanker戦略を使用する場合、RRFRankerにパラメータ値`k`を入力する必要があります。`k`のデフォルト値は60です。このパラメータは、異なるANN検索からランクがどのように結合されるかを決定し、すべての検索で重要度をバランス良くブレンドするのに役立ちます。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -768,9 +768,9 @@ The following  two examples demonstrate how to use the WeightedRanker and RRFRan
     </TabItem>
     </Tabs>
 
-### Perform a Hybrid Search{#perform-a-hybrid-search}
+### ハイブリッド検索を実行する{#perform-a-hybrid-search}{#perform-a-hybrid-search}
 
-Before conducting a Hybrid Search, it is necessary to load the collection into memory. If any vector fields in the collection do not have an index or are not loaded, an error will occur when calling the Hybrid Search method. 
+Hybrid Searchを実行する前に、コレクションをメモリにロードする必要があります。コレクション内のベクトル場にインデックスがない場合やロードされていない場合、Hybrid Searchメソッドを呼び出すとエラーが発生します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -861,10 +861,10 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-The following is the output:
+以下が出力です:
 
 ```python
 ["['id: 844, distance: 0.006047376897186041, entity: {}', 'id: 876, distance: 0.006422005593776703, entity: {}']"]
 ```
 
-Since `limit=2` is specified in the Hybrid Search, Zilliz Cloud will rerank the four search results from step 3 and ultimately return only the top 2 most similar search results. 
+ハイブリッド検索で`limit=2`が指定されているため、Zilliz Cloudはステップ3の4つの検索結果を再ランク付けし、最終的に最も類似した上位2つの検索結果のみを返します。

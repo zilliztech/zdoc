@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - collection
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

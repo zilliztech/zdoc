@@ -9,10 +9,10 @@ token: KzitfU6c4lFXdodYOQJcupB2nJe
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud

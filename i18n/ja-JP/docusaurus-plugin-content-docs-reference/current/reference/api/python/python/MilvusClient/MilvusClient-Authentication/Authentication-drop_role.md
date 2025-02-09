@@ -8,21 +8,21 @@ notebook: false
 description: "This operation drops a custom role. | Python | MilvusClient"
 type: docx
 token: Vmxpd3MttodOE3x3V11cVTeunDh
-sidebar_position: 5
+sidebar_position: 8
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - drop_role()
   - python
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: pythonSidebar
 
 ---
@@ -92,20 +92,3 @@ client.create_role(role_name="read_only")
 # 3. Drop a role
 client.drop_role(role_name="read_only")
 ```
-
-## Related methods{#related-methods}
-
-- [create_role()](./Authentication-create_role)
-
-- [describe_role()](./Authentication-describe_role)
-
-- [grant_privilege()](./Authentication-grant_privilege)
-
-- [grant_role()](./Authentication-grant_role)
-
-- [list_roles()](./Authentication-list_roles)
-
-- [revoke_privileges()](./Authentication-revoke_privileges)
-
-- [revoke_role()](./Authentication-revoke_role)
-

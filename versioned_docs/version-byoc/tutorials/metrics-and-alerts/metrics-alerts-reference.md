@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

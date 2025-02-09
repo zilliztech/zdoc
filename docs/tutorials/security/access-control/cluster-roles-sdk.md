@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

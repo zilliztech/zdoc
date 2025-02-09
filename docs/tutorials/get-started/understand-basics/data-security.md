@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data
   - security
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

@@ -1,12 +1,12 @@
 ---
-title: "String Field | BYOC"
+title: "文字列フィールド | BYOC"
 slug: /use-string-field
-sidebar_label: "String Field"
+sidebar_label: "文字列フィールド"
 beta: FALSE
 notebook: FALSE
-description: "In Zilliz Cloud clusters, `VARCHAR` is the data type used for storing string-type data, suitable for storing variable-length strings. It can store strings with both single- and multi-byte characters, with a maximum length of up to 60,535 characters. When defining a `VARCHAR` field, you must also specify the maximum length parameter `maxlength`. The `VARCHAR` string type offers an efficient and flexible way to store and manage text data, making it ideal for applications that handle strings of varying lengths. | BYOC"
+description: "Zilliz Cloudクラスターでは、`VARCHAR`は可変長文字列を格納するために使用されるデータ型です。シングルバイト文字とマルチバイト文字の両方の文字列を格納でき、最大長は60,535文字です。`VARCHAR`フィールドを定義する場合、最大長パラメータ`maxlength`も指定する必要があります。`VARCHAR`文字列型は、テキストデータを効率的かつ柔軟に格納および管理する方法を提供するため、さまざまな長さの文字列を処理するアプリケーションに最適です。 | BYOC"
 type: origin
-token: QBXVwP7oiiuEovkprDnckJlEnoK
+token: KIOaw0B1ziqB43kJgafcYQRWnyh
 sidebar_position: 6
 keywords: 
   - zilliz
@@ -16,10 +16,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 
@@ -27,17 +27,17 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# String Field
+# 文字列フィールド
 
-In Zilliz Cloud clusters, `VARCHAR` is the data type used for storing string-type data, suitable for storing variable-length strings. It can store strings with both single- and multi-byte characters, with a maximum length of up to 60,535 characters. When defining a `VARCHAR` field, you must also specify the maximum length parameter `max_length`. The `VARCHAR` string type offers an efficient and flexible way to store and manage text data, making it ideal for applications that handle strings of varying lengths.
+Zilliz Cloudクラスターでは、`VARCHAR`は可変長文字列を格納するために使用されるデータ型です。シングルバイト文字とマルチバイト文字の両方の文字列を格納でき、最大長は60,535文字です。`VARCHAR`フィールドを定義する場合、最大長パラメータ`max_length`も指定する必要があります。`VARCHAR`文字列型は、テキストデータを効率的かつ柔軟に格納および管理する方法を提供するため、さまざまな長さの文字列を処理するアプリケーションに最適です。
 
-## Add VARCHAR field{#add-varchar-field}
+## VARCHARフィールドを追加{#add-varchar-field}{#varcharadd-varchar-field}
 
-To use string data in Zilliz Cloud clusters, define a `VARCHAR` field when creating a collection. This process includes:
+コレクションを作成する際に、Zilliz Cloudクラスターで文字列データを使用するには、`VARCHAR`フィールドを定義してください。このプロセスには以下が含まれます:
 
-1. Setting `datatype` to the supported string data type, i.e., `VARCHAR`.
+1. `datatype`をサポートされている文字列データ型、つまり`VARCHAR`に設定します。
 
-1. Specifying the maximum length of the string type using the `max_length` parameter, which cannot exceed 60,535 characters.
+1. 使用して文字列型の最大長を指定、`max_length`パラメーター、60,535文字を超えることはできません。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -182,19 +182,19 @@ export schema="{
 </TabItem>
 </Tabs>
 
-In this example, we add two `VARCHAR` fields: `varchar_field1` and `varchar_field2`, with maximum lengths set to 100 and 200 characters, respectively. It is recommended to set `max_length` based on your data characteristics to ensure it accommodates the longest data while avoiding excessive space allocation. Additionally, we have added a primary field `pk` and a vector field `embedding`.
+この例では、2つの`VARCHAR`フィールド、`varchar_field 1`と`varchar_field 2`を追加します。最大長はそれぞれ100文字と200文字に設定されています。データの特性に基づいて`max_length`を設定することをお勧めします。これにより、過剰なスペース割り当てを回避しながら最長のデータを収容できます。さらに、プライマリフィールド`pk`とベクトルフィールド`埋め込み`を追加しました。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>The primary field and vector field are mandatory when you create a collection. The primary field uniquely identifies each entity, while the vector field is crucial for similarity search. For more details, refer to <a href="./primary-field-auto-id">Primary Field & AutoId</a>, <a href="./use-dense-vector">Dense Vector</a>, <a href="./use-binary-vector">Binary Vector</a>, or <a href="./use-sparse-vector">Sparse Vector</a>.</p>
+<p>コレクションを作成する際には、プライマリフィールドとベクトルフィールドは必須です。プライマリフィールドは各エンティティを一意に識別し、ベクトルフィールドは類似検索に重要です。詳細については、「<a href="./primary-field-auto-id">プライマリフィールドとAutoID</a>」、「<a href="./use-dense-vector">密集ベクトル</a>」、「<a href="./use-binary-vector">バイナリベクトル</a>」、または「<a href="./use-sparse-vector">疎ベクトル</a>」を参照してください。</p>
 
 </Admonition>
 
-## Set index params{#set-index-params}
+## インデックスパラメータの設定{#set-index-params}{#set-index-params}
 
-Setting index parameters for `VARCHAR` fields is optional but can significantly improve retrieval efficiency.
+VARCHARフィールドのインデックスパラメータの設定はオプションですが、取得効率を大幅に向上させることができます。
 
-In the following example, we create an `AUTOINDEX` for `varchar_field1`, meaning Zilliz Cloud will automatically create an appropriate index based on the data type. For more information, refer to [AUTOINDEX Explained](./autoindex-explained).
+次の例では、`AUTOINDEX`を`varchar_field1`に対して作成します。つまり、Zilliz Cloudは、データ型に基づいて適切なインデックスを自動的に作成します。詳細については、「[AUTOINDEXの説明](./autoindex-explained)」を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -255,7 +255,11 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-In this example, we use `AUTOINDEX` to create the index for the VarChar field.
+\<ターゲットを含める="zilliz">
+
+この例では、VarCharフィールドのインデックスを作成するために`AUTOINDEX`を使用しています。
+
+\</include>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -316,9 +320,9 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-## Create collection{#create-collection}
+## コレクションを作成{#create-collection}{#create-collection}
 
-Once the schema and index are defined, you can create a collection that includes string fields.
+スキーマとインデックスが定義されたら、文字列フィールドを含むコレクションを作成できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -377,9 +381,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Insert data{#insert-data}
+## データの挿入{#insert-data}{#insert-data}
 
-After creating the collection, you can insert data that includes string fields.
+コレクションを作成した後、文字列フィールドを含むデータを挿入できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -475,17 +479,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In this example, we insert data that includes `VARCHAR` fields (`varchar_field1` and `varchar_field2`), a primary field (`pk`), and vector representations (`embedding`). To ensure that the inserted data matches the fields defined in the schema, it is recommended to check data types in advance to avoid insertion errors.
+この例では、`VARCHAR`フィールド(`varchar_field1`および`varchar_field2`)、プライマリフィールド(`pk`)、およびベクトル表現(`embedding`)を含むデータを挿入します。挿入されるデータがスキーマで定義されたフィールドと一致することを確認するには、挿入エラーを回避するために事前にデータ型を確認することをお勧めします。
 
-If you set `enable_dynamic_fields=True` when defining the schema, Zilliz Cloud allows you to insert string fields that were not defined in advance. However, keep in mind that this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to [Dynamic Field](./enable-dynamic-field).
+スキーマを定義する際に`enable_dynamic_fields=True`を設定した場合、Zilliz Cloudでは、事前に定義されていない文字列フィールドを挿入することができます。ただし、これによりクエリや管理が複雑になり、パフォーマンスに影響を与える可能性があることに注意してください。詳細については、「[ダイナミックフィールド](./enable-dynamic-field)」を参照してください。
 
-## Search and query{#search-and-query}
+## 検索とクエリ{#search-and-query}{#search-and-query}
 
-After adding string fields, you can use them for filtering in search and query operations, achieving more precise search results.
+文字列フィールドを追加した後、検索やクエリ操作でフィルタリングに使用して、より正確な検索結果を得ることができます。
 
-### Filter queries{#filter-queries}
+### クエリのフィルター{#filter-queries}{#filter-queries}
 
-After adding string fields, you can filter results using these fields in queries. For example, you can query all entities where `varchar_field1` equals `"Product A"`:
+文字列フィールドを追加した後、クエリでこれらのフィールドを使用して結果をフィルタリングできます。たとえば、`varchar_field 1`が`"Product A"`に等しいすべてのエンティティをクエリできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -559,11 +563,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-This query expression returns all matching entities and outputs their `varchar_field1` and `varchar_field2` fields. For more information on filter queries, refer to [Filtering](./filtering).
+このクエリ式は、一致するすべてのエンティティを返し、その`varchar_field 1`および`varchar_field 2`フィールドを出力します。フィルタークエリの詳細については、「Filtering」を参照してください。
 
-### Vector search with string filtering{#vector-search-with-string-filtering}
+### 文字列フィルタリングによるベクトル検索{#vector-search-with-string-filtering}{#vector-search-with-string-filtering}
 
-In addition to basic scalar field filtering, you can combine vector similarity searches with scalar field filters. For example, the following code shows how to add a scalar field filter to a vector search:
+基本的なスカラー場フィルタリングに加えて、ベクトル類似検索をスカラー場フィルターと組み合わせることができます。例えば、次のコードはベクトル検索にスカラー場フィルターを追加する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -656,4 +660,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In this example, we first define a query vector and add a filter condition `varchar_field1 == "Product A"` during the search. This ensures that the search results are not only similar to the query vector but also match the specified string filter condition. For more information, refer to [Filtering](./filtering).
+この例では、まずクエリベクトルを定義し、検索中に`varchar_field 1=="Product A"`というフィルター条件を追加します。これにより、検索結果がクエリベクトルに似ているだけでなく、指定された文字列フィルター条件にも一致することが保証されます。詳細については、「[フィルタリング](./filtering)」を参照してください。

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

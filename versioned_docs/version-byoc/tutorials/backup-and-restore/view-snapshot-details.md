@@ -15,10 +15,10 @@ keywords:
   - backup
   - files
   - view
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - marketplace
   - aws
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

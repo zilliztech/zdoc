@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

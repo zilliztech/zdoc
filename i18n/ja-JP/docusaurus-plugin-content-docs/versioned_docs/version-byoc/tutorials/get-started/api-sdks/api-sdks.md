@@ -1,12 +1,12 @@
 ---
-title: "API & SDKs | BYOC"
+title: "APIとSDK | BYOC"
 slug: /api-sdks
-sidebar_label: "API & SDKs"
+sidebar_label: "APIとSDK"
 beta: FALSE
 notebook: FALSE
-description: "This chapter provides access to the procedure for using or installing RESTful API and SDKs and their reference docs. | BYOC"
+description: "この章では、RESTful APIとSDKを使用またはインストールする手順と、それらのリファレンスドキュメントにアクセスできます。 | BYOC"
 type: origin
-token: Ecwpw6cImiFV0gkkusgcQhvBnLe
+token: AiLpwtyT3ieHFikJsUDc9kgunUb
 sidebar_position: 10
 keywords: 
   - zilliz
@@ -20,19 +20,19 @@ keywords:
   - go
   - node
   - nodejs
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# API & SDKs
+# APIとSDK
 
-This chapter provides access to the procedure for using or installing RESTful API and SDKs and their reference docs. 
+この章では、RESTful APIとSDKを使用またはインストールする手順と、それらのリファレンスドキュメントにアクセスできます。
 
 import DocCardList from '@theme/DocCardList';
 

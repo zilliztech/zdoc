@@ -1,12 +1,12 @@
 ---
-title: "Index Vector Fields | BYOC"
+title: "インデックスベクトルフィールド | BYOC"
 slug: /index-vector-fields
-sidebar_label: "Index Vector Fields"
+sidebar_label: "インデックスベクトルフィールド"
 beta: FALSE
 notebook: FALSE
-description: "This guide walks you through the basic operations on creating and managing indexes on vector fields in a collection. | BYOC"
+description: "このガイドでは、コレクション内のベクトルフィールドのインデックスを作成および管理する基本的な操作について説明します。 | BYOC"
 type: origin
-token: Qc0SwFomWiEXvMkDAH9cMAhlnIh
+token: FlsiwNE5CiR9qCkaSaNchGENnnb
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 
@@ -25,29 +25,29 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Index Vector Fields
+# インデックスベクトルフィールド
 
-This guide walks you through the basic operations on creating and managing indexes on vector fields in a collection. 
+このガイドでは、コレクション内のベクトルフィールドのインデックスを作成および管理する基本的な操作について説明します。
 
-## Overview{#overview}
+## 概要について{#overview}{#overview}
 
-Leveraging the metadata stored in an index file, Zilliz Cloud organizes your data in a specialized structure, facilitating rapid retrieval of requested information during searches or queries.
+インデックスファイルに格納されたメタデータを活用して、Zilliz Cloudはデータを特殊な構造に整理し、検索やクエリ中に要求された情報を迅速に取得できるようにします。
 
-Zilliz Cloud employs [AUTOINDEX](./autoindex-explained) to enable efficient similarity searches. It also offers these [metric types](./search-metrics-explained): **Cosine Similarity** (COSINE), **Euclidean Distance** (L2), **Inner Product** (IP), **JACCARD**, and **HAMMING** to measure the distances between vector embeddings. To learn more about vector field types and metrics, refer to [Metric Types](./search-metrics-explained) and [Schema Explained](./schema-explained).
+Zilliz Cloudは、効率的な類似検索を可能にするために[AUTOINDEX](./autoindex-explained)を使用しています。また、次の[メトリックタイプ](./search-metrics-explained)も提供しています:**コサイン類似性**(COSINE)、**ユークリッド距離**(L 2)、**内積**(IP)、**JACCARD**、および**HAMMING**。ベクトルフィールドタイプとメトリックの詳細については、「[メトリックの種類](./search-metrics-explained)」と「[スキーマの説明](./schema-explained)」を参照してください。
 
-It is recommended to create indexes for both the vector field and scalar fields that are frequently accessed.
+頻繁にアクセスされるベクトル場とスカラー場の両方にインデックスを作成することをお勧めします。
 
-If your collection contains more than one vector field, you can create an index for each vector field separately.
+コレクションに複数のベクトル場が含まれる場合は、ベクトル場ごとにインデックスを個別に作成できます。
 
-## Preparations{#preparations}
+## 準備する{#preparations}{#preparations}
 
-As explained in [Create Collection](./manage-collections-sdks), Zilliz Cloud automatically generates an index and loads it into memory when creating a collection if any of the following conditions are specified in the collection creation request:
+「[コレクションを作成](./manage-collections-sdks)」で説明したように、Zilliz Cloudは、コレクションの作成要求で以下のいずれかの条件が指定された場合、インデックスを自動的に生成してメモリにロードします。
 
-- The dimensionality of the vector field and the metric type, or
+- ベクトル場とメトリック型の次元、または
 
-- The schema and the index parameters.
+- スキーマとインデックスパラメーター。
 
-The code snippet below repurposes the existing code to establish a connection to a Zilliz Cloud cluster and create a collection without specifying its index parameters. In this case, the collection lacks an index and remains unloaded.
+以下のコードスニペットは、既存のコードを再利用して、Zilliz Cloudクラスタに接続し、インデックスパラメータを指定せずにコレクションを作成します。この場合、コレクションにはインデックスがなく、アンロードされたままです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
@@ -163,9 +163,9 @@ console.log(res.error_code)
 </TabItem>
 </Tabs>
 
-## Index a Collection{#index-a-collection}
+## コレクションのインデックス{#index-a-collection}{#index-a-collection}
 
-To create an index for a collection or index a collection, you need to set up the index parameters and call `create_index()`.
+コレクションのインデックスまたはインデックスを作成するには、インデックスパラメータを設定し、`create_index()`を呼び出す必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
@@ -251,17 +251,17 @@ console.log(res.error_code)
 </TabItem>
 </Tabs>
 
-In the provided code snippet, we have established indexes on the vector field with the index type set to `AUTOINDEX` and metric type set to `COSINE`. Additionally, an index on a scalar field has been created with the index type `AUTOINDEX`. To learn more about the index type and metric types, read [AUTOINDEX Explained](./autoindex-explained) and [Metric Types](./search-metrics-explained).
+提供されたコードスニペットでは、インデックスタイプが`AUTOINDEX`に設定され、メトリックタイプが`COSINE`に設定されたベクトルフィールド上のインデックスが確立されています。さらに、スカラーフィールド上のインデックスがインデックスタイプ`AUTOINDEX`で作成されています。インデックスタイプとメトリックタイプの詳細については、「[メトリックの種類](./search-metrics-explained)」と「[スキーマの説明](./schema-explained)」を参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="Notes" title="undefined">
 
-<p>Currently, you can create only one index file for each field in a collection.</p>
+<p>現在、コレクション内の各フィールドに対して1つのインデックスファイルしか作成できません。</p>
 
 </Admonition>
 
-## Check Index Details{#check-index-details}
+## インデックスの詳細を確認する{#check-index-details}{#check-index-details}
 
-Once you have created an index, you can check its details.
+インデックスを作成したら、その詳細を確認できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
@@ -382,15 +382,15 @@ console.log(JSON.stringify(res.index_descriptions, null, 2))
 </TabItem>
 </Tabs>
 
-You can check the index file created on a specific field, and collect the statistics on the number of rows indexed using this index file.
+特定のフィールドに作成されたインデックスファイルを確認し、このインデックスファイルを使用してインデックス付けされた行数の統計情報を収集できます。
 
-## Drop an Index{#drop-an-index}
+## インデックスを削除{#drop-an-index}{#drop-an-index}
 
-You can simply drop an index if it is no longer needed.
+必要がなくなった場合は、単にインデックスを削除できます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>Before dropping an index, make sure it has been released first.</p>
+<p>インデックスを削除する前に、まずリリースされていることを確認してください。</p>
 
 </Admonition>
 

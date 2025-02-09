@@ -1,12 +1,12 @@
 ---
-title: "View Activities | BYOC"
+title: "アクティビティを見る | BYOC"
 slug: /view-activities
-sidebar_label: "View Activities"
+sidebar_label: "アクティビティを見る"
 beta: FALSE
 notebook: FALSE
-description: "The Zilliz Cloud Activities feature provides a comprehensive view of events associated with a specific Zilliz Cloud organization, encompassing  access events. | BYOC"
+description: "Zilliz Cloudのアクティビティ機能は、のアクセスイベントなど、特定のZilliz Cloud組織に関連するイベントを包括的に表示します。 | BYOC"
 type: origin
-token: NeUWwqRl2iwn4HkZg3ocjLjmnth
+token: MqTVwHcERia7pIkfkg3c2syFnne
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,68 +14,68 @@ keywords:
   - cloud
   - activities
   - view
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# View Activities
+# アクティビティを見る
 
-The Zilliz Cloud **Activities** feature provides a comprehensive view of events associated with a specific Zilliz Cloud organization, encompassing  access events.
+Zilliz Cloudの**アクティビティ**機能は、のアクセスイベントなど、特定のZilliz Cloud組織に関連するイベントを包括的に表示します。
 
-## View activities{#view-activities}
+## アクティビティを見る{#view-activities}{#view-activities}
 
-On the organization page, click **Activities** in the left navigation pane. Here, you can view a summary of activities, the time when each activity took place, and the identity of the operator involved in a specific activity.
+組織ページで、左ナビゲーションウィンドウの[**アクティビティ**]をクリックします。ここでは、アクティビティの概要、各アクティビティが置かれた時間、および特定のアクティビティに関与したオペレーターのIDを閲覧できます。
 
-![view-activities-byoc](/byoc/view-activities-byoc.png)
+![view-activities-byoc](/byoc/ja-JP/view-activities-byoc.png)
 
-## Filter activities{#filter-activities}
+## フィルター活動{#filter-activities}{#filter-activities}
 
-To enhance your control and ease in navigating through the organization activities, you can apply filters by type and time range. Utilizing a combination of these filtering conditions provides a more tailored view of the activity list.
+組織のアクティビティをコントロールしやすくナビゲートするために、タイプと時間範囲でフィルターを適用することができます。これらのフィルター条件を組み合わせることで、アクティビティリストのよりカスタマイズされたビューが提供されます。
 
-- **Filter by time range**
+- **時間範囲でフィルター**
 
-    Choose a start and end date to display activities occurring within a specific time frame. After setting your desired time range, click **Apply** to view all activities within this period.
+    特定の期間内に発生したアクティビティを表示するには、開始時間と終了時間を選択します。希望の時間範囲を設定したら、[**適用**]をクリックして、この期間内のすべてのアクティビティを表示します。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="Notes" title="undefined">
 
-    <p>Ensure that the time span between your chosen start date and end date does not exceed 30 days.</p>
+    <p>選択した開始時間から終了時間までの期間が30日を超えないようにしてください。</p>
 
     </Admonition>
 
-    ![filter-by-time-range](/byoc/filter-by-time-range.png)
+    ![filter-by-time-range](/byoc/ja-JP/filter-by-time-range.png)
 
-- **Filter by activity type**
+- **アクティビティタイプで絞り込む**
 
-    Select your preferred activity type from the activity list. Zilliz Cloud categorizes activities into three types: **Info**, **Warning**, and **Error**.
+    アクティビティリストからお好みのアクティビティタイプを選択してください。Zilliz Cloudは、アクティビティを**情報**、**警告**、**エラー**の3つのタイプに分類します。
 
     <table>
        <tr>
-         <th><p><strong>Activity Type</strong></p></th>
-         <th><p><strong>Description</strong></p></th>
+         <th><p><strong>アクティビティタイプ</strong></p></th>
+         <th><p><strong>説明する</strong></p></th>
        </tr>
        <tr>
-         <td><p>Info</p></td>
-         <td><p>General information related to clusters, access, or billing. </p><p>Eg. Cluster in01-xxxxxxxxxxxxxxx was created.</p></td>
+         <td><p>情報を</p></td>
+         <td><p>クラスタ、アクセス、または請求に関する一般的な情報。</p><p>例:クラスタin01-xxxxxxxxxxxxxxxが作成されました。</p></td>
        </tr>
        <tr>
-         <td><p>Warning</p></td>
-         <td><p>Updates regarding resource states that necessitate your attention.</p><p>E.g., "Cluster in01-xxxxxxxxxxxxxxx was deleted."</p></td>
+         <td><p>警告</p></td>
+         <td><p>注意が必要なリソース状態に関する更新。</p><p>例:「クラスタin01-xxxxxxxxxxxxxxxが削除されました」。</p></td>
        </tr>
        <tr>
-         <td><p>Error</p></td>
-         <td><p>Notifications of payment failures or other system malfunctions requiring immediate attention or action. </p><p>E.g., "The payment for the invoice invo-xxxxxxxxxxxxxxxxxxxxxxxx has failed."</p></td>
+         <td><p>エラー</p></td>
+         <td><p>支払いの失敗またはその他のシステムの誤動作の通知には、直ちに対応または対応が必要です。</p><p>例:「請求書invo-xxxxxxxxxxxxxxxxxxxxxxxxの支払いに失敗しました。」</p></td>
        </tr>
     </table>
 
-    ![filter-by-activity-type](/byoc/filter-by-activity-type.png)
+    ![filter-by-activity-type](/byoc/ja-JP/filter-by-activity-type.png)
 
-- **Filter by activity**
+- **アクティビティでフィルター**
 
-    ![filter-by-activity](/byoc/filter-by-activity.png)
+    ![filter-by-activity](/byoc/ja-JP/filter-by-activity.png)
 

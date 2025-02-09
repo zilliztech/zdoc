@@ -8,21 +8,21 @@ notebook: false
 description: "This operation creates a custom role. | Python | MilvusClient"
 type: docx
 token: OUz3drncZo1Er8xyITZcYz66nWE
-sidebar_position: 1
+sidebar_position: 3
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - create_role()
   - python
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 displayed_sidebar: pythonSidebar
 
 ---
@@ -89,20 +89,4 @@ client = MilvusClient(
 # 2. Create a role
 client.create_role(role_name="read_only")
 ```
-
-## Related methods{#related-methods}
-
-- [describe_role()](./Authentication-describe_role)
-
-- [drop_role()](./Authentication-drop_role)
-
-- [grant_privilege()](./Authentication-grant_privilege)
-
-- [grant_role()](./Authentication-grant_role)
-
-- [list_roles()](./Authentication-list_roles)
-
-- [revoke_privileges()](./Authentication-revoke_privileges)
-
-- [revoke_role()](./Authentication-revoke_role)
 

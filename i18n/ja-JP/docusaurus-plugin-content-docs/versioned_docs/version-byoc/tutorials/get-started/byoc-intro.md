@@ -1,117 +1,117 @@
 ---
-title: "BYOC Overview | BYOC"
+title: "BYOCの概要 | BYOC"
 slug: /byoc-intro
-sidebar_label: "BYOC Overview"
+sidebar_label: "BYOCの概要"
 beta: PRIVATE
 notebook: FALSE
-description: "Bring Your Own Cloud (BYOC) is a deployment option for organizations to host applications and data in their own cloud accounts instead of using Zilliz Cloud's infrastructure. This solution is ideal for organizations with specific security requirements or regulatory compliance needs that require maintaining full data control sovereignty. | BYOC"
+description: "Bring Your Own Cloud (BYOC) は、Zilliz Cloud のインフラストラクチャを使用する代わりに、組織が独自のクラウドアカウントでアプリケーションやデータをホストするための展開オプションです。このソリューションは、特定のセキュリティ要件や規制遵守ニーズを持つ組織に最適であり、完全なデータ制御主権を維持する必要があります。 | BYOC"
 type: origin
-token: RZqzw4UPkiikHOkdoa4chGDgnWX
+token: BnNUwg9akiPBRhkTaTmcrT2vnfb
 sidebar_position: 1
 keywords: 
   - zilliz
   - byoc
   - milvus
   - vector database
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# BYOC Overview
+# BYOCの概要
 
-Bring Your Own Cloud (BYOC) is a deployment option for organizations to host applications and data in their own cloud accounts instead of using Zilliz Cloud's infrastructure. This solution is ideal for organizations with specific security requirements or regulatory compliance needs that require maintaining full data control sovereignty.
+Bring Your Own Cloud (BYOC) は、Zilliz Cloud のインフラストラクチャを使用する代わりに、組織が独自のクラウドアカウントでアプリケーションやデータをホストするための展開オプションです。このソリューションは、特定のセキュリティ要件や規制遵守ニーズを持つ組織に最適であり、完全なデータ制御主権を維持する必要があります。
 
-## Why use Zilliz BYOC{#why-use-zilliz-byoc}
+## Zilliz BYOCのメリット{#why-use-zilliz-byoc}{#zilliz-byocwhy-use-zilliz-byoc}
 
-Zilliz BYOC delivers a unique fully managed deployment option that lets you keep complete control over your data while eliminating operational overhead with the following benefits:
+Zilliz BYOCは、以下の利点により、運用オーバーヘッドを排除しながらデータを完全に制御できる独自の完全管理型デプロイオプションを提供します。
 
-- **Operations**
+- **オペレーション**
 
-    - You can create BYOC projects and deploy the infrastructure on the [Zilliz Cloud console](https://cloud.zilliz.com).
+    - BYOC プロジェクトを作成し、インフラストラクチャを [Zilliz Cloud コンソール](https://cloud.zilliz.com)にデプロイできます。
 
-    - You can use the well-tuned metrics and alert settings for monitoring your BYOC clusters in projects.
+    - プロジェクト内のBYOCクラスターを監視するために、適切に調整されたメトリックとアラート設定を使用できます。
 
-- **Scalability**
+- **スケーラビリティ**
 
-    - You can always scale your BYOC projects by purchasing more licenses.
+    - ライセンスを追加購入することで、いつでも BYOC プロジェクトを拡大できます。
 
-    - Clusters in BYOC projects are also scalable with manual and automatic scaling mechanisms.
+    - BYOC プロジェクトのクラスターは、手動および自動スケーリングメカニズムでもスケーラブルです。
 
-- **Data management & security**
+- **データ管理とセキュリティ**
 
-    - Role-based access control (RBAC) at the organization, project, and cluster levels.
+    - 組織、プロジェクト、クラスターレベルでのロールベースのアクセス制御 (RBAC)。
 
-    - All data is securely stored and processed within your cloud accounts.
+    - すべてのデータは、クラウドアカウント内で安全に保存および処理されます。
 
-## How it works{#how-it-works}
+## どのように動作するか{#how-it-works}{#how-it-works}
 
-BYOC involves deploying Milvus alongside Zilliz-managed backend services, such as the upgrade workflow, resource scheduler, open API service, and web console, within your cloud environment, typically inside your own Virtual Private Cloud (VPC). This setup ensures that your data is stored and processed within your own infrastructure.
+BYOC は、アップグレードワークフロー、リソーススケジューラー、オープンAPIサービス、Webコンソールなど、Zillizが管理するバックエンドサービスと一緒にMilvusをクラウド環境内に展開することを含みます。通常、あなた自身の Virtual Private Cloud (VPC) 内にあります。このセットアップにより、あなたのデータがあなた自身のインフラストラクチャ内で保存および処理されることが保証されます。
 
-![PCAOw33vKhCLHubzOiCciDDMnGg](/byoc/PCAOw33vKhCLHubzOiCciDDMnGg.png)
+![PbtCwAj3Th0zDpbkNMfcw9L2npp](/byoc/ja-JP/PbtCwAj3Th0zDpbkNMfcw9L2npp.png)
 
-According to the architecture outlined above, you need to provide a VPC, an S3 bucket, and the minimum permissions for Zilliz Cloud to start an EKS cluster and deploy the necessary components, such as the Milvus Operator, Import/Backup tools, the monitoring stack, including Grafana and Prometheus, and a Milvus instance on your behalf.
+上記のアーキテクチャに従うと、Zilliz Cloud がEKSクラスターを開始し、必要なコンポーネント(Milvus Operator、Import/Backup ツール、Grafana およびPrometheusを含む監視スタック、およびMilvusインスタンスなど)を展開するために、VPC、S3バケット、および最小限の権限を提供する必要があります。
 
-Additionally, Zilliz Cloud establishes two separate planes for communication with the components deployed in your VPC, and they are
+さらに、Zilliz Cloudは、VPCにデプロイされたコンポーネントとの通信のために2つの別々のプレーンを確立します。
 
-- **Control Plane**
+- **コントロールプレーン**
 
-    The control plane facilitates communication between Zilliz Cloud and the components deployed in your VPC for scheduling resources, upgrading Milvus instances, and providing access to the Zilliz Cloud console and control-plane open API services.
+    コントロールプレーンは、リソースのスケジューリング、Milvusインスタンスのアップグレード、Zilliz CloudコンソールとコントロールプレーンのオープンAPIサービスへのアクセスを提供するために、Zilliz CloudとVPCにデプロイされたコンポーネント間の通信を容易にします。
 
-- **Data Plane**
+- **データプレーン**
 
-    The data plane allows communication between your applications/services and the Milvus instance deployed in your VPC, specifically for data storage and retrieval.
+    データプレーンは、VPCにデプロイされたMilvusインスタンスとアプリケーション/サービス間の通信を可能にし、データの保存と取得に特化しています。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>Zilliz BYOC is currently available in <strong>Private Preview</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+<p>Zilliz BYOCは現在<strong>プライベートプレビュー</strong>で利用可能です。アクセスと実装の詳細については、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p>
 
 </Admonition>
 
-## Security assurance{#security-assurance}
+## セキュリティ保証{#security-assurance}{#security-assurance}
 
-Zilliz Cloud ensures secure communication across network boundaries through comprehensive encryption and strict access controls.
+Zilliz Cloudは、包括的な暗号化と厳格なアクセス制御により、ネットワーク境界を越えた安全な通信を保証します。
 
-### Network security{#network-security}
+### ネットワークセキュリティ{#network-security}{#network-security}
 
-- **Internal Traffic**: Full TCP/UDP communication within the cluster security group.
+- **内部トラフィック**:クラスターセキュリティグループ内の完全なTCP/UDP通信。
 
-- **External Traffic**: Encrypted outbound-only TCP connections on port 443 enable: 
+- **外部トラフィック**:ポート443での暗号化された送信専用TCP接続を有効にします:
 
-    - Connectivity to the Zilliz control plane.
+    - Zillizコントロールプレーンへの接続。
 
-    - Access to data sources and image repositories.
+    - データソースと画像リポジトリへのアクセス。
 
-- **Same Security Group**: TCP/UDP connections allowed for intra-cluster communication.
+- **同じセキュリティグループ**:クラスタ内通信にはTCP/UDP接続が許可されています。
 
-### Access control{#access-control}
+### アクセス制御{#access-control}{#access-control}
 
-- Secure VPN and, just-in-time, certificate-based authentication for Zilliz engineers.
+- Zillizエンジニアのための安全なVPNと、ジャストインタイムの証明書ベースの認証。
 
-- Every access requires approvals and is logged for audits.
+- すべてのアクセスには承認が必要であり、監査のために記録されます。
 
-- The control plane monitors and collects metrics through the outbound-only TCP connections.
+- コントロールプレーンは、アウトバウンド専用のTCP接続を介してメトリックを監視および収集します。
 
-These robust measures protect data integrity and confidentiality, ensuring secure and reliable operations in the cloud.
+これらの堅牢な対策により、データの整合性と機密性が保護され、クラウドでの安全で信頼性の高い操作が確保されます。
 
-### Encryption in transit{#encryption-in-transit}
+### 輸送中の暗号化{#encryption-in-transit}{#encryption-in-transit}
 
-Client establish HTTPS or gRPC connections to the Zilliz Cluster. HTTPS/gRPC connections use the TLS 1.2 (or better) protocol with AES-256  (256-bit Advanced Encryption Standard )  to encrypt user data in transit.
+クライアントは、ZillizクラスターへのHTTPSまたはgRPC接続を確立します。HTTPS/gRPC接続では、TLS 1.2（またはそれ以上）プロトコルとAES-256（256ビット高度暗号化標準）を使用して、転送中のユーザーデータを暗号化します。
 
-### Encryption at rest{#encryption-at-rest}
+### 保存時の暗号化{#encryption-at-rest}{#encryption-at-rest}
 
-The data plane of Zilliz Cloud encrypts the stored data on AWS S3 using the AES-256 (256-bit Advanced Encryption Standard ) encryption algorithm.
+Zilliz Cloudのデータプレーンは、AES-256(256ビット高度暗号化標準)暗号化アルゴリズムを使用して、AWS S 3に保存されたデータを暗号化します。
 
-## Cost management{#cost-management}
+## コスト管理{#cost-management}{#cost-management}
 
-Zilliz BYOC uses licenses to place charges on the services you consume. You still bear infrastructure expenses from cloud service providers and additional responsibilities like private networking. 
+Zilliz BYOCは、消費するサービスに料金を置くためにライセンスを使用します。クラウドサービスプロバイダからのインフラストラクチャ費用や、プライベートネットワーキングなどの追加の責任は引き続き負担します。
 
-The following figure shows the costs compared between Zilliz BYOC and SaaS subscriptions.
+以下の図は、Zilliz BYOCとSaaSサブスクリプションのコストを比較したものです。
 
-![AJzswn6lAhsEl5bC4flcXAA4n6f](/byoc/AJzswn6lAhsEl5bC4flcXAA4n6f.png)
+![UFUhwt8q8hBvWUb44rJcts2inYg](/byoc/ja-JP/UFUhwt8q8hBvWUb44rJcts2inYg.png)
 

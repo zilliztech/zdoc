@@ -15,10 +15,10 @@ keywords:
   - pipelines
   - pricing
   - usage
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 
@@ -31,7 +31,10 @@ The cost of running pipelines is measured by tokens. Similar to Large Language M
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This tool uses a Byte-Pair Encoding (BPE) tokenizer and the estimated usage may vary by 30% based on different processing strategy. Therefore, you should only use the estimated usage as a reference. For actual usage, please refer to the <a href="./pipelines-ingest-search-delete-data">Pipelines list</a>.</p>
+<ul>
+<li><p>Zilliz Cloud Pipelines will be discontinued by the end of Q2 2025 and replaced by a new feature, “Data In, Data Out,” to streamline embedding generation in both Milvus and Zilliz Cloud. As of December 24, 2024, new user registrations are no longer accepted. Current users can continue using the service within the $20 monthly free allowance until the sunset date; however, no SLA is provided. Please consider using embedding APIs from model providers or open-source models to generate vector embeddings.</p></li>
+<li><p>This tool uses a Byte-Pair Encoding (BPE) tokenizer and the estimated usage may vary by 30% based on different processing strategy. Therefore, you should only use the estimated usage as a reference. For actual usage, please refer to the <a href="./pipelines-ingest-search-delete-data">Pipelines list</a>.</p></li>
+</ul>
 
 </Admonition>
 

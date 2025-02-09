@@ -1,12 +1,12 @@
 ---
-title: "Migrate from Milvus to Zilliz Cloud Via Backup Files | BYOC"
+title: "バックアップファイルを使用してMilvusからZilliz Cloudに移行する | BYOC"
 slug: /via-backup-files
-sidebar_label: "Via Backup Files"
+sidebar_label: "バックアップファイルへ"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud offers Milvus as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. To enable smooth migration, you can migrate data from Milvus to Zilliz Cloud in these ways - connecting to source Milvus via database endpoint or uploading backup files directly. | BYOC"
+description: "Zilliz Cloudは、インフラストラクチャを自分で管理する必要がなく、Milvusベクトルデータベースを使用したいユーザー向けに、Milvusを完全に管理されたクラウドホストソリューションとして提供しています。スムーズな移行を可能にするために、データベースエンドポイントを介してソースMilvusに接続するか、バックアップファイルを直接アップロードすることができます。 | BYOC"
 type: origin
-token: IO4fwm5fJiroaoktKeIcbdkDnRb
+token: Pg4pwmKpzibwjhkCwRCcj1QJnHd
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -15,43 +15,43 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Migrate from Milvus to Zilliz Cloud Via Backup Files
+# バックアップファイルを使用してMilvusからZilliz Cloudに移行する
 
-Zilliz Cloud offers Milvus as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. To enable smooth migration, you can migrate data from Milvus to Zilliz Cloud in these ways - connecting to source Milvus via database endpoint or uploading backup files directly.
+Zilliz Cloudは、インフラストラクチャを自分で管理する必要がなく、Milvusベクトルデータベースを使用したいユーザー向けに、Milvusを完全に管理されたクラウドホストソリューションとして提供しています。スムーズな移行を可能にするために、データベースエンドポイントを介してソースMilvusに接続するか、バックアップファイルを直接アップロードすることができます。
 
-This topic describes how to migrate from Milvus by uploading backup files directly. For information on how to migrate data via database endpoint, refer to [Via Endpoint](./via-endpoint).
+このトピックでは、バックアップファイルを直接アップロードしてMilvusから移行する方法について説明します。データベースエンドポイントを介してデータを移行する方法については、「[エンドポイントへ](./via-endpoint)」を参照してください。
 
-## Before you start{#before-you-start}
+## 始める前に{#before-you-start}{#before-you-start}
 
-Make sure the following prerequisites are met:
+次の前提条件が満たされていることを確認してください。
 
-- You have made necessary preparations for migration based on the migration method:
+- 移行方法に基づいて、移行に必要な準備を行いました。
 
-    - **From Local File**: Prepare local backup files in advance. For information on how to prepare backup files, refer to [Prepare backup files for migration](./via-backup-files#prepare-backup-files-for-migration).
+    - **ローカルファイルから**:事前にローカルバックアップファイルを準備してください。バックアップファイルの準備方法については、「[移行用バックアップファイルを準備](./via-backup-files#prepare-backup-files-for-migration)[する](./via-backup-files#prepare-backup-files-for-migration)」を参照してください。
 
-    - **From Object Storage**: The public URL and access credentials for the Milvus object storage. You can choose long-term or temporary credentials.
+    - **オブジェクトストレージから**: Milvusオブジェクトストレージの公開URLとアクセス資格情報。長期または一時的な資格情報を選択できます。
 
-- You have been granted the Organization Owner or Project Admin role. If you do not have the necessary permissions, contact your Zilliz Cloud administrator.
+- 組織オーナーまたはプロジェクト管理者の役割が付与されています。必要な権限がない場合は、Zilliz Cloudの管理者にお問い合わせください。
 
-## Prepare backup files for migration{#prepare-backup-files-for-migration}
+## 移行のためのバックアップファイルを準備する{#prepare-backup-files-for-migration}{#prepare-backup-files-for-migration}
 
-To prepare migration data for Milvus 2.x,
+Milvus 2. xの移行データを準備するには、
 
-1. Download **[milvus-backup](https://github.com/zilliztech/milvus-backup/releases)**. Always use the latest release.
+1. [milvus](https://github.com/zilliztech/milvus-backup/releases)[-backup](https://github.com/zilliztech/milvus-backup/releases)をダウンロードしてください。常に最新リリースを使用してください。
 
-1. Create a **configs** folder side by side with the downloaded binary, and download **[backup.yaml](https://raw.githubusercontent.com/zilliztech/milvus-backup/master/configs/backup.yaml)** into the **configs** folder.
+1. ダウンロードしたバイナリと**configs**フォルダを並べて作成し、**[backup. yaml](https://raw.githubusercontent.com/zilliztech/milvus-backup/master/configs/backup.yaml)**を**configs**フォルダにダウンロードします。
 
-    Once the step is done, the structure of your workspace folder should look like this:
+    ステップが完了すると、ワークスペースフォルダの構造は次のようになります:
 
     ```plaintext
     workspace
@@ -60,54 +60,54 @@ To prepare migration data for Milvus 2.x,
          └── backup.yaml
     ```
 
-1. Customize **backup.yaml**.
+1. **backup. yaml**をカスタマイズする。
 
-    In normal cases, you do not need to customize this file. But before going on, check whether the following configuration items are correct:
+    通常の場合、このファイルをカスタマイズする必要はありません。しかし、先に進む前に、以下の設定項目が正しいかどうかを確認してください。
 
-    - `milvus.address`
+    - `アドレス`
 
-    - `mivlus.port`
+    - `ダウンロードmivlus. port`
 
-    - `minio.address`
+    - `minioのアドレス`
 
-    - `minio.port`
+    - `minioのポート`
 
-    - `minio.bucketName`
+    - `minio. bucketName`
 
-    - `minio.backupBucketName`
+    - `minio. backupBucketName`
 
-    - `rootPath`
+    - `ルートパス`
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="Notes" title="undefined">
 
     <ul>
-    <li><p>For a Milvus instance installed using Docker Compose, <code>minio.bucketName</code> defaults to <code>a-bucket</code> and <code>rootPath</code> defaults to <code>files</code>.</p></li>
-    <li><p>For a Milvus instance installed on Kubernetes, <code>minio.bucketName</code> defaults to <code>milvus-bucket</code> and <code>rootPath</code> defaults to <code>file</code>.</p></li>
+    <li><p>Docker Composeを使用してインストールされたMilvusインスタンスの場合、minio<code>.</code>bucketNameはデフォルトで<code>a-bucket</code>、<code>rootPath</code>はデフォルトで<code>ファイル</code>になります。</p></li>
+    <li><p>KubernetesにインストールされたMilvusインスタンスの場合、minio<code>.</code>bucketNameのデフォルトは<code>milvus-bucket</code>で、<code>rootPath</code>のデフォルトは<code>file</code>です。</p></li>
     </ul>
 
     </Admonition>
 
-1. Create a backup of your Milvus installation.
+1. Milvusインストールのバックアップを作成します。
 
     ```plaintext
     ./milvus-backup --config backup.yaml create -n my_backup
     ```
 
-1. Get the backup file.
+1. バックアップファイルを取得します。
 
     ```plaintext
     ./milvus-backup --config backup.yaml get -n my_backup
     ```
 
-1. Check the backup files.
+1. バックアップファイルを確認してください。
 
-    - If you set `minio.address` and `minio.port` to an S3 bucket, your backup file are already in the S3 bucket.
+    - S 3バケットにminio`. address`と`minio.port`を設定した場合、バックアップファイルはすでにS 3バケットにあります。
 
-    - If you set `minio.address` and `minio.port` to a Minio bucket, you can download them using Minio Console or the **mc** client. 
+    - Minioバケットにminio`.`addressと`minio`. portを設定した場合、Minioコンソールまたは**mc**クライアントを使用してダウンロードできます。
 
-        - To download from [Minio Console](https://min.io/docs/minio/kubernetes/upstream/administration/minio-console.html), log into Minio Console, locate the bucket specified in `minio.address`, select the files in the bucket, and click **Download** to download them.
+        - Minio Consoleからダウンロードするには、[Minio Console](https://min.io/docs/minio/kubernetes/upstream/administration/minio-console.html)にログインし、minio. addressで指定されたBucketを探し、`Bucket`内のファイルを選択し、「**ダウンロード**」をクリックしてダウンロードします。
 
-        - If you prefer [the ](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install)**[mc](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install)**[ client](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install), do as follows:
+        - もし[、](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install)**[mc](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install)**[クライアント](https://min.io/docs/minio/linux/reference/minio-mc.html#mc-install)を使いたい場合は、以下のようにしてください:
 
             ```plaintext
             # configure a Minio host
@@ -120,57 +120,57 @@ To prepare migration data for Milvus 2.x,
             mc cp --recursive my_minio/<your-bucket-path> <local_dir_path>
             ```
 
-1. Decompress the downloaded archive and upload only the content of the **backup** folder to Zilliz Cloud.
+1. ダウンロードしたアーカイブを解凍し、**バックアップ**フォルダの内容のみをZilliz Cloudにアップロードします。
 
-## Migrate data to Zilliz Cloud{#migrate-data-to-zilliz-cloud}
+## Zilliz Cloudへのデータ移行{#migrate-data-to-zilliz-cloud}{#zilliz-cloudmigrate-data-to-zilliz-cloud}
 
-With backup files ready, you can migrate the data from local files directly or from object storage.
+バックアップファイルが準備できたら、ローカルファイルから直接またはオブジェクトストレージからデータを移行できます。
 
-1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
+1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. Go to the target project and select **Migrations** > **Milvus** > **Via Backup Files**.
+1. ターゲットプロジェクトに移動し、**移行**>**Milvus**>**バックアップファイル経由**を選択してください。
 
-1. On the **Migrate From Milvus** page,
+1. Milvus**からの移行**ページでは、
 
-    - If your data is on a local file:
+    - データがローカルファイルにある場合:
 
-        - Select **From Local File**, upload the folder containing your data, and choose the target cluster.
+        - [**ローカルファイルから**]を選択し、データを含むフォルダをアップロードし、ターゲットクラスタを選択します。
 
-    - If your data is in object storage:
+    - データがオブジェクトストレージにある場合:
 
-        - Select **From Object Storage**, choose the service (e.g., S3, Azure Blob, GCP), enter the object URL or S3 URI of your data, provide the necessary credentials, and choose the target cluster.
+        - [**オブジェクトストレージから**]を選択し、サービス(S 3、Azure Blob、GCPなど)を選択し、データのオブジェクトURLまたはS 3 URIを入力し、必要な資格情報を入力して、ターゲットクラスターを選択します。
 
-        - Provide the necessary credentials by specifying the appropriate **Credential Type**:
+        - 適切な**資格情報タイプ**を指定して、必要な資格情報を提供します。
 
-            - **Long-term**: Use this option for persistent access to resources without frequent re-authentication.
+            - **長期**:頻繁な再認証なしでリソースに永続的にアクセスする場合は、このオプションを使用します。
 
-            - **Session**: Choose this for temporary credentials that are valid for a limited duration, ideal for short-lived access during a specific user session.
+            - **セッション**:限られた期間有効な一時的な資格情報の場合、特定のユーザーセッション中の短期間のアクセスに最適です。
 
-1. Click **Migrate**.
+1. [**移行**]をクリックします。
 
-![migrate_from_milvus_via_backup_file](/byoc/migrate_from_milvus_via_backup_file.png)
+![migrate_from_milvus_via_backup_file](/byoc/ja-JP/migrate_from_milvus_via_backup_file.png)
 
-## Monitor the migration process{#monitor-the-migration-process}
+## 移行過程を監視する{#monitor-the-migration-process}{#monitor-the-migration-process}
 
-Once you click **Migrate**, a migration job will be generated. You can check the migration progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the migration is complete.
+「**移行**」をクリックすると、移行ジョブが生成されます。[ジョブ](./job-center)ページで移行の進捗状況を確認できます。ジョブのステータスが「**IN PROGRESS**」から「**SUCCESS FUL**」に切り替わると、移行が完了します。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>After migration, verify that the number of collections and entities in the target cluster matches the data source. If discrepancies are found, delete the collections with missing entities and re-migrate them.</p>
+<p>移行後、ターゲットクラスタ内のコレクションとエンティティの数がデータソースと一致していることを確認してください。不一致が見つかった場合は、エンティティが欠落しているコレクションを削除して再移行してください。</p>
 
 </Admonition>
 
-![verify_collection](/byoc/verify_collection.png)
+![verify_collection](/byoc/ja-JP/verify_collection.png)
 
-Note that Zilliz Cloud exclusively supports [AUTOINDEX](./autoindex-explained) for optimized indexing, and will automatically index your migrated collection using this algorithm.
+Zilliz Cloudは、最適化されたインデックス作成のために[AUTOINDEX](./autoindex-explained)のみをサポートしており、このアルゴリズムを使用して移行されたコレクションを自動的にインデックス化します。
 
-Once the collections are loaded, you are free to interact with them using your preferred method.
+コレクションがロードされたら、お好みの方法で自由に操作できます。
 
-## Cancel migration job{#cancel-migration-job}
+## 移行ジョブをキャンセル{#cancel-migration-job}{#cancel-migration-job}
 
-If the migration process encounters any issues, you can take the following steps to troubleshoot and resume the migration:
+移行過程で問題が発生した場合は、次の手順に従ってトラブルシューティングを行い、移行を再開できます。
 
-1. On the [Jobs](./job-center) page, identify the failed migration job and cancel it.
+1. [[ジョブ](./job-center)]ページで、失敗した移行ジョブを特定してキャンセルします。
 
-1. Click **View Details** in the **Actions** column to access the error log.
+1. [アクション]列の[**詳細**を**表示**]をクリックして、エラーログにアクセスします。
 

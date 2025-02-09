@@ -9,10 +9,10 @@ token: WKkof79XQltPmgdgU18c2tLUnOd
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud

@@ -1,7 +1,7 @@
 ---
-title: "Standard | Cloud"
+title: "Standard Tokenizer | Cloud"
 slug: /standard-tokenizer
-sidebar_label: "Standard"
+sidebar_label: "Standard Tokenizer"
 beta: PUBLIC
 notebook: FALSE
 description: "The `standard` tokenizer in Zilliz Cloud splits text based on spaces and punctuation marks, making it suitable for most languages. | Cloud"
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - standard-tokenizer
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
   - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 
@@ -28,7 +28,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Standard
+# Standard Tokenizer
 
 The `standard` tokenizer in Zilliz Cloud splits text based on spaces and punctuation marks, making it suitable for most languages.
 
@@ -88,7 +88,7 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 
 </Admonition>
 
-After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview).
+After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview#example-use).
 
 ## Example output{#example-output}
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - postgresql
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

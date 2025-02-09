@@ -1,31 +1,31 @@
 ---
-title: "Migrations | BYOC"
+title: "マイグレーション | BYOC"
 slug: /migrations
-sidebar_label: "Migrations"
+sidebar_label: "マイグレーション"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud provides migration options from external sources such as Milvus, Elasticsearch, and pgvector, as well as cross-cluster migrations within the same or different organizations, enabling efficient data integration and management. | BYOC"
+description: "Zilliz Cloudは、Milvus、Elasticsearch、pgvectorなどの外部ソースからの移行オプションを提供し、同じ組織内または異なる組織内でのクラスタ間の移行を可能にし、効率的なデータ統合と管理を可能にします。 | BYOC"
 type: origin
-token: IeNswy8ySiutKAkdphRc4lfynsf
+token: ZIXkwM3J6izNagkeSmscEVMvngf
 sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - migrations
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Migrations
+# マイグレーション
 
-Zilliz Cloud provides migration options from external sources such as Milvus, Elasticsearch, and pgvector, as well as cross-cluster migrations within the same or different organizations, enabling efficient data integration and management.
+Zilliz Cloudは、Milvus、Elasticsearch、pgvectorなどの外部ソースからの移行オプションを提供し、同じ組織内または異なる組織内でのクラスタ間の移行を可能にし、効率的なデータ統合と管理を可能にします。
 
 
 

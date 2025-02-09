@@ -10,19 +10,19 @@ type: docx
 token: AudsdfQ5hoDyKKxXSowcb3S6nfb
 sidebar_position: 4
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
   - node
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: nodeSidebar
 
 ---

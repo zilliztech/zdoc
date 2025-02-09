@@ -1,12 +1,12 @@
 ---
-title: "Tokenizer Reference | BYOC"
+title: "トークナイザーリファレンス | BYOC"
 slug: /analyzer-tokenizers
-sidebar_label: "Tokenizer"
+sidebar_label: "トークナイザーリファレンス"
 beta: PUBLIC
 notebook: FALSE
-description: "This section provides a detailed reference for tokenizers. | BYOC"
+description: "このセクションでは、トークナイザーの詳細なリファレンスを提供します。 | BYOC"
 type: origin
-token: Zu6vw6Aifi1gvNkqqO5cDjmtngh
+token: SZT7wSD7FiTKmPk8NWbccHT8npc
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -16,19 +16,19 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Tokenizer Reference
+# トークナイザーリファレンス
 
-This section provides a detailed reference for tokenizers.
+このセクションでは、トークナイザーの詳細なリファレンスを提供します。
 
 import DocCardList from '@theme/DocCardList';
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

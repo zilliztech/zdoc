@@ -8,21 +8,21 @@ notebook: false
 description: "This operation creates an index for a specific collection. | Python | MilvusClient"
 type: docx
 token: B3n3db0idoia02xXxJfcONK8nRh
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - create_index()
   - python
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 displayed_sidebar: pythonSidebar
 
 ---

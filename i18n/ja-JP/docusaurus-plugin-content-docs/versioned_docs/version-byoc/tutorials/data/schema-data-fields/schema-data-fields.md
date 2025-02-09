@@ -1,12 +1,12 @@
 ---
-title: "Schema & Data Fields | BYOC"
+title: "スキーマとデータフィールド | BYOC"
 slug: /schema-data-fields
-sidebar_label: "Schema & Data Fields"
+sidebar_label: "スキーマとデータフィールド"
 beta: FALSE
 notebook: FALSE
-description: "A schema defines the data structure of a collection and determines the names, order, data types, and related attributes of the collection fields. This chapter mainly discusses the schema and related concepts. | BYOC"
+description: "スキーマは、コレクションのデータ構造を定義し、コレクションフィールドの名前、順序、データ型、および関連する属性を決定します。この章では、主にスキーマと関連する概念について説明します。 | BYOC"
 type: origin
-token: NuWQwL1AhiDzokkx5UPckhthnsf
+token: AtsqwVGeAiLZ66keX9PcrC08n8b
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -15,19 +15,19 @@ keywords:
   - collection
   - schema
   - data fields
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Schema & Data Fields
+# スキーマとデータフィールド
 
-A schema defines the data structure of a collection and determines the names, order, data types, and related attributes of the collection fields. This chapter mainly discusses the schema and related concepts.
+スキーマは、コレクションのデータ構造を定義し、コレクションフィールドの名前、順序、データ型、および関連する属性を決定します。この章では、主にスキーマと関連する概念について説明します。
 
 
 

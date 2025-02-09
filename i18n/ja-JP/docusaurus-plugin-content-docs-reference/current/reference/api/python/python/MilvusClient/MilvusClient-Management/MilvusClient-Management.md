@@ -9,10 +9,10 @@ token: IZKcfUEfClhhnWdFhk2co7krnAV
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud

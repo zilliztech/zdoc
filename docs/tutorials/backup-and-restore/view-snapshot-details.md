@@ -15,10 +15,10 @@ keywords:
   - backup
   - files
   - view
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

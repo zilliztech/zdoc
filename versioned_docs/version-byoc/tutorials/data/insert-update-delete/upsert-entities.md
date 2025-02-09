@@ -17,10 +17,10 @@ keywords:
   - upsert
   - update
   - insert
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 
@@ -48,7 +48,7 @@ When you need to update an Entity in a Collection or are not sure whether to upd
 
 ## Upsert Entity in a Collection{#upsert-entity-in-a-collection}
 
-In this section, you will upsert Entities into a Collection created [in the quick-setup manner](./quick-setup-collections). A Collection created in this manner has only two fields, named **id** and **vector**. Additionally, this Collection has the dynamic field enabled, so the Entities in the example code include a field called **color** that is not defined in the Schema.
+In this section, you will upsert Entities into a Collection created [in the quick-setup manner](./quick-setup-collections#quick-setup). A Collection created in this manner has only two fields, named **id** and **vector**. Additionally, this Collection has the dynamic field enabled, so the Entities in the example code include a field called **color** that is not defined in the Schema.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

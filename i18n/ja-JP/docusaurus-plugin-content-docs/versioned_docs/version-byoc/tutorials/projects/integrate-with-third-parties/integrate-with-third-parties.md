@@ -1,31 +1,31 @@
 ---
-title: "Integrate with Third Parties | BYOC"
+title: "サードパーティーとの統合 | BYOC"
 slug: /integrate-with-third-parties
-sidebar_label: "Integrate with Third Parties"
+sidebar_label: "サードパーティーとの統合"
 beta: FALSE
 notebook: FALSE
-description: "Learn how to integrate your Zilliz Cloud project with third-party services. | BYOC"
+description: "(placeholder) | BYOC"
 type: origin
-token: LykvwFyJCiloeQk2WmGce2s8nZg
+token: ED3jwUknjiLx4bkn3CrcvWD3nWh
 sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - project third-party
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Integrate with Third Parties
+# サードパーティーとの統合
 
-Learn how to integrate your Zilliz Cloud project with third-party services.
+
 
 import DocCardList from '@theme/DocCardList';
 

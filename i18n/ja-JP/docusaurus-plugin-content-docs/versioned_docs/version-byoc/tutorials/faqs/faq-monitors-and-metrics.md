@@ -1,51 +1,51 @@
 ---
-title: "FAQ: Monitors & Metrics | BYOC"
+title: "FAQ:モニターとメトリクス | BYOC"
 slug: /faq-monitors-and-metrics
-sidebar_label: "FAQ: Monitors & Metrics"
+sidebar_label: "FAQ:モニターとメトリクス"
 beta: FALSE
 notebook: FALSE
-description: "This topic lists the possible issues about monitors and metrics that you may encounter on Zilliz Cloud and the corresponding solution. | BYOC"
+description: "このトピックでは、Zilliz Cloudで遭遇する可能性のあるモニターとメトリックに関する問題と、それに対応する解決策をリストアップしています。 | BYOC"
 type: origin
-token: EV41wG08BiOWW8kbo9xcTGoPnKd
+token: LKxiwykkhi5VyLkTfAGcE3LinBe
 sidebar_position: 9
 
 ---
 
-# FAQ: Monitors & Metrics
+# FAQ:モニターとメトリクス
 
-This topic lists the possible issues about monitors and metrics that you may encounter on Zilliz Cloud and the corresponding solution.
+このトピックでは、Zilliz Cloudで遭遇する可能性のあるモニターとメトリックに関する問題と、それに対応する解決策をリストアップしています。
 
 ## Contents
 
-- [Why does the cluster’s CU capacity and storage usage increase temporarily during frequent insert and delete operations?](#why-does-the-clusters-cu-capacity-and-storage-usage-increase-temporarily-during-frequent-insert-and-delete-operations)
-- [What can I do if my cluster memory quota has been exhausted and I cannot insert data as a result?](#what-can-i-do-if-my-cluster-memory-quota-has-been-exhausted-and-i-cannot-insert-data-as-a-result)
-- [Why doesn't the memory consumption decrease even if I dropped a collection?](#why-doesnt-the-memory-consumption-decrease-even-if-i-dropped-a-collection)
+- [頻繁な挿入および削除操作中にクラスタのCU容量とストレージ使用量が一時的に増加するのはなぜですか?](#why-does-the-clusters-cu-capacity-and-storage-usage-increase-temporarily-during-frequent-insert-and-delete-operations)
+- [クラスタメモリクォータが枯渇してデータを挿入できない場合はどうすればよいですか?](#what-can-i-do-if-my-cluster-memory-quota-has-been-exhausted-and-i-cannot-insert-data-as-a-result)
+- [コレクションをドロップしてもメモリ消費量が減らないのはなぜですか?](#why-doesnt-the-memory-consumption-decrease-even-if-i-dropped-a-collection)
 
 ## FAQs
 
 
 
 
-### Why does the cluster’s CU capacity and storage usage increase temporarily during frequent insert and delete operations?{#why-does-the-clusters-cu-capacity-and-storage-usage-increase-temporarily-during-frequent-insert-and-delete-operations}
+### 頻繁な挿入および削除操作中にクラスタのCU容量とストレージ使用量が一時的に増加するのはなぜですか?{#why-does-the-clusters-cu-capacity-and-storage-usage-increase-temporarily-during-frequent-insert-and-delete-operations}
 
-Frequent insert and delete operations trigger an internal process called *[compaction](https://milvus.io/blog/2022-2-21-compact.md)*.
+頻繁な挿入および削除操作は、*[圧縮](https://milvus.io/blog/2022-2-21-compact.md)*と呼ばれる内部過程を引き起こします。
 
-- **For inserts**: Compaction combines smaller segments into larger ones, which can significantly improve search performance.
+- **挿入の**場合:圧縮により、小さなセグメントが大きなセグメントに結合され、検索パフォーマンスが大幅に向上します。
 
-- **For deletes**: Data is not immediately deleted; instead, it’s marked for deletion and removed only after compaction.
+- **削除の**場合:データはすぐに削除されません。代わりに、削除のマークが付けられ、圧縮後にのみ削除されます。
 
-During compaction, new segments are temporarily created, which may lead to a short-term increase in storage usage and CU capacity. Once garbage collection (GC) occurs, old segments are removed, reducing both storage and CU capacity back to expected levels.
+圧縮中に、新しいセグメントが一時的に作成され、ストレージ使用量とCU容量の短期的な増加につながる可能性があります。ガベージコレクション(GC)が発生すると、古いセグメントが削除され、ストレージとCU容量が予想されるレベルに戻ります。
 
-This behavior is normal and does not impact system performance.
+この動作は正常であり、システムのパフォーマンスには影響しません。
 
-### What can I do if my cluster memory quota has been exhausted and I cannot insert data as a result?{#what-can-i-do-if-my-cluster-memory-quota-has-been-exhausted-and-i-cannot-insert-data-as-a-result}
+### クラスタメモリクォータが枯渇してデータを挿入できない場合はどうすればよいですか?{#what-can-i-do-if-my-cluster-memory-quota-has-been-exhausted-and-i-cannot-insert-data-as-a-result}
 
-You can try the following two methods.
+以下の2つの方法を試すことができます。
 
-1. [Scale up](./manage-cluster) your cluster to a larger CU size. Clusters with larger CU sizes can handle more data.
+1. [クラスタを](./manage-cluster)より大きなCUサイズに拡張します。CUサイズが大きいクラスタは、より多くのデータを処理できます。
 
-1. Release loaded collections that are not frequently used to save memory usage.
+1. メモリ使用量を節約するために頻繁に使用されないロードされたコレクションを解放してください。
 
-### Why doesn't the memory consumption decrease even if I dropped a collection?{#why-doesnt-the-memory-consumption-decrease-even-if-i-dropped-a-collection}
+### コレクションをドロップしてもメモリ消費量が減らないのはなぜですか?{#why-doesnt-the-memory-consumption-decrease-even-if-i-dropped-a-collection}
 
-Data in dropped collections are cleaned after 24 hours. Please [submit a request](https://support.zilliz.com/hc/en-us) if your memory consumption still does not drop after 24 hours.
+ドロップされたコレクション内のデータは24時間後にクリーニングされます。24時間後もメモリ消費量が減少しない場合は、[リクエストを送信](https://support.zilliz.com/hc/en-us)してください。

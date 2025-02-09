@@ -7,7 +7,7 @@ notebook: FALSE
 description: "A partition is a subset of a collection. Each partition shares the same data structure with its parent collection but contains only a subset of the data in the collection. This page helps you understand how to manage partitions. | Cloud"
 type: origin
 token: JCMPwIyVciCT4Hk4O20c96MEnch
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

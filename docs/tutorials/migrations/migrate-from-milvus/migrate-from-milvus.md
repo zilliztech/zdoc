@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - milvus
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

@@ -10,19 +10,19 @@ type: docx
 token: UdeRd0YVhoDBeVxrQaBcoikVnAI
 sidebar_position: 3
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - SpladeEmbeddingFunction
   - python
+  - Context Window
   - Natural language search
   - Similarity Search
   - multimodal RAG
-  - llm hallucinations
 displayed_sidebar: pythonSidebar
 
 ---

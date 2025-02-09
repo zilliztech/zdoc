@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists the names of all existing users. | Python | MilvusClient"
 type: docx
 token: EZ2YdBHoDoRTlxx91tscffm1nSb
-sidebar_position: 10
+sidebar_position: 15
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - list_users()
   - python
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: pythonSidebar
 
 ---

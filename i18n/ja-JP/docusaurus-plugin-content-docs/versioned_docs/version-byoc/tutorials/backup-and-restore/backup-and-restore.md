@@ -1,12 +1,12 @@
 ---
-title: "Backup & Restore | BYOC"
+title: "バックアップと復元 | BYOC"
 slug: /backup-and-restore
-sidebar_label: "Backup & Restore"
+sidebar_label: "バックアップと復元"
 beta: FALSE
 notebook: FALSE
-description: "Data backup and restore for your data stored in Zilliz Cloud clusters. | BYOC"
+description: "Zilliz Cloudクラスターに保存されたデータのバックアップと復元。 | BYOC"
 type: origin
-token: VvikwOKc9iZ5vBkgMnycrXKmnId
+token: AXmzw3QBKixR0skM8LWc39jwnAe
 sidebar_position: 6
 keywords: 
   - zilliz
@@ -14,19 +14,19 @@ keywords:
   - cloud
   - backup
   - restore
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Backup & Restore
+# バックアップと復元
 
-Data backup and restore for your data stored in Zilliz Cloud clusters.
+Zilliz Cloudクラスターに保存されたデータのバックアップと復元。
 
 
 

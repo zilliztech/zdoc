@@ -1,12 +1,12 @@
 ---
-title: "Convert Your Data | BYOC"
+title: "データを変換する | BYOC"
 slug: /prepare-data-import
-sidebar_label: "Convert Your Data"
+sidebar_label: "データを変換する"
 beta: FALSE
 notebook: FALSE
-description: "You need to prepare your data before importing it and ensure that it meets the source data requirements. This chapter provides source data requirements and an easy-to-use tool to aid in data preparations. | BYOC"
+description: "インポートする前にデータを準備し、ソースデータの要件を満たしていることを確認する必要があります。この章では、ソースデータの要件と、データの準備を支援する使いやすいツールについて説明します。 | BYOC"
 type: origin
-token: YNbGwiEjAinaQfkSdNlcTehwn8I
+token: KyR6wBH1ZiIuEgk7zktc4zK7nDf
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,19 +14,19 @@ keywords:
   - cloud
   - data import
   - prepare
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Convert Your Data
+# データを変換する
 
-You need to prepare your data before importing it and ensure that it meets the source data requirements. This chapter provides source data requirements and an easy-to-use tool to aid in data preparations.
+インポートする前にデータを準備し、ソースデータの要件を満たしていることを確認する必要があります。この章では、ソースデータの要件と、データの準備を支援する使いやすいツールについて説明します。
 
 import DocCardList from '@theme/DocCardList';
 

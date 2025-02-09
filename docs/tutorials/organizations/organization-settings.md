@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

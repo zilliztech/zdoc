@@ -14,10 +14,10 @@ keywords:
   - cloud
   - marketplace
   - azure
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

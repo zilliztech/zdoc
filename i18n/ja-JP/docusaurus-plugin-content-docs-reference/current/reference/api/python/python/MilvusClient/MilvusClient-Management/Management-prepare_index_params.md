@@ -8,21 +8,21 @@ notebook: false
 description: "This operation prepares index parameters to build indexes for a specific collection. | Python | MilvusClient"
 type: docx
 token: CAzpdAw3wo4ZqrxhjTLcEGBBn1S
-sidebar_position: 8
+sidebar_position: 11
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - prepare_index_params()
   - python
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: pythonSidebar
 
 ---

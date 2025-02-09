@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists all existing aliases for a specific collection. | Python | MilvusClient"
 type: docx
 token: Cpynd2OFJoIXhLx3dQNct7Wgn6f
-sidebar_position: 13
+sidebar_position: 16
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - list_aliases()
   - python
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 displayed_sidebar: pythonSidebar
 
 ---

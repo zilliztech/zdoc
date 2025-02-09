@@ -1,12 +1,12 @@
 ---
-title: "Index Scalar Fields | BYOC"
+title: "インデックススカラーフィールド | BYOC"
 slug: /index-scalar-fields
-sidebar_label: "Index Scalar Fields"
+sidebar_label: "インデックススカラーフィールド"
 beta: FALSE
 notebook: FALSE
-description: "On Zilliz Cloud, a scalar index is used to speed up meta filtering by a specific non-vector field value, similar to a traditional database index. This guide will walk you through creating and configuring scalar indexes for fields such as integers, strings, etc. | BYOC"
+description: "Zilliz Cloudでは、従来のデータベースインデックスと同様に、特定の非ベクトルフィールド値によるメタフィルタリングを高速化するためにスカラーインデックスが使用されます。このガイドでは、整数、文字列などのフィールドのスカラーインデックスの作成と設定について説明します。 | BYOC"
 type: origin
-token: XCCwwOLqKi2nYGkfy5Gc0Vnfnpb
+token: XsuHwokFtiqk1pkAgGeczurLnyh
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 
@@ -25,15 +25,15 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Index Scalar Fields
+# インデックススカラーフィールド
 
-On Zilliz Cloud, a scalar index is used to speed up meta filtering by a specific non-vector field value, similar to a traditional database index. This guide will walk you through creating and configuring scalar indexes for fields such as integers, strings, etc.
+Zilliz Cloudでは、従来のデータベースインデックスと同様に、特定の非ベクトルフィールド値によるメタフィルタリングを高速化するためにスカラーインデックスが使用されます。このガイドでは、整数、文字列などのフィールドのスカラーインデックスの作成と設定について説明します。
 
-## Auto indexing{#auto-indexing}
+## 自動インデックス作成{#auto-indexing}{#auto-indexing}
 
-To use auto indexing, omit the **index_type** parameter so that Milvus can infer the index type based on the scalar field type. For mappings between scalar data types and default indexing algorithms, refer to [Scalar field indexing algorithms](https://milvus.io/docs/scalar_index.md#Scalar-field-indexing-algorithms).
+自動インデックスを使用するには、Milvusがスカラーフィールドタイプに基づいてインデックスタイプを推測できるように、**index_type**パラメータを省略してください。スカラーデータ型とデフォルトのインデックスアルゴリズムのマッピングについては、[スカラーフィールドインデックスアルゴリズム](https://milvus.io/docs/scalar_index.md#Scalar-field-indexing-algorithms)を参照してください。
 
-Example:
+例えば:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>

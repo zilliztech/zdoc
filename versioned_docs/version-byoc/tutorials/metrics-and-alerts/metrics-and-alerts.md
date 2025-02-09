@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

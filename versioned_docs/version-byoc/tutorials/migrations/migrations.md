@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

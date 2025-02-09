@@ -10,19 +10,19 @@ type: docx
 token: YScUdNEpmobwhbxbOQQcsc8Wnie
 sidebar_position: 6
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - save()
   - python
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: pythonSidebar
 
 ---

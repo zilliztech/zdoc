@@ -1,12 +1,12 @@
 ---
-title: "Insert & Delete | BYOC"
+title: "挿入と削除 | BYOC"
 slug: /insert-update-delete
-sidebar_label: "Insert & Delete"
+sidebar_label: "挿入と削除"
 beta: FALSE
 notebook: FALSE
-description: "This chapter focuses on the insert, upsert, and delete operations. | BYOC"
+description: "この章では、挿入、挿入、削除の操作に焦点を当てています。 | BYOC"
 type: origin
-token: DCZNwZdcfivVfIkAZ6qcaK5wnHd
+token: FxwxwixRtiW3v7kkT8Ycr8adngR
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -15,19 +15,19 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Insert & Delete
+# 挿入と削除
 
-This chapter focuses on the insert, upsert, and delete operations.
+この章では、挿入、挿入、削除の操作に焦点を当てています。
 
 import DocCardList from '@theme/DocCardList';
 

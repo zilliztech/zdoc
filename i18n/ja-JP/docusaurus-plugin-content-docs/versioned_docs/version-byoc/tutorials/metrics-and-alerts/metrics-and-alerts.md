@@ -1,12 +1,12 @@
 ---
-title: "Metrics & Alerts | BYOC"
+title: "メトリクスとアラート | BYOC"
 slug: /metrics-and-alerts
-sidebar_label: "Metrics & Alerts"
+sidebar_label: "メトリクスとアラート"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud provides handy metric charts and alerts for you to know what is happening in your organization and clusters. | BYOC"
+description: "Zilliz Cloudは、組織やクラスターで何が起こっているかを知るための便利なメトリックチャートとアラートを提供します。 | BYOC"
 type: origin
-token: Xma9w6Ne9ihcsZkFkSmcHidEnZg
+token: ZrlmwoHRUiZCLGkng9wc6nlzn0g
 sidebar_position: 5
 keywords: 
   - zilliz
@@ -14,19 +14,19 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Metrics & Alerts
+# メトリクスとアラート
 
-Zilliz Cloud provides handy metric charts and alerts for you to know what is happening in your organization and clusters.
+Zilliz Cloudは、組織やクラスターで何が起こっているかを知るための便利なメトリックチャートとアラートを提供します。
 
 import DocCardList from '@theme/DocCardList';
 

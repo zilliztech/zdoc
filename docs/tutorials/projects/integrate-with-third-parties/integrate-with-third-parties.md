@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

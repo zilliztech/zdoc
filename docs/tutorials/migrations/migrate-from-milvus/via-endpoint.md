@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

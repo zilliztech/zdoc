@@ -1,12 +1,12 @@
 ---
-title: "Schedule Automatic Backups | BYOC"
+title: "自動バックアップをスケジュールする | BYOC"
 slug: /schedule-automatic-backups
-sidebar_label: "Schedule Automatic Backups"
+sidebar_label: "自動バックアップをスケジュールする"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud allows you to enable automatic backups for your clusters, ensuring data recovery in case of unexpected mishaps. Regular backup prevent data loss and allow easy recovery to a specific point in time, giving you more control over your data. | BYOC"
+description: "Zilliz Cloudを使用すると、クラスターの自動バックアップを有効にして、予期せぬ事故が発生した場合にデータを確実に復元できます。定期的なバックアップにより、データの損失を防止し、特定の時点まで簡単に復元できるため、データをより細かく制御できます。 | BYOC"
 type: origin
-token: HDmKwGeGLi2P67kGdNXcigXDn3e
+token: NrdTw2pL0iwCcokgJ2Cc6cFunhc
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 
@@ -25,38 +25,38 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Schedule Automatic Backups
+# 自動バックアップをスケジュールする
 
-Zilliz Cloud allows you to enable automatic backups for your clusters, ensuring data recovery in case of unexpected mishaps. Regular backup prevent data loss and allow easy recovery to a specific point in time, giving you more control over your data.
+Zilliz Cloudを使用すると、クラスターの自動バックアップを有効にして、予期せぬ事故が発生した場合にデータを確実に復元できます。定期的なバックアップにより、データの損失を防止し、特定の時点まで簡単に復元できるため、データをより細かく制御できます。
 
-## Before you start{#before-you-start}
+## 始める前に{#before-you-start}{#before-you-start}
 
-Make sure the following conditions are met:
+以下の条件が満たされていることを確認してください。
 
-- You are granted the [Organization Owner](./organization-users) or [Project Admin](./project-users) role in the target organization.
+- ターゲット組織で[組織所有者](./organization-users)または[プロジェクト管理者](./project-users)の役割が付与されていること。
 
-## Create backup schedule{#create-backup-schedule}
+## バックアップスケジュールを作成する{#create-backup-schedule}{#create-backup-schedule}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-To create a backup schedule, follow these steps:
+バックアップスケジュールを作成するには、次の手順に従います。
 
-1. Go to the **Backups** tab of your cluster and click on **Automatic** **Backup**.
+1. クラスタの[**バックアップ**]タブに移動し、[**自動** **バックアップ**]をクリックします。
 
-1. In the **Automatic Backup Settings** dialog box that appears, switch on **Enable Automatic Backup**.
+1. 表示される**自動バックアップ設定**ダイアログボックスで、**自動バックアップを有効**にします。
 
-1. Set the **Frequency**, **Backup Retention Period**, and the time window for automatic backups.
+1. 自動バックアップの**頻度**、**バックアップ保持期間**、および時間枠を設定します。
 
-![create-snapshot-schedule](/byoc/create-snapshot-schedule.png)
+![create-snapshot-schedule](/byoc/ja-JP/create-snapshot-schedule.png)
 
 </TabItem>
 <TabItem value="Bash">
 
-You can set a backup policy to enable automatic backups at regular intervals. 
+定期的に自動バックアップを有効にするバックアップポリシーを設定できます。
 
-The following code creates a backup policy that will execute backups on 4 specific weekdays (Monday, Tuesday, Wednesday, and Friday). For details on parameters, refer to [Set Backup Policy](/reference/restful/set-backup-policy-v2).
+以下のコードは、4つの特定の平日（月曜日、火曜日、水曜日、金曜日）にバックアップを実行するバックアップポリシーを作成します。パラメータの詳細については、「[バックアップポリシーの設定](/reference/restful/set-backup-policy-v2)」を参照してください。
 
 ```bash
 curl --request POST \
@@ -72,7 +72,7 @@ curl --request POST \
       }'
 ```
 
-Expected output:
+予想される出力:
 
 ```bash
 {
@@ -87,29 +87,27 @@ Expected output:
 </TabItem>
 </Tabs>
 
-## Adjust automated backup schedule{#adjust-automated-backup-schedule}
+## 自動バックアップスケジュールを調整する{#adjust-automated-backup-schedule}{#adjust-automated-backup-schedule}
 
-The automated backup schedule settings are cluster-specific and disabled by default.
+デフォルト設定では、Zilliz Cloudは毎日8時から10時の間（**頻度**）にクラスタのバックアップファイルを自動的に作成し、7日間（**保存期間）バックアップファイルを保持するように設定されています。必要に応じて設定を変更してください。**
 
-The default setting configures that Zilliz Cloud automatically creates a backup file for your cluster every day (**Frequency**) between 8 a.m. and 10 a.m. (**Time Period**), and keeps the backup file for 7 days (**Retention Period**). Change the settings as you see fit.
+<Admonition type="info" icon="Notes" title="undefined">
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>The maximum retention period for automatically created backups is 30 days.</p>
+<p>自動的に作成されたバックアップの最大保存期間は30日間です。</p>
 
 </Admonition>
 
-## Delete automatically created backup file{#delete-automatically-created-backup-file}
+## 自動的に作成されたバックアップファイルを削除する{#delete-automatically-created-backup-file}{#delete-automatically-created-backup-file}
 
-Dropping a cluster will remove all auto-created backup files of this cluster. Also, the auto-created backup files are removed when they reach the end of their retention period. If you need to manually delete auto-created backup files, refer to [Delete Backup File](./delete-snapshot).
+クラスタを削除すると、そのクラスタの自動作成されたバックアップファイルがすべて削除されます。また、自動作成されたバックアップファイルは、保存期間が終了すると削除されます。自動作成されたバックアップファイルを手動で削除する必要がある場合は、「[バックアップファイルを削除](./delete-snapshot)」を参照してください。
 
-## Related topics{#related-topics}
+## 関連するトピック{#related-topics}{#related-topics}
 
-- [Create Snapshot](./create-snapshot)
+- [バックアップを作成](./create-snapshot)
 
-- [View Snapshot Details](./view-snapshot-details)
+- [バックアップファイルを表示する](./view-snapshot-details)
 
-- [Restore from Snapshot](./restore-from-snapshot)
+- [バックアップファイルからの復元](./restore-from-snapshot)
 
-- [Delete Snapshot](./delete-snapshot) 
+- [バックアップファイルを削除](./delete-snapshot)
 

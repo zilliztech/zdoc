@@ -1,12 +1,12 @@
 ---
-title: "Search & Rerank | BYOC"
+title: "検索&ランク | BYOC"
 slug: /search-query-get
-sidebar_label: "Search & Rerank"
+sidebar_label: "検索&ランク"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud implements vector-based similarity searches and provides multiple optimizations to improve search efficiency and performance. In this chapter, you will learn the principles and tutorials of various vector search methods available on Zilliz Cloud. | BYOC"
+description: "Zilliz Cloudはベクトルベースの類似検索を実装し、検索効率とパフォーマンスを向上させるための複数の最適化を提供します。この章では、Zilliz Cloudで利用可能なさまざまなベクトル検索方法の原則とチュートリアルを学びます。 | BYOC"
 type: origin
-token: CSYrwhK4Gigk07kd6ufcNTGMnZf
+token: N9D5wwK8eiB7tbkeeVyc9QDXnVd
 sidebar_position: 5
 keywords: 
   - zilliz
@@ -15,19 +15,19 @@ keywords:
   - collection
   - data
   - DML
-  - Zilliz
   - milvus vector database
   - milvus db
   - milvus vector db
+  - Zilliz Cloud
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Search & Rerank
+# 検索&ランク
 
-Zilliz Cloud implements vector-based similarity searches and provides multiple optimizations to improve search efficiency and performance. In this chapter, you will learn the principles and tutorials of various vector search methods available on Zilliz Cloud.
+Zilliz Cloudはベクトルベースの類似検索を実装し、検索効率とパフォーマンスを向上させるための複数の最適化を提供します。この章では、Zilliz Cloudで利用可能なさまざまなベクトル検索方法の原則とチュートリアルを学びます。
 
 import DocCardList from '@theme/DocCardList';
 

@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Loading a collection is the prerequisite to conducting similarity searches and queries in collections. This page focuses on the procedures for loading and releasing a collection. | Cloud"
 type: origin
 token: CemEwKryciMUepkgYWZcOw6wncb
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - collection
   - load
   - release
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

@@ -8,21 +8,21 @@ notebook: false
 description: "This operation describes a specific role. | Python | MilvusClient"
 type: docx
 token: JJz3dFrE2oJP3AxySWYcJlf4nMh
-sidebar_position: 3
+sidebar_position: 5
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - describe_role()
   - python
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: pythonSidebar
 
 ---

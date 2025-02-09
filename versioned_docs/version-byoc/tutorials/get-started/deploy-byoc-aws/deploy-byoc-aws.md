@@ -2,7 +2,7 @@
 title: "Deploy BYOC on AWS | BYOC"
 slug: /deploy-byoc-aws
 sidebar_label: "Deploy BYOC on AWS"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "This page describes how to manually create a project in your Zilliz Cloud Bring-Your-Own-Cloud (BYOC) organization using the Zilliz Cloud console and custom AWS configurations. | BYOC"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - aws
   - milvus
   - vector database
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 
@@ -27,6 +27,12 @@ import Admonition from '@theme/Admonition';
 # Deploy BYOC on AWS
 
 This page describes how to manually create a project in your Zilliz Cloud Bring-Your-Own-Cloud (BYOC) organization using the Zilliz Cloud console and custom AWS configurations.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+</Admonition>
 
 ## Prerequisites{#prerequisites}
 
@@ -60,21 +66,25 @@ In **General Settings**, you need to set the project name, determine the cloud p
 
     - **Use AWS CloudFormation to provision the infrastructure.**
 
-        If you prefer to use AWS CloudFormation to provision the data plane infrastructure for the project, select the **Quickstart** tile in the **Deploy Method** section. This is also the recommended method to start a BYOC project.
+        If you prefer to use AWS CloudFormation to provision the data plane infrastructure for the project, select the **Quickstart** tile in the **Deploy Method** section. This is also the recommended method for starting a BYOC project.
+
+        If you decide to use AWS CloudFormation, click **Next**, and you will be prompted with the following dialog box to choose whether to deploy the project to a new VPC or an existing VPC.
+
+        ![EWCsb9An2oM6dkxjCuOcM5hRnCe](/byoc/EWCsb9An2oM6dkxjCuOcM5hRnCe.png)
+
+        Then, you can click **Create Stack with CloudFormation** to start deploying the project.
 
     - **Use a Terraform script to provision the infrastructure.**
 
         If you prefer to use a Terraform script to provision the infrastructure, you need to copy and paste the script output back to Zilliz Cloud. For details, see [Bootstrap Project Infrastructure (Terraform)](./bootstrap-infrastructure-terraform). 
 
+        Note that you still need to fill in the information the Terraform script returns back to the Zilliz Cloud console, as specified in [Credential Settings](./deploy-byoc-aws#credential-settings) and [Network Settings](./deploy-byoc-aws#network-settings).
+
     - **Use the AWS console to create necessary resources and roles.**
 
-        You need to create necessary resources, such as a storage bucket and several IAM roles, on the AWS console. Then, copy and paste their names and IDs back to Zilliz Cloud console. If you prefer to create the project this way, select the **Manually** tile in the **Deploy Method** section. 
+        You need to create necessary resources, such as a storage bucket and several IAM roles, on the AWS console. Then, copy and paste their names and IDs back to the Zilliz Cloud console. If you prefer to create the project this way, select the **Manually** tile in the **Deploy Method** section and click **Next**. 
 
-        To facilitate your configurations, Zilliz Cloud splits the process into the following steps:
-
-        - [Credential Settings](./deploy-byoc-aws#credential-settings), and
-
-        - [Network Settings](./deploy-byoc-aws#network-settings).
+        Zilliz Cloud splits the process into [Credential Settings](./deploy-byoc-aws#credential-settings) and [Network Settings](./deploy-byoc-aws#network-settings) to facilitate your configurations, 
 
 ### Credential Settings{#credential-settings}
 
@@ -108,7 +118,7 @@ In **Credential Settings**, you must set up the storage and several IAM roles fo
 
 In Network Settings, you need to create a VPC and several types of resources, such as subnets, security group, and optional VPC endpoint in the VPC.
 
-![PEGUbAKxvoOydNxxgr8cwuZgnBh](/byoc/PEGUbAKxvoOydNxxgr8cwuZgnBh.png)
+![NeKmbmKVhoNWcOx18IjcC1eLnDb](/byoc/NeKmbmKVhoNWcOx18IjcC1eLnDb.png)
 
 1. In **Network Settings**, set the **VPC ID**, **Subnet IDs**, the **Security Group ID**, and the optional **VPC endpoint ID**.
 
@@ -141,28 +151,24 @@ You need to determine the types of instances to create for each component listed
      <th><p>Components</p></th>
      <th><p>Licenses consumed per instance</p></th>
      <th><p>Instance type</p></th>
-     <th><p>Instances required for initial deployment</p></th>
      <th><p>Description</p></th>
    </tr>
    <tr>
      <td><p>Search service</p></td>
      <td><p>16</p></td>
      <td><p>m6id.4xlarge</p></td>
-     <td><p>0</p></td>
      <td><p>Instances solely used for query services</p></td>
    </tr>
    <tr>
      <td><p>Fundamental database components</p></td>
      <td><p>8</p></td>
      <td><p>m6i.2xlarge</p></td>
-     <td><p>1</p></td>
      <td><p>Instances used for fundamental database components, which are mainly used as the index pool</p></td>
    </tr>
    <tr>
      <td><p>Core support services</p></td>
      <td><p>0</p></td>
      <td><p>m6i.2xlarge</p></td>
-     <td><p>3</p></td>
      <td><p>Instances used for peripheral support services, including Milvus Operator, Zilliz Cloud Agent, and Milvus dependencies for logging, monitoring, and alerting</p></td>
    </tr>
 </table>
@@ -173,7 +179,7 @@ If the instance settings are left unconfigured, the default settings listed abov
 
 After you create a project, you can view its status on the project page.
 
-![XowAbD3Ggob6cMxgZtsckUv0nmh](/byoc/XowAbD3Ggob6cMxgZtsckUv0nmh.png)
+![Wstab2JghoTZ51xdSFQc2JHknJb](/byoc/Wstab2JghoTZ51xdSFQc2JHknJb.png)
 
 
 

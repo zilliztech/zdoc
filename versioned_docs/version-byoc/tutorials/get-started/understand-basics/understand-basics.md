@@ -14,10 +14,10 @@ keywords:
   - cloud
   - basics
   - milvus
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

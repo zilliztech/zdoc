@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

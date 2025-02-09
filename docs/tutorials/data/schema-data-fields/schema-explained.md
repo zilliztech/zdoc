@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

@@ -10,19 +10,19 @@ type: docx
 token: IgUndv7TCoRpWOxS5hkcXrypndd
 sidebar_position: 3
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
   - node
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: nodeSidebar
 
 ---

@@ -8,21 +8,21 @@ notebook: false
 description: "This operation drops a user. | Python | MilvusClient"
 type: docx
 token: WtyZdeFKMoSv5exaYRxcPLCSndg
-sidebar_position: 6
+sidebar_position: 9
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - drop_user()
   - python
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 displayed_sidebar: pythonSidebar
 
 ---

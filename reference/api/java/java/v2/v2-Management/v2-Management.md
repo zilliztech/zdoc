@@ -9,10 +9,10 @@ token: PohgfmtiBlwuPRdcACmc9JDZnve
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud

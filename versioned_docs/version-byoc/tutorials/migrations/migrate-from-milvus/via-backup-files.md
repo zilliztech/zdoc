@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

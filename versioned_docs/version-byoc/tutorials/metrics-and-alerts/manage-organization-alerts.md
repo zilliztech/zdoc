@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

@@ -8,21 +8,21 @@ notebook: false
 description: "This operation describes a specific user. | Python | MilvusClient"
 type: docx
 token: Wz3HdtvPCoEquvxFY7PcDHxcnEe
-sidebar_position: 4
+sidebar_position: 6
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - describe_user()
   - python
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 displayed_sidebar: pythonSidebar
 
 ---

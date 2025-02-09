@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

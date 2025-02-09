@@ -8,21 +8,21 @@ notebook: false
 description: "This operation loads the data of a specific collection into memory. | Python | MilvusClient"
 type: docx
 token: FLmWdFP9Zo3JcixOEgucU8JMnLc
-sidebar_position: 7
+sidebar_position: 10
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - load_collection()
   - python
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: pythonSidebar
 
 ---

@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

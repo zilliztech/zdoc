@@ -1,7 +1,7 @@
 ---
-title: "Standard | BYOC"
+title: "Standard Analyzer | BYOC"
 slug: /standard-analyzer
-sidebar_label: "Standard"
+sidebar_label: "Standard Analyzer"
 beta: PUBLIC
 notebook: FALSE
 description: "The `standard` analyzer is the default analyzer in Zilliz Cloud, which is automatically applied to text fields if no analyzer is specified. It uses grammar-based tokenization, making it effective for most languages. | BYOC"
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - standard-analyzer
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 
@@ -28,7 +28,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Standard
+# Standard Analyzer
 
 The `standard` analyzer is the default analyzer in Zilliz Cloud, which is automatically applied to text fields if no analyzer is specified. It uses grammar-based tokenization, making it effective for most languages.
 

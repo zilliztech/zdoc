@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

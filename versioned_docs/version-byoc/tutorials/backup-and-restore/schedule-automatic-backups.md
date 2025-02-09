@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

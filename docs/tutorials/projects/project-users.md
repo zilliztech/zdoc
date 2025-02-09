@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

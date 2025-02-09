@@ -10,19 +10,19 @@ type: docx
 token: QXDxdv36FoVgjcxDV1gcDwWXnsd
 sidebar_position: 5
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
   - python
+  - vector databases comparison
+  - Faiss
   - Video search
   - AI Hallucination
-  - AI Agent
-  - semantic search
 displayed_sidebar: pythonSidebar
 
 ---

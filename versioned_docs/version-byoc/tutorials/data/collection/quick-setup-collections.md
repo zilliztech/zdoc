@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - quick-setup
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

@@ -1,12 +1,12 @@
 ---
-title: "Create Cross-Account IAM Role | BYOC"
+title: "クロスアカウントIAMロールの作成 | BYOC"
 slug: /create-cross-account-role
-sidebar_label: "Create Cross-Account IAM Role"
+sidebar_label: "クロスアカウントIAMロールの作成"
 beta: PRIVATE
 notebook: FALSE
-description: "This page describes how to create and configure a cross-account role for Zilliz Cloud to bootstrap your project. This role gives Zilliz Cloud restricted permissions to manage VPC resources on your behalf. | BYOC"
+description: "このページでは、プロジェクトをブートストラップするためにZilliz Cloudのクロスアカウントロールを作成および設定する方法について説明します。このロールにより、Zilliz Cloudはあなたの代わりにVPCリソースを管理するための制限付き権限を与えられます。 | BYOC"
 type: origin
-token: TQpDw2mkViTQ98k9RbfcxUarneb
+token: ILTuw2RQeiSXWykKoCucyZL5nig
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -16,83 +16,89 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Create Cross-Account IAM Role
+# クロスアカウントIAMロールの作成
 
-This page describes how to create and configure a cross-account role for Zilliz Cloud to bootstrap your project. This role gives Zilliz Cloud restricted permissions to manage VPC resources on your behalf.
+このページでは、プロジェクトをブートストラップするためにZilliz Cloudのクロスアカウントロールを作成および設定する方法について説明します。このロールにより、Zilliz Cloudはあなたの代わりにVPCリソースを管理するための制限付き権限を与えられます。
 
-## Procedure{#procedure}
+<Admonition type="info" icon="📘" title="ノート">
 
-You can use the AWS console to create the bootstrap role. As an alternative, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on AWS. For details, refer to [Bootstrap Project Infrastructure (Terraform)](./bootstrap-infrastructure-terraform).
+<p>Zilliz BYOCは現在<strong>一般提供</strong>中です。アクセスと実装の詳細については、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p>
 
-### Step 1: Create a cross-account IAM role{#step-1-create-a-cross-account-iam-role}
+</Admonition>
 
-In this step, you will create a cross-account IAM role for the communications between Zilliz Cloud and your VPC.
+## 手続き{#procedure}{#procedure}
 
-1. On the Zilliz Cloud console, copy **External ID** displayed in the setup guide.
+AWSコンソールを使用してブートストラップロールを作成できます。代わりに、Zilliz Cloudが提供するTerraformスクリプトを使用して、Zilliz CloudプロジェクトのインフラストラクチャをAWS上でブートストラップすることもできます。詳細については、「[Bootstrapインフラストラクチャ（Terraform）](./bootstrap-infrastructure-terraform)」を参照してください。
 
-    ![TS1XbezPjoruVGxQmuJckdo1nSc](/byoc/TS1XbezPjoruVGxQmuJckdo1nSc.png)
+### ステップ1:クロスアカウントIAMロールを作成する{#step-1-create-a-cross-account-iam-role}{#1iamstep-1-create-a-cross-account-iam-role}
 
-1. Log into your **AWS Console** as a user with administrator privileges and go to the **IAM** dashboard.
+このステップでは、Zilliz CloudとVPC間の通信のためのクロスアカウントIAMロールを作成します。
 
-1. Click the **Roles** tab in the left sidebar, and then click **Create Role**.
+1. Zilliz Cloudコンソールで、セットアップガイドに表示されている**外部ID**をコピーします。
 
-    ![RKjvblTyRo8oDMxmjiNciRwrnUl](/byoc/RKjvblTyRo8oDMxmjiNciRwrnUl.png)
+    ![HlT5b37CKoWnsexqAk4cXYqgnpe](/byoc/ja-JP/HlT5b37CKoWnsexqAk4cXYqgnpe.png)
 
-1. In **Select trusted entity**, click the **AWS account** tile.
+1. 管理者権限を持つユーザーとして**AWSコンソール**にログインし、**IAM**ダッシュボードに移動します。
 
-    ![SxSkbijRMoSNeGxYDsnchgDOnQb](/byoc/SxSkbijRMoSNeGxYDsnchgDOnQb.png)
+1. 左サイドバーの[**役割**]タブをクリックし、[**役割を作成**]をクリックします。
 
-1. In **An AWS account**, select the **Another AWS account** checkbox.
+    ![S6eKbYvD5om0jGxUIWDcwdSEnXf](/byoc/ja-JP/S6eKbYvD5om0jGxUIWDcwdSEnXf.png)
 
-1. In **Account ID**, enter the Zilliz Cloud account ID `965570967084`. 
+1. [**信頼できるエンティティ**の選択]で、**AWSアカウント**タイルをクリックします。
 
-    This is not the external ID you copied from the Zilliz Cloud console.
+    ![WQOCbEPNeoceCBxg2DVcf9Xln3g](/byoc/ja-JP/WQOCbEPNeoceCBxg2DVcf9Xln3g.png)
 
-1. Select the **Require external ID** checkbox.
+1. [**An AWS account**]で、[**Another AWS account**]チェックボックスをオンにします。
 
-1. In **External ID**, enter the one you have copied from the Zilliz Cloud console.
+1. [**アカウントID**]に、Zilliz CloudアカウントID 9655 7 0 9670 8 4を入力し`ま`す。
 
-1. Click **Next** and skip adding permissions.
+    これは、Zilliz Cloudコンソールからコピーした外部IDではありません。
 
-1. In the **Name, review, and create** step, name the role, review the trusted entities, and click **Create role**.
+1. [**外部IDが必要]**チェックボックスをオンにします。
 
-    <Admonition type="info" icon="📘" title="Notes">
+1. [**外部ID**]に、Zilliz CloudコンソールからコピーしたIDを入力します。
 
-    <p>When naming the role, use the prefix <code>zilliz-byoc</code>.</p>
+1. 「**次**へ」をクリックして、アクセス権の追加をスキップします。
+
+1. 「**名前、レビュー、および作成**」ステップで、役割に名前を付け、信頼されたエンティティを確認し、「**役割を作成**」をクリックします。
+
+    <Admonition type="info" icon="📘" title="ノート">
+
+    <p>ロールに名前を付けるときは、プレフィックス<code>zilliz-byoc</code>を使用します。</p>
 
     </Admonition>
 
-1. Once the role has been created, click **View role** in the green bar to go to the role details. 
+1. ロールが作成されたら、緑色のバーの[**View role**]をクリックしてロールの詳細に移動します。
 
-    ![DhbcbR2Lfocoopxjn5lcUixQn4e](/byoc/DhbcbR2Lfocoopxjn5lcUixQn4e.png)
+    ![IkpJbCkEiomCLJxVekpcpRD4nh5](/byoc/ja-JP/IkpJbCkEiomCLJxVekpcpRD4nh5.png)
 
-1. Click the copy icon in front of the role's **ARN**.
+1. ロールの**ARN**の前にあるコピーアイコンをクリックします。
 
-    ![JMNYbgkEIol9LnxzYM8cgScZnWd](/byoc/JMNYbgkEIol9LnxzYM8cgScZnWd.png)
+    ![LRmfbjfczo3BCAxIgyyc1EIznFc](/byoc/ja-JP/LRmfbjfczo3BCAxIgyyc1EIznFc.png)
 
-1. Go back to the Zilliz Cloud console, paste the role ARN in **IAM Role ARN** under **EKS settings**.
+1. Zilliz Cloudコンソールに戻り、**IAM Role ARN**の**EKS設定**にARNロールを貼り付けます。
 
-    ![Hgy9bfuYRo0KlTxUnUmcApyynWf](/byoc/Hgy9bfuYRo0KlTxUnUmcApyynWf.png)
+    ![BdPebdKp0oc4nkxeUVgcK3ndn7e](/byoc/ja-JP/BdPebdKp0oc4nkxeUVgcK3ndn7e.png)
 
-### Step 2: Add permissions{#step-2-add-permissions}
+### ステップ2:権限を追加する{#step-2-add-permissions}{#2step-2-add-permissions}
 
-This step is solely on the AWS console. In this step, you will create an inline policy for the role created above.
+このステップはAWSコンソール上でのみ行われます。このステップでは、上記で作成したロールのインラインポリシーを作成します。
 
-1. Go to the details page of the created role. In the **Permissions policies** section, click **Add permissions**, and choose **Create inline policy**.
+1. 作成したロールの詳細ページに移動します。[**権限ポリシー**]セクションで、[**権限を追加**]をクリックし、[**インラインポリシーを作成**]を選択します。
 
-    ![NJaZbbcAhopglpxSBThcill3n3c](/byoc/NJaZbbcAhopglpxSBThcill3n3c.png)
+    ![UjQBb1Xbxo88qExt4amchip9nmg](/byoc/ja-JP/UjQBb1Xbxo88qExt4amchip9nmg.png)
 
-1. On the **Specify permissions** page, click **JSON** in the **Policy editor** section to open the policy editor. Then copy the permissions from below and paste it into the policy editor, replacing `{bucketName}` with the bucket you have created in [Create S3 Bucket and Role](./create-bucket-and-role).
+1. 「**Specify permis**sions」ページで、「**JSON**」をクリックして**ポリシーエディタ**を開きます。その後、以下のパーミッションをコピーしてポリシーエディタに貼り付け、`{bucketName}`を「Create S3 Bucket and Role」で作成したバケットに置き換えます。
 
     ```json
     {
@@ -394,16 +400,16 @@ This step is solely on the AWS console. In this step, you will create an inline 
       }
     ```
 
-    ![KD0ZbpltAoLfnxx8mGZcrsPPngg](/byoc/KD0ZbpltAoLfnxx8mGZcrsPPngg.png)
+    ![OT5obistsoSodixuW5ncltJQnKe](/byoc/ja-JP/OT5obistsoSodixuW5ncltJQnKe.png)
 
-1. In **Review and create**, enter a policy name, review the permissions, and click **Create policy**.
+1. [**レビューと作成**]で、ポリシー名を入力し、権限を確認して、[**ポリシーを作成**]をクリックします。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="ノート">
 
-    <p>When naming the policy, use the prefix <code>zilliz-byoc</code>.</p>
+    <p>ポリシーに名前を付けるときは、プレフィックス<code>zilliz-byoc</code>を使用します。</p>
 
     </Admonition>
 
-    ![WcFVbDMPLod1fbxPcytcaliTnXS](/byoc/WcFVbDMPLod1fbxPcytcaliTnXS.png)
+    ![LGHebTzMzoHTV1xRxIlcpV7rntc](/byoc/ja-JP/LGHebTzMzoHTV1xRxIlcpV7rntc.png)
 
     

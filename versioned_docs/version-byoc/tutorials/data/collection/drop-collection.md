@@ -7,7 +7,7 @@ notebook: FALSE
 description: "You can drop a collection if it is no longer needed. | BYOC"
 type: origin
 token: DEUuwEwM4iMLOikU7XpcpNnKnGd
-sidebar_position: 9
+sidebar_position: 10
 keywords: 
   - zilliz
   - vector database
@@ -16,10 +16,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

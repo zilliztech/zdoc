@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

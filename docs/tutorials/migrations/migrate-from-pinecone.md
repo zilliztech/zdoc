@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - pinecone
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

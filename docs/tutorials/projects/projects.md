@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

@@ -8,21 +8,21 @@ notebook: false
 description: "This operation creates a collection schema. | Python | MilvusClient"
 type: docx
 token: RxU7dBjGlop0e1xZShYcZ4qCnnh
-sidebar_position: 4
+sidebar_position: 6
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - create_schema()
   - python
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 displayed_sidebar: pythonSidebar
 
 ---

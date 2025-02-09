@@ -1,31 +1,31 @@
 ---
-title: "Get Started | BYOC"
+title: "始める | BYOC"
 slug: /get-started
-sidebar_label: "Get Started"
+sidebar_label: "始める"
 beta: FALSE
 notebook: FALSE
-description: "A comprehensive quick start guide and related topics to help you build your apps on Zilliz Cloud. | BYOC"
+description: "Zilliz Cloud上でアプリを構築するための包括的なクイックスタートガイドと関連トピック。 | BYOC"
 type: origin
-token: BDOHwqlMDiei78kdUefcjSQUnEg
+token: FDtOwKSriiayeQkFsPAcOMmQnNc
 sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
   - get started
   - milvus
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Get Started
+# 始める
 
-A comprehensive quick start guide and related topics to help you build your apps on Zilliz Cloud.
+Zilliz Cloud上でアプリを構築するための包括的なクイックスタートガイドと関連トピック。
 
 
 

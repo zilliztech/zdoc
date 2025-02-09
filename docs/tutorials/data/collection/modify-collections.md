@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 
@@ -254,7 +254,7 @@ The applicable collection properties are as follows:
    </tr>
    <tr>
      <td><p><code>collection.ttl.seconds</code></p></td>
-     <td><p>If a collection needs to be dropped for a specific period, consider setting its Time-To-Live (TTL) in seconds. Once the TTL times out, Zilliz Cloud deletes entities in the collection. </p><p>The deletion is asynchronous, indicating that searches and queries are still possible before the deletion is complete.</p></td>
+     <td><p>If the data of a collection needs to be deleted after a specific period, consider setting its Time-To-Live (TTL) in seconds. Once the TTL times out, Zilliz Cloud deletes all entities from the collection. </p><p>The deletion is asynchronous, indicating that searches and queries are still possible before the deletion is complete.</p></td>
    </tr>
    <tr>
      <td><p><code>mmap.enabled</code></p></td>

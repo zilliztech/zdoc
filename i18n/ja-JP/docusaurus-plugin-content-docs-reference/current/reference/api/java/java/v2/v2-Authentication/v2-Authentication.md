@@ -9,10 +9,10 @@ token: U16KfBnGVlNp5edR7DycvFF1nfy
 sidebar_position: 1
 sidebar_label: "Authentication"
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud

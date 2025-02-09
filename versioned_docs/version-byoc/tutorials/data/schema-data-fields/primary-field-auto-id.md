@@ -17,10 +17,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

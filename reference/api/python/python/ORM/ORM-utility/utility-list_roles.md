@@ -10,19 +10,19 @@ type: docx
 token: ClLXdDs64oixJBxlIrCcEB2dngb
 sidebar_position: 27
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - list_roles()
   - python
-  - Question answering system
   - llm-as-a-judge
   - hybrid vector search
   - Video deduplication
+  - Video similarity search
 displayed_sidebar: pythonSidebar
 
 ---

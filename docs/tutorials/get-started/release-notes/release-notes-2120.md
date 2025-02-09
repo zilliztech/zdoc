@@ -7,16 +7,16 @@ notebook: FALSE
 description: "With this release, Zilliz Cloud introduces significant enhancements to improve security, performance, and usability across its BYOC solution. A global mmap strategy is now implemented, offering customizable configurations at both the field and index levels, which enables increased collection capacity while maintaining search performance. Building on Milvus, Zilliz Cloud now supports database creation within clusters and provides collection-level Role-Based Access Control (RBAC) for better data management and multi-tenancy. Additionally, search precision settings have been refined, and these are now coupled with recall rate estimation capabilities to help optimize search accuracy and performance effectively. | Cloud"
 type: origin
 token: OJVrwOiE4i3fFjk2J3NcneLznfh
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 
@@ -39,7 +39,7 @@ As enterprise adoption of Zilliz Cloud grows, more and more become concerned wit
 
 - **Optimized Permissions**: Deployment and operational tasks now require minimized, fine-grained permission settings, improving security and ease of management. Please take a look at the full permission list [here](/docs/byoc/permissions-in-roles).
 
-For more details, refer to [BYOC Overview](/byoc-intro) and [Deploy BYOC on AWS](/docs/byoc/deploy-byoc-aws).
+For more details, refer to [BYOC Overview](/docs/byoc/byoc-intro) and [Deploy BYOC on AWS](/docs/byoc/deploy-byoc-aws).
 
 ## New Region Available: GCP us-central1 (lowa){#new-region-available-gcp-us-central1-lowa}
 

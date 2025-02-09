@@ -1,142 +1,142 @@
 ---
-title: "Manage Project Users | BYOC"
+title: "プロジェクトのユーザーを管理する | BYOC"
 slug: /project-users
-sidebar_label: "Project Users"
+sidebar_label: "プロジェクトのユーザーを管理する"
 beta: FALSE
 notebook: FALSE
-description: "In Zilliz Cloud, you can invite users to projects and assign them roles based on their job functions. These roles determine the user's access to projects and the operations they can perform. | BYOC"
+description: "Zilliz Cloudでは、ユーザーをプロジェクトに招待し、彼らの職務に基づいて役割を割り当てることができます。これらの役割は、ユーザーがプロジェクトにアクセスし、実行できる操作を決定します。 | BYOC"
 type: origin
-token: PZ4uwwgUfio5OikY0Ecc5nrunFf
+token: ELwKwLNkJi8nD6kiRgOcvi8Mnxb
 sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - cloud
   - project users
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Manage Project Users
+# プロジェクトのユーザーを管理する
 
-In Zilliz Cloud, you can invite users to projects and assign them roles based on their job functions. These roles determine the user's access to projects and the operations they can perform.
+Zilliz Cloudでは、ユーザーをプロジェクトに招待し、彼らの職務に基づいて役割を割り当てることができます。これらの役割は、ユーザーがプロジェクトにアクセスし、実行できる操作を決定します。
 
-This topic describes how to manage project users.
+このトピックでは、プロジェクトユーザーを管理する方法について説明します。
 
-## Invite a user to a project{#invite-a-user-to-a-project}
+## ユーザーをプロジェクトに招待する{#invite-a-user-to-a-project}{#invite-a-user-to-a-project}
 
-To invite a user to join a project, you must be an **Organization Owner** or a **Project Admin**.
+ユーザーをプロジェクトに招待するには、**組織所有者**または**プロジェクト管理者**である必要があります。
 
-When inviting a user to a project, you need to grant a role to the user which defines the privileges to perform certain operations within this project. 
+プロジェクトにユーザーを招待する場合、このプロジェクト内で特定の操作を実行する権限を定義する役割をユーザーに付与する必要があります。
 
-To invite users, enter the email addresses of the users you wish to invite. Then select the project role you wish to grant to the new project users. 
+ユーザーを招待するには、招待したいユーザーのメールアドレスを入力してください。そして、新しいプロジェクトユーザーに付与したいプロジェクトの役割を選択してください。
 
-### Project roles{#project-roles}
+### プロジェクトの役割{#project-roles}{#project-roles}
 
-Zilliz Cloud provides three project roles. These roles cannot be modified or deleted.
+Zilliz Cloudには3つのプロジェクトロールがあります。これらのロールは変更または削除できません。
 
-- **Project Admin**: A Project Admin role has full privileges to manage a project and all its resources (clusters, databases, collections).
+- **プロジェクト管理者**:プロジェクト管理者の役割には、プロジェクトとそのすべてのリソース(クラスター、データベース、コレクション)を管理するための完全な権限があります。
 
-    The following table lists the corresponding UI and API privileges of each project role.
-
-    <table>
-       <tr>
-         <th><p><strong>UI Privileges</strong></p></th>
-         <th><p><strong>Control Plane RESTful API (V2) Privileges</strong></p></th>
-         <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
-       </tr>
-       <tr>
-         <td><ul><li><p>Manage <a href="./cluster">clusters</a> and <a href="./pipelines">pipelines</a> in the project</p></li><li><p>Manage <a href="./collection">collections</a> &amp; <a href="./manage-indexes">indexes</a></p></li><li><p>Manage <a href="./project-users">project users</a></p></li><li><p>Manage <a href="./network-and-security">IP access list and private links</a></p></li><li><p>Manage <a href="./manage-project-alerts">project alerts</a></p></li><li><p>Manage <a href="./backup-and-restore">backups</a></p></li><li><p>Manage data <a href="./migrations">migrations</a></p></li><li><p>Manage <a href="./job-center">project jobs</a></p></li><li><p>Manage integrations</p></li><li><p>Plus all <a href="./cluster-roles#built-in-cluster-roles">Cluster Admin</a> privileges </p></li></ul></td>
-         <td><ul><li><p><a href="/reference/restful/cloud-meta-v2">All cloud meta operations</a></p></li><li><p><a href="/reference/restful/cluster-operations-v2">All cluster operations</a></p></li><li><p><a href="/reference/restful/import-operations-v2">All import operations</a></p></li><li><p><a href="/reference/restful/backup-and-restore-v2">All backup & restore operations</a></p></li><li><p><a href="/reference/restful/cloud-migration-v2">All cloud migration operations</a></p></li><li><p><a href="/reference/restful/cloud-job-v2">All cloud job operations</a></p></li></ul></td>
-         <td><ul><li><p><a href="/reference/restful/collection-operations-v2">All collection operations</a></p></li><li><p><a href="/reference/restful/index-operations-v2">All index operations</a></p></li><li><p><a href="/reference/restful/partition-operations-v2">All partition operations</a></p></li><li><p><a href="/reference/restful/vector-operations-v2">All vector operations</a></p></li><li><p><a href="/reference/restful/alias-operations-v2">All alias operations</a></p></li><li><p><a href="/reference/restful/role-operations-v2">All role operations</a></p></li><li><p><a href="/reference/restful/user-operations-v2">All user operations</a></p></li></ul></td>
-       </tr>
-    </table>
-
-- **Project Read-Writ**e: A Project Read-Write role has the privileges to view a project and manage its resources (clusters, databases, collections).
-
-    The following table lists the corresponding UI and API privileges of each project role.
+    次の表に、各プロジェクトロールの対応するUIおよびAPI権限を示します。
 
     <table>
        <tr>
-         <th><p><strong>UI Privileges</strong></p></th>
-         <th><p><strong>Control Plane RESTful API (V2) Privileges</strong></p></th>
-         <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
+         <th><p><strong>UIの権限</strong></p></th>
+         <th><p><strong>コントロールプレーンのRESTful API（V 2）権限</strong></p></th>
+         <th><p><strong>データプレーンのRESTful API（V 2）権限</strong></p></th>
        </tr>
        <tr>
-         <td><ul><li><p>View <a href="./cluster">clusters</a> and <a href="./pipelines">pipelines</a> in the project and cannot create and manage them</p></li><li><p>Manage <a href="./collection">collections</a> &amp; <a href="./manage-indexes">indexes</a></p></li><li><p>View <a href="./view-snapshot-details">backups</a>, but cannot create or restore from a backup file</p></li><li><p>View <a href="./job-center">project jobs</a>, but cannot cancel jobs or retry failed jobs</p></li></ul></td>
-         <td><ul><li><p><a href="/reference/restful/cloud-meta-v2">All cloud meta operations</a></p></li><li><p>Part of cluster operations</p><ul><li><p><a href="/reference/restful/list-projects-v2">List Projects</a></p></li><li><p><a href="/reference/restful/list-clusters-v2">List Clusters</a></p></li><li><p><a href="/reference/restful/describe-cluster-v2">Describe Cluster</a></p></li><li><p><a href="/reference/restful/query-cluster-metrics-v2">Query Cluster Metrics</a></p></li><li><p><a href="/docs/prometheus-monitoring">Export Metrics</a></p></li></ul></li><li><p><a href="/reference/restful/import-operations-v2">All import operations</a></p></li><li><p>Part of backup &amp; restore operations</p><ul><li><p><a href="/reference/restful/list-backups-v2">List Backups</a></p></li><li><p><a href="/reference/restful/describe-backup-v2">Describe Backup</a></p></li><li><p><a href="/reference/restful/get-backup-policy-v2">Get Backup Policy</a></p></li></ul></li><li><p><a href="/reference/restful/cloud-job-v2">All cloud job operations</a></p></li></ul></td>
-         <td><ul><li><p><a href="/reference/restful/collection-operations-v2">All collection operations</a></p></li><li><p><a href="/reference/restful/index-operations-v2">All index operations</a></p></li><li><p><a href="/reference/restful/partition-operations-v2">All partition operations</a></p></li><li><p><a href="/reference/restful/vector-operations-v2">All vector operations</a></p></li><li><p><a href="/reference/restful/alias-operations-v2">All alias operations</a></p></li></ul></td>
+         <td><ul><li><p>プロジェクト内の<a href="./cluster">クラスター</a>と<a href="./pipelines">パイプライン</a>を管理する</p></li><li><p>管理<a href="./collection">コレクション</a>&amp;<a href="./manage-indexes">インデックス</a></p></li><li><p>プロジェクト<a href="./project-users">ユーザーの管理</a></p></li><li><p>管理<a href="./network-and-security">IPアクセスリストとプライベートリンク</a></p></li><li><p>プロジェクト<a href="./manage-project-alerts">アラートの管理</a></p></li><li><p>バックアップ<a href="./backup-and-restore">の管理</a></p></li><li><p>データ<a href="./migrations">移行の管理</a></p></li><li><p>管理<a href="./job-center">プロジェクトジョブ</a></p></li><li><p>インテグレーションの管理</p></li><li><p>すべての<a href="./cluster-users">クラスタ管理者</a>権限をプラス</p></li></ul></td>
+         <td><ul><li><p><a href="/ja-JP/reference/restful/cloud-meta-v2">すべてのクラウドメタ操作</a></p></li><li><p><a href="/ja-JP/reference/restful/cluster-operations-v2">すべてのクラスタ操作</a></p></li><li><p><a href="/ja-JP/reference/restful/import-operations-v2">すべてのインポート操作</a></p></li><li><p><a href="/ja-JP/reference/restful/backup-and-restore-v2">すべてのバックアップと復元操作</a></p></li><li><p><a href="/ja-JP/reference/restful/cloud-migration-v2">すべてのクラウド移行操作</a></p></li><li><p><a href="/ja-JP/reference/restful/cloud-job-v2">クラウドジョブのすべての操作</a></p></li></ul></td>
+         <td><ul><li><p><a href="/ja-JP/reference/restful/collection-operations-v2">すべての収集操作</a></p></li><li><p><a href="/ja-JP/reference/restful/index-operations-v2">すべてのインデックス操作</a></p></li><li><p><a href="/ja-JP/reference/restful/partition-operations-v2">すべてのパーティション操作</a></p></li><li><p><a href="/ja-JP/reference/restful/vector-operations-v2">すべてのベクトル演算</a></p></li><li><p><a href="/ja-JP/reference/restful/alias-operations-v2">すべてのエイリアス操作</a></p></li><li><p><a href="/ja-JP/reference/restful/role-operations-v2">すべてのロール操作</a></p></li><li><p><a href="/ja-JP/reference/restful/user-operations-v2">すべてのユーザー操作</a></p></li></ul></td>
        </tr>
     </table>
 
-- **Project Read-Only**: A Project Read-Only role has the privileges to view a project and its resources (clusters, databases, collections).
+- **プロジェクトの読み書き**:プロジェクトの読み書きの役割には、プロジェクトを表示し、そのリソース(クラスター、データベース、コレクション)を管理する権限があります。
 
-    The following table lists the corresponding UI and API privileges of each project role.
+    次の表に、各プロジェクトロールの対応するUIおよびAPI権限を示します。
 
     <table>
        <tr>
-         <th><p><strong>UI Privileges</strong></p></th>
-         <th><p><strong>Control Plane RESTful API (V2) Privileges</strong></p></th>
-         <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
+         <th><p><strong>UIの権限</strong></p></th>
+         <th><p><strong>コントロールプレーンのRESTful API（V 2）権限</strong></p></th>
+         <th><p><strong>データプレーンのRESTful API（V 2）権限</strong></p></th>
        </tr>
        <tr>
-         <td><ul><li><p>View <a href="./cluster">clusters</a> and <a href="./pipelines">pipelines</a> in the project and cannot create and manage them</p></li><li><p>View <a href="./collection">collections</a> &amp; <a href="./manage-indexes">indexes</a> only</p></li><li><p>View <a href="./view-snapshot-details">backups</a>, but cannot create or restore from a backup file</p></li><li><p>View <a href="./job-center">project jobs</a>, but cannot cancel jobs or retry failed jobs</p></li></ul></td>
-         <td><ul><li><p><a href="/reference/restful/cloud-meta-v2">All cloud meta operations</a></p></li><li><p>Part of cluster operations</p><ul><li><p><a href="/reference/restful/list-projects-v2">List Projects</a></p></li><li><p><a href="/reference/restful/list-clusters-v2">List Clusters</a></p></li><li><p><a href="/reference/restful/describe-cluster-v2">Describe Cluster</a></p></li><li><p><a href="/reference/restful/query-cluster-metrics-v2">Query Cluster Metrics</a></p></li><li><p><a href="/docs/prometheus-monitoring">Export Metrics</a></p></li></ul></li><li><p>Part of import operations</p><ul><li><p><a href="/reference/restful/get-import-job-progress-v2">Get Import Job Progress</a></p></li><li><p><a href="/reference/restful/list-import-jobs-v2">List Import Jobs </a></p></li></ul></li><li><p>Part of backup &amp; restore operations</p><ul><li><p><a href="/reference/restful/list-backups-v2">List Backups</a></p></li><li><p><a href="/reference/restful/describe-backup-v2">Describe Backup</a></p></li><li><p><a href="/reference/restful/get-backup-policy-v2">Get Backup Policy</a></p></li></ul></li><li><p><a href="/reference/restful/cloud-job-v2">All cloud job operations</a></p></li></ul></td>
-         <td><ul><li><p>Part of collection operations</p><ul><li><p><a href="/reference/restful/describe-collection-v2">Describe Collection</a></p></li><li><p><a href="/reference/restful/get-collection-load-state-v2">Get Collection Load State</a></p></li><li><p><a href="/reference/restful/get-collection-stats-v2">Get Collection Stats</a></p></li><li><p><a href="/reference/restful/has-collection-v2">Has Collection</a></p></li><li><p><a href="/reference/restful/list-collections-v2">List Collections</a></p></li></ul></li><li><p>Part of index operations</p><ul><li><p><a href="/reference/restful/describe-index-v2">Describe Index</a></p></li><li><p><a href="/reference/restful/list-indexes-v2">List Indexes</a></p></li></ul></li><li><p>Part of partition operations</p><ul><li><p><a href="/reference/restful/get-partition-statistics-v2">Get Partition Statistics</a></p></li><li><p><a href="/reference/restful/has-partition-v2">Has Partition</a></p></li><li><p><a href="/reference/restful/list-partitions-v2">List Partitions</a></p></li></ul></li><li><p>Part of alias operations</p><ul><li><p><a href="/reference/restful/describe-alias-v2">Describe Alias</a></p></li><li><p><a href="/reference/restful/list-aliases-v2">List Aliases</a></p></li></ul></li></ul></td>
+         <td><ul><li><p>プロジェクト内の<a href="./cluster">クラスター</a>と<a href="./pipelines">パイプライン</a>を表示し、作成および管理することはできません。</p></li><li><p>管理<a href="./collection">コレクション</a>&amp;<a href="./manage-indexes">インデックス</a></p></li><li><p>バックアップを<a href="./view-snapshot-details">表示</a>しますが、バックアップファイルから作成または復元することはできません</p></li><li><p>プロジェクトの<a href="./job-center">ジョブ</a>を表示しますが、ジョブをキャンセルしたり、失敗したジョブを再試行することはできません</p></li></ul></td>
+         <td><ul><li><p><a href="/ja-JP/reference/restful/cloud-meta-v2">すべてのクラウドメタ操作</a></p></li><li><p>クラスタ操作の一部</p><ul><li><p><a href="/ja-JP/reference/restful/list-projects-v2">リストプロジェクト</a></p></li><li><p><a href="/ja-JP/reference/restful/list-clusters-v2">リストクラスタ</a></p></li><li><p><a href="/ja-JP/reference/restful/describe-cluster-v2">クラスタの説明</a></p></li><li><p><a href="/ja-JP/reference/restful/query-cluster-metrics-v2">クエリクラスタのメトリクス</a></p></li><li><p><a href="./prometheus-monitoring">メトリックのエクスポート</a></p></li></ul></li><li><p><a href="/ja-JP/reference/restful/import-operations-v2">すべてのインポート操作</a></p></li><li><p>バックアップと復元の操作の一部</p><ul><li><p><a href="/ja-JP/reference/restful/list-backups-v2">リストバックアップ</a></p></li><li><p><a href="/ja-JP/reference/restful/describe-backup-v2">バックアップの説明</a></p></li><li><p><a href="/ja-JP/reference/restful/get-backup-policy-v2">バックアップポリシーを取得</a></p></li></ul></li><li><p><a href="/ja-JP/reference/restful/cloud-job-v2">クラウドジョブのすべての操作</a></p></li></ul></td>
+         <td><ul><li><p><a href="/ja-JP/reference/restful/collection-operations-v2">すべての収集操作</a></p></li><li><p><a href="/ja-JP/reference/restful/index-operations-v2">すべてのインデックス操作</a></p></li><li><p><a href="/ja-JP/reference/restful/partition-operations-v2">すべてのパーティション操作</a></p></li><li><p><a href="/ja-JP/reference/restful/vector-operations-v2">すべてのベクトル演算</a></p></li><li><p><a href="/ja-JP/reference/restful/alias-operations-v2">すべてのエイリアス操作</a></p></li></ul></td>
        </tr>
     </table>
 
-The invitees will receive an invitation via email, which must be accepted within 48 hours to join the project. 
+- **プロジェクト読み取り専用**:プロジェクト読み取り専用ロールには、プロジェクトとそのリソース(クラスター、データベース、コレクション)を表示する権限があります。
 
-Once the user joins the project, this user automatically becomes an Organization Member in the organization to which the project belongs.
+    次の表に、各プロジェクトロールの対応するUIおよびAPI権限を示します。
 
-<Admonition type="info" icon="📘" title="Notes">
+    <table>
+       <tr>
+         <th><p><strong>UIの権限</strong></p></th>
+         <th><p><strong>コントロールプレーンのRESTful API（V 2）権限</strong></p></th>
+         <th><p><strong>データプレーンのRESTful API（V 2）権限</strong></p></th>
+       </tr>
+       <tr>
+         <td><ul><li><p>プロジェクト内の<a href="./cluster">クラスター</a>と<a href="./pipelines">パイプライン</a>を表示し、作成および管理することはできません。</p></li><li><p>ビュー<a href="./collection">コレクション</a>&amp;<a href="./manage-indexes">インデックス</a>のみ</p></li><li><p>バックアップを<a href="./job-center">表示</a>しますが、バックアップファイルから作成または復元することはできません</p></li><li><p>プロジェクトの<a href="./job-center">ジョブ</a>を表示しますが、ジョブをキャンセルしたり、失敗したジョブを再試行することはできません</p></li></ul></td>
+         <td><ul><li><p><a href="/ja-JP/reference/restful/cloud-meta-v2">すべてのクラウドメタ操作</a></p></li><li><p>クラスタ操作の一部</p><ul><li><p><a href="/ja-JP/reference/restful/list-projects-v2">リストプロジェクト</a></p></li><li><p><a href="/ja-JP/reference/restful/list-clusters-v2">リストクラスタ</a></p></li><li><p><a href="/ja-JP/reference/restful/describe-cluster-v2">クラスタの説明</a></p></li><li><p><a href="/ja-JP/reference/restful/query-cluster-metrics-v2">クエリクラスタのメトリクス</a></p></li><li><p><a href="./prometheus-monitoring">メトリックのエクスポート</a></p></li></ul></li><li><p>インポート業務の一部</p><ul><li><p><a href="/ja-JP/reference/restful/get-import-job-progress-v2">仕事の進捗をインポートする</a></p></li><li><p><a href="/ja-JP/reference/restful/list-import-jobs-v2">インポートジョブ一覧</a></p></li></ul></li><li><p>バックアップと復元の操作の一部</p><ul><li><p><a href="/ja-JP/reference/restful/list-backups-v2">リストバックアップ</a></p></li><li><p><a href="/ja-JP/reference/restful/describe-backup-v2">バックアップの説明</a></p></li><li><p><a href="/ja-JP/reference/restful/get-backup-policy-v2">バックアップポリシーを取得</a></p></li></ul></li><li><p><a href="/ja-JP/reference/restful/cloud-job-v2">クラウドジョブのすべての操作</a></p></li></ul></td>
+         <td><ul><li><p>一部の収集業務</p><ul><li><p><a href="/ja-JP/reference/restful/describe-collection-v2">コレクションを説明する</a></p></li><li><p><a href="/ja-JP/reference/restful/get-collection-load-state-v2">コレクションの負荷状態を取得する</a></p></li><li><p><a href="/ja-JP/reference/restful/get-collection-stats-v2">コレクションの統計を取得する</a></p></li><li><p><a href="/ja-JP/reference/restful/has-collection-v2">HASコレクション</a></p></li><li><p><a href="/ja-JP/reference/restful/list-collections-v2">リストコレクション</a></p></li></ul></li><li><p>インデックス操作の一部</p><ul><li><p><a href="/ja-JP/reference/restful/describe-index-v2">インデックスの説明</a></p></li><li><p><a href="/ja-JP/reference/restful/list-indexes-v2">リストインデックス</a></p></li></ul></li><li><p>パーティション操作の一部</p><ul><li><p><a href="/ja-JP/reference/restful/get-partition-statistics-v2">パーティションの統計情報を取得する</a></p></li><li><p><a href="/ja-JP/reference/restful/has-partition-v2">パーティションがあります</a></p></li><li><p><a href="/ja-JP/reference/restful/list-partitions-v2">リストパーティション</a></p></li></ul></li><li><p>エイリアス操作の一部</p><ul><li><p><a href="/ja-JP/reference/restful/describe-alias-v2">エイリアスの説明</a></p></li><li><p><a href="/ja-JP/reference/restful/list-aliases-v2">リストエイリアス</a></p></li></ul></li></ul></td>
+       </tr>
+    </table>
 
-<p>Each time you can invite one or more users with the same role to join the project.</p>
+招待された人たちは、プロジェクトに参加するために48時間以内に受け入れる必要がある招待状をメールで受け取ります。
 
-</Admonition>
+ユーザーがプロジェクトに参加すると、そのユーザーはプロジェクトが所属する組織のメンバーに自動的になります。
 
-![byoc-invite-user-to-project](/byoc/byoc-invite-user-to-project.png)
+<Admonition type="info" icon="Notes" title="undefined">
 
-## Revoke or resend an invitation{#revoke-or-resend-an-invitation}
-
-When you invite an existing organization member to a project within the same organization, they automatically gain access to the project without receiving a separate invitation. However, if you invite someone to a project within an organization they are not already a part of, they will receive an invitation to join the organization, which also grants them access to the specified project.
-
-To revoke or resend the invitation, you must be an **Organization Owner** or a **Project Admin**.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>You can revoke or resend an invitation before the user accepts it.</p>
-
-</Admonition>
-
-![byoc-revoke-or-cancel-invitation-to-project](/byoc/byoc-revoke-or-cancel-invitation-to-project.png)
-
-## Edit a collaborator's role or remove a collaborator{#edit-a-collaborators-role-or-remove-a-collaborator}
-
-After a user accepts the invitation, the user becomes a project collaborator.
-
-To edit a collaborator's role or remove a project collaborator, you must be an **Organization Owner** or a **Project Admin**.
-
-![byoc-edit-user-role-or-remove-project-user](/byoc/byoc-edit-user-role-or-remove-project-user.png)
-
-## Leave a project{#leave-a-project}
-
-In addition to removing a collaborator from a project, you can also remove yourself by leaving it.
-
-Note that if you are the only admin of a project, you cannot leave it as each project must have at least one Project Admin at all times.
-
-<Admonition type="caution" icon="🚧" title="Warning">
-
-<p>Once you leave a project, your access to the project and associated resources will be revoked.</p>
+<p>毎回、同じ役割を持つ1人以上のユーザーをプロジェクトに招待できます。</p>
 
 </Admonition>
 
-![byoc-leave-project](/byoc/byoc-leave-project.png)
+![invite-user-to-project](/byoc/ja-JP/invite-user-to-project.png)
+
+## 招待を取り消すか再送信する{#revoke-or-resend-an-invitation}{#revoke-or-resend-an-invitation}
+
+同じ組織内のプロジェクトに既存の組織メンバーを招待すると、個別の招待状を受け取ることなく自動的にプロジェクトにアクセスできます。ただし、既に所属していない組織内のプロジェクトに誰かを招待すると、その人は組織に参加する招待状を受け取り、指定されたプロジェクトにもアクセスできます。
+
+招待を取り消すまたは再送信するには、**Organizationオーナー**または**プロジェクト管理者**である必要があります。
+
+<Admonition type="info" icon="Notes" title="undefined">
+
+<p>ユーザーが承諾する前に招待を取り消したり、再送信したりすることができます。</p>
+
+</Admonition>
+
+![revoke-or-cancel-invitation-to-project](/byoc/ja-JP/revoke-or-cancel-invitation-to-project.png)
+
+## コラボレーターの役割を編集するか、コラボレーターを削除する{#edit-a-collaborators-role-or-remove-a-collaborator}{#edit-a-collaborators-role-or-remove-a-collaborator}
+
+ユーザーが招待を受け入れると、ユーザーはプロジェクトの共同作業者になります。
+
+コラボレーターの役割を編集したり、プロジェクトコラボレーターを削除するには、**組織オーナー**または**プロジェクト管理者**である必要があります。
+
+![edit-user-role-or-remove-project-user](/byoc/ja-JP/edit-user-role-or-remove-project-user.png)
+
+## プロジェクトを終了する{#leave-a-project}{#leave-a-project}
+
+プロジェクトからコラボレーターを削除することに加えて、そのコラボレーターを離れることで自分自身を削除することもできます。
+
+プロジェクトの唯一の管理者である場合、各プロジェクトには常に少なくとも1人のプロジェクト管理者が必要であるため、そのプロジェクトを離れることはできません。
+
+<Admonition type="info" icon="Notes" title="undefined">
+
+<p>プロジェクトを終了すると、プロジェクトと関連リソースへのアクセスが取り消されます。</p>
+
+</Admonition>
+
+![leave-project](/byoc/ja-JP/leave-project.png)
 

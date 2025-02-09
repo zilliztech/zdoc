@@ -1,12 +1,12 @@
 ---
-title: "Manage Cluster User (SDK) | BYOC"
+title: "クラスタユーザーの管理(SDK) | BYOC"
 slug: /cluster-users-sdk
-sidebar_label: "Manage Cluster User (SDK)"
+sidebar_label: "クラスタユーザーの管理(SDK)"
 beta: FALSE
 notebook: FALSE
-description: "In Zilliz Cloud, you can create cluster users and assign them cluster roles to define the privileges, achieving data security. | BYOC"
+description: "Zilliz Cloudでは、クラスターユーザーを作成し、クラスターロールを割り当てて特権を定義し、データセキュリティを実現できます。 | BYOC"
 type: origin
-token: I2CHwfDHKilTMukoZ13cR2M4nzb
+token: Dy4Kw9d7piYQh0kS1sHcImejnNc
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - users
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 
@@ -27,19 +27,19 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Manage Cluster User (SDK)
+# クラスタユーザーの管理(SDK)
 
-In Zilliz Cloud, you can create cluster users and assign them cluster roles to define the privileges, achieving data security.
+Zilliz Cloudでは、クラスターユーザーを作成し、クラスターロールを割り当てて特権を定義し、データセキュリティを実現できます。
 
-This guide will walk you through how to create a cluster user, grant a role to a user, revoke a role from a user, and finally drop a user. For details about cluster roles, refer to [Manage Cluster Roles (Console)](./cluster-roles).
+このガイドでは、クラスターユーザーの作成方法、ユーザーにロールを付与する方法、ユーザーからロールを取り消す方法、そして最後にユーザーを削除する方法について説明します。クラスターロールの詳細については、「[クラスタロールの管理(コンソール)](./cluster-roles)」を参照してください。
 
-## Create a user{#create-a-user}
+## ユーザーを作成する{#create-a-user}{#create-a-user}
 
-The following example shows how to create a user with the username `user_1` and the password `P@ssw0rd`. The username and password for the user must follow these rules:
+以下の例は、ユーザー名`user_1`とパスワード`P@ssw0rd`でユーザーを作成する方法を示しています。ユーザーのユーザー名とパスワードは以下のルールに従う必要があります。
 
-- Username: Must start with a letter and can only include uppercase or lowercase letters, numbers, and underscores.
+- ユーザー名:文字で始まり、大文字または小文字、数字、アンダースコアのみを含める必要があります。
 
-- Password: Must be 8-64 characters long and must include three of the following: uppercase letters, lowercase letters, numbers, and special characters.
+- パスワード: 8～64文字で、大文字、小文字、数字、特殊文字のうち3つを含める必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -117,9 +117,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## List users{#list-users}
+## ユーザー一覧{#list-users}{#list-users}
 
-After creating several users, you can list and view all existing users.
+複数のユーザーを作成した後、既存のすべてのユーザーをリストアップして表示できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -163,15 +163,15 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Below is an example output. `root` is the default user automatically generated. `user_1` is the new user that is just created.
+以下は出力例です。`root`は自動生成されたデフォルトのユーザーです。`user_1`は新しく作成されたユーザーです。
 
 ```bash
 ['root', 'user_1']
 ```
 
-## Grant a role to a user{#grant-a-role-to-a-user}
+## ユーザーに役割を付与する{#grant-a-role-to-a-user}{#grant-a-role-to-a-user}
 
-The following example demonstrates how to grant the role `role_a` to the user `user_1`.
+次の例は、ユーザーuser_1にロール`role_a`を付与する方法を示してい`ます`。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -251,11 +251,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Describe user{#describe-user}
+## ユーザーの説明{#describe-user}{#describe-user}
 
-Once you grant a role to a user, you can check if the grant operation is successful via the `describe_user()` method.
+ユーザーにロールを付与したら、`description_user()`メソッドを使用して、付与操作が成功したかどうかを確認できます。
 
-The following example demonstrates how to check the role(s) of the user `user_1`.
+次の例は、ユーザー`user_1`のロールを確認する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -307,17 +307,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Below is an example output.
+以下は出力例です。
 
 ```bash
 {'user_name': 'user_1', 'roles': 'role_a'}
 ```
 
-## Revoke a role{#revoke-a-role}
+## 役割を取り消す{#revoke-a-role}{#revoke-a-role}
 
-You can also revoke a role that has been assigned to a user.
+ユーザーに割り当てられたロールを取り消すこともできます。
 
-The following example demonstrates how to revoke the role `role_a` assigned to the user `user_1`.
+次の例は、ユーザーuser_1に割り当てられた`役割role_a`を取り消す方法を示してい`ます`。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -373,13 +373,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Drop user{#drop-user}
+## ドロップユーザー{#drop-user}{#drop-user}
 
-The following example demonstrates how to drop the user `user_1`. 
+次の例は、ユーザー`user_1`を削除する方法を示しています。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>The <code>root</code> user cannot be dropped.</p>
+<p>ルートユーザーは<code>削除</code>できません。</p>
 
 </Admonition>
 
@@ -456,7 +456,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Once the user is dropped, you can list all existing users to check if the drop operation is successful. 
+ユーザーが削除されたら、既存のすべてのユーザーを一覧表示して、削除操作が成功したかどうかを確認できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -502,7 +502,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Below is an example output. There is no `user_1` in the list. The drop operation is successful.
+以下は出力例です。リストに`user_1`はありません。ドロップ操作が成功しました。
 
 ```bash
 ['root']

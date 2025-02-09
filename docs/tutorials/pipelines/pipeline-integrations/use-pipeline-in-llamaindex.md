@@ -15,10 +15,10 @@ keywords:
   - pipelines
   - integration
   - llamaindex
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 
@@ -28,6 +28,12 @@ import Admonition from '@theme/Admonition';
 # Using Pipelines in LlamaIndex
 
 [Zilliz Cloud Pipelines](./pipelines) is a scalable API service for retrieval. You can use Zilliz Cloud Pipelines as managed indexes in [LLamaIndex](https://docs.llamaindex.ai/en/stable/examples/managed/zcpDemo.html). This service can transform documents into vector embeddings and store them in Zilliz Cloud for effective semantic search.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud Pipelines will be discontinued by the end of Q2 2025 and replaced by a new feature, “Data In, Data Out,” to streamline embedding generation in both Milvus and Zilliz Cloud. As of December 24, 2024, new user registrations are no longer accepted. Current users can continue using the service within the $20 monthly free allowance until the sunset date; however, no SLA is provided. Please consider using embedding APIs from model providers or open-source models to generate vector embeddings.</p>
+
+</Admonition>
 
 ## Before you start{#before-you-start}
 

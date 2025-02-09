@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists all custom roles. | Python | MilvusClient"
 type: docx
 token: MApVdDl17oU8OixzbMPcgceKnOh
-sidebar_position: 9
+sidebar_position: 14
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - list_roles()
   - python
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: pythonSidebar
 
 ---

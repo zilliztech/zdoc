@@ -10,19 +10,19 @@ type: docx
 token: SddwdNBoMo3RAfxgcgBc0Akwnih
 sidebar_position: 4
 keywords: 
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - useDatabase()
   - node
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: nodeSidebar
 
 ---

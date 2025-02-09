@@ -10,19 +10,19 @@ type: docx
 token: QgxEdfBMSodYo6xCg24cH3hInr4
 sidebar_position: 24
 keywords: 
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - list_collections()
   - python
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: pythonSidebar
 
 ---

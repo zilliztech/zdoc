@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - qdrant
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

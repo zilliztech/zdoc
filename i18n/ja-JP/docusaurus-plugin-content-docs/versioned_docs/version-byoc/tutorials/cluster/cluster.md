@@ -1,31 +1,31 @@
 ---
-title: "Cluster | BYOC"
+title: "クラスタ | BYOC"
 slug: /cluster
-sidebar_label: "Cluster"
+sidebar_label: "クラスタ"
 beta: FALSE
 notebook: FALSE
-description: "Everything you need to know about managing clusters on Zilliz Cloud. | BYOC"
+description: "Zilliz Cloudでクラスタを管理するために必要なすべての情報。 | BYOC"
 type: origin
-token: BIy4we6qXiq8NpkHfXgcxuONngb
+token: G4YOwsWfHiWneAkyMOycLUQynsc
 sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - cloud
   - cluster
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Cluster
+# クラスタ
 
-Everything you need to know about managing clusters on Zilliz Cloud.
+Zilliz Cloudでクラスタを管理するために必要なすべての情報。
 
 
 

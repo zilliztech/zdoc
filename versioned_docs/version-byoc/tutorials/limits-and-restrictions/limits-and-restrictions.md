@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

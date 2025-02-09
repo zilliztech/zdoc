@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

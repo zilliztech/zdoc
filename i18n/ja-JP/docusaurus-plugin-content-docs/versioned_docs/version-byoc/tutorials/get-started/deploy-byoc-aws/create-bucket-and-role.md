@@ -1,12 +1,12 @@
 ---
-title: "Create S3 Bucket and IAM Role | BYOC"
+title: "S3バケットとIAMロールの作成 | BYOC"
 slug: /create-bucket-and-role
-sidebar_label: "Create S3 Bucket and IAM Role"
+sidebar_label: "S3バケットとIAMロールの作成"
 beta: PRIVATE
 notebook: FALSE
-description: "This page describes how to create and configure root storage for a Bring-Your-Own-Cloud (BYOC) project with proper permissions. | BYOC"
+description: "このページでは、適切なアクセス許可を持つBring-Your-Own-Cloud(BYOC)プロジェクトのルートストレージを作成および構成する方法について説明します。 | BYOC"
 type: origin
-token: Lv1Pw8lORiaX44kjGL0cNnpPnub
+token: Xt6MwVyNjihD1pkJC04cUBhonqj
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -16,69 +16,75 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Create S3 Bucket and IAM Role
+# S3バケットとIAMロールの作成
 
-This page describes how to create and configure root storage for a Bring-Your-Own-Cloud (BYOC) project with proper permissions.
+このページでは、適切なアクセス許可を持つBring-Your-Own-Cloud(BYOC)プロジェクトのルートストレージを作成および構成する方法について説明します。
 
-## Best practices for the S3 bucket{#best-practices-for-the-s3-bucket}
+<Admonition type="info" icon="📘" title="ノート">
 
-The bucket that you specify during the project deployment will be used as the root storage for the clusters created in the project. Before you create your S3 bucket, review the following best practices:
+<p>Zilliz BYOCは現在<strong>一般提供</strong>中です。アクセスと実装の詳細については、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p>
 
-- The S3 bucket must be in the same AWS region as the project deployment.
+</Admonition>
 
-- All clusters in a project share the S3 bucket created during the project deployment. Zilliz Cloud recommends using an S3 bucket dedicated to the project and not sharing it with other services and resources.
+## S3バケットのベストプラクティス{#best-practices-for-the-s3-bucket}{#s3best-practices-for-the-s3-bucket}
 
-## Procedure{#procedure}
+プロジェクトのデプロイ中に指定したバケットは、プロジェクトで作成されたクラスターのルートストレージとして使用されます。S3バケットを作成する前に、以下のベストプラクティスを確認してください。
 
-You can use the AWS console to create the bucket and role. As an alternative, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on AWS. For details, refer to [Bootstrap Project Infrastructure (Terraform)](./bootstrap-infrastructure-terraform).
+- S3バケットは、プロジェクトデプロイと同じAWSリージョンにある必要があります。
 
-### Step 1: Create the S3 bucket{#step-1-create-the-s3-bucket}
+- プロジェクトのデプロイ中に作成されたS3バケットは、プロジェクト内のすべてのクラスタで共有されます。Zilliz Cloudは、プロジェクト専用のS3バケットを使用し、他のサービスやリソースと共有しないことを推奨しています。
 
-In this step, you will create an S3 bucket on AWS for the BYOC project deployment. If you prefer to use an existing S3 bucket, ensure that the bucket is in the same region as the BYOC project. You need to enter the bucket name in **Storage settings** on the Zilliz Cloud console.
+## 手続き{#procedure}{#procedure}
 
-1. Log into your AWS console as a user with the administrator privilege and go to the **S3** service.
+AWSコンソールを使用してバケットとロールを作成できます。代わりに、Zilliz Cloudが提供するTerraformスクリプトを使用して、Zilliz CloudプロジェクトのインフラストラクチャをAWS上でブートストラップすることもできます。詳細については、「[Bootstrapインフラストラクチャ（Terraform）](./bootstrap-infrastructure-terraform)」を参照してください。
 
-1. On the **General purpose bucket** tab, click **Create bucket**.
+### ステップ1: S3バケットを作成する{#step-1-create-the-s3-bucket}{#1-s3step-1-create-the-s3-bucket}
 
-    ![GDckbxxzSoKSGQxaKCfcWgaunjh](/byoc/GDckbxxzSoKSGQxaKCfcWgaunjh.png)
+このステップでは、BYOCプロジェクトデプロイメント用にAWS上にS3バケットを作成します。既存のS3バケットを使用する場合は、バケットがBYOCプロジェクトと同じリージョンにあることを確認してください。Zilliz Cloudコンソールの**ストレージ設定**でバケット名を入力する必要があります。
 
-1. In **Bucket name**, enter the name for the bucket and keep the default values for other settings.
+1. 管理者権限を持つユーザーとしてAWSコンソールにログインし、**S3**サービスに移動します。
 
-    ![ZYyabX878ohfxYx95OmciUrPnMc](/byoc/ZYyabX878ohfxYx95OmciUrPnMc.png)
+1. [**汎用バケット**]タブで、[**バケットを作成**]をクリックします。
 
-1. Click **Create bucket**.
+    ![EDPzbdL3qoL07Zxn20scT2shnW4](/byoc/ja-JP/EDPzbdL3qoL07Zxn20scT2shnW4.png)
 
-    ![YA58bgisNoCF3qxF4gLch0kcnJe](/byoc/YA58bgisNoCF3qxF4gLch0kcnJe.png)
+1. [**バケット名**]にバケットの名前を入力し、他の設定ではデフォルト値を維持します。
 
-1. Go back to the **Zilliz Cloud console** and paste the bucket name in **Bucket** under **Storage settings**.
+    ![As0YbBOo5orZD0x46Y2co4VQnqc](/byoc/ja-JP/As0YbBOo5orZD0x46Y2co4VQnqc.png)
 
-    ![A032bxjnpoSChuxJiNCc5EEDnFe](/byoc/A032bxjnpoSChuxJiNCc5EEDnFe.png)
+1. 「**バケットを作成**」をクリックします。
 
-### Step 2: Create an IAM role to access the S3 bucket{#step-2-create-an-iam-role-to-access-the-s3-bucket}
+    ![M84BbzFwNomzQSxnjoPcPUgWnLh](/byoc/ja-JP/M84BbzFwNomzQSxnjoPcPUgWnLh.png)
 
-In this step, you will create an IAM role on AWS for Zilliz Cloud to access the S3 bucket that you created in the previous step on your behalf.
+1. Zilliz**Cloudコンソール**に戻り、**バケット**の**ストレージ設定**にバケット名を貼り付けます。
 
-1. Log into your **AWS Console** as a user with administrator privileges and go to the **IAM** dashboard.
+    ![NDNeb6jePo9mQhxe9vzcmhcTn1g](/byoc/ja-JP/NDNeb6jePo9mQhxe9vzcmhcTn1g.png)
 
-1. Expand your account information, and click the copy button in front of your **AWS Account ID**.
+### ステップ2: S3バケットにアクセスするためのIAMロールを作成する{#step-2-create-an-iam-role-to-access-the-s3-bucket}{#2-s3iamstep-2-create-an-iam-role-to-access-the-s3-bucket}
 
-    ![Gzzqbp3xhoRbLqxaRHmc8gIbnvc](/byoc/Gzzqbp3xhoRbLqxaRHmc8gIbnvc.png)
+このステップでは、前のステップで作成したS3バケットにアクセスするために、Zilliz CloudのAWS上にIAMロールを作成します。
 
-1. Click the **Roles** tab in the left sidebar, and then click **Create Role**.
+1. 管理者権限を持つユーザーとして**AWSコンソール**にログインし、**IAM**ダッシュボードに移動します。
 
-    ![KlbBb0D1soRfNxxA9b2cvRSWn7g](/byoc/KlbBb0D1soRfNxxA9b2cvRSWn7g.png)
+1. アカウント情報を展開し、**AWSアカウントID**の前にあるコピーボタンをクリックしてください。
 
-1. In **Select trusted entity**, click the **Custom trust policy** tile. In **Common trust policy**, paste the trust JSON from below into the editor in the **Custom trust policy** section and replace `{accountId}` with your **AWS Account ID**.
+    ![A7vYbCzp1osavYxEx0wcPaZan1d](/byoc/ja-JP/A7vYbCzp1osavYxEx0wcPaZan1d.png)
+
+1. 左サイドバーの[**役割**]タブをクリックし、[**役割を作成**]をクリックします。
+
+    ![C5bbbRXxioqdrXxYhWiczehwndh](/byoc/ja-JP/C5bbbRXxioqdrXxYhWiczehwndh.png)
+
+1. [**信頼できるエンティティ**の選択]で、[**カスタム信頼ポリシー**]タイルをクリックします。[**共通信頼ポリシー**]で、下の信頼JSONを[**カスタム信頼ポリシー**]セクションのエディタに貼り付け、`{account tId}`を**AWSアカウントID**に置き換えます。
 
     ```json
     {
@@ -105,41 +111,41 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to access the 
     }
     ```
 
-    ![W6vnbUhMeohadJxc3Rlc4NXbnbb](/byoc/W6vnbUhMeohadJxc3Rlc4NXbnbb.png)
+    ![GYHgb2VNIocfN2xWCkXcuRhanCd](/byoc/ja-JP/GYHgb2VNIocfN2xWCkXcuRhanCd.png)
 
-1. Click **Next** and skip adding permissions.
+1. 「**次**へ」をクリックして、アクセス権の追加をスキップします。
 
-1. In the **Name, review, and create** step, name the role, review the trusted entities, and click **Create role**.
+1. 「**名前、レビュー、および作成**」ステップで、役割に名前を付け、信頼されたエンティティを確認し、「**役割を作成**」をクリックします。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="ノート">
 
-    <p>When naming the role, use the prefix <code>zilliz-byoc</code>.</p>
+    <p>ロールに名前を付けるときは、プレフィックス<code>zilliz-byoc</code>を使用します。</p>
 
     </Admonition>
 
-1. Once the role has been created, click **View role** in the green bar to go to the role details
+1. ロールが作成されたら、緑色のバーにある**View role**をクリックしてロールの詳細に移動します。
 
-    ![TWpFbSb3IooqTBxAoCXcTfC4n2c](/byoc/TWpFbSb3IooqTBxAoCXcTfC4n2c.png)
+    ![XPKub0oMNoyGPgxntQpcLXJznRE](/byoc/ja-JP/XPKub0oMNoyGPgxntQpcLXJznRE.png)
 
-1. Click the copy icon in front of the role's **ARN**.
+1. ロールの**ARN**の前にあるコピーアイコンをクリックします。
 
-    ![BSImbWeTloGRhjxMCRWc26ZUntg](/byoc/BSImbWeTloGRhjxMCRWc26ZUntg.png)
+    ![DgzNbw3WIoIbg9xGAJ5cVPFhngc](/byoc/ja-JP/DgzNbw3WIoIbg9xGAJ5cVPFhngc.png)
 
-1. Go back to the Zilliz Cloud console, paste the role ARN in **IAM Role ARN** under **Storage settings**. 
+1. Zilliz Cloudコンソールに戻り、[**IAM Role ARN**]の[**ストレージ設定**]にARNロールを貼り付けます。
 
-    ![WOIHbocGko9GYzxiVVycHCLLnVb](/byoc/WOIHbocGko9GYzxiVVycHCLLnVb.png)
+    ![FIVObWf57onQEpxJHbxczL8CnNg](/byoc/ja-JP/FIVObWf57onQEpxJHbxczL8CnNg.png)
 
-### Step 3: Add permissions{#step-3-add-permissions}
+### ステップ3:権限を追加する{#step-3-add-permissions}{#3step-3-add-permissions}
 
-This step is solely on the AWS console. In this step, you will create an inline policy for the role created in [Step 2](./create-bucket-and-role#step-2-create-an-iam-role-to-access-the-s3-bucket).
+このステップはAWSコンソール上でのみ行われます。このステップでは、[ステップ2](./create-bucket-and-role#2-s3iamstep-2-create-an-iam-role-to-access-the-s3-bucket)で作成したロールのインラインポリシーを作成します。
 
-1. Go to the details page of the created role. In the **Permissions policies** section, click **Add permissions**, and choose **Create inline policy**.
+1. 作成したロールの詳細ページに移動します。[**権限ポリシー**]セクションで、[**権限を追加**]をクリックし、[**インラインポリシーを作成**]を選択します。
 
-    ![VoLMbB9VfoVzfDx0NPTcfFCWn7c](/byoc/VoLMbB9VfoVzfDx0NPTcfFCWn7c.png)
+    ![Iwf4b7aL0oPRHmxFf4ocpud6n9g](/byoc/ja-JP/Iwf4b7aL0oPRHmxFf4ocpud6n9g.png)
 
-1. On the **Specify permissions** page, click **JSON** in the **Policy editor** section to open the policy editor. Then copy the permissions from below and paste it into the policy editor.
+1. [**権限の指定**]ページで、[ポリシーエディター]セクションの[**JSON**]をクリックして**ポリシーエディター**を開きます。次に、下の権限をコピーしてポリシーエディターに貼り付けます。
 
-    You need to replace `{bucketName}` with that of the bucket created in [Step 1](./create-bucket-and-role#step-1-create-the-s3-bucket), copy the modified policy JSON, and paste it into **Policy editor** on AWS.
+    {bucketName`}を`[ステップ1](./create-bucket-and-role#1-s3step-1-create-the-s3-bucket)で作成したバケットに置き換え、変更したポリシーのJSONをコピーして、AWSの**ポリシーエディタ**に貼り付ける必要があります。
 
     ```json
     {
@@ -168,16 +174,16 @@ This step is solely on the AWS console. In this step, you will create an inline 
     }
     ```
 
-    ![U7fFb8rNXoEC06xrSl3c7SOznkY](/byoc/U7fFb8rNXoEC06xrSl3c7SOznkY.png)
+    ![TaqNb47MzonywUxQqBucQWcfn0D](/byoc/ja-JP/TaqNb47MzonywUxQqBucQWcfn0D.png)
 
-1. In **Review and create**, enter a policy name, review the permissions, and click **Create policy**.
+1. [**レビューと作成**]で、ポリシー名を入力し、権限を確認して、[**ポリシーを作成**]をクリックします。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="ノート">
 
-    <p>When naming the policy, use the prefix <code>zilliz-byoc</code>.</p>
+    <p>ポリシーに名前を付けるときは、プレフィックス<code>zilliz-byoc</code>を使用します。</p>
 
     </Admonition>
 
-    ![ZxlGbt5dzoTmpzxpS2Uc8rkBnHe](/byoc/ZxlGbt5dzoTmpzxpS2Uc8rkBnHe.png)
+    ![HnCtbqVUrotnStxlp4nc2LqznNf](/byoc/ja-JP/HnCtbqVUrotnStxlp4nc2LqznNf.png)
 
     

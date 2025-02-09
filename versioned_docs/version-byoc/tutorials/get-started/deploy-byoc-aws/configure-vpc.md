@@ -2,7 +2,7 @@
 title: "Configure a Customer-Managed VPC | BYOC"
 slug: /configure-vpc
 sidebar_label: "Configure a Customer-Managed VPC"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "The Zilliz Cloud Bring-Your-Own-Cloud (BYOC) solution enables you to set up a project within your own Virtual Private Cloud (VPC). With a Zilliz Cloud project running in a customer-managed VPC, you gain greater control over your network configurations, allowing you to meet specific cloud security and governance standards required by your organization. | BYOC"
 type: origin
@@ -18,10 +18,10 @@ keywords:
   - subnet
   - milvus
   - vector database
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 
@@ -34,13 +34,34 @@ The Zilliz Cloud Bring-Your-Own-Cloud (BYOC) solution enables you to set up a pr
 
 This page enumerates the minimum requirements for you to host a Zilliz Cloud BYOC project in a customer-managed VPC that meets these requirements. 
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+</Admonition>
+
 ## VPC requirements{#vpc-requirements}
 
 Your VPC must meet the requirements enumerated in this section to host a Zilliz Cloud project. If you prefer to use an existing VPC for your BYOC project, ensure that your VPC meets these requirements. 
 
-### VPC region{#vpc-region}
+### VPC regions{#vpc-regions}
 
 The following table lists the AWS cloud regions the Zilliz Cloud BYOC solution supports. If you cannot find your cloud regions on the Zilliz Cloud console, please contact us at support@zilliz.com.
+
+<table>
+   <tr>
+     <th><p>AWS Region</p></th>
+     <th><p>Location</p></th>
+   </tr>
+   <tr>
+     <td><p>us-west-2</p></td>
+     <td><p>Oregon</p></td>
+   </tr>
+   <tr>
+     <td><p>eu-central-1</p></td>
+     <td><p>Frankfurt</p></td>
+   </tr>
+</table>
 
 ### VPC IP address ranges{#vpc-ip-address-ranges}
 
@@ -166,7 +187,13 @@ Security groups in a VPC protect your AWS resources by controlling inbound and o
 
 ### Step 3: (Optional) Create a VPC endpoint{#step-3-optional-create-a-vpc-endpoint}
 
-VPC endpoint ensures secure cluster connectivity relay and enables private calls to Zilliz Cloud REST APIs. For guidance on managing VPc endpoints with the AWS Management Console, see the [AWS article Create VPC endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/create-interface-endpoint.html) in the AWS Management Console, or use the following procedure:
+VPC endpoint ensures secure cluster connectivity relay and enables private calls to Zilliz Cloud REST APIs. For guidance on managing VPC endpoints with the AWS Management Console, see the [AWS article Create VPC endpoints](https://docs.aws.amazon.com/vpc/latest/privatelink/create-interface-endpoint.html) in the AWS Management Console, or use the following procedure:
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The VPC endpoint created in this section is used to set up an AWS PrivateLink. Once the VPC endpoint is ready, you must create a hosted zone and add some DNS records. For details, refer to <a href="./setup-a-private-link-aws">Set up a PrivateLink (AWS)</a>.</p>
+
+</Admonition>
 
 1. Go to the **VPC dashboard** on AWS.
 
@@ -189,7 +216,12 @@ VPC endpoint ensures secure cluster connectivity relay and enables private calls
        <tr>
          <td><p>us-west-2</p></td>
          <td><p>Oregon</p></td>
-         <td><p><code>com.amazonaws.vpce.us-west-2.vpce-svc-03c2ea94c80806411</code></p></td>
+         <td><p><code>com.amazonaws.vpce.us-west-2.vpce-svc-0654fb016640c364a</code></p></td>
+       </tr>
+       <tr>
+         <td><p>eu-central-1</p></td>
+         <td><p>Frankfurt</p></td>
+         <td><p><code>com.amazonaws.vpce.eu-central-1.vpce-svc-0d5ce1ec4decbc7df</code></p></td>
        </tr>
     </table>
 
@@ -215,5 +247,5 @@ VPC endpoint ensures secure cluster connectivity relay and enables private calls
 
 Once you have completed the above procedures on AWS, go back to Zilliz Cloud, enter the VPC ID, the subnet IDs, the security group ID, and the optional VPC endpoint ID in **Network settings**, and click **Next** to view the summary of the entire project deployment process. If everything is configured as expected, click **Deploy** to start the process.
 
-![AYtdby8l5oIKcHxsJOhc769VnZd](/byoc/AYtdby8l5oIKcHxsJOhc769VnZd.png)
+![VDXYbAfS2oQ04YxcMs0cEETbn2c](/byoc/VDXYbAfS2oQ04YxcMs0cEETbn2c.png)
 

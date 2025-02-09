@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

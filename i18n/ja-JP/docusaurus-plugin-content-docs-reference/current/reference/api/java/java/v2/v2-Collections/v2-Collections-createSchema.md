@@ -10,19 +10,19 @@ type: docx
 token: V5KXdwdO0oqkhnxsKb9c3xaKn4c
 sidebar_position: 6
 keywords: 
-  - Zilliz
   - milvus vector database
   - milvus db
   - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud
   - createSchema()
   - javaV2
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
   - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 displayed_sidebar: javaSidebar
 
 ---

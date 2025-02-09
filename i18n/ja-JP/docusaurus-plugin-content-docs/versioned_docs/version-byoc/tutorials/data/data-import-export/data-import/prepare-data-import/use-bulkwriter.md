@@ -1,12 +1,12 @@
 ---
-title: "Use BulkWriter | BYOC"
+title: "BulkWriterを使う | BYOC"
 slug: /use-bulkwriter
-sidebar_label: "Use BulkWriter"
+sidebar_label: "BulkWriterを使う"
 beta: FALSE
 notebook: FALSE
-description: "If your data format does not meet the requirements, you can use BulkWriter, a data processing tool in pymilvus and Milvus' Java SDK, to prepare your data. | BYOC"
+description: "データ形式が要件を満たしていない場合は、pymilvusとMilvusのJava SDKにあるデータ処理ツールであるBulkWriterを使用してデータを準備することができます。 | BYOC"
 type: origin
-token: QyjpwAaKuihAeJkNBUJcdFesn9e
+token: HckPwGc3IiSJM7kYS8Xco3RYnfg
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 
@@ -25,27 +25,27 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Use BulkWriter
+# BulkWriterを使う
 
-If your data format does not meet the requirements, you can use **BulkWriter**, a data processing tool in pymilvus and Milvus' Java SDK, to prepare your data.
+データ形式が要件を満たしていない場合は、pymilvusとMilvusのJava SDKにあるデータ処理ツールである**BulkWriter**を使用してデータを準備することができます。
 
-## Overview{#overview}
+## 概要について{#overview}{#overview}
 
-**BulkWriter** is a script designed to convert raw datasets into a format suitable for importing via various methods such as the Zilliz Cloud console, the **BulkInsert** APIs of Milvus SDKs, or the **Import** API in RESTful flavor. It offers two types of writers:
+**BulkWriter**は、Zilliz Cloudコンソール、Milvus SDKの**BulkInsert**API、またはRESTfulフレーバーの**Import** APIなど、さまざまな方法でインポートに適した形式に生データセットを変換するために設計されたスクリプトです。2種類のライターを提供しています
 
-- **LocalBulkWriter**: Reads the designated dataset and transforms it into an easy-to-use format.
+- **LocalBulkWriter**:指定されたデータセットを読み取り、使いやすい形式に変換します。
 
-- **RemoteBulkWriter**: Performs the same task as the **LocalBulkWriter** but additionally transfers the converted data files to a specified remote object storage bucket.
+- **RemoteBulkWriter**: Local BulkWriterと同じタスクを実行し**ま**すが、変換されたデータファイルを指定したリモートオブジェクトストレージバケットに転送します。
 
-## Procedure{#procedure}
+## 手続き{#procedure}{#procedure}
 
-### Set up dependencies{#set-up-dependencies}
+### 依存関係を設定する{#set-up-dependencies}{#set-up-dependencies}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code"defaultValue='python'value={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 
 <TabItem value='python'>
 
-Run the following command in the shell to install pymilvus or upgrade your pymilvus to the latest version.
+シェルで次のコマンドを実行して、pymilvusをインストールするか、pymilvusを最新バージョンにアップグレードしてください。
 
 ```bash
 pip install --upgrade pymilvus
@@ -55,7 +55,7 @@ pip install --upgrade pymilvus
 
 <TabItem value='java'>
 
-For Apache Maven, append the following to the **pom.xml** dependencies:
+Apache Mavenの場合、**pom. xml**の依存関係に以下を追加してください:
 
 ```java
 <dependency>
@@ -65,7 +65,7 @@ For Apache Maven, append the following to the **pom.xml** dependencies:
 </dependency>
 ```
 
-- For Gradle/Grails, run the following
+- Gradle/Grailsの場合、以下を実行してください。
 
 ```shell
 compile 'io.milvus:milvus-sdk-java:2.4.8'
@@ -75,11 +75,11 @@ compile 'io.milvus:milvus-sdk-java:2.4.8'
 
 </Tabs>
 
-### Set up a collection schema{#set-up-a-collection-schema}
+### コレクションスキーマを設定する{#set-up-a-collection-schema}{#set-up-a-collection-schema}
 
-Decide on the schema for the collection you wish to import your dataset into. This involves selecting which fields to include from the dataset.
+データセットをインポートするコレクションのスキーマを決定します。これには、データセットから含めるフィールドを選択する必要があります。
 
-The following code creates a collection schema with all possible data types. In addition, the schema disables the primary field from automatically incrementing and enables dynamic fields.
+次のコードは、すべての可能なデータ型を持つコレクションスキーマを作成します。さらに、スキーマはプライマリフィールドの自動的なインクリメントを無効にし、動的フィールドを有効にします。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -222,15 +222,15 @@ private static byte[] genBinaryVector() {
 </TabItem>
 </Tabs>
 
-### Create a BulkWriter{#create-a-bulkwriter}
+### BulkWriterを作成する{#create-a-bulkwriter}{#bulkwritercreate-a-bulkwriter}
 
-There are two types of **BulkWriter**s available.
+BulkWriterには**2つ**のタイプがあります。
 
-- **LocalBulkWriter**
+- **LocalBulkWriterの設定**
 
-    A **LocalBulkWriter** appends rows from the source dataset and commits them to a local file of the specified format.
+    Local BulkWriter**は**、ソースデータセットから行を追加し、指定した形式のローカルファイルにコミットします。
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+    <Tabs groupId="code"defaultValue='python'value={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 
     <TabItem value='python'>
 
@@ -247,22 +247,22 @@ There are two types of **BulkWriter**s available.
     )
     ```
 
-    When creating a **LocalBulkWriter**, you should:
+    LocalBulkWriterを作成するとき**は**、次のようにします。
 
-    - Reference the created schema in **schema**.
+    - 作成したスキーマをschemaで**参照**。
 
-    - Set **local_path** to the output directory.
+    - 出力ディレクトリに**local_path**を設定します。
 
-    - Set **file_type** to the output file type.
+    - file_type**に出力ファイルタイプ**を設定します。
 
-    - If your dataset contains a large number of records, you are advised to segment your data by setting **segment_size** to a proper value.
+    - データセットに多数のレコードが含まれている場合は、**sement_size**を適切な値に設定してデータをセグメント化することをお勧めします。
 
-    For details on parameter settings, refer to **LocalBulkWriter** in the SDK reference.
+    パラメータ設定の詳細は、S DKリファレンスのLocal**BulkWriter**を参照してください。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="ノート">
 
-    <p>Only JSON files generated using <strong>LocalBulkWriter</strong> can be directly imported into Zilliz Cloud. </p>
-    <p>For files of other types, upload them to one of your buckets in the same cloud region as that of your target cluster before the import.</p>
+    <p>Local BulkWriterで生成されたJSONファイルのみ<strong>が</strong>Zilliz Cloudに直接インポートできます。</p>
+    <p>他の種類のファイルについては、インポートする前に、ターゲットクラスターと同じクラウドリージョンのバケットの1つにアップロードしてください。</p>
 
     </Admonition>
 
@@ -285,19 +285,19 @@ There are two types of **BulkWriter**s available.
     LocalBulkWriter localBulkWriter = new LocalBulkWriter(localBulkWriterParam);
     ```
 
-    When creating a **LocalBulkWriter**, you should: 
+    LocalBulkWriterを作成するとき**は**、次のようにします。
 
-    - Reference the created schema in **withCollectionSchema()**.
+    - 作成したスキーマを**withCollectionSchema()**で参照します。
 
-    - Set the output directory in **withLocalPath()**.
+    - withLocal Path**()**で出力ディレクトリを設定します。
 
-    - Set the output file type to **BulkFileType.PARQUET** in **withFileType()**.
+    - withFileType()で出力ファイルタイプをBulkFileType.**PARQUET**に**設定します**。
 
-    - If your dataset contains a large number of records, you are advised to segment your data by setting a proper value in **withChunkSize()**.
+    - データセットに多数のレコードが含まれている場合は、**withChunkSize()**で適切な値を設定してデータをセグメント化することをお勧めします。
 
-    <Admonition type="info" icon="📘" title="Notes">
+    <Admonition type="info" icon="📘" title="ノート">
 
-    <p>BulkWriter in the Java SDK currently uses Apache Parquet as the only valid output file type.</p>
+    <p>Java SDKのBulkWriterは現在、唯一の有効な出力ファイルタイプとしてApache Parquetを使用しています。</p>
 
     </Admonition>
 
@@ -307,7 +307,7 @@ There are two types of **BulkWriter**s available.
 
 - **RemoteBulkWriter**
 
-    Instead of committing appended data to a local file, a **RemoteBulkWriter** commits them to a remote bucket. Therefore, you should set up a **ConnectParam** object before creating a **RemoteBulkWriter**.
+    RemoteBulkWriterは、追加されたデータをローカルファイルにコミットする代わりに、**リモート**バケットにコミットします。そのため、RemoteBulkWriterを作成する前に、**ConnectParam**オブジェクトを設定する必要がありま**す**。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
     <TabItem value='python'>
@@ -429,7 +429,7 @@ There are two types of **BulkWriter**s available.
     </TabItem>
     </Tabs>
 
-    Once the connection parameters are ready, you can reference it in the **RemoteBulkWriter** as follows:
+    接続パラメーターの準備ができたら、RemoteBulkWriterで次のように参照でき**ま**す。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
     <TabItem value='python'>
@@ -470,17 +470,17 @@ There are two types of **BulkWriter**s available.
     </TabItem>
     </Tabs>
 
-    The parameters for creating a **RemoteBulkWriter** are barely the same as those for a **LocalBulkWriter**, except **connect_param**.  For details on parameter settings, refer to **RemoteBulkWriter** and **ConnectParam** in the SDK reference.
+    RemoteBulkWriterを作成するためのパラメータは、**Local BulkWriter**とほとんど同じですが、**connect_paramは異なります。パラメータの設定については、S DKリファレンスのRemoteBulkWriter**と**ConnectParam**を参照してください。
 
-### Start writing{#start-writing}
+### 書き始める{#start-writing}{#start-writing}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code"defaultValue='python'value={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 
 <TabItem value='python'>
 
-A **BulkWriter** has two methods: **append_row()** adds a row from a source dataset, and **commit()** commits added rows to a local file or a remote bucket.
+BulkWriterには**2つ**のメソッドがあります。**append_row()**はソースデータセットからローを追加し、**commit()**は追加されたローをローカルファイルまたはリモートバケットにコミットします。
 
-For demonstration purposes, the following code appends randomly generated data.
+デモ目的で、次のコードはランダムに生成されたデータを追加します。
 
 ```python
 import random, string, json
@@ -573,9 +573,9 @@ for i in range(10000):
 
 <TabItem value='java'>
 
-A **BulkWriter** has two methods: **appendRow()** adds a row from a source dataset, and **commit()** commits added rows to a local file or a remote bucket.
+BulkWriterには**2つ**のメソッドがあります。**appendRow()**はソースデータセットからローを追加し、**commit()**は追加されたローをローカルファイルまたはリモートバケットにコミットします。
 
-For demonstration purposes, the following code appends randomly generated data.
+デモ目的で、次のコードはランダムに生成されたデータを追加します。
 
 <Tabs groupId="java" defaultValue='java' values={[{"label":"Main","value":"java"},{"label":"Random data generators","value":"java_1"}]}>
 <TabItem value='java'>
@@ -690,9 +690,9 @@ private static List<Long> genIntArray(int length) {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>In the above code block, the value of the <code>vector</code> and <code>scalar_1</code> fields are generated by two private functions named <code>generateFloatVectors()</code> and <code>generateString()</code>, respectively. For details, refer to the codes in the <strong>Random data generator</strong> tab.</p>
+<p>上記のコードブロックでは、<code>vector</code>と<code>scalar_1</code>フィールドの値は、それぞれ<code>generateFloatVectors()</code>と<code>generateString()</code>という2つのプライベート関数によって生成されます。詳細については、<strong>Random data generator</strong>タブのコードを参照してください。</p>
 
 </Admonition>
 
@@ -700,11 +700,11 @@ private static List<Long> genIntArray(int length) {
 
 </Tabs>
 
-## Dynamic schema support{#dynamic-schema-support}
+## 動的スキーマのサポート{#dynamic-schema-support}{#dynamic-schema-support}
 
-In [the previous section](./use-bulkwriter#set-up-a-collection-schema), we referenced a schema that permits dynamic fields in the writer, allowing undefined fields to be included when appending rows.
+[前のセクション](./use-bulkwriter#set-up-a-collection-schema)では、ライターで動的フィールドを許可し、行を追加するときに未定義のフィールドを含めることができるスキーマを参照しました。
 
-For demonstration purposes, the following code appends randomly generated data.
+デモ目的で、次のコードはランダムに生成されたデータを追加します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -786,9 +786,9 @@ private static String generateString(length) {
 </TabItem>
 </Tabs>
 
-## Verify the result{#verify-the-result}
+## 結果を確認する{#verify-the-result}{#verify-the-result}
 
-To check the results, you can get the actual output path by printing the **data_path** property of the writer.
+結果を確認するには、ライターの**data_path**プロパティを印刷して、実際の出力パスを取得できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -815,11 +815,11 @@ System.out.println(batchFiles);
 </TabItem>
 </Tabs>
 
-BulkWriter generates a UUID, creates a sub-folder using the UUID in the provided output directory, and places all generated files in the sub-folder. [Click here to download the prepared sample data](https://assets.zilliz.com/bulk_writer.zip).
+BulkWriterはUUIDを生成し、提供された出力ディレクトリにUUIDを使用してサブフォルダを作成し、生成されたすべてのファイルをサブフォルダに配置します。[準備されたサンプルデータをダウンロードするにはここをクリック](https://assets.zilliz.com/bulk_writer.zip)してください。
 
-Possible folder structures are as follows:
+以下が可能なフォルダ構造です:
 
-- If the generated file does not exceed the specified segment size
+- 生成されたファイルが指定されたセグメント体格を超えない場合
 
     ```python
     # JSON
@@ -844,24 +844,24 @@ Possible folder structures are as follows:
 
     <table>
        <tr>
-         <th><p><strong>File Type</strong></p></th>
-         <th><p><strong>Valid Import Paths</strong></p></th>
+         <th><p><strong>ファイルタイプ</strong></p></th>
+         <th><p><strong>有効なインポートパス</strong></p></th>
        </tr>
        <tr>
          <td><p><strong>JSON</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</code></p></td>
+         <td><p><code>s 3://remote_bucket/folder/フォルダ/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s 3://remote_bucket/フォルダ/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</code></p></td>
        </tr>
        <tr>
-         <td><p><strong>Parquet</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet</code></p></td>
+         <td><p><strong>パーケット</strong></p></td>
+         <td><p><code>s 3://remote_bucket/folder/フォルダ/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s 3://remote_bucket/folder//1. parquetリモートバケット/フォルダー/45ae1139-1d87-4aff-85f5-0039111f9e6b1.parquet</code></p></td>
        </tr>
        <tr>
          <td><p><strong>NumPy</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy</code></p></td>
+         <td><p><code>s 3://remote_bucket/folder/フォルダ/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s 3://remote_bucket/folder/*. npyリモートバケット/フォルダー45ae1139-1d87-4aff-85f5-0039111f9e6b.npy</code></p></td>
        </tr>
     </table>
 
-- If the generated file exceeds the specified segment size
+- 生成されたファイルが指定されたセグメント体格を超える場合
 
     ```python
     # The following assumes that two segments are generated.
@@ -897,16 +897,16 @@ Possible folder structures are as follows:
 
     <table>
        <tr>
-         <th><p><strong>File Type</strong></p></th>
-         <th><p><strong>Valid Import Paths</strong></p></th>
+         <th><p><strong>ファイルタイプ</strong></p></th>
+         <th><p><strong>有効なインポートパス</strong></p></th>
        </tr>
        <tr>
          <td><p><strong>JSON</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p></td>
+         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</code></p></td>
        </tr>
        <tr>
          <td><p><strong>Parquet</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p></td>
+         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet</code></p></td>
        </tr>
        <tr>
          <td><p><strong>NumPy</strong></p></td>
@@ -914,11 +914,11 @@ Possible folder structures are as follows:
        </tr>
     </table>
 
-## Related topics{#related-topics}
+## 関連するトピック{#related-topics}{#related-topics}
 
-- [Import Data on Web UI](./import-data-on-web-ui)
+- [データのインポート(コンソール)](./import-data-on-web-ui)
 
-- [Import Data via RESTful API](./import-data-via-restful-api)
+- [データのインポート(RESTful API)](./import-data-via-restful-api)
 
-- [Import Data via SDKs](./import-data-via-sdks)
+- [データのインポート(SDK)](./import-data-via-sdks)
 

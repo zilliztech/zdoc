@@ -10,19 +10,19 @@ type: docx
 token: YRoGdgQmWoIEaJx84ICcHTILnMe
 sidebar_position: 8
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud
   - list_grants()
   - python
-  - sentence transformers
   - Recommender systems
   - information retrieval
   - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: pythonSidebar
 
 ---

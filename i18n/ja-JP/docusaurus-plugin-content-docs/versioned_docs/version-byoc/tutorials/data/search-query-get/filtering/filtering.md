@@ -1,12 +1,12 @@
 ---
-title: "Filtering | BYOC"
+title: "フィルタリング | BYOC"
 slug: /filtering
-sidebar_label: "Filtering"
+sidebar_label: "フィルタリング"
 beta: FALSE
 notebook: FALSE
-description: "This chapter explains how to perform filtering on scalar fields and applicable filtering operators. | BYOC"
+description: "この章では、スカラーフィールドと適用可能なフィルタリング演算子でフィルタリングを実行する方法について説明します。 | BYOC"
 type: origin
-token: ObdvwrXi9ia9i0kTLKUcCaYtnhd
+token: VbVFwA9LUiqwN2kBGyPc7XUWnPc
 sidebar_position: 8
 keywords: 
   - zilliz
@@ -17,19 +17,21 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Filtering
+# フィルタリング
 
-This chapter explains how to perform filtering on scalar fields and applicable filtering operators.
+この章では、スカラーフィールドと適用可能なフィルタリング演算子でフィルタリングを実行する方法について説明します。
+
+
 
 import DocCardList from '@theme/DocCardList';
 

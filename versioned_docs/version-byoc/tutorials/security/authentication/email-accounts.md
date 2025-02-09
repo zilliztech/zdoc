@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 
@@ -43,6 +43,8 @@ Once you have [registered an account](./register-with-zilliz-cloud) with Zilliz 
 
 ## Update account email address{#update-account-email-address}
 
+![update_email_address](/byoc/update_email_address.png)
+
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>Updating the email address will not affect the receiver of billing invoices and alerts. Please update these information manually if necessary.</p>
@@ -51,9 +53,11 @@ Once you have [registered an account](./register-with-zilliz-cloud) with Zilliz 
 
 ## Change account password{#change-account-password}
 
+![change_password](/byoc/change_password.png)
+
 ## Enable and disable MFA{#enable-and-disable-mfa}
 
-Refer to [MFA](./multi-factor-auth)for more information.
+Refer to [MFA](./multi-factor-auth) for more information.
 
 ## Switch login method{#switch-login-method}
 

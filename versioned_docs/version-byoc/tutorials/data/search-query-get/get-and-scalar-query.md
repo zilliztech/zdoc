@@ -17,10 +17,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
+  - Unstructured Data
+  - vector database
   - IVF
   - knn
-  - Image Search
-  - LLMs
 
 ---
 

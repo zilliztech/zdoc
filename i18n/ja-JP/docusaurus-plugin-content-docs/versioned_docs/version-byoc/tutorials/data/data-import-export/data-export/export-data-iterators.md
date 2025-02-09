@@ -1,12 +1,12 @@
 ---
-title: "Export Data Using Iterators | BYOC"
+title: "イテレータを使用したデータのエクスポート | BYOC"
 slug: /export-data-iterators
-sidebar_label: "Using Iterators"
+sidebar_label: "イテレータを使用したデータのエクスポート"
 beta: FALSE
 notebook: FALSE
-description: "This guide provides an example of how to export data from a Zilliz Cloud collection. | BYOC"
+description: "このガイドでは、Zilliz Cloudコレクションからデータをエクスポートする方法の例を提供します。 | BYOC"
 type: origin
-token: N6fZwCUXqiqoJEkFiVNcvDJEnnc
+token: YehKwci6ViokYUkkz5rcIwP5nzg
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 
@@ -25,35 +25,35 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Export Data Using Iterators
+# イテレータを使用したデータのエクスポート
 
-This guide provides an example of how to export data from a Zilliz Cloud collection.
+このガイドでは、Zilliz Cloudコレクションからデータをエクスポートする方法の例を提供します。
 
-## Overview{#overview}
+## 概要について{#overview}{#overview}
 
-Both Milvus' Python and Java SDKs provide a set of iterator APIs for you to iterate over the entities within a collection in a memory-efficient manner. For details, refer to [Search Iterator](./with-iterators).
+MilvusのPythonおよびJava SDKは、コレクション内のエンティティをメモリ効率的に反復処理するための一連のイテレータAPIを提供しています。詳細については、「[検索イテレータ](./with-iterators)」を参照してください。
 
-Using iterators offers the following benefits:
+イテレータを使用すると、次の利点があります。
 
-- **Simplicity**: Eliminates the complex **offset** and **limit** settings.
+- **シンプルさ**:複雑な**オフセット**と**リミット**設定を排除します。
 
-- **Efficiency**: Provides scalable data retrieval by fetching only the data in need.
+- **効率性**:必要なデータのみを取得してスケーラブルなデータ取得を提供します。
 
-- **Consistency**: Ensures a consistent dataset size with boolean filters.
+- **Consistency**:ブールフィルタを使用して一貫したデータセット体格を確保します。
 
-You can make use of these APIs to export certain or all of the entities from a Zilliz Cloud collection.
+これらのAPIを使用して、Zilliz Cloudコレクションから特定またはすべてのエンティティをエクスポートできます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>This feature is available for the Zilliz Cloud clusters that are compatible with Milvus 2.3.x and above.</p>
+<p>この機能は、Milvus 2.3. x以上と互換性のあるZilliz Cloudクラスターで利用できます。</p>
 
 </Admonition>
 
-## Preparations{#preparations}
+## 準備する{#preparations}{#preparations}
 
-The following steps repurpose the code to connect to a Zilliz Cloud cluster, quickly set up a collection, and insert over 10,000 randomly generated entities into the collection.
+次の手順では、コードを再利用してZilliz Cloudクラスターに接続し、コレクションをすばやく設定し、10,000以上のランダムに生成されたエンティティをコレクションに挿入します。
 
-### Step 1: Create a collection{#step-1-create-a-collection}
+### ステップ1:コレクションを作成する{#step-1-create-a-collection}{#1step-1-create-a-collection}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -109,7 +109,7 @@ client.createCollection(createCollectionParam);
 </TabItem>
 </Tabs>
 
-### Step 2: Insert randomly generated entities{#step-2-insert-randomly-generated-entities}
+### ステップ2:ランダムに生成されたエンティティを挿入する{#step-2-insert-randomly-generated-entities}{#2step-2-insert-randomly-generated-entities}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -224,21 +224,21 @@ System.out.println(wrapper.getInsertCount());
 </TabItem>
 </Tabs>
 
-## Export data using iterators{#export-data-using-iterators}
+## イテレータを使用したデータのエクスポート{#export-data-using-iterators}{#export-data-using-iterators}
 
-To export data using iterators, do as follows:
+イテレータを使用してデータをエクスポートするには、次のようにします:
 
-1. Initialize the search iterator to define the search parameters and output fields. You can limit the number of entities to export per iteration by setting the `batch_size` parameter.
+1. 検索イテレータを初期化して、検索パラメータと出力フィールドを定義します。`batch_size`パラメータを設定することで、反復ごとにエクスポートするエンティティの数を制限できます。
 
-1. Use the `next()` method within a loop to paginate through the search results.
+1. ループ内で`next()`メソッドを使用して、検索結果をページ分割します。
 
-    - If the method returns an empty array, the loop terminates.
+    - メソッドが空の配列を返す場合、ループは終了します。
 
-    - Otherwise, save the returns in any manner that you see fit. For example, you can append the returns to a file, save them into a database, or feed them to other consumer programs.
+    - それ以外の場合は、適切な方法でリターンを保存してください。例えば、リターンをファイルに追加したり、データベースに保存したり、他の消費者向けプログラムにフィードしたりすることができます。
 
-1. Call the `close()` method to close the iterator once all data has been retrieved.
+1. すべてのデータが取得されたら、`close()`メソッドを呼び出してイテレータを閉じます。
 
-The following code snippets demonstrate how to append the exported data into a file using the **QueryIterator** API.  
+次のコードスニペットは、**QueryIterator**APIを使用してエクスポートされたデータをファイルに追加する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>

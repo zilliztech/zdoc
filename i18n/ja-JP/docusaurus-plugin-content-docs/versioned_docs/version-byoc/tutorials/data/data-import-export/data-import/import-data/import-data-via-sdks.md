@@ -1,12 +1,12 @@
 ---
-title: "Import Data (SDK) | BYOC"
+title: "データのインポート(SDK) | BYOC"
 slug: /import-data-via-sdks
-sidebar_label: "SDKs"
+sidebar_label: "データのインポート(SDK)"
 beta: FALSE
 notebook: FALSE
-description: "This guide helps you learn how to use our SDKs to import data into a collection with the bulk-writer and bulk-import APIs. | BYOC"
+description: "このガイドでは、バルクライターおよびバルクインポートAPIを使用して、S DKを使用してデータをコレクションにインポートする方法について説明します。 | BYOC"
 type: origin
-token: MvgAwL4HIiuRRJkH0FwcJhxSnld
+token: AIsmwf4qIiGUUckvWLNcbfn0nac
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 
@@ -25,19 +25,19 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Import Data (SDK)
+# データのインポート(SDK)
 
-This guide helps you learn how to use our SDKs to import data into a collection with the bulk-writer and bulk-import APIs.
+このガイドでは、バルクライターおよびバルクインポートAPIを使用して、S DKを使用してデータをコレクションにインポートする方法について説明します。
 
-Alternatively, you can also refer to [our fast-track end-to-end course](./data-import-zero-to-hero) which covers both data preparations and data import to Zilliz Cloud collections.
+また、データの準備とZilliz Cloudコレクションへのデータインポートの両方をカバーする[ファストトラックのエンドツーエンドコース](./data-import-zero-to-hero)を参照することもできます。
 
-## Install dependencies{#install-dependencies}
+## 依存関係のインストール{#install-dependencies}{#install-dependencies}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code"defaultValue='python'value={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 
 <TabItem value='python'>
 
-Run the following command in your terminal to install **pymilvus** and **minio** or upgrade them to the latest version.
+端末で以下のコマンドを実行して、**pymilvus**と**minio**をインストールするか、最新バージョンにアップグレードしてください。
 
 ```shell
 python3 -m pip install --upgrade pymilvus minio
@@ -47,7 +47,7 @@ python3 -m pip install --upgrade pymilvus minio
 
 <TabItem value='java'>
 
-- For Apache Maven, append the following to the **pom.xml** dependencies:
+- Apache Mavenの場合、**pom. xml**の依存関係に以下を追加してください:
 
 ```java
 <dependency>
@@ -63,7 +63,7 @@ python3 -m pip install --upgrade pymilvus minio
 </dependency>
 ```
 
-- For Gradle/Grails, run the following
+- Gradle/Grailsの場合、以下を実行してください。
 
 ```shell
 compile 'io.milvus:milvus-sdk-java:2.4.8'
@@ -74,9 +74,9 @@ compile 'io.minio:minio:8.5.9'
 
 </Tabs>
 
-## Check prepared data{#check-prepared-data}
+## 準備したデータを確認する{#check-prepared-data}{#check-prepared-data}
 
-Once you have prepared your data using [the BulkWriter tool](./use-bulkwriter) and got the path to the prepared files. You are ready to import them to a Zilliz Cloud collection. To check whether they are ready, do as follows:
+[BulkWriterツール](./use-bulkwriter)を使用してデータを準備し、準備したファイルのパスを取得したら、Zilliz Cloudコレクションにインポートする準備ができました。準備ができているかどうかを確認するには、次の手順を実行します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -158,9 +158,9 @@ while (results.hasNext()) {
 </TabItem>
 </Tabs>
 
-## Import data{#import-data}
+## データのインポート{#import-data}{#import-data}
 
-Once your data and collection are ready, you can start the import process as follows:
+データとコレクションの準備ができたら、次のようにインポート過程を開始できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -241,15 +241,15 @@ public static void main(String[] args) throws Exception {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>For successful data import, ensure the target collection has less than 10,000 running or pending import jobs.</p>
+<p>データのインポートを成功させるには、ターゲットコレクションに10,000件小なりの実行中または保留中のインポートジョブがあることを確認します。</p>
 
 </Admonition>
 
-### Check import progress{#check-import-progress}
+### インポートの進捗を確認する{#check-import-progress}{#check-import-progress}
 
-You can check the progress of a specified bulk-import job.
+指定した一括インポートジョブの進捗状況を確認できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -304,9 +304,9 @@ public static void main(String[] args) throws Exception {
 </TabItem>
 </Tabs>
 
-### List all import jobs{#list-all-import-jobs}
+### インポートジョブの一覧{#list-all-import-jobs}{#list-all-import-jobs}
 
-If you also want to know about all bulk-import tasks, you can call the list-import-jobs API as follows:
+一括インポートタスクについても知りたい場合は、以下のようにlist-import-jobsAPIを呼び出すことができます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -358,13 +358,13 @@ public static void main(String[] args) throws Exception {
 </TabItem>
 </Tabs>
 
-## Related topics{#related-topics}
+## 関連するトピック{#list-all-import-jobs}{#list-all-import-jobs}
 
-- [Storage Options](./data-import-storage-options)
+- [ストレージオプション](./data-import-storage-options)
 
-- [Format Options](./data-import-format-options)
+- [書式オプション](./data-import-format-options)
 
-- [Import Data via RESTful API](./import-data-via-restful-api)
+- [データのインポート(RESTful API)](./import-data-via-restful-api)
 
-- [Data Import from Zero to Hero](./data-import-zero-to-hero) 
+- [データインポートハンズオン](./data-import-zero-to-hero)
 

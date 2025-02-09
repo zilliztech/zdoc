@@ -14,10 +14,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

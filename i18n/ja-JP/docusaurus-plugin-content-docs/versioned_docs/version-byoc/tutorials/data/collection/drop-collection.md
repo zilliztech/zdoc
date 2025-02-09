@@ -1,13 +1,13 @@
 ---
-title: "Drop Collection | BYOC"
+title: "コレクションの管理(コンソール) | BYOC"
 slug: /drop-collection
-sidebar_label: "Drop Collection"
+sidebar_label: "コレクションの管理(コンソール)"
 beta: FALSE
 notebook: FALSE
-description: "You can drop a collection if it is no longer needed. | BYOC"
+description: "このガイドでは、Zilliz Cloudでコレクションを作成および管理するためのステップバイステップの手順を説明します。ビジュアルインターフェイスを好むユーザーを対象としています。SDKに精通している場合は、S DKを使用してコレクションを作成および管理することもできます。詳細については、Collectionを参照してください。 | BYOC"
 type: origin
-token: DEUuwEwM4iMLOikU7XpcpNnKnGd
-sidebar_position: 9
+token: VBiwwmxdZiP3gekrQMScj8T7nLg
+sidebar_position: 10
 keywords: 
   - zilliz
   - vector database
@@ -16,149 +16,159 @@ keywords:
   - drop
   - drop by filter
   - drop by id
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 
 import Admonition from '@theme/Admonition';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
-# Drop Collection
 
-You can drop a collection if it is no longer needed.
+# コレクションの管理(コンソール)
 
-## Examples{#examples}
+このガイドでは、Zilliz Cloudでコレクションを作成および管理するためのステップバイステップの手順を説明します。ビジュアルインターフェイスを好むユーザーを対象としています。SDKに精通している場合は、S DKを使用してコレクションを作成および管理することもできます。詳細については、Collectionを参照してください。
 
-The following code snippets assume that you have a collection named **customized_setup_2**.
+## コレクションを作成{#create-collection}{#create-collection}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
+Zilliz Cloudは、異なるニーズに対応する3つのコレクション作成方法を提供しています。
 
-```python
-from pymilvus import MilvusClient
+- [自分のデータを使用](./drop-collection#1)する:完全な制御を望むユーザーに最適です。データセットと特定のニーズに応じて、スキーマとインデックスパラメータを自主的に定義できます。
 
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
-)
+- [サンプルデータを使用](./drop-collection#2create-sample-collection)する: Zilliz Cloudを初めて使用するユーザーに最適です。Zilliz Cloudは、サンプルデータセットに一致するスキーマを持つサンプルコレクションを提供しています。この方法は手間がかかりませんが、設定の変更はできません。
 
-client.drop_collection(
-    collection_name="customized_setup_2"
-)
-```
+- [既存のコレクションを複製](./drop-collection#3copy-collection)する:既存のコレクションをクラスタ内で複製するのに適しています。
 
-</TabItem>
+### 方法1:自分のデータを使用する{#1}
 
-<TabItem value='java'>
+コレクションを完全に制御するには、次の手順に従ってください。
 
-```java
-import io.milvus.v2.service.collection.request.DropCollectionReq;
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
+![create_custom_collection](/byoc/ja-JP/create_custom_collection.png)
 
-String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
-String TOKEN = "YOUR_CLUSTER_TOKEN";
+1. [**コレクションを作成**]ページで、コレクションのスキーマを定義し ます。
 
-// 1. Connect to Milvus server
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri(CLUSTER_ENDPOINT)
-        .token(TOKEN)
-        .build();
+    <table>
+       <tr>
+         <th><p>設定ファイル</p></th>
+         <th><p>説明する</p></th>
+       </tr>
+       <tr>
+         <td><p>フィールド名</p></td>
+         <td><p>フィールドの名前。各コレクションには一意の主キーと少なくとも1つのベクトルフィールド（最大4つ）があります。</p><p>デフォルトのスキーマ設計では、Zilliz Cloudはプライマリフィールド（<code>primary_key</code>）とフロートベクトル（<code>vector</code>）を予約します。必要に応じて設定をカスタマイズできます。</p></td>
+       </tr>
+       <tr>
+         <td><p>フィールドタイプ</p></td>
+         <td><p>フィールドのデータタイプ。Zilliz Cloudがサポートするフィールドは、主キー、ベクトルフィールド、スカラーフィールドの3つの主要なカテゴリに分類されます。異なるフィールドでサポートされるデータタイプは、フィールドタイプによって異なります。</p><ul><li><p>プライマリフィールド:<code>INT64</code>,<code>VARCHAR</code></p></li><li><p>ベクトルフィールド:<code>FLOAT_VECTOR</code>,<code>BINARY_VECTOR</code>,<code>FLOAT 16_VECTOR</code>,<code>BFLOAT 16_VECTOR</code>,<code>SPARSE_FLOAT_VECTOR</code>.</p></li><li><p>スカラーフィールド:<code>INT64</code>、<code>VARCHAR</code>、<code>INT 8</code>、<code>INT16</code>、<code>INT32</code>、<code>FLOAT</code>、<code>DOUBLE</code>、<code>BOOL</code>、<code>JSON</code>、<code>ARRAY</code>。</p><p>詳細は「<a href="./schema-explained">スキーマの説明</a>」を参照してください。</p></li></ul></td>
+       </tr>
+       <tr>
+         <td><p>インデックス</p></td>
+         <td><p>検索パフォーマンスを向上させるためにフィールドをインデックス化するかどうか。有効にすると、Zilliz CloudはフィールドのAUTOINDEXを作成します。詳細については、「<a href="./autoindex-explained">AUTOINDEXの説明</a>」を参照してください。</p></td>
+       </tr>
+       <tr>
+         <td><p>メートルタイプ</p></td>
+         <td><p>ベクトル間の類似性を測定するために使用されるメトリックのタイプです。このパラメータはベクトル場に対してのみ設定可能です。詳細については、「<a href="./search-metrics-explained">メトリックの種類</a>」を参照してください。</p></td>
+       </tr>
+       <tr>
+         <td><p>デフォルト値</p></td>
+         <td><p>スカラーフィールド（プライマリフィールドを除く）に対してのみ設定可能なフィールドのデフォルト値を設定するかどうか。詳細については、「<a href="./nullable-and-default">Nullableデフォルト(D)</a>」を参照してください。</p></td>
+       </tr>
+       <tr>
+         <td><p>Nullableは無効です。</p></td>
+         <td><p>スカラーフィールド（プライマリフィールドを除く）に対して、フィールドにnull値を許可するかどうかを設定できます。詳細については、「<a href="./nullable-and-default">Nullableデフォルト(D)</a>」を参照してください。</p></td>
+       </tr>
+       <tr>
+         <td><p>Mmap</p></td>
+         <td><p>MMAPを有効にするかどうか。このパラメータは、スカラーフィールド（プライマリフィールドを除く）に対してのみ設定可能です。詳細については、「<a href="./use-mmap">mmapを使う</a>」を参照してください。</p></td>
+       </tr>
+       <tr>
+         <td><p>説明する</p></td>
+         <td><p>任意です。フィールドの説明です。</p></td>
+       </tr>
+       <tr>
+         <td><p>オートID</p></td>
+         <td><p>プライマリフィールドにAuto IDを有効にするかどうか。有効にすると、Zilliz Cloudはプライマリキーの一意のIDを自動的に生成します。データ挿入時に手動で割り当てたり管理したりする必要はありません。</p></td>
+       </tr>
+    </table>
 
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
+1. (オプション)[**詳細設定**]では、動的フィールドとパーティションキーを詳細設定に使用します。
 
-DropCollectionReq dropQuickSetupParam = DropCollectionReq.builder()
-        .collectionName("customized_setup_2")
-        .build();
+    - **動的フィールド**:定義済みのスキーマを超えた新しいフィールドの挿入を許可します。詳細については、「[スキーマの説明](./schema-explained)」を参照してください。
 
-client.dropCollection(dropQuickSetupParam);
-```
+    - **パーティションキー**:データをパーティションにグループ化することで、クエリの効率を改善します。詳細については、「[パーティションキーを使う](./use-partition-key)」を参照してください。
 
-</TabItem>
+1. 「**コレクションを作成**」をクリックします。その後、コレクションに[データを挿入](null)できます。
 
-<TabItem value='javascript'>
+### 方法2:サンプルデータを使用する{#create-sample-collection}{#2create-sample-collection}
 
-```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+[**Load Sample Data**]を選択し、プリセットコレクションを確認して作成を確認します。
 
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
+<Admonition type="info" icon="Notes" title="undefined">
 
-// 10. Drop the collection
-res = await client.dropCollection({
-    collection_name: "customized_setup_2"
-})
+<p>サンプルコレクションを作成すると、Zilliz Cloudがすべての詳細を処理しますが、設定の調整は許可されません。</p>
 
-console.log(res.error_code)
+</Admonition>
 
-// Output
-// 
-// Success
-// 
-```
+![create_sample_collection](/byoc/ja-JP/create_sample_collection.png)
 
-</TabItem>
+### 方法3:既存のコレクションを複製する{#copy-collection}{#3copy-collection}
 
-<TabItem value='go'>
+[アクション]メニューから[**クローンコレクション**]を**選択し**ます。
 
-```go
-import (
-    "context"
-    "fmt"
-    "log"
+1. 新しいコレクションの名前と説明を入力します。
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-)
+1. クローンアクションのスコープを選択します。コレクションのスキーマと既存のデータの両方をクローンするか、現在のクラスターにデータがないコレクションスキーマのみをクローンすることができます。
 
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
+1. [**クローン**]をクリックします。
 
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-token := "YOUR_CLUSTER_TOKEN"
+    ![copy_collection](/byoc/ja-JP/copy_collection.png)
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-    APIKey:  token,
-})
-if err != nil {
-    log.Fatal("failed to connect to milvus server: ", err.Error())
-}
+1. [[ジョブ](./job-center)]ページでクローンの進行状況を確認できます。ジョブのステータスが**IN PROGRESS**から**SUCCESS FUL**に切り替わると、指定された属性を持つ新しいコレクションが現在のクラスタに作成されます。
 
-defer cli.Close(ctx)
+    <Admonition type="info" icon="Notes" title="undefined">
 
-err = cli.DropCollection(ctx, milvusclient.NewDropCollectionOption("customized_setup_2"))
-if err != nil {
-    // handle error
-}
-```
+    <p>データとスキーマの両方を使用してコレクションを複製する場合にのみ、ジョブレコードが生成されます。スキーマのみを使用してコレクションを複製しても、ジョブレコードはトリガーされません。</p>
 
-</TabItem>
+    </Admonition>
 
-<TabItem value='bash'>
+## コレクションを見る{#view-collections}{#view-collections}
 
-```bash
-export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-export TOKEN="YOUR_CLUSTER_TOKEN"
+クラスタに作成されたすべての既存のコレクションのリストを閲覧可能にするか、コレクションの名前をクリックして詳細を表示できます。
 
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
--d '{
-    "collectionName": "customized_setup_2"
-}'
+![view_collection](/byoc/ja-JP/view_collection.png)
 
-# {
-#     "code": 0,
-#     "data": {}
-# }
-```
+## ロード&リリースコレクション{#view-collections}{#andview-collections}
 
-</TabItem>
-</Tabs>
+Zilliz Cloudでは、すべての検索およびクエリ操作はメモリ内で実行されます。したがって、コレクションをロードするには、これらの操作に必要なデータをメモリに書き込む必要があります。逆に、コレクションをリリースすると、メモリスペースが解放されます。
 
+![load_release_collection](/byoc/ja-JP/load_release_collection.png)
+
+## コレクションを別のデータベースに移動する{#move-collection-to-another-database}{#move-collection-to-another-database}
+
+コレクションを1つのデータベースから別のデータベースに移動できます。
+
+![move-collection-to-another-database](/byoc/ja-JP/move-collection-to-another-database.png)
+
+## ドロップコレクション{#drop-collection}{#drop-collection}
+
+コレクションを削除することは、コレクションが必要なくなったときに使用される永続的なアクションです。リソースを節約するのに役立ちますが、慎重に行う必要があります。
+
+<Admonition type="info" icon="Notes" title="undefined">
+
+<p>コレクションを削除すると、その中のすべてのデータが不可逆的に削除されます。</p>
+
+</Admonition>
+
+![drop_collection](/byoc/ja-JP/drop_collection.png)
+
+## コレクションの制限{#collection-limits}{#collection-limits}
+
+\<table>
+   <tr>
+     <th><p><strong>クラスタタイプ</strong></p></th>
+     <th><p><strong>マックス数</strong></p></th>
+     <th><p><strong>備考</strong></p></th>
+   </tr>
+   \<tr>
+     <td><p></p></td>
+     \<td>\<p>

@@ -1,12 +1,12 @@
 ---
-title: "Analyzer Overview | BYOC"
+title: "アナライザの概要 | BYOC"
 slug: /analyzer-overview
-sidebar_label: "Overview"
+sidebar_label: "アナライザの概要"
 beta: PUBLIC
 notebook: FALSE
-description: "In text processing, an analyzer is a crucial component that converts raw text into a structured, searchable format. Each analyzer typically consists of two core elements tokenizer and filter. Together, they transform input text into tokens, refine these tokens, and prepare them for efficient indexing and retrieval. | BYOC"
+description: "テキスト処理において、アナライザーは生のテキストを構造化された検索可能な形式に変換する重要なコンポーネントです。各アナライザーは通常、トークナイザーとフィルターの2つのコア要素で構成されています。これらを組み合わせることで、入力テキストをトークンに変換し、これらのトークンを改良し、効率的なインデックス作成と検索に備えます。 | BYOC"
 type: origin
-token: H8MVwnjdgihp0hkRHHKcjBe9n5e
+token: PREAwSKITijnYJkGk2pcSJtynyb
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 
@@ -26,59 +26,59 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Analyzer Overview
+# アナライザの概要
 
-In text processing, an **analyzer** is a crucial component that converts raw text into a structured, searchable format. Each analyzer typically consists of two core elements: **tokenizer** and **filter**. Together, they transform input text into tokens, refine these tokens, and prepare them for efficient indexing and retrieval.
+テキスト処理において、**アナライザー**は生のテキストを構造化された検索可能な形式に変換する重要なコンポーネントです。各アナライザーは通常、トーク**ナイザー**と**フィルター**の2つのコア要素で構成されています。これらを組み合わせることで、入力テキストをトークンに変換し、これらのトークンを改良し、効率的なインデックス作成と検索に備えます。
 
-In Zilliz Cloud, analyzers are configured during collection creation when you add `VARCHAR` fields to the collection schema. Tokens produced by an analyzer can be used to build an index for keyword matching or converted into sparse embeddings for full text search. For more information, refer to [Text Match](./text-match) or [Full Text Search](./full-text-search).
+Zilliz Cloudでは、コレクションスキーマに`VARCHAR`フィールドを追加すると、コレクション作成時にアナライザが設定されます。アナライザによって生成されたトークンは、キーワードマッチングのインデックスを構築したり、全文検索のスパース埋め込みに変換したりするために使用できます。詳細については、「[テキスト一致](./text-match)」または「[フルテキスト検索](./full-text-search)」を参照してください。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>The use of analyzers may impact performance:</p>
+<p>アナライザーの使用はパフォーマンスに影響を与える可能性があります。</p>
 <ul>
-<li><p><strong>Full text search:</strong> For full text search, <strong>DataNode</strong> and <strong>QueryNode</strong> channels consume data more slowly because they must wait for tokenization to complete. As a result, newly ingested data takes longer to become available for search.</p></li>
-<li><p><strong>Keyword match:</strong> For keyword matching, index creation is also slower since tokenization needs to finish before an index can be built.</p></li>
+<li><p><strong>全文検索:</strong>全文検索の場合、<strong>DataNode</strong>と<strong>Query Node</strong>チャンネルはトークン化が完了するのを待たなければならないため、データの消費が遅くなります。その結果、新しく取り込まれたデータが検索可能になるまでに時間がかかります。</p></li>
+<li><p><strong>キーワード一致:</strong>キーワード一致の場合、インデックスを作成する前にトークン化が完了する必要があるため、インデックスの作成も遅くなります。</p></li>
 </ul>
 
 </Admonition>
 
-## Anatomy of an analyzer{#anatomy-of-an-analyzer}
+## アナライザーの解剖学{#anatomy-of-an-analyzer}{#anatomy-of-an-analyzer}
 
-An analyzer in Zilliz Cloud consists of exactly one **tokenizer** and **zero or more** filters.
+Zilliz Cloudのアナライザは、1つのトークナイザと**ゼロ以上**のフィルタで構成されて**いま**す。
 
-- **Tokenizer**: The tokenizer breaks input text into discrete units called tokens. These tokens could be words or phrases, depending on the tokenizer type.
+- **トークナイザー**:トークナイザーは、入力テキストをトークンと呼ばれる離散的な単位に分割します。これらのトークンは、トークナイザーのタイプに応じて単語やフレーズになる可能性があります。
 
-- **Filters**: Filters can be applied to tokens to further refine them, for example, by making them lowercase or removing common words.
+- **フィルター**:フィルターをトークンに適用して、小文字にしたり、一般的な単語を削除したりすることで、トークンをさらに洗練させることができます。
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="ノート">
 
-<p>Tokenizers support only UTF-8 format. Support for other formats will be added in future releases.</p>
-
-</Admonition>
-
-The workflow below shows how an analyzer processes text.
-
-![Ke6jw8437hjR8hbZCvEcQtIIn1e](/byoc/Ke6jw8437hjR8hbZCvEcQtIIn1e.png)
-
-## Analyzer types{#analyzer-types}
-
-Zilliz Cloud provides two types of analyzers to meet different text processing needs:
-
-- **Built-in analyzer**: These are predefined configurations that cover common text processing tasks with minimal setup. Built-in analyzers are ideal for general-purpose searches, as they require no complex configuration.
-
-- **Custom analyzer**: For more advanced requirements, custom analyzers allow you to define your own configuration by specifying both the tokenizer and zero or more filters. This level of customization is especially useful for specialized use cases where precise control over text processing is needed.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>If you omit analyzer configurations during collection creation, Zilliz Cloud uses the <code>standard</code> analyzer for all text processing by default. For details, refer to <a href="./standard-analyzer">Standard</a>.</p>
+<p>トークナイザーはUTF-8形式のみをサポートしています。他の形式のサポートは将来のリリースで追加されます。</p>
 
 </Admonition>
 
-### Built-in analyzer{#built-in-analyzer}
+以下のワークフローは、アナライザーがテキストを処理する方法を示しています。
 
-Built-in analyzers in Zilliz Cloud clusters are pre-configured with specific tokenizers and filters, allowing you to use them immediately without needing to define these components yourself. Each built-in analyzer serves as a template that includes a preset tokenizer and filters, with optional parameters for customization.
+![NWNHwRvu9hQUL1b4atdccSVhnhf](/byoc/ja-JP/NWNHwRvu9hQUL1b4atdccSVhnhf.png)
 
-For example, to use the `standard` built-in analyzer, simply specify its name `standard` as the `type` and optionally include extra configurations specific to this analyzer type, such as `stop_words`:
+## アナライザーの種類{#analyzer-types}{#analyzer-types}
+
+Zilliz Cloudは、異なるテキスト処理ニーズに対応する2種類のアナライザを提供します。
+
+- **組み込みアナライザ**:これらは最小限のセットアップで一般的なテキスト処理タスクをカバーする事前定義された構成です。組み込みアナライザは複雑な構成を必要としないため、汎用検索に最適です。
+
+- **カスタムアナライザー**:より高度な要件に対して、カスタムアナライザーを使用すると、トークナイザーとゼロ以上のフィルターの両方を指定して独自の構成を定義できます。このカスタマイズレベルは、テキスト処理に対する正確な制御が必要な特殊なユースケースに特に役立ちます。
+
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>コレクション作成時にアナライザの設定を省略した場合、Zilliz Cloudはデフォルトですべてのテキスト処理に<code>標準</code>アナライザを使用します。詳細はStandardを参照してください。</p>
+
+</Admonition>
+
+### 内蔵アナライザ {#built-in-analyzer}{#built-in-analyzer}
+
+組み込みアナライザZilliz Cloudクラスタには、特定のトークナイザとフィルタが事前に設定されているため、これらのコンポーネントを自分で定義する必要なく、すぐに使用できます。各組み込みアナライザは、カスタマイズのためのオプションパラメータを備えたプリセットトークナイザとフィルタを含むテンプレートとして機能します。
+
+たとえば、`標準`の組み込みアナライザを使用するには、単純にその名前を`standard`として`型`として指定し、オプションで`stop_words`など、このアナライザ型に固有の追加設定を含めます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -125,7 +125,7 @@ export analyzerParams='{
 </TabItem>
 </Tabs>
 
-The configuration of the `standard` built-in analyzer above is equivalent to setting up a [custom analyzer](./analyzer-overview) with the following parameters, where `tokenizer` and `filter` options are explicitly defined to achieve similar functionality:
+上記の`標準`ビルトインアナライザの設定は、次のパラメータを使用して[カスタムアナライザ](./analyzer-overview#custom-analyzer)を設定するのと同じです。`トークナイザ`と`フィルタ`オプションは、同様の機能を実現するために明示的に定義されています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -195,31 +195,31 @@ export analyzerParams='{
 </TabItem>
 </Tabs>
 
-Zilliz Cloud offers the following built-in analyzers, each designed for specific text processing needs:
+Zilliz Cloudには、特定のテキスト処理ニーズに合わせて設計された以下の組み込みアナライザがあります。
 
-- `standard`: Suitable for general-purpose text processing, applying standard tokenization and lowercase filtering.
+- `standard`:一般的なテキスト処理に適しており、標準のトークン化と小文字のフィルタリングを適用します。
 
-- `english`: Optimized for English-language text, with support for English stop words.
+- `英語`:英語のテキストに最適化され、英語のストップワードをサポートしています。
 
-- `chinese`: Specialized for processing Chinese text, including tokenization adapted for Chinese language structures.
+- `中国`語:中国語テキストの処理に特化しており、中国語の言語構造に適応したトークン化も含まれます。
 
-For a list of built-in analyzers and their customizable settings, refer to [Built-in Analyzer Reference](./built-in-analyzer).
+組み込みアナライザのリストとカスタマイズ可能な設定については、Built-in Analyzer Referenceを参照してください。
 
-### Custom analyzer{#custom-analyzer}
+### カスタムアナライザ{#custom-analyzer}{#custom-analyzer}
 
-For more advanced text processing, custom analyzers in Zilliz Cloud allow you to build a tailored text-handling pipeline by specifying both a **tokenizer** and **filters**. This setup is ideal for specialized use cases where precise control is required.
+より高度なテキスト処理のために、Zilliz Cloudのカスタムアナライザーを使用すると、**トークナイザー**と**フィルター**の両方を指定して、カスタマイズされたテキスト処理パイプラインを構築できます。このセットアップは、正確な制御が必要な特殊なユースケースに最適です。
 
-#### Tokenizer{#tokenizer}
+#### トークナイザー{#tokenizer}{#tokenizer}
 
-The **tokenizer** is a **mandatory** component for a custom analyzer, which initiates the analyzer pipeline by breaking down input text into discrete units or **tokens**. Tokenization follows specific rules, such as splitting by whitespace or punctuation, depending on the tokenizer type. This process allows for more precise and independent handling of each word or phrase.
+トーク**ナイザー**は、カスタムアナライザーの**必須**コンポーネントであり、入力テキストを離散的な単位または**トークン**に分解してアナライザーパイプラインを開始します。トークナイザーは、トークナイザータイプに応じて、空白や句読点で分割するなどの特定のルールに従います。この過程により、各単語やフレーズのより正確で独立した処理が可能になります。
 
-For example, a tokenizer would convert text `"Vector Database Built for Scale"` into separate tokens:
+例えば、トークナイザーは`「Vector Database Built for Scale」`というテキストを別々のトークンに変換します
 
 ```plaintext
 ["Vector", "Database", "Built", "for", "Scale"]
 ```
 
-**Example of specifying a tokenizer**:
+**トークナイザーの指定例**:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -262,31 +262,31 @@ export analyzerParams='{
 </TabItem>
 </Tabs>
 
-For a list of tokenizers available to choose from, refer to [Tokenizer Reference](./analyzer-tokenizers).
+選択できるトークナイザーのリストについては、トークナイザーリファレンスを参照しTokenizer Referenceい。
 
-#### Filter{#filter}
+#### フィルター{#filter}{#filter}
 
-**Filters** are **optional** components working on the tokens produced by the tokenizer, transforming or refining them as needed. For example, after applying a `lowercase` filter to the tokenized terms `["Vector", "Database", "Built", "for", "Scale"]`, the result might be:
+**フィルター**は、トークナイザーによって生成されたトークンに作用する**オプション**のコンポーネントであり、必要に応じて変換または改良します。たとえば、トークン化された用語に`小文字`のフィルターを適用した後`["Vector","Database","Built","for","Scale"]`、結果は次のようになります:
 
 ```sql
 ["vector", "database", "built", "for", "scale"]
 ```
 
-Filters in a custom analyzer can be either **built-in** or **custom**, depending on configuration needs.
+カスタムアナライザのフィルタは、設定のニーズに応じて、**組み込み**または**カスタム**のいずれかにすることができます。
 
-- **Built-in filters**: Pre-configured by Zilliz Cloud, requiring minimal setup. You can use these filters out-of-the-box by specifying their names. The filters below are built-in for direct use:
+- **組み込みフィルタ**: Pre-configuration byZilliz Cloud,最小限の設定が必要です。これらのフィルタは、名前を指定することでそのまま使用できます。以下のフィルタは、直接使用するために組み込まれています:
 
-    - `lowercase`: Converts text to lowercase, ensuring case-insensitive matching. For details, refer to [Lowercase](./lowercase-filter).
+    - `小文字`:テキストを小文字に変換し、大文字小文字を区別しないマッチングを保証します。詳細については、Lowercaseを参照してください。
 
-    - `asciifolding`: Converts non-ASCII characters to ASCII equivalents, simplifying multilingual text handling. For details, refer to [ASCII folding](./ascii-folding-filter).
+    - `ASCII`折りたたみ:非ASCII文字をASCII文字に変換し、多言語テキストの処理を簡素化します。詳細については、ASCII foldingを参照してください。
 
-    - `alphanumonly`: Retains only alphanumeric characters by removing others. For details, refer to [Alphanumonly](./alphanumonly-filter).
+    - `アルファ`ヌモンリー:他の文字を削除して英数字のみを保持します。詳細については、アルファヌモンリーを参照してAlphanumonlyい。
 
-    - `cnalphanumonly`: Removes tokens that contain any characters other than Chinese characters, English letters, or digits. For details, refer to [Cnalphanumonly](./cnalphanumonly-filter).
+    - `cnalphanumonly`:漢字、英字、数字以外の文字を含むトークンを削除します。詳細については、Cnalphanumonlyを参照してCnalphanumonlyい。
 
-    - `cncharonly`: Removes tokens that contain any non-Chinese characters. For details, refer to [Cncharonly](./cncharonly-filter).
+    - `cncharonly`:中国語以外の文字を含むトークンを削除します。詳細については、Cncharonlyを参照してCncharonlyい。
 
-    **Example of using a built-in filter:**
+    **組み込みフィルタの使用例:**
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -333,15 +333,15 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
     </TabItem>
     </Tabs>
 
-- **Custom filters**: Custom filters allow for specialized configurations. You can define a custom filter by choosing a valid filter type (`filter.type`) and adding specific settings for each filter type. Examples of filter types that support customization:
+- **カスタムフィルタ**:カスタムフィルタを使用すると、特殊な設定が可能です。有効なフィルタタイプ（filter. type）を選択し、各フィルタタイプに特定の設定を追加することで、カスタム`フィルタ`を定義できます。カスタマイズをサポートするフィルタタイプの例:
 
-    - `stop`: Removes specified common words by setting a list of stop words (e.g., `"stop_words": ["of", "to"]`). For details, refer to [Stop](./stop-filter).
+    - `stop`:ストップワードのリストを設定することで、指定した一般的な単語を削除します（例:`"stop_words":["of","to"]`）。詳細はStopを参照してください。
 
-    - `length`: Excludes tokens based on length criteria, such as setting a maximum token length. For details, refer to [Length](./length-filter).
+    - `長さ`:最大トークン長の設定など、長さの基準に基づいてトークンを除外します。詳細については、Lengthを参照してください。
 
-    - `stemmer`: Reduces words to their root forms for more flexible matching. For details, refer to [Stemmer](./stemmer-filter).
+    - `stemmer`:より柔軟なマッチングのために、単語をルート形式に縮小します。詳細については、Stemmerを参照してください。
 
-    **Example of configuring a custom filter:**
+    **カスタムフィルタの設定例:**
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -407,11 +407,11 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
     </TabItem>
     </Tabs>
 
-    For a list of available filter types and their specific parameters, refer to [Filter Reference](./analyzer-filters).
+    使用できるフィルターの種類とその特定のパラメーターについては、Filter Referenceを参照してください。
 
-## Example use{#example-use}
+## 使用例の例{#example-use}{#example-use}
 
-In this example, we define a collection schema with a vector field for embeddings and two `VARCHAR` fields for text processing capabilities. Each `VARCHAR` field is configured with its own analyzer settings to handle different processing needs.
+この例では、埋め込み用のベクトルフィールドとテキスト処理機能用の2つのVARCHARフィールドを持つコレクションスキーマを定義しています。各VARCHARフィールドは、異なる処理ニーズを処理するために独自のアナライザ設定で構成されています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

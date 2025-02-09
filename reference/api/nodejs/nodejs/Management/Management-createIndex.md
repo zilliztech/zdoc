@@ -10,19 +10,19 @@ type: docx
 token: WFRodQlfKoPHTUxbBYzcLug8nsd
 sidebar_position: 1
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
   - node
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 displayed_sidebar: nodeSidebar
 
 ---

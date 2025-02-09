@@ -2,7 +2,7 @@
 title: "SAML 2.0 | BYOC"
 slug: /saml-2-0
 sidebar_label: "Configure SAML SSO with Okta"
-beta: PUBLIC
+beta: CONTACT SALES
 notebook: FALSE
 description: "This topic describes how to configure single sign-on (SSO) with Okta using the SAML 2.0 protocol. | BYOC"
 type: origin
@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 
@@ -30,6 +30,12 @@ This topic describes how to configure single sign-on (SSO) with Okta using the S
 SAML 2.0 is a standard protocol used by many identity providers and offers broad compatibility. Choose this option if your organization requires SAML 2.0 for compliance reasons. For details, refer to [Okta official documentation](https://help.okta.com/en-us/content/topics/apps/apps-about-saml.htm).
 
 ![KywHwe7VIhcwsAbecTpcEsL3njb](/byoc/KywHwe7VIhcwsAbecTpcEsL3njb.png)
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud SSO is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+
+</Admonition>
 
 ## Before you start{#before-you-start}
 

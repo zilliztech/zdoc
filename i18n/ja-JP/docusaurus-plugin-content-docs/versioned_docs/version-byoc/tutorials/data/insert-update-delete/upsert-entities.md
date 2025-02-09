@@ -1,12 +1,12 @@
 ---
-title: "Upsert Entities | BYOC"
+title: "エンティティの更新と挿入 | BYOC"
 slug: /upsert-entities
-sidebar_label: "Upsert Entities"
+sidebar_label: "エンティティの更新と挿入"
 beta: FALSE
 notebook: FALSE
-description: "The Upsert operation combines the actions of updating and inserting data. Milvus determines whether to perform an update or an insert operation by checking if the primary key exists. This section will introduce how to Upsert an Entity and the specific behaviors of the Upsert operation in different scenarios. | BYOC"
+description: "Upsert操作は、データの更新と挿入のアクションを組み合わせたものです。Milvusは、主キーが存在するかどうかを確認することで、更新または挿入操作を実行するかどうかを決定します。このセクションでは、エンティティをUpsertする方法と、さまざまなシナリオでのUpsert操作の具体的な動作について紹介します。 | BYOC"
 type: origin
-token: YtJPwEVETiTaPMkWSfAccjXTnge
+token: PHmAwiBrDiBYpSkkuOKcO56onNg
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -17,10 +17,10 @@ keywords:
   - upsert
   - update
   - insert
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 
@@ -28,27 +28,27 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# Upsert Entities
+# エンティティの更新と挿入
 
-The Upsert operation combines the actions of updating and inserting data. Milvus determines whether to perform an update or an insert operation by checking if the primary key exists. This section will introduce how to Upsert an Entity and the specific behaviors of the Upsert operation in different scenarios.
+Upsert操作は、データの更新と挿入のアクションを組み合わせたものです。Milvusは、主キーが存在するかどうかを確認することで、更新または挿入操作を実行するかどうかを決定します。このセクションでは、エンティティをUpsertする方法と、さまざまなシナリオでのUpsert操作の具体的な動作について紹介します。
 
-## Overview{#overview}
+## 概要について{#overview}{#overview}
 
-When you need to update an Entity in a Collection or are not sure whether to update or insert, you can try using the Upsert operation. When using this operation, it is essential to ensure that the Entity included in the Upsert request contains the primary key; otherwise, an error will occur. Upon receiving an Upsert request, Zilliz Cloud will execute the following process:
+コレクション内のエンティティを更新する必要がある場合、または更新するか挿入するかわからない場合は、Upsert操作を使用してみてください。この操作を使用する場合、Upsertリクエストに含まれるエンティティに主キーが含まれていることを確認することが重要です。そうでない場合、エラーが発生します。Upsertリクエストを受信すると、Zilliz Cloudは次の過程を実行します
 
-1. Check whether the primary field of the Collection has AutoId enabled.
+1. コレクションのプライマリフィールドでAutoIdが有効になっているかどうかを確認します。
 
-    1.  If it is, Zilliz Cloud will replace the primary key in the Entity with an automatically generated primary key and insert the data.
+    1. その場合、Zilliz CloudはEntity内の主キーを自動生成された主キーに置き換え、データを挿入します。
 
-    1. If not, Zilliz Cloud will use the primary key carried by the Entity to insert the data.
+    1. そうでない場合、Zilliz Cloudはエンティティが持つ主キーを使用してデータを挿入します。
 
-1. Perform a delete operation based on the primary key value of the Entity included in the Upsert request.
+1. Upsert要求に含まれるエンティティの主キー値に基づいて削除操作を実行します。
 
-![K2SXwCq8ThyBnGb9LxFceCk5nwe](/byoc/K2SXwCq8ThyBnGb9LxFceCk5nwe.png)
+![PbhlwMPYehvqZjboBUucBm0tniL](/byoc/ja-JP/PbhlwMPYehvqZjboBUucBm0tniL.png)
 
-## Upsert Entity in a Collection{#upsert-entity-in-a-collection}
+## コレクション内のエンティティの更新と挿入{#upsert-entity-in-a-collection}{#upsert-entity-in-a-collection}
 
-In this section, you will upsert Entities into a Collection created [in the quick-setup manner](./quick-setup-collections). A Collection created in this manner has only two fields, named **id** and **vector**. Additionally, this Collection has the dynamic field enabled, so the Entities in the example code include a field called **color** that is not defined in the Schema.
+このセクションでは、[クイックセットアップの方法で](./quick-setup-collections#quick-setup)作成されたコレクションにエンティティを挿入します。この方法で作成されたコレクションには、**id**と**vector**という2つのフィールドしかありません。さらに、このコレクションには動的フィールドが有効になっているため、サンプルコードのエンティティには、スキーマで定義されていない**color**というフィールドが含まれています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -219,9 +219,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Upsert Entities in a Partition{#upsert-entities-in-a-partition}
+## パーティション内のエンティティを消去する{#upsert-entities-in-a-partition}{#upsert-entities-in-a-partition}
 
-You can also insert entities into a specified partition. The following code snippets assume that you have a partition named **PartitionA** in your collection.
+指定したパーティションにエンティティを挿入することもできます。次のコードスニペットは、コレクションにPartitionAという名前のパーティションがあること**を**前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
