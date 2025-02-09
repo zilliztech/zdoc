@@ -38,3 +38,34 @@ See https://twitter.com/JoshWComeau/status/1332015868725891076
   }
 
 }
+
+.banner {
+  padding: 10px; /* Adjust padding as needed */
+  text-align: center; /* Center the text */
+  position: relative; /* For positioning the close button */
+  /* Add other styling as desired (e.g., font, border) */
+  transition: opacity 0.3s ease; /* Add a smooth transition for closing */
+  border-radius: 5px; /* Add rounded corners */
+  margin-bottom: 10px; /* Add margin between banners */
+}
+
+.banner-content {
+  display: flex;
+  align-items: center; /* Vertically align content */
+  justify-content: center; /* Horizontally align content */
+}
+
+.banner-close-button {
+  background: none;
+  border: none;
+  font-size: 20px;
+  margin-left: 10px; /* Space between message and button */
+  cursor: pointer;
+  padding: 0; /* Remove default button padding */
+  line-height: 1; /* Adjust line height for better vertical alignment */
+}
+
+/* Optional: Add hover effect to the close button */
+.banner-close-button:hover {
+  opacity: 0.7;
+}
