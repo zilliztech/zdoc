@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 
@@ -44,7 +44,7 @@ Zilliz Cloudでは、コレクションスキーマに`VARCHAR`フィールド�
 
 ## アナライザーの解剖学{#anatomy-of-an-analyzer}{#anatomy-of-an-analyzer}
 
-\<includetarget="milvus">Milvus\</include>Zilliz Cloudのアナライザは、1つのトークナイザと**ゼロ以上**のフィルタで構成されて**いま**す。
+Zilliz Cloudのアナライザは、1つのトークナイザと**ゼロ以上**のフィルタで構成されて**いま**す。
 
 - **トークナイザー**:トークナイザーは、入力テキストをトークンと呼ばれる離散的な単位に分割します。これらのトークンは、トークナイザーのタイプに応じて単語やフレーズになる可能性があります。
 

@@ -10,19 +10,19 @@ type: docx
 token: Oy7PdvBJ7omRcKxvRvUcbWLcn1d
 sidebar_position: 5
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - javaV2
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: javaSidebar
 
 ---

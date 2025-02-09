@@ -10,19 +10,19 @@ type: docx
 token: Q8IidbqKMopplgxSxaicS2o9nwc
 sidebar_position: 3
 keywords: 
+  - managed milvus
   - Serverless vector database
   - milvus open source
   - how does milvus work
-  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - ConsistencyLevel
   - javaV2
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 displayed_sidebar: javaSidebar
 
 ---

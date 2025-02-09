@@ -10,19 +10,19 @@ type: docx
 token: N2aHdla1Uohk1HxGyPHcdG4lnnb
 sidebar_position: 2
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
   - Sparse vector
   - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - python
-  - image similarity search
-  - Context Window
   - Natural language search
   - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: pythonSidebar
 
 ---

@@ -9,10 +9,10 @@ token: NZa5fZusilxYZ5d3Q1Dc1l8BnOd
 sidebar_position: 4
 sidebar_label: "ORM"
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud

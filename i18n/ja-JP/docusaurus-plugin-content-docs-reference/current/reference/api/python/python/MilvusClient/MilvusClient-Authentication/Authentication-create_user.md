@@ -8,21 +8,21 @@ notebook: false
 description: "This operation creates a user. | Python | MilvusClient"
 type: docx
 token: BDupd28JqoNY9HxVOTfcv86enRe
-sidebar_position: 2
+sidebar_position: 4
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - create_user()
   - python
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 ---
@@ -96,14 +96,4 @@ client = MilvusClient(
 # 2. Create a user
 client.create_user(user_name="user_1", password="P@ssw0rd")
 ```
-
-## Related methods{#related-methods}
-
-- [describe_user()](./Authentication-describe_user)
-
-- [drop_user()](./Authentication-drop_user)
-
-- [list_users()](./Authentication-list_users)
-
-- [update_password()](./Authentication-update_password)
 

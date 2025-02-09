@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists the statistics collected on a specific collection. | Python | MilvusClient"
 type: docx
 token: VVyNdx038oECxNxMQavc9vssnoh
-sidebar_position: 10
+sidebar_position: 13
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - get_collection_stats()
   - python
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 displayed_sidebar: pythonSidebar
 
 ---

@@ -8,21 +8,21 @@ notebook: false
 description: "This operation drops a specified collection alias. | Python | MilvusClient"
 type: docx
 token: FpWXdmIuforYz9xUCsqclyCXnLe
-sidebar_position: 8
+sidebar_position: 10
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - drop_alias()
   - python
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -9,10 +9,10 @@ token: MGFYf4JacldYUEdxtJdcwczAntg
 sidebar_position: 2
 sidebar_label: "BulkImport"
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud

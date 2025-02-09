@@ -14,10 +14,10 @@ keywords:
   - cloud
   - index
   - manage
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 
@@ -31,12 +31,8 @@ SDKを使用してベクトルおよびスカラーフィールドのインデ�
 <Admonition type="info" icon="📘" title="ノート">
 
 <p>コレクションが自動的にインデックス化されて読み込まれるかどうかは、コレクションの作成方法によって異なります。次のシナリオでは、コレクションは作成時に自動的に読み込まれます。</p>
-<p><include targte="zilliz"></p>
 <ul>
-<li>コンソールで。</li>
-</ul>
-<p></include></p>
-<ul>
+<li><p>コンソールで。</p></li>
 <li><p><a href="/reference/create-collection">RESTful APIを使用する</a>。</p></li>
 <li><p><a href="null">SDKを使用してコレクションを即座に作成する</a>。</p></li>
 <li><p><a href="null">SDKを使用してコレクションを作成するとインデックスをセットする</a>。</p></li>

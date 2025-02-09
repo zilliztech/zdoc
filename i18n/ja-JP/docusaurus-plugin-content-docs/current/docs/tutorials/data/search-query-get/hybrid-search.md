@@ -16,10 +16,10 @@ keywords:
   - data
   - hybrid search
   - combine sparse and dense vectors
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 
@@ -59,7 +59,7 @@ import TabItem from '@theme/TabItem';
 
 1. [BM25](https://zilliz.com/learn/mastering-bm25-a-deep-dive-into-the-algorithm-and-application-in-milvus)、[BGE](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings#BGE-M3)[-M3](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings#BGE-M3)、[SPLADE](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings#SPLADE)などの埋め込みモデルを使用して疎ベクトルを生成[し](https://zilliz.com/learn/bge-m3-and-splade-two-machine-learning-models-for-generating-sparse-embeddings#SPLADE)ます。
 
-1. \<includetarget="milvus">Milvus\</include>Zilliz Cloudにコレクションを作成し、密集ベクトルフィールドと疎ベクトルフィールドの両方を含むコレクションスキーマを定義します。
+1. Zilliz Cloudにコレクションを作成し、密集ベクトルフィールドと疎ベクトルフィールドの両方を含むコレクションスキーマを定義します。
 
 1. 前のステップで作成したコレクションに疎密度ベクトルを挿入します。
 

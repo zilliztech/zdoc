@@ -10,19 +10,19 @@ type: docx
 token: TVWPdTw2WoPAJYxsbGMc7MX6nEf
 sidebar_position: 4
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - hasPartition()
   - node
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: nodeSidebar
 
 ---

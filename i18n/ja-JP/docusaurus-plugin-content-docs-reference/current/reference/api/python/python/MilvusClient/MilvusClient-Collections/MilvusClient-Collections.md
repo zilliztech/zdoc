@@ -9,10 +9,10 @@ token: AzdefBpvklrrFOdFnA1cicgonLf
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud

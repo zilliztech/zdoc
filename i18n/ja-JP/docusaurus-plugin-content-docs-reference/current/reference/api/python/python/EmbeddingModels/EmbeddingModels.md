@@ -9,10 +9,10 @@ token: G3Qvfzptcl9gcFdHholcBmgQnib
 sidebar_position: 2
 sidebar_label: "EmbeddingModels"
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud

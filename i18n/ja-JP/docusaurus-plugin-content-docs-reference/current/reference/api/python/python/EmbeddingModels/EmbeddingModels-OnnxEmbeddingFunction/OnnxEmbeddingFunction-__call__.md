@@ -10,19 +10,19 @@ type: docx
 token: PlzSdJTGnoFVH6xSlS6cYBHZnph
 sidebar_position: 4
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - python
+  - RAG
+  - NLP
   - Neural Network
   - Deep Learning
-  - Knowledge base
-  - natural language processing
 displayed_sidebar: pythonSidebar
 
 ---

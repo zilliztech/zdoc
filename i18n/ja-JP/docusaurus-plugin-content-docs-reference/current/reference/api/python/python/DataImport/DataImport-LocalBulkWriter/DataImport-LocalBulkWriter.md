@@ -10,19 +10,19 @@ type: docx
 token: Tn2jd8OH1oMukFxJDsgcOSxCnrg
 sidebar_position: 3
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - LocalBulkWriter
   - python
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: pythonSidebar
 
 ---

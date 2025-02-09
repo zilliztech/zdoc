@@ -10,19 +10,19 @@ type: docx
 token: G77zdbzpPo4pOaxTDcccgRNfnVc
 sidebar_position: 4
 keywords: 
+  - vectordb
   - multimodal vector database retrieval
   - Retrieval Augmented Generation
   - Large language model
-  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - RemoteBulkWriter
   - python
-  - Recommender systems
-  - information retrieval
   - dimension reduction
   - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

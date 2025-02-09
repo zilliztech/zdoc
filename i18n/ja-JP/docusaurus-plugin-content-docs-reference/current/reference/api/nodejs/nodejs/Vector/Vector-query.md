@@ -10,19 +10,19 @@ type: docx
 token: AJ96d6Aguos3FAxWMDxcjzqpnSg
 sidebar_position: 4
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - node
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 displayed_sidebar: nodeSidebar
 
 ---

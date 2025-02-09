@@ -10,19 +10,19 @@ type: docx
 token: AtkDdtMAWodFzExARxnco5xLnsg
 sidebar_position: 9
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
   - drop_index()
   - python
+  - NLP
+  - Neural Network
+  - Deep Learning
   - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
 displayed_sidebar: pythonSidebar
 
 ---

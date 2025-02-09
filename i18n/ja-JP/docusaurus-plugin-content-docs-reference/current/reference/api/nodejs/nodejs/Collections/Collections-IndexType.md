@@ -10,19 +10,19 @@ type: docx
 token: Of5xdscL1o5Svzxy8yOckqaMnzg
 sidebar_position: 12
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - IndexType
   - node
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: nodeSidebar
 
 ---

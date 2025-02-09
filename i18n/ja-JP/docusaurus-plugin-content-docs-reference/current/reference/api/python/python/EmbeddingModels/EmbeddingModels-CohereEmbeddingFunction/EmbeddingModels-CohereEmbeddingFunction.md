@@ -10,19 +10,19 @@ type: docx
 token: JzDLdkv3QoCY8OxKpBjc5zsmnId
 sidebar_position: 1
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - CohereEmbeddingFunction
   - python
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
 displayed_sidebar: pythonSidebar
 
 ---

@@ -8,21 +8,21 @@ notebook: false
 description: "This is an enumeration that provides the following constants. | Python | MilvusClient"
 type: docx
 token: JiN3dU8zwoPdgBxxpw6c0JkUnze
-sidebar_position: 5
+sidebar_position: 7
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
   - python
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: pythonSidebar
 
 ---

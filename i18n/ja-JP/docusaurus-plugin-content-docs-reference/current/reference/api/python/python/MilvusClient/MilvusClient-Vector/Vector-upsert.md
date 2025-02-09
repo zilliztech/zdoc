@@ -8,21 +8,21 @@ notebook: false
 description: "This operation inserts or updates data in a specific collection. | Python | MilvusClient"
 type: docx
 token: WRYFdoDe8ofrlDxxTxQcdoJjnAh
-sidebar_position: 6
+sidebar_position: 8
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - python
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: pythonSidebar
 
 ---

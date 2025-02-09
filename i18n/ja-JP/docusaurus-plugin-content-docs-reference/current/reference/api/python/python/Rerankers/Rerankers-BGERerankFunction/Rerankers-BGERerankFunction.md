@@ -10,19 +10,19 @@ type: docx
 token: GxAZd9O9gozzhExhMHWcMnXPngh
 sidebar_position: 1
 keywords: 
-  - natural language processing
-  - AI chatbots
   - cosine distance
   - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - BGERerankFunction
   - python
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: pythonSidebar
 
 ---

@@ -9,10 +9,10 @@ token: YkL6fqkaNlgeWXdNaWLcltkZnRc
 sidebar_position: 6
 sidebar_label: "Partitions"
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud

@@ -10,19 +10,19 @@ type: docx
 token: KIYUdM0oVo0dQmxTgS2c8Mxxn4v
 sidebar_position: 8
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - MetricType
   - javaV2
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 displayed_sidebar: javaSidebar
 
 ---

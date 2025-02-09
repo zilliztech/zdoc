@@ -20,10 +20,10 @@ keywords:
   - IP
   - COSINE
   - Jaccard
-  - milvus database
   - milvus lite
   - milvus benchmark
   - managed milvus
+  - Serverless vector database
 
 ---
 
@@ -224,7 +224,7 @@ BM 25のスコアは以下のように計算されます:
 
 - :コーパス内の全ドキュメントの平均長。
 
-- スコアに対する用語頻度の影響を制御します。値が高いほど、用語頻度の重要性が高まります。典型的な範囲は[1.2、2.0]であり、\<includetarget="indev">Milvus\</include>Zilliz Cloudは[0、3]の範囲を許容します。
+- スコアに対する用語頻度の影響を制御します。値が高いほど、用語頻度の重要性が高まります。典型的な範囲は[1.2、2.0]であり、Zilliz Cloudは[0、3]の範囲を許容します。
 
 - 長さの正規化の程度を0から1の範囲で制御します。値が0の場合、正規化は適用されません。値が1の場合、完全な正規化が適用されます。
 

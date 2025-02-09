@@ -10,19 +10,19 @@ type: docx
 token: PemMdzGFnovhaWxOzFzceaH3ncd
 sidebar_position: 3
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
   - javaV2
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: javaSidebar
 
 ---

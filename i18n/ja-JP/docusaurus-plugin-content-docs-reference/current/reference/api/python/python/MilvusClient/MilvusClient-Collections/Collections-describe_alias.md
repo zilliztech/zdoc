@@ -8,21 +8,21 @@ notebook: false
 description: "This operation displays the details of an alias. | Python | MilvusClient"
 type: docx
 token: HN7nddgueo3scIxmPXAcpjkFnDf
-sidebar_position: 6
+sidebar_position: 8
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - describe_alias()
   - python
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 displayed_sidebar: pythonSidebar
 
 ---

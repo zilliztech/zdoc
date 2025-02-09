@@ -10,19 +10,19 @@ type: docx
 token: Vqw7d0U1qoVXozxrCMtcJGZ8nkh
 sidebar_position: 5
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - load()
   - python
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: pythonSidebar
 
 ---

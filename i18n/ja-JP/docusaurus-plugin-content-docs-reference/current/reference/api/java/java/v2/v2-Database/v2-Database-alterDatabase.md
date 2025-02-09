@@ -10,19 +10,19 @@ type: docx
 token: PBYIdLALvoHd0pxwI8Ec4JsTnBX
 sidebar_position: 1
 keywords: 
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - alterDatabase()
   - javaV2
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
 displayed_sidebar: javaSidebar
 
 ---

@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists all indexes of a specific collection. | Python | MilvusClient"
 type: docx
 token: ZqmudJWyFonUKGxAxXncYrLZn2e
-sidebar_position: 6
+sidebar_position: 9
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - list_indexes()
   - python
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---
