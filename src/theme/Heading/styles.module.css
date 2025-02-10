@@ -46,7 +46,7 @@ See https://twitter.com/JoshWComeau/status/1332015868725891076
   /* Add other styling as desired (e.g., font, border) */
   transition: opacity 0.3s ease; /* Add a smooth transition for closing */
   border-radius: 5px; /* Add rounded corners */
-  margin-bottom: 10px; /* Add margin between banners */
+  margin: 10px 0; /* Add margin between banners */
 }
 
 .banner-content {
