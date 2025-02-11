@@ -14,10 +14,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 
@@ -107,7 +107,7 @@ You can find the cloud region and project ID on Zilliz Cloud console. If you pre
 
 Once your cluster is running, you will be prompted with the [cluster credentials](./cluster-credentials) for once. Download and save it in a safe place. You will need it to connect to your cluster later.
 
-## Connect to Zilliz Cloud clusterMilvus{#connect-to-zilliz-cloud-clustermilvus}
+## Connect to Zilliz Cloud cluster{#connect-to-zilliz-cloud-cluster}
 
 Once you have obtained the cluster credentials, you can use it to connect to your cluster now.
 

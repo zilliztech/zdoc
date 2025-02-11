@@ -21,6 +21,10 @@ const BetaTag = (tag) => {
       tag_caption = "Contact Sales to Enable This Feature";
       tag_color = "#FF7F47";
       break;
+    case 'BYOC':
+      tag_caption = "Contact Sales to BYOC";
+      tag_color = "#FF7F47";
+      break;
     default:
       tag_caption = "";
       tag_color = "";
@@ -144,16 +148,17 @@ const OpenInButtonLink = ({
 
 export default function HeadingWrapper(props) {
   try {
-    const { frontMatter } = useDoc();
+    const { frontMatter, metadata } = useDoc();
     const { beta, notebook, tags } = frontMatter;
-    const linkable = beta === 'CONTACT SALES'
-    const destination_url = linkable ? `https://zilliz.com/contact-sales` : null
+    var tag = metadata.title.endsWith('BYOC') ? 'BYOC' : beta;
+    const linkable = tag === 'CONTACT SALES' || tag === 'BYOC'
+    const destination_url = `https://zilliz.com/contact-sales`
 
-    if (props.as === 'h1' && beta) {
+    if (props.as === 'h1' && tag) {
       props = {
         as: "h1",
         id: props.id,
-        children: BetaTagComponent(props.children, beta, linkable, destination_url)
+        children: BetaTagComponent(props.children, tag, linkable, destination_url)
       }
     }
   
