@@ -19,10 +19,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 
@@ -60,11 +60,11 @@ Full text search simplifies the process of text-based searching by eliminating t
 
 To use full text search, follow these main steps:
 
-1. [Create a collection](./full-text-search): Set up a collection with necessary fields and define a function to convert raw text into sparse embeddings.
+1. [Create a collection](./full-text-search#create-a-collection-for-full-text-search): Set up a collection with necessary fields and define a function to convert raw text into sparse embeddings.
 
-1. [Insert data](./full-text-search): Ingest your raw text documents to the collection.
+1. [Insert data](./full-text-search#insert-text-data): Ingest your raw text documents to the collection.
 
-1. [Perform searches](./full-text-search): Use query texts to search through your collection and retrieve relevant results.
+1. [Perform searches](./full-text-search#perform-full-text-search): Use query texts to search through your collection and retrieve relevant results.
 
 ## Create a collection for full text search{#create-a-collection-for-full-text-search}
 
@@ -196,7 +196,7 @@ In this configuration,
 
 - `id`: serves as the primary key and is automatically generated with `auto_id=True`.
 
-- `text`: stores your raw text data for full text search operations. The data type must be `VARCHAR`, as `VARCHAR` is Zilliz Cloud' string data type for text storage. Set `enable_analyzer=True` to allow Zilliz Cloud to tokenize the text. By default, Zilliz Cloud uses the `standard`[ analyzer](./standard-analyzer) for text analysis. To configure a different analyzer, refer to [Analyzer Overview](./analyzer-overview).
+- `text`: stores your raw text data for full text search operations. The data type must be `VARCHAR`, as `VARCHAR` is Zilliz Cloud string data type for text storage. Set `enable_analyzer=True` to allow Zilliz Cloud to tokenize the text. By default, Zilliz Cloud uses the `standard`[ analyzer](./standard-analyzer) for text analysis. To configure a different analyzer, refer to [Analyzer Overview](./analyzer-overview).
 
 - `sparse`: a vector field reserved to store internally generated sparse embeddings for full text search operations. The data type must be `SPARSE_FLOAT_VECTOR`.
 
@@ -349,7 +349,7 @@ import io.milvus.v2.common.IndexParam;
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
         .fieldName("sparse")
-        .indexType(IndexParam.IndexType.SPARSE_INVERTED_INDEX)
+        .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.BM25)
         .build());
 ```
@@ -553,7 +553,7 @@ Once you've inserted data into your collection, you can perform full text search
 
 ```python
 search_params = {
-    'params': {'drop_ratio_search': 0.2},
+    'params': {'level': 10},
 }
 
 client.search(
@@ -575,7 +575,7 @@ import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 
 Map<String,Object> searchParams = new HashMap<>();
-searchParams.put("drop_ratio_search", 0.2);
+searchParams.put("level", 10);
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("demo")
         .data(Collections.singletonList(new EmbeddedText("whats the focus of information retrieval?")))
@@ -596,7 +596,7 @@ await client.search(
     data: ['whats the focus of information retrieval?'],
     anns_field: 'sparse',
     limit: 3,
-    params: {'drop_ratio_search': 0.2},
+    params: {'level': 10},
 )
 ```
 
@@ -621,7 +621,7 @@ curl --request POST \
     ],
     "searchParams":{
         "params":{
-            "drop_ratio_search":0.2
+            "level":10
         }
     }
 }'
@@ -638,10 +638,6 @@ curl --request POST \
    <tr>
      <td><p><code>search_params</code></p></td>
      <td><p>A dictionary containing search parameters.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>params.drop_ratio_search</code></p></td>
-     <td><p>Proportion of terms with less contribution to BM25 scoring to ignore during search. For details, refer to <a href="./use-sparse-vector">Sparse Vector</a>.</p></td>
    </tr>
    <tr>
      <td><p><code>data</code></p></td>
