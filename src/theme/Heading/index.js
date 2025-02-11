@@ -3,7 +3,6 @@ import Link from '@docusaurus/Link'
 import Heading from '@theme-original/Heading';
 import {useDoc} from '@docusaurus/plugin-content-docs/client';
 import styles from './styles.module.css';
-import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const BetaTag = (tag) => {
   var tag_caption = "";
@@ -19,7 +18,11 @@ const BetaTag = (tag) => {
       tag_color = "#7F47FF";
       break;
     case 'CONTACT SALES':
-      tag_caption = "Contact Sales";
+      tag_caption = "Contact Sales to Enable This Feature";
+      tag_color = "#FF7F47";
+      break;
+    case 'BYOC':
+      tag_caption = "Contact Sales to Enable BYOC";
       tag_color = "#FF7F47";
       break;
     default:
@@ -34,7 +37,7 @@ const BetaTag = (tag) => {
   }
 }
 
-const BetaTagComponent = (children, tag) => {
+const BetaTagComponent = (children, tag, linkable, destination_url) => {
 
   const { tag_caption, tag_color } = BetaTag(tag);
 
@@ -50,7 +53,7 @@ const BetaTagComponent = (children, tag) => {
           lineHeight: '2rem',
           verticalAlign: 'top'
         }}>
-          <span
+          { !linkable && (<span
               style={{
                 fontSize: '1rem',
                 color: '#ffffff',
@@ -62,7 +65,23 @@ const BetaTagComponent = (children, tag) => {
                 backgroundColor: tag_color,
               }}>
               { tag_caption }
-          </span>        
+          </span> ) }
+          { linkable && (
+            <Link to={destination_url} style={{ textDecoration: 'none' }}>
+              <span
+                  style={{
+                    fontSize: '1rem',
+                    color: '#ffffff',
+                    fontWeight: 'normal',
+                    marginLeft: '0.5rem',
+                    marginBottom: '0.5rem',
+                    padding: '2px 12px 2px 12px',
+                    borderRadius: '100px',
+                    backgroundColor: tag_color,
+                  }}>
+                  { tag_caption }
+              </span>
+            </Link> )}       
         </div>    
 
     </span>
@@ -127,48 +146,19 @@ const OpenInButtonLink = ({
   }
 } 
 
-function Banner({ message, backgroundColor = '#f0f0f0', textColor = '#333', onClose }) {
-  const [isVisible, setIsVisible] = React.useState(true);
-
-  const handleClose = () => {
-    setIsVisible(false);
-    if (onClose) {
-      onClose(); // TODO: Call the onClose callback if provided 
-    }
-  };
-
-  if (!isVisible) {
-    return null; // Don't render the banner if it's closed
-  }
-
-  return (
-    <div
-      className={styles.banner}
-      style={{ backgroundColor, color: textColor }}
-    >
-      <div className={styles.bannerContent}>
-        {message}
-        {onClose && ( // Conditionally render the close button
-          <button className={styles.bannerCloseButton} onClick={handleClose}>
-            &times; {/* Use an "X" symbol */}
-          </button>
-        )}
-      </div>
-    </div>
-  );
-}
-
 export default function HeadingWrapper(props) {
   try {
-    const { frontMatter } = useDoc();
+    const { frontMatter, metadata } = useDoc();
     const { beta, notebook, tags } = frontMatter;
-    const { siteConfig } = useDocusaurusContext();
+    var tag = metadata.title.endsWith('BYOC') ? 'BYOC' : beta;
+    const linkable = tag === 'CONTACT SALES' || tag === 'BYOC'
+    const destination_url = `https://zilliz.com/contact-sales`
 
-    if (props.as === 'h1' && beta) {
+    if (props.as === 'h1' && tag) {
       props = {
         as: "h1",
         id: props.id,
-        children: BetaTagComponent(props.children, beta)
+        children: BetaTagComponent(props.children, tag, linkable, destination_url)
       }
     }
   
@@ -177,15 +167,7 @@ export default function HeadingWrapper(props) {
   
     return (
       <>
-        {
-          props.as === 'h1' && siteConfig.baseUrl === '/ja-JP/' && (
-            <Banner 
-              message="このページは英語ページを機械翻訳したものです。内容が正確でない場合があります。"
-              backgroundColor="rgb(255, 248, 230)"/>
-          )
-        }
-
-        { tags?.length > 0 && <span style={{ fontWeight: '400', color: 'rgb(18, 17, 66)'  }}>{tags[0]}</span> }
+        { tags.length > 0 && <span style={{ fontWeight: '400', color: 'rgb(18, 17, 66)'  }}>{tags[0]}</span> }
         <Heading {...props} />
   
         {
