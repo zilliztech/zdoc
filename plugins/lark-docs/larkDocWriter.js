@@ -782,8 +782,7 @@ class larkDocWriter {
         content = this.__clean_headings(content)
         
         if (content.length > 0) {
-            content = this.__filter_content(content, this.targets)
-            let slug = slugify(content, {lower: true, strict: true})
+            let slug = slugify(content.split('|')[0], {lower: true, strict: true})
             return '#'.repeat(level) + ' ' + content + '{#'+slug+'}';
         } else {
             return '';
@@ -791,6 +790,8 @@ class larkDocWriter {
     }
 
     __clean_headings(content) {
+        // filter content 
+        content = this.__filter_content(content, this.targets)
         // remove html tags
         content = content.replace(/<\/?[^>]+(>|$)/g, "")
         // remove trailing and leading spaces

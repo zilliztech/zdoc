@@ -8,22 +8,28 @@ const BetaTag = (tag) => {
   var tag_caption = "";
   var tag_color = "";
 
-  switch (tag) {
-    case 'PUBLIC':
+  console.log(tag)
+
+  switch (true) {
+    case tag === 'PUBLIC':
       tag_caption = "Public Preview";
       tag_color = "#175fff";
       break;
-    case 'PRIVATE':
+    case tag === 'PRIVATE':
       tag_caption = "Private Preview";
       tag_color = "#7F47FF";
       break;
-    case 'CONTACT SALES':
+    case tag === 'CONTACT SALES':
       tag_caption = "Contact Sales to Enable This Feature";
       tag_color = "#FF7F47";
       break;
-    case 'BYOC':
+    case tag === 'BYOC':
       tag_caption = "Contact Sales to Enable BYOC";
       tag_color = "#FF7F47";
+      break;
+    case tag.startsWith('Milvus'):
+      tag_caption = 'Compatible with ' + tag;
+      tag_color = "rgb(0, 179, 255)"
       break;
     default:
       tag_caption = "";
@@ -151,14 +157,29 @@ export default function HeadingWrapper(props) {
     const { frontMatter, metadata } = useDoc();
     const { beta, notebook, tags } = frontMatter;
     var tag = metadata.title.endsWith('BYOC') ? 'BYOC' : beta;
-    const linkable = tag === 'CONTACT SALES' || tag === 'BYOC'
-    const destination_url = `https://zilliz.com/contact-sales`
 
     if (props.as === 'h1' && tag) {
+      const linkable = tag === 'CONTACT SALES' || tag === 'BYOC'
+      const destination_url = 'https://zilliz.com/contact-sales'
+
       props = {
         as: "h1",
         id: props.id,
         children: BetaTagComponent(props.children, tag, linkable, destination_url)
+      }
+    }
+
+    if (props.as === 'h2') {
+      const { children } = props;
+      const [title, tag] = children.split('|') 
+      console.log(title, tag)
+      const linkable = tag.trim() === 'CONTACT SALES'
+      const destination_url = 'https://zilliz.com/contact-sales'
+
+      props = {
+        as: "h2",
+        id: props.id,
+        children: BetaTagComponent(title.trim(), tag.trim(), linkable, destination_url)
       }
     }
   
