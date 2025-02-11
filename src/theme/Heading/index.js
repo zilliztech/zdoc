@@ -22,7 +22,7 @@ const BetaTag = (tag) => {
       tag_color = "#FF7F47";
       break;
     case 'BYOC':
-      tag_caption = "Contact Sales to BYOC";
+      tag_caption = "Contact Sales to Enable BYOC";
       tag_color = "#FF7F47";
       break;
     default:
