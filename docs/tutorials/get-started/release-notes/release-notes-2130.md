@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 
@@ -57,7 +57,7 @@ With this release, **Zilliz Cloud now supports data plane–control plane commun
 
 In addition, **Zilliz Cloud BYOC now supports auto-deployment via AWS CloudFormation**, making it even easier to set up and manage your data plane.
 
-For more details, refer to [Deploy BYOC on AWS](./deploy-byoc-aws) and [Set up a PrivateLink (AWS)](./setup-a-private-link-aws).
+For more details, refer to [Deploy BYOC on AWS](/docs/byoc/deploy-byoc-aws) and [Set up a PrivateLink (AWS)](/docs/byoc/setup-a-private-link-aws).
 
 ## Enhancements{#enhancements}
 

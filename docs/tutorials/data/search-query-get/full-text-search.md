@@ -19,10 +19,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 
@@ -638,6 +638,10 @@ curl --request POST \
    <tr>
      <td><p><code>search_params</code></p></td>
      <td><p>A dictionary containing search parameters.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>params.level</code></p></td>
+     <td><p>Controls the search precision with simplified search optimization. For details, refer to <a href="./single-vector-search">Use Level</a>.</p></td>
    </tr>
    <tr>
      <td><p><code>data</code></p></td>
