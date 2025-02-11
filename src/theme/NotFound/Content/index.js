@@ -29,28 +29,26 @@ export default function NotFoundContent({className}) {
               original URL and let them know their link is broken.
             </Translate>
           </p>
-          <p>
-            <div style={{display: "flex", justifyContent: "start", gap: "10px", marginTop: "20px"}}>
-              <a className="button button--primary button--lg" href="/docs/quick-start">
-                <span className="button__text button__text--primary">
-                  <Translate
-                    id="theme.NotFound.button.home"
-                    description="The text of the button to go back to the home page">
-                    Home
-                  </Translate>
-                </span>
-              </a>
-              <a className="button button--secondary button--lg" href="/search">
-                <span className="button__text button__text--secondary">
-                  <Translate
-                    id="theme.NotFound.button.search"
-                    description="The text of the button to go back to the home page">
-                    Search
-                  </Translate>
-                </span>
-              </a>
-            </div>
-          </p>
+          <div style={{display: "flex", justifyContent: "start", gap: "10px", marginTop: "20px"}}>
+            <a className="button button--primary button--lg" href="/docs/quick-start">
+              <span className="button__text button__text--primary">
+                <Translate
+                  id="theme.NotFound.button.home"
+                  description="The text of the button to go back to the home page">
+                  Home
+                </Translate>
+              </span>
+            </a>
+            <a className="button button--secondary button--lg" href="/search">
+              <span className="button__text button__text--secondary">
+                <Translate
+                  id="theme.NotFound.button.search"
+                  description="The text of the button to go back to the home page">
+                  Search
+                </Translate>
+              </span>
+            </a>
+          </div>
         </div>
       </div>
     </main>
