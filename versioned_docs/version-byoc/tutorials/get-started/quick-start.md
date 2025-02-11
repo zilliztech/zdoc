@@ -14,10 +14,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 
