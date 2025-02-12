@@ -52,7 +52,7 @@ class refGen {
         if (target === 'milvus') {
           slug_suffix = ''
         }
-        var upper_folder = page_parent.startsWith('cloud') || page_parent.startsWith('cluster') || page_parent.startsWith('import') || page_parent.startsWith('pipeline') || page_parent.includes('backup') || page_parent.includes('restore') ? 'control-plane' : 'data-plane'
+        var upper_folder = page_parent.startsWith('cloud') || page_parent.startsWith('cluster') || page_parent.startsWith('import') || page_parent.startsWith('pipeline') || page_parent.includes('backup') || page_parent.includes('restore') || page_parent.includes('invoices') || page_parent.includes('usage') ? 'control-plane' : 'data-plane'
 
         if (target === 'milvus') {
           upper_folder = page_parent.startsWith('cloud') || page_parent.startsWith('cluster') || page_parent.startsWith('pipeline') || page_parent.includes('backup') || page_parent.includes('restore') ? 'control-plane' : 'data-plane'
@@ -92,7 +92,7 @@ class refGen {
 
       const slug = specifications.tags[group].name.replace("&", "and").split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
       const version = slug.includes('v2') ? 'v2' : 'v1'
-      var upper_folder = slug.startsWith('cloud') || slug.startsWith('cluster') || slug.startsWith('import') || slug.startsWith('pipeline') || slug.includes('backup') || slug.includes('restore') ? 'control-plane' : 'data-plane'
+      var upper_folder = slug.startsWith('cloud') || slug.startsWith('cluster') || slug.startsWith('import') || slug.startsWith('pipeline') || slug.includes('backup') || slug.includes('restore') || slug.includes('invoices') || slug.includes('usage') ? 'control-plane' : 'data-plane'
       if (target === 'milvus') {
         upper_folder = slug.startsWith('cloud') || slug.startsWith('cluster') || slug.startsWith('pipeline') || slug.includes('backup') || slug.includes('restore') ? 'control-plane' : 'data-plane'
       }

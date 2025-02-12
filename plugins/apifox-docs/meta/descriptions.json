@@ -118,5 +118,13 @@
         "milvus": {
             "name": "Resource Group (v2)"
         }
+    },
+    {
+        "name": "invoices-v2",
+        "description": "This set of APIs provides a way to list invoices and their details."
+    },
+    {
+        "name": "usage-v2",
+        "description": "This set of APIs provides a way to list usage details."
     }
 ]
