@@ -172,7 +172,6 @@ export default function HeadingWrapper(props) {
     if (props.as === 'h2') {
       const { children } = props;
       const [title, tag] = children.split('|') 
-      console.log(title, tag)
       const linkable = tag.trim() === 'CONTACT SALES'
       const destination_url = 'https://zilliz.com/contact-sales'
 
