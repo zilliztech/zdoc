@@ -8,8 +8,6 @@ const BetaTag = (tag) => {
   var tag_caption = "";
   var tag_color = "";
 
-  console.log(tag)
-
   switch (true) {
     case tag === 'PUBLIC':
       tag_caption = "Public Preview";

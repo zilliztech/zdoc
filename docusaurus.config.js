@@ -110,6 +110,42 @@ const config = {
                 })
               }
 
+              if (item.label === '始める') {
+                item.items = item.items.map(subItem => {
+                  if (subItem.label === 'APIとSDK') {
+                    subItem.items.push(...[
+                      {
+                        type: 'link',
+                        label: 'Python SDK',
+                        href: '/ja-JP/reference/python'
+                      },
+                      {
+                        type: 'link',
+                        label: 'Java SDK',
+                        href: '/ja-JP/reference/java'
+                      },
+                      {
+                        type: 'link',
+                        label: 'Go SDK',
+                        href: '/ja-JP/reference/go'
+                      },
+                      {
+                        type: 'link',
+                        label: 'Node.js SDK',
+                        href: '/ja-JP/reference/nodejs'
+                      },
+                      {
+                        type: 'link',
+                        label: 'RESTful API',
+                        href: '/ja-JP/reference/restful'
+                      }
+                    ])
+                  }
+
+                  return subItem;
+                })
+              }
+
               if (item.label === 'Security') {
                 item.items = item.items.map(subItem => {
                   if (subItem.label === 'Access Control') {
@@ -123,6 +159,28 @@ const config = {
                         type: 'link',
                         label: 'Manage Project Roles',
                         href: '/docs/project-users#project-roles'
+                      },
+                    ])
+
+                  }
+
+                  return subItem;
+                })
+              }
+
+              if (item.label === 'セキュリティ') {
+                item.items = item.items.map(subItem => {
+                  if (subItem.label === 'アクセス制御') {
+                    subItem.items.splice(1, 0, ...[
+                      {
+                        type: 'link',
+                        label: '組織の役割',
+                        href: '/ja-JP/docs/organization-users#organization-roles'
+                      },
+                      {
+                        type: 'link',
+                        label: 'プロジェクトの役割',
+                        href: '/ja-JP/docs/project-users#project-roles'
                       },
                     ])
 
