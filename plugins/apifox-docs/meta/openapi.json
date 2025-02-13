@@ -196,7 +196,7 @@
 				"summary": "List Invoices",
 				"deprecated": false,
 				"description": "Lists all invoices in the organization to which the current user belongs. The current user should be an organization owner or a billing admin.",
-				"x-18n": {
+				"x-i18n": {
 					"zh-CN": {
 						"summary": "查看发票列表",
 						"description": "本接口列出当前用户所属组织的所有发票。当前用户须为组织所有者或计费管理员。"
@@ -263,7 +263,7 @@
 				"responses": {
 					"200": {
 						"description": "Returns a list of invoice records in the organization to which the current user belongs.",
-						"x-18n": {
+						"x-i18n": {
 							"description": "返回当前用户所属组织的所有发票记录列表。"
 						},
 						"content": {
@@ -273,7 +273,7 @@
 										{
 											"x-tab-label": "success",
 											"description": "Returns a list of invoices.",
-											"x-18n": {
+											"x-i18n": {
 												"zh-CN": {
 													"description": "返回发票列表。"
 												}
@@ -458,7 +458,7 @@
 																		"total": {
 																			"type": "number",
 																			"description": "The total amount of the invoice, which is the subtotal plus the tax.",
-																			"x-18n": {
+																			"x-i18n": {
 																				"description": "发票含税金额，即小计金额加上税额。"
 																			}
 																		},
@@ -491,7 +491,7 @@
 										{
 											"x-tab-label": "error",
 											"description": "Returns an error message.",
-											"x-18n": {
+											"x-i18n": {
 												"zh-CN": {
 													"description": "返回错误消息。"
 												}
@@ -786,7 +786,7 @@
 														"total": {
 															"type": "number",
 															"description": "The total amount of the invoice, which is the subtotal plus the tax.",
-															"x-18n": {
+															"x-i18n": {
 																"description": "发票含税金额，即小计金额加上税额。"
 															}
 														},
@@ -815,7 +815,7 @@
 										{
 											"x-tab-label": "error",
 											"description": "Returns an error message.",
-											"x-18n": {
+											"x-i18n": {
 												"zh-CN": {
 													"description": "返回错误消息。"
 												}
@@ -1234,7 +1234,7 @@
 										{
 											"x-tab-label": "error",
 											"description": "Returns an error message.",
-											"x-18n": {
+											"x-i18n": {
 												"zh-CN": {
 													"description": "返回错误消息。"
 												}
@@ -32224,7 +32224,7 @@
 									"fieldParams": {
 										"type": "object",
 										"description": "The properties of the field to alter.",
-										"x-18n": {
+										"x-i18n": {
 											"zh-CN": {
 												"description": "待修改的字段属性。"
 											}
@@ -36472,7 +36472,7 @@
 											"<resource_group_name>": {
 												"type": "object",
 												"description": "The updated configuration of the resource group specified by the key.",
-												"x-18n": {
+												"x-i18n": {
 													"zh-CN": {
 														"description": "指定资源组的更新配置。"
 													}
@@ -36813,7 +36813,7 @@
 																"<resource_group_name>": {
 																	"type": "object",
 																	"description": "The updated configuration of the resource group specified by the key.",
-																	"x-18n": {
+																	"x-i18n": {
 																		"zh-CN": {
 																			"description": "指定资源组的更新配置。"
 																		}
