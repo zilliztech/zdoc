@@ -185,6 +185,14 @@ export default function HeadingWrapper(props) {
   
     return (
       <>
+        {
+          props.as === 'h1' && siteConfig.baseUrl === '/ja-JP/' && (
+            <Banner 
+              message="このページは英語ページを機械翻訳したものです。内容が正確でない場合があります。"
+              backgroundColor="rgb(255, 248, 230)"/>
+          )
+        }
+
         { tags.length > 0 && <span style={{ fontWeight: '400', color: 'rgb(18, 17, 66)'  }}>{tags[0]}</span> }
         <Heading {...props} />
   
