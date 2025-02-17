@@ -1277,7 +1277,7 @@
 													{
 														"intervalStart": "2024-01-01T00:00:00Z",
 														"intervalEnd": "2024-01-02T00:00:00Z",
-														"total": 12345,
+														"total": 12345.12345678,
 														"currency": "USD",
 														"items": [
 															{
@@ -1297,7 +1297,7 @@
 																"price": {
 																	"unitPrice": 123
 																},
-																"amount": 12345
+																"amount": 12345.12345678
 															},
 															{
 																"costType": "storage",
@@ -1310,7 +1310,7 @@
 																},
 																"quantity": 55.6778,
 																"unit": "...",
-																"amount": 12345
+																"amount": 12345.12345678
 															},
 															{
 																"costType": "read_vcu",
@@ -1321,7 +1321,7 @@
 																},
 																"quantity": 8123789132,
 																"unit": "...",
-																"amount": 12345,
+																"amount": 12345.12345678,
 																"listPrice": {
 																	"unitPrice": 123
 																},
