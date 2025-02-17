@@ -15,10 +15,10 @@ keywords:
   - terraform
   - milvus
   - vector database
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 
@@ -43,7 +43,7 @@ This page demonstrates how to use Terraform to bootstrap the infrastructure for 
 In this step, you will use the following command to clone and pull the script repository.
 
 ```shell
-$ git clone https://github.com/zilliztech/zilliz-byoc-prepare.git
+$ git clone https://github.com/zilliztech/terraform-zilliz-examples.git
 ```
 
 ## Prepare the credentials{#prepare-the-credentials}
@@ -51,7 +51,7 @@ $ git clone https://github.com/zilliztech/zilliz-byoc-prepare.git
 In this step, you are going to edit the `terraform.tfvars.json` file located within `client_init` folder.
 
 ```shell
-$ cd byoc-prepare
+$ cd examples/aws_project_byoc_manual/
 $ vi terraform.tfvars.json
 ```
 
@@ -73,7 +73,7 @@ The file is similar to the following:
    </tr>
    <tr>
      <td><p><code>aws_region</code></p></td>
-     <td><p>The cloud region in which you will deploy Zilliz BYOC.</p><p>Currently, you can deploy your BYOC project in <code>us-west-2</code>. If you need to deploy your BYOC project in other cloud regions, please contact us by sending email to support@zilliz.com.</p></td>
+     <td><p>The cloud region in which you will deploy Zilliz BYOC.<br/> Currently, you can deploy your BYOC project in <code>us-west-2</code>. If you need to deploy your BYOC project in other cloud regions, please contact us by sending email to support@zilliz.com.</p></td>
    </tr>
    <tr>
      <td><p><code>vpc_cidr</code></p></td>
@@ -81,11 +81,11 @@ The file is similar to the following:
    </tr>
    <tr>
      <td><p><code>name</code></p></td>
-     <td><p>The name of the BYOC project to create. </p><p>Please align the value with the one you have entered in the form below.</p><p><img src="/byoc/VQ3NbcrKDoC6faxIOGRc6RvGn4e.png" alt="VQ3NbcrKDoC6faxIOGRc6RvGn4e" /></p></td>
+     <td><p>The name of the BYOC project to create. <br/> Please align the value with the one you have entered in the form below.<br/> <img src="/byoc/VQ3NbcrKDoC6faxIOGRc6RvGn4e.png" alt="VQ3NbcrKDoC6faxIOGRc6RvGn4e" /></p></td>
    </tr>
    <tr>
      <td><p><code>ExternalId</code></p></td>
-     <td><p>The <strong>External ID</strong> of the BYOC project to create. You can get this value from Zilliz Cloud console.</p><p><img src="/byoc/USjXbCTLBoMsfDxiMNDc0okbnIe.png" alt="USjXbCTLBoMsfDxiMNDc0okbnIe" /></p></td>
+     <td><p>The <strong>External ID</strong> of the BYOC project to create. You can get this value from Zilliz Cloud console.<br/> <img src="/byoc/USjXbCTLBoMsfDxiMNDc0okbnIe.png" alt="USjXbCTLBoMsfDxiMNDc0okbnIe" /></p></td>
    </tr>
 </table>
 
@@ -128,35 +128,35 @@ Once you have prepared the credentials described above, bootstrap the infrastruc
        </tr>
        <tr>
          <td><p>Bucket name</p></td>
-         <td><p>Use the value of the <code>bucket_name</code> variable in the command output.</p><p>Zilliz Cloud uses the bucket as data plane storage.</p></td>
+         <td><p>Use the value of the <code>bucket_name</code> variable in the command output.<br/> Zilliz Cloud uses the bucket as data plane storage.</p></td>
        </tr>
        <tr>
          <td><p>IAM role ARN</p></td>
-         <td><p>Use the value of the <code>storage_role_arn</code> variable in the command output.</p><p>By assuming the role, Zilliz Cloud can access the above bucket on your behalf.</p></td>
+         <td><p>Use the value of the <code>storage_role_arn</code> variable in the command output.<br/> By assuming the role, Zilliz Cloud can access the above bucket on your behalf.</p></td>
        </tr>
        <tr>
          <td colspan="2"><p><strong>EKS settings</strong></p></td>
        </tr>
        <tr>
          <td><p>IAM role ARN</p></td>
-         <td><p>Use the value of the <code>eks_role_arn</code> variable in the command output.</p><p>By assuming the role, Zilliz Cloud can create and manage the EKS cluster on your behalf.</p></td>
+         <td><p>Use the value of the <code>eks_role_arn</code> variable in the command output.<br/> By assuming the role, Zilliz Cloud can create and manage the EKS cluster on your behalf.</p></td>
        </tr>
        <tr>
          <td colspan="2"><p><strong>Cross-account settings</strong></p></td>
        </tr>
        <tr>
          <td><p>IAM role ARN</p></td>
-         <td><p>Use the value of the <code>cross_account_role_arn</code> variable in the command output.</p><p>By assuming the role, Zilliz Cloud can provision the data plane on your behalf.</p></td>
+         <td><p>Use the value of the <code>cross_account_role_arn</code> variable in the command output.<br/> By assuming the role, Zilliz Cloud can provision the data plane on your behalf.</p></td>
        </tr>
        <tr>
          <td colspan="2"><p><strong>Network settings</strong></p></td>
        </tr>
        <tr>
          <td><p>VPC ID</p></td>
-         <td><p>Use the value in the <code>vpc_id</code> in the command output.</p><p>Zilliz Cloud provisions the data plane and clusters of the BYOC project in this VPC.</p></td>
+         <td><p>Use the value in the <code>vpc_id</code> in the command output.<br/> Zilliz Cloud provisions the data plane and clusters of the BYOC project in this VPC.</p></td>
        </tr>
        <tr>
          <td><p>Subnets</p></td>
-         <td><p>Use the values of the <code>subnet_id</code> variable in the command output.</p><p>Zilliz Cloud requires a public subnet and three private subnets and deploys the NAT gateway in the public subnet to route the network traffic of the private subnets in each availability zone.</p><p>You need to concatenate the three subnet IDs with commas as in <code>subnet_xxxxxxxxxxxxxxxxx,subnet_xxxxxxxxxxxxxxxxx,subnet_xxxxxxxxxxxxxxxxx</code>.</p></td>
+         <td><p>Use the values of the <code>subnet_id</code> variable in the command output.<br/> Zilliz Cloud requires a public subnet and three private subnets and deploys the NAT gateway in the public subnet to route the network traffic of the private subnets in each availability zone.<br/> You need to concatenate the three subnet IDs with commas as in <code>subnet_xxxxxxxxxxxxxxxxx,subnet_xxxxxxxxxxxxxxxxx,subnet_xxxxxxxxxxxxxxxxx</code>.</p></td>
        </tr>
     </table>

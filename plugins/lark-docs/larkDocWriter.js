@@ -1173,7 +1173,7 @@ class larkDocWriter {
         });
         const cell_texts = await Promise.all(cell_blocks.map(async (cell) => {
             let blocks = cell.map(block => this.__retrieve_block_by_id(block));
-            return (await this.__markdown(blocks, 1)).replace(/\n/g, '<br>');
+            return (await this.__markdown(blocks, 1)).replace(/\n/g, '<br/>');
         }));
 
         const row_size = table['property']['row_size'];
@@ -1203,11 +1203,11 @@ class larkDocWriter {
                 if (merge) {
                     const colspan = merge.col_span > 1 ? ` colspan="${merge.col_span}"` : "";
                     const rowspan = merge.row_span > 1 ? ` rowspan="${merge.row_span}"` : "";
-                    const cell_text = this.__filter_content(cell_texts[cell_idx], this.targets).trim().replace(/<br\/>/g, '\n').replace(/^\n/, '');
+                    const cell_text = this.__filter_content(cell_texts[cell_idx], this.targets).trim().replace(/^\n/, '');
                     if (i === 0) {
-                        html += ` ${' '.repeat(indent)}    <th${colspan}${rowspan}>${converter.makeHtml(cell_text).replace(/\n/g, '')}</th>\n`;
+                        html += ` ${' '.repeat(indent)}    <th${colspan}${rowspan}>${converter.makeHtml(cell_text).replace(/<p><br\/>/g, '<p>')}</th>\n`;
                     } else {
-                        html += ` ${' '.repeat(indent)}    <td${colspan}${rowspan}>${converter.makeHtml(cell_text).replace(/\n/g, '')}</td>\n`;
+                        html += ` ${' '.repeat(indent)}    <td${colspan}${rowspan}>${converter.makeHtml(cell_text).replace(/<p><br\/>/g, '<p>')}</td>\n`;
                     }
                 }
             }
