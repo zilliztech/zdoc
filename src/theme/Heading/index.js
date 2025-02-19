@@ -3,6 +3,7 @@ import Link from '@docusaurus/Link'
 import Heading from '@theme-original/Heading';
 import {useDoc} from '@docusaurus/plugin-content-docs/client';
 import styles from './styles.module.css';
+import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
 const BetaTag = (tag) => {
   var tag_caption = "";
@@ -25,7 +26,7 @@ const BetaTag = (tag) => {
       tag_caption = "Contact Sales to Enable BYOC";
       tag_color = "#FF7F47";
       break;
-    case tag.startsWith('Milvus'):
+    case tag?.startsWith('Milvus'):
       tag_caption = 'Compatible with ' + tag;
       tag_color = "rgb(0, 179, 255)"
       break;
@@ -150,11 +151,43 @@ const OpenInButtonLink = ({
   }
 } 
 
+function Banner({ message, backgroundColor = '#f0f0f0', textColor = '#333', onClose }) {
+  const [isVisible, setIsVisible] = React.useState(true);
+
+  const handleClose = () => {
+    setIsVisible(false);
+    if (onClose) {
+      onClose(); // TODO: Call the onClose callback if provided 
+    }
+  };
+
+  if (!isVisible) {
+    return null; // Don't render the banner if it's closed
+  }
+
+  return (
+    <div
+      className={styles.banner}
+      style={{ backgroundColor, color: textColor }}
+    >
+      <div className={styles.bannerContent}>
+        {message}
+        {onClose && ( // Conditionally render the close button
+          <button className={styles.bannerCloseButton} onClick={handleClose}>
+            &times; {/* Use an "X" symbol */}
+          </button>
+        )}
+      </div>
+    </div>
+  );
+}
+
 export default function HeadingWrapper(props) {
   try {
     const { frontMatter, metadata } = useDoc();
     const { beta, notebook, tags } = frontMatter;
     var tag = metadata.title.endsWith('BYOC') ? 'BYOC' : beta;
+    const { siteConfig } = useDocusaurusContext();
 
     if (props.as === 'h1' && tag) {
       const linkable = tag === 'CONTACT SALES' || tag === 'BYOC'
@@ -170,13 +203,13 @@ export default function HeadingWrapper(props) {
     if (props.as === 'h2') {
       const { children } = props;
       const [title, tag] = children.split('|') 
-      const linkable = tag.trim() === 'CONTACT SALES'
+      const linkable = tag?.trim() === 'CONTACT SALES'
       const destination_url = 'https://zilliz.com/contact-sales'
 
       props = {
         as: "h2",
         id: props.id,
-        children: BetaTagComponent(title.trim(), tag.trim(), linkable, destination_url)
+        children: BetaTagComponent(title?.trim(), tag?.trim(), linkable, destination_url)
       }
     }
   
@@ -188,12 +221,12 @@ export default function HeadingWrapper(props) {
         {
           props.as === 'h1' && siteConfig.baseUrl === '/ja-JP/' && (
             <Banner 
-              message="このページは英語ページを機械翻訳したものです。内容が正確でない場合があります。"
+              message="[説明] このページは機械翻訳された日本語版です。内容に誤りがございましたら、報告していただけると助かります。"
               backgroundColor="rgb(255, 248, 230)"/>
           )
         }
 
-        { tags.length > 0 && <span style={{ fontWeight: '400', color: 'rgb(18, 17, 66)'  }}>{tags[0]}</span> }
+        { tags?.length > 0 && <span style={{ fontWeight: '400', color: 'rgb(18, 17, 66)'  }}>{tags[0]}</span> }
         <Heading {...props} />
   
         {
@@ -207,6 +240,7 @@ export default function HeadingWrapper(props) {
       </>
     );
   } catch (error) {
+    console.error(error);
     return (
       <>
         <Heading {...props} />
