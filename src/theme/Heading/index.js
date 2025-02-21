@@ -196,7 +196,7 @@ export default function HeadingWrapper(props) {
       props = {
         as: "h1",
         id: props.id,
-        children: BetaTagComponent(props.children, tag, linkable, destination_url)
+        children: tag ? BetaTagComponent(props.children, tag, linkable, destination_url) : props.children
       }
     }
 
@@ -209,7 +209,7 @@ export default function HeadingWrapper(props) {
       props = {
         as: "h2",
         id: props.id,
-        children: BetaTagComponent(title?.trim(), tag?.trim(), linkable, destination_url)
+        children: tag ? BetaTagComponent(title.trim(), tag?.trim(), linkable, destination_url) : title.trim()
       }
     }
   
