@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 
@@ -37,7 +37,7 @@ import TabItem from '@theme/TabItem';
 
 - クラスターを設立する組織またはプロジェクトの所有権。役割と権限の詳細については、「[アクセス制御](./access-control)」を参照してください。
 
-## 専用のクラスタを作成{#create-a-dedicated-cluster}
+## クラスタを作成{#create-a-dedicated-cluster}
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
@@ -57,7 +57,7 @@ import TabItem from '@theme/TabItem';
 
     - **クラスター名**:クラスターに一意の識別子を割り当てます。
 
-    - **クラウドプロバイダー設定**:クラウドサービスプロバイダーと、クラスターをデプロイする特定のリージョンを選択します。詳細については、「[クラウドプロバイダー&地域](./cloud-providers-and-regions)」を参照してください。BYOCライセンスでは、現在AWS **us-west-2**リージョンのみがサポートされています。さらにクラウドリージョンをリクエストする場合は、[お問い合わせ](https://zilliz.com/cloud-region-request?firstname=Li&lastname=Yun&company=zilliz&name=zilliz&email=leryn.li@zilliz.com&fullname=Li%20Yun&phone=--&country=China&requested_csp_provider=AWS)ください。
+    - **クラウドプロバイダー設定**:クラウドサービスプロバイダーと、クラスターをデプロイする特定のリージョンを選択します。BYOCライセンスでは、現在AWS **us-west-2**リージョンのみがサポートされています。さらにクラウドリージョンをリクエストする場合は、[お問い合わせ](https://zilliz.com/cloud-region-request?firstname=Li&lastname=Yun&company=zilliz&name=zilliz&email=leryn.li@zilliz.com&fullname=Li%20Yun&phone=--&country=China&requested_csp_provider=AWS)ください。
 
     - **CUの設定**:
 
