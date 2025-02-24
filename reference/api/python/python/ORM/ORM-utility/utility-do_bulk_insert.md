@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "do_bulk_insert() | Python | ORM"
 slug: /python/python/utility-do_bulk_insert
 sidebar_label: "do_bulk_insert()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation bulk-inserts data from specified files. | Python | ORM"
 type: docx
 token: BpqpdBWdyoxbmzx0GGCcQxksnBc
 sidebar_position: 8
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - do_bulk_insert()
-  - python
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - pymilvus25
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 displayed_sidebar: pythonSidebar
 
 ---

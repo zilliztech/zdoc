@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "list_roles() | Python | ORM"
 slug: /python/python/utility-list_roles
 sidebar_label: "list_roles()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation lists the information about all existing roles. | Python | ORM"
 type: docx
 token: ClLXdDs64oixJBxlIrCcEB2dngb
 sidebar_position: 27
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
   - list_roles()
-  - python
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - pymilvus25
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: pythonSidebar
 
 ---

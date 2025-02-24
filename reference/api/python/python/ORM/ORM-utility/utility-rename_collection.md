@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "rename_collection() | Python | ORM"
 slug: /python/python/utility-rename_collection
 sidebar_label: "rename_collection()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation renames an existing collection and optionally moves the collection to a new database. | Python | ORM"
 type: docx
 token: M0qRdF1cLokrxvxyrXScJ64FnEe
 sidebar_position: 37
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - rename_collection()
-  - python
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - pymilvus25
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: pythonSidebar
 
 ---

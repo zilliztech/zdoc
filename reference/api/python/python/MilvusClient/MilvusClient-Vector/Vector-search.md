@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Python | MilvusClient"
 type: docx
-token: D74JdcitKobd7cxNdDdcGAz6nuf
+token: T1npdvcRMoIjezxK021cPvfpn7c
 sidebar_position: 6
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - search()
-  - python
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - pymilvus25
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: pythonSidebar
 
 ---
@@ -86,6 +86,8 @@ search(
 
     The sum of this value and **offset** in **param** should be less than 16,384. 
 
+    In a grouping search, however, `limit` specifies the maximum number of groups to return, rather than individual entities. Each group is formed based on the specified `group_by_field`.
+
 - **output_fields** (l*ist[str]*) -
 
     A list of field names to include in each entity in return.
@@ -118,7 +120,7 @@ search(
 
             Zilliz Cloud uses a unified parameter to simplify search parameter tuning instead of leaving you to work with a bunch of search parameters specific to various index algorithms.
 
-            The value defaults to **1**, and ranges from **1** to **10**. Increasing the value results in a higher recall rate with degraded search performance. For details, refer to [Tune Recall Rate](/docs/tune-recall-rate).
+            The value defaults to **1**, and ranges from **1** to **5**. Increasing the value results in a higher recall rate with degraded search performance.
 
         - **page_retain_order** (*bool*) -
 

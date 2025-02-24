@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation drops the specified collection properties. | Python | MilvusClient"
 type: docx
-token: JLFIdAyIsoSYc8xQWo0cpmisnDW
+token: WjNRdifU9o3xl5xG0W7ch4Fjnme
 sidebar_position: 12
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - drop_collection_properties()
-  - python
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - pymilvus25
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: pythonSidebar
 
 ---
@@ -59,6 +59,8 @@ drop_collection_properties(
     - `collection.ttl.seconds`
 
     - `mmap.enabled`
+
+    - `partitionkey.isolation`
 
 - **timeout** (*Optional[float]*) - 
 

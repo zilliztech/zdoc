@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "flush_all() | Python | ORM"
 slug: /python/python/utility-flush_all
 sidebar_label: "flush_all()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation seals all segments. | Python | ORM"
 type: docx
 token: Uwsfd443boKKgyx2zZTcYDqKnCe
 sidebar_position: 12
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - flush_all()
-  - python
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - pymilvus25
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: pythonSidebar
 
 ---

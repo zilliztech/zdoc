@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "get_users() | Python | ORM"
 slug: /python/python/Role-get_users
 sidebar_label: "get_users()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation lists all users associated with the current role. | Python | ORM"
 type: docx
 token: CCOhd671iog6rRxu8aOcaPncnLK
 sidebar_position: 4
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - get_users()
-  - python
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - pymilvus25
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: pythonSidebar
 
 ---

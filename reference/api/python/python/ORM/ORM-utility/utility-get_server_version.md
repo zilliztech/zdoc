@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "get_server_version() | Python | ORM"
 slug: /python/python/utility-get_server_version
 sidebar_label: "get_server_version()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation checks the version of the Zilliz Cloud cluster. | Python | ORM"
 type: docx
 token: PoPkdkzSnofUihxzKLqcw7hYnrf
 sidebar_position: 16
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - get_server_version()
-  - python
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - pymilvus25
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: pythonSidebar
 
 ---

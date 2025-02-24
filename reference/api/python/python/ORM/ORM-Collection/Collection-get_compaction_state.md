@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "get_compaction_state() | Python | ORM"
 slug: /python/python/Collection-get_compaction_state
 sidebar_label: "get_compaction_state()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation gets the current compaction state. | Python | ORM"
 type: docx
 token: AXcMd0xiOovIX6xR4ZrcKA15nwh
 sidebar_position: 13
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - get_compaction_state()
-  - python
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - pymilvus25
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: pythonSidebar
 
 ---

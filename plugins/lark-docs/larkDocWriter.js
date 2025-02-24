@@ -477,7 +477,11 @@ class larkDocWriter {
                 notebook: result[0]["fields"]["Notebook"],
                 labels: result[0]["fields"]["Labels"],
                 keywords: result[0]["fields"]["Keywords"],
-                description: result[0]["fields"]["Description"]
+                description: result[0]["fields"]["Description"],
+                tag: result[0]["fields"]["Tag"],
+                addSince: result[0]["fields"]["Added Since"],
+                lastModified: result[0]["fields"]["Last Modified At"],
+                deprecateSince: result[0]["fields"]["Deprecate Since"],
             }
         } else {
             return {
@@ -1416,8 +1420,7 @@ class larkDocWriter {
                             var content = await this.__text_elements(headerBlock[blockType]['elements']);
                             content = this.__filter_content(content, this.targets)
                             content = this.__clean_headings(content)
-                            content = content.indexOf('{#') ? content.slice(0, content.indexOf('{#')) : content;
-                            const slug = slugify(content, {strict: true, lower: true});
+                            const slug = content.indexOf('{#') > 0 ? content.slice(content.indexOf('{#')+2, content.indexOf('}')) : slugify(content, {strict: true, lower: true});
                             newUrl += `#${slug}`;
                         }
                     }

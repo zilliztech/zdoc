@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "create() | Python | ORM"
 slug: /python/python/Role-create
 sidebar_label: "create()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation creates the current role. | Python | ORM"
 type: docx
 token: G3h4d3jx6oXFHBxFZlyc9jLKnTO
 sidebar_position: 2
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - create()
-  - python
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - pymilvus25
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 displayed_sidebar: pythonSidebar
 
 ---

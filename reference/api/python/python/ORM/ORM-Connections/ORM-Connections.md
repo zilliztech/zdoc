@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "Connections | Python | ORM"
 slug: /python/python/ORM-Connections
 sidebar_label: "Connections"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "A Connections instance represents a pool of connections to your Zilliz Cloud clusters. | Python | ORM"
 type: docx
 token: A96udk9seoF5x5xywQZcLasanIe
 sidebar_position: 3
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
   - Connections
-  - python
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - pymilvus25
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: pythonSidebar
 
 ---

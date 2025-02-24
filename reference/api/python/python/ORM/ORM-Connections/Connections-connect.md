@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "connect() | Python | ORM"
 slug: /python/python/Connections-connect
 sidebar_label: "connect()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation establishes a connection to a Zilliz Cloud cluster using the provided alias, address, and authentication parameters. | Python | ORM"
 type: docx
 token: KzCXdTVVSoOmkbxuFjsccDlXnff
 sidebar_position: 2
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - connect()
-  - python
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - pymilvus25
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 displayed_sidebar: pythonSidebar
 
 ---

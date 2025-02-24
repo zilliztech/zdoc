@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "search_iterator() | Python | ORM"
 slug: /python/python/Collection-search_iterator
 sidebar_label: "search_iterator()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation returns a Python iterator for you to iterate over the search results. It is useful especially when the search result contains a large volume of data. | Python | ORM"
 type: docx
 token: HrnndnWtKoPuenxvsXBchF1wnnh
 sidebar_position: 26
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - search_iterator()
-  - python
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - pymilvus25
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: pythonSidebar
 
 ---

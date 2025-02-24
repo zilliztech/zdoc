@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "create_database() | Python | ORM"
 slug: /python/python/db-create_database
 sidebar_label: "create_database()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation creates a database using the provided database name. | Python | ORM"
 type: docx
 token: G4Ftde3kxoHAJbxVNXncI7mpngb
 sidebar_position: 1
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - create_database()
-  - python
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - pymilvus25
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: pythonSidebar
 
 ---

@@ -14,15 +14,16 @@ keywords:
   - cloud
   - invoice
   - view
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # インボイス
 
@@ -147,6 +148,10 @@ Zilliz Cloudには、Free、Serverless、Dedicatedの3つのクラスタータ�
 
 ### 請求書を見る{#view-invoice}
 
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
+
+<TabItem value="Cloud Console">
+
 1. 左ナビゲーションの[**請求**]をクリックします。
 
 1. 「**請求書**」タブに切り替えます。現在と過去のすべての請求書が表示されます。
@@ -154,6 +159,123 @@ Zilliz Cloudには、Free、Serverless、Dedicatedの3つのクラスタータ�
 1. 対象の請求書の請求期間をクリックすると、その詳細が表示されます。
 
 ![view-invoices](/img/ja-JP/view-invoices.png)
+
+</TabItem>
+
+<TabItem value="Bash">
+
+リクエストは次の例のようになります。`{API_KEY}`は、[組織のオーナーまたは請求管理者の役割](./organization-users#)を持つ認証APIキーです。次の`GET`リクエストには、Organizationのすべての請求書がリストされています。
+
+```bash
+curl --request GET \
+--url "${CLUSTER_ENDPOINT}/v2/invoices" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json"
+
+# {
+#     "code": 0,
+#     "data": {
+#         "count": 1,
+#         "currentPage": 1,
+#         "pageSize": 10,
+#         "invoices": [
+#             {
+#                 "id": "inv-12312io23810o291",
+#                 "orgId": "org-xxxxxx",
+#                 "periodStart": "2024-01-01T00:00:00Z",
+#                 "periodEnd": "2024-02-01T00:00:00Z",
+#                 "invoiceDate": "2024-02-01T00:00:00Z",
+#                 "dueDate": "2024-02-01T00:00:00Z",
+#                 "currency": "USD",
+#                 "status": "unpaid",
+#                 "usageAmount": 52400,
+#                 "creditsApplied": 12400,
+#                 "alreadyBilledAmount": 0,
+#                 "subtotal": 40000,
+#                 "tax": 5000,
+#                 "total": 45000,
+#                 "advancePayAmount": 0,
+#                 "amountDue": 45000
+#             }
+#         ]
+#     }
+# }
+```
+
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>APIによって返される結果では、すべての金額がセントで表示されます。</p>
+
+</Admonition>
+
+</TabItem>
+
+</Tabs>
+
+### 特定の請求書の詳細を表示する{#}
+
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
+
+<TabItem value="Cloud Console">
+
+1. 左ナビゲーションの[**請求**]をクリックします。
+
+1. 請求書タブに切り替えます。
+
+1. 対象の請求書の請求期間をクリックすると、その詳細が表示されます。
+
+![view-invoice-detail](/img/ja-JP/view-invoice-detail.png)
+
+</TabItem>
+
+<TabItem value="Bash">
+
+リクエストは次の例のようになります。`{API_KEY}`は、[組織のオーナーまたは請求管理者の役割](./organization-users#)を持つ認証APIキーです。次の`GET`リクエストは、指定された請求書を説明しています。
+
+```bash
+curl --request GET \
+--url "${CLUSTER_ENDPOINT}/v2/invoices/${INVOICE_ID}" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json"
+
+# {
+#     "code": 0,
+#     "data": {
+#         "id": "inv-12312io23810o291",
+#         "orgId": "org-xxxxxx",
+#         "periodStart": "2024-01-01T00:00:00Z",
+#         "periodEnd": "2024-02-01T00:00:00Z",
+#         "invoiceDate": "2024-02-01T00:00:00Z",
+#         "dueDate": "2024-02-01T00:00:00Z",
+#         "currency": "USD",
+#         "status": "unpaid",
+#         "usageAmount": 52400,
+#         "creditsApplied": 12400,
+#         "alreadyBilledAmount": 0,
+#         "subtotal": 40000,
+#         "tax": 5000,
+#         "total": 45000,
+#         "advancePayAmount": 0,
+#         "amountDue": 45000
+#     }
+# }
+```
+
+上記のコマンドで、
+
+- `{API_KEY}`: APIリクエストを認証するために使用される資格情報。値を自分のものに置き換えてください。
+
+- `{INVOICE_ID}`:記載する請求書のID。
+
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>APIによって返される結果では、すべての金額がセントで表示されます。</p>
+
+</Admonition>
+
+</TabItem>
+
+</Tabs>
 
 ### インボイスを支払う{#pay-invoice}
 
@@ -169,99 +291,127 @@ Zilliz Cloudには、Free、Serverless、Dedicatedの3つのクラスタータ�
 
 ## トラブルシューティング/FAQ{#troubleshooting-faq}
 
-#### 請求書の開始時刻と終了時刻は何時ですか?{#what-is-the-start-and-end-time-of-an-invoice}
+1. 請求書の開始時刻と終了時刻は何時ですか?
 
-- **説明:**請求期間は、前月の最初の日の00: 0 0:0 0(UTC)から、その月の最終日の23:59:59(UTC)までとなります。
+    - **説明:**請求期間は、前月の最初の日の00: 0 0:0 0(UTC)から、その月の最終日の23:59:59(UTC)までとなります。
 
-- **例:**Zilliz Cloudは2024年9月1日に8月の請求書を発行し、請求期間は2024年8月1日00: 0 0:0 0(UTC)から2024年8月31日23:59:59(UTC)までです。
+    - **例:**Zilliz Cloudは2024年9月1日に8月の請求書を発行し、請求期間は2024年8月1日00: 0 0:0 0(UTC)から2024年8月31日23:59:59(UTC)までです。
 
-#### Zilliz Cloudの請求書に表示される金額はどの程度正確ですか?{#how-precise-are-the-amounts-displayed-in-the-invoices-on-zilliz-cloud}
+1. Zilliz Cloudの請求書に表示される金額はどの程度正確ですか?
 
-- **説明:**Zilliz Cloudは小数点以下8桁の精度で製品の価格を設定します。その結果、料金は小数点以下8桁で計算されます。請求過程では、これらの詳細な日次料金が合計され、小数点以下2桁に丸められます。
+    - **説明:**Zilliz Cloudは小数点以下8桁の精度で製品の価格を設定します。その結果、料金は小数点以下8桁で計算されます。請求過程では、これらの詳細な日次料金が合計され、小数点以下2桁に丸められます。
 
-    ウェブUIでは、表示される金額は小数点以下2桁に丸められます（例:$60.0 0）。
+        ウェブUIでは、表示される金額は小数点以下2桁に丸められます（例:$60.0 0）。
 
-    ![precision_invoice_cn](/img/ja-JP/precision_invoice_cn.png)
+        ![precision_invoice_cn](/img/ja-JP/precision_invoice_cn.png)
 
-- **例:**調整中に、Query Org Daily U sage APIを使用して、2024年8月1日から8月3日までの3日間の毎日の使用データを取得したとします。各日の使用量の精度は8桁です。
+        [List Invoice](/ja-JP/reference/restful/list-invoices-v2)と[Describe Invoice API](/ja-JP/reference/restful/describe-invoice-v2https://docs.zilliz.com/ja-JP/reference/restful/describe-invoice-v2)から取得された請求書の金額はセントで表され、小数点以下2桁に丸める必要があります。以下は[Describe Invoice API](/ja-JP/reference/restful/describe-invoice-v2)の出力例です。
 
-    - 8月1日の合計:$105.0 3 3 3 1200
+        ```bash
+        {
+            "code": 0,
+            "data": {
+                "id": "inv-12312io23810o291",
+                "orgId": "org-xxxxxx",
+                "periodStart": "2024-01-01T00:00:00Z",
+                "periodEnd": "2024-02-01T00:00:00Z",
+                "invoiceDate": "2024-02-01T00:00:00Z",
+                "dueDate": "2024-02-01T00:00:00Z",
+                "currency": "USD",
+                "status": "unpaid",
+                "usageAmount": 52400,
+                "creditsApplied": 12400,
+                "alreadyBilledAmount": 0,
+                "subtotal": 40000,
+                "tax": 5000,
+                "total": 45000,
+                "advancePayAmount": 0,
+                "amountDue": 45000
+            }
+        }
+        ```
 
-    - 8月2日の合計:$92.0300 02 4 5
+        調整のために、[Query Org Daily Usage ](/reference/restful/query-daily-usage-v2)[API](/reference/restful/query-daily-usage-v2)を使用して、小数点以下8桁の精度で毎日の使用状況の詳細を取得することをお勧めします。毎日の使用状況の統計は、毎日00: 0 0:0 0から同じ日の23:59:59まで実行されます。たとえば、2024年8月1日の毎日の使用期間は、2024年8月1日の00:0 0:0 0に開始し、2024年8月1日の23:59:59に終了します。毎日の金額を合計すると、小数点以下8桁の精度で合計使用量が得られます。この金額を小数点以下3桁で四捨五入すると、2桁の月間使用量が得られ、Web UIの請求書に表示される合計使用量と一致するはずです。
 
-    - 8月3日の合計:$11 4.25300000
+    - **例:**調整中に、Query Org Daily U sage APIを使用して、2024年8月1日から8月3日までの3日間の毎日の使用データを取得したとします。各日の使用量の精度は8桁です。
 
-    3つの日次合計を合計すると、31 1.316 3 1 4 45ドルの合計が得られ、3番目の小数点を考慮した後、31 1.32ドルに丸められます。この数字は、Web UIの請求書に表示される総使用量と一致する必要があります。
+        - 8月1日の合計:$105.0 3 3 3 1200
 
-#### 請求書が届かないのはなぜですか?{#why-havent-i-received-my-invoice}
+        - 8月2日の合計:$92.0300 02 4 5
 
-- **考えられる原因:**請求書にアクセスできるのは**Organizationオーナー**または**請求管理者**のみです。
+        - 8月3日の合計:$11 4.25300000
 
-- **解決策:**必要な権限を持っていることを確認してください。請求書にアクセスできない場合は、組織のオーナーまたは請求管理者にお問い合わせください。
+        3つの日次合計を合計すると、31 1.316 3 1 4 45ドルの合計が得られ、3番目の小数点を考慮した後、31 1.32ドルに丸められます。この数字は、Web UIの請求書に表示される総使用量と一致する必要があります。
 
-#### 支払い方法が失敗した場合はどうなりますか?{#what-happens-if-my-payment-method-fails}
+1. 請求書が届かないのはなぜですか?
 
-- **考えられる原因:**提供した払い戻し方法(クレジットカードなど)の有効期限が切れているか、資金が不足している可能性があります。
+    - **考えられる原因:**請求書にアクセスできるのは**Organizationオーナー**または**請求管理者**のみです。
 
-- **ソリューション:**
+    - **解決策:**必要な権限を持っていることを確認してください。請求書にアクセスできない場合は、組織のオーナーまたは請求管理者にお問い合わせください。
 
-    - 支払いが失敗した場合、Zilliz Cloudは**オーガニゼーションオーナー**と**請求管理者**にメールで通知します。
+1. 支払い方法が失敗した場合はどうなりますか?
 
-    - アカウントの**請求プロフィール**セクションに移動し、有効なクレジットカードまたは支払い方法を追加することで、支払い方法を更新できます。
+    - **考えられる原因:**提供した払い戻し方法(クレジットカードなど)の有効期限が切れているか、資金が不足している可能性があります。
 
-    - 支払いは**猶予** **期間**(**14日間**)内に再試行できます。
+    - **ソリューション:**
 
-#### 何が猶予期間ですか?{#what-is-the-grace-period}
+        - 支払いが失敗した場合、Zilliz Cloudは**オーガニゼーションオーナー**と**請求管理者**にメールで通知します。
 
-- **説明:**「**猶予期間**」とは、支払い期日から14日間の期間であり、請求書が期限を過ぎる前に支払いを行うことができます。
+        - アカウントの**請求プロフィール**セクションに移動し、有効なクレジットカードまたは支払い方法を追加することで、支払い方法を更新できます。
 
-- **ヒント:**この期間中、毎日メールでリマインダーが送信され、支払いが完了するまで請求書のステータスは未払いのままとなります。
+        - 支払いは**猶予** **期間**(**14日間**)内に再試行できます。
 
-#### 延滞日以降に支払いをしない場合はどうなりますか?{#what-happens-if-i-dont-make-a-payment-after-the-overdue-date}
+1. 何が猶予期間ですか?
 
-- **説明:**支払いが**猶予期間**内に行われない場合:
+    - **説明:**「**猶予期間**」とは、支払い期日から14日間の期間であり、請求書が期限を過ぎる前に支払いを行うことができます。
 
-    - 延滞**日に**は、請求書は延滞としてマークされます。
+    - **ヒント:**この期間中、毎日メールでリマインダーが送信され、支払いが完了するまで請求書のステータスは未払いのままとなります。
 
-    - 期限**超過日**の翌日、組織は**凍結**され、Zilliz Cloudサービスへのアクセスが制限されます。
+1. 延滞日以降に支払いをしない場合はどうなりますか?
 
-    - 組織が凍結されてから1日経っても支払いが行われない場合、すべてのクラスタ（サーバーレスおよび専用）が自動的に削除されます。
+    - **説明:**支払いが**猶予期間**内に行われない場合:
 
-- **解決策:**サービスの中断やデータの損失を避けるために、**延滞日**の前に支払いを解決してください。
+        - 延滞**日に**は、請求書は延滞としてマークされます。
 
-#### サーバーレスクラスターに操作がなくても、なぜ請求されるのですか?{#why-am-i-being-charged-even-if-there-is-no-operations-in-my-serverless-cluster}
+        - 期限**超過日**の翌日、組織は**凍結**され、Zilliz Cloudサービスへのアクセスが制限されます。
 
-- **説明:**サーバーレスクラスターで読み取りや書き込み操作が行われなくても、ストレージに対して料金が発生します。ストレージコストは、Zilliz Cloudに保存されたデータの体格と時間に基づいて計算されます。
+        - 組織が凍結されてから1日経っても支払いが行われない場合、すべてのクラスタ（サーバーレスおよび専用）が自動的に削除されます。
 
-- **解決策:**ストレージコストを最小限に抑えるために、未使用のデータを削除することを検討してください。
+    - **解決策:**サービスの中断やデータの損失を避けるために、**延滞日**の前に支払いを解決してください。
 
-#### 組織が凍結されたというメールを受け取りました。どうすればいいですか?{#i-received-an-email-about-my-organization-being-frozen-what-should-i-do}
+1. サーバーレスクラスターに操作がなくても、なぜ請求されるのですか?
 
-- **説明:**組織が凍結されたことを示すメールを受け取った場合は、支払いが期限切れであり、Zilliz Cloudサービスへのアクセスが制限されていることを意味します。
+    - **説明:**サーバーレスクラスターで読み取りや書き込み操作が行われなくても、ストレージに対して料金が発生します。ストレージコストは、Zilliz Cloudに保存されたデータの体格と時間に基づいて計算されます。
 
-- **ソリューション:** 
+    - **解決策:**ストレージコストを最小限に抑えるために、未使用のデータを削除することを検討してください。
 
-    組織の凍結を解除するには:
+1. 組織が凍結されたというメールを受け取りました。どうすればいいですか?
 
-    - クラスタの自動削除を防ぐために、凍結後1日以内に必要な支払いを行ってください。
+    - **説明:**組織が凍結されたことを示すメールを受け取った場合は、支払いが期限切れであり、Zilliz Cloudサービスへのアクセスが制限されていることを意味します。
 
-    - 支払いが処理されると、組織は凍結解除され、完全なクラスターアクセスが復元されます。
+    - **ソリューション:** 
 
-#### 期限切れの請求書が原因で自動的に削除されたクラスタを回復するにはどうすればよいですか?{#how-can-i-recover-my-automatically-deleted-clusters-due-to-an-overdue-invoice}
+        組織の凍結を解除するには:
 
-- **説明:**クラスタが自動的に削除された場合、組織が凍結された後も支払いができないことを意味します。
+        - クラスタの自動削除を防ぐために、凍結後1日以内に必要な支払いを行ってください。
 
-- **ソリューション:**
+        - 支払いが処理されると、組織は凍結解除され、完全なクラスターアクセスが復元されます。
 
-    自動的に削除されたクラスタを復元するには、
+1. 期限切れの請求書が原因で自動的に削除されたクラスタを回復するにはどうすればよいですか?
 
-    - 最初に組織の凍結を解除するための支払いを行ってください。
+    - **説明:**クラスタが自動的に削除された場合、組織が凍結された後も支払いができないことを意味します。
 
-    - 支払いが成功したら、ごみ箱に移動して削除したクラスタを復元します。
+    - **ソリューション:**
 
-- **ヒント:** 
+        自動的に削除されたクラスタを復元するには、
 
-    - 削除されたクラスタは、ごみ箱に30日間保持されます。それでもクラスタが必要な場合は、クラスタの削除から3 0日以内に延滞支払いを行ってください。
+        - 最初に組織の凍結を解除するための支払いを行ってください。
 
-    - 支払いやクラスタの復元に問題がある場合は、[サポートチケットを提出](http://support.zilliz.com)してください。
+        - 支払いが成功したら、ごみ箱に移動して削除したクラスタを復元します。
+
+    - **ヒント:** 
+
+        - 削除されたクラスタは、ごみ箱に30日間保持されます。それでもクラスタが必要な場合は、クラスタの削除から3 0日以内に延滞支払いを行ってください。
+
+        - 支払いやクラスタの復元に問題がある場合は、[サポートチケットを提出](http://support.zilliz.com)してください。
 

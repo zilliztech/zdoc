@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "loading_progress() | Python | ORM"
 slug: /python/python/utility-loading_progress
 sidebar_label: "loading_progress()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation returns the load progress of a specific collection. | Python | ORM"
 type: docx
 token: HQiHd82orov0XvxAzLWcl5xRnzc
 sidebar_position: 31
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - loading_progress()
-  - python
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - pymilvus25
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 displayed_sidebar: pythonSidebar
 
 ---

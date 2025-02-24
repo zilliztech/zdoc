@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "wait_for_compaction_completed() | Python | ORM"
 slug: /python/python/Collection-wait_for_compaction_completed
 sidebar_label: "wait_for_compaction_completed()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation blocks the current session until the compaction request is completed. | Python | ORM"
 type: docx
 token: VFKIdx0tDoeAzSx4Ud6c3u5Snsf
 sidebar_position: 29
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
   - wait_for_compaction_completed()
-  - python
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - pymilvus25
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

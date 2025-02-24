@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "list_usernames() | Python | ORM"
 slug: /python/python/utility-list_usernames
 sidebar_label: "list_usernames()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation lists the names of all existing users. | Python | ORM"
 type: docx
 token: RXi3dgtNYogU0cxmTsgcdT72nsc
 sidebar_position: 29
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - list_usernames()
-  - python
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - pymilvus25
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: pythonSidebar
 
 ---

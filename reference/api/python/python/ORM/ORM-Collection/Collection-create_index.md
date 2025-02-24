@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "create_index() | Python | ORM"
 slug: /python/python/Collection-create_index
 sidebar_label: "create_index()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This creates a named index for a target field, which can either be a vector field or a scalar field. | Python | ORM"
 type: docx
 token: J76vdPHNgoyp2wxAiTcceIVJnOe
 sidebar_position: 4
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - create_index()
-  - python
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - pymilvus25
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 displayed_sidebar: pythonSidebar
 
 ---

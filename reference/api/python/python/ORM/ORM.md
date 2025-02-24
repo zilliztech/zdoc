@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "PyMilvus ORM modules, classes, and methods | Python | ORM"
 type: folder
-token: NZa5fZusilxYZ5d3Q1Dc1l8BnOd
-sidebar_position: 4
+token: QYo4fSeVFlex8ZdeGZ4cAlmcnof
+sidebar_position: 3
 sidebar_label: "ORM"
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - ORM
-  - python
+  - pymilvus25
 displayed_sidebar: pythonSidebar
 ---
 

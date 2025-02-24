@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "flush() | Python | ORM"
 slug: /python/python/Collection-flush
 sidebar_label: "flush()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation seals all segments in the collection. Any insertions after this operation will generate a new segment. | Python | ORM"
 type: docx
 token: VdiwdqQ9iofbkoxcc8Kcqk5gnhZ
 sidebar_position: 11
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
-  - python
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - pymilvus25
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 displayed_sidebar: pythonSidebar
 
 ---

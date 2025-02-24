@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "construct_from_dict() | Python | ORM"
 slug: /python/python/CollectionSchema-construct_from_dict
 sidebar_label: "construct_from_dict()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation constructs a CollectionSchema object from a dictionary representation. | Python | ORM"
 type: docx
 token: DYuUdc503o1TANxuGozcXhCmnRN
 sidebar_position: 3
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dict()
-  - python
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - pymilvus25
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: pythonSidebar
 
 ---

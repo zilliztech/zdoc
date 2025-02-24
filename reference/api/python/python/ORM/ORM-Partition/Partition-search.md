@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "search() | Python | ORM"
 slug: /python/python/Partition-search
 sidebar_label: "search()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Python | ORM"
 type: docx
 token: XW72dhBuNoqNWhxUQLtcfa6Fnwd
 sidebar_position: 10
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - search()
-  - python
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - pymilvus25
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: pythonSidebar
 
 ---

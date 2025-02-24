@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "remove_user() | Python | ORM"
 slug: /python/python/Role-remove_user
 sidebar_label: "remove_user()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation removes a user from the current role. Once removed, the user will lose the permissions allowed for the current role. | Python | ORM"
 type: docx
 token: SlmSdaD7rocMJsxThNHcOtEknVd
 sidebar_position: 9
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - remove_user()
-  - python
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - pymilvus25
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: pythonSidebar
 
 ---

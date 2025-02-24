@@ -10,19 +10,19 @@ type: docx
 token: UP2GdfHHzoIQ56x2JvScs0sAnzh
 sidebar_position: 17
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - revoke_privileges()
-  - python
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - pymilvus25
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: pythonSidebar
 
 ---

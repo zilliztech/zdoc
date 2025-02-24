@@ -10,19 +10,19 @@ type: docx
 token: DsnpdZuDGo77TYxFuYvcDpOgnIf
 sidebar_position: 12
 keywords: 
+  - Anomaly Detection
+  - sentence transformers
   - Recommender systems
   - information retrieval
-  - dimension reduction
-  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - grant_role()
-  - python
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - pymilvus25
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: pythonSidebar
 
 ---

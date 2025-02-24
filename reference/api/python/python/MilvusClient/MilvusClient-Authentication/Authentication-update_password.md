@@ -10,19 +10,19 @@ type: docx
 token: WGDod7Qehou4GWx4Co2cJ34VnKb
 sidebar_position: 20
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - update_password()
-  - python
+  - pymilvus25
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
 displayed_sidebar: pythonSidebar
 
 ---

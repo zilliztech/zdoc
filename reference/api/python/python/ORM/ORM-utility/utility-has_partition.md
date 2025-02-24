@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "has_partition() | Python | ORM"
 slug: /python/python/utility-has_partition
 sidebar_label: "has_partition()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation checks whether a partition exists. | Python | ORM"
 type: docx
 token: KsmadNcXRoElO2xJi5HcJO57nwb
 sidebar_position: 18
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - has_partition()
-  - python
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - pymilvus25
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "delete_user() | Python | ORM"
 slug: /python/python/utility-delete_user
 sidebar_label: "delete_user()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation deletes an existing user. | Python | ORM"
 type: docx
 token: E7zOdU2JpoqaU5xNYXvcAjgPnNh
 sidebar_position: 6
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - delete_user()
-  - python
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - pymilvus25
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: pythonSidebar
 
 ---

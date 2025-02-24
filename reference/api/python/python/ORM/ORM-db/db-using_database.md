@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "using_database() | Python | ORM"
 slug: /python/python/db-using_database
 sidebar_label: "using_database()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation sets a database as the default for the current connection. | Python | ORM"
 type: docx
 token: GXXTd7JIgoUKhzxiI6ncWtwjnVc
 sidebar_position: 4
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - using_database()
-  - python
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - pymilvus25
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "drop_database() | Python | ORM"
 slug: /python/python/db-drop_database
 sidebar_label: "drop_database()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation drops a database using the provided database name. | Python | ORM"
 type: docx
 token: Y7pOdKR4MoqmvVxcS1TcjqUynMc
 sidebar_position: 2
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - drop_database()
-  - python
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - pymilvus25
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: pythonSidebar
 
 ---

@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "drop() | Python | ORM"
 slug: /python/python/Collection-drop
 sidebar_label: "drop()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation drops the current collection. | Python | ORM"
 type: docx
 token: L8UTdDNkPoeew0x6LoDcfHx4nof
 sidebar_position: 8
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - drop()
-  - python
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - pymilvus25
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 displayed_sidebar: pythonSidebar
 
 ---

@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "update_password() | Python | ORM"
 slug: /python/python/utility-update_password
 sidebar_label: "update_password()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation updates the password for a specific user. | Python | ORM"
 type: docx
 token: SGjed7w9toewDlxmXHKc7BFancf
 sidebar_position: 41
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - update_password()
-  - python
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - pymilvus25
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: pythonSidebar
 
 ---

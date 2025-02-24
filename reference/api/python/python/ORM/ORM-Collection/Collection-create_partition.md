@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "create_partition() | Python | ORM"
 slug: /python/python/Collection-create_partition
 sidebar_label: "create_partition()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation creates a partition in the target collection. | Python | ORM"
 type: docx
 token: Sh7HdgJOIoJipXx5AoNcicjMnyd
 sidebar_position: 5
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - create_partition()
-  - python
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - pymilvus25
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: pythonSidebar
 
 ---

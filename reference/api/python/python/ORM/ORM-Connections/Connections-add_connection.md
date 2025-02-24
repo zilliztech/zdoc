@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "add_connection() | Python | ORM"
 slug: /python/python/Connections-add_connection
 sidebar_label: "add_connection()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation adds connections to multiple Zilliz Cloud clusters for different purposes in a batch. | Python | ORM"
 type: docx
 token: C37ldNLbFog6ThxA23ScMldnnmb
 sidebar_position: 1
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - add_connection()
-  - python
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - pymilvus25
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: pythonSidebar
 
 ---

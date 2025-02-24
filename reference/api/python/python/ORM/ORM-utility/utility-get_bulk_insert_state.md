@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "get_bulk_insert_state() | Python | ORM"
 slug: /python/python/utility-get_bulk_insert_state
 sidebar_label: "get_bulk_insert_state()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation returns the state of a specified bulk-insert task. | Python | ORM"
 type: docx
 token: XzHhd3AdCo9DCsxawYycr69CnAb
 sidebar_position: 13
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - get_bulk_insert_state()
-  - python
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - pymilvus25
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 displayed_sidebar: pythonSidebar
 
 ---

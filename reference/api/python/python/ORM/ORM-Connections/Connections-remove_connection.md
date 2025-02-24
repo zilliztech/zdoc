@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "remove_connection() | Python | ORM"
 slug: /python/python/Connections-remove_connection
 sidebar_label: "remove_connection()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation removes the connection from the registry by the given alias and disconnects if connected. | Python | ORM"
 type: docx
 token: L4KSdOVTEotaiyxjTddcVRDhn3E
 sidebar_position: 8
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - remove_connection()
-  - python
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - pymilvus25
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: pythonSidebar
 
 ---

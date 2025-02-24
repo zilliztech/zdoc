@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "construct_from_dataframe() | Python | ORM"
 slug: /python/python/Collection-construct_from_dataframe
 sidebar_label: "construct_from_dataframe()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation creates a collection with the specified dataframe. | Python | ORM"
 type: docx
 token: ISZadjHwyopWr5xRdJ2cqxVanEg
 sidebar_position: 3
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dataframe()
-  - python
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - pymilvus25
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: pythonSidebar
 
 ---

@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "Methods for you to manage collections. | Python | MilvusClient"
 type: folder
-token: AzdefBpvklrrFOdFnA1cicgonLf
+token: M6KJfLu4ylTkNsd9DUVcQHmfnqe
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - Collections
-  - python
+  - pymilvus25
 displayed_sidebar: pythonSidebar
 ---
 

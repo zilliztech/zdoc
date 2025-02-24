@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "create_alias() | Python | ORM"
 slug: /python/python/utility-create_alias
 sidebar_label: "create_alias()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation creates an alias for an existing collection. | Python | ORM"
 type: docx
 token: DthMdlg8Lozw89xNz4TcBv1LnOe
 sidebar_position: 3
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - create_alias()
-  - python
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - pymilvus25
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: pythonSidebar
 
 ---

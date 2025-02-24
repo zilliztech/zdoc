@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "release() | Python | ORM"
 slug: /python/python/Partition-release
 sidebar_label: "release()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation releases the data of the current partition from memory. | Python | ORM"
 type: docx
 token: ZQ2RdE2AOoH9bfx4k3Sc3Ny0ngb
 sidebar_position: 9
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud
   - release()
-  - python
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - pymilvus25
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: pythonSidebar
 
 ---

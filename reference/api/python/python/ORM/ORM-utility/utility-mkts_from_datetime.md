@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "mkts_from_datetime() | Python | ORM"
 slug: /python/python/utility-mkts_from_datetime
 sidebar_label: "mkts_from_datetime()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation makes a hybrid timestamp from a Python's datetime.datetime object. | Python | ORM"
 type: docx
 token: LCQTdebkConhUqxwnk7c3EbPnWh
 sidebar_position: 34
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_datetime()
-  - python
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - pymilvus25
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: pythonSidebar
 
 ---

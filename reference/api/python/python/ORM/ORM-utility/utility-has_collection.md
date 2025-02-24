@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "has_collection() | Python | ORM"
 slug: /python/python/utility-has_collection
 sidebar_label: "has_collection()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation checks whether a collection exists. | Python | ORM"
 type: docx
 token: TWOxdwDYRo4CCHxDdZbc7IOznCg
 sidebar_position: 17
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - has_collection()
-  - python
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - pymilvus25
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: pythonSidebar
 
 ---

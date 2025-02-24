@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "CollectionSchema | Python | ORM"
 slug: /python/python/ORM-CollectionSchema
 sidebar_label: "CollectionSchema"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "A CollectionSchema instance represents the schema of a collection. A schema sketches the structure of a collection. | Python | ORM"
 type: docx
-token: WToudUwm4oVXeKxLg3jcj3IAnjh
+token: CmFKd9eG2oE6xmx9dIGcVPycnth
 sidebar_position: 2
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - CollectionSchema
-  - python
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - pymilvus25
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: pythonSidebar
 
 ---

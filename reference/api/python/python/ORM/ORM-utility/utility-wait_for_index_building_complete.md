@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "wait_for_index_building_complete() | Python | ORM"
 slug: /python/python/utility-wait_for_index_building_complete
 sidebar_label: "wait_for_index_building_complete()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation blocks the current process until the specified index has been built. | Python | ORM"
 type: docx
 token: MfR8dw5TioPvw3xvrstcgYixnUb
 sidebar_position: 43
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - wait_for_index_building_complete()
-  - python
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - pymilvus25
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: pythonSidebar
 
 ---

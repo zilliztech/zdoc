@@ -10,19 +10,19 @@ type: docx
 token: W39Wdr7S6ohrtfxI8r7cyTeInlb
 sidebar_position: 10
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
   - grant_privilege()
-  - python
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - pymilvus25
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 ---

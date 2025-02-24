@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "list_bulk_insert_tasks() | Python | ORM"
 slug: /python/python/utility-list_bulk_insert_tasks
 sidebar_label: "list_bulk_insert_tasks()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation lists all bulk-insert tasks. | Python | ORM"
 type: docx
 token: T1CGdXeVkoG2yAxkualc1jVonRb
 sidebar_position: 23
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - list_bulk_insert_tasks()
-  - python
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - pymilvus25
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: pythonSidebar
 
 ---

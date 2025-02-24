@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "insert() | Python | ORM"
 slug: /python/python/Collection-insert
 sidebar_label: "insert()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation inserts data into the current collection. | Python | ORM"
 type: docx
 token: CbCodEGY9o6pKuxowNdctUppn7d
 sidebar_position: 19
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
-  - python
+  - pymilvus25
+  - What are vector embeddings
+  - vector database tutorial
   - how do vector databases work
   - vector db comparison
-  - openai vector db
-  - natural language processing database
 displayed_sidebar: pythonSidebar
 
 ---

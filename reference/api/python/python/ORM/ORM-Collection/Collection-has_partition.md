@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "has_partition() | Python | ORM"
 slug: /python/python/Collection-has_partition
 sidebar_label: "has_partition()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation checks whether the specified partition exists in the current collection. | Python | ORM"
 type: docx
 token: QsOsda2lRoJP32xNSLWcbgMOnKI
 sidebar_position: 16
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - has_partition()
-  - python
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - pymilvus25
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: pythonSidebar
 
 ---

@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "disconnect() | Python | ORM"
 slug: /python/python/Connections-disconnect
 sidebar_label: "disconnect()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation disconnects the client from the specified connection. | Python | ORM"
 type: docx
 token: IpSBdcabbosobvxQkAEcv6CvnJd
 sidebar_position: 4
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - disconnect()
-  - python
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - pymilvus25
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: pythonSidebar
 
 ---

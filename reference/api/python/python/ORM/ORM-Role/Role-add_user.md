@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "add_user() | Python | ORM"
 slug: /python/python/Role-add_user
 sidebar_label: "add_user()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation adds an existing user to the current role. Once added, the user gets permissions allowed for the current role and can perform certain operations. | Python | ORM"
 type: docx
 token: W7GJdpYrYoYhSaxW6uzcVAZinYf
 sidebar_position: 1
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - add_user()
-  - python
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - pymilvus25
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 displayed_sidebar: pythonSidebar
 
 ---

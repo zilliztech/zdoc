@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "describe() | Python | ORM"
 slug: /python/python/Collection-describe
 sidebar_label: "describe()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation describes the current collection. | Python | ORM"
 type: docx
 token: EZwsd887JojFjLxbMByckhW0nxg
 sidebar_position: 7
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describe()
-  - python
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - pymilvus25
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 displayed_sidebar: pythonSidebar
 
 ---

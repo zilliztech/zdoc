@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "list_user() | Python | ORM"
 slug: /python/python/utility-list_user
 sidebar_label: "list_user()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation lists the information of a specific user. | Python | ORM"
 type: docx
 token: JeG6d5Sg2oPmXPxEhnyciq4snNd
 sidebar_position: 28
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - list_user()
-  - python
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - pymilvus25
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 displayed_sidebar: pythonSidebar
 
 ---

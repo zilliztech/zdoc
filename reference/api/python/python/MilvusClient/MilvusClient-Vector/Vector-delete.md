@@ -10,19 +10,19 @@ type: docx
 token: DWLXdSCYnoPT4ExktRKceEqLnAd
 sidebar_position: 1
 keywords: 
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
-  - python
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - pymilvus25
   - Annoy vector search
   - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: pythonSidebar
 
 ---

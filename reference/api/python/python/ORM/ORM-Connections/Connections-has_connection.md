@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "has_connection() | Python | ORM"
 slug: /python/python/Connections-has_connection
 sidebar_label: "has_connection()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation checks if a connection with the given alias has already been established. | Python | ORM"
 type: docx
 token: XeZwdeK64oGD8rx9DA3ciqNinnh
 sidebar_position: 6
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - has_connection()
-  - python
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - pymilvus25
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: pythonSidebar
 
 ---

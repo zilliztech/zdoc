@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "list_collections() | Python | ORM"
 slug: /python/python/utility-list_collections
 sidebar_label: "list_collections()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation lists all collections in the database used in the current connection. | Python | ORM"
 type: docx
 token: QgxEdfBMSodYo6xCg24cH3hInr4
 sidebar_position: 24
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - list_collections()
-  - python
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - pymilvus25
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 displayed_sidebar: pythonSidebar
 
 ---

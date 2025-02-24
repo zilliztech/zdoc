@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "query() | Python | ORM"
 slug: /python/python/Partition-query
 sidebar_label: "query()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation conducts a query on the entity scalar field(s) with a boolean expression. | Python | ORM"
 type: docx
 token: N97pdfkjlo9j61xrtL2cbB79nKe
 sidebar_position: 8
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - query()
-  - python
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - pymilvus25
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 displayed_sidebar: pythonSidebar
 
 ---

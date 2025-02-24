@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "hybrid_search() | Python | ORM"
 slug: /python/python/Collection-hybrid_search
 sidebar_label: "hybrid_search()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation performs multi-vector search on a collection and returns search results after reranking. | Python | ORM"
 type: docx
-token: Bzb6dwkckop6XfxVm2lclXG2nJg
+token: QqOSdTDaLoOKGRxiKEtcuuiAnrf
 sidebar_position: 17
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - hybrid_search()
-  - python
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - pymilvus25
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: pythonSidebar
 
 ---
@@ -112,6 +112,18 @@ hybrid_search(
     The number of decimal places that Milvus rounds the calculated distances to.
 
     The value defaults to **-1**, indicating that Milvus skips rounding the calculated distances and returns the raw value.
+
+- **group_by_field** (*str*)
+
+    Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group. For details, refer to [Grouping Search](https://milvus.io/docs/grouping-search.md#Grouping-Search).
+
+- **group_size** (*int*)
+
+    The target number of entities to return within each group in a grouping search. For details, refer to [Grouping Search](https://milvus.io/docs/grouping-search.md#Grouping-Search).
+
+- **strict_group_size** (*bool*)
+
+    Controls whether **group_size** should be strictly enforced. For details, refer to [Grouping Search](https://milvus.io/docs/grouping-search.md#Grouping-Search).
 
 **RETURN TYPE:**
 

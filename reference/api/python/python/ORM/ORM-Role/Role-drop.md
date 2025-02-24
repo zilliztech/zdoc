@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "drop() | Python | ORM"
 slug: /python/python/Role-drop
 sidebar_label: "drop()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation drops an existing role. The operation will succeed if the specified role exists. Otherwise, this operation will fail. | Python | ORM"
 type: docx
 token: KEzNdJPoDoHOjlx2FC8cNcHqngg
 sidebar_position: 3
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - drop()
-  - python
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - pymilvus25
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: pythonSidebar
 
 ---

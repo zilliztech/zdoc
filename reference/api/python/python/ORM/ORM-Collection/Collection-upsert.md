@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "upsert() | Python | ORM"
 slug: /python/python/Collection-upsert
 sidebar_label: "upsert()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation inserts new records into the database or updates existing ones. | Python | ORM"
 type: docx
 token: AQ1ydMXbOog5VJxITgUc4GFvnVe
 sidebar_position: 28
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
-  - python
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - pymilvus25
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: pythonSidebar
 
 ---

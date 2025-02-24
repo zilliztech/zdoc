@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "get_compaction_plans() | Python | ORM"
 slug: /python/python/Collection-get_compaction_plans
 sidebar_label: "get_compaction_plans()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation gets the current compaction plans. | Python | ORM"
 type: docx
 token: D6Q7dq4USotLS3xxMP0cFiGLnsf
 sidebar_position: 12
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - get_compaction_plans()
-  - python
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - pymilvus25
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 displayed_sidebar: pythonSidebar
 
 ---

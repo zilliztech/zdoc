@@ -3,7 +3,7 @@ displayed_sidbar: restfulSidebar
 slug: /restful/error-codes
 title: Error Codes
 description: This page lists the error codes returned by Zilliz Cloud RESTful API.
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 sidebar_position: 2
 ---

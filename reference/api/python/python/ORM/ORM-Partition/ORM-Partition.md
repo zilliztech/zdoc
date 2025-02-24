@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "Partition | Python | ORM"
 slug: /python/python/ORM-Partition
 sidebar_label: "Partition"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "A Partition instance represents a partition within a collection. | Python | ORM"
 type: docx
 token: X9scdVMmxoBTuUxlKhecJXEunHd
 sidebar_position: 7
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - Partition
-  - python
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - pymilvus25
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: pythonSidebar
 
 ---

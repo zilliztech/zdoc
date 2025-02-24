@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "mkts_from_hybridts() | Python | ORM"
 slug: /python/python/utility-mkts_from_hybridts
 sidebar_label: "mkts_from_hybridts()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation makes a hybrid timestamp from another hybrid timestamp. | Python | ORM"
 type: docx
 token: GRarduHPSoFY3Yx9EWRcdcTfn1g
 sidebar_position: 35
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_hybridts()
-  - python
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - pymilvus25
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: pythonSidebar
 
 ---

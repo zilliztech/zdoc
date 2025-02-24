@@ -10,19 +10,19 @@ type: docx
 token: VccVd4MTgoPzCixDVtgcEoKWnPf
 sidebar_position: 3
 keywords: 
+  - what is vector db
+  - what are vector databases
   - vector databases comparison
   - Faiss
-  - Video search
-  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - commit()
-  - python
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - pymilvus25
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: pythonSidebar
 
 ---

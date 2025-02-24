@@ -9,15 +9,15 @@ token: MGFYf4JacldYUEdxtJdcwczAntg
 sidebar_position: 2
 sidebar_label: "BulkImport"
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - BulkImport
-  - python
+  - pymilvus25
 displayed_sidebar: pythonSidebar
 ---
 

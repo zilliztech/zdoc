@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "get_replicas() | Python | ORM"
 slug: /python/python/Collection-get_replicas
 sidebar_label: "get_replicas()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation gets information about the current loaded replica. | Python | ORM"
 type: docx
 token: BQKPdDd5xo8OPgxoXorcMxk0nVb
 sidebar_position: 14
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - get_replicas()
-  - python
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - pymilvus25
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: pythonSidebar
 
 ---

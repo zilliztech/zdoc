@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "transfer_node() | Python | ORM"
 slug: /python/python/utility-transfer_node
 sidebar_label: "transfer_node()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation moves a specific number of query nodes from the source resource group to the target resource group. | Python | ORM"
 type: docx
 token: QHcpd1aJzo5aYbxJtMXc58een4f
 sidebar_position: 39
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - transfer_node()
-  - python
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - pymilvus25
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: pythonSidebar
 
 ---

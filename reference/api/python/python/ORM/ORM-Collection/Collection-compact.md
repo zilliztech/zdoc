@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "compact() | Python | ORM"
 slug: /python/python/Collection-compact
 sidebar_label: "compact()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation compacts and merges small segments in the current collection. | Python | ORM"
 type: docx
 token: BHx6dnSmPoaqHAxKCvncbuk9nWb
 sidebar_position: 2
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
   - compact()
-  - python
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - pymilvus25
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation alters the specified collection properties. | Python | MilvusClient"
 type: docx
-token: JE7xd0jrEolcYHxovO2cTg4onrD
+token: Pdljdj7ysoYg2Jxu7JrcQOB8n5e
 sidebar_position: 3
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - alter_collection_properties()
-  - python
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - pymilvus25
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: pythonSidebar
 
 ---
@@ -62,7 +62,11 @@ alter_collection_properties(
 
     - **mmap.enabled** (*bool*) -
 
-        Whether to enable mmap for the raw data and indexes of all fields in the collection.
+        Whether to enable mmap for the raw data and indexes of all fields in the collection. For details, refer to [Use mmap](/docs/use-mmap).
+
+    - **partitionkey.isolation** (bool) -
+
+        Whether to enable partition key isolation. For details, refer to [Use Partition Key](/docs/use-partition-key).
 
 - **timeout** (*Optional[float]*) - 
 

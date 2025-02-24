@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "to_dict() | Python | ORM"
 slug: /python/python/FieldSchema-to_dict
 sidebar_label: "to_dict()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation converts a FieldSchema object to a dictionary representation. | Python | ORM"
 type: docx
 token: G1gsdGWwuoPOPrxJdABcfa76nUd
 sidebar_position: 3
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - to_dict()
-  - python
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - pymilvus25
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: pythonSidebar
 
 ---

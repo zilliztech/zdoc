@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "drop_partition() | Python | ORM"
 slug: /python/python/Collection-drop_partition
 sidebar_label: "drop_partition()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation drops a specified partition from the current collection. | Python | ORM"
 type: docx
 token: Aym2dpBuIo81mExCqyLcSWhunBe
 sidebar_position: 10
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - drop_partition()
-  - python
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - pymilvus25
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "drop() | Python | ORM"
 slug: /python/python/Partition-drop
 sidebar_label: "drop()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation drops the current partition. | Python | ORM"
 type: docx
 token: D3sndK8DgoqDkUxaNGcctwcSnuE
 sidebar_position: 2
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - drop()
-  - python
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - pymilvus25
   - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: pythonSidebar
 
 ---

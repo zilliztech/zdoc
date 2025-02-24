@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "upsert() | Python | ORM"
 slug: /python/python/Partition-upsert
 sidebar_label: "upsert()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation inserts new records into the database or updates existing ones. | Python | ORM"
 type: docx
 token: MQMzddDnao5Zz0xmSRncZM2nn5b
 sidebar_position: 11
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
-  - python
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - pymilvus25
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: pythonSidebar
 
 ---

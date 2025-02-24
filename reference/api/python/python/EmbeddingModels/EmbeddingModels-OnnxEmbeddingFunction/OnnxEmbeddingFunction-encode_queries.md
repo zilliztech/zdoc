@@ -10,19 +10,19 @@ type: docx
 token: ZkWBdbMZkoBjT1xe4qDcTBOHnGx
 sidebar_position: 2
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
-  - python
+  - pymilvus25
+  - Elastic vector database
   - Pinecone vs Milvus
   - Chroma vs Milvus
   - Annoy vector search
-  - milvus
 displayed_sidebar: pythonSidebar
 
 ---

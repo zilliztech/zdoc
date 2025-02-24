@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "get_query_segment_info() | Python | ORM"
 slug: /python/python/utility-get_query_segment_info
 sidebar_label: "get_query_segment_info()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation gets information about the sealed and growing segments in the query cluster. | Python | ORM"
 type: docx
 token: CB9edh2ySoJyWhxBoLcchPj9nxg
 sidebar_position: 14
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - get_query_segment_info()
-  - python
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - pymilvus25
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: pythonSidebar
 
 ---

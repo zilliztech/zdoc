@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "load_balance() | Python | ORM"
 slug: /python/python/utility-load_balance
 sidebar_label: "load_balance()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation sets up a load-balancing group between two query nodes for a specific collection. | Python | ORM"
 type: docx
 token: XYNMdg3Vpo3SE7xTRVqcJNvrn0d
 sidebar_position: 32
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
   - load_balance()
-  - python
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - pymilvus25
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: pythonSidebar
 
 ---

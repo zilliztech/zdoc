@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "hybridts_to_unixtime() | Python | ORM"
 slug: /python/python/utility-hybridts_to_unixtime
 sidebar_label: "hybridts_to_unixtime()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation converts a hybrid timestamp to a UNIX epoch timestamp | Python | ORM"
 type: docx
 token: HbMMdqtQGoQqwixsyrjcTTh0nu5
 sidebar_position: 20
 keywords: 
-  - AI Hallucination
   - AI Agent
   - semantic search
   - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - hybridts_to_unixtime()
-  - python
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - pymilvus25
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: pythonSidebar
 
 ---

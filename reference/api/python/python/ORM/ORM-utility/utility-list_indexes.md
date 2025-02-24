@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "list_indexes() | Python | ORM"
 slug: /python/python/utility-list_indexes
 sidebar_label: "list_indexes()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation lists all indexes of a specific collection. | Python | ORM"
 type: docx
 token: XLepdUCcTow6rpx5vxxcbLXZnyb
 sidebar_position: 25
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - list_indexes()
-  - python
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - pymilvus25
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: pythonSidebar
 
 ---

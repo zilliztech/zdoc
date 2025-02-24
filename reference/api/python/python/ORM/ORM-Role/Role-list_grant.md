@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "list_grant() | Python | ORM"
 slug: /python/python/Role-list_grant
 sidebar_label: "list_grant()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation lists the relationship between the current role and the specified object. | Python | ORM"
 type: docx
 token: JXNXdQuwhoYmZQxSohNcdxtwnzh
 sidebar_position: 7
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - list_grant()
-  - python
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - pymilvus25
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: pythonSidebar
 
 ---

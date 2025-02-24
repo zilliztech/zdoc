@@ -26,6 +26,10 @@ const BetaTag = (tag) => {
       tag_caption = "Contact Sales to Enable BYOC";
       tag_color = "#FF7F47";
       break;
+    case tag === 'NEAR DEPRECATE':
+      tag_caption = "About to Deprecate";
+      tag_color = "#FF7F47";
+      break;
     case tag?.startsWith('Milvus'):
       tag_caption = 'Compatible with ' + tag;
       tag_color = "rgb(0, 179, 255)"

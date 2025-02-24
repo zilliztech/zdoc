@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "revoke() | Python | ORM"
 slug: /python/python/Role-revoke
 sidebar_label: "revoke()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation revokes a privilege granted to the current role. | Python | ORM"
 type: docx
 token: UUJWdoEnjoXx69xahsScdMVSnzf
 sidebar_position: 10
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - revoke()
-  - python
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - pymilvus25
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: pythonSidebar
 
 ---

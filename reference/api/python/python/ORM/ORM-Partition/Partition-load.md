@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "load() | Python | ORM"
 slug: /python/python/Partition-load
 sidebar_label: "load()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation loads the data of the current partition into memory. | Python | ORM"
 type: docx
 token: TWxddf6iboyM15xK4Kzc8ASknRb
 sidebar_position: 6
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - load()
-  - python
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - pymilvus25
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: pythonSidebar
 
 ---

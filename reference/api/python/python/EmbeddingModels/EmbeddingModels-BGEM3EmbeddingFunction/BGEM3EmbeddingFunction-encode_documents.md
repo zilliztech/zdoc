@@ -10,19 +10,19 @@ type: docx
 token: Q0rYdTPkEoRZgUx99LCcfMDUnvh
 sidebar_position: 2
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
-  - python
+  - pymilvus25
+  - vector db comparison
   - openai vector db
   - natural language processing database
   - cheap vector database
-  - Managed vector database
 displayed_sidebar: pythonSidebar
 
 ---

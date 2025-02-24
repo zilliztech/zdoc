@@ -215,7 +215,7 @@ const config = {
         path: 'reference',
         breadcrumbs: false,
         routeBasePath: 'reference',
-        sidebarPath: require.resolve('./sidebarsReference.js'),
+        sidebarPath: require.resolve('./sidebarsReference.js')
       },
     ],
     [

@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "to_dict() | Python | ORM"
 slug: /python/python/CollectionSchema-to_dict
 sidebar_label: "to_dict()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation converts a CollectionSchema object to a dictionary representation. | Python | ORM"
 type: docx
 token: GfTadfqhAo64XDxc643ci4Zwnwb
 sidebar_position: 4
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - to_dict()
-  - python
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - pymilvus25
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: pythonSidebar
 
 ---

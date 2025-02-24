@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "wait_for_loading_complete() | Python | ORM"
 slug: /python/python/utility-wait_for_loading_complete
 sidebar_label: "wait_for_loading_complete()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation blocks the current process until the specified collection has been loaded. | Python | ORM"
 type: docx
 token: PLKXdUB1EoNX8gxKHruc9GcEnsg
 sidebar_position: 44
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - wait_for_loading_complete()
-  - python
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - pymilvus25
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: pythonSidebar
 
 ---

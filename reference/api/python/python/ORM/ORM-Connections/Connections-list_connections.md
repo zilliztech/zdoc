@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "list_connections() | Python | ORM"
 slug: /python/python/Connections-list_connections
 sidebar_label: "list_connections()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation returns a list of all connection names and handler objects. | Python | ORM"
 type: docx
 token: DyPldeRNXo4nMqxQeE0cMnd2nEf
 sidebar_position: 7
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - list_connections()
-  - python
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - pymilvus25
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: pythonSidebar
 
 ---

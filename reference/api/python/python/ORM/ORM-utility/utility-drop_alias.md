@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "drop_alias() | Python | ORM"
 slug: /python/python/utility-drop_alias
 sidebar_label: "drop_alias()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation drops a specified collection alias. | Python | ORM"
 type: docx
 token: V7BWdrC39oPAauxoWBzcaldwnVc
 sidebar_position: 9
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - drop_alias()
-  - python
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - pymilvus25
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: pythonSidebar
 
 ---

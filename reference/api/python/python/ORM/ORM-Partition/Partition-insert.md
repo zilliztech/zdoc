@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "insert() | Python | ORM"
 slug: /python/python/Partition-insert
 sidebar_label: "insert()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation inserts data into the current partition. | Python | ORM"
 type: docx
 token: QXDxdv36FoVgjcxDV1gcDwWXnsd
 sidebar_position: 5
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
-  - python
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - pymilvus25
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

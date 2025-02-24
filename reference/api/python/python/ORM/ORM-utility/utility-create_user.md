@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "create_user() | Python | ORM"
 slug: /python/python/utility-create_user
 sidebar_label: "create_user()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation creates a new user with a corresponding password. | Python | ORM"
 type: docx
 token: N44ndTSrgoEBx7xCID5cXRS7n1c
 sidebar_position: 5
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - create_user()
-  - python
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - pymilvus25
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: pythonSidebar
 
 ---

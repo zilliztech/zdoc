@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "Role | Python | ORM"
 slug: /python/python/ORM-Role
 sidebar_label: "Role"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "A Role instance represents a role with specific privileges to access your . | Python | ORM"
 type: docx
 token: LZL1d0kckouPXNxJLCmcwbCTnkG
 sidebar_position: 11
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - Role
-  - python
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - pymilvus25
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: pythonSidebar
 
 ---

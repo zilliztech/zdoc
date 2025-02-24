@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "grant() | Python | ORM"
 slug: /python/python/Role-grant
 sidebar_label: "grant()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation grants a privilege to the current role. | Python | ORM"
 type: docx
 token: BapSdVXjQoQXnbxnRYScCagAn1f
 sidebar_position: 5
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - grant()
-  - python
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - pymilvus25
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: pythonSidebar
 
 ---

@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "Methods for you to index, load, and release a collection. | Python | MilvusClient"
 type: folder
-token: IZKcfUEfClhhnWdFhk2co7krnAV
+token: MvvMf16FLlVOmtdgx5UcZ8qtnyd
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - Management
-  - python
+  - pymilvus25
 displayed_sidebar: pythonSidebar
 ---
 

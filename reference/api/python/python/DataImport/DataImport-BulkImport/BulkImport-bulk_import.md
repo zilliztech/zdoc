@@ -10,19 +10,19 @@ type: docx
 token: S9dyd4UwhoqOPux411KcbafDnde
 sidebar_position: 1
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - zilliz
-  - zilliz cloud
-  - cloud
-  - bulk_import()
-  - python
   - what is vector db
   - what are vector databases
   - vector databases comparison
   - Faiss
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - bulk_import()
+  - pymilvus25
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 displayed_sidebar: pythonSidebar
 
 ---

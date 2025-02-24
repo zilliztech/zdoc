@@ -10,19 +10,19 @@ type: docx
 token: OF1mdh4tSo8ZQQxxVgEcdITRndb
 sidebar_position: 3
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - MGTEEmbeddingFunction
-  - python
+  - pymilvus25
+  - Multimodal search
   - vector search algorithms
   - Question answering system
   - llm-as-a-judge
-  - hybrid vector search
 displayed_sidebar: pythonSidebar
 
 ---

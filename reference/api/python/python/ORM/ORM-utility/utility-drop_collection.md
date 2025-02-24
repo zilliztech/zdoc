@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "drop_collection() | Python | ORM"
 slug: /python/python/utility-drop_collection
 sidebar_label: "drop_collection()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation drops a specific collection. | Python | ORM"
 type: docx
 token: FHcYdN4apoI5TIx0LxScISvtn0f
 sidebar_position: 10
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - drop_collection()
-  - python
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - pymilvus25
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: pythonSidebar
 
 ---

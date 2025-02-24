@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "Collection | Python | ORM"
 slug: /python/python/ORM-Collection
 sidebar_label: "Collection"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "A Collection instance represents a Milvus collection. | Python | ORM"
 type: docx
 token: OSehdj15Ao3AUvxOIJucXzU8nWW
 sidebar_position: 1
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - Collection
-  - python
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - pymilvus25
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: pythonSidebar
 
 ---

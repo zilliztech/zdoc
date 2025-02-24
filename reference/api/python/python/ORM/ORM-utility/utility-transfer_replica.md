@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "transfer_replica() | Python | ORM"
 slug: /python/python/utility-transfer_replica
 sidebar_label: "transfer_replica()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation transfers a specific number of replicas between resource groups. | Python | ORM"
 type: docx
 token: SuePdciB0o4du5xtpIhcMVyYnPb
 sidebar_position: 40
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - transfer_replica()
-  - python
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - pymilvus25
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: pythonSidebar
 
 ---

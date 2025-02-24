@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "flush() | Python | ORM"
 slug: /python/python/Partition-flush
 sidebar_label: "flush()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation seals all segments in the partition. Any insertions after this operation will generate a new segment. | Python | ORM"
 type: docx
 token: VRGwdg75Ao7ZXQx7uANc9wzXnVb
 sidebar_position: 3
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
-  - python
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - pymilvus25
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: pythonSidebar
 
 ---

@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "has_index() | Python | ORM"
 slug: /python/python/Collection-has_index
 sidebar_label: "has_index()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation checks whether the current collection has a built index. | Python | ORM"
 type: docx
 token: WDk4dXY8IoV3SJxp9e7c3aq1nBh
 sidebar_position: 15
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
   - has_index()
-  - python
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - pymilvus25
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: pythonSidebar
 
 ---

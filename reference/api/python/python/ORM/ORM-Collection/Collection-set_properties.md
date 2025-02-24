@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "set_properties() | Python | ORM"
 slug: /python/python/Collection-set_properties
 sidebar_label: "set_properties()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation sets properties for the collection. | Python | ORM"
 type: docx
 token: ECmAdaYKboPTNlxqkLxcUEZ4nrh
 sidebar_position: 27
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - set_properties()
-  - python
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - pymilvus25
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 displayed_sidebar: pythonSidebar
 
 ---

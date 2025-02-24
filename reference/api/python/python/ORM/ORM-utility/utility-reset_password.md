@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "reset_password() | Python | ORM"
 slug: /python/python/utility-reset_password
 sidebar_label: "reset_password()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation resets the password for a specific user. | Python | ORM"
 type: docx
 token: K1Npdj5Ddod6UWxRN2ecf6K4nxf
 sidebar_position: 38
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - reset_password()
-  - python
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - pymilvus25
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: pythonSidebar
 
 ---

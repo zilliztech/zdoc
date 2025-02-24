@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "list_database() | Python | ORM"
 slug: /python/python/db-list_database
 sidebar_label: "list_database()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation returns a list of database names from the connected Milvus instance. | Python | ORM"
 type: docx
 token: PV1PdliWZooAB8xAE5scZO2Nn6K
 sidebar_position: 3
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - list_database()
-  - python
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - pymilvus25
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 displayed_sidebar: pythonSidebar
 
 ---

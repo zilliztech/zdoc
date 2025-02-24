@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "Modules and classes related to the import of large-volume data into a collection. | Python"
 type: folder
-token: KdfofBXCwlWnxOdG5cLcbbLgnLf
+token: I37hfvVOClbThMdGuH4cV4R6nkc
 sidebar_position: 1
 sidebar_label: "DataImport"
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - DataImport
-  - python
+  - pymilvus25
 displayed_sidebar: pythonSidebar
 ---
 

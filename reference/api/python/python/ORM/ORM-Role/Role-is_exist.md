@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "is_exist() | Python | ORM"
 slug: /python/python/Role-is_exist
 sidebar_label: "is_exist()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation checks whether the current role exists. | Python | ORM"
 type: docx
 token: F8WOdIoz4okn5OxMEymcXNuRnkb
 sidebar_position: 6
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - is_exist()
-  - python
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - pymilvus25
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 displayed_sidebar: pythonSidebar
 
 ---

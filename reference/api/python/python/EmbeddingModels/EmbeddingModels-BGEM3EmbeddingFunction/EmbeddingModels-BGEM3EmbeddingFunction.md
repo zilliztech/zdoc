@@ -10,19 +10,19 @@ type: docx
 token: XYSVdCqCDoJ9Y5xqKEAceYkpnnh
 sidebar_position: 1
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - BGEM3EmbeddingFunction
-  - python
+  - pymilvus25
+  - what is vector db
   - what are vector databases
   - vector databases comparison
   - Faiss
-  - Video search
 displayed_sidebar: pythonSidebar
 
 ---

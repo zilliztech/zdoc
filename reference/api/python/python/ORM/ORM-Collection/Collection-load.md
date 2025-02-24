@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "load() | Python | ORM"
 slug: /python/python/Collection-load
 sidebar_label: "load()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation loads the data of the current collection into memory. | Python | ORM"
 type: docx
 token: HQDndiGwloWKIexgPCUcEZGenOh
 sidebar_position: 20
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - load()
-  - python
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - pymilvus25
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: pythonSidebar
 
 ---

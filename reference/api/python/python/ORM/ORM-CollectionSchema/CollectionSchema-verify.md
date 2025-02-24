@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "verify() | Python | ORM"
 slug: /python/python/CollectionSchema-verify
 sidebar_label: "verify()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation performs final validation checks on the CollectionSchema to detect any obvious problems. | Python | ORM"
 type: docx
 token: KSECdBDcUoIkL7xI4KOc29Ukn1g
 sidebar_position: 5
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - verify()
-  - python
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - pymilvus25
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 displayed_sidebar: pythonSidebar
 
 ---

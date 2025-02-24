@@ -10,19 +10,19 @@ type: docx
 token: K7qWdSwtNo976VxcvopczGLjnLf
 sidebar_position: 4
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
-  - python
+  - pymilvus25
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
 displayed_sidebar: pythonSidebar
 
 ---

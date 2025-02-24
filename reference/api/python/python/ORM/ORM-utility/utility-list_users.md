@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "list_users() | Python | ORM"
 slug: /python/python/utility-list_users
 sidebar_label: "list_users()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation lists the information of all existing users. | Python | ORM"
 type: docx
 token: MtF2dkZcso4XduxM194cUaiinqb
 sidebar_position: 30
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - list_users()
-  - python
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - pymilvus25
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: pythonSidebar
 
 ---

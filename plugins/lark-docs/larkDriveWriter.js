@@ -33,6 +33,7 @@ class larkDriveWriter extends larkDocWriter {
                             const token = source.token
                             const source_type = source.type
                             const slug = source.slug instanceof Array? source.slug[0].text : source.slug
+                            const tag = meta['tag'] ? meta['tag'] : 'false'
 
                             console.log(`${current_path}/${slug}.md`)
 
@@ -42,7 +43,7 @@ class larkDriveWriter extends larkDocWriter {
                                 page_type: source_type,
                                 page_token: token,
                                 page_slug: slug,
-                                page_beta: 'false',
+                                page_beta: tag,
                                 notebook: 'false',
                                 sidebar_position: index+1,
                                 sidebar_label: meta['labels'],
@@ -66,6 +67,7 @@ class larkDriveWriter extends larkDocWriter {
                             const source_type = source.type
                             const slug = source.slug instanceof Array? source.slug[0].text : source.slug
                             const description = meta.description
+                            const tag = meta['tag'] ? meta['tag'] : 'false'
 
                             if (!fs.existsSync(node_path.join(path, slug))) {
                                 fs.mkdirSync(node_path.join(path, slug), { recursive: true });
@@ -75,7 +77,7 @@ class larkDriveWriter extends larkDocWriter {
                                 path: node_path.join(path, slug),
                                 page_title: source.name,
                                 page_slug: slug,
-                                page_beta: 'false',
+                                page_beta: tag,
                                 notebook: 'false',
                                 page_type: source_type,
                                 page_token: token,

@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "search() | Python | ORM"
 slug: /python/python/Collection-search
 sidebar_label: "search()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Python | ORM"
 type: docx
 token: OaM5dkbPjohKhNxHvKNcfnYMnVb
 sidebar_position: 25
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - search()
-  - python
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - pymilvus25
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: pythonSidebar
 
 ---

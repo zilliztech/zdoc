@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "add_field() | Python | ORM"
 slug: /python/python/CollectionSchema-add_field
 sidebar_label: "add_field()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation adds a field to the schema of a collection. | Python | ORM"
 type: docx
-token: TG3Rd9aM5offvFxKy2CcKXn9nWc
+token: H9IFdpWWUouzXOxKlx9cImP8nnd
 sidebar_position: 1
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - add_field()
-  - python
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - pymilvus25
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: pythonSidebar
 
 ---
@@ -39,7 +39,8 @@ This operation adds a field to the schema of a collection.
 ```python
 add_field(
     field_name: str,
-    datatype: DataType
+    datatype: DataType,
+    **kwargs
 )
 ```
 

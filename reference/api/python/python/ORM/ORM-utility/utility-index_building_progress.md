@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "index_building_progress() | Python | ORM"
 slug: /python/python/utility-index_building_progress
 sidebar_label: "index_building_progress()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation returns the progress of the index-building process. | Python | ORM"
 type: docx
 token: OVfodiKa6o3qTGxadYicI975nhh
 sidebar_position: 21
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - index_building_progress()
-  - python
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - pymilvus25
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 displayed_sidebar: pythonSidebar
 
 ---

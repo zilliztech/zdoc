@@ -3,7 +3,7 @@ displayed_sidbar: pythonSidebar
 title: "hybridts_to_datetime() | Python | ORM"
 slug: /python/python/utility-hybridts_to_datetime
 sidebar_label: "hybridts_to_datetime()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation converts a hybrid timestamp to a Python's datetime object. | Python | ORM"
 type: docx
@@ -18,11 +18,11 @@ keywords:
   - zilliz cloud
   - cloud
   - hybridts_to_datetime()
-  - python
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - pymilvus25
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: pythonSidebar
 
 ---

@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "An easy-to-use alternative to the legacy PyMilvus SDK. | Python | MilvusClient"
 type: folder
-token: ICGwfi8ZClVQLHdLn9Hc3oeFn1d
-sidebar_position: 3
+token: YHQ9fF9IDlENsMd9RZucYalqnNg
+sidebar_position: 2
 sidebar_label: "MilvusClient"
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClient
-  - python
+  - pymilvus25
 displayed_sidebar: pythonSidebar
 ---
 

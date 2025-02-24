@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "get_connection_addr() | Python | ORM"
 slug: /python/python/Connections-get_connection_addr
 sidebar_label: "get_connection_addr()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation retrieves the configuration of the specified connection by alias. | Python | ORM"
 type: docx
 token: H2zBdRHVtovNQGxvb0xcwpSKnBd
 sidebar_position: 5
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - get_connection_addr()
-  - python
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - pymilvus25
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 displayed_sidebar: pythonSidebar
 
 ---

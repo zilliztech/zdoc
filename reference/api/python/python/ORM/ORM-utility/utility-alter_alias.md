@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "alter_alias() | Python | ORM"
 slug: /python/python/utility-alter_alias
 sidebar_label: "alter_alias()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation reassigns the alias of one collection to another. | Python | ORM"
 type: docx
 token: MfTsdrbGcoO9JqxjgPtcMZTvncc
 sidebar_position: 1
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - alter_alias()
-  - python
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - pymilvus25
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: pythonSidebar
 
 ---

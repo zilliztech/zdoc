@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "delete() | Python | ORM"
 slug: /python/python/Collection-delete
 sidebar_label: "delete()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation deletes entities with a boolean expression. | Python | ORM"
 type: docx
 token: TJMVdi4U2oBFnAxO95jctzVAnzg
 sidebar_position: 6
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
-  - python
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - pymilvus25
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: pythonSidebar
 
 ---

@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "load_state() | Python | ORM"
 slug: /python/python/utility-load_state
 sidebar_label: "load_state()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation returns the load status of a specific collection. | Python | ORM"
 type: docx
 token: BJysdlj1MoksHZxNRxicHn9fnSh
 sidebar_position: 33
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - load_state()
-  - python
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - pymilvus25
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 displayed_sidebar: pythonSidebar
 
 ---

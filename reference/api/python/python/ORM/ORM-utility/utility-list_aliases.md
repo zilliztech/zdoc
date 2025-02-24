@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "list_aliases() | Python | ORM"
 slug: /python/python/utility-list_aliases
 sidebar_label: "list_aliases()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation lists all existing aliases for a specific collection. | Python | ORM"
 type: docx
 token: XBwxdP96Go8ITyx7UuNcL7EonPd
 sidebar_position: 22
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - list_aliases()
-  - python
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - pymilvus25
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: pythonSidebar
 
 ---

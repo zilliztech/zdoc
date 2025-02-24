@@ -10,19 +10,19 @@ type: docx
 token: F1MFdP8VvoMu17x4Vg9cH6ztnqb
 sidebar_position: 1
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - append_row()
-  - python
+  - pymilvus25
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
 displayed_sidebar: pythonSidebar
 
 ---

@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "index() | Python | ORM"
 slug: /python/python/Collection-index
 sidebar_label: "index()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation gets the specified index of the current collection. | Python | ORM"
 type: docx
 token: RkQ8dnWDHo3DiDxiCVRcP1xPnob
 sidebar_position: 18
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - index()
-  - python
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - pymilvus25
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -7,18 +7,18 @@ beta: false
 notebook: false
 description: "This operation adds index parameters for a specific field in a collection. | Python | MilvusClient"
 type: docx
-token: ZplAdphtooqHJkxo8GCcOFecngd
+token: Sz9rdDNxIodGENxMfFEcurLHnTe
 sidebar_position: 1
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
   - add_index()
-  - python
+  - pymilvus25
   - Serverless vector database
   - milvus open source
   - how does milvus work
@@ -62,9 +62,9 @@ IndexParams.add_index(
 
 - **metric_type** (*str*) -
 
-    The algorithm that is used to measure similarity between vectors. Possible values are **IP**, **L2**, and **COSINE**.
+    The algorithm that is used to measure similarity between vectors. Possible values: `IP`, `L2`, `COSINE`, `HAMMING`, `JACCARD`, `BM25` (used only for full text search). For more information, refer to [Metric Types](https://milvus.io/docs/metric.md).
 
-    This is available only when the specified field is a vector field. 
+    This is available only when the specified field is a vector field.
 
 - **params** (*dict*) -
 

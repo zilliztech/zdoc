@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "query_iterator() | Python | ORM"
 slug: /python/python/Collection-query_iterator
 sidebar_label: "query_iterator()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation returns a Python iterator for you to iterate over the query results. It is useful especially when the query result contains a large volume of data. | Python | ORM"
 type: docx
 token: LffbdiHhzoHe08xivF9ccmoen5d
 sidebar_position: 23
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - query_iterator()
-  - python
+  - pymilvus25
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
 displayed_sidebar: pythonSidebar
 
 ---

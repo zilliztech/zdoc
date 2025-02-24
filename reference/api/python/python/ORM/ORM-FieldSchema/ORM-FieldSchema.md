@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "FieldSchema | Python | ORM"
 slug: /python/python/ORM-FieldSchema
 sidebar_label: "FieldSchema"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "A FieldSchema instance defines the data type and related attributes of a specific field in a collection. | Python | ORM"
 type: docx
 token: EVKhdy0vwoSLSux2RW2c660unjh
 sidebar_position: 2
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - FieldSchema
-  - python
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - pymilvus25
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: pythonSidebar
 
 ---

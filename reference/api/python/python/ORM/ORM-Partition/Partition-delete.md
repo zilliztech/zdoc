@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "delete() | Python | ORM"
 slug: /python/python/Partition-delete
 sidebar_label: "delete()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation deletes entities from a partition with a boolean expression. | Python | ORM"
 type: docx
 token: V9BidASNqoWYrmxo11ecuN99neg
 sidebar_position: 1
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - zilliz
-  - zilliz cloud
-  - cloud
-  - delete()
-  - python
   - k nearest neighbor algorithm
   - ANNS
   - Vector search
   - knn algorithm
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - delete()
+  - pymilvus25
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: pythonSidebar
 
 ---

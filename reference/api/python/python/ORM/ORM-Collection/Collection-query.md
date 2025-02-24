@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "query() | Python | ORM"
 slug: /python/python/Collection-query
 sidebar_label: "query()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation conducts a scalar filtering with a specified boolean expression. | Python | ORM"
 type: docx
 token: JzcYdBQ5zoU4KpxPqUHcPLQonKd
 sidebar_position: 22
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - query()
-  - python
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - pymilvus25
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: pythonSidebar
 
 ---

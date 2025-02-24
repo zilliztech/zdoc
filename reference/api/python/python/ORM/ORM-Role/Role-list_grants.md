@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "list_grants() | Python | ORM"
 slug: /python/python/Role-list_grants
 sidebar_label: "list_grants()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation lists all privileges granted to the current role. | Python | ORM"
 type: docx
 token: YRoGdgQmWoIEaJx84ICcHTILnMe
 sidebar_position: 8
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - list_grants()
-  - python
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - pymilvus25
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 displayed_sidebar: pythonSidebar
 
 ---

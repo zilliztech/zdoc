@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "get_server_type() | Python | ORM"
 slug: /python/python/utility-get_server_type
 sidebar_label: "get_server_type()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation checks the type of the Zilliz Cloud cluster. | Python | ORM"
 type: docx
 token: UOIddRBUXotHvyx4Yyocer0mnId
 sidebar_position: 15
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - get_server_type()
-  - python
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - pymilvus25
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: pythonSidebar
 
 ---

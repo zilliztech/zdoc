@@ -10,19 +10,19 @@ type: docx
 token: CAzpdAw3wo4ZqrxhjTLcEGBBn1S
 sidebar_position: 11
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - prepare_index_params()
-  - python
+  - pymilvus25
+  - nlp search
+  - hallucinations llm
   - Multimodal search
   - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
 displayed_sidebar: pythonSidebar
 
 ---

@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "create_resource_group() | Python | ORM"
 slug: /python/python/utility-create_resource_group
 sidebar_label: "create_resource_group()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation creates a new resource group. | Python | ORM"
 type: docx
 token: X5qsdhFQ5oOhkcxOprzcOZq4nMc
 sidebar_position: 4
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - create_resource_group()
-  - python
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - pymilvus25
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: pythonSidebar
 
 ---

@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "partition() | Python | ORM"
 slug: /python/python/Collection-partition
 sidebar_label: "partition()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation gets the specified partition in the current collection. | Python | ORM"
 type: docx
 token: SvCrdEJIdosGQYxQZhrc2OAXnpd
 sidebar_position: 21
 keywords: 
+  - hybrid vector search
   - Video deduplication
   - Video similarity search
   - Vector retrieval
-  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - partition()
-  - python
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - pymilvus25
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: pythonSidebar
 
 ---

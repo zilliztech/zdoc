@@ -9,15 +9,15 @@ token: M0pgf1TX3lTotndwA7Vc3gJsnAd
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - Client
-  - python
+  - pymilvus25
 displayed_sidebar: pythonSidebar
 ---
 

@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "drop_index() | Python | ORM"
 slug: /python/python/Collection-drop_index
 sidebar_label: "drop_index()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation deletes index from the current collection. | Python | ORM"
 type: docx
 token: AtkDdtMAWodFzExARxnco5xLnsg
 sidebar_position: 9
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - drop_index()
-  - python
-  - Image Search
-  - LLMs
+  - pymilvus25
   - Machine Learning
   - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: pythonSidebar
 
 ---

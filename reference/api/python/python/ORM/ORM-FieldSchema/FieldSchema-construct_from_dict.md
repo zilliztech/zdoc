@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "construct_from_dict() | Python | ORM"
 slug: /python/python/FieldSchema-construct_from_dict
 sidebar_label: "construct_from_dict()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation constructs a FieldSchema object from a dictionary representation. | Python | ORM"
 type: docx
 token: DCLUdOpVjohl8HxPUx1cGjokngf
 sidebar_position: 1
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dict()
-  - python
+  - pymilvus25
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
 displayed_sidebar: pythonSidebar
 
 ---

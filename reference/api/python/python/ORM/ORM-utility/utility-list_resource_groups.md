@@ -3,26 +3,26 @@ displayed_sidbar: pythonSidebar
 title: "list_resource_groups() | Python | ORM"
 slug: /python/python/utility-list_resource_groups
 sidebar_label: "list_resource_groups()"
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "This operation lists all resource groups in the currently connected Zilliz Cloud cluster. | Python | ORM"
 type: docx
 token: FXTZd5FgNo9ta0xvjaIclEM1nPf
 sidebar_position: 26
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - list_resource_groups()
-  - python
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - pymilvus25
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 displayed_sidebar: pythonSidebar
 
 ---
