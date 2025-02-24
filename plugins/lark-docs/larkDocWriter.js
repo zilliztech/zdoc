@@ -1420,7 +1420,7 @@ class larkDocWriter {
                             var content = await this.__text_elements(headerBlock[blockType]['elements']);
                             content = this.__filter_content(content, this.targets)
                             content = this.__clean_headings(content)
-                            const slug = content.indexOf('{#') > 0 ? content.slice(content.indexOf('{#')+2, content.indexOf('}')) : slugify(content, {strict: true, lower: true});
+                            const slug = content.includes('{#') ? content.split('{#')[1].replace(/}$/, '') : slugify(content, {strict: true, lower: true});
                             newUrl += `#${slug}`;
                         }
                     }

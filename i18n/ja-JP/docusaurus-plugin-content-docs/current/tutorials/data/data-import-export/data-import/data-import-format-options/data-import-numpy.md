@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 
@@ -73,9 +73,9 @@ NumPyファイルとしてデータを準備するには、以下のツリー図
 
 データの準備ができたら、次のいずれかの方法を使用して、Zilliz Cloudコレクションにデータをインポートできます。
 
-- [NumPyファイルフォルダのリストからファイルをインポートする（推奨）](./data-import-numpy#numpyimport-files-from-a-list-of-numpy-file-folders-recommended)
+- [NumPyファイルフォルダのリストからファイルをインポートする（推奨）](./data-import-numpy#import-files-from-a-list-of-numpy-file-folders-recommended)
 
-- [NumPyファイルフォルダからファイルをインポートする](./data-import-numpy#numpyimport-files-from-a-numpy-file-folder)
+- [NumPyファイルフォルダからファイルをインポートする](./data-import-numpy#import-files-from-a-numpy-file-folder)
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -177,7 +177,7 @@ Zilliz Cloudは、クラウドストレージからのデータインポート�
    </tr>
    <tr>
      <td><p><strong>インポートごとの最大ファイル体格</strong></p></td>
-     <td><p>クラスタの空き容量:合計512 MB</p><p>サーバーレス&amp;専用クラスター:</p><ul><li><p>各第1レベルのサブフォルダのファイル体格の合計: 10 GB</p></li><li><p>ファイルの体格: 100 GB</p></li></ul></td>
+     <td><p>クラスタの空き容量:合計512 MB サーバーレス&amp;専用クラスター:</p><ul><li><p>各第1レベルのサブフォルダのファイル体格の合計: 10 GB</p></li><li><p>ファイルの体格: 100 GB</p></li></ul></td>
    </tr>
    <tr>
      <td><p><strong>使用可能なデータファイルの場所</strong></p></td>
