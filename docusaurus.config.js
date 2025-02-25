@@ -394,6 +394,10 @@ const config = {
           milvus: {
             outputDir: 'milvus/reference/java/docs/v2.5.x',
             imageDir: 'milvus/reference/java/images'
+          },
+          zilliz: {
+            outputDir: 'reference/api/java/java/v2',
+            imageDir: 'static/img',
           }
         }
       },

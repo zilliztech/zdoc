@@ -28,8 +28,9 @@ jobs:
         npx docusaurus fetch-lark-docs -man pymilvus25 -tar zilliz -post
         npx docusaurus fetch-lark-docs -man javaV1 -tar zilliz
         npx docusaurus fetch-lark-docs -man javaV1 -tar zilliz -post
-        npx docusaurus fetch-lark-docs -man javaV2 -tar zilliz
-        npx docusaurus fetch-lark-docs -man javaV2 -tar zilliz -post
+        npx docusaurus fetch-lark-docs -man javaV2 -src-only
+        npx docusaurus fetch-lark-docs -man javaV225 -tar zilliz
+        npx docusaurus fetch-lark-docs -man javaV225 -tar zilliz -post
         npx docusaurus fetch-lark-docs -man node -src-only
         npx docusaurus fetch-lark-docs -man nodejs25 -tar zilliz
         npx docusaurus fetch-lark-docs -man nodejs25 -tar zilliz -post
