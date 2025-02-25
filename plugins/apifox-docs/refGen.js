@@ -58,7 +58,8 @@ class refGen {
           upper_folder = page_parent.startsWith('cloud') || page_parent.startsWith('cluster') || page_parent.startsWith('pipeline') || page_parent.includes('backup') || page_parent.includes('restore') ? 'control-plane' : 'data-plane'
         }
         var page_slug = (this.get_slug(page_title, target)) + slug_suffix
-        const beta_tag = version === 'v2' ? 'FALSE' : 'NEAR DEPRECATE'
+        var beta_tag = version === 'v2' ? 'FALSE' : 'NEAR DEPRECATE'
+        beta_tag = slug.includes('invoice') || slug.includes('usage') ? 'PUBLIC' : 'FALSE'
         const page_method = method.toLowerCase()
         const specs = JSON.stringify(specification)
 
@@ -102,7 +103,8 @@ class refGen {
       const descriptions = JSON.parse(fs.readFileSync('plugins/apifox-docs/meta/descriptions.json', 'utf-8'))
       const description = descriptions.filter(x => x.name === slug)[0].description
       const position = specifications.tags.map(x => x.name).indexOf(specifications.tags[group].name)
-      const beta_tag = version === 'v2' ? 'FALSE' : 'NEAR DEPRECATE'
+      var beta_tag = version === 'v2' ? 'FALSE' : 'NEAR DEPRECATE'
+      beta_tag = page_slug.includes('invoice') || page_slug.includes('usage') ? 'PUBLIC' : 'FALSE'
       const t = template.render({
         group_name,
         position,

@@ -7,7 +7,7 @@ export const getBaseUrl = (endpoint, lang, pubTarget) => {
 
     var server = "https://api.cloud.zilliz.com";
     var children = `export BASE_URL="${server}"`
-    var prompt = i18n[lang]["admonition.control.plane.v2"]
+    var prompt = isBeta(endpoint) ? i18n[lang]["admonition.control.plane.v2"] + i18n[lang]["admonition.beta.warning"] : i18n[lang]["admonition.control.plane.v2"]
 
     if (condition && endpoint.includes('v1')) {
         server = lang === "zh-CN" ? "https://controller.api.${CLOUD_REGION}.zilliz.com.cn" : "https://controller.api.${CLOUD_REGION}.zillizcloud.com"
@@ -138,3 +138,8 @@ export const isControlPlane = (endpoint) => {
         endpoint.includes('invoices') ||
         endpoint.includes('job')
 }
+
+export const isBeta = (endpoint) => {
+    return endpoint.includes('usage') ||
+        endpoint.includes('invoice')
+}      
