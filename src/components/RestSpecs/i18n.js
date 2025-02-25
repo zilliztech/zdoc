@@ -4,7 +4,7 @@ export const i18n = {
         "admonition.cloud.region": '<ul><li>You need to replace <code>\${CLOUD_REGION}</code> with the appropriate region for your deployment.</li><li>To get the cloud region ID, refer to <a href="/docs/on-zilliz-cloud-console">On Zilliz Cloud Console</a> or <a href="/reference/restful/list-cloud-regions">List Cloud Regions</a>.</li></ul>',
         "admonition.cluster.endpoint.v1": '<ul><li>You need to fill in <code>\${CLUSTER_ENDPOINT}</code> with that of your Zilliz Cloud cluster.</li><li>To get the endpoint, use the <a href="/reference/restful/describe-cluster">Describe Cluster</a> API to extract the values from the responses.</li></ul>',
         "admonition.cluster.endpoint.v2": '<ul><li>You need to fill in <code>\${CLUSTER_ENDPOINT}</code> with that of your Zilliz Cloud cluster.</li><li>To get the endpoint, use the <a href="/reference/restful/describe-cluster-v2">Describe Cluster V2</a> API to extract the values from the responses.</li></ul>',
-        "admonition.control.plane.v2": '<<p>The control plane currently supports up to 20 requests per second per user per endpoint.</p>',
+        "admonition.control.plane.v2": '<p>The control plane currently supports up to 20 requests per second per user per endpoint.</p>',
         "base.url.format.prompt": "The base URL for this API is in the following format:",
         "section.parameters": 'Parameters',
         "section.request.body": "Request Body",

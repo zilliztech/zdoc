@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloudは現在、Public PreviewでMilvus 2.5をサポートし、セマンティック検索を補完するフルテキスト検索を導入しています。BM 25メトリックとスパースベクトルを使用して効率的なストレージと取得を行うことで、この機能により、ユーザーは変換なしでテキストを直接クエリできます。このアップデートにより、BYOCデプロイメントがPrivate Linkで強化され、セキュリティが向上し、コンプライアンスが容易になり、ネットワーク構成が簡素化されました。さらに、AWS CloudFormationを介した自動デプロイメントがサポートされ、大規模な小さなファイルのインポートの処理が最適化され、より高速なデータ取り込みが可能になりました。 | Cloud"
 type: origin
 token: CJsyw3UO5iJFcjkpPlicJhgXnbM
-sidebar_position: 1
+sidebar_position: 0
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 
@@ -57,7 +57,7 @@ Zillizのアプローチの主な利点は、事前に手動でスパースベ�
 
 さらに、**Zilliz Cloud BYOCはAWS CloudFormationを介した自動デプロイをサポート**し、データプレーンの設定と管理がさらに簡単になりました。
 
-詳細については、[BYOCをAWSにデプロイ](./deploy-byoc-aws)を参照してください。
+詳細については、[BYOCをAWSにデプロイ](/ja-JP/docs/byoc/deploy-byoc-aws)を参照してください。
 
 ## エンハンスメント{#}
 

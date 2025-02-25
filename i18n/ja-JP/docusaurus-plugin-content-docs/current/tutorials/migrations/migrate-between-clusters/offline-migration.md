@@ -7,7 +7,7 @@ notebook: FALSE
 description: "オフライン移行は、ソースクラスタからターゲットクラスタにすべての既存データを転送します。この方法は、同じ組織内および異なる組織間の移行をサポートします。計画されたメンテナンス中や小規模なデータベース移行中など、一時的な書き込み中断が許容されるシナリオに最適です。中断のない書き込み操作が必要な移行については、「ゼロダウンタイム移行」を参照してください。 | Cloud"
 type: origin
 token: NR7FwgMcyiRS9Vk7ZVCc9Q5Sn7c
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 
@@ -137,7 +137,7 @@ import Admonition from '@theme/Admonition';
 
 移行過程で問題が発生した場合は、次の手順に従ってトラブルシューティングを行い、移行を再開できます。
 
-1. [[ジョブ](null)]ページで、失敗した移行ジョブを特定してキャンセルします。
+1. [[ジョブ](./job-center)]ページで、失敗した移行ジョブを特定してキャンセルします。
 
 1. [アクション]列の[**詳細**を**表示**]をクリックして、エラーログにアクセスします。
 
