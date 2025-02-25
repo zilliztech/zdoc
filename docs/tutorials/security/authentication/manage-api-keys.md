@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - api key
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

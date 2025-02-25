@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 
@@ -155,13 +155,13 @@ A CU is the basic unit of compute resources used for parallel processing of data
    </tr>
    <tr>
      <td><p>Dedicated (Standard)</p></td>
-     <td><p>CU size x Replica Count &lt;=32</p></td>
-     <td><p>On the console, you can create up to 32 CUs for a single cluster. </p><p>However, the limit is CU size x Replica Count &lt;=32 if replicas are added.</p></td>
+     <td><p>CU size x Replica Count \&lt;=32</p></td>
+     <td><p>On the console, you can create up to 32 CUs for a single cluster.  However, the limit is CU size x Replica Count \&lt;=32 if replicas are added.</p></td>
    </tr>
    <tr>
      <td><p>Dedicated (Enterprise)</p></td>
-     <td><p>CU size x Replica Count &lt;=256</p></td>
-     <td><p>On the console, you can create up to 256 CUs for a single cluster.</p><p>However, the limit is CU size x Replica Count &lt;=256 if replicas are added.</p></td>
+     <td><p>CU size x Replica Count \&lt;=256</p></td>
+     <td><p>On the console, you can create up to 256 CUs for a single cluster. However, the limit is CU size x Replica Count \&lt;=256 if replicas are added.</p></td>
    </tr>
 </table>
 
@@ -230,7 +230,7 @@ To add replicas, the cluster needs to have **8 CUs or more**. The following limi
    </tr>
    <tr>
      <td><p>Replica count x CU size</p></td>
-     <td><p>&lt;= 256</p></td>
+     <td><p>\&lt;= 256</p></td>
      <td><p>The cluster CU size x Replica count should not exceed 256.</p></td>
    </tr>
 </table>
@@ -395,31 +395,31 @@ The following table lists the limits on the number of chunks that are allowed to
    </tr>
 </table>
 
-In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity. The following formula shows how Zilliz Cloud calculates the general capacity of a cluster. The consumed capacity should be less than the general capacity available.
+In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on the number of partitions. The following formula shows how Zilliz Cloud calculates the number of available partitions in a cluster. The number of created partitions should be less than the number of available partitions in a cluster.
 
-```java
-General Capacity = 512 x Number of CUs
+```plaintext
+Number of available partitions = 512 x Number of CUs
 ```
 
-<Admonition type="info" icon="📘" title="How can I know the general capacity of a cluster?">
+<Admonition type="info" icon="📘" title="How can I know the number of available partitions in a cluster?">
 
-<p>The general capacity of a cluster indicates the maximum physical resources allocated to the cluster, and it can be determined using the following formula:</p>
+<p>The number of available partitions in a cluster indicates the maximum physical resources allocated to the cluster, and it can be determined using the following formula:</p>
 <p><strong>\<= 512 x Number of CUs</strong></p>
 <p>For instance, </p>
 <ul>
-<li><p>In a cluster of <strong>2</strong> CUs, you can create a maximum of <strong>128</strong> collections with a general capacity of <strong>1,024</strong>.</p></li>
-<li><p>In a cluster of <strong>12</strong> CUs, you can create a maximum of <strong>768</strong> collections with a general capacity of <strong>6,144</strong>.</p></li>
-<li><p>In a cluster of <strong>32</strong> CUs or more, you can create a maximum of <strong>4,096</strong> collections with a general capacity of <strong>16,384</strong>. </p></li>
+<li><p>In a cluster of <strong>2</strong> CUs, you can create a maximum of <strong>128</strong> collections or <strong>1,024</strong> partitions.</p></li>
+<li><p>In a cluster of <strong>12</strong> CUs, you can create a maximum of <strong>768</strong> collections or <strong>6,144</strong> partitions.</p></li>
+<li><p>In a cluster of <strong>32</strong> CUs or more, you can create a maximum of <strong>4,096</strong> collections or <strong>16,384</strong> partitions. </p></li>
 </ul>
 
 </Admonition>
 
-<Admonition type="info" icon="📘" title="How can I know the consumed capacity of a cluster?">
+<Admonition type="info" icon="📘" title="How can I know the number of partitions already created in a cluster?">
 
-<p>The consumed capacity of a cluster indicates the physical resources consumed by the cluster. </p>
-<p>For instance, let's assume that you have created <strong>50</strong> collections in a cluster; each of the first <strong>20</strong> collections has <strong>20</strong> partitions, while each of the remaining <strong>30</strong> collections has <strong>10</strong> partition. The consumed capacity of the cluster can be calculated as follows:</p>
+<p>The number of partitions already created in a cluster indicates the physical resources consumed by the cluster. </p>
+<p>For instance, let's assume that you have created <strong>50</strong> collections in a cluster; each of the first <strong>20</strong> collections has <strong>20</strong> partitions, while each of the remaining <strong>30</strong> collections has <strong>10</strong> partitions. The number of partitions already created in the cluster can be calculated as follows:</p>
 <p><strong>20 (collections) x 20 (partitions) + 30 (collections) x 10 (partitions) = 400 + 300 = 700</strong></p>
-<p>Based on the above calculation, Zilliz Cloud regards the cluster has a consumed capacity of <strong>700</strong>.</p>
+<p>Based on the above calculation, the cluster has <strong>700</strong> partitions.</p>
 
 </Admonition>
 
@@ -461,7 +461,7 @@ Zilliz Cloud also imposed rate limits on collection operations including creatin
    </tr>
 </table>
 
-When calculating the consumed and general capacity, refer to the notes in [Collections](./limits#collections). Additionally, the rate limit for creating partitions is **1** partition/s per cluster.
+When calculating the number of created and available partitions, refer to the notes in [Collections](./limits#collections). Additionally, the rate limit for creating partitions is **1** partition/s per cluster.
 
 ### Fields{#fields}
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

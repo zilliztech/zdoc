@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - autoindex
   - milvus
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
 
 ---
 

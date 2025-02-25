@@ -9,10 +9,10 @@ token: MGFYf4JacldYUEdxtJdcwczAntg
 sidebar_position: 2
 sidebar_label: "BulkImport"
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud

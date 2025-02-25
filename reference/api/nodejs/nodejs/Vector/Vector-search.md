@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Node.js"
 type: docx
-token: BIlNdgI2foFEaoxmn12cLO6Jndb
+token: VNATdAYSkojgVsx5MJKcPPmMnl7
 sidebar_position: 5
 keywords: 
+  - private llms
+  - nn search
   - llm eval
   - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - search()
-  - node
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - nodejs25
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 displayed_sidebar: nodeSidebar
 
 ---
@@ -42,7 +42,6 @@ search(data): Promise<ResStatus>
 
 ```javascript
 milvusClient.search({
-   db_name: string,
    collection_name: string,
    partition_names?: string[], 
    data: number[] | number[][], 
@@ -53,15 +52,14 @@ milvusClient.search({
    partition_names?: string | list[string],
    consistency_level?: string,
    ignore_growing?: boolean,
+   group_by_field?: string,
+   group_size?: number,
+   strict_group_size?: boolean,
    timeout?: number,
  })
 ```
 
 **PARAMETERS:**
-
-- **db_name** (*string*) -
-
-    The name of the database that holds the target collection.
 
 - **collection_name** (*string*) -
 
@@ -99,6 +97,8 @@ milvusClient.search({
 
     The sum of this value and **offset** in **param** should be less than 16,384. 
 
+    In a grouping search, however, `limit` specifies the maximum number of groups to return, rather than individual entities. Each group is formed based on the specified `group_by_field`.
+
 - **offset** (*number*) - 
 
     The number of records to skip in the search result. 
@@ -123,13 +123,27 @@ milvusClient.search({
 
         Zilliz Cloud uses a unified parameter to simplify search parameter tuning instead of leaving you to work with a bunch of search parameters specific to various index algorithms.
 
-        The value defaults to **1**, and ranges from **1** to **10**. Increasing the value results in a higher recall rate with degraded search performance. For details, refer to [Tune Recall Rate](/docs/tune-recall-rate).
+        The value defaults to **1**, and ranges from **1** to **5**. Increasing the value results in a higher recall rate with degraded search performance.
 
     - **page_retain_order** (*bool*) -
 
         Whether to retain the order of the search result when `offset` is provided. 
 
         This parameter applies only when you also set `radius`.
+
+    - **output_fields** (*string[]*) -
+
+        A list of field names to include in each entity in return.
+
+        The value defaults to **None**. If left unspecified, only the primary field is included.
+
+    - **partition_names** (*string[]*) -
+
+        A list of the names of the partitions to search.
+
+    - **timeout** (*number*) -
+
+        The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
 - **output_fields** (*string[]*) -
 
@@ -140,6 +154,10 @@ milvusClient.search({
 - **partition_names** (*string[]*) -
 
     A list of the names of the partitions to search.
+
+- **group_by_field** (*string*) -
+
+    Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.
 
 - **timeout** (*number*) -
 

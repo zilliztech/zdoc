@@ -2,7 +2,7 @@
 title: "insert() | Java | v1"
 slug: /java/v1-Collection-insert
 sidebar_label: "insert()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "A MilvusClient interface. This method inserts entities into a specified collection. | Java | v1"
 type: origin

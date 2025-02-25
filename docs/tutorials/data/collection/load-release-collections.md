@@ -15,10 +15,10 @@ keywords:
   - collection
   - load
   - release
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - stemmer
-  - Image Search
   - LLMs
   - Machine Learning
   - RAG
+  - NLP
 
 ---
 

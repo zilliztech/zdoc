@@ -10,19 +10,19 @@ type: docx
 token: Sqoed1lkwo8umixJJO1cvKIxnZc
 sidebar_position: 7
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - releasePartitions()
-  - node
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - nodejs25
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: nodeSidebar
 
 ---

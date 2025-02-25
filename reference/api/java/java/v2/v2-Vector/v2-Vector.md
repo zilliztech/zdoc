@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "Methods related to CRUD operations within a collection. | Java | v2"
 type: folder
-token: I78jfSEHvl292Tdwoy7cO2KVn0g
-sidebar_position: 7
+token: YBQDf0VrtlUZx3dVkdKckKT5ngh
+sidebar_position: 3
 sidebar_label: "Vector"
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - Vector
-  - javaV2
+  - javaV225
 displayed_sidebar: javaSidebar
 ---
 

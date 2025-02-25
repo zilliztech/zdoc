@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - text data
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 
@@ -338,10 +338,10 @@ This collection contains four fields:  three output fields of the **INDEX_TEXT**
 
 <table>
    <tr>
-     <th><p>id</p><p>(Data Type: Int64)</p></th>
-     <th><p>text</p><p>(Data type: VarChar)</p></th>
-     <th><p>embedding</p><p>(Data type: FLOAT_VECTOR)</p></th>
-     <th><p>source</p><p>(Data type: VarChar)</p></th>
+     <th><p>id (Data Type: Int64)</p></th>
+     <th><p>text (Data type: VarChar)</p></th>
+     <th><p>embedding (Data type: FLOAT_VECTOR)</p></th>
+     <th><p>source (Data type: VarChar)</p></th>
    </tr>
 </table>
 

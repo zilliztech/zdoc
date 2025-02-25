@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

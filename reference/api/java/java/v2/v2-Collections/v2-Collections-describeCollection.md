@@ -10,19 +10,19 @@ type: docx
 token: Lc03dk5YVo8Ilvx4XINcv5KBn9e
 sidebar_position: 9
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
-  - javaV2
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - javaV225
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: javaSidebar
 
 ---

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

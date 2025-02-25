@@ -6,18 +6,18 @@ notebook: false
 description: "Methods related to implement role-based access control to your resources. | Node.js"
 type: folder
 token: H1JWfZh74lkVhgdfGiKcQfsinPg
-sidebar_position: 1
+sidebar_position: 6
 sidebar_label: "Authentication"
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - Authentication
-  - node
+  - nodejs25
 displayed_sidebar: nodeSidebar
 ---
 

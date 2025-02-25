@@ -14,10 +14,10 @@ keywords:
   - cloud
   - concepts
   - rerankers
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

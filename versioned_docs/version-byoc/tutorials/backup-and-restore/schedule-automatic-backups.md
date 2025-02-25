@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

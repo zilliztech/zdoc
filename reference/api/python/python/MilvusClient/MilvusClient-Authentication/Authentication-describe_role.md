@@ -10,19 +10,19 @@ type: docx
 token: JJz3dFrE2oJP3AxySWYcJlf4nMh
 sidebar_position: 5
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - describe_role()
   - pymilvus25
+  - Large language model
+  - Vectorization
   - k nearest neighbor algorithm
   - ANNS
-  - Vector search
-  - knn algorithm
 displayed_sidebar: pythonSidebar
 
 ---

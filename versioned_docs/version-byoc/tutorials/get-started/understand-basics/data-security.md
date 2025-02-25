@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data
   - security
-  - Similarity Search
   - multimodal RAG
   - llm hallucinations
   - hybrid search
+  - lexical search
 
 ---
 

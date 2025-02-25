@@ -6,18 +6,18 @@ notebook: false
 description: "Classes and methods for you to manage the MilvusClient instances. | Java | v2"
 type: folder
 token: YEBjfrOXWl8s00dDTvdcMiYDn0d
-sidebar_position: 2
+sidebar_position: 5
 sidebar_label: "Client"
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - Client
-  - javaV2
+  - javaV225
 displayed_sidebar: javaSidebar
 ---
 

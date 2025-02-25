@@ -17,10 +17,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

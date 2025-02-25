@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 
@@ -1055,7 +1055,7 @@ The following table summarizes the behavior of nullable columns and default valu
      <td><p>Non-null</p></td>
      <td><p>None/null</p></td>
      <td><p>Uses the default value</p></td>
-     <td><p>Field: <code>age</code></p><p>Default value: <code>18</code></p><p>User input: null</p><p>Result: stored as <code>18</code></p></td>
+     <td><p>Field: <code>age</code> Default value: <code>18</code></p><p>User input: null</p><p>Result: stored as <code>18</code></p></td>
    </tr>
    <tr>
      <td><p>✅</p></td>
@@ -1063,7 +1063,7 @@ The following table summarizes the behavior of nullable columns and default valu
      <td><p>-</p></td>
      <td><p>None/null</p></td>
      <td><p>Stored as null</p></td>
-     <td><p>Field: <code>middle_name</code></p><p>Default value: -</p><p>User input: null</p><p>Result: stored as null</p></td>
+     <td><p>Field: <code>middle_name</code> Default value: -</p><p>User input: null</p><p>Result: stored as null</p></td>
    </tr>
    <tr>
      <td><p>❌</p></td>
@@ -1071,7 +1071,7 @@ The following table summarizes the behavior of nullable columns and default valu
      <td><p>Non-null</p></td>
      <td><p>None/null</p></td>
      <td><p>Uses the default value</p></td>
-     <td><p>Field: <code>status</code></p><p>Default value: <code>"active"</code></p><p>User input: null</p><p>Result: stored as <code>"active"</code></p></td>
+     <td><p>Field: <code>status</code> Default value: <code>"active"</code></p><p>User input: null</p><p>Result: stored as <code>"active"</code></p></td>
    </tr>
    <tr>
      <td><p>❌</p></td>
@@ -1079,7 +1079,7 @@ The following table summarizes the behavior of nullable columns and default valu
      <td><p>-</p></td>
      <td><p>None/null</p></td>
      <td><p>Throws an error</p></td>
-     <td><p>Field: <code>email</code></p><p>Default value: -</p><p>User input: null</p><p>Result: Operation rejected, system throws an error</p></td>
+     <td><p>Field: <code>email</code> Default value: -</p><p>User input: null</p><p>Result: Operation rejected, system throws an error</p></td>
    </tr>
    <tr>
      <td><p>❌</p></td>
@@ -1087,7 +1087,7 @@ The following table summarizes the behavior of nullable columns and default valu
      <td><p>Null</p></td>
      <td><p>None/null</p></td>
      <td><p>Throws an error</p></td>
-     <td><p>Field: <code>username</code></p><p>Default value: null</p><p>User input: null</p><p>Result: Operation rejected, system throws an error</p></td>
+     <td><p>Field: <code>username</code> Default value: null</p><p>User input: null</p><p>Result: Operation rejected, system throws an error</p></td>
    </tr>
 </table>
 

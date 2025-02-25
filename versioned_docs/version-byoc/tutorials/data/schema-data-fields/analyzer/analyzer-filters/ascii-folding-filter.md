@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - ascii folding
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

@@ -10,19 +10,19 @@ type: docx
 token: GxAZd9O9gozzhExhMHWcMnXPngh
 sidebar_position: 1
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - BGERerankFunction
   - pymilvus25
+  - rag vector database
   - what is vector db
   - what are vector databases
   - vector databases comparison
-  - Faiss
 displayed_sidebar: pythonSidebar
 
 ---

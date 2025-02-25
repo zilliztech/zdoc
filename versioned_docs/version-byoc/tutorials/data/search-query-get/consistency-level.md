@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

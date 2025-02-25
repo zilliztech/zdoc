@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

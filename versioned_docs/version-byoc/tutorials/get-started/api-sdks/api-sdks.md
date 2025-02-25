@@ -20,10 +20,10 @@ keywords:
   - go
   - node
   - nodejs
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

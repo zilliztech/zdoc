@@ -10,19 +10,19 @@ type: docx
 token: LQMGdRHjKogdeMxekCtcdBLqnNf
 sidebar_position: 10
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStatistics()
-  - node
+  - nodejs25
+  - ANNS
+  - Vector search
+  - knn algorithm
   - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
 displayed_sidebar: nodeSidebar
 
 ---

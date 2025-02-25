@@ -16,10 +16,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 
@@ -326,7 +326,7 @@ Once the schema and index are defined, you can create a collection that includes
 ```python
 # Create Collection
 client.create_collection(
-    collection_name="your_collection_name",
+    collection_name="my_varchar_collection",
     schema=schema,
     index_params=index_params
 )

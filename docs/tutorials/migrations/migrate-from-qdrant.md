@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Qdrant is a vector database that provides similarity search capabilities. Migrating data from Qdrant to Zilliz Cloud allows users to leverage Zilliz Cloud's advanced search and analytics features while maintaining compatibility with the multi-vector structure supported by Qdrant. | Cloud"
 type: origin
 token: LqMIw1DXyiHUjAk9TEAcqHp6nDd
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
   - cloud
   - migrations
   - qdrant
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 
@@ -35,8 +35,6 @@ This guide provides step-by-step instructions for migrating your data from Qdran
 - When you migrate data from Qdrant to Zilliz Cloud, vector fields are transferred directly, while payloads from Qdrant are stored as JSON in a dynamic field on Zilliz Cloud. For details on the dynamic field feature, refer to [Dynamic Field](./enable-dynamic-field).
 
 - Null payload values are not supported for migration. Instead of setting a key to hold a null value, remove the key from the payload.
-
-- To ensure compatibility, Auto ID will be disabled and cannot be modified for each target collection on Zilliz Cloud.
 
 - Each migration task is limited to a single source Qdrant cluster. You may enable multiple migration jobs if you have data in multiple source clusters.
 

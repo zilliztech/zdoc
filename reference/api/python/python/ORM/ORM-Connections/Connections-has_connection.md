@@ -10,19 +10,19 @@ type: docx
 token: XeZwdeK64oGD8rx9DA3ciqNinnh
 sidebar_position: 6
 keywords: 
+  - ANNS
+  - Vector search
+  - knn algorithm
   - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - has_connection()
   - pymilvus25
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: pythonSidebar
 
 ---

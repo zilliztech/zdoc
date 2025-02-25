@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

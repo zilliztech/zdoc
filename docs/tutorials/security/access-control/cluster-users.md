@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

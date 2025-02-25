@@ -7,17 +7,17 @@ notebook: FALSE
 description: "PostgreSQL](https//www.postgresql.org/) is a robust, open-source, object-relational database engine renowned for its extensibility, data integrity, and performance. By utilizing the [pgvector extension, PostgreSQL gains the capability to store and manage vector data. | Cloud"
 type: origin
 token: CiVHwbwPwipX5SkFkqVcLpESnfe
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
   - cloud
   - migrations
   - postgresql
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 
@@ -33,8 +33,6 @@ If you have PostgreSQL databases with [pgvector](https://github.com/pgvector/pgv
 ## Considerations{#considerations}
 
 - You can migrate the following PostgreSQL data types: **vector**, **text**/**varchar**/**date**/**time**/**json**, **bigint**, **integer**, **smallint**, **double precision**, **real**, **boolean**, **array**. If your table has fields with unsupported data types, you can choose not to migrate those fields or submit a [support ticket](https://support.zilliz.com/hc/en-us/requests/new). For information on how PostgreSQL data types are mapped to Zilliz Cloud, refer to [Field mapping reference](./migrate-from-pgvector#field-mapping-reference).
-
-- To ensure compatibility, Auto ID will be disabled and cannot be modified for each target collection on Zilliz Cloud.
 
 - For each migration task, you can select only one vector field from each source table.
 
@@ -118,47 +116,52 @@ Review the table below to understand how PostgreSQL field types map to Zilliz Cl
    </tr>
    <tr>
      <td><p>vector</p></td>
-     <td><p>FloatVector</p></td>
-     <td><p>Vector dimensions remain unchanged. Specify <strong>L2</strong> or <strong>IP</strong> as the metric type.</p></td>
+     <td><p><code>FLOAT_VECTOR</code></p></td>
+     <td><p>Vector dimensions remain unchanged.</p></td>
    </tr>
    <tr>
-     <td><p>text/varchar/date/time/json</p></td>
-     <td><p>VarChar</p></td>
-     <td><p>Set Max Length (1 to 65,535). Strings exceeding the limit can trigger migration errors.</p></td>
+     <td><p>text/varchar/date/time</p></td>
+     <td><p><code>VARCHAR</code></p></td>
+     <td><p>Stored as a string.</p></td>
    </tr>
    <tr>
      <td><p>bigint</p></td>
-     <td><p>Int64</p></td>
+     <td><p><code>INT64</code></p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
      <td><p>integer</p></td>
-     <td><p>Int32</p></td>
+     <td><p><code>INT32</code></p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
      <td><p>smallint</p></td>
-     <td><p>int16</p></td>
+     <td><p><code>INT16</code></p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
      <td><p>double precision</p></td>
-     <td><p>Double</p></td>
+     <td><p><code>DOUBLE</code></p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
      <td><p>real</p></td>
-     <td><p>Float</p></td>
+     <td><p><code>FLOAT</code></p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
      <td><p>boolean</p></td>
-     <td><p>Bool</p></td>
+     <td><p><code>BOOL</code></p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
      <td><p>array</p></td>
-     <td><p>array</p></td>
+     <td><p><code>ARRAY</code></p></td>
+     <td><p>-</p></td>
+   </tr>
+   <tr>
+     <td><p>json</p></td>
+     <td><p><code>JSON</code></p></td>
      <td><p>-</p></td>
    </tr>
 </table>

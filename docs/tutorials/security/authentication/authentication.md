@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

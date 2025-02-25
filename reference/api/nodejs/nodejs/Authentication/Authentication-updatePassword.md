@@ -10,19 +10,19 @@ type: docx
 token: BCGKdCttdotF32xUJTec8UFlndg
 sidebar_position: 15
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - updatePassword()
-  - node
+  - nodejs25
+  - AI chatbots
   - cosine distance
   - what is a vector database
   - vectordb
-  - multimodal vector database retrieval
 displayed_sidebar: nodeSidebar
 
 ---

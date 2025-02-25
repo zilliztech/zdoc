@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

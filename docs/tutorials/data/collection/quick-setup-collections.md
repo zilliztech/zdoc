@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - quick-setup
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

@@ -10,19 +10,19 @@ type: docx
 token: AQ1ydMXbOog5VJxITgUc4GFvnVe
 sidebar_position: 28
 keywords: 
+  - What is unstructured data
+  - Vector embeddings
   - Vector store
   - open source vector database
-  - Vector index
-  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - pymilvus25
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: pythonSidebar
 
 ---

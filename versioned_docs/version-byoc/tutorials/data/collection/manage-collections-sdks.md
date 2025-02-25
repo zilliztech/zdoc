@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 
@@ -745,7 +745,7 @@ fmt.Println("collection created")
 
 ### Set Collection TTL{#set-collection-ttl}
 
-If a collection needs to be dropped for a specific period, consider setting its Time-To-Live (TTL) in seconds. Once the TTL times out, Zilliz Cloud deletes entities in the collection and drops the collection. The deletion is asynchronous, indicating that searches and queries are still possible before the deletion is complete.
+If the data in a collection needs to be dropped for a specific period, consider setting its Time-To-Live (TTL) in seconds. Once the TTL times out, Zilliz Cloud deletes entities in the collection. The deletion is asynchronous, indicating that searches and queries are still possible before the deletion is complete.
 
 The following code snippet sets the TTL to one day (86400 seconds). You are advised to set the TTL to a couple of days at minimum.
 

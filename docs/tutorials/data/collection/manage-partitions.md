@@ -15,10 +15,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

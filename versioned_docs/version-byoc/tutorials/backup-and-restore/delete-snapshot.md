@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

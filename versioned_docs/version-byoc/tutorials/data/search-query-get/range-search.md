@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - range search
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 
@@ -55,27 +55,27 @@ The way to set **radius** and **range_filter** varies with the metric type of th
    <tr>
      <td><p><code>L2</code></p></td>
      <td><p>A smaller L2 distance indicates a higher similarity.</p></td>
-     <td><p>To ignore the most similar vector embeddings, ensure that</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
+     <td><p>To ignore the most similar vector embeddings, ensure that <code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
    </tr>
    <tr>
      <td><p><code>IP</code></p></td>
      <td><p>A greater IP distance indicates a higher similarity.</p></td>
-     <td><p>To ignore the most similar vector embeddings, ensure that</p><p><code>radius</code> &lt; distance &lt;= <code>range_filter</code></p></td>
+     <td><p>To ignore the most similar vector embeddings, ensure that <code>radius</code> &lt; distance &lt;= <code>range_filter</code></p></td>
    </tr>
    <tr>
      <td><p><code>COSINE</code></p></td>
      <td><p>A greater COSINE distance indicates a higher similarity.</p></td>
-     <td><p>To ignore the most similar vector embeddings, ensure that</p><p><code>radius</code> &lt; distance &lt;= <code>range_filter</code></p></td>
+     <td><p>To ignore the most similar vector embeddings, ensure that <code>radius</code> &lt; distance &lt;= <code>range_filter</code></p></td>
    </tr>
    <tr>
      <td><p><code>JACCARD</code></p></td>
      <td><p>A smaller Jaccard distance indicates a higher similarity.</p></td>
-     <td><p>To ignore the most similar vector embeddings, ensure that</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
+     <td><p>To ignore the most similar vector embeddings, ensure that <code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
    </tr>
    <tr>
      <td><p><code>HAMMING</code></p></td>
      <td><p>A smaller Hamming distance indicates a higher similarity.</p></td>
-     <td><p>To ignore the most similar vector embeddings, ensure that</p><p><code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
+     <td><p>To ignore the most similar vector embeddings, ensure that <code>range_filter</code> &lt;= distance &lt; <code>radius</code></p></td>
    </tr>
 </table>
 

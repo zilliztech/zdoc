@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

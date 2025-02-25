@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - pricing
-  - Large language model
   - Vectorization
   - k nearest neighbor algorithm
   - ANNS
+  - Vector search
 
 ---
 

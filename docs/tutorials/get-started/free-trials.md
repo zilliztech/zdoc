@@ -14,10 +14,10 @@ keywords:
   - cloud
   - free trial
   - milvus
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

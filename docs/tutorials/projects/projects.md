@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

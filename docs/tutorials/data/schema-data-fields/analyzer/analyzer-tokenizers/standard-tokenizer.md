@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - standard-tokenizer
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

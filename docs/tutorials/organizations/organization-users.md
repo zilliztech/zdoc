@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

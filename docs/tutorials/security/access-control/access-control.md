@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

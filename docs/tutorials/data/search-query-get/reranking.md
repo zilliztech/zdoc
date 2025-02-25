@@ -16,10 +16,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

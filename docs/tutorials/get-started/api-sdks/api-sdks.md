@@ -20,10 +20,10 @@ keywords:
   - go
   - node
   - nodejs
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

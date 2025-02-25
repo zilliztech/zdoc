@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - alphanumonly
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

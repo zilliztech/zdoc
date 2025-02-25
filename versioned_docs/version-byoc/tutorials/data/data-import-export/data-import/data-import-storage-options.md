@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
+  - semantic search
+  - Anomaly Detection
   - sentence transformers
   - Recommender systems
-  - information retrieval
-  - dimension reduction
 
 ---
 

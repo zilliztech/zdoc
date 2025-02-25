@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

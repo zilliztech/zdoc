@@ -14,10 +14,10 @@ keywords:
   - milvus
   - vector database
   - shared responsibilities
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

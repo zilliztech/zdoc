@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - ascii folding
+  - milvus
+  - Zilliz
+  - milvus vector database
   - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
 
 ---
 

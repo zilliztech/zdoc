@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation lists all existing databases. | Node.js"
 type: docx
-token: IgUndv7TCoRpWOxS5hkcXrypndd
+token: Kp9Dd2dIgoxyDixuqtqctPZXnFb
 sidebar_position: 3
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
-  - node
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - nodejs25
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: nodeSidebar
 
 ---

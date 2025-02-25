@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Information Retrieval (IR) systems, also known as search engines, are essential for various AI applications such as Retrieval-augmented generation (RAG), image search, and product recommendation. The first step in developing an IR system is designing the data model, which involves analyzing business requirements, determining how to organize information, and indexing data to make it semantically searchable. | Cloud"
 type: origin
 token: PV2bwNENViEjXWkOgzZcXoKHnce
-sidebar_position: 13
+sidebar_position: 14
 keywords: 
   - zilliz
   - vector database
@@ -16,10 +16,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

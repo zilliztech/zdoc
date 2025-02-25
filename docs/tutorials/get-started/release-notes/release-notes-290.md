@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 
@@ -83,7 +83,7 @@ For details, check out the [Grouping Search](./grouping-search) guide and the ex
 
 Machine learning and neural networks often use half-precision data types, such as Float16 and BFloat- While these data types can improve query efficiency and reduce memory usage, they come with a tradeoff of reduced accuracy. With this release, Zilliz Cloud now supports these data types for vector fields.
 
-For deatils, refer to the [Search & Rerank](./search-query-get) and the example code in [float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/float16_example.py) and [bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/bfloat16_example.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials.*
+For deatils, refer to the [Search & Rerank](./search-query-get) and the example code in [float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/float16_example.py) and [bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/bfloat16_example.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials.*
 
 ### Refined MilvusClient Interfaces{#refined-milvusclient-interfaces}
 

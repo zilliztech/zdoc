@@ -15,10 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

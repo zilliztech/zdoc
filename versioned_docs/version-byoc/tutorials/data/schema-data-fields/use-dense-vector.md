@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

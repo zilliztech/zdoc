@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

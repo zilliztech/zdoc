@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

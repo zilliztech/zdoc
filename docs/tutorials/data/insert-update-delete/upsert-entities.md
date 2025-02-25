@@ -17,10 +17,10 @@ keywords:
   - upsert
   - update
   - insert
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

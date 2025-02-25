@@ -15,10 +15,10 @@ keywords:
   - backup
   - files
   - view
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

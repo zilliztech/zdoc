@@ -16,10 +16,10 @@ keywords:
   - ingest
   - search
   - delete
+  - Chroma vector database
   - nlp search
   - hallucinations llm
   - Multimodal search
-  - vector search algorithms
 
 ---
 

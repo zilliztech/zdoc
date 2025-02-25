@@ -10,19 +10,19 @@ type: docx
 token: BqtYdPHHPoNhyKxhSnEcVOKenFb
 sidebar_position: 3
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus25
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
 displayed_sidebar: pythonSidebar
 
 ---

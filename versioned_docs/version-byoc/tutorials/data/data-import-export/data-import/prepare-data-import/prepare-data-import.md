@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

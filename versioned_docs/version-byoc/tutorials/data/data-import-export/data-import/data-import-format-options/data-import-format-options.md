@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

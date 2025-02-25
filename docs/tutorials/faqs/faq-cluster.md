@@ -39,7 +39,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 Generally, a free cluster can handle 1 million 768-dimensional vectors. However, the actual capacity depends on your schema. 
 
-If your data exceeds the maximum capacity of a free cluster, please [upgrade](./select-zilliz-cloud-service-plans#select-a-cluster-plan) to Serverless or Dedicated plan to create a new cluster and [migrate your data](./migrate-between-clusters) there. For more information about the capacity of a  cluster, please refer to [Select the Right CU](./cu-types-explained#assess-capacity)
+If your data exceeds the maximum capacity of a free cluster, please [upgrade](./select-zilliz-cloud-service-plans#select-a-cluster-plan) to Serverless or Dedicated plan to create a new cluster and [migrate your data](./offline-migration) there. For more information about the capacity of a  cluster, please refer to [Select the Right CU](./cu-types-explained#assess-capacity)
 
 ### What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?{#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources}
 
@@ -57,15 +57,15 @@ Yes. To change the CU type, you need to follow the steps below.
 
 1. Create a new cluster with the desired CU type. Use the [calculator](https://zilliz.com/pricing#calculator) to determine the CU size of this new cluster.
 
-1. [Migrate](./migrate-between-clusters) the data from the current cluster to the new cluster you just created. Alternatively, you can also [contact us](https://support.zilliz.com/hc/en-us) to handle the data migration between clusters for you. Please specify your source cluster and target cluster when reaching out to us.
+1. [Migrate](./offline-migration) the data from the current cluster to the new cluster you just created. Alternatively, you can also [contact us](https://support.zilliz.com/hc/en-us) to handle the data migration between clusters for you. Please specify your source cluster and target cluster when reaching out to us.
 
 ### Can I change the cloud region of my cluster after it is created?{#can-i-change-the-cloud-region-of-my-cluster-after-it-is-created}
 
 Yes. To change the cloud region of your cluster, you need to follow the steps below.
 
-1. Create a new cluster with the desired cloud region. Use the [calculator](https://zilliz.com/pricing#calculator) to determine the CU size of this new cluster.
+1. Create a new cluster with the desired cloud region.
 
-1. [Migrate](./migrate-between-clusters) the data from the current cluster to the new cluster you just created. Alternatively, you can also [contact us](https://support.zilliz.com/hc/en-us) to handle the data migration between clusters for you. Please specify your source cluster and target cluster when reaching out to us.
+1. [Migrate](./offline-migration) the data from the current cluster to the new cluster you just created. Alternatively, you can also [contact us](https://support.zilliz.com/hc/en-us) to handle the data migration between clusters for you. Please specify your source cluster and target cluster when reaching out to us.
 
 ### How can I scale down my cluster CU size?{#how-can-i-scale-down-my-cluster-cu-size}
 

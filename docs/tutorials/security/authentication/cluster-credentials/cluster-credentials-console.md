@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - console
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

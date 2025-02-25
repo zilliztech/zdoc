@@ -10,19 +10,19 @@ type: docx
 token: OCjUdfc6eo0VihxNUGmcqb7FnTh
 sidebar_position: 1
 keywords: 
+  - what are vector databases
+  - vector databases comparison
   - Faiss
   - Video search
-  - AI Hallucination
-  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
-  - javaV2
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - javaV225
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: javaSidebar
 
 ---

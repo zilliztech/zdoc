@@ -10,19 +10,19 @@ type: docx
 token: FZuddXocNopEufxRFGdcbvkRnnb
 sidebar_position: 6
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - list_databases()
   - pymilvus25
+  - Hierarchical Navigable Small Worlds
   - Dense embedding
   - Faiss vector database
   - Chroma vector database
-  - nlp search
 displayed_sidebar: pythonSidebar
 
 ---

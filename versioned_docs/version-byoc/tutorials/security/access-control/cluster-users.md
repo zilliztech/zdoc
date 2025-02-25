@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

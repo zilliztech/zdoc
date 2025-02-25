@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - pricing
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

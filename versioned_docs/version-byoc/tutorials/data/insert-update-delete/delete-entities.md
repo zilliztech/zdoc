@@ -16,10 +16,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

@@ -2,7 +2,7 @@
 title: "releaseCollection() | Java | v1"
 slug: /java/v1-Collection-releaseCollection
 sidebar_label: "releaseCollection()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "A MilvusClient interface. This method releases the specified collection and all data within it from memory. | Java | v1"
 type: origin

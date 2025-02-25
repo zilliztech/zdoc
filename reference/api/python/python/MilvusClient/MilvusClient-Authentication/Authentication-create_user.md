@@ -10,19 +10,19 @@ type: docx
 token: BDupd28JqoNY9HxVOTfcv86enRe
 sidebar_position: 4
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
   - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
   - create_user()
   - pymilvus25
-  - Agentic RAG
   - rag llm architecture
   - private llms
   - nn search
+  - llm eval
 displayed_sidebar: pythonSidebar
 
 ---

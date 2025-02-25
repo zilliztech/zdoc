@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

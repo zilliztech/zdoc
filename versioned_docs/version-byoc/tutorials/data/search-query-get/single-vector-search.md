@@ -16,10 +16,10 @@ keywords:
   - data
   - vector search
   - ann
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

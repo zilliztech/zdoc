@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

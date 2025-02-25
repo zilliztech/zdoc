@@ -14,10 +14,10 @@ keywords:
   - cloud
   - index
   - manage
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

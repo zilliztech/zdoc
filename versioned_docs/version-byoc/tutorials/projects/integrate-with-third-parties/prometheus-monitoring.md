@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

@@ -10,19 +10,19 @@ type: docx
 token: FgbjdQHBEoITxgxk7NMc1NzpnAc
 sidebar_position: 2
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus25
+  - nn search
+  - llm eval
   - Sparse vs Dense
   - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
 displayed_sidebar: pythonSidebar
 
 ---

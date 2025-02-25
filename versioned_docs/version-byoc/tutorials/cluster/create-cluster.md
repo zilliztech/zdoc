@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
@@ -37,7 +37,7 @@ Ensure:
 
 - Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see [Access Control](./access-control).
 
-## Create a dedicated cluster{#create-a-dedicated-cluster}
+## Create a cluster{#create-a-cluster}
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 

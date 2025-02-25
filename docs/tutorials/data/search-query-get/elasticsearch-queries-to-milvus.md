@@ -19,10 +19,10 @@ keywords:
   - filtering
   - elasticsearch queries
   - query mapping
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 
@@ -54,11 +54,6 @@ The table below outlines some Elasticsearch query patterns and their correspondi
      <td><p><a href="./elasticsearch-queries-to-milvus#match-query">Match query</a></p></td>
      <td><p>Full-text search</p></td>
      <td><p>Both provide similar sets of capabilities.</p></td>
-   </tr>
-   <tr>
-     <td><p><a href="./elasticsearch-queries-to-milvus#non-scoring-match-query-equivalent-in-milvus">Non-scoring match query</a></p></td>
-     <td><p>Text match</p></td>
-     <td><p>All match queries in Elasticsearch generate relevance scores. </p><p>Milvus provides a non-scoring filter named <code>TEXT_MATCH</code> to provide similar capabilities of an Elasticsearch match query.</p></td>
    </tr>
    <tr>
      <td colspan="3"><p><strong>Term-level queries</strong></p></td>
@@ -145,28 +140,6 @@ res = client.search(
 In the example above, `message_sparse` is a sparse vector field derived from a VarChar field named `message`. Milvus uses the BM25 embedding model to convert the values in the `message` field into sparse vector embeddings and stores them in the `message_sparse` field. Upon receiving the search request, Milvus embeds the plain text query payload using the same BM25 model and performs a sparse vector search and returns the `id` and `message` fields specified in the `output_fields` parameter along with the corresponding similarity scores.
 
 To use this functionality, you must enable the analyzer on the `message` field and define a function to derive the `message_sparse` field from it. For detailed instructions on enabling the analyzer and creating the derivative function in Milvus, refer to [Full Text Search](./full-text-search).
-
-### Non-scoring match query equivalent in Milvus{#non-scoring-match-query-equivalent-in-milvus}
-
-Elasticsearch does not support non-scoring match queries. Every match query always involves relevance score generation. However in Milvus, you can enhance vector searches by incorporating exact keyword match filtering using the `TEXT_MATCH` operator. This approach ensures that search results contain specific terms, thereby improving recall.
-
-```python
-# Filter entities whose message value contains the exact terms `Jamaica`
-filter = "TEXT_MATCH(message, 'Jamaica')"
-
-# Assuming 'message_vector' is the vector field and 'message' is the VARCHAR field
-result = MilvusClient.search(
-    collection_name="my_collection", 
-    anns_field="message_vector", 
-    data=[[1, -2.5, 3]], # vector embeddings of the phrase `How is the weather in Jamaica?` 
-    filter=filter,
-    search_params={"params": {"nprobe": 10}},
-    limit=10, 
-    output_fields=["id", "message"] 
-)
-```
-
-Instead of using Milvus to generate sparse vector embeddings into a derived field as shown in the [Match query](./elasticsearch-queries-to-milvus#match-query), the above example converts the values in the `message` field into dense vectors and uses a `TEXT_MATCH` filter to ensure the search results are closely related to **Jamaica**. Specifically, Milvus performs a text match to analyze and filter entities that contain the word **Jamaica** in the `message` field, followed by a vector search within this filtered subset to improve search recall.
 
 ## Term-level queries{#term-level-queries}
 
@@ -305,9 +278,17 @@ resp = client.search(
 In Milvus, you can find the entities whose values in the specified field are exactly the specified term as follows:
 
 ```python
+# use ==
 res = client.query(
     collection_name="my_collection",
-    filter='status == "retired"',
+    filter='status=="retired"',
+    output_fields=["id", "user", "status"]
+)
+
+# use TEXT_MATCH
+res = client.query(
+    collection_name="my_collection",
+    filter='TEXT_MATCH(status, "retired")',
     output_fields=["id", "user", "status"]
 )
 ```
@@ -339,9 +320,17 @@ resp = client.search(
 Milvus does not have a complete equivalence of this one. However, you can find the entities whose values in the specified field are one of the specified terms as follows:
 
 ```python
+# use in
 res = client.query(
     collection_name="my_collection",
     filter='degree in ["graduate", "post-graduate"]',
+    output_fields=["id", "user", "degree"]
+)
+
+# use TEXT_MATCH
+res = client.query(
+    collection_name="my_collection",
+    filter='TEXT_MATCH(degree, "graduate post-graduate")',
     output_fields=["id", "user", "degree"]
 )
 ```

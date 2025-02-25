@@ -2,7 +2,7 @@
 title: "searchIterator() | Java | v1"
 slug: /java/v1-QuerySearch-searchIterator
 sidebar_label: "searchIterator()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "MilvusClient interface. This method returns a Python iterator for you to iterate over the search results. It is useful especially when the search result contains a large volume of data. | Java | v1"
 type: origin

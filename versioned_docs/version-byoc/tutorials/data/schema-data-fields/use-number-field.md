@@ -18,10 +18,10 @@ keywords:
   - int
   - integer
   - float
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

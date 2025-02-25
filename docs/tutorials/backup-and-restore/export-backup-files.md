@@ -17,10 +17,10 @@ keywords:
   - integrate
   - object
   - storage
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

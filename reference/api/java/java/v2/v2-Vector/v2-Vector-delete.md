@@ -10,19 +10,19 @@ type: docx
 token: NOX7dAR3zodEH3xinMecMjq5n4S
 sidebar_position: 1
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
-  - javaV2
-  - Multimodal search
+  - javaV225
   - vector search algorithms
   - Question answering system
   - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: javaSidebar
 
 ---

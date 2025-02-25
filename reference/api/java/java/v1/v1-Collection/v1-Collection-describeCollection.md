@@ -2,7 +2,7 @@
 title: "describeCollection() | Java | v1"
 slug: /java/v1-Collection-describeCollection
 sidebar_label: "describeCollection()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "A MilvusClient interface. This method shows the details of a collection, e.g. name, schema. | Java | v1"
 type: origin

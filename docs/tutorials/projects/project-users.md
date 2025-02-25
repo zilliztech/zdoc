@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

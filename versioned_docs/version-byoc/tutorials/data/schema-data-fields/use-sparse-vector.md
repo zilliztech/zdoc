@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

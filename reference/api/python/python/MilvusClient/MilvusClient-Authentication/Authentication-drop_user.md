@@ -10,19 +10,19 @@ type: docx
 token: WtyZdeFKMoSv5exaYRxcPLCSndg
 sidebar_position: 9
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - drop_user()
   - pymilvus25
+  - Image Search
+  - LLMs
+  - Machine Learning
   - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
 displayed_sidebar: pythonSidebar
 
 ---

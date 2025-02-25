@@ -17,10 +17,10 @@ keywords:
   - upsert
   - update
   - insert
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

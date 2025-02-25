@@ -17,10 +17,10 @@ keywords:
   - integrate
   - object
   - storage
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

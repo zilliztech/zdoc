@@ -14,10 +14,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 
@@ -142,7 +142,7 @@ schema.add_field(
 client.alter_collection_field(
     collection="my_collection",
     field_name="doc_chunk",
-    properties={"mmap.enable": True}
+    properties={"mmap_enable": True}
 )
 ```
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - credit card
   - subscribe
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

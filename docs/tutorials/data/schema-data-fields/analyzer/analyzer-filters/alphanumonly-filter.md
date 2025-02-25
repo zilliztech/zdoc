@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - alphanumonly
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - doc data
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 
@@ -348,12 +348,12 @@ This collection contains six fields: one ID field that is automatically generate
 
 <table>
    <tr>
-     <th><p>id</p><p>(Data Type: Int64)</p></th>
-     <th><p>doc_name</p><p>(Data type: VarChar)</p></th>
-     <th><p>chunk_id</p><p>(Data type: Int64)</p></th>
-     <th><p>chunk_text</p><p>(Data type: VarChar)</p></th>
-     <th><p>embedding</p><p>(Data type: FLOAT_VECTOR)</p></th>
-     <th><p>publish_year</p><p>(Data type: Int16)</p></th>
+     <th><p>id (Data Type: Int64)</p></th>
+     <th><p>doc_name (Data type: VarChar)</p></th>
+     <th><p>chunk_id (Data type: Int64)</p></th>
+     <th><p>chunk_text (Data type: VarChar)</p></th>
+     <th><p>embedding (Data type: FLOAT_VECTOR)</p></th>
+     <th><p>publish_year (Data type: Int16)</p></th>
    </tr>
 </table>
 

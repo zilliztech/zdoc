@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

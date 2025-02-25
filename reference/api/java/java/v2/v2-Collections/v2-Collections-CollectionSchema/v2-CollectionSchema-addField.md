@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation adds a vector field to the schema of a collection. | Java | v2"
 type: docx
-token: ST5xdgZ9YoXYiJx7Ex6czstHnij
+token: HWEDdIvrxo3gskxlyKkcDdzVncd
 sidebar_position: 1
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud
   - addField()
-  - javaV2
-  - RAG
+  - javaV225
   - NLP
   - Neural Network
   - Deep Learning
+  - Knowledge base
 displayed_sidebar: javaSidebar
 
 ---

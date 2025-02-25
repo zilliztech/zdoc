@@ -10,19 +10,19 @@ type: docx
 token: M4IqdsRCNotiM4xdOA0cWSnUngb
 sidebar_position: 8
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - searchIterator()
-  - javaV2
+  - javaV225
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
 displayed_sidebar: javaSidebar
 
 ---

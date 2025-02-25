@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cost
   - understand
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 
@@ -141,11 +141,11 @@ For a precise calculation of the write vCU usage and cost, please refer to the f
    </tr>
    <tr>
      <td><p>Delete</p></td>
-     <td><p>1 deleted entity = 1 vCU</p><p>Deleting a non-existent entity will also consume 1 vCU.</p></td>
+     <td><p>1 deleted entity = 1 vCU Deleting a non-existent entity will also consume 1 vCU.</p></td>
    </tr>
    <tr>
      <td><p>Upsert</p></td>
-     <td><p>Calculated based on the size of the data updated and the number of entities deleted.</p><p>Deleting a non-existent entity will also consume 1 vCU.</p></td>
+     <td><p>Calculated based on the size of the data updated and the number of entities deleted. Deleting a non-existent entity will also consume 1 vCU.</p></td>
    </tr>
 </table>
 

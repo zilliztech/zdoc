@@ -14,10 +14,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

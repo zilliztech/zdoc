@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

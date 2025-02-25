@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

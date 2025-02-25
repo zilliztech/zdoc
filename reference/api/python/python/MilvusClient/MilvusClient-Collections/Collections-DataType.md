@@ -10,19 +10,19 @@ type: docx
 token: JiN3dU8zwoPdgBxxpw6c0JkUnze
 sidebar_position: 7
 keywords: 
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
   - pymilvus25
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 displayed_sidebar: pythonSidebar
 
 ---

@@ -2,7 +2,7 @@
 title: "searchAsync() | Java | v1"
 slug: /java/v1-QuerySearch-searchAsync
 sidebar_label: "searchAsync()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The MilvusClient interface. This method conducts an approximate nearest neighbor (ANN) search asynchronously. | Java | v1"
 type: origin
