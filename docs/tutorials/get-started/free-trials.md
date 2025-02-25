@@ -14,10 +14,10 @@ keywords:
   - cloud
   - free trial
   - milvus
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

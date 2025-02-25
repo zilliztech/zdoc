@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - quick-setup
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

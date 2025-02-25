@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

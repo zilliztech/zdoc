@@ -17,10 +17,10 @@ keywords:
   - integrate
   - object
   - storage
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

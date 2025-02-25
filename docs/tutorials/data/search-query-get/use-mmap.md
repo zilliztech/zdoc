@@ -14,10 +14,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 
@@ -142,7 +142,7 @@ schema.add_field(
 client.alter_collection_field(
     collection="my_collection",
     field_name="doc_chunk",
-    properties={"mmap.enable": True}
+    properties={"mmap_enable": True}
 )
 ```
 

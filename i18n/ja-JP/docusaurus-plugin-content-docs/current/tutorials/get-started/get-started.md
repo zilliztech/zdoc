@@ -13,10 +13,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

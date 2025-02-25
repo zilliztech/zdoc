@@ -10,19 +10,19 @@ type: docx
 token: ZdKEd2ua6o9AHHxKq25ctNSdncb
 sidebar_position: 36
 keywords: 
+  - image similarity search
+  - Context Window
   - Natural language search
   - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_unixtime()
   - pymilvus25
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: pythonSidebar
 
 ---

@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

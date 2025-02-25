@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - console
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

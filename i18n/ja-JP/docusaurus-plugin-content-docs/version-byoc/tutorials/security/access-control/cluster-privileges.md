@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

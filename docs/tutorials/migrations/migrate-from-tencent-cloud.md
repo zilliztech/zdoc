@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Tencent Cloud VectorDB is a vector database solution designed for similarity searches. Migrating data from Tencent Cloud VectorDB to Zilliz Cloud allows users to take advantage of Zilliz Cloud's enhanced capabilities for vector analytics and scalable data management. | Cloud"
 type: origin
 token: SwgXwdHG6iqpbUknXrHcOPd7nRe
-sidebar_position: 8
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database
   - cloud
   - migrations
   - tencent cloud
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 
@@ -33,8 +33,6 @@ This guide will help you migrate your data from Tencent Cloud VectorDB to Zilliz
 ## Considerations{#considerations}
 
 - When you migrate data from Tencent Cloud VectorDB to Zilliz Cloud, vector fields are transferred directly, while scalar fields from Tencent Cloud VectorDB are stored as JSON in a dynamic field on Zilliz Cloud. For details on the dynamic field feature, refer to [Dynamic Field](./enable-dynamic-field).
-
-- To ensure compatibility, Auto ID will be disabled and cannot be modified for each target collection on Zilliz Cloud.
 
 - Each migration task is limited to a single source Tencent Cloud VectorDB instance. If you have data in multiple source clusters, you can set up separate migration jobs for each one.
 

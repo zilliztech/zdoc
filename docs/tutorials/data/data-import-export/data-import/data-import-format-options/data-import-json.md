@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - json
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 
@@ -158,15 +158,15 @@ Zilliz Cloud supports data import from your cloud storage. The table below lists
    </tr>
    <tr>
      <td><p><strong>AWS S3</strong></p></td>
-     <td><p><code>s3://bucket-name/json-folder/</code></p><p><code>s3://bucket-name/json-folder/data.json</code></p></td>
+     <td><p><code>s3://bucket-name/json-folder/</code> <code>s3://bucket-name/json-folder/data.json</code></p></td>
    </tr>
    <tr>
      <td><p><strong>Google Cloud Storage</strong></p></td>
-     <td><p><code>gs://bucket-name/json-folder/</code></p><p><code>gs://bucket-name/json-folder/data.json</code></p></td>
+     <td><p><code>gs://bucket-name/json-folder/</code> <code>gs://bucket-name/json-folder/data.json</code></p></td>
    </tr>
    <tr>
      <td><p><strong>Azure Bolb</strong></p></td>
-     <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/</code></p><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</code></p></td>
+     <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/</code> <code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</code></p></td>
    </tr>
 </table>
 
@@ -185,7 +185,7 @@ There are some limits you need to observe when you import data in the JSON forma
    </tr>
    <tr>
      <td><p><strong>Maximum file size per import</strong></p></td>
-     <td><p>Free cluster: 512 MB in total</p><p>Serverless and Dedicated cluster:</p><ul><li><p>Individual file size: 10 GB</p></li><li><p>Total file size: 100 GB</p></li></ul></td>
+     <td><p>Free cluster: 512 MB in total Serverless and Dedicated cluster:</p><ul><li><p>Individual file size: 10 GB</p></li><li><p>Total file size: 100 GB</p></li></ul></td>
    </tr>
    <tr>
      <td><p><strong>Applicable data file locations</strong></p></td>

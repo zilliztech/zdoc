@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

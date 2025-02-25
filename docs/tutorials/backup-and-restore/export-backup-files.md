@@ -17,10 +17,10 @@ keywords:
   - integrate
   - object
   - storage
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

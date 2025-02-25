@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

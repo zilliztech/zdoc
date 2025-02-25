@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

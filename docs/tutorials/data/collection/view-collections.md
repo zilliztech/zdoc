@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - Annoy vector search
   - milvus
-  - Zilliz
-  - milvus vector database
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

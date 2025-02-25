@@ -18,10 +18,10 @@ keywords:
   - subnet
   - milvus
   - vector database
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 
@@ -76,11 +76,11 @@ Zilliz Cloudは、プライベートサブネット内のリソースがイン�
 
 ### セキュリティグループ{#security-group}
 
-イングレスルールはポート443を開く必要があります。セキュリティグループの作成の詳細については、[ステップ2:セキュリティグループの作成](./configure-vpc#2step-2-create-a-security-group)を参照してください。
+イングレスルールはポート443を開く必要があります。セキュリティグループの作成の詳細については、[ステップ2:セキュリティグループの作成](./configure-vpc#step-2-create-a-security-group)を参照してください。
 
 ### VPCエンドポイント{#vpc-endpoint}
 
-VPCエンドポイントはオプションであり、BYOCクラスターのプライベートエンドポイントを構成する必要がある場合に使用されます。セキュリティグループの作成の詳細については、「[ステップ3:(オプション)VPCエンドポイントを作成](./configure-vpc#3vpcstep-3-optional-create-a-vpc-endpoint)する」を参照してください。
+VPCエンドポイントはオプションであり、BYOCクラスターのプライベートエンドポイントを構成する必要がある場合に使用されます。セキュリティグループの作成の詳細については、「[ステップ3:(オプション)VPCエンドポイントを作成](./configure-vpc#step-3-optional-create-a-vpc-endpoint)する」を参照してください。
 
 ## 手続き{#procedure}
 
@@ -88,7 +88,7 @@ AWSコンソールを使用してVPCおよび関連リソースを作成でき�
 
 ### ステップ1: VPCとリソースを作成する{#step-1-create-vpc-and-resources}
 
-AWSコンソールでは、[VPC要件](./configure-vpc#vpcvpc-requirements)に列挙されたVPCおよび関連リソースを作成できます。
+AWSコンソールでは、[VPC要件](./configure-vpc#vpc-requirements)に列挙されたVPCおよび関連リソースを作成できます。
 
 1. AWSのVPCダッシュボードに移動してください。
 
@@ -201,15 +201,15 @@ VPCエンドポイントは、安全なクラスター接続リレーを確保�
 
     ![KFB0bZlsmoo61rxiVBrc1ULgnQe](/byoc/ja-JP/KFB0bZlsmoo61rxiVBrc1ULgnQe.png)
 
-1. [ネットワーク設定]で、[上記で作成したVPC](./configure-vpc#1-vpcstep-1-create-vpc-and-resources)を選択し、[**DNS名を有効**にする]を選択します。
+1. [ネットワーク設定]で、[上記で作成したVPC](./configure-vpc#step-1-create-vpc-and-resources)を選択し、[**DNS名を有効**にする]を選択します。
 
     ![TYiwb6sFZon93vxJ8zIcnZWGnuw](/byoc/ja-JP/TYiwb6sFZon93vxJ8zIcnZWGnuw.png)
 
-1. [**サブネット**]で、[VPCとともに作成されたプライベートサブネットを](./configure-vpc#1-vpcstep-1-create-vpc-and-resources)選択します。
+1. [**サブネット**]で、[VPCとともに作成されたプライベートサブネットを](./configure-vpc#step-1-create-vpc-and-resources)選択します。
 
     ![VB1qbusLFoovhdxCHK9cYCSVnue](/byoc/ja-JP/VB1qbusLFoovhdxCHK9cYCSVnue.png)
 
-1. [**セキュリティグループ**]で、[上記で作成したセキュリティグループ](./configure-vpc#2step-2-create-a-security-group)を選択します。
+1. [**セキュリティグループ**]で、[上記で作成したセキュリティグループ](./configure-vpc#step-2-create-a-security-group)を選択します。
 
 1. 上記の設定を保存するには、**エンドポイントを作成**をクリックしてください。
 

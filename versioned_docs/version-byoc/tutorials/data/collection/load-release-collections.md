@@ -15,10 +15,10 @@ keywords:
   - collection
   - load
   - release
-  - information retrieval
   - dimension reduction
   - hnsw algorithm
   - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

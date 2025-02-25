@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - pricing
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

@@ -10,19 +10,19 @@ type: docx
 token: WUgedTmyZoW4clxSgHVcl1ZtnZl
 sidebar_position: 2
 keywords: 
+  - natural language processing database
   - cheap vector database
   - Managed vector database
   - Pinecone vector database
-  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
   - javaV2
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: javaSidebar
 
 ---

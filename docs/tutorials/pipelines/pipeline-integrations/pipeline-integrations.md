@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - integration
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

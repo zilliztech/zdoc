@@ -15,10 +15,10 @@ keywords:
   - collection
   - manage
   - console
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 
@@ -54,7 +54,7 @@ For complete control over your collection, follow these steps.
        </tr>
        <tr>
          <td><p>Field Name</p></td>
-         <td><p>The name of the field. Each collection has the unique primary key and at least one vector field (up to 4).</p><p>In default schema design, Zilliz Cloud reserves the primary field (<code>primary_key</code>) and a float vector (<code>vector</code>). You can customize their settings as needed.</p></td>
+         <td><p>The name of the field. Each collection has the unique primary key and at least one vector field (up to 4). In default schema design, Zilliz Cloud reserves the primary field (<code>primary_key</code>) and a float vector (<code>vector</code>). You can customize their settings as needed.</p></td>
        </tr>
        <tr>
          <td><p>Field Type</p></td>

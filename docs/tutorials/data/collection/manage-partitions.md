@@ -15,10 +15,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

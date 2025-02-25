@@ -151,13 +151,13 @@ Methods of `FieldType.Builder`:
    </tr>
    <tr>
      <td><p>withElementType(DataType elementType)</p></td>
-     <td><p>Sets the element type for Array type field.</p><p>Valid element types for Array: Int8, Int16, Int32, Int64, Varchar, Bool, Float, Double</p></td>
+     <td><p>Sets the element type for Array type field. Valid element types for Array: Int8, Int16, Int32, Int64, Varchar, Bool, Float, Double</p></td>
      <td><p>elementType: element type of the array.</p></td>
    </tr>
    <tr>
      <td><p>addTypeParam(String key, String value)</p></td>
      <td><p>Adds a parameter pair for the field. This is mainly used to set extra parameters for the vector field and varchar field.</p></td>
-     <td><p>key: The parameter key.</p><p>value: The parameter value.</p></td>
+     <td><p>key: The parameter key. value: The parameter value.</p></td>
    </tr>
    <tr>
      <td><p>withDimension(Integer dimension)</p></td>

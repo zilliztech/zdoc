@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

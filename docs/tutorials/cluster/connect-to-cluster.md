@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

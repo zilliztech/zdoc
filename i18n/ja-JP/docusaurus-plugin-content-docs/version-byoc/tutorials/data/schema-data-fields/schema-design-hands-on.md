@@ -7,7 +7,7 @@ notebook: FALSE
 description: "情報検索(IR)システムは、検索エンジンとしても知られており、検索拡張生成(RAG)、画像検索、製品推薦などのさまざまなAIアプリケーションに不可欠です。IRシステムを開発する最初のステップは、ビジネス要件を分析し、情報をどのように整理するかを決定し、データを意味的に検索可能にするためにインデックス化するデータモデルの設計です。 | BYOC"
 type: origin
 token: B2Z9whq7IigVE7kgFVJcQAeQnqd
-sidebar_position: 13
+sidebar_position: 14
 keywords: 
   - zilliz
   - vector database
@@ -16,10 +16,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

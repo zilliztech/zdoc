@@ -19,10 +19,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 
@@ -553,7 +553,7 @@ Once you've inserted data into your collection, you can perform full text search
 
 ```python
 search_params = {
-    'params': {'drop_ratio_search': 0.2},
+    'params': {'level': 10},
 }
 
 client.search(
@@ -575,7 +575,7 @@ import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 
 Map<String,Object> searchParams = new HashMap<>();
-searchParams.put("drop_ratio_search", 0.2);
+searchParams.put("level", 10);
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("demo")
         .data(Collections.singletonList(new EmbeddedText("whats the focus of information retrieval?")))
@@ -596,7 +596,7 @@ await client.search(
     data: ['whats the focus of information retrieval?'],
     anns_field: 'sparse',
     limit: 3,
-    params: {'drop_ratio_search': 0.2},
+    params: {'level': 10},
 )
 ```
 
@@ -621,7 +621,7 @@ curl --request POST \
     ],
     "searchParams":{
         "params":{
-            "drop_ratio_search":0.2
+            "level":10
         }
     }
 }'
@@ -640,8 +640,8 @@ curl --request POST \
      <td><p>A dictionary containing search parameters.</p></td>
    </tr>
    <tr>
-     <td><p><code>params.drop_ratio_search</code></p></td>
-     <td><p>Proportion of terms with less contribution to BM25 scoring to ignore during search. For details, refer to <a href="./use-sparse-vector">Sparse Vector</a>.</p></td>
+     <td><p><code>params.level</code></p></td>
+     <td><p>Controls the search precision with simplified search optimization. For details, refer to <a href="./single-vector-search">Use Level</a>.</p></td>
    </tr>
    <tr>
      <td><p><code>data</code></p></td>

@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

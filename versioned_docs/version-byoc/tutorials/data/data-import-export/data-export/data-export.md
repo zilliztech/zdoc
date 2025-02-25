@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

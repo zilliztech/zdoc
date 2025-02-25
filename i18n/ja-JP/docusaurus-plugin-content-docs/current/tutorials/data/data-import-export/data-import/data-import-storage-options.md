@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 
@@ -177,7 +177,7 @@ A valid set of NumPy files should be named after the fields in the schema of the
    </tr>
    <tr>
      <td><p><strong>Maximum file size per import</strong></p></td>
-     <td><p>Free cluster: 512 MB in total</p><p>Serverless &amp; Dedicated cluster:</p><ul><li><p>Total file size in each first-level subfolder: 10 GB</p></li><li><p>Total file size: 100 GB</p></li></ul></td>
+     <td><p>Free cluster: 512 MB in total Serverless &amp; Dedicated cluster:</p><ul><li><p>Total file size in each first-level subfolder: 10 GB</p></li><li><p>Total file size: 100 GB</p></li></ul></td>
    </tr>
    <tr>
      <td><p><strong>Applicable data file locations</strong></p></td>

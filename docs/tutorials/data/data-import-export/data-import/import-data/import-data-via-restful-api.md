@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 
@@ -75,7 +75,7 @@ curl --request POST \
         "clusterId": "inxx-xxxxxxxxxxxxxxx",
         "collectionName": "medium_articles",
         "partitionName": "",
-        "objectUrl": "https://s3.us-west-2.amazonaws.com/publicdataset.zillizcloud.com/medium_articles_2020_dpr/medium_articles_2020_dpr.json",
+        "objectUrl": "https://assets.zilliz.com/docs/example-data-import.json",
         "accessKey": "",
         "secretKey": ""
     }'

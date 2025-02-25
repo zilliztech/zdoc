@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - advance pay
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

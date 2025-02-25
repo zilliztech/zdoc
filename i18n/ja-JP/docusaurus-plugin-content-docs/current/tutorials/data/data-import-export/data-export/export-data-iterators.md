@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

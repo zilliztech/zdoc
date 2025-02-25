@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

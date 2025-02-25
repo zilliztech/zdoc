@@ -14,10 +14,10 @@ keywords:
   - cloud
   - concepts
   - rerankers
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

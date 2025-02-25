@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

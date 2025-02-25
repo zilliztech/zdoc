@@ -14,10 +14,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

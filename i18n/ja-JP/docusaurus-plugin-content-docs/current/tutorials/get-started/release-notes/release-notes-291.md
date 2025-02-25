@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

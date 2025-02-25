@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

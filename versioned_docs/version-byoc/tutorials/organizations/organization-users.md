@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 
@@ -69,7 +69,7 @@ Zilliz Cloud provides three organization roles. These roles cannot be modified o
        </tr>
        <tr>
          <td><ul><li><p>Manage <a href="./payment-billing">payments & billing</a></p></li><li><p>View <a href="./manage-api-keys">API keys</a></p></li><li><p>Invite <a href="./organization-users">organization users</a></p></li><li><p>View <a href="./organization-settings">organization settings</a></p></li></ul></td>
-         <td><ul><li><p>List Invoices</p></li><li><p>Get Invoice</p></li><li><p>Query org daily usage</p></li></ul></td>
+         <td><ul><li><p><a href="/reference/restful/list-invoices-v2">List Invoices</a></p></li><li><p><a href="/reference/restful/describe-invoice-v2">Describe Invoice</a></p></li><li><p><a href="/reference/restful/query-daily-usage-v2">Query Daily Usage</a></p></li></ul></td>
          <td><p>The data plan privileges are determined by project and cluster roles. However, a Billing Admin usually does not require data plane privileges.</p></td>
        </tr>
     </table>

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

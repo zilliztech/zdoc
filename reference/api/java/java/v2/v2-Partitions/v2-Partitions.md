@@ -9,10 +9,10 @@ token: YkL6fqkaNlgeWXdNaWLcltkZnRc
 sidebar_position: 6
 sidebar_label: "Partitions"
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud

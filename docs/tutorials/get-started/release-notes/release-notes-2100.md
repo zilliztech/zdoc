@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Question answering system
   - llm-as-a-judge
   - hybrid vector search
   - Video deduplication
+  - Video similarity search
 
 ---
 
@@ -103,7 +103,7 @@ Zilliz Cloud now offers a comprehensive Migration Service, allowing users to com
 
 - Migrate from other open-source databases to Zilliz Cloud, with current support for migrations from pgvector and Elasticsearch. The migration target can be a Free Plan instance, Serverless instance, or Dedicated Cluster. For details, refer to [Migrate from Elasticsearch to Zilliz Cloud](./migrate-from-elasticsearch) and [Migrate from pgvector to Zilliz Cloud](./migrate-from-pgvector).
 
-- Migrate data within Zilliz Cloud, supporting both intra-organization and cross-organization data migrations. For details, refer to [Cross-Cluster Migrations](./migrate-between-clusters).
+- Migrate data within Zilliz Cloud, supporting both intra-organization and cross-organization data migrations. For details, refer to [Cross-Cluster Migrations](./offline-migration).
 
 ### Backup/Restore/Migration/Jobs RESTful API{#backuprestoremigrationjobs-restful-api}
 

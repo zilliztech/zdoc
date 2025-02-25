@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - lowercase
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

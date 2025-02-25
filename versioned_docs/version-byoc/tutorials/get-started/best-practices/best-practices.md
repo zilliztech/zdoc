@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

@@ -9,10 +9,10 @@ token: PohgfmtiBlwuPRdcACmc9JDZnve
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud

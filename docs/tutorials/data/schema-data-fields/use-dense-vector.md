@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

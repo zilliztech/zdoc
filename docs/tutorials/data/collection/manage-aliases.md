@@ -15,10 +15,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

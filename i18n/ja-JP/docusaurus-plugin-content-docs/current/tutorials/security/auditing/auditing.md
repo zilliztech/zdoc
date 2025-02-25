@@ -14,10 +14,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 
@@ -39,8 +39,8 @@ import Admonition from '@theme/Admonition';
      <th><p><strong>備考</strong></p></th>
    </tr>
    <tr>
-     <td><p></p></td>
-     <td><p></p></td>
+     <td></td>
+     <td></td>
      <td><p>アカウント登録が完了すると、Zilliz Cloudは自動的に1つの組織を作成します。それ以上の組織が必要な場合は、<a href="http://support.zilliz.com">サポートチケットを作成</a>してください。ユーザーは複数の組織に参加できます。</p></td>
    </tr>
    <tr>
@@ -59,13 +59,13 @@ import Admonition from '@theme/Admonition';
      <th><p><strong>備考</strong></p></th>
    </tr>
    <tr>
-     <td><p></p></td>
-     <td><p></p></td>
+     <td></td>
+     <td></td>
      <td><p>最大5つのコレクションを作成できます。</p></td>
    </tr>
    <tr>
-     <td><p></p></td>
-     <td><p></p></td>
+     <td></td>
+     <td></td>
      <td><p>最大100個のコレクションを作成できます。</p></td>
    </tr>
    <tr>
@@ -75,31 +75,31 @@ import Admonition from '@theme/Admonition';
    </tr>
 </table>
 
-クラスタあたりのコレクション数の制限に加えて、Zilliz Cloudは消費容量にも制限を適用します。以下のレシピは、Zilliz Cloudがクラスタの一般的な容量を計算する方法を示しています。消費容量は、利用可能な一般的な容量よりも小なりである必要があります。
+クラスタあたりのコレクション数の制限に加えて、Zilliz Cloudはパーティション数の制限も適用します。以下のレシピは、Zilliz Cloudがクラスタ内で利用可能なパーティション数を計算する方法を示しています。作成されるパーティション数は、クラスタ内で利用可能なパーティション数の小なりにする必要があります。
 
 ```java
-General Capacity = 512 x Number of CUs
+Number of available partitions = 512 x Number of CUs
 ```
 
-<Admonition type="info" icon="📘" title="クラスタの一般的な容量を知るにはどうすればよいですか?">
+<Admonition type="info" icon="📘" title="クラスタ内の利用可能なパーティションの数を知るにはどうすればよいですか?">
 
-<p>クラスタの一般的な容量は、クラスタに割り当てられた最大物理リソースを示し、次のレシピを使用して決定できます。</p>
+<p>クラスタ内で使用可能なパーティションの数は、クラスタに割り当てられた物理リソースの最大値を示します。この値は、次のレシピを使用して決定できます。</p>
 <p><strong>\<=512 x CUの数</strong></p>
-<p>例えば、</p>
+<p>例えば、 </p>
 <ul>
-<li><p>クラスタを<strong>2</strong>つのCUで構成すると、最大<strong>128</strong>個のコレクションを作成でき、一般容量は<strong>1,024</strong>個です。</p></li>
-<li><p>クラスタは<strong>12</strong>個のCUで、最大<strong>768</strong>個のコレクションを作成できます。一般容量は<strong>6</strong>,144個です。</p></li>
-<li><p>クラスタが<strong>32</strong>CU以上の場合、最大<strong>4,096</strong>コレクションを作成でき、一般容量は16,384で<strong>す</strong>。</p></li>
+<li><p><strong>2</strong>つのCUのクラスターでは、最大<strong>128</strong>のコレクションまたは<strong>1,024</strong>のパーティションを作成できます。</p></li>
+<li><p><strong>12</strong> CUのクラスタでは、最大<strong>768</strong>個のコレクションまたは<strong>6,144</strong>個のパーティションを作成できます。</p></li>
+<li><p><strong>32</strong> CU以上のクラスタでは、最大<strong>4,096</strong>個のコレクションまたは<strong>16,384</strong>個のパーティションを作成できます。 </p></li>
 </ul>
 
 </Admonition>
 
-<Admonition type="info" icon="📘" title="クラスタの消費容量を知るにはどうすればよいですか?">
+<Admonition type="info" icon="📘" title="クラスタ内で既に作成されたパーティションの数を知るにはどうすればよいですか?">
 
-<p>クラスタの消費容量は、クラスタによって消費される物理リソースを示します。</p>
-<p>例えば、クラスタ内に<strong>50</strong>のコレクションを作成したとします。最初の<strong>20</strong>のコレクションにはそれぞれ<strong>20</strong>のパーティションがあり、残りの<strong>30</strong>のコレクションにはそれぞれ<strong>10</strong>のパーティションがあります。クラスタの消費容量は以下のように計算できます:</p>
-<p><strong>20(コレクション)x 20(パーティション)+30(コレクション)x 10(パーティション)=400+300=70 0</strong></p>
-<p>上記の計算に基づいて、Zilliz Cloudはクラスタの消費容量を<strong>700</strong>と見なしています。</p>
+<p>クラスタに既に作成されているパーティションの数は、クラスタによって消費される物理リソースを示します。 </p>
+<p>例えば、クラスタ内に50個のコレクションを作成したと仮定しましょう。最初の20個のコレクションにはそれぞれ20個のパーティションがあり、残りの30個のコレクションにはそれぞれ10個のパーティションがあります。クラスタ内で既に作成されたパーティションの数は以下のように計算できます:</p>
+<p><strong>20(コレクション)x 20(パーティション)+30(コレクション)x 10(パーティション)=400+300=700</strong></p>
+<p>上記の計算に基づくと、クラスタには700のパーティションがあります。</p>
 
 </Admonition>
 
@@ -125,8 +125,8 @@ Zilliz Cloudは、コレクションの作成、読み込み、リリース、�
      <th><p><strong>備考</strong></p></th>
    </tr>
    <tr>
-     <td><p></p></td>
-     <td><p></p></td>
+     <td></td>
+     <td></td>
      <td><p>サーバーレスクラスターでは、コレクションごとに最大1,024個のパーティションを作成できます。</p></td>
    </tr>
    <tr>
@@ -136,7 +136,7 @@ Zilliz Cloudは、コレクションの作成、読み込み、リリース、�
    </tr>
 </table>
 
-消費容量と一般容量を計算する場合は、[コレクション](./limits#collections)のノートを参照してください。さらに、パーティション作成のレート制限はクラスタあたり**1**パーティション/秒です。
+作成されたパーティション数と使用可能なパーティション数を計算する場合は、「[コレクション](./limits#collections)」のノートを参照してください。また、パーティション作成のレート制限は、クラスタあたり1パーティション/秒です。
 
 ### フィールド{#fields}
 

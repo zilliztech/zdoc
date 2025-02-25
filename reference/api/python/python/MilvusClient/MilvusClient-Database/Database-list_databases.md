@@ -10,19 +10,19 @@ type: docx
 token: FZuddXocNopEufxRFGdcbvkRnnb
 sidebar_position: 6
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - list_databases()
   - pymilvus25
-  - Dense embedding
   - Faiss vector database
   - Chroma vector database
   - nlp search
+  - hallucinations llm
 displayed_sidebar: pythonSidebar
 
 ---

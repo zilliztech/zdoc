@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

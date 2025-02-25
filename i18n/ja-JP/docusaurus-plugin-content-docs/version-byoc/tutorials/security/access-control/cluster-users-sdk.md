@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - users
+  - Faiss vector database
+  - Chroma vector database
   - nlp search
   - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
 
 ---
 

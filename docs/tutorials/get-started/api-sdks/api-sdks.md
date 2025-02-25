@@ -20,10 +20,10 @@ keywords:
   - go
   - node
   - nodejs
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

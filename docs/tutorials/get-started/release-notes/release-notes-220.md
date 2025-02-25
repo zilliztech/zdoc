@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 
@@ -45,7 +45,7 @@ In this release, users are empowered with a streamlined ability to migrate data 
 
 - Real-time Monitoring: An intuitive UI for users to monitor migration progress and receive status updates instantaneously.
 
-See details at [Migrate Between Clusters](./migrate-between-clusters).
+See details at [Migrate Between Clusters](./offline-migration).
 
 ## Easy Migration from ElasticSearch to Zilliz Cloud{#easy-migration-from-elasticsearch-to-zilliz-cloud}
 

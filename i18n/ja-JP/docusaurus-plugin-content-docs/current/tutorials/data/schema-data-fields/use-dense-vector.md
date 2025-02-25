@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

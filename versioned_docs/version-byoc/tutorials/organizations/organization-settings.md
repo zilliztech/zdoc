@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

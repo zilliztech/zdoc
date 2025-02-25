@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - cncharonly
+  - rag llm architecture
+  - private llms
   - nn search
   - llm eval
-  - Sparse vs Dense
-  - Dense vector
 
 ---
 

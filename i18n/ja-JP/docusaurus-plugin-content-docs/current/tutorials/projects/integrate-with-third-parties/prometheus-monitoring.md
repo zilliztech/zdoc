@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

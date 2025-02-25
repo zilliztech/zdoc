@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - array field
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - int
   - integer
   - float
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

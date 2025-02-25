@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
+  - milvus database
   - milvus lite
   - milvus benchmark
   - managed milvus
-  - Serverless vector database
 
 ---
 

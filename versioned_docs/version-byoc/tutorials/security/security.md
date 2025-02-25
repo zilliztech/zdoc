@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

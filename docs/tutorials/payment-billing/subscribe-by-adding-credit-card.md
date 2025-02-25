@@ -14,10 +14,10 @@ keywords:
   - cloud
   - credit card
   - subscribe
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

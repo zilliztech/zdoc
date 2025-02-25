@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

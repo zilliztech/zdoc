@@ -16,10 +16,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

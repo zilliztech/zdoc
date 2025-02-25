@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

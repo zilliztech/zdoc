@@ -10,19 +10,19 @@ type: docx
 token: Z0EOd1PXooNeowx4SQgcq3synBc
 sidebar_position: 12
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - listUsers()
-  - node
+  - nodejs25
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
 displayed_sidebar: nodeSidebar
 
 ---

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

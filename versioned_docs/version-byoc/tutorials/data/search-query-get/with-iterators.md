@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

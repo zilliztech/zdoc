@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

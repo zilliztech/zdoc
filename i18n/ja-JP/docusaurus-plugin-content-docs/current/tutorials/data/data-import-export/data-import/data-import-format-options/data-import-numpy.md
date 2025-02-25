@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

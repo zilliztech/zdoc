@@ -186,19 +186,19 @@ Methods of `SearchResultsWrapper`:
    </tr>
    <tr>
      <td><p>getFieldData(String fieldName, int indexOfTarget)</p></td>
-     <td><p>Gets data for an output field which is specified by SearchParam.</p><p>Throws ParamException if the field doesn't exist or indexOfTarget is illegal.</p></td>
-     <td><p>fieldName: A field name which is specified by the withOutFields() of SearchParam.</p><p>indexOfTarget: The order number of a target vector.</p></td>
-     <td><ul><li><p>Return List\<List\<Float>gt; for FloatVector field.</p></li><li><p>Return List\<ByteBuffer> for BinaryVector/Float16Vector/BFloat16Vector field.</p></li><li><p>Return List\<SortedMap[Long, Float]> for SparseFloatVector field.</p></li><li><p>Return List\<Long> for Int64 field.</p></li><li><p>Return List\<Integer> for Int32/Int16/Int8 field.</p></li><li><p>Return List\<Boolean> for Bool field.</p></li><li><p>Return List\<Float> for Float field.</p></li><li><p>Return List\<Double> for Double field.</p></li><li><p>Return List\<String> for Varchar field.</p></li></ul></td>
+     <td><p>Gets data for an output field which is specified by SearchParam. Throws ParamException if the field doesn't exist or indexOfTarget is illegal.</p></td>
+     <td><p>fieldName: A field name which is specified by the withOutFields() of SearchParam. indexOfTarget: The order number of a target vector.</p></td>
+     <td><ul><li>Return List\<List\<Float>gt; for FloatVector field.</li><li>Return List\<ByteBuffer> for BinaryVector/Float16Vector/BFloat16Vector field.</li><li>Return List\<SortedMap[Long, Float]> for SparseFloatVector field.</li><li>Return List\<Long> for Int64 field.</li><li>Return List\<Integer> for Int32/Int16/Int8 field.</li><li>Return List\<Boolean> for Bool field.</li><li>Return List\<Float> for Float field.</li><li>Return List\<Double> for Double field.</li><li>Return List\<String> for Varchar field.</li></ul></td>
    </tr>
    <tr>
      <td><p>getIDScore(int indexOfTarget)</p></td>
-     <td><p>Gets ID-score pairs returned by search().</p><p>Throws ParamException if the indexOfTarget is illegal.Throws IllegalResponseException if the returned results are illegal.</p></td>
+     <td><p>Gets ID-score pairs returned by search(). Throws ParamException if the indexOfTarget is illegal.Throws IllegalResponseException if the returned results are illegal.</p></td>
      <td><p>indexOfTarget: The order number of a target vector.</p></td>
      <td><p>List\<IDScore></p></td>
    </tr>
    <tr>
      <td><p>getRowRecords(int indexOfTarget)</p></td>
-     <td><p>Gets row records from the search result.</p><p>The ID is put into a QueryResultsWrapper.RowRecord with key "id".</p><p>The distance is put into a QueryResultsWrapper.RowRecord with key "distance".</p></td>
+     <td><p>Gets row records from the search result. The ID is put into a QueryResultsWrapper.RowRecord with key "id".</p><p>The distance is put into a QueryResultsWrapper.RowRecord with key "distance".</p></td>
      <td><p>indexOfTarget: The order number of a target vector.</p></td>
      <td><p>List\<QueryResultsWrapper.RowRecord></p></td>
    </tr>

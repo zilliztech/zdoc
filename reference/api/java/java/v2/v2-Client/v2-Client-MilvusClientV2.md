@@ -10,19 +10,19 @@ type: docx
 token: Y4qvdMEeioKXShxxNmncvnJ2nJf
 sidebar_position: 1
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClientV2
   - javaV2
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
 displayed_sidebar: javaSidebar
 
 ---

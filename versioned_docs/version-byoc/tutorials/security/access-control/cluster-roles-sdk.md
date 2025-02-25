@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

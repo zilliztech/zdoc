@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cost
   - understand
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 
@@ -141,11 +141,11 @@ Write Cost = vCU Unit Price x Write vCU Usage
    </tr>
    <tr>
      <td><p>削除する</p></td>
-     <td><p>1削除されたエンティティ=1 vCU</p><p>存在しないエンティティを削除すると、1 vCUが消費されます。</p></td>
+     <td><p>1削除されたエンティティ=1 vCU 存在しないエンティティを削除すると、1 vCUが消費されます。</p></td>
    </tr>
    <tr>
      <td><p>アップサート</p></td>
-     <td><p>更新されたデータの体格と削除されたエンティティの数に基づいて計算されます。</p><p>存在しないエンティティを削除すると、1 vCUが消費されます。</p></td>
+     <td><p>更新されたデータの体格と削除されたエンティティの数に基づいて計算されます。 存在しないエンティティを削除すると、1 vCUが消費されます。</p></td>
    </tr>
 </table>
 

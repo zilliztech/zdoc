@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - pipelines
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

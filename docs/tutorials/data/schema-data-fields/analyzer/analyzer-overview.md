@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

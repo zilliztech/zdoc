@@ -10,19 +10,19 @@ type: docx
 token: EtBDdoGaFo3bOExKxCHcKgpenib
 sidebar_position: 2
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - commit()
   - pymilvus25
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
 displayed_sidebar: pythonSidebar
 
 ---

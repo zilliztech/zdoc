@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - data
   - grouping search
   - group
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

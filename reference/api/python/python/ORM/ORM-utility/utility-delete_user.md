@@ -10,19 +10,19 @@ type: docx
 token: E7zOdU2JpoqaU5xNYXvcAjgPnNh
 sidebar_position: 6
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - delete_user()
   - pymilvus25
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
 displayed_sidebar: pythonSidebar
 
 ---

@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - lowercase
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

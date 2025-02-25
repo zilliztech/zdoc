@@ -18,10 +18,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
+  - Managed vector database
   - Pinecone vector database
   - Audio search
   - what is semantic search
-  - Embedding model
 
 ---
 

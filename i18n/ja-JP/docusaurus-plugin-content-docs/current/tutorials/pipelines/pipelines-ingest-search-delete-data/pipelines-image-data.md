@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - image data
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 
@@ -188,7 +188,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -288,9 +288,9 @@ Ingestionパイプラインが作成されると、`my_collection`という名�
 
 <table>
    <tr>
-     <th><p>イメージID</p><p>(データ型: Int 64)</p></th>
-     <th><p>埋め込み</p><p>(データ型: FLOAT_VECTOR)</p></th>
-     <th><p>画像タイトル</p><p>(データ型: VarChar)</p></th>
+     <th><p>イメージID (データ型: Int 64)</p></th>
+     <th><p>埋め込み (データ型: FLOAT_VECTOR)</p></th>
+     <th><p>画像タイトル (データ型: VarChar)</p></th>
    </tr>
 </table>
 
@@ -336,7 +336,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -449,7 +449,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -553,7 +553,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -689,7 +689,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -793,7 +793,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -924,7 +924,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -1009,7 +1009,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 

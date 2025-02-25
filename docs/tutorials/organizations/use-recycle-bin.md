@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - milvus database
-  - milvus lite
   - milvus benchmark
   - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

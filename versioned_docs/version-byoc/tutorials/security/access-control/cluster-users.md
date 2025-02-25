@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

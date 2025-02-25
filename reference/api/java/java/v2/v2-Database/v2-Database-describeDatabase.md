@@ -10,19 +10,19 @@ type: docx
 token: MJjHd3uGcoxEYBx0laKcAIKNnhg
 sidebar_position: 3
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - describeDatabase()
   - javaV2
+  - Deep Learning
   - Knowledge base
   - natural language processing
   - AI chatbots
-  - cosine distance
 displayed_sidebar: javaSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: MErAdudCloVawFxpxoWcgqZonLc
 sidebar_position: 6
 keywords: 
+  - Embedding model
   - image similarity search
   - Context Window
   - Natural language search
-  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
-  - node
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - nodejs25
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: nodeSidebar
 
 ---

@@ -15,10 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

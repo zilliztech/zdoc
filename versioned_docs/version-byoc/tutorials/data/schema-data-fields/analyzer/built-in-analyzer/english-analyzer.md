@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - english analyzer
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

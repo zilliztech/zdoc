@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - array field
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

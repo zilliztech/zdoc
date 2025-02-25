@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - whitespace-tokenizer
+  - Embedding model
   - image similarity search
   - Context Window
   - Natural language search
-  - Similarity Search
 
 ---
 

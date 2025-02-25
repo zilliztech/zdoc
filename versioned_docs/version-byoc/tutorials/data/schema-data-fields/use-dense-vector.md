@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

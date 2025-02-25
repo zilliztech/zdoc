@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - users
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

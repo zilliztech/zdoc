@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 
@@ -225,7 +225,7 @@ curl --request POST \
 
     - **クラスター名**:クラスターに一意の識別子を割り当てます。
 
-    - **クラウドプロバイダー設定**:クラウドサービスプロバイダーと、クラスターをデプロイする特定のリージョンを選択します。
+    - **クラウドプロバイダー設定**:クラウドサービスプロバイダーと、クラスターをデプロイする特定のリージョンを選択します。詳細については、「[クラウドプロバイダー&地域](./cloud-providers-and-regions)」を参照してください。
 
     - **CUの設定**:
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - basics
   - milvus
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

@@ -18,11 +18,11 @@ keywords:
   - zilliz cloud
   - cloud
   - renameCollection()
-  - node
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - nodejs25
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: nodeSidebar
 
 ---

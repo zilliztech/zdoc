@@ -16,10 +16,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

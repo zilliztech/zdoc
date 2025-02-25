@@ -16,10 +16,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

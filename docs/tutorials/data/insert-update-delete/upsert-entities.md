@@ -17,10 +17,10 @@ keywords:
   - upsert
   - update
   - insert
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

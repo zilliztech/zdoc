@@ -10,19 +10,19 @@ type: docx
 token: WGDod7Qehou4GWx4Co2cJ34VnKb
 sidebar_position: 20
 keywords: 
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - update_password()
   - pymilvus25
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: pythonSidebar
 
 ---

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

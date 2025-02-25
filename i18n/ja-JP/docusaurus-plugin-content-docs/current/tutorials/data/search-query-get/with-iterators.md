@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

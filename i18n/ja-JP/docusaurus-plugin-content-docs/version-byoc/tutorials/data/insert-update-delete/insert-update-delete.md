@@ -15,10 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

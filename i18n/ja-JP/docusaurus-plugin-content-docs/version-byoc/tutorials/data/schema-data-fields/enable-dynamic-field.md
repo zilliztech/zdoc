@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

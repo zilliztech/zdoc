@@ -18,10 +18,10 @@ keywords:
   - subnet
   - milvus
   - vector database
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - json field
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

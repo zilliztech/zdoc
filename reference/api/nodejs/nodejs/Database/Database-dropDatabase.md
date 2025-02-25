@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation drops a database. | Node.js"
 type: docx
-token: FIqudtw53o5TrPxk2VdceBQbnhg
+token: Ja99dnnaOoncwbx2zIPc4PjunXx
 sidebar_position: 2
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabase()
-  - node
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - nodejs25
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 displayed_sidebar: nodeSidebar
 
 ---
@@ -38,6 +38,12 @@ This operation drops a database.
 dropDatabase(data?): Promise<ResStatus>
 ```
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>This method applies only to dedicated clusters.</p>
+
+</Admonition>
+
 ## Request Syntax{#request-syntax}
 
 ```javascript
@@ -51,9 +57,9 @@ milvusClient.dropDatabase({
 
 - **db_name** (*string*) -
 
-    The name of the database to create.
+    The name of the database to drop.
 
-    There should be a database that has the specified name. Otherwise, exceptions will occur.
+    There should be a database with the specified name. Otherwise, exceptions will occur.
 
 - **timeout** (*number*) -
 

@@ -16,10 +16,10 @@ keywords:
   - ingest
   - search
   - delete
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

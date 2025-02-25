@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Elasticsearch is a highly scalable search and analytics engine known for its speed and flexibility in handling large volumes of data. By leveraging Zilliz Cloud's migration capabilities, you can seamlessly transfer data from your Elasticsearch instances to your Zilliz Cloud cluster. | Cloud"
 type: origin
 token: Y8nwwbi0KiwtVZkMaSQcsPcwnkf
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - migrations
   - elasticsearch
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 
@@ -33,8 +33,6 @@ This migration process involves establishing a connection with your existing Ela
 ## Considerations{#considerations}
 
 - Currently, you can migrate the following Elasticsearch data types: **dense_vector**, **text**, **string**, **keyword**, **ip**, **date**, **timestamp**, **long**, **integer**, **short**, **byte**, **double**, **float**, **boolean**, **object**, **arrays**. If your table has fields with unsupported data types, you can choose not to migrate those fields or submit a [support ticket](https://support.zilliz.com/hc/en-us/requests/new). For information on how Elasticsearch data types are mapped to Zilliz Cloud, refer to [Field mapping reference](./migrate-from-elasticsearch#field-mapping-reference).
-
-- To ensure compatibility, Auto ID will be disabled and cannot be modified for each target collection on Zilliz Cloud.
 
 - For each migration task, you can select only one vector field from each source index.
 

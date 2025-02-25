@@ -14,10 +14,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

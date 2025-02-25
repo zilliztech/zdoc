@@ -36,7 +36,7 @@ Methods of MilvusClient for connection:
    <tr>
      <td><p>withTimeout(long timeout, TimeUnit timeoutUnit)</p></td>
      <td><p>Timeout setting for RPC call.</p></td>
-     <td><p>timeout: The timeout period when invoking a method.</p><p>timeoutUnit: The unit for timeout.</p></td>
+     <td><p>timeout: The timeout period when invoking a method. timeoutUnit: The unit for timeout.</p></td>
      <td><p>MilvusClient</p></td>
    </tr>
    <tr>

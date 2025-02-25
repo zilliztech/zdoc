@@ -18,10 +18,10 @@ keywords:
   - int
   - integer
   - float
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

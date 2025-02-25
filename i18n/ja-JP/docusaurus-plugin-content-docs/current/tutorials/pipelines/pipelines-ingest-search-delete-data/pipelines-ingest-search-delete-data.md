@@ -16,10 +16,10 @@ keywords:
   - ingest
   - search
   - delete
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 
@@ -45,7 +45,7 @@ Zilliz Cloudのリリースを発表できることを嬉しく思います。Zi
 
 - リアルタイムモニタリング:ユーザーが移行の進捗状況を監視し、ステータスの更新を瞬時に受け取るための直感的なUI。
 
-詳細は[クラスタ間の移行](./undefined)を参照してください。
+詳細は[クラスタ間の移行](./migrate-between-clusters)を参照してください。
 
 ## Elastic SearchからZilliz Cloudへの簡単な移行{#easy-migration-from-elasticsearch-to-zilliz-cloud}
 

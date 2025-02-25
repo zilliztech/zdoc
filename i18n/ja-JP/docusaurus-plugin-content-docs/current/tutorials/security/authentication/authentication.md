@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

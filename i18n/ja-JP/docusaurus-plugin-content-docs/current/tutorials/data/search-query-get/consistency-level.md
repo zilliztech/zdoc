@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

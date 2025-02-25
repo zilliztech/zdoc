@@ -9,10 +9,10 @@ token: G3Qvfzptcl9gcFdHholcBmgQnib
 sidebar_position: 4
 sidebar_label: "EmbeddingModels"
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud

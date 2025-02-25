@@ -10,19 +10,19 @@ type: docx
 token: DthMdlg8Lozw89xNz4TcBv1LnOe
 sidebar_position: 3
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - create_alias()
   - pymilvus25
+  - what is vector db
   - what are vector databases
   - vector databases comparison
   - Faiss
-  - Video search
 displayed_sidebar: pythonSidebar
 
 ---

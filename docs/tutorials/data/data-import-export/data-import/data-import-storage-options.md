@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

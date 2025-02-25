@@ -10,19 +10,19 @@ type: docx
 token: NPnQdZCJ7oF002xTntecdI2ini8
 sidebar_position: 5
 keywords: 
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - drop_index()
   - pymilvus25
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

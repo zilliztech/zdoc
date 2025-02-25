@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

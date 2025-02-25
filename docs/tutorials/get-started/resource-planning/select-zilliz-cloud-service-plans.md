@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster plan
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 
@@ -60,16 +60,16 @@ Zilliz Cloud categorizes its offerings into five distinct plans: **Free**, **Ser
      <td><p><strong>Cloud provider & region</strong></p></td>
      <td><p>GCP Exclusive</p></td>
      <td><p>GCP Exclusive</p></td>
-     <td><p>AWS, GCP, Azure</p><p>For details, refer to <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></td>
-     <td><p>AWS, GCP, Azure</p><p>For details, refer to <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></td>
+     <td><p>AWS, GCP, Azure For details, refer to <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></td>
+     <td><p>AWS, GCP, Azure For details, refer to <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></td>
      <td><p>User's VPC</p></td>
    </tr>
    <tr>
      <td><p><strong>CU size options</strong></p></td>
      <td><p>Single CU</p></td>
      <td><p>Auto-scale</p></td>
-     <td><ul><li><p>Up to 32 CUs. (You can directly create cluster of 32 CUs or less on the web UI. For larger CU sizes, please <a href="https://zilliz.com/contact-sales">contact sales</a>.</p></li><li><p>Increments: 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32.</p></li></ul></td>
-     <td><ul><li><p>Up to 256 CUs.(You can directly create cluster of 256 CUs or less on the web UI. For larger CU sizes, please <a href="https://zilliz.com/contact-sales">contact sales</a>.</p></li><li><p>Increments: 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32,…,64, 72, 80, 88,…,256 <em>(Notes: When CU size is greater than 8, the increment increase becomes 4 CUs. When CU size is greater than 64, the increment increase becomes 8CUs)</em></p></li></ul></td>
+     <td><ul><li>Up to 32 CUs. (You can directly create cluster of 32 CUs or less on the web UI. For larger CU sizes, please <a href="https://zilliz.com/contact-sales">contact sales</a>.</li><li>Increments: 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32.</li></ul></td>
+     <td><ul><li>Up to 256 CUs.(You can directly create cluster of 256 CUs or less on the web UI. For larger CU sizes, please <a href="https://zilliz.com/contact-sales">contact sales</a>.</li><li>Increments: 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32,…,64, 72, 80, 88,…,256 <em>(Notes: When CU size is greater than 8, the increment increase becomes 4 CUs. When CU size is greater than 64, the increment increase becomes 8CUs)</em></li></ul></td>
      <td><p>Customizable</p></td>
    </tr>
    <tr>
@@ -100,8 +100,8 @@ Zilliz Cloud categorizes its offerings into five distinct plans: **Free**, **Ser
      <td><p><strong>Max. collections</strong></p></td>
      <td><p>5 Collections</p></td>
      <td><p>10 Collections per cluster.</p></td>
-     <td><p>64 per CU, and &lt;= 4096</p></td>
-     <td><p>64 per CU, and &lt;= 4096</p></td>
+     <td><p>64 per CU, and \&lt;= 4096</p></td>
+     <td><p>64 per CU, and \&lt;= 4096</p></td>
      <td><p>Customizable</p></td>
    </tr>
    <tr>

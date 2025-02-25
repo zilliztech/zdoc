@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

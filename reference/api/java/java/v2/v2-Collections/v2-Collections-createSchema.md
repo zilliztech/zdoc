@@ -10,19 +10,19 @@ type: docx
 token: V5KXdwdO0oqkhnxsKb9c3xaKn4c
 sidebar_position: 6
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - createSchema()
   - javaV2
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 displayed_sidebar: javaSidebar
 
 ---

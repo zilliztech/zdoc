@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - DML
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

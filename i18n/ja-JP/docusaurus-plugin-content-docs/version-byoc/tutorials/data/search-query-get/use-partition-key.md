@@ -16,10 +16,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

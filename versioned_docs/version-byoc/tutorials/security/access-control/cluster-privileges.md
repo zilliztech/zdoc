@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

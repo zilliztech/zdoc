@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "Methods for you to index, load, and release a collection. | Node.js"
 type: folder
-token: GNR6fiDGqlnQ9BdWimJc9pnSnyl
-sidebar_position: 5
+token: Yo6ffPwKzlWzZndRXVocighbnfd
+sidebar_position: 3
 sidebar_label: "Management"
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - Management
-  - node
+  - nodejs25
 displayed_sidebar: nodeSidebar
 ---
 

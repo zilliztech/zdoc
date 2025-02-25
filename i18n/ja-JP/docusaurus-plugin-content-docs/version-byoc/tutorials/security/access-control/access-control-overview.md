@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

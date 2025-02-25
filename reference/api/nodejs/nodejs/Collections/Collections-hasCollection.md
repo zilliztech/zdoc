@@ -10,19 +10,19 @@ type: docx
 token: FhbbdNrlNouBXJxHIdKctXVKnmf
 sidebar_position: 11
 keywords: 
-  - approximate nearest neighbor search
   - DiskANN
   - Sparse vector
   - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - hasCollection()
-  - node
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - nodejs25
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: nodeSidebar
 
 ---

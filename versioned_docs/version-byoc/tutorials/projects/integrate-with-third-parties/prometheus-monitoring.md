@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

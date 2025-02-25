@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Milvus is an open-source vector database optimized for scalable similarity search and AI applications. Known for its high performance and ease of use, it is widely used for managing large-scale vector data. | BYOC"
 type: origin
 token: TDkbwhwMyi7bPykZAoUc5PFfnIb
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - migrations
   - milvus
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 
@@ -33,8 +33,6 @@ Zilliz Cloud simplifies deployment and maintenance by offering managed Milvus se
 Zilliz Cloud provides two primary methods for migrating your data from Milvus:
 
 - [Via endpoint](./via-endpoint): allows you to migrate one database at a time from Milvus to Zilliz Cloud. Each database is migrated individually in sequence, making it ideal for scenarios where you need to carefully manage each database's migration process.
-
-- [Via backup files](./via-backup-files): supports migrating multiple databases simultaneously, making it much faster and more efficient for large-scale migrations.
 
 
 

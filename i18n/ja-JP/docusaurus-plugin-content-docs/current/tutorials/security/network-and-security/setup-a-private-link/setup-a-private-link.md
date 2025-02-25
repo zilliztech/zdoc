@@ -18,10 +18,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

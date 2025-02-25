@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - DML
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

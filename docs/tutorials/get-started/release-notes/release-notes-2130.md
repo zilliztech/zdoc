@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloud now supports Milvus 2.5 in Public Preview, introducing full-text search to complement its semantic search. Using the BM25 metric and sparse vectors for efficient storage and retrieval, this feature allows users to query text directly without conversion. The update also enhances BYOC deployments with Private Link for improved security, easier compliance, and simplified network configuration. Additionally, auto-deployment via AWS CloudFormation is now supported, and the handling of large-scale small-file imports is optimized for faster data ingestion. | Cloud"
 type: origin
 token: LRRVwYzxKioMiMk7cf6czQuhn7d
-sidebar_position: 0
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 
@@ -43,6 +43,8 @@ Our implementation uses the **industry-standard BM25** metric for document simil
 
 A key advantage of our approach is that you can **insert and query text directly, without needing to manually convert it into sparse vectors beforehand.** This brings Zilliz Cloud another step closer to fully supporting unstructured data processing.
 
+For more details, refer to [Full Text Search](./full-text-search).
+
 ## BYOC - Enhanced Security and Simplified Deployment{#byoc-enhanced-security-and-simplified-deployment}
 
 With this release, **Zilliz Cloud now supports data plane–control plane communication via Private Link**, providing **stronger security and easier compliance** for BYOC deployments.
@@ -55,7 +57,7 @@ With this release, **Zilliz Cloud now supports data plane–control plane commun
 
 In addition, **Zilliz Cloud BYOC now supports auto-deployment via AWS CloudFormation**, making it even easier to set up and manage your data plane.
 
-For more details, refer to [Full Text Search](./full-text-search).
+For more details, refer to [Deploy BYOC on AWS](/docs/byoc/deploy-byoc-aws).
 
 ## Enhancements{#enhancements}
 

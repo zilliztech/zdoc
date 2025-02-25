@@ -16,10 +16,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

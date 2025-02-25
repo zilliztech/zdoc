@@ -10,19 +10,19 @@ type: docx
 token: CadTdZ5YGocDymxaIOvcr08pnxd
 sidebar_position: 1
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - createPartition()
   - javaV2
+  - cheap vector database
   - Managed vector database
   - Pinecone vector database
   - Audio search
-  - what is semantic search
 displayed_sidebar: javaSidebar
 
 ---

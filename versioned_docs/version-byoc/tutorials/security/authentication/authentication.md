@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

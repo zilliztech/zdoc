@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

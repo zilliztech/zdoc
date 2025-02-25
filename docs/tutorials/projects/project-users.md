@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

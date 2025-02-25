@@ -4,7 +4,7 @@ slug: /via-endpoint
 sidebar_label: "Via Endpoint"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud offers Milvus as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. To enable smooth migration, you can migrate data from Milvus to Zilliz Cloud in these ways - connecting to source Milvus via database endpoint or uploading backup files directly. | BYOC"
+description: "Zilliz Cloud offers Milvus as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. To enable smooth migration, you can migrate data from Milvus to Zilliz Cloud  by connecting to source Milvus via database endpoint | BYOC"
 type: origin
 token: PlX3wo82Di6oWVkg2ercRWCUnvV
 sidebar_position: 1
@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
+  - vector database
+  - IVF
   - knn
   - Image Search
-  - LLMs
-  - Machine Learning
 
 ---
 
@@ -27,9 +27,9 @@ import Admonition from '@theme/Admonition';
 
 # Migrate from Milvus to Zilliz Cloud Via Endpoint
 
-Zilliz Cloud offers [Milvus](https://milvus.io/) as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. To enable smooth migration, you can migrate data from Milvus to Zilliz Cloud in these ways - connecting to source Milvus via database endpoint or uploading backup files directly.
+Zilliz Cloud offers [Milvus](https://milvus.io/) as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. To enable smooth migration, you can migrate data from Milvus to Zilliz Cloud  by connecting to source Milvus via database endpoint
 
-This topic describes how to migrate from Milvus via database endpoint. For information on how to upload backup files, refer to [Via Backup Files](./via-backup-files).
+This topic describes how to migrate from Milvus via the database endpoint. 
 
 ## Considerations{#considerations}
 

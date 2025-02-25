@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

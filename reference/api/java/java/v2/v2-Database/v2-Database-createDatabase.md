@@ -10,19 +10,19 @@ type: docx
 token: IqQudFVIKot4mVxWD4xclJymn8g
 sidebar_position: 2
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - createDatabase()
   - javaV2
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - Large language model
   - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
 displayed_sidebar: javaSidebar
 
 ---

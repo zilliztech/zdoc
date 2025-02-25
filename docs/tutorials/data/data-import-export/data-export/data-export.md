@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

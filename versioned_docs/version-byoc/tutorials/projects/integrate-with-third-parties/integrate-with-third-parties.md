@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
+  - what is vector db
+  - what are vector databases
   - vector databases comparison
   - Faiss
-  - Video search
-  - AI Hallucination
 
 ---
 

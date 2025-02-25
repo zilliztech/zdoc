@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

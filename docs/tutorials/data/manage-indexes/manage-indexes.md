@@ -14,10 +14,10 @@ keywords:
   - cloud
   - index
   - manage
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

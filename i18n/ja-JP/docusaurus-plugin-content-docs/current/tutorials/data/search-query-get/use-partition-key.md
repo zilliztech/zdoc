@@ -16,10 +16,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

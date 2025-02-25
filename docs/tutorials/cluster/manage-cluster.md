@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 
@@ -129,11 +129,11 @@ For details, refer to [Connect to Cluster](./connect-to-cluster).
 
 - **Data migrations**
 
-    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./migrate-between-clusters).
+    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./offline-migration).
 
 ### Migrate to Dedicated cluster{#migrate-to-dedicated-cluster}
 
-For more enterprise-grade features and custom configurations, you are recommended to migrate your Serverless cluster to a Dedicated cluster. For more information, refer to [Cross-Cluster Migrations](./migrate-between-clusters).
+For more enterprise-grade features and custom configurations, you are recommended to migrate your Serverless cluster to a Dedicated cluster. For more information, refer to [Cross-Cluster Migrations](./offline-migration).
 
 ### Users and access control{#users-and-access-control}
 
@@ -187,7 +187,7 @@ After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll fin
 
 - **Migrations**
 
-    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./migrate-between-clusters).
+    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./offline-migration).
 
 ### Users and access control{#users-and-access-control}
 
@@ -260,7 +260,7 @@ In addition to the web UI, you can also make an API request to drop a cluster. F
 
 - [Set up a Private Link](./setup-a-private-link)
 
-- [Migrate Between Clusters](./migrate-between-clusters)
+- [Migrate Between Clusters](./offline-migration)
 
 - [Detailed Plan Comparison](./select-zilliz-cloud-service-plans)
 

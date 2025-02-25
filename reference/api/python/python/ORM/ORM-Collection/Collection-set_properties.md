@@ -19,10 +19,10 @@ keywords:
   - cloud
   - set_properties()
   - pymilvus25
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
   - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 ---

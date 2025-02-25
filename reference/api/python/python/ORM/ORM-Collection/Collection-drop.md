@@ -10,19 +10,19 @@ type: docx
 token: L8UTdDNkPoeew0x6LoDcfHx4nof
 sidebar_position: 8
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - drop()
   - pymilvus25
+  - what are vector databases
+  - vector databases comparison
   - Faiss
   - Video search
-  - AI Hallucination
-  - AI Agent
 displayed_sidebar: pythonSidebar
 
 ---

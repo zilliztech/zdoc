@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

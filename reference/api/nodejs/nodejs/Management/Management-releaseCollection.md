@@ -10,19 +10,19 @@ type: docx
 token: UxOXdeKF1oOIBuxTjPhcKBtPnRb
 sidebar_position: 7
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - releaseCollection()
-  - node
+  - nodejs25
+  - Vector index
   - vector database open source
   - open source vector db
   - vector database example
-  - rag vector database
 displayed_sidebar: nodeSidebar
 
 ---

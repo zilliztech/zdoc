@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

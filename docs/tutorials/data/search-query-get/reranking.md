@@ -16,10 +16,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

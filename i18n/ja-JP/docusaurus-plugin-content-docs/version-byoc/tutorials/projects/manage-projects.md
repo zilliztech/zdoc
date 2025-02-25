@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - Annoy vector search
   - milvus
-  - Zilliz
-  - milvus vector database
 
 ---
 

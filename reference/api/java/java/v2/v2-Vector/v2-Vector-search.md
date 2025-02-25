@@ -10,19 +10,19 @@ type: docx
 token: RycIdCl3LoLMAMxNOEhcgMutnig
 sidebar_position: 7
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - javaV2
-  - Vector retrieval
-  - Audio similarity search
   - Elastic vector database
   - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: javaSidebar
 
 ---

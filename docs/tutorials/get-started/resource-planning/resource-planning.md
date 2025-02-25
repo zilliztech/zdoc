@@ -14,10 +14,10 @@ keywords:
   - cloud
   - resource
   - planning
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
 
 ---
 
