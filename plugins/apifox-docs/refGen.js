@@ -59,7 +59,7 @@ class refGen {
         }
         var page_slug = (this.get_slug(page_title, target)) + slug_suffix
         var beta_tag = version === 'v2' ? 'FALSE' : 'NEAR DEPRECATE'
-        beta_tag = slug.includes('invoice') || slug.includes('usage') ? 'PUBLIC' : 'FALSE'
+        beta_tag = slug.includes('invoice') || slug.includes('usage') ? 'PUBLIC' : beta_tag
         const page_method = method.toLowerCase()
         const specs = JSON.stringify(specification)
 
@@ -104,7 +104,7 @@ class refGen {
       const description = descriptions.filter(x => x.name === slug)[0].description
       const position = specifications.tags.map(x => x.name).indexOf(specifications.tags[group].name)
       var beta_tag = version === 'v2' ? 'FALSE' : 'NEAR DEPRECATE'
-      beta_tag = page_slug.includes('invoice') || page_slug.includes('usage') ? 'PUBLIC' : 'FALSE'
+      beta_tag = page_slug.includes('invoice') || page_slug.includes('usage') ? 'PUBLIC' : beta_tag
       const t = template.render({
         group_name,
         position,
