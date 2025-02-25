@@ -18496,7 +18496,7 @@
 								"collectionName": "test_collection",
 								"indexName": "my_vector",
 								"properties": {
-									"nlist": 1024
+									"mmap.enabled": true
 								}
 							}
 						}
