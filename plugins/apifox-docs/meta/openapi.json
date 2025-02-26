@@ -24922,11 +24922,11 @@
 			"post": {
 				"summary": "Modify Cluster",
 				"deprecated": false,
-				"description": "Modifies the configuration of a cluster. Currently, you can use this API to upgrade the CU size of your dedicated cluster",
+				"description": "Modify a dedicated cluster. You can increase or reduce the number of CUs allocated to the cluster. Currently, only the number of CUs can be modified.",
 				"x-i18n": {
 					"zh-CN": {
 						"summary": "修改集群配置",
-						"description": "本接口可修改指定集群的配置。目前，您可以使用本接口来升级专用集群的 CU 大小。"
+						"description": "修改指定 Dedicated 集群的配置。您可以根据需要增加或减少分配给指定集群的 CUs 的数量。目前，仅支持修改 CUs 的数量。"
 					}
 				},
 				"tags": [
@@ -32893,11 +32893,11 @@
 			"post": {
 				"summary": "Modify Cluster",
 				"deprecated": false,
-				"description": "Modify a dedicated cluster. Currently support upgrading dedicated clusters CU size. ",
+				"description": "Modify a dedicated cluster. You can increase or reduce the number of CUs allocated to the cluster. Currently, only the number of CUs can be modified. ",
 				"x-i18n": {
 					"zh-CN": {
 						"summary": "修改集群配置",
-						"description": "修改指定 Dedicated 集群的配置。目前仅支持升级集群的 CU 大小。"
+						"description": "修改指定 Dedicated 集群的配置。您可以根据需要增加或减少分配给指定集群的 CUs 的数量。目前，仅支持修改 CUs 的数量。"
 					}
 				},
 				"tags": [
