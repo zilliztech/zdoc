@@ -24922,11 +24922,11 @@
 			"post": {
 				"summary": "Modify Cluster",
 				"deprecated": false,
-				"description": "Modify a dedicated cluster. You can increase or reduce the number of CUs allocated to the cluster. Currently, only the number of CUs can be modified.",
+				"description": "Modify a dedicated cluster. You can increase or reduce the number of CUs allocated to the cluster.",
 				"x-i18n": {
 					"zh-CN": {
 						"summary": "修改集群配置",
-						"description": "修改指定 Dedicated 集群的配置。您可以根据需要增加或减少分配给指定集群的 CUs 的数量。目前，仅支持修改 CUs 的数量。"
+						"description": "修改指定 Dedicated 集群的配置。您可以根据需要增加或减少分配给指定集群的 CUs 的数量。"
 					}
 				},
 				"tags": [
@@ -32893,11 +32893,11 @@
 			"post": {
 				"summary": "Modify Cluster",
 				"deprecated": false,
-				"description": "Modify a dedicated cluster. You can increase or reduce the number of CUs allocated to the cluster. Currently, only the number of CUs can be modified. ",
+				"description": "Modify a dedicated cluster. You can increase or reduce the number of CUs allocated to the cluster. ",
 				"x-i18n": {
 					"zh-CN": {
 						"summary": "修改集群配置",
-						"description": "修改指定 Dedicated 集群的配置。您可以根据需要增加或减少分配给指定集群的 CUs 的数量。目前，仅支持修改 CUs 的数量。"
+						"description": "修改指定 Dedicated 集群的配置。您可以根据需要增加或减少分配给指定集群的 CUs 的数量。"
 					}
 				},
 				"tags": [
