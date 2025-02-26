@@ -2,7 +2,7 @@
 title: "Pipelines Pricing | Cloud"
 slug: /understand-pipelines-billing
 sidebar_label: "Pipelines Pricing"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Zilliz Cloud Pipelines adopts a pay-as-you-go pricing model. More specifically, you only pay for the actual usage of the models in Ingestion and Search Pipelines. | Cloud"
 type: origin

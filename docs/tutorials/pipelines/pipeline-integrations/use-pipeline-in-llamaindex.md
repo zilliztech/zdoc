@@ -2,7 +2,7 @@
 title: "Using Pipelines in LlamaIndex | Cloud"
 slug: /use-pipeline-in-llamaindex
 sidebar_label: "Using Pipelines in LlamaIndex"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Zilliz Cloud Pipelines](./pipelines) is a scalable API service for retrieval. You can use Zilliz Cloud Pipelines as managed indexes in [LLamaIndex. This service can transform documents into vector embeddings and store them in Zilliz Cloud for effective semantic search. | Cloud"
 type: origin

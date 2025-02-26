@@ -204,14 +204,13 @@ export default function HeadingWrapper(props) {
       }
     }
 
-    if (props.as === 'h2') {
-      const { children } = props;
-      const [title, tag] = children.split('|') 
+    if (props.as.match(/h[2-6]/) && props.children.includes('|')) {
+      const [title, tag] = props.children.split('|') 
       const linkable = tag?.trim() === 'CONTACT SALES'
       const destination_url = 'https://zilliz.com/contact-sales'
 
       props = {
-        as: "h2",
+        as: props.as,
         id: props.id,
         children: tag ? BetaTagComponent(title.trim(), tag?.trim(), linkable, destination_url) : title.trim()
       }

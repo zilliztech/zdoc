@@ -2,7 +2,7 @@
 title: "Pricing  | Cloud"
 slug: /pipelines-pricing
 sidebar_label: "Pricing "
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Understand the pricing of Zilliz Cloud Pipelines and learn how to estimate your pipeline usage. | Cloud"
 type: origin

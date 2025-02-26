@@ -2,7 +2,7 @@
 title: "Ingest, Search, and Delete Data | Cloud"
 slug: /pipelines-ingest-search-delete-data
 sidebar_label: "Ingest, Search, Delete"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Learn how to ingest, search, and delete various formats of unstructured data (eg. Images, texts, docs, etc.) with Zilliz Cloud Pipelines. Currently, three data formats are supported. | Cloud"
 type: origin

@@ -2,7 +2,7 @@
 title: "パイプライン利用予測 | Cloud"
 slug: /estimate-pipelines-usage
 sidebar_label: "パイプライン利用予測"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "パイプラインの実行コストはトークンによって測定されます。トークンを基本単位として使用する大規模言語モデル(LLM)と同様に、パイプラインはテキストを解析して一連のトークンとして埋め込むことによって、ドキュメントや検索クエリを過程化します。パイプラインの実行コストを理解するには、ファイルまたはテキスト文字列のトークンをカウントするために、当社の推定パイプライン使用量ツールを使用できます。 | Cloud"
 type: origin

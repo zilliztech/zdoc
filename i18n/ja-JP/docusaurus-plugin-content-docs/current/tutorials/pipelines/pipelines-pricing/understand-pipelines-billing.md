@@ -2,7 +2,7 @@
 title: "パイプラインの価格 | Cloud"
 slug: /understand-pipelines-billing
 sidebar_label: "パイプラインの価格"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Zilliz Cloud Pipelinesは従量制の価格設定モデルを採用しています。具体的には、Ingestion PipelinesとSearch Pipelinesのモデルの実際の使用に対してのみ支払います。 | Cloud"
 type: origin

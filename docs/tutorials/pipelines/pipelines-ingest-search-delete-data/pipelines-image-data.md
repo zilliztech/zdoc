@@ -2,7 +2,7 @@
 title: "Image Data | Cloud"
 slug: /pipelines-image-data
 sidebar_label: "Image Data"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The Zilliz Cloud web UI provides a simplified and intuitive way of creating, running, and managing Pipelines while the RESTful API offers more flexibility and customization compared to the Web UI. | Cloud"
 type: origin
