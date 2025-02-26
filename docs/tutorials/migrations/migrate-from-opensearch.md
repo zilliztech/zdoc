@@ -1,13 +1,13 @@
 ---
 title: "Migrate from OpenSearch to Zilliz Cloud | Cloud"
-slug: /migrate-from-opensearch-to-zilliz-cloud
+slug: /migrate-from-opensearch
 sidebar_label: "Migration from OpenSearch"
 beta: FALSE
 notebook: FALSE
 description: "OpenSearch is a distributed search and analytics engine that supports various use cases, from implementing a search box on a website to analyzing security data for threat detection. Zilliz Cloud enables seamless migration from OpenSearch, allowing you to leverage advanced analytics and AI-driven insights. This guide outlines how to transfer your OpenSearch data to Zilliz Cloud. | Cloud"
 type: origin
 token: VFMLwxpsniVGKYkE3DecmpQ2nrg
-sidebar_position: 10
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - migrations
   - amazon
   - opensearch
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 ## Considerations{#considerations}
 
-- Zilliz Cloud supports migrating most OpenSearch data types. Before starting, verify that your data types are compatible. If your table has fields with unsupported data types, you can choose not to migrate those fields or submit a [support ticket](https://support.zilliz.com/hc/en-us/requests/new). For a full list of supported data types, [Field mapping reference](./migrate-from-opensearch-to-zilliz-cloud).
+- Zilliz Cloud supports migrating most OpenSearch data types. Before starting, verify that your data types are compatible. If your table has fields with unsupported data types, you can choose not to migrate those fields or submit a [support ticket](https://support.zilliz.com/hc/en-us/requests/new). For a full list of supported data types, [Field mapping reference](./migrate-from-opensearch).
 
 - Each migration task is limited to a single source OpenSearch cluster. If you have data in multiple source clusters, you can set up separate migration jobs for each one.
 
