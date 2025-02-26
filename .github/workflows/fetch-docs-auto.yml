@@ -35,6 +35,10 @@ jobs:
         npx docusaurus fetch-lark-docs -man nodejs25 -tar zilliz
         npx docusaurus fetch-lark-docs -man nodejs25 -tar zilliz -post
         npx docusaurus fetch-apifox-docs -s plugins/apifox-docs/meta/openapi.json
+        npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.saas
+        npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.saas -post
+        npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.paas -skipS
+        npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.paas -post
       env:
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
