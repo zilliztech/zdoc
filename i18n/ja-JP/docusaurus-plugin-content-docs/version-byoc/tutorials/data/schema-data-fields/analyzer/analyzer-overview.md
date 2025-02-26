@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

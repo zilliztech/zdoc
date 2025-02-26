@@ -14,10 +14,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
@@ -164,7 +164,7 @@ Zilliz Cloudには、Free、Serverless、Dedicatedの3つのクラスタータ�
 
 <TabItem value="Bash">
 
-リクエストは次の例のようになります。`{API_KEY}`は、[組織のオーナーまたは請求管理者の役割](./organization-users#)を持つ認証APIキーです。次の`GET`リクエストには、Organizationのすべての請求書がリストされています。
+リクエストは次の例のようになります。`{API_KEY}`は、[組織のオーナーまたは請求管理者の役割](./organization-users#organization-roles)を持つ認証APIキーです。次の`GET`リクエストには、Organizationのすべての請求書がリストされています。
 
 ```bash
 curl --request GET \
@@ -230,7 +230,7 @@ curl --request GET \
 
 <TabItem value="Bash">
 
-リクエストは次の例のようになります。`{API_KEY}`は、[組織のオーナーまたは請求管理者の役割](./organization-users#)を持つ認証APIキーです。次の`GET`リクエストは、指定された請求書を説明しています。
+リクエストは次の例のようになります。`{API_KEY}`は、[組織のオーナーまたは請求管理者の役割](./organization-users#organization-roles)を持つ認証APIキーです。次の`GET`リクエストは、指定された請求書を説明しています。
 
 ```bash
 curl --request GET \
@@ -305,7 +305,7 @@ curl --request GET \
 
         ![precision_invoice_cn](/img/ja-JP/precision_invoice_cn.png)
 
-        [List Invoice](/ja-JP/reference/restful/list-invoices-v2)と[Describe Invoice API](/ja-JP/reference/restful/describe-invoice-v2https://docs.zilliz.com/ja-JP/reference/restful/describe-invoice-v2)から取得された請求書の金額はセントで表され、小数点以下2桁に丸める必要があります。以下は[Describe Invoice API](/ja-JP/reference/restful/describe-invoice-v2)の出力例です。
+        [List Invoice](/ja-JP/reference/restful/list-invoices-v2)と[Describe Invoice API](/ja-JP/reference/restful/describe-invoice-v2)から取得された請求書の金額はセントで表され、小数点以下2桁に丸める必要があります。以下は[Describe Invoice API](/ja-JP/reference/restful/describe-invoice-v2)の出力例です。
 
         ```bash
         {

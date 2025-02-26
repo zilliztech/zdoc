@@ -14,10 +14,10 @@ keywords:
   - milvus
   - vector database
   - shared responsibilities
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

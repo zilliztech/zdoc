@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

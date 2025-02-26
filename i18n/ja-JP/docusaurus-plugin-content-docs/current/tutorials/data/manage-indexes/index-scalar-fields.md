@@ -14,10 +14,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

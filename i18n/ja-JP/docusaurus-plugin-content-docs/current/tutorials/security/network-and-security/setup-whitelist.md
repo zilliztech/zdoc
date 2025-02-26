@@ -14,10 +14,10 @@ keywords:
   - cloud
   - whitelist
   - setup
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

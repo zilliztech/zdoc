@@ -14,10 +14,10 @@ keywords:
   - cloud
   - free trial
   - milvus
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

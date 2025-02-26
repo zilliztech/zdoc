@@ -14,10 +14,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

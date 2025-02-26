@@ -15,10 +15,10 @@ keywords:
   - data import
   - export
   - milvus
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

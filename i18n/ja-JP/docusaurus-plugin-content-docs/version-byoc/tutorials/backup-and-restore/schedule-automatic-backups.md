@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

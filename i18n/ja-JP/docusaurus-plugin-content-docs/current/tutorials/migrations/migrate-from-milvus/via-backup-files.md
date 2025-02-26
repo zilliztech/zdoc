@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

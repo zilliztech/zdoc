@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - sdk
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

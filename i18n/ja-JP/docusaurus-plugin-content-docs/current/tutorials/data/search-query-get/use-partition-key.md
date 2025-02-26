@@ -16,10 +16,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

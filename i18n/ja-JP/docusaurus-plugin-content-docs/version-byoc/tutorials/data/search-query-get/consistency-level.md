@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

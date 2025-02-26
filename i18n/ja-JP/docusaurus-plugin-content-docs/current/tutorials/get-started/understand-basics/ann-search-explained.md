@@ -14,10 +14,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

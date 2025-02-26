@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

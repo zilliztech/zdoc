@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

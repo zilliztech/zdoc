@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - stop
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

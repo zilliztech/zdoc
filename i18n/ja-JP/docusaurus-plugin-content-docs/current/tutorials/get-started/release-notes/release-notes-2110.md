@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

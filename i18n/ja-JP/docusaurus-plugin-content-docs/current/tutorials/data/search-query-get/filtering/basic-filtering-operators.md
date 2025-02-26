@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

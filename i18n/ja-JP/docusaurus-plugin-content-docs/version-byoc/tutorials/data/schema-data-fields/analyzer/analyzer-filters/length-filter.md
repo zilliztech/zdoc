@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - jieba-tokenizer
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

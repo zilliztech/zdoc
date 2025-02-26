@@ -14,10 +14,10 @@ keywords:
   - cloud
   - notification
   - channels
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

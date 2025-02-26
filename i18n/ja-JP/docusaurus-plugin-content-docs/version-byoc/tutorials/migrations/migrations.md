@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

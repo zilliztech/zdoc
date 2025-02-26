@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

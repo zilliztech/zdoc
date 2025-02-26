@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 
@@ -38,7 +38,7 @@ import Admonition from '@theme/Admonition';
 
     データの準備方法の詳細については、「[ストレージオプション](./data-import-storage-options)」と「[書式オプション](./data-import-format-options)」を参照してください。詳細については、エンドツーエンドのノートブック「[データインポートハンズオン](./data-import-zero-to-hero)」を参照することもできます。
 
-- サンプルデータセットに一致するスキーマを持つコレクションを作成し、既にインデックスを作成して読み込んでいます。コレクションの作成の詳細については、「[コレクションの管理(コンソール)](./drop-collection)」を参照してください。
+- サンプルデータセットに一致するスキーマを持つコレクションを作成し、既にインデックスを作成して読み込んでいます。コレクションの作成の詳細については、「[コレクションの管理(コンソール)](./manage-collections-console)」を参照してください。
 
 ## RESTful APIを使用したデータのインポート{#import-data-using-the-restful-api}
 

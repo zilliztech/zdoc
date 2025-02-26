@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

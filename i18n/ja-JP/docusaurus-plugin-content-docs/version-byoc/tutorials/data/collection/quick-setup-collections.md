@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - quick-setup
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

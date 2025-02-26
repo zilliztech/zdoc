@@ -16,10 +16,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

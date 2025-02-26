@@ -16,10 +16,10 @@ keywords:
   - data
   - hybrid search
   - combine sparse and dense vectors
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

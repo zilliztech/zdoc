@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

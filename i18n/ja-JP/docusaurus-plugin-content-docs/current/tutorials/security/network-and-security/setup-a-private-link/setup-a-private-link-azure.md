@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

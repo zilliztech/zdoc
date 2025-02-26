@@ -16,10 +16,10 @@ keywords:
   - data
   - hybrid search
   - combine sparse and dense vectors
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

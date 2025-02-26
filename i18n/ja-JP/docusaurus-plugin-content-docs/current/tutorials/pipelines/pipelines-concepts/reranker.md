@@ -2,7 +2,7 @@
 title: "Reranker | Cloud"
 slug: /reranker
 sidebar_label: "Reranker"
-beta: NEAR DEPRECATE
+beta: FALSE
 notebook: FALSE
 description: "情報検索において、リランカーは初期検索の結果を再配置します。ベクトル近似最近傍探索(ANN)検索のみを使用する場合と比較して、リランカーを追加することで、ドキュメントとクエリの意味的関連性をよりよく判断できるため、検索品質を向上させることができます。リランカーを使用することで、RAGアプリケーションで生成された回答の精度を向上させることもできます。これは、より少ないが高品質のドキュメントが文脈に置かれるためです。リランカーは計算量が多く、コストが高く、クエリのレイテンシが長くなる可能性があることに注意してください。 | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - concepts
   - rerankers
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

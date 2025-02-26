@@ -14,10 +14,10 @@ keywords:
   - cloud
   - index
   - manage
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

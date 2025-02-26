@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

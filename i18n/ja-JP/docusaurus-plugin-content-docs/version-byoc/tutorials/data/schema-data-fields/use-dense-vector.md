@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

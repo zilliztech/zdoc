@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

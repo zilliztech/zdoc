@@ -14,10 +14,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

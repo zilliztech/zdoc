@@ -18,10 +18,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

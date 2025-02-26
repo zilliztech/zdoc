@@ -16,10 +16,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

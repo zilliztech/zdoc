@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

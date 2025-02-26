@@ -15,10 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

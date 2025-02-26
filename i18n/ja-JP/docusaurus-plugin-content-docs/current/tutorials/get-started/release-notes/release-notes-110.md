@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

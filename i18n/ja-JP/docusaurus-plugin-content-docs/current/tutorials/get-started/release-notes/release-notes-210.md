@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - marketplace
   - aws
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 
@@ -92,7 +92,7 @@ import Admonition from '@theme/Admonition';
 
 ## 無料トライアルからサブスクリプションをアップグレードする{#upgrade-subscription-from-free-trial}
 
-無料トライアルが終了したら、Zilliz Cloudを引き続き使用するためにサブスクリプションをアップグレードする必要があります。アップグレードするには、[サブスクリプションプロセス](./subscribe-on-aws-marketplace#awsmarketplacesubscribe-on-aws-marketplace)をもう一度繰り返します。
+無料トライアルが終了したら、Zilliz Cloudを引き続き使用するためにサブスクリプションをアップグレードする必要があります。アップグレードするには、[サブスクリプションプロセス](./subscribe-on-aws-marketplace#subscribe-on-aws-marketplace)をもう一度繰り返します。
 
 1. AWS Marketplaceの[Zilliz Cloudページ](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio?sr=0-1&ref_=beagle&applicationId=AWSMPContessa)に移動してください。
 
@@ -128,7 +128,7 @@ AWS Marketplaceから正常にサブスクライブした後は、必要に応�
 
 1. サブスクリプションに使用する別のAWSアカウントでAWS Marketplaceにサインインします。
 
-1. 新しいアカウントでZilliz Cloudのサブスクリプションを完了するには、[AWS Marketplaceで購読](./subscribe-on-aws-marketplace#awsmarketplacesubscribe-on-aws-marketplace)するセクションの手順1から4に従ってください。
+1. 新しいアカウントでZilliz Cloudのサブスクリプションを完了するには、[AWS Marketplaceで購読](./subscribe-on-aws-marketplace#subscribe-on-aws-marketplace)するセクションの手順1から4に従ってください。
 
     <Admonition type="info" icon="📘" title="ノート">
 
@@ -174,17 +174,19 @@ AWS Marketplaceのサブスクリプションをキャンセルするには、AW
 
 ## トラブルシューティング{#troubleshooting}
 
-**マーケットプレイスのサブスクリプションをZilliz Cloudにリンクする際に問題が発生した場合、どうすればよいですか?**
+**Zilliz Cloudにマーケットプレイスのサブスクリプションをリンクする際に利用可能な組織がない場合、私は何ができますか?**
 
 いくつかの理由が考えられます:
 
-1. **不十分な権限**（UIプロンプト:「不十分な権限」）
+1. **不十分な権限**
 
-    組織をマーケットプレイスサブスクリプションにリンクするには、組織の所有者である必要があります。ただし、組織のメンバーの場合、必要な権限がありません。組織の所有者にお問い合わせください。
+    これは、十分な権限がない場合に発生する可能性があります。利用できない組織の横に「権限不足」タグが表示されます。
+
+    ![insufficient-permission-subscription](/img/ja-JP/insufficient-permission-subscription.png)
 
 1. **すべての組織はすでにMarketplaceサブスクリプションに正常にリンクされています**(UIプロンプト: Marketplace Linked)
 
-    1. 既存のMarketplaceサブスクリプションを更新する必要がある場合は、まず組織の現在のサブスクリプションの[リンク](./subscribe-on-aws-marketplace#aws-marketplacecancel-aws-marketplace-subscription)を解除してから、新しいサブスクリプションを設定してください。
+    1. 既存のMarketplaceサブスクリプションを更新する必要がある場合は、まず組織の現在のサブスクリプションの[リンク](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription)を解除してから、新しいサブスクリプションを設定してください。
 
     1. 異なるマーケットプレイスのサブスクリプションに複数の組織が必要な場合は、次のことができます:
 
@@ -194,11 +196,23 @@ AWS Marketplaceのサブスクリプションをキャンセルするには、AW
 
 1. **リストに組織がありません**
 
-    アカウントが閉鎖された場合や、すべての組織から離脱した場合に発生する可能性があります。この場合、次のことができます:
+    アカウントが閉鎖された場合や、すべての組織から離脱した場合に発生する可能性があります。UIは以下のようになります。
+
+    ![no-organization-during-subcription](/img/ja-JP/no-organization-during-subcription.png)
+
+    この場合、次のことができます:
+
+    1. 新しい組織を作る。
 
     1. 他のユーザに自分をOrganizationの所有者としてOrganizationに[招待](./organization-users#invite-a-user-to-your-organization)するように依頼します。
 
     1. [サポートチケットを送信](https://support.zilliz.com/hc/en-us)すると、新しい組織が作成されます。
+
+1. **Zilliz Cloud BYOCを使用しています。**
+
+    あなたの組織が実際にZilliz Cloud BYOC組織である場合、これが起こる可能性があります。利用できない組織の横に「署名済み契約」タグが表示されます。BYOC組織には支払い方法は必要ありません。ご質問がある場合は、[営業にお問い合わせ](https://zilliz.com/contact-sales)ください。 
+
+    ![signed-contract-subscription](/img/ja-JP/signed-contract-subscription.png)
 
 ## 関連するトピック{#related-topics}
 

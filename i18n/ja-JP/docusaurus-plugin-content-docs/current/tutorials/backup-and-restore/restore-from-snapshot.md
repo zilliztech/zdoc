@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

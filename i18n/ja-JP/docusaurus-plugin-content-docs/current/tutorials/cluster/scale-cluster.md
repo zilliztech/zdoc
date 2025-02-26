@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

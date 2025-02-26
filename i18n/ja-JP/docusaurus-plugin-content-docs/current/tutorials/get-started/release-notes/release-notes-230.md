@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 
@@ -49,7 +49,7 @@ import Admonition from '@theme/Admonition';
 
 - *コサインメトリック型*
 
-    高度なベクトル検索を[コサイン](./search-metrics-explained#cosine-similarity)、[内積](./search-metrics-explained#ipinner-product-ip)、[ユークリッド距離](./search-metrics-explained#l2euclidean-distance-l2)のサポートで体験できます。コサインメトリックにより、事前のベクトル正規化が不要になり、検索過程が効率化されます。
+    高度なベクトル検索を[コサイン](./search-metrics-explained#cosine-similarity)、[内積](./search-metrics-explained#inner-product-ip)、[ユークリッド距離](./search-metrics-explained#euclidean-distance-l2)のサポートで体験できます。コサインメトリックにより、事前のベクトル正規化が不要になり、検索過程が効率化されます。
 
 - *アクセス制御*
 

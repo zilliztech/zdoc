@@ -14,10 +14,10 @@ keywords:
   - cloud
   - activities
   - view
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 
@@ -61,15 +61,15 @@ Zilliz Cloudの**アクティビティ**機能は、の課金イベントやの�
        </tr>
        <tr>
          <td><p>情報を</p></td>
-         <td><p>クラスタ、アクセス、または請求に関する一般的な情報。</p><p>例:クラスタin01-xxxxxxxxxxxxxxxが作成されました。</p></td>
+         <td><p>クラスタ、アクセス、または請求に関する一般的な情報。 例:クラスタin01-xxxxxxxxxxxxxxxが作成されました。</p></td>
        </tr>
        <tr>
          <td><p>警告</p></td>
-         <td><p>注意が必要なリソース状態に関する更新。</p><p>例:「クラスタin01-xxxxxxxxxxxxxxxが削除されました」。</p></td>
+         <td><p>注意が必要なリソース状態に関する更新。 例:「クラスタin01-xxxxxxxxxxxxxxxが削除されました」。</p></td>
        </tr>
        <tr>
          <td><p>エラー</p></td>
-         <td><p>支払いの失敗またはその他のシステムの誤動作の通知には、直ちに対応または対応が必要です。</p><p>例:「請求書invo-xxxxxxxxxxxxxxxxxxxxxxxxの支払いに失敗しました。」</p></td>
+         <td><p>支払いの失敗またはその他のシステムの誤動作の通知には、直ちに対応または対応が必要です。 例:「請求書invo-xxxxxxxxxxxxxxxxxxxxxxxxの支払いに失敗しました。」</p></td>
        </tr>
     </table>
 

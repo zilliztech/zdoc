@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - alphanumonly
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

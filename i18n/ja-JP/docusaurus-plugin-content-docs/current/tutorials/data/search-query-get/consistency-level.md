@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

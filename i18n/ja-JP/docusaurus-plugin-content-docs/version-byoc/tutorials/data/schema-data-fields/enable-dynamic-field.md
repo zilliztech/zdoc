@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

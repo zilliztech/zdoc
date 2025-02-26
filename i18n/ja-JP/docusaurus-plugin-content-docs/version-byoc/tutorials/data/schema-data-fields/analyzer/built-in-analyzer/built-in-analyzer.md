@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in analyzer
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

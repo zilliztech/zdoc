@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

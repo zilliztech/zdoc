@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - json operators
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

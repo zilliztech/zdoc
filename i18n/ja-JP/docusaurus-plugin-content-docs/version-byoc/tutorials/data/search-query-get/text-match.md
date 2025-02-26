@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - text-match
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

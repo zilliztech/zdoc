@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

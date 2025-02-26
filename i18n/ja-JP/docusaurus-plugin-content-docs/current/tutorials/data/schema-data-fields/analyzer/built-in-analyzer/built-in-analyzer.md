@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in analyzer
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

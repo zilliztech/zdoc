@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

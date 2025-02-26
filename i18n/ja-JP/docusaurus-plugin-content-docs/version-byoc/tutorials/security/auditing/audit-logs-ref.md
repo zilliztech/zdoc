@@ -14,10 +14,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

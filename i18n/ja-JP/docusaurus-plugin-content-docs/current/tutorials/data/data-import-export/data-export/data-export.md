@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

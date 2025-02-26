@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

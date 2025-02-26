@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - quick-setup
-  - Zilliz
   - milvus vector database
   - milvus db
   - milvus vector db
+  - Zilliz Cloud
 
 ---
 

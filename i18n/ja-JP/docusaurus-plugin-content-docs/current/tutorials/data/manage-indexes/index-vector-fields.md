@@ -14,10 +14,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

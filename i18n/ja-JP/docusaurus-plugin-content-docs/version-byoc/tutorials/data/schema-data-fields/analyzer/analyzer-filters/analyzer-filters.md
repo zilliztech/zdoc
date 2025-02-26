@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

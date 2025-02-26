@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - advance pay
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

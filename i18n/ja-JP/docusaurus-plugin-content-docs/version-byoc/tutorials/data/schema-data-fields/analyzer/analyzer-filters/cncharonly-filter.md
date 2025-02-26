@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - cncharonly
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

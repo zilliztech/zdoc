@@ -17,10 +17,10 @@ keywords:
   - upsert
   - update
   - insert
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

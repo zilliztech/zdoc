@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

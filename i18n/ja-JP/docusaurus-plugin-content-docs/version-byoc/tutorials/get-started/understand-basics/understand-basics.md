@@ -14,10 +14,10 @@ keywords:
   - cloud
   - basics
   - milvus
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

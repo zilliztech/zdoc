@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

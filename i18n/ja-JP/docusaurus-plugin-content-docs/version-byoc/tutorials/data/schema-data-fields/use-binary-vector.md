@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

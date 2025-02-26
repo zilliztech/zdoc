@@ -14,10 +14,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

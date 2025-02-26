@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
 
 ---
 

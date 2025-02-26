@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - filtering templating
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

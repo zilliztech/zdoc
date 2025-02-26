@@ -45,7 +45,7 @@ sidebar_position: 11
 
 ### Googleからアカウントのリンクを解除する方法は?{#how-to-unlink-my-account-from-google}
 
-詳しい手順については、[メールアカウント](./email-accounts#googleunlink-from-your-google-account)を参照してください。
+詳しい手順については、[メールアカウント](./email-accounts#unlink-from-your-google-account)を参照してください。
 
 ### アカウントを削除する方法は?{#how-to-delete-my-account}
 

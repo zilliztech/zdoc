@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - array field
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

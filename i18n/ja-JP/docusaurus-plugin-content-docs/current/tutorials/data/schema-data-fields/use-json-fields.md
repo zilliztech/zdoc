@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - json field
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

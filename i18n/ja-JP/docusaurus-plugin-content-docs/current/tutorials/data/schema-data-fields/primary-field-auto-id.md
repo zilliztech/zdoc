@@ -17,10 +17,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 

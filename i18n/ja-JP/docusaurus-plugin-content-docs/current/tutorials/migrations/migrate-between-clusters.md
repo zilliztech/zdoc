@@ -1,6 +1,6 @@
 ---
 title: "クラスタ間の移行 | Cloud"
-slug: /offline-migration
+slug: /migrate-between-clusters
 sidebar_label: "クラスタ間の移行"
 beta: FALSE
 notebook: FALSE
@@ -15,10 +15,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
@@ -29,11 +29,11 @@ import Admonition from '@theme/Admonition';
 
 クラスタ間の移行は、ソースクラスタからターゲットクラスタにすべての既存データを転送します。この方法は、同じ組織内および異なる組織間の移行をサポートします。計画されたメンテナンス中や小規模なデータベース移行中など、一時的な書き込み中断が許容されるシナリオに最適です。
 
-## 始める前に{#}
+## 始める前に{#before-you-start}
 
 - ソースのZilliz Cloudクラスターは、パブリックインターネットからアクセスできます。
 
-- 組織[間移行](./offline-migration#)の場合は、パブリックエンドポイント、APIキー、クラスターのユーザー名とパスワードなど、ターゲットのZilliz Cloudクラスターに必要な接続情報があることを確認してください。
+- 組織[間移行](./migrate-between-clusters#migrate-data-across-organizations)の場合は、パブリックエンドポイント、APIキー、クラスターのユーザー名とパスワードなど、ターゲットのZilliz Cloudクラスターに必要な接続情報があることを確認してください。
 
 - 組織オーナーまたはプロジェクト管理者の役割が付与されています。必要な権限がない場合は、Zilliz Cloudの管理者にお問い合わせください。
 
@@ -43,7 +43,7 @@ import Admonition from '@theme/Admonition';
 
 </Admonition>
 
-## 同じ組織内でデータを移行する{#}
+## 同じ組織内でデータを移行する{#migrate-data-within-the-same-organization}
 
 同じ組織内の新しいクラスターまたは既存のクラスターにデータを移行できます。
 
@@ -63,7 +63,7 @@ import Admonition from '@theme/Admonition';
 
 ![cross_cluster_migration_1](/img/ja-JP/cross_cluster_migration_1.png)
 
-## 組織間でデータを移行する{#}
+## 組織間でデータを移行する{#migrate-data-across-organizations}
 
 組織間でデータを移行するには、別の組織のソースクラスターにアクセスするために必要な接続資格情報(ソースクラスターエンドポイント、APIキー、またはユーザー名とパスワード)を提供する必要があります。
 
@@ -87,7 +87,7 @@ import Admonition from '@theme/Admonition';
 
 ![cross_cluster_migration_2](/img/ja-JP/cross_cluster_migration_2.png)
 
-## 移行過程を監視する{#}
+## 移行過程を監視する{#monitor-the-migration-process}
 
 「**移行**」をクリックすると、移行ジョブが生成されます。[ジョブ](./job-center)ページで移行の進捗状況を確認できます。ジョブのステータスが「**IN PROGRESS**」から「**SUCCESS FUL**」に切り替わると、移行が完了します。
 
@@ -99,7 +99,7 @@ import Admonition from '@theme/Admonition';
 
 ![verify_collection](/img/ja-JP/verify_collection.png)
 
-## 移行ジョブをキャンセル{#}
+## 移行ジョブをキャンセル{#cancel-migration-job}
 
 移行過程で問題が発生した場合は、次の手順に従ってトラブルシューティングを行い、移行を再開できます。
 

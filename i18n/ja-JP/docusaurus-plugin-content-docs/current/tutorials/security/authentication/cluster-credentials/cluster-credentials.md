@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster credentials
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

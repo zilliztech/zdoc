@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

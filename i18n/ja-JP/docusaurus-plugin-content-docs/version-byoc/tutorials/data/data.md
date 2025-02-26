@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

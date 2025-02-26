@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

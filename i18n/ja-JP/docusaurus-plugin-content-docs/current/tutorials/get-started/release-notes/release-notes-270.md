@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - sparse vector
+  - lexical search
   - nearest neighbor search
   - Agentic RAG
   - rag llm architecture
-  - private llms
 
 ---
 

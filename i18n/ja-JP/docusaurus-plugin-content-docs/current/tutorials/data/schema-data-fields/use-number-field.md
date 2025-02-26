@@ -18,10 +18,10 @@ keywords:
   - int
   - integer
   - float
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - cnalphanumonly
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

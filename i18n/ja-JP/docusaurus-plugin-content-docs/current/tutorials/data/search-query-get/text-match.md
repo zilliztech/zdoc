@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - text-match
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

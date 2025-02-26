@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - standard-analyzer
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

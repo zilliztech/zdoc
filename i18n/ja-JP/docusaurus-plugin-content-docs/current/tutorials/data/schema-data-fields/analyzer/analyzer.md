@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

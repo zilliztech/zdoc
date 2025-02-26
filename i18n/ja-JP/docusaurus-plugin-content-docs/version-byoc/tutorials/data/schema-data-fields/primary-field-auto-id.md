@@ -17,10 +17,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

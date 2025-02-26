@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - stop
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - console
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

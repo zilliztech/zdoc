@@ -14,10 +14,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

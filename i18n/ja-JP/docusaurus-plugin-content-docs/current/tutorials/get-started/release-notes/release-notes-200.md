@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

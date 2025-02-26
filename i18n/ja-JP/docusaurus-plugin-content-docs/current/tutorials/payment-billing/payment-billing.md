@@ -15,10 +15,10 @@ keywords:
   - private link
   - payment
   - billing
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
@@ -54,15 +54,15 @@ import Admonition from '@theme/Admonition';
    </tr>
    <tr>
      <td><p>AWSMarketplaceのサブスクリプション</p></td>
-     <td><p>Zilliz Cloudの使用に関する請求書は、AWSMarketplaceを通じて受け取ります。</p><p>AWS Marketplaceでサービスに登録し、AWS、GCP、Azureから選択してZilliz Cloudクラスターを作成できます。</p></td>
+     <td><p>Zilliz Cloudの使用に関する請求書は、AWSMarketplaceを通じて受け取ります。 AWS Marketplaceでサービスに登録し、AWS、GCP、Azureから選択してZilliz Cloudクラスターを作成できます。</p></td>
    </tr>
    <tr>
      <td><p>GCPMarketplaceのサブスクリプション</p></td>
-     <td><p>Zilliz Cloudの使用に関する請求書は、GCPMarketplaceから受け取ります。</p><p>GCP Marketplaceでサービスに登録し、AWS、GCP、Azureから選択してZilliz Cloudクラスターを作成できます。</p></td>
+     <td><p>Zilliz Cloudの使用に関する請求書は、GCPMarketplaceから受け取ります。 GCP Marketplaceでサービスに登録し、AWS、GCP、Azureから選択してZilliz Cloudクラスターを作成できます。</p></td>
    </tr>
    <tr>
      <td><p>Azure Marketplaceのサブスクリプション</p></td>
-     <td><p>Azure Marketplaceを通じて、Zilliz Cloudの使用に関する請求書を受け取ります。</p><p>Azure Marketplaceでサービスに登録し、AWS、GCP、Azureから選択してZilliz Cloudクラスターを作成できます。</p></td>
+     <td><p>Azure Marketplaceを通じて、Zilliz Cloudの使用に関する請求書を受け取ります。 Azure Marketplaceでサービスに登録し、AWS、GCP、Azureから選択してZilliz Cloudクラスターを作成できます。</p></td>
    </tr>
    <tr>
      <td><p>事前支払い</p></td>
@@ -110,7 +110,7 @@ Zilliz Cloudは、異なる支払い方法の切り替えに柔軟性を提供�
 
 #### マーケットプレイスの定期購読からクレジットカードへ{#from-marketplace-subscription-to-credit-card}
 
-- 元の[AWS](./subscribe-on-aws-marketplace#aws-marketplacecancel-aws-marketplace-subscription)または[GCP](./subscribe-on-gcp-marketplace#gcp-marketplacecancel-gcp-marketplace-subscription)または[Azure](./subscribe-on-azure-marketplace#azure-marketplacecancel-azure-marketplace-subscription)Marketplaceから手動で登録解除してください。
+- 元の[AWS](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription)または[GCP](./subscribe-on-gcp-marketplace#cancel-gcp-marketplace-subscription)または[Azure](./subscribe-on-azure-marketplace#cancel-azure-marketplace-subscription)Marketplaceから手動で登録解除してください。
 
 - [クレジットカードを](./subscribe-by-adding-credit-card)Zilliz Cloudウェブコンソールに追加します。
 

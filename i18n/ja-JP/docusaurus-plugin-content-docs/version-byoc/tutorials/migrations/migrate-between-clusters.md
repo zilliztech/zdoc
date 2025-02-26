@@ -1,10 +1,10 @@
 ---
-title: "クラスタ間の移行 | Cloud"
-slug: /offline-migration
+title: "クラスタ間の移行 | BYOC"
+slug: /migrate-between-clusters
 sidebar_label: "クラスタ間の移行"
 beta: FALSE
 notebook: FALSE
-description: "クラスタ間の移行は、ソースクラスタからターゲットクラスタにすべての既存データを転送します。この方法は、同じ組織内および異なる組織間の移行をサポートします。計画されたメンテナンス中や小規模なデータベース移行中など、一時的な書き込み中断が許容されるシナリオに最適です。 | Cloud"
+description: "クラスタ間の移行は、ソースクラスタからターゲットクラスタにすべての既存データを転送します。この方法は、同じ組織内および異なる組織間の移行をサポートします。計画されたメンテナンス中や小規模なデータベース移行中など、一時的な書き込み中断が許容されるシナリオに最適です。 | BYOC"
 type: origin
 token: NR7FwgMcyiRS9Vk7ZVCc9Q5Sn7c
 sidebar_position: 2
@@ -15,10 +15,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
@@ -29,7 +29,7 @@ import Admonition from '@theme/Admonition';
 
 クラスタ間の移行は、ソースクラスタからターゲットクラスタにすべての既存データを転送します。この方法は、同じ組織内および異なる組織間の移行をサポートします。計画されたメンテナンス中や小規模なデータベース移行中など、一時的な書き込み中断が許容されるシナリオに最適です。
 
-## 始める前に{#}
+## 始める前に{#before-you-start}
 
 - ソースのZilliz Cloudクラスターは、パブリックインターネットからアクセスできます。
 
@@ -41,7 +41,7 @@ import Admonition from '@theme/Admonition';
 
 </Admonition>
 
-## 同じ組織内でデータを移行する{#}
+## 同じ組織内でデータを移行する{#migrate-data-within-the-same-organization}
 
 同じ組織内の新しいクラスターまたは既存のクラスターにデータを移行できます。
 
@@ -61,7 +61,7 @@ import Admonition from '@theme/Admonition';
 
 ![cross_cluster_migration_1](/img/ja-JP/cross_cluster_migration_1.png)
 
-## 移行過程を監視する{#}
+## 移行過程を監視する{#monitor-the-migration-process}
 
 「**移行**」をクリックすると、移行ジョブが生成されます。[ジョブ](./job-center)ページで移行の進捗状況を確認できます。ジョブのステータスが「**IN PROGRESS**」から「**SUCCESS FUL**」に切り替わると、移行が完了します。
 
@@ -73,7 +73,7 @@ import Admonition from '@theme/Admonition';
 
 ![verify_collection](/img/ja-JP/verify_collection.png)
 
-## 移行ジョブをキャンセル{#}
+## 移行ジョブをキャンセル{#cancel-migration-job}
 
 移行過程で問題が発生した場合は、次の手順に従ってトラブルシューティングを行い、移行を再開できます。
 

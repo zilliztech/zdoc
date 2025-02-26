@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

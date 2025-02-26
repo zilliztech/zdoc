@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - alphanumonly
-  - approximate nearest neighbor search
   - DiskANN
   - Sparse vector
   - Vector Dimension
+  - ANN Search
 
 ---
 

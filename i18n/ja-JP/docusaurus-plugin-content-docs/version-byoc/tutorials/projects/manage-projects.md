@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

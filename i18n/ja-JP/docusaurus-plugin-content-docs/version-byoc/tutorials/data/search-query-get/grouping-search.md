@@ -16,10 +16,10 @@ keywords:
   - data
   - grouping search
   - group
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

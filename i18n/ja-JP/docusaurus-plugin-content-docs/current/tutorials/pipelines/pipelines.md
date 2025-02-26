@@ -2,7 +2,7 @@
 title: "パイプライン(Pipelines) | Cloud"
 slug: /pipelines
 sidebar_label: "パイプライン(Pipelines)"
-beta: NEAR DEPRECATE
+beta: FALSE
 notebook: FALSE
 description: "パイプラインは、非構造化データを検索可能なベクトルコレクションに変換し、データの埋め込み、取り込み、検索、削除をチェーン化します。 | Cloud"
 type: origin
@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - pipelines
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

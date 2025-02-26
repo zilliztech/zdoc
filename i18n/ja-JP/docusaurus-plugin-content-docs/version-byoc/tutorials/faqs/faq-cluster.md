@@ -18,7 +18,6 @@ sidebar_position: 2
 ## Contents
 
 - [「クォータ超過\[理由=ディスククォータ超過、より多くのリソースを割り当ててください」というエラーが表示された場合、どうすればよいですか?](#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources)
-- [専用クラスターが作成された後にCUタイプを変更できますか?](#can-i-change-the-cu-type-after-my-dedicated-cluster-is-created)
 - [クラスターCUの体格を縮小するにはどうすればよいですか?](#how-can-i-scale-down-my-cluster-cu-size)
 - [Zilliz Cloudに接続しようとすると、接続タイムアウトエラーが発生します。どうすれば対処できますか?](#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud)
 - [クラスターが作成された後にクラスターに接続できないのはなぜですか?](#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created)
@@ -37,14 +36,6 @@ sidebar_position: 2
 この問題に対処するには、以下の手順に従ってください。
 
 このような場合は、CU体格を上げて[クラスターをスケールアップ](./scale-cluster#scale-up-a-cluster)することをお勧めします。
-
-### 専用クラスターが作成された後にCUタイプを変更できますか?{#can-i-change-the-cu-type-after-my-dedicated-cluster-is-created}
-
-はい。CUタイプを変更するには、以下の手順に従う必要があります。
-
-1. 希望のCUタイプで新しいクラスタを作成します。[計算機](https://zilliz.com/pricing#calculator)を使用して、この新しいクラスタのCU体格を決定します。
-
-1. 現在のクラスタから作成したばかりの新しいクラスタにデータを移行します。または、クラスタ間のデータ移行を処理するために[お問い合わせ](https://support.zilliz.com/hc/en-us)いただくこともできます。お問い合わせの際は、ソースクラスタとターゲットクラスタを指定してください。
 
 ### クラスターCUの体格を縮小するにはどうすればよいですか?{#how-can-i-scale-down-my-cluster-cu-size}
 

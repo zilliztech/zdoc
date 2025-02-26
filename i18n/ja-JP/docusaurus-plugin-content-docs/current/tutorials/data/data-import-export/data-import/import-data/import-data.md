@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - whitespace-tokenizer
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

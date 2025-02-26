@@ -13,10 +13,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

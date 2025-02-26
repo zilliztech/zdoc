@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

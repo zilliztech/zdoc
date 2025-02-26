@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

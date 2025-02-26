@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 
