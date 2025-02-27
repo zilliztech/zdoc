@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 
@@ -254,47 +254,19 @@ To add replicas, the cluster needs to have **8 CUs or more**. The following limi
    <tr>
      <td><p>Free cluster</p></td>
      <td><p>5</p></td>
-     <td><p>You can create up to 5 collections.</p></td>
+     <td><p>You can create up to <strong>5</strong> collections.</p></td>
    </tr>
    <tr>
      <td><p>Serverless cluster</p></td>
      <td><p>100</p></td>
-     <td><p>You can create up to 100 collections.</p></td>
+     <td><p>You can create up to <strong>100</strong> collections.</p></td>
    </tr>
    <tr>
      <td><p>Dedicated cluster</p></td>
-     <td><p>64 per CU, and &lt;= 4096</p></td>
-     <td><p>You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster.</p></td>
+     <td><p>256 per CU, and &lt;= 16384</p></td>
+     <td><p>You can create up to <strong>256</strong> collections per CU used in a dedicated cluster and no more than <strong>16,384</strong> collections in the cluster.</p></td>
    </tr>
 </table>
-
-In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on the number of partitions. The following formula shows how Zilliz Cloud calculates the number of available partitions in a cluster. The number of created partitions should be less than the number of available partitions in a cluster.
-
-```plaintext
-Number of available partitions = 512 x Number of CUs
-```
-
-<Admonition type="info" icon="📘" title="How can I know the number of available partitions in a cluster?">
-
-<p>The number of available partitions in a cluster indicates the maximum physical resources allocated to the cluster, and it can be determined using the following formula:</p>
-<p><strong>\<= 512 x Number of CUs</strong></p>
-<p>For instance, </p>
-<ul>
-<li><p>In a cluster of <strong>2</strong> CUs, you can create a maximum of <strong>128</strong> collections or <strong>1,024</strong> partitions.</p></li>
-<li><p>In a cluster of <strong>12</strong> CUs, you can create a maximum of <strong>768</strong> collections or <strong>6,144</strong> partitions.</p></li>
-<li><p>In a cluster of <strong>32</strong> CUs or more, you can create a maximum of <strong>4,096</strong> collections or <strong>16,384</strong> partitions. </p></li>
-</ul>
-
-</Admonition>
-
-<Admonition type="info" icon="📘" title="How can I know the number of partitions already created in a cluster?">
-
-<p>The number of partitions already created in a cluster indicates the physical resources consumed by the cluster. </p>
-<p>For instance, let's assume that you have created <strong>50</strong> collections in a cluster; each of the first <strong>20</strong> collections has <strong>20</strong> partitions, while each of the remaining <strong>30</strong> collections has <strong>10</strong> partitions. The number of partitions already created in the cluster can be calculated as follows:</p>
-<p><strong>20 (collections) x 20 (partitions) + 30 (collections) x 10 (partitions) = 400 + 300 = 700</strong></p>
-<p>Based on the above calculation, the cluster has <strong>700</strong> partitions.</p>
-
-</Admonition>
 
 Zilliz Cloud also imposed rate limits on collection operations including creating, loading, releasing, and dropping collections. The following rate limit applies to collections in both Serverless and Dedicated clusters.
 
