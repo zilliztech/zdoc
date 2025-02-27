@@ -2,7 +2,7 @@
 title: "mmapを使う | BYOC"
 slug: /use-mmap
 sidebar_label: "mmapを使う"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "メモリマッピング(Mmap)により、ディスク上の大きなファイルに直接メモリアクセスできるため、Zilliz Cloudはインデックスとデータをメモリとハードドライブの両方に保存できます。このアプローチにより、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張できます。このページでは、Zilliz Cloudがmmapを使用して高速かつ効率的なデータストレージと取得を可能にする方法を理解するのに役立ちます。 | BYOC"
 type: origin

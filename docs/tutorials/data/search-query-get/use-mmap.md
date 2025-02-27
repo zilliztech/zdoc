@@ -2,7 +2,7 @@
 title: "Use mmap | Cloud"
 slug: /use-mmap
 sidebar_label: "Use mmap"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "Memory mapping (Mmap) enables direct memory access to large files on disk, allowing Zilliz Cloud to store indexes and data in both memory and hard drives. This approach helps optimize data placement policy based on access frequency, expanding storage capacity for collections without impacting search performance. This page helps you understand how Zilliz Cloud uses mmap to enable fast and efficient data storage and retrieval. | Cloud"
 type: origin
