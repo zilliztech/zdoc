@@ -16,10 +16,10 @@ keywords:
   - data
   - hybrid search
   - combine sparse and dense vectors
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 
@@ -519,6 +519,8 @@ curl --request POST \
 ### 複数のAnn SearchRequestインスタンスを作成{#create-multiple-annsearchrequest-instances}
 
 ハイブリッド検索は、複数の`AnnSearchRequest`を`hybrid_search()`関数で作成することによって実装されます。各`AnnSearchRequest`は、特定のベクトル場に対する基本的なANN検索要求を表します。したがって、ハイブリッド検索を実行する前に、各ベクトル場に対して`AnnSearchRequest`を作成する必要があります。
+
+An SearchRequestで**expr**パラメータを設定することで、ハイブリッド検索のフィルタリング条件を設定できます。詳しくは、[フィルター検索](./filtered-search)と[フィルタリング](./filtering)を参照してください。
 
 <Admonition type="info" icon="📘" title="ノート">
 
