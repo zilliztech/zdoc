@@ -45,6 +45,7 @@ jobs:
       run: |
         yarn
         npx docusaurus report-to-lark -m "🔥 Start building doc page [ ${{ github.event.inputs.doc }} ] ..."
+        npx docusaurus fetch-lark-docs -man ${{ github.event.inputs.manual }} -src-only
         npx docusaurus fetch-lark-docs -man ${{ github.event.inputs.manual }} -tar ${{ github.event.inputs.target }} -doc "${{ github.event.inputs.doc }}"
     - name: build docsite
       run: |
