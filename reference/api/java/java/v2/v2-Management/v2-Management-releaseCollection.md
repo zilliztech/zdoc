@@ -10,19 +10,19 @@ type: docx
 token: BA9edMrWMosYWFxwTBAcl2WOnff
 sidebar_position: 9
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - releaseCollection()
-  - javaV2
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - javaV225
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: javaSidebar
 
 ---

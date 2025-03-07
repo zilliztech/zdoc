@@ -10,19 +10,19 @@ type: docx
 token: XgfcdpBWCof3pfxhUudcRZajnPc
 sidebar_position: 13
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStats()
-  - javaV2
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - javaV225
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 displayed_sidebar: javaSidebar
 
 ---

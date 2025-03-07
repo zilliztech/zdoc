@@ -2,7 +2,7 @@
 title: "addUserToRole() | Java | v1"
 slug: /java/v1-RBAC-addUserToRole
 sidebar_label: "addUserToRole()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "MilvusClient interface. This method adds a user to a role. The user will get permissions that the role is allowed to perform operations. | Java | v1"
 type: origin

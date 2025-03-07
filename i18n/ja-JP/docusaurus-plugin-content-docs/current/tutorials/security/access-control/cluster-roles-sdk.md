@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

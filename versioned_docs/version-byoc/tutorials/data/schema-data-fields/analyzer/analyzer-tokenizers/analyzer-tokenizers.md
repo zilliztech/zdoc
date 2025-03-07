@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

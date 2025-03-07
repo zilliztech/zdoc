@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - quick-setup
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

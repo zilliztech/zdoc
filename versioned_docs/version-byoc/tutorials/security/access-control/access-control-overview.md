@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 
@@ -41,7 +41,7 @@ Zilliz Cloud organizes its resources within two planes, implementing RBAC across
 
 - **Data plane:** This plane includes clusters, databases, and collections, focusing on data access management. [Cluster users](./cluster-users) are granted appropriate cluster roles and authenticate using [API keys](./manage-api-keys) or [username-password pairs](./cluster-credentials) when interacting with data plane resources.
 
-Normally, each account user corresponds to a cluster user. However, not all users require access for both planes. In some cases, a control plane account user like a Billing Admin might only need access to the control plane for billing management purposes and do not require data plane access. Conversely, temporary cluster users can be created and granted access to data plane resources through customized API keys, allowing data access without a registered account. For details about managing customized API keys, refer to [API Keys](./manage-api-keys#create-an-api-key).
+Normally, each account user corresponds to a cluster user. However, not all users require access for both planes. In some cases, a control plane account user like a Billing Admin might only need access to the control plane for billing management purposes and do not require data plane access. Conversely, temporary cluster users can be created and granted access to data plane resources through customized API keys, allowing data access without a registered account. For details about managing customized API keys, refer to [API Keys](./manage-api-keys).
 
 ## Roles and privileges{#roles-and-privileges}
 

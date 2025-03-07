@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 
@@ -129,11 +129,11 @@ import Admonition from '@theme/Admonition';
 
 - **データ移行**
 
-    [**Migrations**]タブで、[Migrate]を選択すると、データの**移行**タスクを作成できます。詳細については、「[クラスタ間の移行](./undefined)」を参照してください。
+    [**Migrations**]タブで、[Migrate]を選択すると、データの**移行**タスクを作成できます。詳細については、「[クラスタ間の移行](./migrate-between-clusters)」を参照してください。
 
 ### 専用クラスタへの移行{#migrate-to-dedicated-cluster}
 
-エンタープライズグレードの機能やカスタム構成をより多く使用するには、サーバーレスクラスターを専用クラスターに移行することをお勧めします。詳細については、「[クラスタ間の移行](./undefined)」を参照してください。
+エンタープライズグレードの機能やカスタム構成をより多く使用するには、サーバーレスクラスターを専用クラスターに移行することをお勧めします。詳細については、「[クラスタ間の移行](./migrate-between-clusters)」を参照してください。
 
 ### ユーザーとアクセス制御{#users-and-access-control}
 
@@ -187,7 +187,7 @@ Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細に�
 
 - **マイグレーション**
 
-    [**Migrations**]タブで、[Migrate]を選択すると、データの**移行**タスクを作成できます。詳細については、「[クラスタ間の移行](./undefined)」を参照してください。
+    [**Migrations**]タブで、[Migrate]を選択すると、データの**移行**タスクを作成できます。詳細については、「[クラスタ間の移行](./offline-migration)」を参照してください。
 
 ### ユーザーとアクセス制御{#users-and-access-control}
 
@@ -260,7 +260,7 @@ Dedicated(Standard)クラスタの場合、**Summary**セクションのサー�
 
 - [プライベートエンドポイントを設定する](./setup-a-private-link)
 
-- [クラスタ間の移行](./undefined)
+- [クラスタ間の移行](./migrate-between-clusters)
 
 - [詳細なプラン比較](./select-zilliz-cloud-service-plans)
 

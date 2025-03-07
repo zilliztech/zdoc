@@ -14,10 +14,10 @@ keywords:
   - cloud
   - notification
   - channels
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

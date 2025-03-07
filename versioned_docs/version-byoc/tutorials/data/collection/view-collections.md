@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

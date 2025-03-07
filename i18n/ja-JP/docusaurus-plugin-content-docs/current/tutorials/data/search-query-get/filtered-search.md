@@ -16,10 +16,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

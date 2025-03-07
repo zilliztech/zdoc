@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

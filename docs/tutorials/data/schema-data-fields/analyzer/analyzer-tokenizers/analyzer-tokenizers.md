@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

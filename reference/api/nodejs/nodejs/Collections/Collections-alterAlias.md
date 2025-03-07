@@ -10,19 +10,19 @@ type: docx
 token: DXTLdtFCso7fo6xJHShc7XLpngh
 sidebar_position: 1
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
   - alterAlias()
-  - node
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - nodejs25
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: nodeSidebar
 
 ---

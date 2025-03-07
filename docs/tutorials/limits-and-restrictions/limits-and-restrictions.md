@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

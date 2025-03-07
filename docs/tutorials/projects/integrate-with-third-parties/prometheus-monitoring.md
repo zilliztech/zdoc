@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

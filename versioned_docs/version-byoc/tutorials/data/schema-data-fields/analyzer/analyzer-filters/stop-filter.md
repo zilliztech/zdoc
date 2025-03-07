@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - stop
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

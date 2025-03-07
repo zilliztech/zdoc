@@ -10,19 +10,19 @@ type: docx
 token: TjqHdZqO1oSwwYxuny2cchWzn6S
 sidebar_position: 7
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
-  - node
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - nodejs25
   - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 displayed_sidebar: nodeSidebar
 
 ---

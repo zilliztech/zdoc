@@ -17,10 +17,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

@@ -2,7 +2,7 @@
 title: "getCollectionStatistics() | Java | v1"
 slug: /java/v1-Collection-getCollectionStatistics
 sidebar_label: "getCollectionStatistics()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "A MilvusClient interface. This method shows the statistical information of the specified collection. | Java | v1"
 type: origin

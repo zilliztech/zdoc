@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - pricing
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

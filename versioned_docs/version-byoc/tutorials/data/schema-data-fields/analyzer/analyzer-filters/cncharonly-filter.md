@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - cncharonly
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

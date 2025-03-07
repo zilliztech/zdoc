@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - cnalphanumonly
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

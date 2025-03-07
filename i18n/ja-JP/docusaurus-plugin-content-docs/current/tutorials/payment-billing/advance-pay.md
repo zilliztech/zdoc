@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - advance pay
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

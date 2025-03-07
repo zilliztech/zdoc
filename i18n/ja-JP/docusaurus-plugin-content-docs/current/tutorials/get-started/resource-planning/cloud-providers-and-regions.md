@@ -14,10 +14,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

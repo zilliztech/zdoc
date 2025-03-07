@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

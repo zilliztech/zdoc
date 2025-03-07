@@ -15,10 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

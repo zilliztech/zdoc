@@ -10,19 +10,19 @@ type: docx
 token: UrjHd9KZKo1Rlfxfj8AcmXNinlg
 sidebar_position: 2
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClientV2Pool
-  - javaV2
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - javaV225
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 displayed_sidebar: javaSidebar
 
 ---

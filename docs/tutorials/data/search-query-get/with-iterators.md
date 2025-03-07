@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

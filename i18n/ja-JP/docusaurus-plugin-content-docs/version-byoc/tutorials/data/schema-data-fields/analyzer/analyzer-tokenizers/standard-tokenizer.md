@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - standard-tokenizer
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

@@ -10,19 +10,19 @@ type: docx
 token: EfM3drSXlo4Yzyxq2GpcmvoHnTm
 sidebar_position: 10
 keywords: 
+  - open source vector database
+  - Vector index
   - vector database open source
   - open source vector db
-  - vector database example
-  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - listUsers()
-  - javaV2
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - javaV225
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: javaSidebar
 
 ---

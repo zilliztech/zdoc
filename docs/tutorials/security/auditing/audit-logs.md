@@ -15,10 +15,10 @@ keywords:
   - auditing
   - log
   - configure
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 
@@ -120,7 +120,7 @@ Audit logging on Zilliz Cloud streams audit logs directly to your storage bucket
 
     - **Export Directory**: Specify a directory within the bucket to store audit logs.
 
-1. Click **Enable**. Once the **Audit Log Streaming** status is **Active**, it has been enabled successfully. If the status is **Abnormal**, go to [FAQ](./audit-logs) for troubleshooting.
+1. Click **Enable**. Once the **Audit Log Streaming** status is **Active**, it has been enabled successfully. If the status is **Abnormal**, go to [FAQ](./audit-logs#faq) for troubleshooting.
 
 Once configured, audit logs will be streamed to your bucket at an interval of about 5 minutes. You can access your bucket to view or manage the logs as needed.
 

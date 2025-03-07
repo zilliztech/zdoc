@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

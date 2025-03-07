@@ -19,10 +19,10 @@ keywords:
   - cloud
   - drop_resource_group()
   - pymilvus25
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 displayed_sidebar: pythonSidebar
 
 ---

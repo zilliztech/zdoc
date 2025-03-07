@@ -10,19 +10,19 @@ type: docx
 token: IeiIdJ71Pox2OjxMiOzczUTenud
 sidebar_position: 18
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - rename_collection()
   - pymilvus25
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: W39Wdr7S6ohrtfxI8r7cyTeInlb
 sidebar_position: 10
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - grant_privilege()
   - pymilvus25
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
   - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 displayed_sidebar: pythonSidebar
 
 ---

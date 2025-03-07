@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

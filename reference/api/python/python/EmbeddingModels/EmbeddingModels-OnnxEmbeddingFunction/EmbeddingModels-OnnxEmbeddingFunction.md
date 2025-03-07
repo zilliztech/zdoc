@@ -10,19 +10,19 @@ type: docx
 token: MVLRdU9nPonUeExs7ogctwZ1n4c
 sidebar_position: 3
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
   - OnnxEmbeddingFunction
   - pymilvus25
+  - Zilliz database
+  - Unstructured Data
   - vector database
   - IVF
-  - knn
-  - Image Search
 displayed_sidebar: pythonSidebar
 
 ---

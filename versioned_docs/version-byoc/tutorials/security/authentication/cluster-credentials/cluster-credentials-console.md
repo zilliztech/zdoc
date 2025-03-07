@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - console
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

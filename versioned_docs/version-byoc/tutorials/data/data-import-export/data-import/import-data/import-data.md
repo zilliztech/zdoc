@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

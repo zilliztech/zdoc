@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

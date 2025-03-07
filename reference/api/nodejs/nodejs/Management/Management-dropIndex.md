@@ -10,19 +10,19 @@ type: docx
 token: UBbndftiQo2HdOxUNtocIISnnVh
 sidebar_position: 3
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndex()
-  - node
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - nodejs25
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: nodeSidebar
 
 ---

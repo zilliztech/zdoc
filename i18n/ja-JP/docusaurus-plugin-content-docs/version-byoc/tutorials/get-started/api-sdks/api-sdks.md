@@ -20,10 +20,10 @@ keywords:
   - go
   - node
   - nodejs
-  - hybrid vector search
   - Video deduplication
   - Video similarity search
   - Vector retrieval
+  - Audio similarity search
 
 ---
 

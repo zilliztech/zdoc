@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

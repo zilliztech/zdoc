@@ -14,10 +14,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

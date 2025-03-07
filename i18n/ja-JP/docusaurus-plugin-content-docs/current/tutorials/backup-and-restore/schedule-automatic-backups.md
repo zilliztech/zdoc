@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 
@@ -39,7 +39,7 @@ Zilliz Cloudを使用すると、クラスターの自動バックアップを�
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>自動バックアップは<strong>専用</strong>クラスターでのみ利用可能です。クラスターが<strong>Free</strong>レベルで実行されている場合は、まず<a href="./manage-cluster">アップグレード</a>してください。クラスターが<strong>Serverless</strong>レベルで実行されている場合は、まず専用クラスターに<a href="./undefined">移行</a>してください。バックアップの作成には料金がかかる場合があります。バックアップコストの詳細については、「<a href="./billing-rules">請求ルール</a>について」を参照してください。</p>
+<p>自動バックアップは<strong>専用</strong>クラスターでのみ利用可能です。クラスターが<strong>Free</strong>レベルで実行されている場合は、まず<a href="./manage-cluster">アップグレード</a>してください。クラスターが<strong>Serverless</strong>レベルで実行されている場合は、まず専用クラスターに<a href="./offline-migration">移行</a>してください。バックアップの作成には料金がかかる場合があります。バックアップコストの詳細については、「<a href="./understand-cost">コストの理解</a>」を参照してください。</p>
 
 </Admonition>
 
@@ -61,7 +61,7 @@ Zilliz Cloudを使用すると、クラスターの自動バックアップを�
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>バックアップコストの詳細については、<a href="./billing-rules">請求ルール</a>するを参照してください。</p>
+<p>バックアップコストの詳細については、<a href="./understand-cost">コストの理解</a>するを参照してください。</p>
 
 </Admonition>
 
@@ -103,7 +103,7 @@ curl --request POST \
 
 ## 自動バックアップスケジュールを調整する{#adjust-automated-backup-schedule}
 
-バックアップの作成には[コスト](./billing-rules)がかかりますので、Zilliz Cloudがバックアップファイルを作成するタイミングや方法を決定することができます。
+バックアップの作成には[コスト](./understand-cost)がかかりますので、Zilliz Cloudがバックアップファイルを作成するタイミングや方法を決定することができます。
 
 デフォルト設定では、Zilliz Cloudは毎日8時から10時の間（**頻度**）にクラスタのバックアップファイルを自動的に作成し、7日間（**保存期間）バックアップファイルを保持するように設定されています。必要に応じて設定を変更してください。**
 

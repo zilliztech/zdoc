@@ -10,19 +10,19 @@ type: docx
 token: MJjHd3uGcoxEYBx0laKcAIKNnhg
 sidebar_position: 3
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - describeDatabase()
-  - javaV2
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - javaV225
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: javaSidebar
 
 ---

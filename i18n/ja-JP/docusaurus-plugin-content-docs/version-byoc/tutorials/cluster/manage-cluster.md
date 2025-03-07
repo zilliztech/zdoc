@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 
@@ -115,8 +115,6 @@ Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細に�
 ## 関連するトピック{#related-topics}
 
 - [クラスタに接続](./connect-to-cluster)
-
-- [プライベートエンドポイントを設定する](./setup-a-private-link)
 
 - [バックアップと復元](./backup-and-restore)
 

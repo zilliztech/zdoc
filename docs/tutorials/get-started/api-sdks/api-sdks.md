@@ -20,10 +20,10 @@ keywords:
   - go
   - node
   - nodejs
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

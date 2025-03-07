@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

@@ -10,19 +10,19 @@ type: docx
 token: JJOId59ePoMLefxz1ChcBZ6inOh
 sidebar_position: 19
 keywords: 
-  - DiskANN
   - Sparse vector
   - Vector Dimension
   - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - revoke_role()
   - pymilvus25
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 displayed_sidebar: pythonSidebar
 
 ---

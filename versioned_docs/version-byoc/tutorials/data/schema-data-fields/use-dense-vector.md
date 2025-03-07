@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

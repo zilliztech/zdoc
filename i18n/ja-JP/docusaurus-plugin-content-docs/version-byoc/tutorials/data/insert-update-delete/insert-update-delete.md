@@ -15,10 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - go
   - node
   - nodejs
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

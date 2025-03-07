@@ -10,19 +10,19 @@ type: docx
 token: FLmWdFP9Zo3JcixOEgucU8JMnLc
 sidebar_position: 10
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - load_collection()
   - pymilvus25
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: pythonSidebar
 
 ---

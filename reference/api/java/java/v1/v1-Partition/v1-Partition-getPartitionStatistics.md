@@ -2,7 +2,7 @@
 title: "getPartitionStatistics() | Java | v1"
 slug: /java/v1-Partition-getPartitionStatistics
 sidebar_label: "getPartitionStatistics()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "MilvusClient interface. This method shows the statistical information of a partition. | Java | v1"
 type: origin

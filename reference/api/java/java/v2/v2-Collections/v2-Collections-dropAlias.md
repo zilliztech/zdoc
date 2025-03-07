@@ -10,19 +10,19 @@ type: docx
 token: MBy3dDXFbo0buwxkh0IczwLInPf
 sidebar_position: 10
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - dropAlias()
-  - javaV2
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - javaV225
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: javaSidebar
 
 ---

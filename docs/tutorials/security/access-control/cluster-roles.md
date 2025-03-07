@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

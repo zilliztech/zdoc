@@ -17,10 +17,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 
@@ -57,13 +57,13 @@ Zilliz Cloudは、ANN検索に加えて、クエリによるメタデータフ�
    </tr>
    <tr>
      <td><p>必須パラメータ</p></td>
-     <td><ul><li><p>コレクション名</p></li><li><p>プライマリキー</p></li></ul></td>
-     <td><ul><li><p>コレクション名</p></li><li><p>式のフィルタリング</p></li></ul></td>
+     <td><ul><li>コレクション名</li><li>プライマリキー</li></ul></td>
+     <td><ul><li>コレクション名</li><li>式のフィルタリング</li></ul></td>
      <td><ul><li><p>コレクション名</p></li><li><p>式のフィルタリング</p></li><li><p>クエリごとに返すエンティティの数</p></li></ul></td>
    </tr>
    <tr>
      <td><p>任意のパラメータ</p></td>
-     <td><ul><li><p>パーティション名</p></li><li><p>出力フィールド</p></li></ul></td>
+     <td><ul><li>パーティション名</li><li>出力フィールド</li></ul></td>
      <td><ul><li><p>パーティション名</p></li><li><p>返すエンティティの数</p></li><li><p>出力フィールド</p></li></ul></td>
      <td><ul><li><p>パーティション名</p></li><li><p>返すエンティティの総数</p></li><li><p>出力フィールド</p></li></ul></td>
    </tr>

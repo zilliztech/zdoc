@@ -2,7 +2,7 @@
 title: "Use Advance Pay | Cloud"
 slug: /advance-pay
 sidebar_label: "Advance Pay"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Zilliz Cloud also accepts advance pay (bank transfer) as the payment method in alternative to adding a credit card or subscribing on AWS Marketplace. | Cloud"
 type: origin
@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - advance pay
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

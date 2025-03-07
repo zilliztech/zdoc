@@ -10,19 +10,19 @@ type: docx
 token: SSQ6dFGdxouy7hxRwCOcatnEn0e
 sidebar_position: 14
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - has_collection()
   - pymilvus25
+  - Unstructured Data
   - vector database
   - IVF
   - knn
-  - Image Search
 displayed_sidebar: pythonSidebar
 
 ---

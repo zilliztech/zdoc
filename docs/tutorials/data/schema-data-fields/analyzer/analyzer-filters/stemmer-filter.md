@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - stemmer
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - ingest
   - search
   - delete
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

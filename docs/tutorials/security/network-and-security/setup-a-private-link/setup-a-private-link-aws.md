@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 
@@ -173,7 +173,7 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
            </tr>
            <tr>
              <td><p><strong>Domain name</strong></p></td>
-             <td><p></p><p>Private Link allocated by Zilliz Cloud for the target cluster.</p><p></p></td>
+             <td><p>Private Link allocated by Zilliz Cloud for the target cluster.</p></td>
            </tr>
            <tr>
              <td><p><strong>Description</strong></p></td>

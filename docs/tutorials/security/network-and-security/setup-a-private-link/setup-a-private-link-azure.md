@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

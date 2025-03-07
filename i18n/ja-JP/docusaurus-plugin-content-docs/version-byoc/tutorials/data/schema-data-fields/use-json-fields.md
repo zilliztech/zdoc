@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - json field
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

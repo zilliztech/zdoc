@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

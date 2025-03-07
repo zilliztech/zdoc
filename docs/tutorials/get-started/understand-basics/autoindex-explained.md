@@ -14,10 +14,10 @@ keywords:
   - cloud
   - autoindex
   - milvus
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

@@ -10,19 +10,19 @@ type: docx
 token: WUgedTmyZoW4clxSgHVcl1ZtnZl
 sidebar_position: 2
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
-  - javaV2
-  - nearest neighbor search
+  - javaV225
   - Agentic RAG
   - rag llm architecture
   - private llms
+  - nn search
 displayed_sidebar: javaSidebar
 
 ---

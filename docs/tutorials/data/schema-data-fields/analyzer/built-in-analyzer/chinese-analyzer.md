@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - chinese analyzer
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

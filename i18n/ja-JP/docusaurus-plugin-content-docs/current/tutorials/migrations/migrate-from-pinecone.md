@@ -1,7 +1,7 @@
 ---
 title: "PineconeからZilliz Cloudへの移行 | Cloud"
 slug: /migrate-from-pinecone
-sidebar_label: "PineconeからZilliz Cloudへの移行"
+sidebar_label: "Pineconeから"
 beta: FALSE
 notebook: FALSE
 description: "Pineconeは類似検索を可能にするベクトルデータベースです。PineconeからZilliz Cloudにデータを移行することで、Zilliz Cloudの高性能な検索と分析を活用しながら、密なベクトルと疎なベクトルの両方を管理する機能を強化することができます。 | Cloud"
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - pinecone
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 
@@ -94,7 +94,7 @@ import Admonition from '@theme/Admonition';
 
         1. **ダイナミックフィールド**:デフォルトで有効になっており、変更できません。ソースインデックスからメタデータを保存し、一貫性を確保し、柔軟性を維持します。
 
-        1. **パーティションキー**:デフォルトで無効になっており、変更できません。これは、Pineconeのメタデータが動的フィールドにJSONとして保存され、パーティションキーとして機能しないためです。Zilliz Cloudでは、スキーマで明示的に定義されたスカラーフィールドのみがパーティションキーとして使用できます。
+        1. **パーティションキー**:デフォルトで有効になっています。有効にすると、Zilliz CloudはPinecone名前空間をパーティションキーにマップします。無効にすると、パーティションにマップされます。この機能を有効にしておくことをお勧めします。この状態では、名前空間はVARCHARデータ型を持つターゲットコレクションスキーマのスカラーフィールドとして表示されます。詳細については、「[パーティションキーを使う](./use-partition-key)」と「[パーティションの管理](./manage-partitions)」を参照してください。
 
     1. [**ターゲットコレクション名**と**説明**]で、ターゲットコレクション名と説明をカスタマイズします。コレクション名は、各クラスターで一意である必要があります。名前が既存の名前と重複する場合は、コレクション名を変更します。
 

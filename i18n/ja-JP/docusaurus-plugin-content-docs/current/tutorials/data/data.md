@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

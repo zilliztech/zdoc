@@ -2,7 +2,7 @@
 title: "loadPartitions() | Java | v1"
 slug: /java/v1-Partition-loadPartitions
 sidebar_label: "loadPartitions()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "MilvusClient interface. This method loads partitions' data into query nodes' memory before the search or query. | Java | v1"
 type: origin

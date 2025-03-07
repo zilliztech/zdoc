@@ -10,19 +10,19 @@ type: docx
 token: AJ96d6Aguos3FAxWMDxcjzqpnSg
 sidebar_position: 4
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - query()
-  - node
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - nodejs25
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: nodeSidebar
 
 ---

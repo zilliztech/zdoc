@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

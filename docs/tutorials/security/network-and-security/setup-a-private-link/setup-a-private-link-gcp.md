@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

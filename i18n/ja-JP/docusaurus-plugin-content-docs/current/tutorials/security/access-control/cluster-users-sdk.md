@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - users
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

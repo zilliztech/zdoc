@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in analyzer
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - text-match
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

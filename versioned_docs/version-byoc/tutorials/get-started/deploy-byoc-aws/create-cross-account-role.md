@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

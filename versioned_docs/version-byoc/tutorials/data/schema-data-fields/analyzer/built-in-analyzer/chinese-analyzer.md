@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - chinese analyzer
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

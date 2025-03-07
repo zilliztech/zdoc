@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

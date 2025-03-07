@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

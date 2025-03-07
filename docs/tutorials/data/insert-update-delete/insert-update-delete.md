@@ -15,10 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

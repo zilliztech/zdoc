@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - standard-analyzer
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

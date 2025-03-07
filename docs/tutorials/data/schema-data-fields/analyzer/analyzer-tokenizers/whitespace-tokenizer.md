@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - whitespace-tokenizer
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

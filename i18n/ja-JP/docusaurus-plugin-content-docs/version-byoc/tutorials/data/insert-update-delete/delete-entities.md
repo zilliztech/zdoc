@@ -16,10 +16,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

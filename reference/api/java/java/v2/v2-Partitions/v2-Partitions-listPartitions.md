@@ -10,19 +10,19 @@ type: docx
 token: RJcgdJpGDouomlxPTqZc5S8Lngc
 sidebar_position: 4
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - listPartitions()
-  - javaV2
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - javaV225
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: javaSidebar
 
 ---

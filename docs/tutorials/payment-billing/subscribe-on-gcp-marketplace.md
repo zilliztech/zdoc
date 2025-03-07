@@ -2,7 +2,7 @@
 title: "Subscribe on Google Cloud Marketplace | Cloud"
 slug: /subscribe-on-gcp-marketplace
 sidebar_label: "Google Cloud Marketplace"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on GCP Marketplace. | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - marketplace
   - gcp
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 
@@ -160,17 +160,27 @@ Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms)
 
 ## Troubleshooting{#troubleshooting}
 
-**What I can do if I encounter issues when linking a marketplace subscription to Zilliz Cloud?**
+**What I can do if there is no organization available when linking a marketplace subscription to Zilliz Cloud?**
 
-There are several possible reasons:
+There could be several reasons.
 
-1. **Insufficient permissions** (UI prompt: Insufficient Permissions)
+1. **Insufficient permissions** 
 
-    To link an organization with a marketplace subscription, you must be an organization owner. But if you are an organization member, you do not have the required permissions. Please contact the organization owner for assistance.
+    This can happen when you do not have sufficient privileges. You will see an **"Insufficient Permissions"** tag next to the unavailable organization.
 
-1. **All organizations have already been successfully linked to a Marketplace subscription** (UI prompt: Marketplace Linked)
+    ![insufficient-permission-subscription](/img/insufficient-permission-subscription.png)
 
-    1. If you need to update an existing marketplace subscription, please [unlink](./subscribe-on-gcp-marketplace#cancel-gcp-marketplace-subscription) the current subscription of the organization first and then set up a new subscription.
+    To link an organization with a marketplace subscription, you must be an **Organization Owner** or an **Organization Billing Admin**. But if you are only an Organization Member, you do not have the required permissions. Please contact the organization owner for assistance.
+
+1. **All organizations have already been successfully linked to a Marketplace subscription**
+
+    This can happen when all your organizations are already linked to Marketplace subscriptions. You will see a **"Marketplace Linked"** tag next to the unavailable organization.
+
+    ![marketplace-already-linked-subscription](/img/marketplace-already-linked-subscription.png)
+
+    In this case,
+
+    1. If you need to update an existing marketplace subscription, please [unlink](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription) the current subscription of the organization first and then set up a new subscription.
 
     1. If you need multiple organizations for different Marketplace subscription, you can:
 
@@ -180,11 +190,17 @@ There are several possible reasons:
 
 1. **No organizations in the list**
 
-    This can happen if your account has been closed or if you have left all organizations. In this case, you can:
+    This can happen if your account has been closed or if you have left all organizations. Your UI will be similar to the following.
 
-    1. Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organization as an organization owner.
+    ![no-organization-during-subcription](/img/no-organization-during-subcription.png)
 
-    1. [Submit a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
+    In this case, you can:
+
+    - Create a new organization.
+
+    - Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organizations and grant you the role of an Organization Owner.
+
+    - [Create a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 
 ## Related topics{#related-topics}
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

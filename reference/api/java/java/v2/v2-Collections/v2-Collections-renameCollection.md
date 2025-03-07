@@ -10,19 +10,19 @@ type: docx
 token: CtTvdQVMoo2ec5xbWTPcSzjNnQc
 sidebar_position: 16
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - renameCollection()
-  - javaV2
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - javaV225
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 displayed_sidebar: javaSidebar
 
 ---

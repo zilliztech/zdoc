@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - decompounder
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

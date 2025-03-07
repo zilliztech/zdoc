@@ -13,10 +13,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

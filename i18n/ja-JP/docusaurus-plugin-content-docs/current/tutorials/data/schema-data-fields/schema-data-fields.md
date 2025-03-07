@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

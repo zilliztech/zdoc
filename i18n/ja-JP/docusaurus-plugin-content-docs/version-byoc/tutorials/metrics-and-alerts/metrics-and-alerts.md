@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

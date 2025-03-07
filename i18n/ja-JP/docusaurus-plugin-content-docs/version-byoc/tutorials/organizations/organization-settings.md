@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

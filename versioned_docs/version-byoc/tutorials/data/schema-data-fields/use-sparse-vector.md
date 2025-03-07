@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

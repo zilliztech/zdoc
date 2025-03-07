@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

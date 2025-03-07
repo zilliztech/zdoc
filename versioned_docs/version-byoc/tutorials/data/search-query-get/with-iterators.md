@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

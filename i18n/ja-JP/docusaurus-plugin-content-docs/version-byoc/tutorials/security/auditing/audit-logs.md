@@ -15,10 +15,10 @@ keywords:
   - auditing
   - log
   - configure
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

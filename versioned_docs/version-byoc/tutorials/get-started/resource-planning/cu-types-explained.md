@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cu
   - select
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

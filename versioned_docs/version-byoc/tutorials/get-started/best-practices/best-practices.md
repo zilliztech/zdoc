@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

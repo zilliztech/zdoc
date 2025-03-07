@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation adds a vector field to the schema of a collection. | Java | v2"
 type: docx
-token: ST5xdgZ9YoXYiJx7Ex6czstHnij
+token: HWEDdIvrxo3gskxlyKkcDdzVncd
 sidebar_position: 1
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - addField()
-  - javaV2
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - javaV225
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: javaSidebar
 
 ---

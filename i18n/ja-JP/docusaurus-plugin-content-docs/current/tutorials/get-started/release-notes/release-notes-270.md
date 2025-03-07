@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

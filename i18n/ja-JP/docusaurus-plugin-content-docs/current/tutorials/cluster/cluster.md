@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - network
   - security
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

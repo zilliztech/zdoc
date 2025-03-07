@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - stop
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 

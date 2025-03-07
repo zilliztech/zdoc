@@ -10,19 +10,19 @@ type: docx
 token: EBAFdcmoKoNJISxM8i1cqXzRn9H
 sidebar_position: 19
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - hybridts_to_datetime()
   - pymilvus25
-  - private llms
-  - nn search
-  - llm eval
   - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 displayed_sidebar: pythonSidebar
 
 ---

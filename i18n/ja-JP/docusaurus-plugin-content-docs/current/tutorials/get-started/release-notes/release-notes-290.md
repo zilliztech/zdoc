@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 
@@ -71,7 +71,7 @@ Milvusの以前のリリースでは、メモリベースのバイナリサー�
 
 このリリースでは、プレフィックス、インフィックス、およびサフィックスを使用したスカラーフィルタリングでのファジーマッチもサポートされています。
 
-詳細については、[バイナリベクトル](./use-binary-vector)、[インデックススカラーフィールド](./index-scalar-fields)、[Use the](./basic-filtering-operators#2likeexample-2-using-like-for-pattern-matching)`like`[Operator](./basic-filtering-operators#2likeexample-2-using-like-for-pattern-matching)guide、および[inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py)と[fuzzy_match.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/fuzzy_match.py)のサンプルコードを参照してください。*Zilliz Cloudクラスターの資格情報でサンプルコードの接続詳細を更新し、代わりにAUTOINDEXを使用してください。*
+詳細については、[バイナリベクトル](./use-binary-vector)、[インデックススカラーフィールド](./index-scalar-fields)、[Use the](./basic-filtering-operators#example-2-using-like-for-pattern-matching)`like`[Operator](./basic-filtering-operators#example-2-using-like-for-pattern-matching)guide、および[inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py)と[fuzzy_match.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/fuzzy_match.py)のサンプルコードを参照してください。*Zilliz Cloudクラスターの資格情報でサンプルコードの接続詳細を更新し、代わりにAUTOINDEXを使用してください。*
 
 ### グループ検索{#grouping-search}
 

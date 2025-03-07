@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - sdk
+  - milvus database
+  - milvus lite
   - milvus benchmark
   - managed milvus
-  - Serverless vector database
-  - milvus open source
 
 ---
 

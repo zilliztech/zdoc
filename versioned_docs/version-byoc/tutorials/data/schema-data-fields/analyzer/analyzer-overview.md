@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

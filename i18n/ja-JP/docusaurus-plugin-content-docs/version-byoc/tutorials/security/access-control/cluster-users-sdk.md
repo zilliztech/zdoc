@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - users
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

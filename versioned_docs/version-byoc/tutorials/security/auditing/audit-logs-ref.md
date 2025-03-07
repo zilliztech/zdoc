@@ -14,10 +14,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 
@@ -69,7 +69,7 @@ Zilliz Cloudは、需要に基づいてクラスタの容量を動的に調整�
 
 - ユーザーは、RestFul APIとUIコンソールの両方を使用して、パイプラインの詳細でパイプラインの使用状況情報を取得できるようになりました。この機能強化により、ユーザーはパイプラインの使用状況を包括的に把握して、より良いモニタリングと分析を行うことができます。詳細については、「[パイプライン利用予測](./estimate-pipelines-usage)」を参照してください。
 
-- 各プロジェクトにおける各種パイプラインの最大数の制限が引き上げられました。ユーザーは、以前の10個の制限に比べて、1つのプロジェクトで最大100個のあらゆる種類のパイプラインを作成できるようになりました。この変更により、プロジェクト内でパイプラインを管理する際の柔軟性とスケーラビリティが向上しました。すべてのパイプライン制限の詳細については、「[Zilliz Cloud Limits on Pipelines](./limits#pipelines)」を参照してください。
+- 各プロジェクトにおける各種パイプラインの最大数の制限が引き上げられました。ユーザーは、以前の10個の制限に比べて、1つのプロジェクトで最大100個のあらゆる種類のパイプラインを作成できるようになりました。この変更により、プロジェクト内でパイプラインを管理する際の柔軟性とスケーラビリティが向上しました。すべてのパイプライン制限の詳細については、「[Zilliz Cloud Limits on Pipelines](./limits)」を参照してください。
 
 ### エンハンスメント{#enhancements}
 

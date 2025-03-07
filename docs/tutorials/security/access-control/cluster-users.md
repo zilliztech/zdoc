@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

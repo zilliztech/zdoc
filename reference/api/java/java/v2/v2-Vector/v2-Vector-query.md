@@ -10,19 +10,19 @@ type: docx
 token: Oy7PdvBJ7omRcKxvRvUcbWLcn1d
 sidebar_position: 5
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - query()
-  - javaV2
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - javaV225
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: javaSidebar
 
 ---

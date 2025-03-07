@@ -10,19 +10,19 @@ type: docx
 token: LtCFdAg8FoxWmBxOInfcUSagnHb
 sidebar_position: 5
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
-  - javaV2
-  - vector search algorithms
+  - javaV225
   - Question answering system
   - llm-as-a-judge
   - hybrid vector search
+  - Video deduplication
 displayed_sidebar: javaSidebar
 
 ---

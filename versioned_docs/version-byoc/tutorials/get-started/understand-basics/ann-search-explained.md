@@ -14,10 +14,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

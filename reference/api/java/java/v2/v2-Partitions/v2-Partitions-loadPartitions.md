@@ -10,19 +10,19 @@ type: docx
 token: Jei2dpJMuoyOF5xTIuccfzcinOh
 sidebar_position: 5
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitions()
-  - javaV2
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - javaV225
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 displayed_sidebar: javaSidebar
 
 ---

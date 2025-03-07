@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - jieba-tokenizer
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

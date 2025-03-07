@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - concepts
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

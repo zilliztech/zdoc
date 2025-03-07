@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
+  - image similarity search
+  - Context Window
+  - Natural language search
   - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
 
 ---
 

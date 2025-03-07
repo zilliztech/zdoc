@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

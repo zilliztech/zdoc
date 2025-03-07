@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

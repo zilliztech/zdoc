@@ -14,10 +14,10 @@ keywords:
   - cloud
   - notification
   - channels
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

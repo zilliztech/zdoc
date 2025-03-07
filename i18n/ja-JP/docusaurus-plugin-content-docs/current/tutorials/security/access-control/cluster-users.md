@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

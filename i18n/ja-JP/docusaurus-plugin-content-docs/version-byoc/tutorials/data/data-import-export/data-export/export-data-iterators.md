@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

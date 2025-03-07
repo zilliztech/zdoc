@@ -10,19 +10,19 @@ type: docx
 token: XEWvdbuFHoLOo7xKrAJcqip6n5J
 sidebar_position: 7
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollection()
-  - javaV2
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - javaV225
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: javaSidebar
 
 ---

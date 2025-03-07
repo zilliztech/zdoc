@@ -10,19 +10,19 @@ type: docx
 token: B57cdiaEkotJQnxl7I9cJqotnPb
 sidebar_position: 8
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - describeAlias()
-  - javaV2
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - javaV225
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: javaSidebar
 
 ---

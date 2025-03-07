@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - sdk
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

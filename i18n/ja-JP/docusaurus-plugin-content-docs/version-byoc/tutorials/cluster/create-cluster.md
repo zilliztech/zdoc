@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

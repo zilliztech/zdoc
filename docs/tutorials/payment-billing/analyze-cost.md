@@ -2,7 +2,7 @@
 title: "Analyze Cost | Cloud"
 slug: /analyze-cost
 sidebar_label: "Analyze Cost"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The Usage page in Zilliz Cloud provides you with a visualized cost analysis tool, enabling you to view and track Zilliz Cloud usage and expenses from multiple dimensions. | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 
@@ -92,77 +92,101 @@ You can combine multiple filters based on your analysis needs to view visualized
 
 ### Via RESTful API{#via-restful-api}
 
-Usage details you get from the Query Org Daily Usage RESTful API are precise to 8 decimal places. If you need to understand how daily costs are accumulated and rounded to 2 decimal places, we recommend using the RESTful API. By adding up the daily usage, you will obtain a total usage amount that is precise to 8 decimal places. Then round this total usage amount to 2 decimal places (eg. $60.56724390 is rounded to $60.57). The final total usage amount should be consistent with the figured displayed on your invoice.
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The Query Daily Usage RESTful API is currently in public preview. To use this API, please <a href="http://support.zilliz.com">contact us</a>.</p>
+
+</Admonition>
+
+You can also use the [Query Daily Usage](/reference/restful/query-daily-usage-v2) API to query the daily usage of an organization. Usage details you get from this RESTful API are precise to 8 decimal places. If you need to understand how daily costs are accumulated and rounded to 2 decimal places, we recommend using the RESTful API. By adding up the daily usage, you will obtain a total usage amount that is precise to 8 decimal places. Then round this total usage amount to 2 decimal places (eg. $60.56724390 is rounded to $60.57). The final total usage amount should be consistent with the figured displayed on your invoice.
+
+The following example demonstrates how to query the daily usage of an organization.
+
+```bash
+curl --request POST \
+--url "https://api.cloud.zilliz.com/v2/usage/query" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "start": "2024-01-01",
+    "end": "2024-02-01"
+}'
+```
+
+In the command above,
+
+- `start`: The start time of the query period, in the format of `YYYY-MM-DD`.
+
+- `end`: The end time of the query period, in the format of `YYYY-MM-DD`.
 
 ## FAQ{#faq}
 
-- **How precise are the amounts displayed in the usage details on Zilliz Cloud?** 
+**How precise are the amounts displayed in the usage details on Zilliz Cloud?** 
 
-    Zilliz Cloud prices products with a precision of 8 decimal places. As a result, charges are calculated to eight decimals. During the billing process, these detailed daily charges are summed and then rounded to 2 decimal places.
+Zilliz Cloud prices products with a precision of 8 decimal places. As a result, charges are calculated to eight decimals. During the billing process, these detailed daily charges are summed and then rounded to 2 decimal places.
 
-    On the web UI, displayed amounts are rounded to 2 decimal places (for example: $60.00). 
+On the web UI, displayed amounts are rounded to 2 decimal places (for example: $60.00). 
 
-    ![precision_usage](/img/precision_usage.png)
+![precision_usage](/img/precision_usage.png)
 
-    The usage details retrieved from the Query Org Daily Usage API shows amounts with 8 decimal precision. Below is an example of the output:
+The usage details retrieved from the [Query Daily Usage](/reference/restful/query-daily-usage-v2) API shows amounts with 8 decimal precision. Below is an example of the output:
 
-    ```bash
-    {
-        "code": 0,
-        "data": {
-            "list": [
-                {
-                    "intervalStart": "2024-01-01T00:00:00Z",
-                    "intervalEnd": "2024-01-02T00:00:00Z",
-                    "total": 69.59794400,
-                    "currency": "RMB"
-                    "results": [
-                        {
-                            "costType": "compute",
-                            "properties": {
-                                "projectId": "prj-xxxxx",
-                                "regionId": "ali-cn-hangzhou",
-                                "cuType": "Performance-optimized",
-                                "plan": "Enterprise",
-                                "clusterId": "in01-xxxxx"
-                            },
-                            "quantity": 55.6778,
-                            "unit": "CU-hours",
-                            "listPrice": {
-                                "unitPrice": 1.25000000
-                            },
-                            "price": {
-                                "unitPrice": 1.25000000
-                            },
-                            "amount": 69.59725000 
+```bash
+{
+    "code": 0,
+    "data": {
+        "results": [
+            {
+                "intervalStart": "2024-01-01T00:00:00Z",
+                "intervalEnd": "2024-01-02T00:00:00Z",
+                "total": 69.59794400,
+                "currency": "USD"
+                "results": [
+                    {
+                        "costType": "compute",
+                        "properties": {
+                            "projectId": "prj-12jhiu212748391",
+                            "regionId": "aws-us-west-2",
+                            "cuType": "Performance-optimized",
+                            "plan": "Enterprise",
+                            "clusterId": "in01-xxxxx"
                         },
-                        {
-                            "costType": "storage",
-                            "properties": {
-                                "projectId": "prj-xxxxx",
-                                "regionId": "ali-cn-hangzhou",
-                                "cuType": "Performance-optimized",
-                                "plan": "Enterprise",
-                                "clusterId": "in01-xxxxx",
-                            },
-                            "quantity": 323,
-                            "unit": "GB-hours",
-                            "listPrice": {
-                                "unitPrice": 0.000694
-                            },
-                            "price": {
-                                "unitPrice": 0.000694
-                            },
-                            "amount": 0.00069400
-                        }
-                    ]
-                }
-            ],
-            "currentPage": 1,
-            "pageSize": 100,
-            "total": 10000
-        }
+                        "quantity": 55.6778,
+                        "unit": "CU-hours",
+                        "listPrice": {
+                            "unitPrice": 1.25000000
+                        },
+                        "price": {
+                            "unitPrice": 1.25000000
+                        },
+                        "amount": 69.59725000 
+                    },
+                    {
+                        "costType": "storage",
+                        "properties": {
+                            "projectId": "prj-12jhiu212748391",
+                            "regionId": "aws-us-west-2",
+                            "cuType": "Performance-optimized",
+                            "plan": "Enterprise",
+                            "clusterId": "in01-xxxxx",
+                        },
+                        "quantity": 323,
+                        "unit": "GB-hours",
+                        "listPrice": {
+                            "unitPrice": 0.000694
+                        },
+                        "price": {
+                            "unitPrice": 0.000694
+                        },
+                        "amount": 0.00069400
+                    }
+                ]
+            }
+        ],
+        "currentPage": 1,
+        "pageSize": 100,
+        "total": 10000
     }
-    ```
+}
+```
 
-    

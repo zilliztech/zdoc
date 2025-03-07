@@ -1,7 +1,7 @@
 ---
 title: "utility | Python | ORM"
 slug: /python/ORM-utility
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "Available Milvus utility functions. | Python | ORM"
 type: folder
@@ -9,10 +9,10 @@ token: BvYKfbpMUlczBxdyBvEc5Gb3nfb
 sidebar_position: 8
 sidebar_label: "utility"
 keywords: 
+  - Video deduplication
+  - Video similarity search
   - Vector retrieval
   - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud

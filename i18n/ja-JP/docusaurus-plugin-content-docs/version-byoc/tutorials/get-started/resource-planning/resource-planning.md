@@ -14,10 +14,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

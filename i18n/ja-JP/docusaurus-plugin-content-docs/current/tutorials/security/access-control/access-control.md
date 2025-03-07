@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

@@ -2,7 +2,7 @@
 title: "Use mmap | BYOC"
 slug: /use-mmap
 sidebar_label: "Use mmap"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "Memory mapping (Mmap) enables direct memory access to large files on disk, allowing Zilliz Cloud to store indexes and data in both memory and hard drives. This approach helps optimize data placement policy based on access frequency, expanding storage capacity for collections without impacting search performance. This page helps you understand how Zilliz Cloud uses mmap to enable fast and efficient data storage and retrieval. | BYOC"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 
@@ -56,36 +56,37 @@ The following table lists the global mmap strategy for clusters from different t
 <table>
    <tr>
      <th rowspan="2"><p>Mmap Target</p></th>
-     <th colspan="2"><p>Dedicated Clusters</p></th>
-     <th rowspan="2"><p>Free &amp; Serverless Clusters</p></th>
+     <th colspan="3"><p>Dedicated Clusters</p></th>
+     <th rowspan="2"><p>Free Clusters\</br>Serverless Clusters</p></th>
    </tr>
    <tr>
      <td><p>Performance-optimized</p></td>
      <td><p>Capacity-optimized</p></td>
+     <td><p>Extended-capacity</p></td>
    </tr>
    <tr>
      <td><p>Scalar field raw data</p></td>
      <td><p>Disabled &amp; Changeable</p></td>
      <td><p>Enabled &amp; Changeable</p></td>
-     <td><p>Enabled &amp; Unchangeable</p></td>
+     <td colspan="2"><p>Enabled &amp; Unchangeable</p></td>
    </tr>
    <tr>
      <td><p>Scalar field index</p></td>
      <td><p>Disabled &amp; Changeable</p></td>
      <td><p>Enabled &amp; Changeable</p></td>
-     <td><p>Enabled &amp; Unchangeable</p></td>
+     <td colspan="2"><p>Enabled &amp; Unchangeable</p></td>
    </tr>
    <tr>
      <td><p>Vector field raw data</p></td>
      <td><p>Enabled &amp; Changeable</p></td>
      <td><p>Enabled &amp; Changeable</p></td>
-     <td><p>Enabled &amp; Unchangeable</p></td>
+     <td colspan="2"><p>Enabled &amp; Unchangeable</p></td>
    </tr>
    <tr>
      <td><p>Vector field index</p></td>
      <td><p>Disabled &amp; Unchangeable</p></td>
      <td><p>Disabled &amp; Unchangeable</p></td>
-     <td><p>Enabled &amp; Unchangeable</p></td>
+     <td colspan="2"><p>Enabled &amp; Unchangeable</p></td>
    </tr>
 </table>
 
@@ -93,7 +94,7 @@ In dedicated clusters using the **Performance-optimized** CUs, Zilliz Cloud enab
 
 In dedicated clusters using the **Capacity-optimized** CUs, Zilliz Cloud disables mmap for the vector field indexes for the sake of auto-indexing and memory-maps the indexes of scalar fields and all field raw data, ensuring the maximum storage capacity. If the raw data of some fields used in metadata filtering conditions or listed in the output fields is too large and leaving them on the hard drive causes slow response or network jitters, you can consider disabling mmap for these fields to improve search performance. 
 
-In **Free** and **Serverless** clusters, Zilliz Cloud enables mmap for the raw data and indexes of all fields to fully utilize the system cache, improve the performance of hot data, and reduce the cost of cold data.
+In **Free** and **Serverless** clusters and the dedicated clusters using **Extended-capacity CUs**, Zilliz Cloud enables mmap for the raw data and indexes of all fields to fully utilize the system cache, improve the performance of hot data, and reduce the cost of cold data.
 
 ## Collection-specific mmap settings{#collection-specific-mmap-settings}
 
@@ -142,7 +143,7 @@ schema.add_field(
 client.alter_collection_field(
     collection="my_collection",
     field_name="doc_chunk",
-    properties={"mmap.enable": True}
+    properties={"mmap_enable": True}
 )
 ```
 

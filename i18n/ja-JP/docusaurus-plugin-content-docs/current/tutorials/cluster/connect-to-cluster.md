@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

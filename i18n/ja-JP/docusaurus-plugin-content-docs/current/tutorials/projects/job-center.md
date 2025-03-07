@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

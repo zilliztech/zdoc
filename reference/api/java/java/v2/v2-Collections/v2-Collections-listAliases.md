@@ -10,19 +10,19 @@ type: docx
 token: RvZDdxU1howmQ7x2V31c8eC7nJb
 sidebar_position: 15
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - listAliases()
-  - javaV2
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - javaV225
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: javaSidebar
 
 ---

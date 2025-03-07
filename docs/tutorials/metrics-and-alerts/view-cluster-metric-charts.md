@@ -15,10 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

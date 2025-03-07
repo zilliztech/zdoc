@@ -15,10 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

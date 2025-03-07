@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - whitespace-tokenizer
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation prepares index parameters to build indexes for a specific collection. | Java | v2"
 type: docx
-token: QecOdXKyfo9JtMxkHZxcLNqknxh
+token: FUNwdQQqAon41YxMWiIcHIBmned
 sidebar_position: 5
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - IndexParam
-  - javaV2
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - javaV225
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: javaSidebar
 
 ---
@@ -66,7 +66,9 @@ IndexParam.builder()
 
 - `metricType(IndexParam.MetricType metricType)`
 
-    The distance metric to use for the index. Possible values are **L2**, **IP**, **COSINE**.
+    The algorithm that is used to measure similarity between vectors. Possible values: `IP`, `L2`, `COSINE`, `HAMMING`, `JACCARD`, `BM25` (used only for full text search). For more information, refer to [Metric Types](https://milvus.io/docs/metric.md).
+
+    This is available only when the specified field is a vector field.
 
 - `extraParams(Map<String, Object> extraParams)`
 

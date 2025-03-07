@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - ascii folding
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

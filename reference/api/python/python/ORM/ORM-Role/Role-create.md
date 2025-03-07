@@ -10,19 +10,19 @@ type: docx
 token: G3h4d3jx6oXFHBxFZlyc9jLKnTO
 sidebar_position: 2
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
   - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - create()
   - pymilvus25
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: pythonSidebar
 
 ---

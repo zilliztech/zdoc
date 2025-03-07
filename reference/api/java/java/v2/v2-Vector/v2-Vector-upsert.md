@@ -10,19 +10,19 @@ type: docx
 token: A0UBd45iyoGah2xaFjQc4bp6n2b
 sidebar_position: 9
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
-  - javaV2
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - javaV225
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: javaSidebar
 
 ---

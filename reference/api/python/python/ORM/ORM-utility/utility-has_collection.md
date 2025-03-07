@@ -10,19 +10,19 @@ type: docx
 token: TWOxdwDYRo4CCHxDdZbc7IOznCg
 sidebar_position: 17
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
   - Annoy vector search
   - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - has_collection()
   - pymilvus25
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: pythonSidebar
 
 ---

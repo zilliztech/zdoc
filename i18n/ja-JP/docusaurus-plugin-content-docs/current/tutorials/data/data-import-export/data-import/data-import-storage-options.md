@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

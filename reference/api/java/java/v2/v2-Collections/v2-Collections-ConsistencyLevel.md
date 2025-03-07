@@ -10,19 +10,19 @@ type: docx
 token: Q8IidbqKMopplgxSxaicS2o9nwc
 sidebar_position: 3
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - ConsistencyLevel
-  - javaV2
+  - javaV225
+  - DiskANN
+  - Sparse vector
   - Vector Dimension
   - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
 displayed_sidebar: javaSidebar
 
 ---

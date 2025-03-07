@@ -18,10 +18,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

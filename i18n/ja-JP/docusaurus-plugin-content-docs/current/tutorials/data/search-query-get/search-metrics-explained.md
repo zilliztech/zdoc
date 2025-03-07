@@ -20,10 +20,10 @@ keywords:
   - IP
   - COSINE
   - Jaccard
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

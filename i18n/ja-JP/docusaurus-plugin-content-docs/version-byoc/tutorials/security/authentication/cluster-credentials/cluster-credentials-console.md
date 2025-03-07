@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - console
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

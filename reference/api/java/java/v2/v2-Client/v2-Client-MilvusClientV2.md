@@ -10,19 +10,19 @@ type: docx
 token: Y4qvdMEeioKXShxxNmncvnJ2nJf
 sidebar_position: 1
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClientV2
-  - javaV2
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - javaV225
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 displayed_sidebar: javaSidebar
 
 ---

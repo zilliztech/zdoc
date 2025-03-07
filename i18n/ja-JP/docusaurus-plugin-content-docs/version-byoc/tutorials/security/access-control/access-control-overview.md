@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

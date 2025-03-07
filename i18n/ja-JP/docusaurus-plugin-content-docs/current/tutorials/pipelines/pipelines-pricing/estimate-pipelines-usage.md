@@ -15,10 +15,10 @@ keywords:
   - pipelines
   - pricing
   - usage
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

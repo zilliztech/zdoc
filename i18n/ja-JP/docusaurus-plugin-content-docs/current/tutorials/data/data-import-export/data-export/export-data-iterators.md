@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - upsert
   - update
   - insert
+  - Embedding model
+  - image similarity search
+  - Context Window
   - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
 
 ---
 

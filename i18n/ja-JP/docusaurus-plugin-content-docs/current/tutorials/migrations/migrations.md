@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

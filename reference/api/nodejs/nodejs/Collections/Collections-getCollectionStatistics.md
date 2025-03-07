@@ -10,19 +10,19 @@ type: docx
 token: LQMGdRHjKogdeMxekCtcdBLqnNf
 sidebar_position: 10
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStatistics()
-  - node
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - nodejs25
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 displayed_sidebar: nodeSidebar
 
 ---

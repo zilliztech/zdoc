@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 
@@ -84,11 +84,16 @@ To view the details of a job, click **...** in the **Actions** column and then s
 
 ## Cancel job{#cancel-job}
 
-You can cancel a job that is **Pending** or **In Progress**. To cancel a job, click **...** in the **Actions** column and then select **Cancel**.
+Currently, you can only cancel the following types of jobs that  are in the state of **Pending** or **In Progress**:
+
+- Backup jobs
+
+- Migration jobs (excluding zero downtime migration)
+
+- Export backup file jobs
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, you can only cancel migration and backup jobs. </p>
 <p>To cancel a job, you must be an <strong>Organization Owner</strong> or a <strong>Project Admin</strong>.</p>
 
 </Admonition>

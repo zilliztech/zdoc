@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - decompounder
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - milvus
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

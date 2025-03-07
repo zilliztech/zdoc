@@ -10,19 +10,19 @@ type: docx
 token: Sqoed1lkwo8umixJJO1cvKIxnZc
 sidebar_position: 7
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - releasePartitions()
-  - node
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - nodejs25
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 displayed_sidebar: nodeSidebar
 
 ---

@@ -2,7 +2,7 @@
 title: "query() | Java | v1"
 slug: /java/v1-HighlevelAPI-query
 sidebar_label: "query()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The MilvusClient interface. This method queries entity(s) based on scalar field(s) filtered by boolean expression. Note that the order of the returned entities can not be guaranteed. | Java | v1"
 type: origin

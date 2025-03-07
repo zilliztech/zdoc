@@ -9,10 +9,10 @@ token: G3Qvfzptcl9gcFdHholcBmgQnib
 sidebar_position: 4
 sidebar_label: "EmbeddingModels"
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud

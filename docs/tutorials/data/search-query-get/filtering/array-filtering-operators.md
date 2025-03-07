@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - array operators
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

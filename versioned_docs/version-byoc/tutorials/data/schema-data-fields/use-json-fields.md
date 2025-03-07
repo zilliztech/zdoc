@@ -4,7 +4,7 @@ slug: /use-json-fields
 sidebar_label: "JSON Field"
 beta: FALSE
 notebook: FALSE
-description: "JSON is a lightweight data exchange format that provides a flexible way to store and query complex data structures. In Zilliz Cloud clusters you can store additional structured information alongside vector data using JSON fields, enabling advanced searches and queries that combine vector similarity with structured filtering. | BYOC"
+description: "A JSON field is a scalar field that stores additional information along with vector embeddings, in key-value pairs. Here's an example of how data is stored in JSON format | BYOC"
 type: origin
 token: BkDMwo71MiZMazk7gbtc7fqknbh
 sidebar_position: 8
@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - json field
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 
@@ -28,9 +28,7 @@ import TabItem from '@theme/TabItem';
 
 # JSON Field
 
-[JSON](https://en.wikipedia.org/wiki/JSON) (JavaScript Object Notation) is a lightweight data exchange format that provides a flexible way to store and query complex data structures. In Zilliz Cloud clusters you can store additional structured information alongside vector data using JSON fields, enabling advanced searches and queries that combine vector similarity with structured filtering.
-
-JSON fields are ideal for applications that require metadata to optimize retrieval results. For example, in e-commerce, product vectors can be enhanced with attributes like category, price, and brand. In recommendation systems, user vectors can be combined with preferences and demographic information. Below is an example of a typical JSON field:
+A JSON field is a scalar field that stores additional information along with vector embeddings, in key-value pairs. Here's an example of how data is stored in JSON format:
 
 ```python
 {
@@ -40,26 +38,61 @@ JSON fields are ideal for applications that require metadata to optimize retriev
 }
 ```
 
+## Limits{#limits}
+
+- **Indexing**: JSON fields do not support indexing.
+
+- **Default Values**: JSON fields do not support default values. However, you can set the `nullable` attribute to `True` to allow null values. For details, refer to [Nullable & Default](./nullable-and-default).
+
+- **Key Value Comparisons**:
+
+    - If a JSON field's key value is an integer or float, it can only be compared with another integer or float key.
+
+    - If the key value is a string (`VARCHAR`), it can only be compared with other string keys.
+
+- **Naming**: When naming JSON keys, it is recommended to use only letters, numbers, and underscores. Using other characters may cause issues when filtering or searching.
+
+- **String Handling**: Milvus stores string values in JSON fields as entered, without semantic conversion. For example:
+
+    - `'a"b'`, `"a'b"`, `'a\'b'`, and `"a\"b"` are stored exactly as they are.
+
+    - `'a'b'` and `"a"b"` are considered invalid.
+
+- **Nested Dictionaries**: Any nested dictionaries within JSON field values are treated as plain strings.
+
+- **Field Size Limitation**: JSON fields are limited to 65,536 bytes in size.
+
 ## Add JSON field{#add-json-field}
 
-To use JSON fields in Zilliz Cloud clusters, define the relevant field type in the collection schema, setting the `datatype` to the supported JSON type, i.e., `JSON`.
+To store key-value pairs in a JSON field, define a JSON field in your collection schema. Below is an example of a collection schema with a JSON field `metadata` that allows null values:
 
-Here’s how to define a collection schema that includes a JSON field:
+<Admonition type="info" icon="📘" title="Notes">
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<p>If you set <code>enable_dynamic_fields=True</code> when defining the schema, Zilliz Cloud allows you to insert scalar fields that were not defined in advance. However, this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to <a href="./enable-dynamic-field">Dynamic Field</a>.</p>
+
+</Admonition>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
+# Import necessary libraries
 from pymilvus import MilvusClient, DataType
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+# Define server address
+SERVER_ADDR = "YOUR_CLUSTER_ENDPOINT"
 
+# Create a MilvusClient instance
+client = MilvusClient(uri=SERVER_ADDR)
+
+# Define the collection schema
 schema = client.create_schema(
     auto_id=False,
     enable_dynamic_fields=True,
 )
 
-schema.add_field(field_name="metadata", datatype=DataType.JSON)
+# Add a JSON field that supports null values
+schema.add_field(field_name="metadata", datatype=DataType.JSON, nullable=True)
 schema.add_field(field_name="pk", datatype=DataType.INT64, is_primary=True)
 schema.add_field(field_name="embedding", datatype=DataType.FLOAT_VECTOR, dim=3)
 ```
@@ -86,6 +119,7 @@ schema.setEnableDynamicField(true);
 schema.addField(AddFieldReq.builder()
         .fieldName("metadata")
         .dataType(DataType.JSON)
+        .isNullable(true)
         .build());
 
 schema.addField(AddFieldReq.builder()
@@ -99,6 +133,14 @@ schema.addField(AddFieldReq.builder()
         .dataType(DataType.FloatVector)
         .dimension(3)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -162,29 +204,25 @@ export schema="{
 </TabItem>
 </Tabs>
 
-In this example, we add a JSON field called `metadata` to store additional metadata related to vector data, such as product category, price, and brand information.
+## Set index params{#set-index-params}
 
-<Admonition type="info" icon="📘" title="Notes">
+Indexing helps improve search and query performance. In Zilliz Cloud clusters, indexing is mandatory for vector fields but optional for scalar fields. However, Milvus does not support indexing for JSON fields.
 
-<p>The primary field and vector field are mandatory when you create a collection. The primary field uniquely identifies each entity, while the vector field is crucial for similarity search. For more details, refer to <a href="./primary-field-auto-id">Primary Field & AutoId</a>, <a href="./use-dense-vector">Dense Vector</a>, <a href="./use-binary-vector">Binary Vector</a>, or <a href="./use-sparse-vector">Sparse Vector</a>.</p>
+The following example creates an index on the vector field `embedding`, using the `AUTOINDEX` index type. With this type, Milvus automatically selects the most suitable index based on the data type.
 
-</Admonition>
-
-## Create collection{#create-collection}
-
-When creating a collection, you must create an index for the vector field to ensure retrieval performance. In this example, we use `AUTOINDEX` to simplify index setup. For more details, refer to [AUTOINDEX Explained](./autoindex-explained).
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
+# Set index params
 
 index_params = client.prepare_index_params()
 
+# Index `embedding` with AUTOINDEX and specify similarity metric type
 index_params.add_index(
     field_name="embedding",
-    index_type="AUTOINDEX",
-    metric_type="COSINE"
+    index_type="AUTOINDEX",  # Use automatic indexing to simplify complex index settings
+    metric_type="COSINE"  # Specify similarity metric type, options include L2, COSINE, or IP
 )
 ```
 
@@ -202,6 +240,14 @@ indexes.add(IndexParam.builder()
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.COSINE)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -234,9 +280,11 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-Use the defined schema and index parameters to create a collection:
+## Create collection{#create-collection}
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+Once the schema and index are defined, create a collection that includes string fields.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -258,6 +306,14 @@ CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .indexParams(indexes)
         .build();
 client.createCollection(requestCreate);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -293,13 +349,13 @@ curl --request POST \
 
 ## Insert data{#insert-data}
 
-After creating the collection, you can insert data that includes JSON fields.
+After creating the collection, insert entities that match the schema.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Data to be inserted
+# Sample data
 data = [
   {
       "metadata": {"category": "electronics", "price": 99.99, "brand": "BrandA"},
@@ -307,20 +363,23 @@ data = [
       "embedding": [0.12, 0.34, 0.56]
   },
   {
-      "metadata": {"category": "home_appliances", "price": 249.99, "brand": "BrandB"},
+      "metadata": None, # Entire JSON object is null
       "pk": 2,
       "embedding": [0.56, 0.78, 0.90]
   },
-  {
-      "metadata": {"category": "furniture", "price": 399.99, "brand": "BrandC"},
+  {  # JSON field `metadata` is completely missing
       "pk": 3,
       "embedding": [0.91, 0.18, 0.23]
+  },
+  {
+      "metadata": {"category": None, "price": 99.99, "brand": "BrandA"}, # Individual key value is null
+      "pk": 4,
+      "embedding": [0.56, 0.38, 0.21]
   }
 ]
 
-# Insert data into the collection
 client.insert(
-    collection_name="your_collection_name",
+    collection_name="my_json_collection",
     data=data
 )
 ```
@@ -339,13 +398,21 @@ import io.milvus.v2.service.vector.response.InsertResp;
 List<JsonObject> rows = new ArrayList<>();
 Gson gson = new Gson();
 rows.add(gson.fromJson("{\"metadata\": {\"category\": \"electronics\", \"price\": 99.99, \"brand\": \"BrandA\"}, \"pk\": 1, \"embedding\": [0.1, 0.2, 0.3]}", JsonObject.class));
-rows.add(gson.fromJson("{\"metadata\": {\"category\": \"home_appliances\", \"price\": 249.99, \"brand\": \"BrandB\"}, \"pk\": 2, \"embedding\": [0.4, 0.5, 0.6]}", JsonObject.class));
+rows.add(gson.fromJson("{\"metadata\": None, \"pk\": 2, \"embedding\": [0.4, 0.5, 0.6]}", JsonObject.class));
 rows.add(gson.fromJson("{\"metadata\": {\"category\": \"furniture\", \"price\": 399.99, \"brand\": \"BrandC\"}, \"pk\": 3, \"embedding\": [0.7, 0.8, 0.9]}", JsonObject.class));
 
 InsertResp insertR = client.insert(InsertReq.builder()
         .collectionName("my_json_collection")
         .data(rows)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -411,36 +478,39 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In this example:
+## Query with filter expressions{#query-with-filter-expressions}
 
-- Each data entry includes a primary field (`pk`), `metadata` as a JSON field to store information such as product category, price, and brand.
+After inserting entities, use the `query` method to retrieve entities that match the specified filter expressions.
 
-- `embedding` is a 3-dimensional vector field used for vector similarity search.
+<Admonition type="info" icon="📘" title="Notes">
 
-## Search and query{#search-and-query}
+<p>For JSON fields that allow null values, the field will be treated as null if the entire JSON object is missing or set to <code>None</code>. For more information, refer to <a href="./basic-filtering-operators#json-fields-with-null-values">JSON Fields with Null Values</a>.</p>
 
-JSON fields allow scalar filtering during searches, enhancing Zilliz Cloud's vector search capabilities. You can query based on JSON properties alongside vector similarity.
+</Admonition>
 
-### Filter queries{#filter-queries}
+To retrieve entities where `metadata` is not null:
 
-You can filter data based on JSON properties, such as matching specific values or checking if a number falls within a certain range.
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-filter = 'metadata["category"] == "electronics" and metadata["price"] < 150'
+# Query to filter out records with null metadata
+
+filter = 'metadata is not null'
 
 res = client.query(
     collection_name="my_json_collection",
     filter=filter,
-    output_fields=["metadata"]
+    output_fields=["metadata", "pk"]
 )
 
 print(res)
 
-# Output
-# data: ["{'metadata': {'category': 'electronics', 'price': 99.99, 'brand': 'BrandA'}, 'pk': 1}"] 
+# Example output:
+# data: [
+#     "{'metadata': {'category': 'electronics', 'price': 99.99, 'brand': 'BrandA'}, 'pk': 1}",
+#     "{'metadata': {'category': None, 'price': 99.99, 'brand': 'BrandA'}, 'pk': 4}"
+# ]
 ```
 
 </TabItem>
@@ -463,6 +533,14 @@ System.out.println(resp.getQueryResults());
 // Output
 //
 // [QueryResp.QueryResult(entity={metadata={"category":"electronics","price":99.99,"brand":"BrandA"}, pk=1})]
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -497,13 +575,68 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In the above query, Zilliz Cloud filters out entities where the `metadata` field has a category of `"electronics"` and a price below 150, returning entities that match these criteria.
+To retrieve entities where the `category` key in the `metadata` JSON field has a value of `"electronics"`:
 
-### Vector search with JSON filtering{#vector-search-with-json-filtering}
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
-By combining vector similarity with JSON filtering, you can ensure that the retrieved data not only matches semantically but also meets specific business conditions, making the search results more precise and aligned with user needs.
+```python
+filter = 'metadata["category"] == "electronics"'
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+res = client.query(
+    collection_name="my_json_collection",
+    filter=filter,
+    output_fields=["metadata", "pk"]
+)
+
+print(res)
+
+# Example output:
+# data: [
+#     "{'pk': 1, 'metadata': {'category': 'electronics', 'price': 99.99, 'brand': 'BrandA'}}"
+# ]
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// node
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+## Vector search with filter expressions{#vector-search-with-filter-expressions}
+
+In addition to basic scalar field filtering, you can combine vector similarity searches with scalar field filters. For example, the following code shows how to add a scalar field filter to a vector search:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -520,8 +653,10 @@ res = client.search(
 
 print(res)
 
-# Output
-# data: ["[{'id': 1, 'distance': -0.2479381263256073, 'entity': {'metadata': {'category': 'electronics', 'price': 99.99, 'brand': 'BrandA'}}}]"] 
+# Example output:
+# data: [
+#     "[{'id': 4, 'distance': -0.08115037530660629, 'entity': {'metadata': {'category': None, 'price': 99.99, 'brand': 'BrandA'}}}, {'id': 1, 'distance': -0.2479381263256073, 'entity': {'metadata': {'category': 'electronics', 'price': 99.99, 'brand': 'BrandA'}}}]"
+# ]
 ```
 
 </TabItem>
@@ -547,6 +682,14 @@ System.out.println(resp.getSearchResults());
 // Output
 //
 // [[SearchResp.SearchResult(entity={metadata={"category":"electronics","price":99.99,"brand":"BrandA"}}, score=-0.2364331, id=1)]]
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -592,21 +735,5 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In this example, Zilliz Cloud returns the top 5 entities most similar to the query vector, with the `metadata` field containing a brand of `"BrandA"`.
-
 Additionally, Zilliz Cloud supports advanced JSON filtering operators such as `JSON_CONTAINS`, `JSON_CONTAINS_ALL`, and `JSON_CONTAINS_ANY`, which can further enhance query capabilities. For more details, refer to [JSON Operators](./json-filtering-operators).
-
-## Limits{#limits}
-
-- **Indexing Limitations**: Due to the complexity of data structures, indexing JSON fields is not supported.
-
-- **Data Type Matching**: If a JSON field's key value is an integer or floating point, it can only be compared with another integer or float key or `INT32/64` or `FLOAT32/64` fields. If the key value is a string (`VARCHAR`), it can only be compared with another string key.
-
-- **Naming Restrictions**: When naming JSON keys, it is recommended to use only letters, numeric characters, and underscores, as other characters may cause issues during filtering or searching.
-
-- **Handling String Values**: For string values (`VARCHAR`), Zilliz Cloud stores JSON field strings as-is without semantic conversion. For example: `'a"b'`, `"a'b"`, `'a\'b'`, and `"a\"b"` are stored as entered; however, `'a'b'` and `"a"b"` are considered invalid.
-
-- **Handling Nested Dictionaries**: Any nested dictionaries within JSON field values are treated as strings.
-
-- **JSON Field Size Limit**: JSON fields are limited to 65,536 bytes.
 

@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

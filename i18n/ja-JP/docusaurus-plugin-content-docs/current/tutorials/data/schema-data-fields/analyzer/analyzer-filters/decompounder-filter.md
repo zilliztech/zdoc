@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - decompounder
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

@@ -2,7 +2,7 @@
 title: "Filtered Search | Cloud"
 slug: /filtered-search
 sidebar_label: "Filtered Search"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "An ANN search finds vector embeddings most similar to specified vector embeddings. However, the search results may not always be correct. You can include filtering conditions in a search request so that Zilliz Cloud conducts metadata filtering before conducting ANN searches, reducing the search scope from the whole collection to only the entities matching the specified filtering conditions. | Cloud"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

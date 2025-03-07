@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

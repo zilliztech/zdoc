@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

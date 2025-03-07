@@ -10,19 +10,19 @@ type: docx
 token: NS1xdv6f4oQlN4xqnOGc6ssWnTf
 sidebar_position: 3
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - hasPartition()
-  - javaV2
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - javaV225
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: javaSidebar
 
 ---

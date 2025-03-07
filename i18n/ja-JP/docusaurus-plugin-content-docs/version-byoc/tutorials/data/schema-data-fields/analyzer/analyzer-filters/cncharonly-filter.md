@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - cncharonly
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

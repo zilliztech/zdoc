@@ -14,10 +14,10 @@ keywords:
   - cloud
   - whitelist
   - setup
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

@@ -10,10 +10,10 @@ type: docx
 token: DdQ1dBNagoBa08xhEiucxZrHnzc
 sidebar_position: 6
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud

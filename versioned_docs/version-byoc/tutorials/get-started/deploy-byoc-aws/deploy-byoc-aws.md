@@ -14,10 +14,10 @@ keywords:
   - aws
   - milvus
   - vector database
-  - k nearest neighbor algorithm
-  - ANNS
   - Vector search
   - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

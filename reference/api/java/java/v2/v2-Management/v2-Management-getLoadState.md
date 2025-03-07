@@ -10,19 +10,19 @@ type: docx
 token: QcaFdMJE9oHX1Axe11rcqfiynEd
 sidebar_position: 4
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadState()
-  - javaV2
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - javaV225
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: javaSidebar
 
 ---

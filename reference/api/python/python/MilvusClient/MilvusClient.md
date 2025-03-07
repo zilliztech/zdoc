@@ -9,10 +9,10 @@ token: YHQ9fF9IDlENsMd9RZucYalqnNg
 sidebar_position: 2
 sidebar_label: "MilvusClient"
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud

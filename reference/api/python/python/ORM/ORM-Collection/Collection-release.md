@@ -10,19 +10,19 @@ type: docx
 token: CBwkdDs7MoKkVKx0kJgcPUNxn6s
 sidebar_position: 24
 keywords: 
+  - open source vector db
   - vector database example
   - rag vector database
   - what is vector db
-  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - release()
   - pymilvus25
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 displayed_sidebar: pythonSidebar
 
 ---

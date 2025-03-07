@@ -9,10 +9,10 @@ token: YpEjf83y1lvvzxd31BqcvQmknEd
 sidebar_position: 6
 sidebar_label: "Partitions"
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud

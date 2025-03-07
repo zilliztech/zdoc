@@ -1,7 +1,7 @@
 ---
 title: "QdrantからZilliz Cloudへの移行 | Cloud"
 slug: /migrate-from-qdrant
-sidebar_label: "QdrantからZilliz Cloudへの移行"
+sidebar_label: "Qdrantから"
 beta: FALSE
 notebook: FALSE
 description: "Qdrantは、類似検索機能を提供するベクトルデータベースです。QdrantからZilliz Cloudにデータを移行することで、Qdrantがサポートするマルチベクトル構造との互換性を維持しながら、Zilliz Cloudの高度な検索と分析機能を活用することができます。 | Cloud"
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - qdrant
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

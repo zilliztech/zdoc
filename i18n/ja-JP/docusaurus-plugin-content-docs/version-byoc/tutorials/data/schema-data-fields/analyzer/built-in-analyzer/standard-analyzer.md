@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - standard-analyzer
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

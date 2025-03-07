@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - decompounder
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

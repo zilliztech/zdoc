@@ -10,19 +10,19 @@ type: docx
 token: KSECdBDcUoIkL7xI4KOc29Ukn1g
 sidebar_position: 5
 keywords: 
+  - Image Search
+  - LLMs
+  - Machine Learning
   - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - verify()
   - pymilvus25
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: pythonSidebar
 
 ---

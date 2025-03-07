@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - array field
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

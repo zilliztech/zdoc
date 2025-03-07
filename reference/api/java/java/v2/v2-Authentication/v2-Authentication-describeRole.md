@@ -10,19 +10,19 @@ type: docx
 token: Fs7qdzeHZo305txlj45cgqoVnUf
 sidebar_position: 3
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
-  - javaV2
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - javaV225
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: javaSidebar
 
 ---

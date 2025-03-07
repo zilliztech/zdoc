@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

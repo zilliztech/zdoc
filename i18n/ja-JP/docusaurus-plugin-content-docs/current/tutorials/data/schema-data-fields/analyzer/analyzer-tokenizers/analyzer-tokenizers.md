@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

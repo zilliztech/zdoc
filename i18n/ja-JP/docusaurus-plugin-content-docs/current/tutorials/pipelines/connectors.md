@@ -14,10 +14,10 @@ keywords:
   - cloud
   - connect
   - data
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 
@@ -112,7 +112,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
            </tr>
            <tr>
              <td><p>バケットURL</p></td>
-             <td><p>ソースデータにアクセスするために使用するバケットURLを指定してください。特定のファイルではなく、ファイルディレクトリのURLを入力してください。また、ルートディレクトリはサポートされていません。</p><p>URLを取得する方法の詳細については、以下を参照してください:</p><ul><li><p><a href="https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/access-bucket-intro.html">Amazon S 3バケットへのアクセスとリスティング</a></p></li><li><p><a href="https://cloud.google.com/storage/docs/discover-object-storage-console?hl=ja#share_the_object">Google Cloudコンソールでオブジェクトストレージを発見する</a></p></li></ul></td>
+             <td><p>ソースデータにアクセスするために使用するバケットURLを指定してください。特定のファイルではなく、ファイルディレクトリのURLを入力してください。また、ルートディレクトリはサポートされていません。 URLを取得する方法の詳細については、以下を参照してください:</p><ul><li><p><a href="https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/access-bucket-intro.html">Amazon S 3バケットへのアクセスとリスティング</a></p></li><li><p><a href="https://cloud.google.com/storage/docs/discover-object-storage-console?hl=ja#share_the_object">Google Cloudコンソールでオブジェクトストレージを発見する</a></p></li></ul></td>
            </tr>
            <tr>
              <td><p>認証のためのアクセスキー（任意）</p></td>

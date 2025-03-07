@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - autoindex
   - milvus
+  - hallucinations llm
   - Multimodal search
   - vector search algorithms
   - Question answering system
-  - llm-as-a-judge
 
 ---
 

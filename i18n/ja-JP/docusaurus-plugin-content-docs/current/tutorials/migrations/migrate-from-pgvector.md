@@ -1,7 +1,7 @@
 ---
 title: "テンセントクラウドからZilliz Cloudへの移行 | Cloud"
 slug: /migrate-from-pgvector
-sidebar_label: "テンセントクラウドからZilliz Cloudへの移行"
+sidebar_label: "Tecent Cloudから"
 beta: FALSE
 notebook: FALSE
 description: "テンセントクラウド VectorDB は、類似検索用に設計されたベクトルデータベースソリューションです。テンセントクラウドVectorDBからZilliz Cloudへのデータ移行により、ユーザーはZilliz Cloudの強化されたベクトル分析機能とスケーラブルなデータ管理を活用することができます。 | Cloud"
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - postgresql
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

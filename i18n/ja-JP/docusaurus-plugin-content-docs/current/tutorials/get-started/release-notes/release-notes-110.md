@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

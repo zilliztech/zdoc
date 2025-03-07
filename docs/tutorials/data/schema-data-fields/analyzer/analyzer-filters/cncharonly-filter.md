@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - cncharonly
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

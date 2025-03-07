@@ -10,19 +10,19 @@ type: docx
 token: YLQJdvVA8odibAx7mQscYwMVn8g
 sidebar_position: 4
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - describeUser()
-  - javaV2
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - javaV225
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 displayed_sidebar: javaSidebar
 
 ---

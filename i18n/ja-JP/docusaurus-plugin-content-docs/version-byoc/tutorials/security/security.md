@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

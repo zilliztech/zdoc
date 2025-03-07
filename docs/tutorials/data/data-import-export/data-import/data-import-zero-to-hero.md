@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

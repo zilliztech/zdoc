@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

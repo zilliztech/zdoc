@@ -15,10 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 

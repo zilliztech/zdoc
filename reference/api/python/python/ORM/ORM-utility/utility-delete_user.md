@@ -10,19 +10,19 @@ type: docx
 token: E7zOdU2JpoqaU5xNYXvcAjgPnNh
 sidebar_position: 6
 keywords: 
-  - LLMs
   - Machine Learning
   - RAG
   - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - delete_user()
   - pymilvus25
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 displayed_sidebar: pythonSidebar
 
 ---

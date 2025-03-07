@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

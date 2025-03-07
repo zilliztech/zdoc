@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

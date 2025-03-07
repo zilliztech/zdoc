@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - ips
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 
@@ -104,7 +104,7 @@ Zilliz Cloudは、データソースからデータを取得し、固定IPアド
    <tr>
      <td><p>us-westとは</p></td>
      <td><p>アメリカ合衆国オレゴン州</p></td>
-     <td><p><code>34.168.252.102</code>, <code>34.83.176.23</code>, <code>35.247.80.67</code>, <code>35.227.139.83</code>,</p><p><code>34.168.123.225</code>, <code>35.247.17.192</code>, <code>34.105.17.34</code></p></td>
+     <td><p><code>34.168.252.102</code>, <code>34.83.176.23</code>, <code>35.247.80.67</code>, <code>35.227.139.83</code>, <code>34.168.123.225</code>, <code>35.247.17.192</code>, <code>34.105.17.34</code></p></td>
    </tr>
    <tr>
      <td><p>us-eastさん</p></td>

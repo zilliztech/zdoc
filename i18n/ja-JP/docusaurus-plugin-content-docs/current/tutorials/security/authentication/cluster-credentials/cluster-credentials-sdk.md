@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - sdk
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

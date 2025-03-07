@@ -10,19 +10,19 @@ type: docx
 token: NMAOdxhL1oo0E7xcFqXcF6yPnBg
 sidebar_position: 4
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
   - createAlias()
-  - javaV2
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - javaV225
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: javaSidebar
 
 ---

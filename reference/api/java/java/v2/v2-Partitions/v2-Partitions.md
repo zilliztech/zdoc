@@ -6,18 +6,18 @@ notebook: false
 description: "Methods related to the manipulation of the partitions in a collection. | Java | v2"
 type: folder
 token: YkL6fqkaNlgeWXdNaWLcltkZnRc
-sidebar_position: 6
+sidebar_position: 7
 sidebar_label: "Partitions"
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
   - Partitions
-  - javaV2
+  - javaV225
 displayed_sidebar: javaSidebar
 ---
 

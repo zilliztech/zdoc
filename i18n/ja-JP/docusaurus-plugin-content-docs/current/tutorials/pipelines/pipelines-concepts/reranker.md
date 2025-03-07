@@ -14,10 +14,10 @@ keywords:
   - cloud
   - concepts
   - rerankers
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

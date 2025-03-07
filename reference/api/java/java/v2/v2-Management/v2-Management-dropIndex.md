@@ -10,19 +10,19 @@ type: docx
 token: KdFEdP8ZToYvZ1xmmQgcE62unUf
 sidebar_position: 3
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndex()
-  - javaV2
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - javaV225
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: javaSidebar
 
 ---

@@ -2,7 +2,7 @@
 title: "MetricType | Java | v1"
 slug: /java/v1-Misc-MetricType
 sidebar_label: "MetricType"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The enumeration for available metric types. | Java | v1"
 type: origin

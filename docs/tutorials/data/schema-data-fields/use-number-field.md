@@ -4,7 +4,7 @@ slug: /use-number-field
 sidebar_label: "Number Field"
 beta: FALSE
 notebook: FALSE
-description: "Number fields are used to store non-vector numerical data in Zilliz Cloud clusters. These fields are typically employed to describe additional information related to vector data, such as age, price, etc. By using this data, you can better describe vectors and improve the efficiency of data filtering and conditional queries. | Cloud"
+description: "A number field is a scalar field that stores numeric values. These values can be whole numbers (integers) or decimal numbers (floating-point numbers). They are typically used to represent quantities, measurements, or any data that needs to be mathematically processed. | Cloud"
 type: origin
 token: EwArwXCOPip15hkSvvpciAMJnSe
 sidebar_position: 7
@@ -18,10 +18,10 @@ keywords:
   - int
   - integer
   - float
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 
@@ -31,13 +31,9 @@ import TabItem from '@theme/TabItem';
 
 # Number Field
 
-Number fields are used to store non-vector numerical data in Zilliz Cloud clusters. These fields are typically employed to describe additional information related to vector data, such as age, price, etc. By using this data, you can better describe vectors and improve the efficiency of data filtering and conditional queries.
+A number field is a scalar field that stores numeric values. These values can be whole numbers (**integers**) or decimal numbers (**floating-point numbers**). They are typically used to represent quantities, measurements, or any data that needs to be mathematically processed.
 
-Number fields are particularly useful in many scenarios. For example, in e-commerce recommendations, a price field can be used for filtering; in user profile analysis, age ranges can help refine the results. Combined with vector data, number fields can help the system provide similarity searches while meeting personalized user needs more precisely.
-
-## Supported number field types{#supported-number-field-types}
-
-Zilliz Cloud supports various number field types to meet different data storage and query needs:
+The table below describes the data types of number fields available in Zilliz Cloud clusters.
 
 <table>
    <tr>
@@ -74,27 +70,51 @@ Zilliz Cloud supports various number field types to meet different data storage 
    </tr>
 </table>
 
+To declare a number field, simply set the `datatype` to one of the available numeric data types. For example, `DataType.INT64` for an integer field or `DataType.FLOAT` for a floating-point field.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud supports null values and default values for number fields. To enable these features, set <code>nullable</code> to <code>True</code> and <code>default_value</code> to a numeric value. For details, refer to <a href="./nullable-and-default">Nullable & Default</a>.</p>
+
+</Admonition>
+
 ## Add number field{#add-number-field}
 
-To use number fields in Zilliz Cloud clusters, define the relevant fields in the collection schema, setting the `datatype` to a supported type such as `BOOL` or `INT8`. For a complete list of supported number field types, refer to [Supported number field types](./use-number-field).
+To store numeric data, define a number field in your collection schema. Below is an example of a collection schema with two number fields:
 
-The following example shows how to define a schema that includes number fields `age` and `price`:
+- `age`: stores integer data, allows null values, and has a default value of `18`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+- `price`: stores float data, allows null values, but does not have a default value.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>If you set <code>enable_dynamic_fields=True</code> when defining the schema, Zilliz Cloud allows you to insert scalar fields that were not defined in advance. However, this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to <a href="./enable-dynamic-field">Dynamic Field</a>.</p>
+
+</Admonition>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
+# Import necessary libraries
 from pymilvus import MilvusClient, DataType
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+# Define server address
+SERVER_ADDR = "YOUR_CLUSTER_ENDPOINT"
 
+# Create a MilvusClient instance
+client = MilvusClient(uri=SERVER_ADDR)
+
+# Define the collection schema
 schema = client.create_schema(
     auto_id=False,
     enable_dynamic_fields=True,
 )
 
-schema.add_field(field_name="age", datatype=DataType.INT64)
-schema.add_field(field_name="price", datatype=DataType.FLOAT)
+# Add an INT64 field `age` that supports null values with default value 18
+schema.add_field(field_name="age", datatype=DataType.INT64, nullable=True, default_value=18)
+# Add a FLOAT field `price` that supports null values without default value
+schema.add_field(field_name="price", datatype=DataType.FLOAT, nullable=True)
 schema.add_field(field_name="pk", datatype=DataType.INT64, is_primary=True)
 schema.add_field(field_name="embedding", datatype=DataType.FLOAT_VECTOR, dim=3)
 ```
@@ -121,11 +141,14 @@ schema.setEnableDynamicField(true);
 schema.addField(AddFieldReq.builder()
         .fieldName("age")
         .dataType(DataType.Int64)
+        .isNullable(true)
+        .defaultValue(18)
         .build());
 
 schema.addField(AddFieldReq.builder()
         .fieldName("price")
         .dataType(DataType.Float)
+        .isNullable(true)
         .build());
 
 schema.addField(AddFieldReq.builder()
@@ -139,6 +162,14 @@ schema.addField(AddFieldReq.builder()
         .dataType(DataType.FloatVector)
         .dimension(3)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -213,28 +244,32 @@ export schema="{
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>The primary field and vector field are mandatory when you create a collection. The primary field uniquely identifies each entity, while the vector field is crucial for similarity search. For more details, refer to <a href="./primary-field-auto-id">Primary Field & AutoId</a>, <a href="./use-dense-vector">Dense Vector</a>, <a href="./use-binary-vector">Binary Vector</a>, or <a href="./use-sparse-vector">Sparse Vector</a>.</p>
-
-</Admonition>
-
 ## Set index params{#set-index-params}
 
-Setting index parameters for number fields is optional but can significantly improve retrieval efficiency.
+Indexing helps improve search and query performance. In Zilliz Cloud clusters, indexing is mandatory for vector fields but optional for scalar fields.
 
-In the following example, we create an `AUTOINDEX` for the `age` number field, allowing Zilliz Cloud to automatically create an appropriate index based on the data type. For more information, refer to [AUTOINDEX Explained](./autoindex-explained).
+The following example creates indexes on the vector field `embedding` and the scalar field `age`, both using the `AUTOINDEX` index type. With this type, Milvus automatically selects the most suitable index based on the data type.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
+# Set index params
+
 index_params = client.prepare_index_params()
 
+# Index `age` with AUTOINDEX
 index_params.add_index(
     field_name="age",
     index_type="AUTOINDEX",
-    index_name="inverted_index"
+    index_name="age_index"
+)
+
+# Index `embedding` with AUTOINDEX and specify similarity metric type
+index_params.add_index(
+    field_name="embedding",
+    index_type="AUTOINDEX",  # Use automatic indexing to simplify complex index settings
+    metric_type="COSINE"  # Specify similarity metric type, options include L2, COSINE, or IP
 )
 ```
 
@@ -251,62 +286,20 @@ indexes.add(IndexParam.builder()
         .fieldName("age")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .build());
-
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-const indexParams = {
-    index_name: 'inverted_index',
-    field_name: 'age',
-    index_type: IndexType.AUTOINDEX,
-);
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-export indexParams='[
-        {
-            "fieldName": "age",
-            "indexName": "inverted_index",
-            "indexType": "AUTOINDEX"
-        }
-    ]'
-```
-
-</TabItem>
-</Tabs>
-
-In this example, we use `AUTOINDEX` to create the index for the number field.
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-# Add vector index
-index_params.add_index(
-    field_name="embedding",
-    index_type="AUTOINDEX",  # Use automatic indexing to simplify complex index settings
-    metric_type="COSINE"  # Specify similarity metric type, options include L2, COSINE, or IP
-)
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
+        
 indexes.add(IndexParam.builder()
         .fieldName("embedding")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.COSINE)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -327,7 +320,6 @@ const indexParams = [
     index_type: IndexType.AUTOINDEX,
   },
 ];
-
 ```
 
 </TabItem>
@@ -354,15 +346,15 @@ export indexParams='[
 
 ## Create collection{#create-collection}
 
-Once the schema and indexes are defined, you can create a collection that includes number fields.
+Once the schema and indexes are defined, create a collection that includes number fields.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 # Create Collection
 client.create_collection(
-    collection_name="your_collection_name",
+    collection_name="my_scalar_collection",
     schema=schema,
     index_params=index_params
 )
@@ -379,6 +371,14 @@ CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .indexParams(indexes)
         .build();
 client.createCollection(requestCreate);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -414,16 +414,20 @@ curl --request POST \
 
 ## Insert data{#insert-data}
 
-After creating the collection, you can insert data that includes number fields.
+After creating the collection, insert entities that match the schema.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
+# Sample data
 data = [
     {"age": 25, "price": 99.99, "pk": 1, "embedding": [0.1, 0.2, 0.3]},
-    {"age": 30, "price": 149.50, "pk": 2, "embedding": [0.4, 0.5, 0.6]},
-    {"age": 35, "price": 199.99, "pk": 3, "embedding": [0.7, 0.8, 0.9]},
+    {"age": 30, "pk": 2, "embedding": [0.4, 0.5, 0.6]}, # `price` field is missing, which should be null
+    {"age": None, "price": None, "pk": 3, "embedding": [0.2, 0.3, 0.1]},  # `age` should default to 18, `price` is null
+    {"age": 45, "price": None, "pk": 4, "embedding": [0.9, 0.1, 0.4]},  # `price` is null
+    {"age": None, "price": 59.99, "pk": 5, "embedding": [0.8, 0.5, 0.3]},  # `age` should default to 18
+    {"age": 60, "price": None, "pk": 6, "embedding": [0.1, 0.6, 0.9]}  # `price` is null
 ]
 
 client.insert(
@@ -447,12 +451,20 @@ List<JsonObject> rows = new ArrayList<>();
 Gson gson = new Gson();
 rows.add(gson.fromJson("{\"age\": 25, \"price\": 99.99, \"pk\": 1, \"embedding\": [0.1, 0.2, 0.3]}", JsonObject.class));
 rows.add(gson.fromJson("{\"age\": 30, \"price\": 149.50, \"pk\": 2, \"embedding\": [0.4, 0.5, 0.6]}", JsonObject.class));
-rows.add(gson.fromJson("{\"age\": 35, \"price\": 199.99, \"pk\": 3, \"embedding\": [0.7, 0.8, 0.9]}", JsonObject.class));
+rows.add(gson.fromJson("{\"age\": None, \"price\": None, \"pk\": 3, \"embedding\": [0.7, 0.8, 0.9]}", JsonObject.class));
 
 InsertResp insertR = client.insert(InsertReq.builder()
         .collectionName("my_scalar_collection")
         .data(rows)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -495,34 +507,31 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In this example, we insert data that includes `age`, `price`, `pk` (primary field), and vector representations (`embedding`). To ensure that the inserted data matches the fields defined in the schema, it's recommended to check data types in advance to avoid errors.
+## Query with filter expressions{#query-with-filter-expressions}
 
-If you set `enable_dynamic_fields=True` when defining the schema, Zilliz Cloud allows you to insert number fields that were not defined in advance. However, keep in mind that this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to [Dynamic Field](./enable-dynamic-field).
+After inserting entities, use the `query` method to retrieve entities that match the specified filter expressions.
 
-## Search and query{#search-and-query}
+To retrieve entities where the `age` is greater than 30:
 
-After adding number fields, you can use them for filtering in search and query operations to achieve more precise search results.
-
-### Filter queries{#filter-queries}
-
-After adding number fields, you can use them for filtering in queries. For example, you can query all entities where `age` is between 30 and 40:
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-filter = "30 <= age <= 40"
+filter = 'age > 30'
 
 res = client.query(
     collection_name="my_scalar_collection",
     filter=filter,
-    output_fields=["age","price"]
+    output_fields=["age", "price", "pk"]
 )
 
 print(res)
 
-# Output
-# data: ["{'age': 30, 'price': np.float32(149.5), 'pk': 2}", "{'age': 35, 'price': np.float32(199.99), 'pk': 3}"] 
+# Example output:
+# data: [
+#     "{'age': 45, 'price': None, 'pk': 4}",
+#     "{'age': 60, 'price': None, 'pk': 6}"
+# ]
 ```
 
 </TabItem>
@@ -544,7 +553,15 @@ System.out.println(resp.getQueryResults());
 
 // Output
 //
-// [QueryResp.QueryResult(entity={price=149.5, pk=2, age=30}), QueryResp.QueryResult(entity={price=199.99, pk=3, age=35})]
+// [QueryResp.QueryResult(entity={price=149.5, pk=2, age=30}))]
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -580,13 +597,159 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-This query expression returns all matching entities and outputs their `age` and `price` fields. For more information on filter queries, refer to [Filtering](./filtering).
+To retrieve entities where the `price` is null:
 
-### Vector search with number filtering{#vector-search-with-number-filtering}
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+filter = 'price is null'
+
+res = client.query(
+    collection_name="my_scalar_collection",
+    filter=filter,
+    output_fields=["age", "price", "pk"]
+)
+
+print(res)
+
+# Example output:
+# data: [
+#     "{'age': 30, 'price': None, 'pk': 2}",
+#     "{'age': 18, 'price': None, 'pk': 3}",
+#     "{'age': 45, 'price': None, 'pk': 4}",
+#     "{'age': 60, 'price': None, 'pk': 6}"
+# ]
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// node
+const filter = 'price is null';
+
+const res = await client.query({
+    collection_name:"my_scalar_collection",
+    filter:filter,
+    output_fields=["age", "price", "pk"]
+});
+
+console.log(res);
+
+// Example output:
+// data: [
+//     "{'age': 18, 'price': None, 'pk': 3}",
+//     "{'age': 18, 'price': 59.99, 'pk': 5}"
+// ]
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+To retrieve entities where `age` has the value `18`, use the following expression below. As the default value of `age` is `18`, the expected result should include entities with `age` explicitly set to `18` or with `age` set to null.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+filter = 'age == 18'
+
+res = client.query(
+    collection_name="my_scalar_collection",
+    filter=filter,
+    output_fields=["age", "price", "pk"]
+)
+
+print(res)
+
+# Example output:
+# data: [
+#     "{'age': 18, 'price': None, 'pk': 3}",
+#     "{'age': 18, 'price': 59.99, 'pk': 5}"
+# ]
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// node
+const filter = 'age == 18';
+
+const res = await client.query({
+    collection_name:"my_scalar_collection",
+    filter:filter,
+    output_fields=["age", "price", "pk"]
+});
+
+console.log(res);
+
+// Example output:
+// data: [
+//     "{'age': 18, 'price': None, 'pk': 3}",
+//     "{'age': 18, 'price': 59.99, 'pk': 5}"
+// ]
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+## Vector search with filter expressions{#vector-search-with-filter-expressions}
 
 In addition to basic number field filtering, you can combine vector similarity searches with number field filters. For example, the following code shows how to add a number field filter to a vector search:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -603,8 +766,10 @@ res = client.search(
 
 print(res)
 
-# Output
-# data: ["[{'id': 1, 'distance': -0.06000000238418579, 'entity': {'age': 25, 'price': 99.98999786376953}}, {'id': 2, 'distance': -0.12000000476837158, 'entity': {'age': 30, 'price': 149.5}}, {'id': 3, 'distance': -0.18000000715255737, 'entity': {'age': 35, 'price': 199.99000549316406}}]"]
+# Example output:
+# data: [
+#     "[{'id': 2, 'distance': -0.2016308456659317, 'entity': {'age': 30, 'price': None}}, {'id': 1, 'distance': -0.23643313348293304, 'entity': {'age': 25, 'price': 99.98999786376953}}]"
+# ]
 ```
 
 </TabItem>
@@ -631,7 +796,15 @@ System.out.println(resp.getSearchResults());
 
 // Output
 //
-// [[SearchResp.SearchResult(entity={price=199.99, age=35}, score=-0.19054288, id=3), SearchResp.SearchResult(entity={price=149.5, age=30}, score=-0.20163085, id=2), SearchResp.SearchResult(entity={price=99.99, age=25}, score=-0.2364331, id=1)]]
+// [[SearchResp.SearchResult(entity={price=149.5, age=30}, score=-0.20163085, id=2), SearchResp.SearchResult(entity={price=99.99, age=25}, score=-0.2364331, id=1)]]
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -639,7 +812,7 @@ System.out.println(resp.getSearchResults());
 <TabItem value='javascript'>
 
 ```javascript
-client.search({
+await client.search({
     collection_name: 'my_scalar_collection',
     data: [0.3, -0.6, 0.1],
     limit: 5,

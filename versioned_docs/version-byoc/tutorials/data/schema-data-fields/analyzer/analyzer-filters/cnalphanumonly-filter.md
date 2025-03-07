@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - cnalphanumonly
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

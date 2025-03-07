@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

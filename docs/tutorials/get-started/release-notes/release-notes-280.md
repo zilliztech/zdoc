@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

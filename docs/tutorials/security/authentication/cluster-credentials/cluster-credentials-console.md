@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - console
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

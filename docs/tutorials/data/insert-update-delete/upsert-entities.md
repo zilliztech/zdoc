@@ -17,10 +17,10 @@ keywords:
   - upsert
   - update
   - insert
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - filtering templating
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

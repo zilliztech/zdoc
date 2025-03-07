@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

@@ -10,19 +10,19 @@ type: docx
 token: PemMdzGFnovhaWxOzFzceaH3ncd
 sidebar_position: 3
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
-  - javaV2
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - javaV225
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: javaSidebar
 
 ---

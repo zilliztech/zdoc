@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - mfa
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
 
 ---
 

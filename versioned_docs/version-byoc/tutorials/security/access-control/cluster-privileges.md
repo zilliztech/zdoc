@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

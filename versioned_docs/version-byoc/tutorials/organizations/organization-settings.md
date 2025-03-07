@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

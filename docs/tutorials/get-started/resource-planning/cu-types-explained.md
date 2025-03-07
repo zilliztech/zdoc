@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cu
   - select
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 

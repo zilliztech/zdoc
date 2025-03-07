@@ -10,19 +10,19 @@ type: docx
 token: PsAGd1CNqosvirxDJ5ncIHudnSg
 sidebar_position: 11
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollection()
-  - javaV2
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - javaV225
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: javaSidebar
 
 ---

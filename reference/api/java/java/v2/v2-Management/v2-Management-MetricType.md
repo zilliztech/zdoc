@@ -10,19 +10,19 @@ type: docx
 token: KIYUdM0oVo0dQmxTgS2c8Mxxn4v
 sidebar_position: 8
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - MetricType
-  - javaV2
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - javaV225
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: javaSidebar
 
 ---

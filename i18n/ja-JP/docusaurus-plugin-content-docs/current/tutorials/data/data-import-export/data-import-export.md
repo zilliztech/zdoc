@@ -15,10 +15,10 @@ keywords:
   - data import
   - export
   - milvus
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

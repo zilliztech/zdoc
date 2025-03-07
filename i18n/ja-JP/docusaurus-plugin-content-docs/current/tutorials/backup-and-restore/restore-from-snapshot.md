@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

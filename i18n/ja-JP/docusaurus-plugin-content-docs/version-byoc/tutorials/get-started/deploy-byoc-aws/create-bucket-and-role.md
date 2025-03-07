@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 
@@ -137,7 +137,7 @@ AWSコンソールを使用してバケットとロールを作成できます�
 
 ### ステップ3:権限を追加する{#step-3-add-permissions}
 
-このステップはAWSコンソール上でのみ行われます。このステップでは、[ステップ2](./create-bucket-and-role#2-s3iamstep-2-create-an-iam-role-to-access-the-s3-bucket)で作成したロールのインラインポリシーを作成します。
+このステップはAWSコンソール上でのみ行われます。このステップでは、[ステップ2](./create-bucket-and-role#step-2-create-an-iam-role-to-access-the-s3-bucket)で作成したロールのインラインポリシーを作成します。
 
 1. 作成したロールの詳細ページに移動します。[**権限ポリシー**]セクションで、[**権限を追加**]をクリックし、[**インラインポリシーを作成**]を選択します。
 
@@ -145,7 +145,7 @@ AWSコンソールを使用してバケットとロールを作成できます�
 
 1. [**権限の指定**]ページで、[ポリシーエディター]セクションの[**JSON**]をクリックして**ポリシーエディター**を開きます。次に、下の権限をコピーしてポリシーエディターに貼り付けます。
 
-    `{bucketName}`を[ステップ1](./create-bucket-and-role#1-s3step-1-create-the-s3-bucket)で作成したバケットに置き換え、変更したポリシーのJSONをコピーして、AWSの**ポリシーエディタ**に貼り付ける必要があります。
+    `{bucketName}`を[ステップ1](./create-bucket-and-role#step-1-create-the-s3-bucket)で作成したバケットに置き換え、変更したポリシーのJSONをコピーして、AWSの**ポリシーエディタ**に貼り付ける必要があります。
 
     ```json
     {

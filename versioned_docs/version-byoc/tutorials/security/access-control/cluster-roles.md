@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

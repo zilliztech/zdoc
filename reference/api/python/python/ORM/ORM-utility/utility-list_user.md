@@ -10,19 +10,19 @@ type: docx
 token: JeG6d5Sg2oPmXPxEhnyciq4snNd
 sidebar_position: 28
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - list_user()
   - pymilvus25
-  - Similarity Search
   - multimodal RAG
   - llm hallucinations
   - hybrid search
+  - lexical search
 displayed_sidebar: pythonSidebar
 
 ---

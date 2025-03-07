@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 

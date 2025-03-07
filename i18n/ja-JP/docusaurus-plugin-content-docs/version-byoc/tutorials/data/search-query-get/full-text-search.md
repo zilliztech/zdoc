@@ -19,10 +19,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

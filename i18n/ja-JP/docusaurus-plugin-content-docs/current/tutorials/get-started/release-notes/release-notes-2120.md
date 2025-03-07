@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

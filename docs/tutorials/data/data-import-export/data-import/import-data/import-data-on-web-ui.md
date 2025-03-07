@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - console
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

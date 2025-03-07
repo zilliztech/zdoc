@@ -15,10 +15,10 @@ keywords:
   - backup
   - files
   - view
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - data
   - grouping search
   - group
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 
@@ -247,7 +247,7 @@ curl --request POST \
 
 In the request above, `limit=3` indicates that the system will return search results from three groups, with each group containing the single most similar entity to the query vector.
 
-## Configure group size{#configure-group-size}
+## Configure group size | Milvus v2.5.x{#configure-group-size}
 
 By default, Grouping Search returns only one entity per group. If you want multiple results per group, adjust the `group_size` and `strict_group_size` parameters.
 
@@ -367,6 +367,8 @@ In the example above:
 For additional parameter details, refer to [search](/reference/python/python/Vector-search).
 
 ## Considerations{#considerations}
+
+- **Indexing**: This grouping feature works only for collections that are indexed with these index types: **FLAT**, **IVF_FLAT**, **IVF_SQ8**, **HNSW**, **HNSW_PQ**, **HNSW_PRQ**, **HNSW_SQ**, **DISKANN**, **SPARSE_INVERTED_INDEX**.
 
 - **Number of groups**: The `limit` parameter controls the number of groups from which search results are returned, rather than the specific number of entities within each group. Setting an appropriate `limit` helps control search diversity and query performance. Reducing `limit` can reduce computation costs if data is densely distributed or performance is a concern.
 

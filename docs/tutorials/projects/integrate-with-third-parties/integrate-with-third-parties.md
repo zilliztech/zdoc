@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

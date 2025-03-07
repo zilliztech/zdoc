@@ -14,10 +14,10 @@ keywords:
   - register
   - cloud
   - milvus
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 
