@@ -16,10 +16,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 
@@ -51,15 +51,21 @@ The following figure illustrates how Zilliz Cloud processes the search requests 
 
 To use the Partition Key, you need to
 
-- Set the Partition Key,
+- [Set the Partition Key](./use-partition-key#set-partition-key),
 
-- Set the number of partitions to create (Optional), and
+- [Set the number of partitions to create](./use-partition-key#set-partition-numbers) (Optional), and
 
-- Create a filtering condition based on the Partition Key.
+- [Create a filtering condition based on the Partition Key](./use-partition-key#create-filtering-condition).
 
 ### Set Partition Key{#set-partition-key}
 
 To designate a scalar field as the Partition Key, you need to set its `is_partition_key` attribute to `true` when you add the scalar field.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>When you set a scalar field as the Partition Key, the field values cannot be empty or null.</p>
+
+</Admonition>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
