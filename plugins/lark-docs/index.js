@@ -22,6 +22,7 @@ module.exports = function (context, options) {
                 .option('-skipI, --skipImageDown', 'Skip fetching images')
                 .option('-post, --postProcess', 'Post process file paths')
                 .action(async (opts) => {
+                    console.log(opts)
 
                     const options = context.siteConfig.plugins.filter(plugin => plugin[0].includes('lark-docs'))[0][1]
                     process.env.REPO_BRANCH = fs.readFileSync('.git/HEAD', 'utf8').split(': ')[1].trim().split('/').slice(-1)[0]
