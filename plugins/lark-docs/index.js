@@ -126,7 +126,7 @@ module.exports = function (context, options) {
     
                             if (paths.length === 0) {
                                 console.log('Please provide a valid doc token or title')
-                                return
+                                process.exit(1)
                             }
 
                             var token;
