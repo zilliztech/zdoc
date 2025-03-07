@@ -60,7 +60,7 @@ jobs:
         yarn
         npx docusaurus report-to-lark -m "🔥 Start building FAQs ..."
         npx docusaurus fetch-lark-docs -man ${{ github.event.inputs.manual }} -src-only
-        npx docusaurus fetch-lark-docs -man ${{ github.event.inputs.manual }} -tar ${{ github.event.inputs.target }} -faq"       
+        npx docusaurus fetch-lark-docs -man ${{ github.event.inputs.manual }} -tar ${{ github.event.inputs.target }} -faq     
     - name: build docsite
       run: |
         npx docusaurus report-to-lark -m "🔥 All docs fetched! Building docs..."
