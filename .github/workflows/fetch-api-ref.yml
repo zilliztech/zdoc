@@ -44,10 +44,20 @@ jobs:
         curl -H "Authorization: token $TOKEN" https://raw.githubusercontent.com/zilliztech/zilliz-cloud-client/release_2.0.0/packages/CommonService/client/src/consts/Link.ts -o plugins/link-checks/meta/Link.ts
         npx docusaurus link-checks
     - name: create pull request
+      id: cpr
       uses: peter-evans/create-pull-request@v4
       with:
-        commit-message: "update RESTful API reference"
-        branch: "dev"
+        commit-message: "update doc by name ${{ github.event.inputs.doc }}"
+        branch: "dev-patches"
+    - name: check outputs
+      if: ${{ steps.cpr.outputs.pull-request-number }}
+      env:
+        TOKEN: ${{ secrets.ACTION_TOKEN }}
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+      run: |
+        npx docusaurus report-to-lark -m "A PR has been ${{ steps.cpr.outputs.pull-request-operation }} at: #${{ steps.cpr.outputs.pull-request-url }}."
   failure:
     needs: fetch-api-ref
     runs-on: ubuntu-latest
