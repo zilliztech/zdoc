@@ -47,7 +47,7 @@ jobs:
       id: cpr
       uses: peter-evans/create-pull-request@v4
       with:
-        commit-message: "update doc by name ${{ github.event.inputs.doc }}"
+        commit-message: "update RESTful API reference"
         branch: "dev-patches"
     - name: check outputs
       if: ${{ steps.cpr.outputs.pull-request-number }}
