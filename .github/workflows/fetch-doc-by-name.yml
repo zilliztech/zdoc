@@ -35,7 +35,8 @@ jobs:
       uses: actions/checkout@v4
       with:
         ref: dev
-    - name: fetch doc by name
+    - if: ${{ github.event.inputs.doc != 'FAQs' }}
+      name: fetch doc by name
       env: 
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
@@ -47,6 +48,19 @@ jobs:
         npx docusaurus report-to-lark -m "🔥 Start building doc page [ ${{ github.event.inputs.doc }} ] ..."
         npx docusaurus fetch-lark-docs -man ${{ github.event.inputs.manual }} -src-only
         npx docusaurus fetch-lark-docs -man ${{ github.event.inputs.manual }} -tar ${{ github.event.inputs.target }} -doc "${{ github.event.inputs.doc }}"
+    - if: ${{ github.event.inputs.doc == 'FAQs' }}
+      name: fetch faqs
+      env: 
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        SPACE_ID: ${{ secrets.SPACE_ID }}
+        FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}        
+      run: |
+        yarn
+        npx docusaurus report-to-lark -m "🔥 Start building FAQs ..."
+        npx docusaurus fetch-lark-docs -man ${{ github.event.inputs.manual }} -src-only
+        npx docusaurus fetch-lark-docs -man ${{ github.event.inputs.manual }} -tar ${{ github.event.inputs.target }} -faq"       
     - name: build docsite
       run: |
         npx docusaurus report-to-lark -m "🔥 All docs fetched! Building docs..."
