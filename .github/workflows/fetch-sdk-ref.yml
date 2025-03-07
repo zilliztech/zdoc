@@ -1,4 +1,4 @@
-name: "fetch faqs (manual)"
+name: "fetch sdk ref (manual)"
 on: 
   workflow_dispatch:
     inputs:
