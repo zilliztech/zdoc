@@ -21,6 +21,9 @@ on:
       doc:
         description: 'Doc Name'
         required: true
+      operator:
+        description: 'Operator'
+        required: true
 
 jobs:
   fetch-doc-by-name:
@@ -83,7 +86,9 @@ jobs:
       id: cpr
       uses: peter-evans/create-pull-request@v4
       with:
-        commit-message: "update doc by name ${{ github.event.inputs.doc }}"
+        commit-message: "update doc ${{ github.event.inputs.doc }} by name"
+        title: "update doc ${{ github.event.inputs.doc }} by name"
+        body: "update doc ${{ github.event.inputs.doc }} by name. ${{ github.event.inputs.operator }} triggered this action."
         branch: "dev-patches"
     - name: check outputs
       if: ${{ steps.cpr.outputs.pull-request-number }}
