@@ -1,0 +1,29 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_positition: 115
+slug: /restful/export-backup-files-v2
+beta: FALSE
+title: "Export Backup Files | RESTful"
+description: "Export the backup files from a cluster to storage specified by an integration ID. | RESTful"
+hide_table_of_contents: true
+sidebar_label: "Export Backup Files"
+sidebar_custom_props: { badges: ['post']}
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "Export Backup Files"
+  - "post"
+  - RESTful
+  - API
+---
+
+# Export Backup Files
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="en-US" />
+
+export const specs = {"summary":"Export Backup Files","deprecated":false,"description":"Export the backup files from a cluster to storage specified by an integration ID.","x-i18n":{"zh-CN":{"summary":"导出备份文件","description":"本接口可将指定集群的备份文件导出到指定的存储中。"}},"tags":["Backup & Restore (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"}}},{"name":"CLUSTER_ID","in":"path","description":"The ID of the cluster that needs to be backed up.","example":"inxx-xxxxxxxxxxxxxxx","required":true,"schema":{"type":"string"}},{"name":"BACKUP_ID","in":"path","description":"The ID of the cluster that needs to be backed up.","example":"backup-xxxxxxxxxxxxxxx","required":true,"schema":{"type":"string"}}],"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"integrationId":{"type":"string","description":"The ID of the integrated external storage that the backup files will be exported to. For how to integrate an AWS S3 block storage service into Zilliz Cloud, refer to the [documentation](https://docs.zilliz.com/docs/integrate-with-aws-s3).","x-i18n":{"zh-CN":{"description":"备份文件导出到的外部存储的 ID。关于如何将 AWS S3 块存储服务集成到 Zilliz Cloud，请参阅 [文档](https://docs.zilliz.com.cn/docs/integrate-with-aws-s3)。"}},"example":"inter-xxxxxxxxxxxxxxxxxxx"},"directory":{"type":"string","description":"The directory in the specified external storage where the backup files will be exported to.","x-i18n":{"zh-CN":{"description":"备份文件导出到的外部存储的目录。"}},"example":"destdir/"}}}}}},"responses":{"200":{"description":"response","content":{"application/json":{"schema":{"anyOf":[{"x-tab-label":"success","type":"object","properties":{"code":{"type":"integer","description":"Response code."},"data":{"type":"object","description":"Response payload which is the ID of the export job created to export the backup files.","x-i18n":{"zh-CN":{"description":"响应负载，为导出备份文件的任务 ID。"}},"properties":{"jobId":{"type":"string","description":"The ID of the export job created to export the backup files.","x-i18n":{"zh-CN":{"description":"导出备份文件的任务 ID。"}},"example":"job_xxxxxxxxxxxxxxx"}}}}},{"x-tab-label":"failure","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{"jobId":"job-0396450098cglufig6afm9"}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":21119,"message":"The apikey is illegal."}}}}}}}}
+export const endpoint = "/v2/clusters/{CLUSTER_ID}/backups/{BACKUP_ID}/export"
+export const method = "post"
