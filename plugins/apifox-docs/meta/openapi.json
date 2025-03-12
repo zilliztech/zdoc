@@ -35252,6 +35252,10 @@
 										"example": "destdir/"
 									}
 								}
+							},
+							"example": {
+								"integrationId": "inter-xxxxxxx",
+								"directory":"destdir/"
 							}
 						}
 					}
