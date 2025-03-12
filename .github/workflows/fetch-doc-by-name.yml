@@ -23,6 +23,7 @@ on:
         required: true
       operator:
         description: 'Operator'
+        type: string
         required: true
 
 jobs:
