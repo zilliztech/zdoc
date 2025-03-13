@@ -1,0 +1,94 @@
+---
+title: "DropIndex() | Go | v2"
+slug: /go/v2-Management-DropIndex
+sidebar_label: "DropIndex()"
+beta: FALSE
+notebook: FALSE
+description: "This method drops the specified index. | Go | v2"
+type: origin
+token: Bp2iw4UZNi5dk5kwXMwcqvVLnrf
+sidebar_position: 3
+displayed_sidebar: goSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# DropIndex()
+
+This method drops the specified index.
+
+```go
+func (c *Client) DropIndex(ctx context.Context, opt DropIndexOption, callOptions ...grpc.CallOption) error
+```
+
+## Request Parameters{#request-parameters}
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>ctx</code></p></td>
+     <td><p>Context for the current call to work.</p></td>
+     <td><p><code>context.Context</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>opt</code></p></td>
+     <td><p>Optional parameters of the methods.</p></td>
+     <td><p><code>DropIndexOption</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>callOpts</code></p></td>
+     <td><p>Optional parameters for calling the methods.</p></td>
+     <td><p><code>grpc.CallOption</code></p></td>
+   </tr>
+</table>
+
+## DropIndexOption{#dropindexoption}
+
+This is an interface type. The `dropIndexOption` struct type implements this interface type. 
+
+You can use the `NewDropIndexOption()` function to get the concrete implementation.
+
+### NewDropIndexOption(){#newdropindexoption}
+
+The signature of this method is as follows:
+
+```go
+func NewDropIndexOption(collectionName string, indexName string) *dropIndexOption
+```
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>collectionName</code></p></td>
+     <td><p>Name of the target collection.</p></td>
+     <td><p><code>string</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>indexName</code></p></td>
+     <td><p>Name of the target index.</p></td>
+     <td><p><code>string</code></p></td>
+   </tr>
+</table>
+
+## Return{#return}
+
+Null
+
+## Example{#example}
+
+```plaintext
+err = cli.DropIndex(ctx, milvusclient.NewDropIndexOption("my_collection", "my_index"))
+if err != nil {
+    // handle err
+}
+```
