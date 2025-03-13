@@ -1,0 +1,110 @@
+---
+title: "DropRole() | Go | v2"
+slug: /go/v2-Authentication-DropRole
+sidebar_label: "DropRole()"
+beta: FALSE
+notebook: FALSE
+description: "This method drops a role. | Go | v2"
+type: origin
+token: K81WwNJxai0qZukzVMKc8QANnOh
+sidebar_position: 6
+displayed_sidebar: goSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# DropRole()
+
+This method drops a role. 
+
+```go
+func (c *Client) DropRole(ctx context.Context, opt DropRoleOption, callOpts ...grpc.CallOption) error
+```
+
+## Request Parameters{#request-parameters}
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>ctx</code></p></td>
+     <td><p>Context for the current call to work.</p></td>
+     <td><p><code>context.Context</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>opt</code></p></td>
+     <td><p>Optional parameters of the methods.</p></td>
+     <td><p><code>DropRoleOption</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>callOpts</code></p></td>
+     <td><p>Optional parameters for calling the methods.</p></td>
+     <td><p><code>grpc.CallOption</code></p></td>
+   </tr>
+</table>
+
+## DropRoleOption{#droproleoption}
+
+This is an interface type. The `dropRoleOption` struct type implements this interface type. 
+
+You can use the `NewDropRoleOption()` function to get the concrete implementation.
+
+### NewDropRoleOption{#newdroproleoption}
+
+The signature of the `NewDropRoleOption()` is as follows:
+
+```go
+func NewDropRoleOption(roleName string) *dropRoleOption
+```
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>roleName</code></p></td>
+     <td><p>Name of the role to drop.</p></td>
+     <td><p><code>string</code></p></td>
+   </tr>
+</table>
+
+## grpc.CallOption{#grpccalloption}
+
+This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
+
+## Return{#return}
+
+Null
+
+## Example{#example}
+
+```go
+import (
+   "context"
+   "google.golang.org/grpc"
+   "github.com/milvus-io/milvus/v2/milvusclient"
+)
+
+roleName := "my_role"
+opts := client.NewDropRoleOption(roleName)
+
+onFinish := func(ctx context.Context, err error) {
+    if err != nil {
+        fmt.Printf("gRPC call finished with error: %v\n", err)
+    } else {
+        fmt.Printf("gRPC call finished successfully")
+    }
+}
+
+callOpts := grpc.OnFinish(onFinish)
+
+err := mclient.DropRole(context.Background(), opts, callOpts)
+```
+

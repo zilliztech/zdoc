@@ -1,0 +1,100 @@
+---
+title: "RenameCollection() | Go | v2"
+slug: /go/v2-Collection-RenameCollection
+sidebar_label: "RenameCollection()"
+beta: FALSE
+notebook: FALSE
+description: "This method renames the specified collection. | Go | v2"
+type: origin
+token: GLEBw9UQHi3Qzqk50NUckratnbe
+sidebar_position: 12
+displayed_sidebar: goSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# RenameCollection()
+
+This method renames the specified collection.
+
+```go
+func (c *Client) RenameCollection(ctx context.Context, option RenameCollectionOption, callOptions ...grpc.CallOption) error
+```
+
+## Request Parameters{#request-parameters}
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>ctx</code></p></td>
+     <td><p>Context for the current call to work.</p></td>
+     <td><p><code>context.Context</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>option</code></p></td>
+     <td><p>Optional parameters of the methods.</p></td>
+     <td><p><code>RenameCollectionOption</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>callOpts</code></p></td>
+     <td><p>Optional parameters for calling the methods.</p></td>
+     <td><p><code>grpc.CallOption</code></p></td>
+   </tr>
+</table>
+
+## RenameCollectionOption{#renamecollectionoption}
+
+This is an interface type. The `renameCollectionOption` struct type implements this interface type. 
+
+You can use the `NewRenameCollectionOption()` function to get the concrete implementation.
+
+### NewRenameCollectionOption{#newrenamecollectionoption}
+
+The signature of this method is as follows:
+
+```go
+func NewRenameCollectionOption(oldName, newName string) *renameCollectionOption
+```
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>oldName</code></p></td>
+     <td><p>Original name of the collection to rename.</p></td>
+     <td><p><code>string</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>newName</code></p></td>
+     <td><p>New name of the collection after this operation.</p></td>
+     <td><p><code>string</code></p></td>
+   </tr>
+</table>
+
+## Return{#return}
+
+Null
+
+## Example{#example}
+
+```go
+import (
+        "context"
+        "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+err = cli.RenameCollection(ctx, milvusclient.NewRenameCollectionOption("my_collection", "my_new_collection"))
+if err != nil {
+        // handle error
+}
+```
+

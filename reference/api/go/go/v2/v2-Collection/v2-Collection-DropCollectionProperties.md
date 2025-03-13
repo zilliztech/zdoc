@@ -1,0 +1,95 @@
+---
+title: "DropCollectionProperties() | Go | v2"
+slug: /go/v2-Collection-DropCollectionProperties
+sidebar_label: "DropCollectionProperties()"
+beta: FALSE
+notebook: FALSE
+description: "This method resets the specified properties of a collection to their default values. | Go | v2"
+type: origin
+token: HGMpwzYmBiiApWkJRQjcj5Fknmh
+sidebar_position: 14
+displayed_sidebar: goSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# DropCollectionProperties()
+
+This method resets the specified properties of a collection to their default values.
+
+```go
+func (c *Client) DropCollectionProperties(ctx context.Context, option DropCollectionPropertiesOption, callOptions ...grpc.CallOption) error
+```
+
+## Request Parameters{#request-parameters}
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>ctx</code></p></td>
+     <td><p>Context for the current call to work.</p></td>
+     <td><p><code>context.Context</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>option</code></p></td>
+     <td><p>Optional parameters of the methods.</p></td>
+     <td><p><code>DropCollectionPropertiesOption</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>callOpts</code></p></td>
+     <td><p>Optional parameters for calling the methods.</p></td>
+     <td><p><code>grpc.CallOption</code></p></td>
+   </tr>
+</table>
+
+## DropCollectionPropertiesOption{#dropcollectionpropertiesoption}
+
+This is an interface type. The `dropCollectionPropertiesOption` struct type implements this interface type. 
+
+You can use the `NewDropCollectionPropertiesOption()` function to get the concrete implementation.
+
+### NewDropCollectionPropertiesOption{#newdropcollectionpropertiesoption}
+
+The signature of this method is as follows:
+
+```go
+func NewDropCollectionPropertiesOption(collection string, propertyKeys ...string) *dropCollectionPropertiesOption
+```
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>collection</code></p></td>
+     <td><p>Name of the collection to drop.</p></td>
+     <td><p><code>string</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>propertyKeys</code></p></td>
+     <td><p>Names of the properties to reset.</p></td>
+     <td><p><code>...string</code></p></td>
+   </tr>
+</table>
+
+## Return{#return}
+
+Null
+
+## Example{#example}
+
+```go
+err = cli.DropCollectionProperties(ctx, milvusclient.NewDropCollectionPropertiesOption("my_collection", common.CollectionTTLConfigKey))
+if err != nil {
+    // handle error
+}
+```
+

@@ -347,7 +347,7 @@ const config = {
           }
         }
       },
-      go: {
+      gov1: {
         root: 'V0SCw3U3siZBynkKhUCcRRAin69',
         base: 'WA8rbgtu8aq3wtsBm02cepOznPJ',
         sourceType: 'wiki',
@@ -361,6 +361,24 @@ const config = {
           },
           zilliz: {
             outputDir: 'reference/api/go/go/v1',
+            imageDir: 'static/img',
+          }
+        }
+      },
+      gov2: {
+        root: 'LaQ1wPdnSiDXDLkMieEcrv95nRc',
+        base: 'RWi9b79oeaDNkBsCkAGcoc90nif',
+        sourceType: 'wiki',
+        version: 'v2.5.x',
+        displayedSidebar: 'goSidebar',
+        docSourceDir: './plugins/lark-docs/meta/sources/go/v2.5.x',
+        targets: {
+          milvus: {
+            outputDir: 'milvus/reference/go/docs/v2',
+            imageDir: 'milvus/reference/go/images'
+          },
+          zilliz: {
+            outputDir: 'reference/api/go/go/v2',
             imageDir: 'static/img',
           }
         }
