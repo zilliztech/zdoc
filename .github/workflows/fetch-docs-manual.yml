@@ -32,6 +32,10 @@ jobs:
         npx docusaurus fetch-lark-docs -man node -src-only
         npx docusaurus fetch-lark-docs -man nodejs25 -tar zilliz
         npx docusaurus fetch-lark-docs -man nodejs25 -tar zilliz -post
+        npx docusaurus fetch-lark-docs -man gov1 -tar zilliz
+        npx docusaurus fetch-lark-docs -man gov1 -tar zilliz -post
+        npx docusaurus fetch-lark-docs -man gov2 -tar zilliz
+        npx docusaurus fetch-lark-docs -man gov2 -tar zilliz -post
         npx docusaurus fetch-apifox-docs -s plugins/apifox-docs/meta/openapi.json
         npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.saas
         npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.saas -post
