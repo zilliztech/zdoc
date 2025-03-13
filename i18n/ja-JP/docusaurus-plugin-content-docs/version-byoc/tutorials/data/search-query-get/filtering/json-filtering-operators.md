@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - json operators
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

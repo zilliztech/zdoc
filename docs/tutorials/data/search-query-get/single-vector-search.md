@@ -16,10 +16,10 @@ keywords:
   - data
   - vector search
   - ann
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 
@@ -541,7 +541,8 @@ curl --request POST \
 #               "id": 232
 #           }
 #        ]
-#     ]
+#     ],
+#     "topks":[3]
 # }
 ```
 
@@ -720,7 +721,8 @@ curl --request POST \
 #             "distance": 0.07794742286205292,
 #             "id": 43
 #         }
-#     ]
+#     ],
+#     "topks":[3]
 # }
 ```
 
@@ -906,7 +908,8 @@ curl --request POST \
 #             "id": 43
 #             "color": "grey_8510"
 #         }
-#     ]
+#     ],
+#     "topks":[3]
 # }
 ```
 
@@ -1191,7 +1194,7 @@ curl --request POST \
     }
 }'
 
-# {"code":0,"cost":0,"data":[{"distance":1,"id":0},{"distance":0.6290165,"id":1},{"distance":0.5975797,"id":4},{"distance":0.9999999,"id":1},{"distance":0.7408552,"id":7},{"distance":0.6290165,"id":0}]}
+# {"code":0,"cost":0,"data":[{"distance":1,"id":0},{"distance":0.6290165,"id":1},{"distance":0.5975797,"id":4},{"distance":0.9999999,"id":1},{"distance":0.7408552,"id":7},{"distance":0.6290165,"id":0}],"topks":[3]}
 ```
 
 </TabItem>
@@ -1313,7 +1316,7 @@ curl --request POST \
     }
 }'
 
-# {"code":0,"cost":0,"data":[{"distance":1,"id":0},{"distance":0.6290165,"id":1},{"distance":0.5975797,"id":4},{"distance":0.9999999,"id":1},{"distance":0.7408552,"id":7},{"distance":0.6290165,"id":0}]}
+# {"code":0,"cost":0,"data":[{"distance":1,"id":0},{"distance":0.6290165,"id":1},{"distance":0.5975797,"id":4},{"distance":0.9999999,"id":1},{"distance":0.7408552,"id":7},{"distance":0.6290165,"id":0}],"topks":[3]}
 ```
 
 </TabItem>

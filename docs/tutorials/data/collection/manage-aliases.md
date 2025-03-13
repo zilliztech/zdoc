@@ -15,10 +15,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

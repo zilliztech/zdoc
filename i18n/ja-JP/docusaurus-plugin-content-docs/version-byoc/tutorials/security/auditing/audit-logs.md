@@ -15,10 +15,10 @@ keywords:
   - auditing
   - log
   - configure
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

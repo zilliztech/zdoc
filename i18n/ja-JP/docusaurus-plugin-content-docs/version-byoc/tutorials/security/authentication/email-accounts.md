@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 
@@ -61,13 +61,13 @@ Zilliz Cloudに[アカウントを登録](./register-with-zilliz-cloud)すると
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>組織のユーザーは、アイデンティティプロバイダー（IdP）のOktaとシングルサインオン（SSO）を設定することができます。これにより、組織のユーザーはOktaで認証し、ビジネスメールを使用してZilliz Cloudにシームレスにアクセスできます。詳細については、<a href="./saml-2-0">SAML 2.0ダウンロード</a>を参照してください。</p>
+<p>組織のユーザーは、アイデンティティプロバイダー（IdP）のOktaとシングルサインオン（SSO）を設定することができます。これにより、組織のユーザーはOktaで認証し、ビジネスメールを使用してZilliz Cloudにシームレスにアクセスできます。詳細については、<a href="./single-sign-on-with-okta_1">SAML 2.0ダウンロード</a>を参照してください。</p>
 
 </Admonition>
 
 ### パスワードログインからサードパーティログインに切り替える{#switch-from-password-login-to-third-party-login}
 
-パスワードからサードパーティ(GoogleまたはGitHub)のログインに切り替えるには、[Zilliz Cloudアカウントをサードパーティサービスにリンク](./register-with-zilliz-cloud#googlelinking-to-google-account)する手順と同じ手順に従い、事前に[MFAが無効](./multi-factor-auth#mfadisable-mfa)になっていることを確認してください。
+パスワードからサードパーティ(GoogleまたはGitHub)のログインに切り替えるには、[Zilliz Cloudアカウントをサードパーティサービスにリンク](./register-with-zilliz-cloud#linking-to-google-account)する手順と同じ手順に従い、事前に[MFAが無効](./multi-factor-auth#disable-mfa)になっていることを確認してください。
 
 ### サードパーティログインからパスワードログインに切り替える{#switch-from-third-party-login-to-password-login}
 

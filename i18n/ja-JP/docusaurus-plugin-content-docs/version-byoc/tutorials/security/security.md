@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

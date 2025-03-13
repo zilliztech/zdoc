@@ -32,7 +32,7 @@ MilvusからZilliz Cloudへの移行を計画している場合は、レガシ�
 
 ## シナリオ固有の権限{#scenario-specific-privileges}
 
-以下の表では、さまざまなサービスレベルでのAPIの可用性を比較しています。[Bring Your Own Cloud (BYOC)](./byoc-intro) ソリューションのAPIの可用性は、StandardおよびEnterpriseレベルと一致しています。
+以下の表では、さまざまなサービスレベルでのAPIの可用性を比較しています。[Bring Your Own Cloud (BYOC)](/ja-JP/docs/byoc/byoc-intro) ソリューションのAPIの可用性は、StandardおよびEnterpriseレベルと一致しています。
 
 <table>
    <tr>
@@ -510,12 +510,3 @@ MilvusからZilliz Cloudへの移行を計画している場合は、レガシ�
      <td><p>✔︎</p></td>
    </tr>
 </table>
-
-## 関連するトピック{#related-topics}
-
-- [バックアップファイルを使用してMilvusからZilliz Cloudに移行する](./via-backup-files)
-
-- [AUTOINDEXの説明](./autoindex-explained)
-
-- [適切なCUを選択してください](./cu-types-explained)
-

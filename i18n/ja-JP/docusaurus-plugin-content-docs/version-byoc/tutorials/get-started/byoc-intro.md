@@ -13,10 +13,10 @@ keywords:
   - byoc
   - milvus
   - vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

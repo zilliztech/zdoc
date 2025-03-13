@@ -8,21 +8,21 @@ notebook: false
 description: "This operation creates an index for a specific collection. | Java | v2"
 type: docx
 token: OCjUdfc6eo0VihxNUGmcqb7FnTh
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
-  - javaV2
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - javaV225
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: javaSidebar
 
 ---

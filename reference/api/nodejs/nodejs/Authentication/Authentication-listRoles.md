@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists all custom roles. | Node.js"
 type: docx
 token: GIeMdvjlMoLwGrxUOu3cFw7bnWc
-sidebar_position: 11
+sidebar_position: 18
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - listRoles()
-  - node
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - nodejs25
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: nodeSidebar
 
 ---

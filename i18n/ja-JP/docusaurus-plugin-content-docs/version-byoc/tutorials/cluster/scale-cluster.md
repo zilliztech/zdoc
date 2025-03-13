@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

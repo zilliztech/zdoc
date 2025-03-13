@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

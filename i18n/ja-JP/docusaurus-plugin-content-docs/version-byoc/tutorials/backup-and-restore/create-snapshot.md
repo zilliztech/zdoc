@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

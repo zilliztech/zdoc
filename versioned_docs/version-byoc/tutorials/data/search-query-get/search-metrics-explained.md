@@ -20,10 +20,10 @@ keywords:
   - IP
   - COSINE
   - Jaccard
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

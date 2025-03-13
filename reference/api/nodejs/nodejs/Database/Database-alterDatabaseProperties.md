@@ -8,21 +8,21 @@ notebook: false
 description: "This operation modifies the properties of the specified database. | Node.js"
 type: docx
 token: NNWed9Vd1o7vDkxY4pncM4wYnaf
-sidebar_position: 5
+sidebar_position: 7
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - alterDatabaseProperties()
   - nodejs25
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: nodeSidebar
 
 ---

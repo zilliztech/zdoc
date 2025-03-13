@@ -15,10 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

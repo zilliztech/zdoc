@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - json operators
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

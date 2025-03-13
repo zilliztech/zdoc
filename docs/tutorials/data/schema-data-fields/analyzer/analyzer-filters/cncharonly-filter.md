@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - cncharonly
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

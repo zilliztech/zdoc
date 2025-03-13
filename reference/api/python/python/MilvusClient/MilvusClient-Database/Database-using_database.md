@@ -10,19 +10,19 @@ type: docx
 token: OCfid8DdPo1ga1x24JZcV92xnwd
 sidebar_position: 7
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - using_database()
   - pymilvus25
-  - Video deduplication
   - Video similarity search
   - Vector retrieval
   - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: pythonSidebar
 
 ---

@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

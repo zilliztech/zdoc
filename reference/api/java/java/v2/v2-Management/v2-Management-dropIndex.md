@@ -8,21 +8,21 @@ notebook: false
 description: "This operation drops an index from a specific collection. | Java | v2"
 type: docx
 token: KdFEdP8ZToYvZ1xmmQgcE62unUf
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndex()
-  - javaV2
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - javaV225
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 displayed_sidebar: javaSidebar
 
 ---

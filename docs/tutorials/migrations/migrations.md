@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

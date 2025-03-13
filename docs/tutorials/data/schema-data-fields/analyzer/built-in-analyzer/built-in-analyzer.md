@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in analyzer
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

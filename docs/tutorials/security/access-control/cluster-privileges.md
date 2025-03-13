@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

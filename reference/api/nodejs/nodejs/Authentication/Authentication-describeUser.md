@@ -8,21 +8,21 @@ notebook: false
 description: "This is a method template. | Node.js"
 type: docx
 token: Da9KdvvWroKX9cxOwsmcLRBxnVb
-sidebar_position: 5
+sidebar_position: 8
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - describeUser()
-  - node
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - nodejs25
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 displayed_sidebar: nodeSidebar
 
 ---

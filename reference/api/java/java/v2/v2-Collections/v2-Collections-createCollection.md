@@ -8,21 +8,21 @@ notebook: false
 description: "This operation creates a collection either with default or customized settings. | Java | v2"
 type: docx
 token: LtCFdAg8FoxWmBxOInfcUSagnHb
-sidebar_position: 5
+sidebar_position: 7
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
-  - javaV2
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - javaV225
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: javaSidebar
 
 ---
@@ -177,34 +177,34 @@ You can choose between a quick setup or a customized setup as follows:
 
     The quick setup collection has two fields: the primary and vector fields. It also allows the insertion of undefined fields and their values in key-value pairs in a dynamic field.
 
-```java
-// quickly create a collection
-CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
-        .collectionName(collectionName)
-        .dimension(dim)
-        .build();
-client.createCollection(createCollectionReq);
-
-```
+    ```java
+    // quickly create a collection
+    CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
+            .collectionName(collectionName)
+            .dimension(dim)
+            .build();
+    client.createCollection(createCollectionReq);
+    
+    ```
 
 - **Customized setup with index parameters**
 
     For a customized setup, create the schema and index parameters beforehand. 
 
-```java
-// create a collection with schema, when indexParams is specified, it will create index as well
-CreateCollectionReq.CollectionSchema collectionSchema = client.createSchema();
-collectionSchema.addField(AddFieldReq.builder().fieldName("id").dataType(DataType.Int64).isPrimaryKey(Boolean.TRUE).autoID(Boolean.FALSE).description("id").build());
-collectionSchema.addField(AddFieldReq.builder().fieldName("vector").dataType(DataType.FloatVector).dimension(dim).build());
-
-IndexParam indexParam = IndexParam.builder()
-        .fieldName("vector")
-        .metricType(IndexParam.MetricType.COSINE)
-        .build();
-CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
-        .collectionName(collectionName)
-        .collectionSchema(collectionSchema)
-        .indexParams(Collections.singletonList(indexParam))
-        .build();
-client.createCollection(createCollectionReq);
-```
+    ```java
+    // create a collection with schema, when indexParams is specified, it will create index as well
+    CreateCollectionReq.CollectionSchema collectionSchema = client.createSchema();
+    collectionSchema.addField(AddFieldReq.builder().fieldName("id").dataType(DataType.Int64).isPrimaryKey(Boolean.TRUE).autoID(Boolean.FALSE).description("id").build());
+    collectionSchema.addField(AddFieldReq.builder().fieldName("vector").dataType(DataType.FloatVector).dimension(dim).build());
+    
+    IndexParam indexParam = IndexParam.builder()
+            .fieldName("vector")
+            .metricType(IndexParam.MetricType.COSINE)
+            .build();
+    CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
+            .collectionName(collectionName)
+            .collectionSchema(collectionSchema)
+            .indexParams(Collections.singletonList(indexParam))
+            .build();
+    client.createCollection(createCollectionReq);
+    ```

@@ -10,19 +10,19 @@ type: docx
 token: PwL1dndmVoxP98xp0pXcOci4nSe
 sidebar_position: 1
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus25
+  - vector search algorithms
   - Question answering system
   - llm-as-a-judge
   - hybrid vector search
-  - Video deduplication
 displayed_sidebar: pythonSidebar
 
 ---

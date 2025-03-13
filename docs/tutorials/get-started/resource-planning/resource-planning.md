@@ -14,10 +14,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

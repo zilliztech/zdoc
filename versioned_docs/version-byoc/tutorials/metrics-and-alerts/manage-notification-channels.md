@@ -14,10 +14,10 @@ keywords:
   - cloud
   - notification
   - channels
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

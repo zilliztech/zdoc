@@ -15,10 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

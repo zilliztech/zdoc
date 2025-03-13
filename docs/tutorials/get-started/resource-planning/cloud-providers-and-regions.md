@@ -14,10 +14,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 
@@ -77,7 +77,7 @@ Zilliz Cloud supports deploying dedicated clusters on AWS.
    </tr>
    <tr>
      <td><p>eu-central-1</p></td>
-     <td><p>Frankfurt</p></td>
+     <td><p>Frankfurt, Germany</p></td>
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>
@@ -85,7 +85,7 @@ Zilliz Cloud supports deploying dedicated clusters on AWS.
    </tr>
    <tr>
      <td><p>ap-northeast-1</p></td>
-     <td><p>Tokyo</p></td>
+     <td><p>Tokyo, Japan</p></td>
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

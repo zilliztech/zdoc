@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

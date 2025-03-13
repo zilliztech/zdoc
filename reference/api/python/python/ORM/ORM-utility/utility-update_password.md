@@ -10,19 +10,19 @@ type: docx
 token: SGjed7w9toewDlxmXHKc7BFancf
 sidebar_position: 41
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - update_password()
   - pymilvus25
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
 displayed_sidebar: pythonSidebar
 
 ---

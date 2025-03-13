@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

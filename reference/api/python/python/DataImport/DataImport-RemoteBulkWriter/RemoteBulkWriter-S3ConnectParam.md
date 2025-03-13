@@ -10,19 +10,19 @@ type: docx
 token: CSpOd0XgWoVAhzx5xbVcpCVfnPg
 sidebar_position: 5
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - S3ConnectParam
   - pymilvus25
+  - Dense vector
   - Hierarchical Navigable Small Worlds
   - Dense embedding
   - Faiss vector database
-  - Chroma vector database
 displayed_sidebar: pythonSidebar
 
 ---

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

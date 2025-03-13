@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

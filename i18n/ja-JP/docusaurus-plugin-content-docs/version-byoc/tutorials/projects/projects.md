@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

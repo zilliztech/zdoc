@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

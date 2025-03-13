@@ -2,7 +2,7 @@
 title: "Concepts | Cloud"
 slug: /pipelines-concepts
 sidebar_label: "Concepts"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Explanations about the relevant concepts we use when discussing how to use Zilliz Cloud Pipelines. | Cloud"
 type: origin
@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - concepts
+  - milvus vector database
+  - milvus db
   - milvus vector db
   - Zilliz Cloud
-  - what is milvus
-  - milvus database
 
 ---
 

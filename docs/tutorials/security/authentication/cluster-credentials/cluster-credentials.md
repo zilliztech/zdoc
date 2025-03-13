@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster credentials
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

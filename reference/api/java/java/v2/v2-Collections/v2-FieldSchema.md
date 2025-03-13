@@ -8,21 +8,21 @@ notebook: false
 description: "A FieldSchema instance defines the data type and related attributes of a specific field in a collection. | Java | v2"
 type: docx
 token: WeXmdv8bioJ7AEx9sEtct6kgnUd
-sidebar_position: 12
+sidebar_position: 17
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - FieldSchema
-  - javaV2
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - javaV225
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 displayed_sidebar: javaSidebar
 
 ---

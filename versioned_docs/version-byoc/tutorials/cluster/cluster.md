@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

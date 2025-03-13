@@ -14,10 +14,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

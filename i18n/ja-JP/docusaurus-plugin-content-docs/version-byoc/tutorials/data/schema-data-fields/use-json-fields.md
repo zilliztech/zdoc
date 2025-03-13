@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - json field
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

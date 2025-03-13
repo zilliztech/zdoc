@@ -14,10 +14,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

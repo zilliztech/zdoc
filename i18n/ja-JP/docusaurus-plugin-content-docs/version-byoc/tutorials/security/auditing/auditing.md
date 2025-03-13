@@ -14,10 +14,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

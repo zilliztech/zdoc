@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - what is semantic search
   - Embedding model
   - image similarity search
   - Context Window
+  - Natural language search
 
 ---
 
@@ -69,7 +69,7 @@ In this release, Zilliz Cloud has revamped its authentication and login system u
 
 - Quick login via GitHub or Google authentication.
 
-- SSO login for enterprise customers. For more details, visit [Single Sign-on with Okta](./single-sign-on-with-okta).
+- SSO login for enterprise customers. For more details, visit [Single Sign-on with Okta](./single-sign-on).
 
 ### AWS Marketplace Free Trial{#aws-marketplace-free-trial}
 

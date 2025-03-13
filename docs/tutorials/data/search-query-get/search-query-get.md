@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - DML
-  - semantic search
   - Anomaly Detection
   - sentence transformers
   - Recommender systems
+  - information retrieval
 
 ---
 

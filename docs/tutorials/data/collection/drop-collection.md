@@ -16,10 +16,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

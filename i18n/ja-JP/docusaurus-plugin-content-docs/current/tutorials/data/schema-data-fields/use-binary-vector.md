@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
   - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

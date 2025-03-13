@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

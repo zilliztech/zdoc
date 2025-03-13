@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

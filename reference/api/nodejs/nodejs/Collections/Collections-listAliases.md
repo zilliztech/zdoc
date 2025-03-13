@@ -8,21 +8,21 @@ notebook: false
 description: "This is a method template. | Node.js"
 type: docx
 token: KeoKdlitaog6n1xpX8McIIIrnWb
-sidebar_position: 13
+sidebar_position: 17
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - listAliases()
-  - node
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - nodejs25
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: nodeSidebar
 
 ---

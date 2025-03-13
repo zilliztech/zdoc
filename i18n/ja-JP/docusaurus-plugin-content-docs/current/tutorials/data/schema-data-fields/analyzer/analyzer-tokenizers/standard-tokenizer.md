@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - standard-tokenizer
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

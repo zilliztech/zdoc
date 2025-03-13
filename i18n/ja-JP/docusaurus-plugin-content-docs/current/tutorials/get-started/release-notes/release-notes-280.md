@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 
@@ -71,7 +71,7 @@ Serverlessは現在**BETA**で提供されており、**GCP us-west 1(Oregon)**�
 
 - クラスターを監視するためのより多くの[指標](./metrics-alerts-reference)。
 
-- 精度制御のための検索パラメータで、リコールと検索パフォーマンスのトレードオフに5つのレベルを提供します。詳細については、[レベルパラメータについて](./autoindex-explained#levelabout-the-level-parameter)読んでください。
+- 精度制御のための検索パラメータで、リコールと検索パフォーマンスのトレードオフに5つのレベルを提供します。詳細については、[レベルパラメータについて](./autoindex-explained#about-the-level-parameter)読んでください。
 
 - 1つのコレクションに対して最大10件の実行中または保留中のインポートジョブを許可します。
 

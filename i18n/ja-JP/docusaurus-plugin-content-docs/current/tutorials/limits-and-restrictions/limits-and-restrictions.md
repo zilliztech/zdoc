@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

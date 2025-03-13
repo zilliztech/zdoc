@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

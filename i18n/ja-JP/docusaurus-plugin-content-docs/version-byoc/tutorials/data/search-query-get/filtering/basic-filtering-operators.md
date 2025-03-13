@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

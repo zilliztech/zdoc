@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 
@@ -69,7 +69,7 @@ Zilliz Cloudには3つの組織ロールがあります。これらのロール�
        </tr>
        <tr>
          <td><ul><li><p>支払い<a href="./payment-billing">と請求を管理する</a></p></li><li><p>API<a href="./manage-api-keys">キーの表示</a></p></li><li><p>組織<a href="./organization-users">のユーザーを招待する</a></p></li><li><p>組織の<a href="./organization-settings">設定を表示する</a></p></li></ul></td>
-         <td><ul><li><p>リスト請求書</p></li><li><p>請求書を取得</p></li><li><p>クエリorg daily u sage</p></li></ul></td>
+         <td><ul><li><p><a href="/ja-JP/reference/restful/list-invoices-v2">請求書リストを見る</a></p></li><li><p><a href="/ja-JP/reference/restful/describe-invoice-v2">請求書を見る</a></p></li><li><p><a href="/ja-JP/reference/restful/query-daily-usage-v2">毎日の使用を見る</a></p></li></ul></td>
          <td><p>データプランの権限は、プロジェクトとクラスターの役割によって決定されます。ただし、請求管理者は通常、データプレーンの権限を必要としません。</p></td>
        </tr>
     </table>

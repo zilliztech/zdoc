@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - array field
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

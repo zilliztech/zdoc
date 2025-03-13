@@ -14,10 +14,10 @@ keywords:
   - cloud
   - activities
   - view
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 
@@ -61,15 +61,15 @@ To enhance your control and ease in navigating through the organization activiti
        </tr>
        <tr>
          <td><p>Info</p></td>
-         <td><p>General information related to clusters, access, or billing. </p><p>Eg. Cluster in01-xxxxxxxxxxxxxxx was created.</p></td>
+         <td><p>General information related to clusters, access, or billing.  Eg. Cluster in01-xxxxxxxxxxxxxxx was created.</p></td>
        </tr>
        <tr>
          <td><p>Warning</p></td>
-         <td><p>Updates regarding resource states that necessitate your attention.</p><p>E.g., "Cluster in01-xxxxxxxxxxxxxxx was deleted."</p></td>
+         <td><p>Updates regarding resource states that necessitate your attention.  E.g., "Cluster in01-xxxxxxxxxxxxxxx was deleted."</p></td>
        </tr>
        <tr>
          <td><p>Error</p></td>
-         <td><p>Notifications of payment failures or other system malfunctions requiring immediate attention or action. </p><p>E.g., "The payment for the invoice invo-xxxxxxxxxxxxxxxxxxxxxxxx has failed."</p></td>
+         <td><p>Notifications of payment failures or other system malfunctions requiring immediate attention or action.  E.g., "The payment for the invoice invo-xxxxxxxxxxxxxxxxxxxxxxxx has failed."</p></td>
        </tr>
     </table>
 

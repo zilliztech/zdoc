@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - cnalphanumonly
+  - Deep Learning
   - Knowledge base
   - natural language processing
   - AI chatbots
-  - cosine distance
 
 ---
 

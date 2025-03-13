@@ -8,21 +8,21 @@ notebook: false
 description: "This operation revokes the role assigned to a user. | Java | v2"
 type: docx
 token: Znb7dcNoeobIkkxGLGfcpVfUnIX
-sidebar_position: 12
+sidebar_position: 19
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - revokeRole()
-  - javaV2
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - javaV225
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: javaSidebar
 
 ---

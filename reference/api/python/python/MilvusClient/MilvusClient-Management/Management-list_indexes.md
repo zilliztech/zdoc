@@ -10,19 +10,19 @@ type: docx
 token: ZqmudJWyFonUKGxAxXncYrLZn2e
 sidebar_position: 9
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - list_indexes()
   - pymilvus25
+  - Similarity Search
   - multimodal RAG
   - llm hallucinations
   - hybrid search
-  - lexical search
 displayed_sidebar: pythonSidebar
 
 ---

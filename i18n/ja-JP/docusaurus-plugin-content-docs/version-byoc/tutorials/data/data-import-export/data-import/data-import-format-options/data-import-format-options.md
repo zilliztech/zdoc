@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

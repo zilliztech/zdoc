@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

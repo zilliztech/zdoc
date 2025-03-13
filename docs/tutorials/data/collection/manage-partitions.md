@@ -15,10 +15,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

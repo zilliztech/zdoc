@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

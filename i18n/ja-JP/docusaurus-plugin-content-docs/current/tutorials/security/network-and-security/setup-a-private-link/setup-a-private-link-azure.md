@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

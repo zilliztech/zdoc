@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - array operators
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

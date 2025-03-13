@@ -19,10 +19,10 @@ keywords:
   - cloud
   - list_collections()
   - pymilvus25
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: pythonSidebar
 
 ---

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

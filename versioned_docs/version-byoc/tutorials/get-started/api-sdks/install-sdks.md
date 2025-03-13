@@ -14,10 +14,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

@@ -8,21 +8,21 @@ notebook: false
 description: "This operation renames an existing collection. | Node.js"
 type: docx
 token: LSwVdMg4SorzZ5xSHHVcQeVDnfh
-sidebar_position: 15
+sidebar_position: 19
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - renameCollection()
-  - node
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - nodejs25
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: nodeSidebar
 
 ---

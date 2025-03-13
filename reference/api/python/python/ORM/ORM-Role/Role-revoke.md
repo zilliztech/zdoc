@@ -10,19 +10,19 @@ type: docx
 token: UUJWdoEnjoXx69xahsScdMVSnzf
 sidebar_position: 10
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - revoke()
   - pymilvus25
+  - open source vector db
+  - vector database example
   - rag vector database
   - what is vector db
-  - what are vector databases
-  - vector databases comparison
 displayed_sidebar: pythonSidebar
 
 ---

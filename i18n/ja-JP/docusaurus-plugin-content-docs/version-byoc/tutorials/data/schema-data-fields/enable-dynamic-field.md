@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - alphanumonly
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

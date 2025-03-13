@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

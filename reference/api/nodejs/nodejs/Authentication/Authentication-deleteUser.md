@@ -8,21 +8,21 @@ notebook: false
 description: "This operation drops a user. | Node.js"
 type: docx
 token: Cl5PdhU5jouHnrxyYXLcOQAZneb
-sidebar_position: 3
+sidebar_position: 6
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - deleteUser()
-  - node
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - nodejs25
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: nodeSidebar
 
 ---

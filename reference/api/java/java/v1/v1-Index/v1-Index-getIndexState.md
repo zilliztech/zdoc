@@ -2,7 +2,7 @@
 title: "getIndexState() | Java | v1"
 slug: /java/v1-Index-getIndexState
 sidebar_label: "getIndexState()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "MilvusClient interface. This method shows the index building state, and the reason for failure (if any). | Java | v1"
 type: origin

@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 
@@ -220,6 +220,182 @@ To find all products where `color` is not "green":
 
 ```python
 filter = 'NOT color == "green"'
+```
+
+## IS NULL and IS NOT NULL Operators{#is-null-and-is-not-null-operators}
+
+The `IS NULL` and `IS NOT NULL` operators are used to filter fields based on whether they contain a null value (absence of data).
+
+- `IS NULL`: Identifies entities where a specific field contains a null value, i.e., the value is absent or undefined.
+
+- `IS NOT NULL`: Identifies entities where a specific field contains any value other than null, meaning the field has a valid, defined value.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The operators are case-insensitive, so you can use <code>IS NULL</code> or <code>is null</code>, and <code>IS NOT NULL</code> or <code>is not null</code>.</p>
+
+</Admonition>
+
+### Regular Scalar Fields with Null Values{#regular-scalar-fields-with-null-values}
+
+Zilliz Cloud allows filtering on regular scalar fields, such as strings or numbers, with null values.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>An empty string <code>""</code> is not treated as a null value for a <code>VARCHAR</code> field.</p>
+
+</Admonition>
+
+To retrieve entities where the `description` field is null:
+
+```python
+filter = 'description IS NULL'
+```
+
+To retrieve entities where the `description` field is not null:
+
+```python
+filter = 'description IS NOT NULL'
+```
+
+To retrieve entities where the `description` field is not null and the `price` field is higher than 10:
+
+```python
+filter = 'description IS NOT NULL AND price > 10'
+```
+
+### JSON Fields with Null Values{#json-fields-with-null-values}
+
+Zilliz Cloud allows filtering on JSON fields that contain null values. A JSON field is treated as null in the following ways:
+
+- The entire JSON object is explicitly set to None (null), for example, `{"metadata": None}`.
+
+- The JSON field itself is completely missing from the entity.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>If some elements within a JSON object are null (e.g. individual keys), the field is still considered non-null. For example, <code>\{"metadata": \{"category": None, "price": 99.99}}</code> is not treated as null, even though the <code>category</code> key is null.</p>
+
+</Admonition>
+
+To further illustrate how Zilliz Cloud handles JSON fields with null values, consider the following sample data with a JSON field `metadata`:
+
+```python
+data = [
+  {
+      "metadata": {"category": "electronics", "price": 99.99, "brand": "BrandA"},
+      "pk": 1,
+      "embedding": [0.12, 0.34, 0.56]
+  },
+  {
+      "metadata": None, # Entire JSON object is null
+      "pk": 2,
+      "embedding": [0.56, 0.78, 0.90]
+  },
+  {  # JSON field `metadata` is completely missing
+      "pk": 3,
+      "embedding": [0.91, 0.18, 0.23]
+  },
+  {
+      "metadata": {"category": None, "price": 99.99, "brand": "BrandA"}, # Individual key value is null
+      "pk": 4,
+      "embedding": [0.56, 0.38, 0.21]
+  }
+]
+```
+
+**Example 1: Retrieve entities where `metadata` is null**
+
+To find entities where the `metadata` field is either missing or explicitly set to None:
+
+```python
+filter = 'metadata IS NULL'
+
+# Example output:
+# data: [
+#     "{'metadata': None, 'pk': 2}",
+#     "{'metadata': None, 'pk': 3}"
+# ]
+```
+
+**Example 2: Retrieve entities where `metadata` is not null**
+
+To find entities where the `metadata` field is not null:
+
+```python
+filter = 'metadata IS NOT NULL'
+
+# Example output:
+# data: [
+#     "{'metadata': {'category': 'electronics', 'price': 99.99, 'brand': 'BrandA'}, 'pk': 1}",
+#     "{'metadata': {'category': None, 'price': 99.99, 'brand': 'BrandA'}, 'pk': 4}"
+# ]
+```
+
+### ARRAY Fields with Null Values{#array-fields-with-null-values}
+
+Zilliz Cloud allows filtering on ARRAY fields that contain null values. An ARRAY field is treated as null in the following ways:
+
+- The entire ARRAY field is explicitly set to None (null), for example, `"tags": None`.
+
+- The ARRAY field is completely missing from the entity.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>An ARRAY field cannot contain partial null values as all elements in an ARRAY field must have the same data type. For details, refer to <a href="./use-array-fields">Array Field</a>.</p>
+
+</Admonition>
+
+To further illustrate how Zilliz Cloud handles ARRAY fields with null values, consider the following sample data with an ARRAY field `tags`:
+
+```python
+data = [
+  {
+      "tags": ["pop", "rock", "classic"],
+      "ratings": [5, 4, 3],
+      "pk": 1,
+      "embedding": [0.12, 0.34, 0.56]
+  },
+  {
+      "tags": None,  # Entire ARRAY is null
+      "ratings": [4, 5],
+      "pk": 2,
+      "embedding": [0.78, 0.91, 0.23]
+  },
+  {  # The tags field is completely missing
+      "ratings": [9, 5],
+      "pk": 3,
+      "embedding": [0.18, 0.11, 0.23]
+  }
+]
+```
+
+**Example 1: Retrieve entities where `tags` is null**
+
+To retrieve entities where the `tags` field is either missing or explicitly set to `None`:
+
+```python
+filter = 'tags IS NULL'
+
+# Example output:
+# data: [
+#     "{'tags': None, 'ratings': [4, 5], 'embedding': [0.78, 0.91, 0.23], 'pk': 2}",
+#     "{'tags': None, 'ratings': [9, 5], 'embedding': [0.18, 0.11, 0.23], 'pk': 3}"
+# ]
+```
+
+**Example 2: Retrieve entities where `tags` is not null**
+
+To retrieve entities where the `tags` field is not null:
+
+```python
+filter = 'tags IS NOT NULL'
+
+# Example output:
+# data: [
+#     "{'metadata': {'category': 'electronics', 'price': 99.99, 'brand': 'BrandA'}, 'pk': 1}",
+#     "{'metadata': {'category': None, 'price': 99.99, 'brand': 'BrandA'}, 'pk': 4}"
+# ]
 ```
 
 ## Tips on Using Basic Operators with JSON and ARRAY Fields{#tips-on-using-basic-operators-with-json-and-array-fields}

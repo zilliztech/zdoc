@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

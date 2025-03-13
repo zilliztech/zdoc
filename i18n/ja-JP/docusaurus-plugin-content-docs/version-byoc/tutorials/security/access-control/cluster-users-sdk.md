@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - users
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

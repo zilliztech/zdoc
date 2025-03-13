@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

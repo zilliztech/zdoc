@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

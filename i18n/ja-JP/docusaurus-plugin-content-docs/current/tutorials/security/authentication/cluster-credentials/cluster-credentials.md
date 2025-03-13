@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster credentials
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

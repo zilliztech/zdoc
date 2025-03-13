@@ -14,10 +14,10 @@ keywords:
   - cloud
   - basics
   - milvus
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

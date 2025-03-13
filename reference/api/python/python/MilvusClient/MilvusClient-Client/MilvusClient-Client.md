@@ -9,10 +9,10 @@ token: M0pgf1TX3lTotndwA7Vc3gJsnAd
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud

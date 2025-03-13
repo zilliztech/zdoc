@@ -7,7 +7,7 @@ notebook: FALSE
 description: "OpenSearch is a distributed search and analytics engine that supports various use cases, from implementing a search box on a website to analyzing security data for threat detection. Zilliz Cloud enables seamless migration from OpenSearch, allowing you to leverage advanced analytics and AI-driven insights. This guide outlines how to transfer your OpenSearch data to Zilliz Cloud. | Cloud"
 type: origin
 token: VFMLwxpsniVGKYkE3DecmpQ2nrg
-sidebar_position: 9
+sidebar_position: 10
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - migrations
   - amazon
   - opensearch
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

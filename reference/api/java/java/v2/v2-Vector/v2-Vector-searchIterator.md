@@ -10,19 +10,19 @@ type: docx
 token: M4IqdsRCNotiM4xdOA0cWSnUngb
 sidebar_position: 8
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
   - searchIterator()
-  - javaV2
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - javaV225
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: javaSidebar
 
 ---

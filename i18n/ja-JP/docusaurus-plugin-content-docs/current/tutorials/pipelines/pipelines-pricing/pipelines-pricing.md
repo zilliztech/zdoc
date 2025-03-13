@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - pricing
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

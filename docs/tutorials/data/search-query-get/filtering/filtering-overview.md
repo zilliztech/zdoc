@@ -17,10 +17,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

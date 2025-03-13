@@ -8,21 +8,21 @@ notebook: false
 description: "This operation releases the partitions in a specified collection from memory. | Node.js"
 type: docx
 token: Sqoed1lkwo8umixJJO1cvKIxnZc
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - releasePartitions()
-  - node
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - nodejs25
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: nodeSidebar
 
 ---

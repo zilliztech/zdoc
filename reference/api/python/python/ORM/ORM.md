@@ -1,18 +1,18 @@
 ---
 title: "ORM | Python | ORM"
 slug: /python/ORM
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "PyMilvus ORM modules, classes, and methods | Python | ORM"
 type: folder
 token: QYo4fSeVFlex8ZdeGZ4cAlmcnof
-sidebar_position: 3
+sidebar_position: 4
 sidebar_label: "ORM"
 keywords: 
-  - Knowledge base
   - natural language processing
   - AI chatbots
   - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud

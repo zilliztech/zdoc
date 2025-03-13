@@ -8,21 +8,21 @@ notebook: false
 description: "This operation conducts a scalar filtering with a specified boolean expression. | Node.js"
 type: docx
 token: AJ96d6Aguos3FAxWMDxcjzqpnSg
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - query()
-  - node
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - nodejs25
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: nodeSidebar
 
 ---

@@ -8,21 +8,21 @@ notebook: false
 description: "This is an enumeration that provides the following constants. | Node.js"
 type: docx
 token: Of5xdscL1o5Svzxy8yOckqaMnzg
-sidebar_position: 12
+sidebar_position: 16
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - IndexType
-  - node
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - nodejs25
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: nodeSidebar
 
 ---

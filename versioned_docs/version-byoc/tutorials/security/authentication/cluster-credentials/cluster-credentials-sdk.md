@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - sdk
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

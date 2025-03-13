@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - filtering templating
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

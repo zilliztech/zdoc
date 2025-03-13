@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

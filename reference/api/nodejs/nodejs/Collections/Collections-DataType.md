@@ -8,21 +8,21 @@ notebook: false
 description: "This is an enumeration that provides the following constants. | Node.js"
 type: docx
 token: VUp6d9FvcoBV0AxYJmvcq9DAnUg
-sidebar_position: 5
+sidebar_position: 7
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
-  - node
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - nodejs25
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 displayed_sidebar: nodeSidebar
 
 ---

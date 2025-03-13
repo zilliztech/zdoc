@@ -2,7 +2,7 @@
 title: "Authentication | Java | v1"
 slug: /java/v1-Authentication
 sidebar_label: "Authentication"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "(placeholder) | Java | v1"
 type: origin

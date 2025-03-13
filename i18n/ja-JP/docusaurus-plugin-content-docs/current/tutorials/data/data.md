@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
+  - Agentic RAG
+  - rag llm architecture
   - private llms
   - nn search
-  - llm eval
-  - Sparse vs Dense
 
 ---
 

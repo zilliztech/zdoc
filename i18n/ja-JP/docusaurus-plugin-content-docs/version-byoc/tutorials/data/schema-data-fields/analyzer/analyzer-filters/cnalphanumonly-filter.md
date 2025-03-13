@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - cnalphanumonly
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

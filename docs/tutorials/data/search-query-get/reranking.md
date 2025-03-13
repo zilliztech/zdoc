@@ -16,10 +16,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 
@@ -128,9 +128,9 @@ This example demonstrates a multimodal Hybrid Search (topK=5) involving images a
 <table>
    <tr>
      <th><p><strong>ID</strong></p></th>
-     <th><p><strong>Score (图像)</strong></p></th>
-     <th><p><strong>Score (文本)</strong></p></th>
-     <th><p><strong>最终加权后的 Score</strong></p></th>
+     <th><p><strong>Score (image)</strong></p></th>
+     <th><p><strong>Score (text)</strong></p></th>
+     <th><p><strong>Weighted Score</strong></p></th>
    </tr>
    <tr>
      <td><p>101</p></td>
@@ -180,9 +180,9 @@ This example demonstrates a multimodal Hybrid Search (topK=5) involving images a
 
 <table>
    <tr>
-     <th><p><strong>排名</strong></p></th>
+     <th><p><strong>Rank</strong></p></th>
      <th><p><strong>ID</strong></p></th>
-     <th><p><strong>最终 Score</strong></p></th>
+     <th><p><strong>Final Score</strong></p></th>
    </tr>
    <tr>
      <td><p>1</p></td>
@@ -343,9 +343,9 @@ This example demonstrates a Hybrid Search (topK=5) on sparse-dense vectors and i
 <table>
    <tr>
      <th><p><strong>ID</strong></p></th>
-     <th><p><strong>Score (稀疏)</strong></p></th>
-     <th><p><strong>Score (稠密)</strong></p></th>
-     <th><p><strong>最终 Score</strong></p></th>
+     <th><p><strong>Score (Sparse)</strong></p></th>
+     <th><p><strong>Score (Dense)</strong></p></th>
+     <th><p><strong>Final Score</strong></p></th>
    </tr>
    <tr>
      <td><p>101</p></td>
@@ -395,9 +395,9 @@ This example demonstrates a Hybrid Search (topK=5) on sparse-dense vectors and i
 
 <table>
    <tr>
-     <th><p><strong>排名</strong></p></th>
+     <th><p><strong>Rank</strong></p></th>
      <th><p><strong>ID</strong></p></th>
-     <th><p><strong>最终 Score</strong></p></th>
+     <th><p><strong>Final Score</strong></p></th>
    </tr>
    <tr>
      <td><p>1</p></td>

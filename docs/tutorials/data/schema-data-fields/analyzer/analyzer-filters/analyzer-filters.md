@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

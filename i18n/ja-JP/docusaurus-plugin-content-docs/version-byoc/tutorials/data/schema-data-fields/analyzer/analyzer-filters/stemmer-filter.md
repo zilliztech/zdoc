@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - stemmer
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

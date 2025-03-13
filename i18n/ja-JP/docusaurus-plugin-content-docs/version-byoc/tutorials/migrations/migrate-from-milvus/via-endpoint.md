@@ -4,7 +4,7 @@ slug: /via-endpoint
 sidebar_label: "エンドポイントへ"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudは、インフラストラクチャを自分で管理する必要がなく、Milvusベクトルデータベースを使用したいユーザー向けに、完全に管理されたクラウドホストソリューションとしてMilvusを提供しています。スムーズな移行を可能にするために、データベースエンドポイントを介してソースMilvusに接続するか、バックアップファイルを直接アップロードすることができます。 | BYOC"
+description: "Zilliz Cloudは、インフラストラクチャを自分で管理する必要がなく、Milvusベクトルデータベースを使用したいユーザー向けに、完全に管理されたクラウドホストソリューションとしてMilvusを提供しています。スムーズな移行を可能にするために、データベースエンドポイントを介してソースMilvusに接続するできます。 | BYOC"
 type: origin
 token: YRFowK2X8i7Tm8k5X8kcJDgBnGf
 sidebar_position: 1
@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 
@@ -27,9 +27,9 @@ import Admonition from '@theme/Admonition';
 
 # データベースエンドポイントを使用してMilvusからZilliz Cloudへの移行
 
-Zilliz Cloudは、インフラストラクチャを自分で管理する必要がなく、[Milvus](https://milvus.io/)ベクトルデータベースを使用したいユーザー向けに、完全に管理されたクラウドホストソリューションとしてMilvusを提供しています。スムーズな移行を可能にするために、データベースエンドポイントを介してソースMilvusに接続するか、バックアップファイルを直接アップロードすることができます。
+Zilliz Cloudは、インフラストラクチャを自分で管理する必要がなく、[Milvus](https://milvus.io/)ベクトルデータベースを使用したいユーザー向けに、完全に管理されたクラウドホストソリューションとしてMilvusを提供しています。スムーズな移行を可能にするために、データベースエンドポイントを介してソースMilvusに接続するできます。
 
-このトピックでは、Milvusからデータベースエンドポイントを介して移行する方法について説明します。バックアップファイルのアップロード方法については、「[バックアップファイルへ](./via-backup-files)」を参照してください。
+このトピックでは、Milvusからデータベースエンドポイントを介して移行する方法について説明します。
 
 ## 考慮事項{#considerations}
 

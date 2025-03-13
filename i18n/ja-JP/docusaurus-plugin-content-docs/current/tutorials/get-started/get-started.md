@@ -13,10 +13,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

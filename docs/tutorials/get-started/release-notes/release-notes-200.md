@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

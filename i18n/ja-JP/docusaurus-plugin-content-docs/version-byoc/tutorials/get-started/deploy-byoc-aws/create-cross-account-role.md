@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

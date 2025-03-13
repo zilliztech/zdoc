@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

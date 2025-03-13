@@ -16,10 +16,10 @@ keywords:
   - data
   - insert
   - insert entities
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

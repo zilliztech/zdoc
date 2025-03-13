@@ -13,10 +13,10 @@ keywords:
   - byoc
   - milvus
   - vector database
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

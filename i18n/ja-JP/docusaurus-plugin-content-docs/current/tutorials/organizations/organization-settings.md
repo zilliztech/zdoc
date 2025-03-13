@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - register
   - cloud
   - milvus
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

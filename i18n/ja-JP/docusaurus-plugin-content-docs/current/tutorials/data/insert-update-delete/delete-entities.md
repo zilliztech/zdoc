@@ -16,10 +16,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

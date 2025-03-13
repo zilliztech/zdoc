@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

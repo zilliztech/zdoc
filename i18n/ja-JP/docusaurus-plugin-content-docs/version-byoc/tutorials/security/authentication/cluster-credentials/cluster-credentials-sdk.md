@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - sdk
+  - knn algorithm
   - HNSW
   - What is unstructured data
   - Vector embeddings
-  - Vector store
 
 ---
 

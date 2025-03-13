@@ -16,10 +16,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
   - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

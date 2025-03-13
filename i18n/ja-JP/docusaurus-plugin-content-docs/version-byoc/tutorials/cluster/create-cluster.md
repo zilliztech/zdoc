@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "Methods for you to index, load, and release a collection. | Java | v2"
 type: folder
-token: PohgfmtiBlwuPRdcACmc9JDZnve
-sidebar_position: 5
+token: MTBuf5wQ7lardCddEtCc4R2uncb
+sidebar_position: 2
 sidebar_label: "Management"
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - Management
-  - javaV2
+  - javaV225
 displayed_sidebar: javaSidebar
 ---
 

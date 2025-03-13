@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

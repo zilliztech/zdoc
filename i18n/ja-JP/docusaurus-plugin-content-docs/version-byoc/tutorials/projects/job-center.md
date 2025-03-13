@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

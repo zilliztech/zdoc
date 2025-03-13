@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

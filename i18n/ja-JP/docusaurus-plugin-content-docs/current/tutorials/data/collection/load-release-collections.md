@@ -7,7 +7,7 @@ notebook: FALSE
 description: "コレクションのロードは、コレクション内の類似検索やクエリを実行するための前提条件です。このページでは、コレクションのロードとリリースの手順に焦点を当てています。 | Cloud"
 type: origin
 token: RHtIwOn0yimJfQkOqsxcRiXqnhe
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - collection
   - load
   - release
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

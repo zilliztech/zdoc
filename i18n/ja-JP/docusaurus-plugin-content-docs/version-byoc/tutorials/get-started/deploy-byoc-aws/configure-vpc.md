@@ -18,10 +18,10 @@ keywords:
   - subnet
   - milvus
   - vector database
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 
@@ -76,11 +76,11 @@ Zilliz Cloudは、プライベートサブネット内のリソースがイン�
 
 ### セキュリティグループ{#security-group}
 
-イングレスルールはポート443を開く必要があります。セキュリティグループの作成の詳細については、[ステップ2:セキュリティグループの作成](./configure-vpc#2step-2-create-a-security-group)を参照してください。
+イングレスルールはポート443を開く必要があります。セキュリティグループの作成の詳細については、[ステップ2:セキュリティグループの作成](./configure-vpc#step-2-create-a-security-group)を参照してください。
 
 ### VPCエンドポイント{#vpc-endpoint}
 
-VPCエンドポイントはオプションであり、BYOCクラスターのプライベートエンドポイントを構成する必要がある場合に使用されます。セキュリティグループの作成の詳細については、「[ステップ3:(オプション)VPCエンドポイントを作成](./configure-vpc#3vpcstep-3-optional-create-a-vpc-endpoint)する」を参照してください。
+VPCエンドポイントはオプションであり、BYOCクラスターのプライベートエンドポイントを構成する必要がある場合に使用されます。セキュリティグループの作成の詳細については、「[ステップ3:(オプション)VPCエンドポイントを作成](./configure-vpc#step-3-optional-create-a-vpc-endpoint)する」を参照してください。
 
 ## 手続き{#procedure}
 
@@ -88,7 +88,7 @@ AWSコンソールを使用してVPCおよび関連リソースを作成でき�
 
 ### ステップ1: VPCとリソースを作成する{#step-1-create-vpc-and-resources}
 
-AWSコンソールでは、[VPC要件](./configure-vpc#vpcvpc-requirements)に列挙されたVPCおよび関連リソースを作成できます。
+AWSコンソールでは、[VPC要件](./configure-vpc#vpc-requirements)に列挙されたVPCおよび関連リソースを作成できます。
 
 1. AWSのVPCダッシュボードに移動してください。
 
@@ -201,15 +201,15 @@ VPCエンドポイントは、安全なクラスター接続リレーを確保�
 
     ![KFB0bZlsmoo61rxiVBrc1ULgnQe](/byoc/ja-JP/KFB0bZlsmoo61rxiVBrc1ULgnQe.png)
 
-1. [ネットワーク設定]で、[上記で作成したVPC](./configure-vpc#1-vpcstep-1-create-vpc-and-resources)を選択し、[**DNS名を有効**にする]を選択します。
+1. [ネットワーク設定]で、[上記で作成したVPC](./configure-vpc#step-1-create-vpc-and-resources)を選択し、[**DNS名を有効**にする]を選択します。
 
     ![TYiwb6sFZon93vxJ8zIcnZWGnuw](/byoc/ja-JP/TYiwb6sFZon93vxJ8zIcnZWGnuw.png)
 
-1. [**サブネット**]で、[VPCとともに作成されたプライベートサブネットを](./configure-vpc#1-vpcstep-1-create-vpc-and-resources)選択します。
+1. [**サブネット**]で、[VPCとともに作成されたプライベートサブネットを](./configure-vpc#step-1-create-vpc-and-resources)選択します。
 
     ![VB1qbusLFoovhdxCHK9cYCSVnue](/byoc/ja-JP/VB1qbusLFoovhdxCHK9cYCSVnue.png)
 
-1. [**セキュリティグループ**]で、[上記で作成したセキュリティグループ](./configure-vpc#2step-2-create-a-security-group)を選択します。
+1. [**セキュリティグループ**]で、[上記で作成したセキュリティグループ](./configure-vpc#step-2-create-a-security-group)を選択します。
 
 1. 上記の設定を保存するには、**エンドポイントを作成**をクリックしてください。
 
@@ -217,7 +217,79 @@ VPCエンドポイントは、安全なクラスター接続リレーを確保�
 
     ![TWn6bVfs6opshdxnvXTcMirandg](/byoc/ja-JP/TWn6bVfs6opshdxnvXTcMirandg.png)
 
-### ステップ4: VPC情報をZilliz Cloudに提出する{#step-4-submit-vpc-information-to-zilliz-cloud}
+### ステップ4:（オプション）DNSレコードを設定する{#step-4-set-up-a-dns-record}
+
+オプションで、VPCとZilliz BYOCの間にプライベートリンクを設定して、トラフィックを暗号化することができます。そのためには、ホストゾーンを作成し、VPCに関連付け、ホストゾーンにCNAMEレコードを作成して、Zilliz BYOCドメイン名をVPCエンドポイントに解決する必要があります。
+
+1. Amazon Route 53を使用してホストゾーンを作成します。
+
+    Amazon Route 53はWebベースのDNSサービスです。DNSレコードを追加できるように、ホストされたDNSゾーンを作成してください。
+
+    ![IcwabyCPuo96lvxGkH4c5ZBgnIh](/byoc/ja-JP/IcwabyCPuo96lvxGkH4c5ZBgnIh.png)
+
+    1. AWSアカウントにログインし、[ホストゾーン](https://us-east-1.console.aws.amazon.com/route53/v2/hostedzones#)に移動してください。
+
+    1. [**ホストゾーンの作成**]をクリックします。
+
+    1. [**ホストゾーンの構成**]セクションで、次のパラメータを設定します。
+
+        <table>
+           <tr>
+             <th><p><strong>パラメータ名</strong></p></th>
+             <th><p><strong>パラメータの説明</strong></p></th>
+           </tr>
+           <tr>
+             <td><p><strong>Domain name</strong></p></td>
+             <td><p><code>byoc.zillizcloud.com</code>を使用します。</p></td>
+           </tr>
+           <tr>
+             <td><p><strong>Description</strong></p></td>
+             <td><p>ホストゾーンを区別するために使用される説明。</p></td>
+           </tr>
+           <tr>
+             <td><p><strong>Type</strong></p></td>
+             <td><p>[<strong>プライベートホストゾーン</strong>]を選択します。</p></td>
+           </tr>
+        </table>
+
+    1. ホストゾーンに関連付けるVPCのセクションで、ホストゾーンに関連付けるVPC IDを追加します。
+
+1. ホストゾーンにCNAMEレコードを作成します。
+
+    CNAMEレコードは、エイリアス名を真のまたは正規のドメイン名にマップするDNSレコードの一種です。Zilliz Cloudによって割り当てられたプライベートリンクをVPCエンドポイントのDNS名にマップするエイリアスレコードを作成します。その後、プライベートリンクを使用してクラスターにプライベートにアクセスできます。
+
+    ![UFDqbXyIZoB9pIxMUKwcQnzonjc](/byoc/ja-JP/UFDqbXyIZoB9pIxMUKwcQnzonjc.png)
+
+    1. 作成したホストゾーンで、[**レコードの作成**]をクリックします。
+
+    1. 現在のプロジェクトが展開されているクラウドリージョンに合わせて**レコード名**を設定してください。
+
+        <table>
+           <tr>
+             <th><p>AWSリージョン</p></th>
+             <th><p>レコード名</p></th>
+           </tr>
+           <tr>
+             <td><p>us-west-2</p></td>
+             <td><p><code>zilliz-byoc-us</code></p></td>
+           </tr>
+           <tr>
+             <td><p>eu-central-1</p></td>
+             <td><p><code>zilliz-byoc-eu</code></p></td>
+           </tr>
+        </table>
+
+    1. [**レコードの作成**]ページで、[**エイリアス**]をオンにし、[**トラフィック**]を次のようにルーティングを選択します。
+
+        1. 最初のドロップダウンリストでVPCエンドポイントへのエイリアスを選択してください。
+
+        1. 2番目のドロップダウンリストで雲の地域を選択してください。
+
+        1. 上で作成したエンドポイントの名前を入力します。
+
+    1. [**レコードの作成**]をクリックします。
+
+### ステップ5: VPC情報をZilliz Cloudに提出する{#step-5-submit-vpc-information-to-zilliz-cloud}
 
 上記の手順をAWSで完了したら、Zilliz Cloudに戻り、**ネットワーク設定**でVPC ID、サブネットID、セキュリティグループID、オプションのVPCエンドポイントIDを入力し、「**次**へ」をクリックしてプロジェクトデプロイプロセス全体の概要を表示します。すべてが予想通りに構成されている場合は、「**デプロイ**」をクリックしてプロセスを開始してください。
 

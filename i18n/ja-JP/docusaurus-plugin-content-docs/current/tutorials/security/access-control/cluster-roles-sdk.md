@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

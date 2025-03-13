@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - milvus vector database
   - milvus db
   - milvus vector db
   - Zilliz Cloud
+  - what is milvus
 
 ---
 

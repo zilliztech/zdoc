@@ -8,21 +8,21 @@ notebook: false
 description: "This operation describes a specific index. | Node.js"
 type: docx
 token: PePIdiq9po6cplxAoF6ca5C2ntb
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
-  - node
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - nodejs25
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: nodeSidebar
 
 ---

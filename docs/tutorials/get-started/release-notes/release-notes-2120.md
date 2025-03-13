@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

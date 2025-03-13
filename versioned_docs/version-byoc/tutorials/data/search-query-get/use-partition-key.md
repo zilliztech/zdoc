@@ -16,10 +16,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 
@@ -35,7 +35,7 @@ The Partition Key is a search optimization solution based on partitions. By desi
 
 In Zilliz Cloud, you can use partitions to implement data segregation and improve search performance by restricting the search scope to specific partitions. If you choose to manage partitions manually, you can create a maximum of 1,024 partitions in a collection, and insert entities into these partitions based on a specific rule so that you can narrow the search scope by restricting searches within a specific number of partitions.
 
-Zilliz Cloud introduces the Partition Key for you to reuse partitions in data segregation to overcome the limit on the number of partitions you can create in a collection. When creating a collection, you can use a scalar field as the Partition Key. Once the collection is ready, Zilliz Cloud creates the specified number of partitions inside the collection with each partition corresponding to a range of the values in the Partition Key. Upon receiving inserted entities, Zilliz Cloud stores them into different partitions based on their Partition Key values.
+Zilliz Cloud introduces the Partition Key for you to reuse partitions in data segregation to overcome the limit on the number of partitions you can create in a collection. When creating a collection, you can use a scalar field as the Partition Key. Once the collection is ready, Zilliz Cloud creates the specified number of partitions inside the collection. Upon receiving an inserted entity, Zilliz Cloud calculates a hash value using the Partition Key value of the entity, executes a modulo operation based on the hash value and the `partitions_num` property of the collection to obtain the target partition ID, and stores the entity in the target partition.
 
 ![IXXIwZdOYhRFXmbTMdwcaN6fnPe](/byoc/IXXIwZdOYhRFXmbTMdwcaN6fnPe.png)
 
@@ -51,15 +51,21 @@ The following figure illustrates how Zilliz Cloud processes the search requests 
 
 To use the Partition Key, you need to
 
-- Set the Partition Key,
+- [Set the Partition Key](./use-partition-key#set-partition-key),
 
-- Set the number of partitions to create (Optional), and
+- [Set the number of partitions to create](./use-partition-key#set-partition-numbers) (Optional), and
 
-- Create a filtering condition based on the Partition Key.
+- [Create a filtering condition based on the Partition Key](./use-partition-key#create-filtering-condition).
 
 ### Set Partition Key{#set-partition-key}
 
 To designate a scalar field as the Partition Key, you need to set its `is_partition_key` attribute to `true` when you add the scalar field.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>When you set a scalar field as the Partition Key, the field values cannot be empty or null.</p>
+
+</Admonition>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

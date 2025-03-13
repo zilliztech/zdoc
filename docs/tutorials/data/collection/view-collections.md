@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

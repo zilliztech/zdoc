@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

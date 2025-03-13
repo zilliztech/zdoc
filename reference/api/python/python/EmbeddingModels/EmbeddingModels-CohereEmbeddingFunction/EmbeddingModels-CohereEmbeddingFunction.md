@@ -10,19 +10,19 @@ type: docx
 token: JzDLdkv3QoCY8OxKpBjc5zsmnId
 sidebar_position: 1
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - CohereEmbeddingFunction
   - pymilvus25
+  - AI Agent
+  - semantic search
   - Anomaly Detection
   - sentence transformers
-  - Recommender systems
-  - information retrieval
 displayed_sidebar: pythonSidebar
 
 ---

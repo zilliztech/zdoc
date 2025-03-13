@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

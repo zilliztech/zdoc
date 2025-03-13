@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 
@@ -153,4 +153,8 @@ Zilliz Cloudに対して関数を設定することで、コレクション作�
 \<ターゲットを含める="zilliz">
 
 ## 限界{#limits}
+
+コレクションの制限と制限については、[Zillizクラウドの制限](./limits)を参照してください。
+
+\</include>
 

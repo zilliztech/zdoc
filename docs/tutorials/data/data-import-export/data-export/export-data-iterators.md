@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

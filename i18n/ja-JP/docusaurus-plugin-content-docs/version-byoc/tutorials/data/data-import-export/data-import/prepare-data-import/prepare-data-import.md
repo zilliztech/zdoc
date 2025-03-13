@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

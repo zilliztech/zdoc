@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - filtering templating
+  - Agentic RAG
   - rag llm architecture
   - private llms
   - nn search
-  - llm eval
 
 ---
 

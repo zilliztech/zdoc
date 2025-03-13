@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - chinese analyzer
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
 
 ---
 

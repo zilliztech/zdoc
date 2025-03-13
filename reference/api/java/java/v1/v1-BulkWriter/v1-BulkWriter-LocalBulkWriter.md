@@ -2,7 +2,7 @@
 title: "LocalBulkWriter | Java | v1"
 slug: /java/v1-BulkWriter-LocalBulkWriter
 sidebar_label: "LocalBulkWriter"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "A LocalBulkWriter instance rewrites your raw data locally in a format that Milvus understands. | Java | v1"
 type: origin

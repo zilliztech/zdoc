@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

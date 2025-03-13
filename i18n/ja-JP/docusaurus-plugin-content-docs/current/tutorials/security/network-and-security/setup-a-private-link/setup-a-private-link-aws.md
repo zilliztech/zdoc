@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 
@@ -248,7 +248,7 @@ Zilliz Cloudが割り当てたプライベートリンクを使用してクラ�
 
     </Admonition>
 
-    以下が表示された場合は、[DNSレコードを設定](./setup-a-private-link-aws#dnsset-up-a-dns-record)する必要があります。
+    以下が表示された場合は、[DNSレコードを設定](./setup-a-private-link-aws#set-up-a-dns-record)する必要があります。
 
     ![Akbqbv7Pko3wwZxtDXxcAW0Anie](/img/ja-JP/Akbqbv7Pko3wwZxtDXxcAW0Anie.png)
 

@@ -17,10 +17,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

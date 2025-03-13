@@ -10,19 +10,19 @@ type: docx
 token: QasfdVW4voAzfwxfSc1civsHnVf
 sidebar_position: 1
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - alterAlias()
-  - javaV2
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - javaV225
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: javaSidebar
 
 ---

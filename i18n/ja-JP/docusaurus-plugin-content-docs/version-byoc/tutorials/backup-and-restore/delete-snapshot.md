@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

@@ -10,19 +10,19 @@ type: docx
 token: JTdSdyToooA6Srx2HolcmTPunoe
 sidebar_position: 2
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
   - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - dropPartition()
-  - javaV2
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - javaV225
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 displayed_sidebar: javaSidebar
 
 ---

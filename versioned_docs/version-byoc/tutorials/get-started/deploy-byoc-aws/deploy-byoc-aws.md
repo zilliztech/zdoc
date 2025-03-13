@@ -14,10 +14,10 @@ keywords:
   - aws
   - milvus
   - vector database
+  - Vectorization
   - k nearest neighbor algorithm
   - ANNS
   - Vector search
-  - knn algorithm
 
 ---
 

@@ -10,19 +10,19 @@ type: docx
 token: L4PUdEhrpoS1Q5xN3m2chVVEnWg
 sidebar_position: 4
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
 displayed_sidebar: pythonSidebar
 
 ---

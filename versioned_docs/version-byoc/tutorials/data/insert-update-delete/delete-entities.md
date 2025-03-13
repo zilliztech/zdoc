@@ -16,10 +16,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

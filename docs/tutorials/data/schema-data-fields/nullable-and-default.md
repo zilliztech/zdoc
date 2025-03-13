@@ -16,10 +16,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 
@@ -46,6 +46,8 @@ The default value and nullable attributes streamline data migration from other d
 - Fields marked as nullable cannot be used as partition keys. For more information about partition keys, refer to [Use Partition Key](./use-partition-key).
 
 - When creating an index on a scalar field with the nullable attribute enabled, null values will be excluded from the index.
+
+- **JSON and ARRAY fields**: When using `IS NULL` or `IS NOT NULL` operators to filter on JSON or ARRAY fields, these operators work at the column level, which indicates they only evaluate whether the entire JSON object or array is null. For instance, if a key inside a JSON object is null, it will not be recognized by the `IS NULL` filter. For more information, refer to [Basic Operators](./basic-filtering-operators).
 
 ## Nullable attribute{#nullable-attribute}
 
@@ -1055,7 +1057,7 @@ The following table summarizes the behavior of nullable columns and default valu
      <td><p>Non-null</p></td>
      <td><p>None/null</p></td>
      <td><p>Uses the default value</p></td>
-     <td><p>Field: <code>age</code></p><p>Default value: <code>18</code></p><p>User input: null</p><p>Result: stored as <code>18</code></p></td>
+     <td><p>Field: <code>age</code> Default value: <code>18</code></p><p>User input: null</p><p>Result: stored as <code>18</code></p></td>
    </tr>
    <tr>
      <td><p>✅</p></td>
@@ -1063,7 +1065,7 @@ The following table summarizes the behavior of nullable columns and default valu
      <td><p>-</p></td>
      <td><p>None/null</p></td>
      <td><p>Stored as null</p></td>
-     <td><p>Field: <code>middle_name</code></p><p>Default value: -</p><p>User input: null</p><p>Result: stored as null</p></td>
+     <td><p>Field: <code>middle_name</code> Default value: -</p><p>User input: null</p><p>Result: stored as null</p></td>
    </tr>
    <tr>
      <td><p>❌</p></td>
@@ -1071,7 +1073,7 @@ The following table summarizes the behavior of nullable columns and default valu
      <td><p>Non-null</p></td>
      <td><p>None/null</p></td>
      <td><p>Uses the default value</p></td>
-     <td><p>Field: <code>status</code></p><p>Default value: <code>"active"</code></p><p>User input: null</p><p>Result: stored as <code>"active"</code></p></td>
+     <td><p>Field: <code>status</code> Default value: <code>"active"</code></p><p>User input: null</p><p>Result: stored as <code>"active"</code></p></td>
    </tr>
    <tr>
      <td><p>❌</p></td>
@@ -1079,7 +1081,7 @@ The following table summarizes the behavior of nullable columns and default valu
      <td><p>-</p></td>
      <td><p>None/null</p></td>
      <td><p>Throws an error</p></td>
-     <td><p>Field: <code>email</code></p><p>Default value: -</p><p>User input: null</p><p>Result: Operation rejected, system throws an error</p></td>
+     <td><p>Field: <code>email</code> Default value: -</p><p>User input: null</p><p>Result: Operation rejected, system throws an error</p></td>
    </tr>
    <tr>
      <td><p>❌</p></td>
@@ -1087,7 +1089,7 @@ The following table summarizes the behavior of nullable columns and default valu
      <td><p>Null</p></td>
      <td><p>None/null</p></td>
      <td><p>Throws an error</p></td>
-     <td><p>Field: <code>username</code></p><p>Default value: null</p><p>User input: null</p><p>Result: Operation rejected, system throws an error</p></td>
+     <td><p>Field: <code>username</code> Default value: null</p><p>User input: null</p><p>Result: Operation rejected, system throws an error</p></td>
    </tr>
 </table>
 

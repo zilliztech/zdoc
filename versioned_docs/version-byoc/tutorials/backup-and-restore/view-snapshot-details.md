@@ -15,10 +15,10 @@ keywords:
   - backup
   - files
   - view
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

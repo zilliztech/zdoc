@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

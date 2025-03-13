@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

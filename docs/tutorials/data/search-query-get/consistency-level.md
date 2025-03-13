@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

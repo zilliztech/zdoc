@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

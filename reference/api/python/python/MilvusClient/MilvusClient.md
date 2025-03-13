@@ -6,13 +6,13 @@ notebook: false
 description: "An easy-to-use alternative to the legacy PyMilvus SDK. | Python | MilvusClient"
 type: folder
 token: YHQ9fF9IDlENsMd9RZucYalqnNg
-sidebar_position: 2
+sidebar_position: 3
 sidebar_label: "MilvusClient"
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud

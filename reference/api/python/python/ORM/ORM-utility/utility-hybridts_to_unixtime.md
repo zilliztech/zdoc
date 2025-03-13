@@ -10,19 +10,19 @@ type: docx
 token: HbMMdqtQGoQqwixsyrjcTTh0nu5
 sidebar_position: 20
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - hybridts_to_unixtime()
   - pymilvus25
-  - Zilliz database
   - Unstructured Data
   - vector database
   - IVF
+  - knn
 displayed_sidebar: pythonSidebar
 
 ---

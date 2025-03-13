@@ -10,19 +10,19 @@ type: docx
 token: MJjHd3uGcoxEYBx0laKcAIKNnhg
 sidebar_position: 3
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - describeDatabase()
-  - javaV2
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - javaV225
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: javaSidebar
 
 ---

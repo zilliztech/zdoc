@@ -10,19 +10,19 @@ type: docx
 token: Y4qvdMEeioKXShxxNmncvnJ2nJf
 sidebar_position: 1
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClientV2
-  - javaV2
-  - natural language processing database
+  - javaV225
   - cheap vector database
   - Managed vector database
   - Pinecone vector database
+  - Audio search
 displayed_sidebar: javaSidebar
 
 ---

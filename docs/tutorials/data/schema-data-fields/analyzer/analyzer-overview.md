@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

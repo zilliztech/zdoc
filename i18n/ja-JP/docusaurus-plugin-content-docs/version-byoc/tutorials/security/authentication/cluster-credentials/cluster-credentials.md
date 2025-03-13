@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster credentials
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

@@ -8,21 +8,21 @@ notebook: false
 description: "This operation drops an index from a specific collection. | Node.js"
 type: docx
 token: UBbndftiQo2HdOxUNtocIISnnVh
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndex()
-  - node
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - nodejs25
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: nodeSidebar
 
 ---

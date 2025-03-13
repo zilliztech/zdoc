@@ -10,19 +10,19 @@ type: docx
 token: WCxIdVwCpoIaMUxbabWcSRCkn2g
 sidebar_position: 1
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - append_row()
   - pymilvus25
+  - Video search
   - AI Hallucination
   - AI Agent
   - semantic search
-  - Anomaly Detection
 displayed_sidebar: pythonSidebar
 
 ---

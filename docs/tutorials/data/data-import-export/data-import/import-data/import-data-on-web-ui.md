@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - console
+  - Zilliz vector database
+  - Zilliz database
   - Unstructured Data
   - vector database
-  - IVF
-  - knn
 
 ---
 

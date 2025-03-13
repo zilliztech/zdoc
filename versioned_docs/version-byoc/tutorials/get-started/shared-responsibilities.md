@@ -14,10 +14,10 @@ keywords:
   - milvus
   - vector database
   - shared responsibilities
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

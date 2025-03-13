@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

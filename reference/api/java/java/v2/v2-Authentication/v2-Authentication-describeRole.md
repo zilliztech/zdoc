@@ -8,21 +8,21 @@ notebook: false
 description: "This operation describes a specific role. | Java | v2"
 type: docx
 token: Fs7qdzeHZo305txlj45cgqoVnUf
-sidebar_position: 3
+sidebar_position: 5
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
-  - javaV2
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - javaV225
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: javaSidebar
 
 ---

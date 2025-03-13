@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - collection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

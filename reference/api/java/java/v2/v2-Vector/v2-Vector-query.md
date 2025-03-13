@@ -10,19 +10,19 @@ type: docx
 token: Oy7PdvBJ7omRcKxvRvUcbWLcn1d
 sidebar_position: 5
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - query()
-  - javaV2
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - javaV225
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 displayed_sidebar: javaSidebar
 
 ---

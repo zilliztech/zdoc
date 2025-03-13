@@ -10,19 +10,19 @@ type: docx
 token: A0UBd45iyoGah2xaFjQc4bp6n2b
 sidebar_position: 9
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
-  - javaV2
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - javaV225
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: javaSidebar
 
 ---

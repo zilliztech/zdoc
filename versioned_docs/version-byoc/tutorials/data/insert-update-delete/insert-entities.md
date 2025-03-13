@@ -16,10 +16,10 @@ keywords:
   - data
   - insert
   - insert entities
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

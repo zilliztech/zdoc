@@ -18,10 +18,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
+  - hallucinations llm
   - Multimodal search
   - vector search algorithms
   - Question answering system
-  - llm-as-a-judge
 
 ---
 

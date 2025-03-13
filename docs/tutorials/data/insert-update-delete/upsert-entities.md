@@ -17,10 +17,10 @@ keywords:
   - upsert
   - update
   - insert
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

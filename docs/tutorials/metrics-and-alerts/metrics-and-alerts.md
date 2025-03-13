@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

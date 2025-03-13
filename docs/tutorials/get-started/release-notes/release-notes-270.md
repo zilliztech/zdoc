@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

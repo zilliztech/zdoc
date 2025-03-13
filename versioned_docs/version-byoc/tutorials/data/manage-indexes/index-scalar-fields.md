@@ -14,10 +14,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

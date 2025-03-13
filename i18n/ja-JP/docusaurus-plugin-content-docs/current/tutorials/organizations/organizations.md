@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

@@ -2,7 +2,7 @@
 title: "Understand Cost | Cloud"
 slug: /understand-cost
 sidebar_label: "Understand Cost"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "This page offers guidelines for estimating the costs of using Zilliz Cloud. To obtain a precise cost estimate, we encourage you to utilize the free trial. | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cost
   - understand
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 
@@ -141,11 +141,11 @@ For a precise calculation of the write vCU usage and cost, please refer to the f
    </tr>
    <tr>
      <td><p>Delete</p></td>
-     <td><p>1 deleted entity = 1 vCU</p><p>Deleting a non-existent entity will also consume 1 vCU.</p></td>
+     <td><p>1 deleted entity = 1 vCU Deleting a non-existent entity will also consume 1 vCU.</p></td>
    </tr>
    <tr>
      <td><p>Upsert</p></td>
-     <td><p>Calculated based on the size of the data updated and the number of entities deleted.</p><p>Deleting a non-existent entity will also consume 1 vCU.</p></td>
+     <td><p>Calculated based on the size of the data updated and the number of entities deleted. Deleting a non-existent entity will also consume 1 vCU.</p></td>
    </tr>
 </table>
 

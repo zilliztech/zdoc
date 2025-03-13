@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists the privileges granted to the specified role. | Node.js"
 type: docx
 token: CJ9DdmU1ooquOnxcK5AciA3sn3g
-sidebar_position: 10
+sidebar_position: 16
 keywords: 
+  - NLP
+  - Neural Network
   - Deep Learning
   - Knowledge base
-  - natural language processing
-  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - listGrants()
-  - node
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - nodejs25
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: nodeSidebar
 
 ---

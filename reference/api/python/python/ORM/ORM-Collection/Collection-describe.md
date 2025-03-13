@@ -10,19 +10,19 @@ type: docx
 token: EZwsd887JojFjLxbMByckhW0nxg
 sidebar_position: 7
 keywords: 
+  - Sparse vs Dense
+  - Dense vector
   - Hierarchical Navigable Small Worlds
   - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describe()
   - pymilvus25
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: pythonSidebar
 
 ---

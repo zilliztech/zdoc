@@ -10,19 +10,19 @@ type: docx
 token: C2AbdIReZos7HwxiZXIcyW8nnm1
 sidebar_position: 2
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - Question answering system
   - llm-as-a-judge
   - hybrid vector search
   - Video deduplication
+  - Video similarity search
 displayed_sidebar: pythonSidebar
 
 ---

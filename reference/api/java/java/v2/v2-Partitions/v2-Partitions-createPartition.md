@@ -10,19 +10,19 @@ type: docx
 token: CadTdZ5YGocDymxaIOvcr08pnxd
 sidebar_position: 1
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - createPartition()
-  - javaV2
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - javaV225
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: javaSidebar
 
 ---

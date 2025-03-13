@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation lists all existing databases. | Node.js"
 type: docx
-token: IgUndv7TCoRpWOxS5hkcXrypndd
-sidebar_position: 3
+token: Kp9Dd2dIgoxyDixuqtqctPZXnFb
+sidebar_position: 5
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
-  - node
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - nodejs25
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: nodeSidebar
 
 ---

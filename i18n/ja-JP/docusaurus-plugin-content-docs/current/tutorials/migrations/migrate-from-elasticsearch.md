@@ -1,7 +1,7 @@
 ---
 title: "ElasticsearchからZilliz Cloudへの移行 | Cloud"
 slug: /migrate-from-elasticsearch
-sidebar_label: "ElasticsearchからZilliz Cloudへの移行"
+sidebar_label: "Elasticsearchから"
 beta: FALSE
 notebook: FALSE
 description: "Elasticsearchは、大量のデータを処理するスピードと柔軟性で知られる、スケーラブルな検索および分析エンジンです。Zilliz Cloudの移行機能を活用することで、ElasticsearchインスタンスからZilliz Cloudクラスタへデータをシームレスに転送できます。 | Cloud"
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - elasticsearch
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

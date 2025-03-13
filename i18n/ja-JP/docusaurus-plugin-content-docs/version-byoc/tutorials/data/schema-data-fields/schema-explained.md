@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

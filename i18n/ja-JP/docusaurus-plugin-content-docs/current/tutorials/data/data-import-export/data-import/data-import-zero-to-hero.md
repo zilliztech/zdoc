@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists the statistics collected on a specific collection. | Java | v2"
 type: docx
 token: XgfcdpBWCof3pfxhUudcRZajnPc
-sidebar_position: 13
+sidebar_position: 18
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStats()
-  - javaV2
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - javaV225
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: javaSidebar
 
 ---

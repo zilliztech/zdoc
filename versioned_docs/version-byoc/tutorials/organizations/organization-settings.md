@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

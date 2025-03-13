@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 
@@ -91,6 +91,14 @@ To upgrade your plan, follow these steps:
 
         ![upgrade-to-dedicated](/img/upgrade-to-dedicated.png)
 
+### Suspend & resume cluster{#suspend-and-resume-cluster}
+
+Free clusters on Zilliz Cloud are automatically suspended after 7 days of inactivity. You will receive email notifications before and after the Free cluster is suspended.
+
+To resume a suspended Free cluster, click on **Actions** and select **Resume** from the drop-down menu. Upon confirming this action in the **Resume Cluster** dialog box, the cluster's status will change from **SUSPENDED** to **RESUMING**, and then to **RUNNING**. 
+
+You can also use RESTful APIs to perform these actions. For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster-v2) and [Resume Cluster](/reference/restful/resume-cluster-v2).
+
 ### Drop cluster{#drop-cluster}
 
 In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
@@ -129,11 +137,11 @@ For details, refer to [Connect to Cluster](./connect-to-cluster).
 
 - **Data migrations**
 
-    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./migrate-between-clusters).
+    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./offline-migration).
 
 ### Migrate to Dedicated cluster{#migrate-to-dedicated-cluster}
 
-For more enterprise-grade features and custom configurations, you are recommended to migrate your Serverless cluster to a Dedicated cluster. For more information, refer to [Cross-Cluster Migrations](./migrate-between-clusters).
+For more enterprise-grade features and custom configurations, you are recommended to migrate your Serverless cluster to a Dedicated cluster. For more information, refer to [Cross-Cluster Migrations](./offline-migration).
 
 ### Users and access control{#users-and-access-control}
 
@@ -187,7 +195,7 @@ After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll fin
 
 - **Migrations**
 
-    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./migrate-between-clusters).
+    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./offline-migration).
 
 ### Users and access control{#users-and-access-control}
 
@@ -260,7 +268,7 @@ In addition to the web UI, you can also make an API request to drop a cluster. F
 
 - [Set up a Private Link](./setup-a-private-link)
 
-- [Migrate Between Clusters](./migrate-between-clusters)
+- [Migrate Between Clusters](./offline-migration)
 
 - [Detailed Plan Comparison](./select-zilliz-cloud-service-plans)
 

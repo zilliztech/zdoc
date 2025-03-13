@@ -5,14 +5,14 @@ beta: false
 notebook: false
 description: "Functions related to bulk import data into Zilliz Cloud clusters. | Python"
 type: folder
-token: MGFYf4JacldYUEdxtJdcwczAntg
+token: I5i9f86n4lsy9IddsDocMOsfnXg
 sidebar_position: 2
 sidebar_label: "BulkImport"
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud

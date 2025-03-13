@@ -19,10 +19,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

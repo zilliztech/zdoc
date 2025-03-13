@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

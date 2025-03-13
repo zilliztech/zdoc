@@ -2,7 +2,7 @@
 title: "renameCollection() | Java | v1"
 slug: /java/v1-Collection-renameCollection
 sidebar_label: "renameCollection()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "A MilvusClient interface. This method renames the specified collection. | Java | v1"
 type: origin

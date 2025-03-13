@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - quick-setup
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

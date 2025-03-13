@@ -9,10 +9,10 @@ token: BCcWfIoxvlY1oOdsLcXcqTtcnMf
 sidebar_position: 7
 sidebar_label: "Vector"
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud

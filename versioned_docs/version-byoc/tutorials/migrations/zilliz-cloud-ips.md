@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Zilliz Cloud pulls data from your data sources and sends it to target clusters using a set of fixed IP addresses. To ensure that Zilliz Cloud can do this, you must safelist these IP addresses in your firewall | BYOC"
 type: origin
 token: KfgvwJKPDi8uDekl2aHcPOvgnSb
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - cloud
   - migrations
   - ips
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 
@@ -104,7 +104,7 @@ Safelist the IP addresses corresponding to the cloud service provider and region
    <tr>
      <td><p>us-west1</p></td>
      <td><p>Oregon, USA</p></td>
-     <td><p><code>34.168.252.102</code>, <code>34.83.176.23</code>, <code>35.247.80.67</code>, <code>35.227.139.83</code>,</p><p><code>34.168.123.225</code>, <code>35.247.17.192</code>, <code>34.105.17.34</code></p></td>
+     <td><p><code>34.168.252.102</code>, <code>34.83.176.23</code>, <code>35.247.80.67</code>, <code>35.227.139.83</code>, <code>34.168.123.225</code>, <code>35.247.17.192</code>, <code>34.105.17.34</code></p></td>
    </tr>
    <tr>
      <td><p>us-east4</p></td>

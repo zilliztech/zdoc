@@ -9,10 +9,10 @@ token: M6KJfLu4ylTkNsd9DUVcQHmfnqe
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud

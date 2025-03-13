@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

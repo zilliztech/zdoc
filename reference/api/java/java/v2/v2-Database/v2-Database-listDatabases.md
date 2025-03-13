@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists all the database names. | Java | v2"
 type: docx
 token: IHoodknUJohFAbxMFg3c0q8un6f
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
-  - javaV2
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - javaV225
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: javaSidebar
 
 ---

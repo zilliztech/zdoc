@@ -10,19 +10,19 @@ type: docx
 token: VblKdUEU4o4t31xcFiicIGtjn9g
 sidebar_position: 7
 keywords: 
+  - private llms
   - nn search
   - llm eval
   - Sparse vs Dense
-  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
   - release_partitions()
   - pymilvus25
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: pythonSidebar
 
 ---

@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - quick-setup
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

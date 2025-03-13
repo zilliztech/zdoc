@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - api key
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 
@@ -46,7 +46,7 @@ Zilliz Cloudでは、すべての組織にAPIキーのセットが付属して�
 
 ロールベースアクセス制御(RBAC)は、API呼び出しの管理に適用されるZilliz Cloudの重要なセキュリティメカニズムです。このシステムにより、組織内のユーザーに特定の権限を持つロールを割り当てることで、リソースへのアクセスを細かく制御できます。
 
-各ロールのアクセスレベルの詳細については、[ネットワークとセキュリティ](./network-and-security)を参照してください。
+各ロールのアクセスレベルの詳細については、[アクセス制御](./access-control)を参照してください。
 
 ![api-key-access](/byoc/ja-JP/api-key-access.png)
 

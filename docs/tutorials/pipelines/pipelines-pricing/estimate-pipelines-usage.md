@@ -2,7 +2,7 @@
 title: "Estimate Pipeline Usage | Cloud"
 slug: /estimate-pipelines-usage
 sidebar_label: "Estimate Pipeline Usage"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The cost of running pipelines is measured by tokens. Similar to Large Language Model (LLM) that uses token as a basic unit, pipelines process documents and search queries by parsing and embedding the text as a series of tokens. To understand the cost of a pipeline run, you can use our Estimate Pipeline Usage tool to count tokens of a file or a text string. | Cloud"
 type: origin
@@ -15,10 +15,10 @@ keywords:
   - pipelines
   - pricing
   - usage
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 
@@ -92,7 +92,7 @@ To help easily understand the cost implication of any pipeline run, we offer a w
 
 ## Related topics{#related-topics}
 
-- [Zilliz Cloud Limits](./limits#pipelines)
+- [Zilliz Cloud Limits](./limits)
 
 - [FAQs](/docs/faq-pipelines)
 

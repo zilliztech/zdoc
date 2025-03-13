@@ -17,10 +17,10 @@ keywords:
   - integrate
   - object
   - storage
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 
@@ -59,7 +59,7 @@ Zilliz Cloudを使用すると、Amazon Simple Storage Service（Amazon S 3）�
 
     - **Configuration Description** *(オプション)*:この統合の説明(例:`バックアップファイルのエクスポート`)。
 
-1. 次の[ステップ2](./integrate-with-aws-s3#2-s-3step-2-create-s3-bucket)に進みます。
+1. 次の[ステップ2](./integrate-with-aws-s3#step-2-create-s3-bucket)に進みます。
 
 ![integrate-with-aws-1](/img/ja-JP/integrate-with-aws-1.png)
 
@@ -90,7 +90,7 @@ Zilliz Cloudを使用すると、Amazon Simple Storage Service（Amazon S 3）�
 
     詳細については、[バケットを作成するを](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html)参照してください。
 
-1. [[Zilliz Cloudコンソール](https://cloud.zilliz.com/login)]に戻ります。[**バケット名**]と[**バケット地域**]を[**Amazon S 3バケット作成**]のステップで入力します。完了したら、[ステップ3](./integrate-with-aws-s3#3-iamstep-3-create-iam-policy)に進みます。
+1. [[Zilliz Cloudコンソール](https://cloud.zilliz.com/login)]に戻ります。[**バケット名**]と[**バケット地域**]を[**Amazon S 3バケット作成**]のステップで入力します。完了したら、[ステップ3](./integrate-with-aws-s3#step-3-create-iam-policy)に進みます。
 
 ![integrate-with-aws-2](/img/ja-JP/integrate-with-aws-2.png)
 
@@ -140,7 +140,7 @@ Zilliz CloudにAWS S 3へのアクセスを許可するには、IAMポリシー�
 
 1. [**レビューと作成**]ページで、作成するポリシーの**ポリシー名**(例:`policy-for-backup`)と**説明**(オプション)を入力し、**このポリシーで定義された権限**を確認します。今後の手順で必要になるため、ポリシー名を覚えておいてください。
 
-1. [**ポリシーを作成**]を選択して、新しいポリシーを保存します。完了したら、[ステップ4](./integrate-with-aws-s3#4-iamstep-4-create-iam-role)に進みます。
+1. [**ポリシーを作成**]を選択して、新しいポリシーを保存します。完了したら、[ステップ4](./integrate-with-aws-s3#step-4-create-iam-role)に進みます。
 
 ![integrate-with-aws-3](/img/ja-JP/integrate-with-aws-3.png)
 
@@ -180,7 +180,7 @@ Zilliz CloudにAWS S 3へのアクセスを許可するには、IAMポリシー�
 
     </Admonition>
 
-1. 「**アクセス許可ポリシー**」の「**アクセス許可を追加**」ステップで、[ステップ3](./integrate-with-aws-s3#3-iamstep-3-create-iam-policy)で作成したポリシーを検索して選択し、「**次**へ」をクリックします。
+1. 「**アクセス許可ポリシー**」の「**アクセス許可を追加**」ステップで、[ステップ3](./integrate-with-aws-s3#step-3-create-iam-policy)で作成したポリシーを検索して選択し、「**次**へ」をクリックします。
 
 1. [**名前、レビュー、および作成**]ステップで、役割名を入力して設定を確認します。次に、[**役割を作成**]をクリックします。
 

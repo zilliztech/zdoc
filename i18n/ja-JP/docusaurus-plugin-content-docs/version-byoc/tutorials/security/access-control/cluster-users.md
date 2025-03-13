@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

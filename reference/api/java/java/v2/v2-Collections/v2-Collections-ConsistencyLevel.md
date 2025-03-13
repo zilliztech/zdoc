@@ -8,21 +8,21 @@ notebook: false
 description: "This is an enumeration that provides the following constants. | Java | v2"
 type: docx
 token: Q8IidbqKMopplgxSxaicS2o9nwc
-sidebar_position: 3
+sidebar_position: 5
 keywords: 
+  - Vectorization
+  - k nearest neighbor algorithm
   - ANNS
   - Vector search
-  - knn algorithm
-  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - ConsistencyLevel
-  - javaV2
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - javaV225
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: javaSidebar
 
 ---

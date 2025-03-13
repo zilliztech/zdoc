@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 
