@@ -35233,13 +35233,13 @@
 								"properties": {
 									"integrationId": {
 										"type": "string",
-										"description": "The ID of the integrated external storage that the backup files will be exported to. For how to integrate an AWS S3 block storage service into Zilliz Cloud, refer to the [documentation](https://docs.zilliz.com/docs/integrate-with-aws-s3).",
+										"description": "The ID of the integrated external storage that the backup files will be exported to. For how to integrate an AWS S3 block storage service into Zilliz Cloud, refer to the [documentation](https://docs.zilliz.com/docs/integrate-with-aws-s3). For how to obtain the integration ID, refer to the [documentation](https://docs.zilliz.com/docs/integrate-with-aws-s3#obtain-the-integration-id).",
 										"x-i18n": {
 											"zh-CN": {
-												"description": "备份文件导出到的外部存储的 ID。关于如何配置对象存储，请参阅 [文档](https://docs.zilliz.com.cn/docs/integrate-with-storage-bucket)。"
+												"description": "备份文件导出到的外部存储的 ID。关于如何配置对象存储，请参阅 [文档](https://docs.zilliz.com.cn/docs/integrate-with-storage-bucket)。关于如何获取外部存储桶的集成 ID，可以参考 [文档](https://docs.zilliz.com.cn/docs/integrate-with-storage-bucket#obtain-the-integration-id)。"
 											}
 										},
-										"example": "inter-xxxxxxxxxxxxxxxxxxx"
+										"example": "integ-xxxxxxxxxxxxxxxxxxx"
 									},
 									"directory": {
 										"type": "string",
@@ -35254,7 +35254,7 @@
 								}
 							},
 							"example": {
-								"integrationId": "inter-xxxxxxx",
+								"integrationId": "integ-xxxxxxx",
 								"directory":"destdir/"
 							}
 						}
