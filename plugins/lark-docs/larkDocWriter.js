@@ -601,6 +601,7 @@ class larkDocWriter {
         if (this.targets.split('.').includes('zilliz')) {
             markdown = markdown.replace(/http:\/\/localhost:19530/g, 'YOUR_CLUSTER_ENDPOINT')
             markdown = markdown.replace(/127.0.0.1:19530/g, 'YOUR_CLUSTER_ENDPOINT')
+            markdown = markdown.replace(/localhost:19530/g, 'YOUR_CLUSTER_ENDPOINT')
             markdown = markdown.replace(/root:Milvus/g, 'YOUR_CLUSTER_TOKEN')
         }
 

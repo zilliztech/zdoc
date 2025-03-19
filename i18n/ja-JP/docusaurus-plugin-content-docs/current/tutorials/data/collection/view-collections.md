@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 
@@ -77,7 +77,7 @@ System.out.println(resp.getCollectionNames());
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
-    address: 'localhost:19530',
+    address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN'
 });
 

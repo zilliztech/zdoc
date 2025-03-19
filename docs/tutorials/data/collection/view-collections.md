@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 
@@ -77,7 +77,7 @@ System.out.println(resp.getCollectionNames());
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
-    address: 'localhost:19530',
+    address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN'
 });
 

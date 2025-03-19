@@ -16,10 +16,10 @@ keywords:
   - data
   - grouping search
   - group
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 
@@ -251,7 +251,7 @@ In the request above, `limit=3` indicates that the system will return search res
 
 By default, Grouping Search returns only one entity per group. If you want multiple results per group, adjust the `group_size` and `strict_group_size` parameters.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -302,6 +302,14 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 // SearchResp.SearchResult(entity={docId=2}, score=0.38515577, id=2)
 // SearchResp.SearchResult(entity={docId=3}, score=0.3611898, id=3)
 // SearchResp.SearchResult(entity={docId=3}, score=0.19556211, id=4)
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -367,8 +375,6 @@ In the example above:
 For additional parameter details, refer to [search](/reference/python/python/Vector-search).
 
 ## Considerations{#considerations}
-
-- **Indexing**: This grouping feature works only for collections that are indexed with these index types: **FLAT**, **IVF_FLAT**, **IVF_SQ8**, **HNSW**, **HNSW_PQ**, **HNSW_PRQ**, **HNSW_SQ**, **DISKANN**, **SPARSE_INVERTED_INDEX**.
 
 - **Number of groups**: The `limit` parameter controls the number of groups from which search results are returned, rather than the specific number of entities within each group. Setting an appropriate `limit` helps control search diversity and query performance. Reducing `limit` can reduce computation costs if data is densely distributed or performance is a concern.
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 
@@ -77,7 +77,7 @@ System.out.println(resp.getCollectionNames());
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
-    address: 'localhost:19530',
+    address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN'
 });
 

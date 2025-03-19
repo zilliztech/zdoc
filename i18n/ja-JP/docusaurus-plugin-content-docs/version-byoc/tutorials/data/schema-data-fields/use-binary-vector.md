@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 
@@ -202,12 +202,11 @@ import java.util.*;
 
 List<IndexParam> indexParams = new ArrayList<>();
 Map<String,Object> extraParams = new HashMap<>();
-extraParams.put("nlist",128);
+
 indexParams.add(IndexParam.builder()
         .fieldName("binary_vector")
         .indexType(IndexParam.IndexType.AUTOINDEX)
-        .metricType(IndexParam.MetricType.HAMMING)
-        .extraParams(extraParams)
+        .metricType(IndexParam.MetricType.HAMMING)loca
         .build());
 ```
 
