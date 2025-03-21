@@ -470,10 +470,10 @@ const config = {
             className: 'header-link',
           },
           {
+            type: 'custom-signupbtn',
+            position: 'right',
             href: 'https://cloud.zilliz.com/signup',
             label: 'Sign Up Free',
-            position: 'right',
-            className: 'header-btn',
           },
           {
             href: '/docs/quick-start',
