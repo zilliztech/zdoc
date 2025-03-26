@@ -2,7 +2,7 @@
 title: "hybridSearch() | Java | v1"
 slug: /java/v1-QuerySearch-hybridSearch
 sidebar_label: "hybridSearch()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The MilvusClient interface. This method conducts an approximate nearest neighbor (ANN) search on multiple vector fields and returns search results after reranking. | Java | v1"
 type: origin

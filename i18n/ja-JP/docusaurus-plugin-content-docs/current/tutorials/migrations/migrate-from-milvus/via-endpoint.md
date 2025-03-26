@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
 
 ---
 

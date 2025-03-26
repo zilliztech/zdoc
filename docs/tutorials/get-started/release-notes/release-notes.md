@@ -7,16 +7,16 @@ notebook: FALSE
 description: "You can find the history of Zilliz Cloud releases in these docs. | Cloud"
 type: origin
 token: NOYvw884PigqIhk1gwLcw1OYnfe
-sidebar_position: 11
+sidebar_position: 12
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

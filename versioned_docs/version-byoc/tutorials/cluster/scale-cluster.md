@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
+  - vectordb
+  - multimodal vector database retrieval
   - Retrieval Augmented Generation
   - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
 
 ---
 

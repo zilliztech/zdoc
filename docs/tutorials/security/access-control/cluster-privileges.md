@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

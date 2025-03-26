@@ -16,10 +16,10 @@ keywords:
   - ingest
   - search
   - delete
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

@@ -2,7 +2,7 @@
 title: "showCollections() | Java | v1"
 slug: /java/v1-Collection-showCollections
 sidebar_label: "showCollections()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "A MilvusClient interface. This method lists all the collections or gets the collection loading status. | Java | v1"
 type: origin

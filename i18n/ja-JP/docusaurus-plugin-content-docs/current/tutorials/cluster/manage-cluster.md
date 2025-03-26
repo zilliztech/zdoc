@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 
@@ -129,11 +129,11 @@ import Admonition from '@theme/Admonition';
 
 - **データ移行**
 
-    [**Migrations**]タブで、[Migrate]を選択すると、データの**移行**タスクを作成できます。詳細については、「[クラスタ間の移行](./undefined)」を参照してください。
+    [**Migrations**]タブで、[Migrate]を選択すると、データの**移行**タスクを作成できます。詳細については、「[クラスタ間の移行](./migrate-between-clusters)」を参照してください。
 
 ### 専用クラスタへの移行{#migrate-to-dedicated-cluster}
 
-エンタープライズグレードの機能やカスタム構成をより多く使用するには、サーバーレスクラスターを専用クラスターに移行することをお勧めします。詳細については、「[クラスタ間の移行](./undefined)」を参照してください。
+エンタープライズグレードの機能やカスタム構成をより多く使用するには、サーバーレスクラスターを専用クラスターに移行することをお勧めします。詳細については、「[クラスタ間の移行](./migrate-between-clusters)」を参照してください。
 
 ### ユーザーとアクセス制御{#users-and-access-control}
 
@@ -163,7 +163,7 @@ Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細に�
 
 - **クラスタに接続**
 
-    「**接続**」セクションでは、クラスターに接続するために使用される**パブリックエンドポイント**と**トークン**を見つけることができます。トークンは、ユーザー名とパスワードのペアで構成される[APIキー](./manage-api-keys)または[クラスター資格情報](./cluster-credentials)であることができます。
+    「**接続**」セクションでは、クラスターに接続するために使用される**パブリックエンドポイント**と**トークン**を見つけることができます。トークンは、ユーザー名とパスワードのペアで構成される[APIキー](./manage-api-keys)または[クラスター資格情報](null)であることができます。
 
     詳細については、「[クラスタに接続](./connect-to-cluster)」を参照してください。
 
@@ -187,7 +187,7 @@ Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細に�
 
 - **マイグレーション**
 
-    [**Migrations**]タブで、[Migrate]を選択すると、データの**移行**タスクを作成できます。詳細については、「[クラスタ間の移行](./undefined)」を参照してください。
+    [**Migrations**]タブで、[Migrate]を選択すると、データの**移行**タスクを作成できます。詳細については、「[クラスタ間の移行](./offline-migration)」を参照してください。
 
 ### ユーザーとアクセス制御{#users-and-access-control}
 
@@ -195,7 +195,7 @@ Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細に�
 
     [**ユーザー**]タブでは、ユーザーを追加したり、パスワードをリセットしたり、削除したりできます。
 
-    詳細については、[クラスタ資格情報](./cluster-credentials)を参照してください。
+    詳細については、クラスタ資格情報を参照してください。
 
     ![manage-users](/img/ja-JP/manage-users.png)
 
@@ -260,7 +260,7 @@ Dedicated(Standard)クラスタの場合、**Summary**セクションのサー�
 
 - [プライベートエンドポイントを設定する](./setup-a-private-link)
 
-- [クラスタ間の移行](./undefined)
+- [クラスタ間の移行](./migrate-between-clusters)
 
 - [詳細なプラン比較](./select-zilliz-cloud-service-plans)
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

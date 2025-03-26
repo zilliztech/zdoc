@@ -1,7 +1,10 @@
 ---
+title: "Upsert() | Go | v1"
 slug: /go/v1-Collection-Upsert
+sidebar_label: "Upsert()"
 beta: FALSE
 notebook: FALSE
+description: "This method updates or inserts data into the specified collection. | Go | v1"
 type: origin
 token: PpkswaZGQiste5kKCvtcuHUVngd
 sidebar_position: 10
@@ -45,7 +48,7 @@ func (c *GrpcClient) Upsert(ctx context.Context, collName string, partitionName 
    </tr>
    <tr>
      <td><p><code>columns</code></p></td>
-     <td><p>Data to update or insert into the specified collection.</p><p>You should include the data for all the fields defined in the collection schema.</p></td>
+     <td><p>Data to update or insert into the specified collection. You should include the data for all the fields defined in the collection schema.</p></td>
      <td><p><code>...entity.Column</code></p></td>
    </tr>
 </table>

@@ -10,19 +10,19 @@ type: docx
 token: ByLVdf2nRocLcxxwH3Gc9CyFnbb
 sidebar_position: 6
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - queryIterator()
-  - javaV2
+  - javaV225
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
 displayed_sidebar: javaSidebar
 
 ---

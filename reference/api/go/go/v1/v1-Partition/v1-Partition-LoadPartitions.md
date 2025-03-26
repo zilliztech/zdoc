@@ -1,7 +1,10 @@
 ---
+title: "LoadPartitions() | Go | v1"
 slug: /go/v1-Partition-LoadPartitions
+sidebar_label: "LoadPartitions()"
 beta: FALSE
 notebook: FALSE
+description: "This method loads the data of specific partitions into memory. | Go | v1"
 type: origin
 token: EXLCwLRCKib04Kkfh5zcQ0GGnhd
 sidebar_position: 4

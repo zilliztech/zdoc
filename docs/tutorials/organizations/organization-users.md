@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

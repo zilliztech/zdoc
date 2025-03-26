@@ -1,7 +1,7 @@
 ---
 title: "db | Python | ORM"
 slug: /python/ORM-db
-beta: false
+beta: NEAR DEPRECATE
 notebook: false
 description: "Functions related to manipulating Milvus databases. | Python | ORM"
 type: folder
@@ -9,10 +9,10 @@ token: E2Zlf8PdXlx097dT2sNchgqpnbF
 sidebar_position: 4
 sidebar_label: "db"
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud

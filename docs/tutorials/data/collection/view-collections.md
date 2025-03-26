@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 
@@ -77,7 +77,7 @@ System.out.println(resp.getCollectionNames());
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
-    address: 'localhost:19530',
+    address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN'
 });
 
@@ -237,7 +237,36 @@ curl --request POST \
 
 The result of the above example should be similar to the following.
 
-```json
-// TO BE ADDED
+```plaintext
+{
+    'collection_name': 'quick_setup', 
+    'auto_id': False, 
+    'num_shards': 1, 
+    'description': '', 
+    'fields': [
+        {
+            'field_id': 100, 
+            'name': 'id', 
+            'description': '', 
+            'type': <DataType.INT64: 5>, 
+            'params': {}, 
+            'is_primary': True
+        }, 
+        {
+            'field_id': 101, 
+            'name': 'vector', 
+            'description': '', 
+            'type': <DataType.FLOAT_VECTOR: 101>, 
+            'params': {'dim': 768}
+        }
+    ], 
+    'functions': [], 
+    'aliases': [], 
+    'collection_id': 456909630285026300, 
+    'consistency_level': 2, 
+    'properties': {}, 
+    'num_partitions': 1, 
+    'enable_dynamic_field': True
+}
 ```
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

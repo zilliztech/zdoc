@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

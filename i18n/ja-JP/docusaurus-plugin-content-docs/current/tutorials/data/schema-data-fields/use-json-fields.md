@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - json field
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

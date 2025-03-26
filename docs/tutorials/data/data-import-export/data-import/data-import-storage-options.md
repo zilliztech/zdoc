@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

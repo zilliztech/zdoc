@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Zilliz Cloudの使い方を議論する際に使用する一般的な用語についての説明。 | BYOC"
 type: origin
 token: JACqwQ7uJiVGCsk02HhcI0TRnjg
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
   - cloud
   - basics
   - milvus
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

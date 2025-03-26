@@ -19,10 +19,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

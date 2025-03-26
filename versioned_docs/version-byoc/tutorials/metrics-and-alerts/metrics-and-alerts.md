@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

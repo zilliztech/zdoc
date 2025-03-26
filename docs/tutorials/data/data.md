@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

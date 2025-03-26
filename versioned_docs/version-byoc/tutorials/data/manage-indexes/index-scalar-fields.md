@@ -14,10 +14,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

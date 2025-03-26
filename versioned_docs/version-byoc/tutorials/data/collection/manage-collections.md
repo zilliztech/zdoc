@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

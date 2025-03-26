@@ -16,10 +16,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 
@@ -35,9 +35,9 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloudでは、パーティションを使用してデータの分離を実装し、検索範囲を特定のパーティションに制限することで検索パフォーマンスを向上させることができます。パーティションを手動で管理する場合、コレクション内に最大1,024のパーティションを作成し、特定のルールに基づいてこれらのパーティションにエンティティを挿入して、特定のパーティション数内で検索を制限することで検索範囲を狭めることができます。
 
-Zilliz Cloudは、データ分離においてパーティションを再利用し、コレクション内で作成できるパーティションの数の制限を克服するためのパーティションキーを導入しました。コレクションを作成する際には、スカラーフィールドをパーティションキーとして使用できます。コレクションが準備できたら、Zilliz Cloudは、パーティションキーの値の範囲に対応する各パーティションをコレクション内に指定された数作成します。挿入されたエンティティを受信すると、Zilliz Cloudは、パーティションキーの値に基づいて異なるパーティションに格納します。
+Zilliz Cloudは、データ分離においてパーティションを再利用し、コレクション内で作成できるパーティションの数の制限を克服するためのパーティションキーを導入しました。コレクションを作成する際には、スカラーフィールドをパーティションキーとして使用できます。コレクションが準備できたら、Zilliz Cloudは、パーティションキーの値の範囲に対応する各パーティションをコレクション内に指定された数作成します。Zilliz Cloudは、挿入されたエンティティを受け取ると、エンティティのPartition Key値を使用してハッシュ値を計算し、ハッシュ値とコレクションのpartitions_numプロパティに基づいてモジュロ演算を実行してターゲットパーティションIDを取得し、エンティティをターゲットパーティションに格納します。
 
-![XSRjw74AshkuVqbJ4ahcY6b1nRu](/img/ja-JP/XSRjw74AshkuVqbJ4ahcY6b1nRu.png)
+![CBlIwLuElhntQDbtL9ncOvxBnke](/img/ja-JP/CBlIwLuElhntQDbtL9ncOvxBnke.png)
 
 次の図は、Zilliz Cloudが、パーティションキー機能を有効にしているかどうかにかかわらず、コレクション内の検索リクエストを処理する方法を示しています。
 

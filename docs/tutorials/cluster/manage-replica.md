@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

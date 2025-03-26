@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

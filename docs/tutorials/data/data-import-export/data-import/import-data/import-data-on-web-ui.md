@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - console
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

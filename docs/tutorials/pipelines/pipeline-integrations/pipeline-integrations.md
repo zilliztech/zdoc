@@ -2,7 +2,7 @@
 title: "Pipeline Integrations | Cloud"
 slug: /pipeline-integrations
 sidebar_label: "Pipeline Integrations"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Still do not know how to integrate great open-source and third-party services with Zilliz Cloud Pipelines? Use these guides to start with. | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - integration
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

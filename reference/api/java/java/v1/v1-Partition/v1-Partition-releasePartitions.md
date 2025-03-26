@@ -2,7 +2,7 @@
 title: "releasePartitions() | Java | v1"
 slug: /java/v1-Partition-releasePartitions
 sidebar_label: "releasePartitions()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "MilvusClient interface. This method releases partitions' data from memory. | Java | v1"
 type: origin

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cu
   - select
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 
@@ -77,7 +77,7 @@ The following table offers a quick comparison of the three CU types in different
 
 - Ideal for large-scale unstructured data search, copyright detection, and identity verification.
 
-## Extended-capacity CU{#extended-capacity-cu}
+### Extended-capacity CU{#extended-capacity-cu}
 
 - Best for scenarios with extensive datasets where cost-efficiency is prioritized over latency.
 

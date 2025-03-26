@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 
@@ -55,7 +55,7 @@ When an alert in an **ON** status, the specified recipients will receive notific
      <td><p>Day</p></td>
      <td><p>Monitor the remaining days until the credit card's expiration to ensure uninterrupted service.</p></td>
      <td><p>Renew or update credit card information before the expiration date.</p></td>
-     <td><p><strong>WARNING</strong>: Trigger alerts within 30 days of card expiration.</p><p><strong>CRITICAL</strong>: Trigger alerts within 7 days of card expiration.</p></td>
+     <td><p><strong>WARNING</strong>: Trigger alerts within 30 days of card expiration. <strong>CRITICAL</strong>: Trigger alerts within 7 days of card expiration.</p></td>
    </tr>
    <tr>
      <td><p>Remaining Credits</p></td>

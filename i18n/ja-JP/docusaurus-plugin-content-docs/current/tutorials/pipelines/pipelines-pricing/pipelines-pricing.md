@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - pricing
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

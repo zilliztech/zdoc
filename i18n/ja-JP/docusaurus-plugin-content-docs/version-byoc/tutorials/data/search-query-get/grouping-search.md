@@ -16,10 +16,10 @@ keywords:
   - data
   - grouping search
   - group
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 
@@ -247,7 +247,7 @@ curl --request POST \
 
 上記のリクエストでは、`limit=3`は、システムが3つのグループから検索結果を返すことを示しています。各グループには、クエリベクトルに最も似た単一のエンティティが含まれています。
 
-## グループの体格を設定{#configure-group-size}
+## グループの体格を設定 | PUBLIC{#configure-group-size}
 
 デフォルトでは、グループごとに1つのエンティティのみが返されます。グループごとに複数の結果を取得したい場合は、`group_size`と`strict_group_size`パラメータを調整してください。
 

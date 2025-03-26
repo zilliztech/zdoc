@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

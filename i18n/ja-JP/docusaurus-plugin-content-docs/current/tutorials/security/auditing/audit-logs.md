@@ -15,10 +15,10 @@ keywords:
   - auditing
   - log
   - configure
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
   - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
@@ -111,7 +111,7 @@ Zilliz Cloudの監査ログは、監査ログを直接ストレージバケッ�
 
     - **Export Directory**:監査ログを保存するバケット内のディレクトリを指定してください。
 
-1. [**Enable**]をクリックします。[**Audit Log Streaming**]ステータスが[**Active**]になると、正常に有効になります。ステータスが異常の場合は、トラブルシューティングのために[FAQ](./audit-logs#faqfaq)にアクセスしてください。
+1. [**Enable**]をクリックします。[**Audit Log Streaming**]ステータスが[**Active**]になると、正常に有効になります。ステータスが異常の場合は、トラブルシューティングのために[FAQ](./audit-logs#faq)にアクセスしてください。
 
 設定が完了すると、監査ログは約5分ごとにバケットにストリーミングされます。必要に応じてバケットにアクセスしてログを表示または管理できます。
 

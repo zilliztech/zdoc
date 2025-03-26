@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

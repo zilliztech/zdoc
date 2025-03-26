@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

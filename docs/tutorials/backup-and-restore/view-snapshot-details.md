@@ -15,10 +15,10 @@ keywords:
   - backup
   - files
   - view
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

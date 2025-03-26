@@ -17,10 +17,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

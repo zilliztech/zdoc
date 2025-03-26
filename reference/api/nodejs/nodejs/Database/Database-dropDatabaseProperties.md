@@ -1,28 +1,28 @@
 ---
 displayed_sidbar: nodeSidebar
-title: "dropDatabaseProperties | Node.js"
+title: "dropDatabaseProperties() | Node.js"
 slug: /node/node/Database-dropDatabaseProperties
-sidebar_label: "dropDatabaseProperties"
+sidebar_label: "dropDatabaseProperties()"
 beta: false
 notebook: false
 description: "This operation drops the setting of the specified properties. | Node.js"
 type: docx
 token: GulFdOWMboEK9bxnzMSc8Uf8n8b
-sidebar_position: 7
+sidebar_position: 4
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
-  - dropDatabaseProperties
+  - dropDatabaseProperties()
   - nodejs25
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 displayed_sidebar: nodeSidebar
 
 ---
@@ -30,7 +30,7 @@ displayed_sidebar: nodeSidebar
 import Admonition from '@theme/Admonition';
 
 
-# dropDatabaseProperties
+# dropDatabaseProperties()
 
 This operation drops the setting of the specified properties.
 

@@ -16,10 +16,10 @@ keywords:
   - data
   - filtered search
   - filtering
+  - Chroma vs Milvus
+  - Annoy vector search
   - milvus
   - Zilliz
-  - milvus vector database
-  - milvus db
 
 ---
 
@@ -49,7 +49,7 @@ Zilliz Cloudでは、フィルタリングされた検索は、適用される�
 
 - 上位K個のエンティティを返します。
 
-### 反復フィルタリング{#iterative-filtering}
+### 反復フィルタリング | PUBLIC{#iterative-filtering}
 
 標準的なフィルタリング過程は、検索範囲を効果的に狭くします。ただし、過度に複雑なフィルタリング式は、非常に高い検索レイテンシを引き起こす可能性があります。このような場合、反復フィルタリングは代替手段として機能し、スカラーフィルタリングの作業負荷を軽減するのに役立ちます。
 
@@ -285,7 +285,7 @@ curl --request POST \
 
 メタデータフィルタリングで使用できる演算子の詳細については、「[フィルタリング](./filtering)」を参照してください。
 
-### 反復フィルタリングによる検索{#search-with-iterative-filtering}
+### 反復フィルタリングによる検索 | PUBLIC{#search-with-iterative-filtering}
 
 反復フィルタリングでフィルタリングされた検索を実行するには、次のように行うことができます:
 

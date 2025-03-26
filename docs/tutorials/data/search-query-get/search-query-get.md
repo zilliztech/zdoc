@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - DML
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

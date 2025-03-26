@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

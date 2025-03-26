@@ -8,21 +8,21 @@ notebook: false
 description: "This operation grants a role to a user. | Java | v2"
 type: docx
 token: JB90dbBNRoz1I2xZY5rcSmJ1nSb
-sidebar_position: 8
+sidebar_position: 12
 keywords: 
+  - dimension reduction
+  - hnsw algorithm
   - vector similarity search
   - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - grantRole()
-  - javaV2
-  - Faiss
-  - Video search
+  - javaV225
   - AI Hallucination
   - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: javaSidebar
 
 ---

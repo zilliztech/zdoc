@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This chapter provides access to the procedure for using or installing RESTful API and SDKs and their reference docs. | Cloud"
 type: origin
 token: Ecwpw6cImiFV0gkkusgcQhvBnLe
-sidebar_position: 10
+sidebar_position: 11
 keywords: 
   - zilliz
   - milvus
@@ -20,10 +20,10 @@ keywords:
   - go
   - node
   - nodejs
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

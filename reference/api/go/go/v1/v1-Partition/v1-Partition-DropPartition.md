@@ -1,7 +1,10 @@
 ---
+title: "DropPartition() | Go | v1"
 slug: /go/v1-Partition-DropPartition
+sidebar_label: "DropPartition()"
 beta: FALSE
 notebook: FALSE
+description: "This method drops a specific partition from a collection. | Go | v1"
 type: origin
 token: ABvvwU8cOiGWBPkDSmycdHrXnUg
 sidebar_position: 2

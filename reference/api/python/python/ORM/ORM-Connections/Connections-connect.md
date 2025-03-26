@@ -10,19 +10,19 @@ type: docx
 token: KzCXdTVVSoOmkbxuFjsccDlXnff
 sidebar_position: 2
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - connect()
   - pymilvus25
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 displayed_sidebar: pythonSidebar
 
 ---
@@ -98,7 +98,7 @@ connect(
 
     - **address** (*string*) -
 
-        The actual address to connect. Example address: **localhost:19530**.
+        The actual address to connect. Example address: **YOUR_CLUSTER_ENDPOINT**.
 
     - **uri** (*string*) -
 
@@ -196,7 +196,7 @@ connections.connect(uri=uri)
 
 # Use environment variable
 # The following assumes that you have already set an environment 
-# variable using export MILVUS_URI=http://username:password@localhost:19530
+# variable using export MILVUS_URI=http://username:password@YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Use environment files

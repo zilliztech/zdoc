@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - users
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

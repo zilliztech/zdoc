@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

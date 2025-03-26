@@ -2,7 +2,7 @@
 title: "Image Data | Cloud"
 slug: /pipelines-image-data
 sidebar_label: "Image Data"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The Zilliz Cloud web UI provides a simplified and intuitive way of creating, running, and managing Pipelines while the RESTful API offers more flexibility and customization compared to the Web UI. | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - image data
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 
@@ -41,7 +41,7 @@ This guide walks you through the necessary steps to create image pipelines, cond
 
 - Ensure you have created a cluster deployed in us-west1 on Google Cloud Platform (GCP).
 
-- In one project, you can only create up to 100 pipelines of the same type. For more information, refer to [Zilliz Cloud Limits](./limits#pipelines).
+- In one project, you can only create up to 100 pipelines of the same type. For more information, refer to [Zilliz Cloud Limits](./limits).
 
 ## Ingest image data{#ingest-image-data}
 
@@ -288,9 +288,9 @@ This collection contains three fields:  two output fields of the **INDEX_IMAGE**
 
 <table>
    <tr>
-     <th><p>image_id</p><p>(Data Type: Int64)</p></th>
-     <th><p>embedding</p><p>(Data type: FLOAT_VECTOR)</p></th>
-     <th><p>image_title</p><p>(Data type: VarChar)</p></th>
+     <th><p>image_id (Data Type: Int64)</p></th>
+     <th><p>embedding (Data type: FLOAT_VECTOR)</p></th>
+     <th><p>image_title (Data type: VarChar)</p></th>
    </tr>
 </table>
 

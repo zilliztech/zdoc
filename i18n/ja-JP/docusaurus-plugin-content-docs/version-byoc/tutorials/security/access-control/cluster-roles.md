@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
 
 ---
 

@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "Methods related to CRUD operations within a collection. | Node.js"
 type: folder
-token: XhBJfuQ6slBh8Tdj7BEc4Mp6n4b
-sidebar_position: 7
+token: IguLfmHgXlJoojdRU8kcohXZnE1
+sidebar_position: 5
 sidebar_label: "Vector"
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - Vector
-  - node
+  - nodejs25
 displayed_sidebar: nodeSidebar
 ---
 

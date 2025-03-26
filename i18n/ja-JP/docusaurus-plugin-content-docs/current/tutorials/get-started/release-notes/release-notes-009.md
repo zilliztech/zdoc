@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
+  - milvus database
   - milvus lite
   - milvus benchmark
   - managed milvus
-  - Serverless vector database
 
 ---
 

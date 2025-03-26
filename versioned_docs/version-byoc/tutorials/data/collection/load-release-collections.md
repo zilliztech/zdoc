@@ -15,10 +15,10 @@ keywords:
   - collection
   - load
   - release
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 
@@ -317,7 +317,8 @@ if err != nil {
 <TabItem value='bash'>
 
 ```bash
-# REST 缺失
+# REST
+Not support yet
 ```
 
 </TabItem>

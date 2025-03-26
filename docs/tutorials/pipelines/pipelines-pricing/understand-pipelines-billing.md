@@ -2,7 +2,7 @@
 title: "Pipelines Pricing | Cloud"
 slug: /understand-pipelines-billing
 sidebar_label: "Pipelines Pricing"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Zilliz Cloud Pipelines adopts a pay-as-you-go pricing model. More specifically, you only pay for the actual usage of the models in Ingestion and Search Pipelines. | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - pricing
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 
@@ -40,7 +40,7 @@ For detailed information on the pricing of each embedding model and reranker mod
 
 Currently, Zilliz Cloud Pipelines offers free quota. This means that your initial spend of $20 is complimentary. 
 
-Additionally, there is a [cap on the total usage](./limits#pipeline-usage) of Zilliz Cloud Pipelines. Each organization can consume up to $20 worth of pipeline usage per month. If you need to increase the quota limit, please [contact sales](https://zilliz.com/contact-sales) or submit a ticket at the [Zilliz Support Portal](https://support.zilliz.com/hc/en-us).
+Additionally, there is a [cap on the total usage](./limits) of Zilliz Cloud Pipelines. Each organization can consume up to $20 worth of pipeline usage per month. If you need to increase the quota limit, please [contact sales](https://zilliz.com/contact-sales) or submit a ticket at the [Zilliz Support Portal](https://support.zilliz.com/hc/en-us).
 
 ## View costs and usage{#view-costs-and-usage}
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

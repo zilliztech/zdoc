@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists all custom roles. | Java | v2"
 type: docx
 token: XIIyd3bMzoAVx3xVsoLcnQ2pnKh
-sidebar_position: 9
+sidebar_position: 14
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - listRoles()
-  - javaV2
+  - javaV225
+  - nlp search
+  - hallucinations llm
   - Multimodal search
   - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
 displayed_sidebar: javaSidebar
 
 ---

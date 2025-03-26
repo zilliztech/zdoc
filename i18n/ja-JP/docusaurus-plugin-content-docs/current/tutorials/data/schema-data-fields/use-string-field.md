@@ -16,10 +16,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

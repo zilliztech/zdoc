@@ -8,21 +8,21 @@ notebook: false
 description: "This operation creates a user. | Java | v2"
 type: docx
 token: OTMXd9uNWoMwe4xvg70cg49Pnmh
-sidebar_position: 2
+sidebar_position: 4
 keywords: 
-  - Pinecone vs Milvus
   - Chroma vs Milvus
   - Annoy vector search
   - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - createUser()
-  - javaV2
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - javaV225
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: javaSidebar
 
 ---

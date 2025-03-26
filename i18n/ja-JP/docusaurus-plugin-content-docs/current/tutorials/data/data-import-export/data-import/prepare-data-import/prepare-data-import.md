@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

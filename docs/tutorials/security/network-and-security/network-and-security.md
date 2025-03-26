@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Learn more about how to set up whitelist and private links to secure the access to your data on Zilliz Cloud. | Cloud"
 type: origin
 token: WVcuwmMQ8iKlrKk7Kwacu9w1nCZ
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - network
   - security
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

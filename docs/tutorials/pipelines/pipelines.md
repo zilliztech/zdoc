@@ -2,7 +2,7 @@
 title: "Pipelines | Cloud"
 slug: /pipelines
 sidebar_label: "Pipelines"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Pipelines transform your unstructured data to a searchable vector collection, chaining up the embedding, ingestion, search, and deletion of your data. | Cloud"
 type: origin
@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - pipelines
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

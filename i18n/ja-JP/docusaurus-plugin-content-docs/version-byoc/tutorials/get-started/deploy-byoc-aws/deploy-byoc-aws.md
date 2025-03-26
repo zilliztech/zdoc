@@ -2,7 +2,7 @@
 title: "AWSでBYOCをデプロイする | BYOC"
 slug: /deploy-byoc-aws
 sidebar_label: "AWSでBYOCをデプロイする"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "このページでは、Zilliz CloudコンソールとカスタムAWS設定を使用して、Zilliz Cloud Bring-Your-Own-Cloud (BYOC)組織内でプロジェクトを手動で作成する方法について説明します。 | BYOC"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - aws
   - milvus
   - vector database
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 
@@ -42,7 +42,9 @@ import Admonition from '@theme/Admonition';
 
 AWSにBYOCを展開するには、Zilliz Cloudは、お客様が管理するVPC内のS3バケットとEKSクラスターにアクセスするための特定の役割を担う必要があります。そのため、Zilliz Cloudは、S3バケット、EKSクラスター、VPCに関する情報と、これらのインフラストラクチャリソースにアクセスするために必要な役割を収集する必要があります。
 
-[**Create Project and Deploy Data Plane**]ボタンをクリックして、デプロイを開始します。
+BYOC組織内で、[**プロジェクトの作成とデータプレーンのデプロイ**]ボタンをクリックしてデプロイを開始します。
+
+![YSBFbBGscoLGykx4dx1cMs4LnTd](/byoc/ja-JP/YSBFbBGscoLGykx4dx1cMs4LnTd.png)
 
 ### 一般の設定{#general-settings}
 
@@ -181,7 +183,17 @@ AWSにBYOCを展開するには、Zilliz Cloudは、お客様が管理するVPC�
 
 ![QJ57bgqmjoIP0Qx5niSc4SJHnab](/byoc/ja-JP/QJ57bgqmjoIP0Qx5niSc4SJHnab.png)
 
+## 一時停止と再開 {#suspend-and-resume}
 
+プロジェクトを一時停止すると、データプレーンが停止し、プロジェクトに関連付けられているすべてのEC 2インスタンスとEKSクラスターが終了します。このアクションは、プロジェクト内の一時停止されたZilliz Cloudクラスターには影響しません。データプレーンが復元されたら再開できます。
+
+![KgmubOHigoPnlHx7ID9cJmeWn8b](/byoc/ja-JP/KgmubOHigoPnlHx7ID9cJmeWn8b.png)
+
+実行中のプロジェクトを一時停止できるのは、プロジェクトにクラスターがない場合、またはすべてのクラスターがすでに一時停止されている場合のみです。
+
+![JEMybaDxEoIAS6xT0vdc2vm2nzb](/byoc/ja-JP/JEMybaDxEoIAS6xT0vdc2vm2nzb.png)
+
+プロジェクトカードのステータスタグが**Suspended**になると、プロジェクト内のクラスタを操作できなくなります。その場合は、**Resume**をクリックしてプロジェクトを再開できます。ステータスタグが再び**Running**に変わると、プロジェクト内のクラスタの操作を続けることができます。
 
 import DocCardList from '@theme/DocCardList';
 

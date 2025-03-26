@@ -2,7 +2,7 @@
 title: "listAliases() | Java | v1"
 slug: /java/v1-Alias-listAliases
 sidebar_label: "listAliases()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "A MilvusClient interface. This method lists the aliases of a collection. | Java | v1"
 type: origin

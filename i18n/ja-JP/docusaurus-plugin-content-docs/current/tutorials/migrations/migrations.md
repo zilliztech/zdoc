@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

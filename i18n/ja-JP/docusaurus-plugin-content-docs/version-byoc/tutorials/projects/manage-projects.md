@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

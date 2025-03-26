@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

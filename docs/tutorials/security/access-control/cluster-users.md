@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 
@@ -49,7 +49,7 @@ When creating a cluster user, you need to:
 
 - Grant this user either a built-in cluster role or [a custom cluster role](./cluster-roles).
 
-- Set the password for this cluster user. This password will be used for [authentication](./cluster-credentials-console).
+- Set the password for this cluster user. This password will be used for [authentication](./cluster-credentials).
 
 ![add-cluster-user](/img/add-cluster-user.png)
 

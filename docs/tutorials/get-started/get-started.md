@@ -13,10 +13,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

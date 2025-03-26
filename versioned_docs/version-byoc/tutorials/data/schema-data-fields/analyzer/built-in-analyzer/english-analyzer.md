@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - english analyzer
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 
@@ -32,7 +32,7 @@ import TabItem from '@theme/TabItem';
 
 The `english` analyzer in Zilliz Cloud is designed to process English text, applying language-specific rules for tokenization and filtering.
 
-### Definition{#definition}
+## Definition{#definition}
 
 The `english` analyzer uses the following components:
 
@@ -48,7 +48,7 @@ The `english` analyzer uses the following components:
 
 The functionality of the `english` analyzer is equivalent to the following custom analyzer configuration:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -89,13 +89,55 @@ analyzerParams.put("filter",
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "type": "standard", // Specifies the standard analyzer type
+    "stop_words", ["of"] // Optional: List of words to exclude from tokenization
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "tokenizer": "standard",
+  "filter": [
+    "lowercase",
+    {
+      "type": "stemmer",
+      "language": "english"
+    },
+    {
+      "type": "stop",
+      "stop_words": "_english_"
+    }
+  ]
+}'
+
+```
+
+</TabItem>
 </Tabs>
 
-### Configuration{#configuration}
+## Configuration{#configuration}
 
 To apply the `english` analyzer to a field, simply set `type` to `english` in `analyzer_params`, and include optional parameters as needed.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -111,6 +153,35 @@ analyzer_params = {
 ```java
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "english");
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "type": "english",
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "type": "english"
+}'
 ```
 
 </TabItem>
@@ -131,7 +202,7 @@ The `english` analyzer accepts the following optional parameters:
 
 Example configuration with custom stop words:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -152,23 +223,158 @@ analyzerParams.put("stop_words", Arrays.asList("a", "an", "the"));
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "type": "english",
+    "stop_words": ["a", "an", "the"]
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "type": "english",
+  "stop_words": [
+    "a",
+    "an",
+    "the"
+  ]
+}'
+
+```
+
+</TabItem>
 </Tabs>
 
 After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview).
 
-### Example output{#example-output}
+## Examples{#examples}
 
-Here’s how the `english` analyzer processes text.
+Before applying the analyzer configuration to your collection schema, verify its behavior using the `run_analyzer` method.
 
-**Original text**:
+**Analyzer configuration**:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
-"The Milvus vector database is built for scale!"
+analyzer_params = {
+    "type": "english",
+    "stop_words": ["a", "an", "the"]
+}
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// javascript
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "type": "english",
+  "stop_words": [
+    "a",
+    "an",
+    "the"
+  ]
+}'
+
+```
+
+</TabItem>
+</Tabs>
+
+**Verification using `run_analyzer`:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+# Sample text to analyze
+sample_text = "Milvus is a vector database built for scale!"
+
+# Run the standard analyzer with the defined configuration
+result = MilvusClient.run_analyzer(sample_text, analyzer_params)
+print("English analyzer output:", result)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// javascript
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
 
 **Expected output**:
 
 ```python
-["milvus", "vector", "databas", "built", "scale"]
+English analyzer output: ['milvus', 'vector', 'databas', 'built', 'scale']
 ```
 

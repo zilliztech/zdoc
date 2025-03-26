@@ -10,19 +10,19 @@ type: docx
 token: RkQ8dnWDHo3DiDxiCVRcP1xPnob
 sidebar_position: 18
 keywords: 
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - index()
   - pymilvus25
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: pythonSidebar
 
 ---

@@ -2,7 +2,7 @@
 title: "クロスアカウントIAMロールの作成 | BYOC"
 slug: /create-cross-account-role
 sidebar_label: "クロスアカウントIAMロールの作成"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "このページでは、プロジェクトをブートストラップするためにZilliz Cloudのクロスアカウントロールを作成および設定する方法について説明します。このロールにより、Zilliz Cloudはあなたの代わりにVPCリソースを管理するための制限付き権限を与えられます。 | BYOC"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

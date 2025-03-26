@@ -10,19 +10,19 @@ type: docx
 token: VblKdUEU4o4t31xcFiicIGtjn9g
 sidebar_position: 7
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - release_partitions()
   - pymilvus25
+  - how does milvus work
   - Zilliz vector database
   - Zilliz database
   - Unstructured Data
-  - vector database
 displayed_sidebar: pythonSidebar
 
 ---

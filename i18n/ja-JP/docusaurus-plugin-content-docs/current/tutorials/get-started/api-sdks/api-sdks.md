@@ -7,7 +7,7 @@ notebook: FALSE
 description: "この章では、RESTful APIとSDKを使用またはインストールする手順と、それらのリファレンスドキュメントにアクセスできます。 | Cloud"
 type: origin
 token: AiLpwtyT3ieHFikJsUDc9kgunUb
-sidebar_position: 10
+sidebar_position: 11
 keywords: 
   - zilliz
   - milvus
@@ -20,10 +20,10 @@ keywords:
   - go
   - node
   - nodejs
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

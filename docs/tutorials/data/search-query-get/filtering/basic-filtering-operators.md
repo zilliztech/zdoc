@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
+  - Zilliz database
   - Unstructured Data
   - vector database
   - IVF
-  - knn
 
 ---
 

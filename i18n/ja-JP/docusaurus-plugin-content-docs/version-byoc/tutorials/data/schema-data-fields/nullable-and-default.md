@@ -16,10 +16,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 
@@ -1046,7 +1046,7 @@ curl --request POST \
      <td><p>非null</p></td>
      <td><p>なし/null</p></td>
      <td><p>デフォルト値を使用する</p></td>
-     <td><p>フィールド:<code>age</code></p><p>デフォルト値:<code>18</code></p><p>ユーザー入力: null</p><p>結果:として保存<code>18</code></p></td>
+     <td><p>フィールド:<code>age</code> デフォルト値:<code>18</code></p><p>ユーザー入力: null</p><p>結果:として保存<code>18</code></p></td>
    </tr>
    <tr>
      <td><p>✅</p></td>
@@ -1054,7 +1054,7 @@ curl --request POST \
      <td><p>-</p></td>
      <td><p>なし/null</p></td>
      <td><p>nullとして保存</p></td>
-     <td><p>フィールド:<code>middle_name</code></p><p>デフォルト値:-</p><p>ユーザー入力: null</p><p>結果: nullとして保存</p></td>
+     <td><p>フィールド:<code>middle_name</code> デフォルト値:-</p><p>ユーザー入力: null</p><p>結果: nullとして保存</p></td>
    </tr>
    <tr>
      <td><p>❌</p></td>
@@ -1062,7 +1062,7 @@ curl --request POST \
      <td><p>非null</p></td>
      <td><p>なし/null</p></td>
      <td><p>デフォルト値を使用する</p></td>
-     <td><p>フィールド:<code>status</code></p><p>デフォルト値:<code>"active"</code></p><p>ユーザー入力: null</p><p>結果:"active"として保存されました。</p></td>
+     <td><p>フィールド:<code>status</code> デフォルト値:<code>"active"</code></p><p>ユーザー入力: null</p><p>結果:"active"として保存されました。</p></td>
    </tr>
    <tr>
      <td><p>❌</p></td>
@@ -1070,7 +1070,7 @@ curl --request POST \
      <td><p>-</p></td>
      <td><p>なし/null</p></td>
      <td><p>エラーをスローする</p></td>
-     <td><p>フィールド:<code>email</code></p><p>デフォルト値:-</p><p>ユーザー入力: null</p><p>結果:操作が拒否され、システムがエラーをスローします</p></td>
+     <td><p>フィールド:<code>email</code> デフォルト値:-</p><p>ユーザー入力: null</p><p>結果:操作が拒否され、システムがエラーをスローします</p></td>
    </tr>
    <tr>
      <td><p>❌</p></td>
@@ -1078,7 +1078,7 @@ curl --request POST \
      <td><p>null</p></td>
      <td><p>なし/null</p></td>
      <td><p>エラーをスローする</p></td>
-     <td><p>フィールド:<code>username</code></p><p>デフォルト値: null</p><p>ユーザー入力: null</p><p>結果:操作が拒否され、システムがエラーをスローします</p></td>
+     <td><p>フィールド:<code>username</code> デフォルト値: null</p><p>ユーザー入力: null</p><p>結果:操作が拒否され、システムがエラーをスローします</p></td>
    </tr>
 </table>
 

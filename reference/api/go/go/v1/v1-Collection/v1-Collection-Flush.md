@@ -1,7 +1,10 @@
 ---
+title: "Flush() | Go | v1"
 slug: /go/v1-Collection-Flush
+sidebar_label: "Flush()"
 beta: FALSE
 notebook: FALSE
+description: "This method synchronously stores entities from memory to storage and returns when the operations on every segments are complete. | Go | v1"
 type: origin
 token: CxPiwKWyZiFeQXkLvCAclaCKnDc
 sidebar_position: 16

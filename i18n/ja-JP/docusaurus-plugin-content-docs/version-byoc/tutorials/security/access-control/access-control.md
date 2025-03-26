@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Zilliz Cloudがより効率的なアクセス制御のためにRBACを実装する方法や、クラスターのユーザーやロール、特権を管理する方法について詳しく学びましょう。 | BYOC"
 type: origin
 token: KVrtwkOo8i9B0wk50UUcno8vnjc
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

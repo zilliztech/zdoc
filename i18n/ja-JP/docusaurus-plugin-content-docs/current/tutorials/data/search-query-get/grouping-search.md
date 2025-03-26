@@ -16,10 +16,10 @@ keywords:
   - data
   - grouping search
   - group
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 
@@ -247,7 +247,7 @@ curl --request POST \
 
 上記のリクエストでは、`limit=3`は、システムが3つのグループから検索結果を返すことを示しています。各グループには、クエリベクトルに最も似た単一のエンティティが含まれています。
 
-## グループの体格を設定{#configure-group-size}
+## グループの体格を設定 | PUBLIC{#configure-group-size}
 
 デフォルトでは、グループごとに1つのエンティティのみが返されます。グループごとに複数の結果を取得したい場合は、`group_size`と`strict_group_size`パラメータを調整してください。
 

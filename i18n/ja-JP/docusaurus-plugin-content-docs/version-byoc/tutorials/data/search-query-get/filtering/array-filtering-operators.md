@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - array operators
+  - Retrieval Augmented Generation
+  - Large language model
   - Vectorization
   - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
 
 ---
 

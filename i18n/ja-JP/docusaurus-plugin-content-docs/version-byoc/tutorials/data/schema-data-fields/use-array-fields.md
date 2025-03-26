@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - array field
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

@@ -49,7 +49,7 @@ This struct type defines all possible client configuration items as follows:
 
 ```go
 type ClientConfig struct {
-    Address  string // Remote address, "localhost:19530".
+    Address  string // Remote address, "YOUR_CLUSTER_ENDPOINT".
     Username string // Username for auth.
     Password string // Password for auth.
     DBName   string // DBName for this client.

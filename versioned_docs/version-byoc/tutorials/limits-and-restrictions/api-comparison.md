@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 
@@ -510,12 +510,3 @@ The table below provides a comparison of API availability across various service
      <td><p>✔︎</p></td>
    </tr>
 </table>
-
-## Related topics{#related-topics}
-
-- [Migrate from Milvus 1.x](./via-backup-files)
-
-- [AUTOINDEX Explained](./autoindex-explained)
-
-- [Select the Right CU](./cu-types-explained) 
-

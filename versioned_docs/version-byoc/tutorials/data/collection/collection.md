@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - collection
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

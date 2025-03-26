@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Zilliz Cloudにデータを移動する前のリソースプランニングに関するトピック。 | BYOC"
 type: origin
 token: QShBwEVusiPyWDkfnjfc8yxFnHe
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
   - cloud
   - resource
   - planning
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

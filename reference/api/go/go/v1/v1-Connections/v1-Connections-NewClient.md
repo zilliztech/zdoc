@@ -1,7 +1,10 @@
 ---
+title: "NewClient() | Go | v1"
 slug: /go/v1-Connections-NewClient
+sidebar_label: "NewClient()"
 beta: FALSE
 notebook: FALSE
+description: "This method creates a Milvus client that connects to a specific Milvus deployment. | Go | v1"
 type: origin
 token: PAGGwMYtHiub33knSlCcSAZ5nIc
 sidebar_position: 1
@@ -46,7 +49,7 @@ This struct type defines all possible client configuration items as follows:
 
 ```go
 type Config struct {
-    Address       string // Remote address, "localhost:19530".
+    Address       string // Remote address, "YOUR_CLUSTER_ENDPOINT".
     Username      string // Username for auth.
     Password      string // Password for auth.
     DBName        string // DBName for this client.

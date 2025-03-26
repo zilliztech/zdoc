@@ -18,10 +18,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

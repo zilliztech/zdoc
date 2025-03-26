@@ -15,10 +15,10 @@ keywords:
   - collection
   - load
   - release
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 
@@ -317,7 +317,8 @@ if err != nil {
 <TabItem value='bash'>
 
 ```bash
-# REST 缺失
+# REST
+Not support yet
 ```
 
 </TabItem>

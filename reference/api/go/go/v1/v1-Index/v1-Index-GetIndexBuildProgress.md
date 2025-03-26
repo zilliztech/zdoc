@@ -1,7 +1,10 @@
 ---
+title: "GetIndexBuildProgress() | Go | v1"
 slug: /go/v1-Index-GetIndexBuildProgress
+sidebar_label: "GetIndexBuildProgress()"
 beta: FALSE
 notebook: FALSE
+description: "This method returns the building progress of a specific index. | Go | v1"
 type: origin
 token: BvhOwiKLSijDIdk04p8cpet8nRe
 sidebar_position: 4
@@ -45,7 +48,7 @@ func (c *GrpcClient) GetIndexBuildProgress(ctx context.Context, collName string,
    </tr>
    <tr>
      <td><p><code>opts</code></p></td>
-     <td><p>Extra index settings</p><p>You can include multiple <code>entity.IndexOption</code> in this request.</p></td>
+     <td><p>Extra index settings You can include multiple <code>entity.IndexOption</code> in this request.</p></td>
      <td><p><code>client.IndexOption</code></p></td>
    </tr>
 </table>
