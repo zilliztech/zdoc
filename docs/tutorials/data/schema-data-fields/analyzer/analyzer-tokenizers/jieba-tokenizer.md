@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - jieba-tokenizer
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 
@@ -36,7 +36,7 @@ The `jieba` tokenizer processes Chinese text by breaking it down into its compon
 
 To configure an analyzer using the `jieba` tokenizer, set `tokenizer` to `jieba` in `analyzer_params`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -55,19 +55,134 @@ analyzerParams.put("tokenizer", "jieba");
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "tokenizer": "jieba",
+};
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
 </Tabs>
 
 After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview#example-use).
 
-## Example output{#example-output}
+## Examples{#examples}
 
-Here’s an example of how the `jieba` tokenizer processes text:
+Before applying the analyzer configuration to your collection schema, verify its behavior using the `run_analyzer` method.
 
-**Original text**:
+**Analyzer configuration**:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
-"Milvus 是一个高性能、可扩展的向量数据库！"
+analyzer_params = {
+    "tokenizer": "jieba",
+}
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// javascript
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+**Verification using `run_analyzer`:**
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+# Sample text to analyze
+sample_text = "Milvus 是一个高性能、可扩展的向量数据库！"
+
+# Run the standard analyzer with the defined configuration
+result = MilvusClient.run_analyzer(sample_text, analyzer_params)
+print(result)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// javascript
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
 
 **Expected output**:
 

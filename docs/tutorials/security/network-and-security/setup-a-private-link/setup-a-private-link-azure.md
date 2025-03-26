@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

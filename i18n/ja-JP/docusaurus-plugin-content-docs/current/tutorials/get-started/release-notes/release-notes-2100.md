@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 
@@ -83,7 +83,7 @@ Milvusの以前のリリースでは、メモリベースのバイナリサー�
 
 機械学習やニューラルネットワークは、しばしばFloat 16やBFloatなどの半精度データ型を使用します。これらのデータ型は、クエリの効率を向上させ、メモリ使用量を減らすことができますが、精度は低下します。このリリースにより、Zilliz Cloudはベクトルフィールドに対してこれらのデータ型をサポートするようになりました。
 
-サンプルコードは[float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/float16_example.py)と[bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/bfloat16_example.py)にあります。
+サンプルコードは[float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/float16_example.py)と[bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/bfloat16_example.py)にあります。
 
 ### マルチレプリカ{#multi-replica}
 
@@ -103,7 +103,7 @@ Zilliz Cloudは、ユーザーが簡単に移行タスクを完了できる包�
 
 - 他のオープンソースデータベースからZilliz Cloudへの移行をサポートしています。現在、pgvectorとElasticsearchからの移行がサポートされています。移行対象は、Free Planインスタンス、Serverlessインスタンス、またはDedicated Clusterです。詳細については、「[ElasticsearchからZilliz Cloudへの移行](./migrate-from-elasticsearch)」と「[Postgre SQLからZilliz Cloudに移行](./migrate-from-tencent-cloud)」を参照してください。
 
-- Zilliz Cloud内でデータを移行し、組織内および組織間のデータ移行をサポートします。詳細については、[クラスタ間の移行](./undefined)を参照してください。
+- Zilliz Cloud内でデータを移行し、組織内および組織間のデータ移行をサポートします。詳細については、[クラスタ間の移行](./migrate-between-clusters)を参照してください。
 
 ### バックアップ/復元/移行/ジョブRESTful API{#backuprestoremigrationjobs-restful-api}
 

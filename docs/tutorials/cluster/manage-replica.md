@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

@@ -8,21 +8,21 @@ notebook: false
 description: "This operation describes a specific user. | Java | v2"
 type: docx
 token: YLQJdvVA8odibAx7mQscYwMVn8g
-sidebar_position: 4
+sidebar_position: 6
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - describeUser()
-  - javaV2
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - javaV225
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 displayed_sidebar: javaSidebar
 
 ---

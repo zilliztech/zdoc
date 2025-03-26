@@ -8,21 +8,21 @@ notebook: false
 description: "This operation checks whether a specific collection exists. | Node.js"
 type: docx
 token: FhbbdNrlNouBXJxHIdKctXVKnmf
-sidebar_position: 11
+sidebar_position: 15
 keywords: 
+  - vector similarity search
   - approximate nearest neighbor search
   - DiskANN
   - Sparse vector
-  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - hasCollection()
-  - node
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - nodejs25
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: nodeSidebar
 
 ---

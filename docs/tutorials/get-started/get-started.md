@@ -13,10 +13,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

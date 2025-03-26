@@ -8,21 +8,21 @@ notebook: false
 description: "This operation checks whether the specified partition exists in the specified collection. | Java | v2"
 type: docx
 token: NS1xdv6f4oQlN4xqnOGc6ssWnTf
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - hasPartition()
-  - javaV2
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - javaV225
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 displayed_sidebar: javaSidebar
 
 ---

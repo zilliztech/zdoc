@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

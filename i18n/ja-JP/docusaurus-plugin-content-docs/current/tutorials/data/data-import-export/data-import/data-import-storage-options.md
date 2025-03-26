@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - json operators
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

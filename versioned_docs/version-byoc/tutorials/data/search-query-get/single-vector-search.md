@@ -16,10 +16,10 @@ keywords:
   - data
   - vector search
   - ann
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 
@@ -541,7 +541,8 @@ curl --request POST \
 #               "id": 232
 #           }
 #        ]
-#     ]
+#     ],
+#     "topks":[3]
 # }
 ```
 
@@ -720,7 +721,8 @@ curl --request POST \
 #             "distance": 0.07794742286205292,
 #             "id": 43
 #         }
-#     ]
+#     ],
+#     "topks":[3]
 # }
 ```
 
@@ -906,7 +908,8 @@ curl --request POST \
 #             "id": 43
 #             "color": "grey_8510"
 #         }
-#     ]
+#     ],
+#     "topks":[3]
 # }
 ```
 
@@ -1089,7 +1092,7 @@ This parameter ranges from `1` to `10` and defaults to `1`. Increasing the value
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1147,6 +1150,14 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -1191,7 +1202,7 @@ curl --request POST \
     }
 }'
 
-# {"code":0,"cost":0,"data":[{"distance":1,"id":0},{"distance":0.6290165,"id":1},{"distance":0.5975797,"id":4},{"distance":0.9999999,"id":1},{"distance":0.7408552,"id":7},{"distance":0.6290165,"id":0}]}
+# {"code":0,"cost":0,"data":[{"distance":1,"id":0},{"distance":0.6290165,"id":1},{"distance":0.5975797,"id":4},{"distance":0.9999999,"id":1},{"distance":0.7408552,"id":7},{"distance":0.6290165,"id":0}],"topks":[3]}
 ```
 
 </TabItem>
@@ -1207,7 +1218,7 @@ You can set `enable_recall_calculation` to `true`when you tweek the `level` para
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1267,6 +1278,14 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -1313,7 +1332,7 @@ curl --request POST \
     }
 }'
 
-# {"code":0,"cost":0,"data":[{"distance":1,"id":0},{"distance":0.6290165,"id":1},{"distance":0.5975797,"id":4},{"distance":0.9999999,"id":1},{"distance":0.7408552,"id":7},{"distance":0.6290165,"id":0}]}
+# {"code":0,"cost":0,"data":[{"distance":1,"id":0},{"distance":0.6290165,"id":1},{"distance":0.5975797,"id":4},{"distance":0.9999999,"id":1},{"distance":0.7408552,"id":7},{"distance":0.6290165,"id":0}],"topks":[3]}
 ```
 
 </TabItem>

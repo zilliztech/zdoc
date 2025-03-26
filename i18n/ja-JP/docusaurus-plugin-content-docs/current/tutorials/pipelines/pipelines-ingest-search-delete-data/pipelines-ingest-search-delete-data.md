@@ -16,10 +16,10 @@ keywords:
   - ingest
   - search
   - delete
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

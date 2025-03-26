@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

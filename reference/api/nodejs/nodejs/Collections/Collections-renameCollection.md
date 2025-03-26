@@ -8,21 +8,21 @@ notebook: false
 description: "This operation renames an existing collection. | Node.js"
 type: docx
 token: LSwVdMg4SorzZ5xSHHVcQeVDnfh
-sidebar_position: 15
+sidebar_position: 19
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - renameCollection()
-  - node
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - nodejs25
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: nodeSidebar
 
 ---

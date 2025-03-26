@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Hybrid Search achieves more precise search results through multiple simultaneous ANN searches. Multiple searches return several sets of results, which require a reranking strategy to help merge and reorder the results and return a single set of results. This guide will introduce the reranking strategies supported by Zilliz Cloud and provide tips for selecting the appropriate reranking strategy. | BYOC"
 type: origin
 token: M4IYwThFKiatBkk0Cp3c9p4QnZc
-sidebar_position: 19
+sidebar_position: 20
 keywords: 
   - zilliz
   - vector database
@@ -16,10 +16,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
+  - Neural Network
   - Deep Learning
   - Knowledge base
   - natural language processing
-  - AI chatbots
 
 ---
 
@@ -128,9 +128,9 @@ This example demonstrates a multimodal Hybrid Search (topK=5) involving images a
 <table>
    <tr>
      <th><p><strong>ID</strong></p></th>
-     <th><p><strong>Score (图像)</strong></p></th>
-     <th><p><strong>Score (文本)</strong></p></th>
-     <th><p><strong>最终加权后的 Score</strong></p></th>
+     <th><p><strong>Score (image)</strong></p></th>
+     <th><p><strong>Score (text)</strong></p></th>
+     <th><p><strong>Weighted Score</strong></p></th>
    </tr>
    <tr>
      <td><p>101</p></td>
@@ -180,9 +180,9 @@ This example demonstrates a multimodal Hybrid Search (topK=5) involving images a
 
 <table>
    <tr>
-     <th><p><strong>排名</strong></p></th>
+     <th><p><strong>Rank</strong></p></th>
      <th><p><strong>ID</strong></p></th>
-     <th><p><strong>最终 Score</strong></p></th>
+     <th><p><strong>Final Score</strong></p></th>
    </tr>
    <tr>
      <td><p>1</p></td>
@@ -217,7 +217,7 @@ When using the WeightedRanker strategy, it is necessary to input weight values. 
 
 For example, suppose there are two basic ANN search requests in a Hybrid Search: text search and image search. If the text search is considered more important, it should be assigned a greater weight.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -234,6 +234,14 @@ rerank= WeightedRanker(0.8, 0.3)
 import io.milvus.v2.service.vector.request.ranker.WeightedRanker;
 
 WeightedRanker rerank = new WeightedRanker(Arrays.asList(0.8f, 0.3f))
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -343,9 +351,9 @@ This example demonstrates a Hybrid Search (topK=5) on sparse-dense vectors and i
 <table>
    <tr>
      <th><p><strong>ID</strong></p></th>
-     <th><p><strong>Score (稀疏)</strong></p></th>
-     <th><p><strong>Score (稠密)</strong></p></th>
-     <th><p><strong>最终 Score</strong></p></th>
+     <th><p><strong>Score (Sparse)</strong></p></th>
+     <th><p><strong>Score (Dense)</strong></p></th>
+     <th><p><strong>Final Score</strong></p></th>
    </tr>
    <tr>
      <td><p>101</p></td>
@@ -395,9 +403,9 @@ This example demonstrates a Hybrid Search (topK=5) on sparse-dense vectors and i
 
 <table>
    <tr>
-     <th><p><strong>排名</strong></p></th>
+     <th><p><strong>Rank</strong></p></th>
      <th><p><strong>ID</strong></p></th>
-     <th><p><strong>最终 Score</strong></p></th>
+     <th><p><strong>Final Score</strong></p></th>
    </tr>
    <tr>
      <td><p>1</p></td>
@@ -430,7 +438,7 @@ This example demonstrates a Hybrid Search (topK=5) on sparse-dense vectors and i
 
 When using the RRF reranking strategy, you need to configure the parameter `k`. It is a smoothing parameter that can effectively alter the relative weights of full-text search versus vector search. The default value of this parameter is 60, and it can be adjusted within a range of (0, 16384). The value should be floating-point numbers. The recommended value is between [10, 100]. While `k=60` is a common choice, the optimal `k` value can vary depending on your specific applications and datasets. We recommend testing and adjusting this parameter based on your specific use case to achieve the best performance.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -447,6 +455,14 @@ ranker = RRFRanker(100)
 import io.milvus.v2.service.vector.request.ranker.RRFRanker;
 
 RRFRanker ranker = new RRFRanker(100);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>

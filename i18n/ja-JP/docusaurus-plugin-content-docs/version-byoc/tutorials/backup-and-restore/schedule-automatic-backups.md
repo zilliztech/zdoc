@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

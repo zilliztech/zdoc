@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 
@@ -671,7 +671,7 @@ curl --request POST \
 
 Zilliz Cloud enables mmap on all collections by default, allowing Zilliz Cloud to map raw field data into memory instead of fully loading them. This reduces memory footprints and increases collection capacity. For details on mmap, refer to [Use mmap](./use-mmap).
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
 <TabItem value='python'>
 
 ```python
@@ -733,19 +733,30 @@ fmt.Println("collection created")
 ```
 
 </TabItem>
-
-<TabItem value='bash'>
-
-```bash
-# REST 暂无此功能。
-```
-
-</TabItem>
 </Tabs>
+
+```plaintext
+export params='{
+    "mmap.enabled": True
+}'
+
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d "{
+    \"collectionName\": \"customized_setup_5\",
+    \"schema\": $schema,
+    \"params\": $params
+}"
+```
 
 ### Set Collection TTL{#set-collection-ttl}
 
-If a collection needs to be dropped for a specific period, consider setting its Time-To-Live (TTL) in seconds. Once the TTL times out, Zilliz Cloud deletes entities in the collection and drops the collection. The deletion is asynchronous, indicating that searches and queries are still possible before the deletion is complete.
+If the data in a collection needs to be dropped for a specific period, consider setting its Time-To-Live (TTL) in seconds. Once the TTL times out, Zilliz Cloud deletes entities in the collection. The deletion is asynchronous, indicating that searches and queries are still possible before the deletion is complete.
 
 The following code snippet sets the TTL to one day (86400 seconds). You are advised to set the TTL to a couple of days at minimum.
 

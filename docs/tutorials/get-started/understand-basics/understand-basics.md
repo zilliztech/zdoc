@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Explanations about the common terms we use when discussing how to use Zilliz Cloud. | Cloud"
 type: origin
 token: L4qDwChWLi1Vy6kbt30cd7W4ntC
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database

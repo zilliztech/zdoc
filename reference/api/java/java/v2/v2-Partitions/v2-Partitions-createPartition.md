@@ -18,11 +18,11 @@ keywords:
   - zilliz cloud
   - cloud
   - createPartition()
-  - javaV2
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - javaV225
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: javaSidebar
 
 ---

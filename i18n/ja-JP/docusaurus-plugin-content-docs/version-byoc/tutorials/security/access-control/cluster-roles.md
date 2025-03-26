@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

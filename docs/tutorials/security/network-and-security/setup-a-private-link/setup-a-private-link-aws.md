@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 
@@ -173,7 +173,7 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
            </tr>
            <tr>
              <td><p><strong>Domain name</strong></p></td>
-             <td><p></p><p>Private Link allocated by Zilliz Cloud for the target cluster.</p><p></p></td>
+             <td><p>Private Link allocated by Zilliz Cloud for the target cluster.</p></td>
            </tr>
            <tr>
              <td><p><strong>Description</strong></p></td>
@@ -194,23 +194,6 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
     ![VoCsbJtTDo1glVx0vtGcqWPRnEd](/img/VoCsbJtTDo1glVx0vtGcqWPRnEd.png)
 
     1. In the created hosted zone, click **Create record**.
-
-    1. Set **Record name** to match the cloud region where your current project is deployed.
-
-        <table>
-           <tr>
-             <th><p>AWS Region</p></th>
-             <th><p>Record name</p></th>
-           </tr>
-           <tr>
-             <td><p>us-west-2</p></td>
-             <td><p><code>zilliz-byoc-us</code></p></td>
-           </tr>
-           <tr>
-             <td><p>eu-central-1</p></td>
-             <td><p><code>zilliz-byoc-eu</code></p></td>
-           </tr>
-        </table>
 
     1. On the **Create record** page, switch on **Alias**, and select Route traffic to as follows:
 

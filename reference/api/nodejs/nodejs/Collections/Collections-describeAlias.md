@@ -8,21 +8,21 @@ notebook: false
 description: "This operation describes a specific alias. | Node.js"
 type: docx
 token: YCzNdg5yWoeZVrxj7jGcb1UXnBd
-sidebar_position: 6
+sidebar_position: 8
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - describeAlias()
-  - node
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - nodejs25
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 displayed_sidebar: nodeSidebar
 
 ---

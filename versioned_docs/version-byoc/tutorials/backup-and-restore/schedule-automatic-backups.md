@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

@@ -8,21 +8,21 @@ notebook: false
 description: "This operation grants a role to a user. | Java | v2"
 type: docx
 token: JB90dbBNRoz1I2xZY5rcSmJ1nSb
-sidebar_position: 8
+sidebar_position: 12
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - grantRole()
-  - javaV2
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - javaV225
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 displayed_sidebar: javaSidebar
 
 ---

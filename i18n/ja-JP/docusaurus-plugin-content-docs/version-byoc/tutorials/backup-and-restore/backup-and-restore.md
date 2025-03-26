@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
+  - Zilliz
   - milvus vector database
   - milvus db
   - milvus vector db
-  - Zilliz Cloud
 
 ---
 

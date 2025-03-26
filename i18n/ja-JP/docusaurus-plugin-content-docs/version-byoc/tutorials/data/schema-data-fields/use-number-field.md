@@ -18,10 +18,10 @@ keywords:
   - int
   - integer
   - float
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

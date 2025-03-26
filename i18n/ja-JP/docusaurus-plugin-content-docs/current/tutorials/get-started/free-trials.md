@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Zilliz Cloudは、無料プランと無料トライアルの両方を提供しており、強力なベクトルデータベース機能を評価またはテストし、Zilliz Cloudの使用コストを見積もるのに役立ちます。開始するには、Zilliz Cloudにアカウントを登録するだけです。支払い情報は必要ありません。 | Cloud"
 type: origin
 token: CBrbwbZtoiIcEFkUOTYcUjFMnze
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - free trial
   - milvus
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 
@@ -46,7 +46,7 @@ Zilliz Cloudは、Serverless、Dedicated(Standard)、Dedicated(Enterprise)の3�
 
 ### 無料トライアルを利用する{#use-free-trial}
 
-Zilliz Cloudにサインアップすると、組織は請求アカウントに追加される**$100**の無料クレジットを受け取ります。これらのクレジットは**30日**後に期限切れとなり、サーバーレスおよび専用プランを探索するために使用できます。クレジットが使い果たされるか期限切れになると、無料トライアルは終了します。
+Zilliz Cloudに仕事用のメールでサインアップし、アンケートに回答すると、組織は請求アカウントに追加される**100ドル**の無料クレジットを受け取ります。これらのクレジットは**30日後**に期限切れとなり、サーバーレスおよび専用プランを探索するために使用できます。クレジットが使い果たされるか期限切れになると、無料トライアルは終了します。
 
 トライアル後、あなたの組織は凍結されます。この間、サーバーレスおよび専用クラスターは[ごみ箱](./use-recycle-bin)に移動され、これらのクラスター専用の機能(バックアップと復元、アラートなど)にアクセスできなくなります。
 

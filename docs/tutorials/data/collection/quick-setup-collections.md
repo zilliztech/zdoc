@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - quick-setup
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 
@@ -358,7 +358,28 @@ console.log(res.state)
 <TabItem value='go'>
 
 ```go
-// Go 缺失
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+    // handle err
+}
+
+err = cli.CreateCollection(ctx, milvusclient.SimpleCreateCollectionOptions("custom_quick_setup", 512).
+    WithPKFieldName("my_id").
+    WithVarcharPK(true, 512).
+    WithVectorFieldName("my_vector").
+    WithMetricType(entity.L2).
+    WithShardNum(5).
+    WithAutoID(true),
+)
+if err != nil {
+    log.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>

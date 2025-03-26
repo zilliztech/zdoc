@@ -2,7 +2,7 @@
 title: "getLoadingProgress() | Java | v1"
 slug: /java/v1-Collection-getLoadingProgress
 sidebar_label: "getLoadingProgress()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "A MilvusClient interface. This method gets loading collection progress. | Java | v1"
 type: origin

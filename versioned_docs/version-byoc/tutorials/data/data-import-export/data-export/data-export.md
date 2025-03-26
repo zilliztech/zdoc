@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

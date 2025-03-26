@@ -14,10 +14,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 
@@ -53,12 +53,12 @@ For more information about recommended actions, refer to [Metrics & Alerts Refer
    <tr>
      <td><p>CU Computation</p></td>
      <td><p>%</p></td>
-     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized computational power for 10+ minutes.</p><p><strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized computational power for 10+ minutes.</p></td>
+     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized computational power for 10+ minutes. <strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized computational power for 10+ minutes.</p></td>
    </tr>
    <tr>
      <td><p>CU Capacity</p></td>
      <td><p>%</p></td>
-     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized CU capacity for 10+ minutes.</p><p><strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized CU capacity for 10+ minutes.</p></td>
+     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized CU capacity for 10+ minutes. <strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized CU capacity for 10+ minutes.</p></td>
    </tr>
    <tr>
      <td><p>Search (QPS)</p></td>

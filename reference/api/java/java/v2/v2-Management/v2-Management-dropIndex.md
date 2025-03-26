@@ -8,21 +8,21 @@ notebook: false
 description: "This operation drops an index from a specific collection. | Java | v2"
 type: docx
 token: KdFEdP8ZToYvZ1xmmQgcE62unUf
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndex()
-  - javaV2
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - javaV225
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: javaSidebar
 
 ---

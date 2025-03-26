@@ -8,21 +8,21 @@ notebook: false
 description: "This operation updates the password of a specific user. | Java | v2"
 type: docx
 token: GQH8dgqlPoRY1sxFhCRcLlgInNc
-sidebar_position: 13
+sidebar_position: 20
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - updatePassword()
-  - javaV2
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - javaV225
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: javaSidebar
 
 ---

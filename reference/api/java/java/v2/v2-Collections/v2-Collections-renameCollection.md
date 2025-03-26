@@ -8,21 +8,21 @@ notebook: false
 description: "This operation renames an existing collection. | Java | v2"
 type: docx
 token: CtTvdQVMoo2ec5xbWTPcSzjNnQc
-sidebar_position: 16
+sidebar_position: 22
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - renameCollection()
-  - javaV2
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - javaV225
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: javaSidebar
 
 ---

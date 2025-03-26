@@ -14,10 +14,10 @@ keywords:
   - register
   - cloud
   - milvus
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

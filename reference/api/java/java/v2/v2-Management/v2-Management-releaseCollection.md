@@ -8,21 +8,21 @@ notebook: false
 description: "This operation releases the data of a specific collection from memory. | Java | v2"
 type: docx
 token: BA9edMrWMosYWFxwTBAcl2WOnff
-sidebar_position: 9
+sidebar_position: 13
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - releaseCollection()
-  - javaV2
+  - javaV225
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
 displayed_sidebar: javaSidebar
 
 ---

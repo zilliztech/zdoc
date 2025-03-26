@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

@@ -7,17 +7,17 @@ notebook: FALSE
 description: "This guide explains how to set up your Zilliz Cloud cluster and perform CRUD operations in minutes. | BYOC"
 type: origin
 token: GQN0wDCrni4n36kyeVQcF41Lned
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - quickstart
   - cloud
   - milvus
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 
@@ -56,6 +56,8 @@ Before going through this quick start, ensure that:
     Zilliz BYOC operates within your Virtual Private Cloud (VPC), requiring you to initiate the deployment of data plane components. You can deploy the data plane in your VPCs hosted on the following cloud providers:
 
     - [Deploy BYOC on AWS](./deploy-byoc-aws)
+
+    - [Deploy BYOC-I on AWS](./deploy-byoc-i-aws)
 
     If your cloud provider is not available above, contact [Zilliz Cloud support](https://zilliz.com/contact-sales).
 
@@ -105,7 +107,7 @@ curl --request POST \
 
 You can find the cloud region and project ID on Zilliz Cloud console. If you prefer to create a free cluster on the Zilliz Cloud console, refer to [Create Cluster](./create-cluster).
 
-Once your cluster is running, you will be prompted with the [cluster credentials](./cluster-credentials) for once. Download and save it in a safe place. You will need it to connect to your cluster later.
+Once your cluster is running, you will be prompted with the [cluster credentials](null) for once. Download and save it in a safe place. You will need it to connect to your cluster later.
 
 ## Connect to Zilliz Cloud cluster{#connect-to-zilliz-cloud-cluster}
 

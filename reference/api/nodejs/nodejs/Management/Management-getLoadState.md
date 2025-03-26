@@ -8,21 +8,21 @@ notebook: false
 description: "This operation displays whether a specified collection or partition is loaded or not. | Node.js"
 type: docx
 token: J17ZdPNwqo4nt3x5b8pc0H5Nnph
-sidebar_position: 4
+sidebar_position: 12
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadState()
-  - node
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - nodejs25
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 displayed_sidebar: nodeSidebar
 
 ---
@@ -71,12 +71,12 @@ milvusClient.getLoadState({
 
 **RETURNS** *Promise\<GetLoadStateResponse>*
 
-This method returns a promise that resolves to a GetLoadStateResponse object.
+This method returns a promise that resolves to a **GetLoadStateResponse** object.
 
 ```javascript
 {
     state: LoadState,
-    status: object
+    status: ResStatus
 }
 ```
 
@@ -94,7 +94,7 @@ This method returns a promise that resolves to a GetLoadStateResponse object.
 
     - **LoadStateNotLoad** indicates the status is unloaded.
 
-- **status** (*object*) -
+- **status** (*ResStatus*) -
 
     - **code** (*number*) -
 

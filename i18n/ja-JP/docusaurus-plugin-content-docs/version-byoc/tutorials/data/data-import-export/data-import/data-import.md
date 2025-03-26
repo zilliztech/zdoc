@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

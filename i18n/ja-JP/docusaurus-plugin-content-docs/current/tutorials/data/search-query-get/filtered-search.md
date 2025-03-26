@@ -16,10 +16,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

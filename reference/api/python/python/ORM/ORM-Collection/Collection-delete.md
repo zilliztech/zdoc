@@ -10,19 +10,19 @@ type: docx
 token: TJMVdi4U2oBFnAxO95jctzVAnzg
 sidebar_position: 6
 keywords: 
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - pymilvus25
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 displayed_sidebar: pythonSidebar
 
 ---

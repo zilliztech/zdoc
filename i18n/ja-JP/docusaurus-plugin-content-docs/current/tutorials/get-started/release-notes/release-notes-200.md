@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

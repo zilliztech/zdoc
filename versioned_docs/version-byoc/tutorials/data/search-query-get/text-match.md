@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - text-match
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 
@@ -59,7 +59,7 @@ Text match works on the `VARCHAR` field type, which is essentially the string da
 
 To enable text match for a specific `VARCHAR` field, set both the `enable_analyzer` and `enable_match` parameters to `True` when defining the field schema. This instructs Zilliz Cloud to tokenize text and create an inverted index for the specified field, allowing fast and efficient text matches.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -96,6 +96,14 @@ schema.addField(AddFieldReq.builder()
         .enableAnalyzer(true)
         .enableMatch(true)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -165,7 +173,7 @@ By default, Zilliz Cloud uses the `standard` analyzer, which tokenizes text base
 
 In cases where a different analyzer is required, you can configure one using the `analyzer_params` parameter. For example, to apply the `english` analyzer for processing English text:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -197,6 +205,14 @@ schema.addField(AddFieldReq.builder()
         .analyzerParams(analyzerParams)
         .enableMatch(true)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -283,7 +299,7 @@ TEXT_MATCH(field_name, text)
 
 By default, `TEXT_MATCH` uses the **OR** matching logic, meaning it will return documents that contain any of the specified terms. For example, to search for documents containing the term `machine` or `deep` in the `text` field, use the following expression:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -296,6 +312,14 @@ filter = "TEXT_MATCH(text, 'machine deep')"
 
 ```java
 String filter = "TEXT_MATCH(text, 'machine deep')";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -321,7 +345,7 @@ You can also combine multiple `TEXT_MATCH` expressions using logical operators t
 
 - To search for documents containing both `machine` and `deep` in the `text` field, use the following expression:
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -334,6 +358,14 @@ You can also combine multiple `TEXT_MATCH` expressions using logical operators t
 
     ```java
     String filter = "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')";
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // go
     ```
 
     </TabItem>
@@ -357,7 +389,7 @@ You can also combine multiple `TEXT_MATCH` expressions using logical operators t
 
 - To search for documents containing both `machine` and `learning` but without `deep` in the `text` field, use the following expressions:
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -370,6 +402,14 @@ You can also combine multiple `TEXT_MATCH` expressions using logical operators t
 
     ```java
     String filter = "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')";
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // go
     ```
 
     </TabItem>
@@ -397,7 +437,7 @@ Text match can be used in combination with vector similarity search to narrow th
 
 In this example, the `filter` expression filters the search results to only include documents that match the specified term `keyword1` or `keyword2`. The vector similarity search is then performed on this filtered subset of documents.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -431,6 +471,14 @@ SearchResp searchResp = client.search(SearchReq.builder()
         .topK(10)
         .outputFields(Arrays.asList("id", "text"))
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -491,7 +539,7 @@ Text match can also be used for scalar filtering in query operations. By specify
 
 The example below retrieves documents where the `text` field contains both terms `keyword1` and `keyword2`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -518,6 +566,14 @@ QueryResp queryResp = client.query(QueryReq.builder()
         .outputFields(Arrays.asList("id", "text"))
         .build()
 );
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>

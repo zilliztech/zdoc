@@ -8,21 +8,21 @@ notebook: false
 description: "This is a method template. | Node.js"
 type: docx
 token: Da9KdvvWroKX9cxOwsmcLRBxnVb
-sidebar_position: 5
+sidebar_position: 8
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describeUser()
-  - node
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - nodejs25
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: nodeSidebar
 
 ---

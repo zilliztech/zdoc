@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

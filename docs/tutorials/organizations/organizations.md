@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

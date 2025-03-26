@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

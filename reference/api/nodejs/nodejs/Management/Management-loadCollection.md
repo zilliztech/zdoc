@@ -8,21 +8,21 @@ notebook: false
 description: "This operation loads the data of a specific collection into memory. | Node.js"
 type: docx
 token: LoNvdRK80oWllFxV0H6co0HrnBe
-sidebar_position: 6
+sidebar_position: 14
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollection()
-  - node
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - nodejs25
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 displayed_sidebar: nodeSidebar
 
 ---

@@ -1,7 +1,10 @@
 ---
+title: "Index | Go | v1"
 slug: /go/v1-Index
+sidebar_label: "Index"
 beta: FALSE
 notebook: FALSE
+description: "Methods related to building indexes for your collections. | Go | v1"
 type: origin
 token: PDsDw7rJ2iF2e7kwmvvc3MT2n4e
 sidebar_position: 3

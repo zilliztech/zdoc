@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Information Retrieval (IR) systems, also known as search engines, are essential for various AI applications such as Retrieval-augmented generation (RAG), image search, and product recommendation. The first step in developing an IR system is designing the data model, which involves analyzing business requirements, determining how to organize information, and indexing data to make it semantically searchable. | Cloud"
 type: origin
 token: PV2bwNENViEjXWkOgzZcXoKHnce
-sidebar_position: 13
+sidebar_position: 15
 keywords: 
   - zilliz
   - vector database
@@ -16,15 +16,16 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Schema Design Hands-On
 
@@ -101,6 +102,9 @@ First, we create a Milvus client instance, which can be used to connect to the Z
 
 To set up a schema, we use `create_schema()` to create a schema object and `add_field()` to add fields to the schema.
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
 ```python
 from pymilvus import MilvusClient, DataType
 
@@ -126,6 +130,123 @@ schema.add_field(field_name="summary_dense_vector", datatype=DataType.FLOAT_VECT
 schema.add_field(field_name="summary_sparse_vector", datatype=DataType.SPARSE_FLOAT_VECTOR, description="summary sparse vector")
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
+CreateCollectionReq.CollectionSchema schema = client.createSchema();
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("article_id")
+        .dataType(DataType.Int64)
+        .isPrimaryKey(true)
+        .description("article id")
+        .build());
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("title")
+        .dataType(DataType.VarChar)
+        .maxLength(200)
+        .description("article title")
+        .build());
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("author_info")
+        .dataType(DataType.JSON)
+        .description("author information")
+        .build());
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("publish_ts")
+        .dataType(DataType.Int32)
+        .description("publish timestamp")
+        .build());
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("image_url")
+        .dataType(DataType.VarChar)
+        .maxLength(500)
+        .description("image URL")
+        .build());
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("image_vector")
+        .dataType(DataType.FloatVector)
+        .dimension(768)
+        .description("image vector")
+        .build());
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("summary")
+        .dataType(DataType.VarChar)
+        .maxLength(1000)
+        .description("article summary")
+        .build());
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("summary_dense_vector")
+        .dataType(DataType.FloatVector)
+        .dimension(768)
+        .description("summary dense vector")
+        .build());
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("summary_sparse_vector")
+        .dataType(DataType.SparseFloatVector)
+        .description("summary sparse vector")
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const { MilvusClient } = require("@zilliz/milvus2-sdk-node");
+const collectionName = "my_collection";
+
+const client = new MilvusClient({
+    address: "YOUR_CLUSTER_ENDPOINT",
+    token: "TOKEN_OR_API_KEY"
+})
+
+const schema = [
+  { name: "article_id", type: "INT64", is_primary: true, description: "article id" },
+  { name: "title", type: "VARCHAR", max_length: 200, description: "article title" },
+  { name: "author_info", type: "JSON", description: "author information" },
+  { name: "publish_ts", type: "INT32", description: "publish timestamp" },
+  { name: "image_url", type: "VARCHAR", max_length: 500, description: "image URL" },
+  { name: "image_vector", type: "FLOAT_VECTOR", dim: 768, description: "image vector" },
+  { name: "summary", type: "VARCHAR", max_length: 1000, description: "article summary" },
+  { name: "summary_dense_vector", type: "FLOAT_VECTOR", dim: 768, description: "summary dense vector" },
+  { name: "summary_sparse_vector", type: "SPARSE_FLOAT_VECTOR", description: "summary sparse vector" },
+];
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
 You might notice the argument `uri` in `MilvusClient`, which is used to connect to the Zilliz Cloud cluster. You can set the arguments as follows:
 
 Set `uri` to your Zilliz Cloud cluster's endpoint and `token` to either a colon-separated username and password of a cluster user or a valid Zilliz Cloud API key with the necessary permissions.
@@ -137,6 +258,9 @@ After adding all the fields to the schema object, our schema object agrees with 
 ### Define Index{#define-index}
 
 After defining the schema with various fields, including metadata and vector fields for image and summary data, the next step involves preparing the index parameters. Indexing is crucial for optimizing the search and retrieval of vectors, ensuring efficient query performance. In the following section, we will define the index parameters for the specified vector and scalar fields in the collection.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 index_params = client.prepare_index_params()
@@ -162,6 +286,89 @@ index_params.add_index(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.IndexParam;
+
+import java.util.ArrayList;
+import java.util.List;
+
+List<IndexParam> indexes = new ArrayList<>();
+indexes.add(IndexParam.builder()
+        .fieldName("image_vector")
+        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .metricType(IndexParam.MetricType.IP)
+        .build());
+
+indexes.add(IndexParam.builder()
+        .fieldName("summary_dense_vector")
+        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .metricType(IndexParam.MetricType.IP)
+        .build());
+
+indexes.add(IndexParam.builder()
+        .fieldName("summary_sparse_vector")
+        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .metricType(IndexParam.MetricType.IP)
+        .build());
+
+indexes.add(IndexParam.builder()
+        .fieldName("publish_ts")
+        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const { IndexType, MetricType } = require("@zilliz/milvus2-sdk-node");
+const index_params = [
+  {
+    field_name: "image_vector",
+    index_type: IndexType.AUTOINDEX,
+    metric_type: MetricType.IP,
+  },
+  {
+    field_name: "summary_dense_vector",
+    index_type: IndexType.AUTOINDEX,
+    metric_type: MetricType.IP,
+  },
+  {
+    field_name: "summary_sparse_vector",
+    index_type: IndexType.AUTOINDEX,
+    metric_type: MetricType.IP,
+  },
+  {
+    field_name: "publish_ts",
+    index_type: IndexType.AUTOINDEX,
+  },
+];
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
 Once the index parameters are set up and applied, Zilliz Cloud clusters are optimized for handling complex queries on vector and scalar data. This indexing enhances the performance and accuracy of similarity searches within the collection, allowing for efficient retrieval of articles based on image vectors and summary vectors. By leveraging the `AUTOINDEX` for both the specified vector and scalar fields, Zilliz Cloud can quickly identify and return the most relevant results, significantly improving the overall user experience and effectiveness of the data retrieval process.
 
 Zilliz Cloud supports AUTOINDEX as the only index type, but provides multiple metric types. For more information about them, you can refer to [AUTOINDEX Explained](./autoindex-explained) and [Metric Types](./search-metrics-explained)..
@@ -169,6 +376,9 @@ Zilliz Cloud supports AUTOINDEX as the only index type, but provides multiple me
 ### Create Collection{#create-collection}
 
 With the schema and indexes defined, we create a "collection" with these parameters. Collection to a Zilliz Cloud cluster is like a table to a relational DB.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 client.create_collection(
@@ -178,7 +388,54 @@ client.create_collection(
 )
 ```
 
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+CreateCollectionReq requestCreate = CreateCollectionReq.builder()
+        .collectionName(collectionName)
+        .collectionSchema(schema)
+        .indexParams(indexes)
+        .build();
+client.createCollection(requestCreate);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const client.create_collection({
+    collection_name: collection_name,
+    schema: schema,
+    index_params: index_params,
+});
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
 We can verify that the collection has been successfully created by describing the collection.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
 collection_desc = client.describe_collection(
@@ -186,6 +443,47 @@ collection_desc = client.describe_collection(
 )
 print(collection_desc)
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+DescribeCollectionResp descResp = client.describeCollection(DescribeCollectionReq.builder()
+        .collectionName(collectionName)
+        .build());
+System.out.println(descResp);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const collection_desc = await client.describeCollection({
+    collection_name: collection_name
+});
+console.log(collection_desc);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
 
 ## Other Considerations{#other-considerations}
 

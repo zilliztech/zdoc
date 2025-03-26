@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

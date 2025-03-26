@@ -18,10 +18,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

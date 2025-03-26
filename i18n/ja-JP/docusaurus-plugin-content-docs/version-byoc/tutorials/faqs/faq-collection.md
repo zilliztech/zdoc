@@ -40,7 +40,7 @@ sidebar_position: 3
 
 1. [クラスタ](./manage-cluster)をより大きなCUサイズにスケーリングします。
 
-1. [未使用](./manage-collections-console)のコレクションを削除する。
+1. [未使用](./drop-collection)のコレクションを削除する。
 
 1. コレクションの代わりに[パーティション](./manage-partitions)を作成してみてください。
 

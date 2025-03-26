@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

@@ -8,21 +8,21 @@ notebook: false
 description: "This operation creates a user. | Node.js"
 type: docx
 token: JNZxdKEX3ohBl2xud7Wckhq7nVh
-sidebar_position: 2
+sidebar_position: 5
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - createUser()
-  - node
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - nodejs25
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: nodeSidebar
 
 ---

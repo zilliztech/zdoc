@@ -2,7 +2,7 @@
 title: "listCollections() | Java | v1"
 slug: /java/v1-HighlevelAPI-listCollections
 sidebar_label: "listCollections()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "A MilvusClient interface. This method lists all the collections. | Java | v1"
 type: origin

@@ -7,17 +7,17 @@ notebook: FALSE
 description: "You can find articles on the best practices when using Zilliz Cloud. | Cloud"
 type: origin
 token: HWzCwbjfci51HHk4BvTcfbiHn1d
-sidebar_position: 8
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database
   - cloud
   - milvus
   - best practices
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

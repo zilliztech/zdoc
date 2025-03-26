@@ -10,19 +10,19 @@ type: docx
 token: T1npdvcRMoIjezxK021cPvfpn7c
 sidebar_position: 6
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - pymilvus25
+  - natural language processing database
+  - cheap vector database
   - Managed vector database
   - Pinecone vector database
-  - Audio search
-  - what is semantic search
 displayed_sidebar: pythonSidebar
 
 ---
@@ -74,9 +74,13 @@ search(
 
     A scalar filtering condition to filter matching entities. 
 
-    The value defaults to an empty string, indicating that no condition applies.
+    The value defaults to an empty string, indicating that no condition applies. 
 
     You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
+
+- **filter_params** (*dict*) -
+
+    If you choose to use placeholders in `filter` as stated in [Filtering Templating](/docs/filtering-templating), then you can specify the actual values for these placeholders as key-value pairs as the value of this parameter.
 
 - **limit** (*int*) -
 

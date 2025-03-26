@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

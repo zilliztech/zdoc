@@ -8,21 +8,21 @@ notebook: false
 description: "This operation releases the partitions in a specified collection from memory. | Java | v2"
 type: docx
 token: VsyQdDkXnoloWYxfjXNchc0dnng
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - releasePartitions()
-  - javaV2
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - javaV225
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: javaSidebar
 
 ---

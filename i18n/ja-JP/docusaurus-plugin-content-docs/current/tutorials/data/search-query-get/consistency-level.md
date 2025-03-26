@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

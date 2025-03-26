@@ -15,10 +15,10 @@ keywords:
   - collection
   - partition
   - partitions
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
 
 ---
 

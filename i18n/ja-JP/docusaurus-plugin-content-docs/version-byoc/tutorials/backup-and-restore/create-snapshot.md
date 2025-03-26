@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

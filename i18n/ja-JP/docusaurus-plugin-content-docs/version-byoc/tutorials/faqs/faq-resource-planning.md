@@ -18,7 +18,6 @@ sidebar_position: 6
 ## Contents
 
 - [コンピューティングユニット（CU）とは何ですか?](#what-is-a-compute-unit-cu)
-- [vCUとは何ですか?どのように計算されますか?](#what-is-a-vcu-how-does-it-get-calculated)
 - [使用されていないクラスタの費用を回避するにはどうすればよいですか?](#how-can-i-avoid-expenses-on-unused-clusters)
 - [与えられたコレクションには何個のCUが必要ですか?](#how-many-cus-do-i-need-for-a-given-collection)
 - [どのタイプのCUを選べばいいですか?](#which-type-of-cu-should-i-pick)
@@ -34,10 +33,6 @@ sidebar_position: 6
 コンピューティングユニット（CU）は、インデックスや検索リクエストを処理するためのハードウェアリソースのグループです。CUは、検索サービスをデプロイするための完全に管理された物理ノードとして考えることができます。
 
 詳細については、「[適切なCUを選択](./cu-types-explained)」を参照してください。
-
-### vCUとは何ですか?どのように計算されますか?{#what-is-a-vcu-how-does-it-get-calculated}
-
-vCUは、読み取り操作(検索やクエリなど)および書き込み操作(挿入、アップロード、一括挿入、削除など)によって消費されるリソースを測定するために使用される仮想コンピュートユニットです。書き込まれたまたは読み取られたデータ量は、GBからvCUに変換されます。
 
 ### 使用されていないクラスタの費用を回避するにはどうすればよいですか?{#how-can-i-avoid-expenses-on-unused-clusters}
 

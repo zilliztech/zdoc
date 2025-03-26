@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

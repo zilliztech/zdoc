@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 
@@ -45,7 +45,7 @@ import TabItem from '@theme/TabItem';
 
 ## クラスタに接続する{#connect-to-a-cluster}
 
-クラスターが稼働したら、そのパブリックエンドポイントと認証トークンを使用して接続します。このトークンは、ユーザー名とパスワードのペアで構成される[クラスター資格情報](./cluster-credentials)のいずれかです。
+クラスターが稼働したら、そのパブリックエンドポイントと認証トークンを使用して接続します。このトークンは、ユーザー名とパスワードのペアで構成される[クラスター資格情報](null)のいずれかです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>

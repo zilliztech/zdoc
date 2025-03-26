@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

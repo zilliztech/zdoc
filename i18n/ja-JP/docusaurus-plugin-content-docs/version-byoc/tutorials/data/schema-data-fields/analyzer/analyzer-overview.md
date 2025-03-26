@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

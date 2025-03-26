@@ -10,19 +10,19 @@ type: docx
 token: QHcpd1aJzo5aYbxJtMXc58een4f
 sidebar_position: 39
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - transfer_node()
   - pymilvus25
+  - What are vector embeddings
+  - vector database tutorial
   - how do vector databases work
   - vector db comparison
-  - openai vector db
-  - natural language processing database
 displayed_sidebar: pythonSidebar
 
 ---
@@ -101,7 +101,7 @@ None.
 ```python
 from pymilvus import connections, utility
 
-# Connect to localhost:19530
+# Connect to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Get the number of query nodes in the source resource group

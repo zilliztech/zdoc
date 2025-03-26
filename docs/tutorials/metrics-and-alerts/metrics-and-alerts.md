@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

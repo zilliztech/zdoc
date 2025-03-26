@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

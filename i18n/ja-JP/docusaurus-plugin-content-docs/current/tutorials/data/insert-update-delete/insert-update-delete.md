@@ -15,10 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

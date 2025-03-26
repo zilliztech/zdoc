@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 
@@ -72,7 +72,7 @@ To use binary vectors in Zilliz Cloud clusters, first define a vector field for 
 
 1. Specifying the vector's dimensions using the `dim` parameter. Note that `dim` must be a multiple of 8 as binary vectors must be converted into a byte array when inserting. Every 8 boolean values (0 or 1) will be packed into 1 byte. For example, if `dim=128`, a 16-byte array is required for insertion.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -138,6 +138,24 @@ schema.push({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+schema := entity.NewSchema()
+schema.WithField(entity.NewField().
+    WithName("pk").
+    WithDataType(entity.FieldTypeVarChar).
+    WithMaxLength(100).
+    WithIsAutoID(true),
+).WithField(entity.NewField().
+    WithName("binary_vector").
+    WithDataType(entity.FieldTypeBinaryVector).
+    WithDim(128),
+)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -178,7 +196,7 @@ In this example, a vector field named `binary_vector` is added for storing binar
 
 To speed up searches, an index must be created for the binary vector field. Indexing can significantly enhance the retrieval efficiency of large-scale vector data.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -202,12 +220,11 @@ import java.util.*;
 
 List<IndexParam> indexParams = new ArrayList<>();
 Map<String,Object> extraParams = new HashMap<>();
-extraParams.put("nlist",128);
+
 indexParams.add(IndexParam.builder()
         .fieldName("binary_vector")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.HAMMING)
-        .extraParams(extraParams)
         .build());
 ```
 
@@ -224,6 +241,20 @@ const indexParams = {
   metric_type: MetricType.HAMMING,
   index_type: IndexType.AUTOINDEX
 };
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/index"
+)
+
+idx := index.NewAutoIndex(entity.HAMMING)
+indexOption := milvusclient.NewCreateIndexOption("my_binary_collection", "binary_vector", idx)
 ```
 
 </TabItem>
@@ -252,7 +283,7 @@ Additionally, Zilliz Cloud supports other similarity metrics for binary vectors.
 
 Once the binary vector and index settings are complete, create a collection that contains binary vectors. The example below uses the `create_collection` method to create a collection named `my_binary_collection`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -303,6 +334,19 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+err = cli.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("my_binary_collection", schema).
+        WithIndexOptions(indexOption))
+if err != nil {
+    // handle error
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -326,7 +370,7 @@ After creating the collection, use the `insert` method to add data containing bi
 
 For example, for a 128-dimensional binary vector, a 16-byte array is required (since 128 bits ÷ 8 bits/byte = 16 bytes). Below is an example code for inserting data:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -417,6 +461,18 @@ client.insert({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("quick_setup").
+    WithBinaryVectorColumn("binary_vector", 128, [][]byte{
+        {0b10011011, 0b01010100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0b10011011, 0b01010101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    }))
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -439,7 +495,7 @@ Similarity search is one of the core features of Zilliz Cloud clusters, allowing
 
 During search operations, binary vectors must also be provided in the form of a byte array. Ensure that the dimensionality of the query vector matches the dimension specified when defining `dim` and that every 8 boolean values are converted into 1 byte.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -512,6 +568,31 @@ client.search({
         nprobe: 10
     }
 });
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+queryVector := []byte{0b10011011, 0b01010100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+
+annSearchParams := index.NewCustomAnnParam()
+annSearchParams.WithExtraParam("nprobe", 10)
+resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption(
+    "my_binary_collection", // collectionName
+    5,                      // limit
+    []entity.Vector{entity.BinaryVector(queryVector)},
+).WithOutputFields("pk").WithAnnParam(annSearchParams))
+if err != nil {
+    log.Fatal("failed to perform basic ANN search collection: ", err.Error())
+}
+
+for _, resultSet := range resultSets {
+    log.Println("IDs: ", resultSet.IDs)
+    log.Println("Scores: ", resultSet.Scores)
+    log.Println("Pks: ", resultSet.GetColumn("pk"))
+}
 ```
 
 </TabItem>

@@ -16,10 +16,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 
@@ -39,9 +39,9 @@ import TabItem from '@theme/TabItem';
 
 ハイブリッド検索において、再ランキングは複数のベクトル検索の結果を統合し、最終的な出力が最も関連性が高く正確であることを確認するための重要なステップです。現在、Zilliz Cloudは、以下の2つの再ランキング戦略をサポートしています
 
-- **[WeightedRanker](./reranking#weightedrankerweightedranker)**:この戦略は、異なるベクトル検索からのスコア(または距離)の重み付けスコアを計算することによって結果を統合します。重みは、各ベクトルフィールドの重要度に基づいて割り当てられ、特定のユースケースの優先順位に応じてカスタマイズすることができます。
+- **[WeightedRanker](./reranking#weightedranker)**:この戦略は、異なるベクトル検索からのスコア(または距離)の重み付けスコアを計算することによって結果を統合します。重みは、各ベクトルフィールドの重要度に基づいて割り当てられ、特定のユースケースの優先順位に応じてカスタマイズすることができます。
 
-- **[RRFRanker](./reranking#rrfrankerrrfranker)(Reciprocal Rank Fusion Ranker)**:この戦略は、ランキングに基づいて結果を組み合わせます。異なる検索からの結果のランクをバランスさせる方法を使用し、しばしば多様なデータタイプやモダリティのより公正かつ効果的な統合につながります。
+- **[RRFRanker](./reranking#rrfranker)(Reciprocal Rank Fusion Ranker)**:この戦略は、ランキングに基づいて結果を組み合わせます。異なる検索からの結果のランクをバランスさせる方法を使用し、しばしば多様なデータタイプやモダリティのより公正かつ効果的な統合につながります。
 
 ## WeightedRanker{#weightedranker}
 

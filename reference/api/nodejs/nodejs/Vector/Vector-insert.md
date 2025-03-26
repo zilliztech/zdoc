@@ -8,21 +8,21 @@ notebook: false
 description: "This operation inserts data into a specific collection. | Node.js"
 type: docx
 token: WUZwdRNXIoS0tSxCrw6coaa2nzf
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
-  - node
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - nodejs25
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: nodeSidebar
 
 ---

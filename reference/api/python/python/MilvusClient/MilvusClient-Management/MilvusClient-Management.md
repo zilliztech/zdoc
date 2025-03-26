@@ -9,10 +9,10 @@ token: MvvMf16FLlVOmtdgx5UcZ8qtnyd
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud

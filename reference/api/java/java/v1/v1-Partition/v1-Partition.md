@@ -2,7 +2,7 @@
 title: "Partition | Java | v1"
 slug: /java/v1-Partition
 sidebar_label: "Partition"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "(placeholder) | Java | v1"
 type: origin

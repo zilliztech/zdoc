@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

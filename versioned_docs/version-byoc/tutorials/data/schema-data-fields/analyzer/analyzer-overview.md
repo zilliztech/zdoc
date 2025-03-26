@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 
@@ -80,7 +80,7 @@ Built-in analyzers in Zilliz Cloud clusters are pre-configured with specific tok
 
 For example, to use the `standard` built-in analyzer, simply specify its name `standard` as the `type` and optionally include extra configurations specific to this analyzer type, such as `stop_words`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -113,6 +113,14 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -127,7 +135,7 @@ export analyzerParams='{
 
 The configuration of the `standard` built-in analyzer above is equivalent to setting up a [custom analyzer](./analyzer-overview) with the following parameters, where `tokenizer` and `filter` options are explicitly defined to achieve similar functionality:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -177,6 +185,14 @@ const analyzer_params = {
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -221,7 +237,7 @@ For example, a tokenizer would convert text `"Vector Database Built for Scale"` 
 
 **Example of specifying a tokenizer**:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -247,6 +263,14 @@ analyzerParams.put("tokenizer", "whitespace");
 const analyzer_params = {
     "tokenizer": "whitespace",
 };
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -288,7 +312,7 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
 
     **Example of using a built-in filter:**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -321,6 +345,14 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
 
     </TabItem>
 
+    <TabItem value='go'>
+
+    ```go
+    // go
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -343,7 +375,7 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
 
     **Example of configuring a custom filter:**
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -390,6 +422,14 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
 
     </TabItem>
 
+    <TabItem value='go'>
+
+    ```go
+    // go
+    ```
+
+    </TabItem>
+
     <TabItem value='bash'>
 
     ```bash
@@ -411,80 +451,33 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
 
 ## Example use{#example-use}
 
-In this example, we define a collection schema with a vector field for embeddings and two `VARCHAR` fields for text processing capabilities. Each `VARCHAR` field is configured with its own analyzer settings to handle different processing needs.
+In this example, you will create a collection schema that includes:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+- A vector field for embeddings.
+
+- Two `VARCHAR` fields for text processing:
+
+    - One field uses a built-in analyzer.
+
+    - The other uses a custom analyzer.
+
+Before incorporating these configurations into your collection, you'll verify each analyzer using the `run_analyzer` method.
+
+### Step 1: Initialize MilvusClient and create schema{#step-1-initialize-milvusclient-and-create-schema}
+
+Begin by setting up the Milvus client and creating a new schema.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient, DataType
 
 # Set up a Milvus client
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT"
-)
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
 
-# Create schema
+# Create a new schema
 schema = client.create_schema(auto_id=True, enable_dynamic_field=False)
-
-# Add fields to schema
-
-# Use a built-in analyzer
-analyzer_params_built_in = {
-    "type": "english"
-}
-
-# Add VARCHAR field `title_en`
-schema.add_field(
-    field_name='title_en', 
-    datatype=DataType.VARCHAR, 
-    max_length=1000, 
-    enable_analyzer=True，
-    analyzer_params=analyzer_params_built_in,
-    enable_match=True, 
-)
-
-# Configure a custom analyzer
-analyzer_params_custom = {
-    "tokenizer": "standard",
-    "filter": [
-        "lowercase", # Built-in filter
-        {
-            "type": "length", # Custom filter
-            "max": 40
-        },
-        {
-            "type": "stop", # Custom filter
-            "stop_words": ["of", "to"]
-        }
-    ]
-}
-
-# Add VARCHAR field `title`
-schema.add_field(
-    field_name='title', 
-    datatype=DataType.VARCHAR, 
-    max_length=1000, 
-    enable_analyzer=True，
-    analyzer_params=analyzer_params_custom,
-    enable_match=True, 
-)
-
-# Add vector field
-schema.add_field(field_name="embedding", datatype=DataType.FLOAT_VECTOR, dim=3)
-# Add primary field
-schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
-
-# Set up index params for vector field
-index_params = client.prepare_index_params()
-index_params.add_index(field_name="embedding", metric_type="COSINE", index_type="AUTOINDEX")
-
-# Create collection with defined schema
-client.create_collection(
-    collection_name="YOUR_COLLECTION_NAME",
-    schema=schema,
-    index_params=index_params
-)
 ```
 
 </TabItem>
@@ -509,36 +502,252 @@ MilvusClientV2 client = new MilvusClientV2(config);
 CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
         .enableDynamicField(false)
         .build();
+```
 
-// Add fields to schema
-// Use a built-in analyzer
-Map<String, Object> analyzerParamsBuiltin = new HashMap<>();
-analyzerParamsBuiltin.put("type", "english");
-// Add VARCHAR field `title_en`
-schema.addField(AddFieldReq.builder()
-        .fieldName("title_en")
-        .dataType(DataType.VarChar)
-        .maxLength(1000)
-        .enableAnalyzer(true)
-        .analyzerParams(analyzerParamsBuiltin)
-        .enableMatch(true)
-        .build());
+</TabItem>
 
-// Configure a custom analyzer
-Map<String, Object> analyzerParams = new HashMap<>();
-analyzerParams.put("tokenizer", "standard");
-analyzerParams.put("filter",
-        Arrays.asList("lowercase",
-                new HashMap<String, Object>() {{
-                    put("type", "length");
-                    put("max", 40);
-                }},
-                new HashMap<String, Object>() {{
-                    put("type", "stop");
-                    put("stop_words", Arrays.asList("a", "an", "for"));
-                }}
-        )
-);
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+// Set up a Milvus client
+const client = new MilvusClient("YOUR_CLUSTER_ENDPOINT");
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+### Step 2: Define and verify analyzer configurations{#step-2-define-and-verify-analyzer-configurations}
+
+1. **Configure and verify a built-in analyzer** (`english`)**:**
+
+    - **Configuration:** Define the analyzer parameters for the built-in English analyzer.
+
+    - **Verification:** Use `run_analyzer` to check that the configuration produces the expected tokenization.
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+    <TabItem value='python'>
+
+    ```python
+    # Built-in analyzer configuration for English text processing
+    analyzer_params_built_in = {
+        "type": "english"
+    }
+    
+    # Verify built-in analyzer configuration
+    sample_text_built_in = "Milvus simplifies text analysis for search."
+    result_built_in = client.run_analyzer(sample_text_built_in, analyzer_params_built_in)
+    print("Built-in analyzer output:", result_built_in)
+    
+    # Expected output:
+    # Built-in analyzer output: ['milvus', 'simplifi', 'text', 'analysi', 'search']
+    ```
+
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    // Add fields to schema
+    // Use a built-in analyzer
+    Map<String, Object> analyzerParamsBuiltin = new HashMap<>();
+    analyzerParamsBuiltin.put("type", "english");
+    // Add VARCHAR field `title_en`
+    schema.addField(AddFieldReq.builder()
+            .fieldName("title_en")
+            .dataType(DataType.VarChar)
+            .maxLength(1000)
+            .enableAnalyzer(true)
+            .analyzerParams(analyzerParamsBuiltin)
+            .enableMatch(true)
+            .build());
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // Use a built-in analyzer for VARCHAR field `title_en`
+    const analyzerParamsBuiltIn = {
+      type: "english",
+    };
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // go
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # restful
+    ```
+
+    </TabItem>
+    </Tabs>
+
+1. **Configure and verify a custom analyzer:**
+
+    - **Configuration:** Define a custom analyzer that uses a standard tokenizer along with a built-in lowercase filter and custom filters for token length and stop words.
+
+    - **Verification:** Use `run_analyzer` to ensure the custom configuration processes text as intended.
+
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+    <TabItem value='python'>
+
+    ```python
+    # Custom analyzer configuration with a standard tokenizer and custom filters
+    analyzer_params_custom = {
+        "tokenizer": "standard",
+        "filter": [
+            "lowercase",  # Built-in filter: convert tokens to lowercase
+            {
+                "type": "length",  # Custom filter: restrict token length
+                "max": 40
+            },
+            {
+                "type": "stop",  # Custom filter: remove specified stop words
+                "stop_words": ["of", "for"]
+            }
+        ]
+    }
+    
+    # Verify custom analyzer configuration
+    sample_text_custom = "Milvus provides flexible, customizable analyzers for robust text processing."
+    result_custom = client.run_analyzer(sample_text_custom, analyzer_params_custom)
+    print("Custom analyzer output:", result_custom)
+    
+    # Expected output:
+    # Custom analyzer output: ['milvus', 'provides', 'flexible', 'customizable', 'analyzers', 'robust', 'text', 'processing']
+    ```
+
+    </TabItem>
+
+    <TabItem value='java'>
+
+    ```java
+    // Configure a custom analyzer
+    Map<String, Object> analyzerParams = new HashMap<>();
+    analyzerParams.put("tokenizer", "standard");
+    analyzerParams.put("filter",
+            Arrays.asList("lowercase",
+                    new HashMap<String, Object>() {{
+                        put("type", "length");
+                        put("max", 40);
+                    }},
+                    new HashMap<String, Object>() {{
+                        put("type", "stop");
+                        put("stop_words", Arrays.asList("of", "for"));
+                    }}
+            )
+    );
+    ```
+
+    </TabItem>
+
+    <TabItem value='javascript'>
+
+    ```javascript
+    // Configure a custom analyzer for VARCHAR field `title`
+    const analyzerParamsCustom = {
+      tokenizer: "standard",
+      filter: [
+        "lowercase",
+        {
+          type: "length",
+          max: 40,
+        },
+        {
+          type: "stop",
+          stop_words: ["of", "to"],
+        },
+      ],
+    };
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // go
+    ```
+
+    </TabItem>
+
+    <TabItem value='bash'>
+
+    ```bash
+    # curl
+    ```
+
+    </TabItem>
+    </Tabs>
+
+### Step 3: Add fields to the schema{#step-3-add-fields-to-the-schema}
+
+Now that you have verified your analyzer configurations, add them to your schema fields:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+# Add VARCHAR field 'title_en' using the built-in analyzer configuration
+schema.add_field(
+    field_name='title_en',
+    datatype=DataType.VARCHAR,
+    max_length=1000,
+    enable_analyzer=True,
+    analyzer_params=analyzer_params_built_in,
+    enable_match=True,
+)
+
+# Add VARCHAR field 'title' using the custom analyzer configuration
+schema.add_field(
+    field_name='title',
+    datatype=DataType.VARCHAR,
+    max_length=1000,
+    enable_analyzer=True,
+    analyzer_params=analyzer_params_custom,
+    enable_match=True,
+)
+
+# Add a vector field for embeddings
+schema.add_field(field_name="embedding", datatype=DataType.FLOAT_VECTOR, dim=3)
+
+# Add a primary key field
+schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
 schema.addField(AddFieldReq.builder()
         .fieldName("title")
         .dataType(DataType.VarChar)
@@ -561,22 +770,6 @@ schema.addField(AddFieldReq.builder()
         .isPrimaryKey(true)
         .autoID(true)
         .build());
-
-// Set up index params for vector field
-List<IndexParam> indexes = new ArrayList<>();
-indexes.add(IndexParam.builder()
-        .fieldName("embedding")
-        .indexType(IndexParam.IndexType.AUTOINDEX)
-        .metricType(IndexParam.MetricType.COSINE)
-        .build());
-
-// Create collection with defined schema
-CreateCollectionReq requestCreate = CreateCollectionReq.builder()
-        .collectionName("YOUR_COLLECTION_NAME")
-        .collectionSchema(schema)
-        .indexParams(indexes)
-        .build();
-client.createCollection(requestCreate);
 ```
 
 </TabItem>
@@ -584,31 +777,6 @@ client.createCollection(requestCreate);
 <TabItem value='javascript'>
 
 ```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-// Set up a Milvus client
-const client = new MilvusClient("YOUR_CLUSTER_ENDPOINT");
-// Use a built-in analyzer for VARCHAR field `title_en`
-const analyzerParamsBuiltIn = {
-  type: "english",
-};
-
-// Configure a custom analyzer for VARCHAR field `title`
-const analyzerParamsCustom = {
-  tokenizer: "standard",
-  filter: [
-    "lowercase",
-    {
-      type: "length",
-      max: 40,
-    },
-    {
-      type: "stop",
-      stop_words: ["of", "to"],
-    },
-  ],
-};
-
 // Create schema
 const schema = {
   auto_id: true,
@@ -641,7 +809,72 @@ const schema = {
     },
   ],
 };
+```
 
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+### Step 4: Prepare index parameters and create the collection{#step-4-prepare-index-parameters-and-create-the-collection}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+# Set up index parameters for the vector field
+index_params = client.prepare_index_params()
+index_params.add_index(field_name="embedding", metric_type="COSINE", index_type="AUTOINDEX")
+
+# Create the collection with the defined schema and index parameters
+client.create_collection(
+    collection_name="YOUR_COLLECTION_NAME",
+    schema=schema,
+    index_params=index_params
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// Set up index params for vector field
+List<IndexParam> indexes = new ArrayList<>();
+indexes.add(IndexParam.builder()
+        .fieldName("embedding")
+        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .metricType(IndexParam.MetricType.COSINE)
+        .build());
+
+// Create collection with defined schema
+CreateCollectionReq requestCreate = CreateCollectionReq.builder()
+        .collectionName("YOUR_COLLECTION_NAME")
+        .collectionSchema(schema)
+        .indexParams(indexes)
+        .build();
+client.createCollection(requestCreate);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
 // Set up index params for vector field
 const indexParams = [
   {
@@ -659,7 +892,14 @@ await client.createCollection({
 });
 
 console.log("Collection created successfully!");
+```
 
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -667,78 +907,7 @@ console.log("Collection created successfully!");
 <TabItem value='bash'>
 
 ```bash
-export schema='{
-        "autoId": true,
-        "enabledDynamicField": false,
-        "fields": [
-            {
-                "fieldName": "id",
-                "dataType": "Int64",
-                "isPrimary": true
-            },
-            {
-                "fieldName": "title_en",
-                "dataType": "VarChar",
-                "elementTypeParams": {
-                    "max_length": 1000,
-                    "enable_analyzer": true,
-                    "enable_match": true,
-                    "analyzer_params": {"type": "english"}
-                }
-            },
-            {
-                "fieldName": "title",
-                "dataType": "VarChar",
-                "elementTypeParams": {
-                    "max_length": 1000,
-                    "enable_analyzer": true,
-                    "enable_match": true,
-                    "analyzer_params": {
-                        "tokenizer": "standard",
-                        "filter":[
-                            "lowercase",
-                            {
-                                "type":"length",
-                                "max":40
-                            },
-                            {
-                                "type":"stop",
-                                "stop_words":["of","to"]
-                            }
-                        ]
-                    }
-                }
-            },
-            {
-                "fieldName": "embedding",
-                "dataType": "FloatVector",
-                "elementTypeParams": {
-                    "dim":3
-                }
-            }
-        ]
-    }'
-    
-export indexParams='[
-        {
-            "fieldName": "embedding",
-            "metricType": "COSINE",
-            "indexType": "AUTOINDEX"
-        }
-    ]'
-
-export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-export TOKEN="YOUR_CLUSTER_TOKEN"
-
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/create" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
--d "{
-    \"collectionName\": \"YOUR_COLLECTION_NAME\",
-    \"schema\": $schema,
-    \"indexParams\": $indexParams
-}"
+# restful
 ```
 
 </TabItem>

@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 

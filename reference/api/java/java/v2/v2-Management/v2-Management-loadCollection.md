@@ -8,21 +8,21 @@ notebook: false
 description: "This operation loads the data of a specific collection into memory. | Java | v2"
 type: docx
 token: XEWvdbuFHoLOo7xKrAJcqip6n5J
-sidebar_position: 7
+sidebar_position: 10
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollection()
-  - javaV2
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - javaV225
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: javaSidebar
 
 ---

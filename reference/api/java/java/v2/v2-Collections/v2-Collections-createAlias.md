@@ -8,21 +8,21 @@ notebook: false
 description: "This operation creates an alias for an existing collection. | Java | v2"
 type: docx
 token: NMAOdxhL1oo0E7xcFqXcF6yPnBg
-sidebar_position: 4
+sidebar_position: 6
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - createAlias()
-  - javaV2
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - javaV225
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 displayed_sidebar: javaSidebar
 
 ---

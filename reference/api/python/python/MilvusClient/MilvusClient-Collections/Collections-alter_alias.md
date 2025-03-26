@@ -10,19 +10,19 @@ type: docx
 token: CBc3d1mrdoYqmDxe4Kcc9zxAnzh
 sidebar_position: 1
 keywords: 
+  - Pinecone vector database
+  - Audio search
   - what is semantic search
   - Embedding model
-  - image similarity search
-  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - alter_alias()
   - pymilvus25
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
 displayed_sidebar: pythonSidebar
 
 ---

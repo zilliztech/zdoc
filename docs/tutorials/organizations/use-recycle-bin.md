@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

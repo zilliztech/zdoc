@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - array operators
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

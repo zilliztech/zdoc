@@ -15,10 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

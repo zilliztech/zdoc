@@ -10,19 +10,19 @@ type: docx
 token: OOQvdXDqdoqKfmxEkTecfuVMnsb
 sidebar_position: 3
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - NomicEmbeddingFunction
   - pymilvus25
+  - information retrieval
+  - dimension reduction
   - hnsw algorithm
   - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
 displayed_sidebar: pythonSidebar
 
 ---

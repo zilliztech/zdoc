@@ -15,10 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

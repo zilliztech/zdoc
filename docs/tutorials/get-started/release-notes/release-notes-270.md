@@ -7,16 +7,16 @@ notebook: FALSE
 description: "This update introduces powerful tools and enhancements to Zilliz Cloud new Connectors for easy data ingestion from sources like Object Storage, Rerankers to improve search relevance, a Metrics Monitoring API for in-depth system state analytics, and a Cross Cloud Data Import feature allowing direct import from AWS S3, Google Cloud Storage, and Azure Blob Storage to vector database instances. These features combine to elevate data ingestion, search precision, and operational insight, streamlining the management of vector databases in the cloud. | Cloud"
 type: origin
 token: S7PMwgqGOiURCpkTFT4cTnTjnAc
-sidebar_position: 9
+sidebar_position: 10
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

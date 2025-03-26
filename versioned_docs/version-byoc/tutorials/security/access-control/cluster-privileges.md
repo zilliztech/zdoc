@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

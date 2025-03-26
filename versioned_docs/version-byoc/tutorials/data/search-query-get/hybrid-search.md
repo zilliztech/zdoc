@@ -16,10 +16,10 @@ keywords:
   - data
   - hybrid search
   - combine sparse and dense vectors
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 
@@ -166,7 +166,7 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-// WIP
+// Go
 ```
 
 </TabItem>
@@ -251,7 +251,7 @@ During sparse vector searches, you can simplify the process of generating sparse
 
 After defining the collection schema, it is necessary to set up the vector indexes and the similarity metrics. In this example, an index of the **AUTOINDEX** type is created for both the dense vector field `dense`, and the sparse vector field `sparse`. 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -265,8 +265,7 @@ index_params.add_index(
     field_name="dense",
     index_name="dense_index",
     index_type="AUTOINDEX",
-    metric_type="IP",
-    params={"nlist": 128},
+    metric_type="IP"
 )
 
 index_params.add_index(
@@ -287,13 +286,12 @@ import io.milvus.v2.common.IndexParam;
 import java.util.*;
 
 Map<String, Object> denseParams = new HashMap<>();
-denseParams.put("nlist", 128);
+
 IndexParam indexParamForDenseField = IndexParam.builder()
         .fieldName("dense")
         .indexName("dense_index")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.IP)
-        .extraParams(denseParams)
         .build();
 
 Map<String, Object> sparseParams = new HashMap<>();
@@ -309,6 +307,14 @@ IndexParam indexParamForSparseField = IndexParam.builder()
 List<IndexParam> indexParams = new ArrayList<>();
 indexParams.add(indexParamForDenseField);
 indexParams.add(indexParamForSparseField);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -337,8 +343,7 @@ export indexParams='[
             "fieldName": "dense",
             "metricType": "IP",
             "indexName": "dense_index",
-            "indexType":"AUTOINDEX",
-            "params":{"nlist":128}
+            "indexType":"AUTOINDEX"
         },
         {
             "fieldName": "sparse",
@@ -356,7 +361,7 @@ export indexParams='[
 
 Create a collection named `demo` with the collection schema and indexes configured in the previous two steps.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -380,6 +385,14 @@ CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
         .indexParams(indexParams)
         .build();
 client.createCollection(createCollectionReq);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -420,7 +433,7 @@ curl --request POST \
 
 Insert the sparse-dense vectors into the the collection `demo`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -429,7 +442,7 @@ from pymilvus import MilvusClient
 data=[
     {"id": 0, "text": "Artificial intelligence was founded as an academic discipline in 1956.", "sparse":{9637: 0.30856525997853057, 4399: 0.19771651149001523, ...}, "dense": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, ...]},
     {"id": 1, "text": "Alan Turing was the first person to conduct substantial research in AI.", "sparse":{6959: 0.31025067641541815, 1729: 0.8265339135915016, ...}, "dense": [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, ...]},
-    {"id": 2, "text": "Born in Maida Vale, London, Turing was raised in southern England.", "sparse":{1220: 0.15303302147479103, 7335: 0.9436728846033107, ...}, "dense": [0.43742130801983836, -0.5597502546264526, 0.6457887650909682, ...]}
+    {"id": 2, "text": "Born in Maida Vale, London, Turing was raised in southern England.", "sparse":{1220: 0.15303302147479103, 7335: 0.9436728846033107, ...}, "dense": [0.43742130801983836, -0.5597502546264526, 0.6457887650909682, ...]}]
 
 res = client.insert(
     collection_name="hybrid_search_collection",
@@ -477,6 +490,14 @@ InsertResp insertResp = client.insert(insertReq);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -520,6 +541,8 @@ curl --request POST \
 
 Hybrid Search is implemented by creating multiple `AnnSearchRequest` in the `hybrid_search()` function, where each `AnnSearchRequest` represents a basic ANN search request for a specific vector field. Therefore, before conducting a Hybrid Search, it is necessary to create an `AnnSearchRequest` for each vector field.
 
+By configuring the `expr` parameter in an `AnnSearchRequest`, you can set the filtering conditions for your hybrid sesarch. Please refer to [Filtered Search](./filtered-search) and [Filtering](./filtering).
+
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>In Hybrid Search, each <code>AnnSearchRequest</code> supports only one query vector.</p>
@@ -528,7 +551,7 @@ Hybrid Search is implemented by creating multiple `AnnSearchRequest` in the `hyb
 
 Suppose the query text "Who started AI research?" has already been converted into sparse and dense vectors. Based on this, two `AnnSearchRequest` search requests are created for the `sparse` and `dense` vector fields respectively, as shown in the following example.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -598,6 +621,14 @@ searchRequests.add(AnnSearchReq.builder()
         .params("{\"drop_ratio_build\": 0.2}")
         .topK(2)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -676,13 +707,13 @@ The following  two examples demonstrate how to use the WeightedRanker and RRFRan
 
     When using the WeightedRanker strategy, you need to input weight values into the `WeightedRanker` function. The number of basic ANN searches in a Hybrid Search corresponds to the number of values that need to be inputted. The input values should be in the range [0,1], with values closer to 1 indicating greater importance.
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
     from pymilvus import WeightedRanker
     
-    rerank= WeightedRanker(0.8, 0.3) 
+    ranker = WeightedRanker(0.8, 0.3) 
     ```
 
     </TabItem>
@@ -694,6 +725,14 @@ The following  two examples demonstrate how to use the WeightedRanker and RRFRan
     import io.milvus.v2.service.vector.request.ranker.WeightedRanker;
     
     BaseRanker reranker = new WeightedRanker(Arrays.asList(0.8f, 0.3f));
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // go
     ```
 
     </TabItem>
@@ -724,7 +763,7 @@ The following  two examples demonstrate how to use the WeightedRanker and RRFRan
 
     When using the RRFRanker strategy, you need to input the parameter value `k` into the RRFRanker. The default value of `k` is 60. This parameter helps to determine how the ranks are combined from different ANN searches, aiming to balance and blend the importance across all searches.
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -742,6 +781,14 @@ The following  two examples demonstrate how to use the WeightedRanker and RRFRan
     import io.milvus.v2.service.vector.request.ranker.RRFRanker;
     
     BaseRanker reranker = new RRFRanker(100);
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    // go
     ```
 
     </TabItem>
@@ -772,7 +819,7 @@ The following  two examples demonstrate how to use the WeightedRanker and RRFRan
 
 Before conducting a Hybrid Search, it is necessary to load the collection into memory. If any vector fields in the collection do not have an index or are not loaded, an error will occur when calling the Hybrid Search method. 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -808,6 +855,14 @@ HybridSearchReq hybridSearchReq = HybridSearchReq.builder()
         .build();
 
 SearchResp searchResp = client.hybridSearch(hybridSearchReq);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>

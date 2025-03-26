@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 
@@ -156,12 +156,12 @@ CUは、データの並列処理に使用される計算リソースの基本単
    <tr>
      <td><p>専用（スタンダード）</p></td>
      <td><p>CU体格 x レプリカ数 &lt;=32</p></td>
-     <td><p>コンソールでは、1つのクラスターに対して最大32個のCUを作成できます。</p><p>ただし、レプリカを追加する場合はCU体格 x レプリカ数 &lt;=32 となります。</p></td>
+     <td><p>コンソールでは、1つのクラスターに対して最大32個のCUを作成できます。 ただし、レプリカを追加する場合はCU体格 x レプリカ数 &lt;=32 となります。</p></td>
    </tr>
    <tr>
      <td><p>専用(エンタープライズ)</p></td>
      <td><p>CU体格 x レプリカ数 &lt;=256</p></td>
-     <td><p>コンソールでは、1つのクラスターに対して最大256個のCUを作成できます。</p><p>ただし、レプリカを追加する場合はCU体格 x Replica Count &lt;=256 となります。</p></td>
+     <td><p>コンソールでは、1つのクラスターに対して最大256個のCUを作成できます。 ただし、レプリカを追加する場合はCU体格 x Replica Count &lt;=256 となります。</p></td>
    </tr>
 </table>
 
@@ -243,133 +243,6 @@ CUは、データの並列処理に使用される計算リソースの基本単
 
 - デフォルトのデータベースは削除できません。
 
-## パイプライン{#pipelines}
-
-### パイプラインの数{#number-of-pipelines}
-
-次の表に、プロジェクトで作成できるさまざまな種類のパイプラインの制限を示します。
-
-<table>
-   <tr>
-     <th><p><strong>パイプラインタイプ</strong></p></th>
-     <th><p><strong>プロジェクトごとの最大数</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>摂取パイプライン</p></td>
-     <td><p>100</p></td>
-   </tr>
-   <tr>
-     <td><p>削除パイプライン</p></td>
-     <td><p>100</p></td>
-   </tr>
-   <tr>
-     <td><p>検索パイプライン</p></td>
-     <td><p>100</p></td>
-   </tr>
-</table>
-
-### 摂取する{#ingestion}
-
-次の表は、各埋め込みモデルでサポートされるカスタマイズされたチャンク体格の制限を示しています。
-
-<table>
-   <tr>
-     <th><p><strong>埋め込みモデル</strong></p></th>
-     <th><p><strong>チャンクサイズの範囲（トークン）</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>zilliz/bge-based-en-v 1.5-ダウンロード</p></td>
-     <td><p>20-500</p></td>
-   </tr>
-   <tr>
-     <td><p>zilliz/bge-base-zh-v 1.5-ダウンロード</p></td>
-     <td><p>20-500</p></td>
-   </tr>
-   <tr>
-     <td><p>タイトル: voyageai/voyage-2</p></td>
-     <td><p>20-3,000</p></td>
-   </tr>
-   <tr>
-     <td><p>voyageai/航海コード-2</p></td>
-     <td><p>20-12,000</p></td>
-   </tr>
-   <tr>
-     <td><p>voyageai/ヴォヤージュラージ2</p></td>
-     <td><p>20-12,000</p></td>
-   </tr>
-   <tr>
-     <td><p>OPENAI/text-embedding-3-small</p></td>
-     <td><p>250-8,191</p></td>
-   </tr>
-   <tr>
-     <td><p>OPENAI/text-embedding-3-large</p></td>
-     <td><p>250-8,191</p></td>
-   </tr>
-</table>
-
-次の表に、取り込みパイプラインでPRESERVE関数によって生成されるメタデータフィールドの制限を示します。
-
-<table>
-   <tr>
-     <th></th>
-     <th><p><strong>マックス数</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>メタデータフィールドの数</p></td>
-     <td><p>50</p></td>
-   </tr>
-   <tr>
-     <td><p>VARCHARフィールドのmax_length</p></td>
-     <td><p>4,000</p></td>
-   </tr>
-</table>
-
-次の表は、毎回摂取できるチャンクの数の制限を示しています。
-
-<table>
-   <tr>
-     <th><p><strong>埋め込みモデル</strong></p></th>
-     <th><p><strong>マックス。チャンク/摂取</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>zilliz/bge-based-en-v 1.5-ダウンロード</p></td>
-     <td><p>3,500</p></td>
-   </tr>
-   <tr>
-     <td><p>タイトル: voyageai/voyage-2</p></td>
-     <td><p>6,000</p></td>
-   </tr>
-   <tr>
-     <td><p>voyageai/航海コード-2</p></td>
-     <td><p>6,000</p></td>
-   </tr>
-   <tr>
-     <td><p>OPENAI/text-embedding-3-small</p></td>
-     <td><p>6,000</p></td>
-   </tr>
-   <tr>
-     <td><p>OPENAI/text-embedding-large</p></td>
-     <td><p>6,000</p></td>
-   </tr>
-   <tr>
-     <td><p>zilliz/bge-base-zh-v 1.5-ダウンロード</p></td>
-     <td><p>3,500</p></td>
-   </tr>
-</table>
-
-### パイプラインの使用{#pipeline-usage}
-
-<table>
-   <tr>
-     <th></th>
-     <th><p><strong>マックス。使用法</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>それぞれの組織</p></td>
-     <td><p>20ドル/月</p></td>
-   </tr>
-</table>
-
 ## コレクション{#collections}
 
 <table>
@@ -390,38 +263,10 @@ CUは、データの並列処理に使用される計算リソースの基本単
    </tr>
    <tr>
      <td><p>専用クラスタ</p></td>
-     <td><p>CUあたり64、および&lt;=409 6</p></td>
-     <td><p>専用クラスターで使用されるCUごとに最大64個のコレクションを作成でき、クラスター内には4,096個を超えるコレクションは作成できません。</p></td>
+     <td><p>CUあたり256、および&lt;=16384</p></td>
+     <td><p>専用クラスターで使用されるCUごとに最大256個のコレクションを作成でき、クラスター内には16,384個を超えるコレクションは作成できません。</p></td>
    </tr>
 </table>
-
-クラスタあたりのコレクション数の制限に加えて、Zilliz Cloudは消費容量にも制限を適用します。以下のレシピは、Zilliz Cloudがクラスタの一般的な容量を計算する方法を示しています。消費容量は、利用可能な一般的な容量よりも小なりである必要があります。
-
-```java
-General Capacity = 512 x Number of CUs
-```
-
-<Admonition type="info" icon="📘" title="クラスタの一般的な容量を知るにはどうすればよいですか?">
-
-<p>クラスタの一般的な容量は、クラスタに割り当てられた最大物理リソースを示し、次のレシピを使用して決定できます。</p>
-<p><strong>\<=512 x CUの数</strong></p>
-<p>例えば、</p>
-<ul>
-<li><p>クラスタを<strong>2</strong>つのCUで構成すると、最大<strong>128</strong>個のコレクションを作成でき、一般容量は<strong>1,024</strong>個です。</p></li>
-<li><p>クラスタは<strong>12</strong>個のCUで、最大<strong>768</strong>個のコレクションを作成できます。一般容量は<strong>6</strong>,144個です。</p></li>
-<li><p>クラスタが<strong>32</strong>CU以上の場合、最大<strong>4,096</strong>コレクションを作成でき、一般容量は16,384で<strong>す</strong>。</p></li>
-</ul>
-
-</Admonition>
-
-<Admonition type="info" icon="📘" title="クラスタの消費容量を知るにはどうすればよいですか?">
-
-<p>クラスタの消費容量は、クラスタによって消費される物理リソースを示します。</p>
-<p>例えば、クラスタ内に<strong>50</strong>のコレクションを作成したとします。最初の<strong>20</strong>のコレクションにはそれぞれ<strong>20</strong>のパーティションがあり、残りの<strong>30</strong>のコレクションにはそれぞれ<strong>10</strong>のパーティションがあります。クラスタの消費容量は以下のように計算できます:</p>
-<p><strong>20(コレクション)x 20(パーティション)+30(コレクション)x 10(パーティション)=400+300=70 0</strong></p>
-<p>上記の計算に基づいて、Zilliz Cloudはクラスタの消費容量を<strong>700</strong>と見なしています。</p>
-
-</Admonition>
 
 Zilliz Cloudは、コレクションの作成、読み込み、リリース、削除を含むコレクション操作に対してレート制限を課しました。以下のレート制限は、サーバーレスおよび専用クラスターのコレクションに適用されます。
 
@@ -461,7 +306,7 @@ Zilliz Cloudは、コレクションの作成、読み込み、リリース、�
    </tr>
 </table>
 
-消費容量と一般容量を計算する場合は、[コレクション](./limits#collections)のノートを参照してください。さらに、パーティション作成のレート制限はクラスタあたり**1**パーティション/秒です。
+作成されたパーティション数と使用可能なパーティション数を計算する場合は、「[コレクション](./limits#collections)」のノートを参照してください。また、パーティション作成のレート制限は、クラスタあたり1パーティション/秒です。
 
 ### フィールド{#fields}
 
@@ -741,6 +586,133 @@ Zilliz Cloudは、Webコンソールにインポートするファイルに制�
      <td><p>IPアドレス(CIDR)</p></td>
      <td><p>20</p></td>
      <td><p>許可リストには最大20個のIPアドレスを追加できます。</p></td>
+   </tr>
+</table>
+
+## パイプライン | NEAR DEPRECATE{#pipelines}
+
+### パイプラインの数{#number-of-pipelines}
+
+次の表に、プロジェクトで作成できるさまざまな種類のパイプラインの制限を示します。
+
+<table>
+   <tr>
+     <th><p><strong>パイプラインタイプ</strong></p></th>
+     <th><p><strong>プロジェクトごとの最大数</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>摂取パイプライン</p></td>
+     <td><p>100</p></td>
+   </tr>
+   <tr>
+     <td><p>削除パイプライン</p></td>
+     <td><p>100</p></td>
+   </tr>
+   <tr>
+     <td><p>検索パイプライン</p></td>
+     <td><p>100</p></td>
+   </tr>
+</table>
+
+### 摂取する{#ingestion}
+
+次の表は、各埋め込みモデルでサポートされるカスタマイズされたチャンク体格の制限を示しています。
+
+<table>
+   <tr>
+     <th><p><strong>埋め込みモデル</strong></p></th>
+     <th><p><strong>チャンクサイズの範囲（トークン）</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>zilliz/bge-based-en-v 1.5-ダウンロード</p></td>
+     <td><p>20-500</p></td>
+   </tr>
+   <tr>
+     <td><p>zilliz/bge-base-zh-v 1.5-ダウンロード</p></td>
+     <td><p>20-500</p></td>
+   </tr>
+   <tr>
+     <td><p>タイトル: voyageai/voyage-2</p></td>
+     <td><p>20-3,000</p></td>
+   </tr>
+   <tr>
+     <td><p>voyageai/航海コード-2</p></td>
+     <td><p>20-12,000</p></td>
+   </tr>
+   <tr>
+     <td><p>voyageai/ヴォヤージュラージ2</p></td>
+     <td><p>20-12,000</p></td>
+   </tr>
+   <tr>
+     <td><p>OPENAI/text-embedding-3-small</p></td>
+     <td><p>250-8,191</p></td>
+   </tr>
+   <tr>
+     <td><p>OPENAI/text-embedding-3-large</p></td>
+     <td><p>250-8,191</p></td>
+   </tr>
+</table>
+
+次の表に、取り込みパイプラインでPRESERVE関数によって生成されるメタデータフィールドの制限を示します。
+
+<table>
+   <tr>
+     <th></th>
+     <th><p><strong>マックス数</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>メタデータフィールドの数</p></td>
+     <td><p>50</p></td>
+   </tr>
+   <tr>
+     <td><p>VARCHARフィールドのmax_length</p></td>
+     <td><p>4,000</p></td>
+   </tr>
+</table>
+
+次の表は、毎回摂取できるチャンクの数の制限を示しています。
+
+<table>
+   <tr>
+     <th><p><strong>埋め込みモデル</strong></p></th>
+     <th><p><strong>マックス。チャンク/摂取</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>zilliz/bge-based-en-v 1.5-ダウンロード</p></td>
+     <td><p>3,500</p></td>
+   </tr>
+   <tr>
+     <td><p>タイトル: voyageai/voyage-2</p></td>
+     <td><p>6,000</p></td>
+   </tr>
+   <tr>
+     <td><p>voyageai/航海コード-2</p></td>
+     <td><p>6,000</p></td>
+   </tr>
+   <tr>
+     <td><p>OPENAI/text-embedding-3-small</p></td>
+     <td><p>6,000</p></td>
+   </tr>
+   <tr>
+     <td><p>OPENAI/text-embedding-large</p></td>
+     <td><p>6,000</p></td>
+   </tr>
+   <tr>
+     <td><p>zilliz/bge-base-zh-v 1.5-ダウンロード</p></td>
+     <td><p>3,500</p></td>
+   </tr>
+</table>
+
+### パイプラインの使用{#pipeline-usage}
+
+<table>
+   <tr>
+     <th></th>
+     <th><p><strong>マックス。使用法</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>それぞれの組織</p></td>
+     <td><p>20ドル/月</p></td>
    </tr>
 </table>
 

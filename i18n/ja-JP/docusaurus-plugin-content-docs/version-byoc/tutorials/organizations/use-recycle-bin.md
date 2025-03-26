@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

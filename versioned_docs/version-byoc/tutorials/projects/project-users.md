@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

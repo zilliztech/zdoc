@@ -8,21 +8,21 @@ notebook: false
 description: "This operation displays the details of an alias. | Java | v2"
 type: docx
 token: B57cdiaEkotJQnxl7I9cJqotnPb
-sidebar_position: 8
+sidebar_position: 11
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - describeAlias()
-  - javaV2
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - javaV225
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: javaSidebar
 
 ---

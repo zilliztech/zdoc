@@ -1,7 +1,10 @@
 ---
+title: "ReleaseCollection() | Go | v1"
 slug: /go/v1-Collection-ReleaseCollection
+sidebar_label: "ReleaseCollection()"
 beta: FALSE
 notebook: FALSE
+description: "This method releases the specified collection from memory. | Go | v1"
 type: origin
 token: PqoEwiGLQiRXiZkkKnLckVpLnFc
 sidebar_position: 7

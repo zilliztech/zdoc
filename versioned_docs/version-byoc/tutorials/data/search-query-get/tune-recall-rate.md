@@ -18,10 +18,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

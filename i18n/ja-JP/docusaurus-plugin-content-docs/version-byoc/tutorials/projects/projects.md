@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

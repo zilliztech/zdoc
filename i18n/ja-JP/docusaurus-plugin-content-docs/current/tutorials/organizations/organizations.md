@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

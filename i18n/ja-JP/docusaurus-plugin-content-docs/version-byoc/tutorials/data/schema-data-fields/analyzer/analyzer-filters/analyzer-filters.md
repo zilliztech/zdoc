@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

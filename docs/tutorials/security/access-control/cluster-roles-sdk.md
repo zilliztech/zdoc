@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

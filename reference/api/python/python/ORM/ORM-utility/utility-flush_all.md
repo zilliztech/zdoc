@@ -10,19 +10,19 @@ type: docx
 token: Uwsfd443boKKgyx2zZTcYDqKnCe
 sidebar_position: 12
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - flush_all()
   - pymilvus25
+  - ANNS
+  - Vector search
   - knn algorithm
   - HNSW
-  - What is unstructured data
-  - Vector embeddings
 displayed_sidebar: pythonSidebar
 
 ---
@@ -80,7 +80,7 @@ from pymilvus import (
     utility,
 )
 
-# Connect to localhost:19530
+# Connect to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Create a collection

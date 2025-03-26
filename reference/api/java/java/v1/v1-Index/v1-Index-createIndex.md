@@ -2,7 +2,7 @@
 title: "createIndex() | Java | v1"
 slug: /java/v1-Index-createIndex
 sidebar_label: "createIndex()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The MilvusClient interface. This method creates an index on a field in the specified collection. | Java | v1"
 type: origin

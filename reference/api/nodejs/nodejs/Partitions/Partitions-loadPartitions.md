@@ -10,19 +10,19 @@ type: docx
 token: Pyh3dttWKoBqcBx8FGhcArhAnqg
 sidebar_position: 6
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitions()
-  - node
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - nodejs25
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: nodeSidebar
 
 ---

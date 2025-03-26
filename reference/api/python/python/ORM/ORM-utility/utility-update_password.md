@@ -10,19 +10,19 @@ type: docx
 token: SGjed7w9toewDlxmXHKc7BFancf
 sidebar_position: 41
 keywords: 
+  - Audio similarity search
+  - Elastic vector database
   - Pinecone vs Milvus
   - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - update_password()
   - pymilvus25
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---
@@ -99,7 +99,7 @@ None
 ```python
 from pymilvus import connections, utility
 
-# Connection to localhost:19530
+# Connection to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Create a user

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - pricing
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 
@@ -40,7 +40,7 @@ Zilliz Cloud Pipelinesは従量制の[価格設定](https://zilliz.com/jp/pricin
 
 現在、Zilliz Cloud Pipelinesは無料のクォータを提供しています。これは、最初の20ドルの支出が無料であることを意味します。
 
-さらに、Zilliz Cloud Pipelinesの[総使用量に上限](./limits#pipeline-usage)があります。各組織は、1か月あたり最大20ドルのパイプライン使用量を消費できます。クォータ制限を増やす必要がある場合は、[営業部](https://zilliz.com/jp/contact-sales)にお問い合わせいただくか、[Zillizサポートポータル](https://support.zilliz.com/hc/en-us)でチケットを提出してください。
+さらに、Zilliz Cloud Pipelinesの[総使用量に上限](./limits)があります。各組織は、1か月あたり最大20ドルのパイプライン使用量を消費できます。クォータ制限を増やす必要がある場合は、[営業部](https://zilliz.com/jp/contact-sales)にお問い合わせいただくか、[Zillizサポートポータル](https://support.zilliz.com/hc/en-us)でチケットを提出してください。
 
 ## コストと使用状況を見る{#view-costs-and-usage}
 

@@ -19,10 +19,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 
@@ -80,7 +80,7 @@ To enable full text search, create a collection with a specific schema. This sch
 
 First, create the schema and add the necessary fields:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -125,6 +125,14 @@ schema.addField(AddFieldReq.builder()
         .fieldName("sparse")
         .dataType(DataType.SparseFloatVector)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -202,7 +210,7 @@ In this configuration,
 
 Now, define a function that will convert your text into sparse vector representations and then add it to the schema:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -210,7 +218,7 @@ bm25_function = Function(
     name="text_bm25_emb", # Function name
     input_field_names=["text"], # Name of the VARCHAR field containing raw text data
     output_field_names=["sparse"], # Name of the SPARSE_FLOAT_VECTOR field reserved to store generated embeddings
-    function_type=FunctionType.BM25,
+    function_type=FunctionType.BM25, # Set to `BM25`
 )
 
 schema.add_function(bm25_function)
@@ -232,6 +240,14 @@ schema.addFunction(Function.builder()
         .inputFieldNames(Collections.singletonList("text"))
         .outputFieldNames(Collections.singletonList("vector"))
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -326,7 +342,7 @@ export schema='{
 
 After defining the schema with necessary fields and the built-in function, set up the index for your collection. To simplify this process, use `AUTOINDEX` as the `index_type`, an option that allows Zilliz Cloud to choose and configure the most suitable index type based on the structure of your data.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -334,8 +350,10 @@ index_params = MilvusClient.prepare_index_params()
 
 index_params.add_index(
     field_name="sparse",
+
     index_type="AUTOINDEX", 
     metric_type="BM25"
+
 )
 ```
 
@@ -351,7 +369,15 @@ indexes.add(IndexParam.builder()
         .fieldName("sparse")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.BM25)
-        .build());
+        .build());    
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -402,13 +428,29 @@ export indexParams='[
      <td><p><code>metric_type</code></p></td>
      <td><p>The value for this parameter must be set to <code>BM25</code> specifically for full text search functionality.</p></td>
    </tr>
+   <tr>
+     <td><p><code>params</code></p></td>
+     <td><p>A dictionary of additional parameters specific to the index.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>params.inverted_index_algo</code></p></td>
+     <td><p>The algorithm used for building and querying the index. Valid values:</p><ul><li><p><code>"DAAT_MAXSCORE"</code> (default): Optimized Document-at-a-Time (DAAT) query processing using the MaxScore algorithm. MaxScore provides better performance for high <em>k</em> values or queries with many terms by skipping terms and documents likely to have minimal impact. It achieves this by partitioning terms into essential and non-essential groups based on their maximum impact scores, focusing on terms that can contribute to the top-k results.</p></li><li><p><code>"DAAT_WAND"</code>: Optimized DAAT query processing using the WAND algorithm. WAND evaluates fewer hit documents by leveraging maximum impact scores to skip non-competitive documents, but it has a higher per-hit overhead. This makes WAND more efficient for queries with small <em>k</em> values or short queries, where skipping is more feasible.</p></li><li><p><code>"TAAT_NAIVE"</code>: Basic Term-at-a-Time (TAAT) query processing. While it is slower compared to <code>DAAT_MAXSCORE</code> and <code>DAAT_WAND</code>, <code>TAAT_NAIVE</code> offers a unique advantage. Unlike DAAT algorithms, which use cached maximum impact scores that remain static regardless of changes to the global collection parameter (avgdl), <code>TAAT_NAIVE</code> dynamically adapts to such changes.</p></li></ul></td>
+   </tr>
+   <tr>
+     <td><p><code>params.bm25_k1</code></p></td>
+     <td><p>Controls the term frequency saturation. Higher values increase the importance of term frequencies in document ranking. Value range: [1.2, 2.0].</p></td>
+   </tr>
+   <tr>
+     <td><p><code>params.bm25_b</code></p></td>
+     <td><p>Controls the extent to which document length is normalized. Values between 0 and 1 are typically used, with a common default around 0.75. A value of 1 means no length normalization, while a value of 0 means full normalization.</p></td>
+   </tr>
 </table>
 
 ### Create the collection{#create-the-collection}
 
 Now create the collection using the schema and index parameters defined.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -432,6 +474,14 @@ CreateCollectionReq requestCreate = CreateCollectionReq.builder()
         .indexParams(indexes)
         .build();
 client.createCollection(requestCreate);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -473,7 +523,7 @@ curl --request POST \
 
 After setting up your collection and index, you're ready to insert text data. In this process, you need only to provide the raw text. The built-in function we defined earlier automatically generates the corresponding sparse vector for each text entry.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -505,6 +555,14 @@ client.insert(InsertReq.builder()
         .collectionName("demo")
         .data(rows)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -548,12 +606,12 @@ curl --request POST \
 
 Once you've inserted data into your collection, you can perform full text searches using raw text queries. Zilliz Cloud automatically converts your query into a sparse vector and ranks the matched search results using the BM25 algorithm, and then returns the topK (`limit`) results.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 search_params = {
-    'params': {'drop_ratio_search': 0.2},
+    'params': {'level': 10},
 }
 
 client.search(
@@ -575,7 +633,7 @@ import io.milvus.v2.service.vector.request.data.EmbeddedText;
 import io.milvus.v2.service.vector.response.SearchResp;
 
 Map<String,Object> searchParams = new HashMap<>();
-searchParams.put("drop_ratio_search", 0.2);
+searchParams.put("level", 10);
 SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("demo")
         .data(Collections.singletonList(new EmbeddedText("whats the focus of information retrieval?")))
@@ -588,6 +646,14 @@ SearchResp searchResp = client.search(SearchReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -596,7 +662,7 @@ await client.search(
     data: ['whats the focus of information retrieval?'],
     anns_field: 'sparse',
     limit: 3,
-    params: {'drop_ratio_search': 0.2},
+    params: {'level': 10},
 )
 ```
 
@@ -621,7 +687,7 @@ curl --request POST \
     ],
     "searchParams":{
         "params":{
-            "drop_ratio_search":0.2
+            "level":10
         }
     }
 }'
@@ -640,8 +706,8 @@ curl --request POST \
      <td><p>A dictionary containing search parameters.</p></td>
    </tr>
    <tr>
-     <td><p><code>params.drop_ratio_search</code></p></td>
-     <td><p>Proportion of terms with less contribution to BM25 scoring to ignore during search. For details, refer to <a href="./use-sparse-vector">Sparse Vector</a>.</p></td>
+     <td><p><code>params.level</code></p></td>
+     <td><p>Controls the search precision with simplified search optimization. For details, refer to <a href="./single-vector-search">Use Level</a>.</p></td>
    </tr>
    <tr>
      <td><p><code>data</code></p></td>

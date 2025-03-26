@@ -8,21 +8,21 @@ notebook: false
 description: "This operation creates an index for a specific collection. | Java | v2"
 type: docx
 token: OCjUdfc6eo0VihxNUGmcqb7FnTh
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
-  - javaV2
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - javaV225
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: javaSidebar
 
 ---

@@ -8,21 +8,21 @@ notebook: false
 description: "This is a method template. | Node.js"
 type: docx
 token: KeoKdlitaog6n1xpX8McIIIrnWb
-sidebar_position: 13
+sidebar_position: 17
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - listAliases()
-  - node
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - nodejs25
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: nodeSidebar
 
 ---

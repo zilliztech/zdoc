@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 
@@ -214,7 +214,7 @@ GCPコンソールで[Cloud DNS](https://console.cloud.google.com/net-services/d
 
 ### GCPでプライベートリンクをpingすると、常に`Name or service not known`が報告されるのはなぜですか?{#why-does-it-always-report-name-or-service-not-known-when-i-ping-the-private-link-on-gcp}
 
-DNS設定を確認するには、「[ファイアウォールルールとDNSレコードの設定](./setup-a-private-link-gcp#dnsset-up-firewall-rules-and-a-dns-record)」を参照してください。
+DNS設定を確認するには、「[ファイアウォールルールとDNSレコードの設定](./setup-a-private-link-gcp#set-up-firewall-rules-and-a-dns-record)」を参照してください。
 
 - 設定が正しい場合、プライベートリンクをpingすると、表示されるはずです
 

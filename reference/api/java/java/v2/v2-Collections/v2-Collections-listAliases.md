@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists all existing aliases for a specific collection. | Java | v2"
 type: docx
 token: RvZDdxU1howmQ7x2V31c8eC7nJb
-sidebar_position: 15
+sidebar_position: 20
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - listAliases()
-  - javaV2
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - javaV225
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: javaSidebar
 
 ---

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

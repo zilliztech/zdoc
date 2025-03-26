@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 
@@ -87,7 +87,7 @@ To use dense vectors in Zilliz Cloud clusters, first define a vector field for s
 
 In the example below, we add a vector field named `dense_vector` to store dense vectors. The field's data type is `FLOAT_VECTOR`, with a dimension of `4`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -154,6 +154,23 @@ schema.push({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+schema := entity.NewSchema()
+schema.WithField(entity.NewField().
+    WithName("pk").
+    WithDataType(entity.FieldTypeVarChar).
+    WithMaxLength(100),
+).WithField(entity.NewField().
+    WithName("dense_vector").
+    WithDataType(entity.FieldTypeFloatVector).
+    WithDim(4),
+)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -211,7 +228,7 @@ export schema="{
 
 To accelerate semantic searches, an index must be created for the vector field. Indexing can significantly improve the retrieval efficiency of large-scale vector data.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -259,6 +276,20 @@ const indexParams = {
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/index"
+)
+
+index := index.NewAutoIndex(entity.IP)
+indexOption := milvusclient.NewCreateIndexOption("my_dense_collection", "dense_vector", idx)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -283,7 +314,7 @@ Zilliz Cloud supports other metric types. For more information, refer to [Metric
 
 Once the dense vector and index param settings are complete, you can create a collection containing dense vectors. The example below uses the `create_collection` method to create a collection named `my_dense_collection`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -335,6 +366,25 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/index"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+err = cli.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption(collectionName, schema).
+        WithIndexOptions(indexOption))
+if err != nil {
+    // handle error
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -356,7 +406,7 @@ curl --request POST \
 
 After creating the collection, use the `insert` method to add data containing dense vectors. Ensure that the dimensionality of the dense vectors being inserted matches the `dim` value defined when adding the dense vector field.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -410,6 +460,19 @@ client.insert({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+cli.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_dense_collection").
+    WithFloatVectorColumn("dense_vector", 4, [][]float32{
+        {0.1, 0.2, 0.3, 0.7},
+        {0.2, 0.3, 0.4, 0.8},
+    }),
+)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -435,7 +498,7 @@ curl --request POST \
 
 Semantic search based on dense vectors is one of the core features of Zilliz Cloud clusters, allowing you to quickly find data that is most similar to a query vector based on the distance between vectors. To perform a similarity search, prepare the query vector and search parameters, then call the `search` method.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -504,6 +567,34 @@ client.search({
         nprobe: 10
     }
 });
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+queryVector := []float32{0.1, 0.2, 0.3, 0.7}
+
+annParam := index.NewCustomAnnParam()
+annParam.WithExtraParam("nprobe", 10)
+resultSets, err := cli.Search(ctx, milvusclient.NewSearchOption(
+    "my_dense_collection", // collectionName
+    5,             // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+    
+).
+WithOutputFields("pk").
+WithAnnParam(annParam))
+if err != nil {
+    log.Fatal("failed to perform basic ANN search collection: ", err.Error())
+}
+
+for _, resultSet := range resultSets {
+    log.Println("IDs: ", resultSet.IDs)
+    log.Println("Scores: ", resultSet.Scores)
+    log.Println("Pks: ", resultSet.GetColumn("pk"))
+}
 ```
 
 </TabItem>

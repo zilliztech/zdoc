@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - array operators
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

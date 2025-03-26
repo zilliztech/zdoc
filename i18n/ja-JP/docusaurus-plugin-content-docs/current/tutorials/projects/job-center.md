@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

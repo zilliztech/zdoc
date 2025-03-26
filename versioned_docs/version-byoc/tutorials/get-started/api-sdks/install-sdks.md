@@ -14,10 +14,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

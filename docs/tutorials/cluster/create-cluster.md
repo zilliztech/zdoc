@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - range search
+  - knn algorithm
   - HNSW
   - What is unstructured data
   - Vector embeddings
-  - Vector store
 
 ---
 
@@ -55,27 +55,27 @@ import TabItem from '@theme/TabItem';
    <tr>
      <td><p><code>L 2</code></p></td>
      <td><p>L 2距離が小さいほど、類似度が高いことを示します。</p></td>
-     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください</p><p><code>range_filter</code>&lt;=距離&lt;<code>半径</code></p></td>
+     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください <code>range_filter</code>&lt;=距離&lt;<code>半径</code></p></td>
    </tr>
    <tr>
      <td><p><code>IP</code></p></td>
      <td><p>IP距離が大きいほど、類似度が高いことを示します。</p></td>
-     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください</p><p><code>半径</code>&lt;距離&lt;=<code>範囲フィルタ</code></p></td>
+     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください <code>半径</code>&lt;距離&lt;=<code>範囲フィルタ</code></p></td>
    </tr>
    <tr>
      <td><p><code>コサイン</code></p></td>
      <td><p>COSINE距離が大きいほど類似度が高いことを示します。</p></td>
-     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください</p><p><code>半径</code>&lt;距離&lt;=<code>範囲フィルタ</code></p></td>
+     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください <code>半径</code>&lt;距離&lt;=<code>範囲フィルタ</code></p></td>
    </tr>
    <tr>
      <td><p><code>ジャカード</code></p></td>
      <td><p>ジャッカード距離が小さいほど類似度が高いことを示す。</p></td>
-     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください</p><p><code>range_filter</code>&lt;=距離&lt;<code>半径</code></p></td>
+     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください <code>range_filter</code>&lt;=距離&lt;<code>半径</code></p></td>
    </tr>
    <tr>
      <td><p><code>ハミング</code></p></td>
      <td><p>ハミング距離が小さいほど類似度が高いことを示す。</p></td>
-     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください</p><p><code>range_filter</code>&lt;=距離&lt;<code>半径</code></p></td>
+     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください <code>range_filter</code>&lt;=距離&lt;<code>半径</code></p></td>
    </tr>
 </table>
 

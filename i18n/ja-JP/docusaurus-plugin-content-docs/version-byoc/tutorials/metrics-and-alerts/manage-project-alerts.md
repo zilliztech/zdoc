@@ -14,10 +14,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 
@@ -47,12 +47,12 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
    <tr>
      <td><p>CUコンピュテーション</p></td>
      <td><p>%</p></td>
-     <td><p><strong>警告</strong>: 70%以上のトリガーアラートは、10分以上にわたって計算能力を利用しました。</p><p><strong>クリティカル</strong>: 90%以上のトリガーアラートは、10分以上にわたって計算能力を利用しました。</p></td>
+     <td><p><strong>警告</strong>: 70%以上のトリガーアラートは、10分以上にわたって計算能力を利用しました。 <strong>クリティカル</strong>: 90%以上のトリガーアラートは、10分以上にわたって計算能力を利用しました。</p></td>
    </tr>
    <tr>
      <td><p>CUの容量</p></td>
      <td><p>%</p></td>
-     <td><p><strong>警告</strong>:&gt;70%のトリガーアラートは、10+分のCU容量を利用しました。</p><p><strong>クリティカル</strong>: CU容量が10分以上使用され、90%以上のトリガーアラートが発生しました。</p></td>
+     <td><p><strong>警告</strong>:&gt;70%のトリガーアラートは、10+分のCU容量を利用しました。 <strong>クリティカル</strong>: CU容量が10分以上使用され、90%以上のトリガーアラートが発生しました。</p></td>
    </tr>
    <tr>
      <td><p>検索する(QPS)</p></td>

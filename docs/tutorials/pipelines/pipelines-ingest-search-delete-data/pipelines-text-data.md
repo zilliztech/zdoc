@@ -2,7 +2,7 @@
 title: "Text Data | Cloud"
 slug: /pipelines-text-data
 sidebar_label: "Text Data"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The Zilliz Cloud web UI provides a simplified and intuitive way of creating, running, and managing Pipelines while the RESTful API offers more flexibility and customization compared to the Web UI. | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - text data
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 
@@ -41,7 +41,7 @@ This guide walks you through the necessary steps to create text pipelines, condu
 
 - Ensure you have created a cluster deployed in us-west1 on Google Cloud Platform (GCP).
 
-- In one project, you can only create up to 100 pipelines of the same type. For more information, refer to [Zilliz Cloud Limits](./limits#pipelines).
+- In one project, you can only create up to 100 pipelines of the same type. For more information, refer to [Zilliz Cloud Limits](./limits).
 
 ## Ingest text data{#ingest-text-data}
 
@@ -338,10 +338,10 @@ This collection contains four fields:  three output fields of the **INDEX_TEXT**
 
 <table>
    <tr>
-     <th><p>id</p><p>(Data Type: Int64)</p></th>
-     <th><p>text</p><p>(Data type: VarChar)</p></th>
-     <th><p>embedding</p><p>(Data type: FLOAT_VECTOR)</p></th>
-     <th><p>source</p><p>(Data type: VarChar)</p></th>
+     <th><p>id (Data Type: Int64)</p></th>
+     <th><p>text (Data type: VarChar)</p></th>
+     <th><p>embedding (Data type: FLOAT_VECTOR)</p></th>
+     <th><p>source (Data type: VarChar)</p></th>
    </tr>
 </table>
 

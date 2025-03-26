@@ -14,10 +14,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

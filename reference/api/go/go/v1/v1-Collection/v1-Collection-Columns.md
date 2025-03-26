@@ -1,7 +1,10 @@
 ---
+title: "Columns | Go | v1"
 slug: /go/v1-Collection-Columns
+sidebar_label: "Columns"
 beta: FALSE
 notebook: FALSE
+description: "The struct types on this page implement the method signatures of the `entity.Column` interface. | Go | v1"
 type: origin
 token: GftcwnSu7iOCbDk1wGTc9sE3nwb
 sidebar_position: 18

@@ -2,7 +2,7 @@
 title: "getLoadState() | Java | v1"
 slug: /java/v1-Collection-getLoadState
 sidebar_label: "getLoadState()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "A MilvusClient interface. This method gets the state of loading collection progress. | Java | v1"
 type: origin

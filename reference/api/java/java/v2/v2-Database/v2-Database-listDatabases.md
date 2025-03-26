@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists all the database names. | Java | v2"
 type: docx
 token: IHoodknUJohFAbxMFg3c0q8un6f
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
-  - javaV2
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - javaV225
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: javaSidebar
 
 ---

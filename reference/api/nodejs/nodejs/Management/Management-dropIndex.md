@@ -8,21 +8,21 @@ notebook: false
 description: "This operation drops an index from a specific collection. | Node.js"
 type: docx
 token: UBbndftiQo2HdOxUNtocIISnnVh
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndex()
-  - node
-  - rag vector database
-  - what is vector db
+  - nodejs25
   - what are vector databases
   - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: nodeSidebar
 
 ---

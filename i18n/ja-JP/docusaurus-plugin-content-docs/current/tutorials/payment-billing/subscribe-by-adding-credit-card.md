@@ -7,17 +7,17 @@ notebook: FALSE
 description: "このガイドでは、Zilliz Cloudに組織の支払いクレジットカードを追加する方法について包括的な手順を提供します。 | Cloud"
 type: origin
 token: E3TCwE0EXiQFvmk27QLcNMeunId
-sidebar_position: 2
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
   - cloud
   - credit card
   - subscribe
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

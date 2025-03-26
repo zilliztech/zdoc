@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

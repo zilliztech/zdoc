@@ -14,10 +14,10 @@ keywords:
   - cloud
   - whitelist
   - setup
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 
@@ -83,7 +83,7 @@ Zilliz Cloudのホワイトリストは、プロジェクトレベルで堅牢�
 
 - [APIキー](./manage-api-keys)
 
-- [クラスタの認証情報(コンソール)](./cluster-credentials-sdk)
+- [クラスタの認証情報(コンソール)](./cluster-credentials)
 
 - [プライベートエンドポイントを設定する](./setup-a-private-link)
 

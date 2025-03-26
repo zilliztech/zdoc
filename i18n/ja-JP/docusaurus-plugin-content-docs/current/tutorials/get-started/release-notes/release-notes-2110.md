@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

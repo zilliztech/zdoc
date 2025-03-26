@@ -8,21 +8,21 @@ notebook: false
 description: "This operation creates a collection schema. | Java | v2"
 type: docx
 token: V5KXdwdO0oqkhnxsKb9c3xaKn4c
-sidebar_position: 6
+sidebar_position: 9
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - createSchema()
-  - javaV2
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - javaV225
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 displayed_sidebar: javaSidebar
 
 ---

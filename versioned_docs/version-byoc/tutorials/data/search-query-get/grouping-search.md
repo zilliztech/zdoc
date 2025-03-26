@@ -16,10 +16,10 @@ keywords:
   - data
   - grouping search
   - group
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 
@@ -247,11 +247,11 @@ curl --request POST \
 
 In the request above, `limit=3` indicates that the system will return search results from three groups, with each group containing the single most similar entity to the query vector.
 
-## Configure group size{#configure-group-size}
+## Configure group size | PUBLIC{#configure-group-size}
 
 By default, Grouping Search returns only one entity per group. If you want multiple results per group, adjust the `group_size` and `strict_group_size` parameters.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -302,6 +302,14 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 // SearchResp.SearchResult(entity={docId=2}, score=0.38515577, id=2)
 // SearchResp.SearchResult(entity={docId=3}, score=0.3611898, id=3)
 // SearchResp.SearchResult(entity={docId=3}, score=0.19556211, id=4)
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>

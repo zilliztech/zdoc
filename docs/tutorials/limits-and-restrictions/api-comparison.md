@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 
@@ -510,12 +510,3 @@ The table below provides a comparison of API availability across various service
      <td><p>✔︎</p></td>
    </tr>
 </table>
-
-## Related topics{#related-topics}
-
-- [Migrate from Milvus 1.x](./via-backup-files)
-
-- [AUTOINDEX Explained](./autoindex-explained)
-
-- [Select the Right CU](./cu-types-explained) 
-

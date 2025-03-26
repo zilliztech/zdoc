@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 
@@ -55,7 +55,7 @@ To rename a project, you must be an [Organization Owner](./organization-users).
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Each organization contains a default project. The name of the default project cannot be modified.</p>
+<p>Each organization contains a default project. </p>
 
 </Admonition>
 

@@ -1,0 +1,88 @@
+---
+displayed_sidbar: nodeSidebar
+title: "dropAllRoles() | Node.js"
+slug: /node/node/Authentication-dropAllRoles
+sidebar_label: "dropAllRoles()"
+beta: false
+notebook: false
+description: "This operation drops all roles in Milvus. | Node.js"
+type: docx
+token: E5rYdw3EWo2WKZxEyGac049an3e
+sidebar_position: 9
+keywords: 
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - dropAllRoles()
+  - nodejs25
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
+displayed_sidebar: nodeSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# dropAllRoles()
+
+This operation drops all roles in Milvus.
+
+```javascript
+dropAllRoles(data?): Promise<ResStatus[]>
+```
+
+## Request Syntax{#request-syntax}
+
+```javascript
+milvusClient.dropAllRoles({
+   timeout?: number
+})
+```
+
+**PARAMETERS:**
+
+- **timeout** (*number*) -  
+
+    The timeout duration for this operation. 
+
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+
+**RETURNS** *Promise\<ResStatus[]>*
+
+This method returns a list of promises, each of which resolves to a **ResStatus** object.
+
+```javascript
+{
+    code: number,
+    error_code: string | number,
+    reason: string
+}
+```
+
+**PARAMETERS:**
+
+- **code** (*number*) -
+
+    A code that indicates the operation result. It remains **0** if this operation succeeds.
+
+- **error_code** (*string* | *number*) -
+
+    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+
+- **reason** (*string*) - 
+
+    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+## Example{#example}
+
+```java
+milvusClient.dropAllRoles()
+```
+

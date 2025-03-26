@@ -7,16 +7,16 @@ notebook: FALSE
 description: "This update to Zilliz Cloud introduces the Serverless plan in BETA. It is designed for applications with variable query volumes, requiring minimal configuration and offering seamless scalability. This plan is now available on GCP us-west1 (Oregon) and includes a free trial during the BETA period. Additionally, new regions are supported for dedicated clusters Germany West Central (Frankfurt) for Azure, and europe-west3 (Frankfurt) and us-east-4 (Virginia) for GCP. This release also introduces several enhancements to monitoring metrics, search precision control, and import jobs. | Cloud"
 type: origin
 token: EL8jwqHsPikz2okhYzXcuLscnhf
-sidebar_position: 8
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

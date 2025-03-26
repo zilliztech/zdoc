@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

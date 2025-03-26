@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

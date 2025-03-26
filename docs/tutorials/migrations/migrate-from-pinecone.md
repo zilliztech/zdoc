@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Pinecone is a vector database that allows for similarity searches. Migrating data from Pinecone to Zilliz Cloud can enhance capabilities for managing both dense and sparse vectors while taking advantage of Zilliz Cloud’s high-performance search and analytics. | Cloud"
 type: origin
 token: R33EwQchxiO3HKk4vPnce6vkntc
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - migrations
   - pinecone
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 
@@ -33,8 +33,6 @@ This guide walks you through the process of migrating your data from Pinecone to
 ## Considerations{#considerations}
 
 - When you migrate data from Pinecone to Zilliz Cloud, vector fields are transferred directly, while metadata fields from Pinecone are stored as JSON in a dynamic field on Zilliz Cloud. For details on the dynamic field feature, refer to [Dynamic Field](./enable-dynamic-field).
-
-- To ensure compatibility, Auto ID will be disabled and cannot be modified for each target collection on Zilliz Cloud.
 
 - This migration only supports Pinecone serverless indexes.
 
@@ -83,7 +81,6 @@ You can migrate source data to a Zilliz Cloud cluster of any plan tier, provided
         <Admonition type="info" icon="📘" title="Notes">
 
         <ul>
-        <li><p>The Auto ID is disbaled and cannot be modified.</p></li>
         <li><p>The record ID from Pinecone will be mapped to a <code>VARCHAR</code> field on Zilliz Cloud as the primary field, with a <code>max_length</code> range of 1 to 65,535 bytes. When inserting or upserting entities, ensure that <code>VARCHAR</code> field values stay within this limit.</p></li>
         <li><p>You may rename fields, but the data types are fixed and cannot be changed.</p></li>
         </ul>
@@ -92,9 +89,9 @@ You can migrate source data to a Zilliz Cloud cluster of any plan tier, provided
 
     1. In **Advanced Settings**, verify the settings of **Dynamic Field** and **Partition Key**.
 
-        1. **Dynamic Field**: Enabled by default and cannot be modified. It stores metadata from the source index, ensuring consistency and maintaining flexibility.
+        - **Dynamic Field**: Enabled by default and cannot be modified. It stores metadata from the source index, ensuring consistency and maintaining flexibility.
 
-        1. **Partition Key**: Disabled by default and cannot be modified. This is because metadata from Pinecone is stored as JSON in a dynamic field, which cannot serve as a partition key. In Zilliz Cloud, only scalar fields that are explicitly defined in the schema can be used as partition keys.
+        - **Partition Key**: Enabled by default. When enabled, Zilliz Cloud maps Pinecone namespaces to partition keys; when disabled, it maps them to partitions. It is recommended to keep this feature enabled. In this state, the `namespace` appears as a scalar field in the target collection schema with a `VARCHAR` data type. For more information, refer to [Use Partition Key](./use-partition-key) and [Manage Partitions](./manage-partitions).
 
     1. In **Target Collection Name** and **Description**, customize the target collection name and description. The collection name must be unique in each cluster. If the name duplicates an existing one, rename the collection.
 

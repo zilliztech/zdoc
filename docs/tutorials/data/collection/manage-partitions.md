@@ -15,10 +15,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

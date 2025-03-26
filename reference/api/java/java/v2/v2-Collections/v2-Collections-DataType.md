@@ -8,21 +8,21 @@ notebook: false
 description: "This is an enumeration that provides the following constants. | Java | v2"
 type: docx
 token: QYPIdgWL7oDWrWxVUx0clo32nz4
-sidebar_position: 7
+sidebar_position: 10
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
-  - javaV2
+  - javaV225
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
 displayed_sidebar: javaSidebar
 
 ---

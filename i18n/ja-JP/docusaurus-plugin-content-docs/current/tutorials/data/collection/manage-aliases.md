@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Zilliz Cloudはエイリアス管理機能を提供します。このページでは、エイリアスの作成、一覧表示、変更、削除の手順を示します。 | Cloud"
 type: origin
 token: U2Dow4jx5iPUuZkVH9ucj2wOnuc
-sidebar_position: 8
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

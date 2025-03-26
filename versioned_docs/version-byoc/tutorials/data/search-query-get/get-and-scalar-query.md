@@ -17,10 +17,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 
@@ -57,13 +57,13 @@ A Collection can store various types of scalar fields. You can have Zilliz Cloud
    </tr>
    <tr>
      <td><p>Mandatory parameters</p></td>
-     <td><ul><li><p>Collection name</p></li><li><p>Primary keys</p></li></ul></td>
-     <td><ul><li><p>Collection name</p></li><li><p>Filtering expressions</p></li></ul></td>
+     <td><ul><li>Collection name</li><li>Primary keys</li></ul></td>
+     <td><ul><li>Collection name</li><li>Filtering expressions</li></ul></td>
      <td><ul><li><p>Collection name</p></li><li><p>Filtering expressions</p></li><li><p>Number of entities to return per query</p></li></ul></td>
    </tr>
    <tr>
      <td><p>Optional parameters</p></td>
-     <td><ul><li><p>Partition name</p></li><li><p>Output fields</p></li></ul></td>
+     <td><ul><li>Partition name</li><li>Output fields</li></ul></td>
      <td><ul><li><p>Partition name</p></li><li><p>Number of entities to return</p></li><li><p>Output fields</p></li></ul></td>
      <td><ul><li><p>Partition name</p></li><li><p>Number of entities to return in total</p></li><li><p>Output fields</p></li></ul></td>
    </tr>
@@ -98,7 +98,7 @@ When you need to find entities by their primary keys, you can use the **Get** me
 
 You can get entities by their IDs as follows.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -151,6 +151,14 @@ for (QueryResp.QueryResult result : results) {
 // {color=pink_8682, vector=[0.35803765, -0.6023496, 0.18414013, -0.26286206, 0.90294385], id=0}
 // {color=red_7025, vector=[0.19886813, 0.060235605, 0.6976963, 0.26144746, 0.8387295], id=1}
 // {color=orange_6781, vector=[0.43742132, -0.55975026, 0.6457888, 0.7894059, 0.20785794], id=2}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -223,7 +231,6 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-
 import io.milvus.v2.service.vector.request.QueryReq
 import io.milvus.v2.service.vector.request.QueryResp
 
@@ -334,7 +341,7 @@ curl --request POST \
 
 When you need to find entities by custom filtering conditions through paginated queries, create a **QueryIterator** and use its **next()** method to iterate over all entities to find those meeting the filtering conditions. The following code examples assume that there are three fields named `id`, `vector`, and `color` and return all entities that hold a `color` value starting with `red`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -404,6 +411,14 @@ while (true) {
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -428,7 +443,7 @@ for await (const value of iterator) {
 <TabItem value='bash'>
 
 ```bash
-# 暂无此方法
+# Not available
 ```
 
 </TabItem>
@@ -438,7 +453,7 @@ for await (const value of iterator) {
 
 You can also perform queries within one or multiple partitions by including the partition names in the Get, Query, or QueryIterator request. The following code examples assume that there is a partition named **PartitionA** in the collection.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -472,7 +487,7 @@ res = client.query(
     limit=3
 )
 
-# 使用 QueryIterator
+# Use QueryIterator
 from pymilvus import connections, Collection
 
 connections.connect(
@@ -539,6 +554,14 @@ QueryIterator queryIterator = client.queryIterator(req);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -548,7 +571,7 @@ const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
-// 使用 Get 方法
+// Use get
 var res = client.query({
     collection_name="query_collection",
     // highlight-next-line
@@ -558,7 +581,7 @@ var res = client.query({
     limit(3)
 })
 
-// 使用 Query 方法
+// Use query
 res = client.query({
     collection_name="query_collection",
     // highlight-next-line
@@ -568,7 +591,7 @@ res = client.query({
     limit(3)
 })
 
-// 暂不支持使用 QueryIterator
+// Use queryiterator
 const iterator = await milvusClient.queryIterator({
   collection_name: 'query_collection',
   partition_names: ['partitionA'],
@@ -592,7 +615,7 @@ for await (const value of iterator) {
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
-# 使用 Get 方法
+# Use get
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/get" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -604,7 +627,7 @@ curl --request POST \
     "outputFields": ["vector", "color"]
 }'
 
-# 使用 Query 方法
+# Use query
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/get" \
 --header "Authorization: Bearer ${TOKEN}" \

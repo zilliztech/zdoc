@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 
@@ -58,7 +58,7 @@ After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll fin
 
 - **Connect to cluster**
 
-    In the **Connect** section, you can find the **Public Endpoint** and **Token** that are used to connect to the cluster. The token can bea [cluster credential](./cluster-credentials) that consists of a username and password pair.
+    In the **Connect** section, you can find the **Public Endpoint** and **Token** that are used to connect to the cluster. The token can bea [cluster credential](null) that consists of a username and password pair.
 
     For more information, refer to [Connect to Cluster](./connect-to-cluster).
 
@@ -86,7 +86,7 @@ After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll fin
 
     On the **Users** tab, you can add users, reset their passwords, and drop them.
 
-    For details, refer to [Cluster Credentials (Console)](./cluster-credentials-console).
+    For details, refer to [Cluster Credentials (Console)](./cluster-credentials).
 
     ![manage-users](/byoc/manage-users.png)
 
@@ -111,6 +111,12 @@ You can also use RESTful APIs to perform these actions. For details, refer to [S
 In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
 
 In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
+
+### Upgrade cluster for preview features{#upgrade-cluster-for-preview-features}
+
+To try the latest preview features, you need to upgrade the compatible Milvus version of your dedicated cluster.
+
+![upgrade-to-preview-version](/byoc/upgrade-to-preview-version.png)
 
 ## Related topics{#related-topics}
 

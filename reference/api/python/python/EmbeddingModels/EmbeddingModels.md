@@ -5,14 +5,14 @@ beta: false
 notebook: false
 description: "Embedding models for you to embed unstrucctured data into vector embeddings. | Python"
 type: folder
-token: G3Qvfzptcl9gcFdHholcBmgQnib
-sidebar_position: 4
+token: A6atfZDQxl1INud6VYGcX54zngf
+sidebar_position: 2
 sidebar_label: "EmbeddingModels"
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud

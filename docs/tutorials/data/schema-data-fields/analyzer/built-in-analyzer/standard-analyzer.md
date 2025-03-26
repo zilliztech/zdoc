@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - standard-analyzer
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 
@@ -42,7 +42,7 @@ The `standard` analyzer consists of:
 
 The functionality of the `standard` analyzer is equivalent to the following custom analyzer configuration:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -63,13 +63,40 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "tokenizer": "standard",
+    "filter": ["lowercase"]
+};
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
 </Tabs>
 
 ## Configuration{#configuration}
 
 To apply the `standard` analyzer to a field, simply set `type` to `standard` in `analyzer_params`, and include optional parameters as needed.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -85,6 +112,32 @@ analyzer_params = {
 ```java
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "standard");
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "type": "standard", // Specifies the standard analyzer type
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
 ```
 
 </TabItem>
@@ -105,7 +158,7 @@ The `standard` analyzer accepts the following optional parameters:
 
 Example configuration of custom stop words:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -126,22 +179,139 @@ analyzerParams.put("stop_words", Collections.singletonList("of"));
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+analyzer_params = {
+    "type": "standard", // Specifies the standard analyzer type
+    "stop_words", ["of"] // Optional: List of words to exclude from tokenization
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
 </Tabs>
 
 After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For more information, refer to [Example use](./analyzer-overview).
 
-## Example output{#example-output}
+## Examples{#examples}
 
-Here’s how the `standard` analyzer processes text.
+Before applying the analyzer configuration to your collection schema, verify its behavior using the `run_analyzer` method.
 
-**Original text**:
+**Analyzer configuration**:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
-"The Milvus vector database is built for scale!"
+analyzer_params = {
+    "type": "standard",  # Standard analyzer configuration
+    "stop_words": ["for"] # Optional: Custom stop words parameter
+}
 ```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// javascript
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+**Verification using `run_analyzer`:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+# Sample text to analyze
+sample_text = "The Milvus vector database is built for scale!"
+
+# Run the standard analyzer with the defined configuration
+result = MilvusClient.run_analyzer(sample_text, analyzer_params)
+print("Standard analyzer output:", result)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+// java
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// javascript
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
 
 **Expected output**:
 
-```python
-["the", "milvus", "vector", "database", "is", "built", "for", "scale"]
+```plaintext
+Standard analyzer output: ['the', 'milvus', 'vector', 'database', 'is', 'built', 'scale']
 ```

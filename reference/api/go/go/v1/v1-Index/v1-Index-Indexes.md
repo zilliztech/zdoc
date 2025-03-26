@@ -1,7 +1,10 @@
 ---
+title: "Indexes | Go | v1"
 slug: /go/v1-Index-Indexes
+sidebar_label: "Indexes"
 beta: FALSE
 notebook: FALSE
+description: "The struct types on this page implement the method signatures of the `entity.Index` interface. | Go | v1"
 type: origin
 token: SI8SwGAutiyZrZkVoaUc2dvTnZg
 sidebar_position: 5
@@ -212,13 +215,13 @@ index := entity.NewIndexBinIvfFlat(metricType MetricType, intermediateGraphDegre
    </tr>
    <tr>
      <td><p><code>intermediateGraphDegree</code></p></td>
-     <td><p>Number of k-nearest neighbors (k) of this intermediate k-NN graph, trade off the quality of the final searchable CAGRA graph;</p><p>It affects recall and build time by determining the graph's degree before pruning. Recommended values are <code>32</code> or <code>64</code>.</p></td>
+     <td><p>Number of k-nearest neighbors (k) of this intermediate k-NN graph, trade off the quality of the final searchable CAGRA graph; It affects recall and build time by determining the graph's degree before pruning. Recommended values are <code>32</code> or <code>64</code>.</p></td>
      <td><p><code>int</code></p></td>
      <td></td>
    </tr>
    <tr>
      <td><p><code>graphDegree</code></p></td>
-     <td><p>CAGRA's optimized graph fixed-degree number.</p><p>It affects search performance and recall by setting the graph's degree after pruning. A larger difference between these two degrees results in a longer build time. Its value must be smaller than the value of <code>intermediateGraphDegree</code>.</p></td>
+     <td><p>CAGRA's optimized graph fixed-degree number. It affects search performance and recall by setting the graph's degree after pruning. A larger difference between these two degrees results in a longer build time. Its value must be smaller than the value of <code>intermediateGraphDegree</code>.</p></td>
      <td><p><code>int</code></p></td>
      <td></td>
    </tr>

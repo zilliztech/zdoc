@@ -17,10 +17,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 
@@ -95,7 +95,7 @@ const schema = [
   {
     name: "pk",
     description: "ID field",
-    data_type: DataType.VARCHAR,
+    data_type: DataType.INT64,
     is_primary_key: true,
     max_length: 100,
   },
@@ -107,7 +107,14 @@ const schema = [
 <TabItem value='go'>
 
 ```go
-// Go
+import "github.com/milvus-io/milvus/client/v2/entity"
+
+schema := entity.NewSchema()
+schema.WithField(entity.NewField().WithName("my_id").
+    WithDataType(entity.FieldTypeInt64).
+    WithIsPrimaryKey(true).
+    WithIsAutoID(true),
+)
 ```
 
 </TabItem>
@@ -191,7 +198,15 @@ schema.push({
 <TabItem value='go'>
 
 ```go
-// Go
+schema := entity.NewSchema()
+schema.WithField(entity.NewField().WithName("my_id").
+    WithDataType(entity.FieldTypeVarChar).
+    // highlight-start
+    WithIsPrimaryKey(true).
+    WithIsAutoID(true).
+    WithMaxLength(512),
+    // highlight-end
+)
 ```
 
 </TabItem>

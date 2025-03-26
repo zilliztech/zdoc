@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

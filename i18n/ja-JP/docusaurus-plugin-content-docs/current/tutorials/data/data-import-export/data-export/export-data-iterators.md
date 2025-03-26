@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

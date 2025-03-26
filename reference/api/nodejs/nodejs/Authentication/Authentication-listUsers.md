@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists currently available users. | Node.js"
 type: docx
 token: Z0EOd1PXooNeowx4SQgcq3synBc
-sidebar_position: 12
+sidebar_position: 19
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud
   - listUsers()
-  - node
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - nodejs25
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 displayed_sidebar: nodeSidebar
 
 ---

@@ -1,7 +1,10 @@
 ---
+title: "Delete() | Go | v1"
 slug: /go/v1-Collection-Delete
+sidebar_label: "Delete()"
 beta: FALSE
 notebook: FALSE
+description: "This method deletes the entities that match the specified filtering conditions from a collection. | Go | v1"
 type: origin
 token: HDMUwDWqFiJPmukaXv3cpqaqn7c
 sidebar_position: 11
@@ -45,7 +48,7 @@ func (c *GrpcClient) Delete(ctx context.Context, collName string, partitionName 
    </tr>
    <tr>
      <td><p><code>expr</code></p></td>
-     <td><p>Boolean expression for metadata filtering.</p><p>For details, refer to <a href="https://milvus.io/docs/boolean.md">Scalar Filtering Rules</a>.</p></td>
+     <td><p>Boolean expression for metadata filtering. For details, refer to <a href="https://milvus.io/docs/boolean.md">Scalar Filtering Rules</a>.</p></td>
      <td><p><code>string</code></p></td>
    </tr>
 </table>

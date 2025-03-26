@@ -17,10 +17,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

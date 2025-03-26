@@ -14,10 +14,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 
@@ -30,7 +30,7 @@ Milvus SDKをシームレスにインストールする方法を発見し、Zill
 
 ## 概要について{#overview}
 
-Zilliz Cloudは、管理されたMilvusベクトルデータベースをサービスとして提供しています。クラスター接続を容易にするために、4つのSDKオプションが存在します:[Python](./install-sdks#pymilvus-python-sdkinstall-pymilvus-python-sdk)、[Java](./install-sdks#javasdkinstall-java-sdk)、[Go](./install-sdks#gosdkinstall-go-sdk)、または[Node. js](./install-sdks#node-jssdkinstall-nodejs-sdk)。
+Zilliz Cloudは、管理されたMilvusベクトルデータベースをサービスとして提供しています。クラスター接続を容易にするために、4つのSDKオプションが存在します:[Python](./install-sdks#install-pymilvus-python-sdk)、[Java](./install-sdks#install-java-sdk)、[Go](./install-sdks#install-go-sdk)、または[Node. js](./install-sdks#install-nodejs-sdk)。
 
 <Admonition type="info" icon="📘" title="ノート">
 

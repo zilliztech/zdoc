@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

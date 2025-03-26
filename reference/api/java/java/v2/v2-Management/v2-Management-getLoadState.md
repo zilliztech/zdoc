@@ -8,21 +8,21 @@ notebook: false
 description: "This operation displays whether a specified collection or partition is loaded or not. | Java | v2"
 type: docx
 token: QcaFdMJE9oHX1Axe11rcqfiynEd
-sidebar_position: 4
+sidebar_position: 6
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
   - DiskANN
   - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadState()
-  - javaV2
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - javaV225
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 displayed_sidebar: javaSidebar
 
 ---

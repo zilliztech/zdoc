@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

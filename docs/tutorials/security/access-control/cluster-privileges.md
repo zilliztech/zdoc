@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

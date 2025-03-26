@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - stemmer
+  - Video similarity search
   - Vector retrieval
   - Audio similarity search
   - Elastic vector database
-  - Pinecone vs Milvus
 
 ---
 

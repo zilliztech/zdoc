@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists the statistics collected on a specific collection. | Java | v2"
 type: docx
 token: XgfcdpBWCof3pfxhUudcRZajnPc
-sidebar_position: 13
+sidebar_position: 18
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStats()
-  - javaV2
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - javaV225
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 displayed_sidebar: javaSidebar
 
 ---

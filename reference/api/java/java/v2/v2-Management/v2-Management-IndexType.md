@@ -8,21 +8,21 @@ notebook: false
 description: "This is an enumeration that provides the following constants. | Java | v2"
 type: docx
 token: EATSdak5wokQhCx6k3tcCoAqn3P
-sidebar_position: 6
+sidebar_position: 8
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - IndexType
-  - javaV2
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - javaV225
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 displayed_sidebar: javaSidebar
 
 ---

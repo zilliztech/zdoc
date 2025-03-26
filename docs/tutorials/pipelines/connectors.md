@@ -2,7 +2,7 @@
 title: "Connect to Your Data | Cloud"
 slug: /connectors
 sidebar_label: "Connect to Your Data"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The connector is an in-built free tool that makes it easy to connect various data sources to a vector database. This guide will explain the concept of a connector and provide instructions on how to create and manage connectors in Zilliz Cloud Pipelines. | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - connect
   - data
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 
@@ -112,7 +112,7 @@ Zilliz Cloud Pipelines provides flexible options when you create a connector. On
            </tr>
            <tr>
              <td><p>Bucket URL</p></td>
-             <td><p>Provide the bucket URL used for accessing your source data. Please make sure you enter the URL of a file directory instead of a specific file. In addition, root directory is not supported.</p><p>To learn more about how to obtain the URL, please refer to:</p><ul><li><p><a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html">Accessing and listing an Amazon S3 bucket</a></p></li><li><p><a href="https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object">Discover object storage with the Google Cloud console</a></p></li></ul></td>
+             <td><p>Provide the bucket URL used for accessing your source data. Please make sure you enter the URL of a file directory instead of a specific file. In addition, root directory is not supported. To learn more about how to obtain the URL, please refer to:</p><ul><li><p><a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html">Accessing and listing an Amazon S3 bucket</a></p></li><li><p><a href="https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object">Discover object storage with the Google Cloud console</a></p></li></ul></td>
            </tr>
            <tr>
              <td><p>Access Keys for authorization (optional)</p></td>

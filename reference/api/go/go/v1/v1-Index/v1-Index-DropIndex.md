@@ -1,7 +1,10 @@
 ---
+title: "DropIndex() | Go | v1"
 slug: /go/v1-Index-DropIndex
+sidebar_label: "DropIndex()"
 beta: FALSE
 notebook: FALSE
+description: "This method drops a specific index from a field. | Go | v1"
 type: origin
 token: PPLEw1vdiiC4vIkG48bcqqInnae
 sidebar_position: 3
@@ -45,7 +48,7 @@ func (c *GrpcClient) DropIndex(ctx context.Context, collName string, fieldName s
    </tr>
    <tr>
      <td><p><code>opts</code></p></td>
-     <td><p>Extra index settings</p><p>You can include multiple <code>entity.IndexOption</code> in this request.</p></td>
+     <td><p>Extra index settings You can include multiple <code>entity.IndexOption</code> in this request.</p></td>
      <td><p><code>client.IndexOption</code></p></td>
    </tr>
 </table>

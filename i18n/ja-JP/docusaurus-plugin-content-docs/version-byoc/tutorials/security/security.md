@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

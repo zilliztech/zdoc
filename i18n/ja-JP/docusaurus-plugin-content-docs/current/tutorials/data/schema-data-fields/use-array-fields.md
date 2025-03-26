@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - array field
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

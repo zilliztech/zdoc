@@ -10,19 +10,19 @@ type: docx
 token: TWOxdwDYRo4CCHxDdZbc7IOznCg
 sidebar_position: 17
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - has_collection()
   - pymilvus25
+  - Knowledge base
+  - natural language processing
   - AI chatbots
   - cosine distance
-  - what is a vector database
-  - vectordb
 displayed_sidebar: pythonSidebar
 
 ---
@@ -79,7 +79,7 @@ A boolean value indicates whether the specified partition exists.
 ```python
 from pymilvus import connections, utility
 
-# Connect to localhost:19530
+# Connect to YOUR_CLUSTER_ENDPOINT
 connections.connect()
 
 # Check whether a partition exists

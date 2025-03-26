@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloudは、クレジットカードの追加やAWSMarketplaceでのサブスクリプションの代わりに、前払い(銀行振込)を支払い方法として受け付けています。 | Cloud"
 type: origin
 token: H3mBwoua5idJsokeRfGcii8tnHe
-sidebar_position: 6
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - advance pay
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

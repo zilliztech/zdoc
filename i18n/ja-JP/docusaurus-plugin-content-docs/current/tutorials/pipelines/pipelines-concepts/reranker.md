@@ -14,10 +14,10 @@ keywords:
   - cloud
   - concepts
   - rerankers
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 
@@ -55,38 +55,10 @@ The following table lists the limits on the maximum number of organizations and 
    </tr>
    <tr>
      <td><p>Dedicated cluster</p></td>
-     <td><p>64 per CU, and &lt;= 4096</p></td>
-     <td><p>You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster.</p></td>
+     <td><p>256 per CU, and &lt;= 16384</p></td>
+     <td><p>You can create up to <strong>256</strong> collections per CU used in a dedicated cluster and no more than <strong>16,384</strong> collections in the cluster.</p></td>
    </tr>
 </table>
-
-In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity. The following formula shows how Zilliz Cloud calculates the general capacity of a cluster. The consumed capacity should be less than the general capacity available.
-
-```java
-General Capacity = 512 x Number of CUs
-```
-
-<Admonition type="info" icon="📘" title="How can I know the general capacity of a cluster?">
-
-<p>The general capacity of a cluster indicates the maximum physical resources allocated to the cluster, and it can be determined using the following formula:</p>
-<p><strong>\<= 512 x Number of CUs</strong></p>
-<p>For instance, </p>
-<ul>
-<li><p>In a cluster of <strong>2</strong> CUs, you can create a maximum of <strong>128</strong> collections with a general capacity of <strong>1,024</strong>.</p></li>
-<li><p>In a cluster of <strong>12</strong> CUs, you can create a maximum of <strong>768</strong> collections with a general capacity of <strong>6,144</strong>.</p></li>
-<li><p>In a cluster of <strong>32</strong> CUs or more, you can create a maximum of <strong>4,096</strong> collections with a general capacity of <strong>16,384</strong>. </p></li>
-</ul>
-
-</Admonition>
-
-<Admonition type="info" icon="📘" title="How can I know the consumed capacity of a cluster?">
-
-<p>The consumed capacity of a cluster indicates the physical resources consumed by the cluster. </p>
-<p>For instance, let's assume that you have created <strong>50</strong> collections in a cluster; each of the first <strong>20</strong> collections has <strong>20</strong> partitions, while each of the remaining <strong>30</strong> collections has <strong>10</strong> partition. The consumed capacity of the cluster can be calculated as follows:</p>
-<p><strong>20 (collections) x 20 (partitions) + 30 (collections) x 10 (partitions) = 400 + 300 = 700</strong></p>
-<p>Based on the above calculation, Zilliz Cloud regards the cluster has a consumed capacity of <strong>700</strong>.</p>
-
-</Admonition>
 
 Zilliz Cloud also imposed rate limits on collection operations including creating, loading, releasing, and dropping collections. The following rate limit applies to collections in both Serverless and Dedicated clusters.
 
@@ -116,7 +88,7 @@ Zilliz Cloud also imposed rate limits on collection operations including creatin
    </tr>
 </table>
 
-When calculating the consumed and general capacity, refer to the notes in [Collections](./limits#collections). Additionally, the rate limit for creating partitions is **1** partition/s per cluster.
+When calculating the number of created and available partitions, refer to the notes in [Collections](./limits#collections). Additionally, the rate limit for creating partitions is **1** partition/s per cluster.
 
 ### Fields{#fields}
 
@@ -382,4 +354,176 @@ You can restore a snapshot in the same region as the original cluster of the sna
      <td><p>You can add up to 20 IP addresses to the allow list.</p></td>
    </tr>
 </table>
+
+## Pipelines | NEAR DEPRECATE{#pipelines}
+
+### Number of pipelines{#number-of-pipelines}
+
+The following table lists the limits on different types of pipelines you can create in a project.
+
+<table>
+   <tr>
+     <th><p><strong>Pipeline Type</strong></p></th>
+     <th><p><strong>Max. Number (Per Project)</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Ingestion Pipeline</p></td>
+     <td><p>100</p></td>
+   </tr>
+   <tr>
+     <td><p>Deletion Pipeline</p></td>
+     <td><p>100</p></td>
+   </tr>
+   <tr>
+     <td><p>Search Pipeline</p></td>
+     <td><p>100</p></td>
+   </tr>
+</table>
+
+### Ingestion{#ingestion}
+
+The following table lists the limits on customized chunk size supported in each embedding model.
+
+<table>
+   <tr>
+     <th><p><strong>Embedding Model</strong></p></th>
+     <th><p><strong>Chunk Size Range (Tokens）</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>zilliz/bge-base-en-v1.5</p></td>
+     <td><p>20-500</p></td>
+   </tr>
+   <tr>
+     <td><p>zilliz/bge-base-zh-v1.5</p></td>
+     <td><p>20-500</p></td>
+   </tr>
+   <tr>
+     <td><p>voyageai/voyage-2</p></td>
+     <td><p>20-3,000</p></td>
+   </tr>
+   <tr>
+     <td><p>voyageai/voyage-code-2</p></td>
+     <td><p>20-12,000</p></td>
+   </tr>
+   <tr>
+     <td><p>voyageai/voyage-large-2</p></td>
+     <td><p>20-12,000</p></td>
+   </tr>
+   <tr>
+     <td><p>openai/text-embedding-3-small</p></td>
+     <td><p>250-8,191</p></td>
+   </tr>
+   <tr>
+     <td><p>openai/text-embedding-3-large</p></td>
+     <td><p>250-8,191</p></td>
+   </tr>
+</table>
+
+The following table lists the limits on metadata fields generated by a PRESERVE function in an Ingestion Pipeline.
+
+<table>
+   <tr>
+     <th></th>
+     <th><p><strong>Max. Number</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Number of metadata fields</p></td>
+     <td><p>50</p></td>
+   </tr>
+   <tr>
+     <td><p>The max_length of a VARCHAR field</p></td>
+     <td><p>4,000</p></td>
+   </tr>
+</table>
+
+The following table lists the limits on the number of chunks that are allowed to be ingested each time.
+
+<table>
+   <tr>
+     <th><p><strong>Embedding Model</strong></p></th>
+     <th><p><strong>Max. Chunks/Ingestion</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>zilliz/bge-base-en-v1.5</p></td>
+     <td><p>3,500</p></td>
+   </tr>
+   <tr>
+     <td><p>voyageai/voyage-2</p></td>
+     <td><p>6,000</p></td>
+   </tr>
+   <tr>
+     <td><p>voyageai/voyage-code-2</p></td>
+     <td><p>6,000</p></td>
+   </tr>
+   <tr>
+     <td><p>openai/text-embedding-3-small</p></td>
+     <td><p>6,000</p></td>
+   </tr>
+   <tr>
+     <td><p>openai/text-embedding-large</p></td>
+     <td><p>6,000</p></td>
+   </tr>
+   <tr>
+     <td><p>zilliz/bge-base-zh-v1.5</p></td>
+     <td><p>3,500</p></td>
+   </tr>
+</table>
+
+### Pipeline usage{#pipeline-usage}
+
+<table>
+   <tr>
+     <th></th>
+     <th><p><strong>Max. Usage</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Each organization</p></td>
+     <td><p>$20/month</p></td>
+   </tr>
+</table>
+
+### Token usage{#token-usage}
+
+The following table lists the limits on token usage.
+
+<table>
+   <tr>
+     <th><p><strong>Pipeline Type</strong></p></th>
+     <th><p><strong>Embedding Model</strong></p></th>
+     <th><p><strong>Max. Token Usage</strong></p></th>
+   </tr>
+   <tr>
+     <td rowspan="2"><p>Ingestion Pipeline</p></td>
+     <td><p>openai/text-embedding-3-small &amp; openai/text-embedding-3-large</p></td>
+     <td><p>80,000,000</p></td>
+   </tr>
+   <tr>
+     <td><p>Others</p></td>
+     <td><p>100,000,000</p></td>
+   </tr>
+   <tr>
+     <td rowspan="2"><p>Search Pipeline</p></td>
+     <td><p>openai/text-embedding-3-small &amp; openai/text-embedding-3-large</p></td>
+     <td><p>30,000,000</p></td>
+   </tr>
+   <tr>
+     <td><p>Others</p></td>
+     <td><p>20,000,000</p></td>
+   </tr>
+   <tr>
+     <td rowspan="2"><p>All Pipelines in an Organization</p></td>
+     <td><p>openai/text-embedding-3-small &amp; openai/text-embedding-3-large</p></td>
+     <td><p>150,000,000</p></td>
+   </tr>
+   <tr>
+     <td><p>Others</p></td>
+     <td><p>200,000,000</p></td>
+   </tr>
+</table>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>For the maximum token usage of all pipelines in an organization, the token usage of a dropped pipeline is still included in the overall count.</p>
+
+</Admonition>
 

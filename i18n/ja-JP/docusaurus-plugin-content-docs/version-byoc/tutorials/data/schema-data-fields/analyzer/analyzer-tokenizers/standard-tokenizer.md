@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - standard-tokenizer
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

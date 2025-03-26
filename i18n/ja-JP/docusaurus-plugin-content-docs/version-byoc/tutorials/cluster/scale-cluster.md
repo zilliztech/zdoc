@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

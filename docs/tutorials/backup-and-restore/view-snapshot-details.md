@@ -15,10 +15,10 @@ keywords:
   - backup
   - files
   - view
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

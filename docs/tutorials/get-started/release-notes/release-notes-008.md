@@ -7,16 +7,16 @@ notebook: FALSE
 description: "We're excited to announce the general availability of a major Zilliz Cloud update, now open to the public without the need for an invitation. This release introduces capacity-optimized Compute Units (CUs), allowing up to 32 CUs per database for enhanced performance. It also enables data import from local files and AWS S3 buckets, simplifies the process with auto-indexing, and adds resource monitoring for QPS and query latency. Additionally, database creation speed has been improved by five times, and the user interface has been optimized for a superior experience. | Cloud"
 type: origin
 token: Q9ZcwPZieiYoU4kwEuOcFjewneP
-sidebar_position: 23
+sidebar_position: 24
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

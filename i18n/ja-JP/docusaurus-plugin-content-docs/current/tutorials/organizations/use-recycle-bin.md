@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

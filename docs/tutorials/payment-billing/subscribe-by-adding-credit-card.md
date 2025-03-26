@@ -2,22 +2,22 @@
 title: "Subscribe by Adding Credit Card | Cloud"
 slug: /subscribe-by-adding-credit-card
 sidebar_label: "Credit Card"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "This guide provides comprehensive instructions on how to add a payment credit card for your organization on Zilliz Cloud. | Cloud"
 type: origin
 token: TVnkwXupUiX3zDkzYPWcxKP3nvg
-sidebar_position: 2
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
   - cloud
   - credit card
   - subscribe
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

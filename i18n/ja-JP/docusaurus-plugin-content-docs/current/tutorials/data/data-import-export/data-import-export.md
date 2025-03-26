@@ -15,10 +15,10 @@ keywords:
   - data import
   - export
   - milvus
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

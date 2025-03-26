@@ -16,10 +16,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 
@@ -47,6 +47,8 @@ The default value and nullable attributes streamline data migration from other d
 
 - When creating an index on a scalar field with the nullable attribute enabled, null values will be excluded from the index.
 
+- **JSON and ARRAY fields**: When using `IS NULL` or `IS NOT NULL` operators to filter on JSON or ARRAY fields, these operators work at the column level, which indicates they only evaluate whether the entire JSON object or array is null. For instance, if a key inside a JSON object is null, it will not be recognized by the `IS NULL` filter. For more information, refer to [Basic Operators](./basic-filtering-operators).
+
 ## Nullable attribute{#nullable-attribute}
 
 The `nullable` attribute allows you to store null values in a collection, providing flexibility when handling unknown data.
@@ -55,7 +57,7 @@ The `nullable` attribute allows you to store null values in a collection, provid
 
 When creating a collection, use `nullable=True` to define nullable fields (defaults to `False`). The following example creates a collection named `user_profiles_null` and sets the `age` field as nullable:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -75,7 +77,7 @@ schema.add_field(field_name="age", datatype=DataType.INT64, nullable=True) # Nul
 
 # Set index params
 index_params = client.prepare_index_params()
-index_params.add_index(field_name="vector", index_type="IVF_FLAT", metric_type="L2", params={ "nlist": 128 })
+index_params.add_index(field_name="vector", index_type="AUTOINDEX", metric_type="L2")
 
 # Create collection
 client.create_collection(collection_name="user_profiles_null", schema=schema, index_params=index_params)
@@ -122,12 +124,11 @@ schema.addField(AddFieldReq.builder()
 
 List<IndexParam> indexes = new ArrayList<>();
 Map<String,Object> extraParams = new HashMap<>();
-extraParams.put("nlist", 128);
+
 indexes.add(IndexParam.builder()
         .fieldName("vector")
-        .indexType(IndexParam.IndexType.IVF_FLAT)
+        .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.L2)
-        .extraParams(extraParams)
         .build());
 
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
@@ -177,6 +178,14 @@ await client.createCollection({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -213,8 +222,7 @@ export indexParams='[
         {
             "fieldName": "vector",
             "metricType": "L2",
-            "indexType": "IVF_FLAT",
-            "params":{"nlist": 128}
+            "indexType": "AUTOINDEX"
         }
     ]'
 
@@ -236,7 +244,7 @@ curl --request POST \
 
 When you insert data into a nullable field, insert null or directly omit this field:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -292,6 +300,14 @@ client.insert({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -316,7 +332,7 @@ curl --request POST \
 
 When using the `search` method, if a field contains `null` values, the search result will return the field as null:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -380,6 +396,14 @@ client.search({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -405,7 +429,7 @@ curl --request POST \
 
 When you use the `query` method for scalar filtering, the filtering results for null values are all false, indicating that they will not be selected.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -462,6 +486,14 @@ const results = await client.query(
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -489,7 +521,7 @@ To return entities with `null` values, query without any scalar filtering condit
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -534,6 +566,14 @@ const results = await client.query(
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -562,7 +602,7 @@ Default values are preset values assigned to scalar fields. If you do not provid
 
 When creating a collection, use the `default_value` parameter to define the default value for a field. The following example shows how to set the default value of `age` to `18` and `status` to `"active"`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -577,7 +617,7 @@ schema.add_field(field_name="age", datatype=DataType.INT64, default_value=18)
 schema.add_field(field_name="status", datatype=DataType.VARCHAR, default_value="active", max_length=10)
 
 index_params = client.prepare_index_params()
-index_params.add_index(field_name="vector", index_type="IVF_FLAT", metric_type="L2", params={ "nlist": 128 })
+index_params.add_index(field_name="vector", index_type="AUTOINDEX", metric_type="L2")
 
 client.create_collection(collection_name="user_profiles_default", schema=schema, index_params=index_params)
 ```
@@ -624,12 +664,11 @@ schema.addField(AddFieldReq.builder()
 
 List<IndexParam> indexes = new ArrayList<>();
 Map<String,Object> extraParams = new HashMap<>();
-extraParams.put("nlist", 128);
+
 indexes.add(IndexParam.builder()
         .fieldName("vector")
-        .indexType(IndexParam.IndexType.IVF_FLAT)
+        .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.L2)
-        .extraParams(extraParams)
         .build());
 
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
@@ -670,11 +709,19 @@ await client.createCollection({
       index_name: "vector_inde",
       field_name: "vector",
       metric_type: MetricType.L2,
-      index_type: IndexType.IVF_FLAT,
+      index_type: IndexType.AUTOINDEX,
     },
   ],
 });
 
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
 ```
 
 </TabItem>
@@ -725,8 +772,7 @@ export indexParams='[
         {
             "fieldName": "vector",
             "metricType": "L2",
-            "indexType": "IVF_FLAT",
-            "params":{"nlist": 128}
+            "indexType": "AUTOINDEX"
         }
     ]'
 
@@ -748,7 +794,7 @@ curl --request POST \
 
 When inserting data, if you omit fields with a default value or set their value to null, the system uses the default value:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -806,6 +852,14 @@ client.insert({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -839,7 +893,7 @@ Entities that contain default values are treated the same as any other entities 
 
 For example, in a `search` operation, entities with `age` set to the default value of `18` will be included in the results:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -906,6 +960,14 @@ client.search({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -932,7 +994,7 @@ curl --request POST \
 
 In a `query` operation, you can match or filter by default values directly:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -1005,6 +1067,14 @@ const default_status_results = await client.query(
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -1055,7 +1125,7 @@ The following table summarizes the behavior of nullable columns and default valu
      <td><p>Non-null</p></td>
      <td><p>None/null</p></td>
      <td><p>Uses the default value</p></td>
-     <td><p>Field: <code>age</code></p><p>Default value: <code>18</code></p><p>User input: null</p><p>Result: stored as <code>18</code></p></td>
+     <td><p>Field: <code>age</code> Default value: <code>18</code></p><p>User input: null</p><p>Result: stored as <code>18</code></p></td>
    </tr>
    <tr>
      <td><p>✅</p></td>
@@ -1063,7 +1133,7 @@ The following table summarizes the behavior of nullable columns and default valu
      <td><p>-</p></td>
      <td><p>None/null</p></td>
      <td><p>Stored as null</p></td>
-     <td><p>Field: <code>middle_name</code></p><p>Default value: -</p><p>User input: null</p><p>Result: stored as null</p></td>
+     <td><p>Field: <code>middle_name</code> Default value: -</p><p>User input: null</p><p>Result: stored as null</p></td>
    </tr>
    <tr>
      <td><p>❌</p></td>
@@ -1071,7 +1141,7 @@ The following table summarizes the behavior of nullable columns and default valu
      <td><p>Non-null</p></td>
      <td><p>None/null</p></td>
      <td><p>Uses the default value</p></td>
-     <td><p>Field: <code>status</code></p><p>Default value: <code>"active"</code></p><p>User input: null</p><p>Result: stored as <code>"active"</code></p></td>
+     <td><p>Field: <code>status</code> Default value: <code>"active"</code></p><p>User input: null</p><p>Result: stored as <code>"active"</code></p></td>
    </tr>
    <tr>
      <td><p>❌</p></td>
@@ -1079,7 +1149,7 @@ The following table summarizes the behavior of nullable columns and default valu
      <td><p>-</p></td>
      <td><p>None/null</p></td>
      <td><p>Throws an error</p></td>
-     <td><p>Field: <code>email</code></p><p>Default value: -</p><p>User input: null</p><p>Result: Operation rejected, system throws an error</p></td>
+     <td><p>Field: <code>email</code> Default value: -</p><p>User input: null</p><p>Result: Operation rejected, system throws an error</p></td>
    </tr>
    <tr>
      <td><p>❌</p></td>
@@ -1087,7 +1157,7 @@ The following table summarizes the behavior of nullable columns and default valu
      <td><p>Null</p></td>
      <td><p>None/null</p></td>
      <td><p>Throws an error</p></td>
-     <td><p>Field: <code>username</code></p><p>Default value: null</p><p>User input: null</p><p>Result: Operation rejected, system throws an error</p></td>
+     <td><p>Field: <code>username</code> Default value: null</p><p>User input: null</p><p>Result: Operation rejected, system throws an error</p></td>
    </tr>
 </table>
 

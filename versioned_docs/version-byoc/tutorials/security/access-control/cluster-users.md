@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 
@@ -49,7 +49,7 @@ When creating a cluster user, you need to:
 
 - Grant this user either a built-in cluster role or [a custom cluster role](./cluster-roles).
 
-- Set the password for this cluster user. This password will be used for [authentication](./cluster-credentials-console).
+- Set the password for this cluster user. This password will be used for [authentication](./cluster-credentials).
 
 ![add-cluster-user](/byoc/add-cluster-user.png)
 

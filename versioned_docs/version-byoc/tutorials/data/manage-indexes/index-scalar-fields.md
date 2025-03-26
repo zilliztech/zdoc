@@ -14,10 +14,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

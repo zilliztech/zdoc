@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "Methods for you to manage collections. | Node.js"
 type: folder
-token: WKkof79XQltPmgdgU18c2tLUnOd
-sidebar_position: 3
+token: SU7xfa1bal8yS0dioBmcCncYn5c
+sidebar_position: 1
 sidebar_label: "Collections"
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - Collections
-  - node
+  - nodejs25
 displayed_sidebar: nodeSidebar
 ---
 

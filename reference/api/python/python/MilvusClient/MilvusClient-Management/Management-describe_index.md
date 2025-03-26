@@ -10,19 +10,19 @@ type: docx
 token: WhsHdyIgyoFlsQxNJt9cFCTxnDe
 sidebar_position: 4
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
   - describe_index()
   - pymilvus25
-  - AI Agent
   - semantic search
   - Anomaly Detection
   - sentence transformers
+  - Recommender systems
 displayed_sidebar: pythonSidebar
 
 ---

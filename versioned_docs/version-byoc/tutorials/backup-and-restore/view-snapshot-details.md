@@ -15,10 +15,10 @@ keywords:
   - backup
   - files
   - view
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

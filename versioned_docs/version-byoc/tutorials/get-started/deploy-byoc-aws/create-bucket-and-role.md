@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

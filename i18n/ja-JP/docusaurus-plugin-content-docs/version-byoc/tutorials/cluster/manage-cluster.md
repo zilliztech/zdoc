@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
@@ -58,7 +58,7 @@ Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細に�
 
 - **クラスタに接続**
 
-    「**接続**」セクションでは、クラスターに接続するために使用される**パブリックエンドポイント**と**トークン**を見つけることができます。トークンは、ユーザー名とパスワードのペアで構成される[APIキー](./manage-api-keys)または[クラスター資格情報](./cluster-credentials)であることができます。
+    「**接続**」セクションでは、クラスターに接続するために使用される**パブリックエンドポイント**と**トークン**を見つけることができます。トークンは、ユーザー名とパスワードのペアで構成される[APIキー](./manage-api-keys)または[クラスター資格情報](null)であることができます。
 
     詳細については、「[クラスタに接続](./connect-to-cluster)」を参照してください。
 
@@ -86,7 +86,7 @@ Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細に�
 
     [**ユーザー**]タブでは、ユーザーを追加したり、パスワードをリセットしたり、削除したりできます。
 
-    詳細については、[クラスタ資格情報](./cluster-credentials)を参照してください。
+    詳細については、クラスタ資格情報を参照してください。
 
     ![manage-users](/byoc/ja-JP/manage-users.png)
 
@@ -115,8 +115,6 @@ Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細に�
 ## 関連するトピック{#related-topics}
 
 - [クラスタに接続](./connect-to-cluster)
-
-- [プライベートエンドポイントを設定する](./setup-a-private-link)
 
 - [バックアップと復元](./backup-and-restore)
 

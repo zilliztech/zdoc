@@ -16,10 +16,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

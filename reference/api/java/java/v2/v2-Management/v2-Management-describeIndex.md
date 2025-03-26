@@ -8,21 +8,21 @@ notebook: false
 description: "This operation describes a specific index. | Java | v2"
 type: docx
 token: WUgedTmyZoW4clxSgHVcl1ZtnZl
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
-  - javaV2
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - javaV225
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: javaSidebar
 
 ---

@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 
@@ -81,7 +81,7 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>GSC public URL</strong></p></td>
-         <td><p><code>https://storage.googleapis.com/bucket_name/object_name</code></p></td>
+         <td><p><code>https://storage.cloud.google.com/bucket_name/object_name</code></p></td>
        </tr>
        <tr>
          <td><p><strong>GSC gsutil URI</strong></p></td>

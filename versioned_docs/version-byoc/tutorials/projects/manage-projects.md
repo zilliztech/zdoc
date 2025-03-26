@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 
@@ -55,7 +55,7 @@ To rename a project, you must be an [Organization Owner](./organization-users).
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Each organization contains a default project. The name of the default project cannot be modified.</p>
+<p>Each organization contains a default project. </p>
 
 </Admonition>
 

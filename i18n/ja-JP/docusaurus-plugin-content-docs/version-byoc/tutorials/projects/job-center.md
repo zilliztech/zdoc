@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

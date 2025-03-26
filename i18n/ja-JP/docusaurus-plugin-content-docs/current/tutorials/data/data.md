@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

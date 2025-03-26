@@ -17,10 +17,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - data import
   - export
   - milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

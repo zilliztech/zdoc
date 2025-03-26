@@ -15,10 +15,10 @@ keywords:
   - pipelines
   - RAG
   - application
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

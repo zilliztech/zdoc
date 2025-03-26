@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists the statistics collected on a specific collection. | Node.js"
 type: docx
 token: LQMGdRHjKogdeMxekCtcdBLqnNf
-sidebar_position: 10
+sidebar_position: 13
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStatistics()
-  - node
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - nodejs25
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: nodeSidebar
 
 ---

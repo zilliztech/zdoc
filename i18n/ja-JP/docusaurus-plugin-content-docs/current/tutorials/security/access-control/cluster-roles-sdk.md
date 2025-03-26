@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

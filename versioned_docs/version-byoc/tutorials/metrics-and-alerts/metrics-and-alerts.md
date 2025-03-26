@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 
