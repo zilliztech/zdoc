@@ -14,10 +14,10 @@ keywords:
   - aws
   - milvus
   - vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 
@@ -183,7 +183,17 @@ After you create a project, you can view its status on the project page.
 
 ![Wstab2JghoTZ51xdSFQc2JHknJb](/byoc/Wstab2JghoTZ51xdSFQc2JHknJb.png)
 
+## Suspend & Resume{#suspend-and-resume}
 
+Suspending a project halts the data plane and terminates all EC2 instances and the EKS cluster associated with the project. This action does not affect the suspended Zilliz Cloud clusters within the project, which can be resumed once the data plane is restored.
+
+![BN8KbqawgoErlZxtNYFcEvrjne4](/byoc/BN8KbqawgoErlZxtNYFcEvrjne4.png)
+
+You can only suspend a running project if there are no clusters in the project or all clusters have already been suspended.
+
+![QXK1bRewYoasCzx1AHNcpbSBnhe](/byoc/QXK1bRewYoasCzx1AHNcpbSBnhe.png)
+
+Once the status tag on a project card reads **Suspended**, you cannot manipulate clusters in the project. In such a case, you can click Resume to resume the project. Once the status tag turns to **Running** again, you can continue manipulating clusters in the project.
 
 import DocCardList from '@theme/DocCardList';
 
