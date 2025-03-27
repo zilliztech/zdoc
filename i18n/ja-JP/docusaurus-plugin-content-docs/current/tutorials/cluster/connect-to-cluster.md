@@ -45,7 +45,7 @@ import TabItem from '@theme/TabItem';
 
 ## クラスタに接続する{#connect-to-a-cluster}
 
-クラスターが稼働したら、そのパブリックエンドポイントと認証トークンを使用して接続します。このトークンは、[API](./manage-api-keys)[キー](./manage-api-keys)またはユーザー名とパスワードのペアで構成される[クラスター資格情報](null)のいずれかです。
+クラスターが稼働したら、そのパブリックエンドポイントと認証トークンを使用して接続します。このトークンは、[API](./manage-api-keys)[キー](./manage-api-keys)またはユーザー名とパスワードのペアで構成される[クラスター資格情報](cluster-credentials)のいずれかです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>

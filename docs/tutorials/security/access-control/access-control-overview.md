@@ -39,7 +39,7 @@ Zilliz Cloud organizes its resources within two planes, implementing RBAC across
 
 - **Control plane:** This plane encompasses organizations, projects, and cluster management. [Account users](./email-accounts) are granted specific organization and project roles and authenticate via [API keys](./manage-api-keys) when interacting with resources on the control plane.
 
-- **Data plane:** This plane includes clusters, databases, and collections, focusing on data access management. [Cluster users](./cluster-users) are granted appropriate cluster roles and authenticate using [API keys](./manage-api-keys) or [username-password pairs](null) when interacting with data plane resources.
+- **Data plane:** This plane includes clusters, databases, and collections, focusing on data access management. [Cluster users](./cluster-users) are granted appropriate cluster roles and authenticate using [API keys](./manage-api-keys) or [username-password pairs](cluster-credentials) when interacting with data plane resources.
 
 Normally, each account user corresponds to a cluster user. However, not all users require access for both planes. In some cases, a control plane account user like a Billing Admin might only need access to the control plane for billing management purposes and do not require data plane access. Conversely, temporary cluster users can be created and granted access to data plane resources through customized API keys, allowing data access without a registered account. For details about managing customized API keys, refer to [API Keys](./manage-api-keys).
 

@@ -47,7 +47,7 @@ Ensure the following prerequisites are met before proceeding:
 
 ## Connect to a cluster{#connect-to-a-cluster}
 
-Once your cluster is operational, connect to it utilizing its public endpoint and an authentication token. This token can be a [cluster credential](null) that consists of a username and password pair.
+Once your cluster is operational, connect to it utilizing its public endpoint and an authentication token. This token can be a [cluster credential](cluster-credentials) that consists of a username and password pair.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>

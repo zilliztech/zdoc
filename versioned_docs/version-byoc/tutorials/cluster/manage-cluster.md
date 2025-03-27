@@ -58,7 +58,7 @@ After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll fin
 
 - **Connect to cluster**
 
-    In the **Connect** section, you can find the **Public Endpoint** and **Token** that are used to connect to the cluster. The token can bea [cluster credential](null) that consists of a username and password pair.
+    In the **Connect** section, you can find the **Public Endpoint** and **Token** that are used to connect to the cluster. The token can bea [cluster credential](cluster-credentials) that consists of a username and password pair.
 
     For more information, refer to [Connect to Cluster](./connect-to-cluster).
 

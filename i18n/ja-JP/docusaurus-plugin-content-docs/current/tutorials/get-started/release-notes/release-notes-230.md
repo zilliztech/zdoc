@@ -53,7 +53,7 @@ import Admonition from '@theme/Admonition';
 
 - *アクセス制御*
 
-    専用クラスタやサーバーレスインスタンスには、[APIキー](./manage-api-keys)または[ユーザー名パスワード認証](null)で安全にアクセスできます。
+    専用クラスタやサーバーレスインスタンスには、[APIキー](./manage-api-keys)または[ユーザー名パスワード認証](cluster-credentials)で安全にアクセスできます。
 
 - *生のベクトルを返す*
 

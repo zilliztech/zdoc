@@ -47,7 +47,7 @@ Zilliz BYOCは、金融、医療、資源、教育、電子商取引など、厳
 
 今回のリリースでは、**Zilliz BYOC**の**一般提供**を開始しました。価格については[お問い合わせください](https://support.zilliz.com/hc/en-us)。また、ご興味のある方はこの機能をリクエストしてください。  
 
-Zilliz BYOCのデプロイオプションの詳細については、「[BYOCの概要](./byoc-intro)」を参照してください。デプロイ手順と強化されたプロジェクト管理機能については、「[AWSでBYOCをデプロイする](./deploy-byoc-aws)」と「[AWSでBYOC-Iをデプロイする](./deploy-byoc-i-aws)」を参照してください。 
+Zilliz BYOCのデプロイオプションの詳細については、「[BYOCの概要](/docs/byoc/byoc-intro)」を参照してください。デプロイ手順と強化されたプロジェクト管理機能については、「[AWSでBYOCをデプロイする](/docs/byoc/deploy-byoc-aws)」と「[AWSでBYOC-Iをデプロイする](/docs/byoc/deploy-byoc-i-aws)」を参照してください。 
 
 ## データプレーンの監査ログ:監査のための包括的なアクションログでデータ操作を保護{#data-plane-audit-logs-protect-your-data-operations-with-comprehensive-action-logs-for-auditing}
 

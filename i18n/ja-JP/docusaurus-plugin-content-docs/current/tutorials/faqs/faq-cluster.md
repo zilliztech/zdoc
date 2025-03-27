@@ -39,7 +39,7 @@ sidebar_position: 2
 
 一般的に、フリークラスタは100万個の768次元ベクトルを処理できます。ただし、実際の容量はスキーマによって異なります。
 
-データが空きクラスタの最大容量を超える場合は、サーバーレスまたは専用プランに[アップグレード](./select-zilliz-cloud-service-plans#select-a-cluster-plan)して新しいクラスタを作成し、そこに[データを移行](./offline-migration)してください。クラスタの容量の詳細については、「[適切なCUを選択](./cu-types-explained)」を参照してください。
+データが空きクラスタの最大容量を超える場合は、サーバーレスまたは専用プランに[アップグレード](./select-zilliz-cloud-service-plans#select-a-cluster-plan)して新しいクラスタを作成し、そこに[データを移行](./migrate-between-clusters)してください。クラスタの容量の詳細については、「[適切なCUを選択](./cu-types-explained)」を参照してください。
 
 ### 「クォータ超過\[理由=ディスククォータ超過、より多くのリソースを割り当ててください」というエラーが表示された場合、どうすればよいですか?{#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources}
 
@@ -57,7 +57,7 @@ sidebar_position: 2
 
 1. 希望のCUタイプで新しいクラスタを作成します。[計算機](https://zilliz.com/pricing#calculator)を使用して、この新しいクラスタのCU体格を決定します。
 
-1. 現在のクラスタから作成したばかりの新しいクラスタにデータを[移行します](./offline-migration)。または、クラスタ間のデータ移行を処理するために[お問い合わせ](https://support.zilliz.com/hc/en-us)いただくこともできます。お問い合わせの際は、ソースクラスタとターゲットクラスタを指定してください。
+1. 現在のクラスタから作成したばかりの新しいクラスタにデータを[移行します](./migrate-between-clusters)。または、クラスタ間のデータ移行を処理するために[お問い合わせ](https://support.zilliz.com/hc/en-us)いただくこともできます。お問い合わせの際は、ソースクラスタとターゲットクラスタを指定してください。
 
 ### クラスターの作成後にクラウドリージョンを変更できますか?{#can-i-change-the-cloud-region-of-my-cluster-after-it-is-created}
 

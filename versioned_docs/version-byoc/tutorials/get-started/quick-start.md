@@ -107,7 +107,7 @@ curl --request POST \
 
 You can find the cloud region and project ID on Zilliz Cloud console. If you prefer to create a free cluster on the Zilliz Cloud console, refer to [Create Cluster](./create-cluster).
 
-Once your cluster is running, you will be prompted with the [cluster credentials](null) for once. Download and save it in a safe place. You will need it to connect to your cluster later.
+Once your cluster is running, you will be prompted with the [cluster credentials](cluster-credentials) for once. Download and save it in a safe place. You will need it to connect to your cluster later.
 
 ## Connect to Zilliz Cloud cluster{#connect-to-zilliz-cloud-cluster}
 

@@ -137,11 +137,11 @@ For details, refer to [Connect to Cluster](./connect-to-cluster).
 
 - **Data migrations**
 
-    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./offline-migration).
+    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./migrate-between-clusters).
 
 ### Migrate to Dedicated cluster{#migrate-to-dedicated-cluster}
 
-For more enterprise-grade features and custom configurations, you are recommended to migrate your Serverless cluster to a Dedicated cluster. For more information, refer to [Cross-Cluster Migrations](./offline-migration).
+For more enterprise-grade features and custom configurations, you are recommended to migrate your Serverless cluster to a Dedicated cluster. For more information, refer to [Cross-Cluster Migrations](./migrate-between-clusters).
 
 ### Users and access control{#users-and-access-control}
 
@@ -171,7 +171,7 @@ After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll fin
 
 - **Connect to cluster**
 
-    In the **Connect** section, you can find the **Public Endpoint** and **Token** that are used to connect to the cluster. The token can be an [API key](./manage-api-keys) or a [cluster credential](null) that consists of a username and password pair.
+    In the **Connect** section, you can find the **Public Endpoint** and **Token** that are used to connect to the cluster. The token can be an [API key](./manage-api-keys) or a [cluster credential](cluster-credentials) that consists of a username and password pair.
 
     For more information, refer to [Connect to Cluster](./connect-to-cluster).
 
@@ -195,7 +195,7 @@ After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll fin
 
 - **Migrations**
 
-    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./offline-migration).
+    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./migrate-between-clusters).
 
 ### Users and access control{#users-and-access-control}
 
@@ -274,7 +274,7 @@ To try the latest preview features, you need to upgrade the compatible Milvus ve
 
 - [Set up a Private Link](./setup-a-private-link)
 
-- [Migrate Between Clusters](./offline-migration)
+- [Migrate Between Clusters](./migrate-between-clusters)
 
 - [Detailed Plan Comparison](./select-zilliz-cloud-service-plans)
 
