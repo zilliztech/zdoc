@@ -1,13 +1,13 @@
 ---
-title: "オフライン移行 | Cloud"
-slug: /offline-migration
-sidebar_label: "オフライン移行"
+title: "クラスタ間の移行 | Cloud"
+slug: /migrate-between-clusters
+sidebar_label: "クラスタ間の移行"
 beta: FALSE
 notebook: FALSE
-description: "オフライン移行は、ソースクラスタからターゲットクラスタにすべての既存データを転送します。この方法は、同じ組織内および異なる組織間の移行をサポートします。計画されたメンテナンス中や小規模なデータベース移行中など、一時的な書き込み中断が許容されるシナリオに最適です。中断のない書き込み操作が必要な移行については、「ゼロダウンタイム移行」を参照してください。 | Cloud"
+description: "クラスタ間の移行は、ソースクラスタからターゲットクラスタにすべての既存データを転送します。この方法は、同じ組織内および異なる組織間の移行をサポートします。計画されたメンテナンス中や小規模なデータベース移行中など、一時的な書き込み中断が許容されるシナリオに最適です。 | Cloud"
 type: origin
 token: NR7FwgMcyiRS9Vk7ZVCc9Q5Sn7c
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
@@ -15,59 +15,25 @@ keywords:
   - migrations
   - clusters
   - offline
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# オフライン移行
+# クラスタ間の移行
 
-オフライン移行は、ソースクラスタからターゲットクラスタにすべての既存データを転送します。この方法は、同じ組織内および異なる組織間の移行をサポートします。計画されたメンテナンス中や小規模なデータベース移行中など、一時的な書き込み中断が許容されるシナリオに最適です。中断のない書き込み操作が必要な移行については、「[ゼロダウンタイム移行](./zero-downtime-migration)」を参照してください。
-
-## 考慮事項{#considerations}
-
-表は、異なるプランのクラスター間の移行機能と制約を概説しています。
-
-<table>
-   <tr>
-     <th rowspan="2"><p><strong>ソース</strong></p></th>
-     <th colspan="3"><p><strong>ターゲット</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>フリークラスタ</p></td>
-     <td><p>サーバーレスクラスタ</p></td>
-     <td><p>専用クラスタ</p></td>
-   </tr>
-   <tr>
-     <td><p>フリークラスタ</p></td>
-     <td><p>サポートされていない</p></td>
-     <td><p><a href="./manage-cluster#upgrade-plan">クラスタの管理</a>を参照してください</p></td>
-     <td><p><a href="./manage-cluster#upgrade-plan">クラスタの管理</a>を参照してください</p></td>
-   </tr>
-   <tr>
-     <td><p>サーバーレスクラスタ</p></td>
-     <td><p>サポートされていない</p></td>
-     <td><p>サポートされてい</p></td>
-     <td><p>サポートされてい</p></td>
-   </tr>
-   <tr>
-     <td><p>専用クラスタ</p></td>
-     <td><p>サポートされていない</p></td>
-     <td><p>サポートされていない</p></td>
-     <td><p>サポートされてい</p></td>
-   </tr>
-</table>
+クラスタ間の移行は、ソースクラスタからターゲットクラスタにすべての既存データを転送します。この方法は、同じ組織内および異なる組織間の移行をサポートします。計画されたメンテナンス中や小規模なデータベース移行中など、一時的な書き込み中断が許容されるシナリオに最適です。
 
 ## 始める前に{#before-you-start}
 
 - ソースのZilliz Cloudクラスターは、パブリックインターネットからアクセスできます。
 
-- 組織[間移行](./offline-migration#migrate-data-across-organizations)の場合は、パブリックエンドポイント、APIキー、クラスターのユーザー名とパスワードなど、ターゲットのZilliz Cloudクラスターに必要な接続情報があることを確認してください。
+- 組織[間移行](./migrate-between-clusters#migrate-data-across-organizations)の場合は、パブリックエンドポイント、APIキー、クラスターのユーザー名とパスワードなど、ターゲットのZilliz Cloudクラスターに必要な接続情報があることを確認してください。
 
 - 組織オーナーまたはプロジェクト管理者の役割が付与されています。必要な権限がない場合は、Zilliz Cloudの管理者にお問い合わせください。
 
@@ -140,4 +106,3 @@ import Admonition from '@theme/Admonition';
 1. [[ジョブ](./job-center)]ページで、失敗した移行ジョブを特定してキャンセルします。
 
 1. [アクション]列の[**詳細**を**表示**]をクリックして、エラーログにアクセスします。
-

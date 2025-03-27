@@ -1,10 +1,10 @@
 ---
-title: "オフライン移行 | BYOC"
+title: "クラスタ間の移行 | BYOC"
 slug: /offline-migration
-sidebar_label: "オフライン移行"
+sidebar_label: "クラスタ間の移行"
 beta: FALSE
 notebook: FALSE
-description: "オフライン移行は、ソースクラスタからターゲットクラスタにすべての既存データを転送します。この方法は、同じ組織内および異なる組織間の移行をサポートします。計画されたメンテナンス中や小規模なデータベース移行中など、一時的な書き込み中断が許容されるシナリオに最適です。中断のない書き込み操作が必要な移行については、「ゼロダウンタイム移行」を参照してください。 | BYOC"
+description: "クラスタ間の移行は、ソースクラスタからターゲットクラスタにすべての既存データを転送します。この方法は、同じ組織内および異なる組織間の移行をサポートします。計画されたメンテナンス中や小規模なデータベース移行中など、一時的な書き込み中断が許容されるシナリオに最適です。中断のない書き込み操作が必要な移行については、「ゼロダウンタイム移行」を参照してください。 | BYOC"
 type: origin
 token: NR7FwgMcyiRS9Vk7ZVCc9Q5Sn7c
 sidebar_position: 1
@@ -15,19 +15,19 @@ keywords:
   - migrations
   - clusters
   - offline
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# オフライン移行
+# クラスタ間の移行
 
-オフライン移行は、ソースクラスタからターゲットクラスタにすべての既存データを転送します。この方法は、同じ組織内および異なる組織間の移行をサポートします。計画されたメンテナンス中や小規模なデータベース移行中など、一時的な書き込み中断が許容されるシナリオに最適です。中断のない書き込み操作が必要な移行については、「[ゼロダウンタイム移行](./zero-downtime-migration)」を参照してください。
+クラスタ間の移行は、ソースクラスタからターゲットクラスタにすべての既存データを転送します。この方法は、同じ組織内および異なる組織間の移行をサポートします。計画されたメンテナンス中や小規模なデータベース移行中など、一時的な書き込み中断が許容されるシナリオに最適です。中断のない書き込み操作が必要な移行については、「[ゼロダウンタイム移行](./zero-downtime-migration)」を参照してください。
 
 ## 始める前に{#before-you-start}
 
@@ -80,4 +80,3 @@ import Admonition from '@theme/Admonition';
 1. [[ジョブ](./job-center)]ページで、失敗した移行ジョブを特定してキャンセルします。
 
 1. [アクション]列の[**詳細**を**表示**]をクリックして、エラーログにアクセスします。
-
