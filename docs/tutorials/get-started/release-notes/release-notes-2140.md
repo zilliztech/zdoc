@@ -7,16 +7,16 @@ notebook: FALSE
 description: "This release introduces two new features in PRIVATE PREVIEW a new BYOC deployment option called BYOC-I and a data plane audit logging feature. The former is designed to ensure complete data sovereignty without any cross-account IAM authorization, while the latter aims to enhance data security by providing detailed logs of actions performed on the data plane. In addition to launching these features, Zilliz Cloud has also revised its credit strategies. | Cloud"
 type: origin
 token: FSUqwEEIii9k2sklkcLcIFJJnbf
-sidebar_position: 0
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
@@ -43,9 +43,9 @@ Unlike the standard BYOC, which requires cross-account authorization, BYOC-I emp
 
 Zilliz BYOC supports data governance and compliance across industries like finance, healthcare, resources, education, and e-commerce, all of which face stringent compliance requirements. For enterprises and organizations that require more stringent regulatory measures, BYOC-I is an ideal deployment option for achieving complete data sovereignty.
 
-This release also improves the management of projects deployed using the standard BYOC deployment option by adding **Suspend** and **Resume** functionalities. You can choose to pause the data plane and release the EC2 instances and EKS cluster associated with your project to lower infrastructure costs and restore the data plane whenever you see fit.
+This release also improves the management of projects deployed using the standard BYOC deployment option by adding **Suspend** and **Resume** functionalities. You can choose to pause the data plane and release the EC2 instances associated with the EKS cluster to lower infrastructure costs and restore the data plane whenever you see fit.
 
-In this release, Zilliz BYOC is generally available, and Zilliz BYOC-I is in **PRIVATE PREVIEW**. [Contact us](https://support.zilliz.com/hc/en-us) to learn about the pricing or request this feature if you are interested. 
+In this release, Zilliz BYOC is generally available. [Contact us](https://support.zilliz.com/hc/en-us) to learn about the pricing or request this feature if you are interested. 
 
 For details about Zilliz BYOC deployment options, refer to [BYOC Overview](./byoc-intro). For the deployment procedures and the enhanced project management capabilities, refer to [Deploy BYOC on AWS](./deploy-byoc-aws) and [Deploy BYOC-I on AWS](./deploy-byoc-i-aws). 
 
