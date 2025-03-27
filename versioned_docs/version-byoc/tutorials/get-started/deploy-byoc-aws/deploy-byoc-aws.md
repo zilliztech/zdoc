@@ -14,10 +14,10 @@ keywords:
   - aws
   - milvus
   - vector database
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 
@@ -146,37 +146,6 @@ During the project deployment, Zilliz Cloud creates the fundamental database com
 
 ![ZDOjbRWDboqYxSxrfujcjw9tn7f](/byoc/ZDOjbRWDboqYxSxrfujcjw9tn7f.png)
 
-You need to determine the types of instances to create for each component listed below during the deployment. 
-
-<table>
-   <tr>
-     <th><p>Components</p></th>
-     <th><p>Licenses consumed per instance</p></th>
-     <th><p>Instance type</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p>Search service</p></td>
-     <td><p>16</p></td>
-     <td><p>m6id.4xlarge</p></td>
-     <td><p>Instances solely used for query services</p></td>
-   </tr>
-   <tr>
-     <td><p>Fundamental database components</p></td>
-     <td><p>8</p></td>
-     <td><p>m6i.2xlarge</p></td>
-     <td><p>Instances used for fundamental database components, which are mainly used as the index pool</p></td>
-   </tr>
-   <tr>
-     <td><p>Core support services</p></td>
-     <td><p>0</p></td>
-     <td><p>m6i.2xlarge</p></td>
-     <td><p>Instances used for peripheral support services, including Milvus Operator, Zilliz Cloud Agent, and Milvus dependencies for logging, monitoring, and alerting</p></td>
-   </tr>
-</table>
-
-If the instance settings are left unconfigured, the default settings listed above will apply.
-
 ## View deployment details{#view-deployment-details}
 
 After you create a project, you can view its status on the project page.
@@ -193,7 +162,9 @@ You can only suspend a running project if there are no clusters in the project o
 
 ![QXK1bRewYoasCzx1AHNcpbSBnhe](/byoc/QXK1bRewYoasCzx1AHNcpbSBnhe.png)
 
-Once the status tag on a project card reads **Suspended**, you cannot manipulate clusters in the project. In such a case, you can click Resume to resume the project. Once the status tag turns to **Running** again, you can continue manipulating clusters in the project.
+Once the status tag on a project card reads **Suspended**, you cannot manipulate clusters in the project. In such a case, you can click **Resume** to resume the project. Once the status tag turns to **Running** again, you can continue manipulating clusters in the project.
+
+## Procedures{#procedures}
 
 import DocCardList from '@theme/DocCardList';
 

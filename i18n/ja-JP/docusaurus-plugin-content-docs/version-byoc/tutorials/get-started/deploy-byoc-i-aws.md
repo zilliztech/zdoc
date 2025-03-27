@@ -7,7 +7,7 @@ notebook: FALSE
 description: "このページでは、AWS Virtual Private Cloud(VPC)でBYOCエージェントを使用してBring-Your-Own-Cloud(BYOC)データプレーンを作成する方法について説明します。 | BYOC"
 type: origin
 token: RMhbwx7ewiGxfUkiaDDc9PC6nWh
-sidebar_position: 4
+sidebar_position: 0
 keywords: 
   - zilliz
   - byoc
@@ -17,10 +17,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 
@@ -109,37 +109,3 @@ BYOC-I組織内で、[**プロジェクトの作成とデータプレーンの�
 
 ![Dga6bcpFxo6ZgaxONVEcXLOVnuf](/byoc/ja-JP/Dga6bcpFxo6ZgaxONVEcXLOVnuf.png)
 
-デプロイ中に、以下に示す各コンポーネントに対して作成するインスタンスの種類を決定する必要があります。
-
-<table>
-   <tr>
-     <th><p>コンポーネント</p></th>
-     <th><p>インスタンスごとに消費されるライセンス</p></th>
-     <th><p>インスタンスタイプ</p></th>
-     <th><p>初期デプロイに必要なインスタンス</p></th>
-     <th><p>説明する</p></th>
-   </tr>
-   <tr>
-     <td><p>検索サービス</p></td>
-     <td><p>16</p></td>
-     <td><p>m 6 id.4 xlargeファイル</p></td>
-     <td><p>0</p></td>
-     <td><p>クエリサービス専用のインスタンス</p></td>
-   </tr>
-   <tr>
-     <td><p>基本的なデータベースコンポーネント</p></td>
-     <td><p>8</p></td>
-     <td><p>m 6 i.2 xlarge</p></td>
-     <td><p>1</p></td>
-     <td><p>インデックスプールとして主に使用される基本的なデータベースコンポーネントに使用されるインスタンス</p></td>
-   </tr>
-   <tr>
-     <td><p>コアサポートサービス</p></td>
-     <td><p>0</p></td>
-     <td><p>m 6 i.2 xlarge</p></td>
-     <td><p>3</p></td>
-     <td><p>Milvus Operator、Zilliz Cloud Agent、およびMilvusの依存関係を含む周辺サポートサービスに使用されるインスタンスは、ログ、モニタリング、アラートに使用されます。</p></td>
-   </tr>
-</table>
-
-インスタンス設定が構成されていない場合、上記のデフォルト設定が適用されます。

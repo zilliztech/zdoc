@@ -14,10 +14,10 @@ keywords:
   - aws
   - milvus
   - vector database
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 
@@ -142,41 +142,6 @@ BYOC組織内で、[**プロジェクトの作成とデータプレーンのデ�
 
 ![C7RmbHtWjoFrczxFOAnctnNYnDc](/byoc/ja-JP/C7RmbHtWjoFrczxFOAnctnNYnDc.png)
 
-デプロイ中に、以下に示す各コンポーネントに対して作成するインスタンスの種類を決定する必要があります。
-
-<table>
-   <tr>
-     <th><p>コンポーネント</p></th>
-     <th><p>インスタンスごとに消費されるライセンス</p></th>
-     <th><p>インスタンスタイプ</p></th>
-     <th><p>初期デプロイに必要なインスタンス</p></th>
-     <th><p>説明する</p></th>
-   </tr>
-   <tr>
-     <td><p>検索サービス</p></td>
-     <td><p>16</p></td>
-     <td><p>m 6 id.4 xlargeファイル</p></td>
-     <td><p>0</p></td>
-     <td><p>クエリサービス専用のインスタンス</p></td>
-   </tr>
-   <tr>
-     <td><p>基本的なデータベースコンポーネント</p></td>
-     <td><p>8</p></td>
-     <td><p>m 6 i.2 xlarge</p></td>
-     <td><p>1</p></td>
-     <td><p>インデックスプールとして主に使用される基本的なデータベースコンポーネントに使用されるインスタンス</p></td>
-   </tr>
-   <tr>
-     <td><p>コアサポートサービス</p></td>
-     <td><p>0</p></td>
-     <td><p>m 6 i.2 xlarge</p></td>
-     <td><p>3</p></td>
-     <td><p>Milvus Operator、Zilliz Cloud Agent、およびMilvusの依存関係を含む周辺サポートサービスに使用されるインスタンスは、ログ、モニタリング、アラートに使用されます。</p></td>
-   </tr>
-</table>
-
-インスタンス設定が構成されていない場合、上記のデフォルト設定が適用されます。
-
 ## デプロイの詳細を表示する{#view-deployment-details}
 
 プロジェクトを作成したら、プロジェクトページでステータスを閲覧可能です。
@@ -194,6 +159,8 @@ BYOC組織内で、[**プロジェクトの作成とデータプレーンのデ�
 ![JEMybaDxEoIAS6xT0vdc2vm2nzb](/byoc/ja-JP/JEMybaDxEoIAS6xT0vdc2vm2nzb.png)
 
 プロジェクトカードのステータスタグが**Suspended**になると、プロジェクト内のクラスタを操作できなくなります。その場合は、**Resume**をクリックしてプロジェクトを再開できます。ステータスタグが再び**Running**に変わると、プロジェクト内のクラスタの操作を続けることができます。
+
+## 手続き{#procedures}
 
 import DocCardList from '@theme/DocCardList';
 
