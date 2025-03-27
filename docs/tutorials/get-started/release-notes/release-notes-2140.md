@@ -4,7 +4,7 @@ slug: /release-notes-2140
 sidebar_label: "Release Notes (Mar. 27, 2025)"
 beta: FALSE
 notebook: FALSE
-description: "This release introduces two new features in PRIVATE PREVIEW a new BYOC deployment option called BYOC-I and a data plane audit logging feature. The former is designed to ensure complete data sovereignty without any cross-account IAM authorization, while the latter aims to enhance data security by providing detailed logs of actions performed on the data plane. In addition to launching these features, Zilliz Cloud has also revised its credit strategies. | Cloud"
+description: "This release introduces two new features a new BYOC deployment option called BYOC-I and a data plane audit logging feature. The former is designed to ensure complete data sovereignty without any cross-account IAM authorization, while the latter aims to enhance data security by providing detailed logs of actions performed on the data plane. In addition to launching these features, Zilliz Cloud has also revised its credit strategies. | Cloud"
 type: origin
 token: FSUqwEEIii9k2sklkcLcIFJJnbf
 sidebar_position: 1
@@ -25,7 +25,7 @@ import Admonition from '@theme/Admonition';
 
 # Release Notes (Mar. 27, 2025)
 
-This release introduces two new features in **PRIVATE PREVIEW**: a new BYOC deployment option called BYOC-I and a data plane audit logging feature. The former is designed to ensure complete data sovereignty without any cross-account IAM authorization, while the latter aims to enhance data security by providing detailed logs of actions performed on the data plane. In addition to launching these features, Zilliz Cloud has also revised its credit strategies.
+This release introduces two new features: a new BYOC deployment option called BYOC-I and a data plane audit logging feature. The former is designed to ensure complete data sovereignty without any cross-account IAM authorization, while the latter aims to enhance data security by providing detailed logs of actions performed on the data plane. In addition to launching these features, Zilliz Cloud has also revised its credit strategies.
 
 ## Milvus Compatibility{#milvus-compatibility}
 
