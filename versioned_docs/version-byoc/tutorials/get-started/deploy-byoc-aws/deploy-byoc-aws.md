@@ -14,10 +14,10 @@ keywords:
   - aws
   - milvus
   - vector database
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 
@@ -154,7 +154,7 @@ After you create a project, you can view its status on the project page.
 
 ## Suspend & Resume{#suspend-and-resume}
 
-Suspending a project halts the data plane and terminates all EC2 instances and the EKS cluster associated with the project. This action does not affect the suspended Zilliz Cloud clusters within the project, which can be resumed once the data plane is restored.
+Suspending a project halts the data plane and terminates all EC2 instances associated with the EKS cluster supporting the project. This action does not impact the suspended Zilliz Cloud clusters within the project, which can be resumed once the data plane is restored.
 
 ![BN8KbqawgoErlZxtNYFcEvrjne4](/byoc/BN8KbqawgoErlZxtNYFcEvrjne4.png)
 

@@ -14,10 +14,10 @@ keywords:
   - aws
   - milvus
   - vector database
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 
@@ -150,7 +150,7 @@ BYOC組織内で、[**プロジェクトの作成とデータプレーンのデ�
 
 ## 一時停止と再開 {#suspend-and-resume}
 
-プロジェクトを一時停止すると、データプレーンが停止し、プロジェクトに関連付けられているすべてのEC 2インスタンスとEKSクラスターが終了します。このアクションは、プロジェクト内の一時停止されたZilliz Cloudクラスターには影響しません。データプレーンが復元されたら再開できます。
+プロジェクトを一時停止すると、データプレーンが停止し、プロジェクトをサポートするEKSクラスターに関連するすべてのEC 2インスタンスが終了します。このアクションは、プロジェクト内の一時停止されたZilliz Cloudクラスターには影響しません。データプレーンが復元されたら再開できます。
 
 ![KgmubOHigoPnlHx7ID9cJmeWn8b](/byoc/ja-JP/KgmubOHigoPnlHx7ID9cJmeWn8b.png)
 
