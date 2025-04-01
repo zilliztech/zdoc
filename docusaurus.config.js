@@ -243,7 +243,7 @@ const config = {
             },
             paas: {
               outputDir: 'versioned_docs/version-byoc/tutorials',
-              imageDir: 'static/byoc'
+              imageDir: 'static/img'
             } 
           }
         }
@@ -262,11 +262,11 @@ const config = {
           zilliz: {
             saas: {
               outputDir: 'i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials',
-              imageDir: 'static/img/ja-JP',
+              imageDir: 'static/img',
             },
             paas: {
               outputDir: 'i18n/ja-JP/docusaurus-plugin-content-docs/version-byoc/tutorials',
-              imageDir: 'static/byoc/ja-JP'
+              imageDir: 'static/img'
             } 
           }
         }        

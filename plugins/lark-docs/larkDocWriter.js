@@ -21,6 +21,7 @@ class larkDocWriter {
         this.targets = targets
         this.skip_image_download = skip_image_download
         this.imageDir = imageDir
+        this.iframes = []
         this.block_types = [
             "page",
             "text",
@@ -703,7 +704,7 @@ class larkDocWriter {
             } else if (this.block_types[block['block_type']-1] === 'image') {
                 markdown.push(idt + (await this.__image(block['image'])));
             } else if (this.block_types[block['block_type']-1] === 'iframe') {
-                markdown.push(idt + (await this.__iframe(block['iframe'])));
+                markdown.push(idt + (await this.__iframe(block)));
             } else if (this.block_types[block['block_type']-1] === 'table') {
                 markdown.push(await this.__table(block['table'], indent));
             } else if (this.block_types[block['block_type']-1] === 'sheet') {
@@ -1139,8 +1140,14 @@ class larkDocWriter {
         }
     }
 
-    async __iframe(iframe) {
-        const root = this.imageDir.replace(/^static\//g, '')
+    async __iframe(block) {
+        const root = this.imageDir.replace(/^static\//g, '');
+        const block_id = block['block_id'];
+        const iframe = block['iframe'];
+        const existing_iframe = this.iframes.find(x => x.block_id === block_id)
+        if (existing_iframe) {
+            return `![${existing_iframe.caption}](/${root}/${existing_iframe.caption}.png)`;
+        }
 
         if (iframe['component']['iframe_type'] !== 8) {
             return '';
@@ -1149,6 +1156,10 @@ class larkDocWriter {
             const key = url.pathname.split('/')[2]
             const node = url.searchParams.get('node-id').split('-').join(":") 
             const caption = (await this.downloader.__fetchCaption(key, node)).nodes[node].document.name;
+            this.iframes.push({
+                block_id,
+                caption
+            })
             return `![${caption}](/${root}/${caption}.png)`;
         } else {
             try {
@@ -1159,6 +1170,10 @@ class larkDocWriter {
                 const caption = (await this.downloader.__fetchCaption(key, node)).nodes[node].document.name;
                 const result = await this.downloader.__downloadIframe(key, node);
                 result.body.pipe(fs.createWriteStream(`${this.downloader.target_path}/${caption}.png`));
+                this.iframes.push({
+                    block_id,
+                    caption
+                })
                 return `![${caption}](/${root}/${caption}.png)`;
             } catch (error) {
                 console.log(error)
