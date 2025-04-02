@@ -1180,7 +1180,7 @@ class larkDocWriter {
                 console.log("-------------- A retry is needed -----------------");
                 console.log("Sleeping for 5 seconds")
                 await new Promise(resolve => setTimeout(resolve, 5000));
-                this.__iframe(iframe)
+                this.__iframe(block)
             }
         }
     }
