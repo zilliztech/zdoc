@@ -56,6 +56,7 @@ jobs:
     - name: fetch japanese docs
       id: fetch_jp_docs
       run: |
+        npx docusaurus report-to-lark -m "🔥 Fetching Japanese docs..."
         npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.saas
         npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.saas -post
         npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.paas -skipS
@@ -92,6 +93,7 @@ jobs:
     - name: fetch sdk references
       id: fetch_sdk_refs
       run: |
+        npx docusaurus report-to-lark -m "🔥 Fetching SDK references..."
         npx docusaurus fetch-lark-docs -man python -src-only
         npx docusaurus fetch-lark-docs -man pymilvus25 -tar zilliz
         npx docusaurus fetch-lark-docs -man pymilvus25 -tar zilliz -post
