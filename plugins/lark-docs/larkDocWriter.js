@@ -1166,14 +1166,17 @@ class larkDocWriter {
                 const url = new URL(decodeURIComponent(iframe.component.url))
                 const key = url.pathname.split('/')[2]
                 const node = url.searchParams.get('node-id').split('-').join(":") 
-    
                 const caption = (await this.downloader.__fetchCaption(key, node)).nodes[node].document.name;
-                const result = await this.downloader.__downloadIframe(key, node);
-                result.body.pipe(fs.createWriteStream(`${this.downloader.target_path}/${caption}.png`));
-                this.iframes.push({
-                    block_id,
-                    caption
-                })
+
+                if (!fs.existsSync(`${this.downloader.target_path}/${caption}.png`)) {
+                    const result = await this.downloader.__downloadIframe(key, node);
+                    result.body.pipe(fs.createWriteStream(`${this.downloader.target_path}/${caption}.png`));
+                    this.iframes.push({
+                        block_id,
+                        caption
+                    })
+                }
+
                 return `![${caption}](/${root}/${caption}.png)`;
             } catch (error) {
                 console.log(error)
