@@ -135,6 +135,12 @@ class larkImageDownloader {
         }
 
         const res = await fetch(`https://api.figma.com/v1/files/${key}/nodes?ids=${node}`, req)
+
+        if (res.status === 429) {
+            await this.__wait(60000)
+            return await this.__fetchCaption(key, node)
+        }
+
         return res.json()
     }
 
@@ -158,7 +164,20 @@ class larkImageDownloader {
             agent: new https.Agent({ keepAlive: true, maxSockets: 10 })
         })
 
+        if (res.status === 429) {
+            await this.__wait(60000) 
+            return await this.__fetchCaption(key, node)
+        }
+
         return res
+    }
+
+    async __wait(duration) {
+        return new Promise((resolve, _) => {
+            setTimeout(() => {
+                resolve()
+            }, duration)
+        })
     }
 
 }
