@@ -14,10 +14,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 
@@ -175,6 +175,14 @@ Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
    </tr>
    <tr>
      <td><p>East US</p></td>
+     <td><p>Virginia, USA</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
+   </tr>
+   <tr>
+     <td><p>East US 2</p></td>
      <td><p>Virginia, USA</p></td>
      <td><p>No</p></td>
      <td><p>No</p></td>

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 
@@ -175,6 +175,14 @@ Zilliz Cloudは、Microsoft Azure上で専用クラスタを展開すること�
    </tr>
    <tr>
      <td><p>East US</p></td>
+     <td><p>アメリカ合衆国バージニア州</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
+   </tr>
+   <tr>
+     <td><p>East US 2</p></td>
      <td><p>アメリカ合衆国バージニア州</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
