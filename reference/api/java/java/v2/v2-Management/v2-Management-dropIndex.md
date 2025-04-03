@@ -10,19 +10,19 @@ type: docx
 token: KdFEdP8ZToYvZ1xmmQgcE62unUf
 sidebar_position: 4
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndex()
   - javaV225
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: javaSidebar
 
 ---

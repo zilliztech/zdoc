@@ -10,19 +10,19 @@ type: docx
 token: CIYQd12MNoiC4QxW97mcQLWYnYd
 sidebar_position: 7
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - dropPrivilegeGroup()
   - javaV225
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: javaSidebar
 
 ---

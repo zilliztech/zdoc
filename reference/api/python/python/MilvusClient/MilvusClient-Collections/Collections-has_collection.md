@@ -10,19 +10,19 @@ type: docx
 token: SSQ6dFGdxouy7hxRwCOcatnEn0e
 sidebar_position: 14
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - has_collection()
   - pymilvus25
+  - Zilliz database
   - Unstructured Data
   - vector database
   - IVF
-  - knn
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: AXcMd0xiOovIX6xR4ZrcKA15nwh
 sidebar_position: 13
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - get_compaction_state()
   - pymilvus25
-  - hybrid search
   - lexical search
   - nearest neighbor search
   - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: pythonSidebar
 
 ---

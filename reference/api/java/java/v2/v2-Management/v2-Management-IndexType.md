@@ -10,19 +10,19 @@ type: docx
 token: EATSdak5wokQhCx6k3tcCoAqn3P
 sidebar_position: 8
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - IndexType
   - javaV225
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: javaSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: PemMdzGFnovhaWxOzFzceaH3ncd
 sidebar_position: 3
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
   - javaV225
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: javaSidebar
 
 ---

@@ -2,7 +2,7 @@
 title: "データに接続する | Cloud"
 slug: /connectors
 sidebar_label: "データに接続する"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "コネクターは、様々なデータソースをベクターデータベースに簡単に接続できる無料のツールです。このガイドでは、コネクターの概念を説明し、Zilliz Cloud Pipelinesでコネクターを作成および管理する方法について説明します。 | Cloud"
 type: origin

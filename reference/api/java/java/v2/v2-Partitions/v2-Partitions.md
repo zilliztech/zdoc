@@ -9,10 +9,10 @@ token: YkL6fqkaNlgeWXdNaWLcltkZnRc
 sidebar_position: 7
 sidebar_label: "Partitions"
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud

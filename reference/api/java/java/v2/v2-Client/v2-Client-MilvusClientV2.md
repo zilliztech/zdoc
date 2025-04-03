@@ -10,19 +10,19 @@ type: docx
 token: Y4qvdMEeioKXShxxNmncvnJ2nJf
 sidebar_position: 1
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClientV2
   - javaV225
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: javaSidebar
 
 ---
@@ -88,7 +88,7 @@ ConnectConfig.builder()
 
     - An [API key](/docs/manage-api-keys) with sufficient permissions, or
 
-    - A pair of [username and password ](/docs/cluster-credentials) used to access the target cluster, joined by a colon (:). For example, you can set this to `username:p@ssw0rd`.
+    - A pair of [username and password ](/docs/cluster-credentials)used to access the target cluster, joined by a colon (:). For example, you can set this to `username:p@ssw0rd`.
 
 - `username(String userName)`
 

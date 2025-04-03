@@ -10,19 +10,19 @@ type: docx
 token: Lc03dk5YVo8Ilvx4XINcv5KBn9e
 sidebar_position: 12
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
   - javaV225
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: javaSidebar
 
 ---

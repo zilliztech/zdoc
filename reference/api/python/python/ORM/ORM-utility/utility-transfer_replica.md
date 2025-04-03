@@ -10,19 +10,19 @@ type: docx
 token: SuePdciB0o4du5xtpIhcMVyYnPb
 sidebar_position: 40
 keywords: 
-  - Pinecone vs Milvus
   - Chroma vs Milvus
   - Annoy vector search
   - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - transfer_replica()
   - pymilvus25
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: pythonSidebar
 
 ---

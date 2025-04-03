@@ -10,19 +10,19 @@ type: docx
 token: UPVjdLtz1ogFeKxP45wcqyKincc
 sidebar_position: 5
 keywords: 
-  - What are vector embeddings
   - vector database tutorial
   - how do vector databases work
   - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - drop_database_properties()
   - pymilvus25
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 displayed_sidebar: pythonSidebar
 
 ---

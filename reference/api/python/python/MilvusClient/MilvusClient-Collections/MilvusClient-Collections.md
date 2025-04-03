@@ -9,10 +9,10 @@ token: M6KJfLu4ylTkNsd9DUVcQHmfnqe
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud

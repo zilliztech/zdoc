@@ -10,19 +10,19 @@ type: docx
 token: PsAGd1CNqosvirxDJ5ncIHudnSg
 sidebar_position: 15
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollection()
   - javaV225
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: javaSidebar
 
 ---

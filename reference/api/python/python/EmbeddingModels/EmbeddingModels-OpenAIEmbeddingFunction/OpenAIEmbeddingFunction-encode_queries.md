@@ -10,19 +10,19 @@ type: docx
 token: Sf9UdzL3rolQNAxDm8Ecga3snhg
 sidebar_position: 2
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus25
-  - milvus vector db
   - Zilliz Cloud
   - what is milvus
   - milvus database
+  - milvus lite
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: QXDxdv36FoVgjcxDV1gcDwWXnsd
 sidebar_position: 5
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
   - pymilvus25
-  - Unstructured Data
-  - vector database
   - IVF
   - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: pythonSidebar
 
 ---

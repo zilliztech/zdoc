@@ -9,10 +9,10 @@ token: YEBjfrOXWl8s00dDTvdcMiYDn0d
 sidebar_position: 5
 sidebar_label: "Client"
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud

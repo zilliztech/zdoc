@@ -10,19 +10,19 @@ type: docx
 token: P0vxdEVBPoTNKLxkKIzcznlYnNc
 sidebar_position: 3
 keywords: 
+  - Chroma vector database
   - nlp search
   - hallucinations llm
   - Multimodal search
-  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - list_import_jobs()
   - pymilvus25
+  - k nearest neighbor algorithm
+  - ANNS
   - Vector search
   - knn algorithm
-  - HNSW
-  - What is unstructured data
 displayed_sidebar: pythonSidebar
 
 ---

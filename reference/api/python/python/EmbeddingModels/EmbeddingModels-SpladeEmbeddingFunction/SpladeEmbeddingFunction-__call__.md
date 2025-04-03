@@ -10,19 +10,19 @@ type: docx
 token: LJqud2x3AojxV4xKONocTe4YnFb
 sidebar_position: 4
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
+  - Vector Dimension
+  - ANN Search
   - What are vector embeddings
   - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
 displayed_sidebar: pythonSidebar
 
 ---

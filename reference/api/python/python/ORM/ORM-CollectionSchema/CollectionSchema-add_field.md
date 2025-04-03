@@ -10,19 +10,19 @@ type: docx
 token: H9IFdpWWUouzXOxKlx9cImP8nnd
 sidebar_position: 1
 keywords: 
+  - nearest neighbor search
   - Agentic RAG
   - rag llm architecture
   - private llms
-  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - add_field()
   - pymilvus25
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: LffbdiHhzoHe08xivF9ccmoen5d
 sidebar_position: 23
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
   - query_iterator()
   - pymilvus25
+  - natural language processing
   - AI chatbots
   - cosine distance
   - what is a vector database
-  - vectordb
 displayed_sidebar: pythonSidebar
 
 ---

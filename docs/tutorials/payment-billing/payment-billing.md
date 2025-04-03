@@ -2,7 +2,7 @@
 title: "Payment & Billing | Cloud"
 slug: /payment-billing
 sidebar_label: "Payment & Billing"
-beta: NEAR DEPRECATE
+beta: FALSE
 notebook: FALSE
 description: "This guide details the available ways for you to subscribe to our services on Zilliz Cloud with relevant notes on invoice management | Cloud"
 type: origin

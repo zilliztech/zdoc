@@ -2,7 +2,7 @@
 title: "Analyze Cost | Cloud"
 slug: /analyze-cost
 sidebar_label: "Analyze Cost"
-beta: NEAR DEPRECATE
+beta: FALSE
 notebook: FALSE
 description: "The Usage page in Zilliz Cloud provides you with a visualized cost analysis tool, enabling you to view and track Zilliz Cloud usage and expenses from multiple dimensions. | Cloud"
 type: origin

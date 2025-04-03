@@ -10,19 +10,19 @@ type: docx
 token: BDupd28JqoNY9HxVOTfcv86enRe
 sidebar_position: 4
 keywords: 
+  - Audio search
+  - what is semantic search
   - Embedding model
   - image similarity search
-  - Context Window
-  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - create_user()
   - pymilvus25
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 displayed_sidebar: pythonSidebar
 
 ---

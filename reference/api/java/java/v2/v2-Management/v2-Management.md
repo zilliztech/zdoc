@@ -9,10 +9,10 @@ token: MTBuf5wQ7lardCddEtCc4R2uncb
 sidebar_position: 2
 sidebar_label: "Management"
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud

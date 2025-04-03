@@ -9,10 +9,10 @@ token: Sx9jfHZP8lqVhXd9UuMcERemnjd
 sidebar_position: 1
 sidebar_label: "Collections"
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud

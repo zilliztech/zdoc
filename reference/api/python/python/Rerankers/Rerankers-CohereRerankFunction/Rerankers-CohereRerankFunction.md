@@ -10,19 +10,19 @@ type: docx
 token: GAWOdft83oZPvHxtxzZcjrQunGg
 sidebar_position: 1
 keywords: 
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - CohereRerankFunction
   - pymilvus25
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 displayed_sidebar: pythonSidebar
 
 ---

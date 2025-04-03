@@ -10,19 +10,19 @@ type: docx
 token: IqQudFVIKot4mVxWD4xclJymn8g
 sidebar_position: 2
 keywords: 
+  - vector database open source
   - open source vector db
   - vector database example
   - rag vector database
-  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - createDatabase()
   - javaV225
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: javaSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: LMsOdAVFQopadPx1N2UcOn0unCf
 sidebar_position: 15
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - waitForLoadCollection()
   - javaV225
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: javaSidebar
 
 ---

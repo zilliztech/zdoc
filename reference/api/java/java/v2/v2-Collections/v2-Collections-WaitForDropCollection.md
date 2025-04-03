@@ -10,19 +10,19 @@ type: docx
 token: K9E6dtYlJojtOCxTG0EcGBVnnKe
 sidebar_position: 23
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - WaitForDropCollection()
   - javaV225
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: javaSidebar
 
 ---

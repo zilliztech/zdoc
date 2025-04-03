@@ -10,19 +10,19 @@ type: docx
 token: WEsjdspGLokueRxggM1cNFgknze
 sidebar_position: 7
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - get_compact_state()
   - pymilvus25
+  - what is vector db
   - what are vector databases
   - vector databases comparison
   - Faiss
-  - Video search
 displayed_sidebar: pythonSidebar
 
 ---

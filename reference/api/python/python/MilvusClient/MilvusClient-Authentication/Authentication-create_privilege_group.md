@@ -10,19 +10,19 @@ type: docx
 token: HNJqdocBjo2zm9xcIVdchRvcnab
 sidebar_position: 2
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
   - create_privilege_group()
   - pymilvus25
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: pythonSidebar
 
 ---

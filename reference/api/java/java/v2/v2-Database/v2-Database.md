@@ -9,10 +9,10 @@ token: Ja2Wf1J9glm6oCdCxfDc9BzPnoc
 sidebar_position: 6
 sidebar_label: "Database"
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud

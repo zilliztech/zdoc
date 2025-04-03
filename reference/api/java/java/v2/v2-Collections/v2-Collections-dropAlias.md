@@ -10,19 +10,19 @@ type: docx
 token: MBy3dDXFbo0buwxkh0IczwLInPf
 sidebar_position: 14
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - dropAlias()
   - javaV225
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: javaSidebar
 
 ---

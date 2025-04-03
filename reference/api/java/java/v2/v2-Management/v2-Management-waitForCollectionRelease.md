@@ -10,19 +10,19 @@ type: docx
 token: HRicdDwU4oUDWEx6DrlcARGrn1c
 sidebar_position: 14
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - waitForCollectionRelease()
   - javaV225
-  - vector database example
   - rag vector database
   - what is vector db
   - what are vector databases
+  - vector databases comparison
 displayed_sidebar: javaSidebar
 
 ---

@@ -2,7 +2,7 @@
 title: "テキストデータ | Cloud"
 slug: /pipelines-text-data
 sidebar_label: "テキストデータ"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理するためのシンプルで直感的な方法を提供し、RESTful APIはWeb UIに比べてより柔軟性とカスタマイズ性を提供します。 | Cloud"
 type: origin

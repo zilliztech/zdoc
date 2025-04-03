@@ -10,19 +10,19 @@ type: docx
 token: CAzpdAw3wo4ZqrxhjTLcEGBBn1S
 sidebar_position: 11
 keywords: 
+  - Retrieval Augmented Generation
   - Large language model
   - Vectorization
   - k nearest neighbor algorithm
-  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - prepare_index_params()
   - pymilvus25
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: pythonSidebar
 
 ---

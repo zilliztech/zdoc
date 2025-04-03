@@ -10,19 +10,19 @@ type: docx
 token: Fs7qdzeHZo305txlj45cgqoVnUf
 sidebar_position: 5
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
   - javaV225
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: javaSidebar
 
 ---

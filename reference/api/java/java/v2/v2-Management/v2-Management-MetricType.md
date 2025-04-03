@@ -10,19 +10,19 @@ type: docx
 token: KIYUdM0oVo0dQmxTgS2c8Mxxn4v
 sidebar_position: 11
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - MetricType
   - javaV225
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
   - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: javaSidebar
 
 ---

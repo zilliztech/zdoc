@@ -10,19 +10,19 @@ type: docx
 token: W39Wdr7S6ohrtfxI8r7cyTeInlb
 sidebar_position: 10
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud
   - grant_privilege()
   - pymilvus25
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: pythonSidebar
 
 ---

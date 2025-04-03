@@ -10,19 +10,19 @@ type: docx
 token: CtTvdQVMoo2ec5xbWTPcSzjNnQc
 sidebar_position: 22
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - renameCollection()
   - javaV225
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: javaSidebar
 
 ---

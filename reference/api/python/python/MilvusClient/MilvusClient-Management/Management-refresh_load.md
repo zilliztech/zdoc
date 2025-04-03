@@ -10,19 +10,19 @@ type: docx
 token: X3NXdtC2koiAxyxhcUBcv38Wnsh
 sidebar_position: 12
 keywords: 
-  - hnsw algorithm
   - vector similarity search
   - approximate nearest neighbor search
   - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - refresh_load()
   - pymilvus25
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 displayed_sidebar: pythonSidebar
 
 ---

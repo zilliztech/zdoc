@@ -10,19 +10,19 @@ type: docx
 token: WxhmdPZydowLVLxR2LacSrUNnme
 sidebar_position: 21
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - listCollections()
   - javaV225
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: javaSidebar
 
 ---

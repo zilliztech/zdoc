@@ -10,19 +10,19 @@ type: docx
 token: Qbntdds6XoByxcxrG1acL7IxnQe
 sidebar_position: 16
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - removePrivilegesFromGroup()
   - javaV225
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: javaSidebar
 
 ---

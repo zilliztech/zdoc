@@ -10,19 +10,19 @@ type: docx
 token: QYPIdgWL7oDWrWxVUx0clo32nz4
 sidebar_position: 10
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
   - javaV225
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: javaSidebar
 
 ---

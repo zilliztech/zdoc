@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 
@@ -44,7 +44,7 @@ Make sure the following conditions are met:
 
 To import data from files using the RESTful API, you must first upload the files to an object storage bucket, such as AWS S3 or Google Cloud Storage (GCS). Once uploaded, obtain the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket. For details on supported object paths, refer to [Storage Options](./data-import-storage-options).
 
-Based on your data security requirements, you can use either long-term credentials or session tokens during data import. 
+Based on your data security requirements, you can use either long-term or short-term credentials during data import. 
 
 For more information about obtaining credentials, refer to:
 

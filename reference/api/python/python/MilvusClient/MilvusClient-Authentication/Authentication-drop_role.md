@@ -10,19 +10,19 @@ type: docx
 token: Vmxpd3MttodOE3x3V11cVTeunDh
 sidebar_position: 8
 keywords: 
+  - multimodal RAG
+  - llm hallucinations
   - hybrid search
   - lexical search
-  - nearest neighbor search
-  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - drop_role()
   - pymilvus25
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: pythonSidebar
 
 ---

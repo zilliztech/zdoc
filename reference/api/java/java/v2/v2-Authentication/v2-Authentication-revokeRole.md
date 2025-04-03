@@ -10,19 +10,19 @@ type: docx
 token: Znb7dcNoeobIkkxGLGfcpVfUnIX
 sidebar_position: 19
 keywords: 
+  - open source vector database
+  - Vector index
   - vector database open source
   - open source vector db
-  - vector database example
-  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - revokeRole()
   - javaV225
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: javaSidebar
 
 ---

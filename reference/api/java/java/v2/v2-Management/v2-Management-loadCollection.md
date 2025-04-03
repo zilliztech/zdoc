@@ -10,19 +10,19 @@ type: docx
 token: XEWvdbuFHoLOo7xKrAJcqip6n5J
 sidebar_position: 10
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollection()
   - javaV225
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: javaSidebar
 
 ---

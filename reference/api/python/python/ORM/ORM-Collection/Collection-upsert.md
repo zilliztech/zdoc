@@ -10,19 +10,19 @@ type: docx
 token: AQ1ydMXbOog5VJxITgUc4GFvnVe
 sidebar_position: 28
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - pymilvus25
-  - ANNS
   - Vector search
   - knn algorithm
   - HNSW
+  - What is unstructured data
 displayed_sidebar: pythonSidebar
 
 ---

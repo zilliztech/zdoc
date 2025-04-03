@@ -10,19 +10,19 @@ type: docx
 token: C2YSddNqZoDNmNxWqqEcuzhKn4f
 sidebar_position: 2
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - AzureConnectParam
   - pymilvus25
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
 displayed_sidebar: pythonSidebar
 
 ---

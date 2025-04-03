@@ -9,10 +9,10 @@ token: M0pgf1TX3lTotndwA7Vc3gJsnAd
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud

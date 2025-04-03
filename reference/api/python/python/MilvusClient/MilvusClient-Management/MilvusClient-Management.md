@@ -9,10 +9,10 @@ token: MvvMf16FLlVOmtdgx5UcZ8qtnyd
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud

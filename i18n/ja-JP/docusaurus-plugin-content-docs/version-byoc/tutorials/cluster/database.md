@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 
@@ -450,6 +450,66 @@ curl --request POST \
         "database.max.collections"
     ]
 }'
+```
+
+</TabItem>
+</Tabs>
+
+## データベースを使用{#use-database}
+
+Zilliz Cloudから切断することなく、データベースを切り替えることができます。
+
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>RESTful APIはこの操作をサポートしていません。</p>
+
+</Admonition>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+client.use_database(
+    db_name="my_database_2"
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+client.useDatabase("my_database_2");
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await milvusClient.useDatabase({
+  db_name: "my_database_2",
+});
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = cli.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database_2"))
+if err != nil {
+    // handle err
+}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+#RESTfulは永続的な接続を提供しないため、この操作はサポートされていません。
+#回避策として、ターゲットデータベースで必要なリクエストを再度開始してください。
 ```
 
 </TabItem>

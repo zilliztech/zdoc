@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
 
 ---
 
@@ -325,6 +325,7 @@ BulkWriterには**2つ**のタイプがあります。
     ACCESS_KEY="bucket-ak"
     SECRET_KEY="bucket-sk"
     BUCKET_NAME="a-bucket"
+    REGION_NAME="region-name"
     
     # Connections parameters to access the remote bucket
     conn = RemoteBulkWriter.S3ConnectParam(
@@ -332,7 +333,8 @@ BulkWriterには**2つ**のタイプがあります。
         access_key=ACCESS_KEY,
         secret_key=SECRET_KEY,
         bucket_name=BUCKET_NAME,
-        secure=True
+        secure=True,
+        region=REGION_NAME
     )
     
     from pymilvus.bulk_writer import BulkFileType
@@ -398,12 +400,18 @@ BulkWriterには**2つ**のタイプがあります。
     String SECRET_KEY = "";
     String BUCKET_NAME = "";
     
+    // Enumeration can refer to CloudStorage
+    String CLOUD_NAME = "";
+    String REGION_NAME = "";
+    
     // Create a remote bucket writer.
     StorageConnectParam storageConnectParam = S3ConnectParam.newBuilder()
             .withEndpoint("storage.googleapis.com")
             .withBucketName(BUCKET_NAME)
             .withAccessKey(ACCESS_KEY)
             .withSecretKey(SECRET_KEY)
+            .withCloudName(CLOUD_NAME)
+            .withRegion(REGION_NAME)
             .build();
     
     ```

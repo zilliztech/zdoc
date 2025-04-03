@@ -10,19 +10,19 @@ type: docx
 token: WUgedTmyZoW4clxSgHVcl1ZtnZl
 sidebar_position: 3
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
   - javaV225
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: javaSidebar
 
 ---

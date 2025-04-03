@@ -2,7 +2,7 @@
 displayed_sidbar: pythonSidebar
 title: "\_\_call\_\_() | Python"
 slug: /python/python/InstructorEmbeddingFunction-__call__
-sidebar_label: "\_\_call\_\_()"
+sidebar_label: "__call__()"
 beta: false
 notebook: false
 description: "This operation in InstructorEmbeddingFunction takes a list of text strings and directly encodes them into vector embeddings. | Python"
@@ -10,19 +10,19 @@ type: docx
 token: VmAIdW9J2oH6iWxDh2PcJYfRnne
 sidebar_position: 4
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: pythonSidebar
 
 ---

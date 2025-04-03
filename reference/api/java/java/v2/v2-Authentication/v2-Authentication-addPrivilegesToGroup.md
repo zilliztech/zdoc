@@ -10,19 +10,19 @@ type: docx
 token: T9Jqd5JfdoW5Jxxwx1eckCOCn6c
 sidebar_position: 1
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - addPrivilegesToGroup()
   - javaV225
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
   - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: javaSidebar
 
 ---

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 
@@ -488,6 +488,66 @@ curl --request POST \
         "database.max.collections"
     ]
 }'
+```
+
+</TabItem>
+</Tabs>
+
+## Use database{#use-database}
+
+You can switch from one database to another without disconnecting from Zilliz Cloud.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>RESTful API does not support this operation.</p>
+
+</Admonition>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+client.use_database(
+    db_name="my_database_2"
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+client.useDatabase("my_database_2");
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await milvusClient.useDatabase({
+  db_name: "my_database_2",
+});
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = cli.UseDatabase(ctx, milvusclient.NewUseDatabaseOption("my_database_2"))
+if err != nil {
+    // handle err
+}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# This operation is unsupported because RESTful does not provide a persistent connection.
+# As a workaround, initiate the required request again with the target database.
 ```
 
 </TabItem>

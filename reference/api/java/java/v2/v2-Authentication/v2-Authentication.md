@@ -9,10 +9,10 @@ token: U16KfBnGVlNp5edR7DycvFF1nfy
 sidebar_position: 4
 sidebar_label: "Authentication"
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 
@@ -44,7 +44,7 @@ import Admonition from '@theme/Admonition';
 
 RESTfulAPIを使用してファイルからデータをインポートするには、まずファイルをオブジェクトストレージバケット(paas)にアップロードする必要があります。例えば、AWS S 3やGoogle Cloud Storage(GCS)などです。アップロードが完了したら、リモートバケット内のファイルへのパスと、Zilliz Cloudがバケットからデータを取得するためのバケットの認証情報を取得してください。サポートされているオブジェクトパスの詳細については、「[ストレージオプション](./data-import-storage-options)」を参照してください。
 
-データのセキュリティ要件に基づいて、データのインポート中に長期的な資格情報またはセッショントークンを使用できます。
+データのセキュリティ要件に基づいて、データのインポート中に長期または短期の資格情報を使用できます。 
 
 資格情報の取得に関する詳細については、次を参照してください:
 

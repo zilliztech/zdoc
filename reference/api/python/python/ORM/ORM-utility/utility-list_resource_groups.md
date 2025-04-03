@@ -10,19 +10,19 @@ type: docx
 token: FXTZd5FgNo9ta0xvjaIclEM1nPf
 sidebar_position: 26
 keywords: 
+  - knn algorithm
   - HNSW
   - What is unstructured data
   - Vector embeddings
-  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - list_resource_groups()
   - pymilvus25
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 displayed_sidebar: pythonSidebar
 
 ---

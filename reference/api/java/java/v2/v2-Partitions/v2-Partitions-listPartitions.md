@@ -10,19 +10,19 @@ type: docx
 token: RJcgdJpGDouomlxPTqZc5S8Lngc
 sidebar_position: 5
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - listPartitions()
   - javaV225
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: javaSidebar
 
 ---

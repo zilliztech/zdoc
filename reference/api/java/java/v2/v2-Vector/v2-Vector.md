@@ -9,10 +9,10 @@ token: YBQDf0VrtlUZx3dVkdKckKT5ngh
 sidebar_position: 3
 sidebar_label: "Vector"
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud

@@ -10,19 +10,19 @@ type: docx
 token: JTdSdyToooA6Srx2HolcmTPunoe
 sidebar_position: 2
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - dropPartition()
   - javaV225
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: javaSidebar
 
 ---

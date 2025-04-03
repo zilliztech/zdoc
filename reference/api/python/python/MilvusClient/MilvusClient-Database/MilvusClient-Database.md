@@ -9,10 +9,10 @@ token: CcDcf33k1lcbiZdS6GFc4L9anub
 sidebar_position: 8
 sidebar_label: "Database"
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
