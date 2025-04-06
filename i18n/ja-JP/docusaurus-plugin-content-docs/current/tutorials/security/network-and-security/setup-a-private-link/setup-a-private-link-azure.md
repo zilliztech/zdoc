@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 
@@ -151,7 +151,7 @@ Zilliz Cloudが割り当てたプライベートリンクを使用してクラ�
 
 ### プライベートDNSゾーンを仮想ネットワークにリンクする{#link-the-private-dns-zone-to-your-virtual-network}
 
-1. 作成したプライベートDNSゾーンの[概要]ページで、左側のナビゲーションウィンドウの[**設定**]>[**仮想ネットワークリンク**]を選択します。
+1. 作成したプライベートDNSゾーンの[概要]ページで、左側のナビゲーションウィンドウの[**設定**]>[**DNSの管理**]を選択します。
 
 1. [**+追加**]をクリックします。[**仮想ネットワークリンク**の追加]ダイアログボックスで、**リンク名**を入力し、上記で使用した[**サブスクリプション**と**仮想ネットワーク**]を選択します。[**構成**]セクションで、[**自動登録**も有効にする]を選択します。
 

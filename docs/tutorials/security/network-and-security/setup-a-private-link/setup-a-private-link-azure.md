@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 
@@ -151,7 +151,7 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
 
 ### Link the Private DNS Zone to your virtual network.{#link-the-private-dns-zone-to-your-virtual-network}
 
-1. On the Overview page of the created Private DNS Zone, choose **Settings** > **Virtual network links** in the left navigation pane.
+1. On the Overview page of the created Private DNS Zone, choose **Settings** > **DNS Management** in the left navigation pane.
 
 1. Click **+ Add**. In the **Add virtual network link** dialog box, enter a **Link name**, and select **Subscription** and **Virtual network** you have used above. In the **Configuration** section, select **Enable auto registration** also.
 
