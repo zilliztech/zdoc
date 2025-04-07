@@ -303,6 +303,21 @@ div.footer__bottom.text--center {
   display: none !important;
 }
 
+.to-be-deprecated > div > a::after {
+  content: "ABOUT TO DEPRECATE";
+  display: inline-block;
+  font-size: 0.6rem;
+  font-weight: 700;
+  line-height: 1.2;
+  padding: 0.25rem 0.5rem;
+  border-radius: 0.75rem;
+  color: #fff;
+  background: #FF7F47;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+  transform: rotateZ(0deg) !important;
+}
+
 .menu__list-item-collapsible:not(:has(button)) {
   display: inline-block;
   font-weight: 700;

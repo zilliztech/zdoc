@@ -215,7 +215,43 @@ const config = {
         path: 'reference',
         breadcrumbs: false,
         routeBasePath: 'reference',
-        sidebarPath: require.resolve('./sidebarsReference.js')
+        sidebarPath: require.resolve('./sidebarsReference.js'),
+        sidebarItemsGenerator: async function ({
+          defaultSidebarItemsGenerator, ...args
+        }) {
+          var sidebarItems = defaultSidebarItemsGenerator(args)
+          var iterate = (items) => {
+            return items.map(item => {
+              if (item.type === 'category') {
+                item.collapsed = false;
+                item.items = iterate(item.items)
+              }
+
+              return item
+            })
+          }
+          sidebarItems = sidebarItems.map(item => {
+            if (item.label === 'RESTful API Reference') {
+              console.log(item)
+              item.collapsible = false;
+              item.collapsed = false;
+
+              item.items = item.items.map(subItem => {
+                if (subItem.label === 'V2') {
+                  subItem.collapsed = false;
+
+                  subItem.items = iterate(subItem.items)
+                }
+
+                return subItem
+              })
+            }
+
+            return item
+          })
+
+          return sidebarItems;
+        }
       },
     ],
     [

@@ -16,10 +16,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 
@@ -352,7 +352,8 @@ Once you have enabled Partition Key Isolation, you must include only one specifi
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, the Partition-Key Isolation feature applies only to <strong>Performance-optimized</strong> clusters.</p>
+<p>This feature is available for clusters compatible with Milvus v2.4.x and using Performance-optimized CUs.
+For clusters of other CU types and all subscription plans, ensure their compatibility with Milvus v2.5.x before using this feature.</p>
 
 </Admonition>
 

@@ -5,7 +5,7 @@ title: RESTful API Overview
 description: Zilliz Cloud offers RESTful APIs for you to manipulate your clusters, collections, and data stored in them.
 beta: FALSE
 notebook: FALSE
-sidebar_label: Overview
+sidebar_label: RESTful API Reference
 sidebar_position: 0
 keywords: 
     - zilliz cloud

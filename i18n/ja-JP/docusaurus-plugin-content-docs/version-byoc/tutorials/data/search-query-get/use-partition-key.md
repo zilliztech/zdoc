@@ -16,10 +16,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 
@@ -318,7 +318,8 @@ export filter='partition_key in ["x", "y", "z"] && <other conditions>'
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>現在、パーティションキーの分離機能は<strong>Performance-optimized</strong>クラスタにのみ適用されます。</p>
+<p>この機能は、Milvus v 2.4. xと互換性があり、Performance-optimizedCUを使用するクラスターで使用できます。</p>
+<p>他のCUタイプのクラスターとすべてのサブスクリプションプランについては、この機能を使用する前にMilvus v 2.5. xとの互換性を確認してください。</p>
 
 </Admonition>
 
