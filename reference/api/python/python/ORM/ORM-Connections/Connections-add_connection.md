@@ -10,19 +10,19 @@ type: docx
 token: C37ldNLbFog6ThxA23ScMldnnmb
 sidebar_position: 1
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - add_connection()
   - pymilvus25
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
 displayed_sidebar: pythonSidebar
 
 ---
@@ -54,7 +54,7 @@ add_connection(
 
     - **address** (*string*) -
 
-        The actual address to connect. Example address: **localhost:19530**.
+        The actual address to connect. Example address: **YOUR_CLUSTER_ENDPOINT**.
 
     - **uri** (*string*) -
 

@@ -1,7 +1,10 @@
 ---
+title: "ListCollections() | Go | v1"
 slug: /go/v1-Collection-ListCollections
-beta: FALSE
+sidebar_label: "ListCollections()"
+beta: NEAR DEPRECATE
 notebook: FALSE
+description: "This method lists collections within the connected database. | Go | v1"
 type: origin
 token: VPVWwUcMUi6qsOkQt8yc8Tswnob
 sidebar_position: 5

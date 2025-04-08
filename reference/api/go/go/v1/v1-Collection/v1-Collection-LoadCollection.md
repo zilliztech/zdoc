@@ -1,7 +1,10 @@
 ---
+title: "LoadCollection() | Go | v1"
 slug: /go/v1-Collection-LoadCollection
-beta: FALSE
+sidebar_label: "LoadCollection()"
+beta: NEAR DEPRECATE
 notebook: FALSE
+description: "This method loads the specified collection to memory (for search and query). | Go | v1"
 type: origin
 token: K0Suw4vb4i0Olsk2xuxcPZB9nld
 sidebar_position: 6

@@ -1,7 +1,10 @@
 ---
+title: "Search() | Go | v1"
 slug: /go/v1-Collection-Search
-beta: FALSE
+sidebar_label: "Search()"
+beta: NEAR DEPRECATE
 notebook: FALSE
+description: "This method conducts a similarity search. | Go | v1"
 type: origin
 token: WM6rwLP6PiPcUNkxZpqcXHKYnvb
 sidebar_position: 13
@@ -40,12 +43,12 @@ func (c *GrpcClient) Search(ctx context.Context, collName string, partitions []s
    </tr>
    <tr>
      <td><p><code>partitions</code></p></td>
-     <td><p>List of partition names. </p><p>If left empty, all partitions are involved in this operation. Otherwise, only the specified partitions are involved.</p></td>
+     <td><p>List of partition names.  If left empty, all partitions are involved in this operation. Otherwise, only the specified partitions are involved.</p></td>
      <td><p><code>[]string</code></p></td>
    </tr>
    <tr>
      <td><p><code>expr</code></p></td>
-     <td><p>Boolean expression for metadata filtering.</p><p>For details, refer to <a href="https://milvus.io/docs/boolean.md">Scalar Filtering Rules</a>.</p></td>
+     <td><p>Boolean expression for metadata filtering. For details, refer to <a href="https://milvus.io/docs/boolean.md">Scalar Filtering Rules</a>.</p></td>
      <td><p><code>string</code></p></td>
    </tr>
    <tr>
@@ -65,7 +68,7 @@ func (c *GrpcClient) Search(ctx context.Context, collName string, partitions []s
    </tr>
    <tr>
      <td><p><code>metricType</code></p></td>
-     <td><p>Metric type for this operation.</p><p>A metric type defines how Milvus measures similarity between the query vectors and vectors in the collection. For details, refer to <a href="https://milvus.io/docs/metric.md?tab=floating">Similarity Metrics</a>.</p></td>
+     <td><p>Metric type for this operation. A metric type defines how Milvus measures similarity between the query vectors and vectors in the collection. For details, refer to <a href="https://milvus.io/docs/metric.md?tab=floating">Similarity Metrics</a>.</p></td>
      <td><p><code>entity.MetricType</code></p></td>
    </tr>
    <tr>
@@ -196,11 +199,11 @@ Each of the following methods instantiates a `client.SearchQueryOptionFunc` type
    </tr>
    <tr>
      <td><p><code>WithLimit(limit int64)</code></p></td>
-     <td><p>Specifies the number of returned entities.</p><p>The sum of <code>limit</code> and <code>offset</code> should be less than 16,384.</p></td>
+     <td><p>Specifies the number of returned entities. The sum of <code>limit</code> and <code>offset</code> should be less than 16,384.</p></td>
    </tr>
    <tr>
      <td><p><code>WithOffset(offset int64)</code></p></td>
-     <td><p>Specifies the number of entities to skip within the return.</p><p>The sum of <code>limit</code> and <code>offset</code> should be less than 16,384.</p></td>
+     <td><p>Specifies the number of entities to skip within the return. The sum of <code>limit</code> and <code>offset</code> should be less than 16,384.</p></td>
    </tr>
    <tr>
      <td><p><code>WithSearchQueryConsistencyLevel(cl entity.ConsistencyLevel)</code></p></td>

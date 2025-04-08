@@ -1,7 +1,10 @@
 ---
+title: "Collection | Go | v1"
 slug: /go/v1-Collection
-beta: FALSE
+sidebar_label: "Collection"
+beta: NEAR DEPRECATE
 notebook: FALSE
+description: "Methods related to collection management and data operations. | Go | v1"
 type: origin
 token: LZcwwTsmRiU43bksowGcFdBrnwh
 sidebar_position: 2

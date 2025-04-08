@@ -1,7 +1,10 @@
 ---
+title: "Close() | Go | v1"
 slug: /go/v1-Connections-Close
-beta: FALSE
+sidebar_label: "Close()"
+beta: NEAR DEPRECATE
 notebook: FALSE
+description: "This method closes the connection to Milvus. | Go | v1"
 type: origin
 token: OSL8wYeC2iSUpqk6kV7cWhzynIR
 sidebar_position: 2

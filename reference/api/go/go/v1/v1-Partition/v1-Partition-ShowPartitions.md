@@ -1,7 +1,10 @@
 ---
+title: "ShowPartitions() | Go | v1"
 slug: /go/v1-Partition-ShowPartitions
-beta: FALSE
+sidebar_label: "ShowPartitions()"
+beta: NEAR DEPRECATE
 notebook: FALSE
+description: "This method returns a list of partitions within a specific collection. | Go | v1"
 type: origin
 token: QpyXwRVQQixXZhkDzeHcxRbtnbb
 sidebar_position: 6

@@ -1,7 +1,10 @@
 ---
+title: "HasPartition() | Go | v1"
 slug: /go/v1-Partition-HasPartition
-beta: FALSE
+sidebar_label: "HasPartition()"
+beta: NEAR DEPRECATE
 notebook: FALSE
+description: "This method checks whether a specific partition exists. | Go | v1"
 type: origin
 token: STaiwNVwMirITVkY5lncD9nKnsh
 sidebar_position: 3

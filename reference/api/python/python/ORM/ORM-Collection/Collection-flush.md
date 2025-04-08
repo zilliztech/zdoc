@@ -10,19 +10,19 @@ type: docx
 token: VdiwdqQ9iofbkoxcc8Kcqk5gnhZ
 sidebar_position: 11
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - pymilvus25
+  - what is a vector database
+  - vectordb
   - multimodal vector database retrieval
   - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
 displayed_sidebar: pythonSidebar
 
 ---

@@ -1,7 +1,10 @@
 ---
+title: "DescribeCollection() | Go | v1"
 slug: /go/v1-Collection-DescribeCollection
-beta: FALSE
+sidebar_label: "DescribeCollection()"
+beta: NEAR DEPRECATE
 notebook: FALSE
+description: "This method returns the details of a specific collection. | Go | v1"
 type: origin
 token: XwE3wnyBiiarYEkHq6Ccem1xnhd
 sidebar_position: 3

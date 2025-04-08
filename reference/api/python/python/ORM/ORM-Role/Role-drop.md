@@ -10,19 +10,19 @@ type: docx
 token: KEzNdJPoDoHOjlx2FC8cNcHqngg
 sidebar_position: 3
 keywords: 
+  - multimodal RAG
+  - llm hallucinations
   - hybrid search
   - lexical search
-  - nearest neighbor search
-  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - drop()
   - pymilvus25
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: pythonSidebar
 
 ---

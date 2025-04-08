@@ -1,7 +1,10 @@
 ---
+title: "DropCollection() | Go | v1"
 slug: /go/v1-Collection-DropCollection
-beta: FALSE
+sidebar_label: "DropCollection()"
+beta: NEAR DEPRECATE
 notebook: FALSE
+description: "This method drops the specified collection and the entities within. | Go | v1"
 type: origin
 token: Vzl1wYrCmiAF9IkHWatcCwdnnQ5
 sidebar_position: 4

@@ -1,7 +1,10 @@
 ---
+title: "ReleasePartitions() | Go | v1"
 slug: /go/v1-Partition-ReleasePartitions
-beta: FALSE
+sidebar_label: "ReleasePartitions()"
+beta: NEAR DEPRECATE
 notebook: FALSE
+description: "This method releases the data of specific partitions from memory. | Go | v1"
 type: origin
 token: JKnXwBXNLifbP6kIdDxc3Z8FnLb
 sidebar_position: 5

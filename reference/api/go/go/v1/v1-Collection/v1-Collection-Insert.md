@@ -1,7 +1,10 @@
 ---
+title: "Insert() | Go | v1"
 slug: /go/v1-Collection-Insert
-beta: FALSE
+sidebar_label: "Insert()"
+beta: NEAR DEPRECATE
 notebook: FALSE
+description: "This method inserts entities organized in columns into the specified collection. | Go | v1"
 type: origin
 token: BxH9w4N0qiyuWRkGU4dcaNaRn7e
 sidebar_position: 8
@@ -45,7 +48,7 @@ func (c *GrpcClient) Insert(ctx context.Context, collName string, partitionName 
    </tr>
    <tr>
      <td><p><code>columns</code></p></td>
-     <td><p>Data to insert into the specified collection.</p><p>You should include the data for all the fields defined in the collection schema.</p></td>
+     <td><p>Data to insert into the specified collection. You should include the data for all the fields defined in the collection schema.</p></td>
      <td><p><code>...entity.Column</code></p></td>
    </tr>
 </table>

@@ -215,7 +215,103 @@ const config = {
         path: 'reference',
         breadcrumbs: false,
         routeBasePath: 'reference',
-        sidebarPath: require.resolve('./sidebarsReference.js')
+        sidebarPath: require.resolve('./sidebarsReference.js'),
+        sidebarItemsGenerator: async function ({
+          defaultSidebarItemsGenerator, ...args
+        }) {
+          var sidebarItems = defaultSidebarItemsGenerator(args)
+          var iterate = (items) => {
+            return items.map(item => {
+              if (item.type === 'category') {
+                item.collapsed = false;
+                item.items = iterate(item.items)
+              }
+
+              return item
+            })
+          }
+          sidebarItems = sidebarItems.map(item => {
+            // restful
+            if (item.label === 'RESTful API Reference') {
+              item.collapsed = false;
+
+              item.items = item.items.map(subItem => {
+                if (subItem.label === 'V2') {
+                  subItem.collapsed = false;
+
+                  subItem.items = iterate(subItem.items)
+                }
+
+                return subItem
+              })
+            }
+
+            // python
+            if (item.label === 'Python SDK Reference') {
+              item.collapsed = false;
+
+              item.items = item.items.map(subItem => {
+                if (subItem.label === 'MilvusClient') {
+                  subItem.collapsed = false;
+
+                  subItem.items = iterate(subItem.items)
+                }
+
+                if (subItem.label === 'ORM') {
+                  subItem.className = 'to-be-deprecated'
+                }
+
+                return subItem;
+              })
+            }
+
+            // java
+            if (item.label === 'Java SDK Reference') {
+              item.collapsed = false;
+
+              item.items = item.items.map(subItem => {
+                if (subItem.label === 'Java SDK Reference (v1)') {
+                  subItem.label = 'V1';
+                  subItem.className = 'to-be-deprecated';
+                }
+
+                if (subItem.label === 'Java SDK Reference (v2)') {
+                  subItem.label = 'V2';
+                  subItem.collapsed = false;
+
+                  subItem.items = iterate(subItem.items)
+                }
+
+                return subItem;
+              })
+            }
+
+            // go
+            if (item.label === 'Go SDK Reference') {
+              item.collapsed = false;
+
+              item.items = item.items.map(subItem => {
+                if (subItem.label === 'Go SDK Reference (v1)') {
+                  subItem.label = 'V1';
+                  subItem.className = 'to-be-deprecated';
+                }
+
+                if (subItem.label === 'Go SDK Reference (v2)') {
+                  subItem.label = 'V2';
+                  subItem.collapsed = false;
+
+                  subItem.items = iterate(subItem.items)
+                }
+
+                return subItem;
+              }) 
+            }
+
+            return item;
+          })
+
+          return sidebarItems;
+        }
       },
     ],
     [

@@ -1,7 +1,10 @@
 ---
+title: "DeleteByPks() | Go | v1"
 slug: /go/v1-Collection-DeleteByPks
-beta: FALSE
+sidebar_label: "DeleteByPks()"
+beta: NEAR DEPRECATE
 notebook: FALSE
+description: "This method deletes the specified entities from a collection. | Go | v1"
 type: origin
 token: WRnTwJaC7ibUftk35onccdCMn6b
 sidebar_position: 12

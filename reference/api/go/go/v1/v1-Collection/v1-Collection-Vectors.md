@@ -1,7 +1,10 @@
 ---
+title: "Vectors | Go | v1"
 slug: /go/v1-Collection-Vectors
-beta: FALSE
+sidebar_label: "Vectors"
+beta: NEAR DEPRECATE
 notebook: FALSE
+description: "The types on this page implemented the method signatures of the entity.Vector interface. | Go | v1"
 type: origin
 token: IFwrw2OQPiM3gCk3AMEcn8GAnch
 sidebar_position: 19
