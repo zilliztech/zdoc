@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 
@@ -155,13 +155,13 @@ A CU is the basic unit of compute resources used for parallel processing of data
    </tr>
    <tr>
      <td><p>Dedicated (Standard)</p></td>
-     <td><p>CU size x Replica Count \&lt;=32</p></td>
-     <td><p>On the console, you can create up to 32 CUs for a single cluster.  However, the limit is CU size x Replica Count \&lt;=32 if replicas are added.</p></td>
+     <td><p>CU size x Replica Count &lt;=32</p></td>
+     <td><p>On the console, you can create up to 32 CUs for a single cluster.  However, the limit is CU size x Replica Count &lt;=32 if replicas are added.</p></td>
    </tr>
    <tr>
      <td><p>Dedicated (Enterprise)</p></td>
-     <td><p>CU size x Replica Count \&lt;=256</p></td>
-     <td><p>On the console, you can create up to 256 CUs for a single cluster. However, the limit is CU size x Replica Count \&lt;=256 if replicas are added.</p></td>
+     <td><p>CU size x Replica Count &lt;=256</p></td>
+     <td><p>On the console, you can create up to 256 CUs for a single cluster. However, the limit is CU size x Replica Count &lt;=256 if replicas are added.</p></td>
    </tr>
 </table>
 
@@ -230,7 +230,7 @@ To add replicas, the cluster needs to have **8 CUs or more**. The following limi
    </tr>
    <tr>
      <td><p>Replica count x CU size</p></td>
-     <td><p>\&lt;= 256</p></td>
+     <td><p>&lt;= 256</p></td>
      <td><p>The cluster CU size x Replica count should not exceed 256.</p></td>
    </tr>
 </table>
@@ -359,15 +359,15 @@ The rate limit that applies varies with the cluster types and the number of CUs 
      <td><p>10 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 1 - 2 CUs</p></td>
+     <td><p>Dedicated cluster [1 CU, 2 CUs]</p></td>
      <td><p>8 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
+     <td><p>Dedicated cluster [4 CUs,  8 CUs]</p></td>
      <td><p>12 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
+     <td><p>Dedicated cluster [12 CUs, 20 CUs]</p></td>
      <td><p>16 MB/s</p></td>
    </tr>
    <tr>
@@ -412,15 +412,15 @@ The rate limit that applies varies with the cluster types and the number of CUs 
      <td><p>10 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 1 - 2 CUs</p></td>
+     <td><p>Dedicated cluster [1 CU, 2 CUs]</p></td>
      <td><p>8 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
+     <td><p>Dedicated cluster [4 CUs,  8 CUs]</p></td>
      <td><p>12 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
+     <td><p>Dedicated cluster [12 CUs, 20 CUs]</p></td>
      <td><p>16 MB/s</p></td>
    </tr>
    <tr>

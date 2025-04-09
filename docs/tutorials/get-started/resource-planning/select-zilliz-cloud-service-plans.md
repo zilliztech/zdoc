@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster plan
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 
@@ -114,8 +114,8 @@ The following table compares the plans, detailing the specific features availabl
      <td><p><strong>Max. collections</strong></p></td>
      <td><p>5 Collections</p></td>
      <td><p>10 Collections per cluster.</p></td>
-     <td><p>64 per CU, and \&lt;= 4096</p></td>
-     <td><p>64 per CU, and \&lt;= 4096</p></td>
+     <td><p>64 per CU, and &lt;= 4096</p></td>
+     <td><p>64 per CU, and &lt;= 4096</p></td>
      <td><p>Customizable</p></td>
    </tr>
    <tr>

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 
@@ -133,15 +133,15 @@ The rate limit that applies varies with the cluster types and the number of CUs 
      <th><p>Maximum Insert Rate Limits</p></th>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 1 - 2 CUs</p></td>
+     <td><p>Dedicated cluster [1 CU, 2 CUs]</p></td>
      <td><p>8 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
+     <td><p>Dedicated cluster [4 CUs,  8 CUs]</p></td>
      <td><p>12 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
+     <td><p>Dedicated cluster [12 CUs, 20 CUs]</p></td>
      <td><p>16 MB/s</p></td>
    </tr>
    <tr>
@@ -178,15 +178,15 @@ The rate limit that applies varies with the cluster types and the number of CUs 
      <th><p>Maximum Upsert Rate Limits</p></th>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 1 - 2 CUs</p></td>
+     <td><p>Dedicated cluster [1 CU, 2 CUs]</p></td>
      <td><p>8 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
+     <td><p>Dedicated cluster [4 CUs,  8 CUs]</p></td>
      <td><p>12 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
+     <td><p>Dedicated cluster [12 CUs, 20 CUs]</p></td>
      <td><p>16 MB/s</p></td>
    </tr>
    <tr>
