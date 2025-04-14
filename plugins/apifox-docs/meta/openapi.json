@@ -33048,6 +33048,181 @@
 				]
 			}
 		},
+		"/v2/clusters/{CLUSTER_ID}/modifyReplica": {
+			"post": {
+				"summary": "Modify Cluster Replica",
+				"deprecated": "false",
+				"description": "This operation sets the number of replicas for the specified cluster. ",
+				"x-i18n": {
+					"zh-CN": {
+						"summary": "修改集群副本数量",
+						"description": "本接口可以设置指定集群的副本数量。"
+					}
+				},
+				"tags": [
+					"Cluster Operations (V2)"
+				],
+				"parameters": [
+					{
+						"name": "CLUSTER_ID",
+						"in": "path",
+						"description": "ID of the cluster to modify.",
+						"required": true,
+						"example": "inxx-xxxxxxxxxxxxxxx",
+						"schema": {
+							"type": "string"
+						}
+					},
+					{
+						"name": "Authorization",
+						"in": "header",
+						"description": "The authentication token should be an API key with appropriate privileges.",
+						"required": true,
+						"example": "Bearer {{TOKEN}}",
+						"schema": {
+							"type": "string"
+						},
+						"x-i18n": {
+							"zh-CN": {
+								"description": "认证令牌，应为具备适当权限的 API 密钥。"
+							}
+						}
+					},
+					{
+						"name": "Accept",
+						"in": "header",
+						"description": "Use `application/json`.",
+						"required": false,
+						"example": "application/json",
+						"schema": {
+							"type": "string"
+						}
+					}
+				],
+				"requestBody": {
+					"content": {
+						"application/json": {
+							"schema": {
+								"type": "object",
+								"properties": {
+									"replica": {
+										"type": "integer",
+										"description": "Number of replicas for this cluster after the modification.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "修改后的集群副本数量。"
+											}
+										},
+										"minimum": 1,
+										"maximum": 8
+									}
+								},
+								"required": [
+									"replica"
+								]
+							},
+							"example": {
+								"replica": 2
+							}
+						}
+					}
+				},
+				"responses": {
+					"200": {
+						"description": "Returns the ID of the modified cluster.",
+						"content": {
+							"application/json": {
+								"schema": {
+									"anyOf": [
+										{
+											"x-tab-label": "success",
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code."
+												},
+												"data": {
+													"type": "object",
+													"properties": {
+														"clusterId": {
+															"type": "string",
+															"description": "ID of the cluster that has been modified."
+														},
+														"prompt": {
+															"type": "string",
+															"description": "Prompt message returned."
+														}
+													},
+													"description": "Response payload."
+												}
+											}
+										},
+										{
+											"x-tab-label": "failure",
+											"description": "Returns an error message.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "返回错误消息。"
+												}
+											},
+											"x-i18n-langs": [
+												"zh-CN"
+											],
+											"type": "object",
+											"properties": {
+												"code": {
+													"type": "integer",
+													"description": "Response code.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应码。"
+														}
+													}
+												},
+												"message": {
+													"type": "string",
+													"description": "Error message.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "错误描述。"
+														}
+													}
+												}
+											}
+										}
+									]
+								},
+								"examples": {
+									"1": {
+										"summary": "success",
+										"x-target-response": "OPTION 1",
+										"value": {
+											"code": 0,
+											"data": {
+												"clusterId": "inxx-xxxxxxxxxxxxxxx",
+												"prompt": "successfully submitted. Cluster is being upgraded, which is expected to take several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK."
+											}
+										}
+									},
+									"2": {
+										"summary": "failure",
+										"x-target-response": "OPTION 2",
+										"value": {
+											"code":21119,
+											"message":"The apikey is illegal."
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"security": [
+
+				]	
+			}
+		},
 		"/v2/vectordb/collections/release": {
 			"post": {
 				"summary": "Release Collection",
