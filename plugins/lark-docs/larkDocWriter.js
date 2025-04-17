@@ -622,13 +622,17 @@ class larkDocWriter {
 
             // add imports
             imports = [...imports.split('\n'), ...[
-                "import Hero from '@site/src/components/Hero';",
-                "import Bars from '@site/src/components/Bars';",
-                "import Blocks from '@site/src/components/Blocks';",
-                "import Cards from '@site/src/components/Cards';",
-                "import Stories from '@site/src/components/Stories';",
-                "import Banner from '@site/src/components/Banner';"
+                "\n\nimport Hero from '@site/src/components/Hero';",
+                "\n\nimport Bars from '@site/src/components/Bars';",
+                "\n\nimport Blocks from '@site/src/components/Blocks';",
+                "\n\nimport Cards from '@site/src/components/Cards';",
+                "\n\nimport Stories from '@site/src/components/Stories';",
+                "\n\nimport Banner from '@site/src/components/Banner';"
             ]].join('\n');
+        }
+
+        if (markdown.match(/\<Supademo/g)) {
+            imports = imports + "\n\nimport Supademo from '@site/src/components/Supademo';"
         }
 
         if (path) {

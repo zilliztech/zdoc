@@ -1,0 +1,17 @@
+.container {
+    position: relative; 
+    box-sizing: content-box; 
+    max-height: 80vh; 
+    max-height: 80svh; 
+    width: 100%; 
+    aspect-ratio: 2.0586552217453504; 
+    padding: 40px 0 40px 0;
+}
+
+iframe {
+    position: absolute; 
+    top: 0; 
+    left: 0; 
+    width: 100%; 
+    height: 100%;
+}

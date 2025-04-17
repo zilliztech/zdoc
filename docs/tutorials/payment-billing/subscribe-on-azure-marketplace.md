@@ -7,22 +7,24 @@ notebook: FALSE
 description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on Azure Marketplace. | Cloud"
 type: origin
 token: LbFXwpruviFWWokwtkhcVmnhnFh
-sidebar_position: 5
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - marketplace
   - azure
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 
 import Admonition from '@theme/Admonition';
 
+
+import Supademo from '@site/src/components/Supademo';
 
 # Subscribe on Azure Marketplace
 
@@ -41,6 +43,8 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 - Ensure you have set a [billing account](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/view-all-accounts) for subscription on Azure Marketplace.
 
 ## Subscribe on Azure Marketplace{#subscribe-on-azure-marketplace}
+
+<Supademo id="cm9jmpiac3eq2ljv5itt1tn7s" title="Zilliz Cloud - Azure Marketplace Subscription Demo" />
 
 Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and start subscribing to Zilliz Cloud as follows:
 
@@ -62,15 +66,21 @@ Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and star
 
 1. On the **Subscribe to Zilliz Cloud** page, complete the following steps:
 
-    1. Configure the **Project Details**.
+    1. Configure the **Project Details** by selecting an appropriate **Subscription** and **Resource group**. If there is no Resource group, please create one. For details about subscription and resource group, refer to Azures' [The SaaS Purchase Experience](https://learn.microsoft.com/en-us/marketplace/purchase-saas-offer-in-azure-portal#the-saas-purchase-experience).
 
-    1. Configure the **SaaS Details**. Name your subscription to easily identify it later. Choose **On** for **Recurring Billing**.
+    1. Configure the **SaaS Details**. 
 
-        <Admonition type="info" icon="📘" title="Note">
+        1. Name your subscription to easily identify it later.
 
-        <p>When recurring billing is on, you will be automatically subscribed to Zilliz Cloud on Azure at the end of each month. When recurring billing is off, your subscription will end at the end of the month and your Zilliz Cloud organization and account will be automatically unlinked from this Azure Marketplace susbcription.</p>
+        1. Choose the contract duration: 1 month or 1 year.
 
-        </Admonition>
+        1. Configure **Auto-renew** settings.
+
+            <Admonition type="info" icon="📘" title="Note">
+
+            <p>When auto-renew is on, you will be automatically subscribed to Zilliz Cloud on Azure at the end of the contract duration. When auto-renew is off, your subscription will end at the end of the contract duration and your Zilliz Cloud organization and account will be automatically unlinked from this Azure Marketplace subscription.</p>
+
+            </Admonition>
 
     1. Review the subscription details and click **Review+Subscribe**.
 
@@ -142,17 +152,27 @@ Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms)
 
 ## Troubleshooting{#troubleshooting}
 
-**What I can do if I encounter issues when linking a marketplace subscription to Zilliz Cloud?**
+**What I can do if there is no organization available when linking a marketplace subscription to Zilliz Cloud?**
 
-There are several possible reasons:
+There could be several reasons.
 
-1. **Insufficient permissions** (UI prompt: Insufficient Permissions)
+1. **Insufficient permissions** 
 
-    To link an organization with a marketplace subscription, you must be an organization owner. But if you are an organization member, you do not have the required permissions. Please contact the organization owner for assistance.
+    This can happen when you do not have sufficient privileges. You will see an **"Insufficient Permissions"** tag next to the unavailable organization.
 
-1. **All organizations have already been successfully linked to a Marketplace subscription** (UI prompt: Marketplace Linked)
+    ![insufficient-permission-subscription](/img/insufficient-permission-subscription.png)
 
-    1. If you need to update an existing marketplace subscription, please [unlink](./subscribe-on-azure-marketplace#cancel-azure-marketplace-subscription) the current subscription of the organization first and then set up a new subscription.
+    To link an organization with a marketplace subscription, you must be an **Organization Owner** or an **Organization Billing Admin**. But if you are only an Organization Member, you do not have the required permissions. Please contact the organization owner for assistance.
+
+1. **All organizations have already been successfully linked to a Marketplace subscription**
+
+    This can happen when all your organizations are already linked to Marketplace subscriptions. You will see a **"Marketplace Linked"** tag next to the unavailable organization.
+
+    ![marketplace-already-linked-subscription](/img/marketplace-already-linked-subscription.png)
+
+    In this case,
+
+    1. If you need to update an existing marketplace subscription, please [unlink](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription) the current subscription of the organization first and then set up a new subscription.
 
     1. If you need multiple organizations for different Marketplace subscription, you can:
 
@@ -162,11 +182,17 @@ There are several possible reasons:
 
 1. **No organizations in the list**
 
-    This can happen if your account has been closed or if you have left all organizations. In this case, you can:
+    This can happen if your account has been closed or if you have left all organizations. Your UI will be similar to the following.
 
-    1. Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organization as an organization owner.
+    ![no-organization-during-subcription](/img/no-organization-during-subcription.png)
 
-    1. [Submit a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
+    In this case, you can:
+
+    - Create a new organization.
+
+    - Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organizations and grant you the role of an Organization Owner.
+
+    - [Create a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 
 ## Related topics{#related-topics}
 
