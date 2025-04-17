@@ -49,13 +49,14 @@ See https://twitter.com/JoshWComeau/status/1332015868725891076
   margin: 10px 0; /* Add margin between banners */
 }
 
-.banner-content {
+.bannerContent {
   display: flex;
   align-items: center; /* Vertically align content */
   justify-content: center; /* Horizontally align content */
+  font-size: 0.8rem; /* Adjust font size as needed */
 }
 
-.banner-close-button {
+.bannerCloseButton {
   background: none;
   border: none;
   font-size: 20px;
@@ -66,6 +67,6 @@ See https://twitter.com/JoshWComeau/status/1332015868725891076
 }
 
 /* Optional: Add hover effect to the close button */
-.banner-close-button:hover {
+.bannerCloseButton:hover {
   opacity: 0.7;
 }
