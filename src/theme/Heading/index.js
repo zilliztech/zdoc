@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import Link from '@docusaurus/Link'
 import Heading from '@theme-original/Heading';
-import {useDoc} from '@docusaurus/plugin-content-docs/client';
+import { useDoc } from '@docusaurus/plugin-content-docs/client';
 import styles from './styles.module.css';
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
 
@@ -189,7 +189,7 @@ function Banner({ message, backgroundColor = '#f0f0f0', textColor = '#333', onCl
 export default function HeadingWrapper(props) {
   try {
     const { frontMatter, metadata } = useDoc();
-    const { beta, notebook, tags } = frontMatter;
+    const { beta, notebook, tags, slug } = frontMatter;
     var tag = metadata.title.endsWith('BYOC') ? 'BYOC' : beta;
     const { siteConfig } = useDocusaurusContext();
 
@@ -222,7 +222,7 @@ export default function HeadingWrapper(props) {
     return (
       <>
         {
-          props.as === 'h1' && siteConfig.baseUrl === '/ja-JP/' && (
+          props.as === 'h1' && siteConfig.baseUrl === '/ja-JP/' && slug !== '/home' && (
             <Banner 
               message="[説明] このページは機械翻訳された日本語版です。内容に誤りがございましたら、報告していただけると助かります。"
               backgroundColor="rgb(255, 248, 230)"/>

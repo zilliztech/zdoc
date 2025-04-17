@@ -71,8 +71,10 @@ const config = {
           }) {
             var sidebarItems = defaultSidebarItemsGenerator(args)
             sidebarItems = sidebarItems.map(item => {
-              item.collapsible = false;
-              item.collapsed = false;
+              if (item.type === 'category') {
+                item.collapsible = false;
+                item.collapsed = false;
+              }
 
               if (item.label === 'Get Started') {
                 item.items = item.items.map(subItem => {

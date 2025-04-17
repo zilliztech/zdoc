@@ -1,0 +1,91 @@
+.container {
+    display: block;
+    width: 100%;
+    max-width: 996px;
+    margin: 80px auto;
+    padding: 0 20px;
+}
+
+.items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px 20px;
+    margin-top: 40px;
+}
+
+.item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid #D0D6DF;
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
+
+.item:link,
+.item:visited {
+    text-decoration: none !important;
+    color: #000000;
+}
+
+.item:hover {
+    border: 1px solid #000000;
+}
+
+.item h3 {
+    font-size: 20px !important;
+    line-height: 26px;
+    font-weight: 600 !important;
+    margin: 0 !important;
+}
+
+.iconPython {
+    display: inline-block;
+    background-image: url('/icons/lang-python.svg');
+    width: 80px;
+    height: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.iconJava {
+    display: inline-block;
+    background-image: url('/icons/lang-java.svg');
+    width: 80px;
+    height: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;   
+}
+
+.iconGo {
+    display: inline-block;
+    background-image: url('/icons/lang-go.svg');
+    width: 80px;
+    height: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.iconNodejs {
+    display: inline-block;
+    background-image: url('/icons/lang-node.js.svg');
+    width: 80px;
+    height: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.iconRESTful {
+    display: inline-block;
+    background-image: url('/icons/lang-restful.svg');
+    width: 80px;
+    height: 80px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}

@@ -1,0 +1,113 @@
+.container {
+    display: block;
+    width: 100%;
+    max-width: 996px;
+    margin: 10px auto;
+    padding: 0 20px;
+}
+
+.container .lead {
+    font-size: 20px;
+    line-height: 24px;
+    font-weight: 600;
+    margin-bottom: 10px;
+}
+
+.list {
+    padding: 0 !important;
+    display: flex;
+    flex-wrap: nowrap;
+    justify-content: space-between;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 0px !important;
+}
+
+.item {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    border: 1px solid #D0D6DF;
+    background-color: #F6F8FA;
+    height: 48px;
+    padding: 12px 24px;
+    border-radius: 10px;
+    cursor: pointer;
+    margin-top: 0 !important;
+}
+
+.item a {
+    flex: 1;
+    display: flex;
+    align-items: center; 
+}
+
+.item a:link,
+.item a:visited {
+    text-decoration: none;
+    color: #000000;
+}
+
+.item:hover {
+    border: 1px solid #000000;
+}
+
+.item p {
+    display: flex;
+    align-items: center;
+    font-size: 18px;
+    font-weight: 500;
+}
+
+.iconFree {
+    display: inline-block;
+    background-image: url('/icons/plan-free.svg');
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 10px;
+}
+
+.iconServerless {
+    display: inline-block;
+    background-image: url('/icons/plan-serverless.svg');
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 10px;        
+}
+
+.iconDedicated {
+    display: inline-block;
+    background-image: url('/icons/plan-dedicated.svg');
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 10px;        
+}
+
+.iconBYOC {
+    display: inline-block;
+    background-image: url('/icons/plan-byoc.svg');
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 10px;
+}
+
+.trail {
+    font-size: 16px;
+    line-height: 22px;
+    margin-top: 4px !important;
+    text-align: center;
+}
+
+.trail a:link {
+    text-decoration: underline;
+    color: #475467 !important;
+    font-weight: 400;
+}

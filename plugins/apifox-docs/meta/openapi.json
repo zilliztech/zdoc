@@ -15618,9 +15618,7 @@
 								}
 							},
 							"example": {
-								"value": {
-									"dbName": "default"
-								}
+								"dbName": "default"
 							}
 						}
 					}

@@ -1,0 +1,118 @@
+.container {
+    display: block;
+    width: 100%;
+    max-width: 996px;
+    margin: 10px auto;
+    padding: 0 20px;
+}
+
+.items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+    align-items: flex-start;
+    gap: 10px 20px;
+    margin-top: 40px;
+}
+
+.item {
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    justify-content: flex-start;
+    gap: 10px;
+    padding: 24px;
+    border-radius: 12px;
+    border: 1px solid #D0D6DF;
+    background-color: #FFFFFF;
+    cursor: pointer;
+}
+
+.item:link,
+.item:visited {
+    text-decoration: none;
+}
+
+.item h3 {
+    color: #000000 !important;
+}
+
+.item:hover {
+    border: 1px solid #000000;
+}
+
+.iconContainer {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 56px;
+    height: 56px;
+    border-radius: 8px;
+    background-color: #F6F8FA;
+    border: 1px solid #D0D6DF;
+}
+
+.iconMonitoring {
+    display: inline-block;
+    background-image: url('/icons/feature-monitor.svg');
+    width: 32px;
+    height: 32px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.iconAccess {
+    display: inline-block;
+    background-image: url('/icons/feature-access.svg');
+    width: 32px;
+    height: 32px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.iconPrivate {
+    display: inline-block;
+    background-image: url('/icons/feature-private.svg');
+    width: 32px;
+    height: 32px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.iconBilling {
+    display: inline-block;
+    background-image: url('/icons/feature-billing.svg');
+    width: 32px;
+    height: 32px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.iconIntegrations {
+    display: inline-block;
+    background-image: url('/icons/feature-integrations.svg');
+    width: 32px;
+    height: 32px;
+    background-size: contain;
+    background-repeat: no-repeat;
+}
+
+.break {
+    flex-basis: 100%;
+    height: 0;
+}
+
+.item h3 {
+    font-size: 20px !important;
+    line-height: 26px;
+    font-weight: 600 !important;
+    margin: 0 !important;
+}
+
+.item p {
+    font-size: 16px !important;
+    line-height: 22px;
+    color: #475467;
+    margin: 0 !important;
+}
