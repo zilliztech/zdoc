@@ -106,6 +106,7 @@
     text-align: center;
 }
 
+.trail a:visited,
 .trail a:link {
     text-decoration: underline;
     color: #475467 !important;

@@ -2,44 +2,55 @@ import React from 'react';
 import styles from './styles.module.css';
 
 export default function Cards({ children }) {
-    var title = ''
-    var items = []
+    if (!Array.isArray(children) || children.length === 0) {
+        return null;
+    }
 
-    children.filter(child => child !== '\n').forEach(
-        child => {
-            if (child.type.name && child.type.name === 'h1') {
-                title = child;
+    const items = React.Children.toArray(children[1].props.children)
+        .filter(item => typeof item !== 'string' || item.trim() !== '')
+        .map(item => {
+            if (!React.isValidElement(item)) return null;
+
+            let content = React.Children.toArray(item.props.children)
+                .filter(c => typeof c !== 'string' || c.trim() !== '');
+
+            let firstChild = content[0];
+            let secondChild = content[1];
+
+            if (firstChild && React.isValidElement(firstChild) && firstChild.type === 'p') {
+                firstChild = React.Children.toArray(firstChild.props.children)
+                    .find(c => typeof c !== 'string' || c.trim() !== '');
             }
 
-            if (child.type.name && child.type.name === 'MDXUl') {
-                items = child.props.children.filter(c => c !== '\n');
+            const isLink = firstChild?.props?.href !== undefined;
+            const isPlainText = typeof secondChild?.props.children === 'string';
 
-                items = items.map(item => {
-                    const content = item.props.children.filter(c => c !== '\n');
-                    const title = content[0]?.props.children;
-                    const description = content[1]?.props.children;
+            let description = isPlainText ? secondChild.props.children : '';
 
-                    return { title, description}
-                })
-
-                items = items.map(item => {
-                    if (item.title === 'break') return { name: 'break' };
-                    if (item.title.type.name && item.title.type.name === 'MDXA') {
-                        return {
-                            name: item.title.props.children,
-                            href: item.title.props.href,
-                            description: item.description,
-                            className: `icon${item.title.props.children.split(' ')[0]}`
-                        }
-                    }
-                })
+            if (isLink) {
+                let name = firstChild.props.children;
+                let href = firstChild.props.href;
+                let keyword = name.split(' ')[0].replace('.', '');
+ 
+                return {
+                    name,
+                    href,
+                    description,
+                    className: `icon${keyword}`
+                };
             }
-        }
-    );
+
+            return {
+                name: firstChild,
+                description,
+                className: `icon${String(firstChild).split(' ')[0].replace('.', '')}`
+            };
+        })
+        .filter(Boolean);
 
     return (
         <div className={styles.container}>
-            { title }
+            { children[0] }
             <div className={styles.items}>
                 { items.map((item, index) => {
                     if (item.name === 'break') {
