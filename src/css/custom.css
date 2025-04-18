@@ -342,3 +342,9 @@ div.footer__bottom.text--center {
 /* li.menu__list-item:has(a) {
   margin-left: 0.5rem;
 } */
+
+/* Hide badges and pagination navigation only on the home page */
+html.docs-doc-id-tutorials\/home .badge,
+html.docs-doc-id-tutorials\/home .pagination-nav {
+  display: none !important;
+}

@@ -34,7 +34,6 @@ import Stories from '@site/src/components/Stories';
 import Banner from '@site/src/components/Banner';
 
 
-
 <Hero>
 
 # Welcome to Zilliz Cloud Docs!{#welcome-to-zilliz-cloud-docs}
