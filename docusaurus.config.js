@@ -215,7 +215,7 @@ const config = {
       {
         id: 'reference',
         path: 'reference',
-        breadcrumbs: false,
+        breadcrumbs: true,
         routeBasePath: 'reference',
         sidebarPath: require.resolve('./sidebarsReference.js'),
         sidebarItemsGenerator: async function ({
