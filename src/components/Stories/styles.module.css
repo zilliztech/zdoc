@@ -72,3 +72,13 @@
         opacity: 1;
     }
 }
+
+@media (max-width: 996px) {
+    .stories {
+        --doc-sidebar-width: 0;
+        left: 0;
+        right: 0; 
+        margin-left: 10px;
+        margin-right: 10px;
+    }
+}
