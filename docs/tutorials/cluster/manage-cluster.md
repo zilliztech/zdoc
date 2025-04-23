@@ -14,259 +14,231 @@ keywords:
   - cloud
   - cluster
   - manage
+  - milvus benchmark
   - managed milvus
   - Serverless vector database
   - milvus open source
-  - how does milvus work
 
 ---
 
 import Admonition from '@theme/Admonition';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
+import Supademo from '@site/src/components/Supademo';
 
 # Manage Cluster
 
 This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals.
 
-## Free cluster{#free-cluster}
+## Rename cluster | All Plans{#rename-cluster}
 
-After creating a free cluster, you will see the following in the console.
+Navigate to the **Cluster Details** page of your target cluster and then follow the instruction below to rename your cluster.
 
-![free-cluster-lifecycle](/img/free-cluster-lifecycle.png)
+<Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title="Zilliz Cloud - Rename Cluster Demo" />
 
-<Admonition type="info" icon="📘" title="Notes">
+## Suspend cluster | Dedicated{#suspend-cluster}
 
-<p>You have the option to create one free cluster without charge. In addition, you can create up to five collections within the cluster.</p>
+For a running Dedicated cluster, you are billed for both CU and storage. To reduce costs, consider suspending the cluster. Only storage charges apply when a Dedicated cluster is suspended.
 
-</Admonition>
+Please note that during suspension, you cannot perform other actions to the cluster.
 
-### Connect to cluster{#connect-to-cluster}
+You can suspend a Dedicated cluster via the web console or programatically.
 
-In the **Connect** section, you can find the **Public Endpoint** and **Token** used to connect to the cluster.
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
-For details, refer to [Connect to Cluster](./connect-to-cluster).
+<TabItem value="Cloud Console">
 
-### Upgrade plan{#upgrade-plan}
+Navigate to the **Cluster Details** page of your target cluster and then follow the instruction below to suspend your Dedicated cluster.
 
-By upgrading your cluster, you can unlock a wide range of enterprise features, manage larger datasets, and enjoy enhanced performance. You can switch to a paid cluster plan when any of these conditions are met:
+<Supademo id="cm9tqgxt30snl11m7twwj7xia" title="Zilliz Cloud - Suspend Cluster Demo" />
 
-- Your account has sufficient credits;
+</TabItem>
 
-- You have added a valid payment method;
+<TabItem value="Bash">
 
-- Your account has a positive balance
+Your request should resemble the following example, where `{API_KEY}` is your API key used for authentication.
 
-To upgrade your plan, follow these steps:
+The following `POST` request takes a request body and suspends a Dedicated cluster.
 
-1. On the Cluster Details page, click the **Upgrade** button next to **Cluster Plan**.
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/clusters/${CLUSTER_ID}/suspend" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
 
-1. Select **Upgrade to Serverless Cluster** or **Upgrade to New Dedicated Cluster**.
+# {
+#     "code": 0,
+#     "data": {
+#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
+#         "prompt": "Successfully Submitted. The cluster will not incur any computing costs when suspended. You will only be billed for the storage costs during this time."
+#     }
+# }     
+```
 
-    - **Upgrade to Severless cluster:**
+In the command above,
 
-        In the dialog box that opens, review the plan information and pricing. Click **Upgrade**. When the upgrade is completed, your Free cluster will be replaced with the Serverless cluster. 
+- `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
 
-        <Admonition type="info" icon="📘" title="Notes">
+- `{CLUSTER_ID}`: The ID of the Dedicated cluster to suspend.
 
-        <ul>
-        <li><p>During the upgrade, read and write operations to this cluster is not supported.</p></li>
-        <li><p>The upgrade will result in a change to the cluster endpoint. Thus, please ensure to update the cluster endpoint information in your application code. </p></li>
-        </ul>
+For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster-v2).
 
-        </Admonition>
+</TabItem>
 
-        ![upgrade-to-serverless](/img/upgrade-to-serverless.png)
+</Tabs>
 
-    - **Upgrade to New Dedicated cluster:**
+## Resume cluster | All Plans{#resume-cluster}
 
-        On the page that opens, complete the following:
+Free and Serverless clusters are automatically suspended after 7 days of inactivity and can be resumed anytime.
 
-        During the upgrade, the original Free cluster will still be retained and keep running. When the upgrade is completed, a new Dedicated cluster will be created and data from the original Free cluster will be automatically migrated to the new Dedicated cluster. 
+Suspended Dedicated clusters can also be resumed manually when needed.
 
-        <Admonition type="info" icon="📘" title="Notes">
+Please note that during resuming, you cannot perform other actions to the cluster.
 
-        <p>To connect to the new Dedicated cluster, please modify your application code and use the appropriate endpoint and token of the new cluster.</p>
+You can resume a cluster via the web console or programatically.
 
-        </Admonition>
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
-        ![upgrade-to-dedicated](/img/upgrade-to-dedicated.png)
+<TabItem value="Cloud Console">
 
-### Drop cluster{#drop-cluster}
+Navigate to the **Cluster Details** page of your target cluster and then follow the instruction below to resume your cluster.
 
-In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
+<Supademo id="cm9tr2hze0t1j11m7ijth1pr5" title="Zilliz Cloud - Resume Cluster Demo" />
 
-In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
+</TabItem>
 
-## Serverless cluster{#serverless-cluster}
+<TabItem value="Bash">
 
-After creating a Serverless cluster, you will see the following in the console.
+Your request should resemble the following example, where `{API_KEY}` is your API key used for authentication.
 
-![serverless-cluster-lifecycle](/img/serverless-cluster-lifecycle.png)
+The following `POST` request takes a request body and resumes a cluster.
 
-- **Connect**: This section provides the necessary details to begin interacting with your cluster, including the cluster ID, cluster cloud region, public endpoint for connections, and a token for secure access.
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/clusters/${CLUSTER_ID}/resume" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
 
-- **Summary**: This offers a snapshot of your cluster's essentials. You can find the cluster plan and compatible Milvus version. Details on the creator, as well as the creation date and time, are also presented.
+# {
+#     "code": 0,
+#     "data": {
+#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
+#         "prompt": "successfully Submitted. Cluster is being resumed, which is expected to takes several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK."
+#     }
+# }     
+```
 
-### Connect to cluster{#connect-to-cluster}
+In the command above,
 
-In the **Connect** section, you can find the **Public Endpoint** and **Token** used to connect to the cluster.
+- `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
 
-For details, refer to [Connect to Cluster](./connect-to-cluster).
+- `{CLUSTER_ID}`: The ID of the Dedicated cluster to suspend.
 
-### Manage collections and data{#manage-collections-and-data}
+For details, refer to [Resume Cluster](/reference/restful/resume-cluster-v2).
 
-- **Collections**
+</TabItem>
 
-    On the **Collections** tab, you can manage the collections in the cluster. You can create collections, import data into them, load or release them, rename them, and drop them.
+</Tabs>
 
-    For details on data import, refer to [Data Import](/docs/data-import).
+## Upgrade plan | All Plans{#upgrade-plan}
 
-    ![manage-collections](/img/manage-collections.png)
-
-- **Backups**
-
-    In the **Backups** tab, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](/docs/backup-and-restore).
-
-- **Data migrations**
-
-    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./migrate-between-clusters).
-
-### Migrate to Dedicated cluster{#migrate-to-dedicated-cluster}
-
-For more enterprise-grade features and custom configurations, you are recommended to migrate your Serverless cluster to a Dedicated cluster. For more information, refer to [Cross-Cluster Migrations](./migrate-between-clusters).
-
-### Users and access control{#users-and-access-control}
-
-Each serverless cluster comes with a single default user. You can't add or drop users, but you can reset the default user's password.
-
-![manage-users](/img/manage-users.png)
-
-### Drop cluster{#drop-cluster}
-
-In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
-
-In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
-
-## Dedicated cluster{#dedicated-cluster}
-
-### View cluster details{#view-cluster-details}
-
-After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll find in each section for cluster details:
-
-![dedicated-cluster-lifecycle](/img/dedicated-cluster-lifecycle.png)
-
-- **Connect**: This section provides the necessary details to begin interacting with your cluster, including the cluster ID, cluster cloud region, public endpoint for connections, a private link,, IP address whitelist, and a token for secure access.
-
-- **Summary**: This offers a snapshot of your cluster's essentials. You can find the cluster plan, CU type, and CU size, compatible Milvus version. Details on the creator, as well as the creation date and time, are also presented.
-
-### Establish connection{#establish-connection}
-
-- **Connect to cluster**
-
-    In the **Connect** section, you can find the **Public Endpoint** and **Token** that are used to connect to the cluster. The token can be an [API key](./manage-api-keys) or a [cluster credential](./cluster-credentials) that consists of a username and password pair.
-
-    For more information, refer to [Connect to Cluster](./connect-to-cluster).
-
-- **Set up private link**
-
-    To establish a more secure connection to your cluster, you can create a private link instead of using the public endpoint provided. Refer to [Set up a Private Link](./setup-a-private-link) for further details.
-
-### Manage collections and data{#manage-collections-and-data}
-
-- **Collections**
-
-    On the **Collections** tab, you can manage the collections in the cluster. You can create collections, import data into them, load or release them, rename them, and drop them.
-
-    For details on data import, refer to [Data Import](/docs/data-import).
-
-    ![manage-collections](/img/manage-collections.png)
-
-- **Backups**
-
-    In the **Backups** tab, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](/docs/backup-and-restore).
-
-- **Migrations**
-
-    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**. For details, refer to [Migrate Between Clusters](./migrate-between-clusters).
-
-### Users and access control{#users-and-access-control}
-
-- **Users**
-
-    On the **Users** tab, you can add users, reset their passwords, and drop them.
-
-    For details, refer to [Cluster Credentials (Console)](./cluster-credentials-console).
-
-    ![manage-users](/img/manage-users.png)
-
-    <Admonition type="info" icon="📘" title="Notes">
-
-    <p>You cannot drop <b>db_admin</b>. Zilliz Cloud grants access permissions to all collections in the cluster to any added users.</p>
-
-    </Admonition>
-
-- **Whitelist**
-
-    In the **Summary** section, click on the IP address in **Network Address** to add IP address segments to the whitelist. Once an IP address segment, other than a full-zero one (**0.0.0.0/0**), is added to the whitelist, Zilliz Cloud only permits access from IP addresses within the listed IP address segments.
-
-    By default, a full-zero IP address segment is added, indicating that your cluster can be accessed from anywhere.
-
-    For details on how to set up the whitelist, refer to [Set up Whitelist](./setup-whitelist).
-
-### Upgrade cluster plan{#upgrade-cluster-plan}
-
-For Dedicated (Standard) cluster, click **Upgrade** right to the service **Plan** in the **Summary** section to upgrade your plan to **Dedicated (Enterprise)**. Zilliz Cloud upgrades your service plan only after you confirm this operation in the **Upgrade Cluster Plan** dialog box.
-
-For the differences between all the available subscription plans, refer to [Select Service Tiers](./select-zilliz-cloud-service-plans).
-
-### Suspend & resume cluster{#suspend-and-resume-cluster}
-
-In the **Actions** drop-down button, select **Suspend** to stop the cluster. Once you confirm this operation in the **Suspend Cluster** dialog box, the cluster status changes from **RUNNING** to **SUSPENDING**, during which you cannot perform other actions to the cluster.
-
-Once the status changes to **SUSPENDED**, you will only be charged for storage. Wisely suspending some of your clusters can save you money.
+To use more advanced features, it is recommended to upgrade your cluster plan. 
 
 <table>
    <tr>
-     <th><p><strong>Cloud Provider</strong></p></th>
-     <th><p><strong>Storage Pricing</strong></p></th>
+     <th><p><strong>Plan Upgrade</strong></p></th>
+     <th><p><strong>Notes</strong></p></th>
    </tr>
    <tr>
-     <td><p>AWS storage</p></td>
-     <td><p>$0.025 / GB per month</p></td>
+     <td><p>Free to Serverless</p></td>
+     <td><p>Your Free cluster will be upgraded to the Serverless plan. Once the cluster is upgraded, you cannot downgrade its plan.</p></td>
    </tr>
    <tr>
-     <td><p>GCP storage</p></td>
-     <td><p>$0.020 / GB per month</p></td>
+     <td><p>Free to Dedicated</p></td>
+     <td><p>A new Dedicated cluster will be created, and data from your existing Free cluster will be automatically migrated. The Free cluster will remain intact. Remember to update the cluster endpoint in your application code.</p></td>
    </tr>
    <tr>
-     <td><p>Azure storage</p></td>
-     <td><p>$0.025 / GB per month</p></td>
+     <td><p>Serverless to Dedicated</p></td>
+     <td><p>A new Dedicated cluster will be created, and data from your existing Serverless cluster will be automatically migrated. The Serverless cluster will remain intact. Remember to update the cluster endpoint in your application code.</p></td>
+   </tr>
+   <tr>
+     <td><p>Dedicated (Standard) to Dedicated (Enterprise)</p></td>
+     <td><p>Your Dedicated (Standard) cluster will be upgraded to the Dedicated (Enterprise) plan. Once the cluster is upgraded, you cannot downgrade its plan.</p></td>
    </tr>
 </table>
 
-To resume a suspended cluster, click on **Actions** and select **Resume** from the drop-down menu. Upon confirming this action in the **Resume Cluster** dialog box, the cluster's status will change from **SUSPENDED** to **RESUMING**, and then to **RUNNING**. At this point, you will be charged fully based on your CU settings and service plan.
+ The following demos illustrates how to upgrade the cluster plan.
 
-You can also use RESTful APIs to perform these actions. For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster) and [Resume Cluster](/reference/restful/resume-cluster).
+- **Free to Serverless**
 
-### **Drop cluster**{#drop-cluster}
+    <Supademo id="cm9tscqvw0urd11m76ey8cx2p" title="Zilliz Cloud - Upgrade Plan Demo (Free to Serverless)" />
 
-In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
+- **Free to Dedicated**
 
-In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
+    <Supademo id="cm9tspd6404f4yt0ijb1o996m" title="Zilliz Cloud - Upgrade Plan Demo (Free to Dedicated)" />
 
-## Related topics{#related-topics}
+- **Serverless to Dedicated**
 
-- [Connect to Cluster](./connect-to-cluster)
+    <Supademo id="cm9tsxwt20vd511m7gtiihsbr" title="Zilliz Cloud - Upgrade Plan Demo (Serverless to Dedicated)" />
 
-- [Set up a Private Link](./setup-a-private-link)
+- **Dedicated (Standard) to Dedicated (Enterprise)**
 
-- [Migrate Between Clusters](./migrate-between-clusters)
+    <Supademo id="cm9tt5t6l0vqd11m7m6a3du14" title="Zilliz Cloud - Upgrade Plan Demo (Dedicated Standard to Enterprise)" />
 
-- [Detailed Plan Comparison](./select-zilliz-cloud-service-plans)
+## Upgrade cluster for preview features | Dedicated{#upgrade-cluster-for-preview-features}
 
-- [Set up Whitelist](./setup-whitelist)
+To try the latest preview features, you need to upgrade the compatible Milvus version of your dedicated cluster.
 
-- [Backup & Restore](./backup-and-restore)
+![upgrade-to-preview-version](/img/upgrade-to-preview-version.png)
 
-- [Select the Right CU](./cu-types-explained)
+## Drop cluster | All Plans{#drop-cluster}
+
+When a cluster is no longer needed, you can drop it.
+
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
+
+<TabItem value="Cloud Console">
+
+Navigate to the **Cluster Details** page of your target cluster and then follow the instruction below to drop your cluster.
+
+<Supademo id="cm9trwi5n0txr11m7otr902sk" title="Zilliz Cloud - Drop Cluster Demo" />
+
+</TabItem>
+
+<TabItem value="Bash">
+
+Your request should resemble the following example, where `{API_KEY}` is your API key used for authentication.
+
+The following `DELETE` request takes a request body and drops a cluster.
+
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/clusters/${CLUSTER_ID}/drop" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
+
+# {
+#     "code": 0,
+#     "data": {
+#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
+#         "prompt": "The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period. Kindly note, this recovery feature does not apply to free clusters."
+#     }
+# }     
+```
+
+In the command above,
+
+- `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
+
+- `{CLUSTER_ID}`: The ID of the Dedicated cluster to suspend.
+
+For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
+
+</TabItem>
+
+</Tabs>
 

@@ -30,6 +30,14 @@ const BetaTag = (tag) => {
       tag_caption = "About to Deprecate";
       tag_color = "#FF7F47";
       break;
+    case tag === 'All Plans':
+      tag_caption = "All Plans";
+      tag_color = "#FF7F47";
+      break;
+    case tag === 'Dedicated':
+      tag_caption = "Dedicated Only";
+      tag_color = "#FF7F47";
+      break;
     case tag?.startsWith('Milvus'):
       tag_caption = 'Compatible with ' + tag;
       tag_color = "rgb(0, 179, 255)"
