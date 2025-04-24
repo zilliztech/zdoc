@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Similarity metrics are used to measure similarities among vectors. Choosing an appropriate distance metric helps improve classification and clustering performance significantly. | Cloud"
 type: origin
 token: EOxmwUDxMiy2cpkOfIsc1dYzn4c
-sidebar_position: 17
+sidebar_position: 18
 keywords: 
   - zilliz
   - vector database
@@ -20,10 +20,10 @@ keywords:
   - IP
   - COSINE
   - Jaccard
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 
@@ -200,31 +200,39 @@ For example, suppose there are two strings, 1101 1001 and 1001 1101.
 
 BM25 is a widely used text relevance measurement method, specifically designed for [full text search](./full-text-search). It combines the following three key factors:
 
-- **Term Frequency (TF):** Measures how frequently a term appears in a document. While higher frequencies often indicate greater importance, BM25 uses the saturation parameter  to prevent overly frequent terms from dominating the relevance score.
+- **Term Frequency (TF):** Measures how frequently a term appears in a document. While higher frequencies often indicate greater importance, BM25 uses the saturation parameter $k_1$ to prevent overly frequent terms from dominating the relevance score.
 
 - **Inverse Document Frequency (IDF):** Reflects the importance of a term across the entire corpus. Terms appearing in fewer documents receive a higher IDF value, indicating greater contribution to relevance.
 
-- **Document Length Normalization:** Longer documents tend to score higher due to containing more terms. BM25 mitigates this bias by normalizing document lengths, with parameter  controlling the strength of this normalization.
+- **Document Length Normalization:** Longer documents tend to score higher due to containing more terms. BM25 mitigates this bias by normalizing document lengths, with parameter $b$ controlling the strength of this normalization.
 
 The BM25 scoring is calculated as follows:
 
+$$
+score(D, Q)=\sum_{i=1}^{n}IDF(q_i)\cdot {{TF(q_i,D)\cdot(k_1+1)}\over{TF(q_i, D)+k_1\cdot(1-b+b\cdot {{|D|}\over{avgdl}})}}
+$$
+
 Parameter description:
 
-- : The query text provided by the user.
+- $Q$: The query text provided by the user.
 
-- : The document being evaluated.
+- $D$: The document being evaluated.
 
-- : Term frequency, representing how often term appears in document .
+- $TF(q_i, D)$: Term frequency, representing how often term $q_i$appears in document $D$.
 
-- : Inverse document frequency, calculated as:
+- $IDF(q_i)$: Inverse document frequency, calculated as:
 
-    where  is the total number of documents in the corpus, and is the number of documents containing term .
+    $$
+    IDF(q_i)=\log({N-n(q_i)+0.5\over n(q_i)+0.5} + 1)
+    $$
 
-- : Length of document  (total number of terms).
+    where $N$ is the total number of documents in the corpus, and$n(q_i)$ is the number of documents containing term $q_i$.
 
-- : Average length of all documents in the corpus.
+- $|D|$: Length of document $D$ (total number of terms).
 
-- : Controls the influence of term frequency on the score. Higher values increase the importance of term frequency. The typical range is [1.2, 2.0], while Zilliz Cloud allows a range of [0, 3].
+- $avgdl$: Average length of all documents in the corpus.
 
-- : Controls the degree of length normalization, ranging from 0 to 1. When the value is 0, no normalization is applied; when the value is 1, full normalization is applied.
+- $k_1$: Controls the influence of term frequency on the score. Higher values increase the importance of term frequency. The typical range is [1.2, 2.0], while Zilliz Cloud allows a range of [0, 3].
+
+- $b$: Controls the degree of length normalization, ranging from 0 to 1. When the value is 0, no normalization is applied; when the value is 1, full normalization is applied.
 

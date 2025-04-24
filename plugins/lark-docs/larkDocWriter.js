@@ -723,7 +723,14 @@ class larkDocWriter {
             if (this.block_types[block['block_type']-1] === undefined) {
                 markdown.push('[Unsupported block type]');
             } else if (this.block_types[block['block_type']-1] === 'text') {
-                markdown.push(idt + await this.__text(block['text']));
+                let content = await this.__text(block['text']);
+                if (content.trim().indexOf('\n') > 0) {
+                    content = content.split('\n').map(line => idt + line).join('\n');
+                } else {
+                    content = idt + content;
+                }
+
+                markdown.push(content);
             } else if (this.block_types[block['block_type']-1].includes('heading')) {
                 const level = parseInt(this.block_types[block['block_type']-1].slice(-1));
                 markdown.push(idt + await this.__heading(block[`heading${level}`], level));
@@ -854,7 +861,9 @@ class larkDocWriter {
             children = await this.__markdown(children, indent+4)
         }
 
-        return ' '.repeat(indent) + '- ' + await this.__text_elements(block['bullet']['elements']) + '\n\n' + children;
+        let content = await this.__text_elements(block['bullet']['elements'])
+
+        return ' '.repeat(indent) + '- ' + content + '\n\n' + children;
     }
 
     async __ordered(block, indent) {
@@ -866,7 +875,9 @@ class larkDocWriter {
             children = await this.__markdown(children, indent+4)
         }
 
-        return ' '.repeat(indent) + '1. ' + await this.__text_elements(block['ordered']['elements']) + '\n\n' + children;
+        let content = await this.__text_elements(block['ordered']['elements'])
+
+        return ' '.repeat(indent) + '1. ' + content + '\n\n' + children;
     }
 
     async __callout(block, indent) {
