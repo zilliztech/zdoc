@@ -2,7 +2,7 @@
 title: "ホワイトスペース | BYOC"
 slug: /whitespace-tokenizer
 sidebar_label: "ホワイトスペース"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "ホワイトスペーストークナイザ（`whitespace`）は、単語の間にスペースがあるときにテキストを用語に分割します。 | BYOC"
 type: origin
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - whitespace-tokenizer
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

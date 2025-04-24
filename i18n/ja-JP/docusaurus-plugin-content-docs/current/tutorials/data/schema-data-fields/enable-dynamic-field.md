@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

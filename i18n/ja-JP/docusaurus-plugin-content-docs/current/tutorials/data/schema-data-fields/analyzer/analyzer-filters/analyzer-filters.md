@@ -2,7 +2,7 @@
 title: "フィルタリファレンス | Cloud"
 slug: /analyzer-filters
 sidebar_label: "フィルタリファレンス"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "このセクションでは、アナライザのフィルタの詳細なリファレンスを提供します。 | Cloud"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

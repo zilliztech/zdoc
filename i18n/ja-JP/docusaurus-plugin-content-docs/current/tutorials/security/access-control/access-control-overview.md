@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 
@@ -29,17 +29,17 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloudは、Zilliz Cloud内のリソースへのアクセスを細かく制御するために、Role-Based Access Control（RBAC）を実装しています。RBAC（Role-Based Access Control）は、ユーザーに直接ではなく、ロールに権限を付与するセキュリティ対策です。これらのロールには、リソースに対する特定の権限が含まれており、ユーザーのアクセス制御を効率的に管理することができます。
 
-![LZPEwzB9XhRIFebkvVic1dTInWh](/img/ja-JP/LZPEwzB9XhRIFebkvVic1dTInWh.png)
+![LZPEwzB9XhRIFebkvVic1dTInWh](/img/LZPEwzB9XhRIFebkvVic1dTInWh.png)
 
 ## Zilliz Cloud RBACアーキテクチャ{#zilliz-cloud-rbac-architecture}
 
-![XXLqwF2z7hdImMblotsc40vinKb](/img/ja-JP/XXLqwF2z7hdImMblotsc40vinKb.png)
+![XXLqwF2z7hdImMblotsc40vinKb](/img/XXLqwF2z7hdImMblotsc40vinKb.png)
 
 Zilliz Cloudは、2つのプレーン内でリソースを整理し、両方にRBACを実装しています。
 
 - **コントロールプレーン:**このプレーンには、組織、プロジェクト、クラスター管理が含まれます。[アカウントユーザー](./email-accounts)には、特定の組織とプロジェクトの役割が付与され、コントロールプレーン上のリソースとやり取りする際に[APIキー](./manage-api-keys)を使用して認証されます。
 
-- **データプレーン:**このプレーンには、データアクセス管理に焦点を当てたクラスター、データベース、コレクションが含まれます。[クラスターユーザー](./cluster-users)には適切なクラスターロールが付与され、データプレーンリソースとやり取りする際に[APIキー](./manage-api-keys)または[ユーザー名-パスワードペア](./cluster-credentials)を使用して認証されます。
+- **データプレーン:**このプレーンには、データアクセス管理に焦点を当てたクラスター、データベース、コレクションが含まれます。[クラスターユーザー](./cluster-users)には適切なクラスターロールが付与され、データプレーンリソースとやり取りする際に[APIキー](./manage-api-keys)または[ユーザー名-パスワードペア](null)を使用して認証されます。
 
 通常、各アカウントユーザーはクラスターユーザーに対応します。ただし、すべてのユーザーが両方のプレーンにアクセスする必要はありません。Billing Adminのようなコントロールプレーンアカウントユーザーは、請求管理の目的でコントロールプレーンにアクセスするだけで、データプレーンにアクセスする必要がない場合があります。逆に、一時的なクラスターユーザーを作成し、カスタマイズされたAPIキーを介してデータプレーンリソースにアクセスできるようにすることができます。カスタマイズされたAPIキーの管理の詳細については、[APIキー](./manage-api-keys)を参照してください。
 
@@ -47,7 +47,7 @@ Zilliz Cloudは、2つのプレーン内でリソースを整理し、両方にR
 
 アカウントユーザーには組織ロールとプロジェクトロールが付与され、クラスターユーザーにはクラスター、データベース、コレクションへのアクセスを制御するクラスターロールが付与されます。次の図は、Zilliz Cloudのロールの階層を示しています。
 
-![H5TewEwdhhNCwNbcTYkcM2ganbg](/img/ja-JP/H5TewEwdhhNCwNbcTYkcM2ganbg.png)
+![H5TewEwdhhNCwNbcTYkcM2ganbg](/img/H5TewEwdhhNCwNbcTYkcM2ganbg.png)
 
 - **組織レベルで**
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

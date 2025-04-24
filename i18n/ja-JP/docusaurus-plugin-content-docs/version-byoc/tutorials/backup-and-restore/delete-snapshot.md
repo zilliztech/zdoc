@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 
@@ -45,7 +45,7 @@ Zilliz Cloudは、手動または自動でバックアップを作成するこ�
 
 <TabItem value="Cloud Console">
 
-![delete_backups](/byoc/ja-JP/delete_backups.png)
+![delete_backups](/img/delete_backups.png)
 
 Zilliz Cloudが実際に削除を実行する前に、バックアップファイルを削除する要求を確認するように求められます。
 

@@ -16,10 +16,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 
@@ -35,13 +35,13 @@ import TabItem from '@theme/TabItem';
 
 次の図は、マルチモーダル検索アプリケーションでハイブリッド検索を実行する主なワークフローを示しています。図では、1つのパスはテキスト上の基本的なANN検索であり、もう1つのパスは画像上の基本的なANN検索です。各パスは、それぞれテキストと画像の類似スコアに基づいて一連の結果を生成します(**Limit 1**および**Limit 2**)。その後、再ランキング戦略が適用され、統一された基準に基づいて2つの結果セットが再ランク付けされ、最終的に2つの結果セットが最終的な検索結果セットである**Limit(final)**にマージされます。
 
-![DdtYbb5iDoaVTixnk4vc2izTnph](/img/ja-JP/DdtYbb5iDoaVTixnk4vc2izTnph.png)
+![DdtYbb5iDoaVTixnk4vc2izTnph](/img/DdtYbb5iDoaVTixnk4vc2izTnph.png)
 
 ハイブリッド検索において、再ランキングは複数のベクトル検索の結果を統合し、最終的な出力が最も関連性が高く正確であることを確認するための重要なステップです。現在、Zilliz Cloudは、以下の2つの再ランキング戦略をサポートしています
 
-- **[WeightedRanker](./reranking#weightedrankerweightedranker)**:この戦略は、異なるベクトル検索からのスコア(または距離)の重み付けスコアを計算することによって結果を統合します。重みは、各ベクトルフィールドの重要度に基づいて割り当てられ、特定のユースケースの優先順位に応じてカスタマイズすることができます。
+- **[WeightedRanker](./reranking#weightedranker)**:この戦略は、異なるベクトル検索からのスコア(または距離)の重み付けスコアを計算することによって結果を統合します。重みは、各ベクトルフィールドの重要度に基づいて割り当てられ、特定のユースケースの優先順位に応じてカスタマイズすることができます。
 
-- **[RRFRanker](./reranking#rrfrankerrrfranker)(Reciprocal Rank Fusion Ranker)**:この戦略は、ランキングに基づいて結果を組み合わせます。異なる検索からの結果のランクをバランスさせる方法を使用し、しばしば多様なデータタイプやモダリティのより公正かつ効果的な統合につながります。
+- **[RRFRanker](./reranking#rrfranker)(Reciprocal Rank Fusion Ranker)**:この戦略は、ランキングに基づいて結果を組み合わせます。異なる検索からの結果のランクをバランスさせる方法を使用し、しばしば多様なデータタイプやモダリティのより公正かつ効果的な統合につながります。
 
 ## WeightedRanker{#weightedranker}
 
@@ -59,7 +59,7 @@ WeightedRanker戦略の主なワークフローは以下の通りです:
 
 1. **Merge Scores**:加重されたスコア(score_1_、score_2_)は、最高から最低までランク付けされ、最終的なスコアセット(score_final)が生成されます。
 
-![VUOkwss1fhKELVbfYcUcj24WnYJ](/img/ja-JP/VUOkwss1fhKELVbfYcUcj24WnYJ.png)
+![VUOkwss1fhKELVbfYcUcj24WnYJ](/img/VUOkwss1fhKELVbfYcUcj24WnYJ.png)
 
 ### WeightedRankerの例{#example-of-weightedranker}
 
@@ -274,7 +274,7 @@ RRFRanker戦略の主なワークフローは以下の通りです:
 
 1. **集計ランキング**:組み合わせたランキングに基づいて検索結果を再ランク付けし、最終結果を生成します。
 
-![NR0nw4yJhhlqVqbkPIxcG3eanqc](/img/ja-JP/NR0nw4yJhhlqVqbkPIxcG3eanqc.png)
+![NR0nw4yJhhlqVqbkPIxcG3eanqc](/img/NR0nw4yJhhlqVqbkPIxcG3eanqc.png)
 
 ### RRFRankerの例{#example-of-rrfranker}
 

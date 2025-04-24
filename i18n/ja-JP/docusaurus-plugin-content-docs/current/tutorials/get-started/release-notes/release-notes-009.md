@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloudの重要なアップデートの一般提供を発表できることを嬉しく思います。このリリースでは、Zilliz Cloudサービス用の新しいコンソールが導入され、新しいクラウドリージョンがサポートされ、プライベートリンクを介して安全なクラスターアクセスが可能になります。 | Cloud"
 type: origin
 token: Zbxlw0dTIilIRFkgKvxco0vqnwb
-sidebar_position: 22
+sidebar_position: 23
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - milvus lite
   - milvus benchmark
   - managed milvus
   - Serverless vector database
+  - milvus open source
 
 ---
 

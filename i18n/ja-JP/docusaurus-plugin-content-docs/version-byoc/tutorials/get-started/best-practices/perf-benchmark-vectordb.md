@@ -15,10 +15,10 @@ keywords:
   - milvus
   - performance
   - benchmark
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 
@@ -49,27 +49,27 @@ VectorDBBenchは、実世界の本番環境を忠実に模倣し、挿入、検�
    </tr>
    <tr>
      <td><p>最大ロード数</p></td>
-     <td><p>ベクトルデータベースの容量です。VectorDBBenchは、10回以上の挿入要求が失敗または拒否されるまで、ベクトルデータをベクトルデータベースに挿入し続け、挿入されたエンティティの最大数を記録します。</p><p>Max_load_countの値が大きいほど、ベクトルデータベースのパフォーマンスが向上します。</p></td>
+     <td><p>ベクトルデータベースの容量です。VectorDBBenchは、10回以上の挿入要求が失敗または拒否されるまで、ベクトルデータをベクトルデータベースに挿入し続け、挿入されたエンティティの最大数を記録します。 Max_load_countの値が大きいほど、ベクトルデータベースのパフォーマンスが向上します。</p></td>
      <td><p>挿入する</p></td>
    </tr>
    <tr>
      <td><p>QPS</p></td>
-     <td><p>ベクトルデータベースが1秒あたりの同時クエリを処理する能力。VectorDBBenchは、複数回にわたってトップ100の検索を使用し、最も高いQPS値を最終結果として選択します。</p><p>高いQPS値はベクトルデータベースのパフォーマンスが良いことを示します。</p></td>
+     <td><p>ベクトルデータベースが1秒あたりの同時クエリを処理する能力。VectorDBBenchは、複数回にわたってトップ100の検索を使用し、最も高いQPS値を最終結果として選択します。 高いQPS値はベクトルデータベースのパフォーマンスが良いことを示します。</p></td>
      <td><p>検索&amp;フィルター検索</p></td>
    </tr>
    <tr>
      <td><p>リコール</p></td>
-     <td><p>グラウンドトゥルースと検索結果を比較することによる検索精度の測定。</p><p>リコール値が高いほど、ベクトルデータベースのパフォーマンスが良いことを示します。</p></td>
+     <td><p>グラウンドトゥルースと検索結果を比較することによる検索精度の測定。 リコール値が高いほど、ベクトルデータベースのパフォーマンスが良いことを示します。</p></td>
      <td><p>検索&amp;フィルター検索</p></td>
    </tr>
    <tr>
      <td><p>ロード時間</p></td>
-     <td><p>Zilliz Cloudがエンティティの挿入とインデックスの構築の過程を完了するのにかかる時間。</p><p>Load_durationの値が低いほど、ベクトルデータベースのパフォーマンスが向上します。</p></td>
+     <td><p>Zilliz Cloudがエンティティの挿入とインデックスの構築の過程を完了するのにかかる時間。 Load_durationの値が低いほど、ベクトルデータベースのパフォーマンスが向上します。</p></td>
      <td><p>検索&amp;フィルター検索</p></td>
    </tr>
    <tr>
      <td><p>シリアルラタンシーp 99</p></td>
-     <td><p>クエリの99%が完了するまでの時間。VectorDBBenchは、各トップ100検索の検索レイテンシを記録し、最終結果として99パーセンタイル平均を使用します。</p><p>Serial_latancy_p 99の値が低いほど、ベクトルデータベースのパフォーマンスが向上します。</p></td>
+     <td><p>クエリの99%が完了するまでの時間。VectorDBBenchは、各トップ100検索の検索レイテンシを記録し、最終結果として99パーセンタイル平均を使用します。 Serial_latancy_p 99の値が低いほど、ベクトルデータベースのパフォーマンスが向上します。</p></td>
      <td><p>検索&amp;フィルター検索</p></td>
    </tr>
 </table>
@@ -95,8 +95,6 @@ VectorDBBenchは、実世界の本番環境を忠実に模倣し、挿入、検�
     ネットワーク通信は、特にクエリテストシナリオでは、テスト結果に影響します。ネットワークレイテンシの影響を軽減するには、次のことをお勧めします。
 
     - クライアントをZilliz Cloudクラスターと同じクラウドプロバイダーとリージョンに展開します。
-
-    - クライアントがZilliz Cloudクラスタと同じVPCを共有するように設定します。パブリックインターネットと比較して、VPCのレイテンシーは低くなります。詳しくは、[プライベートエンドポイントを設定する](./setup-a-private-link)をご覧ください。
 
 ### VectorDBBenchのインストールと起動{#install-and-start-vectordbbench}
 
@@ -142,7 +140,7 @@ $ init_bench
 
 ウェブページを一番下までスクロールし、**テストを実行>**をクリックして独自のベンチマークテストを設定してください。
 
-![HwQqbOpK7o6dXexeNZycsMT1ngb](/byoc/ja-JP/HwQqbOpK7o6dXexeNZycsMT1ngb.png)
+![HwQqbOpK7o6dXexeNZycsMT1ngb](/img/HwQqbOpK7o6dXexeNZycsMT1ngb.png)
 
 ### ベンチマークテストを設定する{#configure-your-benchmarking-test}
 
@@ -150,9 +148,9 @@ $ init_bench
 
 ベンチマークの**結果**を表示して分析するには、[結果]をクリックします。以下はいくつかの例です。
 
-![OxxEbJtxGoRiAbx8Sbmc7X7onHc](/byoc/ja-JP/OxxEbJtxGoRiAbx8Sbmc7X7onHc.png)
+![OxxEbJtxGoRiAbx8Sbmc7X7onHc](/img/OxxEbJtxGoRiAbx8Sbmc7X7onHc.png)
 
-![SFhebhjEqoRaenxYbfMc6quGnxZ](/byoc/ja-JP/SFhebhjEqoRaenxYbfMc6quGnxZ.png)
+![SFhebhjEqoRaenxYbfMc6quGnxZ](/img/SFhebhjEqoRaenxYbfMc6quGnxZ.png)
 
 オプションで、左ナビゲーションウィンドウで**DBフィルター**と**ケースフィルター**を設定して、定義済みのベクトルデータベースとケースのベンチマーク結果を比較することができます。
 

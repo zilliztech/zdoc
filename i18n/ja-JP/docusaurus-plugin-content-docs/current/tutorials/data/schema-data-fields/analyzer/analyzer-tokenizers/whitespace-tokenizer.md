@@ -2,7 +2,7 @@
 title: "ホワイトスペース | Cloud"
 slug: /whitespace-tokenizer
 sidebar_label: "ホワイトスペース"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "ホワイトスペーストークナイザ（`whitespace`）は、単語の間にスペースがあるときにテキストを用語に分割します。 | Cloud"
 type: origin
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - whitespace-tokenizer
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

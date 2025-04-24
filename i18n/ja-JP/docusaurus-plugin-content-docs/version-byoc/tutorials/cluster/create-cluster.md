@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 
@@ -49,11 +49,11 @@ import TabItem from '@theme/TabItem';
 
 1. [**クラスタを作成**]をクリックします。
 
-    ![create-cluster-byoc](/byoc/ja-JP/create-cluster-byoc.png)
+    ![create-cluster-byoc](/img/create-cluster-byoc.png)
 
 1. [**新しいクラスターを作成**]ページで、**Standard**または**Enterprise**プランを選択し、関連するパラメータを入力します。
 
-    ![cluster-cluster-byoc](/byoc/ja-JP/cluster-cluster-byoc.png)
+    ![cluster-cluster-byoc](/img/cluster-cluster-byoc.png)
 
     - **クラスター名**:クラスターに一意の識別子を割り当てます。
 

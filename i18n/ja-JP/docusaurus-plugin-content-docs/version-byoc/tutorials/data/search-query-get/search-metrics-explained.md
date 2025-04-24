@@ -20,10 +20,10 @@ keywords:
   - IP
   - COSINE
   - Jaccard
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 
@@ -132,7 +132,7 @@ import Admonition from '@theme/Admonition';
 
 ユークリッド距離のレシピは以下の通りです。
 
-![DJxsbpt4QoziATxRSj9c4OnpnZb](/byoc/ja-JP/DJxsbpt4QoziATxRSj9c4OnpnZb.png)
+![DJxsbpt4QoziATxRSj9c4OnpnZb](/img/DJxsbpt4QoziATxRSj9c4OnpnZb.png)
 
 ここで**a=(a<sub>0</sub>, a<sub>1</sub>,.。。, a<sub>n-1</sub>)**と**b=(b<sub>0</sub>,b<sub>1</sub>,.。。, b<sub>n-1</sub>)**はn次元ユークリッド空間の2つの点です。
 
@@ -148,7 +148,7 @@ import Admonition from '@theme/Admonition';
 
 2つの埋め込み間のIP距離は以下のように定義されます:
 
-![KH1BbkztLoGEYfxp0LucJl58nmb](/byoc/ja-JP/KH1BbkztLoGEYfxp0LucJl58nmb.png)
+![KH1BbkztLoGEYfxp0LucJl58nmb](/img/KH1BbkztLoGEYfxp0LucJl58nmb.png)
 
 IPは、正規化されていないデータを比較する必要がある場合や、大きさや角度に関心がある場合により役立ちます。
 
@@ -160,11 +160,11 @@ IPは、正規化されていないデータを比較する必要がある場合
 
 X'が埋め込みXから正規化されると仮定する:
 
-![DORmbFSf9oQF5DxRxgKcKy32nzh](/byoc/ja-JP/DORmbFSf9oQF5DxRxgKcKy32nzh.png)
+![DORmbFSf9oQF5DxRxgKcKy32nzh](/img/DORmbFSf9oQF5DxRxgKcKy32nzh.png)
 
 2つの埋め込みの相関関係は以下の通りです:
 
-![JWDFbswIxoT5cJx35Ylcm81znLf](/byoc/ja-JP/JWDFbswIxoT5cJx35Ylcm81znLf.png)
+![JWDFbswIxoT5cJx35Ylcm81znLf](/img/JWDFbswIxoT5cJx35Ylcm81znLf.png)
 
 ## コサイン類似度{#cosine-similarity}
 
@@ -172,7 +172,7 @@ X'が埋め込みXから正規化されると仮定する:
 
 2組のベクトル間のコサイン類似度を計算するには**A=(a<sub>0</sub>, a<sub>1</sub>,.。。, a<sub>n-1</sub>)**と**B=(b<sub>0</sub>,b<sub>1</sub>,.。。、b<sub>n-1</sub>)**、以下のレシピを使用してください:
 
-![Yihlbb3hUo5zYzx2P05cw78CnMb](/byoc/ja-JP/Yihlbb3hUo5zYzx2P05cw78CnMb.png)
+![Yihlbb3hUo5zYzx2P05cw78CnMb](/img/Yihlbb3hUo5zYzx2P05cw78CnMb.png)
 
 余弦類似度は常に区間**[-1,1]**にあります。例えば、2つの比例ベクトルの余弦類似度は**1**であり、2つの直交ベクトルの類似度は**0**であり、2つの反対ベクトルの類似度は**-1**です。余弦が大きいほど、2つのベクトル間の角度が小さくなり、これら2つのベクトルがより類似していることを示しています。
 
@@ -182,11 +182,11 @@ X'が埋め込みXから正規化されると仮定する:
 
 JACC ARD類似係数は、2つのサンプルセット間の類似度を測定し、定義されたセットの交差の基数をそれらの和集合の基数で割ったものです。有限のサンプルセットにのみ適用できます。
 
-![UDRGbUhIDoAN4gxiPLsceHqmnxh](/byoc/ja-JP/UDRGbUhIDoAN4gxiPLsceHqmnxh.png)
+![UDRGbUhIDoAN4gxiPLsceHqmnxh](/img/UDRGbUhIDoAN4gxiPLsceHqmnxh.png)
 
 JACC ARD距離は、データセット間の相違度を測定し、JACC ARD類似係数を1から引くことによって得られます。バイナリ変数の場合、JACC ARD距離は谷本係数と同等です。
 
-![ESaGbBw3IozhUwxD1O1c58Jbnke](/byoc/ja-JP/ESaGbBw3IozhUwxD1O1c58Jbnke.png)
+![ESaGbBw3IozhUwxD1O1c58Jbnke](/img/ESaGbBw3IozhUwxD1O1c58Jbnke.png)
 
 ## ハミング距離{#hamming-distance}
 
@@ -200,31 +200,39 @@ HAMMING距離はバイナリデータ文字列を測定します。等しい長�
 
 BM 25は、[全文検索](./full-text-search)用に特別に設計された、広く使用されているテキスト関連性測定方法です。以下の3つの重要な要素を組み合わせています:
 
-- **用語頻度(TF):**文書内で用語が出現する頻度を測定します。頻度が高いほど重要性が高いことが多いですが、BM 25は飽和パラメータを使用して、過度に頻繁な用語が関連性スコアを支配するのを防止します。
+- **用語頻度(TF):**文書内で用語が出現する頻度を測定します。頻度が高いほど重要性が高いことが多いですが、BM 25は飽和パラメータを使用$k_1$して、過度に頻繁な用語が関連性スコアを支配するのを防止します。
 
 - **逆文書頻度(IDF):**用語の重要性をコーパス全体に反映します。少ない文書に出現する用語は、より高いIDF値を受け取り、関連性への貢献が大きいことを示します。
 
-- **文書長の正規化:**長い文書は、より多くの用語を含むため、スコアが高くなる傾向があります。BM 25は、文書長を正規化することでこのバイアスを軽減し、パラメータがこの正規化の強度を制御します。
+- **文書長の正規化:**長い文書は、より多くの用語を含むため、スコアが高くなる傾向があります。BM 25は、文書長を正規化することでこのバイアスを軽減し、パラメータ$b$がこの正規化の強度を制御します。
 
 BM 25のスコアは以下のように計算されます:
 
+$$
+score(D, Q)=\sum_{i=1}^{n}IDF(q_i)\cdot {{TF(q_i,D)\cdot(k_1+1)}\over{TF(q_i, D)+k_1\cdot(1-b+b\cdot {{|D|}\over{avgdl}})}}
+$$
+
 パラメータの説明:
 
-- :ユーザーが提供したクエリテキスト。
+- $Q$:ユーザーが提供したクエリテキスト。
 
-- :評価中のドキュメント。
+- $D$:評価中のドキュメント。
 
-- 用語の出現頻度:用語が文書に現れる頻度を表します。
+- $TF(q_i, D)$用語の出現頻度:用語が$q_i$文書に現れ$D$る頻度を表します。
 
-- :逆ドキュメント頻度、次のように計算:
+- $IDF(q_i)$:逆ドキュメント頻度、次のように計算:
 
-    コーパス内の文書の総数はどこにありますか、そして用語を含む文書の数はどこにありますか。
+    $$
+    IDF(q_i)=\log({N-n(q_i)+0.5\over n(q_i)+0.5} + 1)
+    $$
 
-- :ドキュメントの長さ(用語の総数)。
+    コーパス$N$内の文書の総数はどこにありますか、そして$n(q_i)$用語を含む文書の数$q_i$はどこにありますか。
 
-- :コーパス内の全ドキュメントの平均長。
+- $|D|$:ドキュメントの長さ$D$(用語の総数)。
 
-- スコアに対する用語頻度の影響を制御します。値が高いほど、用語頻度の重要性が高まります。典型的な範囲は[1.2、2.0]であり、Zilliz Cloudは[0、3]の範囲を許容します。
+- $avgdl$:コーパス内の全ドキュメントの平均長。
 
-- 長さの正規化の程度を0から1の範囲で制御します。値が0の場合、正規化は適用されません。値が1の場合、完全な正規化が適用されます。
+- $k_1$スコアに対する用語頻度の影響を制御します。値が高いほど、用語頻度の重要性が高まります。典型的な範囲は[1.2、2.0]であり、Zilliz Cloudは[0、3]の範囲を許容します。
+
+- $b$長さの正規化の程度を0から1の範囲で制御します。値が0の場合、正規化は適用されません。値が1の場合、完全な正規化が適用されます。
 

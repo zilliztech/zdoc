@@ -2,7 +2,7 @@
 title: "リコール率を調整 | Cloud"
 slug: /tune-recall-rate
 sidebar_label: "リコール率を調整"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、ユーザーが検索の再現率とパフォーマンスをバランスさせるための検索パラメータ`level`を導入しています。また、現在の検索の推定再現率をユーザーに提供するために、別の検索パラメータである`enablerecallestimation`も提供しています。これら2つのパラメータを組み合わせて、ベクトル検索の再現率を調整することができます。 | Cloud"
 type: origin
@@ -18,10 +18,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 
@@ -49,7 +49,7 @@ Zilliz Cloudは、ユーザーが検索の再現率とパフォーマンスを�
 
 Zilliz Cloudのリコール率は、通常、検索によって正常に取得された関連する結果の割合を指します。これは、システムがコレクションからすべての関連アイテムを回復する能力を測定します。
 
-![EcvqbDaXpoQ5BUxRfL0cyzk9ntc](/img/ja-JP/EcvqbDaXpoQ5BUxRfL0cyzk9ntc.png)
+![EcvqbDaXpoQ5BUxRfL0cyzk9ntc](/img/EcvqbDaXpoQ5BUxRfL0cyzk9ntc.png)
 
 検索のリコール率を計算するには、取得された関連アイテムの数を取得すべき該当アイテムの総数で割ることができます。たとえば、検索が100件の関連アイテムのうち90件を取得した場合、リコール率は**0.9** または**90%**になります。
 

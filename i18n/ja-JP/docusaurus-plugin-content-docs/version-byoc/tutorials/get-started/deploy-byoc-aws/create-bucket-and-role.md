@@ -2,7 +2,7 @@
 title: "S3バケットとIAMロールの作成 | BYOC"
 slug: /create-bucket-and-role
 sidebar_label: "S3バケットとIAMロールの作成"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "このページでは、適切なアクセス許可を持つBring-Your-Own-Cloud(BYOC)プロジェクトのルートストレージを作成および構成する方法について説明します。 | BYOC"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 
@@ -56,19 +56,19 @@ AWSコンソールを使用してバケットとロールを作成できます�
 
 1. [**汎用バケット**]タブで、[**バケットを作成**]をクリックします。
 
-    ![EDPzbdL3qoL07Zxn20scT2shnW4](/byoc/ja-JP/EDPzbdL3qoL07Zxn20scT2shnW4.png)
+    ![EDPzbdL3qoL07Zxn20scT2shnW4](/img/EDPzbdL3qoL07Zxn20scT2shnW4.png)
 
 1. [**バケット名**]にバケットの名前を入力し、他の設定ではデフォルト値を維持します。
 
-    ![As0YbBOo5orZD0x46Y2co4VQnqc](/byoc/ja-JP/As0YbBOo5orZD0x46Y2co4VQnqc.png)
+    ![As0YbBOo5orZD0x46Y2co4VQnqc](/img/As0YbBOo5orZD0x46Y2co4VQnqc.png)
 
 1. 「**バケットを作成**」をクリックします。
 
-    ![M84BbzFwNomzQSxnjoPcPUgWnLh](/byoc/ja-JP/M84BbzFwNomzQSxnjoPcPUgWnLh.png)
+    ![M84BbzFwNomzQSxnjoPcPUgWnLh](/img/M84BbzFwNomzQSxnjoPcPUgWnLh.png)
 
 1. Zilliz**Cloudコンソール**に戻り、**バケット**の**ストレージ設定**にバケット名を貼り付けます。
 
-    ![NDNeb6jePo9mQhxe9vzcmhcTn1g](/byoc/ja-JP/NDNeb6jePo9mQhxe9vzcmhcTn1g.png)
+    ![NDNeb6jePo9mQhxe9vzcmhcTn1g](/img/NDNeb6jePo9mQhxe9vzcmhcTn1g.png)
 
 ### ステップ2: S3バケットにアクセスするためのIAMロールを作成する{#step-2-create-an-iam-role-to-access-the-s3-bucket}
 
@@ -78,11 +78,11 @@ AWSコンソールを使用してバケットとロールを作成できます�
 
 1. アカウント情報を展開し、**AWSアカウントID**の前にあるコピーボタンをクリックしてください。
 
-    ![A7vYbCzp1osavYxEx0wcPaZan1d](/byoc/ja-JP/A7vYbCzp1osavYxEx0wcPaZan1d.png)
+    ![A7vYbCzp1osavYxEx0wcPaZan1d](/img/A7vYbCzp1osavYxEx0wcPaZan1d.png)
 
 1. 左サイドバーの[**役割**]タブをクリックし、[**役割を作成**]をクリックします。
 
-    ![C5bbbRXxioqdrXxYhWiczehwndh](/byoc/ja-JP/C5bbbRXxioqdrXxYhWiczehwndh.png)
+    ![C5bbbRXxioqdrXxYhWiczehwndh](/img/C5bbbRXxioqdrXxYhWiczehwndh.png)
 
 1. [**信頼できるエンティティ**の選択]で、[**カスタム信頼ポリシー**]タイルをクリックします。[**共通信頼ポリシー**]で、下の信頼JSONを[**カスタム信頼ポリシー**]セクションのエディタに貼り付け、`{account tId}`を**AWSアカウントID**に置き換えます。
 
@@ -111,7 +111,7 @@ AWSコンソールを使用してバケットとロールを作成できます�
     }
     ```
 
-    ![GYHgb2VNIocfN2xWCkXcuRhanCd](/byoc/ja-JP/GYHgb2VNIocfN2xWCkXcuRhanCd.png)
+    ![GYHgb2VNIocfN2xWCkXcuRhanCd](/img/GYHgb2VNIocfN2xWCkXcuRhanCd.png)
 
 1. 「**次**へ」をクリックして、アクセス権の追加をスキップします。
 
@@ -125,27 +125,27 @@ AWSコンソールを使用してバケットとロールを作成できます�
 
 1. ロールが作成されたら、緑色のバーにある**View role**をクリックしてロールの詳細に移動します。
 
-    ![XPKub0oMNoyGPgxntQpcLXJznRE](/byoc/ja-JP/XPKub0oMNoyGPgxntQpcLXJznRE.png)
+    ![XPKub0oMNoyGPgxntQpcLXJznRE](/img/XPKub0oMNoyGPgxntQpcLXJznRE.png)
 
 1. ロールの**ARN**の前にあるコピーアイコンをクリックします。
 
-    ![DgzNbw3WIoIbg9xGAJ5cVPFhngc](/byoc/ja-JP/DgzNbw3WIoIbg9xGAJ5cVPFhngc.png)
+    ![DgzNbw3WIoIbg9xGAJ5cVPFhngc](/img/DgzNbw3WIoIbg9xGAJ5cVPFhngc.png)
 
 1. Zilliz Cloudコンソールに戻り、[**IAM Role ARN**]の[**ストレージ設定**]にARNロールを貼り付けます。
 
-    ![FIVObWf57onQEpxJHbxczL8CnNg](/byoc/ja-JP/FIVObWf57onQEpxJHbxczL8CnNg.png)
+    ![FIVObWf57onQEpxJHbxczL8CnNg](/img/FIVObWf57onQEpxJHbxczL8CnNg.png)
 
 ### ステップ3:権限を追加する{#step-3-add-permissions}
 
-このステップはAWSコンソール上でのみ行われます。このステップでは、[ステップ2](./create-bucket-and-role#2-s3iamstep-2-create-an-iam-role-to-access-the-s3-bucket)で作成したロールのインラインポリシーを作成します。
+このステップはAWSコンソール上でのみ行われます。このステップでは、[ステップ2](./create-bucket-and-role#step-2-create-an-iam-role-to-access-the-s3-bucket)で作成したロールのインラインポリシーを作成します。
 
 1. 作成したロールの詳細ページに移動します。[**権限ポリシー**]セクションで、[**権限を追加**]をクリックし、[**インラインポリシーを作成**]を選択します。
 
-    ![Iwf4b7aL0oPRHmxFf4ocpud6n9g](/byoc/ja-JP/Iwf4b7aL0oPRHmxFf4ocpud6n9g.png)
+    ![Iwf4b7aL0oPRHmxFf4ocpud6n9g](/img/Iwf4b7aL0oPRHmxFf4ocpud6n9g.png)
 
 1. [**権限の指定**]ページで、[ポリシーエディター]セクションの[**JSON**]をクリックして**ポリシーエディター**を開きます。次に、下の権限をコピーしてポリシーエディターに貼り付けます。
 
-    `{bucketName}`を[ステップ1](./create-bucket-and-role#1-s3step-1-create-the-s3-bucket)で作成したバケットに置き換え、変更したポリシーのJSONをコピーして、AWSの**ポリシーエディタ**に貼り付ける必要があります。
+    `{bucketName}`を[ステップ1](./create-bucket-and-role#step-1-create-the-s3-bucket)で作成したバケットに置き換え、変更したポリシーのJSONをコピーして、AWSの**ポリシーエディタ**に貼り付ける必要があります。
 
     ```json
     {
@@ -174,7 +174,7 @@ AWSコンソールを使用してバケットとロールを作成できます�
     }
     ```
 
-    ![TaqNb47MzonywUxQqBucQWcfn0D](/byoc/ja-JP/TaqNb47MzonywUxQqBucQWcfn0D.png)
+    ![TaqNb47MzonywUxQqBucQWcfn0D](/img/TaqNb47MzonywUxQqBucQWcfn0D.png)
 
 1. [**レビューと作成**]で、ポリシー名を入力し、権限を確認して、[**ポリシーを作成**]をクリックします。
 
@@ -184,6 +184,6 @@ AWSコンソールを使用してバケットとロールを作成できます�
 
     </Admonition>
 
-    ![HnCtbqVUrotnStxlp4nc2LqznNf](/byoc/ja-JP/HnCtbqVUrotnStxlp4nc2LqznNf.png)
+    ![HnCtbqVUrotnStxlp4nc2LqznNf](/img/HnCtbqVUrotnStxlp4nc2LqznNf.png)
 
     

@@ -7,16 +7,16 @@ notebook: FALSE
 description: "このリリースには、新しいWebコンソールのユーザーインターフェイス、Qdrant、Pinecone Serverless、およびテンセントVectorDBからのデータ移行のサポート、よりスムーズな支払い過程、および詳細な支払い情報を含む刷新された請求書ページが含まれています。 | Cloud"
 type: origin
 token: FrALwj4ihi3BEtk7vQjc1zRInUb
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

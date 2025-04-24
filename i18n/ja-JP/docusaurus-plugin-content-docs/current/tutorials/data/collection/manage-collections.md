@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 
@@ -34,7 +34,7 @@ Zilliz Cloudでは、複数のコレクションを作成してデータを管�
 
 次のグラフは、8つの列と6つのエンティティを持つコレクションを示しています。
 
-![OU4cbQJr8ovxJgxmUGGc6837nVb](/img/ja-JP/OU4cbQJr8ovxJgxmUGGc6837nVb.png)
+![OU4cbQJr8ovxJgxmUGGc6837nVb](/img/OU4cbQJr8ovxJgxmUGGc6837nVb.png)
 
 ## スキーマとフィールド{#schema-and-fields}
 

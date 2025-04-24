@@ -16,10 +16,10 @@ keywords:
   - data
   - delete
   - delete entities
+  - NLP
+  - Neural Network
+  - Deep Learning
   - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
 
 ---
 

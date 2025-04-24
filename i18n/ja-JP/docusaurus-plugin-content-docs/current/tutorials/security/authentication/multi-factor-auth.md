@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 
@@ -46,7 +46,7 @@ import Admonition from '@theme/Admonition';
 
 </Admonition>
 
-![enable_mfa_en](/img/ja-JP/enable_mfa_en.png)
+![enable_mfa_en](/img/enable_mfa_en.png)
 
 ### MFAを無効にする{#disable-mfa}
 

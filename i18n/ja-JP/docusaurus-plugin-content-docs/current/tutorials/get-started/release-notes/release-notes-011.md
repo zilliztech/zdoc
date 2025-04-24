@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloudの重要なアップデートの一般提供を発表できることを嬉しく思います。このリリースでは、メール通知と初心者向けのインラインガイダンスが追加されます。 | Cloud"
 type: origin
 token: CrKDw4WQAiFaEFkfcCwc6t5ynoh
-sidebar_position: 20
+sidebar_position: 21
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

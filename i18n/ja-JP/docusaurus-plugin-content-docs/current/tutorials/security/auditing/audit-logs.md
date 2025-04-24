@@ -15,10 +15,10 @@ keywords:
   - auditing
   - log
   - configure
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 
@@ -87,7 +87,7 @@ Zilliz Cloudの監査ログは、監査ログを直接ストレージバケッ�
 
 ### 手続き{#procedure}
 
-![configure-auditing-1](/img/ja-JP/configure-auditing-1.png)
+![configure-auditing-1](/img/configure-auditing-1.png)
 
 1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
@@ -111,7 +111,7 @@ Zilliz Cloudの監査ログは、監査ログを直接ストレージバケッ�
 
     - **Export Directory**:監査ログを保存するバケット内のディレクトリを指定してください。
 
-1. [**Enable**]をクリックします。[**Audit Log Streaming**]ステータスが[**Active**]になると、正常に有効になります。ステータスが異常の場合は、トラブルシューティングのために[FAQ](./audit-logs#faqfaq)にアクセスしてください。
+1. [**Enable**]をクリックします。[**Audit Log Streaming**]ステータスが[**Active**]になると、正常に有効になります。ステータスが異常の場合は、トラブルシューティングのために[FAQ](./audit-logs#faq)にアクセスしてください。
 
 設定が完了すると、監査ログは約5分ごとにバケットにストリーミングされます。必要に応じてバケットにアクセスしてログを表示または管理できます。
 
@@ -121,7 +121,7 @@ Zilliz Cloudの監査ログは、監査ログを直接ストレージバケッ�
 
 監査ログストリーミングが有効になると、その構成を編集したり、必要に応じて無効にしたりできます。
 
-![configure-auditing-2](/img/ja-JP/configure-auditing-2.png)
+![configure-auditing-2](/img/configure-auditing-2.png)
 
 ## FAQ{#faq}
 

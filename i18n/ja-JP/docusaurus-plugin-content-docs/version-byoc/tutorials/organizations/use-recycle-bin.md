@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 
@@ -53,5 +53,5 @@ Zilliz Cloudのごみ箱機能は、意図的にまたはトライアルの期�
 
 1. 新しいリストアジョブが生成されます。[ジョブ](./job-center)ページでクラスタのリストアの進捗状況を確認できます。ジョブのステータスが**IN PROGRESS**から**SUCCESS FUL**に切り替わると、リストアが完了します。
 
-![byoc-use-recycle-bin](/byoc/ja-JP/byoc-use-recycle-bin.png)
+![byoc-use-recycle-bin](/img/byoc-use-recycle-bin.png)
 

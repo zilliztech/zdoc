@@ -7,7 +7,7 @@ notebook: FALSE
 description: "情報検索(IR)システムは、検索エンジンとしても知られており、検索拡張生成(RAG)、画像検索、製品推薦などのさまざまなAIアプリケーションに不可欠です。IRシステムを開発する最初のステップは、ビジネス要件を分析し、情報をどのように整理するかを決定し、データを意味的に検索可能にするためにインデックス化するデータモデルの設計です。 | BYOC"
 type: origin
 token: B2Z9whq7IigVE7kgFVJcQAeQnqd
-sidebar_position: 13
+sidebar_position: 14
 keywords: 
   - zilliz
   - vector database
@@ -16,10 +16,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 
@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloudは、コレクションスキーマを介してデータモデルを定義することをサポートしています。コレクションは、テキストや画像などの非構造化データと、セマンティック検索に使用されるさまざまな精度の密なベクトルや疎なベクトル表現を整理します。さらに、Zilliz Cloudは、「Scalar」と呼ばれる非ベクトルデータ型の格納とフィルタリングをサポートしています。Scalarタイプには、BOOL、INT 8/16/32/64、FLOAT/DOUBLE、VARCHAR、JSON、Arrayが含まれます。
 
-![IWEWbHv43o2w4lxtAQxcuNz7nBg](/byoc/ja-JP/IWEWbHv43o2w4lxtAQxcuNz7nBg.png)
+![IWEWbHv43o2w4lxtAQxcuNz7nBg](/img/IWEWbHv43o2w4lxtAQxcuNz7nBg.png)
 
 検索システムのデータモデル設計には、ビジネスニーズを分析し、情報をスキーマ表現されたデータモデルに抽象化することが含まれます。たとえば、テキストを検索するには、リテラル文字列を「埋め込み」を介してベクトルに変換して「インデックス化」する必要があります。この基本的な要件を超えて、出版タイムスタンプや著者などの他のプロパティを保存する必要がある場合があります。このメタデータにより、特定の日付以降または特定の著者によって公開されたテキストのみを返すフィルタリングを通じて意味検索を洗練することができます。また、アプリケーションで検索結果をレンダリングするために、メインテキストと一緒に取得する必要がある場合もあります。これらのテキストピースを整理するには、それぞれに整数または文字列として表される一意の識別子を割り当てる必要があります。これらの要素は、洗練された検索ロジックを実現するために不可欠です。
 

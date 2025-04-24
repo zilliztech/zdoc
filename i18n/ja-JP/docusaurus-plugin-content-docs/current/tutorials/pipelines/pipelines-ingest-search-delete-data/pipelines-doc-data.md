@@ -2,7 +2,7 @@
 title: "ドキュメントデータ | Cloud"
 slug: /pipelines-doc-data
 sidebar_label: "ドキュメントデータ"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理するためのシンプルで直感的な方法を提供し、RESTful APIはWeb UIに比べてより柔軟性とカスタマイズ性を提供します。 | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - doc data
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 
@@ -41,7 +41,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
 - Google Cloud Platform(GCP)上のus-west 1にデプロイされたクラスタを作成していることを確認してください。
 
-- 一つのプロジェクトでは、同じタイプのパイプラインを最大100個まで作成できます。詳細については、[Zillizクラウドの制限](./limits#pipelines)を参照してください。
+- 一つのプロジェクトでは、同じタイプのパイプラインを最大100個まで作成できます。詳細については、[Zillizクラウドの制限](./limits)を参照してください。
 
 ## 文書データを取り込む{#ingest-doc-data}
 
@@ -57,11 +57,11 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
 1. ナビゲーションパネルから**パイプライン**をクリックします。次に、**概要**タブに切り替えて、**パイプライン**をクリックします。パイプラインを作成するには、**+パイプライン**をクリックしてください。
 
-    ![create-pipeline](/img/ja-JP/create-pipeline.png)
+    ![create-pipeline](/img/create-pipeline.png)
 
 1. 作成するパイプラインの種類を選択します。[**+パイプライン**]ボタンをクリックします。**Ingestion Pipeline**列。
 
-    ![choose-pipeline](/img/ja-JP/choose-pipeline.png)
+    ![choose-pipeline](/img/choose-pipeline.png)
 
 1. 作成するIngestionパイプラインを構成します。
 
@@ -88,7 +88,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
        </tr>
     </table>
 
-    ![configure-ingestion-pipeline](/img/ja-JP/configure-ingestion-pipeline.png)
+    ![configure-ingestion-pipeline](/img/configure-ingestion-pipeline.png)
 
 1. Ingestionパイプラインに**INDEX**関数を追加するには、**+Function**をクリックします。各Ingestionパイプラインに対して、正確に1つの**INDEX**関数を追加できます。
 
@@ -133,7 +133,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
            </tr>
         </table>
 
-        ![add-index-doc-function](/img/ja-JP/add-index-doc-function.png)
+        ![add-index-doc-function](/img/add-index-doc-function.png)
 
     1. [**追加**]をクリックして関数を保存します。
 
@@ -163,13 +163,13 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
     1. [**追加**]をクリックして関数を保存します。
 
-        ![add-preserve-function](/img/ja-JP/add-preserve-function.png)
+        ![add-preserve-function](/img/add-preserve-function.png)
 
 1. [**Ingestion Pipelineを作成**]をクリックします。
 
 1. 作成したばかりのIngestionパイプラインと互換性があるように自動構成された検索パイプラインと削除パイプラインの作成を続けます。
 
-    ![auto-create-doc-search-and-delete-pipelines](/img/ja-JP/auto-create-doc-search-and-delete-pipelines.png)
+    ![auto-create-doc-search-and-delete-pipelines](/img/auto-create-doc-search-and-delete-pipelines.png)
 
     <Admonition type="info" icon="📘" title="ノート">
 
@@ -217,7 +217,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -278,7 +278,7 @@ curl --request POST \
            </tr>
         </table>
 
-    - `chunkSize`(オプション): INDEX_DOC関数は、各ドキュメントをより小さなチャンクに分割します。デフォルトでは、各チャンクには500トークン以下しか含まれませんが、カスタムチャンキング戦略に合わせて体格を調整できます。各埋め込みモデルでサポートされるチャンク体格範囲の詳細については、[Zillizクラウドの制限](./limits#pipelines)を参照してください。
+    - `chunkSize`(オプション): INDEX_DOC関数は、各ドキュメントをより小さなチャンクに分割します。デフォルトでは、各チャンクには500トークン以下しか含まれませんが、カスタムチャンキング戦略に合わせて体格を調整できます。各埋め込みモデルでサポートされるチャンク体格範囲の詳細については、[Zillizクラウドの制限](./limits)を参照してください。
 
         さらに、マークダウンまたはHTMLファイルの場合、この関数は最初にヘッダーでドキュメントを分割し、次に指定されたチャンク体格に基づいてさらに大きなセクションで分割します。*(このパラメータは`INDEX_DOC`関数でのみ使用されます。)*
 
@@ -348,12 +348,12 @@ Ingestionパイプラインが作成されると、`my_collection`という名�
 
 <table>
    <tr>
-     <th><p>id</p><p>(データ型: Int 64)</p></th>
-     <th><p>ドキュメント名</p><p>(データ型: VarChar)</p></th>
-     <th><p>チャンクID</p><p>(データ型: Int 64)</p></th>
-     <th><p>チャンクテキスト</p><p>(データ型: VarChar)</p></th>
-     <th><p>埋め込み</p><p>(データ型: FLOAT_VECTOR)</p></th>
-     <th><p>パブリッシュ年</p><p>(データ型: Int 16)</p></th>
+     <th><p>id (データ型: Int 64)</p></th>
+     <th><p>ドキュメント名 (データ型: VarChar)</p></th>
+     <th><p>チャンクID (データ型: Int 64)</p></th>
+     <th><p>チャンクテキスト (データ型: VarChar)</p></th>
+     <th><p>埋め込み (データ型: FLOAT_VECTOR)</p></th>
+     <th><p>パブリッシュ年 (データ型: Int 16)</p></th>
    </tr>
 </table>
 
@@ -369,7 +369,7 @@ Ingestionパイプラインが作成されると、`my_collection`という名�
 
 1. インジェスチョンパイプラインの横にある「▶︎」ボタンをクリックしてください。または、**プレイグラウンド**タブをクリックすることもできます。
 
-    ![run-pipeline](/img/ja-JP/run-pipeline.png)
+    ![run-pipeline](/img/run-pipeline.png)
 
 1. ファイルを取り込みます。Zilliz Cloudには、データを取り込む2つの方法があります。
 
@@ -410,7 +410,7 @@ Ingestionパイプラインが作成されると、`my_collection`という名�
 
     上記のコードのパラメータは次のように説明されています
 
-    - `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+    - `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
     - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -453,7 +453,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -503,7 +503,7 @@ curl --request POST \
 
 1. 作成するパイプラインの種類を選択してください。「**+パイプライン**」ボタンを**検索パイプライン**欄でクリックしてください。
 
-    ![create-search-pipeline](/img/ja-JP/create-search-pipeline.png)
+    ![create-search-pipeline](/img/create-search-pipeline.png)
 
 1. 作成したい検索パイプラインを構成します。
 
@@ -522,7 +522,7 @@ curl --request POST \
        </tr>
     </table>
 
-    ![configure-search-pipeline](/img/ja-JP/configure-search-pipeline.png)
+    ![configure-search-pipeline](/img/configure-search-pipeline.png)
 
 1. 「**+Function**」をクリックして、検索パイプラインに関数を追加します。正確に1つの関数を追加できます。
 
@@ -545,7 +545,7 @@ curl --request POST \
            </tr>
         </table>
 
-        ![add-search-doc-function](/img/ja-JP/add-search-doc-function.png)
+        ![add-search-doc-function](/img/add-search-doc-function.png)
 
     1. [**追加**]をクリックして関数を保存します。
 
@@ -582,7 +582,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -656,7 +656,7 @@ curl --request POST \
 
 1. 検索パイプラインの横にある「▶︎」ボタンをクリックしてください。または、**プレイグラウンド**タブをクリックすることもできます。
 
-    ![run-pipeline](/img/ja-JP/run-pipeline.png)
+    ![run-pipeline](/img/run-pipeline.png)
 
 1. 必要なパラメータを設定します。[**実行**]をクリックします。
 
@@ -690,7 +690,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -771,7 +771,7 @@ curl --request POST \
 
 1. 作成するパイプラインの種類を選択してください。「**+パイプライン**」ボタンを**削除パイプライン**欄でクリックしてください。
 
-    ![create-deletion-pipeline](/img/ja-JP/create-deletion-pipeline.png)
+    ![create-deletion-pipeline](/img/create-deletion-pipeline.png)
 
 1. 作成する削除パイプラインを構成します。
 
@@ -790,7 +790,7 @@ curl --request POST \
        </tr>
     </table>
 
-    ![configure-deletion-pipeline](/img/ja-JP/configure-deletion-pipeline.png)
+    ![configure-deletion-pipeline](/img/configure-deletion-pipeline.png)
 
 1. 「**+Function**」をクリックして、削除パイプラインに関数を追加します。1つの関数だけを追加できます。
 
@@ -832,7 +832,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -891,7 +891,7 @@ curl --request POST \
 
 1. 削除パイプラインの横にある「▶︎」ボタンをクリックしてください。または、**プレイグラウンド**タブをクリックすることもできます。
 
-    ![run-pipeline](/img/ja-JP/run-pipeline.png)
+    ![run-pipeline](/img/run-pipeline.png)
 
 1. [`doc_name`]フィールドに削除するドキュメントの名前を入力します。[**実行**]をクリックします。
 
@@ -917,7 +917,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -950,11 +950,11 @@ curl --request POST \
 
 左ナビゲーションの**パイプライン**をクリックします。**パイプライン**タブを選択します。利用可能なすべてのパイプラインが表示されます。
 
-![view-pipelines-on-web-ui](/img/ja-JP/view-pipelines-on-web-ui.png)
+![view-pipelines-on-web-ui](/img/view-pipelines-on-web-ui.png)
 
 特定のパイプラインをクリックすると、基本情報、合計使用量、機能、関連コネクタなどの詳細情報が表示されます。
 
-![view-pipeline-details](/img/ja-JP/view-pipeline-details.png)
+![view-pipeline-details](/img/view-pipeline-details.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -964,7 +964,7 @@ curl --request POST \
 
 Web UIでパイプラインのアクティビティを確認することもできます。
 
-![view-pipelines-activities-on-web-ui](/img/ja-JP/view-pipelines-activities-on-web-ui.png)
+![view-pipelines-activities-on-web-ui](/img/view-pipelines-activities-on-web-ui.png)
 
 </TabItem>
 
@@ -1143,7 +1143,7 @@ APIを呼び出して、既存のすべてのパイプラインを一覧表示�
 
 To drop a pipeline on the web UI, click the **...** button under the **Actions** column. Then click **Drop**.
 
-![delete-pipeline](/img/ja-JP/delete-pipeline.png)
+![delete-pipeline](/img/delete-pipeline.png)
 
 </TabItem>
 

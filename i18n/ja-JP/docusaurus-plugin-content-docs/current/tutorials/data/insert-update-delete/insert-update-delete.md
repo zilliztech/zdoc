@@ -15,10 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

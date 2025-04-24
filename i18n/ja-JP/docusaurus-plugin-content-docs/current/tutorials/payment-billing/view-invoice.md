@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Zilliz Cloudは組織レベルで請求を行います。請求書にアクセスするには、組織所有者または請求管理者の権限が必要です。 | Cloud"
 type: origin
 token: IUl2wkH64i6baBk1MRwc0rv9n4g
-sidebar_position: 7
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
   - cloud
   - invoice
   - view
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 
@@ -41,13 +41,13 @@ Zilliz Cloudは組織レベルで請求を行います。請求書にアクセ�
 
 各請求書は、いくつかの重要なコンポーネントで構成されています。このセクションでは、各要素を理解するのに役立つ請求書の例を説明します。
 
-![example-invoice](/img/ja-JP/example-invoice.png)
+![example-invoice](/img/example-invoice.png)
 
 ### 請求サイクル{#billing-cycle}
 
 請求書の上部に表示される請求サイクルには、請求が計算される期間と支払い期日が表示されます。
 
-![TBj1w2bjshgRfabC34Fc6WeEnSc](/img/ja-JP/TBj1w2bjshgRfabC34Fc6WeEnSc.png)
+![TBj1w2bjshgRfabC34Fc6WeEnSc](/img/TBj1w2bjshgRfabC34Fc6WeEnSc.png)
 
 - **請求サイクル:**通常、前月の最初の日の00: 0 0:0 0(UTC)から、その月の最終日の23:59:59(UTC)までの1か月間の期間です。たとえば、Zilliz Cloudは2024年9月1日に8月の請求書を発行し、請求期間は2024年8月1日の00:0 0:0 0(UTC)から2024年8月31日の23:59:59(UTC)までです。この期間中に使用料が蓄積され、請求書のステータスは「**未請求**」のままです。
 
@@ -158,13 +158,13 @@ Zilliz Cloudには、Free、Serverless、Dedicatedの3つのクラスタータ�
 
 1. 対象の請求書の請求期間をクリックすると、その詳細が表示されます。
 
-![view-invoices](/img/ja-JP/view-invoices.png)
+![view-invoices](/img/view-invoices.png)
 
 </TabItem>
 
 <TabItem value="Bash">
 
-リクエストは次の例のようになります。`{API_KEY}`は、[組織のオーナーまたは請求管理者の役割](./organization-users#)を持つ認証APIキーです。次の`GET`リクエストには、Organizationのすべての請求書がリストされています。
+リクエストは次の例のようになります。`{API_KEY}`は、[組織のオーナーまたは請求管理者の役割](./organization-users#organization-roles)を持つ認証APIキーです。次の`GET`リクエストには、Organizationのすべての請求書がリストされています。
 
 ```bash
 curl --request GET \
@@ -224,13 +224,13 @@ curl --request GET \
 
 1. 対象の請求書の請求期間をクリックすると、その詳細が表示されます。
 
-![view-invoice-detail](/img/ja-JP/view-invoice-detail.png)
+![view-invoice-detail](/img/view-invoice-detail.png)
 
 </TabItem>
 
 <TabItem value="Bash">
 
-リクエストは次の例のようになります。`{API_KEY}`は、[組織のオーナーまたは請求管理者の役割](./organization-users#)を持つ認証APIキーです。次の`GET`リクエストは、指定された請求書を説明しています。
+リクエストは次の例のようになります。`{API_KEY}`は、[組織のオーナーまたは請求管理者の役割](./organization-users#organization-roles)を持つ認証APIキーです。次の`GET`リクエストは、指定された請求書を説明しています。
 
 ```bash
 curl --request GET \
@@ -281,13 +281,13 @@ curl --request GET \
 
 請求書が期限を過ぎている場合は、まず支払い方法を確認して更新してから、請求書の詳細ページで支払いを再試行してください。
 
-![pay-invoice](/img/ja-JP/pay-invoice.png)
+![pay-invoice](/img/pay-invoice.png)
 
 ### 請求書をダウンロード{#download-invoice}
 
 請求書をダウンロードするには、対象の請求書の横にあるダウンロードアイコンをクリックします。
 
-![download-invoices](/img/ja-JP/download-invoices.png)
+![download-invoices](/img/download-invoices.png)
 
 ## トラブルシューティング/FAQ{#troubleshooting-faq}
 
@@ -303,9 +303,9 @@ curl --request GET \
 
         ウェブUIでは、表示される金額は小数点以下2桁に丸められます（例:$60.0 0）。
 
-        ![precision_invoice_cn](/img/ja-JP/precision_invoice_cn.png)
+        ![precision_invoice_cn](/img/precision_invoice_cn.png)
 
-        [List Invoice](/ja-JP/reference/restful/list-invoices-v2)と[Describe Invoice API](/ja-JP/reference/restful/describe-invoice-v2https://docs.zilliz.com/ja-JP/reference/restful/describe-invoice-v2)から取得された請求書の金額はセントで表され、小数点以下2桁に丸める必要があります。以下は[Describe Invoice API](/ja-JP/reference/restful/describe-invoice-v2)の出力例です。
+        [List Invoice](/ja-JP/reference/restful/list-invoices-v2)と[Describe Invoice API](/ja-JP/reference/restful/describe-invoice-v2)から取得された請求書の金額はセントで表され、小数点以下2桁に丸める必要があります。以下は[Describe Invoice API](/ja-JP/reference/restful/describe-invoice-v2)の出力例です。
 
         ```bash
         {

@@ -17,10 +17,10 @@ keywords:
   - upsert
   - update
   - insert
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 
@@ -44,7 +44,7 @@ Upsert操作は、データの更新と挿入のアクションを組み合わ�
 
 1. Upsert要求に含まれるエンティティの主キー値に基づいて削除操作を実行します。
 
-![PbhlwMPYehvqZjboBUucBm0tniL](/img/ja-JP/PbhlwMPYehvqZjboBUucBm0tniL.png)
+![PbhlwMPYehvqZjboBUucBm0tniL](/img/PbhlwMPYehvqZjboBUucBm0tniL.png)
 
 ## コレクション内のエンティティの更新と挿入{#upsert-entity-in-a-collection}
 

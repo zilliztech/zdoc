@@ -16,10 +16,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
   - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 
@@ -39,7 +39,7 @@ Zilliz Cloudでは、フィルタリングされた検索は、適用される�
 
 コレクションにベクトル埋め込みとメタデータの両方が含まれている場合、ANN検索の前にメタデータをフィルタリングして、検索結果の関連性を向上させることができます。Zilliz Cloudがフィルタリング条件を持つ検索リクエストを受信すると、指定されたフィルタリング条件に一致するエンティティ内で検索範囲が制限されます。
 
-![PJ8Aw3h8xh0OyEbrkPUctjpnnHf](/byoc/ja-JP/PJ8Aw3h8xh0OyEbrkPUctjpnnHf.png)
+![PJ8Aw3h8xh0OyEbrkPUctjpnnHf](/img/PJ8Aw3h8xh0OyEbrkPUctjpnnHf.png)
 
 上の図に示されているように、検索リクエストには`chunk like "%red%"`がフィルタリング条件として含まれており、Zilliz Cloudは、`red`という単語が`chunk`フィールドに含まれるすべてのエンティティ内でANN検索を実行する必要があることを示しています。具体的には、Zilliz Cloudは以下のように行います:
 
@@ -53,7 +53,7 @@ Zilliz Cloudでは、フィルタリングされた検索は、適用される�
 
 標準的なフィルタリング過程は、検索範囲を効果的に狭くします。ただし、過度に複雑なフィルタリング式は、非常に高い検索レイテンシを引き起こす可能性があります。このような場合、反復フィルタリングは代替手段として機能し、スカラーフィルタリングの作業負荷を軽減するのに役立ちます。
 
-![TIPww02ZHh0ghAb0izVcANQfntd](/byoc/ja-JP/TIPww02ZHh0ghAb0izVcANQfntd.png)
+![TIPww02ZHh0ghAb0izVcANQfntd](/img/TIPww02ZHh0ghAb0izVcANQfntd.png)
 
 上記の図に示されているように、反復フィルタリングを使用した検索は反復でベクトル検索を実行します。イテレータによって返される各エンティティはスカラーフィルタリングを受け、この過程は指定されたtopKの結果が得られるまで続きます。
 

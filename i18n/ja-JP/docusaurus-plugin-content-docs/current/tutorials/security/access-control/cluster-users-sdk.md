@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - users
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

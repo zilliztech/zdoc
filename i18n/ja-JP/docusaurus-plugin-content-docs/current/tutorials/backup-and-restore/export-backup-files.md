@@ -17,10 +17,10 @@ keywords:
   - integrate
   - object
   - storage
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 
@@ -44,6 +44,10 @@ Zilliz Cloudコンソールを使用して、バックアップファイルを�
 - プロジェクトには**組織オーナー**また**はプロジェクト管理者**のアクセス権があります。必要な権限がない場合は、Zilliz Cloudの管理者にお問い合わせください。
 
 ## 手続き{#procedure}
+
+Zilliz Cloudからバックアップファイルをエクスポートするには、Zilliz CloudコンソールまたはRESTful APIを使用します。 
+
+### Zilliz Cloudコンソールを使用してエクスポートする{#export-via-zilliz-cloud-console}
 
 1. Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
@@ -69,7 +73,38 @@ Zilliz Cloudコンソールを使用して、バックアップファイルを�
 
 1. [**エクスポート**]をクリックします。
 
-![export-backup-file](/img/ja-JP/export-backup-file.png)
+    ![export-backup-file](/img/export-backup-file.png)
+
+### RESTful APIを使用してエクスポートする{#export-through-restful-api}
+
+[Export Backup Files RESTful API](/ja-JP/reference/restful/export-backup-files-v2)エンドポイントを使用してZilliz Cloudからバックアップファイルをエクスポートする前に、AWS S 3バケットの1つをZilliz Cloudに統合し、その統合IDを取得する必要があります。詳細については、[統合IDの取得](./integrate-with-aws-s3#obtain-the-integration-id)を参照してください。
+
+```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
+export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
+export BACKUP_ID="backup-xxxxxxxxxxxxxxx"
+
+curl --request POST \
+--url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}/export" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "integrationId": "inter-xxxxxxx",
+    "directory": "destdir/"
+}'
+```
+
+上記の要求に対する応答は、次のようなジョブIDになります。
+
+```bash
+{
+    "code": 0,
+    "data": {
+        "jobId": "job-0396450098cglufig6afm9"
+    }
+}
+```
 
 ## エクスポートの進捗を監視する{#monitor-export-progress}
 
@@ -85,7 +120,7 @@ Zilliz Cloudコンソールを使用して、バックアップファイルを�
 
     - **エラー**:ジョブが失敗しました。これは、ロールARNやバックアップファイルなど、エクスポート過程で使用されるリソースがジョブの実行中に削除された場合に発生します。
 
-![monitor-export-job](/img/ja-JP/monitor-export-job.png)
+![monitor-export-job](/img/monitor-export-job.png)
 
 ## エクスポートジョブをキャンセル{#cancel-export-job}
 

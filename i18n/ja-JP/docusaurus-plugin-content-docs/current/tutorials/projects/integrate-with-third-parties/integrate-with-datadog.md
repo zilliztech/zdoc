@@ -2,7 +2,7 @@
 title: "Datadogとの統合 | Cloud"
 slug: /integrate-with-datadog
 sidebar_label: "Datadogとの統合"
-beta: PRIVATE
+beta: FALSE
 notebook: FALSE
 description: "Datadogは、アプリケーションのパフォーマンス、インフラストラクチャ、ログ管理に関するリアルタイムの洞察を提供するクラウドモニタリングおよび分析プラットフォームです。Zilliz CloudとDatadogを統合することで、Zilliz Cloudクラスターに関するメトリックデータをDatadogダッシュボードに送信できます。 | Cloud"
 type: origin
@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - datadog
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 
@@ -112,7 +112,7 @@ import Admonition from '@theme/Admonition';
 
     1. [**作成**]をクリックします。
 
-![integrate-with-datadog-1](/img/ja-JP/integrate-with-datadog-1.png)
+![integrate-with-datadog-1](/img/integrate-with-datadog-1.png)
 
 ## インテグレーションの進捗をモニターする{#monitor-integration-progress}
 
@@ -120,7 +120,7 @@ import Admonition from '@theme/Admonition';
 
 インテグレーションの横にある外部リンクアイコンをクリックすると、関連するDatadogダッシュボードを開き、選択したZilliz Cloudクラスターからプッシュされたクラスターメトリクスを表示できます。
 
-![integrate-with-datadog-2](/img/ja-JP/integrate-with-datadog-2.png)
+![integrate-with-datadog-2](/img/integrate-with-datadog-2.png)
 
 ## インテグレーションの管理{#manage-integrations}
 
@@ -130,7 +130,7 @@ Datadogインテグレーションを管理するには、[**アクション**]�
 
 - **削除**:必要がなくなった場合は、統合を削除します。
 
-![integrate-with-datadog-3](/img/ja-JP/integrate-with-datadog-3.png)
+![integrate-with-datadog-3](/img/integrate-with-datadog-3.png)
 
 ## Datadogで利用可能なパフォーマンスメトリクス{#performance-metrics-available-to-datadog}
 
@@ -145,17 +145,17 @@ Datadogインテグレーションを管理するには、[**アクション**]�
      <th><p>説明する</p></th>
    </tr>
    <tr>
-     <td><p>CUコンピュテーション</p><p>(.<code>zilliz.cluster.cu. current</code>)</p></td>
+     <td><p>CUコンピュテーション (.<code>zilliz.cluster.cu. current</code>)</p></td>
      <td><p>ゲージ</p></td>
      <td><p>CUの総容量に対する使用容量の尺度。0から1までの範囲。</p></td>
    </tr>
    <tr>
-     <td><p>CUの容量</p><p>(<code>zilliz.cluster.cu. current</code>)</p></td>
+     <td><p>CUの容量 (<code>zilliz.cluster.cu. current</code>)</p></td>
      <td><p>ゲージ</p></td>
      <td><p>CUの総計算能力に対する利用された計算能力の尺度。0から1までの範囲。</p></td>
    </tr>
    <tr>
-     <td><p>ストレージ</p><p>(.<code>zilliz.cluster.storage. current</code>)</p></td>
+     <td><p>ストレージ (.<code>zilliz.cluster.storage. current</code>)</p></td>
      <td><p>ゲージ</p></td>
      <td><p>データとインデックスによって消費される永続ストレージの合計金額。</p></td>
    </tr>
@@ -170,27 +170,27 @@ Datadogインテグレーションを管理するには、[**アクション**]�
      <th><p>説明する</p></th>
    </tr>
    <tr>
-     <td><p>クラスタ書き込み性能Capacity</p><p>(zilliz. cluster.<code>write.performance</code>.current)ファイル</p></td>
+     <td><p>クラスタ書き込み性能Capacity (zilliz. cluster.<code>write.performance</code>.current)ファイル</p></td>
      <td><p>ゲージ</p></td>
      <td><p>現在の書き込み操作の速度を、書き込み速度の制限に対して相対的に測定したものです。範囲は0から1までです。</p></td>
    </tr>
    <tr>
-     <td><p>クエリー数が遅い</p><p>(<code>zilliz.request.slow.queries.total</code>)</p></td>
+     <td><p>クエリー数が遅い (<code>zilliz.request.slow.queries.total</code>)</p></td>
      <td><p>数える</p></td>
      <td><p>遅いクエリ要求の総数。</p></td>
    </tr>
    <tr>
-     <td><p>QPS、要求の失敗率、フラッシュ操作の回数</p><p>(<code>zilliz.requests.total</code>)</p></td>
+     <td><p>QPS、要求の失敗率、フラッシュ操作の回数 (<code>zilliz.requests.total</code>)</p></td>
      <td><p>数える</p></td>
      <td><p>処理されたリクエストの総数。</p></td>
    </tr>
    <tr>
-     <td><p>VPS</p><p>(<code>zilliz.request.vectors.total</code>)</p></td>
+     <td><p>VPS (<code>zilliz.request.vectors.total</code>)</p></td>
      <td><p>数える</p></td>
      <td><p>すべての要求で操作されたベクトルの総数。</p></td>
    </tr>
    <tr>
-     <td><p>レイテンシ</p><p>(zilliz. request<code>.latency</code>.miliseconds.<code>p 99</code>)を表示</p></td>
+     <td><p>レイテンシ (zilliz. request<code>.latency</code>.miliseconds.<code>p 99</code>)を表示</p></td>
      <td><p>ゲージ</p></td>
      <td><p>処理された要求の平均/P 99待機時間。</p></td>
    </tr>
@@ -205,22 +205,22 @@ Datadogインテグレーションを管理するには、[**アクション**]�
      <th><p>説明する</p></th>
    </tr>
    <tr>
-     <td><p>エンティティカウント</p><p>(<code>zilliz</code>ファイル)</p></td>
+     <td><p>エンティティカウント (<code>zilliz</code>ファイル)</p></td>
      <td><p>ゲージ</p></td>
      <td><p>エンティティの数。</p></td>
    </tr>
    <tr>
-     <td><p>ロードされたエンティティ</p><p>(<code>zilliz</code>ファイル)</p></td>
+     <td><p>ロードされたエンティティ (<code>zilliz</code>ファイル)</p></td>
      <td><p>ゲージ</p></td>
      <td><p>読み込まれたエンティティの数。</p></td>
    </tr>
    <tr>
-     <td><p>コレクション数</p><p>(<code>zilliz</code>コレクション)</p></td>
+     <td><p>コレクション数 (<code>zilliz</code>コレクション)</p></td>
      <td><p>ゲージ</p></td>
      <td><p>コレクションの数。</p></td>
    </tr>
    <tr>
-     <td><p>アンロードされたコレクション数</p><p>ダウンロード(<code>zilliz.</code>unloaded.)</p></td>
+     <td><p>アンロードされたコレクション数 ダウンロード(<code>zilliz.</code>unloaded.)</p></td>
      <td><p>ゲージ</p></td>
      <td><p>アンロードされたコレクションの数。</p></td>
    </tr>

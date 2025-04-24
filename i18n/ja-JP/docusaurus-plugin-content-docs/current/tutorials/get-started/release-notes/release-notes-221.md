@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Zilliz Cloudのローンチを発表できることを嬉しく思います。このリリースでは、新しいCUサイズオプションによる柔軟性の向上、前払いのサポート、より多くのAWSリージョンなど、さまざまな強化と機能を導入しています。 | Cloud"
 type: origin
 token: VfMmwEGR5ivR4FkCwCPc5Mb4nyh
-sidebar_position: 14
+sidebar_position: 15
 keywords: 
   - zilliz
   - vector database

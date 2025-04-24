@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

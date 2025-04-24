@@ -14,10 +14,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 
@@ -48,13 +48,13 @@ Hierarchical Navigable Small World(HNSW)は、階層的な近接グラフを作�
 
 1. 最下層に最も近いベクトルが見つかるまで、前の手順を繰り返してください。
 
-![hnsw-explained](/img/ja-JP/hnsw-explained.png)
+![hnsw-explained](/img/hnsw-explained.png)
 
 ## LSH:ハッシュベースのANNインデックスアルゴリズム{#lsh-a-hash-based-ann-indexing-algorithm}
 
 局所性に敏感なハッシング(LSH)は、さまざまなハッシュ関数を使用して、任意の長さのデータピースを固定長の値にハッシュとしてマッピングし、これらのハッシュをハッシュバケットに収集し、少なくとも1回同じ値にハッシュされたベクトルを候補ペアとしてタグ付けすることによって、ベクトル空間をインデックス化します。
 
-![locality_sensitive_hashing](/img/ja-JP/locality_sensitive_hashing.png)
+![locality_sensitive_hashing](/img/locality_sensitive_hashing.png)
 
 ## DiskANN: Vamanaグラフに基づくディスク上のANN検索{#diskann-ann-search-on-disk-based-on-vamana-graphs}
 

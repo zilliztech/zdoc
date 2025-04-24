@@ -17,10 +17,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

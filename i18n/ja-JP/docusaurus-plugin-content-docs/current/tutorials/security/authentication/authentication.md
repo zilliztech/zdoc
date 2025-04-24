@@ -7,16 +7,16 @@ notebook: FALSE
 description: "メールアカウント、APIキー、クラスター資格情報、および多要素認証(MFA)対策の管理について詳しく学びましょう。 | Cloud"
 type: origin
 token: SrspwB2DfiaSkTkkocHcHSAunGW
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - cloud
   - authentication
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

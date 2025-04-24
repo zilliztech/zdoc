@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

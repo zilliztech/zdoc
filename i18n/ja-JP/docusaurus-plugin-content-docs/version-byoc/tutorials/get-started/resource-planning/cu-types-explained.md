@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cu
   - select
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 
@@ -32,7 +32,7 @@ Zilliz Cloudでクラスタを作成する際には、適切なコンピュー�
 
 Zilliz Cloudは、次のCUタイプを提供しています:**Performance-optimized、容量最適化**、および**拡張容量。**
 
-以下の表は、異なる側面で3つのCUタイプを簡単に比較したものです。CUタイプ間の容量と性能の詳細な比較については、「[最適なCUタイプを選択](./cu-types-explained#cuselect-an-optimal-cu-type)する」を参照してください。
+以下の表は、異なる側面で3つのCUタイプを簡単に比較したものです。CUタイプ間の容量と性能の詳細な比較については、「[最適なCUタイプを選択](./cu-types-explained#select-an-optimal-cu-type)する」を参照してください。
 
 <table>
    <tr>

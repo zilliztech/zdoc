@@ -2,7 +2,7 @@
 title: "長さフィルター | BYOC"
 slug: /length-filter
 sidebar_label: "長さフィルター"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "長さフィルター（length）は、指定された`長さ` の要件を満たさないトークンを削除するため、テキスト処理中に保持されるトークンの長さを制御できます。 | BYOC"
 type: origin
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

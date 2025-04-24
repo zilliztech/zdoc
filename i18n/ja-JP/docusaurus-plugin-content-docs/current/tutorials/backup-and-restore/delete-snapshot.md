@@ -47,7 +47,7 @@ Zilliz Cloudは、手動または自動でバックアップを作成するこ�
 
 <TabItem value="Cloud Console">
 
-![delete_backups](/img/ja-JP/delete_backups.png)
+![delete_backups](/img/delete_backups.png)
 
 Zilliz Cloudが実際に削除を実行する前に、バックアップファイルを削除する要求を確認するように求められます。
 

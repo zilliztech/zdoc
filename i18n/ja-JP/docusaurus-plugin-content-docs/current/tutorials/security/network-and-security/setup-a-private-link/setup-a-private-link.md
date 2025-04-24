@@ -18,10 +18,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 
@@ -36,7 +36,7 @@ Zilliz Cloud上のクラスタへのプライベートクライアントアク�
 
 次の図は、その動作を示しています。
 
-![XUG2wLW0vhuX4kbAggzctrnknie](/img/ja-JP/XUG2wLW0vhuX4kbAggzctrnknie.png)
+![XUG2wLW0vhuX4kbAggzctrnknie](/img/XUG2wLW0vhuX4kbAggzctrnknie.png)
 
 このガイドでは、クラスターのプライベートエンドポイントの設定方法について説明します。
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 
@@ -56,7 +56,7 @@ QPSボトルネックが発生しているデータセットが少ないユー�
 
 </Admonition>
 
-![configure-replica](/byoc/ja-JP/configure-replica.png)
+![configure-replica](/img/configure-replica.png)
 
 RESTful APIを使用してレプリカを構成する方法の詳細については、[クラスター変更](/reference/restful/modify-cluster-v2)を参照してください。
 

@@ -2,7 +2,7 @@
 title: "Cnalphanumonlyフィルター | BYOC"
 slug: /cnalphanumonly-filter
 sidebar_label: "Cnalphanumonlyフィルター"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "`cnalphanumonly`フィルターは、漢字、英字、数字以外の文字を含むトークンを削除します。 | BYOC"
 type: origin
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - cnalphanumonly
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

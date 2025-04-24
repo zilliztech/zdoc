@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 
@@ -34,7 +34,7 @@ Zilliz Cloudでは、複数のコレクションを作成してデータを管�
 
 次のグラフは、8つの列と6つのエンティティを持つコレクションを示しています。
 
-![OU4cbQJr8ovxJgxmUGGc6837nVb](/byoc/ja-JP/OU4cbQJr8ovxJgxmUGGc6837nVb.png)
+![OU4cbQJr8ovxJgxmUGGc6837nVb](/img/OU4cbQJr8ovxJgxmUGGc6837nVb.png)
 
 ## スキーマとフィールド{#schema-and-fields}
 
@@ -153,4 +153,8 @@ Zilliz Cloudに対して関数を設定することで、コレクション作�
 \<ターゲットを含める="zilliz">
 
 ## 限界{#limits}
+
+コレクションの制限と制限については、[Zillizクラウドの制限](./limits)を参照してください。
+
+\</include>
 

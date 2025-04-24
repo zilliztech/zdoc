@@ -7,16 +7,16 @@ notebook: FALSE
 description: "この章では、組織の運営と関連する設定に焦点を当てています。 | BYOC"
 type: origin
 token: TPElwgyTyi3QgWkGsQncXqaonKf
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
   - cloud
   - organizations
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

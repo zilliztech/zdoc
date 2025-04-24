@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - json
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 
@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 生データをJSONファイルに準備するには、[BulkWriterツール](./use-bulkwriter)を使用することをお勧めします。次の図は、生データをJSONファイルにマップする方法を示しています。
 
-![json_data_structure](/byoc/ja-JP/json_data_structure.png)
+![json_data_structure](/img/json_data_structure.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -158,15 +158,15 @@ Zilliz Cloudは、クラウドストレージからのデータインポート�
    </tr>
    <tr>
      <td><p><strong>AWS S3</strong></p></td>
-     <td><p><code>s3://bucket-name/json-folder/</code></p><p><code>s3://bucket-name/json-folder/data.json</code></p></td>
+     <td><p><code>s3://bucket-name/json-folder/</code> <code>s3://bucket-name/json-folder/data.json</code></p></td>
    </tr>
    <tr>
      <td><p><strong>Google Cloud Storage</strong></p></td>
-     <td><p><code>gs://bucket-name/json-folder/</code></p><p><code>gs://bucket-name/json-folder/data.json</code></p></td>
+     <td><p><code>gs://bucket-name/json-folder/</code> <code>gs://bucket-name/json-folder/data.json</code></p></td>
    </tr>
    <tr>
      <td><p><strong>Azure Bolb</strong></p></td>
-     <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/</code></p><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</code></p></td>
+     <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/</code> <code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</code></p></td>
    </tr>
 </table>
 
@@ -185,7 +185,7 @@ Zilliz Cloudは、クラウドストレージからのデータインポート�
    </tr>
    <tr>
      <td><p><strong>インポートごとの最大ファイル体格</strong></p></td>
-     <td><p>クラスタの空き容量:合計512 MB</p><p>サーバーレスおよび専用クラスター:</p><ul><li><p>ファイルの体格: 10 GB</p></li><li><p>ファイルの体格: 100 GB</p></li></ul></td>
+     <td><p>クラスタの空き容量:合計512 MB サーバーレスおよび専用クラスター:</p><ul><li><p>ファイルの体格: 10 GB</p></li><li><p>ファイルの体格: 100 GB</p></li></ul></td>
    </tr>
    <tr>
      <td><p><strong>使用可能なデータファイルの場所</strong></p></td>

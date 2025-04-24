@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloudは、Milvus、Elasticsearch、pgvectorなどの外部ソースからの移行オプションを提供し、同じ組織内または異なる組織内でのクラスタ間の移行を可能にし、効率的なデータ統合と管理を可能にします。 | BYOC"
 type: origin
 token: ZIXkwM3J6izNagkeSmscEVMvngf
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - migrations
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

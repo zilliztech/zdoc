@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 
@@ -51,7 +51,7 @@ Zilliz Cloudは、ユーザーのビジネスニーズに対応するために�
 
 1. [**無料クラスタを作成**]をクリックします。
 
-    ![create_cluster_01](/img/ja-JP/create_cluster_01.png)
+    ![create_cluster_01](/img/create_cluster_01.png)
 
 1. [**新しいクラスタを作成**]セクションで、[**無料**プラン]を選択し、必要なパラメータを入力します。
 
@@ -76,7 +76,7 @@ Zilliz Cloudは、ユーザーのビジネスニーズに対応するために�
        </tr>
     </table>
 
-    ![create_cluster_02](/img/ja-JP/create_cluster_02.png)
+    ![create_cluster_02](/img/create_cluster_02.png)
 
 1. [**作成**]をクリックします。**クラスター詳細**ページにリダイレクトされ、クラスターのパブリックエンドポイントとAPIキーが表示されます。これらの詳細を記録して、今後のアクセスに備えます。
 
@@ -137,7 +137,7 @@ curl --request POST \
 
 1. [**+クラスタ**]をクリックします。
 
-    ![create_serverless_dedicated_cluster_01](/img/ja-JP/create_serverless_dedicated_cluster_01.png)
+    ![create_serverless_dedicated_cluster_01](/img/create_serverless_dedicated_cluster_01.png)
 
 1. [**新しいクラスタを作成**]セクションで、[**サーバーレス**]プランを選択し、必要なパラメータを入力します。
 
@@ -156,7 +156,7 @@ curl --request POST \
        </tr>
     </table>
 
-    ![create_serverless_cluster_form](/img/ja-JP/create_serverless_cluster_form.png)
+    ![create_serverless_cluster_form](/img/create_serverless_cluster_form.png)
 
 1. [**作成**]をクリックします。**クラスター詳細**ページにリダイレクトされ、クラスターのパブリックエンドポイントとAPIキーが表示されます。これらの詳細を記録して、今後のアクセスに備えます。
 
@@ -217,15 +217,15 @@ curl --request POST \
 
 1. [**+クラスタ**]をクリックします。
 
-    ![create_serverless_dedicated_cluster_01](/img/ja-JP/create_serverless_dedicated_cluster_01.png)
+    ![create_serverless_dedicated_cluster_01](/img/create_serverless_dedicated_cluster_01.png)
 
 1. [**新しいクラスターを作成**]ページで、関連するパラメータを入力します。
 
-    ![create-dedicated_cluster](/img/ja-JP/create-dedicated_cluster.png)
+    ![create-dedicated_cluster](/img/create-dedicated_cluster.png)
 
     - **クラスター名**:クラスターに一意の識別子を割り当てます。
 
-    - **クラウドプロバイダー設定**:クラウドサービスプロバイダーと、クラスターをデプロイする特定のリージョンを選択します。
+    - **クラウドプロバイダー設定**:クラウドサービスプロバイダーと、クラスターをデプロイする特定のリージョンを選択します。詳細については、「[クラウドプロバイダー&地域](./cloud-providers-and-regions)」を参照してください。
 
     - **CUの設定**:
 

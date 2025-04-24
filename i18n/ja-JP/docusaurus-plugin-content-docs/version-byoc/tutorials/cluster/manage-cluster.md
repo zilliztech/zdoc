@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 
@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細については、各セクションに以下の内容が記載されています。
 
-![byoc-cluster-lifecycle](/byoc/ja-JP/byoc-cluster-lifecycle.png)
+![byoc-cluster-lifecycle](/img/byoc-cluster-lifecycle.png)
 
 - **Connect**:このセクションでは、クラスターID、クラスタークラウドリージョン、接続用のパブリックエンドポイント、プライベートリンク、IPアドレスホワイトリスト、セキュアアクセス用のトークンなど、クラスターとのやり取りを開始するために必要な詳細情報を提供します。。
 
@@ -58,7 +58,7 @@ Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細に�
 
 - **クラスタに接続**
 
-    「**接続**」セクションでは、クラスターに接続するために使用される**パブリックエンドポイント**と**トークン**を見つけることができます。トークンは、ユーザー名とパスワードのペアで構成される[APIキー](./manage-api-keys)または[クラスター資格情報](./cluster-credentials)であることができます。
+    「**接続**」セクションでは、クラスターに接続するために使用される**パブリックエンドポイント**と**トークン**を見つけることができます。トークンは、ユーザー名とパスワードのペアで構成される[APIキー](./manage-api-keys)または[クラスター資格情報](null)であることができます。
 
     詳細については、「[クラスタに接続](./connect-to-cluster)」を参照してください。
 
@@ -70,7 +70,7 @@ Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細に�
 
     データインポートの詳細については、[データインポート](/docs/data-import)を参照してください。
 
-    ![manage-collections](/byoc/ja-JP/manage-collections.png)
+    ![manage-collections](/img/manage-collections.png)
 
 - **バックアップ**
 
@@ -86,9 +86,9 @@ Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細に�
 
     [**ユーザー**]タブでは、ユーザーを追加したり、パスワードをリセットしたり、削除したりできます。
 
-    詳細については、[クラスタ資格情報](./cluster-credentials)を参照してください。
+    詳細については、クラスタ資格情報を参照してください。
 
-    ![manage-users](/byoc/ja-JP/manage-users.png)
+    ![manage-users](/img/manage-users.png)
 
     <Admonition type="info" icon="📘" title="ノート">
 
@@ -115,8 +115,6 @@ Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細に�
 ## 関連するトピック{#related-topics}
 
 - [クラスタに接続](./connect-to-cluster)
-
-- [プライベートエンドポイントを設定する](./setup-a-private-link)
 
 - [バックアップと復元](./backup-and-restore)
 

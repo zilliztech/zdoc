@@ -2,7 +2,7 @@
 title: "価格設定 | Cloud"
 slug: /pipelines-pricing
 sidebar_label: "価格設定"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Zilliz Cloudパイプラインの価格を理解し、パイプラインの使用量を見積もる方法を学びましょう。 | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - pricing
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

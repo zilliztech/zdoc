@@ -7,16 +7,16 @@ notebook: FALSE
 description: "このアップデートでは、Zilliz CloudはMilvusの新しいRESTful API v 2をサポートし、一貫したインターフェースと拡張された機能を提供しています。新しいドキュメントチャットボットにより、ユーザーサポートが強化されています。ジョブセンターでは、バックアップ、復元、移行、インポート、クローン収集などのタスクを管理および追跡するための直感的なインターフェースが導入されています。プライベートプレビューで利用可能な専用クラスターの自動スケーリングは、Compute Unit(CU)Capacity Thresholdによってトリガーされ、需要に基づいて容量を動的に調整します。その他の改善点には、より多くのクラスターモニタリングメトリック、改良されたクラスター管理インターフェース、および改善されたユーザーメールテンプレートが含まれます。 | Cloud"
 type: origin
 token: OfuSwcK3PiSYAYkVYUEcsq32nib
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 
@@ -69,7 +69,7 @@ Zilliz Cloudは、需要に基づいてクラスタの容量を動的に調整�
 
 - ユーザーは、RestFul APIとUIコンソールの両方を使用して、パイプラインの詳細でパイプラインの使用状況情報を取得できるようになりました。この機能強化により、ユーザーはパイプラインの使用状況を包括的に把握して、より良いモニタリングと分析を行うことができます。詳細については、「[パイプライン利用予測](./estimate-pipelines-usage)」を参照してください。
 
-- 各プロジェクトにおける各種パイプラインの最大数の制限が引き上げられました。ユーザーは、以前の10個の制限に比べて、1つのプロジェクトで最大100個のあらゆる種類のパイプラインを作成できるようになりました。この変更により、プロジェクト内でパイプラインを管理する際の柔軟性とスケーラビリティが向上しました。すべてのパイプライン制限の詳細については、「[Zilliz Cloud Limits on Pipelines](./limits#pipelines)」を参照してください。
+- 各プロジェクトにおける各種パイプラインの最大数の制限が引き上げられました。ユーザーは、以前の10個の制限に比べて、1つのプロジェクトで最大100個のあらゆる種類のパイプラインを作成できるようになりました。この変更により、プロジェクト内でパイプラインを管理する際の柔軟性とスケーラビリティが向上しました。すべてのパイプライン制限の詳細については、「[Zilliz Cloud Limits on Pipelines](./limits)」を参照してください。
 
 ### エンハンスメント{#enhancements}
 

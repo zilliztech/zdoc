@@ -2,7 +2,7 @@
 title: "クロスアカウントIAMロールの作成 | BYOC"
 slug: /create-cross-account-role
 sidebar_label: "クロスアカウントIAMロールの作成"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "このページでは、プロジェクトをブートストラップするためにZilliz Cloudのクロスアカウントロールを作成および設定する方法について説明します。このロールにより、Zilliz Cloudはあなたの代わりにVPCリソースを管理するための制限付き権限を与えられます。 | BYOC"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 
@@ -46,17 +46,17 @@ AWSコンソールを使用してブートストラップロールを作成で�
 
 1. Zilliz Cloudコンソールで、セットアップガイドに表示されている**外部ID**をコピーします。
 
-    ![HlT5b37CKoWnsexqAk4cXYqgnpe](/byoc/ja-JP/HlT5b37CKoWnsexqAk4cXYqgnpe.png)
+    ![HlT5b37CKoWnsexqAk4cXYqgnpe](/img/HlT5b37CKoWnsexqAk4cXYqgnpe.png)
 
 1. 管理者権限を持つユーザーとして**AWSコンソール**にログインし、**IAM**ダッシュボードに移動します。
 
 1. 左サイドバーの[**役割**]タブをクリックし、[**役割を作成**]をクリックします。
 
-    ![S6eKbYvD5om0jGxUIWDcwdSEnXf](/byoc/ja-JP/S6eKbYvD5om0jGxUIWDcwdSEnXf.png)
+    ![S6eKbYvD5om0jGxUIWDcwdSEnXf](/img/S6eKbYvD5om0jGxUIWDcwdSEnXf.png)
 
 1. [**信頼できるエンティティ**の選択]で、**AWSアカウント**タイルをクリックします。
 
-    ![WQOCbEPNeoceCBxg2DVcf9Xln3g](/byoc/ja-JP/WQOCbEPNeoceCBxg2DVcf9Xln3g.png)
+    ![WQOCbEPNeoceCBxg2DVcf9Xln3g](/img/WQOCbEPNeoceCBxg2DVcf9Xln3g.png)
 
 1. [**An AWS account**]で、[**Another AWS account**]チェックボックスをオンにします。
 
@@ -80,15 +80,15 @@ AWSコンソールを使用してブートストラップロールを作成で�
 
 1. ロールが作成されたら、緑色のバーの[**View role**]をクリックしてロールの詳細に移動します。
 
-    ![IkpJbCkEiomCLJxVekpcpRD4nh5](/byoc/ja-JP/IkpJbCkEiomCLJxVekpcpRD4nh5.png)
+    ![IkpJbCkEiomCLJxVekpcpRD4nh5](/img/IkpJbCkEiomCLJxVekpcpRD4nh5.png)
 
 1. ロールの**ARN**の前にあるコピーアイコンをクリックします。
 
-    ![LRmfbjfczo3BCAxIgyyc1EIznFc](/byoc/ja-JP/LRmfbjfczo3BCAxIgyyc1EIznFc.png)
+    ![LRmfbjfczo3BCAxIgyyc1EIznFc](/img/LRmfbjfczo3BCAxIgyyc1EIznFc.png)
 
 1. Zilliz Cloudコンソールに戻り、**IAM Role ARN**の**EKS設定**にARNロールを貼り付けます。
 
-    ![BdPebdKp0oc4nkxeUVgcK3ndn7e](/byoc/ja-JP/BdPebdKp0oc4nkxeUVgcK3ndn7e.png)
+    ![BdPebdKp0oc4nkxeUVgcK3ndn7e](/img/BdPebdKp0oc4nkxeUVgcK3ndn7e.png)
 
 ### ステップ2:権限を追加する{#step-2-add-permissions}
 
@@ -96,7 +96,7 @@ AWSコンソールを使用してブートストラップロールを作成で�
 
 1. 作成したロールの詳細ページに移動します。[**権限ポリシー**]セクションで、[**権限を追加**]をクリックし、[**インラインポリシーを作成**]を選択します。
 
-    ![UjQBb1Xbxo88qExt4amchip9nmg](/byoc/ja-JP/UjQBb1Xbxo88qExt4amchip9nmg.png)
+    ![UjQBb1Xbxo88qExt4amchip9nmg](/img/UjQBb1Xbxo88qExt4amchip9nmg.png)
 
 1. 「**Specify permis**sions」ページで、「**JSON**」をクリックして**ポリシーエディタ**を開きます。その後、以下のパーミッションをコピーしてポリシーエディタに貼り付け、`{bucketName}`を「Create S3 Bucket and Role」で作成したバケットに置き換えます。
 
@@ -400,7 +400,7 @@ AWSコンソールを使用してブートストラップロールを作成で�
       }
     ```
 
-    ![OT5obistsoSodixuW5ncltJQnKe](/byoc/ja-JP/OT5obistsoSodixuW5ncltJQnKe.png)
+    ![OT5obistsoSodixuW5ncltJQnKe](/img/OT5obistsoSodixuW5ncltJQnKe.png)
 
 1. [**レビューと作成**]で、ポリシー名を入力し、権限を確認して、[**ポリシーを作成**]をクリックします。
 
@@ -410,6 +410,6 @@ AWSコンソールを使用してブートストラップロールを作成で�
 
     </Admonition>
 
-    ![LGHebTzMzoHTV1xRxIlcpV7rntc](/byoc/ja-JP/LGHebTzMzoHTV1xRxIlcpV7rntc.png)
+    ![LGHebTzMzoHTV1xRxIlcpV7rntc](/img/LGHebTzMzoHTV1xRxIlcpV7rntc.png)
 
     

@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 
@@ -100,7 +100,7 @@ Zilliz Cloudは、ベクトルデータベースシステムで一般的に必�
 
 1. ターゲットクラスタの[**ロール**]タブに移動します。[**+クラスタロール**]をクリックします。
 
-    ![add-cluster-role](/img/ja-JP/add-cluster-role.png)
+    ![add-cluster-role](/img/add-cluster-role.png)
 
 1. 役割名を入力します。
 
@@ -124,7 +124,7 @@ Zilliz Cloudは、ベクトルデータベースシステムで一般的に必�
 
     独自の特権グループを作成する必要がある場合は、[お問い合わせ](http://support.zilliz.com)ください。
 
-    ![add-cluster-role-form](/img/ja-JP/add-cluster-role-form.png)
+    ![add-cluster-role-form](/img/add-cluster-role-form.png)
 
 1. [**作成**]をクリックします。各クラスターには、最大20個のカスタムクラスターロールを設定できます。
 
@@ -132,19 +132,19 @@ Zilliz Cloudは、ベクトルデータベースシステムで一般的に必�
 
 クラスターロールが作成されたら、ユーザーにそのロールを付与できます。[ユーザー]タブに移動し、[新しいクラスターユーザーを作成](./cluster-users#create-a-cluster-user)するとき、または[既存のクラスターユーザーのロールを編集する](./cluster-users#edit-the-role-of-a-cluster-user)ときにロールを付与します。
 
-![grant-role-to-user](/img/ja-JP/grant-role-to-user.png)
+![grant-role-to-user](/img/grant-role-to-user.png)
 
 ## ユーザーから役割を取り消す{#revoke-a-role-from-a-user}
 
 クラスターロールがユーザーに適合しなくなった場合、ロールを取り消すことができます。[ユーザー]タブに移動し、対象のユーザーを見つけて、[[ロール編集](./cluster-users#edit-the-role-of-a-cluster-user)]をクリックします。ダイアログボックスで別のロールを選択します。
 
-![revoke-role-from-user](/img/ja-JP/revoke-role-from-user.png)
+![revoke-role-from-user](/img/revoke-role-from-user.png)
 
 ## カスタムクラスターロールを編集する{#edit-a-custom-cluster-role}
 
 カスタムクラスターロールの権限を調整できます。この調整は、このロールを付与されたすべてのユーザーに適用されます。
 
-![edit-custom-role](/img/ja-JP/edit-custom-role.png)
+![edit-custom-role](/img/edit-custom-role.png)
 
 ## カスタムクラスターロールを削除する{#delete-a-custom-cluster-role}
 
@@ -152,5 +152,5 @@ Zilliz Cloudは、ベクトルデータベースシステムで一般的に必�
 
 ユーザーに付与されたロールは削除できません。まず、対象のロールを付与されたユーザーを特定し、別のロールを割り当てる必要があります。
 
-![delete-cluster-role](/img/ja-JP/delete-cluster-role.png)
+![delete-cluster-role](/img/delete-cluster-role.png)
 

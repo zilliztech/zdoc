@@ -2,7 +2,7 @@
 title: "組み込みアナライザのリファレンス | Cloud"
 slug: /built-in-analyzer
 sidebar_label: "組み込みアナライザのリファレンス"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "このセクションでは、組み込みアナライザに関する詳細情報を提供します。 | Cloud"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in analyzer
-  - hybrid search
   - lexical search
   - nearest neighbor search
   - Agentic RAG
+  - rag llm architecture
 
 ---
 

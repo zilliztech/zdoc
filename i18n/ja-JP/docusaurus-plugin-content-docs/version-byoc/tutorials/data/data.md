@@ -7,17 +7,17 @@ notebook: FALSE
 description: "この章では、データ操作に焦点を当てる。 | BYOC"
 type: origin
 token: W9XywM68GiqcrokcwmDcIsDxnQe
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - cluster
   - data operations
-  - k nearest neighbor algorithm
-  - ANNS
   - Vector search
   - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

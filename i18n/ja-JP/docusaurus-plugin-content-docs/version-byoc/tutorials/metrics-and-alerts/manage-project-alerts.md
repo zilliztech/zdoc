@@ -14,10 +14,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 
@@ -47,12 +47,12 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
    <tr>
      <td><p>CUコンピュテーション</p></td>
      <td><p>%</p></td>
-     <td><p><strong>警告</strong>: 70%以上のトリガーアラートは、10分以上にわたって計算能力を利用しました。</p><p><strong>クリティカル</strong>: 90%以上のトリガーアラートは、10分以上にわたって計算能力を利用しました。</p></td>
+     <td><p><strong>警告</strong>: 70%以上のトリガーアラートは、10分以上にわたって計算能力を利用しました。 <strong>クリティカル</strong>: 90%以上のトリガーアラートは、10分以上にわたって計算能力を利用しました。</p></td>
    </tr>
    <tr>
      <td><p>CUの容量</p></td>
      <td><p>%</p></td>
-     <td><p><strong>警告</strong>:&gt;70%のトリガーアラートは、10+分のCU容量を利用しました。</p><p><strong>クリティカル</strong>: CU容量が10分以上使用され、90%以上のトリガーアラートが発生しました。</p></td>
+     <td><p><strong>警告</strong>:&gt;70%のトリガーアラートは、10+分のCU容量を利用しました。 <strong>クリティカル</strong>: CU容量が10分以上使用され、90%以上のトリガーアラートが発生しました。</p></td>
    </tr>
    <tr>
      <td><p>検索する(QPS)</p></td>
@@ -102,7 +102,7 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 - **受信者**:通知を受け取るための役割またはメールアドレスを指定します。Webhookを使用してカスタム通知チャンネルを設定することもできます。詳細については、「[通知チャンネルの管理](./manage-notification-channels)」を参照してください。
 
-![byoc-view-project-alert](/byoc/ja-JP/byoc-view-project-alert.png)
+![byoc-view-project-alert](/img/byoc-view-project-alert.png)
 
 ## プロジェクトのアラートを作成する{#create-a-project-alert}
 
@@ -110,7 +110,7 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 サポートされているカスタムアラートターゲットについては、[メトリクスとアラートのリファレンス](./metrics-alerts-reference)を参照してください。
 
-![byoc-create-alert](/byoc/ja-JP/byoc-create-alert.png)
+![byoc-create-alert](/img/byoc-create-alert.png)
 
 ## プロジェクトのアラートを編集する{#edit-a-project-alert}
 
@@ -148,7 +148,7 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 [**Alert History**]タブでトリガーされたアラートを表示します。アラートの対象、重要度レベル、時間範囲のフィルターがあります。
 
-![byoc-view-project-alert-history](/byoc/ja-JP/byoc-view-project-alert-history.png)
+![byoc-view-project-alert-history](/img/byoc-view-project-alert-history.png)
 
 ## アラート受信の設定を行う{#configure-alert-receiver-settings}
 
@@ -156,7 +156,7 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 プロジェクトアラートの[**アラート設定**]ページで、アラート受信者の設定を構成します。
 
-![byoc-alert-receiver-settings](/byoc/ja-JP/byoc-alert-receiver-settings.png)
+![byoc-alert-receiver-settings](/img/byoc-alert-receiver-settings.png)
 
 ## 関連するトピック{#related-topics}
 

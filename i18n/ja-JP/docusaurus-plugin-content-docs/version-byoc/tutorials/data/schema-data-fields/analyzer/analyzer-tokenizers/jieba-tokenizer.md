@@ -2,7 +2,7 @@
 title: "ジエバ | BYOC"
 slug: /jieba-tokenizer
 sidebar_label: "ジエバ"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "ジエバトークナイザ（`jieba`）は、中国語のテキストを構成語に分解して処理します。 | BYOC"
 type: origin
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - jieba-tokenizer
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

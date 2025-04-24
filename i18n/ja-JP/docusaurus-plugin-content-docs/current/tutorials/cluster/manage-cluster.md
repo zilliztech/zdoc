@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 
@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 フリークラスタを作成した後、コンソールに以下が表示されます。
 
-![free-cluster-lifecycle](/img/ja-JP/free-cluster-lifecycle.png)
+![free-cluster-lifecycle](/img/free-cluster-lifecycle.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -75,7 +75,7 @@ import Admonition from '@theme/Admonition';
 
         </Admonition>
 
-        ![upgrade-to-serverless](/img/ja-JP/upgrade-to-serverless.png)
+        ![upgrade-to-serverless](/img/upgrade-to-serverless.png)
 
     - **新しい専用クラスタへのアップグレード:**
 
@@ -89,7 +89,7 @@ import Admonition from '@theme/Admonition';
 
         </Admonition>
 
-        ![upgrade-to-dedicated](/img/ja-JP/upgrade-to-dedicated.png)
+        ![upgrade-to-dedicated](/img/upgrade-to-dedicated.png)
 
 ### クラスタを削除{#drop-cluster}
 
@@ -101,7 +101,7 @@ import Admonition from '@theme/Admonition';
 
 サーバーレスクラスターを作成した後、コンソールに以下が表示されます。
 
-![serverless-cluster-lifecycle](/img/ja-JP/serverless-cluster-lifecycle.png)
+![serverless-cluster-lifecycle](/img/serverless-cluster-lifecycle.png)
 
 - **接続**:このセクションでは、クラスターID、クラスタークラウドリージョン、接続用のパブリックエンドポイント、セキュアアクセス用のトークンなど、クラスターとのやり取りを開始するために必要な詳細を説明します。
 
@@ -121,7 +121,7 @@ import Admonition from '@theme/Admonition';
 
     データインポートの詳細については、[データインポート](/docs/data-import)を参照してください。
 
-    ![manage-collections](/img/ja-JP/manage-collections.png)
+    ![manage-collections](/img/manage-collections.png)
 
 - **バックアップ**
 
@@ -129,17 +129,17 @@ import Admonition from '@theme/Admonition';
 
 - **データ移行**
 
-    [**Migrations**]タブで、[Migrate]を選択すると、データの**移行**タスクを作成できます。詳細については、「[クラスタ間の移行](./undefined)」を参照してください。
+    [**Migrations**]タブで、[Migrate]を選択すると、データの**移行**タスクを作成できます。詳細については、「[クラスタ間の移行](./migrate-between-clusters)」を参照してください。
 
 ### 専用クラスタへの移行{#migrate-to-dedicated-cluster}
 
-エンタープライズグレードの機能やカスタム構成をより多く使用するには、サーバーレスクラスターを専用クラスターに移行することをお勧めします。詳細については、「[クラスタ間の移行](./undefined)」を参照してください。
+エンタープライズグレードの機能やカスタム構成をより多く使用するには、サーバーレスクラスターを専用クラスターに移行することをお勧めします。詳細については、「[クラスタ間の移行](./migrate-between-clusters)」を参照してください。
 
 ### ユーザーとアクセス制御{#users-and-access-control}
 
 各サーバーレスクラスターには、1つのデフォルトユーザーが付属しています。ユーザーを追加または削除することはできませんが、デフォルトユーザーのパスワードをリセットすることはできます。
 
-![manage-users](/img/ja-JP/manage-users.png)
+![manage-users](/img/manage-users.png)
 
 ### クラスタを削除{#drop-cluster}
 
@@ -153,7 +153,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細については、各セクションに以下の内容が記載されています。
 
-![dedicated-cluster-lifecycle](/img/ja-JP/dedicated-cluster-lifecycle.png)
+![dedicated-cluster-lifecycle](/img/dedicated-cluster-lifecycle.png)
 
 - **Connect**:このセクションでは、クラスターID、クラスタークラウドリージョン、接続用のパブリックエンドポイント、プライベートリンク、IPアドレスホワイトリスト、セキュアアクセス用のトークンなど、クラスターとのやり取りを開始するために必要な詳細情報を提供します。、。
 
@@ -163,7 +163,7 @@ Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細に�
 
 - **クラスタに接続**
 
-    「**接続**」セクションでは、クラスターに接続するために使用される**パブリックエンドポイント**と**トークン**を見つけることができます。トークンは、ユーザー名とパスワードのペアで構成される[APIキー](./manage-api-keys)または[クラスター資格情報](./cluster-credentials)であることができます。
+    「**接続**」セクションでは、クラスターに接続するために使用される**パブリックエンドポイント**と**トークン**を見つけることができます。トークンは、ユーザー名とパスワードのペアで構成される[APIキー](./manage-api-keys)または[クラスター資格情報](null)であることができます。
 
     詳細については、「[クラスタに接続](./connect-to-cluster)」を参照してください。
 
@@ -179,7 +179,7 @@ Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細に�
 
     データインポートの詳細については、[データインポート](/docs/data-import)を参照してください。
 
-    ![manage-collections](/img/ja-JP/manage-collections.png)
+    ![manage-collections](/img/manage-collections.png)
 
 - **バックアップ**
 
@@ -187,7 +187,7 @@ Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細に�
 
 - **マイグレーション**
 
-    [**Migrations**]タブで、[Migrate]を選択すると、データの**移行**タスクを作成できます。詳細については、「[クラスタ間の移行](./undefined)」を参照してください。
+    [**Migrations**]タブで、[Migrate]を選択すると、データの**移行**タスクを作成できます。詳細については、「[クラスタ間の移行](./offline-migration)」を参照してください。
 
 ### ユーザーとアクセス制御{#users-and-access-control}
 
@@ -195,9 +195,9 @@ Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細に�
 
     [**ユーザー**]タブでは、ユーザーを追加したり、パスワードをリセットしたり、削除したりできます。
 
-    詳細については、[クラスタ資格情報](./cluster-credentials)を参照してください。
+    詳細については、クラスタ資格情報を参照してください。
 
-    ![manage-users](/img/ja-JP/manage-users.png)
+    ![manage-users](/img/manage-users.png)
 
     <Admonition type="info" icon="📘" title="ノート">
 
@@ -260,7 +260,7 @@ Dedicated(Standard)クラスタの場合、**Summary**セクションのサー�
 
 - [プライベートエンドポイントを設定する](./setup-a-private-link)
 
-- [クラスタ間の移行](./undefined)
+- [クラスタ間の移行](./migrate-between-clusters)
 
 - [詳細なプラン比較](./select-zilliz-cloud-service-plans)
 

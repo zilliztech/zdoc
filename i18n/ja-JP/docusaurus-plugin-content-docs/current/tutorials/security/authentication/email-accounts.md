@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 
@@ -39,7 +39,7 @@ Zilliz Cloudに[アカウントを登録](./register-with-zilliz-cloud)すると
 
     - 国
 
-![modify_account_info](/img/ja-JP/modify_account_info.png)
+![modify_account_info](/img/modify_account_info.png)
 
 ## アカウントのメールアドレスを更新{#update-account-email-address}
 
@@ -61,13 +61,13 @@ Zilliz Cloudに[アカウントを登録](./register-with-zilliz-cloud)すると
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>組織のユーザーは、アイデンティティプロバイダー（IdP）のOktaとシングルサインオン（SSO）を設定することができます。これにより、組織のユーザーはOktaで認証し、ビジネスメールを使用してZilliz Cloudにシームレスにアクセスできます。詳細については、<a href="./saml-2-0">SAML 2.0ダウンロード</a>を参照してください。</p>
+<p>組織のユーザーは、アイデンティティプロバイダー（IdP）のOktaとシングルサインオン（SSO）を設定することができます。これにより、組織のユーザーはOktaで認証し、ビジネスメールを使用してZilliz Cloudにシームレスにアクセスできます。詳細については、<a href="./single-sign-on-with-okta_1">SAML 2.0ダウンロード</a>を参照してください。</p>
 
 </Admonition>
 
 ### パスワードログインからサードパーティログインに切り替える{#switch-from-password-login-to-third-party-login}
 
-パスワードからサードパーティ(GoogleまたはGitHub)のログインに切り替えるには、[Zilliz Cloudアカウントをサードパーティサービスにリンク](./register-with-zilliz-cloud#googlelinking-to-google-account)する手順と同じ手順に従い、事前に[MFAが無効](./multi-factor-auth#mfadisable-mfa)になっていることを確認してください。
+パスワードからサードパーティ(GoogleまたはGitHub)のログインに切り替えるには、[Zilliz Cloudアカウントをサードパーティサービスにリンク](./register-with-zilliz-cloud#linking-to-google-account)する手順と同じ手順に従い、事前に[MFAが無効](./multi-factor-auth#disable-mfa)になっていることを確認してください。
 
 ### サードパーティログインからパスワードログインに切り替える{#switch-from-third-party-login-to-password-login}
 
@@ -95,7 +95,7 @@ Zilliz Cloudアカウントを既にサードパーティのアカウントに�
 
     - パスワードをまだ設定していない場合は、メールに送信されたリンクから新しいパスワードを設定してください。パスワードが設定されると、ログイン方法が仕事用のメールと新しいパスワードに変更されます。
 
-![unlink_from_google](/img/ja-JP/unlink_from_google.png)
+![unlink_from_google](/img/unlink_from_google.png)
 
 ### GitHubアカウントからのリンク解除{#unlink-from-your-github-account}
 
@@ -109,7 +109,7 @@ Zilliz Cloudアカウントを既にサードパーティのアカウントに�
 
     - パスワードをまだ設定していない場合は、メールに送信されたリンクから新しいパスワードを設定してください。パスワードが設定されると、ログイン方法が仕事用のメールと新しいパスワードに変更されます。
 
-![unlink_from_github](/img/ja-JP/unlink_from_github.png)
+![unlink_from_github](/img/unlink_from_github.png)
 
 ## アカウントを閉じてください{#close-your-account}
 
@@ -141,4 +141,4 @@ Zilliz Cloudアカウントを既にサードパーティのアカウントに�
 
 1. アカウントが正常に削除されると、メール通知が届きます。
 
-![delete-account-en](/img/ja-JP/delete-account-en.png)
+![delete-account-en](/img/delete-account-en.png)

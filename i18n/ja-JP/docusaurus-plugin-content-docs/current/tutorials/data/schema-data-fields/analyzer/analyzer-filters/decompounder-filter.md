@@ -2,7 +2,7 @@
 title: "デコンパウンダー | Cloud"
 slug: /decompounder-filter
 sidebar_label: "デコンパウンダー"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "デコンパウンダーフィルター（decompounder）は、指定された辞書に基づいて複合語を個々のコンポーネントに分割し、複合語の一部を検索しやすくします。このフィルターは、ドイツ語など、複合語を頻繁に使用する言語に特に役立ちます。 | Cloud"
 type: origin
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - decompounder
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

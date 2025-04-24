@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
@@ -69,7 +69,7 @@ Zilliz Cloudは、インフラストラクチャを自分で管理する必要�
 
 1. [**移行**]をクリックします。
 
-![migrate_from_milvus_via_endpoint_1](/img/ja-JP/migrate_from_milvus_via_endpoint_1.png)
+![migrate_from_milvus_via_endpoint_1](/img/migrate_from_milvus_via_endpoint_1.png)
 
 ## 移行過程を監視する{#monitor-the-migration-process}
 
@@ -81,7 +81,7 @@ Zilliz Cloudは、インフラストラクチャを自分で管理する必要�
 
 </Admonition>
 
-![verify_collection](/img/ja-JP/verify_collection.png)
+![verify_collection](/img/verify_collection.png)
 
 ## 移行ジョブをキャンセル{#cancel-migration-job}
 

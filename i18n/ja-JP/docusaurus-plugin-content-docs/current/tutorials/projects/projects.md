@@ -7,16 +7,16 @@ notebook: FALSE
 description: "この章では、プロジェクトの操作と関連する設定に焦点を当てています。 | Cloud"
 type: origin
 token: AfluwWdKUiSnIgkaR4LcW5XUn1b
-sidebar_position: 8
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database
   - cloud
   - projects
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

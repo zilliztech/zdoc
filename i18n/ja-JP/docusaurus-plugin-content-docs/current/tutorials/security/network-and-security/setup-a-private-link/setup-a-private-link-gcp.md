@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
@@ -53,7 +53,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloudは、プライベートエンドポイントを追加するための直感的なWebコンソールを提供しています。ターゲットプロジェクトに移動し、左側のナビゲーションで**ネットワーク>プライベートエンドポイント**をクリックします。**+プライベートエンドポイント**をクリックします。
 
-![setup_private_link_aws_01](/img/ja-JP/setup_private_link_aws_01.png)
+![setup_private_link_aws_01](/img/setup_private_link_aws_01.png)
 
 ### クラウドプロバイダーと地域を選択する{#select-a-cloud-provider-and-region}
 
@@ -61,7 +61,7 @@ GCPリージョンにデプロイされたクラスターのプライベート�
 
 利用可能なクラウドプロバイダーとリージョンの詳細については、「[クラウドプロバイダー&地域](./cloud-providers-and-regions)」を参照してください。
 
-![setup_private_link_window_gcp](/img/ja-JP/setup_private_link_window_gcp.png)
+![setup_private_link_window_gcp](/img/setup_private_link_window_gcp.png)
 
 ### エンドポイントを作成する{#create-an-endpoint}
 
@@ -73,7 +73,7 @@ UIコンソールまたはCLIを使用して、クラウドプロバイダコン
 
     上記の文書のステップ5では、Zilliz Cloudコンソールからコピーしたサービス添付URIを使用してください。
 
-    ![service_uri_gpc](/img/ja-JP/service_uri_gpc.png)
+    ![service_uri_gpc](/img/service_uri_gpc.png)
 
 - **CLIより**
 
@@ -125,7 +125,7 @@ UIコンソールまたはCLIを使用して、クラウドプロバイダコン
 
         クラウドプロバイダーコンソールにリダイレクトされます。上部のナビゲーションで、Google Cloud Shellを有効にします。Zilliz CloudからコピーしたCLIコマンドをCloud Shellで実行してください。
 
-        ![setup_private_link_window_gcp](/img/ja-JP/setup_private_link_window_gcp.png)
+        ![setup_private_link_window_gcp](/img/setup_private_link_window_gcp.png)
 
         エンドポイントが作成されたら、[Google Cloud Private Service Connectページ](https://console.cloud.google.com/net-services/psc/list/consumers)に移動し、作成したエンドポイントの名前をコピーします。
 
@@ -157,7 +157,7 @@ gcloud compute firewall-rules create psclab-iap-consumer --network $VPC_NAME --a
 
 GCPコンソールで[Cloud DNS](https://console.cloud.google.com/net-services/dns/zones)に移動し、DNSゾーンを作成してください。
 
-![A5OubUFAUoUmA6xZSxuc1BR5nSf](/img/ja-JP/A5OubUFAUoUmA6xZSxuc1BR5nSf.png)
+![A5OubUFAUoUmA6xZSxuc1BR5nSf](/img/A5OubUFAUoUmA6xZSxuc1BR5nSf.png)
 
 1. ゾーンタイプで**プライベート**を**選択します**。
 
@@ -177,11 +177,11 @@ GCPコンソールで[Cloud DNS](https://console.cloud.google.com/net-services/d
 
 1. [**レコードセットの作成**]ページで、既定の設定で**A**レコードを作成します。
 
-    ![Wne6bTTreoB95Nxl7fgcynBBnkb](/img/ja-JP/Wne6bTTreoB95Nxl7fgcynBBnkb.png)
+    ![Wne6bTTreoB95Nxl7fgcynBBnkb](/img/Wne6bTTreoB95Nxl7fgcynBBnkb.png)
 
 1. IPv 4アドレスの**SELECT IP ADDRESS**をクリックし、**エンドポイント**のIPアドレスを選択してください。
 
-    ![PRdFbEHHzomrexx1Z1uchKz0ncg](/img/ja-JP/PRdFbEHHzomrexx1Z1uchKz0ncg.png)
+    ![PRdFbEHHzomrexx1Z1uchKz0ncg](/img/PRdFbEHHzomrexx1Z1uchKz0ncg.png)
 
 1. [**作成**]をクリックします。
 
@@ -208,20 +208,20 @@ GCPコンソールで[Cloud DNS](https://console.cloud.google.com/net-services/d
 
 </Admonition>
 
-![disable_public_endpoint](/img/ja-JP/disable_public_endpoint.png)
+![disable_public_endpoint](/img/disable_public_endpoint.png)
 
 ## トラブルシューティング{#troubleshooting}
 
 ### GCPでプライベートリンクをpingすると、常に`Name or service not known`が報告されるのはなぜですか?{#why-does-it-always-report-name-or-service-not-known-when-i-ping-the-private-link-on-gcp}
 
-DNS設定を確認するには、「[ファイアウォールルールとDNSレコードの設定](./setup-a-private-link-gcp#dnsset-up-firewall-rules-and-a-dns-record)」を参照してください。
+DNS設定を確認するには、「[ファイアウォールルールとDNSレコードの設定](./setup-a-private-link-gcp#set-up-firewall-rules-and-a-dns-record)」を参照してください。
 
 - 設定が正しい場合、プライベートリンクをpingすると、表示されるはずです
 
-    ![private_link_gcp_ts_01](/img/ja-JP/private_link_gcp_ts_01.png)
+    ![private_link_gcp_ts_01](/img/private_link_gcp_ts_01.png)
 
 - 設定が正しくない場合、プライベートリンクをpingすると、表示される場合があります
 
-    ![private_link_gcp_ts_02](/img/ja-JP/private_link_gcp_ts_02.png)
+    ![private_link_gcp_ts_02](/img/private_link_gcp_ts_02.png)
 
     

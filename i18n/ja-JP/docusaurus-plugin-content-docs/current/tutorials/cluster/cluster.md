@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloudでクラスタを管理するために必要なすべての情報。 | Cloud"
 type: origin
 token: G4YOwsWfHiWneAkyMOycLUQynsc
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
   - cloud
   - cluster
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

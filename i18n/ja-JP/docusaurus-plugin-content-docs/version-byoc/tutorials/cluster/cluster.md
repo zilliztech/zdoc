@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloudでクラスタを管理するために必要なすべての情報。 | BYOC"
 type: origin
 token: G4YOwsWfHiWneAkyMOycLUQynsc
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
   - cloud
   - cluster
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

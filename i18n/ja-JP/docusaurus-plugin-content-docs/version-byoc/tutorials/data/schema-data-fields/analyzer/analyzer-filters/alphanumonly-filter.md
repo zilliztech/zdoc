@@ -2,7 +2,7 @@
 title: "Alphanumonlyフィルター | BYOC"
 slug: /alphanumonly-filter
 sidebar_label: "Alphanumonlyフィルター"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "アルファヌモンリーフィルター（Alphanumonly）は、非ASCII文字を含むトークンを削除し、英数字の用語のみを保持します。このフィルターは、特殊文字や記号を除いて、基本的な文字と数字のみが関連するテキストを処理するのに役立ちます。 | BYOC"
 type: origin
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - alphanumonly
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - range search
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 
@@ -34,7 +34,7 @@ import TabItem from '@theme/TabItem';
 
 範囲検索リクエストを実行する場合、Zilliz Cloudは、ANN検索結果のクエリベクトルに最も類似したベクトルを中心に、検索リクエストで指定された**半径**を外側の円の半径、**range_filter**を内側の円の半径として使用して、2つの同心円を描画します。これら2つの同心円によって形成される環状領域に含まれる類似度スコアを持つすべてのベクトルが返されます。ここで、**range_filter**を**0**に設定すると、指定された類似度スコア(半径)内のすべてのエンティティが返されます。
 
-![JrMzwgnfvhxaFob5s5LcxxUxnPc](/byoc/ja-JP/JrMzwgnfvhxaFob5s5LcxxUxnPc.png)
+![JrMzwgnfvhxaFob5s5LcxxUxnPc](/img/JrMzwgnfvhxaFob5s5LcxxUxnPc.png)
 
 上の図は、範囲検索リクエストが**半径**と**range_filter**の2つのパラメータを持っていることを示しています。範囲検索リクエストを受け取ると、Zilliz Cloudは次のようにします:
 
@@ -55,27 +55,27 @@ import TabItem from '@theme/TabItem';
    <tr>
      <td><p><code>L 2</code></p></td>
      <td><p>L 2距離が小さいほど、類似度が高いことを示します。</p></td>
-     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください</p><p><code>range_filter</code>&lt;=距離&lt;<code>半径</code></p></td>
+     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください <code>range_filter</code>&lt;=距離&lt;<code>半径</code></p></td>
    </tr>
    <tr>
      <td><p><code>IP</code></p></td>
      <td><p>IP距離が大きいほど、類似度が高いことを示します。</p></td>
-     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください</p><p><code>半径</code>&lt;距離&lt;=<code>範囲フィルタ</code></p></td>
+     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください <code>半径</code>&lt;距離&lt;=<code>範囲フィルタ</code></p></td>
    </tr>
    <tr>
      <td><p><code>コサイン</code></p></td>
      <td><p>COSINE距離が大きいほど類似度が高いことを示します。</p></td>
-     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください</p><p><code>半径</code>&lt;距離&lt;=<code>範囲フィルタ</code></p></td>
+     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください <code>半径</code>&lt;距離&lt;=<code>範囲フィルタ</code></p></td>
    </tr>
    <tr>
      <td><p><code>ジャカード</code></p></td>
      <td><p>ジャッカード距離が小さいほど類似度が高いことを示す。</p></td>
-     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください</p><p><code>range_filter</code>&lt;=距離&lt;<code>半径</code></p></td>
+     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください <code>range_filter</code>&lt;=距離&lt;<code>半径</code></p></td>
    </tr>
    <tr>
      <td><p><code>ハミング</code></p></td>
      <td><p>ハミング距離が小さいほど類似度が高いことを示す。</p></td>
-     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください</p><p><code>range_filter</code>&lt;=距離&lt;<code>半径</code></p></td>
+     <td><p>最も類似したベクトル埋め込みを無視するには、確認してください <code>range_filter</code>&lt;=距離&lt;<code>半径</code></p></td>
    </tr>
 </table>
 

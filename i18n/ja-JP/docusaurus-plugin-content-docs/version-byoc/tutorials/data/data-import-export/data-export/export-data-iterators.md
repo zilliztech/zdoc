@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

@@ -64,7 +64,7 @@ Zilliz Cloudの新しいクラウドサービスプロバイダーリージョ�
 
 プランを表示するには、プロジェクトの下で特定のクラスタを選択します。[**クラスタ詳細**]タブに移動し、[**概要**]セクションでプランの詳細を確認できます。
 
-![cluster_plan](/img/ja-JP/cluster_plan.png)
+![cluster_plan](/img/cluster_plan.png)
 
 ### 与えられたコレクションには何個のCUが必要ですか?{#how-many-cus-do-i-need-for-a-given-collection}
 

@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloud上でアプリを構築するための包括的なクイックスタートガイドと関連トピック。 | BYOC"
 type: origin
 token: FDtOwKSriiayeQkFsPAcOMmQnNc
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - get started
   - milvus
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

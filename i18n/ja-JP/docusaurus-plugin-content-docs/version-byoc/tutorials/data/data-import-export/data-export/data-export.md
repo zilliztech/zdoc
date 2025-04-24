@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

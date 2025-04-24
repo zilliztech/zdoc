@@ -4,7 +4,7 @@ slug: /use-array-fields
 sidebar_label: "配列フィールド"
 beta: FALSE
 notebook: FALSE
-description: "Array型は、同じデータ型の複数の値を含むフィールドを格納するために使用されます。複数の要素を持つ属性を格納する柔軟な方法を提供し、関連するデータのセットを保存する必要があるシナリオで特に役立ちます。Zilliz Cloudクラスターでは、Arrayフィールドをベクトルデータと一緒に格納でき、より複雑なクエリやフィルタリング要件を可能にします。 | Cloud"
+description: "ARRAYフィールドは、同じデータ型の要素の順序付きセットを格納します。以下は、ARRAYフィールドがデータを格納する方法の例です。 | Cloud"
 type: origin
 token: H0cIwNvgTiIIYykQqRycBbNSnEU
 sidebar_position: 9
@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - array field
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 
@@ -28,9 +28,7 @@ import TabItem from '@theme/TabItem';
 
 # 配列フィールド
 
-Array型は、同じデータ型の複数の値を含むフィールドを格納するために使用されます。複数の要素を持つ属性を格納する柔軟な方法を提供し、関連するデータのセットを保存する必要があるシナリオで特に役立ちます。Zilliz Cloudクラスターでは、Arrayフィールドをベクトルデータと一緒に格納でき、より複雑なクエリやフィルタリング要件を可能にします。
-
-例えば、音楽推薦システムでは、Arrayフィールドは曲のタグのリストを保存できます。ユーザー行動分析では、曲のユーザー評価を保存できます。以下は典型的なArrayフィールドの例です
+ARRAYフィールドは、同じデータ型の要素の順序付きセットを格納します。以下は、ARRAYフィールドがデータを格納する方法の例です。
 
 ```json
 {
@@ -39,7 +37,15 @@ Array型は、同じデータ型の複数の値を含むフィールドを格納
 }
 ```
 
-この例では、`tags`と`ratings`は両方ともArrayフィールドです。`tags`フィールドは、ポップ、ロック、クラシックなどの曲のジャンルを表す文字列配列であり、評価フィールドは、1から5までのユーザーの`ratings`を表す整数配列です。これらのArrayフィールドは、マルチバリューデータを柔軟に格納する方法を提供し、クエリやフィルタリング中に詳細な分析を行いやすくします。
+## 限界{#}
+
+- **デフォルト値**: ARRAYフィールドはデフォルト値をサポートしていません。ただし、nullable属性をTrueに設定することで、null値を許可することができます。詳細については、「[Nullableデフォルト](./nullable-and-default)」を参照してください。
+
+- **データ型**: Arrayフィールドのすべての要素は、`element_type`で指定された同じデータ型でなければなりません。`element_type`を`VARCHAR`に設定した場合、配列要素の`max_length`も設定する必要があります。
+
+- **Array Capacity**: Arrayフィールドの要素数は、配列が作成されたときに定義された`max_capacity`の小なり以下でなければなりません。値は1から4096の範囲の整数である必要があります。
+
+- **文字列の処理**:配列フィールド内の文字列値は、意味的なエスケープや変換なしにそのまま保存されます。例えば、`'a"b"'`、`'a"b"'`、`'a\'b'`、`"a\"b"`は入力されたまま保存されますが、`'a'b'` と `"a"b"`は無効な値と見なされます。
 
 ## 配列フィールドを追加{#add-array-field}
 

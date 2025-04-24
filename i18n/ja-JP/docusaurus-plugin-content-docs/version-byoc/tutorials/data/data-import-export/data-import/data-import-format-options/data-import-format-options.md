@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 
