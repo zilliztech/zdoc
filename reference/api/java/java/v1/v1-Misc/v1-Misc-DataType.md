@@ -2,7 +2,7 @@
 title: "DataType | Java | v1"
 slug: /java/v1-Misc-DataType
 sidebar_label: "DataType"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The enum for available data types, defined by RPC proto. | Java | v1"
 type: origin

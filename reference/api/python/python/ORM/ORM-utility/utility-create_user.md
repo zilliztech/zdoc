@@ -10,19 +10,19 @@ type: docx
 token: N44ndTSrgoEBx7xCID5cXRS7n1c
 sidebar_position: 5
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - create_user()
   - pymilvus25
+  - vector search algorithms
+  - Question answering system
   - llm-as-a-judge
   - hybrid vector search
-  - Video deduplication
-  - Video similarity search
 displayed_sidebar: pythonSidebar
 
 ---

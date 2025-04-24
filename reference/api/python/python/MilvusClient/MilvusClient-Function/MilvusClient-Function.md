@@ -10,19 +10,19 @@ type: docx
 token: Xcl2dbLC6osEskxx87Wc1Q3rn4f
 sidebar_position: 3
 keywords: 
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - Function
   - pymilvus25
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: pythonSidebar
 
 ---

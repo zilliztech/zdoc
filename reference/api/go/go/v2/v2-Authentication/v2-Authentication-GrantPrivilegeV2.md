@@ -1,7 +1,7 @@
 ---
-title: "GrantV2() | Go | v2"
-slug: /go/v2-Authentication-GrantV2
-sidebar_label: "GrantV2()"
+title: "GrantPrivilegeV2() | Go | v2"
+slug: /go/v2-Authentication-GrantPrivilegeV2
+sidebar_label: "GrantPrivilegeV2()"
 beta: FALSE
 notebook: FALSE
 description: "This method grants a privilege or a privilege group to a role. | Go | v2"
@@ -15,12 +15,12 @@ displayed_sidebar: goSidebar
 import Admonition from '@theme/Admonition';
 
 
-# GrantV2()
+# GrantPrivilegeV2()
 
 This method grants a privilege or a privilege group to a role.
 
 ```plaintext
-func (c *Client) GrantV2(ctx context.Context, option GrantV2Option, callOptions ...grpc.CallOption) error
+func (c *Client) GrantPrivilegeV2(ctx context.Context, option GrantPrivilegeV2Option, callOptions ...grpc.CallOption) error
 ```
 
 ## Request Parameters{#request-parameters}
@@ -39,7 +39,7 @@ func (c *Client) GrantV2(ctx context.Context, option GrantV2Option, callOptions 
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>GrantV2Option</code></p></td>
+     <td><p><code>GrantPrivilegeV2Option</code></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,7 +48,7 @@ func (c *Client) GrantV2(ctx context.Context, option GrantV2Option, callOptions 
    </tr>
 </table>
 
-## GrantV2Option{#grantv2option}
+## GrantPrivilegeV2Option{#grantprivilegev2option}
 
 This is an interface type. The `grantV2Option` struct type implements this interface type. 
 
@@ -59,7 +59,7 @@ You can use the `NewGrantV2Option()` function to get the concrete implementation
 The signature of the `NewGrantV2Option()` is as follows:
 
 ```go
-func NewGrantV2Option(roleName, privilegeName, dbName, collectionName string) *grantV2Option
+func NewGrantPrivilegeV2Option(roleName, privilegeName, collectionName string) *grantV2Option
 ```
 
 <table>
@@ -76,11 +76,6 @@ func NewGrantV2Option(roleName, privilegeName, dbName, collectionName string) *g
    <tr>
      <td><p><code>privilegeName</code></p></td>
      <td><p>Name of the privilege or privilege group to assign. For details, refer to the <strong>Privilege name</strong> column in the table on page Users and Roles.</p></td>
-     <td><p><code>string</code></p></td>
-   </tr>
-   <tr>
-     <td><p><code>dbName</code></p></td>
-     <td><p>Name of the target database.</p></td>
      <td><p><code>string</code></p></td>
    </tr>
    <tr>
@@ -101,7 +96,21 @@ Null
 ## Example{#example}
 
 ```go
-// TODO 
-// https://milvus.io/api-reference/pymilvus/v2.5.x/MilvusClient/Authentication/grant_privilege.md
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    // handle error
+}
+
+defer cli.Close(ctx)
+
+err = cli.GrantPrivilegeV2(ctx, milvusclient.NewGrantPrivilegeV2Option("my_role", "Search", "quick_setup"))
+if err != nil {
+    // handle error
+}
 ```
 

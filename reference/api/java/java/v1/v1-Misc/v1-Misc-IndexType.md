@@ -2,7 +2,7 @@
 title: "IndexType | Java | v1"
 slug: /java/v1-Misc-IndexType
 sidebar_label: "IndexType"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The enumeration for available index types. | Java | v1"
 type: origin

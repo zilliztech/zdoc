@@ -2,7 +2,7 @@
 title: "dropIndex() | Java | v1"
 slug: /java/v1-Index-dropIndex
 sidebar_label: "dropIndex()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "MilvusClient interface. This method drops an index of a field for the specified collection. | Java | v1"
 type: origin

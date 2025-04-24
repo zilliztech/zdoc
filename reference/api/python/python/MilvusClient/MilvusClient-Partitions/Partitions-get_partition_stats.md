@@ -10,19 +10,19 @@ type: docx
 token: Jjbsd2I8doQ9pBxBp57ckRdZnZd
 sidebar_position: 3
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - get_partition_stats()
   - pymilvus25
+  - Faiss
   - Video search
   - AI Hallucination
   - AI Agent
-  - semantic search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -8,21 +8,21 @@ notebook: false
 description: "This operation checks whether a specific collection exists. | Java | v2"
 type: docx
 token: Vs26d4WrYoJ3moxuLifcyP2enyh
-sidebar_position: 14
+sidebar_position: 19
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud
   - hasCollection()
-  - javaV2
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - javaV225
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: javaSidebar
 
 ---

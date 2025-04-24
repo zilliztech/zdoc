@@ -8,21 +8,21 @@ notebook: false
 description: "This is an enumeration that provides the following constants. | Node.js"
 type: docx
 token: Of5xdscL1o5Svzxy8yOckqaMnzg
-sidebar_position: 12
+sidebar_position: 16
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - IndexType
-  - node
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - nodejs25
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: nodeSidebar
 
 ---

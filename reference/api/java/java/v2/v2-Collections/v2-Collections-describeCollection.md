@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists detailed information about a specific collection. | Java | v2"
 type: docx
 token: Lc03dk5YVo8Ilvx4XINcv5KBn9e
-sidebar_position: 9
+sidebar_position: 12
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
-  - javaV2
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - javaV225
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: javaSidebar
 
 ---

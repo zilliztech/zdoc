@@ -10,19 +10,19 @@ type: docx
 token: FHcYdN4apoI5TIx0LxScISvtn0f
 sidebar_position: 10
 keywords: 
-  - Chroma vs Milvus
   - Annoy vector search
   - milvus
   - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - drop_collection()
   - pymilvus25
+  - Zilliz
   - milvus vector database
   - milvus db
   - milvus vector db
-  - Zilliz Cloud
 displayed_sidebar: pythonSidebar
 
 ---

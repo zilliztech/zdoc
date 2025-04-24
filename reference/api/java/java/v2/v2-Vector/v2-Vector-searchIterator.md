@@ -10,19 +10,19 @@ type: docx
 token: M4IqdsRCNotiM4xdOA0cWSnUngb
 sidebar_position: 8
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - searchIterator()
-  - javaV2
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - javaV225
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: javaSidebar
 
 ---
@@ -103,22 +103,22 @@ BaseVector is a base class for abstract vector classes. The following classes ar
    </tr>
    <tr>
      <td><p>FloatVec</p></td>
-     <td><p>FloatVec(List\<Float> data)FloatVec(float[] data)</p></td>
+     <td><p>FloatVec(List\<Float> data) FloatVec(float[] data)</p></td>
      <td><p>For DataType.FloatVector type field.</p></td>
    </tr>
    <tr>
      <td><p>BinaryVec</p></td>
-     <td><p>BinaryVec(ByteBuffer data)BinaryVec(byte[] data)</p></td>
+     <td><p>BinaryVec(ByteBuffer data) BinaryVec(byte[] data)</p></td>
      <td><p>For DataType.BinaryVector type field.</p></td>
    </tr>
    <tr>
      <td><p>Float16Vec</p></td>
-     <td><p>Float16Vec(ByteBuffer data)Float16Vec(byte[] data)Float16Vec(List\<Float> data)</p></td>
+     <td><p>Float16Vec(ByteBuffer data) Float16Vec(byte[] data) Float16Vec(List\<Float> data)</p></td>
      <td><p>For DataType.Float16Vector type field.</p></td>
    </tr>
    <tr>
      <td><p>BFloat16Vec</p></td>
-     <td><p>BFloat16Vec(ByteBuffer data)BFloat16Vec(byte[] data)BFloat16Vec(List\<Float> data)</p></td>
+     <td><p>BFloat16Vec(ByteBuffer data) BFloat16Vec(byte[] data) BFloat16Vec(List\<Float> data)</p></td>
      <td><p>For DataType.BFloat16Vector type field.</p></td>
    </tr>
    <tr>

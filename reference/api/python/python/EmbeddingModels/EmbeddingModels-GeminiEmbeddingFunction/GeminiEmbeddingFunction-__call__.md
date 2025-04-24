@@ -10,19 +10,19 @@ type: docx
 token: Pvdhdb8IrozdCgx3N4fcTWdWnPg
 sidebar_position: 4
 keywords: 
-  - Vector embeddings
-  - Vector store
   - open source vector database
   - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
+  - what is milvus
+  - milvus database
   - milvus lite
   - milvus benchmark
-  - managed milvus
-  - Serverless vector database
 displayed_sidebar: pythonSidebar
 
 ---

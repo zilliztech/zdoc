@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Java | v2"
 type: docx
-token: RycIdCl3LoLMAMxNOEhcgMutnig
+token: W1mxdmaelo4co4x0ruwcTWQrn5b
 sidebar_position: 7
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - search()
-  - javaV2
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - javaV225
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: javaSidebar
 
 ---
@@ -48,16 +48,18 @@ search(SearchReq.builder()
     .topK(int topK)
     .filter(String filter)
     .outputFields(List<String> outputFields)
-    .data(List<Object> data)
+    .data(List<BaseVector> data)
     .offset(long offset)
     .limit(long limit)
     .roundDecimal(int roundDecimal)
-    .searchParams(Map<String,Object> searchParams)
+    .searchParams(String searchParams)
     .guaranteeTimestamp(long guaranteeTimestamp)
     .gracefulTime(long gracefulTime)
     .consistencyLevel(ConsistencyLevel consistencyLevel)
     .ignoreGrowing(boolean ignoreGrowing)
     .groupByFieldName(String fieldName)
+    .groupSize(Integer groupSize)
+    .strictGroupSize(Boolean strictGroupSize)
     .build()
 )
 ```
@@ -96,11 +98,37 @@ search(SearchReq.builder()
 
     The value defaults to **None**. If left unspecified, all fields are selected as the output fields.
 
-- `data(List<Object> data)`
+- `data(List<BaseVector> data)`
 
     A list of vector embeddings.
 
     Zilliz Cloud searches for the most similar vector embeddings to the specified ones.
+
+    BaseVector is a base class for abstract vector classes. The following classes are derived from BaseVector. Choose the correct class as input according to DataType of the vector field.
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>In Java SDK v2.3.7 or earlier versions, this method is named <code>distance</code>. Since Java SDK v2.3.8, this method is renamed as <code>score</code>.</p>
+
+    </Admonition>
+
+    <table>
+       <tr>
+         <th><p><strong>Class Name</strong></p></th>
+         <th><p><strong>Constructors</strong></p></th>
+         <th><p><strong>Description</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>FloatVec</p></td>
+         <td><p>FloatVec(List\<Float> data) FloatVec(float[] data)</p></td>
+         <td><p>For DataType.FloatVector type field.</p></td>
+       </tr>
+       <tr>
+         <td><p>BinaryVec</p></td>
+         <td><p>BinaryVec(ByteBuffer data) BinaryVec(byte[] data)</p></td>
+         <td><p>For DataType.BinaryVector type field.</p></td>
+       </tr>
+    </table>
 
 - `offset(long offset)`
 
@@ -117,6 +145,8 @@ search(SearchReq.builder()
     You can use this parameter in combination with `offset` to enable pagination.
 
     The sum of this value and `offset` should be less than 16,384. 
+
+    In a grouping search, however, `limit` specifies the maximum number of groups to return, rather than individual entities. Each group is formed based on the specified `groupByFieldName`.
 
 - `roundDecimal(int roundDecimal)`
 
@@ -184,11 +214,11 @@ search(SearchReq.builder()
 
 - `ignoreGrowing(boolean ignoreGrowing)`
 
-Whether to ignore growing segments during similarity searches.
+    Whether to ignore growing segments during similarity searches.
 
 - `groupByFieldName(String fieldName)`
 
-Sets the field name to do grouping for results.
+    Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.
 
 **RETURN TYPE:**
 

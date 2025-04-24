@@ -1,28 +1,28 @@
 ---
 displayed_sidbar: nodeSidebar
-title: "updatePassword() | Node.js"
-slug: /node/node/Authentication-updatePassword
-sidebar_label: "updatePassword()"
+title: "removePrivilegesFromGroup() | Node.js"
+slug: /node/node/Authentication-removePrivilegesFromGroup
+sidebar_label: "removePrivilegesFromGroup()"
 beta: false
 notebook: false
-description: "This operation updates the password of a specific user. | Node.js"
+description: "This operation removes privileges from a specific privilege group in Milvus. | Node.js"
 type: docx
-token: BCGKdCttdotF32xUJTec8UFlndg
-sidebar_position: 15
+token: EeAfdukBNoIIgCxX248c6VULnOb
+sidebar_position: 20
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
-  - updatePassword()
-  - node
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - removePrivilegesFromGroup()
+  - nodejs25
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 displayed_sidebar: nodeSidebar
 
 ---
@@ -30,44 +30,37 @@ displayed_sidebar: nodeSidebar
 import Admonition from '@theme/Admonition';
 
 
-# updatePassword()
+# removePrivilegesFromGroup()
 
-This operation updates the password of a specific user.
+This operation removes privileges from a specific privilege group in Milvus.
 
 ```javascript
-updatePassword(data): Promise<ResStatus>
+removePrivilegesFromGroup(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}
 
 ```javascript
-milvusClient.updateUser({
-   username: string,
-   newPassword: string,
-   oldPassword: string,
+milvusClient.removePrivilegesFromGroup({
+   group_name: string,
+   privileges: string[],
    timeout?: number
  })
 ```
 
 **PARAMETERS:**
 
-- **username** (*str*) -
+- **group_name** (*string*) -
 
     **[REQUIRED]**
 
-    The name of an existing user.
+    The name of a privilege group.
 
-- **oldPassword** (*str*) -
-
-    **[REQUIRED]**
-
-    The original password of the user.
-
-- **newPassword** (*str*) -
+- **privileges** (*string[]*) -
 
     **[REQUIRED]**
 
-    The new password of the user.
+    The list of privileges to remove from the above group.
 
 - **timeout** (*number*) -  
 
@@ -104,10 +97,9 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example{#example}
 
 ```java
-milvusClient.updateUser({
-   username: 'exampleUser',
-   newPassword: 'newPassword',
-   oldPassword: 'oldPassword',
- })
+await milvusClient.removePrivilegesFromGroup({
+    group_name: 'exampleGroup',
+    privileges: ['CreateCollection', 'DropCollection'],
+});
 ```
 

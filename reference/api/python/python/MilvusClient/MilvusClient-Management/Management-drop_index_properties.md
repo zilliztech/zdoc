@@ -10,19 +10,19 @@ type: docx
 token: M2kXd5zWSoMIOnxXWamcgCkznih
 sidebar_position: 15
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - drop_index_properties()
   - pymilvus25
+  - llm hallucinations
+  - hybrid search
   - lexical search
   - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
 displayed_sidebar: pythonSidebar
 
 ---

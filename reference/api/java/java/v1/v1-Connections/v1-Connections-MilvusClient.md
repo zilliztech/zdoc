@@ -2,7 +2,7 @@
 title: "MilvusClient | Java | v1"
 slug: /java/v1-Connections-MilvusClient
 sidebar_label: "MilvusClient"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "MilvusClient is an abstract interface of the Milvus client. MilvusServiceClient class is the implementation. | Java | v1"
 type: origin
@@ -36,7 +36,7 @@ Methods of MilvusClient for connection:
    <tr>
      <td><p>withTimeout(long timeout, TimeUnit timeoutUnit)</p></td>
      <td><p>Timeout setting for RPC call.</p></td>
-     <td><p>timeout: The timeout period when invoking a method.</p><p>timeoutUnit: The unit for timeout.</p></td>
+     <td><p>timeout: The timeout period when invoking a method. timeoutUnit: The unit for timeout.</p></td>
      <td><p>MilvusClient</p></td>
    </tr>
    <tr>
@@ -47,13 +47,13 @@ Methods of MilvusClient for connection:
    </tr>
    <tr>
      <td><p>close(long maxWaitSeconds)</p></td>
-     <td><p>Disconnects from a Milvus server with a configurable timeout value. Call this method before the application terminates.This method throws an <code>InterruptedException</code> exception if it is interrupted.</p></td>
+     <td><p>Disconnects from a Milvus server with a configurable timeout value. Call this method before the application terminates. This method throws an <code>InterruptedException</code> exception if it is interrupted.</p></td>
      <td><p>maxWaitSeconds: The timeout period to wait for the RPC channel to close.</p></td>
      <td><p>N/A</p></td>
    </tr>
    <tr>
      <td><p>setLogLevel(LogLevel level)</p></td>
-     <td><p>Set log level in runtime.Note: this method cannot change the log level configured by log4j configurations. It only hides some logs inside the MilvusClient class.</p></td>
+     <td><p>Set log level in runtime. Note: this method cannot change the log level configured by log4j configurations. It only hides some logs inside the MilvusClient class.</p></td>
      <td><p>level: A log level</p></td>
      <td><p>N/A</p></td>
    </tr>

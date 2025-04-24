@@ -10,19 +10,19 @@ type: docx
 token: JiN3dU8zwoPdgBxxpw6c0JkUnze
 sidebar_position: 7
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
   - pymilvus25
-  - Pinecone vector database
   - Audio search
   - what is semantic search
   - Embedding model
+  - image similarity search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -2,7 +2,7 @@
 title: "upsertAsync | Java | v1"
 slug: /java/v1-Collection-upsertAsync
 sidebar_label: "upsertAsync"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "A MilvusClient interface. This method inserts new entities into a specified collection, and replaces them if the entities already exist. | Java | v1"
 type: origin

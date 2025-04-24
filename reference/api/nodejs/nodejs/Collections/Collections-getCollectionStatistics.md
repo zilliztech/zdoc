@@ -8,17 +8,17 @@ notebook: false
 description: "This operation lists the statistics collected on a specific collection. | Node.js"
 type: docx
 token: LQMGdRHjKogdeMxekCtcdBLqnNf
-sidebar_position: 10
+sidebar_position: 13
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStatistics()
-  - node
+  - nodejs25
   - HNSW
   - What is unstructured data
   - Vector embeddings

@@ -10,19 +10,19 @@ type: docx
 token: T1npdvcRMoIjezxK021cPvfpn7c
 sidebar_position: 6
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - pymilvus25
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: pythonSidebar
 
 ---
@@ -36,8 +36,9 @@ This operation conducts a vector similarity search with an optional scalar filte
 
 ## Request syntax{#request-syntax}
 
-```python
+```plaintext
 search(
+    self,
     collection_name: str,
     data: Union[List[list], list],
     filter: str = "",
@@ -46,8 +47,9 @@ search(
     search_params: Optional[dict] = None,
     timeout: Optional[float] = None,
     partition_names: Optional[List[str]] = None,
+    anns_field: Optional[str] = None,
     **kwargs,
-) -> List[dict]
+) -> List[List[dict]]
 ```
 
 **PARAMETERS:**

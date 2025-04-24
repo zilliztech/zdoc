@@ -10,19 +10,19 @@ type: docx
 token: H7eOdq9hOo7so7xes5LchIVwnrb
 sidebar_position: 5
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - create_collection()
   - pymilvus25
+  - Recommender systems
+  - information retrieval
   - dimension reduction
   - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

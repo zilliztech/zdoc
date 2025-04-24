@@ -10,19 +10,19 @@ type: docx
 token: KzCXdTVVSoOmkbxuFjsccDlXnff
 sidebar_position: 2
 keywords: 
+  - what are vector databases
   - vector databases comparison
   - Faiss
   - Video search
-  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - connect()
   - pymilvus25
-  - Similarity Search
-  - multimodal RAG
   - llm hallucinations
   - hybrid search
+  - lexical search
+  - nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

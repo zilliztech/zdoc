@@ -2,7 +2,7 @@
 title: "RemoteBulkWriter | Java | v1"
 slug: /java/v1-BulkWriter-RemoteBulkWriter
 sidebar_label: "RemoteBulkWriter"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "A RemoteBulkWriter instance writes your raw data in a format that Milvus understands into an AWS-S3-compatible bucket. | Java | v1"
 type: origin
@@ -127,7 +127,7 @@ Methods of `AzureConnectParam.Builder`:
     <tr>
         <td><p>withAccountUrl(String accountUrl)</p></td>
         <td><p>Sets the account url.</p></td>
-        <td><p>accountUrl: A string in format like https://\<storage-account>.<a href="http://blob.core.windows.net">blob.core.windows.net</a>Read this link for more info:<a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview">https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview</a></p></td>
+        <td><p>accountUrl: A string in format like https://\<storage-account>.blob.core.windows.netRead this link for more info:<a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview">https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview</a></p></td>
     </tr>
     <tr>
         <td><p>withCredential(TokenCredential credential)</p></td>

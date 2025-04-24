@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists detailed information about a specific collection. | Node.js"
 type: docx
 token: TjqHdZqO1oSwwYxuny2cchWzn6S
-sidebar_position: 7
+sidebar_position: 9
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
-  - node
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - nodejs25
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: nodeSidebar
 
 ---

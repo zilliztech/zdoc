@@ -10,19 +10,19 @@ type: docx
 token: NOX7dAR3zodEH3xinMecMjq5n4S
 sidebar_position: 1
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
-  - javaV2
+  - javaV225
+  - nlp search
+  - hallucinations llm
   - Multimodal search
   - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
 displayed_sidebar: javaSidebar
 
 ---

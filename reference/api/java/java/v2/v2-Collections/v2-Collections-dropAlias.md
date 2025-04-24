@@ -8,21 +8,21 @@ notebook: false
 description: "This operation drops a specified collection alias. | Java | v2"
 type: docx
 token: MBy3dDXFbo0buwxkh0IczwLInPf
-sidebar_position: 10
+sidebar_position: 14
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - dropAlias()
-  - javaV2
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - javaV225
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 displayed_sidebar: javaSidebar
 
 ---

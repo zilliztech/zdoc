@@ -2,7 +2,7 @@
 title: "alterAlias() | Java | v1"
 slug: /java/v1-Alias-alterAlias
 sidebar_label: "alterAlias()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "A MilvusClient interface. This method alters an alias from one collection to another. | Java | v1"
 type: origin

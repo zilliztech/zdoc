@@ -10,19 +10,19 @@ type: docx
 token: FZuddXocNopEufxRFGdcbvkRnnb
 sidebar_position: 6
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - list_databases()
   - pymilvus25
+  - Embedding model
+  - image similarity search
+  - Context Window
   - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
 displayed_sidebar: pythonSidebar
 
 ---

@@ -8,21 +8,21 @@ notebook: false
 description: "This operation drops a specified collection alias. | Node.js"
 type: docx
 token: FubcdxJ0LoyQiJxmUMjcZnbjnbc
-sidebar_position: 8
+sidebar_position: 10
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - dropAlias()
-  - node
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - nodejs25
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: nodeSidebar
 
 ---

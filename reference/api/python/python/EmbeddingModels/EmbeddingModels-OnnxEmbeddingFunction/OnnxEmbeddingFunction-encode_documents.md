@@ -10,19 +10,19 @@ type: docx
 token: XfxvdiIdOokuN1xiVBWct34Wnre
 sidebar_position: 1
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus25
+  - milvus vector database
+  - milvus db
   - milvus vector db
   - Zilliz Cloud
-  - what is milvus
-  - milvus database
 displayed_sidebar: pythonSidebar
 
 ---

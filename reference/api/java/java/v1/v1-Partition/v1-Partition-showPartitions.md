@@ -2,7 +2,7 @@
 title: "showPartitions() | Java | v1"
 slug: /java/v1-Partition-showPartitions
 sidebar_label: "showPartitions()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "MilvusClient interface. This method shows all partitions in the specified collection. | Java | v1"
 type: origin
