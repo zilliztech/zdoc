@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

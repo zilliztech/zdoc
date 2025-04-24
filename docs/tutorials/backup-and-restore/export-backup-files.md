@@ -17,10 +17,10 @@ keywords:
   - integrate
   - object
   - storage
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 
@@ -44,6 +44,10 @@ You can export backup files to object storage using the Zilliz Cloud console.
 - You have **Organization Owner** or **Project Admin** access to the project. If you do not have necessary permissions, contact your Zilliz Cloud administrator.
 
 ## Procedure{#procedure}
+
+You can export backup files from Zilliz Cloud either via the Zilliz Cloud console or through the RESTful API. 
+
+### Export via Zilliz Cloud console{#export-via-zilliz-cloud-console}
 
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
@@ -70,6 +74,37 @@ You can export backup files to object storage using the Zilliz Cloud console.
 1. Then, click **Export**.
 
 ![export-backup-file](/img/export-backup-file.png)
+
+### Export through RESTful API{#export-through-restful-api}
+
+Before you can export backup files from Zilliz Cloud via the [Export Backup Files](/reference/restful/export-backup-files-v2) RESTful API endpoint, you have to integrate one of your AWS S3 buckets with Zilliz Cloud and obtain its integration ID. For details, refer to [Obtain the integration ID](./integrate-with-aws-s3#obtain-the-integration-id).
+
+```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export TOKEN="YOUR_API_KEY"
+export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
+export BACKUP_ID="backup-xxxxxxxxxxxxxxx"
+
+curl --request POST \
+--url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}/export" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "integrationId": "inter-xxxxxxx",
+    "directory": "destdir/"
+}'
+```
+
+The response to the above request would be a Job ID as follows:
+
+```bash
+{
+    "code": 0,
+    "data": {
+        "jobId": "job-0396450098cglufig6afm9"
+    }
+}
+```
 
 ## Monitor export progress{#monitor-export-progress}
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

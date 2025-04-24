@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

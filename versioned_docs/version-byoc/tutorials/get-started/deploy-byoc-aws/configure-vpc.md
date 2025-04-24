@@ -18,10 +18,10 @@ keywords:
   - subnet
   - milvus
   - vector database
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 
@@ -113,7 +113,7 @@ On the AWS console, you can create the VPC and related resources enumerated in [
 
 1. In **VPC settings**, set as depicted in the following snapshot.
 
-    ![create-aws-vpc-byoc](/byoc/create-aws-vpc-byoc.png)
+    ![create-aws-vpc-byoc](/img/create-aws-vpc-byoc.png)
 
     1. Click **VPC and more**. In **Name tag auto-generation**, enter a name for your project.
 
@@ -139,19 +139,19 @@ On the AWS console, you can create the VPC and related resources enumerated in [
 
 1. In the **Details** section, copy the VPC ID, and paste it back to Zilliz Cloud.
 
-    ![Rkj2bzxw0ocgLzxE63AcJ0VEnHe](/byoc/Rkj2bzxw0ocgLzxE63AcJ0VEnHe.png)
+    ![Rkj2bzxw0ocgLzxE63AcJ0VEnHe](/img/Rkj2bzxw0ocgLzxE63AcJ0VEnHe.png)
 
 1. In the **Resource map** section, click the external link icon at the end of each private subnet to view its details.
 
-    ![VecQbx7epoBqABx8vKOcaIS7nDd](/byoc/VecQbx7epoBqABx8vKOcaIS7nDd.png)
+    ![VecQbx7epoBqABx8vKOcaIS7nDd](/img/VecQbx7epoBqABx8vKOcaIS7nDd.png)
 
 1. On the **Subnet Details** page, copy the subnet ID. 
 
-    ![GPimbEY2Aoz5UtxUCxkcqrAYnjc](/byoc/GPimbEY2Aoz5UtxUCxkcqrAYnjc.png)
+    ![GPimbEY2Aoz5UtxUCxkcqrAYnjc](/img/GPimbEY2Aoz5UtxUCxkcqrAYnjc.png)
 
 1. Then click **Manage tags**. On the page prompted open, click **Add new tag**, and set **Key** of the new tag list entry to `kubernetes.io/role/internal-elb` and **Value** to `1`. Then click **Save**.
 
-    ![HZdBb4d4QoLEUzxrkxpcqro4nTe](/byoc/HZdBb4d4QoLEUzxrkxpcqro4nTe.png)
+    ![HZdBb4d4QoLEUzxrkxpcqro4nTe](/img/HZdBb4d4QoLEUzxrkxpcqro4nTe.png)
 
 ### Step 2: Create a security group{#step-2-create-a-security-group}
 
@@ -163,27 +163,27 @@ Security groups in a VPC protect your AWS resources by controlling inbound and o
 
 1. Set **Security group name** and **Description** and select the VPC you previously created from the VPC drop-down list.
 
-    ![W6n9b4BRVoVi8PxgrLUcajOtnSc](/byoc/W6n9b4BRVoVi8PxgrLUcajOtnSc.png)
+    ![W6n9b4BRVoVi8PxgrLUcajOtnSc](/img/W6n9b4BRVoVi8PxgrLUcajOtnSc.png)
 
 1. Click **Add rule** in the **Inbound rules** section to create an inbound rule.
 
 1. Select **Anywhere-IPv4** in **Source** or enter a CIDR block from which access is allowed in the text box on the right of the **Source** drop-down.
 
-    ![Z6SObL7FYofXBuxk46WcuRsbnLb](/byoc/Z6SObL7FYofXBuxk46WcuRsbnLb.png)
+    ![Z6SObL7FYofXBuxk46WcuRsbnLb](/img/Z6SObL7FYofXBuxk46WcuRsbnLb.png)
 
 1. Add a record, select **HTTPS** in **Type** and **Anywhere-IPv4** in **Destination** or enter a CIDR block to which access is allowed in the text box on the right of the **Destination** drop-down.
 
-    ![N0B8bIiXdobTjUxp1AVc76Xcnsc](/byoc/N0B8bIiXdobTjUxp1AVc76Xcnsc.png)
+    ![N0B8bIiXdobTjUxp1AVc76Xcnsc](/img/N0B8bIiXdobTjUxp1AVc76Xcnsc.png)
 
 1. In the **Tags** section, add a key-value pair as depicted in the following screenshot.
 
-    ![FlaPbHes2oLjZ8xO1X9cppYTnyc](/byoc/FlaPbHes2oLjZ8xO1X9cppYTnyc.png)
+    ![FlaPbHes2oLjZ8xO1X9cppYTnyc](/img/FlaPbHes2oLjZ8xO1X9cppYTnyc.png)
 
 1. Click **Create security group** to save the security group.
 
 1. Copy the security group ID back to Zilliz Cloud.
 
-    ![KMuWbhLTVoiyCjx1HXjcGERunZd](/byoc/KMuWbhLTVoiyCjx1HXjcGERunZd.png)
+    ![KMuWbhLTVoiyCjx1HXjcGERunZd](/img/KMuWbhLTVoiyCjx1HXjcGERunZd.png)
 
 ### Step 3: (Optional) Create a VPC endpoint{#step-3-optional-create-a-vpc-endpoint}
 
@@ -201,7 +201,7 @@ VPC endpoint ensures secure cluster connectivity relay and enables private calls
 
 1. Set **Name tag** or leave it blank to let AWS generate one for you. For **Type**, choose **Endpoint services that use NLBs and GWLBs**.
 
-    ![GRIrbg4sYoN75oxCnRsci3JnnLO](/byoc/GRIrbg4sYoN75oxCnRsci3JnnLO.png)
+    ![GRIrbg4sYoN75oxCnRsci3JnnLO](/img/GRIrbg4sYoN75oxCnRsci3JnnLO.png)
 
 1. In **Service settings**, fill Zilliz Cloud VPC endpoint of your region in **Service name** and click **Verify service**. 
 
@@ -225,15 +225,15 @@ VPC endpoint ensures secure cluster connectivity relay and enables private calls
        </tr>
     </table>
 
-    ![VYLlboU8fofvUPx6NYUcGztpn3s](/byoc/VYLlboU8fofvUPx6NYUcGztpn3s.png)
+    ![VYLlboU8fofvUPx6NYUcGztpn3s](/img/VYLlboU8fofvUPx6NYUcGztpn3s.png)
 
 1. In Network settings, select [the VPC created above](./configure-vpc#step-1-create-vpc-and-resources), and select **Enable DNS name**.
 
-    ![DyH3b9kOro2wf6xGcsUcD2DbnVo](/byoc/DyH3b9kOro2wf6xGcsUcD2DbnVo.png)
+    ![DyH3b9kOro2wf6xGcsUcD2DbnVo](/img/DyH3b9kOro2wf6xGcsUcD2DbnVo.png)
 
 1. In **Subnet**, select [the private subnets created along with the VPC](./configure-vpc#step-1-create-vpc-and-resources). 
 
-    ![IdcebwU1Ao4QffxGwYTceh9AnVe](/byoc/IdcebwU1Ao4QffxGwYTceh9AnVe.png)
+    ![IdcebwU1Ao4QffxGwYTceh9AnVe](/img/IdcebwU1Ao4QffxGwYTceh9AnVe.png)
 
 1. In **Security groups**, select [the security group created above](./configure-vpc#step-2-create-a-security-group).
 
@@ -241,11 +241,83 @@ VPC endpoint ensures secure cluster connectivity relay and enables private calls
 
 1. Copy the VPC Endpoint ID back to Zilliz Cloud.
 
-    ![B8LebFyuPofym4xT0S9c1fMMnDg](/byoc/B8LebFyuPofym4xT0S9c1fMMnDg.png)
+    ![B8LebFyuPofym4xT0S9c1fMMnDg](/img/B8LebFyuPofym4xT0S9c1fMMnDg.png)
 
-### Step 4: Submit VPC information to Zilliz Cloud{#step-4-submit-vpc-information-to-zilliz-cloud}
+### Step 4: (Optional) Set up a DNS record{#step-4-optional-set-up-a-dns-record}
+
+You can optionally configure a private link between your VPC and that of Zilliz BYOC so that your traffic will be encrypted. To do so, you need to create a hosted zone, associate it with your VPC, and create a CNAME record in the hosted zone to resolve the Zilliz BYOC domain name to your VPC endpoint. 
+
+1. Create a hosted zone using Amazon Route 53.
+
+    Amazon Route 53 is a web-based DNS service. Create a hosted DNS zone so that you can add DNS records to it.
+
+    ![CtSAbhMSFoiR2hx8QIGcQbYFnbd](/img/CtSAbhMSFoiR2hx8QIGcQbYFnbd.png)
+
+    1. Log into your AWS account and go to [Hosted zones](https://us-east-1.console.aws.amazon.com/route53/v2/hostedzones#).
+
+    1. Click **Create hosted zone**.
+
+    1. In the **Hosted zone configuration** section, set the following parameters.
+
+        <table>
+           <tr>
+             <th><p>Parameter name</p></th>
+             <th><p>Parameter Description</p></th>
+           </tr>
+           <tr>
+             <td><p><strong>Domain name</strong></p></td>
+             <td><p>Use <code>byoc.zillizcloud.com</code>.</p></td>
+           </tr>
+           <tr>
+             <td><p><strong>Description</strong></p></td>
+             <td><p>Description used to distinguish hosted zones.</p></td>
+           </tr>
+           <tr>
+             <td><p><strong>Type</strong></p></td>
+             <td><p>Select <strong>Private hosted zone</strong>.</p></td>
+           </tr>
+        </table>
+
+    1. In the VPCs to associate with the hosted zone section, add your VPC ID to associate it with the hosted zone.
+
+1. Create a CNAME record in the hosted zone.
+
+    A CNAME record is a type of DNS record that maps an alias name to a true or canonical domain name. Create an alias record to map the private link allocated by Zilliz Cloud to the DNS name of your VPC endpoint. Then, you can use the private link to access your cluster privately.
+
+    ![LjLubo12Wo2Pyhx3jLUc1nH1nRh](/img/LjLubo12Wo2Pyhx3jLUc1nH1nRh.png)
+
+    1. In the created hosted zone, click **Create record**.
+
+    1. Set **Record name** to match the cloud region where your current project is deployed.
+
+        <table>
+           <tr>
+             <th><p>AWS Region</p></th>
+             <th><p>Record name</p></th>
+           </tr>
+           <tr>
+             <td><p>us-west-2</p></td>
+             <td><p><code>zilliz-byoc-us</code></p></td>
+           </tr>
+           <tr>
+             <td><p>eu-central-1</p></td>
+             <td><p><code>zilliz-byoc-eu</code></p></td>
+           </tr>
+        </table>
+
+    1. On the **Create record** page, switch on **Alias**, and select Route traffic to as follows:
+
+        1. Select **Alias to VPC endpoint** in the first drop-down list.
+
+        1. Select the cloud region in the second drop-down list.
+
+        1. Enter the name of the endpoint that has been created above.
+
+    1. Click **Create records**.
+
+### Step 5: Submit VPC information to Zilliz Cloud{#step-5-submit-vpc-information-to-zilliz-cloud}
 
 Once you have completed the above procedures on AWS, go back to Zilliz Cloud, enter the VPC ID, the subnet IDs, the security group ID, and the optional VPC endpoint ID in **Network settings**, and click **Next** to view the summary of the entire project deployment process. If everything is configured as expected, click **Deploy** to start the process.
 
-![VDXYbAfS2oQ04YxcMs0cEETbn2c](/byoc/VDXYbAfS2oQ04YxcMs0cEETbn2c.png)
+![VDXYbAfS2oQ04YxcMs0cEETbn2c](/img/VDXYbAfS2oQ04YxcMs0cEETbn2c.png)
 

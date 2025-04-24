@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 
@@ -38,7 +38,7 @@ Binary vectors are a method of encoding complex objects (like images, text, or a
 
 The diagram below shows how binary vectors represent the presence of keywords in text content. In this example, a 10-dimensional binary vector is used to represent two different texts (**Text 1** and **Text 2**), where each dimension corresponds to a word in the vocabulary: 1 indicates the presence of the word in the text, while 0 indicates its absence.
 
-![TuIGwtyEkh9g04bvo0icsWdynBd](/byoc/TuIGwtyEkh9g04bvo0icsWdynBd.png)
+![TuIGwtyEkh9g04bvo0icsWdynBd](/img/TuIGwtyEkh9g04bvo0icsWdynBd.png)
 
 Binary vectors have the following characteristics:
 
@@ -54,7 +54,7 @@ Binary vectors can be generated through various methods. In text processing, pre
 
 After binary vectorization, the data can be stored in Zilliz Cloud clusters for management and vector retrieval. The diagram below shows the basic process.
 
-![TF1uw4AQVhFdmBbrhyVcJO6WnXe](/byoc/TF1uw4AQVhFdmBbrhyVcJO6WnXe.png)
+![TF1uw4AQVhFdmBbrhyVcJO6WnXe](/img/TF1uw4AQVhFdmBbrhyVcJO6WnXe.png)
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -72,7 +72,7 @@ To use binary vectors in Zilliz Cloud clusters, first define a vector field for 
 
 1. Specifying the vector's dimensions using the `dim` parameter. Note that `dim` must be a multiple of 8 as binary vectors must be converted into a byte array when inserting. Every 8 boolean values (0 or 1) will be packed into 1 byte. For example, if `dim=128`, a 16-byte array is required for insertion.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -138,6 +138,48 @@ schema.push({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/column"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/index"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+schema := entity.NewSchema()
+schema.WithField(entity.NewField().
+    WithName("pk").
+    WithDataType(entity.FieldTypeVarChar).
+    WithIsAutoID(true).
+    WithIsPrimaryKey(true).
+    WithMaxLength(100),
+).WithField(entity.NewField().
+    WithName("binary_vector").
+    WithDataType(entity.FieldTypeBinaryVector).
+    WithDim(128),
+)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -178,7 +220,7 @@ In this example, a vector field named `binary_vector` is added for storing binar
 
 To speed up searches, an index must be created for the binary vector field. Indexing can significantly enhance the retrieval efficiency of large-scale vector data.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -202,12 +244,11 @@ import java.util.*;
 
 List<IndexParam> indexParams = new ArrayList<>();
 Map<String,Object> extraParams = new HashMap<>();
-extraParams.put("nlist",128);
+
 indexParams.add(IndexParam.builder()
         .fieldName("binary_vector")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.HAMMING)
-        .extraParams(extraParams)
         .build());
 ```
 
@@ -224,6 +265,15 @@ const indexParams = {
   metric_type: MetricType.HAMMING,
   index_type: IndexType.AUTOINDEX
 };
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+idx := index.NewAutoIndex(entity.HAMMING)
+indexOption := milvusclient.NewCreateIndexOption("my_collection", "binary_vector", idx)
 ```
 
 </TabItem>
@@ -250,14 +300,14 @@ Additionally, Zilliz Cloud supports other similarity metrics for binary vectors.
 
 ### Create collection{#create-collection}
 
-Once the binary vector and index settings are complete, create a collection that contains binary vectors. The example below uses the `create_collection` method to create a collection named `my_binary_collection`.
+Once the binary vector and index settings are complete, create a collection that contains binary vectors. The example below uses the `create_collection` method to create a collection named `my_collection`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 client.create_collection(
-    collection_name="my_binary_collection",
+    collection_name="my_collection",
     schema=schema,
     index_params=index_params
 )
@@ -276,7 +326,7 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .build());
 
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
-        .collectionName("my_binary_collection")
+        .collectionName("my_collection")
         .collectionSchema(schema)
         .indexParams(indexParams)
         .build();
@@ -295,10 +345,24 @@ const client = new MilvusClient({
 });
 
 await client.createCollection({
-    collection_name: 'my_dense_collection',
+    collection_name: 'my_collection',
     schema: schema,
     index_params: indexParams
 });
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("my_collection", schema).
+        WithIndexOptions(indexOption))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -311,7 +375,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d "{
-    \"collectionName\": \"my_binary_collection\",
+    \"collectionName\": \"my_collection\",
     \"schema\": $schema,
     \"indexParams\": $indexParams
 }"
@@ -326,7 +390,7 @@ After creating the collection, use the `insert` method to add data containing bi
 
 For example, for a 128-dimensional binary vector, a 16-byte array is required (since 128 bits ÷ 8 bits/byte = 16 bytes). Below is an example code for inserting data:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -350,7 +414,7 @@ bool_vectors = [
 data = [{"binary_vector": convert_bool_list_to_bytes(bool_vector) for bool_vector in bool_vectors}]
 
 client.insert(
-    collection_name="my_binary_collection",
+    collection_name="my_collection",
     data=data
 )
 ```
@@ -394,7 +458,7 @@ Gson gson = new Gson();
 }
 
 InsertResp insertR = client.insert(InsertReq.builder()
-        .collectionName("my_binary_collection")
+        .collectionName("my_collection")
         .data(rows)
         .build());
 ```
@@ -410,9 +474,25 @@ const data = [
 ];
 
 client.insert({
-  collection_name: "my_binary_collection",
+  collection_name: "my_collection",
   data: data,
 });
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
+    WithBinaryVectorColumn("binary_vector", 128, [][]byte{
+        {0b10011011, 0b01010100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+        {0b10011011, 0b01010101, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
+    }))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
 ```
 
 </TabItem>
@@ -426,7 +506,7 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d "{
     \"data\": $data,
-    \"collectionName\": \"my_binary_collection\"
+    \"collectionName\": \"my_collection\"
 }"
 ```
 
@@ -439,7 +519,7 @@ Similarity search is one of the core features of Zilliz Cloud clusters, allowing
 
 During search operations, binary vectors must also be provided in the form of a byte array. Ensure that the dimensionality of the query vector matches the dimension specified when defining `dim` and that every 8 boolean values are converted into 1 byte.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -451,7 +531,7 @@ query_bool_list = [1, 0, 0, 1, 1, 0, 1, 1, 0, 1, 0, 1, 0, 1, 0, 0] + [0] * 112
 query_vector = convert_bool_list_to_bytes(query_bool_list)
 
 res = client.search(
-    collection_name="my_binary_collection",
+    collection_name="my_collection",
     data=[query_vector],
     anns_field="binary_vector",
     search_params=search_params,
@@ -481,7 +561,7 @@ boolean[] boolArray = {true, false, false, true, true, false, true, true, false,
 BinaryVec queryVector = new BinaryVec(convertBoolArrayToBytes(boolArray));
 
 SearchResp searchR = client.search(SearchReq.builder()
-        .collectionName("my_binary_collection")
+        .collectionName("my_collection")
         .data(Collections.singletonList(queryVector))
         .annsField("binary_vector")
         .searchParams(searchParams)
@@ -504,7 +584,7 @@ SearchResp searchR = client.search(SearchReq.builder()
 query_vector = [1,0,1,0,1,1,1,1,1,1,1,1];
 
 client.search({
-    collection_name: 'my_binary_collection',
+    collection_name: 'my_collection',
     data: query_vector,
     limit: 5,
     output_fields: ['pk'],
@@ -512,6 +592,34 @@ client.search({
         nprobe: 10
     }
 });
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+queryVector := []byte{0b10011011, 0b01010100, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0}
+
+annSearchParams := index.NewCustomAnnParam()
+annSearchParams.WithExtraParam("nprobe", 10)
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "my_collection", // collectionName
+    5,                      // limit
+    []entity.Vector{entity.BinaryVector(queryVector)},
+).WithANNSField("binary_vector").
+    WithOutputFields("pk").
+    WithAnnParam(annSearchParams))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+    fmt.Println("Pks: ", resultSet.GetColumn("pk").FieldData().GetScalars())
+}
 ```
 
 </TabItem>
@@ -528,7 +636,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d "{
-    \"collectionName\": \"my_binary_collection\",
+    \"collectionName\": \"my_collection\",
     \"data\": $data,
     \"annsField\": \"binary_vector\",
     \"limit\": 5,

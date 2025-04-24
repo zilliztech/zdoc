@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

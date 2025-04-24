@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

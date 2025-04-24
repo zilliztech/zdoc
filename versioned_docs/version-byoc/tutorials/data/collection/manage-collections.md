@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 
@@ -34,7 +34,7 @@ A collection is a two-dimensional table with fixed columns and variant rows. Eac
 
 The following chart shows a collection with eight columns and six entities.
 
-![BitLbgzN4oYspwxM4vQcAmg2n9f](/byoc/BitLbgzN4oYspwxM4vQcAmg2n9f.png)
+![BitLbgzN4oYspwxM4vQcAmg2n9f](/img/BitLbgzN4oYspwxM4vQcAmg2n9f.png)
 
 ## Schema and Fields{#schema-and-fields}
 

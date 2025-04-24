@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

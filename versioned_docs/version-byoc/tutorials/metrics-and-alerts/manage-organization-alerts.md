@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 
@@ -48,15 +48,15 @@ When an alert in an **ON** status, the specified recipients will receive notific
      <td><p>License (Core Usage)</p></td>
      <td><p>%</p></td>
      <td><p>Monitor the percentage of used CPU cores against the total licensed cores.</p></td>
-     <td><p><strong>Below 70%</strong>: Continue monitoring to ensure core usage stays within this range. </p><p><strong>70-99%</strong>: Assess future needs and prepare to renew or upgrade the license.</p><p><strong>100% or above</strong>: Renew or upgrade the license immediately to avoid operational disruptions.</p></td>
-     <td><p><strong>WARNING</strong>: Triggered when the count of used CPU cores reaches or exceeds 70% of the total.</p><p><strong>CRITICAL</strong>: Triggered when the count of used CPU cores reaches or exceeds 100% of the total.</p></td>
+     <td><p><strong>Below 70%</strong>: Continue monitoring to ensure core usage stays within this range.  <strong>70-99%</strong>: Assess future needs and prepare to renew or upgrade the license.</p><p><strong>100% or above</strong>: Renew or upgrade the license immediately to avoid operational disruptions.</p></td>
+     <td><p><strong>WARNING</strong>: Triggered when the count of used CPU cores reaches or exceeds 70% of the total. <strong>CRITICAL</strong>: Triggered when the count of used CPU cores reaches or exceeds 100% of the total.</p></td>
    </tr>
    <tr>
      <td><p>License (Validity Period)</p></td>
      <td><p>Day</p></td>
      <td><p>Track the remaining days of license validity.</p></td>
-     <td><p><strong>Above 60 days</strong>: Continue monitoring to ensure more than 60 days of validity remain. </p><p><strong>60 days or below</strong>: Start preparing to renew or upgrade the license. </p><p><strong>Expired</strong>: Renew or upgrade the license immediately to avoid restrictions like the inability to create new clusters or scale up.</p></td>
-     <td><p><strong>WARNING</strong>: Triggered when the license validity is 60 days or less.</p><p><strong>CRITICAL</strong>: Triggered when the license expires.</p></td>
+     <td><p><strong>Above 60 days</strong>: Continue monitoring to ensure more than 60 days of validity remain.  <strong>60 days or below</strong>: Start preparing to renew or upgrade the license. </p><p><strong>Expired</strong>: Renew or upgrade the license immediately to avoid restrictions like the inability to create new clusters or scale up.</p></td>
+     <td><p><strong>WARNING</strong>: Triggered when the license validity is 60 days or less. <strong>CRITICAL</strong>: Triggered when the license expires.</p></td>
    </tr>
 </table>
 
@@ -84,7 +84,7 @@ Navigate to the **Organization Alert** page to view various license-related aler
 
 - **Receiver**: Designated roles or email addresses for receiving notifications. You can also set up custom notification channels using webhooks. For more information, refer to [Manage Notification Channels](./manage-notification-channels).
 
-![byoc-view-organization-alerts](/byoc/byoc-view-organization-alerts.png)
+![byoc-view-organization-alerts](/img/byoc-view-organization-alerts.png)
 
 ## Edit organization alerts{#edit-organization-alerts}
 

@@ -2,7 +2,7 @@
 title: "Using Pipelines in LlamaIndex | Cloud"
 slug: /use-pipeline-in-llamaindex
 sidebar_label: "Using Pipelines in LlamaIndex"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Zilliz Cloud Pipelines](./pipelines) is a scalable API service for retrieval. You can use Zilliz Cloud Pipelines as managed indexes in [LLamaIndex. This service can transform documents into vector embeddings and store them in Zilliz Cloud for effective semantic search. | Cloud"
 type: origin
@@ -15,10 +15,10 @@ keywords:
   - pipelines
   - integration
   - llamaindex
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 
@@ -67,7 +67,7 @@ from llama_index.indices import ZillizCloudPipelineIndex
 
 zcp_index = ZillizCloudPipelineIndex.from_document_url(
     # a public or pre-signed url of a file stored on AWS S3 or Google Cloud Storage
-    url="https://publicdataset.zillizcloud.com/milvus_doc.md",
+    url="https://raw.githubusercontent.com/milvus-io/milvus-docs/refs/heads/v2.5.x/site/en/about/overview.md",
     project_id=ZILLIZ_PROJECT_ID,
     cluster_id=ZILLIZ_CLUSTER_ID,
     token=ZILLIZ_TOKEN,
@@ -78,7 +78,7 @@ zcp_index = ZillizCloudPipelineIndex.from_document_url(
 
 # Insert more docs, eg. a Milvus v2.2 document
 zcp_index.insert_doc_url(
-    url="https://publicdataset.zillizcloud.com/milvus_doc_22.md",
+    url="https://raw.githubusercontent.com/milvus-io/milvus-docs/refs/heads/v2.2.x/site/en/about/overview.md",
     metadata={"version": "2.2"},
 )
 
@@ -209,7 +209,7 @@ By specifying metadata value, each document is tagged with the tenant-specific f
 
 ```python
 advanced_zcp_index.insert_doc_url(
-    url="https://publicdataset.zillizcloud.com/milvus_doc.md",
+    url="https://raw.githubusercontent.com/milvus-io/milvus-docs/refs/heads/v2.5.x/site/en/about/overview.md",
     metadata={"user_id": "user_001"},
 )
 

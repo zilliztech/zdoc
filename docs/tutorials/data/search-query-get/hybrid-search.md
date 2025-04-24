@@ -16,10 +16,10 @@ keywords:
   - data
   - hybrid search
   - combine sparse and dense vectors
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
@@ -152,7 +152,7 @@ schema.addField(AddFieldReq.builder()
 schema.addField(AddFieldReq.builder()
         .fieldName("dense")
         .dataType(DataType.FloatVector)
-        .dimension(768)
+        .dimension(5)
         .build());
 
 schema.addField(AddFieldReq.builder()
@@ -166,7 +166,46 @@ schema.addField(AddFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-// WIP
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/column"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/index"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+schema := entity.NewSchema().WithDynamicFieldEnabled(true)
+schema.WithField(entity.NewField().
+    WithName("id").
+    WithDataType(entity.FieldTypeInt64).
+    WithIsPrimaryKey(true),
+).WithField(entity.NewField().
+    WithName("text").
+    WithDataType(entity.FieldTypeVarChar).
+    WithMaxLength(1000),
+).WithField(entity.NewField().
+    WithName("sparse").
+    WithDataType(entity.FieldTypeSparseVector),
+).WithField(entity.NewField().
+    WithName("dense").
+    WithDataType(entity.FieldTypeFloatVector).
+    WithDim(5),
+)
 ```
 
 </TabItem>
@@ -201,7 +240,7 @@ const fields = [
     {
         name: "dense",
         data_type: DataType.FloatVector,
-        dim: 768
+        dim: 5
     }
 ]
 ```
@@ -235,7 +274,7 @@ export schema='{
                 "fieldName": "dense",
                 "dataType": "FloatVector",
                 "elementTypeParams": {
-                    "dim": "768"
+                    "dim": "5"
                 }
             }
         ]
@@ -251,7 +290,7 @@ During sparse vector searches, you can simplify the process of generating sparse
 
 After defining the collection schema, it is necessary to set up the vector indexes and the similarity metrics. In this example, an index of the **AUTOINDEX** type is created for both the dense vector field `dense`, and the sparse vector field `sparse`. 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -265,8 +304,7 @@ index_params.add_index(
     field_name="dense",
     index_name="dense_index",
     index_type="AUTOINDEX",
-    metric_type="IP",
-    params={"nlist": 128},
+    metric_type="IP"
 )
 
 index_params.add_index(
@@ -287,13 +325,12 @@ import io.milvus.v2.common.IndexParam;
 import java.util.*;
 
 Map<String, Object> denseParams = new HashMap<>();
-denseParams.put("nlist", 128);
+
 IndexParam indexParamForDenseField = IndexParam.builder()
         .fieldName("dense")
         .indexName("dense_index")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.IP)
-        .extraParams(denseParams)
         .build();
 
 Map<String, Object> sparseParams = new HashMap<>();
@@ -309,6 +346,17 @@ IndexParam indexParamForSparseField = IndexParam.builder()
 List<IndexParam> indexParams = new ArrayList<>();
 indexParams.add(indexParamForDenseField);
 indexParams.add(indexParamForSparseField);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+indexOption1 := milvusclient.NewCreateIndexOption("my_collection", "sparse",
+    index.NewSparseInvertedIndex(entity.IP, 0.2))
+indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "dense",
+    index.NewAutoIndex(index.MetricType(entity.IP)))
 ```
 
 </TabItem>
@@ -337,8 +385,7 @@ export indexParams='[
             "fieldName": "dense",
             "metricType": "IP",
             "indexName": "dense_index",
-            "indexType":"AUTOINDEX",
-            "params":{"nlist":128}
+            "indexType":"AUTOINDEX"
         },
         {
             "fieldName": "sparse",
@@ -356,14 +403,14 @@ export indexParams='[
 
 Create a collection named `demo` with the collection schema and indexes configured in the previous two steps.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient
 
 client.create_collection(
-    collection_name="hybrid_search_collection",
+    collection_name="my_collection",
     schema=schema,
     index_params=index_params
 )
@@ -375,7 +422,7 @@ client.create_collection(
 
 ```java
 CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
-        .collectionName("hybrid_search_collection")
+        .collectionName("my_collection")
         .collectionSchema(schema)
         .indexParams(indexParams)
         .build();
@@ -384,11 +431,25 @@ client.createCollection(createCollectionReq);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("my_collection", schema).
+        WithIndexOptions(indexOption1, indexOption2))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 res = await client.createCollection({
-    collection_name: "hybrid_search_collection",
+    collection_name: "my_collection",
     fields: fields,
     index_params: index_params,
 })
@@ -407,7 +468,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d "{
-    \"collectionName\": \"hybrid_search_collection\",
+    \"collectionName\": \"my_collection\",
     \"schema\": $schema,
     \"indexParams\": $indexParams
 }"
@@ -420,7 +481,7 @@ curl --request POST \
 
 Insert the sparse-dense vectors into the the collection `demo`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -429,10 +490,10 @@ from pymilvus import MilvusClient
 data=[
     {"id": 0, "text": "Artificial intelligence was founded as an academic discipline in 1956.", "sparse":{9637: 0.30856525997853057, 4399: 0.19771651149001523, ...}, "dense": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, ...]},
     {"id": 1, "text": "Alan Turing was the first person to conduct substantial research in AI.", "sparse":{6959: 0.31025067641541815, 1729: 0.8265339135915016, ...}, "dense": [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, ...]},
-    {"id": 2, "text": "Born in Maida Vale, London, Turing was raised in southern England.", "sparse":{1220: 0.15303302147479103, 7335: 0.9436728846033107, ...}, "dense": [0.43742130801983836, -0.5597502546264526, 0.6457887650909682, ...]}
+    {"id": 2, "text": "Born in Maida Vale, London, Turing was raised in southern England.", "sparse":{1220: 0.15303302147479103, 7335: 0.9436728846033107, ...}, "dense": [0.43742130801983836, -0.5597502546264526, 0.6457887650909682, ...]}]
 
 res = client.insert(
-    collection_name="hybrid_search_collection",
+    collection_name="my_collection",
     data=data
 )
 
@@ -468,11 +529,44 @@ row3.add("sparse", gson.toJsonTree(sparse3));
 
 List<JsonObject> data = Arrays.asList(row1, row2, row3);
 InsertReq insertReq = InsertReq.builder()
-        .collectionName("hybrid_search_collection")
+        .collectionName("my_collection")
         .data(data)
         .build();
 
 InsertResp insertResp = client.insert(insertReq);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+v := make([]entity.SparseEmbedding, 0, 3)
+sparseVector1, _ := entity.NewSliceSparseEmbedding([]uint32{9637, 4399, 3573}, []float32{0.30856525997853057, 0.19771651149001523, 0.1576378135})
+v = append(v, sparseVector1)
+sparseVector2, _ := entity.NewSliceSparseEmbedding([]uint32{6959, 1729, 5263}, []float32{0.31025067641541815, 0.8265339135915016, 0.68647322132})
+v = append(v, sparseVector2)
+sparseVector3, _ := entity.NewSliceSparseEmbedding([]uint32{1220, 7335}, []float32{0.15303302147479103, 0.9436728846033107})
+v = append(v, sparseVector3)
+sparseColumn := column.NewColumnSparseVectors("sparse", v)
+
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
+    WithInt64Column("id", []int64{0, 1, 2}).
+    WithVarcharColumn("text", []string{
+        "Artificial intelligence was founded as an academic discipline in 1956.",
+        "Alan Turing was the first person to conduct substantial research in AI.",
+        "Born in Maida Vale, London, Turing was raised in southern England.",
+    }).
+    WithFloatVectorColumn("dense", 5, [][]float32{
+        {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592},
+        {0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104},
+        {0.43742130801983836, -0.5597502546264526, 0.6457887650909682, 0.7894058910881185, 0.20785793220625592},
+    }).
+    WithColumns(sparseColumn))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
 ```
 
 </TabItem>
@@ -489,7 +583,7 @@ var data = [
 ]
 
 var res = await client.insert({
-    collection_name: "hybrid_search_collection",
+    collection_name: "my_collection",
     data: data,
 })
 ```
@@ -509,7 +603,7 @@ curl --request POST \
         {"id": 1, "text": "Alan Turing was the first person to conduct substantial research in AI.", "sparse":{"6959": 0.31025067641541815, "1729": 0.8265339135915016}, "dense": [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, ...]},
         {"id": 2, "text": "Born in Maida Vale, London, Turing was raised in southern England.", "sparse":{"1220": 0.15303302147479103, "7335": 0.9436728846033107}, "dense": [0.43742130801983836, -0.5597502546264526, 0.6457887650909682, ...]}
     ],
-    "collectionName": "hybrid_search_collection"
+    "collectionName": "my_collection"
 }'
 ```
 
@@ -520,6 +614,8 @@ curl --request POST \
 
 Hybrid Search is implemented by creating multiple `AnnSearchRequest` in the `hybrid_search()` function, where each `AnnSearchRequest` represents a basic ANN search request for a specific vector field. Therefore, before conducting a Hybrid Search, it is necessary to create an `AnnSearchRequest` for each vector field.
 
+By configuring the `expr` parameter in an `AnnSearchRequest`, you can set the filtering conditions for your hybrid sesarch. Please refer to [Filtered Search](./filtered-search) and [Filtering](./filtering).
+
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>In Hybrid Search, each <code>AnnSearchRequest</code> supports only one query vector.</p>
@@ -528,7 +624,7 @@ Hybrid Search is implemented by creating multiple `AnnSearchRequest` in the `hyb
 
 Suppose the query text "Who started AI research?" has already been converted into sparse and dense vectors. Based on this, two `AnnSearchRequest` search requests are created for the `sparse` and `dense` vector fields respectively, as shown in the following example.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -602,6 +698,24 @@ searchRequests.add(AnnSearchReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
+sparseVector, _ := entity.NewSliceSparseEmbedding([]uint32{3573, 5263}, []float32{0.34701499, 0.263937551})
+
+request1 := milvusclient.NewAnnRequest("dense", 2, entity.FloatVector(queryVector)).
+    WithAnnParam(index.NewIvfAnnParam(10)).
+    WithSearchParam(index.MetricTypeKey, "IP")
+annParam := index.NewSparseAnnParam()
+annParam.WithDropRatio(0.2)
+request2 := milvusclient.NewAnnRequest("sparse", 2, sparseVector).
+    WithAnnParam(annParam).
+    WithSearchParam(index.MetricTypeKey, "IP")
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -609,20 +723,20 @@ const search_param_1 = {
     "data": query_vector, 
     "anns_field": "dense", 
     "param": {
-        "metric_type": "IP", // 参数值需要与 Collection Schema 中定义的保持一致
+        "metric_type": "IP",
         "params": {"nprobe": 10}
     },
-    "limit": 2 // AnnSearchRequest 返还的搜索结果数量
+    "limit": 2
 }
 
 const search_param_2 = {
     "data": query_sparse_vector, 
     "anns_field": "sparse", 
     "param": {
-        "metric_type": "IP", // 参数值需要与 Collection Schema 中定义的保持一致
+        "metric_type": "IP",
         "params": {"drop_ratio_build": 0.2}
     },
-    "limit": 2 // AnnSearchRequest 返还的搜索结果数量
+    "limit": 2
 }
 ```
 
@@ -676,13 +790,13 @@ The following  two examples demonstrate how to use the WeightedRanker and RRFRan
 
     When using the WeightedRanker strategy, you need to input weight values into the `WeightedRanker` function. The number of basic ANN searches in a Hybrid Search corresponds to the number of values that need to be inputted. The input values should be in the range [0,1], with values closer to 1 indicating greater importance.
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
     from pymilvus import WeightedRanker
     
-    rerank= WeightedRanker(0.8, 0.3) 
+    ranker = WeightedRanker(0.8, 0.3) 
     ```
 
     </TabItem>
@@ -694,6 +808,14 @@ The following  two examples demonstrate how to use the WeightedRanker and RRFRan
     import io.milvus.v2.service.vector.request.ranker.WeightedRanker;
     
     BaseRanker reranker = new WeightedRanker(Arrays.asList(0.8f, 0.3f));
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    reranker := milvusclient.NewWeightedReranker([]float64{0.8, 0.3})
     ```
 
     </TabItem>
@@ -724,7 +846,7 @@ The following  two examples demonstrate how to use the WeightedRanker and RRFRan
 
     When using the RRFRanker strategy, you need to input the parameter value `k` into the RRFRanker. The default value of `k` is 60. This parameter helps to determine how the ranks are combined from different ANN searches, aiming to balance and blend the importance across all searches.
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -742,6 +864,14 @@ The following  two examples demonstrate how to use the WeightedRanker and RRFRan
     import io.milvus.v2.service.vector.request.ranker.RRFRanker;
     
     BaseRanker reranker = new RRFRanker(100);
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    reranker := milvusclient.NewRRFReranker().WithK(100)
     ```
 
     </TabItem>
@@ -772,14 +902,14 @@ The following  two examples demonstrate how to use the WeightedRanker and RRFRan
 
 Before conducting a Hybrid Search, it is necessary to load the collection into memory. If any vector fields in the collection do not have an index or are not loaded, an error will occur when calling the Hybrid Search method. 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient
 
 res = client.hybrid_search(
-    collection_name="hybrid_search_collection",
+    collection_name="my_collection",
     reqs=reqs,
     ranker=ranker,
     limit=2
@@ -800,14 +930,35 @@ import io.milvus.v2.service.vector.request.HybridSearchReq;
 import io.milvus.v2.service.vector.response.SearchResp;
 
 HybridSearchReq hybridSearchReq = HybridSearchReq.builder()
-        .collectionName("hybrid_search_collection")
+        .collectionName("my_collection")
         .searchRequests(searchRequests)
         .ranker(reranker)
         .topK(2)
-        .consistencyLevel(ConsistencyLevel.BOUNDED)
         .build();
 
 SearchResp searchResp = client.hybridSearch(hybridSearchReq);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+resultSets, err := client.HybridSearch(ctx, milvusclient.NewHybridSearchOption(
+    "my_collection",
+    2,
+    request1,
+    request2,
+).WithReranker(reranker))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+}
 ```
 
 </TabItem>
@@ -818,13 +969,13 @@ SearchResp searchResp = client.hybridSearch(hybridSearchReq);
 const { MilvusClient, DataType } = require("@zilliz/milvus2-sdk-node")
 
 res = await client.loadCollection({
-    collection_name: "hybrid_search_collection"
+    collection_name: "my_collection"
 })
 
 import { MilvusClient, RRFRanker, WeightedRanker } from '@zilliz/milvus2-sdk-node';
 
 const search = await client.search({
-  collection_name: "hybrid_search_collection",
+  collection_name: "my_collection",
   data: [search_param_1, search_param_2],
   limit: 2,
   rerank: RRFRanker(100)
@@ -841,7 +992,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d "{
-    \"collectionName\": \"hybrid_search_collection\",
+    \"collectionName\": \"my_collection\",
     \"search\": ${req},
     \"rerank\": {
         \"strategy\":\"rrf\",

@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

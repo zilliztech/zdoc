@@ -7,17 +7,17 @@ notebook: FALSE
 description: "This chapter focuses on data operations. | Cloud"
 type: origin
 token: KyTFwqmCJiIJsuk9d6Ncg2eDnDd
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - cluster
   - data operations
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

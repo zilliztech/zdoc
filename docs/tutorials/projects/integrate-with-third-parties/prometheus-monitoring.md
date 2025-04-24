@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

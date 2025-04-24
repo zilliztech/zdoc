@@ -14,10 +14,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

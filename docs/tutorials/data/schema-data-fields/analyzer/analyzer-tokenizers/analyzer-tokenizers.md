@@ -2,7 +2,7 @@
 title: "Tokenizer Reference | Cloud"
 slug: /analyzer-tokenizers
 sidebar_label: "Tokenizer"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "This section provides a detailed reference for tokenizers. | Cloud"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

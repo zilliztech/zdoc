@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 
@@ -29,11 +29,11 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud implements Role-Based Access Control (RBAC) to finely control access to resources in Zilliz Cloud. RBAC (Role-Based Access Control) is a security measure that grants privileges to roles rather than directly to users. These roles, which contains specific privileges to resources, are then granted to users, enabling efficient management of user access control.
 
-![L1WGwjF2NhxLRXbcyl6cSroNnoc](/byoc/L1WGwjF2NhxLRXbcyl6cSroNnoc.png)
+![L1WGwjF2NhxLRXbcyl6cSroNnoc](/img/L1WGwjF2NhxLRXbcyl6cSroNnoc.png)
 
 ## Zilliz Cloud RBAC architecture{#zilliz-cloud-rbac-architecture}
 
-![WVIgwWtMYhhTBIbgAdAcegDRnle](/byoc/WVIgwWtMYhhTBIbgAdAcegDRnle.png)
+![WVIgwWtMYhhTBIbgAdAcegDRnle](/img/WVIgwWtMYhhTBIbgAdAcegDRnle.png)
 
 Zilliz Cloud organizes its resources within two planes, implementing RBAC across both:
 
@@ -41,13 +41,13 @@ Zilliz Cloud organizes its resources within two planes, implementing RBAC across
 
 - **Data plane:** This plane includes clusters, databases, and collections, focusing on data access management. [Cluster users](./cluster-users) are granted appropriate cluster roles and authenticate using [API keys](./manage-api-keys) or [username-password pairs](./cluster-credentials) when interacting with data plane resources.
 
-Normally, each account user corresponds to a cluster user. However, not all users require access for both planes. In some cases, a control plane account user like a Billing Admin might only need access to the control plane for billing management purposes and do not require data plane access. Conversely, temporary cluster users can be created and granted access to data plane resources through customized API keys, allowing data access without a registered account. For details about managing customized API keys, refer to [API Keys](./manage-api-keys#create-an-api-key).
+Normally, each account user corresponds to a cluster user. However, not all users require access for both planes. In some cases, a control plane account user like a Billing Admin might only need access to the control plane for billing management purposes and do not require data plane access. Conversely, temporary cluster users can be created and granted access to data plane resources through customized API keys, allowing data access without a registered account. For details about managing customized API keys, refer to [API Keys](./manage-api-keys).
 
 ## Roles and privileges{#roles-and-privileges}
 
 Account users are granted organization roles and project roles while cluster users are granted cluster roles that control access to cluster, databases, and collections. The following diagram illustrates the hierarchy for roles in Zilliz Cloud. 
 
-![TnkCwHx6jhk7UmbvYT7cVGlIn7b](/byoc/TnkCwHx6jhk7UmbvYT7cVGlIn7b.png)
+![TnkCwHx6jhk7UmbvYT7cVGlIn7b](/img/TnkCwHx6jhk7UmbvYT7cVGlIn7b.png)
 
 - **On the organization level**
 

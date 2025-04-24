@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 
@@ -135,7 +135,7 @@ In the command above,
 
 - `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
 
-- `{CLUSTER_ID}`: The ID of the Dedicated cluster to suspend.
+- `{CLUSTER_ID}`: The ID of the cluster to resume.
 
 For details, refer to [Resume Cluster](/reference/restful/resume-cluster-v2).
 
@@ -196,7 +196,7 @@ To try the latest preview features, you need to upgrade the compatible Milvus ve
 
 ## Drop cluster | All Plans{#drop-cluster}
 
-When a cluster is no longer needed, you can drop it.
+When a cluster is no longer needed, you can drop it. You can drop a cluster via the web console or programatically.
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
@@ -234,7 +234,7 @@ In the command above,
 
 - `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
 
-- `{CLUSTER_ID}`: The ID of the Dedicated cluster to suspend.
+- `{CLUSTER_ID}`: The ID of the Dedicated cluster to drop.
 
 For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
 

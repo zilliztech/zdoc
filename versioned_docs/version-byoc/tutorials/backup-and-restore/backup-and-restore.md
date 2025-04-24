@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Data backup and restore for your data stored in Zilliz Cloud clusters. | BYOC"
 type: origin
 token: VvikwOKc9iZ5vBkgMnycrXKmnId
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - backup
   - restore
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

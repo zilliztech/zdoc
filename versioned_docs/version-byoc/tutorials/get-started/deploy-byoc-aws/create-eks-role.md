@@ -54,11 +54,11 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to manage EKS 
 
 1. Expand your account information, and click the copy button at the start of your AWS Account ID.
 
-    ![RJFObn104o2f1fx2kgIcZi78n6g](/byoc/RJFObn104o2f1fx2kgIcZi78n6g.png)
+    ![RJFObn104o2f1fx2kgIcZi78n6g](/img/RJFObn104o2f1fx2kgIcZi78n6g.png)
 
 1. Click the **Roles** tab in the left sidebar, and then click **Create Role**.
 
-    ![UQUbbRI7IoSJdBxx1uqcF6RInbb](/byoc/UQUbbRI7IoSJdBxx1uqcF6RInbb.png)
+    ![UQUbbRI7IoSJdBxx1uqcF6RInbb](/img/UQUbbRI7IoSJdBxx1uqcF6RInbb.png)
 
 1. In **Select trusted entity**, click the **Custom trust policy** tile. In **Common trust policy**, paste the trust JSON from below into the editor in the **Custom trust policy** section and replace `{accountId}` with your **AWS Account ID**.
 
@@ -132,7 +132,7 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to manage EKS 
       }
     ```
 
-    ![XB4CbBWlFoO3QLxhJAqca6FrnJc](/byoc/XB4CbBWlFoO3QLxhJAqca6FrnJc.png)
+    ![XB4CbBWlFoO3QLxhJAqca6FrnJc](/img/XB4CbBWlFoO3QLxhJAqca6FrnJc.png)
 
 1. Click **Next** and skip adding permissions.
 
@@ -146,21 +146,21 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to manage EKS 
 
 1. Once the role has been created, click **View role** in the green bar to go to the role details. 
 
-    ![JWndbA1JAoa9EJxGxI2c7JOBnRf](/byoc/JWndbA1JAoa9EJxGxI2c7JOBnRf.png)
+    ![JWndbA1JAoa9EJxGxI2c7JOBnRf](/img/JWndbA1JAoa9EJxGxI2c7JOBnRf.png)
 
 1. Click the copy icon in front of the role's **ARN**.
 
-    ![TaYsbFd3VoJ3CXxxrr2ctXvSndP](/byoc/TaYsbFd3VoJ3CXxxrr2ctXvSndP.png)
+    ![TaYsbFd3VoJ3CXxxrr2ctXvSndP](/img/TaYsbFd3VoJ3CXxxrr2ctXvSndP.png)
 
 1. Go back to the Zilliz Cloud console, paste the role ARN in **IAM Role ARN** under **EKS settings**. 
 
-    ![GUusbTpq1oJpFFx9mjycBcXsndf](/byoc/GUusbTpq1oJpFFx9mjycBcXsndf.png)
+    ![GUusbTpq1oJpFFx9mjycBcXsndf](/img/GUusbTpq1oJpFFx9mjycBcXsndf.png)
 
 ### Step 2: Add permissions{#step-2-add-permissions}
 
 In this step, you are going to add several permissions to the EKS role. On the role's details page, click the **Permissions** tab.  In the **Permissions policies** section, click **Add permissions**. In this step, you need to select **Attach policies** and then **Create inline policy** to add multiple policies from different sources .
 
-![W1aCbP9zyojMylxG18Scpcfwnxd](/byoc/W1aCbP9zyojMylxG18Scpcfwnxd.png)
+![W1aCbP9zyojMylxG18Scpcfwnxd](/img/W1aCbP9zyojMylxG18Scpcfwnxd.png)
 
 #### Attach AWS-managed policies{#attach-aws-managed-policies}
 
@@ -201,11 +201,11 @@ The following table lists the permissions to add as attached policies. Click the
 
 After you choose **Attach policies**, in the **Other permissions policies** section on the page that opens, fill in the name of each AWS-managed policy listed above in the search box and select the radio box in front of it. Once you have selected all the required policies, click **Add permissions**. 
 
-![V0IobWDQ3oktBLxq6NCcfYuwnSc](/byoc/V0IobWDQ3oktBLxq6NCcfYuwnSc.png)
+![V0IobWDQ3oktBLxq6NCcfYuwnSc](/img/V0IobWDQ3oktBLxq6NCcfYuwnSc.png)
 
 You will find that these policies are listed in the **Permissions** policies list.
 
-![TcGBbwgzKoEAIBxKiQ9cJfPQnue](/byoc/TcGBbwgzKoEAIBxKiQ9cJfPQnue.png)
+![TcGBbwgzKoEAIBxKiQ9cJfPQnue](/img/TcGBbwgzKoEAIBxKiQ9cJfPQnue.png)
 
 #### Create inline policies{#create-inline-policies}
 
@@ -220,23 +220,23 @@ The following table lists the policies that need to be added as customer inline 
    <tr>
      <td><p><a href="https://github.com/kubernetes-sigs/aws-load-balancer-controller/blob/main/docs/install/iam_policy.json">AWS Load Balancer Controller</a></p></td>
      <td><p>Kubernetes SIGs</p></td>
-     <td><p>AWS Load Balancer Controller is a controller to help manage Elastic Load Balancers for a Kubernetes cluster.</p><p>For details on the AWS Load Balancer Controller repository, refer to the <a href="https://github.com/kubernetes-sigs/aws-load-balancer-controller/tree/main">README</a> file.</p></td>
+     <td><p>AWS Load Balancer Controller is a controller to help manage Elastic Load Balancers for a Kubernetes cluster. For details on the AWS Load Balancer Controller repository, refer to the <a href="https://github.com/kubernetes-sigs/aws-load-balancer-controller/tree/main">README</a> file.</p></td>
    </tr>
    <tr>
      <td><p><a href="https://github.com/kubernetes-sigs/aws-ebs-csi-driver/blob/master/docs/example-iam-policy.json">Amazon EBS CSI driver</a></p></td>
      <td><p>Kubernetes SIGs</p></td>
-     <td><p>The Amazon Elastic Block Store Container Storage Interface (CSI) Driver provides a CSI interface used by Container Orchestrators to manage the lifecycle of Amazon EBS volumes.</p><p>For details on the Amazon EBS CSI driver, refer to the <a href="https://github.com/kubernetes-sigs/aws-ebs-csi-driver">README</a> file.</p></td>
+     <td><p>The Amazon Elastic Block Store Container Storage Interface (CSI) Driver provides a CSI interface used by Container Orchestrators to manage the lifecycle of Amazon EBS volumes. For details on the Amazon EBS CSI driver, refer to the <a href="https://github.com/kubernetes-sigs/aws-ebs-csi-driver">README</a> file.</p></td>
    </tr>
    <tr>
      <td><p><a href="https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md#full-cluster-autoscaler-features-policy-recommended">Cluster AutoScaler</a></p></td>
      <td><p>Kubernetes SIGs</p></td>
-     <td><p>The Cluster AutoScaler is a component that automatically adjusts the size of a Kubernetes Cluster so that all pods have a place to run and there are no unneeded nodes.</p><p>For details on the Cluster AutoScaler on AWS, refer to the <a href="https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md">README</a> file.</p></td>
+     <td><p>The Cluster AutoScaler is a component that automatically adjusts the size of a Kubernetes Cluster so that all pods have a place to run and there are no unneeded nodes. For details on the Cluster AutoScaler on AWS, refer to the <a href="https://github.com/kubernetes/autoscaler/blob/master/cluster-autoscaler/cloudprovider/aws/README.md">README</a> file.</p></td>
    </tr>
 </table>
 
 After you choose **Create inline policy**, on the **Specify permissions** page, click **JSON** in the **Policy editor** section to open the policy editor. Then copy one of the above permissions and paste it into the policy editor.
 
-![EzxybNlqXoABrmxAOWDc4nzinwe](/byoc/EzxybNlqXoABrmxAOWDc4nzinwe.png)
+![EzxybNlqXoABrmxAOWDc4nzinwe](/img/EzxybNlqXoABrmxAOWDc4nzinwe.png)
 
 Click **Next**, and set **Policy name** in **Policy details**.
 
@@ -246,9 +246,9 @@ Click **Next**, and set **Policy name** in **Policy details**.
 
 </Admonition>
 
-![QMu4bLEoEo4lrAxDurIcgpINnnb](/byoc/QMu4bLEoEo4lrAxDurIcgpINnnb.png)
+![QMu4bLEoEo4lrAxDurIcgpINnnb](/img/QMu4bLEoEo4lrAxDurIcgpINnnb.png)
 
 Once you have added all the listed inline policies, click **Create policy**. You will find that these policies are listed in the **Permissions** policies list.
 
-![FD9rbE25YofQJDxafNLc0IUInWg](/byoc/FD9rbE25YofQJDxafNLc0IUInWg.png)
+![FD9rbE25YofQJDxafNLc0IUInWg](/img/FD9rbE25YofQJDxafNLc0IUInWg.png)
 

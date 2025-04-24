@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - DML
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

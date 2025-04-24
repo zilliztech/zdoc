@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

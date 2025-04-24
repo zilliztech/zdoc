@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

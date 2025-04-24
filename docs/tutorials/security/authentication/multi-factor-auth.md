@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

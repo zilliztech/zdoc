@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 
@@ -162,9 +162,13 @@ Once you click **Migrate**, a migration job will be generated. You can check the
 
 ![verify_collection](/img/verify_collection.png)
 
-Note that Zilliz Cloud exclusively supports [AUTOINDEX](./autoindex-explained) for optimized indexing, and will automatically index your migrated collection using this algorithm.
+### Post-migration{#post-migration}
 
-Once the collections are loaded, you are free to interact with them using your preferred method.
+After the migration job is completed, note the following:
+
+- **Index Creation**: The migration process automatically creates [AUTOINDEX](./autoindex-explained) for the migrated collections.
+
+- **Manual Loading Required**: Despite automatic indexing, the migrated collections are not immediately available for search or query operations. You must manually load the collections in Zilliz Cloud to enable search and query functionalities. For details, refer to [Load & Release](./load-release-collections).
 
 ## Cancel migration job{#cancel-migration-job}
 

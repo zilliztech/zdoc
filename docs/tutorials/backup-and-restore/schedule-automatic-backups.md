@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 
@@ -39,7 +39,7 @@ Make sure the following conditions are met:
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Automatic backups are available only to the <strong>Dedicated</strong> clusters. If your cluster runs on the <strong>Free</strong>, <a href="./manage-cluster#upgrade-plan">upgrade</a> it first. If your cluster runs on the <strong>Serverless</strong> tier, <a href="./migrate-between-clusters">migrate</a> it to a dedicated cluster first. Creating backups may incur charges. For more information about backup cost, please refer to <a href="./understand-cost">Understand Cost</a>.</p>
+<p>Automatic backups are available only to the <strong>Dedicated</strong> clusters. If your cluster runs on the <strong>Free</strong>, <a href="./manage-cluster">upgrade</a> it first. If your cluster runs on the <strong>Serverless</strong> tier, <a href="./offline-migration">migrate</a> it to a dedicated cluster first. Creating backups may incur charges. For more information about backup cost, please refer to <a href="./understand-cost">Understand Cost</a>.</p>
 
 </Admonition>
 

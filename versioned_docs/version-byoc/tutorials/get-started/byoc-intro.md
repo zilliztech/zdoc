@@ -13,10 +13,10 @@ keywords:
   - byoc
   - milvus
   - vector database
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 
@@ -35,7 +35,7 @@ Bring Your Own Cloud (BYOC) is a deployment option for organizations to host app
 
 ## Why use Zilliz BYOC{#why-use-zilliz-byoc}
 
-Zilliz BYOC delivers a unique fully managed deployment option that lets you keep complete control over your data while eliminating operational overhead with the following benefits:
+Zilliz BYOC delivers unique deployment options that let you keep complete control over your data while eliminating operational overhead with the following benefits:
 
 - **Operations**
 
@@ -57,9 +57,19 @@ Zilliz BYOC delivers a unique fully managed deployment option that lets you keep
 
 ## How it works{#how-it-works}
 
-BYOC involves deploying Milvus alongside Zilliz-managed backend services, such as the upgrade workflow, resource scheduler, open API service, and web console, within your cloud environment, typically inside your own Virtual Private Cloud (VPC). This setup ensures that your data is stored and processed within your own infrastructure.
+BYOC involves deploying Milvus alongside Zilliz-managed backend services, such as the upgrade workflow, resource scheduler, Open API service, and the web console, within your cloud environment, typically inside your own Virtual Private Cloud (VPC). This setup ensures that your data is stored and processed within your own infrastructure. 
 
-![PCAOw33vKhCLHubzOiCciDDMnGg](/byoc/PCAOw33vKhCLHubzOiCciDDMnGg.png)
+Zilliz BYOC implements two deployment modes to adapt to diversified enterprise governance requirements, and they are
+
+- [BYOC](./byoc-intro#byoc)
+
+- [BYOC-I](./byoc-intro#byoc-i)
+
+### BYOC{#byoc}
+
+In this fully managed mode of Zilliz BYOC, you employ the cross-account role assumption mechanism offered by the cloud provider, allowing Zilliz Cloud to take on permissions to manage the EKS cluster and EC2 instances for you.
+
+![PCAOw33vKhCLHubzOiCciDDMnGg](/img/PCAOw33vKhCLHubzOiCciDDMnGg.png)
 
 According to the architecture outlined above, you need to provide a VPC, an S3 bucket, and the minimum permissions for Zilliz Cloud to start an EKS cluster and deploy the necessary components, such as the Milvus Operator, Import/Backup tools, the monitoring stack, including Grafana and Prometheus, and a Milvus instance on your behalf.
 
@@ -72,6 +82,16 @@ Additionally, Zilliz Cloud establishes two separate planes for communication wit
 - **Data Plane**
 
     The data plane allows communication between your applications/services and the Milvus instance deployed in your VPC, specifically for data storage and retrieval.
+
+### BYOC-I{#byoc-i}
+
+This mode deploys a BYOC agent in your environment for comprehensive operation and maintenance capabilities instead of using the cross-account role assumption method in a fully managed Zilliz BYOC deployment. An encrypted point-to-point (P2P) reverse tunnel is created between the Cloud Plane and the BYOC agent to improve communication security.
+
+![UyVBwtva2hZaAMbP1zicQeRHnah](/img/UyVBwtva2hZaAMbP1zicQeRHnah.png)
+
+In the BYOC-I mode, instead of asking for cross-account permissions to manage infrastructure resources on your behalf, Zilliz leaves infrastructure management entirely in your hands, thereby enhancing data control sovereignty.
+
+However, you may choose to grant the agent the necessary permissions so that Zilliz can assist you with infrastructure management if necessary.
 
 ## Security assurance{#security-assurance}
 
@@ -109,9 +129,8 @@ The data plane of Zilliz Cloud encrypts the stored data on AWS S3 using the AES-
 
 ## Cost management{#cost-management}
 
-Zilliz BYOC uses licenses to place charges on the services you consume. You still bear infrastructure expenses from cloud service providers and additional responsibilities like private networking. 
+Zilliz BYOC charges for the services you use in a BYOC project through resource management. However, you will still incur infrastructure expenses from cloud service providers, as illustrated in the following diagram.
 
-The following figure shows the costs compared between Zilliz BYOC and SaaS subscriptions.
+![TudFwgMGthlQmvbeH9qcXx0jnzn](/img/TudFwgMGthlQmvbeH9qcXx0jnzn.png)
 
-![AJzswn6lAhsEl5bC4flcXAA4n6f](/byoc/AJzswn6lAhsEl5bC4flcXAA4n6f.png)
-
+For details on how to estimate the cost of a BYOC project, refer to Estimate Cost (BYOC).

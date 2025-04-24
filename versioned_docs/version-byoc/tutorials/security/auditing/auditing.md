@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Learn how to configure auditing for your Zilliz Cloud cluster. | BYOC"
 type: origin
 token: UfGkwPQIPiJi6OkEu47cH3Umnvb
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - auditing
   - log
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

@@ -2,7 +2,7 @@
 title: "Whitespace | BYOC"
 slug: /whitespace-tokenizer
 sidebar_label: "Whitespace"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "The `whitespace` tokenizer divides text into terms whenever there is a space between words. | BYOC"
 type: origin
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - whitespace-tokenizer
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 
@@ -36,7 +36,7 @@ The `whitespace` tokenizer divides text into terms whenever there is a space bet
 
 To configure an analyzer using the `whitespace` tokenizer, set `tokenizer` to `whitespace` in `analyzer_params`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -55,11 +55,40 @@ analyzerParams.put("tokenizer", "whitespace");
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "tokenizer": "whitespace"
+};
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"tokenizer": "whitespace"}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "tokenizer": "whitespace"
+}'
+```
+
+</TabItem>
 </Tabs>
 
 The whitespace tokenizer can work in conjunction with one or more filters. For example, the following code defines an analyzer that uses the `whitespace` tokenizer and `lowercase`[ filter](./lowercase-filter):
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -80,23 +109,97 @@ analyzerParams.put("filter", Collections.singletonList("lowercase"));
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "tokenizer": "whitespace",
+    "filter": ["lowercase"]
+};
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"tokenizer": "whitespace", "filter": []any{"lowercase"}}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "tokenizer": "whitespace",
+  "filter": [
+    "lowercase"
+  ]
+}'
+```
+
+</TabItem>
 </Tabs>
 
 After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview#example-use).
 
-## Example output{#example-output}
+## Examples{#examples}
 
-Here’s an example of how the `whitespace` tokenizer processes text:
+### Analyzer configuration{#analyzer-configuration}
 
-**Original text**:
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
-"The Milvus vector database is built for scale!"
+analyzer_params = {
+    "tokenizer": "whitespace",
+    "filter": ["lowercase"]
+}
 ```
 
-**Expected output**:
+</TabItem>
 
-```python
-["The", "Milvus", "vector", "database", "is", "built", "for", "scale!"]
+<TabItem value='java'>
+
+```java
+Map<String, Object> analyzerParams = new HashMap<>();
+analyzerParams.put("tokenizer", "whitespace");
+analyzerParams.put("filter", Collections.singletonList("lowercase"));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// javascript
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"tokenizer": "whitespace", "filter": []any{"lowercase"}}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+### Expected output{#expected-output}
+
+```plaintext
+['the', 'milvus', 'vector', 'database', 'is', 'built', 'for', 'scale!']
 ```
 

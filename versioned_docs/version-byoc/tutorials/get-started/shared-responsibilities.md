@@ -7,17 +7,17 @@ notebook: FALSE
 description: "This page outlines the responsibilities of Zilliz Cloud and BYOC users to clarify the division of tasks related to cloud management, upgrades, security, access control, service availability, and technical support, ensuring smooth collaboration while maintaining a secure and efficient operation environment. | BYOC"
 type: origin
 token: QqtGwq7lSimnHJk6IuXcM9synWg
-sidebar_position: 9
+sidebar_position: 10
 keywords: 
   - zilliz
   - byoc
   - milvus
   - vector database
   - shared responsibilities
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

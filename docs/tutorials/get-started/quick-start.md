@@ -7,17 +7,17 @@ notebook: FALSE
 description: "This guide explains how to set up your Zilliz Cloud cluster and perform CRUD operations in minutes. | Cloud"
 type: origin
 token: GQN0wDCrni4n36kyeVQcF41Lned
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - quickstart
   - cloud
   - milvus
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 
@@ -100,7 +100,7 @@ For collection-level access control, it is recommended to create custom roles.
 
 1. Navigate to the **Roles** tab of the target cluster. Click **+ Cluster Role**.
 
-    ![add-cluster-role](/byoc/add-cluster-role.png)
+    ![add-cluster-role](/img/add-cluster-role.png)
 
 1. Enter the role name.
 
@@ -124,7 +124,7 @@ For collection-level access control, it is recommended to create custom roles.
 
     If you need to create your own privilege group, please [contact us](http://support.zilliz.com).
 
-    ![add-cluster-role-form](/byoc/add-cluster-role-form.png)
+    ![add-cluster-role-form](/img/add-cluster-role-form.png)
 
 1. Click **Create**. Each cluster can have up to 20 custom cluster roles.
 
@@ -132,19 +132,19 @@ For collection-level access control, it is recommended to create custom roles.
 
 Once a cluster role is created, you can grant it to users. Navigate to the Users tab, grant the role either when you [create a new cluster user](./cluster-users#create-a-cluster-user) or when you [edit the role of an existing cluster user](./cluster-users#edit-the-role-of-a-cluster-user).
 
-![grant-role-to-user](/byoc/grant-role-to-user.png)
+![grant-role-to-user](/img/grant-role-to-user.png)
 
 ## Revoke a role from a user{#revoke-a-role-from-a-user}
 
 When a cluster role is no longer fit for a user, you can revoke the role. Navigate to the Users tab, find the target user, and click [edit role](./cluster-users#edit-the-role-of-a-cluster-user). Select a different role in the dialog box. 
 
-![revoke-role-from-user](/byoc/revoke-role-from-user.png)
+![revoke-role-from-user](/img/revoke-role-from-user.png)
 
 ## Edit a custom cluster role{#edit-a-custom-cluster-role}
 
 You can adjust the privileges of a custom cluster role. The adjustment will be applied to all users who are granted this role.
 
-![edit-custom-role](/byoc/edit-custom-role.png)
+![edit-custom-role](/img/edit-custom-role.png)
 
 ## Delete a custom cluster role{#delete-a-custom-cluster-role}
 
@@ -152,5 +152,5 @@ When a role is no longer necessary, you can delete a custom cluster role.
 
 Roles that have been granted to users cannot be delete. You need to first identify the users who are granted the target role, and then assign them a different role. 
 
-![delete-cluster-role](/byoc/delete-cluster-role.png)
+![delete-cluster-role](/img/delete-cluster-role.png)
 

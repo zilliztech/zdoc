@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 
@@ -53,5 +53,5 @@ To use recycle bin, you must be an **Organization Owner**.
 
 1. A new restoration job will be generated. You can check the cluster restoration progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the restoration is complete.
 
-![byoc-use-recycle-bin](/byoc/byoc-use-recycle-bin.png)
+![byoc-use-recycle-bin](/img/byoc-use-recycle-bin.png)
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 
@@ -118,15 +118,13 @@ To use sparse vectors in Zilliz Cloud clusters, define a field for storing spars
 
 1. No need to specify the dimension.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient, DataType
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
-
-client.drop_collection(collection_name="my_sparse_collection")
 
 schema = client.create_schema(
     auto_id=True,
@@ -196,6 +194,47 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/column"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/index"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+schema := entity.NewSchema()
+schema.WithField(entity.NewField().
+    WithName("pk").
+    WithDataType(entity.FieldTypeVarChar).
+    WithIsAutoID(true).
+    WithIsPrimaryKey(true).
+    WithMaxLength(100),
+).WithField(entity.NewField().
+    WithName("sparse_vector").
+    WithDataType(entity.FieldTypeSparseVector),
+)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -231,7 +270,7 @@ In this example, a vector field named `sparse_vector` is added for storing spars
 
 The process of creating an index for sparse vectors is similar to that for [dense vectors](./use-dense-vector), but with differences in the specified index type (`index_type`), distance metric (`metric_type`), and index parameters (`params`).
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -239,12 +278,11 @@ index_params = client.prepare_index_params()
 
 index_params.add_index(
     field_name="sparse_vector",
-
     index_name="sparse_auto_index",
     index_type="AUTOINDEX",
     metric_type="IP"
-
 )
+
 ```
 
 </TabItem>
@@ -285,6 +323,15 @@ const indexParams = await client.createIndex({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+idx := index.NewSparseInvertedIndex(entity.IP, 0.2)
+indexOption := milvusclient.NewCreateIndexOption("my_collection", "sparse_vector", idx)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -305,15 +352,7 @@ export indexParams='[
 
 In the example above:
 
-- `index_type`: The type of index to create for the sparse vector field. Valid Values:
-
-    - `SPARSE_INVERTED_INDEX`: A general-purpose inverted index for sparse vectors.
-
-    <Admonition type="info" icon="📘" title="Notes">
-
-    <p>From Milvus 2.5.4 onward, <code>SPARSE_WAND</code> is being deprecated. Instead, it is recommended to use <code>"inverted_index_algo": "DAAT_WAND"</code> for equivalency while maintaining compatibility.</p>
-
-    </Admonition>
+- `index_type`: The type of index to create for the sparse vector field.
 
 - `metric_type`: The metric used to calculate similarity between sparse vectors. Valid Values:
 
@@ -323,24 +362,16 @@ In the example above:
 
         For further details, refer to [Metric Types](./search-metrics-explained) and [Full Text Search](./full-text-search).
 
-- `params.inverted_index_algo`: The algorithm used for building and querying the index. Valid values:
-
-    - `"DAAT_MAXSCORE"` (default): Optimized Document-at-a-Time (DAAT) query processing using the MaxScore algorithm. MaxScore provides better performance for high *k* values or queries with many terms by skipping terms and documents likely to have minimal impact. It achieves this by partitioning terms into essential and non-essential groups based on their maximum impact scores, focusing on terms that can contribute to the top-k results.
-
-    - `"DAAT_WAND"`: Optimized DAAT query processing using the WAND algorithm. WAND evaluates fewer hit documents by leveraging maximum impact scores to skip non-competitive documents, but it has a higher per-hit overhead. This makes WAND more efficient for queries with small *k* values or short queries, where skipping is more feasible.
-
-    - `"TAAT_NAIVE"`: Basic Term-at-a-Time (TAAT) query processing. While it is slower compared to `DAAT_MAXSCORE` and `DAAT_WAND`, `TAAT_NAIVE` offers a unique advantage. Unlike DAAT algorithms, which use cached maximum impact scores that remain static regardless of changes to the global collection parameter (avgdl), `TAAT_NAIVE` dynamically adapts to such changes.
-
 ### Create collection{#create-collection}
 
-Once the sparse vector and index settings are complete, you can create a collection that contains sparse vectors. The example below uses the `create_collection` method to create a collection named `my_sparse_collection`.
+Once the sparse vector and index settings are complete, you can create a collection that contains sparse vectors. The example below uses the `create_collection` method to create a collection named `my_collection`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 client.create_collection(
-    collection_name="my_sparse_collection",
+    collection_name="my_collection",
     schema=schema,
     index_params=index_params
 )
@@ -351,15 +382,8 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .build());
-        
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
-        .collectionName("my_sparse_collection")
+        .collectionName("my_collection")
         .collectionSchema(schema)
         .indexParams(indexes)
         .build();
@@ -378,10 +402,24 @@ const client = new MilvusClient({
 });
 
 await client.createCollection({
-    collection_name: 'my_sparse_collection',
+    collection_name: 'my_collection',
     schema: schema,
     index_params: indexParams
 });
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("my_collection", schema).
+        WithIndexOptions(indexOption))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -394,7 +432,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d "{
-    \"collectionName\": \"my_sparse_collection\",
+    \"collectionName\": \"my_collection\",
     \"schema\": $schema,
     \"indexParams\": $indexParams
 }"
@@ -407,7 +445,7 @@ curl --request POST \
 
 After creating the collection, insert data containing sparse vectors.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -417,7 +455,7 @@ sparse_vectors = [
 ]
 
 client.insert(
-    collection_name="my_sparse_collection",
+    collection_name="my_collection",
     data=sparse_vectors
 )
 ```
@@ -454,7 +492,7 @@ Gson gson = new Gson();
 }
 
 InsertResp insertR = client.insert(InsertReq.builder()
-        .collectionName("my_sparse_collection")
+        .collectionName("my_collection")
         .data(rows)
         .build());
 ```
@@ -469,10 +507,30 @@ const data = [
   { sparse_vector: { "10": 0.1, "200": 0.7, "1000": 0.9 } },
 ];
 client.insert({
-  collection_name: "my_sparse_collection",
+  collection_name: "my_collection",
   data: data,
 });
 
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+v := make([]entity.SparseEmbedding, 0, 2)
+sparseVector1, _ := entity.NewSliceSparseEmbedding([]uint32{1, 100, 500}, []float32{0.5, 0.3, 0.8})
+v = append(v, sparseVector1)
+sparseVector2, _ := entity.NewSliceSparseEmbedding([]uint32{10, 200, 1000}, []float32{0.1, 0.7, 0.9})
+v = append(v, sparseVector2)
+column := column.NewColumnSparseVectors("sparse_vector", v)
+
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
+    WithColumns(column))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
 ```
 
 </TabItem>
@@ -489,7 +547,7 @@ curl --request POST \
         {"sparse_vector": {"1": 0.5, "100": 0.3, "500": 0.8}},
         {"sparse_vector": {"10": 0.1, "200": 0.7, "1000": 0.9}}        
     ],
-    "collectionName": "my_sparse_collection"
+    "collectionName": "my_collection"
 }'
 
 ## {"code":0,"cost":0,"data":{"insertCount":2,"insertIds":["453577185629572534","453577185629572535"]}}
@@ -505,7 +563,7 @@ To perform similarity search using sparse vectors, prepare the query vector and 
 ```python
 # Prepare search parameters
 search_params = {
-    "params": {"drop_ratio_search": 0.2},  # Additional optional search parameters
+    "params": {"drop_ratio_search": 0.2},  # A tunable drop ratio parameter with a valid range between 0 and 1
 }
 
 # Prepare the query vector
@@ -516,12 +574,12 @@ In this example, `drop_ratio_search` is an optional parameter specifically for s
 
 Then, execute the similarity search using the `search` method:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 res = client.search(
-    collection_name="my_sparse_collection",
+    collection_name="my_collection",
     data=query_vector,
     limit=3,
     output_fields=["pk"],
@@ -547,14 +605,14 @@ Map<String,Object> searchParams = new HashMap<>();
 searchParams.put("drop_ratio_search", 0.2);
 
 SortedMap<Long, Float> sparse = new TreeMap<>();
-sparse.put(10L, 0.1f);
-sparse.put(200L, 0.7f);
-sparse.put(1000L, 0.9f);
+sparse.put(1L, 0.2f);
+sparse.put(50L, 0.4f);
+sparse.put(1000L, 0.7f);
 
 SparseFloatVec queryVector = new SparseFloatVec(sparse);
 
 SearchResp searchR = client.search(SearchReq.builder()
-        .collectionName("my_sparse_collection")
+        .collectionName("my_collection")
         .data(Collections.singletonList(queryVector))
         .annsField("sparse_vector")
         .searchParams(searchParams)
@@ -566,7 +624,7 @@ System.out.println(searchR.getSearchResults());
 
 // Output
 //
-// [[SearchResp.SearchResult(entity={pk=453444327741536759}, score=1.31, id=453444327741536759), SearchResp.SearchResult(entity={pk=453444327741536756}, score=1.31, id=453444327741536756), SearchResp.SearchResult(entity={pk=453444327741536753}, score=1.31, id=453444327741536753)]]
+// [[SearchResp.SearchResult(entity={pk=457270974427187729}, score=0.63, id=457270974427187729), SearchResp.SearchResult(entity={pk=457270974427187728}, score=0.1, id=457270974427187728)]]
 ```
 
 </TabItem>
@@ -575,7 +633,7 @@ System.out.println(searchR.getSearchResults());
 
 ```javascript
 await client.search({
-    collection_name: 'my_sparse_collection',
+    collection_name: 'my_collection',
     data: {1: 0.2, 50: 0.4, 1000: 0.7},
     limit: 3,
     output_fields: ['pk'],
@@ -583,6 +641,40 @@ await client.search({
         drop_ratio_search: 0.2
     }
 });
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+queryVector, _ := entity.NewSliceSparseEmbedding([]uint32{1, 50, 1000}, []float32{0.2, 0.4, 0.7})
+
+annSearchParams := index.NewCustomAnnParam()
+annSearchParams.WithExtraParam("drop_ratio_search", 0.2)
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "my_collection", // collectionName
+    3,                      // limit
+    []entity.Vector{entity.SparseEmbedding(queryVector)},
+).WithANNSField("sparse_vector").
+    WithOutputFields("pk").
+    WithAnnParam(annSearchParams))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+    fmt.Println("Pks: ", resultSet.GetColumn("pk").FieldData().GetScalars())
+}
+
+// Results:
+//   IDs:  string_data:{data:"457270974427187705"  data:"457270974427187704"}
+//   Scores:  [0.63 0.1]
+//   Pks:  string_data:{data:"457270974427187705"  data:"457270974427187704"}
+
 ```
 
 </TabItem>
@@ -595,7 +687,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "my_sparse_collection",
+    "collectionName": "my_collection",
     "data": [
         {"1": 0.2, "50": 0.4, "1000": 0.7}
     ],

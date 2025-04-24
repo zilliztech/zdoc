@@ -7,16 +7,16 @@ notebook: FALSE
 description: "The chapter focuses on organization operations and related settings. | BYOC"
 type: origin
 token: Dh6vwCrzYimC7skvDRUcvPi4n2c
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
   - cloud
   - organizations
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

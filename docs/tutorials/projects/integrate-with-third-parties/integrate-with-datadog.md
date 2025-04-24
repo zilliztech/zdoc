@@ -2,7 +2,7 @@
 title: "Integrate with Datadog | Cloud"
 slug: /integrate-with-datadog
 sidebar_label: "Datadog"
-beta: PRIVATE
+beta: FALSE
 notebook: FALSE
 description: "Datadog is a cloud monitoring and analytics platform that provides real-time insights into application performance, infrastructure, and log management. By integrating Zilliz Cloud with Datadog, you can send metric data about your Zilliz Cloud clusters to your Datadog dashboards. | Cloud"
 type: origin
@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - datadog
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 
@@ -145,17 +145,17 @@ To manage your Datadog integration, use the **Actions** column:
      <th><p>Description</p></th>
    </tr>
    <tr>
-     <td><p>CU Computation</p><p>(<code>zilliz.cluster.cu.computation.current</code>)</p></td>
+     <td><p>CU Computation (<code>zilliz.cluster.cu.computation.current</code>)</p></td>
      <td><p>Gauge</p></td>
      <td><p>A measure of the used capacity relative to the total capacity of the CU. Range from 0 to 1.</p></td>
    </tr>
    <tr>
-     <td><p>CU Capacity</p><p>(<code>zilliz.cluster.cu.capacity.current</code>)</p></td>
+     <td><p>CU Capacity (<code>zilliz.cluster.cu.capacity.current</code>)</p></td>
      <td><p>Gauge</p></td>
      <td><p>A measure of the utilized computational power relative to the total computational capacity of the CU. Range from 0 to 1.</p></td>
    </tr>
    <tr>
-     <td><p>Storage</p><p>(<code>zilliz.cluster.storage.bytes.current</code>)</p></td>
+     <td><p>Storage (<code>zilliz.cluster.storage.bytes.current</code>)</p></td>
      <td><p>Gauge</p></td>
      <td><p>The total amount of persistent storage consumed by data and indexes.</p></td>
    </tr>
@@ -170,27 +170,27 @@ To manage your Datadog integration, use the **Actions** column:
      <th><p>Description</p></th>
    </tr>
    <tr>
-     <td><p>Cluster Write Performance Capacity</p><p>(<code>zilliz.cluster.write.performance.capacity.current</code>)</p></td>
+     <td><p>Cluster Write Performance Capacity (<code>zilliz.cluster.write.performance.capacity.current</code>)</p></td>
      <td><p>Gauge</p></td>
      <td><p>A measure of the current rate of write operation relative to the write rate limit. Range from 0 to 1.</p></td>
    </tr>
    <tr>
-     <td><p>Slow Query Count</p><p>(<code>zilliz.request.slow.queries.total</code>)</p></td>
+     <td><p>Slow Query Count (<code>zilliz.request.slow.queries.total</code>)</p></td>
      <td><p>Count</p></td>
      <td><p>The total number of slow query requests.</p></td>
    </tr>
    <tr>
-     <td><p>QPS, Request Failure Rate, Number of Flush Operations</p><p>(<code>zilliz.requests.total</code>)</p></td>
+     <td><p>QPS, Request Failure Rate, Number of Flush Operations (<code>zilliz.requests.total</code>)</p></td>
      <td><p>Count</p></td>
      <td><p>The total number of requests processed.</p></td>
    </tr>
    <tr>
-     <td><p>VPS</p><p>(<code>zilliz.request.vectors.total</code>)</p></td>
+     <td><p>VPS (<code>zilliz.request.vectors.total</code>)</p></td>
      <td><p>Count</p></td>
      <td><p>The total number of vectors manipulated across all requests.</p></td>
    </tr>
    <tr>
-     <td><p>Latency</p><p>(<code>zilliz.request.latency.milliseconds.average</code>, <code>zilliz.request.latency.milliseconds.p99</code>)</p></td>
+     <td><p>Latency (<code>zilliz.request.latency.milliseconds.average</code>, <code>zilliz.request.latency.milliseconds.p99</code>)</p></td>
      <td><p>Gauge</p></td>
      <td><p>The average/P99 latency of requests processed.</p></td>
    </tr>
@@ -205,22 +205,22 @@ To manage your Datadog integration, use the **Actions** column:
      <th><p>Description</p></th>
    </tr>
    <tr>
-     <td><p>Entity Count</p><p>(<code>zilliz.entities.current</code>)</p></td>
+     <td><p>Entity Count (<code>zilliz.entities.current</code>)</p></td>
      <td><p>Gauge</p></td>
      <td><p>The number of entities.</p></td>
    </tr>
    <tr>
-     <td><p>Loaded Entities</p><p>(<code>zilliz.loaded.entities.current</code>)</p></td>
+     <td><p>Loaded Entities (<code>zilliz.loaded.entities.current</code>)</p></td>
      <td><p>Gauge</p></td>
      <td><p>The number of loaded entities.</p></td>
    </tr>
    <tr>
-     <td><p>Collection Count</p><p>(<code>zilliz.collections.current</code>)</p></td>
+     <td><p>Collection Count (<code>zilliz.collections.current</code>)</p></td>
      <td><p>Gauge</p></td>
      <td><p>The number of collections.</p></td>
    </tr>
    <tr>
-     <td><p>Number of Unloaded Collections</p><p>(<code>zilliz.unloaded.collections.current</code>)</p></td>
+     <td><p>Number of Unloaded Collections (<code>zilliz.unloaded.collections.current</code>)</p></td>
      <td><p>Gauge</p></td>
      <td><p>The number of unloaded collections.</p></td>
    </tr>

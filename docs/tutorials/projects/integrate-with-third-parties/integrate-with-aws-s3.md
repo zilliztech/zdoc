@@ -17,10 +17,10 @@ keywords:
   - integrate
   - object
   - storage
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 
@@ -205,6 +205,10 @@ You can now use this integration to export backup files to your Amazon S3 bucket
 Once the integration is added, you can view its details or remove the integration as needed.
 
 ![integrate-with-aws-6](/img/integrate-with-aws-6.png)
+
+### Obtain the integration ID{#obtain-the-integration-id}
+
+If you need to use the RESTful API to export backup files to one of your AWS S3 buckets integrated with Zilliz Cloud, click **View Details** to display the details of an integration and copy its integration ID.
 
 ## Troubleshooting{#troubleshooting}
 

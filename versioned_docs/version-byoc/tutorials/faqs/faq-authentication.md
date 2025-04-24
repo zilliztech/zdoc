@@ -26,4 +26,4 @@ This topic lists the possible issues that you may encounter while authenticating
 
 ### What can I do if I forget the password used to connect to my Zilliz Cloud cluster?{#what-can-i-do-if-i-forget-the-password-used-to-connect-to-my-zilliz-cloud-cluster}
 
-If you forget your password, you can reset the password. However, if you forget the password of the default user, you can create a new user with a new password. Please refer to [Cluster Credentials (Console)](./cluster-credentials-console) and [Cluster Credentials (SDK)](./cluster-credentials-sdk) for more details.
+If you forget your password, you can reset the password. However, if you forget the password of the default user, you can create a new user with a new password. Please refer to [Cluster Credentials (Console)](./cluster-credentials) and Cluster Credentials (SDK) for more details.

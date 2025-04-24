@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloud have optimized the user experience for data import features, refined API keys with hierarchical permissions, and enhanced the metrics and alerts mechanism. | Cloud"
 type: origin
 token: VbjiwU5RYi4bWdkC48Jceltnnpd
-sidebar_position: 11
+sidebar_position: 12
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

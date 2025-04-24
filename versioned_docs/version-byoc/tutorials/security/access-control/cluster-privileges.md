@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 
@@ -34,7 +34,7 @@ A **privilege group** is a combination of individual privileges. You can create 
 
 The following figure illustrates the different granting process of privileges and a privilege group.
 
-![SsW6w8kaNhz4iQbEMYmcbUzsnOc](/byoc/SsW6w8kaNhz4iQbEMYmcbUzsnOc.png)
+![SsW6w8kaNhz4iQbEMYmcbUzsnOc](/img/SsW6w8kaNhz4iQbEMYmcbUzsnOc.png)
 
 This topic details the built-in privilege groups and privileges that are available in Zilliz Cloud. 
 

@@ -50,7 +50,7 @@ We recommend suspending unused clusters to save computing costs. You can resume 
 
 ### How can I estimate the cost of using Zilliz Cloud?{#how-can-i-estimate-the-cost-of-using-zilliz-cloud}
 
-You can use our [calculator](https://zilliz.com/pricing) to get a cost estimate.
+You can use our [calculator](https://zilliz.com/pricing) to get a cost estimate or refer to [Estimate Cost](./understand-cost) for details.
 
 ### Does Zilliz Cloud support deployment on Azure?{#does-zilliz-cloud-support-deployment-on-azure}
 
@@ -84,9 +84,9 @@ Opt for the Extended-capacity CU if you need to manage massive-scale datasets wh
 
 ### What's the difference between Performance-optimized CU and Capacity-optimized CU?{#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu}
 
-The "Performance-optimized Compute Unit" suits low latency or high throughput similarity searches. This option works best for high-search performance scenarios.
+The "Performance-optimized CU" suits low latency or high throughput similarity searches. This option works best for high-search performance scenarios.
 
-The "Capacity-optimized Compute Unit" suits data volumes that are five times larger than the performance-optimized CU option. This option works best for increased storage capacity scenarios.
+The "Capacity-optimized CU" suits data volumes that are five times larger than the performance-optimized CU option. This option works best for increased storage capacity scenarios.
 
 For more details, see [Select the Right CU](./cu-types-explained).
 

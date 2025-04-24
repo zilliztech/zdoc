@@ -7,16 +7,16 @@ notebook: FALSE
 description: "The chapter focuses on project operations and related settings. | BYOC"
 type: origin
 token: QHzrwVlEOipspAkPiyucWezqneC
-sidebar_position: 8
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database
   - cloud
   - projects
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

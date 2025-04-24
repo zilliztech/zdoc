@@ -14,10 +14,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 
@@ -47,12 +47,12 @@ For more information about recommended actions, refer to [Metrics & Alerts Refer
    <tr>
      <td><p>CU Computation</p></td>
      <td><p>%</p></td>
-     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized computational power for 10+ minutes.</p><p><strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized computational power for 10+ minutes.</p></td>
+     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized computational power for 10+ minutes. <strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized computational power for 10+ minutes.</p></td>
    </tr>
    <tr>
      <td><p>CU Capacity</p></td>
      <td><p>%</p></td>
-     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized CU capacity for 10+ minutes.</p><p><strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized CU capacity for 10+ minutes.</p></td>
+     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized CU capacity for 10+ minutes. <strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized CU capacity for 10+ minutes.</p></td>
    </tr>
    <tr>
      <td><p>Search (QPS)</p></td>
@@ -102,7 +102,7 @@ Navigate to the **Project Alerts** page to view project alerts.
 
 - **Receiver**: Designated roles or email addresses for receiving notifications. You can also set up custom notification channels using webhooks. For more information, refer to [Manage Notification Channels](./manage-notification-channels).
 
-![byoc-view-project-alert](/byoc/byoc-view-project-alert.png)
+![byoc-view-project-alert](/img/byoc-view-project-alert.png)
 
 ## Create a project alert{#create-a-project-alert}
 
@@ -110,7 +110,7 @@ In addition to default project alerts, you can click **+ Alert** to create an al
 
 For supported custom alert targets, refer to [Metrics & Alerts Reference](./metrics-alerts-reference).
 
-![byoc-create-alert](/byoc/byoc-create-alert.png)
+![byoc-create-alert](/img/byoc-create-alert.png)
 
 ## Edit a project alert{#edit-a-project-alert}
 
@@ -148,7 +148,7 @@ Once a project alert is no longer needed, you can delete it.
 
 View triggered alerts on the **Alert History** tab, with filters for alert target, severity level, and time range.
 
-![byoc-view-project-alert-history](/byoc/byoc-view-project-alert-history.png)
+![byoc-view-project-alert-history](/img/byoc-view-project-alert-history.png)
 
 ## Configure alert receiver settings{#configure-alert-receiver-settings}
 
@@ -156,7 +156,7 @@ The Alert Receiver Settings feature allows [Project Admins](./project-users) to 
 
 On the **Alert Settings** page of the project alerts, configure alert receiver settings.incl
 
-![byoc-alert-receiver-settings](/byoc/byoc-alert-receiver-settings.png)
+![byoc-alert-receiver-settings](/img/byoc-alert-receiver-settings.png)
 
 ## Related topics{#related-topics}
 

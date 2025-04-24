@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

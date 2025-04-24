@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 
@@ -42,29 +42,37 @@ The following job information is displayed:
        </tr>
        <tr>
          <td rowspan="2"><p>Backup</p></td>
-         <td><p>Create a backup file for a cluster.</p></td>
+         <td><p>Create a backup file for a cluster</p></td>
        </tr>
        <tr>
-         <td><p>Create a backup file for a collection.</p></td>
+         <td><p>Create a backup file for a collection</p></td>
        </tr>
        <tr>
          <td rowspan="2"><p>Restore</p></td>
-         <td><p>Restore a cluster from a backup file.</p></td>
+         <td><p>Restore a cluster from a backup file</p></td>
        </tr>
        <tr>
-         <td><p>Restore a collection from a backup file.</p></td>
+         <td><p>Restore a collection from a backup file</p></td>
+       </tr>
+       <tr>
+         <td><p>Export Backup File</p></td>
+         <td><p>Export a backup file to the specified object storage service</p></td>
        </tr>
        <tr>
          <td><p>Migration</p></td>
-         <td><p>Migrate data to a cluster.</p><ul><li><p>External Data Migration: </p><ul><li><p>From Elasticsearch</p></li><li><p>From Milvus</p></li></ul></li><li><p>Cross-cluster migration:</p><ul><li><p>From Serverless or Dedicated cluster to a new Dedicated cluster</p></li><li><p>From Dedicated cluster to an existing Dedicated cluster</p></li></ul></li></ul></td>
+         <td><p>Migrate data to a cluster.</p><ul><li><p>External Data Migration: </p><ul><li><p>From Milvus</p></li><li><p>From Pinecone</p></li><li><p>From Qdrant</p></li><li><p>From Elasticsearch</p></li><li><p>From OpenSearch</p></li><li><p>From PostgreSQL</p></li><li><p>From Tencent Cloud VectorDB</p></li></ul></li><li><p>Zilliz Cloud Cross-cluster migration:</p><ul><li><p>Cross-cluster migration within the same organization</p></li><li><p>Migration between clusters across organizations</p></li></ul></li></ul></td>
        </tr>
        <tr>
          <td><p>Import</p></td>
-         <td><p>Import data to a collection.</p></td>
+         <td><p>Import data to a collection</p></td>
        </tr>
        <tr>
          <td><p>Clone Collection</p></td>
-         <td><p>Make a full copy of the collection with both its schema and data.</p></td>
+         <td><p>Make a full copy of the collection with both its schema and data</p></td>
+       </tr>
+       <tr>
+         <td><p>Create Sample Collection</p></td>
+         <td><p>Create a collection loaded with a sample dataset</p></td>
        </tr>
     </table>
 
@@ -84,11 +92,16 @@ To view the details of a job, click **...** in the **Actions** column and then s
 
 ## Cancel job{#cancel-job}
 
-You can cancel a job that is **Pending** or **In Progress**. To cancel a job, click **...** in the **Actions** column and then select **Cancel**.
+Currently, you can only cancel the following types of jobs that  are in the state of **Pending** or **In Progress**:
+
+- Backup jobs
+
+- Migration jobs (excluding zero downtime migration)
+
+- Export backup file jobs
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, you can only cancel migration and backup jobs. </p>
 <p>To cancel a job, you must be an <strong>Organization Owner</strong> or a <strong>Project Admin</strong>.</p>
 
 </Admonition>

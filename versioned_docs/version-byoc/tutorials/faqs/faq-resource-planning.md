@@ -18,7 +18,6 @@ This topic lists the possible issues that you may encounter while planning your 
 ## Contents
 
 - [What is a Compute Unit (CU)?](#what-is-a-compute-unit-cu)
-- [What is a vCU? How does it get calculated?](#what-is-a-vcu-how-does-it-get-calculated)
 - [How can I avoid expenses on unused clusters?](#how-can-i-avoid-expenses-on-unused-clusters)
 - [How many CUs do I need for a given collection?](#how-many-cus-do-i-need-for-a-given-collection)
 - [Which type of CU should I pick?](#which-type-of-cu-should-i-pick)
@@ -34,10 +33,6 @@ This topic lists the possible issues that you may encounter while planning your 
 A compute unit (CU) is a group of hardware resources for serving your indexes and search requests. You can simply consider a CU as a fully-managed physical node for deploying search service.
 
 For more details, see [Select the Right CU](./cu-types-explained).
-
-### What is a vCU? How does it get calculated?{#what-is-a-vcu-how-does-it-get-calculated}
-
-A vCU is a virtual compute unit used to measure the resources consumed by read operations (such as search and query) and write operations (such as insert, upsert, bulk insert, and delete). The data volume written or read will be converted from GB to vCUs. For details, refer to [Understand Cost](./understand-cost#serverless-clusters).
 
 ### How can I avoid expenses on unused clusters?{#how-can-i-avoid-expenses-on-unused-clusters}
 
@@ -61,8 +56,8 @@ Opt for the Extended-capacity CU if you need to manage massive-scale datasets wh
 
 ### What's the difference between Performance-optimized CU and Capacity-optimized CU?{#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu}
 
-The "Performance-optimized Compute Unit" suits low latency or high throughput similarity searches. This option works best for high-search performance scenarios.
+The "Performance-optimized CU" suits low latency or high throughput similarity searches. This option works best for high-search performance scenarios.
 
-The "Capacity-optimized Compute Unit" suits data volumes that are five times larger than the performance-optimized CU option. This option works best for increased storage capacity scenarios.
+The "Capacity-optimized CU" suits data volumes that are five times larger than the performance-optimized CU option. This option works best for increased storage capacity scenarios.
 
 For more details, see [Select the Right CU](./cu-types-explained).

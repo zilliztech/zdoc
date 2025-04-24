@@ -7,17 +7,17 @@ notebook: FALSE
 description: "This chapter focuses on data operations. | BYOC"
 type: origin
 token: KyTFwqmCJiIJsuk9d6Ncg2eDnDd
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - cluster
   - data operations
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - notification
   - channels
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

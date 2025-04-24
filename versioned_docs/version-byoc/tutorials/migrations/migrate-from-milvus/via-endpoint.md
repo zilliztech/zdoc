@@ -4,7 +4,7 @@ slug: /via-endpoint
 sidebar_label: "Via Endpoint"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud offers Milvus as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. To enable smooth migration, you can migrate data from Milvus to Zilliz Cloud in these ways - connecting to source Milvus via database endpoint or uploading backup files directly. | BYOC"
+description: "Zilliz Cloud offers Milvus as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. To enable smooth migration, you can migrate data from Milvus to Zilliz Cloud  by connecting to source Milvus via database endpoint | BYOC"
 type: origin
 token: PlX3wo82Di6oWVkg2ercRWCUnvV
 sidebar_position: 1
@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 
@@ -27,15 +27,9 @@ import Admonition from '@theme/Admonition';
 
 # Migrate from Milvus to Zilliz Cloud Via Endpoint
 
-Zilliz Cloud offers [Milvus](https://milvus.io/) as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. To enable smooth migration, you can migrate data from Milvus to Zilliz Cloud in these ways - connecting to source Milvus via database endpoint or uploading backup files directly.
+Zilliz Cloud offers [Milvus](https://milvus.io/) as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. To enable smooth migration, you can migrate data from Milvus to Zilliz Cloud  by connecting to source Milvus via database endpoint
 
-This topic describes how to migrate from Milvus via database endpoint. For information on how to upload backup files, refer to [Via Backup Files](./via-backup-files).
-
-## Considerations{#considerations}
-
-- Each migration task is limited to a single source Milvus database. If you have data in multiple source databases, you can set up separate migration jobs for each one.
-
-- During the migration process, Zilliz Cloud will replicate the exact collection schema from the source Milvus collection. Modifying the schema is not allowed while the migration is in progress.
+This topic describes how to migrate from Milvus via the database endpoint. 
 
 ## Before you start{#before-you-start}
 
@@ -55,33 +49,71 @@ You can migrate one or more collections from a single Milvus database at a time.
 
 1. Go to the target project and select **Migrations** > **Milvus** > **Via Endpoint**.
 
-1. In the **Database Endpoint** field of the **Connect to Data Source** step, enter the server address of the source Milvus. If [authentication](https://milvus.io/docs/authenticate.md) has been enabled for the source Milvus, enter **Username** and **Password** as access credentials. Then, click **Next**.
+1. In the **Cluster Endpoint** field of the **Connect to Data Source** step, enter the server address of the source Milvus. If [authentication](https://milvus.io/docs/authenticate.md) has been enabled for the source Milvus, enter **Username** and **Password** as access credentials. Then, click **Next**.
+
+    ![D2R5bHXGJoi7PSxMfxScbYdEnA5](/img/D2R5bHXGJoi7PSxMfxScbYdEnA5.png)
 
 1. In the **Select Source and Target** step, configure settings for the source Milvus and target Zilliz Cloud cluster. Then, click **Next**.
 
-1. In the **Configure Schema** step,
+    ![ZpTrbReOKoaGe4xY1xPc5DRNnFf](/img/ZpTrbReOKoaGe4xY1xPc5DRNnFf.png)
 
-    1. Review the target collections and their field settings in the schema preview.
+1. In the **Configure Schema** step, set up field mappings between Milvus and Zilliz Cloud.
 
-    1. In **Advanced Settings**, verify **Dynamic Field** and **Partition Key** settings, which inherits the settings of the source collection and cannot be altered. For more information, refer to [Dynamic Field](./enable-dynamic-field) and [Use Partition Key](./use-partition-key).
+    ![IEHEbdHi9o7IDsx5fKGcVQXSnDb](/img/IEHEbdHi9o7IDsx5fKGcVQXSnDb.png)
 
-    1. In **Target Collection Name** and **Description**, customize the target collection name and description. The collection name must be unique in each cluster. If the name duplicates an existing one, rename the collection.
+    1. **Verify primary key & vector field mappings:**
+
+        - **Primary key**: The source collection’s primary key becomes the primary key in the target collection. You can enable **Auto ID** to generate new primary key values. If you do so, the original primary key values from your source index will be discarded.
+
+        - **Vector fields**: Migrated unchanged. The vector dimension is fixed and cannot be edited.
+
+    1. **Handle scalar fields:**
+
+        For scalar fields, configure the following attributes:
+
+        - **Nullable:** Decide whether a field can accept null values. This feature is enabled by default. For details, refer to [Nullable & Default](./nullable-and-default).
+
+        - **Default Value:** Specify a default value for a field. For details, refer to [Nullable & Default](./nullable-and-default).
+
+        - **Partition Key:** Optionally designate an INT64 or VARCHAR field as the partition key. **Note:** Each collection supports only one partition key, and the selected field cannot be nullable. For details, refer to [Use Partition Key](./use-partition-key).
+
+    1. **Enable dynamic field:**
+
+        - Dynamic fields are enabled by default for the target collection.
+
+        - If you disable dynamic fields for your target collection, the dynamic fields from your source collection will not be migrated.
+
+        - When a dynamic field’s structure stabilizes, convert it to a fixed field for index configuration and improved search performance.
+
+    1. **(Optional) Adjust shards:**
+
+        - Click **Advanced Settings** to configure the number of shards for your target collection.
+
+        - For datasets of around 100 million rows, a single shard is typically sufficient.
+
+        - If your dataset exceeds 1 billion rows, [contact us](https://zilliz.com/contact-sales) to discuss optimal shard configuration for your use case.
 
 1. Click **Migrate**.
 
-![migrate_from_milvus_via_endpoint_1](/byoc/migrate_from_milvus_via_endpoint_1.png)
-
 ## Monitor the migration process{#monitor-the-migration-process}
 
-Once you click **Migrate**, a migration job will be generated. You can check the migration progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the migration is complete.
+Once you click **Migrate**, a migration job will be generated. You can check the migration progress on the [Jobs](./job-center) page. When the job status switches from **In Progress** to **Successful**, the migration is complete.
+
+![RGsvb7oFpo7uzbxjSSFc6owNn0c](/img/RGsvb7oFpo7uzbxjSSFc6owNn0c.png)
+
+## Post-migration{#post-migration}
+
+After the migration job is completed, note the following:
+
+- **Index Creation**: The migration process automatically creates [AUTOINDEX](./autoindex-explained) for the migrated collections.
+
+- **Manual Loading Required**: Despite automatic indexing, the migrated collections are not immediately available for search or query operations. You must manually load the collections in Zilliz Cloud to enable search and query functionalities. For details, refer to [Load & Release](./load-release-collections).
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>After migration, verify that the number of collections and entities in the target cluster matches the data source. If discrepancies are found, delete the collections with missing entities and re-migrate them.</p>
+<p>Once your collection is loaded, verify that the number of collections and entities in the target cluster matches the data source. If discrepancies are found, delete the collections with missing entities and re-migrate them.</p>
 
 </Admonition>
-
-![verify_collection](/byoc/verify_collection.png)
 
 ## Cancel migration job{#cancel-migration-job}
 

@@ -7,16 +7,16 @@ notebook: FALSE
 description: "We are pleased to announce the release of Zilliz Cloud, which boasts a suite of new features designed to enhance your user experience, including data migration across Zilliz Cloud clusters and from ElasticSearch, a brand-new ticket system going live, and enhanced data import capabilities. | Cloud"
 type: origin
 token: GqyhwKVspiYRwDk8OaucNfgJnhd
-sidebar_position: 15
+sidebar_position: 16
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 
@@ -45,7 +45,7 @@ In this release, users are empowered with a streamlined ability to migrate data 
 
 - Real-time Monitoring: An intuitive UI for users to monitor migration progress and receive status updates instantaneously.
 
-See details at [Migrate Between Clusters](./migrate-between-clusters).
+See details at [Migrate Between Clusters](./offline-migration).
 
 ## Easy Migration from ElasticSearch to Zilliz Cloud{#easy-migration-from-elasticsearch-to-zilliz-cloud}
 

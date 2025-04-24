@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - quick-setup
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 
@@ -48,7 +48,7 @@ When you create a collection instantly with default settings, the following sett
 
 - **COSINE** is used to measure similarities between vector embeddings.
 
-- The reserves dynamic field named **$meta** is enabled to save non-schema-defined fields and their values in key-value pairs.
+- The reserves dynamic field named **\$meta** is enabled to save non-schema-defined fields and their values in key-value pairs.
 
 - The collection is automatically loaded upon creation.
 
@@ -176,24 +176,32 @@ console.log(res.state)
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v2/milvusclient"
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
 
 ctx, cancel := context.WithCancel(context.Background())
 defer cancel()
 
-collectionName := `quick_setup`
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
 })
 if err != nil {
-    // handle err
-}
-
-err = cli.CreateCollection(ctx, milvusclient.SimpleCreateCollectionOptions(collectionName, 5))
-if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
+defer client.Close(ctx)
+
+err = client.CreateCollection(ctx, milvusclient.SimpleCreateCollectionOptions("quick_setup", 5))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println("collection created")
 ```
 
 </TabItem>
@@ -358,7 +366,37 @@ console.log(res.state)
 <TabItem value='go'>
 
 ```go
-// Go 缺失
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+defer client.Close(ctx)
+
+err = client.CreateCollection(ctx, milvusclient.SimpleCreateCollectionOptions("custom_quick_setup", 5).
+    WithPKFieldName("my_id").
+    WithVarcharPK(true, 512).
+    WithVectorFieldName("my_vector").
+    WithMetricType(entity.L2).
+    WithAutoID(true),
+)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>

@@ -2,7 +2,7 @@
 title: "Jieba | BYOC"
 slug: /jieba-tokenizer
 sidebar_label: "Jieba"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "The `jieba` tokenizer processes Chinese text by breaking it down into its component words. | BYOC"
 type: origin
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - jieba-tokenizer
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 
@@ -34,14 +34,13 @@ The `jieba` tokenizer processes Chinese text by breaking it down into its compon
 
 ## Configuration{#configuration}
 
-To configure an analyzer using the `jieba` tokenizer, set `tokenizer` to `jieba` in `analyzer_params`.
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
+# Simple configuration: only specifying the tokenizer name
 analyzer_params = {
-    "tokenizer": "jieba",
+    "tokenizer": "jieba",  # Use the default settings: dict=["_default_"], mode="search", hmm=true
 }
 ```
 
@@ -55,23 +54,97 @@ analyzerParams.put("tokenizer", "jieba");
 ```
 
 </TabItem>
-</Tabs>
 
-After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview#example-use).
+<TabItem value='javascript'>
 
-## Example output{#example-output}
-
-Here’s an example of how the `jieba` tokenizer processes text:
-
-**Original text**:
-
-```python
-"Milvus 是一个高性能、可扩展的向量数据库！"
+```javascript
+const analyzer_params = {
+    "tokenizer": "jieba",
+};
 ```
 
-**Expected output**:
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"tokenizer": "jieba"}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "tokenizer": "jieba"
+}'
+```
+
+</TabItem>
+</Tabs>
+
+## Examples{#examples}
+
+### Analyzer configuration{#analyzer-configuration}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
-["Milvus", " ", "是", "一个", "高性", "性能", "高性能", "、", "可", "扩展", "的", "向量", "数据", "据库", "数据库", "！"]
+analyzer_params = {
+    "tokenizer": {
+        "type": "jieba",
+        "dict": ["结巴分词器"],
+        "mode": "exact",
+        "hmm": False
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+Map<String, Object> analyzerParams = new HashMap<>();
+analyzerParams.put("type", "jieba");
+analyzerParams.put("dict", Collections.singletonList("结巴分词器"));
+analyzerParams.put("mode", "exact");
+analyzerParams.put("hmm", false);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// javascript
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"type": "jieba", "dict": []any{"结巴分词器"}, "mode": "exact", "hmm": false}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+### Expected output{#expected-output}
+
+```python
+['milvus', '结巴分词器', '中', '文', '测', '试']
 ```
 

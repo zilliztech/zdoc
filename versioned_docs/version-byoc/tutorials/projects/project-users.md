@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 
@@ -102,7 +102,7 @@ Once the user joins the project, this user automatically becomes an Organization
 
 </Admonition>
 
-![byoc-invite-user-to-project](/byoc/byoc-invite-user-to-project.png)
+![byoc-invite-user-to-project](/img/byoc-invite-user-to-project.png)
 
 ## Revoke or resend an invitation{#revoke-or-resend-an-invitation}
 
@@ -116,7 +116,7 @@ To revoke or resend the invitation, you must be an **Organization Owner** or a *
 
 </Admonition>
 
-![byoc-revoke-or-cancel-invitation-to-project](/byoc/byoc-revoke-or-cancel-invitation-to-project.png)
+![byoc-revoke-or-cancel-invitation-to-project](/img/byoc-revoke-or-cancel-invitation-to-project.png)
 
 ## Edit a collaborator's role or remove a collaborator{#edit-a-collaborators-role-or-remove-a-collaborator}
 
@@ -124,7 +124,7 @@ After a user accepts the invitation, the user becomes a project collaborator.
 
 To edit a collaborator's role or remove a project collaborator, you must be an **Organization Owner** or a **Project Admin**.
 
-![byoc-edit-user-role-or-remove-project-user](/byoc/byoc-edit-user-role-or-remove-project-user.png)
+![byoc-edit-user-role-or-remove-project-user](/img/byoc-edit-user-role-or-remove-project-user.png)
 
 ## Leave a project{#leave-a-project}
 
@@ -138,5 +138,5 @@ Note that if you are the only admin of a project, you cannot leave it as each pr
 
 </Admonition>
 
-![byoc-leave-project](/byoc/byoc-leave-project.png)
+![byoc-leave-project](/img/byoc-leave-project.png)
 

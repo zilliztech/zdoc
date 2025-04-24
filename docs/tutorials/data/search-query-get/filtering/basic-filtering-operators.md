@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - manage
   - console
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 
@@ -43,7 +43,7 @@ Zilliz Cloud offers three methods to create a collection, each catering to diffe
 
 For complete control over your collection, follow these steps.
 
-![create_custom_collection](/byoc/create_custom_collection.png)
+![create_custom_collection](/img/create_custom_collection.png)
 
 1. On the **Create Collection** page, define the schema of your collection.
 
@@ -54,7 +54,7 @@ For complete control over your collection, follow these steps.
        </tr>
        <tr>
          <td><p>Field Name</p></td>
-         <td><p>The name of the field. Each collection has the unique primary key and at least one vector field (up to 4).</p><p>In default schema design, Zilliz Cloud reserves the primary field (<code>primary_key</code>) and a float vector (<code>vector</code>). You can customize their settings as needed.</p></td>
+         <td><p>The name of the field. Each collection has the unique primary key and at least one vector field (up to 4). In default schema design, Zilliz Cloud reserves the primary field (<code>primary_key</code>) and a float vector (<code>vector</code>). You can customize their settings as needed.</p></td>
        </tr>
        <tr>
          <td><p>Field Type</p></td>
@@ -108,7 +108,7 @@ Select **Load Sample Data**, review the preset collection, and confirm creation.
 
 </Admonition>
 
-![create_sample_collection](/byoc/create_sample_collection.png)
+![create_sample_collection](/img/create_sample_collection.png)
 
 ### Method 3: Clone existing collection{#method-3-clone-existing-collection}
 
@@ -120,7 +120,7 @@ Choose **Clone Collection** from the **Actions** menu.
 
 1. Click **Clone**.
 
-    ![copy_collection](/byoc/copy_collection.png)
+    ![copy_collection](/img/copy_collection.png)
 
 1. You can check the clone progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, a new collection with the specified attributes is created in the current cluster.
 
@@ -134,19 +134,19 @@ Choose **Clone Collection** from the **Actions** menu.
 
 You can view the list of all existing collections created in your cluster, or click the name of a collection to view its details.
 
-![view_collection](/byoc/view_collection.png)
+![view_collection](/img/view_collection.png)
 
 ## Load & release collection{#load-and-release-collection}
 
 In Zilliz Cloud, all search and query operations are performed in memory. Thus, loading a collection involves writing its data into memory, which is essential for these operations. Conversely, releasing a collection frees up memory space.
 
-![load_release_collection](/byoc/load_release_collection.png)
+![load_release_collection](/img/load_release_collection.png)
 
 ## Move collection to another database{#move-collection-to-another-database}
 
 You can move a collection from one database to another.
 
-![move-collection-to-another-database](/byoc/move-collection-to-another-database.png)
+![move-collection-to-another-database](/img/move-collection-to-another-database.png)
 
 ## Drop collection{#drop-collection}
 
@@ -158,39 +158,9 @@ Dropping a collection is a permanent action used when a collection is no longer 
 
 </Admonition>
 
-![drop_collection](/byoc/drop_collection.png)
+![drop_collection](/img/drop_collection.png)
 
-## Limits on collections{#limits-on-collections}
-
-<table>
-   <tr>
-     <th><p><strong>Cluster Type</strong></p></th>
-     <th><p><strong>Max Number</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster</p></td>
-     <td><p>64 per CU, and &lt;= 4096</p></td>
-     <td><p>You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster.</p></td>
-   </tr>
-</table>
-
-In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity, which indicates the physical resources consumed by your cluster. The following table lists the limits on the general capacity of a cluster.
-
-<table>
-   <tr>
-     <th><p><strong>Number of CUs</strong></p></th>
-     <th><p><strong>General Capacity</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>1-8 CUs</p></td>
-     <td><p>&lt;= 4,096</p></td>
-   </tr>
-   <tr>
-     <td><p>12+ CUs</p></td>
-     <td><p>Min(512 x Number of CUs, 65536)</p></td>
-   </tr>
-</table>
+## Limits{#limits}
 
 For details on the calculation of general and consumed capacity, refer to [Zilliz Cloud Limits](./limits#collections).
 

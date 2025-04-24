@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 
@@ -69,7 +69,7 @@ Zilliz Cloud provides three organization roles. These roles cannot be modified o
        </tr>
        <tr>
          <td><ul><li><p>Manage <a href="./payment-billing">payments & billing</a></p></li><li><p>View <a href="./manage-api-keys">API keys</a></p></li><li><p>Invite <a href="./organization-users">organization users</a></p></li><li><p>View <a href="./organization-settings">organization settings</a></p></li></ul></td>
-         <td><ul><li><p>List Invoices</p></li><li><p>Get Invoice</p></li><li><p>Query org daily usage</p></li></ul></td>
+         <td><ul><li><p><a href="/reference/restful/list-invoices-v2">List Invoices</a></p></li><li><p><a href="/reference/restful/describe-invoice-v2">Describe Invoice</a></p></li><li><p><a href="/reference/restful/query-daily-usage-v2">Query Daily Usage</a></p></li></ul></td>
          <td><p>The data plan privileges are determined by project and cluster roles. However, a Billing Admin usually does not require data plane privileges.</p></td>
        </tr>
     </table>
@@ -101,13 +101,13 @@ The invitees will receive an invitation via email, which must be accepted within
 
 </Admonition>
 
-![invite-user-to-org-byoc](/byoc/invite-user-to-org-byoc.png)
+![invite-user-to-org-byoc](/img/invite-user-to-org-byoc.png)
 
 ## Revoke or resend an invitation{#revoke-or-resend-an-invitation}
 
 After you invite a user to join your organization, Zilliz Cloud sends an invitation email to the user. You can revoke or resend the invitation before the user accepts it.
 
-![revoke-or-resend-org-invitation-byoc](/byoc/revoke-or-resend-org-invitation-byoc.png)
+![revoke-or-resend-org-invitation-byoc](/img/revoke-or-resend-org-invitation-byoc.png)
 
 ## Edit the role of an organization user{#edit-the-role-of-an-organization-user}
 
@@ -115,7 +115,7 @@ Once a user accepts the invitation and joins your organization, you can adjust t
 
 To edit the role of an organization user, you must be an **Organization Owner**.
 
-![edit-user-role-or-remove-org-user-byoc](/byoc/edit-user-role-or-remove-org-user-byoc.png)
+![edit-user-role-or-remove-org-user-byoc](/img/edit-user-role-or-remove-org-user-byoc.png)
 
 ## Remove an organization user{#remove-an-organization-user}
 
@@ -123,7 +123,7 @@ If a user no longer belongs to your organization, you can remove the user.
 
 To remove an organization user, you must be an **Organization Owner**.
 
-![edit-user-role-or-remove-org-user-byoc](/byoc/edit-user-role-or-remove-org-user-byoc.png)
+![edit-user-role-or-remove-org-user-byoc](/img/edit-user-role-or-remove-org-user-byoc.png)
 
 ## Leave an organization{#leave-an-organization}
 
@@ -137,5 +137,5 @@ Each organization must have at least one organization owner. If you are the only
 
 </Admonition>
 
-![leave-organization-byoc](/byoc/leave-organization-byoc.png)
+![leave-organization-byoc](/img/leave-organization-byoc.png)
 

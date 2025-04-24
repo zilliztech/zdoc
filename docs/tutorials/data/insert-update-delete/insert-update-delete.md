@@ -15,10 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

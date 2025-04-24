@@ -14,10 +14,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

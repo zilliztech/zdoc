@@ -16,10 +16,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - Video deduplication
-  - Video similarity search
   - Vector retrieval
   - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 
@@ -33,9 +33,9 @@ You can delete the entities that are no longer needed by filtering conditions or
 
 ## Delete Entities by Filtering Conditions{#delete-entities-by-filtering-conditions}
 
-When deleting multiple entities that share some attributes in a batch, you can use filter expressions. The example code below uses the **in** operator to bulk delete all Entities with thier **color** field set to the values of **red** and **green**. You can also use other operators to construct filter expressions that meet your requirements. For more information about filter expressions, please refer to [Filtering](./filtering).
+When deleting multiple entities that share some attributes in a batch, you can use filter expressions. The example code below uses the **in** operator to bulk delete all Entities with their **color** field set to the values of **red** and **purple**. You can also use other operators to construct filter expressions that meet your requirements. For more information about filter expressions, please refer to [Filtering](./filtering).
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -49,7 +49,7 @@ client = MilvusClient(
 res = client.delete(
     collection_name="quick_setup",
     # highlight-next-line
-    filter="color in ['red_3314', 'purple_7392']"
+    filter="color in ['red_7025', 'purple_4976]"
 )
 
 print(res)
@@ -75,7 +75,7 @@ ilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
 
 DeleteResp deleteResp = client.delete(DeleteReq.builder()
         .collectionName("quick_setup")
-        .filter("color in ['red_3314', 'purple_7392']")
+        .filter("color in ['red_7025', 'purple_4976]")
         .build());
 
 ```
@@ -95,7 +95,7 @@ const client = new MilvusClient({address, token});
 res = await client.delete({
     collection_name: "quick_setup",
     // highlight-next-line
-    filter: "color in ['red', 'green']"
+    filter: "color in ['red_7025', 'purple_4976]"
 })
 
 console.log(res.delete_cnt)
@@ -104,6 +104,40 @@ console.log(res.delete_cnt)
 // 
 // 3
 // 
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/column"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+_, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").WithExpr("color in ['red_7025', 'purple_4976']"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
 ```
 
 </TabItem>
@@ -120,7 +154,7 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "collectionName": "quick_setup",
-    "filter": "color in [\"red_3314\", \"purple_7392\"]"
+    "filter": "color in [\"red_7025\", \"purple_4976\"]"
 }'
 ```
 
@@ -131,7 +165,7 @@ curl --request POST \
 
 In most cases, a primary key uniquely identifies an Entity. You can delete Entities by setting their primary keys in the delete request. The example code below demonstrates how to delete two entities with primary keys **18** and **19**.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -185,6 +219,19 @@ console.log(res.delete_cnt)
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+_, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
+    WithInt64IDs("id", []int64{18, 19}))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -209,7 +256,7 @@ curl --request POST \
 
 You can also delete entities stored in specific partitions. The following code snippets assume that you have a partition named **PartitionA** in your collection. 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -261,6 +308,20 @@ console.log(res.delete_cnt)
 // 
 // 2
 // 
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+_, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
+    WithInt64IDs("id", []int64{18, 19}).
+    WithPartition("partitionA"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
 ```
 
 </TabItem>

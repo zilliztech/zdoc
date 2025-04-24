@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 
@@ -56,19 +56,19 @@ In this step, you will create an S3 bucket on AWS for the BYOC project deploymen
 
 1. On the **General purpose bucket** tab, click **Create bucket**.
 
-    ![GDckbxxzSoKSGQxaKCfcWgaunjh](/byoc/GDckbxxzSoKSGQxaKCfcWgaunjh.png)
+    ![GDckbxxzSoKSGQxaKCfcWgaunjh](/img/GDckbxxzSoKSGQxaKCfcWgaunjh.png)
 
 1. In **Bucket name**, enter the name for the bucket and keep the default values for other settings.
 
-    ![ZYyabX878ohfxYx95OmciUrPnMc](/byoc/ZYyabX878ohfxYx95OmciUrPnMc.png)
+    ![ZYyabX878ohfxYx95OmciUrPnMc](/img/ZYyabX878ohfxYx95OmciUrPnMc.png)
 
 1. Click **Create bucket**.
 
-    ![YA58bgisNoCF3qxF4gLch0kcnJe](/byoc/YA58bgisNoCF3qxF4gLch0kcnJe.png)
+    ![YA58bgisNoCF3qxF4gLch0kcnJe](/img/YA58bgisNoCF3qxF4gLch0kcnJe.png)
 
 1. Go back to the **Zilliz Cloud console** and paste the bucket name in **Bucket** under **Storage settings**.
 
-    ![A032bxjnpoSChuxJiNCc5EEDnFe](/byoc/A032bxjnpoSChuxJiNCc5EEDnFe.png)
+    ![A032bxjnpoSChuxJiNCc5EEDnFe](/img/A032bxjnpoSChuxJiNCc5EEDnFe.png)
 
 ### Step 2: Create an IAM role to access the S3 bucket{#step-2-create-an-iam-role-to-access-the-s3-bucket}
 
@@ -78,11 +78,11 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to access the 
 
 1. Expand your account information, and click the copy button in front of your **AWS Account ID**.
 
-    ![Gzzqbp3xhoRbLqxaRHmc8gIbnvc](/byoc/Gzzqbp3xhoRbLqxaRHmc8gIbnvc.png)
+    ![Gzzqbp3xhoRbLqxaRHmc8gIbnvc](/img/Gzzqbp3xhoRbLqxaRHmc8gIbnvc.png)
 
 1. Click the **Roles** tab in the left sidebar, and then click **Create Role**.
 
-    ![KlbBb0D1soRfNxxA9b2cvRSWn7g](/byoc/KlbBb0D1soRfNxxA9b2cvRSWn7g.png)
+    ![KlbBb0D1soRfNxxA9b2cvRSWn7g](/img/KlbBb0D1soRfNxxA9b2cvRSWn7g.png)
 
 1. In **Select trusted entity**, click the **Custom trust policy** tile. In **Common trust policy**, paste the trust JSON from below into the editor in the **Custom trust policy** section and replace `{accountId}` with your **AWS Account ID**.
 
@@ -111,7 +111,7 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to access the 
     }
     ```
 
-    ![W6vnbUhMeohadJxc3Rlc4NXbnbb](/byoc/W6vnbUhMeohadJxc3Rlc4NXbnbb.png)
+    ![W6vnbUhMeohadJxc3Rlc4NXbnbb](/img/W6vnbUhMeohadJxc3Rlc4NXbnbb.png)
 
 1. Click **Next** and skip adding permissions.
 
@@ -125,15 +125,15 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to access the 
 
 1. Once the role has been created, click **View role** in the green bar to go to the role details
 
-    ![TWpFbSb3IooqTBxAoCXcTfC4n2c](/byoc/TWpFbSb3IooqTBxAoCXcTfC4n2c.png)
+    ![TWpFbSb3IooqTBxAoCXcTfC4n2c](/img/TWpFbSb3IooqTBxAoCXcTfC4n2c.png)
 
 1. Click the copy icon in front of the role's **ARN**.
 
-    ![BSImbWeTloGRhjxMCRWc26ZUntg](/byoc/BSImbWeTloGRhjxMCRWc26ZUntg.png)
+    ![BSImbWeTloGRhjxMCRWc26ZUntg](/img/BSImbWeTloGRhjxMCRWc26ZUntg.png)
 
 1. Go back to the Zilliz Cloud console, paste the role ARN in **IAM Role ARN** under **Storage settings**. 
 
-    ![WOIHbocGko9GYzxiVVycHCLLnVb](/byoc/WOIHbocGko9GYzxiVVycHCLLnVb.png)
+    ![WOIHbocGko9GYzxiVVycHCLLnVb](/img/WOIHbocGko9GYzxiVVycHCLLnVb.png)
 
 ### Step 3: Add permissions{#step-3-add-permissions}
 
@@ -141,7 +141,7 @@ This step is solely on the AWS console. In this step, you will create an inline 
 
 1. Go to the details page of the created role. In the **Permissions policies** section, click **Add permissions**, and choose **Create inline policy**.
 
-    ![VoLMbB9VfoVzfDx0NPTcfFCWn7c](/byoc/VoLMbB9VfoVzfDx0NPTcfFCWn7c.png)
+    ![VoLMbB9VfoVzfDx0NPTcfFCWn7c](/img/VoLMbB9VfoVzfDx0NPTcfFCWn7c.png)
 
 1. On the **Specify permissions** page, click **JSON** in the **Policy editor** section to open the policy editor. Then copy the permissions from below and paste it into the policy editor.
 
@@ -174,7 +174,7 @@ This step is solely on the AWS console. In this step, you will create an inline 
     }
     ```
 
-    ![U7fFb8rNXoEC06xrSl3c7SOznkY](/byoc/U7fFb8rNXoEC06xrSl3c7SOznkY.png)
+    ![U7fFb8rNXoEC06xrSl3c7SOznkY](/img/U7fFb8rNXoEC06xrSl3c7SOznkY.png)
 
 1. In **Review and create**, enter a policy name, review the permissions, and click **Create policy**.
 
@@ -184,6 +184,6 @@ This step is solely on the AWS console. In this step, you will create an inline 
 
     </Admonition>
 
-    ![ZxlGbt5dzoTmpzxpS2Uc8rkBnHe](/byoc/ZxlGbt5dzoTmpzxpS2Uc8rkBnHe.png)
+    ![ZxlGbt5dzoTmpzxpS2Uc8rkBnHe](/img/ZxlGbt5dzoTmpzxpS2Uc8rkBnHe.png)
 
     

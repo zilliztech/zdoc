@@ -16,10 +16,10 @@ keywords:
   - data
   - grouping search
   - group
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 
@@ -37,11 +37,11 @@ When entities in the search results share the same value in a scalar field, this
 
 Assume a collection stores multiple documents (denoted by **docId**). To retain as much semantic information as possible when converting documents into vectors, each document is split into smaller, manageable paragraphs (or **chunks**) and stored as separate entities. Even though the document is divided into smaller sections, users are often still interested in identifying which documents are most relevant to their needs.
 
-![LhJEwzWiphLWxobMaiCcbVDPnNb](/byoc/LhJEwzWiphLWxobMaiCcbVDPnNb.png)
+![LhJEwzWiphLWxobMaiCcbVDPnNb](/img/LhJEwzWiphLWxobMaiCcbVDPnNb.png)
 
 When performing an Approximate Nearest Neighbor (ANN) search on such a collection, the search results may include several paragraphs from the same document, potentially causing other documents to be overlooked, which may not align with the intended use case.
 
-![Ktj8wigrHhvz4nbDES5coKZJnZe](/byoc/Ktj8wigrHhvz4nbDES5coKZJnZe.png)
+![Ktj8wigrHhvz4nbDES5coKZJnZe](/img/Ktj8wigrHhvz4nbDES5coKZJnZe.png)
 
 To improve the diversity of search results, you can add the `group_by_field` parameter in the search request to enable Grouping Search. As shown in the diagram, you can set `group_by_field` to `docId`. Upon receiving this request, Zilliz Cloud will:
 
@@ -95,7 +95,7 @@ query_vectors = [
 
 # Group search results
 res = client.search(
-    collection_name="group_search_collection",
+    collection_name="my_collection",
     data=query_vectors,
     limit=3,
     group_by_field="docId",
@@ -124,7 +124,7 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
 
 FloatVec queryVector = new FloatVec(new float[]{0.14529211512077012f, 0.9147257273453546f, 0.7965055218724449f, 0.7009258593102812f, 0.5605206522382088f});
 SearchReq searchReq = SearchReq.builder()
-        .collectionName("group_search_collection")
+        .collectionName("my_collection")
         .data(Collections.singletonList(queryVector))
         .topK(3)
         .groupByFieldName("docId")
@@ -153,42 +153,45 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-// nolint
-func ExampleClient_Search_grouping() {
-    ctx, cancel := context.WithCancel(context.Background())
-    defer cancel()
+import (
+    "context"
+    "fmt"
 
-    milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-    token := "YOUR_CLUSTER_TOKEN"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
 
-    cli, err := client.New(ctx, &client.ClientConfig{
-        Address: milvusAddr,
-        APIKey:  token,
-    })
-    if err != nil {
-        log.Fatal("failed to connect to milvus server: ", err.Error())
-    }
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
-    defer cli.Close(ctx)
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
 
-    queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
+queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
 
-    resultSets, err := cli.Search(ctx, client.NewSearchOption(
-        "my_collection", // collectionName
-        3,               // limit
-        []entity.Vector{entity.FloatVector(queryVector)},
-    ).WithGroupByField("docId"))
-    if err != nil {
-        log.Fatal("failed to perform basic ANN search collection: ", err.Error())
-    }
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "my_collection", // collectionName
+    3,               // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("vector").
+    WithGroupByField("docId").
+    WithOutputFields("docId"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 
-    for _, resultSet := range resultSets {
-        log.Println("IDs: ", resultSet.IDs)
-        log.Println("Scores: ", resultSet.Scores)
-    }
-    // Output:
-    // IDs:
-    // Scores:
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+    fmt.Println("docId: ", resultSet.GetColumn("docId").FieldData().GetScalars())
 }
 ```
 
@@ -231,7 +234,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "group_search_collection",
+    "collectionName": "my_collection",
     "data": [
         [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
     ],
@@ -251,14 +254,14 @@ In the request above, `limit=3` indicates that the system will return search res
 
 By default, Grouping Search returns only one entity per group. If you want multiple results per group, adjust the `group_size` and `strict_group_size` parameters.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 # Group search results
 
 res = client.search(
-    collection_name="group_search_collection", 
+    collection_name="my_collection", 
     data=query_vectors, # query vector
     limit=5, # number of groups to return
     group_by_field="docId", # grouping field
@@ -275,7 +278,7 @@ res = client.search(
 ```java
 FloatVec queryVector = new FloatVec(new float[]{0.14529211512077012f, 0.9147257273453546f, 0.7965055218724449f, 0.7009258593102812f, 0.5605206522382088f});
 SearchReq searchReq = SearchReq.builder()
-        .collectionName("group_search_collection")
+        .collectionName("my_collection")
         .data(Collections.singletonList(queryVector))
         .topK(5)
         .groupByFieldName("docId")
@@ -306,6 +309,55 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
+
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "my_collection", // collectionName
+    5,               // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("vector").
+    WithGroupByField("docId").
+    WithStrictGroupSize(true).
+    WithGroupSize(2).
+    WithOutputFields("docId"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+    fmt.Println("docId: ", resultSet.GetColumn("docId").FieldData().GetScalars())
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -320,7 +372,7 @@ var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835
 res = await client.search({
     collection_name: "my_collection",
     data: [query_vector],
-    limit: 3,
+    limit: 5,
     group_by_field: "docId",
     // highlight-start
     group_size: 2,
@@ -342,7 +394,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "group_search_collection",
+    "collectionName": "my_collection",
     "data": [
         [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
     ],

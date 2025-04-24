@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Learn more about how Zilliz Cloud implements RBAC for more efficient access control and how to manage cluster users and roles, privileges. | BYOC"
 type: origin
 token: UEFXwAUL4icMjMkUej9cqncJncd
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

@@ -7,17 +7,17 @@ notebook: FALSE
 description: "This guide provides comprehensive instructions on how to add a payment credit card for your organization on Zilliz Cloud. | Cloud"
 type: origin
 token: TVnkwXupUiX3zDkzYPWcxKP3nvg
-sidebar_position: 2
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
   - cloud
   - credit card
   - subscribe
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 
