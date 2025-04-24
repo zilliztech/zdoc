@@ -349,3 +349,8 @@ html.docs-doc-id-tutorials\/home .breadcrumb,
 html.docs-doc-id-tutorials\/home .pagination-nav {
   display: none !important;
 }
+
+/* Hide katex-html */
+.katex-html {
+  display: none !important;
+}
