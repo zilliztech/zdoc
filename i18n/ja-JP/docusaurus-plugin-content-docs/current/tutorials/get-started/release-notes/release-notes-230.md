@@ -7,16 +7,16 @@ notebook: FALSE
 description: "私たちは、EUにおけるAWSフランクフルト地域のローンチを発表できることを喜んでいます。この拡張に伴い、ベータ機能であるRange Search、Upsert、Cosine Metric Typeを導入し、検索機能とデータ管理の効率を向上させました。追加機能には、APIKey Access、Retrieve Raw Vectors、JSONCONTAINS Filter、Entity Countが含まれます。RBAC、請求、価格計算、アカウントマネジメント、サービスの安定性にも注目すべき改善が実装され、ユーザーエクスペリエンスが向上しました。 | Cloud"
 type: origin
 token: QEWhwhoNciJQCDklDF4cJEYrnfh
-sidebar_position: 14
+sidebar_position: 13
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 
@@ -53,7 +53,7 @@ import Admonition from '@theme/Admonition';
 
 - *アクセス制御*
 
-    専用クラスタやサーバーレスインスタンスには、[APIキー](./manage-api-keys)または[ユーザー名パスワード認証](null)で安全にアクセスできます。
+    専用クラスタやサーバーレスインスタンスには、[APIキー](./manage-api-keys)または[ユーザー名パスワード認証](./cluster-credentials)で安全にアクセスできます。
 
 - *生のベクトルを返す*
 

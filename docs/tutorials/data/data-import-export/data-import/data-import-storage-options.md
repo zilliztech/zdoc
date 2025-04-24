@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 
@@ -40,15 +40,15 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, virtual-hosted–style</strong></p></td>
-         <td><p><code>https://&lt;bucket&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;object&gt;</code></p></td>
+         <td><p><em>https://\<bucket_name></em>.s3.<em>\<region-code></em>.amazonaws.com/<em>\<object_name></em></p></td>
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, path-style</strong></p></td>
-         <td><p><code>https://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket&gt;/&lt;object&gt;</code></p></td>
+         <td><p><em>https://</em>s3.<em>\<region-code></em>.amazonaws.co<em>m</em>/<em>\<bucket_name></em>/<em>\<object_name></em></p></td>
        </tr>
        <tr>
          <td><p><strong>AWS S3 URI</strong></p></td>
-         <td><p><code>s3://&lt;bucket&gt;/&lt;object&gt;</code></p></td>
+         <td><p>s3://<em>\<bucket_name></em>/<em>\<object_name></em></p></td>
        </tr>
     </table>
 
@@ -81,11 +81,11 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>GSC public URL</strong></p></td>
-         <td><p><code>https://storage.cloud.google.com/&lt;bucket&gt;/&lt;object&gt;</code></p></td>
+         <td><p><em>https://</em>storage.cloud.google.co<em>m</em>/<em>\<bucket_name></em>/<em>\<object_name></em></p></td>
        </tr>
        <tr>
          <td><p><strong>GSC gsutil URI</strong></p></td>
-         <td><p><code>gs://&lt;bucket&gt;/&lt;object&gt;</code></p></td>
+         <td><p>gs://<em>\<bucket_name></em>/<em>\<object_name></em></p></td>
        </tr>
     </table>
 
@@ -103,7 +103,7 @@ Before importing data, it's important to understand the supported cloud storage 
 
     - If you prefer to authenticate with long-term credentials, read [Manage HMAC keys for service accounts](https://cloud.google.com/storage/docs/authentication/managing-hmackeys) for details.
 
-    - If you prefer to authenticate with short-term credentials, refer to [this FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service).
+    - If you prefer to authenticate with short-term credentials, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
 
 ## Azure Blob Storage{#azure-blob-storage}
 
@@ -116,7 +116,7 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>Azure storage blob URI</strong></p></td>
-         <td><p><code>https://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;blob&gt;</code></p></td>
+         <td><p><em>https://\<storage_account></em>.blob.core.windows.net/<em>\<container></em>/<em>\<blob></em></p></td>
        </tr>
     </table>
 
@@ -128,5 +128,5 @@ Before importing data, it's important to understand the supported cloud storage 
 
     - If you prefer to authenticate with long-term credentials, read [View account access keys](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys) for details
 
-    - If you prefer to authenticate with short-term credentials, refer to [this FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service).
+    - If you prefer to authenticate with short-term credentials, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
 

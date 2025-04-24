@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 
@@ -31,9 +31,9 @@ import Supademo from '@site/src/components/Supademo';
 
 This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals.
 
-## Rename cluster | All Plans{#rename-cluster}
+## Rename cluster{#rename-cluster}
 
-Navigate to the **Cluster Details** page of your target cluster and then follow the instruction below to rename your cluster.
+Navigate to the **Cluster Details** page of your target cluster and then follow the instructions below to rename your cluster.
 
 <Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title="Zilliz Cloud - Rename Cluster Demo" />
 
@@ -41,15 +41,15 @@ Navigate to the **Cluster Details** page of your target cluster and then follow 
 
 For a running Dedicated cluster, you are billed for both CU and storage. To reduce costs, consider suspending the cluster. Only storage charges apply when a Dedicated cluster is suspended.
 
-Please note that during suspension, you cannot perform other actions to the cluster.
+Please note that during suspension, you cannot perform other actions on the cluster.
 
-You can suspend a Dedicated cluster via the web console or programatically.
+You can suspend a Dedicated cluster via the web console or programmatically.
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-Navigate to the **Cluster Details** page of your target cluster and then follow the instruction below to suspend your Dedicated cluster.
+Navigate to the **Cluster Details** page of your target cluster and then follow the instructions below to suspend your Dedicated cluster.
 
 <Supademo id="cm9tqgxt30snl11m7twwj7xia" title="Zilliz Cloud - Suspend Cluster Demo" />
 
@@ -89,15 +89,15 @@ For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster-v2).
 
 </Tabs>
 
-## Resume cluster | All Plans{#resume-cluster}
+## Resume cluster{#resume-cluster}
 
 Free and Serverless clusters are automatically suspended after 7 days of inactivity and can be resumed anytime.
 
 Suspended Dedicated clusters can also be resumed manually when needed.
 
-Please note that during resuming, you cannot perform other actions to the cluster.
+Please note that during resuming, you cannot perform other actions on the cluster.
 
-You can resume a cluster via the web console or programatically.
+You can resume a cluster via the web console or programmatically.
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
@@ -143,7 +143,7 @@ For details, refer to [Resume Cluster](/reference/restful/resume-cluster-v2).
 
 </Tabs>
 
-## Upgrade plan | All Plans{#upgrade-plan}
+## Upgrade plan{#upgrade-plan}
 
 To use more advanced features, it is recommended to upgrade your cluster plan. 
 
@@ -194,7 +194,7 @@ To try the latest preview features, you need to upgrade the compatible Milvus ve
 
 ![upgrade-to-preview-version](/img/upgrade-to-preview-version.png)
 
-## Drop cluster | All Plans{#drop-cluster}
+## Drop cluster{#drop-cluster}
 
 When a cluster is no longer needed, you can drop it. You can drop a cluster via the web console or programatically.
 

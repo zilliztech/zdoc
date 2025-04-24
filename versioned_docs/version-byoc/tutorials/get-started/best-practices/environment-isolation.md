@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Proper environment isolation and access control are essential in enterprise application development and deployment. Zilliz Cloud offers flexible isolation through a hierarchical structure of Organizations, Projects, and Clusters. This guide helps you select the most appropriate strategy based on your operational, security, and financial requirements. | BYOC"
 type: origin
 token: LQwnwNY73iCd8Hkj55ZczQTOn6g
-sidebar_position: 3
+sidebar_position: 0
 keywords: 
   - zilliz
   - vector database
   - cloud
   - milvus
   - multi-tenancy
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 
@@ -44,7 +44,7 @@ Organization-level isolation is the most secure option.
 
 - Create a distinct [organization](./organizations) for each environment (e.g., production, development, testing)
 
-- Each organization can be linked to a unique [payment method](./payment-billing)
+- Each organization can be linked to a unique [payment method](/docs/payment-billing)
 
 - By default, only one single organization is supported by Zilliz Cloud. If you need multiple organization, please submit a request in the [Support Portal](https://support.zilliz.com/hc/en-us).
 
@@ -56,7 +56,7 @@ This option is recommended for most enterprise-grade production deployments wher
 
 - Shared billing across environments under a single payment method
 
-- Tracking resource [usage](./analyze-cost) by environment
+- Tracking resource [usage](/docs/analyze-cost) by environment
 
 - Managing user [roles](./project-users#project-roles) with moderate isolation
 

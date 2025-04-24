@@ -15,10 +15,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 
@@ -49,7 +49,7 @@ import Admonition from '@theme/Admonition';
 
 1. ターゲットプロジェクトに移動し、**移行**>**現在の組織内**を選択してください。
 
-1. [**移行設定**]ダイアログボックスで、ソースクラスターとデータベース、およびターゲットクラスターを構成し、[**確認**]をクリックします。ターゲットクラスターのプランレベルがソースクラスターのプランレベルよりも低くないことを確認します(例:**専用**クラスターから**Free**または**Serverless**クラスターへの移行はサポートされていません)。クラスタープランの詳細については、「[詳細なプラン比較](./select-zilliz-cloud-service-plans)」を参照してください。
+1. [**移行設定**]ダイアログボックスで、ソースクラスターとデータベース、およびターゲットクラスターを構成し、[**確認**]をクリックします。
 
     <Admonition type="info" icon="📘" title="ノート">
 

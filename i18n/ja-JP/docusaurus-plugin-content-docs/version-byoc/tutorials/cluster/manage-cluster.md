@@ -14,109 +14,179 @@ keywords:
   - cloud
   - cluster
   - manage
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
+import Supademo from '@site/src/components/Supademo';
 
 # クラスタ管理
 
 このガイドでは、Zilliz Cloudコンソールを最大限に活用して目標を達成するためのクラスタのライフサイクルについて説明します。
 
-### クラスタの詳細を表示する{#view-cluster-details}
+## クラスタ名の変更{#rename-cluster}
 
-Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細については、各セクションに以下の内容が記載されています。
+ターゲットクラスタの[**クラスタの詳細**]ページに移動し、以下の手順に従ってクラスタ名を変更します。
 
-![byoc-cluster-lifecycle](/img/byoc-cluster-lifecycle.png)
+<Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title="Zilliz Cloud - Rename Cluster Demo" />
 
-- **Connect**:このセクションでは、クラスターID、クラスタークラウドリージョン、接続用のパブリックエンドポイント、プライベートリンク、IPアドレスホワイトリスト、セキュアアクセス用のトークンなど、クラスターとのやり取りを開始するために必要な詳細情報を提供します。。
+## クラスタを一時停止する{#suspend-cluster}
 
-- **概要**:クラスタの基本情報のスナップショットを提供します。クラスタプラン、CUタイプ、CU体格、互換性のあるMilvusバージョンを見つけることができます。作成者の詳細、作成日時も表示されます。
+実行中の専用クラスターについては、CUとストレージの両方に対して請求されます。コストを削減するには、クラスターを一時停止することを検討してください。専用クラスターが一時停止された場合は、ストレージ料金のみが適用されます。
 
-- **トポロジ**:クラスターの構造を示すグラフィカルな表現です。これには、さまざまなノードの役割とコンピューティングリソースの指定が含まれます。
+一時停止中は、クラスターに対して他のアクションを実行できないことに注意してください。
 
-    - **プロキシ**:ユーザー接続を管理し、ロードバランサーでサービスアドレスを効率化するステートレスノード。
+専用クラスタは、Webコンソールまたはプログラムから一時停止できます。
 
-    - **クエリノード**:ハイブリッドベクトルおよびスカラー検索、および増分データ更新を担当します。
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
-    - **コーディネーター**:オーケストレーションセンターで、ワーカーノード間でタスクを分散します。
+<TabItem value="Cloud Console">
 
-    - **データノード**:永続性のためにデータの変異とログからスナップショットへの変換を処理します。
+ターゲットクラスタの[**クラスタの詳細**]ページに移動し、以下の手順に従って専用クラスタをサスペンドします。
 
-    <Admonition type="info" icon="📘" title="ノート">
+<Supademo id="cm9tqgxt30snl11m7twwj7xia" title="Zilliz Cloud - Suspend Cluster Demo" />
 
-    <p>通常、<strong>1-8 CU</strong>を持つクラスターは、小規模なデータセットに適したシングルノードセットアップを使用します。<strong>8 CU</strong>以上のクラスターは、パフォーマンスとスケーラビリティを向上させるために分散型マルチサーバーノードアーキテクチャを採用しています。</p>
+</TabItem>
 
-    </Admonition>
+<TabItem value="Bash">
 
-### 接続を確立する{#establish-connection}
+リクエストは次の例のようになります。`{API_KEY}`は認証に使用するAPIキーです。
 
-- **クラスタに接続**
+次の`POST`要求はリクエストボディを受け取り、専用クラスターを一時停止します。
 
-    「**接続**」セクションでは、クラスターに接続するために使用される**パブリックエンドポイント**と**トークン**を見つけることができます。トークンは、ユーザー名とパスワードのペアで構成される[APIキー](./manage-api-keys)または[クラスター資格情報](null)であることができます。
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/clusters/${CLUSTER_ID}/suspend" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
 
-    詳細については、「[クラスタに接続](./connect-to-cluster)」を参照してください。
+# {
+#     "code": 0,
+#     "data": {
+#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
+#         "prompt": "Successfully Submitted. The cluster will not incur any computing costs when suspended. You will only be billed for the storage costs during this time."
+#     }
+# }     
+```
 
-### コレクションとデータを管理する{#manage-collections-and-data}
+上記のコマンドで、
 
-- **コレクション**
+- `{API_KEY}`: APIリクエストを認証するために使用される資格情報。値を自分のものに置き換えてください。
 
-    [**コレクション**]タブでは、クラスタ内のコレクションを管理できます。コレクションを作成したり、データをインポートしたり、ロードまたはリリースしたり、名前を変更したり、削除したりできます。
+- `{CLUSTER_ID}`:サスペンドする専用クラスタのID。
 
-    データインポートの詳細については、[データインポート](/docs/data-import)を参照してください。
+詳細は、クラスタの一時停止を参照してください。
 
-    ![manage-collections](/img/manage-collections.png)
+</TabItem>
 
-- **バックアップ**
+</Tabs>
 
-    [**バックアップ**]タブで、[スナップショットの作成]を選択してクラスタのバックアップを作成できます。すべての**スナップショット**は[**バックアップ**]タブにあります。バックアップとリストアの詳細については、「[バックアップ&リストア](/docs/backup-and-restore)」を参照してください。
+## クラスタを再開{#resume-cluster}
 
-- **マイグレーション**
+無料およびサーバーレスクラスターは、非アクティブ状態が7日間続くと自動的に一時停止され、いつでも再開できます。
 
-    [**Migrations**]タブで、[Migrate]を選択すると、データの**移行**タスクを作成できます。
+一時停止された専用クラスタは、必要に応じて手動で再開することもできます。
 
-### ユーザーとアクセス制御{#users-and-access-control}
+再開中は、クラスターに対して他のアクションを実行できないことに注意してください。
 
-- **ユーザー**
+Webコンソールまたはプログラムからクラスタを再開できます。
 
-    [**ユーザー**]タブでは、ユーザーを追加したり、パスワードをリセットしたり、削除したりできます。
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
-    詳細については、クラスタ資格情報を参照してください。
+<TabItem value="Cloud Console">
 
-    ![manage-users](/img/manage-users.png)
+ターゲットクラスタの[**クラスタの詳細**]ページに移動し、以下の手順に従ってクラスタを再開します。
 
-    <Admonition type="info" icon="📘" title="ノート">
+<Supademo id="cm9tr2hze0t1j11m7ijth1pr5" title="Zilliz Cloud - Resume Cluster Demo" />
 
-    <p><b>db_admin</b>を削除することはできません。Zilliz Cloudは、追加されたユーザーに対してクラスタ内のすべてのコレクションへのアクセス権限を付与します。</p>
+</TabItem>
 
-    </Admonition>
+<TabItem value="Bash">
 
-### クラスタの一時停止と再開{#}
+リクエストは次の例のようになります。`{API_KEY}`は認証に使用するAPIキーです。
 
-「**Actions**」ドロップダウンボタンで、「**Suspend**」を選択してクラスタを停止します。「**Suspend Cluster**」ダイアログボックスでこの操作を確認すると、クラスタの状態が「**RUNNING**」から「**SUSPENDING**」に変わり、その間はクラスタに対して他のアクションを実行できません。
+次の`POST`要求はリクエストボディを受け取り、専用クラスターを一時停止します。
 
-ステータスが**SUSPENDED**に変更されると、ストレージに対してのみ課金されます。クラスタの一部を賢明に一時停止すると、お金を節約できます。
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/clusters/${CLUSTER_ID}/resume" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
 
-サスペンドされたクラスタを再開するには、**アクション**をクリックし、ドロップダウンメニューから**再開**を選択します。**再開クラスタ**ダイアログボックスでこのアクションを確認すると、クラスタの状態が**SUSPENDED**から**RESUMING**、そして**RUNNING**に変わります。この時点で、CU設定とサービスプランに基づいて完全に請求されます。
+# {
+#     "code": 0,
+#     "data": {
+#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
+#         "prompt": "successfully Submitted. Cluster is being resumed, which is expected to takes several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK."
+#     }
+# }     
+```
 
-これらのアクションを実行するために、RESTful APIを使用することもできます。詳細については、「[クラスタ停止](/reference/restful/suspend-cluster)」と「[クラスタ再開](/reference/restful/resume-cluster)」を参照してください。
+上記のコマンドで、
 
-### クラスタを削除{#drop-cluster}
+- `{API_KEY}`: APIリクエストを認証するために使用される資格情報。値を自分のものに置き換えてください。
 
-[**Actions**]ドロップダウンボタンで、[**Drop**]を選択してクラスタをドロップします。[**Drop Cluster**]ダイアログボックスでこの操作を確認した後、Zilliz Cloudはクラスタをドロップします。
+- `{CLUSTER_ID}`:再開するクラスタのID。
 
-ウェブUIに加えて、クラスタを削除するためのAPIリクエストを行うこともできます。詳細については、[Drop Cluster](/reference/restful/drop-cluster-v2)を参照してください。
+詳細については、クラスタの再開を参照してください。
 
-## 関連するトピック{#related-topics}
+</TabItem>
 
-- [クラスタに接続](./connect-to-cluster)
+</Tabs>
 
-- [バックアップと復元](./backup-and-restore)
+## クラスタを削除{#drop-cluster}
 
-- [適切なCUを選択](./cu-types-explained)
+クラスタが不要になったら、削除できます。Webコンソールまたはプログラムからクラスタを削除できます。
 
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
+
+<TabItem value="Cloud Console">
+
+ターゲットクラスタの[**クラスタの詳細**]ページに移動し、以下の手順に従ってクラスタを削除します。
+
+<Supademo id="cm9trwi5n0txr11m7otr902sk" title="Zilliz Cloud - Drop Cluster Demo" />
+
+</TabItem>
+
+<TabItem value="Bash">
+
+リクエストは次の例のようになります。`{API_KEY}`は認証に使用するAPIキーです。
+
+次の`POST`要求はリクエストボディを受け取り、クラスタを削除します。
+
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/clusters/${CLUSTER_ID}/drop" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
+
+# {
+#     "code": 0,
+#     "data": {
+#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
+#         "prompt": "The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period. Kindly note, this recovery feature does not apply to free clusters."
+#     }
+# }     
+```
+
+上記のコマンドで、
+
+- `{API_KEY}`: APIリクエストを認証するために使用される資格情報。値を自分のものに置き換えてください。
+
+- `{CLUSTER_ID}`:削除する専用クラスタのID。
+
+詳細は、ドロップクラスタを参照してください。
+
+</TabItem>
+
+</Tabs>

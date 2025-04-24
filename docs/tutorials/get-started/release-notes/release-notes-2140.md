@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 
@@ -47,7 +47,7 @@ This release also improves the management of projects deployed using the standar
 
 In this release, Zilliz BYOC is generally available. [Contact us](https://support.zilliz.com/hc/en-us) to learn about the pricing or request this feature if you are interested. 
 
-For details about Zilliz BYOC deployment options, refer to [BYOC Overview](./byoc-intro). For the deployment procedures and the enhanced project management capabilities, refer to [Deploy BYOC on AWS](./deploy-byoc-aws) and [Deploy BYOC-I on AWS](./deploy-byoc-i-aws). 
+For details about Zilliz BYOC deployment options, refer to [BYOC Overview](/docs/byoc/byoc-intro). For the deployment procedures and the enhanced project management capabilities, refer to [Deploy BYOC on AWS](/docs/byoc/deploy-byoc-aws) and [Deploy BYOC-I on AWS](/docs/byoc/deploy-byoc-i-aws). 
 
 ## Data Plane Audit Logs: Protect Your Data Operations with Comprehensive Action Logs for Auditing{#data-plane-audit-logs-protect-your-data-operations-with-comprehensive-action-logs-for-auditing}
 

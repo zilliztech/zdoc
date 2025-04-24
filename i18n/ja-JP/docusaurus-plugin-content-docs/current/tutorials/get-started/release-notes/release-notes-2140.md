@@ -7,16 +7,16 @@ notebook: FALSE
 description: "このリリースでは、PRIVATE PREVIEWに2つの新機能が導入されました。新しいBYOC展開オプションであるBYOC-Iと、データプレーン監査ログ機能です。前者は、クロスアカウントIAM認可なしで完全なデータ主権を確保するために設計されています。一方、後者は、データプレーンで実行されたアクションの詳細なログを提供することにより、データセキュリティを強化することを目的としています。これらの機能を導入するだけでなく、Zilliz Cloudはクレジット戦略も改訂しました。 | Cloud"
 type: origin
 token: XxJSwcAMqin6dfkVBIbcVjGLnyg
-sidebar_position: 1
+sidebar_position: 0
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 
@@ -47,7 +47,7 @@ Zilliz BYOCは、金融、医療、資源、教育、電子商取引など、厳
 
 今回のリリースでは、**Zilliz BYOC**の**一般提供**を開始しました。価格については[お問い合わせください](https://support.zilliz.com/hc/en-us)。また、ご興味のある方はこの機能をリクエストしてください。  
 
-Zilliz BYOCのデプロイオプションの詳細については、「[BYOCの概要](./byoc-intro)」を参照してください。デプロイ手順と強化されたプロジェクト管理機能については、「[AWSでBYOCをデプロイする](./deploy-byoc-aws)」と「[AWSでBYOC-Iをデプロイする](./deploy-byoc-i-aws)」を参照してください。 
+Zilliz BYOCのデプロイオプションの詳細については、「[BYOCの概要](/ja-JP/docs/byoc/byoc-intro)」を参照してください。デプロイ手順と強化されたプロジェクト管理機能については、「[AWSでBYOCをデプロイする](/ja-JP/docs/byoc/deploy-byoc-aws)」と「[AWSでBYOC-Iをデプロイする](/ja-JP/docs/byoc/deploy-byoc-i-aws)」を参照してください。 
 
 ## データプレーンの監査ログ:監査のための包括的なアクションログでデータ操作を保護{#data-plane-audit-logs-protect-your-data-operations-with-comprehensive-action-logs-for-auditing}
 
