@@ -14861,15 +14861,6 @@
 							"schema": {
 								"type": "object",
 								"properties": {
-									"dbName": {
-										"type": "string",
-										"description": "The name of the database that to which the collection belongs .\nSetting this to a non-existing database results in an error.",
-										"x-i18n": {
-											"zh-CN": {
-												"description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
-											}
-										}
-									},
 									"clusterId": {
 										"type": "string",
 										"description": "The ID of the cluster to which the collection belongs.\nSetting this to a non-existing cluster results in an error. You can get the cluster ID by calling the [`/v2/clusters`](/reference/restful/list-clusters-v2) endpoint, or copy the cluster ID from the [Zilliz Cloud console](/docs/on-zilliz-cloud-console).",
@@ -14882,6 +14873,15 @@
 										"x-include-target": [
 											"zilliz"
 										]
+									},
+									"dbName": {
+										"type": "string",
+										"description": "The name of the database that to which the collection belongs .\nSetting this to a non-existing database results in an error.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
+											}
+										}
 									},
 									"collectionName": {
 										"type": "string",
@@ -14964,6 +14964,37 @@
 										},
 										"x-include-target": [
 											"zilliz"
+										],
+										"deprecated": true
+									},
+									"objectUrls": {
+										"type": "array",
+										"description": "The URLs of the objects to import. <br/>Applicable formats and how to import multiple objects in one job are as follows:<ul><li><a href=\"https://docs.zilliz.com/docs/data-import-parquet#import-data\">Parquet</a></li><li><a href=\"https://docs.zilliz.com/docs/data-import-json#import-data\">JSON</a></li><li><a href=\"https://docs.zilliz.com/docs/data-import-numpy#import-data\">NumPy</a></li></ul>.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "待批量导入的对象 URL列表。<br/>当前支持的文件类型及如何在同一个任务中批量导入多个相同类型的数据文件，可参考<ul><li><a href=\"https://docs.zilliz.com.cn/docs/data-import-parquet#import-data\">Parquet</a></li><li><a href=\"https://docs.zilliz.com.cn/docs/data-import-json#import-data\">JSON</a></li><li><a href=\"https://docs.zilliz.com.cn/docs/data-import-numpy#import-data\">NumPy</a></li></ul>。"
+											}
+										},
+										"items": {
+											"type": "array",
+											"description": "A list of the URL to the data file containing a batch of entities to import. <br/>Each list contains only one URL.",
+											"items": {
+												"type": "string",
+												"description": "待导入 Entity 所在的数据文件或文件夹 URL。",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "包含待导入 Entity 的数据文件 URL。每个 URL 独占一个列表。"
+													}
+												}
+											},
+											"x-i18n": {
+												"zh-CN": {
+													"description": "待导入 Entity 所在的数据文件或文件夹 URL 列表。每个 列表包含一个 URL。"
+												}
+											}
+										},
+										"x-include-target": [
+											"zilliz"
 										]
 									},
 									"accessKey": {
@@ -15001,7 +15032,7 @@
 								"required": [
 									"clusterId",
 									"collectionName",
-									"objectUrl"
+									"objectUrls"
 								]
 							},
 							"examples": {
@@ -15034,9 +15065,12 @@
 									],
 									"value": {
 										"clusterId": "inxx-xxxxxxxxxxxxxxx",
+										"dbName": "default",
 										"collectionName": "medium_articles",
 										"partitionName": "",
-										"objectUrl": "https://s3.us-west-2.amazonaws.com/publicdataset.zillizcloud.com/medium_articles_2020_dpr/medium_articles_2020_dpr.json",
+										"objectUrls": [
+											["https://s3.us-west-2.amazonaws.com/publicdataset.zillizcloud.com/medium_articles_2020_dpr/medium_articles_2020_dpr.json"]
+										],
 										"accessKey": "",
 										"secretKey": ""
 									}
@@ -33049,7 +33083,7 @@
 		"/v2/clusters/{CLUSTER_ID}/modifyReplica": {
 			"post": {
 				"summary": "Modify Cluster Replica",
-				"deprecated": "false",
+				"deprecated": false,
 				"description": "This operation sets the number of replicas for the specified cluster. ",
 				"x-i18n": {
 					"zh-CN": {
