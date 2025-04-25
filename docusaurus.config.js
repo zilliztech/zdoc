@@ -946,12 +946,7 @@ const config = {
       }
     }
   ],
-  scripts: [
-    {
-      src: "/home.js",
-      defer: true
-    }
-  ],
+  scripts: [],
   stylesheets: [],
 };
 
