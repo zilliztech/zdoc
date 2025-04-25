@@ -796,13 +796,15 @@ const config = {
         }
       },
       inkeepConfig: {
-        stylesheetUrls: ["/css/inkeep-overrides.css"],
         baseSettings: {
           apiKey: process.env.INKEEP_API_KEY,
           integrationId: process.env.INKEEP_INTEGRATION_ID,
           organizationId: process.env.INKEEP_ORGANIZATION_ID,
           primaryBrandColor: "#175fff",
           organizationDisplayName: "Zilliz",
+          theme: {
+            stylesheetUrls: ["/css/inkeep-overrides.css"],
+          },
           customCardSettings: [
             {
               filters: {
@@ -944,7 +946,12 @@ const config = {
       }
     }
   ],
-  scripts: [],
+  scripts: [
+    {
+      src: "/home.js",
+      defer: true
+    }
+  ],
   stylesheets: [],
 };
 

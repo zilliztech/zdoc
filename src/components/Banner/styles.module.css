@@ -15,11 +15,12 @@
     border-radius: 12px;
     padding: 24px 32px;
     color: #FFFFFF;
+    margin-bottom: 80px;
 }
 
 .bannerText {
-    font-size: 24px;
-    line-height: 32px;
+    font-size: 20px;
+    line-height: 24px;
     font-weight: 600;
     margin: 0;
 }
@@ -35,4 +36,21 @@
     font-size: 16px;
     line-height: 22px;
     font-weight: 600;
+    cursor: pointer;
+}
+
+.bannerLink:hover,
+.bannerLink:link {
+    box-shadow: 0px 2px 4px 0px #0000001A;
+    transform: scale(0.95);
+}
+
+.zillizStar {
+    display: inline-block;
+    background-image: url('/icons/zilliz-star.svg');
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    margin-right: 10px;    
 }

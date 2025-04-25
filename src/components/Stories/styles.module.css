@@ -1,21 +1,15 @@
 .stories {
-    width: calc(100vw - var(--doc-sidebar-width) - 20px);
-    position: relative;
-    left: 50%;
-    right: 50%;
-    margin-top: 60px !important;
-    margin-left: calc(-50vw + (var(--doc-sidebar-width) + 20px)/2);
-    margin-right: calc(-50vw + (var(--doc-sidebar-width) + 20px)/2);
-    margin-bottom: 80px;
-    padding: 60px calc((100vw - var(--doc-sidebar-width) - 20px - 956px)/2);
-    background-color: #F6F8FA;
-    box-sizing: border-box;
+    display: block;
+    width: 100%;
+    max-width: 996px;
+    margin: 60px auto;
+    padding: 0 20px;
 }
 
 .stories h1 {
     font-size: 32px !important;
     line-height: 40px !important;
-    font-weight: 600 !important;
+    font-weight: 700 !important;
     margin-bottom: 40px;
 }
 

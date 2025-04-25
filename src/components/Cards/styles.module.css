@@ -23,6 +23,7 @@
     justify-content: flex-start;
     gap: 10px;
     padding: 24px;
+    box-shadow: 0px 2px 4px 0px #0000001A;
     border-radius: 12px;
     border: 1px solid #D0D6DF;
     background-color: #FFFFFF;
