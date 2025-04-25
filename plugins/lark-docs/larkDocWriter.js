@@ -1361,13 +1361,11 @@ class larkDocWriter {
 
     async __equation(element, elements, asis=false) {
         let content = element['equation']['content'];
-        let style = element['equation']['text_element_style'];
 
         let prev = elements[elements.indexOf(element) - 1] || null;
         let prev_element_type = prev? prev['equation'] ? 'equation' : 'text_run' : null;
         let next = elements[elements.indexOf(element) + 1] || null;
         let next_element_type = next? next['equation'] ? 'equation' : 'text_run' : null;
-        let rip_off_line_breaks = false;
 
         // separate single equation
         if (!prev && !next) {
@@ -1379,24 +1377,7 @@ class larkDocWriter {
             return `$${content.trim()}$`;
         }
 
-        // // first element
-        // if ((!prev || prev_element_type === 'text_run') && next && next_element_type === 'equation') {
-        //     content = `$${content.trim()}`;
-
-        //     if (!(prev && prev['text_run']['content'].endsWith('\n'))) {
-        //         rip_off_line_breaks = true;
-        //     }
-        // }
-
-        // // middle element
-        // if (prev && prev_element_type === 'equation' && next && next_element_type === 'equation') {
-        //     content = content.trim();
-        // }
-
-        // // last element
-        // if (prev && prev_element_type === 'equation' && (!next || next_element_type === 'text_run')) {
-        //     if (rip_off_line_breaks) content = content.trim()
-        // }      
+        return content;     
     }
 
     async __text_run(element, elements, asis=false) {
