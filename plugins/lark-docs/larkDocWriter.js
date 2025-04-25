@@ -1379,24 +1379,7 @@ class larkDocWriter {
             return `$${content.trim()}$`;
         }
 
-        // // first element
-        // if ((!prev || prev_element_type === 'text_run') && next && next_element_type === 'equation') {
-        //     content = `$${content.trim()}`;
-
-        //     if (!(prev && prev['text_run']['content'].endsWith('\n'))) {
-        //         rip_off_line_breaks = true;
-        //     }
-        // }
-
-        // // middle element
-        // if (prev && prev_element_type === 'equation' && next && next_element_type === 'equation') {
-        //     content = content.trim();
-        // }
-
-        // // last element
-        // if (prev && prev_element_type === 'equation' && (!next || next_element_type === 'text_run')) {
-        //     if (rip_off_line_breaks) content = content.trim()
-        // }      
+        return content;     
     }
 
     async __text_run(element, elements, asis=false) {
