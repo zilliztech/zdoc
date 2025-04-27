@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 
@@ -54,6 +54,13 @@ To simplify configuration, Zilliz BYOC offers four predefined project sizes—**
 This release also introduces the ability to enable or disable **AWS PrivateLink** for secure, private connectivity from your VPCs to the Zilliz Cloud Control Plane. Note that PrivateLink is enabled by default.
 
 For details on the configuration procedures, refer to [Deploy BYOC on AWS](/docs/byoc/deploy-byoc-aws) and [Deploy BYOC-I on AWS](/docs/byoc/deploy-byoc-i-aws).
+
+## Fine-granular filtering within a JSON field{#fine-granular-filtering-within-a-json-field}
+
+Previously, JSON fields were not indexed, and all filter queries required scanning the entire JSON field in each entity. With this release, you can now create an inverted index on specific paths within a JSON field to accelerate queries.
+To index a JSON field, set the index type to **INVERTED**, specify the JSON path you want to optimize, and cast its value to an appropriate data type. During metadata filtering, Zilliz Cloud scans only the specified path within each JSON field value, significantly reducing parsing time and improving filtering performance.
+
+For details on how to index a JSON field and its considerations, refer to [Index a JSON field](./use-json-fields#index-a-json-field).
 
 ## Other Enhancements{#other-enhancements}
 

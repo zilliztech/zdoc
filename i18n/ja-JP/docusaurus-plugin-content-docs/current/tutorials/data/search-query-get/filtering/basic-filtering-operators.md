@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 
@@ -220,6 +220,182 @@ filter = 'color == "red" OR color == "blue"'
 
 ```python
 filter = 'NOT color == "green"'
+```
+
+## IS NULL演算子とIS NOT NULL演算子{#is-null-and-is-not-null-operators}
+
+`IS NULL`および`IS NOT NULL`演算子は、NULL値(データの欠如)が含まれているかどうかに基づいてフィールドをフィルタリングするために使用されます。
+
+- `IS NULL`:特定のフィールドにnull値が含まれているエンティティを識別します。
+
+- `IS NOT NULL`:特定のフィールドにnull以外の値が含まれているエンティティを識別します。
+
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>演算子は大文字と小文字を区別しないため、<code>IS NULL</code>または<code>is null</code>、<code>IS NOT NULL</code>または<code>is not null</code>を使用できます。</p>
+
+</Admonition>
+
+### Null値を持つ正規スカラーフィールド{#regular-scalar-fields-with-null-values}
+
+Zilliz Cloudnull値を持つ文字列や数値などの通常のスカラーフィールドでフィルタリングを許可します。
+
+<Admonition type="info" icon="📘" title="ノート">
+
+<p><code>VARCHAR</code>フィールドでは、空の文字列<code>""</code>はnull値として扱われません。</p>
+
+</Admonition>
+
+`description`フィールドがnullのエンティティを取得するには:
+
+```python
+filter = 'description IS NULL'
+```
+
+`description`フィールドがnullでないエンティティを取得するには:
+
+```python
+filter = 'description IS NOT NULL'
+```
+
+`description`フィールドがnullでなく、`price`フィールドが10より大きいエンティティを取得するには:
+
+```python
+filter = 'description IS NOT NULL AND price > 10'
+```
+
+### Null値を持つJSONフィールド{#json-fields-with-null-values}
+
+Zilliz Cloudnull値を含むJSONフィールドをフィルタリングすることができます。JSONフィールドは、以下の方法でnullとして扱われます。
+
+- JSONオブジェクト全体が明示的にNone(null)に設定されています。例えば、`{"metadata": None}`。
+
+- JSONフィールド自体がエンティティから完全に欠落しています。
+
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>JSONオブジェクト内のいくつかの要素がnullである場合（例えば、個別のキー）、そのフィールドはnullではないと見なされます。例えば、<code>\{"metadata":\{"category": None,"price": 99.99}}</code>は、<code>category</code>キーがnullであってもnullとして扱われません。</p>
+
+</Admonition>
+
+その方法をさらに説明するためにZilliz Cloudnull値を持つJSONフィールドを処理する場合、JSONフィールドの`metadata`を持つ次のサンプルデータを検討してください。
+
+```python
+data = [
+  {
+      "metadata": {"category": "electronics", "price": 99.99, "brand": "BrandA"},
+      "pk": 1,
+      "embedding": [0.12, 0.34, 0.56]
+  },
+  {
+      "metadata": None, # Entire JSON object is null
+      "pk": 2,
+      "embedding": [0.56, 0.78, 0.90]
+  },
+  {  # JSON field `metadata` is completely missing
+      "pk": 3,
+      "embedding": [0.91, 0.18, 0.23]
+  },
+  {
+      "metadata": {"category": None, "price": 99.99, "brand": "BrandA"}, # Individual key value is null
+      "pk": 4,
+      "embedding": [0.56, 0.38, 0.21]
+  }
+]
+```
+
+**例1:メタデータがnullのエンティティを取得する**
+
+`metadata`フィールドが欠落しているか、明示的にNoneに設定されているエンティティを検索するには:
+
+```python
+filter = 'metadata IS NULL'
+
+# Example output:
+# data: [
+#     "{'metadata': None, 'pk': 2}",
+#     "{'metadata': None, 'pk': 3}"
+# ]
+```
+
+**例2:メタデータがnullでないエンティティを取得する**
+
+`metadata`フィールドがnullでないエンティティを検索するには:
+
+```python
+filter = 'metadata IS NOT NULL'
+
+# Example output:
+# data: [
+#     "{'metadata': {'category': 'electronics', 'price': 99.99, 'brand': 'BrandA'}, 'pk': 1}",
+#     "{'metadata': {'category': None, 'price': 99.99, 'brand': 'BrandA'}, 'pk': 4}"
+# ]
+```
+
+### NULL値を持つARRAYフィールド{#array-fields-with-null-values}
+
+Zilliz Cloudnull値を含むARRAYフィールドのフィルタリングを許可します。ARRAYフィールドは、次の方法でnullとして扱われます。
+
+- ARRAYフィールド全体が明示的にNone(null)に設定されています。例えば、`"tags": None`。
+
+- エンティティからARRAYフィールドが完全に欠落しています。
+
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>ARRAYフィールドには、すべての要素が同じデータ型である必要があるため、部分的なNULL値を含めることはできません。詳細については、<a href="./use-array-fields">配列フィールド</a>を参照してください。</p>
+
+</Admonition>
+
+その方法をさらに説明するためにZilliz Cloudnull値を持つARRAYフィールドを処理する場合、ARRAYフィールド`tags`を持つ次のサンプルデータを考慮してください。
+
+```python
+data = [
+  {
+      "tags": ["pop", "rock", "classic"],
+      "ratings": [5, 4, 3],
+      "pk": 1,
+      "embedding": [0.12, 0.34, 0.56]
+  },
+  {
+      "tags": None,  # Entire ARRAY is null
+      "ratings": [4, 5],
+      "pk": 2,
+      "embedding": [0.78, 0.91, 0.23]
+  },
+  {  # The tags field is completely missing
+      "ratings": [9, 5],
+      "pk": 3,
+      "embedding": [0.18, 0.11, 0.23]
+  }
+]
+```
+
+**例1:`tags`がnullのエンティティを取得する**
+
+`tags`フィールドが欠落しているか、明示的に`None`に設定されているエンティティを取得するには:
+
+```python
+filter = 'tags IS NULL'
+
+# Example output:
+# data: [
+#     "{'tags': None, 'ratings': [4, 5], 'embedding': [0.78, 0.91, 0.23], 'pk': 2}",
+#     "{'tags': None, 'ratings': [9, 5], 'embedding': [0.18, 0.11, 0.23], 'pk': 3}"
+# ]
+```
+
+**例2:`tags`がnullでないエンティティを取得する**
+
+`tags`フィールドがnullでないエンティティを取得するには:
+
+```python
+filter = 'tags IS NOT NULL'
+
+# Example output:
+# data: [
+#     "{'metadata': {'category': 'electronics', 'price': 99.99, 'brand': 'BrandA'}, 'pk': 1}",
+#     "{'metadata': {'category': None, 'price': 99.99, 'brand': 'BrandA'}, 'pk': 4}"
+# ]
 ```
 
 ## JSONとARRAYフィールドで基本演算子を使用するためのヒント{#tips-on-using-basic-operators-with-json-and-array-fields}

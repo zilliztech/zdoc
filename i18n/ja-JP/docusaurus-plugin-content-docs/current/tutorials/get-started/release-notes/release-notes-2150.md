@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 
@@ -54,6 +54,14 @@ Zilliz BYOCプロジェクトでは、**Search Services**、**Other Database Com
 このリリースでは、VPCからZilliz Cloud Control Planeへの安全でプライベートな接続のために**AWS PrivateLink**を有効または無効にする機能も導入されています。PrivateLinkはデフォルトオンになっていることに注意してください。
 
 設定手順の詳細については、「[BYOCをAWSにデプロイする](/ja-JP/docs/byoc/deploy-byoc-aws)」と「[BYOC-IをAWSにデプロイする](/ja-JP/docs/byoc/deploy-byoc-i-aws)」を参照してください。
+
+## JSONフィールド内での細かいフィルタリング{#fine-granular-filtering-within-a-json-field}
+
+以前は、JSONフィールドはインデックス化されておらず、すべてのフィルタークエリは各エンティティのJSONフィールド全体をスキャンする必要がありました。このリリースでは、JSONフィールド内の特定のパスに反転インデックスを作成してクエリを高速化できるようになりました。
+
+JSONフィールドをインデックス化するには、インデックスタイプを**INVERTED**に設定し、最適化したいJSONパスを指定し、その値を適切なデータ型にキャストします。メタデータフィルタリング中、Zilliz Cloudは各JSONフィールド値内の指定されたパスのみをスキャンし、解析時間を大幅に短縮し、フィルタリングのパフォーマンスを向上させます。
+
+JSONフィールドをインデックス化する方法とその考慮事項の詳細については、[JSONフィールドのインデックス化](./use-json-fields#set-index-params)を参照してください。
 
 ## その他の機能強化{#other-enhancements}
 

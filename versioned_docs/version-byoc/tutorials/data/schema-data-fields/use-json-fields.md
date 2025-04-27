@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - json field
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
@@ -61,6 +61,8 @@ A [JSON](https://en.wikipedia.org/wiki/JSON) field is a scalar field that stores
     - `'a"b'`, `"a'b"`, `'a\'b'`, and `"a\"b"` are stored exactly as they are.
 
     - `'a'b'` and `"a"b"` are considered invalid.
+
+- **JSON Indexing**: When indexing a JSON field, you can specify one or more paths in the JSON field to accelerate filtering. Each additional path increases indexing overhead, so plan your indexing strategy carefully. For more considerations on indexing a JSON field, refer to [Considerations on JSON indexing](./use-json-fields#considerations-on-json-indexing).
 
 ## Add JSON field{#add-json-field}
 
@@ -246,13 +248,222 @@ export schema="{
 
 ## Set index params{#set-index-params}
 
-Indexing helps Milvus quickly filter or search across large volumes of data. In Milvus, indexing is:
+Indexing helps Zilliz Cloud quickly filter or search across large volumes of data. In Zilliz Cloud, indexing is:
 
 - **Mandatory** for vector fields (to efficiently run similarity searches).
 
+- **Optional** for JSON fields (to speed up scalar filters on specific JSON paths).
+
+### Index a JSON field{#index-a-json-field}
+
+By default, JSON fields are not indexed, so any filter queries (e.g., `metadata["price"] < 100`) must scan all rows. If you want to accelerate queries on specific paths within the `metadata` field, you can create an **inverted index** on each path you care about.
+
+In this example, we will create two indexes on different paths inside the JSON field `metadata`:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+index_params = client.prepare_index_params()
+
+# Example 1: Index the 'category' key inside 'product_info' as a string
+index_params.add_index(
+    field_name="metadata", # JSON field name to index
+    index_type="INVERTED", # Index type. Set to INVERTED
+    index_name="json_index_1", # Index name
+    params={
+        "json_path": "metadata[\"product_info\"][\"category\"]", # Path in JSON field to index
+        "json_cast_type": "varchar" # Data type that the extracted JSON values will be cast to
+    }
+)
+
+# Example 2: Index 'price' as a numeric type (double)
+index_params.add_index(
+    field_name="metadata",
+    index_type="INVERTED",
+    index_name="json_index_2",
+    params={
+        "json_path": "metadata[\"price\"]",
+        "json_cast_type": "double"
+    }
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.IndexParam;
+
+List<IndexParam> indexes = new ArrayList<>();
+
+Map<String,Object> extraParams_1 = new HashMap<>();
+extraParams_1.put("json_path", "metadata[\"product_info\"][\"category\"]");
+extraParams_1.put("json_cast_type", "varchar");
+indexes.add(IndexParam.builder()
+        .fieldName("metadata")
+        .indexName("json_index_1")
+        .indexType(IndexParam.IndexType.INVERTED)
+        .extraParams(extraParams_1)
+        .build());
+
+Map<String,Object> extraParams_2 = new HashMap<>();
+extraParams_2.put("json_path", "metadata[\"price\"]");
+extraParams_2.put("json_cast_type", "double");
+indexes.add(IndexParam.builder()
+        .fieldName("metadata")
+        .indexName("json_index_2")
+        .indexType(IndexParam.IndexType.INVERTED)
+        .extraParams(extraParams_2)
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+jsonIndex1 := index.NewJSONPathIndex(index.Inverted, "varchar", `metadata["product_info"]["category"]`)
+jsonIndex2 := index.NewJSONPathIndex(index.Inverted, "double", `metadata["price"]`)
+indexOpt1 := milvusclient.NewCreateIndexOption("my_collection", "metadata", jsonIndex1)
+indexOpt2 := milvusclient.NewCreateIndexOption("my_collection", "metadata", jsonIndex2)
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const indexParams = [
+    {
+        field_name: "metadata",
+        index_type: "INVERTED",
+        index_name: "json_index_1",
+        params: {
+            json_path: "metadata[\"product_info\"][\"category\"]",
+            json_cast_type: "varchar"
+        }
+    },
+    {
+        field_name: "metadata",
+        index_type: "INVERTED",
+        index_name: "json_index_2",
+        params: {
+            json_path: "metadata[\"price\"]",
+            json_cast_type: "double"
+        }
+    }
+]
+
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "my_collection",
+    "indexParams": [
+        {
+            "fieldName": "metadata",
+            "indexName": "json_index_1",
+            "indexType": "INVERTED",
+            "params": {
+                "json_path": "metadata[\"product_info\"][\"category\"]",
+                "json_cast_type": "varchar"
+            }
+        }
+    ]
+}'
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "my_collection",
+    "indexParams": [
+        {
+            "fieldName": "metadata",
+            "indexName": "json_index_2",
+            "indexType": "INVERTED",
+            "params": {
+                "json_path": "metadata[\"price\"]",
+                "json_cast_type": "double"
+            }
+        }
+    ]
+}'
+```
+
+</TabItem>
+</Tabs>
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Example Value</p></th>
+   </tr>
+   <tr>
+     <td><p><code>field_name</code></p></td>
+     <td><p>Name of the JSON field in your schema.</p></td>
+     <td><p><code>"metadata"</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>index_type</code></p></td>
+     <td><p>Index type to create; currently only <code>INVERTED</code> is supported for JSON path indexing.</p></td>
+     <td><p><code>"INVERTED"</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>index_name</code></p></td>
+     <td><p>(Optional) A custom index name. Specify different names if you create multiple indexes on the same JSON field.</p></td>
+     <td><p><code>"json_index_1"</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>params.json_path</code></p></td>
+     <td><p>Specifies which JSON path to index. You can target nested keys, array positions, or both (e.g., <code>metadata["product_info"]["category"]</code> or <code>metadata["tags"][0]</code>). If the path is missing or the array element does not exist for a particular row, that row is simply skipped during indexing, and no error is thrown.</p></td>
+     <td><p><code>"metadata[\"product_info\"][\"category\"]"</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>params.json_cast_type</code></p></td>
+     <td><p>Data type that Zilliz Cloud will cast the extracted JSON values to when building the index. Valid values:</p><ul><li><code>"bool"</code> or <code>"BOOL"</code></li><li><code>"double"</code> or <code>"DOUBLE"</code></li><li><code>"varchar"</code> or <code>"VARCHAR"</code><strong>Note</strong>: For integer values, Zilliz Cloud internally uses double for the index. Large integers above 2^53 lose precision. If type casting fails (due to type mismatch), no error is thrown, and that row’s value is not indexed.</li></ul></td>
+     <td><p><code>"varchar"</code></p></td>
+   </tr>
+</table>
+
+#### Considerations on JSON indexing{#considerations-on-json-indexing}
+
+- **Filtering logic**:
+
+    - If you **create a double-type index** (`json_cast_type="double"`), only numeric-type filter conditions can use the index. If the filter compares a double index to a non-numeric condition, Zilliz Cloud falls back to brute force search.
+
+    - If you **create a varchar-type index** (`json_cast_type="varchar"`), only string-type filter conditions can use the index. Otherwise, Zilliz Cloud falls back to brute force.
+
+    - **Boolean** indexing behaves similarly to varchar-type.
+
+- **Term expressions**:
+
+    - You can use `json["field"] in [value1, value2, …]`. However, the index works only for scalar values stored under that path. If `json["field"]` is an array, the query falls back to brute force (array-type indexing is not yet supported).
+
+- **Numeric precision**:
+
+    - Internally, Zilliz Cloud indexes all numeric fields as doubles. If a numeric value exceeds $2^{53}$, it loses precision, and queries on those out-of-range values may not match exactly.
+
+- **Data integrity**:
+
+    - Zilliz Cloud does not parse or transform JSON keys beyond your specified casting. If the source data is inconsistent (for example, some rows store a string for key `"k"` while others store a number), some rows will not be indexed.
+
 ### Index a vector field{#index-a-vector-field}
 
-The following example creates an index on the vector field `embedding`, using the `AUTOINDEX` index type. With this type, Milvus automatically selects the most suitable index based on the data type.
+The following example creates an index on the vector field `embedding`, using the `AUTOINDEX` index type. With this type, Zilliz Cloud automatically selects the most suitable index based on the data type.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
