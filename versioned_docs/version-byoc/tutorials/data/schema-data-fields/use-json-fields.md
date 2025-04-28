@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - json field
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 
@@ -56,7 +56,7 @@ A [JSON](https://en.wikipedia.org/wiki/JSON) field is a scalar field that stores
 
 - **Naming**: When naming JSON keys, it is recommended to use only letters, numbers, and underscores. Using other characters may cause issues when filtering or searching.
 
-- **String Handling**: Milvus stores string values in JSON fields as entered, without semantic conversion. For example:
+- **String Handling**: Zilliz Cloud stores string values in JSON fields as entered, without semantic conversion. For example:
 
     - `'a"b'`, `"a'b"`, `'a\'b'`, and `"a\"b"` are stored exactly as they are.
 

@@ -15,10 +15,10 @@ keywords:
   - auditing
   - log
   - configure
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 
@@ -31,7 +31,10 @@ Audit logging allows administrators to track and monitor user-driven operations 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Audit logging is in <strong>Private Preview</strong>. To request access to this feature or learn about associated costs, contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+<ul>
+<li><p>Audit logging is in <strong>Private Preview</strong>. To request access to this feature or learn about associated costs, contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p></li>
+<li><p>Audit logging is supported only for Zilliz Cloud clusters running Milvus 2.5.x.</p></li>
+</ul>
 
 </Admonition>
 
