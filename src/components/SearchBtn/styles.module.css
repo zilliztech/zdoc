@@ -1,0 +1,24 @@
+.searchBtn {
+    display: inline-block;
+    line-height: 24px !important;
+    margin: 0 1.5rem 0 0 !important;
+    height: 32px;
+    border-right: 1px solid rgb(212, 212, 216);
+    padding: 4px 1.5rem;
+}
+
+.searchIcon {
+    display: inline-block;
+    background-image: url('/img/search_icon.svg');
+    width: 24px;
+    height: 24px;
+    background-size: contain;
+    background-repeat: no-repeat;
+    cursor: pointer;
+}
+
+.searchIcon:link,
+.searchIcon:hover {
+    transform: scale(1.05);
+    transition: all 0.2s ease-in-out;
+}

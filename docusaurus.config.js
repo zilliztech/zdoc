@@ -574,9 +574,8 @@ const config = {
             position: 'right',
           },
           {
-            href: '/search',
-            position: 'right',
-            className: 'header-search-link',
+            type: 'custom-searchbtn',
+            position: 'right'
           },
           {
             href: 'https://support.zilliz.com/hc/en-us',
@@ -889,9 +888,9 @@ const config = {
               }
             ],
             quickQuestions: [
-              "What is Zilliz Cloud?",
-              "How to connect to Zilliz Cloud?",
-              "What is the difference between Zilliz Cloud and Milvus?"
+              "How do I create and connect to a cluster in Zilliz Cloud?",
+              "How can I optimize vector search performance for large datasets?",
+              "What are the differences between Serverless and Dedicated clusters?"
             ]
         },
         searchSettings: {

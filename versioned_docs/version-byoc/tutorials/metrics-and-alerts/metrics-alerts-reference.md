@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 
@@ -281,16 +281,14 @@ In addition to the predefined default project alerts , you can also configure cu
      <th><p>Description</p></th>
    </tr>
    <tr>
-     <td><p><strong>Resource</strong></p></td>
-     <td></td>
+     <td colspan="2"><p><strong>Resource</strong></p></td>
    </tr>
    <tr>
      <td><p>Storage</p></td>
      <td><p>Monitor storage usage and send notifications if the usage exceeds a threshold for a certain duration.</p></td>
    </tr>
    <tr>
-     <td><p><strong>Performance (read/write)</strong></p></td>
-     <td></td>
+     <td colspan="2"><p><strong>Performance (read/write)</strong></p></td>
    </tr>
    <tr>
      <td><p>Bulk Insert (QPS)</p></td>
@@ -325,8 +323,7 @@ In addition to the predefined default project alerts , you can also configure cu
      <td><p>Monitor the write operations to the cluster to ensure they are not prohibited. Please scale out immediately if write prohibition has been triggered.</p></td>
    </tr>
    <tr>
-     <td><p><strong>Performance (latency)</strong></p></td>
-     <td></td>
+     <td colspan="2"><p><strong>Performance (latency)</strong></p></td>
    </tr>
    <tr>
      <td><p>Delete Latency (Average)</p></td>
@@ -361,8 +358,7 @@ In addition to the predefined default project alerts , you can also configure cu
      <td><p>Monitor the P99 latency for upsert requests and send notifications if the latency exceeds a threshold for a certain duration.</p></td>
    </tr>
    <tr>
-     <td><p><strong>Performance (request failure rate)</strong></p></td>
-     <td></td>
+     <td colspan="2"><p><strong>Performance (request failure rate)</strong></p></td>
    </tr>
    <tr>
      <td><p>Bulk Insert Failure Rate</p></td>
@@ -393,8 +389,7 @@ In addition to the predefined default project alerts , you can also configure cu
      <td><p>Monitor the failure rate of upsert requests and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
    </tr>
    <tr>
-     <td><p><strong>Data</strong></p></td>
-     <td></td>
+     <td colspan="2"><p><strong>Data</strong></p></td>
    </tr>
    <tr>
      <td><p>Loaded Entities</p></td>
@@ -409,8 +404,7 @@ In addition to the predefined default project alerts , you can also configure cu
      <td><p>Monitor the number of total entities and send notifications if the count exceeds a threshold for a certain duration.</p></td>
    </tr>
    <tr>
-     <td><p><strong>Others</strong></p></td>
-     <td></td>
+     <td colspan="2"><p><strong>Others</strong></p></td>
    </tr>
    <tr>
      <td><p>Cluster Is Abnormal</p></td>

@@ -8,6 +8,7 @@ import DocSidebarNavbarItem from '@theme/NavbarItem/DocSidebarNavbarItem';
 import DocsVersionNavbarItem from '@theme/NavbarItem/DocsVersionNavbarItem';
 import DocsVersionDropdownNavbarItem from '@theme/NavbarItem/DocsVersionDropdownNavbarItem';
 import SignUpBtn from '../../components/SignUpBtn';
+import SearchBtn from '../../components/SearchBtn';
 const ComponentTypes = {
   default: DefaultNavbarItem,
   localeDropdown: LocaleDropdownNavbarItem,
@@ -19,5 +20,6 @@ const ComponentTypes = {
   docsVersion: DocsVersionNavbarItem,
   docsVersionDropdown: DocsVersionDropdownNavbarItem,
   'custom-signupbtn': SignUpBtn,
+  'custom-searchbtn': SearchBtn,
 };
 export default ComponentTypes;
