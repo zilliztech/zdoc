@@ -59,10 +59,10 @@ When an alert in an **ON** status, the specified recipients will receive notific
    </tr>
    <tr>
      <td><p>Remaining Credits</p></td>
-     <td><p>$</p></td>
+     <td><p>&#36;</p></td>
      <td><p>Track the balance of free credits, alerting the user when it falls low to prompt a top-up.</p></td>
      <td><p>Top up credits to maintain account functionality.</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts when the balance of free credits falls below $10.</p></td>
+     <td><p>Trigger <strong>WARNING</strong> alerts when the balance of free credits falls below &#36;10.</p></td>
    </tr>
    <tr>
      <td><p>Credit Validity Period</p></td>
@@ -73,17 +73,17 @@ When an alert in an **ON** status, the specified recipients will receive notific
    </tr>
    <tr>
      <td><p>Advance Pay Balance</p></td>
-     <td><p>$</p></td>
+     <td><p>&#36;</p></td>
      <td><p>Monitor the advance pay balance, alerting the user when it falls low to prevent service disruption.</p></td>
      <td><p>Add funds to the advance pay balance to avoid service interruption.</p></td>
-     <td><p>Trigger <strong>CRITICAL</strong> alerts when the balance falls below $100.</p></td>
+     <td><p>Trigger <strong>CRITICAL</strong> alerts when the balance falls below &#36;100.</p></td>
    </tr>
    <tr>
      <td><p>Usage Amount</p></td>
-     <td><p>$</p></td>
+     <td><p>&#36;</p></td>
      <td><p>Track the usage amount, informing the user when it exceeds a set threshold to suggest monitoring and management.</p></td>
      <td><p>Monitor and manage usage to stay within budget limits.</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts when the amount of usage exceeds $100.</p></td>
+     <td><p>Trigger <strong>WARNING</strong> alerts when the amount of usage exceeds &#36;100.</p></td>
    </tr>
 </table>
 
