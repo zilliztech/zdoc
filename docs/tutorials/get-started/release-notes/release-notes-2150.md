@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 
@@ -26,6 +26,10 @@ import Admonition from '@theme/Admonition';
 # Release Notes (Apr 24, 2025)
 
 We’re thrilled to share that Zero-Downtime Migration is now available in **Private Preview** on Zilliz Cloud! Whether you need to upgrade your cluster or make a change to your deployment, such as switching from Capacity-optimized Compute Units (CU) to another option, you can effortlessly migrate your data without any service interruptions. Additionally, Zilliz BYOC has introduced several enhancements, allowing you to configure instance settings for your BYOC project and enable AWS PrivateLink for your cluster.
+
+## Milvus Compatibility{#milvus-compatibility}
+
+This release is compatible with **Milvus v2.5.x**, and all features from Milvus v2.5.x are **Generally Available**.
 
 ## Seamless Data Migration with Minimal Service Interruption{#seamless-data-migration-with-minimal-service-interruption}
 

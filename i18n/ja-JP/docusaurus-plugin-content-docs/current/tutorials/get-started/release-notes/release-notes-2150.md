@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 
@@ -26,6 +26,10 @@ import Admonition from '@theme/Admonition';
 # リリースノート（2025年4月24日）
 
 Zilliz Cloudの**プライベートプレビュー**で、Zero-Downtime Migrationが利用可能になったことをお知らせできることを嬉しく思っています!クラスタをアップグレードする必要がある場合や、キャパシティ最適化されたコンピュートユニット(CU)から別のオプションに切り替える必要がある場合でも、サービスの中断なしにデータを簡単に移行できます。さらに、Zilliz BYOCは、BYOCプロジェクトのインスタンス設定を構成し、クラスタのAWS PrivateLinkを有効にするためのいくつかの改良を導入しました。
+
+## Milvusの互換性{#milvus-compatiblity}
+
+このリリースはMilvus v 2.5. xと互換性があり、Milvus v 2.5.xのすべての機能が**一般提供**されています。
 
 ## 最小限のサービス中断でシームレスなデータ移行{#seamless-data-migration-with-minimal-service-interruption}
 

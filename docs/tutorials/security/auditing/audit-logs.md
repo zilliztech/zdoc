@@ -15,10 +15,10 @@ keywords:
   - auditing
   - log
   - configure
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 
