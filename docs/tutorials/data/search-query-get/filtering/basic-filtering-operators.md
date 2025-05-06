@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

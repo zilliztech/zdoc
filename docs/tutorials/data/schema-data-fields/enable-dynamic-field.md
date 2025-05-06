@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
@@ -358,6 +358,145 @@ curl --request POST \
 #         ]
 #     }
 # }
+```
+
+</TabItem>
+</Tabs>
+
+### Index a scalar field in the dynamic field{#index-a-scalar-field-in-the-dynamic-field}
+
+When you enable a dynamic field, any undefined scalar fields are stored as key-value pairs in JSON format. Zilliz Cloud clusters supports creating an index on such an undefined scalar field, effectively by building a JSON path index. Here's how it works:
+
+1. **Choose the dynamic field key** you want to index. For example, `"color"` in the example above.
+
+1. **Decide on a cast type** for the values found at that key. Zilliz Cloud clusters will parse the dynamic field, extract the values under the specified key, and cast them to the type you configure.
+
+    - Supported `json_cast_type` values are `bool` (or `BOOL`), `double` (or `DOUBLE`), and `varchar` (or `VARCHAR`).
+
+    - If parsing or casting fails (for example, trying to parse a string as double), those rows will be skipped in the index.
+
+1. **Specify the JSON path** to that key as `json_path`. Since the dynamic field is stored as JSON, you can specify something like `"color"`, or if you have nested structures, you can specify deeper paths (e.g. `my_json["field"]["subfield"]`).
+
+1. **Create an INVERTED index**. Currently, only `INVERTED` type is supported for JSON path indexing.
+
+For details on parameters and considerations, refer to [Index a JSON field](./use-json-fields#index-a-json-field).
+
+Below is an example of how to create an index on the `"color"` field:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+# Prepare index parameters
+index_params = client.prepare_index_params()
+
+index_params.add_index(
+    field_name="color",               # Name of the "column" you see in queries (the dynamic key).
+    index_type="INVERTED",            # Currently only "INVERTED" is supported for indexing JSON fields.
+    index_name="color_index",         # Assign a name to this index.
+    params={
+        "json_path": "color",         # JSON path to the key you want to index.
+        "json_cast_type": "varchar"   # Type to which Milvus will cast the extracted values.
+    }
+)
+
+# Create the index
+client.create_index(
+    collection_name="my_collection",
+    index_params=index_params
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.IndexParam;
+
+List<IndexParam> indexes = new ArrayList<>();
+
+Map<String,Object> extraParams = new HashMap<>();
+extraParams.put("json_path", "color");
+extraParams.put("json_cast_type", "varchar");
+indexes.add(IndexParam.builder()
+        .fieldName("color")
+        .indexName("color_index")
+        .indexType(IndexParam.IndexType.INVERTED)
+        .extraParams(extraParams)
+        .build());
+
+client.createIndex(CreateIndexReq.builder()
+        .collectionName("my_collection")
+        .indexParams(indexes)
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+indexTask, err := client.CreateIndex(ctx, milvusclient.NewCreateIndexOption("my_collection", "color",
+    index.NewJSONPathIndex(index.Inverted, "varchar", "color")))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+err = indexTask.Await(ctx)
+if err != nil {
+    fmt.Println(err.Error())
+    // handler err
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const index_params = {
+    field_name: "color",               // Name of the "column" you see in queries (the dynamic key).
+    index_type: "INVERTED",            // Currently only "INVERTED" is supported for indexing JSON fields.
+    index_name: "color_index",         // Assign a name to this index.
+    params:{
+        "json_path": "color",          // JSON path to the key you want to index.
+        "json_cast_type": "varchar"   // Type to which Milvus will cast the extracted values.
+    }
+}
+
+// Create the index
+await client.create_index({
+    collection_name: "my_collection",
+    index_params: index_params
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/indexes/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "my_collection",
+    "indexParams": [
+        {
+            "fieldName": "color",
+            "indexName": "color_index",
+            "indexType": "INVERTED",
+            "params": {
+                "json_path": "color",
+                "json_cast_type": "varchar"
+            }
+        }
+    ]
+}'
 ```
 
 </TabItem>

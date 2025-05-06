@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - json field
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 
@@ -542,7 +542,7 @@ export indexParams='[
 
 ## Create collection{#create-collection}
 
-Once the schema and index are defined, create a collection that includes string fields.
+Once the schema and index are defined, create a collection that includes the JSON field.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
