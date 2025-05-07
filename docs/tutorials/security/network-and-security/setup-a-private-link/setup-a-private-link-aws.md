@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 
@@ -71,9 +71,9 @@ You need to complete this step on your cloud provider console using either the U
 
     1. Switch to the **Via UI Console** tab.
 
-    1. Navigate to the AWS console page.On the AWS console, check the if the cloud region corresponds to the cloud region you selected in Step 1. Click **Endpoints** in the left navigation. Click **Create Endpoint**.
+    1. Navigate to the AWS console page. On the AWS console, check if the cloud region corresponds to the cloud region you selected in [Step 1](./setup-a-private-link-aws#select-a-cloud-provider-and-region). Click **Endpoints** in the left navigation. Click **Create Endpoint**.
 
-        ![setup_private_link_window_gcp](/img/setup_private_link_window_gcp.png)
+        ![setup_private_link_window_aws](/img/setup_private_link_window_aws.png)
 
     1. On the **Create Endpoint** page, select **Endpoint services that use NLBs and GWLBs** as the endpoint **Type**.
 
