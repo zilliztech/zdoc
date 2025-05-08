@@ -1,0 +1,31 @@
+name: "fetch sdk ref (manual)"
+on: 
+  workflow_dispatch:
+    inputs:
+      language:
+        description: 'Language'
+        type: choice
+        default: 'zh-CN'
+        options:
+          - 'zh-CN'
+          - 'ja-JP'
+      doc:
+        description: 'Doc'
+        type: string
+        default: 'Home'
+
+jobs:
+    fetch-sdk-ref:
+        runs-on: ubuntu-latest
+        steps:
+        - name: get current date
+          id: date
+          run: echo "::set-output name=date::$(date +'%Y%m%d')"
+        - name: set up Environment
+          uses: actions/setup-node@v4.0.1
+        - name: checkout repo
+          uses: actions/checkout@v4
+        - name: checking
+          run: |
+            yarn
+            npx docusaurus i18n-check -s "Home" -l "${{ github.event.inputs.language }}"

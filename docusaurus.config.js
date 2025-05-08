@@ -546,8 +546,21 @@ const config = {
     './plugins/link-checks',
     './plugins/nb-to-mdx',
     'docusaurus-plugin-image-zoom',
-    ['./plugins/report-to-lark',{
+    [
+      './plugins/report-to-lark',
+      {
         receiveId: 'oc_0e36909edb9247c7b6ecb437e99f1d68'
+      }
+    ],
+    [
+      './plugins/i18n-check',
+      {
+        "zh-CN": {
+          base: 'PnsobATKVayIDFs6hhQcChlGnje:tblZepmOM8LcM8BZ'
+        },
+        "ja-JP": {
+          base: 'PnsobATKVayIDFs6hhQcChlGnje:tblb5k5XPRT7PEFY'
+        }
       }
     ]
   ],
