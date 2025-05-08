@@ -29323,7 +29323,8 @@
 												"type": "object",
 												"properties": {
 													"radius": {
-														"type": "integer",
+														"type": "number",
+														"format": "float64",
 														"description": "Determines the threshold of least similarity. When setting metric_type to L2, ensure that this value is greater than that of range_filter. Otherwise, this value should be lower than that of range_filter. ",
 														"x-i18n": {
 															"zh-CN": {
@@ -29332,7 +29333,8 @@
 														}
 													},
 													"range_filter": {
-														"type": "integer",
+														"type": "number",
+														"format": "float64",
 														"description": "Refines the search to vectors within a specific similarity range. When setting metric_type to IP or COSINE, ensure that this value is greater than that of radius. Otherwise, this value should be lower than that of radius. ",
 														"x-i18n": {
 															"zh-CN": {
@@ -29905,7 +29907,8 @@
 													"type": "object",
 													"properties": {
 														"radius": {
-															"type": "integer",
+															"type": "number",
+															"format": "float64",
 															"description": "Determines the threshold of least similarity. When setting metric_type to L2, ensure that this value is greater than that of range_filter. Otherwise, this value should be lower than that of range_filter. ",
 															"x-i18n": {
 																"zh-CN": {
@@ -29914,7 +29917,8 @@
 															}
 														},
 														"range_filter": {
-															"type": "integer",
+															"type": "number",
+															"format": "float64",
 															"description": "Refines the search to vectors within a specific similarity range. When setting metric_type to IP or COSINE, ensure that this value is greater than that of radius. Otherwise, this value should be lower than that of radius. ",
 															"x-i18n": {
 																"zh-CN": {

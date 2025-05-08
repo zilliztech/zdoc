@@ -14,10 +14,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 
@@ -31,10 +31,7 @@ Memory mapping (Mmap) enables direct memory access to large files on disk, allow
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<ul>
-<li><p>This feature is still in <strong>Public Preview</strong>. If you have encountered any issues regarding this feature, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p></li>
-<li><p>When migrating or restoring data between source and target clusters that have different plans, the Mmap settings of the source collection will not be migrated to the target cluster. Please manually reconfigure the MMAP settings on the target cluster.</p></li>
-</ul>
+<p>When migrating or restoring data between source and target clusters that have different plans, the mmap settings of the source collection will not be migrated to the target cluster. Please manually reconfigure the mmap settings on the target cluster.</p>
 
 </Admonition>
 
