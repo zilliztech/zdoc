@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - numpy
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
 
 ---
 

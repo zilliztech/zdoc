@@ -1,5 +1,5 @@
 ---
-title: "Import from a JSON file | BYOC"
+title: "Import from a JSON File | BYOC"
 slug: /data-import-json
 sidebar_label: "JSON"
 beta: FALSE
@@ -16,17 +16,17 @@ keywords:
   - milvus
   - format options
   - json
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Import from a JSON file
+# Import from a JSON File
 
 [JSON](https://www.json.org/json-en.html) (JavaScript Object Notation) is a lightweight, human-readable data format that machines can parse and generate easily. Language-independent, it follows conventions familiar to C-family language programmers, making it an ideal data interchange format.
 

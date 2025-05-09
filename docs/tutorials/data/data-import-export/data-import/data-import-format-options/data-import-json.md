@@ -1,5 +1,5 @@
 ---
-title: "Import from a JSON file | Cloud"
+title: "Import from a JSON File | Cloud"
 slug: /data-import-json
 sidebar_label: "JSON"
 beta: FALSE
@@ -16,17 +16,17 @@ keywords:
   - milvus
   - format options
   - json
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Import from a JSON file
+# Import from a JSON File
 
 [JSON](https://www.json.org/json-en.html) (JavaScript Object Notation) is a lightweight, human-readable data format that machines can parse and generate easily. Language-independent, it follows conventions familiar to C-family language programmers, making it an ideal data interchange format.
 

@@ -1,5 +1,5 @@
 ---
-title: "Import from a Parquet file | BYOC"
+title: "Import from a Parquet File | BYOC"
 slug: /data-import-parquet
 sidebar_label: "Parquet (Recommended)"
 beta: FALSE
@@ -16,17 +16,17 @@ keywords:
   - milvus
   - format options
   - parquet
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Import from a Parquet file
+# Import from a Parquet File
 
 [Apache Parquet](https://parquet.apache.org/docs/overview/) is an open-source, column-oriented data file format designed for efficient data storage and retrieval. It offers high-performance compression and encoding schemes to manage complex data in bulk and is supported in various programming languages and analytics tools tools.
 
