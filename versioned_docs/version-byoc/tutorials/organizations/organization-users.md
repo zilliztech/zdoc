@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - users
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
 
 ---
 
@@ -51,7 +51,7 @@ Zilliz Cloud provides three organization roles. These roles cannot be modified o
          <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
        </tr>
        <tr>
-         <td><ul><li><p>Manage all projects in the organization</p></li><li><p>Manage <a href="./payment-billing">payments & billing</a></p></li><li><p>Manage <a href="./manage-api-keys">API keys</a></p></li><li><p>Manage <a href="./organization-users">organization users</a></p></li><li><p>Manage <a href="./metrics-and-alerts">alerts</a></p></li><li><p>View <a href="./view-activities">activities</a></p></li><li><p>Manage <a href="./organization-settings">organization settings</a></p></li><li><p>Use <a href="./use-recycle-bin">recycle bin</a></p></li><li><p>Plus all the privileges of a <a href="./project-users#project-roles">Project Admin</a> and a <a href="./cluster-roles#built-in-cluster-roles">Cluster Admin</a> roles</p></li></ul></td>
+         <td><ul><li><p>Manage all projects in the organization</p></li><li><p>Manage <a href="./manage-api-keys">API keys</a></p></li><li><p>Manage <a href="./organization-users">organization users</a></p></li><li><p>Manage <a href="./metrics-and-alerts">alerts</a></p></li><li><p>View <a href="./view-activities">activities</a></p></li><li><p>Manage <a href="./organization-settings">organization settings</a></p></li><li><p>Use <a href="./use-recycle-bin">recycle bin</a></p></li><li><p>Plus all the privileges of a <a href="./project-users#project-roles">Project Admin</a> and a <a href="./cluster-roles#built-in-cluster-roles">Cluster Admin</a> roles</p></li></ul></td>
          <td><p><a href="/reference/restful/control-plane-v2">All control plane operations</a></p></td>
          <td><p><a href="/reference/restful/data-plane-v2">All data plane operations</a></p></td>
        </tr>
@@ -68,8 +68,8 @@ Zilliz Cloud provides three organization roles. These roles cannot be modified o
          <th><p><strong>Data Plane RESTful API (V2) Privileges</strong></p></th>
        </tr>
        <tr>
-         <td><ul><li><p>Manage <a href="./payment-billing">payments & billing</a></p></li><li><p>View <a href="./manage-api-keys">API keys</a></p></li><li><p>Invite <a href="./organization-users">organization users</a></p></li><li><p>View <a href="./organization-settings">organization settings</a></p></li></ul></td>
-         <td><ul><li><p><a href="/reference/restful/list-invoices-v2">List Invoices</a></p></li><li><p><a href="/reference/restful/describe-invoice-v2">Describe Invoice</a></p></li><li><p><a href="/reference/restful/query-daily-usage-v2">Query Daily Usage</a></p></li></ul></td>
+         <td><ul><li><p>View <a href="./manage-api-keys">API keys</a></p></li><li><p>Invite <a href="./organization-users">organization users</a></p></li><li><p>View <a href="./organization-settings">organization settings</a></p></li></ul></td>
+         <td><ul><li><a href="/reference/restful/query-daily-usage-v2">Query Daily Usage</a></li></ul></td>
          <td><p>The data plan privileges are determined by project and cluster roles. However, a Billing Admin usually does not require data plane privileges.</p></td>
        </tr>
     </table>
