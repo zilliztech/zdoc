@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 
@@ -31,7 +31,7 @@ This release introduces two new features in **PRIVATE PREVIEW**: a new BYOC depl
 
 This release is compatible with **Milvus v2.4.x**.
 
-If you prefer to upgrade your clusters to **Public Preview**, **Milvus 2.5.x** features are available after the upgrade.
+If you prefer to upgrade your clusters to **Public Preview**, **Milvus 2.5.x** features are available after the upgrade. You can click **Try Preview Features** on the **Cluster Details** page on the Zilliz Cloud console to learn more about the features in **Public Preview**.
 
 ![Koy0bfMhuoaJ2ZxtVJfcUSl9n6d](/img/Koy0bfMhuoaJ2ZxtVJfcUSl9n6d.png)
 
