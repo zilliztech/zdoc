@@ -1,0 +1,110 @@
+# Zilliz
+
+## Docs
+
+## Getting Started
+- [Get Started](https://docs.zilliz.com/docs/get-started): Comprehensive guide to creating an account and accessing Zilliz Cloud services.
+- [Quick Start](https://docs.zilliz.com/docs/quick-start): Step-by-step instructions to set up your cluster and perform basic operations.
+- [Concepts](https://docs.zilliz.com/docs/concepts): Explanations of common terms and concepts used in Zilliz Cloud.
+- [Try Zilliz Cloud For Free](https://docs.zilliz.com/docs/try-zilliz-cloud-for-free): Information on free plans and trials to evaluate Zilliz Cloud features.
+- [Resource Planning](https://docs.zilliz.com/docs/resource-planning): Guidance on planning resources before migrating data to Zilliz Cloud.
+- [Best Practices](https://docs.zilliz.com/docs/best-practices): Recommended practices for optimal use of Zilliz Cloud.
+- [API & SDKs](https://docs.zilliz.com/docs/api-sdks): Access procedures for using or installing RESTful API and SDKs.
+- [Release Notes](https://docs.zilliz.com/docs/release-notes): History of Zilliz Cloud releases and updates.
+
+## Cluster Management
+- [Create Cluster](https://docs.zilliz.com/docs/create-cluster): Instructions to create a new Zilliz Cloud cluster.
+- [Connect to Cluster](https://docs.zilliz.com/docs/connect-cluster): How to connect to your Zilliz Cloud cluster.
+- [Manage Cluster](https://docs.zilliz.com/docs/manage-cluster): Managing and configuring your cluster settings.
+- [Scale Cluster](https://docs.zilliz.com/docs/scale-cluster): Guidelines to scale your cluster resources.
+- [Manage Replica](https://docs.zilliz.com/docs/manage-replica): Managing replicas for high availability.
+- [Database](https://docs.zilliz.com/docs/database): Overview of the database layer in Zilliz Cloud.
+
+## Data Operations
+- [Collection](https://docs.zilliz.com/docs/collection): Creating and managing collections in Zilliz Cloud.
+- [Schema & Data Fields](https://docs.zilliz.com/docs/schema-data-fields): Defining schemas and data fields for collections.
+- [Insert & Delete](https://docs.zilliz.com/docs/insert-delete): Inserting and deleting data in collections.
+- [Manage Indexes](https://docs.zilliz.com/docs/manage-indexes): Creating and managing indexes on fields.
+- [Search & Rerank](https://docs.zilliz.com/docs/search-query-get): Performing searches and reranking results.
+- [Import & Export](https://docs.zilliz.com/docs/import-export): Importing and exporting data in Zilliz Cloud.
+
+## Migrations
+- [Zilliz Cloud IP Addresses](https://docs.zilliz.com/docs/zilliz-cloud-ip): Information on IP addresses for Zilliz Cloud.
+- [Cross-Cluster Migrations](https://docs.zilliz.com/docs/cross-cluster-migrations): Migrating data across clusters.
+- [Migrate from Milvus](https://docs.zilliz.com/docs/migrate-milvus): Steps to migrate from Milvus to Zilliz Cloud.
+- [Migrate from Pinecone](https://docs.zilliz.com/docs/migrate-pinecone): Migrating data from Pinecone.
+- [Migrate from Qdrant](https://docs.zilliz.com/docs/migrate-qdrant): Instructions to migrate from Qdrant.
+- [Migrate from Elasticsearch](https://docs.zilliz.com/docs/migrate-elasticsearch): Migrating from Elasticsearch to Zilliz Cloud.
+- [Migrate from PostgreSQL](https://docs.zilliz.com/docs/migrate-postgresql): Steps to migrate from PostgreSQL.
+- [Migrate from Tencent Cloud](https://docs.zilliz.com/docs/migrate-tencent): Migrating data from Tencent Cloud.
+- [Migration from OpenSearch](https://docs.zilliz.com/docs/migrate-opensearch): Instructions to migrate from OpenSearch.
+
+## Metrics & Alerts
+- [Metrics & Alerts Reference](https://docs.zilliz.com/docs/metrics-alerts-reference): Reference for metrics and alerts in Zilliz Cloud.
+- [View Cluster Metric Charts](https://docs.zilliz.com/docs/view-cluster-metrics): Viewing metrics charts for clusters.
+- [Manage Organization Alerts](https://docs.zilliz.com/docs/manage-organization-alerts): Managing alerts at the organization level.
+- [Manage Project Alerts](https://docs.zilliz.com/docs/manage-project-alerts): Managing alerts at the project level.
+- [Manage Notification Channels](https://docs.zilliz.com/docs/manage-notification-channels): Configuring notification channels for alerts.
+
+## Backup & Restore
+- [Create Backup](https://docs.zilliz.com/docs/create-backup): Creating backups for clusters or collections.
+- [Schedule Automatic Backups](https://docs.zilliz.com/docs/schedule-backups): Setting up automatic backup schedules.
+- [View Backup Files](https://docs.zilliz.com/docs/view-backup-files): Viewing existing backup files.
+- [Restore from Backup Files](https://docs.zilliz.com/docs/restore-backup): Restoring data from backup files.
+- [Export Backup Files](https://docs.zilliz.com/docs/export-backup-files): Exporting backup files from Zilliz Cloud.
+- [Delete Backup File](https://docs.zilliz.com/docs/delete-backup-files): Deleting backup files.
+
+## Organizations & Projects
+- [Organization Users](https://docs.zilliz.com/docs/organization-users): Managing users within an organization.
+- [Organization Settings](https://docs.zilliz.com/docs/organization-settings): Configuring organization-level settings.
+- [View Activities](https://docs.zilliz.com/docs/view-activities): Viewing activity logs.
+- [Use Recycle Bin](https://docs.zilliz.com/docs/use-recycle-bin): Using the recycle bin to recover deleted items.
+- [Projects](https://docs.zilliz.com/docs/projects): Managing projects in Zilliz Cloud.
+- [Project Users](https://docs.zilliz.com/docs/project-users): Managing users within a project.
+- [Project Jobs](https://docs.zilliz.com/docs/project-jobs): Managing jobs associated with a project.
+- [Integrate with Third Parties](https://docs.zilliz.com/docs/integrate-third-parties): Integrating Zilliz Cloud with third-party services.
+
+## Security
+- [Data Security](https://docs.zilliz.com/docs/data-security): Ensuring data security in Zilliz Cloud.
+- [Authentication](https://docs.zilliz.com/docs/authentication): Setting up authentication mechanisms.
+- [Access Control](https://docs.zilliz.com/docs/access-control): Managing access control policies.
+- [Network Access](https://docs.zilliz.com/docs/network-access): Configuring network access settings.
+- [Auditing](https://docs.zilliz.com/docs/auditing): Auditing activities within Zilliz Cloud.
+
+## Pipelines
+- [Pipelines Quickstart](https://docs.zilliz.com/docs/pipelines-quickstart): Getting started with pipelines.
+- [Ingest, Search, Delete](https://docs.zilliz.com/docs/ingest-search-delete): Performing data ingestion, search, and deletion.
+- [Connect to Your Data](https://docs.zilliz.com/docs/connect-data): Connecting external data sources.
+- [Pricing](https://docs.zilliz.com/docs/pipelines-pricing): Information on pipeline pricing.
+- [Concepts](https://docs.zilliz.com/docs/pipelines-concepts): Understanding pipeline concepts.
+- [Pipeline Integrations](https://docs.zilliz.com/docs/pipeline-integrations): Integrating pipelines with other services.
+
+## Payment & Billing
+- [Credit Card](https://docs.zilliz.com/docs/credit-card): Using credit cards for payments.
+- [AWS Marketplace](https://docs.zilliz.com/docs/aws-marketplace): Purchasing through AWS Marketplace.
+- [Google Cloud Marketplace](https://docs.zilliz.com/docs/google-cloud-marketplace): Purchasing through Google Cloud Marketplace.
+- [Azure Marketplace](https://docs.zilliz.com/docs/azure-marketplace): Purchasing through Azure Marketplace.
+- [Advance Pay](https://docs.zilliz.com/docs/advance-pay): Setting up advance payments.
+- [Invoices](https://docs.zilliz.com/docs/invoices): Managing invoices.
+- [Analyze Cost](https://docs.zilliz.com/docs/analyze-cost): Analyzing costs associated with Zilliz Cloud usage.
+
+## Limits & Restrictions
+- [Zilliz Cloud Limits](https://docs.zilliz.com/docs/zilliz-cloud-limits): Understanding usage limits in Zilliz Cloud.
+- [API Availability](https://docs.zilliz.com/docs/api-availability): Information on API availability and limitations.
+
+## FAQs
+- [FAQ: Get Started](https://docs.zilliz.com/docs/faq-get-started): Frequently asked questions about getting started.
+- [FAQ: Cluster](https://docs.zilliz.com/docs/faq-cluster): FAQs related to clusters.
+- [FAQ: Collection](https://docs.zilliz.com/docs/faq-collection): FAQs about collections.
+- [FAQ: Data Import](https://docs.zilliz.com/docs/faq-data-import): FAQs on data import processes.
+- [FAQ: Pipelines](https://docs.zilliz.com/docs/faq-pipelines): FAQs regarding pipelines.
+- [FAQ: Migration](https://docs.zilliz.com/docs/faq-migration): FAQs on data migration.
+- [FAQ: Resource Planning](https://docs.zilliz.com/docs/faq-resource-planning): FAQs about resource planning.
+- [FAQ: Backup and Restore](https://docs.zilliz.com/docs/faq-backup-restore): FAQs on backup and restore operations.
+- [FAQ: Users & Roles](https://docs.zilliz.com/docs/faq-users-roles): FAQs about user and role management.
+- [FAQ: Monitors & Metrics](https://docs.zilliz.com/docs/faq-monitors-metrics): FAQs on monitoring and metrics.
+- [FAQ: Account](https://docs.zilliz.com/docs/faq-account): FAQs related to account management.
+- [FAQ: Authentication](https://docs.zilliz.com/docs/faq-authentication): FAQs on authentication methods.
+- [FAQ: Payment & Billing](https://docs.zilliz.com/docs/faq-payment-billing): FAQs about payments and billing.
+- [FAQ: Integrations](https://docs.zilliz.com/docs/faq-integrations): FAQs on integrating Zilliz Cloud with third-party tools and services.
+ 
