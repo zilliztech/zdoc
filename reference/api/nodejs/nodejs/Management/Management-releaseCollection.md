@@ -8,21 +8,21 @@ notebook: false
 description: "This operation releases the data of a specific collection from memory. | Node.js"
 type: docx
 token: UxOXdeKF1oOIBuxTjPhcKBtPnRb
-sidebar_position: 7
+sidebar_position: 17
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - releaseCollection()
-  - node
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - nodejs25
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: nodeSidebar
 
 ---

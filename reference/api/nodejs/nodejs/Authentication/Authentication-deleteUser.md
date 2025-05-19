@@ -8,21 +8,21 @@ notebook: false
 description: "This operation drops a user. | Node.js"
 type: docx
 token: Cl5PdhU5jouHnrxyYXLcOQAZneb
-sidebar_position: 3
+sidebar_position: 6
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - deleteUser()
-  - node
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - nodejs25
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: nodeSidebar
 
 ---

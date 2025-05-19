@@ -8,21 +8,21 @@ notebook: false
 description: "This operation releases the partitions in a specified collection from memory. | Java | v2"
 type: docx
 token: VsyQdDkXnoloWYxfjXNchc0dnng
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - releasePartitions()
-  - javaV2
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - javaV225
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 displayed_sidebar: javaSidebar
 
 ---
@@ -71,7 +71,19 @@ releasePartitions(ReleasePartitionsReq.builder()
 ## Example{#example}
 
 ```java
-// release partition in collection
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.partition.request.ReleasePartitionsReq;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Release partition in collection
 ReleasePartitionsReq releasePartitionsReq = ReleasePartitionsReq.builder()
         .collectionName("test_partition")
         .partitionNames(Collections.singletonList("test_partition"))

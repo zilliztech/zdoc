@@ -8,21 +8,21 @@ notebook: false
 description: "This operation grants a role to a user. | Java | v2"
 type: docx
 token: JB90dbBNRoz1I2xZY5rcSmJ1nSb
-sidebar_position: 8
+sidebar_position: 12
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - grantRole()
-  - javaV2
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - javaV225
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: javaSidebar
 
 ---
@@ -71,6 +71,19 @@ grantRole(GrantRoleReq.builder()
 ## Example{#example}
 
 ```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.rbac.request.GrantRoleReq;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Grant role to a user
 GrantRoleReq grantRoleReq = GrantRoleReq.builder()
         .roleName("db_ro")
         .userName("test")

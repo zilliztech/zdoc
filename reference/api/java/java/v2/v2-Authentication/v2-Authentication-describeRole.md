@@ -8,21 +8,21 @@ notebook: false
 description: "This operation describes a specific role. | Java | v2"
 type: docx
 token: Fs7qdzeHZo305txlj45cgqoVnUf
-sidebar_position: 3
+sidebar_position: 5
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
-  - javaV2
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - javaV225
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: javaSidebar
 
 ---
@@ -87,9 +87,9 @@ The name of the entity (user or role) that granted the privilege.
 ## Example{#example}
 
 ```java
-import io.milvus.v2.client.ConnectConfig
-import io.milvus.v2.client.MilvusClientV2
-import io.milvus.v2.service.rbac.request.DescribeUserReq
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.rbac.request.DescribeUserReq;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()

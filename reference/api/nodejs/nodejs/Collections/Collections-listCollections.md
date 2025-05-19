@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists all existing collections. | Node.js"
 type: docx
 token: Djg7dlb5NoINz9xOAs1cyY67nsh
-sidebar_position: 14
+sidebar_position: 18
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - listCollections()
-  - node
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - nodejs25
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: nodeSidebar
 
 ---

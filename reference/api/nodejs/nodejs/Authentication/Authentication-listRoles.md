@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists all custom roles. | Node.js"
 type: docx
 token: GIeMdvjlMoLwGrxUOu3cFw7bnWc
-sidebar_position: 11
+sidebar_position: 18
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - listRoles()
-  - node
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - nodejs25
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: nodeSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: Wz3HdtvPCoEquvxFY7PcDHxcnEe
 sidebar_position: 6
 keywords: 
+  - Audio similarity search
+  - Elastic vector database
   - Pinecone vs Milvus
   - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - describe_user()
   - pymilvus25
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: pythonSidebar
 
 ---

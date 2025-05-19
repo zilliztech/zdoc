@@ -8,21 +8,21 @@ notebook: false
 description: "This operation inserts or updates data in a specific collection. | Node.js"
 type: docx
 token: MErAdudCloVawFxpxoWcgqZonLc
-sidebar_position: 6
+sidebar_position: 8
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
-  - node
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - nodejs25
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: nodeSidebar
 
 ---

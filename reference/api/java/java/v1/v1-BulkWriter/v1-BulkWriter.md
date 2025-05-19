@@ -2,7 +2,7 @@
 title: "BulkWriter | Java | v1"
 slug: /java/v1-BulkWriter
 sidebar_label: "BulkWriter"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "(placeholder) | Java | v1"
 type: origin

@@ -10,19 +10,19 @@ type: docx
 token: AXWod56QkoprlXxOXkwcPXfonHg
 sidebar_position: 3
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - getField()
-  - javaV2
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - javaV225
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 displayed_sidebar: javaSidebar
 
 ---
@@ -67,5 +67,7 @@ A [FieldSchema](./v2-FieldSchema) object containing details of the field.
 ## Example{#example}
 
 ```java
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
 CreateCollectionReq.FieldSchema fieldSchema = collectionSchema.getField("id");
 ```

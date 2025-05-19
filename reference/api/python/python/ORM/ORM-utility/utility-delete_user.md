@@ -10,19 +10,19 @@ type: docx
 token: E7zOdU2JpoqaU5xNYXvcAjgPnNh
 sidebar_position: 6
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - delete_user()
   - pymilvus25
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
 displayed_sidebar: pythonSidebar
 
 ---

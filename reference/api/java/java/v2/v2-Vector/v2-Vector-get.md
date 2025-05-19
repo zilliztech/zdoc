@@ -10,19 +10,19 @@ type: docx
 token: UcacdecoZoAyxsxJzOGcTqWzn7d
 sidebar_position: 2
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - get()
-  - javaV2
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - javaV225
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: javaSidebar
 
 ---
@@ -95,11 +95,24 @@ A **GetResp** object representing one or more queried entities.
 ## Example{#example}
 
 ```java
-// get entity with id 0
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.GetReq;
+import io.milvus.v2.service.vector.response.GetResp;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Get entity with id 0
 GetReq getReq = GetReq.builder()
         .collectionName("test")
         .ids(Collections.singletonList("0"))
         .build();
-GetResp statusR = client.get(getReq);
+GetResp getResp = client.get(getReq);
 ```
 

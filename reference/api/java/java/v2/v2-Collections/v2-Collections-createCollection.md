@@ -8,21 +8,21 @@ notebook: false
 description: "This operation creates a collection either with default or customized settings. | Java | v2"
 type: docx
 token: LtCFdAg8FoxWmBxOInfcUSagnHb
-sidebar_position: 5
+sidebar_position: 7
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
-  - javaV2
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - javaV225
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: javaSidebar
 
 ---
@@ -177,34 +177,61 @@ You can choose between a quick setup or a customized setup as follows:
 
     The quick setup collection has two fields: the primary and vector fields. It also allows the insertion of undefined fields and their values in key-value pairs in a dynamic field.
 
-```java
-// quickly create a collection
-CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
-        .collectionName(collectionName)
-        .dimension(dim)
-        .build();
-client.createCollection(createCollectionReq);
-
-```
+    ```java
+    import io.milvus.v2.client.ConnectConfig;
+    import io.milvus.v2.client.MilvusClientV2;
+    import io.milvus.v2.service.collection.request.CreateCollectionReq;
+    
+    // 1. Set up a client
+    ConnectConfig connectConfig = ConnectConfig.builder()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN")
+            .build();
+            
+    MilvusClientV2 client = new MilvusClientV2(connectConfig);
+    
+    // 2. Quickly create a collection
+    CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
+            .collectionName(collectionName)
+            .dimension(dim)
+            .build();
+    client.createCollection(createCollectionReq);
+    
+    ```
 
 - **Customized setup with index parameters**
 
     For a customized setup, create the schema and index parameters beforehand. 
 
-```java
-// create a collection with schema, when indexParams is specified, it will create index as well
-CreateCollectionReq.CollectionSchema collectionSchema = client.createSchema();
-collectionSchema.addField(AddFieldReq.builder().fieldName("id").dataType(DataType.Int64).isPrimaryKey(Boolean.TRUE).autoID(Boolean.FALSE).description("id").build());
-collectionSchema.addField(AddFieldReq.builder().fieldName("vector").dataType(DataType.FloatVector).dimension(dim).build());
-
-IndexParam indexParam = IndexParam.builder()
-        .fieldName("vector")
-        .metricType(IndexParam.MetricType.COSINE)
-        .build();
-CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
-        .collectionName(collectionName)
-        .collectionSchema(collectionSchema)
-        .indexParams(Collections.singletonList(indexParam))
-        .build();
-client.createCollection(createCollectionReq);
-```
+    ```java
+    import io.milvus.v2.client.ConnectConfig;
+    import io.milvus.v2.client.MilvusClientV2;
+    import io.milvus.v2.common.DataType;
+    import io.milvus.v2.common.IndexParam;
+    import io.milvus.v2.service.collection.request.AddFieldReq;
+    import io.milvus.v2.service.collection.request.CreateCollectionReq;
+    
+    // 1. Set up a client
+    ConnectConfig connectConfig = ConnectConfig.builder()
+            .uri("YOUR_CLUSTER_ENDPOINT")
+            .token("YOUR_CLUSTER_TOKEN")
+            .build();
+            
+    MilvusClientV2 client = new MilvusClientV2(connectConfig);
+    
+    // 2. Create a collection with schema, when indexParams is specified, it will create index as well
+    CreateCollectionReq.CollectionSchema collectionSchema = client.createSchema();
+    collectionSchema.addField(AddFieldReq.builder().fieldName("id").dataType(DataType.Int64).isPrimaryKey(Boolean.TRUE).autoID(Boolean.FALSE).description("id").build());
+    collectionSchema.addField(AddFieldReq.builder().fieldName("vector").dataType(DataType.FloatVector).dimension(dim).build());
+    
+    IndexParam indexParam = IndexParam.builder()
+            .fieldName("vector")
+            .metricType(IndexParam.MetricType.COSINE)
+            .build();
+    CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
+            .collectionName(collectionName)
+            .collectionSchema(collectionSchema)
+            .indexParams(Collections.singletonList(indexParam))
+            .build();
+    client.createCollection(createCollectionReq);
+    ```

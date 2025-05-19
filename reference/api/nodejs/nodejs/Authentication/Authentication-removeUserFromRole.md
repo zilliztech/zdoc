@@ -1,28 +1,28 @@
 ---
 displayed_sidbar: nodeSidebar
-title: "updatePassword() | Node.js"
-slug: /node/node/Authentication-updatePassword
-sidebar_label: "updatePassword()"
+title: "removeUserFromRole() | Node.js"
+slug: /node/node/Authentication-removeUserFromRole
+sidebar_label: "removeUserFromRole()"
 beta: false
 notebook: false
-description: "This operation updates the password of a specific user. | Node.js"
+description: "This operation removes a user from a specific role. | Node.js"
 type: docx
-token: BCGKdCttdotF32xUJTec8UFlndg
-sidebar_position: 15
+token: XmyMdqvDLosr6oxzvhWcw8H2ntg
+sidebar_position: 21
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
-  - updatePassword()
-  - node
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - removeUserFromRole()
+  - nodejs25
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: nodeSidebar
 
 ---
@@ -30,44 +30,37 @@ displayed_sidebar: nodeSidebar
 import Admonition from '@theme/Admonition';
 
 
-# updatePassword()
+# removeUserFromRole()
 
-This operation updates the password of a specific user.
+This operation removes a user from a specific role.
 
 ```javascript
-updatePassword(data): Promise<ResStatus>
+removeUserFromRole(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}
 
 ```javascript
-milvusClient.updateUser({
+milvusClient.removeUserFromRole({
    username: string,
-   newPassword: string,
-   oldPassword: string,
+   rolename: string,
    timeout?: number
  })
 ```
 
 **PARAMETERS:**
 
-- **username** (*str*) -
+- **username** (*string*) -
 
     **[REQUIRED]**
 
-    The name of an existing user.
+    The name of a user.
 
-- **oldPassword** (*str*) -
-
-    **[REQUIRED]**
-
-    The original password of the user.
-
-- **newPassword** (*str*) -
+- **rolename** (*string*) -
 
     **[REQUIRED]**
 
-    The new password of the user.
+    The name of a role
 
 - **timeout** (*number*) -  
 
@@ -104,10 +97,9 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example{#example}
 
 ```java
-milvusClient.updateUser({
-   username: 'exampleUser',
-   newPassword: 'newPassword',
-   oldPassword: 'oldPassword',
- })
+milvusClient.removeUserFromRole({
+   username: 'my',
+   roleName: 'myrole'
+ });
 ```
 

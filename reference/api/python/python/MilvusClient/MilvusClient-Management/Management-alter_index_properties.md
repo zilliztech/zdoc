@@ -10,19 +10,19 @@ type: docx
 token: TRFadKWOAofCVoxH3qYcdTvynHf
 sidebar_position: 14
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - alter_index_properties()
   - pymilvus25
+  - k nearest neighbor algorithm
+  - ANNS
   - Vector search
   - knn algorithm
-  - HNSW
-  - What is unstructured data
 displayed_sidebar: pythonSidebar
 
 ---

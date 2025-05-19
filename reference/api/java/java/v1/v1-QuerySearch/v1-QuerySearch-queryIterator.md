@@ -2,7 +2,7 @@
 title: "queryIterator() | Java | v1"
 slug: /java/v1-QuerySearch-queryIterator
 sidebar_label: "queryIterator()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "MilvusClient interface. This method returns an iterator for you to iterate over the query results. It is useful especially when the query result contains a large volume of data. | Java | v1"
 type: origin

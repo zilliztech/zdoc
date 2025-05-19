@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists all the database names. | Java | v2"
 type: docx
 token: IHoodknUJohFAbxMFg3c0q8un6f
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
-  - javaV2
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - javaV225
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 displayed_sidebar: javaSidebar
 
 ---
@@ -55,6 +55,19 @@ A ListDatabasesResp object contains a list of all database names.
 ## Example{#example}
 
 ```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.database.response.ListDatabasesResp;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. List databases
 ListDatabasesResp listDatabasesResp = client.listDatabases();
 List<String> dbNames = listDatabasesResp.getDatabaseNames();
 ```

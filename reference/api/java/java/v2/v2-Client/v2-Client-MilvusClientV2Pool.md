@@ -10,19 +10,19 @@ type: docx
 token: UrjHd9KZKo1Rlfxfj8AcmXNinlg
 sidebar_position: 2
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClientV2Pool
-  - javaV2
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - javaV225
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: javaSidebar
 
 ---
@@ -152,9 +152,9 @@ Read the description in the MilvusClientV2 page.
 ## Examples{#examples}
 
 ```java
-import io.milvus.v2.client.ConnectConfig
-import io.milvus.pool.PoolConfig
-import io.milvus.pool.MilvusClientV2Pool
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.pool.PoolConfig;
+import io.milvus.pool.MilvusClientV2Pool;
 
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("https://in01-******.aws-us-west-2.vectordb.zillizcloud.com:19531")

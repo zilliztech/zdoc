@@ -8,21 +8,21 @@ notebook: false
 description: "This is a method template. | Node.js"
 type: docx
 token: KeoKdlitaog6n1xpX8McIIIrnWb
-sidebar_position: 13
+sidebar_position: 17
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - listAliases()
-  - node
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - nodejs25
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: nodeSidebar
 
 ---

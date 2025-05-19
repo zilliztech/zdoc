@@ -2,7 +2,7 @@
 title: "describeCollection() | Java | v1"
 slug: /java/v1-Collection-describeCollection
 sidebar_label: "describeCollection()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "A MilvusClient interface. This method shows the details of a collection, e.g. name, schema. | Java | v1"
 type: origin
@@ -133,7 +133,7 @@ Methods of `DescCollResponseWrapper`:
    </tr>
    <tr>
      <td><p>getFieldByName(String fieldName)</p></td>
-     <td><p>Get the schema of a field by name.Return null if the field doesn't exist.</p></td>
+     <td><p>Get the schema of a field by name. Return null if the field doesn't exist.</p></td>
      <td><p>fieldName: The name of a field</p></td>
      <td><p>FieldType</p></td>
    </tr>
@@ -145,7 +145,7 @@ Methods of `DescCollResponseWrapper`:
    </tr>
    <tr>
      <td><p>getPartitionKeyField()</p></td>
-     <td><p>Get the partition key field.Return null if the partition key field doesn't exist.</p></td>
+     <td><p>Get the partition key field. Return null if the partition key field doesn't exist.</p></td>
      <td><p>N/A</p></td>
      <td><p>FieldType</p></td>
    </tr>

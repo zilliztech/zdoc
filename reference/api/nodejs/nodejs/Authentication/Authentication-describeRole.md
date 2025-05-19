@@ -8,21 +8,21 @@ notebook: false
 description: "This operation describes a specific role. | Node.js"
 type: docx
 token: ItZPd1o4uoodqtx1sxIcq38hn7e
-sidebar_position: 4
+sidebar_position: 7
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
-  - node
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - nodejs25
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 displayed_sidebar: nodeSidebar
 
 ---

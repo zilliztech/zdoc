@@ -10,19 +10,19 @@ type: docx
 token: CadTdZ5YGocDymxaIOvcr08pnxd
 sidebar_position: 1
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - createPartition()
-  - javaV2
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - javaV225
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 displayed_sidebar: javaSidebar
 
 ---
@@ -71,7 +71,19 @@ createPartition(CreatePartitionReq.builder()
 ## Example{#example}
 
 ```java
-// create a partition "test_partition" in collection "test"
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.partition.request.CreatePartitionReq;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Create a partition "test_partition" in collection "test"
 CreatePartitionReq createPartitionReq = CreatePartitionReq.builder()
         .collectionName("test")
         .partitionName("test_partition")

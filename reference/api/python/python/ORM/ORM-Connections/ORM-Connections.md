@@ -10,19 +10,19 @@ type: docx
 token: A96udk9seoF5x5xywQZcLasanIe
 sidebar_position: 3
 keywords: 
+  - Vector search
+  - knn algorithm
+  - HNSW
   - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - Connections
   - pymilvus25
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: pythonSidebar
 
 ---

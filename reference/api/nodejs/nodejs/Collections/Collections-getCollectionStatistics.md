@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists the statistics collected on a specific collection. | Node.js"
 type: docx
 token: LQMGdRHjKogdeMxekCtcdBLqnNf
-sidebar_position: 10
+sidebar_position: 13
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStatistics()
-  - node
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - nodejs25
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 displayed_sidebar: nodeSidebar
 
 ---

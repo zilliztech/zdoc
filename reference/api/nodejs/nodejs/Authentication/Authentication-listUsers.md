@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists currently available users. | Node.js"
 type: docx
 token: Z0EOd1PXooNeowx4SQgcq3synBc
-sidebar_position: 12
+sidebar_position: 19
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - listUsers()
-  - node
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - nodejs25
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: nodeSidebar
 
 ---

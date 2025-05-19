@@ -8,21 +8,21 @@ notebook: false
 description: "This operation revokes the role assigned to a user. | Node.js"
 type: docx
 token: W7XJdZDHnoFECDxCYoMcrZqrnnd
-sidebar_position: 14
+sidebar_position: 25
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - revokeRole()
-  - node
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - nodejs25
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: nodeSidebar
 
 ---

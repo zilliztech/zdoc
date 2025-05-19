@@ -10,19 +10,19 @@ type: docx
 token: QasfdVW4voAzfwxfSc1civsHnVf
 sidebar_position: 1
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud
   - alterAlias()
-  - javaV2
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - javaV225
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: javaSidebar
 
 ---
@@ -89,7 +89,19 @@ alterAlias(AlterAliasReq.builder()
 ## Example{#example}
 
 ```java
-// alter the alias for collection "test"
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.utility.request.AlterAliasReq;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Alter the alias for collection "test"
 AlterAliasReq alterAliasReq = AlterAliasReq.builder()
         .collectionName("test")
         .alias("test_alias2")

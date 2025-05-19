@@ -8,21 +8,21 @@ notebook: false
 description: "This operation conducts a scalar filtering with a specified boolean expression. | Node.js"
 type: docx
 token: AJ96d6Aguos3FAxWMDxcjzqpnSg
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
   - query()
-  - node
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - nodejs25
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 displayed_sidebar: nodeSidebar
 
 ---

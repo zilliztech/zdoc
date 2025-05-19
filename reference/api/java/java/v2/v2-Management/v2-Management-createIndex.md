@@ -8,21 +8,21 @@ notebook: false
 description: "This operation creates an index for a specific collection. | Java | v2"
 type: docx
 token: OCjUdfc6eo0VihxNUGmcqb7FnTh
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
-  - javaV2
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - javaV225
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: javaSidebar
 
 ---
@@ -71,7 +71,20 @@ createIndex(CreateIndexReq.builder()
 ## Example{#example}
 
 ```java
-// create an index for field "vector"
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.index.request.CreateIndexReq;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Create an index for the field "vector"
 IndexParam indexParam = IndexParam.builder()
         .metricType(IndexParam.MetricType.L2)
         .indexType(IndexParam.IndexType.AUTOINDEX)

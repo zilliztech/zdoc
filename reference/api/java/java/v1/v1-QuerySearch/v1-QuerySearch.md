@@ -2,7 +2,7 @@
 title: "Query/Search | Java | v1"
 slug: /java/v1-QuerySearch
 sidebar_label: "Query/Search"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "(placeholder) | Java | v1"
 type: origin

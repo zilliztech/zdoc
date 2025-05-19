@@ -6,18 +6,18 @@ notebook: false
 description: "Methods related to the manipulation of the partitions in a collection. | Java | v2"
 type: folder
 token: YkL6fqkaNlgeWXdNaWLcltkZnRc
-sidebar_position: 6
+sidebar_position: 8
 sidebar_label: "Partitions"
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - Partitions
-  - javaV2
+  - javaV225
 displayed_sidebar: javaSidebar
 ---
 

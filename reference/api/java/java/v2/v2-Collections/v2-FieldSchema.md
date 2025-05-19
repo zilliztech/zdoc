@@ -8,21 +8,21 @@ notebook: false
 description: "A FieldSchema instance defines the data type and related attributes of a specific field in a collection. | Java | v2"
 type: docx
 token: WeXmdv8bioJ7AEx9sEtct6kgnUd
-sidebar_position: 12
+sidebar_position: 16
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - FieldSchema
-  - javaV2
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - javaV225
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: javaSidebar
 
 ---

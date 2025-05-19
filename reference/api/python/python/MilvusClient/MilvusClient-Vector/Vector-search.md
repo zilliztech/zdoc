@@ -10,19 +10,19 @@ type: docx
 token: T1npdvcRMoIjezxK021cPvfpn7c
 sidebar_position: 6
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - pymilvus25
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 displayed_sidebar: pythonSidebar
 
 ---
@@ -36,8 +36,9 @@ This operation conducts a vector similarity search with an optional scalar filte
 
 ## Request syntax{#request-syntax}
 
-```python
+```plaintext
 search(
+    self,
     collection_name: str,
     data: Union[List[list], list],
     filter: str = "",
@@ -46,8 +47,9 @@ search(
     search_params: Optional[dict] = None,
     timeout: Optional[float] = None,
     partition_names: Optional[List[str]] = None,
+    anns_field: Optional[str] = None,
     **kwargs,
-) -> List[dict]
+) -> List[List[dict]]
 ```
 
 **PARAMETERS:**
@@ -108,9 +110,35 @@ search(
 
         Possible values are **L2**, **IP**, and **COSINE**.
 
+    - **radius** (float) -
+
+        Determines the threshold of least similarity. When setting `metric_type` to `L2`, ensure that this value is greater than that of **range_filter**. Otherwise, this value should be lower than that of **range_filter**. 
+
+    - **range_filter**  (float) -  
+
+        Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**.
+
+    - **level** (*int*)
+
+        Zilliz Cloud uses a unified parameter to simplify search parameter tuning instead of leaving you to work with a bunch of search parameters specific to various index algorithms.
+
+        The value defaults to **1**, and ranges from **1** to **5**. Increasing the value results in a higher recall rate with degraded search performance.
+
+    - **page_retain_order** (*bool*) -
+
+        Whether to retain the order of the search result when `offset` is provided. 
+
+        This parameter applies only when you also set `radius`.
+
     - **params** (dict) -
 
-        Additional parameters
+        Additional parameters.
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <p>All additional parameters are moved to the upper <code>search_params</code>, and the <code>params</code> argument will be deprecated soon.</p>
+
+        </Admonition>
 
         - **radius** (float) -
 

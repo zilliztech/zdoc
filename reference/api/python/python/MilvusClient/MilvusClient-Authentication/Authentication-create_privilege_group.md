@@ -10,19 +10,19 @@ type: docx
 token: HNJqdocBjo2zm9xcIVdchRvcnab
 sidebar_position: 2
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - create_privilege_group()
   - pymilvus25
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: pythonSidebar
 
 ---
