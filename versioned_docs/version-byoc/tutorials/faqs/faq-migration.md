@@ -17,13 +17,9 @@ This topic lists the possible issues that you may encounter while you migrate da
 
 ## Contents
 
-- [How to migrate data from Elasticsearch to Zilliz Cloud?](#how-to-migrate-data-from-elasticsearch-to-zilliz-cloud)
+
 
 ## FAQs
 
 
 
-
-### How to migrate data from Elasticsearch to Zilliz Cloud?{#how-to-migrate-data-from-elasticsearch-to-zilliz-cloud}
-
-You can easily migrate data from Elasticsearch on the Zilliz Cloud via the Zilliz Cloud web console. For more information, see [Migrate from Elasticsearch](./migrate-from-elasticsearch) .

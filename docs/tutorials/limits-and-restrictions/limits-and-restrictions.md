@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Learn about the limits and restrictions you should know about your operations on Zilliz Cloud. | Cloud"
 type: origin
 token: Tve5wxmTHio0LPk50jgcKHe1nWg
-sidebar_position: 12
+sidebar_position: 13
 keywords: 
   - zilliz
   - vector database
   - cloud
   - milvus
   - limits
-  - milvus database
   - milvus lite
   - milvus benchmark
   - managed milvus
+  - Serverless vector database
 
 ---
 

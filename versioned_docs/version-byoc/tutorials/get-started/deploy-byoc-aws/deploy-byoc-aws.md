@@ -4,7 +4,7 @@ slug: /deploy-byoc-aws
 sidebar_label: "Deploy BYOC on AWS"
 beta: CONTACT SALES
 notebook: FALSE
-description: "This page describes how to manually create a project in your Zilliz Cloud Bring-Your-Own-Cloud (BYOC) organization using the Zilliz Cloud console and custom AWS configurations. | BYOC"
+description: "This page describes how to manually create a fully managed Bring-Your-Own-Cloud (BYOC) data plane in your AWS Virtual Private Cloud (VPC) using the Zilliz Cloud console and custom AWS configurations. | BYOC"
 type: origin
 token: DsqzwjegpiYSdtk1k75c1zXsnZc
 sidebar_position: 3
@@ -14,10 +14,10 @@ keywords:
   - aws
   - milvus
   - vector database
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 
@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 # Deploy BYOC on AWS
 
-This page describes how to manually create a project in your Zilliz Cloud Bring-Your-Own-Cloud (BYOC) organization using the Zilliz Cloud console and custom AWS configurations.
+This page describes how to manually create a fully managed Bring-Your-Own-Cloud (BYOC) data plane in your AWS Virtual Private Cloud (VPC) using the Zilliz Cloud console and custom AWS configurations.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -42,27 +42,33 @@ This page describes how to manually create a project in your Zilliz Cloud Bring-
 
 To deploy BYOC on AWS, Zilliz Cloud needs to assume specific roles to access the S3 bucket and the EKS cluster within a customer-managed VPC on your behalf. Consequently, Zilliz Cloud needs to gather information about your S3 bucket, EKS cluster, and VPC, along with the roles necessary for accessing these infrastructure resources.
 
-Click the **Create Project and Deploy Data Plane** button to start the deployment.
+Within your BYOC organization, click the **Create Project and Deploy Data Plane** button to start the deployment.
+
+![XtlJbBTIboHNbixzfqpc7H3nnvb](/img/XtlJbBTIboHNbixzfqpc7H3nnvb.png)
 
 ### General Settings{#general-settings}
 
 In **General Settings**, you need to set the project name, determine the cloud providers and regions, and choose the way for Zilliz Cloud to create the project and deploy the data plane.
 
-![Qc2UbbhE7oE7DQxtPvZca6t5ngb](/byoc/Qc2UbbhE7oE7DQxtPvZca6t5ngb.png)
+![ZZtcbZFa7odEA2xBs7Fc97XCnWb](/img/ZZtcbZFa7odEA2xBs7Fc97XCnWb.png)
 
 1. Set **Project Name**.
 
 1. Select **Cloud Provider** and **Region**.
 
-1. (Optional) Configure **Instance Settings**. 
+1. Configure **Instance Settings**. 
 
-    In a BYOC project, the search service, fundamental database components, and core support services use different instances. You can set instance types for these services and components. 
+    In a BYOC project, the search service, fundamental database components, and core support services use different EC2 instances. You can set instance types for these services and components. 
 
     For details, see [Instance Settings](./deploy-byoc-aws#instance-settings).
 
+1. Determine whether to enable **AWS PrivateLink**.
+
+    This option allows private connectivity to the clusters within the current project. If you enable this option, you must create a VPC Endpoint for private connectivity.
+
 1. Choose the way for Zilliz Cloud to carry on the task in **Deploy Method**.
 
-    There are three options for you to provision the infrastructure for your BYOC project on AWS. You can either
+    There are three options for provisioning the infrastructure for your BYOC project on AWS. You can either
 
     - **Use AWS CloudFormation to provision the infrastructure.**
 
@@ -70,7 +76,7 @@ In **General Settings**, you need to set the project name, determine the cloud p
 
         If you decide to use AWS CloudFormation, click **Next**, and you will be prompted with the following dialog box to choose whether to deploy the project to a new VPC or an existing VPC.
 
-        ![EWCsb9An2oM6dkxjCuOcM5hRnCe](/byoc/EWCsb9An2oM6dkxjCuOcM5hRnCe.png)
+        ![EWCsb9An2oM6dkxjCuOcM5hRnCe](/img/EWCsb9An2oM6dkxjCuOcM5hRnCe.png)
 
         Then, you can click **Create Stack with CloudFormation** to start deploying the project.
 
@@ -78,19 +84,19 @@ In **General Settings**, you need to set the project name, determine the cloud p
 
         If you prefer to use a Terraform script to provision the infrastructure, you need to copy and paste the script output back to Zilliz Cloud. For details, see [Bootstrap Project Infrastructure (Terraform)](./bootstrap-infrastructure-terraform). 
 
-        Note that you still need to fill in the information the Terraform script returns back to the Zilliz Cloud console, as specified in [Credential Settings](./deploy-byoc-aws#credential-settings) and [Network Settings](./deploy-byoc-aws#network-settings).
+        Note that you still need to fill in the information returned by the Terraform script to the Zilliz Cloud console, as specified in Credential Settings and Network Settings.
 
-    - **Use the AWS console to create necessary resources and roles.**
+    - **Use the AWS console to create** the **necessary resources and roles.**
 
         You need to create necessary resources, such as a storage bucket and several IAM roles, on the AWS console. Then, copy and paste their names and IDs back to the Zilliz Cloud console. If you prefer to create the project this way, select the **Manually** tile in the **Deploy Method** section and click **Next**. 
 
-        Zilliz Cloud splits the process into [Credential Settings](./deploy-byoc-aws#credential-settings) and [Network Settings](./deploy-byoc-aws#network-settings) to facilitate your configurations, 
+        Zilliz Cloud splits the process into [Credential Settings](./deploy-byoc-aws#credential-settings) and [Network Settings](./deploy-byoc-aws#network-settings) to facilitate your configurations. 
 
 ### Credential Settings{#credential-settings}
 
 In **Credential Settings**, you must set up the storage and several IAM roles for storage access, EKS cluster management, and data-plane deployment.
 
-![LEGhbUbZwoPdwSx1PjxcHBjQnab](/byoc/LEGhbUbZwoPdwSx1PjxcHBjQnab.png)
+![LEGhbUbZwoPdwSx1PjxcHBjQnab](/img/LEGhbUbZwoPdwSx1PjxcHBjQnab.png)
 
 1. Follow the steps listed below to configure storage, EKS, and cross-account settings.
 
@@ -108,7 +114,7 @@ In **Credential Settings**, you must set up the storage and several IAM roles fo
 
     1. In **Cross-Account Settings**, set **IAM Role ARN** for data-plane deployment.
 
-        Zilliz Cloud will use the specified role to deploy the data plane of the Zilliz Cloud BYOC project. 
+        You need to copy the **External ID** provided in the dialog box. Zilliz Cloud will use the specified role to deploy the data plane of the Zilliz Cloud BYOC project. 
 
         For more on the procedure for creating the cross-account role, read [Create Cross-Account IAM Role](./create-cross-account-role).
 
@@ -118,7 +124,7 @@ In **Credential Settings**, you must set up the storage and several IAM roles fo
 
 In Network Settings, you need to create a VPC and several types of resources, such as subnets, security group, and optional VPC endpoint in the VPC.
 
-![NeKmbmKVhoNWcOx18IjcC1eLnDb](/byoc/NeKmbmKVhoNWcOx18IjcC1eLnDb.png)
+![NeKmbmKVhoNWcOx18IjcC1eLnDb](/img/NeKmbmKVhoNWcOx18IjcC1eLnDb.png)
 
 1. In **Network Settings**, set the **VPC ID**, **Subnet IDs**, the **Security Group ID**, and the optional **VPC endpoint ID**.
 
@@ -130,7 +136,7 @@ In Network Settings, you need to create a VPC and several types of resources, su
 
     - An optional VPC endpoint.
 
-    For more on the procedure for creating a VPC and the resources within, refer to [Configure a Customer-Managed VPC](./configure-vpc).
+    Note that **VPC Endpoint ID** is available only when you switch on **AWS PrivateLink** in **General Settings** above. For more on the procedure for creating a VPC and its associated resources, refer to [Configure a Customer-Managed VPC](./configure-vpc).
 
 1. Click **Next** to view the summary.
 
@@ -140,48 +146,71 @@ In Network Settings, you need to create a VPC and several types of resources, su
 
 ## Instance Settings{#instance-settings}
 
-During the project deployment, Zilliz Cloud creates the fundamental database components and core support services. When the project is ready, you can create clusters in the project. At this point, Zilliz Cloud creates instances for search services on your behalf. 
+The data plane of a Zilliz BYOC project comprises three types of components: **Search Services**, **Fundamental Database Components**, and **Core Support Services**, which use different EC2 instances. 
 
-![ZDOjbRWDboqYxSxrfujcjw9tn7f](/byoc/ZDOjbRWDboqYxSxrfujcjw9tn7f.png)
+![HIQBbyOFOozC9GxYnKZc4KE6nyf](/img/HIQBbyOFOozC9GxYnKZc4KE6nyf.png)
 
-You need to determine the types of instances to create for each component listed below during the deployment. 
+In the **General settings**, you need to determine the EC2 instance types for the three data plane components mentioned above. Additionally, you need to specify the number of EC2 instances for **Core Support Services**, which determines the maximum number of clusters that can be created within the project.
+
+There are four predefined project size options, and they are described as follows:
 
 <table>
    <tr>
-     <th><p>Components</p></th>
-     <th><p>Licenses consumed per instance</p></th>
-     <th><p>Instance type</p></th>
-     <th><p>Description</p></th>
+     <th rowspan="2"><p>Size</p></th>
+     <th rowspan="2"><p>Maximum Cluster Quantity</p></th>
+     <th colspan="2"><p>Maximum Number of Entities (Million)</p></th>
    </tr>
    <tr>
-     <td><p>Search service</p></td>
-     <td><p>16</p></td>
-     <td><p>m6id.4xlarge</p></td>
-     <td><p>Instances solely used for query services</p></td>
+     <td><p>Performance-optimized CU</p></td>
+     <td><p>Capacity-optimized CU</p></td>
    </tr>
    <tr>
-     <td><p>Fundamental database components</p></td>
-     <td><p>8</p></td>
-     <td><p>m6i.2xlarge</p></td>
-     <td><p>Instances used for fundamental database components, which are mainly used as the index pool</p></td>
+     <td><p>Small</p></td>
+     <td><p>3 clusters with 8 to 16 CUs</p></td>
+     <td><p>10 Million - 25 Million</p></td>
+     <td><p>40 Million - 80 Million</p></td>
    </tr>
    <tr>
-     <td><p>Core support services</p></td>
-     <td><p>0</p></td>
-     <td><p>m6i.2xlarge</p></td>
-     <td><p>Instances used for peripheral support services, including Milvus Operator, Zilliz Cloud Agent, and Milvus dependencies for logging, monitoring, and alerting</p></td>
+     <td><p>Medium</p></td>
+     <td><p>7 clusters with 16 to 64 CUs</p></td>
+     <td><p>25 Million - 100 Million</p></td>
+     <td><p>80 Million - 350 Million</p></td>
+   </tr>
+   <tr>
+     <td><p>Large</p></td>
+     <td><p>12 clusters with 64 to 192 CUs</p></td>
+     <td><p>100 Million - 300 Million</p></td>
+     <td><p>350 Million - 1 Billion</p></td>
+   </tr>
+   <tr>
+     <td><p>X-Large</p></td>
+     <td><p>17 clusters with 192 to 576 CUs</p></td>
+     <td><p>300 Million - 900 Million</p></td>
+     <td><p>1 Billion - 3 Billion</p></td>
    </tr>
 </table>
 
-If the instance settings are left unconfigured, the default settings listed above will apply.
+You can also choose to customize the settings by selecting **Custom** in **Initial Project Size** and adjusting the EC2 instance types and counts for all data plane components. If your preferred EC2 instance types are not listed, please [contact Zilliz support](https://zilliz.com/contact). 
 
 ## View deployment details{#view-deployment-details}
 
 After you create a project, you can view its status on the project page.
 
-![Wstab2JghoTZ51xdSFQc2JHknJb](/byoc/Wstab2JghoTZ51xdSFQc2JHknJb.png)
+![Wstab2JghoTZ51xdSFQc2JHknJb](/img/Wstab2JghoTZ51xdSFQc2JHknJb.png)
 
+## Suspend & Resume{#suspend-and-resume}
 
+Suspending a project halts the data plane and terminates all EC2 instances associated with the EKS cluster supporting the project. This action does not impact the suspended Zilliz Cloud clusters within the project, which can be resumed once the data plane is restored.
+
+![BN8KbqawgoErlZxtNYFcEvrjne4](/img/BN8KbqawgoErlZxtNYFcEvrjne4.png)
+
+You can only suspend a running project if there are no clusters in the project or all clusters have already been suspended.
+
+![QXK1bRewYoasCzx1AHNcpbSBnhe](/img/QXK1bRewYoasCzx1AHNcpbSBnhe.png)
+
+Once the status tag on a project card reads **Suspended**, you cannot manipulate clusters in the project. In such a case, you can click **Resume** to resume the project. Once the status tag turns to **Running** again, you can continue manipulating clusters in the project.
+
+## Procedures{#procedures}
 
 import DocCardList from '@theme/DocCardList';
 

@@ -7,7 +7,7 @@ notebook: FALSE
 description: "The Partition Key is a search optimization solution based on partitions. By designating a specific scalar field as the Partition Key and specifying filtering conditions based on the Partition Key during the search, the search scope can be narrowed down to several partitions, thereby improving search efficiency. This article will introduce how to use the Partition Key and related considerations. | Cloud"
 type: origin
 token: QWqiwrgJViA5AJkv64VcgQX2nKd
-sidebar_position: 13
+sidebar_position: 14
 keywords: 
   - zilliz
   - vector database
@@ -16,10 +16,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 
@@ -35,7 +35,7 @@ The Partition Key is a search optimization solution based on partitions. By desi
 
 In Zilliz Cloud, you can use partitions to implement data segregation and improve search performance by restricting the search scope to specific partitions. If you choose to manage partitions manually, you can create a maximum of 1,024 partitions in a collection, and insert entities into these partitions based on a specific rule so that you can narrow the search scope by restricting searches within a specific number of partitions.
 
-Zilliz Cloud introduces the Partition Key for you to reuse partitions in data segregation to overcome the limit on the number of partitions you can create in a collection. When creating a collection, you can use a scalar field as the Partition Key. Once the collection is ready, Zilliz Cloud creates the specified number of partitions inside the collection with each partition corresponding to a range of the values in the Partition Key. Upon receiving inserted entities, Zilliz Cloud stores them into different partitions based on their Partition Key values.
+Zilliz Cloud introduces the Partition Key for you to reuse partitions in data segregation to overcome the limit on the number of partitions you can create in a collection. When creating a collection, you can use a scalar field as the Partition Key. Once the collection is ready, Zilliz Cloud creates the specified number of partitions inside the collection. Upon receiving an inserted entity, Zilliz Cloud calculates a hash value using the Partition Key value of the entity, executes a modulo operation based on the hash value and the `partitions_num` property of the collection to obtain the target partition ID, and stores the entity in the target partition.
 
 ![IXXIwZdOYhRFXmbTMdwcaN6fnPe](/img/IXXIwZdOYhRFXmbTMdwcaN6fnPe.png)
 
@@ -51,17 +51,23 @@ The following figure illustrates how Zilliz Cloud processes the search requests 
 
 To use the Partition Key, you need to
 
-- Set the Partition Key,
+- [Set the Partition Key](./use-partition-key#set-partition-key),
 
-- Set the number of partitions to create (Optional), and
+- [Set the number of partitions to create](./use-partition-key#set-partition-numbers) (Optional), and
 
-- Create a filtering condition based on the Partition Key.
+- [Create a filtering condition based on the Partition Key](./use-partition-key#create-filtering-condition).
 
 ### Set Partition Key{#set-partition-key}
 
 To designate a scalar field as the Partition Key, you need to set its `is_partition_key` attribute to `true` when you add the scalar field.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>When you set a scalar field as the Partition Key, the field values cannot be empty or null.</p>
+
+</Admonition>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -75,6 +81,14 @@ client = MilvusClient(
 )
 
 schema = client.create_schema()
+
+schema.add_field(field_name="id",
+    datatype=DataType.INT64,
+    is_primary=True)
+    
+schema.add_field(field_name="vector",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=5)
 
 # Add the partition key
 schema.add_field(
@@ -105,6 +119,18 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
 // Create schema
 CreateCollectionReq.CollectionSchema schema = client.createSchema();
 
+schema.addField(AddFieldReq.builder()
+        .fieldName("id")
+        .dataType(DataType.Int64)
+        .isPrimaryKey(true)
+        .build());
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("vector")
+        .dataType(DataType.FloatVector)
+        .dimension(5)
+        .build());
+        
 // Add the partition key
 schema.addField(AddFieldReq.builder()
         .fieldName("my_varchar")
@@ -113,6 +139,51 @@ schema.addField(AddFieldReq.builder()
         // highlight-next-line
         .isPartitionKey(true)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/column"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/index"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+schema := entity.NewSchema().WithDynamicFieldEnabled(false)
+schema.WithField(entity.NewField().
+    WithName("id").
+    WithDataType(entity.FieldTypeInt64).
+    WithIsPrimaryKey(true),
+).WithField(entity.NewField().
+    WithName("my_varchar").
+    WithDataType(entity.FieldTypeVarChar).
+    WithIsPartitionKey(true).
+    WithMaxLength(512),
+).WithField(entity.NewField().
+    WithName("vector").
+    WithDataType(entity.FieldTypeFloatVector).
+    WithDim(5),
+)
 ```
 
 </TabItem>
@@ -149,12 +220,12 @@ export schema='{
         "enabledDynamicField": false,
         "fields": [
             {
-                "fieldName": "my_id",
+                "fieldName": "id",
                 "dataType": "Int64",
                 "isPrimary": true
             },
             {
-                "fieldName": "my_vector",
+                "fieldName": "vector",
                 "dataType": "FloatVector",
                 "elementTypeParams": {
                     "dim": "5"
@@ -181,7 +252,7 @@ When you designate a scalar field in a collection as the Partition Key, Zilliz C
 
 You can also determine the number of partitions to create along with the collection. This is valid only if you have a scalar field designated as the Partition Key.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -189,7 +260,7 @@ client.create_collection(
     collection_name="my_collection",
     schema=schema,
     # highlight-next-line
-    num_partitions=1024
+    num_partitions=128
 )
 ```
 
@@ -203,9 +274,23 @@ import io.milvus.v2.service.collection.request.CreateCollectionReq;
 CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
                 .collectionName("my_collection")
                 .collectionSchema(schema)
-                .numPartitions(1024)
+                .numPartitions(128)
                 .build();
         client.createCollection(createCollectionReq);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("my_collection", schema).
+        WithNumPartitions(128))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -216,7 +301,7 @@ CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
 await client.create_collection({
     collection_name: "my_collection",
     schema: schema,
-    num_partitions: 1024
+    num_partitions: 128
 })
 ```
 
@@ -226,7 +311,7 @@ await client.create_collection({
 
 ```bash
 export params='{
-    "partitionsNum": 1024
+    "partitionsNum": 128
 }'
 
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -237,7 +322,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d "{
-    \"collectionName\": \"myCollection\",
+    \"collectionName\": \"my_collection\",
     \"schema\": $schema,
     \"params\": $params
 }"
@@ -254,7 +339,7 @@ When performing delete operations, It is advisable to include a filter expressio
 
 The following examples demonstrate Partition-Key-based filtering based on a specific Partition Key value and a set of Partition Key values.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -275,6 +360,18 @@ String filter = "partition_key == 'x' && <other conditions>";
 
 // Filter based on multiple partition key values
 String filter = "partition_key in ['x', 'y', 'z'] && <other conditions>";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// Filter based on a single partition key value, or
+filter = "partition_key == 'x' && <other conditions>"
+
+// Filter based on multiple partition key values
+filter = "partition_key in ['x', 'y', 'z'] && <other conditions>"
 ```
 
 </TabItem>
@@ -318,11 +415,12 @@ In the multi-tenancy scenario, you can designate the scalar field related to ten
 
 As shown in the above figure, Zilliz Cloud groups entities based on the Partition Key value and creates a separate index for each of these groups. Upon receiving a search request, Zilliz Cloud locates the index based on the Partition Key value specified in the filtering condition and restricts the search scope within the entities included in the index, thus avoiding scanning irrelevant entities during the search and greatly enhancing the search performance.
 
-Once you have enabled Partition Key Isolation, you can include only a specific value in the Partition-key-based filter so that Zilliz Cloud can restrict the search scope within the entities included in the index that match.
+Once you have enabled Partition Key Isolation, you must include only one specific value in the Partition-key-based filter so that Zilliz Cloud can restrict the search scope within the entities included in the index that match.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, the Partition-Key Isolation feature applies only to <strong>Performance-optimized</strong> clusters.</p>
+<p>This feature is available for clusters compatible with Milvus v2.4.x and using Performance-optimized CUs.
+For clusters of other CU types and all subscription plans, ensure their compatibility with Milvus v2.5.x before using this feature.</p>
 
 </Admonition>
 
@@ -330,7 +428,7 @@ Once you have enabled Partition Key Isolation, you can include only a specific v
 
 The following code examples demonstrate how to enable Partition Key Isolation.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -355,10 +453,23 @@ properties.put("partitionkey.isolation", "true");
 CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
-        .numPartitions(1024)
         .properties(properties)
         .build();
 client.createCollection(createCollectionReq);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("my_collection", schema).
+        WithProperty("partitionkey.isolation", true))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -391,7 +502,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d "{
-    \"collectionName\": \"myCollection\",
+    \"collectionName\": \"my_collection\",
     \"schema\": $schema,
     \"params\": $params
 }"

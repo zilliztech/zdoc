@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - collection
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

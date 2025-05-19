@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - llm-as-a-judge
-  - hybrid vector search
   - Video deduplication
   - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 
@@ -42,6 +42,8 @@ Make sure the following prerequisites are met:
     - **From Object Storage**: The public URL and access credentials for the Milvus object storage. You can choose long-term or temporary credentials.
 
 - You have been granted the Organization Owner or Project Admin role. If you do not have the necessary permissions, contact your Zilliz Cloud administrator.
+
+- Make sure the CU size can of the target cluster can accommodate your source data. To estimate the required CU size, use the [calculator](https://zilliz.com/pricing?_gl=1*qro801*_ga*MzkzNTY1NDM0LjE3Mjk1MDExNzQ.*_ga_Q1F8R2NWDP*MTc0NTQ4MzY1Ni4zMDEuMS4xNzQ1NDg0MTEzLjAuMC4w*_ga_KKMVYG8YF2*MTc0NTQ4MzY1Ni4yNTIuMS4xNzQ1NDg0MTEzLjAuMC4w#calculator).
 
 ## Prepare backup files for migration{#prepare-backup-files-for-migration}
 
@@ -162,9 +164,13 @@ Once you click **Migrate**, a migration job will be generated. You can check the
 
 ![verify_collection](/img/verify_collection.png)
 
-Note that Zilliz Cloud exclusively supports [AUTOINDEX](./autoindex-explained) for optimized indexing, and will automatically index your migrated collection using this algorithm.
+### Post-migration{#post-migration}
 
-Once the collections are loaded, you are free to interact with them using your preferred method.
+After the migration job is completed, note the following:
+
+- **Index Creation**: The migration process automatically creates [AUTOINDEX](./autoindex-explained) for the migrated collections.
+
+- **Manual Loading Required**: Despite automatic indexing, the migrated collections are not immediately available for search or query operations. You must manually load the collections in Zilliz Cloud to enable search and query functionalities. For details, refer to [Load & Release](./load-release-collections).
 
 ## Cancel migration job{#cancel-migration-job}
 

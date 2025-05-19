@@ -4,7 +4,7 @@ slug: /use-string-field
 sidebar_label: "String Field"
 beta: FALSE
 notebook: FALSE
-description: "In Zilliz Cloud clusters, `VARCHAR` is the data type used for storing string-type data, suitable for storing variable-length strings. It can store strings with both single- and multi-byte characters, with a maximum length of up to 60,535 characters. When defining a `VARCHAR` field, you must also specify the maximum length parameter `maxlength`. The `VARCHAR` string type offers an efficient and flexible way to store and manage text data, making it ideal for applications that handle strings of varying lengths. | Cloud"
+description: "In Zilliz Cloud clusters, `VARCHAR` is the data type used for storing string data. When you define a `VARCHAR` field, two parameters are mandatory | Cloud"
 type: origin
 token: QBXVwP7oiiuEovkprDnckJlEnoK
 sidebar_position: 6
@@ -16,10 +16,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 
@@ -29,32 +29,55 @@ import TabItem from '@theme/TabItem';
 
 # String Field
 
-In Zilliz Cloud clusters, `VARCHAR` is the data type used for storing string-type data, suitable for storing variable-length strings. It can store strings with both single- and multi-byte characters, with a maximum length of up to 60,535 characters. When defining a `VARCHAR` field, you must also specify the maximum length parameter `max_length`. The `VARCHAR` string type offers an efficient and flexible way to store and manage text data, making it ideal for applications that handle strings of varying lengths.
+In Zilliz Cloud clusters, `VARCHAR` is the data type used for storing string data. When you define a `VARCHAR` field, two parameters are mandatory:
+
+- Set the `datatype` to `DataType.VARCHAR`.
+
+- Specify the `max_length`, which defines the maximum number of bytes the `VARCHAR` field can store. The valid range for `max_length` is from 1 to 65,535.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Zilliz Cloud supports null values and default values for <code>VARCHAR</code> fields. To enable these features, set <code>nullable</code> to <code>True</code> and <code>default_value</code> to a string value. For details, refer to <a href="./nullable-and-default">Nullable & Default</a>.</p>
+
+</Admonition>
 
 ## Add VARCHAR field{#add-varchar-field}
 
-To use string data in Zilliz Cloud clusters, define a `VARCHAR` field when creating a collection. This process includes:
+To store string data in Zilliz Cloud clusters, define a `VARCHAR` field in your collection schema. Below is an example of defining a collection schema with two `VARCHAR` fields:
 
-1. Setting `datatype` to the supported string data type, i.e., `VARCHAR`.
+- `varchar_field1`: stores up to 100 bytes, allows null values, and has a default value of `"Unknown"`.
 
-1. Specifying the maximum length of the string type using the `max_length` parameter, which cannot exceed 60,535 characters.
+- `varchar_field2`: stores up to 200 bytes, allows null values, but does not have a default value.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>If you set <code>enable_dynamic_fields=True</code> when defining the schema, Zilliz Cloud allows you to insert scalar fields that were not defined in advance. However, this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to <a href="./enable-dynamic-field">Dynamic Field</a>.</p>
+
+</Admonition>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
+# Import necessary libraries
 from pymilvus import MilvusClient, DataType
 
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+# Define server address
+SERVER_ADDR = "YOUR_CLUSTER_ENDPOINT"
 
-# define schema
+# Create a MilvusClient instance
+client = MilvusClient(uri=SERVER_ADDR)
+
+# Define the collection schema
 schema = client.create_schema(
     auto_id=False,
     enable_dynamic_fields=True,
 )
 
-schema.add_field(field_name="varchar_field1", datatype=DataType.VARCHAR, max_length=100)
-schema.add_field(field_name="varchar_field2", datatype=DataType.VARCHAR, max_length=200)
+# Add `varchar_field1` that supports null values with default value "Unknown"
+schema.add_field(field_name="varchar_field1", datatype=DataType.VARCHAR, max_length=100, nullable=True, default_value="Unknown")
+# Add `varchar_field2` that supports null values without default value
+schema.add_field(field_name="varchar_field2", datatype=DataType.VARCHAR, max_length=200, nullable=True)
 schema.add_field(field_name="pk", datatype=DataType.INT64, is_primary=True)
 schema.add_field(field_name="embedding", datatype=DataType.FLOAT_VECTOR, dim=3)
 ```
@@ -82,12 +105,15 @@ schema.addField(AddFieldReq.builder()
         .fieldName("varchar_field1")
         .dataType(DataType.VarChar)
         .maxLength(100)
+        .isNullable(true)
+        .defaultValue("Unknown")
         .build());
 
 schema.addField(AddFieldReq.builder()
         .fieldName("varchar_field2")
         .dataType(DataType.VarChar)
         .maxLength(200)
+        .isNullable(true)
         .build());
 
 schema.addField(AddFieldReq.builder()
@@ -109,6 +135,10 @@ schema.addField(AddFieldReq.builder()
 
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+const client = new MilvusClient({
+  address: `YOUR_CLUSTER_ENDPOINT`
+});
 
 const schema = [
   {
@@ -135,6 +165,58 @@ const schema = [
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/column"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/index"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+schema := entity.NewSchema()
+schema.WithField(entity.NewField().
+    WithName("pk").
+    WithDataType(entity.FieldTypeInt64).
+    WithIsPrimaryKey(true),
+).WithField(entity.NewField().
+    WithName("embedding").
+    WithDataType(entity.FieldTypeFloatVector).
+    WithDim(3),
+).WithField(entity.NewField().
+    WithName("varchar_field1").
+    WithDataType(entity.FieldTypeVarChar).
+    WithMaxLength(100).
+    WithNullable(true).
+    WithDefaultValueString("Unknown"),
+).WithField(entity.NewField().
+    WithName("varchar_field2").
+    WithDataType(entity.FieldTypeVarChar).
+    WithMaxLength(200).
+    WithNullable(true),
+)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -143,7 +225,8 @@ export varcharField1='{
     "dataType": "VarChar",
     "elementTypeParams": {
         "max_length": 100
-    }
+    },
+    "nullable": true
 }'
 
 export varcharField2='{
@@ -151,7 +234,8 @@ export varcharField2='{
     "dataType": "VarChar",
     "elementTypeParams": {
         "max_length": 200
-    }
+    },
+    "nullable": true
 }'
 
 export primaryField='{
@@ -182,30 +266,32 @@ export schema="{
 </TabItem>
 </Tabs>
 
-In this example, we add two `VARCHAR` fields: `varchar_field1` and `varchar_field2`, with maximum lengths set to 100 and 200 characters, respectively. It is recommended to set `max_length` based on your data characteristics to ensure it accommodates the longest data while avoiding excessive space allocation. Additionally, we have added a primary field `pk` and a vector field `embedding`.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>The primary field and vector field are mandatory when you create a collection. The primary field uniquely identifies each entity, while the vector field is crucial for similarity search. For more details, refer to <a href="./primary-field-auto-id">Primary Field & AutoId</a>, <a href="./use-dense-vector">Dense Vector</a>, <a href="./use-binary-vector">Binary Vector</a>, or <a href="./use-sparse-vector">Sparse Vector</a>.</p>
-
-</Admonition>
-
 ## Set index params{#set-index-params}
 
-Setting index parameters for `VARCHAR` fields is optional but can significantly improve retrieval efficiency.
+Indexing helps improve search and query performance. In Zilliz Cloud clusters, indexing is mandatory for vector fields but optional for scalar fields.
 
-In the following example, we create an `AUTOINDEX` for `varchar_field1`, meaning Zilliz Cloud will automatically create an appropriate index based on the data type. For more information, refer to [AUTOINDEX Explained](./autoindex-explained).
+The following example creates indexes on the vector field `embedding` and the scalar field `varchar_field1`, both using the `AUTOINDEX` index type. With this type, Milvus automatically selects the most suitable index based on the data type.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
+# Set index params
+
 index_params = client.prepare_index_params()
 
+# Index `varchar_field1` with AUTOINDEX
 index_params.add_index(
     field_name="varchar_field1",
     index_type="AUTOINDEX",
     index_name="varchar_index"
+)
+
+# Index `embedding` with AUTOINDEX and specify metric_type
+index_params.add_index(
+    field_name="embedding",
+    index_type="AUTOINDEX",  # Use automatic indexing to simplify complex index settings
+    metric_type="COSINE"  # Specify similarity metric type, options include L2, COSINE, or IP
 )
 ```
 
@@ -214,7 +300,6 @@ index_params.add_index(
 <TabItem value='java'>
 
 ```java
-
 import io.milvus.v2.common.IndexParam;
 import java.util.*;
 
@@ -224,6 +309,23 @@ indexes.add(IndexParam.builder()
         .indexName("varchar_index")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .build());
+        
+indexes.add(IndexParam.builder()
+        .fieldName("embedding")
+        .indexType(IndexParam.IndexType.AUTOINDEX)
+        .metricType(IndexParam.MetricType.COSINE)
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+indexOption1 := milvusclient.NewCreateIndexOption("my_collection", "embedding",
+    index.NewAutoIndex(index.MetricType(entity.IP)))
+indexOption2 := milvusclient.NewCreateIndexOption("my_collection", "varchar_field1",
+    index.NewInvertedIndex())
 ```
 
 </TabItem>
@@ -236,6 +338,13 @@ const indexParams = [{
     field_name: 'varchar_field1',
     index_type: IndexType.AUTOINDEX,
 )];
+
+indexParams.push({
+    index_name: 'embedding_index',
+    field_name: 'embedding',
+    metric_type: MetricType.COSINE,
+    index_type: IndexType.AUTOINDEX,
+});
 ```
 
 </TabItem>
@@ -250,55 +359,7 @@ export indexParams='[
             "indexType": "AUTOINDEX"
         }
     ]'
-```
-
-</TabItem>
-</Tabs>
-
-In this example, we use `AUTOINDEX` to create the index for the VarChar field.
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-# Add vector index
-index_params.add_index(
-    field_name="embedding",
-    index_type="AUTOINDEX",  # Use automatic indexing to simplify complex index settings
-    metric_type="COSINE"  # Specify similarity metric type, options include L2, COSINE, or IP
-)
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-indexes.add(IndexParam.builder()
-        .fieldName("embedding")
-        .indexType(IndexParam.IndexType.AUTOINDEX)
-        .metricType(IndexParam.MetricType.COSINE)
-        .build());
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-indexParams.push({
-    index_name: 'embedding_index',
-    field_name: 'embedding',
-    metric_type: MetricType.COSINE,
-    index_type: IndexType.AUTOINDEX,
-});
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
+    
 export indexParams='[
         {
             "fieldName": "varchar_field1",
@@ -318,15 +379,15 @@ export indexParams='[
 
 ## Create collection{#create-collection}
 
-Once the schema and index are defined, you can create a collection that includes string fields.
+Once the schema and index are defined, create a collection that includes string fields.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 # Create Collection
 client.create_collection(
-    collection_name="your_collection_name",
+    collection_name="my_collection",
     schema=schema,
     index_params=index_params
 )
@@ -338,7 +399,7 @@ client.create_collection(
 
 ```java
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
-        .collectionName("my_varchar_collection")
+        .collectionName("my_collection")
         .collectionSchema(schema)
         .indexParams(indexes)
         .build();
@@ -347,14 +408,28 @@ client.createCollection(requestCreate);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("my_collection", schema).
+        WithIndexOptions(indexOption1, indexOption2))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-client.create_collection({
-    collection_name: "my_varchar_collection",
+await client.create_collection({
+    collection_name: "my_collection",
     schema: schema,
     index_params: index_params
-})
+});
 ```
 
 </TabItem>
@@ -367,7 +442,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d "{
-    \"collectionName\": \"my_varchar_collection\",
+    \"collectionName\": \"my_collection\",
     \"schema\": $schema,
     \"indexParams\": $indexParams
 }"
@@ -379,20 +454,26 @@ curl --request POST \
 
 ## Insert data{#insert-data}
 
-After creating the collection, you can insert data that includes string fields.
+After creating the collection, insert entities that match the schema.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
+# Sample data
 data = [
     {"varchar_field1": "Product A", "varchar_field2": "High quality product", "pk": 1, "embedding": [0.1, 0.2, 0.3]},
-    {"varchar_field1": "Product B", "varchar_field2": "Affordable price", "pk": 2, "embedding": [0.4, 0.5, 0.6]},
-    {"varchar_field1": "Product C", "varchar_field2": "Best seller", "pk": 3, "embedding": [0.7, 0.8, 0.9]},
+    {"varchar_field1": "Product B", "pk": 2, "embedding": [0.4, 0.5, 0.6]}, # varchar_field2 field is missing, which should be NULL
+    {"varchar_field1": None, "varchar_field2": None, "pk": 3, "embedding": [0.2, 0.3, 0.1]},  # `varchar_field1` should default to `Unknown`, `varchar_field2` is NULL
+    {"varchar_field1": "Product C", "varchar_field2": None, "pk": 4, "embedding": [0.5, 0.7, 0.2]},  # `varchar_field2` is NULL
+    {"varchar_field1": None, "varchar_field2": "Exclusive deal", "pk": 5, "embedding": [0.6, 0.4, 0.8]},  # `varchar_field1` should default to `Unknown`
+    {"varchar_field1": "Unknown", "varchar_field2": None, "pk": 6, "embedding": [0.8, 0.5, 0.3]},  # `varchar_field2` is NULL
+    {"varchar_field1": "", "varchar_field2": "Best seller", "pk": 7, "embedding": [0.8, 0.5, 0.3]}, # Empty string is not treated as NULL
 ]
 
+# Insert data
 client.insert(
-    collection_name="my_varchar_collection",
+    collection_name="my_collection",
     data=data
 )
 ```
@@ -410,13 +491,48 @@ import io.milvus.v2.service.vector.response.InsertResp;
 List<JsonObject> rows = new ArrayList<>();
 Gson gson = new Gson();
 rows.add(gson.fromJson("{\"varchar_field1\": \"Product A\", \"varchar_field2\": \"High quality product\", \"pk\": 1, \"embedding\": [0.1, 0.2, 0.3]}", JsonObject.class));
-rows.add(gson.fromJson("{\"varchar_field1\": \"Product B\", \"varchar_field2\": \"Affordable price\", \"pk\": 2, \"embedding\": [0.4, 0.5, 0.6]}", JsonObject.class));
-rows.add(gson.fromJson("{\"varchar_field1\": \"Product C\", \"varchar_field2\": \"Best seller\", \"pk\": 3, \"embedding\": [0.7, 0.8, 0.9]}", JsonObject.class));
+rows.add(gson.fromJson("{\"varchar_field1\": \"Product B\", \"pk\": 2, \"embedding\": [0.4, 0.5, 0.6]}", JsonObject.class));
+rows.add(gson.fromJson("{\"varchar_field1\": null, \"varchar_field2\": null, \"pk\": 3, \"embedding\": [0.2, 0.3, 0.1]}", JsonObject.class));
+rows.add(gson.fromJson("{\"varchar_field1\": \"Product C\", \"varchar_field2\": null, \"pk\": 4, \"embedding\": [0.5, 0.7, 0.2]}", JsonObject.class));
+rows.add(gson.fromJson("{\"varchar_field1\": null, \"varchar_field2\": \"Exclusive deal\", \"pk\": 5, \"embedding\": [0.6, 0.4, 0.8]}", JsonObject.class));
+rows.add(gson.fromJson("{\"varchar_field1\": \"Unknown\", \"varchar_field2\": null, \"pk\": 6, \"embedding\": [0.8, 0.5, 0.3]}", JsonObject.class));
+rows.add(gson.fromJson("{\"varchar_field1\": \"\", \"varchar_field2\": \"Best seller\", \"pk\": 7, \"embedding\": [0.8, 0.5, 0.3]}", JsonObject.class));
 
 InsertResp insertR = client.insert(InsertReq.builder()
-        .collectionName("my_varchar_collection")
+        .collectionName("my_collection")
         .data(rows)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+column1, _ := column.NewNullableColumnVarChar("varchar_field1",
+    []string{"Product A", "Product B", "Product C", "Unknown", ""},
+    []bool{true, true, false, true, false, true, true})
+column2, _ := column.NewNullableColumnVarChar("varchar_field2",
+    []string{"High quality product", "Exclusive deal", "Best seller"},
+    []bool{true, false, false, false, true, false, true})
+
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
+    WithInt64Column("pk", []int64{1, 2, 3, 4, 5, 6, 7}).
+    WithFloatVectorColumn("embedding", 3, [][]float32{
+        {0.1, 0.2, 0.3},
+        {0.4, 0.5, 0.6},
+        {0.2, 0.3, 0.1},
+        {0.5, 0.7, 0.2},
+        {0.6, 0.4, 0.8},
+        {0.8, 0.5, 0.3},
+        {0.8, 0.5, 0.3},
+    }).
+    WithColumns(column1, column2),
+)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
 ```
 
 </TabItem>
@@ -444,8 +560,9 @@ const data = [
     embedding: [0.7, 0.8, 0.9],
   },
 ];
-client.insert({
-  collection_name: "my_sparse_collection",
+
+await client.insert({
+  collection_name: "my_collection",
   data: data,
 });
 
@@ -460,13 +577,17 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/insert" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
--d '{
+--data '{
     "data": [
         {"varchar_field1": "Product A", "varchar_field2": "High quality product", "pk": 1, "embedding": [0.1, 0.2, 0.3]},
-    {"varchar_field1": "Product B", "varchar_field2": "Affordable price", "pk": 2, "embedding": [0.4, 0.5, 0.6]},
-    {"varchar_field1": "Product C", "varchar_field2": "Best seller", "pk": 3, "embedding": [0.7, 0.8, 0.9]}       
+        {"varchar_field1": "Product B", "pk": 2, "embedding": [0.4, 0.5, 0.6]},
+        {"varchar_field1": null, "varchar_field2": null, "pk": 3, "embedding": [0.2, 0.3, 0.1]},  
+        {"varchar_field1": "Product C", "varchar_field2": null, "pk": 4, "embedding": [0.5, 0.7, 0.2]},  
+        {"varchar_field1": null, "varchar_field2": "Exclusive deal", "pk": 5, "embedding": [0.6, 0.4, 0.8]},  
+        {"varchar_field1": "Unknown", "varchar_field2": null, "pk": 6, "embedding": [0.8, 0.5, 0.3]},  
+        {"varchar_field1": "", "varchar_field2": "Best seller", "pk": 7, "embedding": [0.8, 0.5, 0.3]}  
     ],
-    "collectionName": "my_varchar_collection"
+    "collectionName": "my_collection"
 }'
 
 ## {"code":0,"cost":0,"data":{"insertCount":3,"insertIds":[1,2,3]}}
@@ -475,34 +596,31 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-In this example, we insert data that includes `VARCHAR` fields (`varchar_field1` and `varchar_field2`), a primary field (`pk`), and vector representations (`embedding`). To ensure that the inserted data matches the fields defined in the schema, it is recommended to check data types in advance to avoid insertion errors.
+## Query with filter expressions{#query-with-filter-expressions}
 
-If you set `enable_dynamic_fields=True` when defining the schema, Zilliz Cloud allows you to insert string fields that were not defined in advance. However, keep in mind that this may increase the complexity of queries and management, potentially impacting performance. For more information, refer to [Dynamic Field](./enable-dynamic-field).
+After inserting entities, use the `query` method to retrieve entities that match the specified filter expressions.
 
-## Search and query{#search-and-query}
+To retrieve entities where the `varchar_field1` matches the string `"Product A"`:
 
-After adding string fields, you can use them for filtering in search and query operations, achieving more precise search results.
-
-### Filter queries{#filter-queries}
-
-After adding string fields, you can filter results using these fields in queries. For example, you can query all entities where `varchar_field1` equals `"Product A"`:
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
+# Filter `varchar_field1` with value "Product A"
 filter = 'varchar_field1 == "Product A"'
 
 res = client.query(
-    collection_name="my_varchar_collection",
+    collection_name="my_collection",
     filter=filter,
     output_fields=["varchar_field1", "varchar_field2"]
 )
 
 print(res)
 
-# Output
-# data: ["{'varchar_field1': 'Product A', 'varchar_field2': 'High quality product', 'pk': 1}"] 
+# Example output:
+# data: [
+#     "{'varchar_field1': 'Product A', 'varchar_field2': 'High quality product', 'pk': 1}"
+# ]
 ```
 
 </TabItem>
@@ -515,7 +633,7 @@ import io.milvus.v2.service.vector.response.QueryResp;
 
 String filter = "varchar_field1 == \"Product A\"";
 QueryResp resp = client.query(QueryReq.builder()
-        .collectionName("my_varchar_collection")
+        .collectionName("my_collection")
         .filter(filter)
         .outputFields(Arrays.asList("varchar_field1", "varchar_field2"))
         .build());
@@ -529,11 +647,33 @@ System.out.println(resp.getQueryResults());
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+filter := "varchar_field1 == \"Product A\""
+queryResult, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter(filter).
+    WithOutputFields("varchar_field1", "varchar_field2"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println("varchar_field1", queryResult.GetColumn("varchar_field1").FieldData().GetScalars())
+fmt.Println("varchar_field2", queryResult.GetColumn("varchar_field2").FieldData().GetScalars())
+
+// Output
+//
+// varchar_field1 string_data:{data:"Product A"}
+// varchar_field2 string_data:{data:"High quality product"}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
-client.query({
-    collection_name: 'my_varchar_collection',
+await client.query({
+    collection_name: 'my_collection',
     filter: 'varchar_field1 == "Product A"',
     output_fields: ['varchar_field1', 'varchar_field2']
 });
@@ -549,7 +689,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "my_varchar_collection",
+    "collectionName": "my_collection",
     "filter": "varchar_field1 == \"Product A\"",
     "outputFields": ["varchar_field1", "varchar_field2"]
 }'
@@ -559,20 +699,218 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-This query expression returns all matching entities and outputs their `varchar_field1` and `varchar_field2` fields. For more information on filter queries, refer to [Filtering](./filtering).
+To retrieve entities where the `varchar_field2` is null:
 
-### Vector search with string filtering{#vector-search-with-string-filtering}
-
-In addition to basic scalar field filtering, you can combine vector similarity searches with scalar field filters. For example, the following code shows how to add a scalar field filter to a vector search:
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-filter = 'varchar_field1 == "Product A"'
+# Filter entities where `varchar_field2` is null
+filter = 'varchar_field2 is null'
+
+res = client.query(
+    collection_name="my_collection",
+    filter=filter,
+    output_fields=["varchar_field1", "varchar_field2"]
+)
+
+print(res)
+
+# Example output:
+# data: [
+#     "{'varchar_field1': 'Product B', 'varchar_field2': None, 'pk': 2}",
+#     "{'varchar_field1': 'Unknown', 'varchar_field2': None, 'pk': 3}",
+#     "{'varchar_field1': 'Product C', 'varchar_field2': None, 'pk': 4}",
+#     "{'varchar_field1': 'Unknown', 'varchar_field2': None, 'pk': 6}"
+# ]
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "varchar_field2 is null";
+QueryResp resp = client.query(QueryReq.builder()
+        .collectionName("my_collection")
+        .filter(filter)
+        .outputFields(Arrays.asList("varchar_field1", "varchar_field2"))
+        .build());
+
+System.out.println(resp.getQueryResults());
+
+// Output
+//
+// [
+//    QueryResp.QueryResult(entity={varchar_field1=Product B, varchar_field2=null, pk=2}),
+//    QueryResp.QueryResult(entity={varchar_field1=Unknown, varchar_field2=null, pk=3}),
+//    QueryResp.QueryResult(entity={varchar_field1=Product C, varchar_field2=null, pk=4}),
+//    QueryResp.QueryResult(entity={varchar_field1=Unknown, varchar_field2=null, pk=6})
+// ]
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter = "varchar_field2 is null"
+queryResult, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter(filter).
+    WithOutputFields("varchar_field1", "varchar_field2"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println("varchar_field1", queryResult.GetColumn("varchar_field1"))
+fmt.Println("varchar_field2", queryResult.GetColumn("varchar_field2"))
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.query({
+    collection_name: 'my_collection',
+    filter: 'varchar_field2 is null',
+    output_fields: ['varchar_field1', 'varchar_field2']
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "my_collection",
+    "filter": "varchar_field2 is null",
+    "outputFields": ["varchar_field1", "varchar_field2"]
+}'
+```
+
+</TabItem>
+</Tabs>
+
+To retrieve entities where `varchar_field1` has the value `"Unknown"`, use the following expression below. As the default value of `varchar_field1` is `"Unknown"`, the expected result should include entities with `varchar_field1` explicitly set to `"Unknown"` or with `varchar_field1` set to null.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+# Filter entities with `varchar_field1` with value `Unknown`
+filter = 'varchar_field1 == "Unknown"'
+
+res = client.query(
+    collection_name="my_collection",
+    filter=filter,
+    output_fields=["varchar_field1", "varchar_field2"]
+)
+
+print(res)
+
+# Example output:
+# data: [
+#     "{'varchar_field1': 'Unknown', 'varchar_field2': None, 'pk': 3}",
+#     "{'varchar_field1': 'Unknown', 'varchar_field2': 'Exclusive deal', 'pk': 5}",
+#     "{'varchar_field1': 'Unknown', 'varchar_field2': None, 'pk': 6}"
+# ]
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+String filter = "varchar_field1 == \"Unknown\"";
+QueryResp resp = client.query(QueryReq.builder()
+        .collectionName("my_collection")
+        .filter(filter)
+        .outputFields(Arrays.asList("varchar_field1", "varchar_field2"))
+        .build());
+
+System.out.println(resp.getQueryResults());
+
+// Output
+// 
+// [
+//    QueryResp.QueryResult(entity={varchar_field1=Unknown, varchar_field2=null, pk=3}),
+//    QueryResp.QueryResult(entity={varchar_field1=Unknown, varchar_field2=Exclusive deal, pk=5}),
+//    QueryResp.QueryResult(entity={varchar_field1=Unknown, varchar_field2=null, pk=6})
+// ]
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter = "varchar_field1 == \"Unknown\""
+queryResult, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter(filter).
+    WithOutputFields("varchar_field1", "varchar_field2"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println("varchar_field1", queryResult.GetColumn("varchar_field1"))
+fmt.Println("varchar_field2", queryResult.GetColumn("varchar_field2"))
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// node
+await client.query({
+    collection_name: 'my_collection',
+    filter: 'varchar_field1 == "Unknown"',
+    output_fields: ['varchar_field1', 'varchar_field2']
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "my_collection",
+    "filter": "varchar_field1 == \"Unknown\"",
+    "outputFields": ["varchar_field1", "varchar_field2"]
+}'
+```
+
+</TabItem>
+</Tabs>
+
+## Vector search with filter expressions{#vector-search-with-filter-expressions}
+
+In addition to basic scalar field filtering, you can combine vector similarity searches with scalar field filters. For example, the following code shows how to add a scalar field filter to a vector search:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+# Search with string filtering
+
+# Filter `varchar_field2` with value "Best seller"
+filter = 'varchar_field2 == "Best seller"'
 
 res = client.search(
-    collection_name="my_varchar_collection",
+    collection_name="my_collection",
     data=[[0.3, -0.6, 0.1]],
     limit=5,
     search_params={"params": {"nprobe": 10}},
@@ -582,8 +920,10 @@ res = client.search(
 
 print(res)
 
-# Output
-# data: ["[{'id': 1, 'distance': -0.06000000238418579, 'entity': {'varchar_field1': 'Product A', 'varchar_field2': 'High quality product'}}]"] 
+# Example output:
+# data: [
+#     "[{'id': 7, 'distance': -0.04468163847923279, 'entity': {'varchar_field1': '', 'varchar_field2': 'Best seller'}}]"
+# ]
 ```
 
 </TabItem>
@@ -594,9 +934,9 @@ print(res)
 import io.milvus.v2.service.vector.request.SearchReq;
 import io.milvus.v2.service.vector.response.SearchResp;
 
-String filter = "varchar_field1 == \"Product A\"";
+String filter = "varchar_field2 == \"Best seller\"";
 SearchResp resp = client.search(SearchReq.builder()
-        .collectionName("my_varchar_collection")
+        .collectionName("my_collection")
         .annsField("embedding")
         .data(Collections.singletonList(new FloatVec(new float[]{0.3f, -0.6f, 0.1f})))
         .topK(5)
@@ -608,7 +948,38 @@ System.out.println(resp.getSearchResults());
 
 // Output
 //
-// [[SearchResp.SearchResult(entity={varchar_field1=Product A, varchar_field2=High quality product}, score=-0.2364331, id=1)]]
+// [[SearchResp.SearchResult(entity={varchar_field1=, varchar_field2=Best seller}, score=-0.04468164, id=7)]]
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+queryVector := []float32{0.3, -0.6, 0.1}
+filter = "varchar_field2 == \"Best seller\""
+
+annParam := index.NewCustomAnnParam()
+annParam.WithExtraParam("nprobe", 10)
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "my_collection", // collectionName
+    5,                       // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("embedding").
+    WithFilter(filter).
+    WithAnnParam(annParam).
+    WithOutputFields("varchar_field1", "varchar_field2"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+    fmt.Println("varchar_field1: ", resultSet.GetColumn("varchar_field1"))
+    fmt.Println("varchar_field2: ", resultSet.GetColumn("varchar_field2"))
+}
 ```
 
 </TabItem>
@@ -616,12 +987,12 @@ System.out.println(resp.getSearchResults());
 <TabItem value='javascript'>
 
 ```javascript
-client.search({
-    collection_name: 'my_varchar_collection',
+await client.search({
+    collection_name: 'my_collection',
     data: [0.3, -0.6, 0.1],
     limit: 5,
     output_fields: ['varchar_field1', 'varchar_field2'],
-    filter: 'varchar_field1 == "Product A"'
+    filter: 'varchar_field2 == "Best seller"'
     params: {
        nprobe:10
     }
@@ -638,7 +1009,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "my_varchar_collection",
+    "collectionName": "my_collection",
     "data": [
         [0.3, -0.6, 0.1]
     ],
@@ -647,7 +1018,7 @@ curl --request POST \
         "params":{"nprobe":10}
     },
     "outputFields": ["varchar_field1", "varchar_field2"],
-    "filter": "varchar_field1 == \"Product A\""
+    "filter": "varchar_field2 == \"Best seller\""
 }'
 
 ## {"code":0,"cost":0,"data":[{"distance":-0.2364331,"id":1,"varchar_field1":"Product A","varchar_field2":"High quality product"}]}
@@ -655,5 +1026,3 @@ curl --request POST \
 
 </TabItem>
 </Tabs>
-
-In this example, we first define a query vector and add a filter condition `varchar_field1 == "Product A"` during the search. This ensures that the search results are not only similar to the query vector but also match the specified string filter condition. For more information, refer to [Filtering](./filtering).

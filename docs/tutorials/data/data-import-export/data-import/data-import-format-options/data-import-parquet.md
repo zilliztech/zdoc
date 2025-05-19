@@ -1,5 +1,5 @@
 ---
-title: "Import from a Parquet file | Cloud"
+title: "Import from a Parquet File | Cloud"
 slug: /data-import-parquet
 sidebar_label: "Parquet (Recommended)"
 beta: FALSE
@@ -16,23 +16,23 @@ keywords:
   - milvus
   - format options
   - parquet
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Import from a Parquet file
+# Import from a Parquet File
 
 [Apache Parquet](https://parquet.apache.org/docs/overview/) is an open-source, column-oriented data file format designed for efficient data storage and retrieval. It offers high-performance compression and encoding schemes to manage complex data in bulk and is supported in various programming languages and analytics tools tools.
 
 You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your raw data into Parquet files. The following figure demonstrates how your raw data can be mapped into a Parquet file.
 
-![data_import-preparetion_en](/img/data_import-preparetion_en.png)
+![parquet_file_structure_en](/img/parquet_file_structure_en.png)
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -158,15 +158,15 @@ Zilliz Cloud supports data import from your cloud storage. The table below lists
    </tr>
    <tr>
      <td><p><strong>AWS S3</strong></p></td>
-     <td><p><code>s3://bucket-name/parquet-folder/</code></p><p><code>s3://bucket-name/parquet-folder/data.parquet</code></p></td>
+     <td><p><code>s3://bucket-name/parquet-folder/</code> <code>s3://bucket-name/parquet-folder/data.parquet</code></p></td>
    </tr>
    <tr>
      <td><p><strong>Google Cloud Storage</strong></p></td>
-     <td><p><code>gs://bucket-name/parquet-folder/</code></p><p><code>gs://bucket-name/parquet-folder/data.parquet</code></p></td>
+     <td><p><code>gs://bucket-name/parquet-folder/</code> <code>gs://bucket-name/parquet-folder/data.parquet</code></p></td>
    </tr>
    <tr>
      <td><p><strong>Azure Bolb</strong></p></td>
-     <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/</code></p><p><code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/data.parquet</code></p></td>
+     <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/</code> <code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/data.parquet</code></p></td>
    </tr>
 </table>
 
@@ -185,7 +185,7 @@ There are some limits you need to observe when you import data in the Parquet fo
    </tr>
    <tr>
      <td><p><strong>Maximum file size per import</strong></p></td>
-     <td><p>Free cluster: 512 MB in total</p><p>Serverless &amp; Dedicated cluster</p><ul><li><p>Individual file size: 10 GB</p></li><li><p>Total file size: 100 GB</p></li></ul></td>
+     <td><p>Free cluster: 512 MB in total Serverless &amp; Dedicated cluster</p><ul><li><p>Individual file size: 10 GB</p></li><li><p>Total file size: 100 GB</p></li></ul></td>
    </tr>
    <tr>
      <td><p><strong>Applicable data file locations</strong></p></td>

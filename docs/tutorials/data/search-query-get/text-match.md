@@ -2,7 +2,7 @@
 title: "Text Match | Cloud"
 slug: /text-match
 sidebar_label: "Text Match"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "Text match in Zilliz Cloud enables precise document retrieval based on specific terms. This feature is primarily used for filtered search to satisfy specific conditions and can incorporate scalar filtering to refine query results, allowing similarity searches within vectors that meet scalar criteria. | Cloud"
 type: origin
@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - text-match
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 
@@ -59,20 +59,30 @@ Text match works on the `VARCHAR` field type, which is essentially the string da
 
 To enable text match for a specific `VARCHAR` field, set both the `enable_analyzer` and `enable_match` parameters to `True` when defining the field schema. This instructs Zilliz Cloud to tokenize text and create an inverted index for the specified field, allowing fast and efficient text matches.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient, DataType
 
-schema = MilvusClient.create_schema(auto_id=True, enable_dynamic_field=False)
-
+schema = MilvusClient.create_schema(enable_dynamic_field=False)
+schema.add_field(
+    field_name="id",
+    datatype=DataType.INT64,
+    is_primary=True,
+    auto_id=True
+)
 schema.add_field(
     field_name='text', 
     datatype=DataType.VARCHAR, 
     max_length=1000, 
     enable_analyzer=True, # Whether to enable text analysis for this field
     enable_match=True # Whether to enable text match
+)
+schema.add_field(
+    field_name="embeddings",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=5
 )
 ```
 
@@ -88,7 +98,12 @@ import io.milvus.v2.service.collection.request.CreateCollectionReq;
 CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSchema.builder()
         .enableDynamicField(false)
         .build();
-
+schema.addField(AddFieldReq.builder()
+        .fieldName("id")
+        .dataType(DataType.Int64)
+        .isPrimaryKey(true)
+        .autoID(true)
+        .build());
 schema.addField(AddFieldReq.builder()
         .fieldName("text")
         .dataType(DataType.VarChar)
@@ -96,6 +111,37 @@ schema.addField(AddFieldReq.builder()
         .enableAnalyzer(true)
         .enableMatch(true)
         .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("embeddings")
+        .dataType(DataType.FloatVector)
+        .dimension(5)
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import "github.com/milvus-io/milvus/client/v2/entity"
+
+schema := entity.NewSchema().WithDynamicFieldEnabled(false)
+schema.WithField(entity.NewField().
+    WithName("id").
+    WithDataType(entity.FieldTypeInt64).
+    WithIsPrimaryKey(true).
+    WithIsAutoID(true),
+).WithField(entity.NewField().
+    WithName("text").
+    WithDataType(entity.FieldTypeVarChar).
+    WithEnableAnalyzer(true).
+    WithEnableMatch(true).
+    WithMaxLength(1000),
+).WithField(entity.NewField().
+    WithName("embeddings").
+    WithDataType(entity.FieldTypeFloatVector).
+    WithDim(5),
+)
 ```
 
 </TabItem>
@@ -117,8 +163,9 @@ const schema = [
     max_length: 1000,
   },
   {
-    name: "sparse",
-    data_type: DataType.SparseFloatVector,
+    name: "embeddings",
+    data_type: DataType.FloatVector,
+    dim: 5,
   },
 ];
 ```
@@ -147,8 +194,11 @@ export schema='{
                 }
             },
             {
-                "fieldName": "sparse",
-                "dataType": "SparseFloatVector"
+                "fieldName": "embeddings",
+                "dataType": "FloatVector",
+                "elementTypeParams": {
+                    "dim": "5"
+                }
             }
         ]
     }'
@@ -165,7 +215,7 @@ By default, Zilliz Cloud uses the `standard` analyzer, which tokenizes text base
 
 In cases where a different analyzer is required, you can configure one using the `analyzer_params` parameter. For example, to apply the `english` analyzer for processing English text:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -201,6 +251,22 @@ schema.addField(AddFieldReq.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+analyzerParams := map[string]any{"type": "english"}
+schema.WithField(entity.NewField().
+    WithName("text").
+    WithDataType(entity.FieldTypeVarChar).
+    WithEnableAnalyzer(true).
+    WithEnableMatch(true).
+    WithAnalyzerParams(analyzerParams).
+    WithMaxLength(200),
+)
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -219,8 +285,9 @@ const schema = [
     analyzer_params: { type: 'english' },
   },
   {
-    name: "sparse",
-    data_type: DataType.SparseFloatVector,
+    name: "embeddings",
+    data_type: DataType.FloatVector,
+    dim: 5,
   },
 ];
 ```
@@ -250,7 +317,7 @@ export schema='{
                 }
             },
             {
-                "fieldName": "my_vector",
+                "fieldName": "embeddings",
                 "dataType": "FloatVector",
                 "elementTypeParams": {
                     "dim": "5"
@@ -283,7 +350,7 @@ TEXT_MATCH(field_name, text)
 
 By default, `TEXT_MATCH` uses the **OR** matching logic, meaning it will return documents that contain any of the specified terms. For example, to search for documents containing the term `machine` or `deep` in the `text` field, use the following expression:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -296,6 +363,14 @@ filter = "TEXT_MATCH(text, 'machine deep')"
 
 ```java
 String filter = "TEXT_MATCH(text, 'machine deep')";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "TEXT_MATCH(text, 'machine deep')"
 ```
 
 </TabItem>
@@ -321,7 +396,7 @@ You can also combine multiple `TEXT_MATCH` expressions using logical operators t
 
 - To search for documents containing both `machine` and `deep` in the `text` field, use the following expression:
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -334,6 +409,14 @@ You can also combine multiple `TEXT_MATCH` expressions using logical operators t
 
     ```java
     String filter = "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')";
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    filter := "TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'deep')"
     ```
 
     </TabItem>
@@ -357,7 +440,7 @@ You can also combine multiple `TEXT_MATCH` expressions using logical operators t
 
 - To search for documents containing both `machine` and `learning` but without `deep` in the `text` field, use the following expressions:
 
-    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+    <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
 
     ```python
@@ -370,6 +453,14 @@ You can also combine multiple `TEXT_MATCH` expressions using logical operators t
 
     ```java
     String filter = "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')";
+    ```
+
+    </TabItem>
+
+    <TabItem value='go'>
+
+    ```go
+    filter := "not TEXT_MATCH(text, 'deep') and TEXT_MATCH(text, 'machine') and TEXT_MATCH(text, 'learning')"
     ```
 
     </TabItem>
@@ -397,7 +488,7 @@ Text match can be used in combination with vector similarity search to narrow th
 
 In this example, the `filter` expression filters the search results to only include documents that match the specified term `keyword1` or `keyword2`. The vector similarity search is then performed on this filtered subset of documents.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -406,7 +497,7 @@ filter = "TEXT_MATCH(text, 'keyword1 keyword2')"
 
 # Assuming 'embeddings' is the vector field and 'text' is the VARCHAR field
 result = client.search(
-    collection_name="YOUR_COLLECTION_NAME", # Your collection name
+    collection_name="my_collection", # Your collection name
     anns_field="embeddings", # Vector field name
     data=[query_vector], # Query vector
     filter=filter,
@@ -424,13 +515,33 @@ result = client.search(
 String filter = "TEXT_MATCH(text, 'keyword1 keyword2')";
 
 SearchResp searchResp = client.search(SearchReq.builder()
-        .collectionName("YOUR_COLLECTION_NAME")
+        .collectionName("my_collection")
         .annsField("embeddings")
         .data(Collections.singletonList(queryVector)))
         .filter(filter)
         .topK(10)
         .outputFields(Arrays.asList("id", "text"))
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter := "TEXT_MATCH(text, 'keyword1 keyword2')"
+
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "my_collection", // collectionName
+    10,               // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("embeddings").
+    WithFilter(filter).
+    WithOutputFields("id", "text"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -443,7 +554,7 @@ const filter = "TEXT_MATCH(text, 'keyword1 keyword2')";
 
 // Assuming 'embeddings' is the vector field and 'text' is the VARCHAR field
 const result = await client.search(
-    collection_name: "YOUR_COLLECTION_NAME", // Your collection name
+    collection_name: "my_collection", // Your collection name
     anns_field: "embeddings", // Vector field name
     data: [query_vector], // Query vector
     filter: filter,
@@ -468,8 +579,8 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "demo2",
-    "annsField": "my_vector",
+    "collectionName": "my_collection",
+    "annsField": "embeddings",
     "data": [[0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104]],
     "filter": '"$filter"',
     "searchParams": {
@@ -477,7 +588,7 @@ curl --request POST \
             "nprobe": 10
         }
     },
-    "limit": 3,
+    "limit": 10,
     "outputFields": ["text","id"]
 }'
 ```
@@ -491,7 +602,7 @@ Text match can also be used for scalar filtering in query operations. By specify
 
 The example below retrieves documents where the `text` field contains both terms `keyword1` and `keyword2`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -499,7 +610,7 @@ The example below retrieves documents where the `text` field contains both terms
 filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')"
 
 result = client.query(
-    collection_name="YOUR_COLLECTION_NAME",
+    collection_name="my_collection",
     filter=filter, 
     output_fields=["id", "text"]
 )
@@ -513,11 +624,27 @@ result = client.query(
 String filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')";
 
 QueryResp queryResp = client.query(QueryReq.builder()
-        .collectionName("YOUR_COLLECTION_NAME")
+        .collectionName("my_collection")
         .filter(filter)
         .outputFields(Arrays.asList("id", "text"))
         .build()
 );
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')"
+resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter(filter).
+    WithOutputFields("id", "text"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
 ```
 
 </TabItem>
@@ -529,7 +656,7 @@ QueryResp queryResp = client.query(QueryReq.builder()
 const filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')";
 
 const result = await client.query(
-    collection_name: "YOUR_COLLECTION_NAME",
+    collection_name: "my_collection",
     filter: filter, 
     output_fields: ["id", "text"]
 )
@@ -550,7 +677,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "demo2",
+    "collectionName": "my_collection",
     "filter": '"$filter"',
     "outputFields": ["id", "text"]
 }'

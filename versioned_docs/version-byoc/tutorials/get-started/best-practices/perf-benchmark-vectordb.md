@@ -15,10 +15,10 @@ keywords:
   - milvus
   - performance
   - benchmark
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 
@@ -49,27 +49,27 @@ Closely mimicking real-world production environments, VectorDBBench has set up d
    </tr>
    <tr>
      <td><p>Max_load_count</p></td>
-     <td><p>The capacity of a vector database. VectorDBBench will keep inserting vector data into the vector database until the database fails or reject the insertion request over 10 times and keep a record of the maximum number of inserted entities.</p><p>Higher Max_load_count values indicate better vector database performance.</p></td>
+     <td><p>The capacity of a vector database. VectorDBBench will keep inserting vector data into the vector database until the database fails or reject the insertion request over 10 times and keep a record of the maximum number of inserted entities. Higher Max_load_count values indicate better vector database performance.</p></td>
      <td><p>Insertion</p></td>
    </tr>
    <tr>
      <td><p>QPS</p></td>
-     <td><p>The capability of a vector database to handle concurrent queries per second. VectorDBBench uses top-100 searches in multiple times and selects the highest QPS value as the final result.</p><p>Higher QPS values indicate better vector database performance.</p></td>
+     <td><p>The capability of a vector database to handle concurrent queries per second. VectorDBBench uses top-100 searches in multiple times and selects the highest QPS value as the final result. Higher QPS values indicate better vector database performance.</p></td>
      <td><p>Search &amp; filtered search</p></td>
    </tr>
    <tr>
      <td><p>Recall</p></td>
-     <td><p>The measure of search accuracy by comparing search results with ground truth.</p><p>Higher recall values indicate better vector database performance.</p></td>
+     <td><p>The measure of search accuracy by comparing search results with ground truth. Higher recall values indicate better vector database performance.</p></td>
      <td><p>Search &amp; filtered search</p></td>
    </tr>
    <tr>
      <td><p>Load_duration</p></td>
-     <td><p>The time it takes for Zilliz Cloud to complete the process of inserting entities and building indexes.</p><p>Lower Load_duration values indicate better vector database performance.</p></td>
+     <td><p>The time it takes for Zilliz Cloud to complete the process of inserting entities and building indexes. Lower Load_duration values indicate better vector database performance.</p></td>
      <td><p>Search &amp; filtered search</p></td>
    </tr>
    <tr>
      <td><p>Serial_latancy_p99</p></td>
-     <td><p>The time that 99% of queries take to complete. VectorDBBench records the search latency of each top-100 searches and uses the 99th percentile average as the final result.</p><p>Lower Serial_latancy_p99 values indicate better vector database performance.</p></td>
+     <td><p>The time that 99% of queries take to complete. VectorDBBench records the search latency of each top-100 searches and uses the 99th percentile average as the final result. Lower Serial_latancy_p99 values indicate better vector database performance.</p></td>
      <td><p>Search &amp; filtered search</p></td>
    </tr>
 </table>
@@ -95,8 +95,6 @@ Closely mimicking real-world production environments, VectorDBBench has set up d
     Network communication will influence the test results, especially in the query testing scenario. To reduce the impact of network latency, we recommend:
 
     - Deploying the client in the same cloud provider and region as your Zilliz Cloud cluster.
-
-    - Configure your client so that it shares the same VPC with your Zilliz Cloud cluster. Compared to public Internet, VPC can have lower latency. Learn more at [Set up a Private Link](/docs/set-up-a-private-link).
 
 ### Install and start VectorDBBench{#install-and-start-vectordbbench}
 
@@ -142,7 +140,7 @@ On the homepage, you can see some pre-defined testing datasets provided by Vecto
 
 Scroll down the webpage to the bottom and click **Run Your Test >** to configure your own benchmarking test.
 
-![AATGbLxqwo32yexKYzPcdYVTnph](/byoc/AATGbLxqwo32yexKYzPcdYVTnph.png)
+![AATGbLxqwo32yexKYzPcdYVTnph](/img/AATGbLxqwo32yexKYzPcdYVTnph.png)
 
 ### Configure your benchmarking test{#configure-your-benchmarking-test}
 
@@ -150,9 +148,9 @@ Scroll down the webpage to the bottom and click **Run Your Test >** to configure
 
 Click **Results** to view and analyze benchmarking results. Below are some example results.
 
-![LWa7bJGzOo9qKJx0ZNicjLXjnJh](/byoc/LWa7bJGzOo9qKJx0ZNicjLXjnJh.png)
+![LWa7bJGzOo9qKJx0ZNicjLXjnJh](/img/LWa7bJGzOo9qKJx0ZNicjLXjnJh.png)
 
-![DJBibk5puoOLxYxxnH3chlxcnAd](/byoc/DJBibk5puoOLxYxxnH3chlxcnAd.png)
+![DJBibk5puoOLxYxxnH3chlxcnAd](/img/DJBibk5puoOLxYxxnH3chlxcnAd.png)
 
 Optionally, you can set up the **DB Filter** and **Case Filter** in the left navigation pane to compare the benchmarking results of pre-defined vector databases and cases.
 

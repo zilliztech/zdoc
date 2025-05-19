@@ -38,9 +38,7 @@ Yes. You can use [VectorDBBench](https://zilliz.com/vector-database-benchmark-to
 
 ### Which type of index is supported by Zilliz Cloud?{#which-type-of-index-is-supported-by-zilliz-cloud}
 
-Currently, Zilliz Cloud only supports AUTOINDEX, a proprietary index type that can help you achieve better search performance. 
-
-For a performance-optimized cluster with 1.5 million 768-dimensional vectors, the QPS can reach several hundred and the latency is below 100 milliseconds. For a capacity-optimized cluster with 5 million 768-dimensional vectors, the QPS can reach 50 and the latency is over 200 milliseconds. For more details, see [AUTOINDEX Explained](./autoindex-explained).
+Currently, Zilliz Cloud only supports AUTOINDEX, a proprietary index type that can help you achieve better search performance. For more details, see [AUTOINDEX Explained](./autoindex-explained).
 
 However, please[ submit a request](https://support.zilliz.com/hc/en-us) if you are familiar with using [any of the indexes](https://milvus.io/docs/index.md) we support. We can help you evaluate your application demand and enable the indexes for you.
 
@@ -88,11 +86,11 @@ Once the free trial ends, you can still access your free clusters. However, all 
 
 ### What is the pricing of Zilliz Cloud on Marketplaces?{#what-is-the-pricing-of-zilliz-cloud-on-marketplaces}
 
-Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms) for more about Marketplace Pricing Terms.
+Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms) for more about Marketplace pricing terms.
 
 ### Can I apply for more credits?{#can-i-apply-for-more-credits}
 
-When you register an account on Zilliz Cloud, you’ll receive $100 in free credits. You can earn an extra $100 credits by subscribing to Zilliz Cloud on [Marketplaces](./subscribe-on-aws-marketplace).
+When you register on Zilliz Cloud with a work email you’ll receive $100 in free credits. You can earn an extra $100 credits by subscribing to Zilliz Cloud on [Marketplaces](./subscribe-on-aws-marketplace). For extra credits and discounts, please [contact sales](https://zilliz.com/contact-sales).
 
 ### Can I extend my free trial?{#can-i-extend-my-free-trial}
 

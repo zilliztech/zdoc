@@ -18,7 +18,6 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 ## Contents
 
 - [What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?](#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources)
-- [Can I change the CU type after my dedicated cluster is created?](#can-i-change-the-cu-type-after-my-dedicated-cluster-is-created)
 - [How can I scale down my cluster CU size?](#how-can-i-scale-down-my-cluster-cu-size)
 - [How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?](#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud)
 - [Why can’t I connect to the cluster after the cluster is created?](#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created)
@@ -37,14 +36,6 @@ When inserting or upserting data, you will receive this error because your data 
 To address this issue, you can follow the instructions below.
 
 In such a case, you are advised to  [scale up your cluster](./scale-cluster#scale-up-a-cluster) by increasing the CU size.
-
-### Can I change the CU type after my dedicated cluster is created?{#can-i-change-the-cu-type-after-my-dedicated-cluster-is-created}
-
-Yes. To change the CU type, you need to follow the steps below.
-
-1. Create a new cluster with the desired CU type. Use the [calculator](https://zilliz.com/pricing#calculator) to determine the CU size of this new cluster.
-
-1. [Migrate](./migrate-between-clusters) the data from the current cluster to the new cluster you just created. Alternatively, you can also [contact us](https://support.zilliz.com/hc/en-us) to handle the data migration between clusters for you. Please specify your source cluster and target cluster when reaching out to us.
 
 ### How can I scale down my cluster CU size?{#how-can-i-scale-down-my-cluster-cu-size}
 

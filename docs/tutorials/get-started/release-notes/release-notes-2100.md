@@ -7,16 +7,16 @@ notebook: FALSE
 description: "This release brings several key updates to Zilliz Cloud, starting with the GA of Zilliz Cloud Serverless, which offers automatic scaling and enables up to 50x cost savings. Milvus 2.4 features are now GA, introducing capabilities such as sparse vectors, multi-vector hybrid search, and inverted index with fuzzy matching. This release also includes multi-replica functionality in public preview, allowing users to improve query throughput and availability by distributing workloads across replicas in multiple Availability Zones (AZs). Additionally, Zilliz Cloud’s new Migration Service supports migration from open-source Milvus, pgvector, Elasticsearch, and enables intra-organization and cross-organization data migrations within Zilliz Cloud. The expanded RESTful APIs for backup, restore, migration, and job management empower users to build automated operational workflows. Further enhancements include support for Project Read-only roles and the ability to rename clusters and snapshots. | Cloud"
 type: origin
 token: PJ4hwwD1DiVnv0kWPZBceLrdnSf
-sidebar_position: 5
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 
@@ -103,7 +103,7 @@ Zilliz Cloud now offers a comprehensive Migration Service, allowing users to com
 
 - Migrate from other open-source databases to Zilliz Cloud, with current support for migrations from pgvector and Elasticsearch. The migration target can be a Free Plan instance, Serverless instance, or Dedicated Cluster. For details, refer to [Migrate from Elasticsearch to Zilliz Cloud](./migrate-from-elasticsearch) and [Migrate from pgvector to Zilliz Cloud](./migrate-from-pgvector).
 
-- Migrate data within Zilliz Cloud, supporting both intra-organization and cross-organization data migrations. For details, refer to [Cross-Cluster Migrations](./migrate-between-clusters).
+- Migrate data within Zilliz Cloud, supporting both intra-organization and cross-organization data migrations. For details, refer to [Cross-Cluster Migrations](./offline-migration).
 
 ### Backup/Restore/Migration/Jobs RESTful API{#backuprestoremigrationjobs-restful-api}
 

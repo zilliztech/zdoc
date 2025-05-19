@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 
@@ -42,13 +42,13 @@ This guide outlines the procedures of configuring replicas for a cluster in Zill
 
 ## Configure replicas{#configure-replicas}
 
-You can add replicas for an existing Dedicated cluster as long as the following conditions are met:
+To configure replicas for an existing Dedicated cluster as long as the following conditions are met:
 
 - The cluster has 8 CUs or more
 
 - For clusters whose compatible Milvus version is lower than 2.4.13, all collections in the cluster need to be released
 
-When adding replicas, please note that the cluster CU size x replica count should not exceed 256. 
+Note that the cluster CU size x replica count should not exceed 256
 
 <Admonition type="caution" icon="🚧" title="Warning">
 
@@ -56,7 +56,32 @@ When adding replicas, please note that the cluster CU size x replica count shoul
 
 </Admonition>
 
-![configure-replica](/byoc/configure-replica.png)
+You can adjust the number of replicas for an existing Dedicated cluster either manually on the console or programmatically.
 
-For more information about using the RESTful API to configure replicas, please refer to [Modify Cluster](/reference/restful/modify-cluster-v2).
+### Configure replicas on the console{#configure-replicas-on-the-console}
+
+You can configure replicas on the console as shown in the following figure.
+
+![configure-replica](/img/configure-replica.png)
+
+### Configure replicas programmatically{#configure-replicas-programmatically}
+
+You can use the RESTful API to configure replicas programmatically. 
+
+Note that the value for the `replica` parameter should be an integer ranging from 1 to 8. For more details, refer to [Modify Cluster Replica](/reference/restful/modify-cluster-replica-v2).
+
+```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export CLUSTER_ID="YOUR_CLUSTER_ID"
+export TOKEN="YOUR_API_KEY"
+
+curl --request POST \
+     --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/modifyReplica" \
+     --header "Authorization: Bearer ${TOKEN}" \
+     --header "Accept: application/json" \
+     --header "Content-type: application/json" \
+     --data-raw '{
+        "replica": "2"
+      }'
+```
 

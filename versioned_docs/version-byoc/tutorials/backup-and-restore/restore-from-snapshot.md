@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 
@@ -45,7 +45,7 @@ Navigate to the **Backups** page, locate your target backup file. If you need to
 
 Set the attributes for the cluster to be restored from the backup file.
 
-![restore_cluster](/byoc/restore_cluster.png)
+![restore_cluster](/img/restore_cluster.png)
 
 While setting these attributes, note that:
 
@@ -104,7 +104,7 @@ Navigate to the **Backups** page, locate your target backup file. If you need to
 
 Set the attributes for the collection to be restored from the backup file.
 
-![restore_collection](/byoc/restore_collection.png)
+![restore_collection](/img/restore_collection.png)
 
 While setting these attributes, note that:
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - notification
   - channels
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 
@@ -36,7 +36,7 @@ To manage notification channels, make sure you are an [organization owner](./org
 
 You can access the management page of notification channels in the **Edit Alert** or **Create Alert** dialog box in the Zilliz Cloud console.
 
-![manage-alert-channel](/byoc/manage-alert-channel.png)
+![manage-alert-channel](/img/manage-alert-channel.png)
 
 ### Email{#email}
 
@@ -274,5 +274,5 @@ To set up DingTalk alert notifications, follow these steps:
 
 After setting up a notification channel, click the Send Test Message icon to verify that it is properly configured.
 
-![test-connectivity](/byoc/test-connectivity.png)
+![test-connectivity](/img/test-connectivity.png)
 

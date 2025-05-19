@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - console
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 
@@ -27,18 +27,6 @@ import Admonition from '@theme/Admonition';
 # Import Data (Console)
 
 This page introduces how to import the prepared data on the Zilliz Cloud console.
-
-## Before you start{#before-you-start}
-
-Make sure the following conditions are met:
-
-- You have created a cluster. For details, see [Create Cluster](./create-cluster).
-
-- You have prepared your data in either of the supported formats. 
-
-    For details on how to prepare your data, refer to [Storage Options](./data-import-storage-options) and [Format Options](./data-import-format-options). You can also refer to the end-to-end notebook [Data Import Hands-On](./data-import-zero-to-hero) to get more.
-
-- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details on creating a collection, see [Manage Collections (Console)](./manage-collections-console).
 
 ## Import data on the web UI{#import-data-on-the-web-ui}
 

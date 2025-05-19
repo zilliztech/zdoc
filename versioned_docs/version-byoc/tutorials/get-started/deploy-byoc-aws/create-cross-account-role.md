@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 
@@ -46,17 +46,17 @@ In this step, you will create a cross-account IAM role for the communications be
 
 1. On the Zilliz Cloud console, copy **External ID** displayed in the setup guide.
 
-    ![TS1XbezPjoruVGxQmuJckdo1nSc](/byoc/TS1XbezPjoruVGxQmuJckdo1nSc.png)
+    ![TS1XbezPjoruVGxQmuJckdo1nSc](/img/TS1XbezPjoruVGxQmuJckdo1nSc.png)
 
 1. Log into your **AWS Console** as a user with administrator privileges and go to the **IAM** dashboard.
 
 1. Click the **Roles** tab in the left sidebar, and then click **Create Role**.
 
-    ![RKjvblTyRo8oDMxmjiNciRwrnUl](/byoc/RKjvblTyRo8oDMxmjiNciRwrnUl.png)
+    ![RKjvblTyRo8oDMxmjiNciRwrnUl](/img/RKjvblTyRo8oDMxmjiNciRwrnUl.png)
 
 1. In **Select trusted entity**, click the **AWS account** tile.
 
-    ![SxSkbijRMoSNeGxYDsnchgDOnQb](/byoc/SxSkbijRMoSNeGxYDsnchgDOnQb.png)
+    ![SxSkbijRMoSNeGxYDsnchgDOnQb](/img/SxSkbijRMoSNeGxYDsnchgDOnQb.png)
 
 1. In **An AWS account**, select the **Another AWS account** checkbox.
 
@@ -80,15 +80,15 @@ In this step, you will create a cross-account IAM role for the communications be
 
 1. Once the role has been created, click **View role** in the green bar to go to the role details. 
 
-    ![DhbcbR2Lfocoopxjn5lcUixQn4e](/byoc/DhbcbR2Lfocoopxjn5lcUixQn4e.png)
+    ![DhbcbR2Lfocoopxjn5lcUixQn4e](/img/DhbcbR2Lfocoopxjn5lcUixQn4e.png)
 
 1. Click the copy icon in front of the role's **ARN**.
 
-    ![JMNYbgkEIol9LnxzYM8cgScZnWd](/byoc/JMNYbgkEIol9LnxzYM8cgScZnWd.png)
+    ![JMNYbgkEIol9LnxzYM8cgScZnWd](/img/JMNYbgkEIol9LnxzYM8cgScZnWd.png)
 
 1. Go back to the Zilliz Cloud console, paste the role ARN in **IAM Role ARN** under **EKS settings**.
 
-    ![Hgy9bfuYRo0KlTxUnUmcApyynWf](/byoc/Hgy9bfuYRo0KlTxUnUmcApyynWf.png)
+    ![Hgy9bfuYRo0KlTxUnUmcApyynWf](/img/Hgy9bfuYRo0KlTxUnUmcApyynWf.png)
 
 ### Step 2: Add permissions{#step-2-add-permissions}
 
@@ -96,7 +96,7 @@ This step is solely on the AWS console. In this step, you will create an inline 
 
 1. Go to the details page of the created role. In the **Permissions policies** section, click **Add permissions**, and choose **Create inline policy**.
 
-    ![NJaZbbcAhopglpxSBThcill3n3c](/byoc/NJaZbbcAhopglpxSBThcill3n3c.png)
+    ![NJaZbbcAhopglpxSBThcill3n3c](/img/NJaZbbcAhopglpxSBThcill3n3c.png)
 
 1. On the **Specify permissions** page, click **JSON** in the **Policy editor** section to open the policy editor. Then copy the permissions from below and paste it into the policy editor, replacing `{bucketName}` with the bucket you have created in [Create S3 Bucket and Role](./create-bucket-and-role).
 
@@ -400,7 +400,7 @@ This step is solely on the AWS console. In this step, you will create an inline 
       }
     ```
 
-    ![KD0ZbpltAoLfnxx8mGZcrsPPngg](/byoc/KD0ZbpltAoLfnxx8mGZcrsPPngg.png)
+    ![KD0ZbpltAoLfnxx8mGZcrsPPngg](/img/KD0ZbpltAoLfnxx8mGZcrsPPngg.png)
 
 1. In **Review and create**, enter a policy name, review the permissions, and click **Create policy**.
 
@@ -410,6 +410,6 @@ This step is solely on the AWS console. In this step, you will create an inline 
 
     </Admonition>
 
-    ![WcFVbDMPLod1fbxPcytcaliTnXS](/byoc/WcFVbDMPLod1fbxPcytcaliTnXS.png)
+    ![WcFVbDMPLod1fbxPcytcaliTnXS](/img/WcFVbDMPLod1fbxPcytcaliTnXS.png)
 
     

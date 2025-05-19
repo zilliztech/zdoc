@@ -15,10 +15,10 @@ keywords:
   - auditing
   - log
   - configure
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 
@@ -33,7 +33,7 @@ Audit logging allows administrators to track and monitor user-driven operations 
 
 <ul>
 <li><p>Audit logging is in <strong>Private Preview</strong>. To request access to this feature or learn about associated costs, contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p></li>
-<li><p>Audit logging does not support attributing API key connections to specific users. To achieve user-specific auditing, consider using a cluster user for authentication. Support for API key user attribution is planned for future releases.</p></li>
+<li><p>Audit logging is supported only for Zilliz Cloud clusters running Milvus 2.5.x.</p></li>
 </ul>
 
 </Admonition>
@@ -120,9 +120,11 @@ Audit logging on Zilliz Cloud streams audit logs directly to your storage bucket
 
     - **Export Directory**: Specify a directory within the bucket to store audit logs.
 
-1. Click **Enable**. Once the **Audit Log Streaming** status is **Active**, it has been enabled successfully. If the status is **Abnormal**, go to [FAQ](./audit-logs) for troubleshooting.
+1. Click **Enable**. Once the **Audit Log Streaming** status is **Active**, it has been enabled successfully. If the status is **Abnormal**, go to [FAQ](./audit-logs#faq) for troubleshooting.
 
 Once configured, audit logs will be streamed to your bucket at an interval of about 5 minutes. You can access your bucket to view or manage the logs as needed.
+
+Once your audit logs are streamed to your S3 bucket, you can integrate your S3 storage to visualization platforms for enhanced monitoring and analysis. For instance, if you want to use Snowflake to gain deeper insights, refer to [Automating Snowpipe for Amazon S3](https://docs.snowflake.com/en/user-guide/data-load-snowpipe-auto-s3).
 
 To understand parameters in log entries, refer to [Audit Logs](./audit-logs-ref).
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 
@@ -45,7 +45,7 @@ Make sure the following conditions are met:
 
 <TabItem value="Cloud Console">
 
-![delete_backups](/byoc/delete_backups.png)
+![delete_backups](/img/delete_backups.png)
 
 You will be prompted to verify your request to delete a backup file before Zilliz Cloud actually performs the deletion.
 

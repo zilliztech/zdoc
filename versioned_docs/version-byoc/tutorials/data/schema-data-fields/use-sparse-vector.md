@@ -32,25 +32,23 @@ Sparse vectors are an important method of data representation in information ret
 
 ## Overview{#overview}
 
-A sparse vector is a special representation of high-dimensional vectors where most elements are zero, and only a few dimensions have non-zero values. This characteristic makes sparse vectors particularly effective in handling large-scale, high-dimensional, but sparse data. Common applications include:
+A sparse vector is a special representation of high-dimensional vectors where most elements are zero, and only a few dimensions have non-zero values. As shown in the diagram below, dense vectors are typically represented as continuous arrays where each position has a value (e.g., `[0.3, 0.8, 0.2, 0.3, 0.1]`). In contrast, sparse vectors store only non-zero elements and their indices, often represented as key-value pairs (e.g., `[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]`). 
 
-- **Text Analysis:** Representing documents as bag-of-words vectors, where each dimension corresponds to a word, and only words that appear in the document have non-zero values.
+![VPhswBhHmhJrh3byaVnc3onYnPc](/img/VPhswBhHmhJrh3byaVnc3onYnPc.png)
 
-- **Recommendation Systems:** User-item interaction matrices, where each dimension represents a user's rating for a particular item, with most users interacting with only a few items.
+Sparse vectors reduce storage and boost efficiency in high-dimensional data, making them ideal for large & sparse datasets. Common use cases include:
 
-- **Image Processing:** Local feature representation, focusing only on key points in the image, resulting in high-dimensional sparse vectors.
+- **Text analysis**: Representing documents as bag-of-words vectors, where each dimension corresponds to a word in the vocabulary, and only words present in the document have non-zero values.
 
-As shown in the diagram below, dense vectors are typically represented as continuous arrays where each position has a value (e.g., `[0.3, 0.8, 0.2, 0.3, 0.1]`). In contrast, sparse vectors store only non-zero elements and their indices, often represented as key-value pairs (e.g., `[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]`). This representation significantly reduces storage space and increases computational efficiency, especially when dealing with extremely high-dimensional data (e.g., 10,000 dimensions).
+- **Recommendation systems**: User-item interaction matrices, where each dimension represents a user’s rating for a particular item, with most users interacting with only a few items.
 
-![RHlkwqC3Mh1tBSb7G3gcMc8PnUO](/byoc/RHlkwqC3Mh1tBSb7G3gcMc8PnUO.png)
+- **Image processing**: Local feature representation, focusing only on key points in the image, resulting in high-dimensional sparse vectors.
 
-Sparse vectors can be generated using various methods, such as [TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) (Term Frequency-Inverse Document Frequency) and [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) in text processing. Additionally, Zilliz Cloud offers convenient methods to help generate and process sparse vectors. 
+Sparse vectors are commonly generated through traditional statistical methods like [TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) and [BM25](https://en.wikipedia.org/wiki/Okapi_BM25), or via neural models that learn sparse representations from text. Zilliz Cloud supports full-text search for text data using the BM25 algorithm. It automatically converts text into sparse embeddings — no manual vectorization required. Refer to [Full Text Search](./full-text-search) for more information. 
 
-For text data, Zilliz Cloud also provides full-text search capabilities, allowing you to perform vector searches directly on raw text data without using external embedding models to generate sparse vectors. For more information, refer to [Full Text Search](./full-text-search).
+Once vectorized, the data can be stored in Zilliz Cloud for efficient management and retrieval. The diagram below illustrates the overall process.
 
-After vectorization, the data can be stored in Zilliz Cloud for management and vector retrieval. The diagram below illustrates the basic process.
-
-![QcKewe4XchpFUUblEyOcgEUpnbc](/byoc/QcKewe4XchpFUUblEyOcgEUpnbc.png)
+![A7FvwnB5bhpBlKbgrzYcQijbnxg](/img/A7FvwnB5bhpBlKbgrzYcQijbnxg.png)
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -58,7 +56,7 @@ After vectorization, the data can be stored in Zilliz Cloud for management and v
 
 </Admonition>
 
-## Use sparse vectors{#use-sparse-vectors}
+## Data Formats{#data-formats}
 
 Zilliz Cloud supports representing sparse vectors in any of the following formats:
 
@@ -110,23 +108,23 @@ Zilliz Cloud supports representing sparse vectors in any of the following format
     sparse_vector = [[(1, 0.5), (100, 0.3), (500, 0.8), (1024, 0.2), (5000, 0.6)]]
     ```
 
-### Add vector field{#add-vector-field}
+## Define Collection Schema{#define-collection-schema}
 
-To use sparse vectors in Zilliz Cloud clusters, define a field for storing sparse vectors when creating a collection. This process includes:
+### Add fields{#add-fields}
 
-1. Setting `datatype` to the supported sparse vector data type, `SPARSE_FLOAT_VECTOR`.
+To use sparse vectors in Zilliz Cloud clusters, you need to create a collection with a schema including at least the following fields:
 
-1. No need to specify the dimension.
+- A `SPARSE_FLOAT_VECTOR` field reserved for storing sparse embeddings, either auto-generated from a `VARCHAR` field or provided directly by the inserted data.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+- (For built-in BM25) A `VARCHAR` field for raw text documents with `enable_analyzer` set to `True`.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient, DataType
 
 client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
-
-client.drop_collection(collection_name="my_sparse_collection")
 
 schema = client.create_schema(
     auto_id=True,
@@ -135,6 +133,7 @@ schema = client.create_schema(
 
 schema.add_field(field_name="pk", datatype=DataType.VARCHAR, is_primary=True, max_length=100)
 schema.add_field(field_name="sparse_vector", datatype=DataType.SPARSE_FLOAT_VECTOR)
+schema.add_field(field_name="text", datatype=DataType.VARCHAR, max_length=1000, enable_analyzer=True)
 ```
 
 </TabItem>
@@ -162,10 +161,15 @@ schema.addField(AddFieldReq.builder()
         .autoID(true)
         .maxLength(100)
         .build());
-
 schema.addField(AddFieldReq.builder()
         .fieldName("sparse_vector")
         .dataType(DataType.SparseFloatVector)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("text")
+        .dataType(DataType.VarChar)
+        .maxLength(1000)
+        .enableAnalyzer(true)
         .build());
 ```
 
@@ -189,9 +193,62 @@ const schema = [
   {
     name: "sparse_vector",
     data_type: DataType.SparseFloatVector,
-  }
+  },
+  {
+    name: "text",
+    data_type: "VarChar",
+    enable_analyzer: true,
+    enable_match: true,
+    max_length: 1000,
+  },
 ];
 
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/column"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/index"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+schema := entity.NewSchema()
+schema.WithField(entity.NewField().
+    WithName("pk").
+    WithDataType(entity.FieldTypeVarChar).
+    WithIsAutoID(true).
+    WithIsPrimaryKey(true).
+    WithMaxLength(100),
+).WithField(entity.NewField().
+    WithName("sparse_vector").
+    WithDataType(entity.FieldTypeSparseVector),
+).WithField(entity.NewField().
+    WithName("text").
+    WithDataType(entity.FieldTypeVarChar).
+    WithEnableAnalyzer(true).
+    WithMaxLength(1000),
+)
 ```
 
 </TabItem>
@@ -213,11 +270,21 @@ export vectorField='{
     "dataType": "SparseFloatVector"
 }'
 
+export textField='{
+    "fieldName": "text",
+    "dataType": "VarChar",
+    "elementTypeParams": {
+        "max_length": 1000,
+        "enable_analyzer": true
+    }
+}'
+
 export schema="{
     \"autoID\": true,
     \"fields\": [
         $primaryField,
-        $vectorField
+        $vectorField,
+        $textField
     ]
 }"
 ```
@@ -225,13 +292,124 @@ export schema="{
 </TabItem>
 </Tabs>
 
-In this example, a vector field named `sparse_vector` is added for storing sparse vectors. The data type of this field is `SPARSE_FLOAT_VECTOR`.
+In this example, three fields are added:
 
-### Set index params for vector field{#set-index-params-for-vector-field}
+- `pk`: This field stores primary keys using the `VARCHAR` data type, which is auto-generated with a maximum length of 100 bytes.
+
+- `sparse_vector`: This field stores sparse vectors using the `SPARSE_FLOAT_VECTOR` data type.
+
+- `text`: This field stores text strings using the `VARCHAR` data type, with a maximum length of 1000 bytes.
+
+### Add functions{#add-functions}
+
+<Admonition type="info" icon="📘" title="**Notes:** You can skip this step if generating embeddings on your own. However, you will need to provide sparse embeddings to be inserted into the sparse vector field.">
+
+</Admonition>
+
+To utilize the full-text search feature built in Milvus, powered by BM25 (eliminating the need for manual generation of sparse embeddings), you need to add the Milvus `Function` to the schema:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import Function, FunctionType
+
+bm25_function = Function(
+    name="text_bm25_emb",
+    input_field_names=["text"],
+    output_field_names=["sparse"],
+    function_type=FunctionType.BM25,
+)
+
+schema.add_function(bm25_function)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.common.clientenum.FunctionType;
+import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
+
+import java.util.*;
+
+schema.addFunction(Function.builder()
+        .functionType(FunctionType.BM25)
+        .name("text_bm25_emb")
+        .inputFieldNames(Collections.singletonList("text"))
+        .outputFieldNames(Collections.singletonList("sparse"))
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import FunctionType from "@zilliz/milvus2-sdk-node";
+
+const functions = [
+    {
+      name: 'text_bm25_emb',
+      description: 'bm25 function',
+      type: FunctionType.BM25,
+      input_field_names: ['text'],
+      output_field_names: ['sparse'],
+      params: {},
+    },
+]；
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import "github.com/milvus-io/milvus/client/v2/entity"
+
+function := entity.NewFunction().
+    WithName("text_bm25_emb").
+    WithInputFields("text").
+    WithOutputFields("sparse").
+    WithType(entity.FunctionTypeBM25)
+schema.WithFunction(function)
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export bm25Function='{
+    "name": "text_bm25_emb",
+    "type": "BM25",
+    "inputFieldNames": ["text"],
+    "outputFieldNames": ["sparse"],
+    "params": {}
+}'
+
+export schema="{
+    \"autoID\": true,
+    \"fields\": [
+        $primaryField,
+        $vectorField,
+        $textField
+    ],
+    \"functions\": [$bm25Function]
+}"
+```
+
+</TabItem>
+</Tabs>
+
+ For more details, see [Full Text Search](./full-text-search).
+
+## Set Index Parameters{#set-index-parameters}
 
 The process of creating an index for sparse vectors is similar to that for [dense vectors](./use-dense-vector), but with differences in the specified index type (`index_type`), distance metric (`metric_type`), and index parameters (`params`).
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -239,12 +417,11 @@ index_params = client.prepare_index_params()
 
 index_params.add_index(
     field_name="sparse_vector",
-
     index_name="sparse_auto_index",
     index_type="AUTOINDEX",
-    metric_type="IP"
-
+    metric_type="BM25" # or "IP" for custom sparse vectors
 )
+
 ```
 
 </TabItem>
@@ -263,7 +440,7 @@ indexes.add(IndexParam.builder()
         .indexName("sparse_auto_index")
         .indexType(IndexParam.IndexType.AUTOINDEX)
 
-        .metricType(IndexParam.MetricType.IP)
+        .metricType(IndexParam.MetricType.BM25) // Or IndexParam.MetricType.IP for custom sparse vectors
 
         .build());
 ```
@@ -275,12 +452,21 @@ indexes.add(IndexParam.builder()
 ```javascript
 const indexParams = await client.createIndex({
     field_name: 'sparse_vector',
-    metric_type: MetricType.IP,
+    metric_type: MetricType.BM25, // or MetricType.IP for custom sparse vectors
 
     index_name: 'sparse_auto_index',
     index_type: IndexType.AUTOINDEX,
 
 });
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+idx := index.NewSparseInvertedIndex(entity.BM25, 0.2) // or entity.IP for custom sparse vectors
+indexOption := milvusclient.NewCreateIndexOption("my_collection", "sparse_vector", idx)
 ```
 
 </TabItem>
@@ -291,7 +477,7 @@ const indexParams = await client.createIndex({
 export indexParams='[
         {
             "fieldName": "sparse_vector",
-            "metricType": "IP",
+            "metricType": "BM25", # or "IP" for custom sparse vectors
 
             "indexName": "sparse_auto_index",
             "indexType": "AUTOINDEX"
@@ -303,44 +489,24 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-In the example above:
+This example uses the `SPARSE_INVERTED_INDEX` index type with `BM25` as the metric. For more details, see the following resources:
 
-- `index_type`: The type of index to create for the sparse vector field. Valid Values:
+- SPARSE_INVERTED_INDEX: Explained index and its parameters
 
-    - `SPARSE_INVERTED_INDEX`: A general-purpose inverted index for sparse vectors.
+- [Metric Types](./search-metrics-explained): Supported metric types for different field types
 
-    <Admonition type="info" icon="📘" title="Notes">
+- [Full Text Search](./full-text-search): Detailed tutorial on full-text search
 
-    <p>From Milvus 2.5.4 onward, <code>SPARSE_WAND</code> is being deprecated. Instead, it is recommended to use <code>"inverted_index_algo": "DAAT_WAND"</code> for equivalency while maintaining compatibility.</p>
+## Create Collection{#create-collection}
 
-    </Admonition>
+Once the sparse vector and index settings are complete, you can create a collection that contains sparse vectors. The example below uses the `create_collection` method to create a collection named `my_collection`.
 
-- `metric_type`: The metric used to calculate similarity between sparse vectors. Valid Values:
-
-    - `IP` (Inner Product): Measures similarity using dot product.
-
-    - `BM25`: Typically used for full-text search, focusing on textual similarity.
-
-        For further details, refer to [Metric Types](./search-metrics-explained) and [Full Text Search](./full-text-search).
-
-- `params.inverted_index_algo`: The algorithm used for building and querying the index. Valid values:
-
-    - `"DAAT_MAXSCORE"` (default): Optimized Document-at-a-Time (DAAT) query processing using the MaxScore algorithm. MaxScore provides better performance for high *k* values or queries with many terms by skipping terms and documents likely to have minimal impact. It achieves this by partitioning terms into essential and non-essential groups based on their maximum impact scores, focusing on terms that can contribute to the top-k results.
-
-    - `"DAAT_WAND"`: Optimized DAAT query processing using the WAND algorithm. WAND evaluates fewer hit documents by leveraging maximum impact scores to skip non-competitive documents, but it has a higher per-hit overhead. This makes WAND more efficient for queries with small *k* values or short queries, where skipping is more feasible.
-
-    - `"TAAT_NAIVE"`: Basic Term-at-a-Time (TAAT) query processing. While it is slower compared to `DAAT_MAXSCORE` and `DAAT_WAND`, `TAAT_NAIVE` offers a unique advantage. Unlike DAAT algorithms, which use cached maximum impact scores that remain static regardless of changes to the global collection parameter (avgdl), `TAAT_NAIVE` dynamically adapts to such changes.
-
-### Create collection{#create-collection}
-
-Once the sparse vector and index settings are complete, you can create a collection that contains sparse vectors. The example below uses the `create_collection` method to create a collection named `my_sparse_collection`.
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 client.create_collection(
-    collection_name="my_sparse_collection",
+    collection_name="my_collection",
     schema=schema,
     index_params=index_params
 )
@@ -351,15 +517,8 @@ client.create_collection(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
-
-MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
-        .uri("YOUR_CLUSTER_ENDPOINT")
-        .build());
-        
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
-        .collectionName("my_sparse_collection")
+        .collectionName("my_collection")
         .collectionSchema(schema)
         .indexParams(indexes)
         .build();
@@ -378,10 +537,24 @@ const client = new MilvusClient({
 });
 
 await client.createCollection({
-    collection_name: 'my_sparse_collection',
+    collection_name: 'my_collection',
     schema: schema,
     index_params: indexParams
 });
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("my_collection", schema).
+        WithIndexOptions(indexOption))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -394,7 +567,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d "{
-    \"collectionName\": \"my_sparse_collection\",
+    \"collectionName\": \"my_collection\",
     \"schema\": $schema,
     \"indexParams\": $indexParams
 }"
@@ -403,22 +576,28 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Insert data{#insert-data}
+## Insert data{#insert-data}
 
-After creating the collection, insert data containing sparse vectors.
+You must provide data for all fields defined during collection creation, except for fields that are auto-generated (such as the primary key with `auto_id` enabled). If you are using the built-in BM25 function to auto-generate sparse vectors, you should also omit the sparse vector field when inserting data.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-sparse_vectors = [
-    {"sparse_vector": {1: 0.5, 100: 0.3, 500: 0.8}},
-    {"sparse_vector": {10: 0.1, 200: 0.7, 1000: 0.9}},
+data = [
+    {
+        "text": "information retrieval is a field of study.",
+        # "sparse_vector": {1: 0.5, 100: 0.3, 500: 0.8} # Do NOT provide sparse vectors if using built-in BM25
+    },
+    {
+        "text": "information retrieval focuses on finding relevant information in large datasets.",
+        # "sparse_vector": {10: 0.1, 200: 0.7, 1000: 0.9} # Do NOT provide sparse vectors if using built-in BM25
+    },
 ]
 
 client.insert(
-    collection_name="my_sparse_collection",
-    data=sparse_vectors
+    collection_name="my_collection",
+    data=data
 )
 ```
 
@@ -432,29 +611,41 @@ import com.google.gson.JsonObject;
 import io.milvus.v2.service.vector.request.InsertReq;
 import io.milvus.v2.service.vector.response.InsertResp;
 
-List<JsonObject> rows = new ArrayList<>();
+import java.util.ArrayList;
+import java.util.List;
+import java.util.SortedMap;
+import java.util.TreeMap;
+
 Gson gson = new Gson();
+List<JsonObject> rows = new ArrayList<>();
+
 {
     JsonObject row = new JsonObject();
+    row.addProperty("text", "information retrieval is a field of study.");
     SortedMap<Long, Float> sparse = new TreeMap<>();
+    /* Do NOT provide sparse vectors if using the built-in BM25
     sparse.put(1L, 0.5f);
     sparse.put(100L, 0.3f);
     sparse.put(500L, 0.8f);
     row.add("sparse_vector", gson.toJsonTree(sparse));
+    */
     rows.add(row);
 }
 {
     JsonObject row = new JsonObject();
+    row.addProperty("text", "information retrieval focuses on finding relevant information in large datasets.");
     SortedMap<Long, Float> sparse = new TreeMap<>();
+    /* Do NOT provide sparse vectors if using the built-in BM25
     sparse.put(10L, 0.1f);
     sparse.put(200L, 0.7f);
     sparse.put(1000L, 0.9f);
     row.add("sparse_vector", gson.toJsonTree(sparse));
+    */
     rows.add(row);
 }
 
-InsertResp insertR = client.insert(InsertReq.builder()
-        .collectionName("my_sparse_collection")
+InsertResp insertResp = client.insert(InsertReq.builder()
+        .collectionName("my_collection")
         .data(rows)
         .build());
 ```
@@ -465,14 +656,50 @@ InsertResp insertR = client.insert(InsertReq.builder()
 
 ```javascript
 const data = [
-  { sparse_vector: { "1": 0.5, "100": 0.3, "500": 0.8 } },
-  { sparse_vector: { "10": 0.1, "200": 0.7, "1000": 0.9 } },
+    {
+        text: 'information retrieval is a field of study.',
+        // sparse_vector: {1: 0.5, 100: 0.3, 500: 0.8} // Do NOT provide sparse vectors if using built-in BM25
+    },
+    {
+        text: 'information retrieval focuses on finding relevant information in large datasets.',
+        // sparse_vector: {10: 0.1, 200: 0.7, 1000: 0.9} // Do NOT provide sparse vectors if using built-in BM25
+    },
 ];
-client.insert({
-  collection_name: "my_sparse_collection",
-  data: data,
-});
 
+client.insert({
+    collection_name: "my_collection",
+    data: data
+});
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+texts := []string{
+    "information retrieval is a field of study.",
+    "information retrieval focuses on finding relevant information in large datasets.",
+}
+textColumn := entity.NewColumnVarChar("text", texts)
+
+// Prepare sparse vectors (Do NOT provide sparse vectors if using the built-in BM25)
+// sparseVectors := make([]entity.SparseEmbedding, 0, 2)
+// sparseVector1, _ := entity.NewSliceSparseEmbedding([]uint32{1, 100, 500}, []float32{0.5, 0.3, 0.8})
+// sparseVectors = append(sparseVectors, sparseVector1)
+// sparseVector2, _ := entity.NewSliceSparseEmbedding([]uint32{10, 200, 1000}, []float32{0.1, 0.7, 0.9})
+// sparseVectors = append(sparseVectors, sparseVector2)
+// sparseVectorColumn := entity.NewColumnSparseVectors("sparse_vector", sparseVectors)
+
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
+    WithColumns(
+        textColumn,
+        // sparseVectorColumn
+    ))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
 ```
 
 </TabItem>
@@ -486,43 +713,102 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "data": [
-        {"sparse_vector": {"1": 0.5, "100": 0.3, "500": 0.8}},
-        {"sparse_vector": {"10": 0.1, "200": 0.7, "1000": 0.9}}        
+        {"text": "information retrieval is a field of study.",
+        {"text": "information retrieval focuses on finding relevant information in large datasets."       
     ],
-    "collectionName": "my_sparse_collection"
+    "collectionName": "my_collection"
 }'
-
-## {"code":0,"cost":0,"data":{"insertCount":2,"insertIds":["453577185629572534","453577185629572535"]}}
 ```
 
 </TabItem>
 </Tabs>
 
-### Perform similarity search{#perform-similarity-search}
+## Perform Similarity Search{#perform-similarity-search}
 
-To perform similarity search using sparse vectors, prepare the query vector and search parameters.
+To perform a similarity search using sparse vectors, prepare both the query data and the search parameters. If you are using the built-in BM25 function, simply provide the query text — there is no need to supply a sparse vector. Refer to SPARSE_INVERTED_INDEX for available search parameters.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
+<TabItem value='python'>
 
 ```python
 # Prepare search parameters
 search_params = {
-    "params": {"drop_ratio_search": 0.2},  # Additional optional search parameters
+    "params": {"drop_ratio_search": 0.2},  # A tunable drop ratio parameter with a valid range between 0 and 1
 }
 
-# Prepare the query vector
-query_vector = [{1: 0.2, 50: 0.4, 1000: 0.7}]
+# Query with text if search with the built-in BM25
+query_data = ["What is information retrieval?"]
+
+# Otherwise, query with the sparse vector
+# query_data = [{1: 0.2, 50: 0.4, 1000: 0.7}]
 ```
 
-In this example, `drop_ratio_search` is an optional parameter specifically for sparse vectors, allowing fine-tuning of small values in the query vector during the search. For example, with `{"drop_ratio_search": 0.2}`, the smallest 20% of values in the query vector will be ignored during the search.
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.request.data.SparseFloatVec;
+
+// Prepare search parameters
+Map<String,Object> searchParams = new HashMap<>();
+searchParams.put("drop_ratio_search", 0.2);
+
+// Query with text if search with the built-in BM25
+EmbeddedText queryData = new EmbeddedText("What is information retrieval?");
+
+// Otherwise, query with the sparse vector
+// SortedMap<Long, Float> sparse = new TreeMap<>();
+// sparse.put(1L, 0.2f);
+// sparse.put(50L, 0.4f);
+// sparse.put(1000L, 0.7f);
+// SparseFloatVec queryData = new SparseFloatVec(sparse);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// Prepare search parameters
+const searchParams = {drop_ratio_search: 0.2}
+
+// Query with text if search with the built-in BM25
+const queryData = ["What is information retrieval?"]
+
+// Otherwise, query with the sparse vector
+// const queryData = [{1: 0.2, 50: 0.4, 1000: 0.7}]
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// Prepare search parameters
+annSearchParams := index.NewCustomAnnParam()
+annSearchParams.WithExtraParam("drop_ratio_search", 0.2)
+
+// Query with text if search with the built-in BM25
+queryData := entity.Text({"What is information retrieval?"})
+
+// Otherwise, query with the sparse vector
+// queryData, _ := entity.NewSliceSparseEmbedding([]uint32{1, 50, 1000}, []float32{0.2, 0.4, 0.7})
+```
+
+</TabItem>
+</Tabs>
 
 Then, execute the similarity search using the `search` method:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 res = client.search(
-    collection_name="my_sparse_collection",
-    data=query_vector,
+    collection_name="my_collection",
+    data=query_data,
     limit=3,
     output_fields=["pk"],
     search_params=search_params,
@@ -540,22 +826,13 @@ print(res)
 
 ```java
 import io.milvus.v2.service.vector.request.SearchReq;
-import io.milvus.v2.service.vector.request.data.SparseFloatVec;
 import io.milvus.v2.service.vector.response.SearchResp;
-
-Map<String,Object> searchParams = new HashMap<>();
-searchParams.put("drop_ratio_search", 0.2);
-
-SortedMap<Long, Float> sparse = new TreeMap<>();
-sparse.put(10L, 0.1f);
-sparse.put(200L, 0.7f);
-sparse.put(1000L, 0.9f);
 
 SparseFloatVec queryVector = new SparseFloatVec(sparse);
 
 SearchResp searchR = client.search(SearchReq.builder()
-        .collectionName("my_sparse_collection")
-        .data(Collections.singletonList(queryVector))
+        .collectionName("my_collection")
+        .data(Collections.singletonList(queryData))
         .annsField("sparse_vector")
         .searchParams(searchParams)
         .topK(3)
@@ -566,7 +843,7 @@ System.out.println(searchR.getSearchResults());
 
 // Output
 //
-// [[SearchResp.SearchResult(entity={pk=453444327741536759}, score=1.31, id=453444327741536759), SearchResp.SearchResult(entity={pk=453444327741536756}, score=1.31, id=453444327741536756), SearchResp.SearchResult(entity={pk=453444327741536753}, score=1.31, id=453444327741536753)]]
+// [[SearchResp.SearchResult(entity={pk=457270974427187729}, score=0.63, id=457270974427187729), SearchResp.SearchResult(entity={pk=457270974427187728}, score=0.1, id=457270974427187728)]]
 ```
 
 </TabItem>
@@ -575,14 +852,42 @@ System.out.println(searchR.getSearchResults());
 
 ```javascript
 await client.search({
-    collection_name: 'my_sparse_collection',
-    data: {1: 0.2, 50: 0.4, 1000: 0.7},
+    collection_name: 'my_collection',
+    data: queryData,
     limit: 3,
     output_fields: ['pk'],
-    params: {
-        drop_ratio_search: 0.2
-    }
+    params: searchParams
 });
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "my_collection",
+    3, // limit
+    []entity.Vector{queryData},
+).WithANNSField("sparse_vector").
+    WithOutputFields("pk").
+    WithAnnParam(annSearchParams))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+    fmt.Println("Pks: ", resultSet.GetColumn("pk").FieldData().GetScalars())
+}
+
+// Results:
+//   IDs:  string_data:{data:"457270974427187705"  data:"457270974427187704"}
+//   Scores:  [0.63 0.1]
+//   Pks:  string_data:{data:"457270974427187705"  data:"457270974427187704"}
+
 ```
 
 </TabItem>
@@ -595,7 +900,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "my_sparse_collection",
+    "collectionName": "my_collection",
     "data": [
         {"1": 0.2, "50": 0.4, "1000": 0.7}
     ],
@@ -613,4 +918,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-For more information on similarity search parameters, refer to [Basic ANN Search](./single-vector-search).
+For more information on similarity search parameters, refer to [Basic Vector Search](./single-vector-search).

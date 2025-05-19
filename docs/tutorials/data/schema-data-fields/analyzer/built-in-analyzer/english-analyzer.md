@@ -2,7 +2,7 @@
 title: "English | Cloud"
 slug: /english-analyzer
 sidebar_label: "English"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "The `english` analyzer in Zilliz Cloud is designed to process English text, applying language-specific rules for tokenization and filtering. | Cloud"
 type: origin
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - english analyzer
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 
@@ -32,7 +32,7 @@ import TabItem from '@theme/TabItem';
 
 The `english` analyzer in Zilliz Cloud is designed to process English text, applying language-specific rules for tokenization and filtering.
 
-### Definition{#definition}
+## Definition{#definition}
 
 The `english` analyzer uses the following components:
 
@@ -48,7 +48,7 @@ The `english` analyzer uses the following components:
 
 The functionality of the `english` analyzer is equivalent to the following custom analyzer configuration:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -89,13 +89,62 @@ analyzerParams.put("filter",
 ```
 
 </TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "type": "standard", // Specifies the standard analyzer type
+    "stop_words", ["of"] // Optional: List of words to exclude from tokenization
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"tokenizer": "standard",
+        "filter": []any{"lowercase", map[string]any{
+            "type":     "stemmer",
+            "language": "english",
+        }, map[string]any{
+            "type":       "stop",
+            "stop_words": "_english_",
+        }}}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "tokenizer": "standard",
+  "filter": [
+    "lowercase",
+    {
+      "type": "stemmer",
+      "language": "english"
+    },
+    {
+      "type": "stop",
+      "stop_words": "_english_"
+    }
+  ]
+}'
+
+```
+
+</TabItem>
 </Tabs>
 
-### Configuration{#configuration}
+## Configuration{#configuration}
 
 To apply the `english` analyzer to a field, simply set `type` to `english` in `analyzer_params`, and include optional parameters as needed.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -111,6 +160,35 @@ analyzer_params = {
 ```java
 Map<String, Object> analyzerParams = new HashMap<>();
 analyzerParams.put("type", "english");
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const analyzer_params = {
+    "type": "english",
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"type": "english"}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "type": "english"
+}'
 ```
 
 </TabItem>
@@ -131,7 +209,7 @@ The `english` analyzer accepts the following optional parameters:
 
 Example configuration with custom stop words:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -152,23 +230,109 @@ analyzerParams.put("stop_words", Arrays.asList("a", "an", "the"));
 ```
 
 </TabItem>
-</Tabs>
 
-After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview).
+<TabItem value='javascript'>
 
-### Example output{#example-output}
-
-Here’s how the `english` analyzer processes text.
-
-**Original text**:
-
-```python
-"The Milvus vector database is built for scale!"
+```javascript
+const analyzer_params = {
+    "type": "english",
+    "stop_words": ["a", "an", "the"]
+}
 ```
 
-**Expected output**:
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"type": "english", "stop_words": []string{"a", "an", "the"}}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "type": "english",
+  "stop_words": [
+    "a",
+    "an",
+    "the"
+  ]
+}'
+
+```
+
+</TabItem>
+</Tabs>
+
+After defining `analyzer_params`, you can apply them to a `VARCHAR` field when defining a collection schema. This allows Zilliz Cloud to process the text in that field using the specified analyzer for efficient tokenization and filtering. For details, refer to [Example use](./analyzer-overview#example-use).
+
+## Examples{#examples}
+
+### Analyzer configuration{#analyzer-configuration}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
-["milvus", "vector", "databas", "built", "scale"]
+analyzer_params = {
+    "type": "english",
+    "stop_words": ["a", "an", "the"]
+}
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+Map<String, Object> analyzerParams = new HashMap<>();
+analyzerParams.put("type", "english");
+analyzerParams.put("stop_words", Arrays.asList("a", "an", "the"));
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// javascript
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+analyzerParams = map[string]any{"type": "english", "stop_words": []string{"a", "an", "the"}}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+analyzerParams='{
+  "type": "english",
+  "stop_words": [
+    "a",
+    "an",
+    "the"
+  ]
+}'
+
+```
+
+</TabItem>
+</Tabs>
+
+### Expected output{#expected-output}
+
+```python
+English analyzer output: ['milvus', 'vector', 'databas', 'built', 'scale']
 ```
 

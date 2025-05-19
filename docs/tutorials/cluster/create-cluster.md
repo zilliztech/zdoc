@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

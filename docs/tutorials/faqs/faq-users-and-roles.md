@@ -20,6 +20,7 @@ This topic lists the possible issues about users, roles, and access that you may
 - [Can I leave my organization?](#can-i-leave-my-organization)
 - [How can I edit my organization name?](#how-can-i-edit-my-organization-name)
 - [How can I invite a colleague or teammate to collaborate?](#how-can-i-invite-a-colleague-or-teammate-to-collaborate)
+- [Can I create a role with specific privileges or custom privilege groups?](#can-i-create-a-role-with-specific-privileges-or-custom-privilege-groups)
 
 ## FAQs
 
@@ -51,3 +52,7 @@ If you are an organization owner, you can invite users to your organization. Ref
 If you are an organization member, you can contact your organization owner to invite other users.
 
 Additionally, Zilliz Cloud also supports inviting users to projects. If you are a project admin, you can invite other project users to your project. Refer to [Manage Project Users](./project-users) for more detailed instructions.
+
+### Can I create a role with specific privileges or custom privilege groups?{#can-i-create-a-role-with-specific-privileges-or-custom-privilege-groups}
+
+Yes. You need to [create a support ticket](http://support.zilliz.com) first so that we can enable this feature for you. Once this feature is enabled, you can then use the SDKs to complete this task. For details, refer to [Privileges & Privilege Groups](./cluster-privileges#custom-privilege-groups).

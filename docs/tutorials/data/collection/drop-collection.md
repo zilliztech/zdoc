@@ -16,10 +16,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 
@@ -33,7 +33,7 @@ You can drop a collection if it is no longer needed.
 
 ## Examples{#examples}
 
-The following code snippets assume that you have a collection named **customized_setup_2**.
+The following code snippets assume that you have a collection named **my_collection**.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -47,7 +47,7 @@ client = MilvusClient(
 )
 
 client.drop_collection(
-    collection_name="customized_setup_2"
+    collection_name="my_collection"
 )
 ```
 
@@ -72,7 +72,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 DropCollectionReq dropQuickSetupParam = DropCollectionReq.builder()
-        .collectionName("customized_setup_2")
+        .collectionName("my_collection")
         .build();
 
 client.dropCollection(dropQuickSetupParam);
@@ -91,7 +91,7 @@ const client = new MilvusClient({address, token});
 
 // 10. Drop the collection
 res = await client.dropCollection({
-    collection_name: "customized_setup_2"
+    collection_name: "my_collection"
 })
 
 console.log(res.error_code)
@@ -121,18 +121,19 @@ defer cancel()
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 token := "YOUR_CLUSTER_TOKEN"
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
     APIKey:  token,
 })
 if err != nil {
-    log.Fatal("failed to connect to milvus server: ", err.Error())
+    fmt.Println(err.Error())
+    // handle error
 }
+defer client.Close(ctx)
 
-defer cli.Close(ctx)
-
-err = cli.DropCollection(ctx, milvusclient.NewDropCollectionOption("customized_setup_2"))
+err = client.DropCollection(ctx, milvusclient.NewDropCollectionOption("my_collection"))
 if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
 ```
@@ -150,7 +151,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "customized_setup_2"
+    "collectionName": "my_collection"
 }'
 
 # {

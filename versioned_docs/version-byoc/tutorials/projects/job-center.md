@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 
@@ -42,29 +42,37 @@ The following job information is displayed:
        </tr>
        <tr>
          <td rowspan="2"><p>Backup</p></td>
-         <td><p>Create a backup file for a cluster.</p></td>
+         <td><p>Create a backup file for a cluster</p></td>
        </tr>
        <tr>
-         <td><p>Create a backup file for a collection.</p></td>
+         <td><p>Create a backup file for a collection</p></td>
        </tr>
        <tr>
          <td rowspan="2"><p>Restore</p></td>
-         <td><p>Restore a cluster from a backup file.</p></td>
+         <td><p>Restore a cluster from a backup file</p></td>
        </tr>
        <tr>
-         <td><p>Restore a collection from a backup file.</p></td>
+         <td><p>Restore a collection from a backup file</p></td>
+       </tr>
+       <tr>
+         <td><p>Export Backup File</p></td>
+         <td><p>Export a backup file to the specified object storage service</p></td>
        </tr>
        <tr>
          <td><p>Migration</p></td>
-         <td><p>Migrate data to a cluster.</p><ul><li><p>External Data Migration: </p><ul><li><p>From Elasticsearch</p></li><li><p>From Milvus</p></li></ul></li><li><p>Cross-cluster migration:</p><ul><li><p>From Serverless or Dedicated cluster to a new Dedicated cluster</p></li><li><p>From Dedicated cluster to an existing Dedicated cluster</p></li></ul></li></ul></td>
+         <td><p>Migrate data to a cluster.</p><ul><li><p>External Data Migration: </p><ul><li><p>From Milvus</p></li><li><p>From Pinecone</p></li><li><p>From Qdrant</p></li><li><p>From Elasticsearch</p></li><li><p>From OpenSearch</p></li><li><p>From PostgreSQL</p></li><li><p>From Tencent Cloud VectorDB</p></li></ul></li><li><p>Zilliz Cloud Cross-cluster migration:</p><ul><li><p>Cross-cluster migration within the same organization</p></li><li><p>Migration between clusters across organizations</p></li></ul></li></ul></td>
        </tr>
        <tr>
          <td><p>Import</p></td>
-         <td><p>Import data to a collection.</p></td>
+         <td><p>Import data to a collection</p></td>
        </tr>
        <tr>
          <td><p>Clone Collection</p></td>
-         <td><p>Make a full copy of the collection with both its schema and data.</p></td>
+         <td><p>Make a full copy of the collection with both its schema and data</p></td>
+       </tr>
+       <tr>
+         <td><p>Create Sample Collection</p></td>
+         <td><p>Create a collection loaded with a sample dataset</p></td>
        </tr>
     </table>
 
@@ -80,20 +88,25 @@ The following job information is displayed:
 
 To view the details of a job, click **...** in the **Actions** column and then select **View Details**. Alternatively, you can use the [Describe Job](/reference/restful/describe-job-v2) API to get the details programmatically.
 
-![view_job_details](/byoc/view_job_details.png)
+![view_job_details](/img/view_job_details.png)
 
 ## Cancel job{#cancel-job}
 
-You can cancel a job that is **Pending** or **In Progress**. To cancel a job, click **...** in the **Actions** column and then select **Cancel**.
+Currently, you can only cancel the following types of jobs that  are in the state of **Pending** or **In Progress**:
+
+- Backup jobs
+
+- Migration jobs (excluding zero downtime migration)
+
+- Export backup file jobs
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, you can only cancel migration and backup jobs. </p>
 <p>To cancel a job, you must be an <strong>Organization Owner</strong> or a <strong>Project Admin</strong>.</p>
 
 </Admonition>
 
-![cancel_job](/byoc/cancel_job.png)
+![cancel_job](/img/cancel_job.png)
 
 ## Retry failed job{#retry-failed-job}
 
@@ -108,5 +121,5 @@ For failed import jobs, you can click on the info icon next to its status and ch
 
 If you have made adjustments to the files that are failed to be imported, you can retry the job.
 
-![retry_failed_job](/byoc/retry_failed_job.png)
+![retry_failed_job](/img/retry_failed_job.png)
 

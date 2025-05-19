@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 
@@ -510,12 +510,3 @@ The table below provides a comparison of API availability across various service
      <td><p>✔︎</p></td>
    </tr>
 </table>
-
-## Related topics{#related-topics}
-
-- [Migrate from Milvus 1.x](./via-backup-files)
-
-- [AUTOINDEX Explained](./autoindex-explained)
-
-- [Select the Right CU](./cu-types-explained) 
-

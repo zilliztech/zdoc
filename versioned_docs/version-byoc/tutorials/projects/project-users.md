@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
 
 ---
 

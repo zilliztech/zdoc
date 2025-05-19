@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
+  - approximate nearest neighbor search
+  - DiskANN
   - Sparse vector
   - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
 
 ---
 
@@ -65,7 +65,7 @@ Maintaining a consistent login method with your initial registration is required
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>For organization users, you can set up Single Sign-on (SSO) with the identity provider (IdP) Okta. This allows your organization users to authenticate with Okta and then seamlessly access Zilliz Cloud using their business email rather than creating a separate Zilliz Cloud account. For details, refer to <a href="./saml-2-0">Single Sign-on with Okta</a>.</p>
+<p>For organization users, you can set up Single Sign-on (SSO) with the identity provider (IdP) Okta. This allows your organization users to authenticate with Okta and then seamlessly access Zilliz Cloud using their business email rather than creating a separate Zilliz Cloud account. For details, refer to <a href="./single-sign-on-with-okta">Single Sign-on with Okta</a>.</p>
 
 </Admonition>
 
@@ -139,7 +139,7 @@ Ensure you meet the following criteria before proceeding:
 
 1. In the **Account** **Settings** window, click the **Close Account** button.
 
-1. Before confirming to delete your account, fill out the feedback form first. Click the button to proceed with the deletion.
+1. Tell us your reason to leave Zilliz Cloud and submit the feedback.
 
 1. Enter your account email address again in the text box. Click **Send Verification Code** and enter the code you received in your email inbox. Read the information below and tick the boxes. Click **Next** to continue.
 

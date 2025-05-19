@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

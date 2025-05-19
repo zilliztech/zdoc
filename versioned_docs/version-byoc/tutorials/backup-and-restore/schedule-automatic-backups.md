@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 
@@ -49,7 +49,7 @@ To create a backup schedule, follow these steps:
 
 1. Set the **Frequency**, **Backup Retention Period**, and the time window for automatic backups.
 
-![create-snapshot-schedule](/byoc/create-snapshot-schedule.png)
+![create-snapshot-schedule](/img/create-snapshot-schedule.png)
 
 </TabItem>
 <TabItem value="Bash">

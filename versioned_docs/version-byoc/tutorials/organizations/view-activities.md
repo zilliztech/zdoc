@@ -14,10 +14,10 @@ keywords:
   - cloud
   - activities
   - view
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 
@@ -32,7 +32,7 @@ The Zilliz Cloud **Activities** feature provides a comprehensive view of events 
 
 On the organization page, click **Activities** in the left navigation pane. Here, you can view a summary of activities, the time when each activity took place, and the identity of the operator involved in a specific activity.
 
-![view-activities-byoc](/byoc/view-activities-byoc.png)
+![view-activities-byoc](/img/view-activities-byoc.png)
 
 ## Filter activities{#filter-activities}
 
@@ -48,7 +48,7 @@ To enhance your control and ease in navigating through the organization activiti
 
     </Admonition>
 
-    ![filter-by-time-range](/byoc/filter-by-time-range.png)
+    ![filter-by-time-range](/img/filter-by-time-range.png)
 
 - **Filter by activity type**
 
@@ -61,21 +61,21 @@ To enhance your control and ease in navigating through the organization activiti
        </tr>
        <tr>
          <td><p>Info</p></td>
-         <td><p>General information related to clusters, access, or billing. </p><p>Eg. Cluster in01-xxxxxxxxxxxxxxx was created.</p></td>
+         <td><p>General information related to clusters, access, or billing.  Eg. Cluster in01-xxxxxxxxxxxxxxx was created.</p></td>
        </tr>
        <tr>
          <td><p>Warning</p></td>
-         <td><p>Updates regarding resource states that necessitate your attention.</p><p>E.g., "Cluster in01-xxxxxxxxxxxxxxx was deleted."</p></td>
+         <td><p>Updates regarding resource states that necessitate your attention.  E.g., "Cluster in01-xxxxxxxxxxxxxxx was deleted."</p></td>
        </tr>
        <tr>
          <td><p>Error</p></td>
-         <td><p>Notifications of payment failures or other system malfunctions requiring immediate attention or action. </p><p>E.g., "The payment for the invoice invo-xxxxxxxxxxxxxxxxxxxxxxxx has failed."</p></td>
+         <td><p>Notifications of payment failures or other system malfunctions requiring immediate attention or action.  E.g., "The payment for the invoice invo-xxxxxxxxxxxxxxxxxxxxxxxx has failed."</p></td>
        </tr>
     </table>
 
-    ![filter-by-activity-type](/byoc/filter-by-activity-type.png)
+    ![filter-by-activity-type](/img/filter-by-activity-type.png)
 
 - **Filter by activity**
 
-    ![filter-by-activity](/byoc/filter-by-activity.png)
+    ![filter-by-activity](/img/filter-by-activity.png)
 

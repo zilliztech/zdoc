@@ -15,10 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 
@@ -29,7 +29,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud offers a dashboard for observing cluster-specific metrics. To access this feature, navigate to the **Metrics** tab within one of your clusters.
 
-![view_metric_charts](/byoc/view_metric_charts.png)
+![view_metric_charts](/img/view_metric_charts.png)
 
 ## Access cluster metric charts{#access-cluster-metric-charts}
 

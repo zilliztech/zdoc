@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 
@@ -33,7 +33,7 @@ This guide will walk you through the steps of managing projects.
 
 Once you join an organization, you can view the list of all projects in the organization.
 
-![view-projects-byoc](/byoc/view-projects-byoc.png)
+![view-projects-byoc](/img/view-projects-byoc.png)
 
 ## Create a project{#create-a-project}
 
@@ -47,7 +47,7 @@ When you create a project, you automatically become the [Project Admin](./projec
 
 </Admonition>
 
-![create-project-byoc](/byoc/create-project-byoc.png)
+![create-project-byoc](/img/create-project-byoc.png)
 
 ## Rename a project{#rename-a-project}
 
@@ -55,11 +55,11 @@ To rename a project, you must be an [Organization Owner](./organization-users).
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Each organization contains a default project. The name of the default project cannot be modified.</p>
+<p>Each organization contains a default project. </p>
 
 </Admonition>
 
-![rename-project-byoc](/byoc/rename-project-byoc.png)
+![rename-project-byoc](/img/rename-project-byoc.png)
 
 ## Delete a project{#delete-a-project}
 
@@ -71,5 +71,5 @@ To delete a project, you must be an [Organization Owner](./organization-users).
 
 </Admonition>
 
-![delete-project-byoc](/byoc/delete-project-byoc.png)
+![delete-project-byoc](/img/delete-project-byoc.png)
 

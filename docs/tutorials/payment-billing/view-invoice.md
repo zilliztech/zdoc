@@ -7,22 +7,23 @@ notebook: FALSE
 description: "Zilliz Cloud charges at the organization level. To access invoices, you must have either Organization Owner or Billing Admin permissions. | Cloud"
 type: origin
 token: PBEbwjRu9iyyaFkZnuzcINHCnke
-sidebar_position: 7
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
   - cloud
   - invoice
   - view
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 
 import Admonition from '@theme/Admonition';
-
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
 # Invoices
 
@@ -89,7 +90,7 @@ In Zilliz Cloud, invoice statuses represent different stages in the payment proc
    </tr>
 </table>
 
-### Invoice Summary{#invoice-summary}
+### Invoice summary{#invoice-summary}
 
 The summary section provides a high-level overview of the charges on your invoice.
 
@@ -107,7 +108,7 @@ The summary section provides a high-level overview of the charges on your invoic
 
 - **Amount Due/Amount Paid:** The final amount you need to pay or have paid.
 
-### Summary by Cluster Plan{#summary-by-cluster-plan}
+### Summary by cluster plan{#summary-by-cluster-plan}
 
 Zilliz Cloud offers three cluster types: Free, Serverless, and Dedicated. Charges apply only for Serverless and Dedicated clusters.
 
@@ -133,57 +134,216 @@ Additional charges include:
 
     </Admonition>
 
-### Invoice Details{#invoice-details}
+### Invoice details{#invoice-details}
 
 This section provides a detailed breakdown of charges for each billable item. 
 
-### Billing Profile{#billing-profile}
+### Billing profile{#billing-profile}
 
 Your billing profile includes details about where and to whom invoices are issued. To edit the billing profile, refer to [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card#edit-billing-profile).
 
-## Manage Invoices{#manage-invoices}
+## Manage invoices{#manage-invoices}
 
 If you are an Organization Owner or a Billing Admin, you can view, pay, and download your invoices.
 
-### View Invoice{#view-invoice}
+### List all invoices{#list-all-invoices}
+
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
+
+<TabItem value="Cloud Console">
 
 1. Click **Billing** on the left navigation.
 
 1. Switch to the **Invoices** tab. You can see all current and past invoices.
 
+![view-invoices](/img/view-invoices.png)
+
+</TabItem>
+
+<TabItem value="Bash">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The List Invoices RESTful API is currently in public preview. To use this API, please <a href="http://support.zilliz.com">contact us</a>.</p>
+
+</Admonition>
+
+Your request should resemble the following example, where `{TOKEN}` is your authentication API key with an [Organization Owner or Billing Admin role](./organization-users#organization-roles). The following `GET` request lists all invoices for your organization.
+
+```bash
+curl --request GET \
+--url "https://api.cloud.zilliz.com/v2/invoices" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json"
+
+# {
+#     "code": 0,
+#     "data": {
+#         "count": 1,
+#         "currentPage": 1,
+#         "pageSize": 10,
+#         "invoices": [
+#             {
+#                 "id": "inv-12312io23810o291",
+#                 "orgId": "org-xxxxxx",
+#                 "periodStart": "2024-01-01T00:00:00Z",
+#                 "periodEnd": "2024-02-01T00:00:00Z",
+#                 "invoiceDate": "2024-02-01T00:00:00Z",
+#                 "dueDate": "2024-02-01T00:00:00Z",
+#                 "currency": "USD",
+#                 "status": "unpaid",
+#                 "usageAmount": 52400,
+#                 "creditsApplied": 12400,
+#                 "alreadyBilledAmount": 0,
+#                 "subtotal": 40000,
+#                 "tax": 5000,
+#                 "total": 45000,
+#                 "advancePayAmount": 0,
+#                 "amountDue": 45000
+#             }
+#         ]
+#     }
+# }
+```
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>In the results returned by the API, all amounts are in cents.</p>
+
+</Admonition>
+
+</TabItem>
+
+</Tabs>
+
+### View the details of a specific invoice{#view-the-details-of-a-specific-invoice}
+
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
+
+<TabItem value="Cloud Console">
+
+1. Click **Billing** on the left navigation.
+
+1. Switch to the **Invoices** tab.
+
 1. Click on the billing period of a target invoice to view its details.
 
-![view-invoices](/img/view-invoices.png)
+![view-invoice-detail](/img/view-invoice-detail.png)
+
+</TabItem>
+
+<TabItem value="Bash">
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The Describe Invoice RESTful API is currently in public preview. To use this API, please <a href="http://support.zilliz.com">contact us</a>.</p>
+
+</Admonition>
+
+Your request should resemble the following example, where `{TOKEN}` is your authentication API key with an [Organization Owner or Billing Admin role](./organization-users#organization-roles). The following `GET` request describes the specified invoice.
+
+```bash
+curl --request GET \
+--url "https://api.cloud.zilliz.com/v2/invoices/${INVOICE_ID}" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json"
+
+# {
+#     "code": 0,
+#     "data": {
+#         "id": "inv-12312io23810o291",
+#         "orgId": "org-xxxxxx",
+#         "periodStart": "2024-01-01T00:00:00Z",
+#         "periodEnd": "2024-02-01T00:00:00Z",
+#         "invoiceDate": "2024-02-01T00:00:00Z",
+#         "dueDate": "2024-02-01T00:00:00Z",
+#         "currency": "USD",
+#         "status": "unpaid",
+#         "usageAmount": 52400,
+#         "creditsApplied": 12400,
+#         "alreadyBilledAmount": 0,
+#         "subtotal": 40000,
+#         "tax": 5000,
+#         "total": 45000,
+#         "advancePayAmount": 0,
+#         "amountDue": 45000
+#     }
+# }
+```
+
+In the command above,
+
+- `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
+
+- `{INVOICE_ID}`: The ID of the invoice to describe.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>In the results returned by the API, all amounts are in cents.</p>
+
+</Admonition>
+
+</TabItem>
+
+</Tabs>
 
 ### Pay Invoice{#pay-invoice}
 
-When your invoice is overdue, you can first check and update your payment method and then retry the payment on the invoice details page.
+When your invoice is overdue, you can first check and update your payment method and then retry the payment view the Zilliz Cloud web console.
 
 ![pay-invoice](/img/pay-invoice.png)
 
 ### Download Invoice{#download-invoice}
 
-To download an invoice, click the download icon next to the target invoice.
+To download an invoice, click the download icon next to the target invoice on the Zilliz Cloud web console.
 
 ![download-invoices](/img/download-invoices.png)
 
 ## Troubleshooting / FAQ{#troubleshooting-faq}
 
-#### What is the start and end time of an invoice?{#what-is-the-start-and-end-time-of-an-invoice}
+1. **What is the start and end time of an invoice?**
 
-- **Explanation:** The billing period starts at 00:00:00 (UTC) on the first day of the previous month and ending at 23:59:59 (UTC) on the last day of that month.
+    **Explanation:** The billing period starts at 00:00:00 (UTC) on the first day of the previous month and ending at 23:59:59 (UTC) on the last day of that month. 
 
-- **Example:** Zilliz Cloud issues the invoice for August on September 1, 2024, with the billing period running from August 1, 2024, at 00:00:00 (UTC) to August 31, 2024, at 23:59:59 (UTC).
+    **Example:** Zilliz Cloud issues the invoice for August on September 1, 2024, with the billing period running from August 1, 2024, at 00:00:00 (UTC) to August 31, 2024, at 23:59:59 (UTC). 
 
-#### How precise are the amounts displayed in the invoices on Zilliz Cloud?{#how-precise-are-the-amounts-displayed-in-the-invoices-on-zilliz-cloud}
+1. **How precise are the amounts displayed in the invoices on Zilliz Cloud?** 
 
-- **Explanation:** Zilliz Cloud prices products with a precision of 8 decimal places. As a result, charges are calculated to eight decimals. During the billing process, these detailed daily charges are summed and then rounded to 2 decimal places.
+    **Explanation:** Zilliz Cloud prices products with a precision of 8 decimal places. As a result, charges are calculated to eight decimals. During the billing process, these detailed daily charges are summed and then rounded to 2 decimal places.
 
     On the web UI, displayed amounts are rounded to 2 decimal places (for example: $60.00). 
 
     ![precision_invoice_cn](/img/precision_invoice_cn.png)
 
-- **Example:** Suppose during reconciliation, you first retrieve three days of daily usage data via the Query Org Daily Usage API for August 1 to August 3, 2024. Each day's amount has an eight-decimal precision.
+    The amounts in the invoices retrieved from [List Invoices](/reference/restful/list-invoices-v2) and [Describe Invoice](/reference/restful/describe-invoice-v2) APIs are in cents and should also be rounded to 2 decimal places. Below is an example output of the [Describe Invoice](/reference/restful/describe-invoice-v2) API.
+
+    ```bash
+    {
+        "code": 0,
+        "data": {
+            "id": "inv-12312io23810o291",
+            "orgId": "org-xxxxxx",
+            "periodStart": "2024-01-01T00:00:00Z",
+            "periodEnd": "2024-02-01T00:00:00Z",
+            "invoiceDate": "2024-02-01T00:00:00Z",
+            "dueDate": "2024-02-01T00:00:00Z",
+            "currency": "USD",
+            "status": "unpaid",
+            "usageAmount": 52400,
+            "creditsApplied": 12400,
+            "alreadyBilledAmount": 0,
+            "subtotal": 40000,
+            "tax": 5000,
+            "total": 45000,
+            "advancePayAmount": 0,
+            "amountDue": 45000
+        }
+    }
+    ```
+
+    For reconciliation, we recommend using the [Query Daily Usage](/reference/restful/query-daily-usage-v2) API to retrieve daily usage details with a precision of eight decimal places. The daily usage stats begin at 00:00:00 each day and run until 23:59:59 the same day. For example, the daily usage period for August 1, 2024, starts at 00:00:00 on August 1, 2024, and ends at 23:59:59 on August 1, 2024. After summing the daily amounts, you will get a total usage amount with an eight-decimal precision. Rounding this amount from the third decimal place will provide you with a two-decimal monthly usage total, which should match the total usage amount displayed on the invoices on the web UI.
+
+    **Example:** Suppose during reconciliation, you first retrieve three days of daily usage data via the [Query Daily Usage](/reference/restful/query-daily-usage-v2) API for August 1 to August 3, 2024. Each day's amount has an eight-decimal precision.
 
     - Total for August 1: $105.03331200
 
@@ -193,33 +353,27 @@ To download an invoice, click the download icon next to the target invoice.
 
     Adding up the three daily totals gives a sum of $311.31631445, which rounds to $311.32 after considering the third decimal. This figure should match the total usage amount shown in the invoices on the web UI.
 
-#### Why haven’t I received my invoice?{#why-havent-i-received-my-invoice}
+1. **Why haven’t I received my invoice?**
 
-- **Possible Cause:** Only **Organization Owners** or **Billing Admins** have access to invoices.
+    **Possible Cause:** Only **Organization Owners** or **Billing Admins** have access to invoices.
 
-- **Solution:** Ensure you have the necessary permissions. Contact your Organization Owner or Billing Admin if you're not able to access invoices.
+    **Solution:** Ensure you have the necessary permissions. Contact your Organization Owner or Billing Admin if you're not able to access invoices.
 
-#### What happens if my payment method fails?{#what-happens-if-my-payment-method-fails}
+1. **What happens if my payment method fails?**
 
-- **Possible Cause:** The payment method (e.g., credit card) you’ve provided may have expired, or there could be insufficient funds.
+    **Possible Cause:** The payment method (e.g., credit card) you’ve provided may have expired, or there could be insufficient funds.
 
-- **Solution:**
+    **Solution:** Zilliz Cloud will notify **Organization Owners** and **Billing Admins** via email if a payment fails. Organization Owners and Billing Admins can update the organization's payment method on the **Billing Profile** page and then retry the payment within the **14-day** **Grace** **Period**.
 
-    - Zilliz Cloud will notify **Organization Owners** and **Billing Admins** via email if a payment fails.
+1. **What is the Grace Period?**
 
-    - You can update your payment method by navigating to the **Billing Profile** section of your account and adding a valid credit card or payment method.
+    **Explanation:** The **Grace Period** is a 14-day window after the payment due date, during which you can still make payments before your invoice becomes overdue.
 
-    - You can retry the payment within the **Grace** **Period**, which lasts **14 days**.
+    **Tip:** During this period, you'll receive daily email reminders, and your invoice status will remain unpaid until the payment is completed.
 
-#### What is the Grace Period?{#what-is-the-grace-period}
+1. **What happens if I don’t make a payment after the overdue date?**
 
-- **Explanation:** The **Grace Period** is a 14-day window after the payment due date, during which you can still make payments before your invoice becomes overdue.
-
-- **Tip:** During this period, you'll receive daily email reminders, and your invoice status will remain unpaid until the payment is completed.
-
-#### What happens if I don’t make a payment after the overdue date?{#what-happens-if-i-dont-make-a-payment-after-the-overdue-date}
-
-- **Explanation:** If payment is not made within the **Grace Period**:
+    **Explanation:** If payment is not made within the **Grace Period**:
 
     - On the **Overdue Date**, your invoice will be marked as overdue.
 
@@ -227,19 +381,19 @@ To download an invoice, click the download icon next to the target invoice.
 
     - If payment is still not made one day after the organization is frozen, all clusters (Serverless and Dedicated) will be automatically deleted.
 
-- **Solution:** Make sure to resolve the payment before the **Overdue Date** to avoid service disruption and data loss.
+    **Solution:** Make sure to resolve the payment before the **Overdue Date** to avoid service disruption and data loss.
 
-#### **Why am I being charged even if there is no operations in my Serverless cluster?**{#why-am-i-being-charged-even-if-there-is-no-operations-in-my-serverless-cluster}
+1. **Why am I being charged even if there is no operations in my Serverless cluster?**
 
-- **Explanation:** Even if no read or write operations occur in a Serverless cluster, you are still charged for storage. Storage costs are calculated based on the size of data stored and the time it is kept in Zilliz Cloud.
+    **Explanation:** Even if no read or write operations occur in a Serverless cluster, you are still charged for storage. Storage costs are calculated based on the size of data stored and the time it is kept in Zilliz Cloud.
 
-- **Solution:** To minimize storage costs, consider deleting unused data.
+    **Solution:** To minimize storage costs, consider deleting unused data.
 
-#### **I received an email about my organization being frozen. What should I do?**{#i-received-an-email-about-my-organization-being-frozen-what-should-i-do}
+1. **I received an email about my organization being frozen. What should I do?**
 
-- **Explanation:** If you have received an email indicating that your organization has been frozen, it means your payment is overdue and access to Zilliz Cloud services is limited.
+    **Explanation:** If you have received an email indicating that your organization has been frozen, it means your payment is overdue and access to Zilliz Cloud services is limited.
 
-- **Solution:** 
+    **Solution:** 
 
     To unfreeze the organization:
 
@@ -247,11 +401,11 @@ To download an invoice, click the download icon next to the target invoice.
 
     - Once the payment is processed, your organization will be unfrozen, and full cluster access will be restored.
 
-#### **How can I recover my automatically deleted clusters due to an overdue invoice?**{#how-can-i-recover-my-automatically-deleted-clusters-due-to-an-overdue-invoice}
+1. **How can I recover my automatically deleted clusters due to an overdue invoice?**
 
-- **Explanation:** If your clusters were automatically deleted, it means you still fail to make payments after the organization is frozen.
+    **Explanation:** If your clusters were automatically deleted, it means you still fail to make payments after the organization is frozen.
 
-- **Solution:**
+    **Solution:**
 
     To restore automatically deleted clusters,
 
@@ -259,7 +413,7 @@ To download an invoice, click the download icon next to the target invoice.
 
     - When payment is successful, go to Recycle Bin to restore your deleted cluster.
 
-- **Tip:** 
+    **Tip:** 
 
     - Deleted clusters are retained in the recycle bin for 30 days. If you still need the clusters, pease make the overdue payments within 30 days from cluster deletion.
 

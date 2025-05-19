@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
@@ -40,7 +40,7 @@ The following chart shows a collection with eight columns and six entities.
 
 When describing an object, we usually mention its attributes, such as size, weight, and position. You can use these attributes as fields in a collection. Each field has various constraining properties, such as the data type and the dimensionality of a vector field. You can form a collection schema by creating the fields and defining their order. For possible applicable data types, refer to [Schema Explained](./schema-explained).
 
-You should include all schema-defined fields in the entities to insert. To make some of them optional, consider enabling dynamic field. For details, refer to [Dynamic Field](./enable-dynamic-field).
+You should include all schema-defined fields in the entities to insert. To make some of them optional, consider the following options:
 
 - **Making them nullable or setting default values**
 
@@ -148,47 +148,5 @@ Distributed database systems usually use the consistency level to define the dat
 
 ## Limits{#limits}
 
-The following table lists the limits on the maximum number of collections you can create when using different cluster types. 
-
-<table>
-   <tr>
-     <th><p><strong>Cluster Type</strong></p></th>
-     <th><p><strong>Max Number</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Free cluster</p></td>
-     <td><p>5</p></td>
-     <td><p>You can create up to 5 collections.</p></td>
-   </tr>
-   <tr>
-     <td><p>Serverless cluster</p></td>
-     <td><p>100</p></td>
-     <td><p>You can create up to 100 collections.</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster</p></td>
-     <td><p>64 per CU, and &lt;= 4096</p></td>
-     <td><p>You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster.</p></td>
-   </tr>
-</table>
-
-In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity. The following table lists the limits on the general capacity of a cluster.
-
-<table>
-   <tr>
-     <th><p><strong>Number of CUs</strong></p></th>
-     <th><p><strong>General Capacity</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>1-8 CUs</p></td>
-     <td><p>&lt;= 4,096</p></td>
-   </tr>
-   <tr>
-     <td><p>12+ CUs</p></td>
-     <td><p>Min(512 x Number of CUs, 65536)</p></td>
-   </tr>
-</table>
-
-For details on the calculation of general and consumed capacity, refer to [Zilliz Cloud Limits](./limits#collections).
+For limits and restrictions on collections, refer to [Zilliz Cloud Limits](./limits).
 
