@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Zilliz Cloudを使用する際のベストプラクティスに関する記事を見つけることができます。 | Cloud"
 type: origin
 token: HBtcws2w1iKqApkhziCcAyXknQb
-sidebar_position: 8
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database
   - cloud
   - milvus
   - best practices
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

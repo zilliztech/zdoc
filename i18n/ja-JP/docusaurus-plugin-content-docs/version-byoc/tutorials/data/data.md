@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

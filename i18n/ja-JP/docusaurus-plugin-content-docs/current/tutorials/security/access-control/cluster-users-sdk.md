@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - users
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

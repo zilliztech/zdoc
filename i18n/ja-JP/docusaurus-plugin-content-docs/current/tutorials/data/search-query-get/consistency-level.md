@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 
@@ -36,19 +36,19 @@ Zilliz Cloudは、ストレージと計算を分離するシステムです。�
 
 Zilliz CloudCommercial Editionは、ストレージと計算を分離するシステムです。このシステムでは、DataNodesがデータの永続性に責任を持ち、最終的にMinIO/S 3などの分散オブジェクトストレージに保存します。QueryNodesは、Searchのような計算タスクを処理します。これらのタスクには、バッチデータとストリーミングデータの両方の処理が含まれます。単純に言えば、バッチデータはすでにオブジェクトストレージに保存されているデータとして理解でき、ストリーミングデータはまだオブジェクトストレージに保存されていないデータを指します。ネットワークレイテンシのため、QueryNodesは最新のストリーミングデータを保持しないことがよくあります。追加の保護措置がない場合、ストリーミングデータに直接Searchを実行すると、多くの未確定データポイントが失われ、検索結果の精度に影響を与える
 
-![Owpww720QhpW3UbnDaLcXNcJnQd](/img/ja-JP/Owpww720QhpW3UbnDaLcXNcJnQd.png)
+![Owpww720QhpW3UbnDaLcXNcJnQd](/img/Owpww720QhpW3UbnDaLcXNcJnQd.png)
 
 上の図に示すように、Query NodesはSearchリクエストを受信した後、ストリーミングデータとバッチデータの両方を同時に受信することができます。ただし、ネットワークの遅延により、Query Nodesが取得するストリーミングデータが不完全になる可能性があります。
 
 この問題に対処するために、Zilliz Cloudは、データキュー内の各レコードにタイムスタンプを付け、データキューに同期タイムスタンプを継続的に挿入します。同期タイムスタンプ(syncTs)が受信されるたびに、Query NodesはそれをService Timeとして設定します。つまり、Query NodesはそのService Timeより前のすべてのデータを見ることができます。Service Timeに基づいて、Zilliz Cloudは、一貫性と可用性の異なるユーザー要件を満たすための保証タイムスタンプ(GuaranteeTs)を提供できます。ユーザーは、SearchリクエストでGuaranteeTsを指定することで、指定された時点よりも前にデータを含める必要があることを
 
-![PW6pbkoQtoKVQTxE4mlcIfOen5g](/img/ja-JP/PW6pbkoQtoKVQTxE4mlcIfOen5g.png)
+![PW6pbkoQtoKVQTxE4mlcIfOen5g](/img/PW6pbkoQtoKVQTxE4mlcIfOen5g.png)
 
 上の図に示されているように、GuaranteeTsが小なりServiceTimeである場合、指定された時点より前のすべてのデータがディスクに完全に書き込まれたことを意味し、Query NodesがすぐにSearch操作を実行できるようになります。GuaranteeTsが大なりServiceTimeである場合、Query NodesはServiceTimeがGuaranteeTsを超えるまで待たなければなりません。
 
 ユーザーは、クエリの正確性とクエリの遅延のトレードオフを行う必要があります。ユーザーが高い一貫性要件を持ち、クエリの遅延に敏感でない場合、GuaranteeTsをできるだけ大きな値に設定できます。ユーザーが検索結果を迅速に受け取り、クエリの正確性により寛容である場合、GuaranteeTsをより小さな値に設定できます。
 
-![OhjXbpye0oktzExy7MaccTCunrg](/img/ja-JP/OhjXbpye0oktzExy7MaccTCunrg.png)
+![OhjXbpye0oktzExy7MaccTCunrg](/img/OhjXbpye0oktzExy7MaccTCunrg.png)
 
 Zilliz Cloudは、異なる保証Tを持つ4種類の一貫性レベルを提供します。
 

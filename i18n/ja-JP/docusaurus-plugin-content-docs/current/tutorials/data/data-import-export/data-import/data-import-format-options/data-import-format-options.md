@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

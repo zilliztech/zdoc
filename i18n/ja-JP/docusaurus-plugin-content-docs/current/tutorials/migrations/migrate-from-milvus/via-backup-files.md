@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 
@@ -148,7 +148,7 @@ Milvus 2. xの移行データを準備するには、
 
 1. [**移行**]をクリックします。
 
-![migrate_from_milvus_via_backup_file](/img/ja-JP/migrate_from_milvus_via_backup_file.png)
+![migrate_from_milvus_via_backup_file](/img/migrate_from_milvus_via_backup_file.png)
 
 ## 移行過程を監視する{#monitor-the-migration-process}
 
@@ -160,7 +160,7 @@ Milvus 2. xの移行データを準備するには、
 
 </Admonition>
 
-![verify_collection](/img/ja-JP/verify_collection.png)
+![verify_collection](/img/verify_collection.png)
 
 Zilliz Cloudは、最適化されたインデックス作成のために[AUTOINDEX](./autoindex-explained)のみをサポートしており、このアルゴリズムを使用して移行されたコレクションを自動的にインデックス化します。
 

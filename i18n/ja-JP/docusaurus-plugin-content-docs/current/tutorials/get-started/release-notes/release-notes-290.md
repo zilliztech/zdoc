@@ -7,16 +7,16 @@ notebook: FALSE
 description: "このリリースでは、Zilliz CloudはMilvus 2.4によってバックアップされた新しい機能の配列を発表しました。これには、スパースベクトルサポート、強化されたマルチベクトルおよびハイブリッド検索、より高速なクエリのための反転インデックスとファジーマッチング、およびドキュメントレベルのリコールのためのグループ化検索が含まれます。また、Float 16およびBFloat 16データ型を導入して、検索効率を向上させています。さらに、パイプライン機能は、データの取り込みと検索リクエストごとにトークン使用統計を追跡し、パフォーマンスモニタリングを効率化しています。詳細な統計情報は請求書ページで確認できます。 | Cloud"
 type: origin
 token: XcDewg5DmibYwXk3K6ucJQAInRd
-sidebar_position: 7
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 
@@ -71,7 +71,7 @@ Milvusの以前のリリースでは、メモリベースのバイナリサー�
 
 このリリースでは、プレフィックス、インフィックス、およびサフィックスを使用したスカラーフィルタリングでのファジーマッチもサポートされています。
 
-詳細については、[バイナリベクトル](./use-binary-vector)、[インデックススカラーフィールド](./index-scalar-fields)、[Use the](./basic-filtering-operators#2likeexample-2-using-like-for-pattern-matching)`like`[Operator](./basic-filtering-operators#2likeexample-2-using-like-for-pattern-matching)guide、および[inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py)と[fuzzy_match.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/fuzzy_match.py)のサンプルコードを参照してください。*Zilliz Cloudクラスターの資格情報でサンプルコードの接続詳細を更新し、代わりにAUTOINDEXを使用してください。*
+詳細については、[バイナリベクトル](./use-binary-vector)、[インデックススカラーフィールド](./index-scalar-fields)、[Use the](./basic-filtering-operators#example-2-using-like-for-pattern-matching)`like`[Operator](./basic-filtering-operators#example-2-using-like-for-pattern-matching)guide、および[inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py)と[fuzzy_match.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/fuzzy_match.py)のサンプルコードを参照してください。*Zilliz Cloudクラスターの資格情報でサンプルコードの接続詳細を更新し、代わりにAUTOINDEXを使用してください。*
 
 ### グループ検索{#grouping-search}
 

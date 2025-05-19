@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

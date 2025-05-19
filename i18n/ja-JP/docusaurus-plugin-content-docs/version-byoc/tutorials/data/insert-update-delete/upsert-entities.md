@@ -17,10 +17,10 @@ keywords:
   - upsert
   - update
   - insert
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 
@@ -44,7 +44,7 @@ Upsert操作は、データの更新と挿入のアクションを組み合わ�
 
 1. Upsert要求に含まれるエンティティの主キー値に基づいて削除操作を実行します。
 
-![PbhlwMPYehvqZjboBUucBm0tniL](/byoc/ja-JP/PbhlwMPYehvqZjboBUucBm0tniL.png)
+![PbhlwMPYehvqZjboBUucBm0tniL](/img/PbhlwMPYehvqZjboBUucBm0tniL.png)
 
 ## コレクション内のエンティティの更新と挿入{#upsert-entity-in-a-collection}
 

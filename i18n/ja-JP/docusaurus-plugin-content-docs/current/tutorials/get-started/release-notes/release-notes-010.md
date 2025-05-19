@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloudの大幅なアップデートの一般提供を発表できることを嬉しく思います。このリリースには、データプレビュー機能と、コンソール上のコレクションに簡単にインポートできるデモデータセットが追加されています。 | Cloud"
 type: origin
 token: WLh0wMeUPiTonGkKnvScVNOYnGd
-sidebar_position: 21
+sidebar_position: 23
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

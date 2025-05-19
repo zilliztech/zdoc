@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloudのリリースは、ベクトルデータベース管理の新しい標準を設定します。初心者向けのユーザーエクスペリエンスを大幅に向上させ、より手頃で柔軟な価格オプションを提供し、スムーズなチームコラボレーションを可能にし、柔軟なスキーマ管理を提供します。このアップデートの主な機能には、サーバーレスクラスター、多様なティアプラン、組織とコラボレーションのサポート、RBACサポート、パーティションキー、ダイナミックスキーマ、JSONタイプのサポートが含まれます。この画期的なアップデートを今すぐお試しください! | Cloud"
 type: origin
 token: Da7Cw01LEiw51HkaX01crbJ7nse
-sidebar_position: 17
+sidebar_position: 19
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

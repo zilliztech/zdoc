@@ -2,7 +2,7 @@
 title: "Cnalphanumonlyフィルター | Cloud"
 slug: /cnalphanumonly-filter
 sidebar_label: "Cnalphanumonlyフィルター"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "`cnalphanumonly`フィルターは、漢字、英字、数字以外の文字を含むトークンを削除します。 | Cloud"
 type: origin
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - cnalphanumonly
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

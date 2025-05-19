@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloudのこのアップデートでは、BETAのServerlessプランが導入されました。これは、可変クエリボリュームを持つアプリケーション向けに設計されており、最小限の構成が必要で、滑らかなスケーラビリティを提供します。このプランは現在、GCP us-west 1(Oregon)で利用可能であり、BETA期間中に無料トライアルが含まれています。さらに、専用クラスターに対して新しいリージョンがサポートされています AzureのGermany West Central(Frankfurt)、GCPのヨーロッパ-west 3(Frankfurt)およびus-east-4(Virginia)。このリリースでは、モニタリングメトリクス、検索精度制御、およびジョブのインポートにいくつかの強化が導入されています。 | Cloud"
 type: origin
 token: C8ZGwL46hiuqTmkbdRZcggY2nXg
-sidebar_position: 8
+sidebar_position: 10
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
+  - openai vector db
   - natural language processing database
   - cheap vector database
   - Managed vector database
-  - Pinecone vector database
 
 ---
 
@@ -71,7 +71,7 @@ Serverlessは現在**BETA**で提供されており、**GCP us-west 1(Oregon)**�
 
 - クラスターを監視するためのより多くの[指標](./metrics-alerts-reference)。
 
-- 精度制御のための検索パラメータで、リコールと検索パフォーマンスのトレードオフに5つのレベルを提供します。詳細については、[レベルパラメータについて](./autoindex-explained#levelabout-the-level-parameter)読んでください。
+- 精度制御のための検索パラメータで、リコールと検索パフォーマンスのトレードオフに5つのレベルを提供します。詳細については、[レベルパラメータについて](./autoindex-explained#about-the-level-parameter)読んでください。
 
 - 1つのコレクションに対して最大10件の実行中または保留中のインポートジョブを許可します。
 

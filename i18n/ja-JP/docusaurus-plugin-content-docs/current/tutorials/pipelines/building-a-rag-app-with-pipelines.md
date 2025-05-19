@@ -2,7 +2,7 @@
 title: "パイプラインを使用したRAGアプリケーションの構築 | Cloud"
 slug: /building-a-rag-app-with-pipelines
 sidebar_label: "パイプラインを使用したRAGアプリケーションの構築"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Zilliz Cloud Pipelinesは、ドキュメント、テキスト、画像などの非構造化データを検索可能なベクトルコレクションに変換するための堅牢なソリューションです。このガイドでは、3つの主要なPipelinesタイプの詳細な説明と、Pipelinesを使用したRAGアプリケーションの構築例を提供します。 | Cloud"
 type: origin
@@ -15,10 +15,10 @@ keywords:
   - pipelines
   - RAG
   - application
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 
@@ -35,7 +35,7 @@ Zilliz Cloud Pipelinesは、ドキュメント、テキスト、画像などの�
 
 </Admonition>
 
-![pipeline-overview](/img/ja-JP/pipeline-overview.png)
+![pipeline-overview](/img/pipeline-overview.png)
 
 ## パイプラインの理解{#understanding-pipelines}
 
@@ -69,7 +69,7 @@ Deletionパイプラインは、コレクションから指定されたすべて
 
 この[チュートリアル](https://github.com/milvus-io/bootcamp/blob/master/bootcamp/RAG/zilliz_pipeline_rag.ipynb)では、Zilliz Cloud Pipelinesを使用して、Pythonでシンプルでスケーラブルな[Retrieval Augmented Generation(RAG)](https://zilliz.com/jp/vector-database-use-cases)アプリケーションを構築する方法を示します。統一されたAPIセットを提供することにより、Zilliz Cloud PipelinesはRAGアプリケーションの構築過程を簡素化します。DevOpsの手間を省き、シンプルなAPI呼び出しですべてを達成できます。以下の図は、基本的なRAGアプリケーションの主要なコンポーネントを示しています。
 
-![rag-application](/img/ja-JP/rag-application.png)
+![rag-application](/img/rag-application.png)
 
 ### 始める前に{#before-you-start}
 

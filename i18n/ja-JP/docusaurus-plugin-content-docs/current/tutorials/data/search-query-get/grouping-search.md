@@ -16,10 +16,10 @@ keywords:
   - data
   - grouping search
   - group
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 
@@ -37,11 +37,11 @@ import TabItem from '@theme/TabItem';
 
 コレクションには複数のドキュメント(**docId**で示される)が格納されていると仮定します。ドキュメントをベクトルに変換する際に可能な限り多くの意味情報を保持するために、各ドキュメントはより小さく、管理しやすい段落(または**チャンク**)に分割され、別々のエンティティとして格納されます。ドキュメントがより小さなセクションに分割されていても、ユーザーはしばしば自分のニーズに最も関連するドキュメントを特定することに興味を持ちます。
 
-![GiojwPBydhBLhpbSYq1cuNVdnvd](/img/ja-JP/GiojwPBydhBLhpbSYq1cuNVdnvd.png)
+![GiojwPBydhBLhpbSYq1cuNVdnvd](/img/GiojwPBydhBLhpbSYq1cuNVdnvd.png)
 
 このようなコレクションに対して近似最近傍法(ANN)検索を実行すると、検索結果に同じドキュメントから複数の段落が含まれる可能性があり、他のドキュメントが見落とされる可能性があり、意図したユースケースと一致しない可能性があります。
 
-![JLeewIiPlhSaPeblU5TcxA2wnmg](/img/ja-JP/JLeewIiPlhSaPeblU5TcxA2wnmg.png)
+![JLeewIiPlhSaPeblU5TcxA2wnmg](/img/JLeewIiPlhSaPeblU5TcxA2wnmg.png)
 
 検索結果の多様性を向上させるために、検索リクエストに`group_by_field`パラメータを追加してグルーピング検索を有効にすることができます。図に示すように、`group_by_field`を`docId`に設定できます。このリクエストを受け取ると、Zilliz Cloudは次のようになります:
 

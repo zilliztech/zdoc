@@ -2,21 +2,21 @@
 title: "パイプライン(Pipelines) | Cloud"
 slug: /pipelines
 sidebar_label: "パイプライン(Pipelines)"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "パイプラインは、非構造化データを検索可能なベクトルコレクションに変換し、データの埋め込み、取り込み、検索、削除をチェーン化します。 | Cloud"
 type: origin
 token: FoYgwPiaqiKUTKkwVGkcoEJCnHb
-sidebar_position: 10
+sidebar_position: 11
 keywords: 
   - zilliz
   - vector database
   - cloud
   - pipelines
+  - Vector index
+  - vector database open source
+  - open source vector db
   - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
 
 ---
 

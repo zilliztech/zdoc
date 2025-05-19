@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Zilliz Cloud Developer Hubのホームページです。 | Cloud"
 type: origin
 token: Yv5Iw1UMni5EzvkvZvMcvSgSnLO
-sidebar_position: 0
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - developer hub
   - home page
   - home
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 hide_title: true
 hide_table_of_contents: true
@@ -26,11 +26,23 @@ hide_table_of_contents: true
 
 import Admonition from '@theme/Admonition';
 
+
+
 import Hero from '@site/src/components/Hero';
+
+
 import Bars from '@site/src/components/Bars';
+
+
 import Blocks from '@site/src/components/Blocks';
+
+
 import Cards from '@site/src/components/Cards';
+
+
 import Stories from '@site/src/components/Stories';
+
+
 import Banner from '@site/src/components/Banner';
 
 

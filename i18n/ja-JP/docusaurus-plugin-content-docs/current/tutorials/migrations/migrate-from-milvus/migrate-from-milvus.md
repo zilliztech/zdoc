@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - milvus
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

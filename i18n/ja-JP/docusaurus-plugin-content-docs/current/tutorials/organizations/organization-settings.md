@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 
@@ -38,7 +38,7 @@ Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインす�
 
 参加しているすべてのコミュニティをすばやく表示するには、左上の[**すべてのコミュニティ**]をクリックします。
 
-![view-organizations](/img/ja-JP/view-organizations.png)
+![view-organizations](/img/view-organizations.png)
 
 ## 組織の名前を変更する{#rename-an-organization}
 
@@ -48,11 +48,11 @@ Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインす�
 
 - 組織一覧ページで組織名を変更します:
 
-    ![rename-organization](/img/ja-JP/rename-organization.png)
+    ![rename-organization](/img/rename-organization.png)
 
 - 組織を入力し、**システム設定**ページで名前を変更します。
 
-    ![edit-organization-name](/img/ja-JP/edit-organization-name.png)
+    ![edit-organization-name](/img/edit-organization-name.png)
 
 ## タイムゾーンの管理{#manage-timezone}
 
@@ -60,7 +60,7 @@ Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインす�
 
 現在のタイムゾーンを表示するには、組織オーナーまたは組織メンバーのいずれかになります。組織の役割の詳細については、「[組織のユーザーを管理する](./organization-users)」を参照してください。
 
-![timezone-settings](/img/ja-JP/timezone-settings.png)
+![timezone-settings](/img/timezone-settings.png)
 
 システムのタイムゾーンを変更するには、[組織オーナー](./organization-users)である必要があります。**編集**をクリックして**タイムゾーン設定**ダイアログボックスを開き、ドロップダウンリストからタイムゾーンを選択します。また、タイムゾーンの名前を入力して、希望のタイムゾーンを素早くフィルタリングすることもできます。
 
@@ -80,7 +80,7 @@ Zilliz Cloudがホストされたクラスターのメンテナンスをスケ�
 
 システムメンテナンスウィンドウの時間を変更するには、[**編集**]をクリックして[システムメンテナンスウィンドウの編集]ダイアログボックスを開き、[**システムメンテナンスウィンドウ**]ドロップダウンリストから時間ウィンドウを選択します。
 
-![maintenance-window](/img/ja-JP/maintenance-window.png)
+![maintenance-window](/img/maintenance-window.png)
 
 ## 組織を削除{#delete-organization}
 
@@ -114,5 +114,5 @@ Zilliz Cloudがホストされたクラスターのメンテナンスをスケ�
 
 </Admonition>
 
-![delete-organization-en](/img/ja-JP/delete-organization-en.png)
+![delete-organization-en](/img/delete-organization-en.png)
 

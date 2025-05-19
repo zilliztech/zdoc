@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 
@@ -745,7 +745,7 @@ fmt.Println("collection created")
 
 ### セットコレクションTTL{#set-collection-ttl}
 
-コレクションを特定の期間削除する必要がある場合は、Time-To-Live(TTL)を秒単位で設定することを検討してください。TTLがタイムアウトすると、Zilliz Cloudはコレクション内のエンティティを削除し、コレクションを削除します。削除は非同期であり、削除が完了する前に検索やクエリが可能であることを示しています。
+ コレクション内のデータを特定の期間削除する必要がある場合は、Time-To-Live(TTL)を秒単位で設定することを検討してください。TTLがタイムアウトすると、Zilliz Cloudはコレクション内のエンティティを削除します。削除は非同期であり、削除が完了する前に検索やクエリが可能であることを示しています。
 
 以下のコードスニペットでは、TTLを1日（86400秒）に設定しています。TTLは最低でも数日に設定することをお勧めします。
 

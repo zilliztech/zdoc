@@ -2,7 +2,7 @@
 title: "画像データ | Cloud"
 slug: /pipelines-image-data
 sidebar_label: "画像データ"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理するためのシンプルで直感的な方法を提供し、RESTful APIはWeb UIに比べてより柔軟性とカスタマイズ性を提供します。 | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - image data
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 
@@ -41,7 +41,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
 - Google Cloud Platform(GCP)上のus-west 1にデプロイされたクラスタを作成していることを確認してください。
 
-- 一つのプロジェクトでは、同じタイプのパイプラインを最大100個まで作成できます。詳細については、[Zillizクラウドの制限](./limits#pipelines)を参照してください。
+- 一つのプロジェクトでは、同じタイプのパイプラインを最大100個まで作成できます。詳細については、[Zillizクラウドの制限](./limits)を参照してください。
 
 ## イメージデータを取り込む{#ingest-image-data}
 
@@ -57,11 +57,11 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
 1. ナビゲーションパネルから**パイプライン**をクリックします。次に、**概要**タブに切り替えて、**パイプライン**をクリックします。パイプラインを作成するには、**+パイプライン**をクリックしてください。
 
-    ![create-pipeline](/img/ja-JP/create-pipeline.png)
+    ![create-pipeline](/img/create-pipeline.png)
 
 1. 作成するパイプラインの種類を選択します。[**+パイプライン**]ボタンをクリックします。**Ingestion Pipeline**列。
 
-    ![choose-pipeline](/img/ja-JP/choose-pipeline.png)
+    ![choose-pipeline](/img/choose-pipeline.png)
 
 1. 作成するIngestionパイプラインを構成します。
 
@@ -88,7 +88,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
        </tr>
     </table>
 
-    ![configure-ingestion-pipeline](/img/ja-JP/configure-ingestion-pipeline.png)
+    ![configure-ingestion-pipeline](/img/configure-ingestion-pipeline.png)
 
 1. Ingestionパイプラインに**INDEX**関数を追加するには、**+Function**をクリックします。各Ingestionパイプラインに対して、正確に1つの**INDEX**関数を追加できます。
 
@@ -113,7 +113,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
            </tr>
         </table>
 
-        ![add-index-image-function](/img/ja-JP/add-index-image-function.png)
+        ![add-index-image-function](/img/add-index-image-function.png)
 
     1. [**追加**]をクリックして関数を保存します。
 
@@ -141,7 +141,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
         </Admonition>
 
-    ![add-preserve-function](/img/ja-JP/add-preserve-function.png)
+    ![add-preserve-function](/img/add-preserve-function.png)
 
     1. [**追加**]をクリックして関数を保存します。
 
@@ -149,7 +149,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
 1. 作成したばかりのIngestionパイプラインと互換性があるように自動構成された検索パイプラインと削除パイプラインの作成を続けます。
 
-    ![auto-create-image-search-and-delete-pipelines](/img/ja-JP/auto-create-image-search-and-delete-pipelines.png)
+    ![auto-create-image-search-and-delete-pipelines](/img/auto-create-image-search-and-delete-pipelines.png)
 
 </TabItem>
 
@@ -188,7 +188,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -288,9 +288,9 @@ Ingestionパイプラインが作成されると、`my_collection`という名�
 
 <table>
    <tr>
-     <th><p>イメージID</p><p>(データ型: Int 64)</p></th>
-     <th><p>埋め込み</p><p>(データ型: FLOAT_VECTOR)</p></th>
-     <th><p>画像タイトル</p><p>(データ型: VarChar)</p></th>
+     <th><p>イメージID (データ型: Int 64)</p></th>
+     <th><p>埋め込み (データ型: FLOAT_VECTOR)</p></th>
+     <th><p>画像タイトル (データ型: VarChar)</p></th>
    </tr>
 </table>
 
@@ -306,7 +306,7 @@ Ingestionパイプラインが作成されると、`my_collection`という名�
 
 1. インジェスチョンパイプラインの横にある「▶︎」ボタンをクリックしてください。または、**プレイグラウンド**タブをクリックすることもできます。
 
-    ![run-pipeline](/img/ja-JP/run-pipeline.png)
+    ![run-pipeline](/img/run-pipeline.png)
 
 1. 画像IDとURLを`image_id`と`image_url`フィールドに入力してください。PRESERVE関数を追加した場合は、定義済みの保存フィールドにも値を入力してください。**実行**をクリックしてください。
 
@@ -336,7 +336,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -384,7 +384,7 @@ curl --request POST \
 
 1. 作成するパイプラインの種類を選択してください。「**+パイプライン**」ボタンを**検索パイプライン**欄でクリックしてください。
 
-    ![create-search-pipeline](/img/ja-JP/create-search-pipeline.png)
+    ![create-search-pipeline](/img/create-search-pipeline.png)
 
 1. 作成したい検索パイプラインを構成します。
 
@@ -403,7 +403,7 @@ curl --request POST \
        </tr>
     </table>
 
-    ![configure-search-pipeline](/img/ja-JP/configure-search-pipeline.png)
+    ![configure-search-pipeline](/img/configure-search-pipeline.png)
 
 1. 「**+Function**」をクリックして、検索パイプラインに関数を追加します。正確に1つの関数を追加できます。
 
@@ -413,7 +413,7 @@ curl --request POST \
 
     1. Function Typeとして**SEARCH_IMAGE_BY_IMAGE**を選択してください。**Function Type**として**SEARCH_IMAGE_BY_IMAGE**関数を使用すると、クエリ画像をベクトル埋め込みに変換し、最も類似した画像を取得できます。
 
-        ![add-search-image-function](/img/ja-JP/add-search-image-function.png)
+        ![add-search-image-function](/img/add-search-image-function.png)
 
     1. [**追加**]をクリックして関数を保存します。
 
@@ -449,7 +449,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -519,7 +519,7 @@ curl --request POST \
 
 1. 検索パイプラインの横にある「▶︎」ボタンをクリックしてください。または、**プレイグラウンド**タブをクリックすることもできます。
 
-    ![run-pipeline](/img/ja-JP/run-pipeline.png)
+    ![run-pipeline](/img/run-pipeline.png)
 
 1. クエリ画像のURLを入力し、**実行**をクリックします。
 
@@ -553,7 +553,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -616,7 +616,7 @@ curl --request POST \
 
 1. 作成するパイプラインの種類を選択してください。「**+パイプライン**」ボタンを**検索パイプライン**欄でクリックしてください。
 
-    ![create-search-pipeline](/img/ja-JP/create-search-pipeline.png)
+    ![create-search-pipeline](/img/create-search-pipeline.png)
 
 1. 作成したい検索パイプラインを構成します。
 
@@ -635,7 +635,7 @@ curl --request POST \
        </tr>
     </table>
 
-    ![configure-search-pipeline](/img/ja-JP/configure-search-pipeline.png)
+    ![configure-search-pipeline](/img/configure-search-pipeline.png)
 
 1. 「**+Function**」をクリックして、検索パイプラインに関数を追加します。正確に1つの関数を追加できます。
 
@@ -653,7 +653,7 @@ curl --request POST \
 
         関数**SEARCH_IMAGE_BY_TEXT**を選択した場合、マルチモーダルテキスト埋め込みサービス`zilliz/clip-vit-base-patch32-multilingual-v1`がデフォルトで使用され、対応する取り込みパイプラインとターゲットコレクションに一致します。
 
-        ![add-search-image-by-text-function](/img/ja-JP/add-search-image-by-text-function.png)
+        ![add-search-image-by-text-function](/img/add-search-image-by-text-function.png)
 
     1. [**追加**]をクリックして関数を保存します。
 
@@ -689,7 +689,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -759,7 +759,7 @@ curl --request POST \
 
 1. 検索パイプラインの横にある「▶︎」ボタンをクリックしてください。または、**プレイグラウンド**タブをクリックすることもできます。
 
-    ![run-pipeline](/img/ja-JP/run-pipeline.png)
+    ![run-pipeline](/img/run-pipeline.png)
 
 1. クエリテキストを入力します。[**実行**]をクリックします。
 
@@ -793,7 +793,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -864,7 +864,7 @@ curl --request POST \
 
 1. 作成するパイプラインの種類を選択してください。「**+パイプライン**」ボタンを**削除パイプライン**欄でクリックしてください。
 
-    ![create-deletion-pipeline](/img/ja-JP/create-deletion-pipeline.png)
+    ![create-deletion-pipeline](/img/create-deletion-pipeline.png)
 
 1. 作成する削除パイプラインを構成します。
 
@@ -883,7 +883,7 @@ curl --request POST \
        </tr>
     </table>
 
-    ![configure-deletion-pipeline](/img/ja-JP/configure-deletion-pipeline.png)
+    ![configure-deletion-pipeline](/img/configure-deletion-pipeline.png)
 
 1. 「**+Function**」をクリックして、削除パイプラインに関数を追加します。1つの関数だけを追加できます。
 
@@ -924,7 +924,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -983,7 +983,7 @@ curl --request POST \
 
 1. 削除パイプラインの横にある「▶︎」ボタンをクリックしてください。または、**プレイグラウンド**タブをクリックすることもできます。
 
-    ![run-pipeline](/img/ja-JP/run-pipeline.png)
+    ![run-pipeline](/img/run-pipeline.png)
 
 1. フィルタ式を入力します。[**実行**]をクリックします。
 
@@ -1009,7 +1009,7 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#view-api-keys)方法については、こちらをご覧ください。
 
 - `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
 
@@ -1042,11 +1042,11 @@ curl --request POST \
 
 左ナビゲーションの**パイプライン**をクリックします。**パイプライン**タブを選択します。利用可能なすべてのパイプラインが表示されます。
 
-![view-pipelines-on-web-ui](/img/ja-JP/view-pipelines-on-web-ui.png)
+![view-pipelines-on-web-ui](/img/view-pipelines-on-web-ui.png)
 
 特定のパイプラインをクリックすると、基本情報、合計使用量、機能、関連コネクタなどの詳細情報が表示されます。
 
-![view-pipeline-details](/img/ja-JP/view-pipeline-details.png)
+![view-pipeline-details](/img/view-pipeline-details.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -1056,7 +1056,7 @@ curl --request POST \
 
 Web UIでパイプラインのアクティビティを確認することもできます。
 
-![view-pipelines-activities-on-web-ui](/img/ja-JP/view-pipelines-activities-on-web-ui.png)
+![view-pipelines-activities-on-web-ui](/img/view-pipelines-activities-on-web-ui.png)
 
 </TabItem>
 
@@ -1235,7 +1235,7 @@ APIを呼び出して、既存のすべてのパイプラインを一覧表示�
 
 Web UIにパイプラインをドロップするには、をクリックします**。。。**「**アクション**」列の下にあるボタンをクリックします。次に、「**ドロップ**」をクリックします。
 
-![delete-pipeline](/img/ja-JP/delete-pipeline.png)
+![delete-pipeline](/img/delete-pipeline.png)
 
 </TabItem>
 

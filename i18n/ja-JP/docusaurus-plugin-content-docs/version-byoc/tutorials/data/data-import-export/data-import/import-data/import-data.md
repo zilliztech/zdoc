@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data import
+  - Anomaly Detection
+  - sentence transformers
   - Recommender systems
   - information retrieval
-  - dimension reduction
-  - hnsw algorithm
 
 ---
 

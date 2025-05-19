@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 
@@ -325,6 +325,7 @@ BulkWriterには**2つ**のタイプがあります。
     ACCESS_KEY="bucket-ak"
     SECRET_KEY="bucket-sk"
     BUCKET_NAME="a-bucket"
+    REGION_NAME="region-name"
     
     # Connections parameters to access the remote bucket
     conn = RemoteBulkWriter.S3ConnectParam(
@@ -332,7 +333,8 @@ BulkWriterには**2つ**のタイプがあります。
         access_key=ACCESS_KEY,
         secret_key=SECRET_KEY,
         bucket_name=BUCKET_NAME,
-        secure=True
+        secure=True,
+        region=REGION_NAME
     )
     
     from pymilvus.bulk_writer import BulkFileType
@@ -398,12 +400,18 @@ BulkWriterには**2つ**のタイプがあります。
     String SECRET_KEY = "";
     String BUCKET_NAME = "";
     
+    // Enumeration can refer to CloudStorage
+    String CLOUD_NAME = "";
+    String REGION_NAME = "";
+    
     // Create a remote bucket writer.
     StorageConnectParam storageConnectParam = S3ConnectParam.newBuilder()
             .withEndpoint("storage.googleapis.com")
             .withBucketName(BUCKET_NAME)
             .withAccessKey(ACCESS_KEY)
             .withSecretKey(SECRET_KEY)
+            .withCloudName(CLOUD_NAME)
+            .withRegion(REGION_NAME)
             .build();
     
     ```
@@ -849,15 +857,15 @@ BulkWriterはUUIDを生成し、提供された出力ディレクトリにUUID�
        </tr>
        <tr>
          <td><p><strong>JSON</strong></p></td>
-         <td><p><code>s 3://remote_bucket/folder/フォルダ/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s 3://remote_bucket/フォルダ/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</code></p></td>
+         <td><p><code>s 3://remote_bucket/folder/フォルダ/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code> <code>s 3://remote_bucket/フォルダ/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</code></p></td>
        </tr>
        <tr>
          <td><p><strong>パーケット</strong></p></td>
-         <td><p><code>s 3://remote_bucket/folder/フォルダ/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s 3://remote_bucket/folder//1. parquetリモートバケット/フォルダー/45ae1139-1d87-4aff-85f5-0039111f9e6b1.parquet</code></p></td>
+         <td><p><code>s 3://remote_bucket/folder/フォルダ/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code> <code>s 3://remote_bucket/folder//1. parquetリモートバケット/フォルダー/45ae1139-1d87-4aff-85f5-0039111f9e6b1.parquet</code></p></td>
        </tr>
        <tr>
          <td><p><strong>NumPy</strong></p></td>
-         <td><p><code>s 3://remote_bucket/folder/フォルダ/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s 3://remote_bucket/folder/*. npyリモートバケット/フォルダー45ae1139-1d87-4aff-85f5-0039111f9e6b.npy</code></p></td>
+         <td><p><code>s 3://remote_bucket/folder/フォルダ/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code> <code>s 3://remote_bucket/folder/*. npyリモートバケット/フォルダー45ae1139-1d87-4aff-85f5-0039111f9e6b.npy</code></p></td>
        </tr>
     </table>
 
@@ -902,15 +910,15 @@ BulkWriterはUUIDを生成し、提供された出力ディレクトリにUUID�
        </tr>
        <tr>
          <td><p><strong>JSON</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</code></p></td>
+         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code> <code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</code></p></td>
        </tr>
        <tr>
          <td><p><strong>Parquet</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet</code></p></td>
+         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code> <code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet</code></p></td>
        </tr>
        <tr>
          <td><p><strong>NumPy</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy</code></p></td>
+         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code> <code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy</code></p></td>
        </tr>
     </table>
 

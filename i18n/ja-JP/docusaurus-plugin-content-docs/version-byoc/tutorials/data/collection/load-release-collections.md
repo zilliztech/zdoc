@@ -7,7 +7,7 @@ notebook: FALSE
 description: "コレクションのロードは、コレクション内の類似検索やクエリを実行するための前提条件です。このページでは、コレクションのロードとリリースの手順に焦点を当てています。 | BYOC"
 type: origin
 token: RHtIwOn0yimJfQkOqsxcRiXqnhe
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - collection
   - load
   - release
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

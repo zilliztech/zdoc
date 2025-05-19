@@ -2,7 +2,7 @@
 title: "Cncharonlyフィルター | Cloud"
 slug: /cncharonly-filter
 sidebar_label: "Cncharonlyフィルター"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "`cncharonly`フィルターは、中国語以外の文字を含むトークンを削除します。このフィルターは、他の文字、数字、または記号を含むトークンを除外して、中国語のテキストだけに焦点を当てたい場合に便利です。 | Cloud"
 type: origin
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - cncharonly
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

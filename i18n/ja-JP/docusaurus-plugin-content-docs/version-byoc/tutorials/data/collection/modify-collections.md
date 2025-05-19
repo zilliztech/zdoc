@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 
@@ -239,7 +239,19 @@ if err != nil {
 <TabItem value='bash'>
 
 ```bash
-# REST
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_properties" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "test_collection",
+    "properties": {
+        "collection.ttl.seconds": 60
+    }
+}'
 ```
 
 </TabItem>
@@ -254,11 +266,81 @@ if err != nil {
    </tr>
    <tr>
      <td><p><code>collection.ttl.seconds</code></p></td>
-     <td><p>コレクションを特定の期間削除する必要がある場合は、Time-To-Live(TTL)を秒単位で設定することを検討してください。TTLがタイムアウトすると、Zilliz Cloudはコレクション内のエンティティを削除します。</p><p>削除は非同期であり、削除が完了する前に検索やクエリが可能であることを示しています。</p></td>
+     <td><p>コレクションのデータを特定の期間後に削除する必要がある場合は、Time-To-Live(TTL)を秒単位で設定することを検討してください。TTLがタイムアウトすると、Zilliz Cloudはコレクションからすべてのエンティティを削除します。 削除は非同期であり、削除が完了する前に検索とクエリが可能であることを示しています。 詳細は<a href="null">Set Collection TTL</a>を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>mmap.enabled</code></p></td>
-     <td><p>メモリマッピング(Mmap)により、ディスク上の大きなファイルに直接メモリアクセスできるため、Zilliz Cloudはインデックスとデータをメモリとハードドライブの両方に保存できます。このアプローチにより、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張できます。</p><p>\<ターゲットを含める="zilliz"></p><p>Zilliz Cloudは、クラスタの<a href="./use-mmap#mmapglobal-mmap-strategy">グローバルmmap設定</a>を実装しています。特定のフィールドまたはインデックスの設定を変更できます。</p><p>\</include></p></td>
+     <td><p>メモリマッピング(Mmap)により、ディスク上の大きなファイルに直接メモリアクセスできるため、Zilliz Cloudはインデックスとデータをメモリとハードドライブの両方に保存できます。このアプローチにより、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張できます。 \<ターゲットを含める="zilliz"> Zilliz Cloudは、クラスタの<a href="./use-mmap#global-mmap-strategy">グローバルmmap設定</a>を実装しています。特定のフィールドまたはインデックスの設定を変更できます。 \</include></p><p>詳しくは<a href="./use-mmap">mmapを使</a>うを参照してください。</p></td>
+   </tr>
+   <tr>
+     <td><p><code>partitionkey.isolation</code></p></td>
+     <td><p>パーティションキーの分離を有効にすると、Zilliz Cloudはパーティションキーの値に基づいてエンティティをグループ化し、これらのグループごとに別々のインデックスを作成します。検索リクエストを受け取ると、Zilliz Cloudはフィルタリング条件で指定されたパーティションキーの値に基づいてインデックスを検索し、インデックスに含まれるエンティティ内で検索範囲を制限するため、検索中に関係のないエンティティをスキャンせず、検索パフォーマンスを大幅に向上させます。 詳細は、<a href="./use-partition-key#use-partition-key-isolation">パーティションキー分離を使用</a>するを参照してください。</p></td>
    </tr>
 </table>
+
+## ドロップコレクションのプロパティ{#drop-collection-properties}
+
+以下のようにコレクションプロパティをドロップすることでリセットすることもできます。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+client.drop_collection_properties(
+    collection_name="my_collection",
+    property_keys=[
+        "collection.ttl.seconds"
+    ]
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+client.dropCollectionProperties(DropCollectionPropertiesReq.builder()
+        .collectionName("my_collection")
+        .propertyKeys(Collections.singletonList("collection.ttl.seconds"))
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+client.dropCollectionProperties({
+    collection_name:"my_collection",
+    properties: ['collection.ttl.seconds'],
+});
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// TODO
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop_properties" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "my_collection",
+    "propertyKeys": [
+        "collection.ttl.seconds"
+    ]
+}'
+```
+
+</TabItem>
+</Tabs>
 

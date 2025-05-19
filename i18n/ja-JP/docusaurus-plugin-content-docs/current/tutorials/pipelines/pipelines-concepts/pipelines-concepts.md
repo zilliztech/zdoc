@@ -2,7 +2,7 @@
 title: "コンセプト | Cloud"
 slug: /pipelines-concepts
 sidebar_label: "コンセプト"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Zilliz Cloud Pipelinesの使用方法について議論する際に使用する関連概念についての説明。 | Cloud"
 type: origin
@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - concepts
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

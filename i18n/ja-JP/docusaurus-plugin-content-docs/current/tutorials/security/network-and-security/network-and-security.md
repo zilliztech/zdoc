@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Zilliz Cloud上のデータへのアクセスを保護するために、ホワイトリストとプライベートリンクを設定する方法について詳しく学びましょう。 | Cloud"
 type: origin
 token: Sn0DwMXwuieTHEk7xpacEihJnVc
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - network
   - security
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

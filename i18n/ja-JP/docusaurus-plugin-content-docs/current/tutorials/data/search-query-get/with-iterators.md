@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

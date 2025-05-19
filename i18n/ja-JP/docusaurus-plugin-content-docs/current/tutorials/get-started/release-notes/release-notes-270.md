@@ -7,16 +7,16 @@ notebook: FALSE
 description: "このアップデートにより、Zilliz Cloudに強力なツールと強化が導入されました。Object Storageなどのソースから簡単にデータを取り込むための新しいコネクタ、検索の関連性を向上させるためのRerankers、詳細なシステム状態分析のためのMetrics Monitoring API、AWS S 3、Google Cloud Storage、Azure Blob Storageからベクトルデータベースインスタンスに直接インポートすることができるCross Cloud Data Import機能が追加されました。これらの機能は、データの取り込み、検索精度、運用洞察を向上させ、クラウド上のベクトルデータベースの管理を効率化します。 | Cloud"
 type: origin
 token: K2piwxZFZiL00xkf2TtctY80nSe
-sidebar_position: 9
+sidebar_position: 11
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

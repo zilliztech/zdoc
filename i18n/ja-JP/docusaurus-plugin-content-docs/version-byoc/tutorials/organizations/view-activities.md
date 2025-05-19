@@ -14,10 +14,10 @@ keywords:
   - cloud
   - activities
   - view
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 
@@ -32,7 +32,7 @@ Zilliz Cloudの**アクティビティ**機能は、のアクセスイベント�
 
 組織ページで、左ナビゲーションウィンドウの[**アクティビティ**]をクリックします。ここでは、アクティビティの概要、各アクティビティが置かれた時間、および特定のアクティビティに関与したオペレーターのIDを閲覧できます。
 
-![view-activities-byoc](/byoc/ja-JP/view-activities-byoc.png)
+![view-activities-byoc](/img/view-activities-byoc.png)
 
 ## フィルター活動{#filter-activities}
 
@@ -48,7 +48,7 @@ Zilliz Cloudの**アクティビティ**機能は、のアクセスイベント�
 
     </Admonition>
 
-    ![filter-by-time-range](/byoc/ja-JP/filter-by-time-range.png)
+    ![filter-by-time-range](/img/filter-by-time-range.png)
 
 - **アクティビティタイプで絞り込む**
 
@@ -61,21 +61,21 @@ Zilliz Cloudの**アクティビティ**機能は、のアクセスイベント�
        </tr>
        <tr>
          <td><p>情報を</p></td>
-         <td><p>クラスタ、アクセス、または請求に関する一般的な情報。</p><p>例:クラスタin01-xxxxxxxxxxxxxxxが作成されました。</p></td>
+         <td><p>クラスタ、アクセス、または請求に関する一般的な情報。 例:クラスタin01-xxxxxxxxxxxxxxxが作成されました。</p></td>
        </tr>
        <tr>
          <td><p>警告</p></td>
-         <td><p>注意が必要なリソース状態に関する更新。</p><p>例:「クラスタin01-xxxxxxxxxxxxxxxが削除されました」。</p></td>
+         <td><p>注意が必要なリソース状態に関する更新。 例:「クラスタin01-xxxxxxxxxxxxxxxが削除されました」。</p></td>
        </tr>
        <tr>
          <td><p>エラー</p></td>
-         <td><p>支払いの失敗またはその他のシステムの誤動作の通知には、直ちに対応または対応が必要です。</p><p>例:「請求書invo-xxxxxxxxxxxxxxxxxxxxxxxxの支払いに失敗しました。」</p></td>
+         <td><p>支払いの失敗またはその他のシステムの誤動作の通知には、直ちに対応または対応が必要です。 例:「請求書invo-xxxxxxxxxxxxxxxxxxxxxxxxの支払いに失敗しました。」</p></td>
        </tr>
     </table>
 
-    ![filter-by-activity-type](/byoc/ja-JP/filter-by-activity-type.png)
+    ![filter-by-activity-type](/img/filter-by-activity-type.png)
 
 - **アクティビティでフィルター**
 
-    ![filter-by-activity](/byoc/ja-JP/filter-by-activity.png)
+    ![filter-by-activity](/img/filter-by-activity.png)
 

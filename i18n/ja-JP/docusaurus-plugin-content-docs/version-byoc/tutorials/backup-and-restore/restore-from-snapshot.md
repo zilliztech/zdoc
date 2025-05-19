@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 
@@ -45,7 +45,7 @@ import TabItem from '@theme/TabItem';
 
 バックアップファイルから復元するクラスタの属性を設定します。
 
-![restore_cluster](/byoc/ja-JP/restore_cluster.png)
+![restore_cluster](/img/restore_cluster.png)
 
 これらの属性を設定する際には、次の点に注意してください:
 
@@ -104,7 +104,7 @@ curl --request POST \
 
 バックアップファイルから復元するコレクションの属性を設定します。
 
-![restore_collection](/byoc/ja-JP/restore_collection.png)
+![restore_collection](/img/restore_collection.png)
 
 これらの属性を設定する際には、次の点に注意してください:
 

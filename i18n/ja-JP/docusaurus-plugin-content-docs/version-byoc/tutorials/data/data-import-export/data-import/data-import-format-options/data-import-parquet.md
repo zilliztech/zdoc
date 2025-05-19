@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 
@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 生データをParquetファイルに準備するには、[BulkWriterツール](./use-bulkwriter)を使用することをお勧めします。次の図は、生データをParquetファイルにマッピングする方法を示しています。
 
-![data_import-preparetion_en](/byoc/ja-JP/data_import-preparetion_en.png)
+![parquet_file_structure_en](/img/parquet_file_structure_en.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -158,15 +158,15 @@ Zilliz Cloudは、クラウドストレージからのデータインポート�
    </tr>
    <tr>
      <td><p><strong>AWS S3</strong></p></td>
-     <td><p><code>s3://bucket-name/parquet-folder/</code></p><p><code>s3://bucket-name/parquet-folder/data.parquet</code></p></td>
+     <td><p><code>s3://bucket-name/parquet-folder/</code> <code>s3://bucket-name/parquet-folder/data.parquet</code></p></td>
    </tr>
    <tr>
      <td><p><strong>Google Cloud Storage</strong></p></td>
-     <td><p><code>gs://bucket-name/parquet-folder/</code></p><p><code>gs://bucket-name/parquet-folder/data.parquet</code></p></td>
+     <td><p><code>gs://bucket-name/parquet-folder/</code> <code>gs://bucket-name/parquet-folder/data.parquet</code></p></td>
    </tr>
    <tr>
      <td><p><strong>Azure Bolb</strong></p></td>
-     <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/</code></p><p><code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/data.parquet</code></p></td>
+     <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/</code> <code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/data.parquet</code></p></td>
    </tr>
 </table>
 
@@ -185,7 +185,7 @@ Zilliz Cloudは、クラウドストレージからのデータインポート�
    </tr>
    <tr>
      <td><p><strong>インポートごとの最大ファイル体格</strong></p></td>
-     <td><p>クラスタの空き容量:合計512 MB</p><p>サーバーレス&amp;専用クラスター</p><ul><li><p>ファイルの体格: 10 GB</p></li><li><p>ファイルの体格: 100 GB</p></li></ul></td>
+     <td><p>クラスタの空き容量:合計512 MB サーバーレス&amp;専用クラスター</p><ul><li><p>ファイルの体格: 10 GB</p></li><li><p>ファイルの体格: 100 GB</p></li></ul></td>
    </tr>
    <tr>
      <td><p><strong>使用可能なデータファイルの場所</strong></p></td>

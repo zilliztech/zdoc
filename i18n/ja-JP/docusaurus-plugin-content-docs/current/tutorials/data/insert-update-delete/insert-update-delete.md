@@ -15,10 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

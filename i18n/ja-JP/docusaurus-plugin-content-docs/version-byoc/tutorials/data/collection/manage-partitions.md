@@ -7,7 +7,7 @@ notebook: FALSE
 description: "パーティションはコレクションのサブセットです。各パーティションは親コレクションと同じデータ構造を共有しますが、コレクション内のデータのサブセットのみを含みます。このページでは、パーティションの管理方法を理解するのに役立ちます。 | BYOC"
 type: origin
 token: OFb3wIDSDiEXYTkEdAactjalnQd
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 
@@ -718,7 +718,7 @@ curl --request POST \
 
 特定のパーティション内で検索やクエリを実行できます。詳細については、参照してください。
 
-- [パーティション内でANN検索を実行する](./single-vector-search#annann-search-in-partition)
+- [パーティション内でANN検索を実行する](./single-vector-search#ann-search-in-partition)
 
 - [パーティション内でメタデータのフィルタリングを行う](./get-and-scalar-query#queries-in-partitions)
 

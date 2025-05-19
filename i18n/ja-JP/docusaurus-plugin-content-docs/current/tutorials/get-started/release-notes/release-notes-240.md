@@ -7,16 +7,16 @@ notebook: FALSE
 description: "現在、Zilliz CloudサービスはAzureで利用可能であり、米国東部地域から開始されています。さらに、Zilliz Cloud Pipelines(ベータ版)を導入し、非構造化データをベクトル埋め込みに変換して取り込み、取得します。このリリースでは、クラスター内のRBACおよび資格情報管理が改善され、ユーザー管理のための3つの事前定義された役割(管理者、読み書き、読み取り専用)が提供されます。その他の更新には、エラーメッセージのコンテンツの強化と安定性の向上が含まれ、より信頼性の高いサービスが提供されます。 | Cloud"
 type: origin
 token: MoxHw5tiDidpYvk9soqcFRp6nOc
-sidebar_position: 12
+sidebar_position: 14
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

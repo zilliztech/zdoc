@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

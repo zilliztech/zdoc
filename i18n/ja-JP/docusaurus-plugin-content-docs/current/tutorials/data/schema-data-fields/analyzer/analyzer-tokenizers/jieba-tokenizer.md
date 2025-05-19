@@ -2,7 +2,7 @@
 title: "ジエバ | Cloud"
 slug: /jieba-tokenizer
 sidebar_label: "ジエバ"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "ジエバトークナイザ（`jieba`）は、中国語のテキストを構成語に分解して処理します。 | Cloud"
 type: origin
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - jieba-tokenizer
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

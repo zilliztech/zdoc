@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 
@@ -44,7 +44,7 @@ Zilliz CloudのWebコンソールを使用するか、APIリクエストを行�
 
 ### クラスタをスケールアップする{#scale-up-a-cluster}
 
-![manual-scale-entry](/img/ja-JP/manual-scale-entry.png)
+![manual-scale-entry](/img/manual-scale-entry.png)
 
 [クラスタのスケール]ダイアログボックスでは、元のクラスタと同じクラウドリージョン内の同じタイプのクラスタに割り当てられた体格をスケールアップできます。
 
@@ -62,7 +62,7 @@ Zilliz CloudのWebコンソールを使用するか、APIリクエストを行�
 
 ### クラスタを縮小する{#scale-down-a-cluster}
 
-![manual-scale-entry](/img/ja-JP/manual-scale-entry.png)
+![manual-scale-entry](/img/manual-scale-entry.png)
 
 「**スケールクラスタ**」ダイアログボックスで、ダイアログウィンドウで希望のCU体格を選択します。「**スケール**」をクリックすると、Zilliz Cloudはクラスタのデータ量とコレクション番号を確認します。スケールダウンは、以下の2つの条件の両方が満たされた場合にのみ正常にトリガーされます
 
@@ -93,7 +93,7 @@ Zilliz CloudのWebコンソールを使用するか、APIリクエストを行�
 
 この機能を有効にした後、クラスターが正常に作成されたときに自動スケーリングオプションを構成できます。
 
-![configure_autoscaling](/img/ja-JP/configure_autoscaling.png)
+![configure_autoscaling](/img/configure_autoscaling.png)
 
 ダイアログボックスで、次の構成を設定できます:
 

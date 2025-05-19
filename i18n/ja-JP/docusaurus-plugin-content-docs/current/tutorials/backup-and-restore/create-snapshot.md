@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 
@@ -40,7 +40,7 @@ import TabItem from '@theme/TabItem';
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>バックアップは<strong>専用</strong>クラスターでのみ利用可能です。クラスターが<strong>Free</strong>レベルで実行されている場合は、まず<a href="./manage-cluster">アップグレード</a>してください。クラスターが<strong>Serverless</strong>レベルで実行されている場合は、まず専用クラスターに<a href="./undefined">移行</a>してください。バックアップの作成には料金がかかる場合があります。バックアップコストの詳細については、「<a href="./billing-rules">請求ルール</a>について」を参照してください。</p>
+<p>バックアップは<strong>専用</strong>クラスターでのみ利用可能です。クラスターが<strong>Free</strong>レベルで実行されている場合は、まず<a href="./manage-cluster">アップグレード</a>してください。クラスターが<strong>Serverless</strong>レベルで実行されている場合は、まず専用クラスターに<a href="./offline-migration">移行</a>してください。バックアップの作成には料金がかかる場合があります。バックアップコストの詳細については、「<a href="./billing-rules">請求ルール</a>について」を参照してください。</p>
 
 </Admonition>
 
@@ -52,7 +52,7 @@ import TabItem from '@theme/TabItem';
 
 次の図に基づいて、クラスタまたはコレクションのバックアップファイルを作成できます。クラスタはまだサービス中ですが、ZillizCloudはバックアップファイルを作成しています。
 
-![create-snapshot](/img/ja-JP/create-snapshot.png)
+![create-snapshot](/img/create-snapshot.png)
 
 </TabItem>
 <TabItem value="Bash">

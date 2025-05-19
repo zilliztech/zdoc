@@ -15,10 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 
@@ -35,7 +35,7 @@ Zilliz Cloudは、クラスタ固有のメトリクスを観察するための�
 
 </Admonition>
 
-![view_metric_charts](/img/ja-JP/view_metric_charts.png)
+![view_metric_charts](/img/view_metric_charts.png)
 
 ## クラスタメトリックチャートへのアクセス{#access-cluster-metric-charts}
 

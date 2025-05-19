@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 
@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 
 次の図は、特権と特権グループのさまざまな付与過程を示しています。
 
-![DZJ3wap77hAp4CbpIqBcFyRVnLd](/byoc/ja-JP/DZJ3wap77hAp4CbpIqBcFyRVnLd.png)
+![DZJ3wap77hAp4CbpIqBcFyRVnLd](/img/DZJ3wap77hAp4CbpIqBcFyRVnLd.png)
 
 このトピックでは、Zilliz Cloudで利用可能な組み込みの特権グループと特権について詳しく説明します。
 

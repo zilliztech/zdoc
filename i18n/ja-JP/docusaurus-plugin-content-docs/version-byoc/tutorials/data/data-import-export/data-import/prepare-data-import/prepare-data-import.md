@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

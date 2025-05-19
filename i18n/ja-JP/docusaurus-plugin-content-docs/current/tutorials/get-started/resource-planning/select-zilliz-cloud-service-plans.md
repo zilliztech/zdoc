@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster plan
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 
@@ -60,16 +60,16 @@ Zilliz Cloudは、**Free**、**Serverless**、**Dedicated-Standard**、**Dedicat
      <td><p><strong>クラウドプロバイダーと地域</strong></p></td>
      <td><p>GCPエクスクルーシブ</p></td>
      <td><p>GCPエクスクルーシブ</p></td>
-     <td><p>カテゴリー: AWS,GCP,Azure</p><p>詳細については、<a href="./cloud-providers-and-regions">クラウドプロバイダー&地域</a>を参照してください。</p></td>
-     <td><p>AWS,GCP,アズール</p><p>詳細については、<a href="./cloud-providers-and-regions">クラウドプロバイダー&地域</a>を参照してください。</p></td>
+     <td><p>カテゴリー: AWS,GCP,Azure 詳細については、<a href="./cloud-providers-and-regions">クラウドプロバイダー&地域</a>を参照してください。</p></td>
+     <td><p>AWS,GCP,アズール 詳細については、<a href="./cloud-providers-and-regions">クラウドプロバイダー&地域</a>を参照してください。</p></td>
      <td><p>ユーザーのVPC</p></td>
    </tr>
    <tr>
      <td><p><strong>CU体格オプション</strong></p></td>
      <td><p>シングルCU</p></td>
      <td><p>オートスケール</p></td>
-     <td><ul><li><p>32 CUまで。（Web UI上で32 CU以下のクラスタを直接作成できます。より大きなCUサイズの場合は、<a href="https://zilliz.com/contact-sales">営業担当</a>にお問い合わせください。）</p></li><li><p>インクリメント: 1、2、4、6、8、12、16、20、24、28、3 2。</p></li></ul></td>
-     <td><ul><li><p>256 CUまで。（Web UI上で256 CU以下のクラスタを直接作成できます。より大きなCUサイズの場合は、<a href="https://zilliz.com/contact-sales">営業担当</a>にお問い合わせください。）</p></li><li><p>インクリメント: 1、2、4、6、8、12、16、20、24、28、32、。。。64、72、80、88、。。。,256<em>(注: CU体格が大なり8の場合、増分は4 CUになります。CU体格が大なり64の場合、増分は8 CUになります)</em></p></li></ul></td>
+     <td><ul><li>32 CUまで。（Web UI上で32 CU以下のクラスタを直接作成できます。より大きなCUサイズの場合は、<a href="https://zilliz.com/contact-sales">営業担当</a>にお問い合わせください。）</li><li>インクリメント: 1、2、4、6、8、12、16、20、24、28、3 2。</li></ul></td>
+     <td><ul><li>256 CUまで。（Web UI上で256 CU以下のクラスタを直接作成できます。より大きなCUサイズの場合は、<a href="https://zilliz.com/contact-sales">営業担当</a>にお問い合わせください。）</li><li>インクリメント: 1、2、4、6、8、12、16、20、24、28、32、。。。64、72、80、88、。。。,256<em>(注: CU体格が大なり8の場合、増分は4 CUになります。CU体格が大なり64の場合、増分は8 CUになります)</em></li></ul></td>
      <td><p>カスタマイズ可能</p></td>
    </tr>
    <tr>
