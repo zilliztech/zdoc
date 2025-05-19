@@ -10,19 +10,19 @@ type: docx
 token: XIIyd3bMzoAVx3xVsoLcnQ2pnKh
 sidebar_position: 14
 keywords: 
+  - Vector store
   - open source vector database
   - Vector index
   - vector database open source
-  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - listRoles()
   - javaV225
+  - information retrieval
+  - dimension reduction
   - hnsw algorithm
   - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
 displayed_sidebar: javaSidebar
 
 ---

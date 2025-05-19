@@ -1,28 +1,28 @@
 ---
 displayed_sidbar: javaSidebar
-title: "createSchema() | Java | v2"
-slug: /java/java/v2-Collections-createSchema
-sidebar_label: "createSchema()"
+title: "CreateSchema() | Java | v2"
+slug: /java/java/v2-Collections-CreateSchema
+sidebar_label: "CreateSchema()"
 beta: false
 notebook: false
 description: "This operation creates a collection schema. | Java | v2"
 type: docx
-token: V5KXdwdO0oqkhnxsKb9c3xaKn4c
-sidebar_position: 9
+token: DAIfdXKk5oCHeNxOUvCc1KcpnNh
+sidebar_position: 23
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
-  - createSchema()
+  - CreateSchema()
   - javaV225
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: javaSidebar
 
 ---
@@ -30,12 +30,12 @@ displayed_sidebar: javaSidebar
 import Admonition from '@theme/Admonition';
 
 
-# createSchema()
+# CreateSchema()
 
 This operation creates a collection schema.
 
 ```java
-public CreateCollectionReq.CollectionSchema createSchema()
+public static CreateCollectionReq.CollectionSchema CreateSchema()
 ```
 
 ## Request Syntax{#request-syntax}
@@ -74,7 +74,8 @@ ConnectConfig connectConfig = ConnectConfig.builder()
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 // 2 Quickly create a collectionSchema
-CreateCollectionReq.CollectionSchema collectionSchema = client.createSchema();
+CreateCollectionReq.CollectionSchema collectionSchema = client.CreateSchema();
 collectionSchema.addField(AddFieldReq.builder().fieldName("id").dataType(DataType.Int64).isPrimaryKey(Boolean.TRUE).autoID(Boolean.FALSE).description("id").build());
 collectionSchema.addField(AddFieldReq.builder().fieldName("vector").dataType(DataType.FloatVector).dimension(dim).build());
 ```
+

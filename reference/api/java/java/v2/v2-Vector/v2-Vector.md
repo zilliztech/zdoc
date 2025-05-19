@@ -9,10 +9,10 @@ token: YBQDf0VrtlUZx3dVkdKckKT5ngh
 sidebar_position: 4
 sidebar_label: "Vector"
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud

@@ -1,28 +1,28 @@
 ---
 displayed_sidbar: javaSidebar
-title: "alterDatabaseProperties() | Java | v2"
-slug: /java/java/v2-Database-alterDatabaseProperties
-sidebar_label: "alterDatabaseProperties()"
+title: "dropDatabaseProperties() | Java | v2"
+slug: /java/java/v2-Database-dropDatabaseProperties
+sidebar_label: "dropDatabaseProperties()"
 beta: false
 notebook: false
-description: "This operation alters a database's properties. | Java | v2"
+description: "This operation resets the database properties to their default values. | Java | v2"
 type: docx
-token: PBYIdLALvoHd0pxwI8Ec4JsTnBX
-sidebar_position: 1
+token: CzC6dm9N8oBvQZxRMyocNfTpn9f
+sidebar_position: 5
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
-  - alterDatabaseProperties()
+  - dropDatabaseProperties()
   - javaV225
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: javaSidebar
 
 ---
@@ -30,20 +30,20 @@ displayed_sidebar: javaSidebar
 import Admonition from '@theme/Admonition';
 
 
-# alterDatabaseProperties()
+# dropDatabaseProperties()
 
-This operation alters a database's properties. 
+This operation resets the database properties to their default values.
 
 ```java
-public Void alterDatabaseProperties(AlterDatabasePropertiesReq request)
+public Void dropDatabaseProperties(DropDatabasePropertiesReq request)
 ```
 
 ## Request Syntax{#request-syntax}
 
 ```java
-alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
+dropDatabaseProperties(DropDatabasePropertiesReq.builder()
     .databaseName(String databaseName)
-    .properties(Map<String, String> properties)
+    .propertyKeys(List<String> propertyKeys)
     .build()
 )
 ```
@@ -54,7 +54,7 @@ alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
 
     The name of the database.
 
-- `properties(Map<String, String> properties)`
+- `propertyKeys(List<String propertyKeys>)`
 
     The properties of the database, such as replica number, resource groups. Possible database properties are as follows:
 
@@ -97,7 +97,7 @@ alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
 ```java
 import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
-import io.milvus.v2.service.database.request.AlterDatabasePropertiesReq;
+import io.milvus.v2.service.database.request.DropDatabasePropertiesReq;
 
 // 1. Set up a client
 ConnectConfig connectConfig = ConnectConfig.builder()
@@ -107,13 +107,14 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 2. Alter database properties
-Map<String, String> properties = new HashMap<>();
-properties.put("database.replica.number", "1");
-AlterDatabasePropertiesReq alterDatabasePropertiesReq = AlterDatabasePropertiesReq.builder()
+// 2. Drop database properties
+List<String> propertyKeys = new ArrayList<>();
+propertyKeys.add("database.replica.number");
+
+DropDatabasePropertiesReq dropDatabasePropertiesReq = DropDatabasePropertiesReq.builder()
         .databaseName(databaseName)
-        .properties(properties)
+        .propertyKeys(propertyKeys)
         .build();
-client.alterDatabaseProperties(alterDatabaseReq);
+client.dropDatabaseProperties(alterDatabaseReq);
 ```
 

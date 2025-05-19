@@ -10,19 +10,19 @@ type: docx
 token: Qbntdds6XoByxcxrG1acL7IxnQe
 sidebar_position: 16
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - removePrivilegesFromGroup()
   - javaV225
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: javaSidebar
 
 ---

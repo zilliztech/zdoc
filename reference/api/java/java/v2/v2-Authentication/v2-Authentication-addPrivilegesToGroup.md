@@ -10,19 +10,19 @@ type: docx
 token: T9Jqd5JfdoW5Jxxwx1eckCOCn6c
 sidebar_position: 1
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
   - addPrivilegesToGroup()
   - javaV225
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 displayed_sidebar: javaSidebar
 
 ---

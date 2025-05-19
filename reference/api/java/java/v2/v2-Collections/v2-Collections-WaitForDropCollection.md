@@ -10,19 +10,19 @@ type: docx
 token: K9E6dtYlJojtOCxTG0EcGBVnnKe
 sidebar_position: 22
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - WaitForDropCollection()
   - javaV225
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: javaSidebar
 
 ---

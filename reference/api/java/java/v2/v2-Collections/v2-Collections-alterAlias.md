@@ -10,19 +10,19 @@ type: docx
 token: QasfdVW4voAzfwxfSc1civsHnVf
 sidebar_position: 1
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
   - alterAlias()
   - javaV225
-  - Video search
   - AI Hallucination
   - AI Agent
   - semantic search
+  - Anomaly Detection
 displayed_sidebar: javaSidebar
 
 ---

@@ -9,10 +9,10 @@ token: Sx9jfHZP8lqVhXd9UuMcERemnjd
 sidebar_position: 1
 sidebar_label: "Collections"
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud

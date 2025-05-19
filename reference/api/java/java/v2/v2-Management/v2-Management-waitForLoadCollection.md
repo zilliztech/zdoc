@@ -10,19 +10,19 @@ type: docx
 token: LMsOdAVFQopadPx1N2UcOn0unCf
 sidebar_position: 15
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - waitForLoadCollection()
   - javaV225
-  - Agentic RAG
-  - rag llm architecture
   - private llms
   - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: javaSidebar
 
 ---

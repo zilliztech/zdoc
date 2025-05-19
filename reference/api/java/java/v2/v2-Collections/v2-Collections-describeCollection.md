@@ -19,10 +19,10 @@ keywords:
   - cloud
   - describeCollection()
   - javaV225
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: javaSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: WeXmdv8bioJ7AEx9sEtct6kgnUd
 sidebar_position: 16
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
   - FieldSchema
   - javaV225
-  - Vector search
   - knn algorithm
   - HNSW
   - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: javaSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: Znb7dcNoeobIkkxGLGfcpVfUnIX
 sidebar_position: 19
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
   - revokeRole()
   - javaV225
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 displayed_sidebar: javaSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: WUgedTmyZoW4clxSgHVcl1ZtnZl
 sidebar_position: 3
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
   - javaV225
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: javaSidebar
 
 ---

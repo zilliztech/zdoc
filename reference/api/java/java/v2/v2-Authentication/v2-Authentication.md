@@ -9,10 +9,10 @@ token: U16KfBnGVlNp5edR7DycvFF1nfy
 sidebar_position: 5
 sidebar_label: "Authentication"
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud

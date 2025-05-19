@@ -9,10 +9,10 @@ token: YkL6fqkaNlgeWXdNaWLcltkZnRc
 sidebar_position: 8
 sidebar_label: "Partitions"
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
