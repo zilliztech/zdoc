@@ -10,19 +10,19 @@ type: docx
 token: CadTdZ5YGocDymxaIOvcr08pnxd
 sidebar_position: 1
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - createPartition()
   - javaV225
+  - what is milvus
+  - milvus database
   - milvus lite
   - milvus benchmark
-  - managed milvus
-  - Serverless vector database
 displayed_sidebar: javaSidebar
 
 ---

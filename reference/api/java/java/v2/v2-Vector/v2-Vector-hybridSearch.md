@@ -10,19 +10,19 @@ type: docx
 token: PemMdzGFnovhaWxOzFzceaH3ncd
 sidebar_position: 3
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
   - javaV225
+  - milvus
+  - Zilliz
   - milvus vector database
   - milvus db
-  - milvus vector db
-  - Zilliz Cloud
 displayed_sidebar: javaSidebar
 
 ---

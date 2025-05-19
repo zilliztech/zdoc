@@ -10,19 +10,19 @@ type: docx
 token: LtCFdAg8FoxWmBxOInfcUSagnHb
 sidebar_position: 7
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
   - javaV225
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: javaSidebar
 
 ---

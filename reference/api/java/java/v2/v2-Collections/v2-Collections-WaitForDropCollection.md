@@ -10,19 +10,19 @@ type: docx
 token: K9E6dtYlJojtOCxTG0EcGBVnnKe
 sidebar_position: 22
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - WaitForDropCollection()
   - javaV225
+  - hnsw algorithm
+  - vector similarity search
   - approximate nearest neighbor search
   - DiskANN
-  - Sparse vector
-  - Vector Dimension
 displayed_sidebar: javaSidebar
 
 ---

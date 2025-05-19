@@ -10,19 +10,19 @@ type: docx
 token: HRicdDwU4oUDWEx6DrlcARGrn1c
 sidebar_position: 14
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - waitForCollectionRelease()
   - javaV225
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 displayed_sidebar: javaSidebar
 
 ---
