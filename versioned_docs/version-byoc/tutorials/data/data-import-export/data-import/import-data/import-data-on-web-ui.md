@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - console
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 
@@ -57,7 +57,7 @@ For more information about obtaining credentials, refer to:
 
 - Azure Blob Storage: [View account access keys](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys)
 
-For more information about using session tokens, refer to [the FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service).
+For more information about using session tokens, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
 
 <Admonition type="info" icon="📘" title="Notes">
 

@@ -16,10 +16,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 
@@ -566,8 +566,6 @@ export schema="{
 This example adds a built-in BM25 function in schema, utilizing the `text` field as input and storing the resulting sparse vectors in the `text_sparse_vector` field.
 
 ## Next Steps{#next-steps}
-
-- (Optional) [Choose and set indexes](null)
 
 - [Create Collection](./manage-collections-sdks)
 

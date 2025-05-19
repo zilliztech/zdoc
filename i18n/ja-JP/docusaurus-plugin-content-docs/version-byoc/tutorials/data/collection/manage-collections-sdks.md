@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 
@@ -572,7 +572,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Zilliz Cloudでは、コレクションを即座に作成する方法も提供されています。詳細については、「[コレクションを即座に作成](./quick-setup-collections)」を参照してください。
+Zilliz Cloudでは、コレクションを即座に作成する方法も提供されています。
 
 ## コレクションのプロパティを設定{#set-collection-properties}
 

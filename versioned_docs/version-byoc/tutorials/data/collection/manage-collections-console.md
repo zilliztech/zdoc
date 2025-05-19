@@ -15,10 +15,10 @@ keywords:
   - collection
   - manage
   - console
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 
@@ -147,7 +147,7 @@ A shard is a horizontal slice of a collection that corresponds to a data input c
 
 As a general guideline, consider adding 1 shard for every 100 million rows of data. The maximum number of shards allowed depends on the cluster plan and cluster CU size. For details, see [Zilliz Cloud Limits](./limits#shards).
 
-The number of shards can be later edited via the [clone collection](null) feature once the collection is created.
+The number of shards can be later edited via the [clone collection](./manage-collections-console#create-collection) feature once the collection is created.
 
 ## Manage collection{#manage-collection}
 
@@ -163,7 +163,7 @@ Zilliz Cloud supports the following management operations on created collections
 
     - You can edit the `max_capacity` value of an existing [ARRAY field](./use-array-fields) as well as the `max_length`value if the ARRAY type is VARCHAR.
 
-    - To change **shard** settings, use the [Clone collection](null) feature instead.
+    - To change **shard** settings, use the [Clone collection](./manage-collections-console#create-collection) feature instead.
 
     - To modify **TTL**, **Mmap**, or **partition key** settings, use the SDKs instead. For details, see [Modify Collection](./modify-collections).
 

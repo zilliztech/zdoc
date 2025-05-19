@@ -14,10 +14,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 
@@ -1329,13 +1329,13 @@ curl --request POST \
 
 After reviewing this quickstart guide, you can explore the following topics:
 
-- [Manipulate collections](null)
+- [Manipulate collections](./collection)
 
-- [Insert & delete data](null)
+- [Insert & delete data](./insert-update-delete)
 
 - [Index data](./manage-indexes)
 
-- [Search & Reranking](null)
+- [Search & Reranking](./search-query-get)
 
 - [Import & Export data](./data-import-export)
 

@@ -14,10 +14,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 
@@ -1357,13 +1357,13 @@ curl --request POST \
 
 After reviewing this quickstart guide, you can explore the following topics:
 
-- [Manipulate collections](null)
+- [Manipulate collections](./collection)
 
-- [Insert & delete data](null)
+- [Insert & delete data](./insert-update-delete)
 
 - [Index data](./manage-indexes)
 
-- [Search & Reranking](null)
+- [Search & Reranking](./search-query-get)
 
 - [Import & Export data](./data-import-export)
 

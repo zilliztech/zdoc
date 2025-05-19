@@ -16,10 +16,10 @@ keywords:
   - data
   - vector search
   - ann
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 
@@ -63,7 +63,7 @@ AUTOINDEXと適用可能なメトリックタイプの詳細については、�
 
 ANN検索において、単一ベクトル検索とは、1つのクエリベクトルのみを含む検索を指します。事前に構築されたインデックスと検索リクエストに含まれるメトリックタイプに基づいて、Zilliz Cloudは、クエリベクトルに最も似た上位K個のベクトルを検索します。
 
-このセクションでは、単一ベクトル検索を実行する方法を学びます。コードスニペットは、[クイックセットアップ](./quick-setup-collections#quick-setup)方法でコレクションを作成したことを前提としています。検索リクエストには単一のクエリベクトルが含まれ、Zilliz Cloudを使用して、クエリベクトルとコレクション内のベクトルの類似度を計算し、最も類似した3つを返します。
+このセクションでは、単一ベクトル検索を実行する方法を学びます。検索リクエストには単一のクエリベクトルが含まれ、Zilliz Cloudを使用して、クエリベクトルとコレクション内のベクトルの類似度を計算し、最も類似した3つを返します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

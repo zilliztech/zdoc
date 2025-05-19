@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 
@@ -103,7 +103,7 @@ Before importing data, it's important to understand the supported cloud storage 
 
     - If you prefer to authenticate with long-term credentials, read [Manage HMAC keys for service accounts](https://cloud.google.com/storage/docs/authentication/managing-hmackeys) for details.
 
-    - If you prefer to authenticate with short-term credentials, refer to [this FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service).
+    - If you prefer to authenticate with short-term credentials, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
 
 ## Azure Blob Storage{#azure-blob-storage}
 
@@ -128,5 +128,5 @@ Before importing data, it's important to understand the supported cloud storage 
 
     - If you prefer to authenticate with long-term credentials, read [View account access keys](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys) for details
 
-    - If you prefer to authenticate with short-term credentials, refer to [this FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service).
+    - If you prefer to authenticate with short-term credentials, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 
@@ -109,6 +109,8 @@ Zilliz Cloud supports representing sparse vectors in any of the following format
     ```
 
 ## Define Collection Schema{#define-collection-schema}
+
+Before creating a collection, you need to define the collection schema, which includes fields and derivative functions that convert text fields into corresponding sparse vector representations.
 
 ### Add fields{#add-fields}
 
@@ -302,11 +304,13 @@ In this example, three fields are added:
 
 ### Add functions{#add-functions}
 
-<Admonition type="info" icon="📘" title="**Notes:** You can skip this step if generating embeddings on your own. However, you will need to provide sparse embeddings to be inserted into the sparse vector field.">
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>This step is required if you need Zilliz Cloud to generate sparse vector embeddings based on the value in a specified text field during data insertion. You can skip this step if you decide to bring your own vectors. </p>
 
 </Admonition>
 
-To utilize the full-text search feature built in Milvus, powered by BM25 (eliminating the need for manual generation of sparse embeddings), you need to add the Milvus `Function` to the schema:
+To utilize the full-text search feature built in Zilliz Cloud, powered by BM25 (eliminating the need for manual generation of sparse embeddings), you need to add the `Function` to the schema:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -436,13 +440,11 @@ List<IndexParam> indexes = new ArrayList<>();
 
 indexes.add(IndexParam.builder()
         .fieldName("sparse_vector")
-
         .indexName("sparse_auto_index")
         .indexType(IndexParam.IndexType.AUTOINDEX)
-
         .metricType(IndexParam.MetricType.BM25) // Or IndexParam.MetricType.IP for custom sparse vectors
-
         .build());
+
 ```
 
 </TabItem>
@@ -450,14 +452,14 @@ indexes.add(IndexParam.builder()
 <TabItem value='javascript'>
 
 ```javascript
+
 const indexParams = await client.createIndex({
     field_name: 'sparse_vector',
     metric_type: MetricType.BM25, // or MetricType.IP for custom sparse vectors
-
     index_name: 'sparse_auto_index',
     index_type: IndexType.AUTOINDEX,
-
 });
+
 ```
 
 </TabItem>
@@ -474,24 +476,22 @@ indexOption := milvusclient.NewCreateIndexOption("my_collection", "sparse_vector
 <TabItem value='bash'>
 
 ```bash
+
 export indexParams='[
         {
             "fieldName": "sparse_vector",
             "metricType": "BM25", # or "IP" for custom sparse vectors
-
             "indexName": "sparse_auto_index",
             "indexType": "AUTOINDEX"
-
         }
     ]'
+
 ```
 
 </TabItem>
 </Tabs>
 
 This example uses the `SPARSE_INVERTED_INDEX` index type with `BM25` as the metric. For more details, see the following resources:
-
-- SPARSE_INVERTED_INDEX: Explained index and its parameters
 
 - [Metric Types](./search-metrics-explained): Supported metric types for different field types
 
@@ -725,9 +725,9 @@ curl --request POST \
 
 ## Perform Similarity Search{#perform-similarity-search}
 
-To perform a similarity search using sparse vectors, prepare both the query data and the search parameters. If you are using the built-in BM25 function, simply provide the query text — there is no need to supply a sparse vector. Refer to SPARSE_INVERTED_INDEX for available search parameters.
+To perform a similarity search using sparse vectors, prepare both the query data and the search parameters. If you are using the built-in BM25 function, simply provide the query text — there is no need to supply a sparse vector. 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -768,6 +768,22 @@ EmbeddedText queryData = new EmbeddedText("What is information retrieval?");
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// Prepare search parameters
+annSearchParams := index.NewCustomAnnParam()
+annSearchParams.WithExtraParam("drop_ratio_search", 0.2)
+
+// Query with text if search with the built-in BM25
+queryData := entity.Text({"What is information retrieval?"})
+
+// Otherwise, query with the sparse vector
+// queryData, _ := entity.NewSliceSparseEmbedding([]uint32{1, 50, 1000}, []float32{0.2, 0.4, 0.7})
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -783,18 +799,17 @@ const queryData = ["What is information retrieval?"]
 
 </TabItem>
 
-<TabItem value='go'>
+<TabItem value='bash'>
 
-```go
-// Prepare search parameters
-annSearchParams := index.NewCustomAnnParam()
-annSearchParams.WithExtraParam("drop_ratio_search", 0.2)
+```bash
+# Prepare search parameters
+export queryData='["What is information retrieval?"]'
 
-// Query with text if search with the built-in BM25
-queryData := entity.Text({"What is information retrieval?"})
+# Query with text if search with the built-in BM25
+export searchParams='{"params":{"drop_ratio_search": 0.2}}'
 
-// Otherwise, query with the sparse vector
-// queryData, _ := entity.NewSliceSparseEmbedding([]uint32{1, 50, 1000}, []float32{0.2, 0.4, 0.7})
+# Otherwise, query with the sparse vector
+# export queryData='[{1: 0.2, 50: 0.4, 1000: 0.7}]'
 ```
 
 </TabItem>
@@ -901,14 +916,10 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "collectionName": "my_collection",
-    "data": [
-        {"1": 0.2, "50": 0.4, "1000": 0.7}
-    ],
+    "data": $queryData,
     "annsField": "sparse_vector",
     "limit": 3,
-    "searchParams":{
-        "params":{"drop_ratio_search": 0.2}
-    },
+    "searchParams": $searchParams,
     "outputFields": ["pk"]
 }'
 

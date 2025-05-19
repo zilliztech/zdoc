@@ -16,10 +16,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 
@@ -566,8 +566,6 @@ export schema="{
 This example adds a built-in BM25 function in schema, utilizing the `text` field as input and storing the resulting sparse vectors in the `text_sparse_vector` field.
 
 ## Next Steps{#next-steps}
-
-- (Optional) [Choose and set indexes](null)
 
 - [Create Collection](./manage-collections-sdks)
 
