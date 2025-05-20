@@ -354,3 +354,7 @@ html.docs-doc-id-tutorials\/home .pagination-nav {
 .katex-html {
   display: none !important;
 }
+
+.menu__list-item-collapsible:not(:has(button)) {
+  width: 100% !important ;
+}
