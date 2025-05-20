@@ -1273,9 +1273,9 @@ class larkDocWriter {
                     const rowspan = merge.row_span > 1 ? ` rowspan="${merge.row_span}"` : "";
                     let cell_text = this.__filter_content(cell_texts[cell_idx], this.targets).trim()
                         .replace(/^\n/, '')
-                        .replace(/<br\/>/g, '\n')
+                        .replace(/<br\/>/g, '\n\n')
 
-                    cell_text = converter.makeHtml(cell_text)
+                    cell_text = converter.makeHtml(cell_text).replace(/\n/g, '');
                     if (i === 0) {
                         html += ` ${' '.repeat(indent)}    <th${colspan}${rowspan}>${cell_text}</th>\n`;
                     } else {
