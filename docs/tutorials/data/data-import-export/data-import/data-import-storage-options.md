@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 
@@ -61,6 +61,14 @@ Before importing data, it's important to understand the supported cloud storage 
     - `s3:ListBucket`
 
     - `s3:GetBucketLocation`
+
+    - `kms:Decrypt`
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <p>If your bucket or specific items in the bucket are encrypted with a custom KMS ID, you must provide decryption permissions for that KMS ID along with the authentication credentials.</p>
+
+        </Admonition>
 
 - **Credential acquisition**
 

@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 
@@ -46,7 +46,7 @@ In this step, you will create a cross-account IAM role for the communications be
 
 1. On the Zilliz Cloud console, copy **External ID** displayed in the setup guide.
 
-    ![TS1XbezPjoruVGxQmuJckdo1nSc](/img/TS1XbezPjoruVGxQmuJckdo1nSc.png)
+    ![Um4uborYloHqYcxWncBcWg5inGb](/img/Um4uborYloHqYcxWncBcWg5inGb.png)
 
 1. Log into your **AWS Console** as a user with administrator privileges and go to the **IAM** dashboard.
 
