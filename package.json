@@ -19,6 +19,7 @@
     "@docusaurus/faster": "^3.7.0",
     "@docusaurus/preset-classic": "^3.7.0",
     "@easyops-cn/docusaurus-search-local": "^0.45.0",
+    "@inkeep/cxkit-docusaurus": "^0.5.79",
     "@inkeep/cxkit-react": "^0.5.71",
     "@inkeep/docusaurus": "^2.0.16",
     "@mdx-js/react": "^3.0.0",
@@ -44,7 +45,9 @@
     "showdown": "^2.1.0",
     "slugify": "^1.6.6",
     "uuid": "^10.0.0",
-    "xml2js": "^0.6.2"
+    "xml2js": "^0.6.2",
+    "zod": "^3.25.13",
+    "zod-to-json-schema": "^3.24.5"
   },
   "devDependencies": {
     "@docusaurus/module-type-aliases": "^3.7.0",
