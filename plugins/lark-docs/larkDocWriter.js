@@ -1321,7 +1321,7 @@ class larkDocWriter {
                     cell = cell.toString()
                 }
 
-                cell = cell.trim().replace(/<br>/g, '\n');
+                cell = cell.trim().replace(/<br>/g, '\n\n');
 
                 if (ridx === 0) {
                     result += `${' '.repeat(indent) + '    '.repeat(2)}<th${colspan ? " " + colspan : ""}${rowspan ? " " + rowspan : ""}>${converter.makeHtml(cell).replace(/\n/g, '')}</th>\n`
