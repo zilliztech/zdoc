@@ -5,6 +5,10 @@ import { zodToJsonSchema } from "zod-to-json-schema";
 import { detectedSalesSignal, provideAnswerConfidenceSchema } from './config/Inkeep';
 import 'dotenv/config';
 
+const validSalesSignalTypes = salesSignalType.options.map(
+  option => option.value
+);
+
 const inkeepSettings ={
   baseSettings: {
     apiKey: process.env.INKEEP_API_KEY,
