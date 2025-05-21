@@ -13,7 +13,9 @@ export default function SearchBtn(props) {
         setIsOpen(isOpen);
     }, []);
 
-    const config = siteConfig.plugins.find( plugin => {
+    console.log(siteConfig.plugins)
+
+    const config = siteConfig.plugins.find(plugin => {
         return plugin[0] === '@inkeep/cxkit-docusaurus';
     })[1].SearchBar;
 
