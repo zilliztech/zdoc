@@ -3,6 +3,7 @@ import {
     InkeepModalSearch,
 } from "@inkeep/cxkit-react";
 import useDocusaurusContext from '@docusaurus/useDocusaurusContext';
+import { inkeepSettings } from '../../../config/inkeep.config';
 import styles from './styles.module.css';
 
 export default function SearchBtn(props) {
@@ -13,38 +14,11 @@ export default function SearchBtn(props) {
         setIsOpen(isOpen);
     }, []);
 
-    const config = siteConfig.plugins.find( plugin => {
+    const config = inkeepSettings;
+
+    config.baseSettings.apiKey = siteConfig.plugins.find(plugin => {
         return plugin[0] === '@inkeep/cxkit-docusaurus';
-    })[1].SearchBar;
-
-    config.baseSettings.transformSource = (source, type) => {
-        const tabs = source.tabs || [];
-
-        if (type === 'searchResultItem') {
-            console.log('source', source)
-            console.log('type', type)
-            if (source.url.includes('/docs/byoc')) {
-                tabs.push('BYOC')
-            } else if (source.url.includes('/docs')) {
-                tabs.push('Guides')
-            } else if (source.breadcrumbs.includes('Reference')) {
-                tabs.push('Reference')
-            } else if (source.url.startsWith('https://support.zilliz.com')) {
-                tabs.push('Support')
-            } else if (source.breadcrumbs.includes('Partners')) {
-                tabs.push('Partners')
-            } else if (source.breadcrumbs.includes('Event')) {
-                tabs.push('Event')
-            } else if (source.breadcrumbs.includes('Glossary')) {
-                tabs.push('Glossary')
-            } 
-                
-            return {
-                ...source,
-                title: `${source.title.split('Contact')[0].split(' | ')[0]}`
-            }
-        }
-    }
+    })[1].ChatButton.baseSettings.apiKey;
 
     config.modalSettings = {
         isOpen,
