@@ -67,7 +67,7 @@ export const inkeepSettings ={
         name: "Contact Support",
         action: {
           type: "open_link",
-          url: "mailto:support@zilliz.com",
+          url: "https://support.zilliz.com/hc/en-us",
         },
         icon: {
           builtIn: "IoHelpBuoyOutline"
@@ -110,7 +110,7 @@ export const inkeepSettings ={
                 label: "Contact Support",
                 action: {
                   type: "open_link",
-                  url: "mailto:support@zilliz.com",
+                  url: "https://support.zilliz.com/hc/en-us",
                 },
                 icon: {
                   builtIn: "IoHelpBuoyOutline"
