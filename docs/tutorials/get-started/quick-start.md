@@ -14,10 +14,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 
@@ -29,23 +29,9 @@ import TabItem from '@theme/TabItem';
 
 This guide demonstrates how to use Zilliz Cloud clusters to perform operations related to high-performance semantic search.
 
-## Before you start{#before-you-start}
+The following steps assume that you have already created a cluster, obtained the API key or the cluster credentials, and installed your preferred SDK.
 
-Before diving into this guide, ensure that
-
-- A Zilliz Cloud cluster has been created.
-
-    For instructions, refer to [Create Cluster](./create-cluster).
-
-- An SDK in your preferred language has been installed.
-
-    Zilliz Cloud provides [SDKs](./api-sdks) in multiple languages. For this quickstart, install the [Python SDK](./install-sdks#install-pymilvus-python-sdk), [Java SDK](./install-sdks#install-java-sdk), [Go SDK](./install-sdks#install-go-sdk), or [Node.js SDK](./install-sdks#install-nodejs-sdk). As an alternative, you can use our RESTful API from the terminal directly.
-
-- An API key or cluster credentials have been obtained to access the created cluster above.
-
-    For instructions, refer to [API Keys](./manage-api-keys) and [Cluster Credentials](./cluster-credentials).
-
-## Connect to Zilliz Cloud cluster{#connect-to-zilliz-cloud-cluster}
+## Set up Connection{#set-up-connection}
 
 Once you have obtained the cluster credentials or an API key, you can use it to connect to your cluster now.
 
@@ -157,7 +143,7 @@ export CLUSTER_TOKEN="YOUR_CLUSTER_TOKEN"
 </TabItem>
 </Tabs>
 
-## Create a Collection{#create-a-collection}
+## Create Collection{#create-collection}
 
 On Zilliz Cloud, you need to store your vector embeddings in collections. All vector embeddings stored in a collection share the same dimensionality and distance metric for measuring similarity. 
 
