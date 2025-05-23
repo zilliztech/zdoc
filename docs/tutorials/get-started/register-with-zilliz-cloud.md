@@ -14,10 +14,10 @@ keywords:
   - register
   - cloud
   - milvus
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 
@@ -54,7 +54,15 @@ Follow the steps below to create a Zilliz Cloud account using your work email an
 
 1. Enter a password in the **Password** field.
 
-    Ensure that your password does not exceed 128 characters and includes at least one uppercase letter, one lowercase letter, one numeral, and one special character.
+    Your password must be at least 8 characters long and include at least 3 of the following character types:
+
+    - Lowercase letters (a–z)
+
+    - Uppercase letters (A–Z)
+
+    - Numbers (0–9)
+
+    - Special characters (e.g., !@#$%^&*)
 
 1. Check the box next to **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)**.
 

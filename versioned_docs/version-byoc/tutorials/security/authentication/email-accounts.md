@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 
@@ -54,6 +54,16 @@ Once you have [registered an account](./register-with-zilliz-cloud) with Zilliz 
 ## Change account password{#change-account-password}
 
 ![change_password](/img/change_password.png)
+
+Your password must be at least 8 characters long and include at least 3 of the following character types:
+
+- Lowercase letters (a–z)
+
+- Uppercase letters (A–Z)
+
+- Numbers (0–9)
+
+- Special characters (e.g., !@#$%^&*)
 
 ## Enable and disable MFA{#enable-and-disable-mfa}
 
