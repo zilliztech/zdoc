@@ -754,6 +754,11 @@ class larkDocWriter {
                 markdown.push(await this.__callout(block, indent));
             } else if (this.block_types[block['block_type']-1] === 'board') {
                 markdown.push(await this.__board(block['board'], indent));
+            } else if (this.block_types[block['block_type']-1] === 'add_ons') {
+                // supademo add-ons
+                if (block['add_ons']['component_type_id'] === 'blk_682093ba9580c002363b9dc3') {
+                    markdown.push(await this.__supademo(block['add_ons'], indent));
+                }
             } else if (block['block_type'] === 999 && block['children']) {
                 const children = block['children'].map(child => {
                     return this.__retrieve_block_by_id(child)
@@ -1349,6 +1354,12 @@ class larkDocWriter {
             return ''
         }
 
+    }
+
+    async __supademo(addons, indent) {
+        const record = JSON.parse(addons['record']);
+
+        return ' '.repeat(indent) + `<Supademo id="${record['id']}" title="" ${record['isShowcase'] ? 'isShowcase' : ''} />`;
     }
 
     __retrieve_block_by_id(block_id) {
