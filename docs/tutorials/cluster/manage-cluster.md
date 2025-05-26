@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 
@@ -35,7 +35,7 @@ This guide describes the lifecycle of a cluster so that you can make full use of
 
 Navigate to the **Cluster Details** page of your target cluster and then follow the instruction below to rename your cluster.
 
-<Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title="Zilliz Cloud - Rename Cluster Demo" />
+<Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title=""  />
 
 ## Suspend cluster | Dedicated{#suspend-cluster}
 
