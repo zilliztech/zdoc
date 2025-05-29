@@ -36414,13 +36414,13 @@
 																"type": "string",
 																"description": "The name of the source collection to restore."
 															},
-															"targetCollectionName": {
+															"destCollectionName": {
 																"type": "string",
-																"description": "The name of the target collection."
+																"description": "The name of the destination collection."
 															},
-															"targetCollectionStatus": {
+															"destCollectionStatus": {
 																"type": "string",
-																"description": "The status of the target collection.",
+																"description": "The status of the destination collection.",
 																"enum": [
 																	"LOADED",
 																	"UNLOADED"
@@ -36444,8 +36444,8 @@
 									"collections": [
 									   {
 										 "collectionName": "medium_articles",
-										 "targetCollectionName": "restore_medium_articles",
-										 "targetCollectionStatus": "LOADED"
+										 "destCollectionName": "restore_medium_articles",
+										 "destCollectionStatus": "LOADED"
 									   }
 									 ]
 								  }
