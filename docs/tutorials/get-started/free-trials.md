@@ -54,7 +54,7 @@ To unfreeze your organization, simply [add a payment method](./payment-billing).
 
 ### Earn credits and extend credit expiration{#earn-credits-and-extend-credit-expiration}
 
-When you register with a work email, you’ll receive $100 in free credits. You can earn an extra $100 by [adding a payment method](./payment-billing) on Zilliz Cloud. Plus, adding a payment method extends the credit expiration to **1 year**.
+When you register with a work email, you’ll receive $100 in free credits. You can earn an extra &#36;100 by [adding a payment method](./payment-billing) on Zilliz Cloud. Plus, adding a payment method extends the credit expiration to **1 year**.
 
 If you need additional credits or want to extend your trial period, please [contact sales](https://zilliz.com/contact-sales).
 
