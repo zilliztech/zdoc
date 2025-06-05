@@ -1432,6 +1432,7 @@ class larkDocWriter {
                     }
 
                     content = `${prefix}[${content.replace(prefix, '').replace(suffix, '')}](${url})${suffix}`;
+                    content = content.replace(/\$/g, '&#36;') // escape $ for markdown
                 }
             }
         }
