@@ -88,9 +88,11 @@ export const inkeepSettings ={
     ],
     exampleQuestionsLabel: "EXAMPLE QUESTIONS",
     exampleQuestions: [
-      "How do I create and connect to a cluster in Zilliz Cloud?",
-      "How can I optimize vector search performance for large datasets?",
-      "What are the differences between Serverless and Dedicated clusters?"
+      "Create and connect to a cluster",
+      "Optimize vector search performance for large datasets",
+      "Serverless vs Dedicated",
+      "Latest updates of Zilliz Cloud",
+      "Change payment method"
     ],
     aiAssistantAvatar: "https://assets.zilliz.com/zilliz_star_b6717656dc.svg",
     placeholder: "How can I get started?",

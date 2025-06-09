@@ -1,0 +1,29 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_positition: 3
+slug: /restful/delete-alert-rule-v2
+beta: FALSE
+title: "Delete Alert Rule | RESTful"
+description: "Deletes an existing alert rule by its ID. The current user should be a project admin. | RESTful"
+hide_table_of_contents: true
+sidebar_label: "Delete Alert Rule"
+sidebar_custom_props: { badges: ['delete']}
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "Delete Alert Rule"
+  - "delete"
+  - RESTful
+  - API
+---
+
+# Delete Alert Rule
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="en-US" />
+
+export const specs = {"summary":"Delete Alert Rule","deprecated":false,"description":"Deletes an existing alert rule by its ID. The current user should be a project admin.","x-i18n":{"zh-CN":{"summary":"删除告警规则","description":"本接口通过 ID 删除现有的告警规则。当前用户须为项目管理员。"}},"tags":["Metrics & Alerts (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"}},"x-i18n-langs":["zh-CN"]},{"name":"ALERT_RULE_ID","in":"path","description":"The ID of the alert rule to delete.","required":true,"schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"要删除的告警规则 ID。"}}}],"responses":{"200":{"description":"Returns an empty response indicating that the alert rule has been successfully deleted.","x-i18n":{"zh-CN":{"description":"返回一个空响应，表示告警规则已成功删除。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","description":"Returns an empty response.","x-i18n":{"zh-CN":{"description":"返回一个空响应。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}}}},{"x-tab-label":"error","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":21119,"message":"The apikey is illegal."}}}}}}}}
+export const endpoint = "/v2/alertRules/{ALERT_RULE_ID}"
+export const method = "delete"

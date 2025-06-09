@@ -126,5 +126,9 @@
     {
         "name": "usage-v2",
         "description": "This set of APIs provides a way to list usage details."
+    },
+    {
+        "name": "metrics-and-alerts-v2",
+        "description": "This set of APIs provides a way to manage metrics and alerts."
     }
 ]
