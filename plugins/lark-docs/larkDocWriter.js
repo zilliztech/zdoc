@@ -923,7 +923,9 @@ class larkDocWriter {
         const valid_langs = ['Python', 'JavaScript', 'Java', 'Go', 'Bash']
         let lang = code.style.language ? this.code_langs[code['style']['language']] : 'plaintext'
         let elements = (await Promise.all(code['elements'].map( async x => {
-            return (await this.__text_run(x, code['elements'], true)).replace(/&#36;/g, '$')
+            let content = await this.__text_run(x, code['elements'], true)
+            content = content.replaceAll('&#36;', '$')
+            return content
         }))).join('') 
 
         if (valid_langs.includes(lang)) {
@@ -1401,9 +1403,12 @@ class larkDocWriter {
         let content = element['text_run']['content'];
         let style = element['text_run']['text_element_style'];
 
+        content = content.replace(/\$/g, '&#36;') // escape $ for markdown
+
         if (!content.match(/^\s+$/) && !asis) {
             if (style['inline_code']) {
                 content = this.__style_markdown(element, elements, 'inline_code', '`');
+                content = content.replaceAll('&#36;', '#')
             } else {                
                 if (style['bold']) {
                     content = this.__style_markdown(element, elements, 'bold', '**');
@@ -1436,7 +1441,6 @@ class larkDocWriter {
                     }
 
                     content = `${prefix}[${content.replace(prefix, '').replace(suffix, '')}](${url})${suffix}`;
-                    content = content.replace(/\$/g, '&#36;') // escape $ for markdown
                 }
             }
         }
