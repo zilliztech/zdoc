@@ -2,7 +2,7 @@
 title: "getIndexBuildingProgress() | Java | v1"
 slug: /java/v1-Index-getIndexBuildingProgress
 sidebar_label: "getIndexBuildingProgress()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "MilvusClient interface. This method shows the index-building progress, such as how many rows are indexed. | Java | v1"
 type: origin

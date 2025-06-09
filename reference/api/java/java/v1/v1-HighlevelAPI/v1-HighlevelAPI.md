@@ -2,7 +2,7 @@
 title: "High-level API | Java | v1"
 slug: /java/v1-HighlevelAPI
 sidebar_label: "High-level API"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "(placeholder) | Java | v1"
 type: origin

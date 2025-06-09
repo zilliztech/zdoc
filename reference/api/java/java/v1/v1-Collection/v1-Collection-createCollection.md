@@ -2,7 +2,7 @@
 title: "createCollection() | Java | v1"
 slug: /java/v1-Collection-createCollection
 sidebar_label: "createCollection()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "A MilvusClient interface. This method creates a collection with the specified schema. | Java | v1"
 type: origin
@@ -171,17 +171,17 @@ Methods of `FieldType.Builder`:
    </tr>
    <tr>
      <td><p>withMaxCapacity(Integer maxCapacity)</p></td>
-     <td><p>Sets the max capacity of an Array field. The valid capacity value range is [1, 4096]</p></td>
+     <td><p>Sets the max capacity of an Array field. </p><p>The valid capacity value range is [1, 4096]</p></td>
      <td><p>maxCapacity: The max capacity of the array.</p></td>
    </tr>
    <tr>
      <td><p>withAutoID(boolean autoID)</p></td>
-     <td><p>Enables auto-ID function for the field. Note that the auto-ID function can only be enabled on primary key field.If auto-ID function is enabled, Milvus automatically generates a unique ID for each entity so that values for the primary key field do not need to be provided during data insertion. If auto-ID is disabled, values for the primary key field need to be provided during data insertion.</p></td>
+     <td><p>Enables auto-ID function for the field. Note that the auto-ID function can only be enabled on primary key field.</p><p>If auto-ID function is enabled, Milvus automatically generates a unique ID for each entity so that values for the primary key field do not need to be provided during data insertion. If auto-ID is disabled, values for the primary key field need to be provided during data insertion.</p></td>
      <td><p>autoID: A boolean value that defines if the primary keys are automatically generated. The value true means that auto-ID is enabled, while the value false means it is not.</p></td>
    </tr>
    <tr>
      <td><p>withPartitionKey(boolean partitionKey)</p></td>
-     <td><p>Sets the field to be partition key.A partition key field's values are hashed and distributed to different logic partitions.Only int64 and varchar type fields can be a partition key. The primary key field can not be a partition key.</p></td>
+     <td><p>Sets the field to be partition key.</p><p>A partition key field's values are hashed and distributed to different logic partitions.</p><p>Only int64 and varchar type fields can be a partition key. The primary key field can not be a partition key.</p></td>
      <td><p>partitionKey: A boolean value that defines if this field is a partition key field. The value true is a partition key, false is not.</p></td>
    </tr>
    <tr>

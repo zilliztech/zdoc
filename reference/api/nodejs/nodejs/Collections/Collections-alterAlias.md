@@ -10,19 +10,19 @@ type: docx
 token: DXTLdtFCso7fo6xJHShc7XLpngh
 sidebar_position: 1
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - alterAlias()
-  - node
-  - Vector store
+  - nodejs25
   - open source vector database
   - Vector index
   - vector database open source
+  - open source vector db
 displayed_sidebar: nodeSidebar
 
 ---

@@ -2,7 +2,7 @@
 title: "Connections | Java | v1"
 slug: /java/v1-Connections
 sidebar_label: "Connections"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "(placeholder) | Java | v1"
 type: origin

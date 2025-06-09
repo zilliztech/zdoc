@@ -40,7 +40,7 @@ searchParams := entity.NewIndexAUTOINDEXSearchParam(level int)
      <td><p><code>level</code></p></td>
      <td><p><code>int</code></p></td>
      <td><p><code>[1, 5]</code></p></td>
-     <td><p>The precision level of the search. Increasing the <code>level</code> parameter will result in a higher recall rate, but may also lead to degraded search performance. The value defaults to <code>1</code> and ranges from <code>1</code> to <code>5</code>. The default value results in a recall rate of 90%, which is typically sufficient for most use cases. However, if you require a higher recall rate, increase this value.</p></td>
+     <td><p>The precision level of the search.</p><p>Increasing the <code>level</code> parameter will result in a higher recall rate, but may also lead to degraded search performance. The value defaults to <code>1</code> and ranges from <code>1</code> to <code>5</code>. The default value results in a recall rate of 90%, which is typically sufficient for most use cases. However, if you require a higher recall rate, increase this value.</p></td>
    </tr>
 </table>
 

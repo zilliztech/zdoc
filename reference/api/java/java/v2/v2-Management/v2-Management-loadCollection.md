@@ -8,21 +8,21 @@ notebook: false
 description: "This operation loads the data of a specific collection into memory. | Java | v2"
 type: docx
 token: XEWvdbuFHoLOo7xKrAJcqip6n5J
-sidebar_position: 7
+sidebar_position: 10
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollection()
-  - javaV2
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - javaV225
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: javaSidebar
 
 ---
@@ -93,7 +93,19 @@ loadCollection(LoadCollectionReq.builder()
 ## Example{#example}
 
 ```java
-// load collection "test"
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.collection.request.LoadCollectionReq;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Load collection "test"
 LoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()
         .collectionName("test")
         .build();

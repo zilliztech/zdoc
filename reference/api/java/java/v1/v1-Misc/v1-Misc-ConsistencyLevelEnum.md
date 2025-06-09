@@ -2,7 +2,7 @@
 title: "ConsistencyLevelEnum | Java | v1"
 slug: /java/v1-Misc-ConsistencyLevelEnum
 sidebar_label: "ConsistencyLevelEnum"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The enumeration for consistency level during a search/query. | Java | v1"
 type: origin

@@ -2,7 +2,7 @@
 title: "hasPartition() | Java | v1"
 slug: /java/v1-Partition-hasPartition
 sidebar_label: "hasPartition()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "MilvusClient interface. This method checks if a partition exists in the specified collection. | Java | v1"
 type: origin

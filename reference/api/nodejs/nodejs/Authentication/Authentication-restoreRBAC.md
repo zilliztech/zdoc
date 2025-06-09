@@ -1,0 +1,178 @@
+---
+displayed_sidbar: nodeSidebar
+title: "restoreRBAC() | Node.js"
+slug: /node/node/Authentication-restoreRBAC
+sidebar_label: "restoreRBAC()"
+beta: false
+notebook: false
+description: "This operation restores RBAC configurations from a backup. | Node.js"
+type: docx
+token: RIS2dU8uXojudgxLbJWcG54CnOb
+sidebar_position: 22
+keywords: 
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - restoreRBAC()
+  - nodejs25
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
+displayed_sidebar: nodeSidebar
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# restoreRBAC()
+
+This operation restores RBAC configurations from a backup.
+
+```javascript
+restoreRBAC(data): Promise<ResStatus>
+```
+
+## Request Syntax{#request-syntax}
+
+```javascript
+milvusClient.backupRBAC({
+    RBAC_meta: RBACMeta,
+    timeout?: number
+})
+```
+
+**PARAMETERS:**
+
+- **RBAC_meta** (*RBACMeta*) -
+
+    - **users** (*User[]*) -
+
+        A list of user entities.
+
+        - **name** (*string*) - 
+
+            The name of a user.
+
+    - **roles** (*RoleEntity[]*) -
+
+        A list of role entities.
+
+        - **name** (*string*) - 
+
+            The name of a role.
+
+    - **grants** (*GrantEntity[]*) -
+
+        A list of grant entities.
+
+        - **db_name** (*string*) -
+
+            The database to which the object specified in the current grant belongs.
+
+        - **grantor** (*Grantor*) -
+
+            The user who performs the current grant and the granted privileges.
+
+            - **user** (*User*) -
+
+                The name of the grantor.
+
+            - **privilege** （*PrivilegeEntity*) -   
+
+                The privilege that has been granted.
+
+        - **object** (*ObjectEntity*) -
+
+            The type of the object that the current grant affects.
+
+            - **name** (*RbacObjects*) - 
+
+                The type of the affected object. Possible values are:
+
+                - Collection
+
+                - Global
+
+                - User
+
+        - **object_name** (string) -
+
+            The name of the affected object.
+
+        - **role** (*RoleEntity*) -   
+
+            The name of the role affected in the current grant.
+
+            - **name** (*string*) - 
+
+                The name of the affected role.
+
+    - **privilege_groups** (*PrivelegeGroup[]*) - 
+
+        A list of privilege-group entities.
+
+        - **group_name** (*string*) -
+
+            The name of a privilege group.
+
+        - **privileges** (*PrivilegeEntity[]*) -
+
+            A list of privileges.
+
+            - **name** (*string*) -
+
+                The name of a privilege. 
+
+- **timeout** (*number*) -  
+
+    The timeout duration for this operation. 
+
+    Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+
+**RETURNS** *Promise\<ResStatus>*
+
+This method returns a promise that resolves to a **ResStatus** object.
+
+```javascript
+{
+    code: number,
+    error_code: string | number,
+    reason: string
+}
+```
+
+**PARAMETERS:**
+
+- **code** (*number*) -
+
+    A code that indicates the operation result. It remains **0** if this operation succeeds.
+
+- **error_code** (*string* | *number*) -
+
+    An error code that indicates an occurred error. It remains **Success** if this operation succeeds. 
+
+- **reason** (*string*) - 
+
+    The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+## Example{#example}
+
+```java
+const rbacMeta = {
+    users: [],
+    roles: [],
+    grants: [],
+    privilege_groups: []
+}
+
+await milvusClient.restoreRBAC({
+  RBAC_meta: rbacMeta,
+});
+```
+

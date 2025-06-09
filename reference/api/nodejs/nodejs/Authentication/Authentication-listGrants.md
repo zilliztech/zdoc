@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists the privileges granted to the specified role. | Node.js"
 type: docx
 token: CJ9DdmU1ooquOnxcK5AciA3sn3g
-sidebar_position: 10
+sidebar_position: 16
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - listGrants()
-  - node
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - nodejs25
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 displayed_sidebar: nodeSidebar
 
 ---

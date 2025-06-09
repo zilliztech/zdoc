@@ -8,17 +8,17 @@ notebook: false
 description: "This operation lists all existing aliases for a specific collection. | Java | v2"
 type: docx
 token: RvZDdxU1howmQ7x2V31c8eC7nJb
-sidebar_position: 15
+sidebar_position: 19
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - listAliases()
-  - javaV2
+  - javaV225
   - Natural language search
   - Similarity Search
   - multimodal RAG
@@ -71,6 +71,20 @@ A **ListAliasResp** object containing a list of aliases for the specified collec
 ## Example{#example}
 
 ```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.utility.request.ListAliasesReq;
+import io.milvus.v2.service.utility.response.ListAliasResp;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. List aliases
 ListAliasesReq listAliasesReq = ListAliasesReq.builder()
         .collectionName("test")
         .build();

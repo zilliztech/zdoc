@@ -10,19 +10,19 @@ type: docx
 token: UOIddRBUXotHvyx4Yyocer0mnId
 sidebar_position: 15
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - get_server_type()
   - pymilvus25
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
 displayed_sidebar: pythonSidebar
 
 ---

@@ -2,7 +2,7 @@
 title: "Collection | Java | v1"
 slug: /java/v1-Collection
 sidebar_label: "Collection"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "(placeholder) | Java | v1"
 type: origin

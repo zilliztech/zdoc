@@ -2,7 +2,7 @@
 title: "getPartitionStatistics() | Java | v1"
 slug: /java/v1-Partition-getPartitionStatistics
 sidebar_label: "getPartitionStatistics()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "MilvusClient interface. This method shows the statistical information of a partition. | Java | v1"
 type: origin
@@ -100,7 +100,7 @@ Methods of `GetPartStatResponseWrapper`:
    </tr>
    <tr>
      <td><p>getRowCount()</p></td>
-     <td><p>Get the row count of a partition.Throw NumberFormatException if the row count string is illegal.</p></td>
+     <td><p>Get the row count of a partition.</p><p>Throw NumberFormatException if the row count string is illegal.</p></td>
      <td><p>long</p></td>
    </tr>
 </table>

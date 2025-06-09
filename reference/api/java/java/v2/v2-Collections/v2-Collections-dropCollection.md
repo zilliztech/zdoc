@@ -8,21 +8,21 @@ notebook: false
 description: "This operation drops a collection. | Java | v2"
 type: docx
 token: PsAGd1CNqosvirxDJ5ncIHudnSg
-sidebar_position: 11
+sidebar_position: 14
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollection()
-  - javaV2
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - javaV225
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: javaSidebar
 
 ---
@@ -80,15 +80,22 @@ dropCollection(DropCollectionReq.builder()
 ## Example{#example}
 
 ```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.collection.request.DropCollectionReq;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
 // drop a collection: test
 DropCollectionReq dropCollectionReq = DropCollectionReq.builder()
         .collectionName("test")
         .build();
 client.dropCollection(dropCollectionReq);
-// check if dropped
-client.hasCollection(HasCollectionReq.builder()
-        .collectionName("test")
-        .build());
-// false
 ```
 

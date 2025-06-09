@@ -8,21 +8,21 @@ notebook: false
 description: "This operation updates the password of a specific user. | Java | v2"
 type: docx
 token: GQH8dgqlPoRY1sxFhCRcLlgInNc
-sidebar_position: 13
+sidebar_position: 20
 keywords: 
-  - Large language model
-  - Vectorization
   - k nearest neighbor algorithm
   - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - updatePassword()
-  - javaV2
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - javaV225
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: javaSidebar
 
 ---
@@ -76,6 +76,19 @@ updatePassword(UpdatePasswordReq.builder()
 ## Example{#example}
 
 ```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.rbac.request.UpdatePasswordReq;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Reset password
 UpdatePasswordReq updatePasswordReq = UpdatePasswordReq.builder()
         .userName("test")
         .password("Zilliz@2023")

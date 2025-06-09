@@ -8,21 +8,21 @@ notebook: false
 description: "This operation renames an existing collection. | Java | v2"
 type: docx
 token: CtTvdQVMoo2ec5xbWTPcSzjNnQc
-sidebar_position: 16
+sidebar_position: 21
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - renameCollection()
-  - javaV2
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - javaV225
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: javaSidebar
 
 ---
@@ -75,7 +75,19 @@ renameCollection(RenameCollectionReq.builder()
 ## Example{#example}
 
 ```java
-// rename collection "test" to "test2"
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.collection.request.RenameCollectionReq;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Rename collection "test" to "test2"
 RenameCollectionReq renameCollectionReq = RenameCollectionReq.builder()
         .collectionName("test")
         .newCollectionName("test2")

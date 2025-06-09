@@ -2,7 +2,7 @@
 title: "System | Java | v1"
 slug: /java/v1-System
 sidebar_label: "System"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "(placeholder) | Java | v1"
 type: origin

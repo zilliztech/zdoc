@@ -1,28 +1,28 @@
 ---
 displayed_sidbar: nodeSidebar
-title: "updatePassword() | Node.js"
-slug: /node/node/Authentication-updatePassword
-sidebar_label: "updatePassword()"
+title: "addUserToRole() | Node.js"
+slug: /node/node/Authentication-addUserToRole
+sidebar_label: "addUserToRole()"
 beta: false
 notebook: false
-description: "This operation updates the password of a specific user. | Node.js"
+description: "This operation adds a user to a specific role. | Node.js"
 type: docx
-token: BCGKdCttdotF32xUJTec8UFlndg
-sidebar_position: 15
+token: Qc72dTKgroNdHjxIG2xcwNdmnHb
+sidebar_position: 2
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
-  - updatePassword()
-  - node
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - addUserToRole()
+  - nodejs25
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: nodeSidebar
 
 ---
@@ -30,44 +30,37 @@ displayed_sidebar: nodeSidebar
 import Admonition from '@theme/Admonition';
 
 
-# updatePassword()
+# addUserToRole()
 
-This operation updates the password of a specific user.
+This operation adds a user to a specific role.
 
 ```javascript
-updatePassword(data): Promise<ResStatus>
+addUserToRole(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}
 
 ```javascript
-milvusClient.updateUser({
+milvusClient.addUserToRole({
    username: string,
-   newPassword: string,
-   oldPassword: string,
+   rolename: string,
    timeout?: number
  })
 ```
 
 **PARAMETERS:**
 
-- **username** (*str*) -
+- **username** (*string*) -
 
     **[REQUIRED]**
 
-    The name of an existing user.
+    The name of a user.
 
-- **oldPassword** (*str*) -
-
-    **[REQUIRED]**
-
-    The original password of the user.
-
-- **newPassword** (*str*) -
+- **rolename** (*string*) -
 
     **[REQUIRED]**
 
-    The new password of the user.
+    The name of a role
 
 - **timeout** (*number*) -  
 
@@ -104,10 +97,9 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example{#example}
 
 ```java
-milvusClient.updateUser({
-   username: 'exampleUser',
-   newPassword: 'newPassword',
-   oldPassword: 'oldPassword',
- })
+milvusClient.addUserToRole({
+    username: 'myUser',
+    roleName: 'myRole'
+});
 ```
 

@@ -2,7 +2,7 @@
 title: "flush() | Java | v1"
 slug: /java/v1-Collection-flush
 sidebar_label: "flush()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "A MilvusClient interface. This method triggers a flush action in which all growing segments in the specified collection are marked as sealed and then flushed to storage. | Java | v1"
 type: origin

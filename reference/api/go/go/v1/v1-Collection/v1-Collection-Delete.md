@@ -48,7 +48,7 @@ func (c *GrpcClient) Delete(ctx context.Context, collName string, partitionName 
    </tr>
    <tr>
      <td><p><code>expr</code></p></td>
-     <td><p>Boolean expression for metadata filtering. For details, refer to <a href="https://milvus.io/docs/boolean.md">Scalar Filtering Rules</a>.</p></td>
+     <td><p>Boolean expression for metadata filtering.</p><p>For details, refer to <a href="https://milvus.io/docs/boolean.md">Scalar Filtering Rules</a>.</p></td>
      <td><p><code>string</code></p></td>
    </tr>
 </table>

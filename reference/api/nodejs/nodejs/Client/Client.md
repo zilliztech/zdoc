@@ -6,18 +6,18 @@ notebook: false
 description: "Classes and methods for you to manage the MilvusClient instances. | Node.js"
 type: folder
 token: YIWifhm0HlwT5ldC40fc8tAOnXd
-sidebar_position: 2
+sidebar_position: 7
 sidebar_label: "Client"
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - Client
-  - node
+  - nodejs25
 displayed_sidebar: nodeSidebar
 ---
 

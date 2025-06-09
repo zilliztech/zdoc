@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation adds a vector field to the schema of a collection. | Java | v2"
 type: docx
-token: ST5xdgZ9YoXYiJx7Ex6czstHnij
+token: HWEDdIvrxo3gskxlyKkcDdzVncd
 sidebar_position: 1
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
   - addField()
-  - javaV2
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - javaV225
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: javaSidebar
 
 ---
@@ -124,6 +124,10 @@ CollectionSchema.addField(AddFieldReq.builder()
 ## Example{#example}
 
 ```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
 CreateCollectionReq.CollectionSchema collectionSchema = client.createSchema();
 // add two field, id and vector
 collectionSchema.addField(AddFieldReq.builder().fieldName("id").dataType(DataType.Int64).isPrimaryKey(Boolean.TRUE).autoID(Boolean.FALSE).description("id").build());

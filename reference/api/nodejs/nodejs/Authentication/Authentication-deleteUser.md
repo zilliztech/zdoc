@@ -8,21 +8,21 @@ notebook: false
 description: "This operation drops a user. | Node.js"
 type: docx
 token: Cl5PdhU5jouHnrxyYXLcOQAZneb
-sidebar_position: 3
+sidebar_position: 6
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
   - deleteUser()
-  - node
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - nodejs25
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: nodeSidebar
 
 ---

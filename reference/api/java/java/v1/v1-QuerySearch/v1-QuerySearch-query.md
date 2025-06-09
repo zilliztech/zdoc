@@ -2,7 +2,7 @@
 title: "query() | Java | v1"
 slug: /java/v1-QuerySearch-query
 sidebar_label: "query()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The MilvusClient interface. This method queries entity(s) based on scalar field(s) filtered by boolean expression. Note that the order of the returned entities cannot be guaranteed. | Java | v1"
 type: origin
@@ -217,7 +217,7 @@ Methods of `RowRecord`:
    </tr>
    <tr>
      <td><p>get(String keyName)</p></td>
-     <td><p>Get a value by a key name. If the key name is a field name, return the value of this field.If the key name is in the dynamic field, return the value from the dynamic field.Throws ParamException if the key name doesn't exist.</p></td>
+     <td><p>Get a value by a key name. If the key name is a field name, return the value of this field.</p><p>If the key name is in the dynamic field, return the value from the dynamic field.</p><p>Throws ParamException if the key name doesn't exist.</p></td>
      <td><p>Object</p></td>
    </tr>
 </table>

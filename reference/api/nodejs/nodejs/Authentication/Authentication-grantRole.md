@@ -8,21 +8,21 @@ notebook: false
 description: "This operation grants a role to a user. | Node.js"
 type: docx
 token: LPJsdEnvwo6apcxjhZgc3rpDnuc
-sidebar_position: 8
+sidebar_position: 14
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - grantRole()
-  - node
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - nodejs25
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 displayed_sidebar: nodeSidebar
 
 ---

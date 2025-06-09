@@ -10,19 +10,19 @@ type: docx
 token: EiTMdIbTgoc9vVxDHUQc1zPpnch
 sidebar_position: 11
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - grant_privilege_v2()
   - pymilvus25
+  - Elastic vector database
+  - Pinecone vs Milvus
   - Chroma vs Milvus
   - Annoy vector search
-  - milvus
-  - Zilliz
 displayed_sidebar: pythonSidebar
 
 ---

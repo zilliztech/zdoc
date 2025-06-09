@@ -2,7 +2,7 @@
 title: "insert() | Java | v1"
 slug: /java/v1-Collection-insert
 sidebar_label: "insert()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "A MilvusClient interface. This method inserts entities into a specified collection. | Java | v1"
 type: origin
@@ -97,7 +97,7 @@ Methods of `InsertParam.Field`:
    <tr>
      <td><p>Field(String name, List\<?> values)</p></td>
      <td><p>This class only provides a constructor to create a Field object.</p></td>
-     <td><p>name: The name of the data field. values:</p><ul><li>Requires List\<Boolean> if the data type is Bool.</li><li>Requires List\<Long> if the data type is Int64.</li><li>Requires List\<Integer> or List\<Short> if the data type is Int8/Int16/Int32.</li><li>Requires List\<Float> if the data type is Float.</li><li>Requires List\<Double> if the data type is Double.</li><li>Requires List\<String> if the data type is Varchar.</li><li>Requires List\<List\<?>gt; if the data type is Array, the inner List type must be equal to the element type of the Array field.</li><li>Requires List\<List\<Float>gt;, if the data type is FloatVector.</li><li>Requires List\<ByteBuffer>, if the data type is BinaryVector/Float16Vector/BFloat16Vector.</li><li>Requires List\<SortedMap\<Long, Float>gt; if the data type is SparseFloatVector.</li></ul></td>
+     <td><p>name: The name of the data field. values:</p><ul><li><p>Requires List\<Boolean> if the data type is Bool.</p></li><li><p>Requires List\<Long> if the data type is Int64.</p></li><li><p>Requires List\<Integer> or List\<Short> if the data type is Int8/Int16/Int32.</p></li><li><p>Requires List\<Float> if the data type is Float.</p></li><li><p>Requires List\<Double> if the data type is Double.</p></li><li><p>Requires List\<String> if the data type is Varchar.</p></li><li><p>Requires List\<List\<?>gt; if the data type is Array, the inner List type must be equal to the element type of the Array field.</p></li><li><p>Requires List\<List\<Float>gt;, if the data type is FloatVector.</p></li><li><p>Requires List\<ByteBuffer>, if the data type is BinaryVector/Float16Vector/BFloat16Vector.</p></li><li><p>Requires List\<SortedMap\<Long, Float>gt; if the data type is SparseFloatVector.</p></li></ul></td>
    </tr>
 </table>
 

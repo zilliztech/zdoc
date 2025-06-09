@@ -2,7 +2,7 @@
 title: "RBAC | Java | v1"
 slug: /java/v1-RBAC
 sidebar_label: "RBAC"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "(placeholder) | Java | v1"
 type: origin

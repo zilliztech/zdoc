@@ -2,7 +2,7 @@
 title: "search() | Java | v1"
 slug: /java/v1-QuerySearch-search
 sidebar_label: "search()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The MilvusClient interface. This method conducts an approximate nearest neighbor (ANN) search on a vector field and pairs up with a Boolean expression to conduct filtering on scalar fields before searching. | Java | v1"
 type: origin
@@ -192,7 +192,7 @@ Methods of `SearchResultsWrapper`:
    </tr>
    <tr>
      <td><p>getIDScore(int indexOfTarget)</p></td>
-     <td><p>Gets ID-score pairs returned by search().</p><p>Throws ParamException if the indexOfTarget is illegal.Throws IllegalResponseException if the returned results are illegal.</p></td>
+     <td><p>Gets ID-score pairs returned by search().</p><p>Throws ParamException if the indexOfTarget is illegal.</p><p>Throws IllegalResponseException if the returned results are illegal.</p></td>
      <td><p>indexOfTarget: The order number of a target vector.</p></td>
      <td><p>List\<IDScore></p></td>
    </tr>
@@ -233,7 +233,7 @@ Methods of `SearchResultsWrapper.IDScore`:
    </tr>
    <tr>
      <td><p>get(String keyName)</p></td>
-     <td><p>Get a value by a key name. If the key name is a field name, return the value of this field.If the key name is in the dynamic field, return the value from the dynamic field.Throws ParamException if the key name doesn't exist.</p></td>
+     <td><p>Get a value by a key name. If the key name is a field name, return the value of this field.</p><p>If the key name is in the dynamic field, return the value from the dynamic field.</p><p>Throws ParamException if the key name doesn't exist.</p></td>
      <td><p>Object</p></td>
    </tr>
 </table>

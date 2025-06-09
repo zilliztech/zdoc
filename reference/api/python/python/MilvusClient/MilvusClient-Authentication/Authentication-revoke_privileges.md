@@ -10,19 +10,19 @@ type: docx
 token: UP2GdfHHzoIQ56x2JvScs0sAnzh
 sidebar_position: 17
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - revoke_privileges()
   - pymilvus25
+  - Elastic vector database
   - Pinecone vs Milvus
   - Chroma vs Milvus
   - Annoy vector search
-  - milvus
 displayed_sidebar: pythonSidebar
 
 ---
