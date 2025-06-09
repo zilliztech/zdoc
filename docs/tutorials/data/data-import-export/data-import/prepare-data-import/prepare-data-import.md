@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

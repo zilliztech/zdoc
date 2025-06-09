@@ -15,10 +15,10 @@ keywords:
   - milvus
   - performance
   - benchmark
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 
@@ -96,7 +96,7 @@ Closely mimicking real-world production environments, VectorDBBench has set up d
 
     - Deploying the client in the same cloud provider and region as your Zilliz Cloud cluster.
 
-    - Configure your client so that it shares the same VPC with your Zilliz Cloud cluster. Compared to public Internet, VPC can have lower latency. Learn more at [Set up a Private Link](/docs/set-up-a-private-link).
+    - Configure your client so that it shares the same VPC with your Zilliz Cloud cluster. Compared to public Internet, VPC can have lower latency. Learn more at [Set up a Private Endpoint](./setup-a-private-link).
 
 ### Install and start VectorDBBench{#install-and-start-vectordbbench}
 

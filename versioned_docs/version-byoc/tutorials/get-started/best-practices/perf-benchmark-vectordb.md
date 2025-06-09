@@ -15,10 +15,10 @@ keywords:
   - milvus
   - performance
   - benchmark
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 
@@ -96,8 +96,6 @@ Closely mimicking real-world production environments, VectorDBBench has set up d
 
     - Deploying the client in the same cloud provider and region as your Zilliz Cloud cluster.
 
-    - Configure your client so that it shares the same VPC with your Zilliz Cloud cluster. Compared to public Internet, VPC can have lower latency. Learn more at [Set up a Private Link](/docs/set-up-a-private-link).
-
 ### Install and start VectorDBBench{#install-and-start-vectordbbench}
 
 ```bash
@@ -142,7 +140,7 @@ On the homepage, you can see some pre-defined testing datasets provided by Vecto
 
 Scroll down the webpage to the bottom and click **Run Your Test >** to configure your own benchmarking test.
 
-![AATGbLxqwo32yexKYzPcdYVTnph](/byoc/AATGbLxqwo32yexKYzPcdYVTnph.png)
+![AATGbLxqwo32yexKYzPcdYVTnph](/img/AATGbLxqwo32yexKYzPcdYVTnph.png)
 
 ### Configure your benchmarking test{#configure-your-benchmarking-test}
 
@@ -150,9 +148,9 @@ Scroll down the webpage to the bottom and click **Run Your Test >** to configure
 
 Click **Results** to view and analyze benchmarking results. Below are some example results.
 
-![LWa7bJGzOo9qKJx0ZNicjLXjnJh](/byoc/LWa7bJGzOo9qKJx0ZNicjLXjnJh.png)
+![LWa7bJGzOo9qKJx0ZNicjLXjnJh](/img/LWa7bJGzOo9qKJx0ZNicjLXjnJh.png)
 
-![DJBibk5puoOLxYxxnH3chlxcnAd](/byoc/DJBibk5puoOLxYxxnH3chlxcnAd.png)
+![DJBibk5puoOLxYxxnH3chlxcnAd](/img/DJBibk5puoOLxYxxnH3chlxcnAd.png)
 
 Optionally, you can set up the **DB Filter** and **Case Filter** in the left navigation pane to compare the benchmarking results of pre-defined vector databases and cases.
 

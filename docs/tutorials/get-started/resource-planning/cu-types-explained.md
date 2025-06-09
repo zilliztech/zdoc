@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cu
   - select
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 
@@ -77,13 +77,11 @@ The following table offers a quick comparison of the three CU types in different
 
 - Ideal for large-scale unstructured data search, copyright detection, and identity verification.
 
-## Extended-capacity CU{#extended-capacity-cu}
+### Extended-capacity CU{#extended-capacity-cu}
 
 - Best for scenarios with extensive datasets where cost-efficiency is prioritized over latency.
 
 - Ideal for applications that need to store massive volumes of data at a low cost. The capacity of an extended-capacity CU is 4 times that of a capacity-optimized CU.
-
-If you need to select the extended-capacity CU, please [contact sales](https://zilliz.com/contact-sales).
 
 ## Select an optimal CU type{#select-an-optimal-cu-type}
 

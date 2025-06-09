@@ -4,7 +4,7 @@ slug: /manage-project-alerts
 sidebar_label: "Manage Project Alerts"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud offers two types of alerts for resource monitoring Organization Alerts for billing-related matters and Project Alerts for operational performance of clusters in specific projects. For a quick reference, refer to Metrics & Alerts Reference. | Cloud"
+description: "Project alerts enable proactive monitoring of your Zilliz Cloud clusters by sending notifications when specified conditions are met. You can configure project alerts to monitor cluster metrics such as CU capacity, query performance, ensuring you're immediately notified of potential issues that require attention. | Cloud"
 type: origin
 token: NvDLw4kFji0xeWkc4Hpc9wUfnRh
 sidebar_position: 4
@@ -14,161 +14,248 @@ keywords:
   - cloud
   - project
   - alerts
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
 import Admonition from '@theme/Admonition';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
+import Supademo from '@site/src/components/Supademo';
 
 # Manage Project Alerts
 
-Zilliz Cloud offers two types of alerts for resource monitoring: **Organization Alerts** for billing-related matters and **Project Alerts** for operational performance of clusters in specific projects. For a quick reference, refer to [Metrics & Alerts Reference](./metrics-alerts-reference).
-
-This topic describes how to view and manage project alerts.
+Project alerts enable proactive monitoring of your Zilliz Cloud clusters by sending notifications when specified conditions are met. You can configure project alerts to monitor cluster metrics such as CU capacity, query performance, ensuring you're immediately notified of potential issues that require attention.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is exclusively available to clusters in the Standard and Enterprise plans. For more information, see <a href="./select-zilliz-cloud-service-plans">Select the Right Cluster Plan</a>.</p>
+<p>This feature is exclusively available to clusters in the Standard and Enterprise plans. For more information, see <a href="./select-zilliz-cloud-service-plans">Detailed Plan Comparison</a>.</p>
 
 </Admonition>
 
-## Overview{#overview}
+## Before you start{#before-you-start}
 
-Below is a table outlining the default trigger conditions for predefined project alert targets.
+Before creating or managing project alerts, ensure you have:
 
-When an alert in an **ON** status, the specified recipients will receive notifications once the conditions are met. You can [edit an alert](./manage-project-alerts#edit-a-project-alert) to change its status.
-
-For more information about recommended actions, refer to [Metrics & Alerts Reference](./metrics-alerts-reference).
-
-<table>
-   <tr>
-     <th><p>Alert Target</p></th>
-     <th><p>Unit</p></th>
-     <th><p>Default Trigger Condition</p></th>
-   </tr>
-   <tr>
-     <td><p>CU Computation</p></td>
-     <td><p>%</p></td>
-     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized computational power for 10+ minutes.</p><p><strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized computational power for 10+ minutes.</p></td>
-   </tr>
-   <tr>
-     <td><p>CU Capacity</p></td>
-     <td><p>%</p></td>
-     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized CU capacity for 10+ minutes.</p><p><strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized CU capacity for 10+ minutes.</p></td>
-   </tr>
-   <tr>
-     <td><p>Search (QPS)</p></td>
-     <td><p>QPS</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts at &gt;50 search operations per second for 10+ minutes.</p></td>
-   </tr>
-   <tr>
-     <td><p>Query (QPS)</p></td>
-     <td><p>QPS</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts at &gt;50 query operations per second for 10+ minutes.</p></td>
-   </tr>
-   <tr>
-     <td><p>Search Latency (P99)</p></td>
-     <td><p>ms</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts at P99 latency &gt;1,000ms for 10+ minutes.</p></td>
-   </tr>
-   <tr>
-     <td><p>Query Latency (P99)</p></td>
-     <td><p>ms</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts at P99 latency &gt;1,000ms for 10+ minutes.</p></td>
-   </tr>
-</table>
-
-**Permissions**:
-
-- **View**: All members can view project alerts in the target organization.
-
-- **Configuration**: Only organization owners or project admins can configure cluster alerts.
-
-- **Receiving notifications**: Available to any organization member if designated by the owner.
-
-For more information on user roles, see [Manage Project Users](./project-users).
+- **Organization Owner** or **Project Admin** role access
 
 ## View project alerts{#view-project-alerts}
 
-Navigate to the **Project Alerts** page to view project alerts.
+Navigate to **Project Alerts** in the left sidebar to access your project alert dashboard.
 
-**Components of an alert**:
+<Supademo id="cmb5xa9pg39f6ppkpjwalrmro" title="Zilliz Cloud - View Project Alerts Demo" />
 
-- **Alert Target**: Preconfigured by Zilliz Cloud with trigger conditions and severity.
+### Alert history{#alert-history}
 
-- **Status**: Indicates if the alert is active (**ON**) or not. When an alert in an **ON** status, the specified recipients will receive notifications once the conditions are met.
+Use the **History** tab when you need to investigate past events, understand alert patterns, or demonstrate system reliability.
 
-- **Condition**: Trigger conditions for the alert. For each project alert target, the trigger condition includes a threshold value and a duration value that must be met for the alert to be triggered. The condition can be set to one of the following operators: >, >=, \<, \<=, =. The threshold value can be a numeric value, such as a number for metrics like query latency, query QPS, search QPS, CU Capacity, and CU Computation. The duration specifies how long the threshold must be exceeded, which is set to a minimum of 1 minute and a maximum of 30 minutes.
+### Alert settings{#alert-settings}
 
-- **Severity Level**: Categorized as **WARNING** or **CRITICAL**.
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
-- **Receiver**: Designated roles or email addresses for receiving notifications. You can also set up custom notification channels using webhooks. For more information, refer to [Manage Notification Channels](./manage-notification-channels).
+<TabItem value="Cloud Console">
 
-![view-project-alert](/img/view-project-alert.png)
+Use the **Settings** tab to review all configured alerts and their current status. This provides a centralized view of your monitoring coverage.
+
+When viewing alerts, you'll encounter the following configuration items:
+
+<table>
+   <tr>
+     <th><p>Field</p></th>
+     <th><p>Description</p></th>
+   </tr>
+   <tr>
+     <td><p>Name</p></td>
+     <td><p>Descriptive identifier for your alert (e.g., "High CU Usage - Dedicated Clusters", "P99 Query Latency")</p></td>
+   </tr>
+   <tr>
+     <td><p>Status</p></td>
+     <td><p>Toggle switch showing current alert state: Enabled (Active monitoring) or Disabled (No notifications)</p></td>
+   </tr>
+   <tr>
+     <td><p>Target</p></td>
+     <td><p>Monitored clusters - specific clusters (e.g., "Dedicated-02, Dedicated-01") or all Dedicated clusters (including those to be created later)</p></td>
+   </tr>
+   <tr>
+     <td><p>Metric &amp; Condition</p></td>
+     <td><p>Combined display of monitored parameter and trigger settings (e.g., "CU Capacity &gt; 80%, Duration &gt;= 10 min", "Query Latency (P99) &gt; 1000 ms, Duration &gt;= 10 min")</p></td>
+   </tr>
+   <tr>
+     <td><p>Severity Level</p></td>
+     <td><p>Impact classification</p><ul><li><p><strong>Warning:</strong> Approaching limits</p></li><li><p><strong>Critical:</strong> Immediate attention required</p></li></ul></td>
+   </tr>
+   <tr>
+     <td><p>Receiver</p></td>
+     <td><p>Notification recipients including configured email addresses and notification channels.</p><p>For a list of notification channels available, refer to <a href="./manage-notification-channels">Manage Notification Channels</a>.</p></td>
+   </tr>
+   <tr>
+     <td><p>Actions</p></td>
+     <td><p>Available management options: Edit, Clone, Delete</p></td>
+   </tr>
+</table>
+
+</TabItem>
+<TabItem value="Bash">
+
+You can view the alert list created for a specific project. For details on parameters, refer to [List Alert Rules](/reference/restful/list-alert-rules-v2).
+
+```bash
+export BASE_URL=https://api.cloud.zilliz.com
+export PROJECT_ID=proj-bf71ce2fd4f3785d*****
+export API_KEY=c84c9a9515**********81319c2f147ffdd47ad6c36b31c126d1b790f457619c23237eba9287de73575943d2bfebcecd728bd07e
+
+curl --request GET \
+     --url "${BASE_URL}/v2/alertRules?projectId=${PROJECT_ID}" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-type: application/json"
+```
+
+</TabItem>
+</Tabs>
 
 ## Create a project alert{#create-a-project-alert}
 
-In addition to default project alerts, you can click **+ Alert** to create an alert by customizing the alert type, severity level, alert condition, and notification recipients.
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
-For supported custom alert targets, refer to [Metrics & Alerts Reference](./metrics-alerts-reference).
+<TabItem value="Cloud Console">
 
-![create-alert](/img/create-alert.png)
+Set up new alerts to monitor your cluster performance and health from various aspects.
 
-## Edit a project alert{#edit-a-project-alert}
+<Supademo id="cmb5w29ip399appkp45y9k3u2" title="Zilliz Cloud - Create Project Alerts Demo" />
 
-- **Customizations**: Modify alert conditions, update notification recipients, and change the active status.
+</TabItem>
+<TabItem value="Bash">
 
-- **Restrictions**: Alert target type and severity level are fixed and cannot be changed.
+You can create an alert for specific or all Dedicated clusters. For details on parameters, refer to [Create Alert Rule](/reference/restful/create-alert-rule-v2).
+
+```bash
+export BASE_URL=https://api.cloud.zilliz.com
+export PROJECT_ID=proj-bf71ce2fd4f3785d*****
+export API_KEY=c84c9a9515**********81319c2f147ffdd47ad6c36b31c126d1b790f457619c23237eba9287de73575943d2bfebcecd728bd07e
+
+curl --request POST \
+     --url "${BASE_URL}/v2/alertRules" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-type: application/json" \
+     --data-raw '{
+       "projectId": "'"${PROJECT_ID}"'",
+       "ruleName": "High CU Computation",
+       "level": "CRITICAL",
+       "metricName": "CU_COMPUTATION",
+       "metricUnit": "percent",
+       "threshold": 80,
+       "windowSize": 10,
+       "comparisonMethod": "GREATER_THAN",
+       "targetClusterIds": ["in01-fbc09dde0a4bfc5"],
+       "enabled": true,
+       "sendResolved": true,
+       "actions": [
+         {
+           "type": "EMAIL",
+           "config": {
+             "recipients": {
+               "members": ["leryn.li@zilliz.com"],
+               "orgRoles": ["OWNER"],
+               "projectRoles": ["OWNER"]
+             }
+           }
+         }
+       ]
+     }'
+```
+
+</TabItem>
+</Tabs>
+
+## Manage project alerts{#manage-project-alerts}
+
+Modify, organize, and maintain your existing alerts to keep monitoring relevant and effective.
+
+<Supademo id="cmb5ywkim01nozo0iqfsmhy3q" title="Manage Project Alerts" isShowcase="true" />
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>To quickly enable or disable an alert, you can select <strong>Enable</strong> or <strong>Disable</strong> from the <strong>Actions</strong> column.</p>
+<p>You can also manage project alerts via RESTful APIs. For details, refer to <a href="/reference/restful/update-alert-rule-v2">Update Alert Rule</a> and <a href="/reference/restful/delete-alert-rule-v2">Delete Alert Rule</a>.</p>
 
 </Admonition>
 
-## Enable or disable a project alert{#enable-or-disable-a-project-alert}
+### Disable or enable an alert{#disable-or-enable-an-alert}
 
-To quickly enable or disable a project alert, select **Enable** or **Disable** from the **Actions** column. 
+Control active monitoring without losing configuration.
 
-<Admonition type="info" icon="📘" title="Notes">
+- **Disabled alerts:** Stop sending notifications but retain all settings
 
-<p>Once an alert is disabled, you'll no longer receive alert notifications if alert conditions are met.</p>
+- **Enabled alerts:** Actively monitor clusters and send notifications when thresholds are exceeded
+
+### Edit an alert{#edit-an-alert}
+
+Update alert configurations when monitoring requirements change.
+
+Modify any alert parameter including:
+
+- Threshold values and comparison operators
+
+- Target clusters and metric types
+
+- Notification recipients and channels
+
+- Severity levels and duration settings
+
+### Clone an alert{#clone-an-alert}
+
+Create similar alerts with minimal setup effort. Cloning copies all existing settings, allowing you to:
+
+- Create variants for different cluster environments
+
+- Adjust thresholds while keeping other parameters
+
+- Scale monitoring across multiple projects
+
+### Delete an alert{#delete-an-alert}
+
+Remove obsolete or redundant monitoring rules.
+
+<Admonition type="danger" icon="🚧" title="Warning">
+
+<p>Alert deletion is permanent and cannot be undone. Ensure you no longer need the alert before proceeding.</p>
 
 </Admonition>
-
-## Delete a project alert{#delete-a-project-alert}
-
-Once a project alert is no longer needed, you can delete it.
-
-<Admonition type="caution" icon="🚧" title="Warning">
-
-<p>Once an alert is deleted, you'll no longer receive notifications for the alert target.</p>
-
-</Admonition>
-
-## View alert history{#view-alert-history}
-
-View triggered alerts on the **Alert History** tab, with filters for alert target, severity level, and time range.
-
-![view-project-alert-history](/img/view-project-alert-history.png)
 
 ## Configure alert receiver settings{#configure-alert-receiver-settings}
 
-The Alert Receiver Settings feature allows [Project Admins](./project-users) to create and manage alert templates, providing a structured way to handle notifications for various events within a project.
+Set project-wide default notification settings, ensuring consistent monitoring practices across your team.
 
-On the **Alert Settings** page of the project alerts, configure alert receiver settings.incl
+<Supademo id="cmb5zptc03acdppkpy0vk18f9" title="Zilliz Cloud - Configure Alert Receiver Settings Demo" />
 
-![alert-receiver-settings](/img/alert-receiver-settings.png)
+When configuring settings, you'll encounter the following concepts:
 
-## Related topics{#related-topics}
+- **Send to**: Default notification channels (email, Slack, webhooks) automatically selected for new alerts. Configure your most commonly used channels to streamline alert creation.
 
-- [View Cluster Metrics](./view-cluster-metric-charts)
+- **Alert Resolution Notification**: When enabled, you will receive notifications when the alert is resolved.
 
-- [Manage Organization Alerts](./manage-organization-alerts)
+- **Apply Settings to Existing Alerts**: Choose whether to update all existing alerts with new default settings.
 
-- [Metrics & Alerts Reference](./metrics-alerts-reference)
+## FAQ{#faq}
+
+### How often will I receive alert notifications when an alert is triggered?{#how-often-will-i-receive-alert-notifications-when-an-alert-is-triggered}
+
+Alert notifications follow an automatic frequency pattern:
+
+- **First notification**: Sent immediately when the alert threshold is exceeded
+
+- **Second notification**: Sent after 1 hour if the condition persists
+
+- **Subsequent notifications**: Sent once daily while the alert condition remains active
+
+If you find the notifications too frequent, you can:
+
+- [Edit the alert](./manage-project-alerts#edit-an-alert) to adjust the condition thresholds or duration requirements
+
+- [Disable the alert](./manage-project-alerts#disable-or-enable-an-alert) temporarily to stop all notifications while retaining the configuration
 

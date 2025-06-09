@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 
@@ -44,7 +44,7 @@ Make sure the following conditions are met:
 
 You can create a backup file of your cluster or collection based on the following figure. Your cluster is still in service while Zilliz Cloud is creating the backup file.
 
-![create-snapshot](/byoc/create-snapshot.png)
+![create-snapshot](/img/create-snapshot.png)
 
 </TabItem>
 <TabItem value="Bash">

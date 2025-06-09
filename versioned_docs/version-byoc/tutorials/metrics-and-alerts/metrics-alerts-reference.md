@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 
@@ -36,7 +36,7 @@ The table provides a description of each metric and the actions that you are adv
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, free clusters offer only one metric, CU Capacity. To unlock a range of advanced metrics, <a href="./manage-cluster#upgrade-plan">upgrade your plan tier</a>.</p>
+<p>To unlock a range of advanced metrics, <a href="./manage-cluster">upgrade your plan tier</a>.</p>
 
 </Admonition>
 
@@ -53,20 +53,38 @@ The table provides a description of each metric and the actions that you are adv
    <tr>
      <td><p>CPU Usage</p></td>
      <td><p>Core</p></td>
-     <td><p></p><p>The number of CPU cores used by pods.</p><p></p></td>
-     <td><p></p><p>Regularly monitor and log resource usage to identify trends and potential bottlenecks.</p><p></p></td>
+     <td><p>The number of CPU cores used by pods.</p></td>
+     <td><p>Regularly monitor and log resource usage to identify trends and potential bottlenecks.</p></td>
+   </tr>
+   <tr>
+     <td><p>CPU Usage Rate for Limit</p></td>
+     <td><p>%</p></td>
+     <td><p>The percentage of the pod CPU usage in the value of limit.</p></td>
+     <td><p>Monitor the workload and consider optimizing resource usage or increasing the CPU limit if the usage trend continues to rise.</p></td>
+   </tr>
+   <tr>
+     <td><p>Memory Usage</p></td>
+     <td><p>MB</p></td>
+     <td><p>The memory usage of containers in the pod (with cache excluded).</p></td>
+     <td><p>Regularly monitor and log resource usage to identify trends and potential bottlenecks.</p></td>
+   </tr>
+   <tr>
+     <td><p>Memory Usage Rate for Limit</p></td>
+     <td><p>%</p></td>
+     <td><p>The percentage of the pod memory usage in the value of limit.</p></td>
+     <td><p>Monitor the memory usage and identify any potential memory leaks or inefficient memory usage in the application.</p></td>
    </tr>
    <tr>
      <td><p>Network Inbound Flow</p></td>
-     <td><p></p><p>Mbps</p><p></p></td>
-     <td><p></p><p>The network inbound flow of pod.</p><p></p></td>
-     <td><p></p><p>Track and analyze the amount of data being received from external sources, helping you monitor network performance and identify potential network congestion or bandwidth issues.</p><p></p></td>
+     <td><p>Mbps</p></td>
+     <td><p>The network inbound flow of pod.</p></td>
+     <td><p>Track and analyze the amount of data being received from external sources, helping you monitor network performance and identify potential network congestion or bandwidth issues.</p></td>
    </tr>
    <tr>
      <td><p>Network Outbound Flow</p></td>
-     <td><p></p><p>Mbps</p><p></p></td>
-     <td><p></p><p>The network outbound flow of pod.</p><p></p></td>
-     <td><p></p><p>Track and analyze the amount of data being sent to external sources, helping you monitor network performance and identify potential network congestion or bandwidth issues.</p><p></p></td>
+     <td><p>Mbps</p></td>
+     <td><p>The network outbound flow of pod.</p></td>
+     <td><p>Track and analyze the amount of data being sent to external sources, helping you monitor network performance and identify potential network congestion or bandwidth issues.</p></td>
    </tr>
    <tr>
      <td colspan="4"><p><strong>Resources</strong></p></td>
@@ -364,7 +382,7 @@ In addition to the predefined default project alerts , you can also configure cu
    </tr>
    <tr>
      <td><p>Slow Query Count</p></td>
-     <td><p>Monitor the number of slow queries and send notifications if the value exceeds a threshold for a certain duration.</p><p>By default, all requests whose latency is 5 seconds are considered slow queries.</p><p></p></td>
+     <td><p>Monitor the number of slow queries and send notifications if the value exceeds a threshold for a certain duration.</p><p>By default, all requests whose latency is 5 seconds are considered slow queries.</p></td>
    </tr>
    <tr>
      <td><p>Upsert Failure Rate</p></td>

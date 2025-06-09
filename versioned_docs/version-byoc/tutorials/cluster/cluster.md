@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Everything you need to know about managing clusters on Zilliz Cloud. | BYOC"
 type: origin
 token: BIy4we6qXiq8NpkHfXgcxuONngb
-sidebar_position: 2
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - cluster
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 

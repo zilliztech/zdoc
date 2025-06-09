@@ -7,16 +7,16 @@ notebook: FALSE
 description: "The chapter focuses on organization operations and related settings. | Cloud"
 type: origin
 token: Dh6vwCrzYimC7skvDRUcvPi4n2c
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
   - cloud
   - organizations
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - activities
   - view
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 
@@ -32,7 +32,7 @@ The Zilliz Cloud **Activities** feature provides a comprehensive view of events 
 
 On the organization page, click **Activities** in the left navigation pane. Here, you can view a summary of activities, the time when each activity took place, and the identity of the operator involved in a specific activity.
 
-![view-activities-byoc](/byoc/view-activities-byoc.png)
+![view-activities-byoc](/img/view-activities-byoc.png)
 
 ## Filter activities{#filter-activities}
 
@@ -48,7 +48,7 @@ To enhance your control and ease in navigating through the organization activiti
 
     </Admonition>
 
-    ![filter-by-time-range](/byoc/filter-by-time-range.png)
+    ![filter-by-time-range](/img/filter-by-time-range.png)
 
 - **Filter by activity type**
 
@@ -73,9 +73,9 @@ To enhance your control and ease in navigating through the organization activiti
        </tr>
     </table>
 
-    ![filter-by-activity-type](/byoc/filter-by-activity-type.png)
+    ![filter-by-activity-type](/img/filter-by-activity-type.png)
 
 - **Filter by activity**
 
-    ![filter-by-activity](/byoc/filter-by-activity.png)
+    ![filter-by-activity](/img/filter-by-activity.png)
 

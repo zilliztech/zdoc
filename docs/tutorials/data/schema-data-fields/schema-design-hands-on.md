@@ -1,13 +1,13 @@
 ---
-title: "Schema Design Hands-On | Cloud"
+title: "Data Model Design for Search | Cloud"
 slug: /schema-design-hands-on
-sidebar_label: "Hands-On"
+sidebar_label: "Data Model Design"
 beta: FALSE
 notebook: FALSE
-description: "Information Retrieval (IR) systems, also known as search engines, are essential for various AI applications such as Retrieval-augmented generation (RAG), image search, and product recommendation. The first step in developing an IR system is designing the data model, which involves analyzing business requirements, determining how to organize information, and indexing data to make it semantically searchable. | Cloud"
+description: "Information Retrieval systems, also known as search engines, are essential for various AI applications such as Retrieval-augmented generation (RAG), visual search, and product recommendation. At the core of these systems is a carefully-designed data model to organize, index and retrieve the information. | Cloud"
 type: origin
 token: PV2bwNENViEjXWkOgzZcXoKHnce
-sidebar_position: 13
+sidebar_position: 15
 keywords: 
   - zilliz
   - vector database
@@ -16,185 +16,558 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 
 import Admonition from '@theme/Admonition';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
+# Data Model Design for Search
 
-# Schema Design Hands-On
+Information Retrieval systems, also known as search engines, are essential for various AI applications such as Retrieval-augmented generation (RAG), visual search, and product recommendation. At the core of these systems is a carefully-designed data model to organize, index and retrieve the information.
 
-Information Retrieval (IR) systems, also known as search engines, are essential for various AI applications such as Retrieval-augmented generation (RAG), image search, and product recommendation. The first step in developing an IR system is designing the data model, which involves analyzing business requirements, determining how to organize information, and indexing data to make it semantically searchable.
+Zilliz Cloud allows you to specify the search data model through a collection schema, organizing unstructured data, their dense or sparse vector representations, and structured metadata. Whether you're working with text, images, or other data types, this hands-on guide will help you understand and apply key schema concepts to design a search data model in practice.
 
-Zilliz Cloud supports defining the data model through a collection schema. A collection organizes unstructured data like text and images, along with their vector representations, including dense and sparse vectors in various precision used for semantic search. Additionally, Zilliz Cloud supports storing and filtering non-vector data types called "Scalar". Scalar types include BOOL, INT8/16/32/64, FLOAT/DOUBLE, VARCHAR, JSON, and Array.
+![Kc3Cweq1AhAmMGbrVgRcTlTKnUf](/img/Kc3Cweq1AhAmMGbrVgRcTlTKnUf.png)
 
-![WeYVbC63So5YT2xSV5EcHf8qn3f](/img/WeYVbC63So5YT2xSV5EcHf8qn3f.png)
+## Data Model{#data-model}
 
-The data model design of a search system involves analyzing business needs and abstracting information into a schema-expressed data model. For instance, to search a piece of text, it must be "indexed" by converting the literal string into a vector through "embedding", enabling vector search. Beyond this basic requirement, it may be necessary to store other properties such as publication timestamp and author. This metadata allows for semantic searches to be refined through filtering, returning only texts published after a specific date or by a particular author. They may also need to be retrieved together with the main text, for rendering the search result in the application. To organize these text pieces, each should be assigned a unique identifier, expressed as an integer or string. These elements are essential for achieving sophisticated search logic.
+The data model design of a search system involves analyzing business needs and abstracting information into a schema-expressed data model. A well-defined schema is important for aligning the data model with business objectives, ensuring data consistency and quality of service.  In addition, choosing proper data types and index is important in achieving the business goal economically.
 
-A well-designed schema is important as it abstracts the data model and decides if the business objectives can be achieved through search. Furthermore, since every row of data inserted into the collection needs to follow the schema, it greatly helps to maintain data consistency and long-term quality. From a technical perspective, a well-defined schema leads to well-organized column data storage and a cleaner index structure, which can boost search performance.
+### Analyzing Business Needs{#analyzing-business-needs}
 
-## An Example: News Search{#an-example-news-search}
+Effectively addressing business needs begins with analyzing the types of queries users will perform and determining the most suitable search methods. 
 
-Let's say we want to build search for a news website and we have a corpus of news with text, thumbnail images, and other metadata. First, we need to analyze how we want to utilize the data to support the business requirement of search. Imagine the requirement is to retrieve the news based the thumbnail image and the summary of the content, and taking the metadata such as author info and publishing time as criteria to filter the search result. These requirements can be further broken down into:
+- **User Queries:** Identify the types of queries users are expected to perform. This helps ensure your schema supports real-world use cases and optimizes search performance. These may include:
 
-- To search images via text, we can embed images into vectors via multimodal embedding model that can map text and image data into the same latent space.
+    - Retrieving documents that match a natural language query
 
-- The summary text of an article is embedded into vectors via text embedding model.
+    - Finding images similar to a reference image or matching a text description
 
-- To filter based on the publish time, the dates are stored as a scalar field and an index is needed for the scalar field for efficient filtering. Other more complex data structures such a JSON can be stored in a scalar and a filtered search performed on their contents (indexing JSON is an upcoming feature).
+    - Searching for products by attributes like name, category, or brand
 
-- To retrieve the image thumbnail bytes and render it on the search result page, the image url is also stored. Similarly, for the summary text and title. (Alternatively, we could store the raw text and image file data as scalar fields if required.)
+    - Filtering items based on structured metadata (e.g., publication date, tags, ratings)
 
-- To improve the search result on the summary text, we design a hybrid search approach. For one retrieval path, we use regular embedding model to generate dense vector from the text, such as OpenAI's `text-embedding-3-large` or the open-source `bge-large-en-v1.5`. These models are good at representing the overall semantic of the text. The other path is to use sparse embedding models such as BM25 or SPLADE to generate a sparse vector, resembling the full-text search which is good at grasping the details and individual concepts in the text. Zilliz Cloud supports using both in the same data collection thanks to its multi-vector feature. The search on multiple vectors can be done in a single `hybrid_search()` operation.
+    - Combining multiple criteria in hybrid queries (e.g., in visual search, considering semantic similarity of both images and their captions)
 
-- Finally, we also need an ID field to identify each individual news page, formally referred to as an "entity" in Zilliz Cloud terminology. This field is used as the primary key (or "pk" for short).
+- **Search Methods:** Choose the appropriate search techniques that align with the types of queries your users will perform. Different methods serve different purposes and can often be combined for more powerful results:
+
+    - **Semantic search**: Uses dense vector similarity to find items with similar meaning, ideal for unstructured data like text or images.
+
+    - **Full-text search**: Complementing semantic search with keyword matching.  Full-text search can utilize lexical analysis to avoid breaking long words into fragmented tokens, grasping the special terms during retrieval.
+
+    - **Metadata filtering**: On top of vector search, applying constraints like date ranges, categories, or tags.
+
+### Translates Business Requirements into a Search Data Model{#translates-business-requirements-into-a-search-data-model}
+
+The next step is to translate your business requirements into a concrete data model, by identifying the core components of your information and their search methods:
+
+- Define the data you need to store, such as raw content (text, images, audio), associated metadata (titles, tags, authorship), and contextual attributes (timestamps, user behavior, etc.)
+
+- Determine the appropriate data types and formats for each element. For example:
+
+    - Text descriptions → string
+
+    - Image or document embeddings → dense or sparse vectors
+
+    - Categories, tags, or flags → string, array, and bool
+
+    - Numeric attributes like price or rating → integer or float
+
+    - Structured information such as author details -> json
+
+A clear definition of these elements ensures data consistency, accurate search results, and ease of integration with downstream application logics.
+
+## Schema Design{#schema-design}
+
+In Zilliz Cloud, the data model is expressed through a collection schema. Designing the right fields within a collection schema is key to enabling effective retrieval. Each field defines a particular type of data stored in the collection and plays a distinct role in the search process. On the high level, Zilliz Cloud supports two main types of fields: **vector fields** and **scalar fields**.
+
+Now, you can map your data model into a schema of fields, including vectors and any auxiliary scalar fields. Ensure that each field correlates with the attributes from your data model, especially pay attention to your vector type (dense or spase) and its dimension.
+
+### Vector Field{#vector-field}
+
+Vector fields store embeddings for unstructured data types such as text, images, and audio. These embeddings may be dense, sparse, or binary, depending on the data type and the retrieval method utilized. Typically, dense vectors are used for semantic search, while sparse vectors are better suited for full-text or lexical matching. Binary vectors are useful when storage and computational resources are limited. A collection may contain several vector fields to enable multi-modal or hybrid retrieval strategies. For a detailed guide on this topic, please refer to the [Multi-Vector Hybrid Search](./hybrid-search).
+
+Zilliz Cloud supports the vector data types: `FLOAT_VECTOR` for [Dense Vector](./use-dense-vector), `SPARSE_FLOAT_VECTOR` for [Sparse Vector](./use-sparse-vector), and `BINARY_VECTOR` for [Binary Vector](./use-binary-vector)
+
+### Scalar Field{#scalar-field}
+
+Scalar fields store primitive, structured values—commonly referred to as metadata—such as numbers, strings, or dates. These values can be returned alongside vector search results and are essential for filtering and sorting. They allow you to narrow search results based on specific attributes, like limiting documents to a particular category or a defined time range.
+
+Zilliz Cloud supports scalar types such as `BOOL`, `INT8/16/32/64`, `FLOAT`, `DOUBLE`, `VARCHAR`, `JSON`, and `ARRAY` for storing and filtering non-vector data. These types enhance the precision and customization of search operations.
+
+## Leverage Advanced Features in Schema Design{#leverage-advanced-features-in-schema-design}
+
+When designing a schema, simply mapping your data to fields using the supported data types is not enough. It is essential to have a thorough understanding of the relationships between fields and the strategies available for configuration. Keeping key features in mind during the design phase ensures that the schema not only meets immediate data handling requirements, but is also scalable and adaptable for future needs. By carefully integrating these features, you can build a strong data architecture that maximizes the capabilities of Zilliz Cloud and supports your broader data strategy and objectives. Here is an overview of the key features creating a collection schema:
+
+### Primary Key{#primary-key}
+
+A primary key field is a fundamental component of a schema, as it uniquely identifies each entity within a collection. Defining a primary key is mandatory. It shall be scalar field of integer or string type and marked as `is_primary=True`. Optionally, you can enable `auto_id` for the primary key, which is automatically assigned integer numbers that monolithically grow as more data is ingested into the collection.
+
+For further details, refer to [Primary Field & AutoID](./primary-field-auto-id).
+
+### Partitioning{#partitioning}
+
+To speed up the search, you can optionally turn on partitioning. By designating a specific scalar field for partitioning and specifying filtering criteria based on this field during searches, the search scope can be effectively limited to only the relevant partitions. This method significantly enhances the efficiency of retrieval operations by reducing the search domain.
+
+For further details, refer to [Use Partition Key](./use-partition-key).
+
+### Analyzer{#analyzer}
+
+An analyzer is an essential tool for processing and transforming text data. Its main function is to convert raw text into tokens and to structure them for indexing and retrieval. It does that by tokenizing the string, dropping the stop words, and stemming the individual words into tokens.
+
+For further details, refer to [Analyzer Overview](./analyzer-overview).
+
+### Function{#function}
+
+Zilliz Cloud allows you to define built-in functions as part of the schema to automatically derive certain fields. For instance, you can add a built-in BM25 function that generates a sparse vector from a `VARCHAR` field to support full-text search. These function-derived fields streamline preprocessing and ensure that the collection remains self-contained and query-ready.
+
+For further details, refer to [Full Text Search](./full-text-search).
+
+## A Real World Example{#a-real-world-example}
+
+In this section, we will outline the schema design and code example for a multimedia document search application shown in above diagram. This schema is designed to manage a dataset containing articles with data mapping to the following fields:
 
 <table>
    <tr>
-     <th><p>Field Name</p></th>
-     <th><p>article_id (Primary Key)</p></th>
-     <th><p>title</p></th>
-     <th><p>author_info</p></th>
-     <th><p>publish_ts</p></th>
-     <th><p>image_url</p></th>
-     <th><p>image_vector</p></th>
-     <th><p>summary</p></th>
-     <th><p>summary_dense_vector</p></th>
-     <th><p>summary_sparse_vector</p></th>
+     <th><p><strong>Field</strong></p></th>
+     <th><p><strong>Data Source</strong></p></th>
+     <th><p><strong>Used By Search Methods</strong></p></th>
+     <th><p><strong>Primary Key</strong></p></th>
+     <th><p><strong>Partition Key</strong></p></th>
+     <th><p><strong>Analyzer</strong></p></th>
+     <th><p><strong>Function Input/Output</strong></p></th>
    </tr>
    <tr>
-     <td><p>Type</p></td>
-     <td><p>INT64</p></td>
-     <td><p>VARCHAR</p></td>
-     <td><p>JSON</p></td>
-     <td><p>INT32</p></td>
-     <td><p>VARCHAR</p></td>
-     <td><p>FLOAT_VECTOR</p></td>
-     <td><p>VARCHAR</p></td>
-     <td><p>FLOAT_VECTOR</p></td>
-     <td><p>SPARSE_FLOAT_VECTOR</p></td>
+     <td><p>article_id (<code>INT64</code>)</p></td>
+     <td><p>auto-generated with enabled <code>auto_id</code></p></td>
+     <td><p><a href="./get-and-scalar-query">Query using Get</a></p></td>
+     <td><p>Y</p></td>
+     <td><p>N</p></td>
+     <td><p>N</p></td>
+     <td><p>N</p></td>
    </tr>
    <tr>
-     <td><p>Need Index</p></td>
+     <td><p>title (<code>VARCHAR</code>)</p></td>
+     <td><p>article title</p></td>
+     <td><p><a href="./text-match">Text Match</a></p></td>
      <td><p>N</p></td>
      <td><p>N</p></td>
-     <td><p>N (Support coming soon)</p></td>
      <td><p>Y</p></td>
+     <td><p>N</p></td>
+   </tr>
+   <tr>
+     <td><p>timestamp (<code>INT32</code>)</p></td>
+     <td><p>publish date</p></td>
+     <td><p><a href="./use-partition-key">Filter by Partition Key</a></p></td>
      <td><p>N</p></td>
      <td><p>Y</p></td>
      <td><p>N</p></td>
+     <td><p>N</p></td>
+   </tr>
+   <tr>
+     <td><p>text (<code>VARCHAR</code>)</p></td>
+     <td><p>raw text of the article</p></td>
+     <td><p><a href="./hybrid-search">Multi-Vector Hybrid Search</a></p></td>
+     <td><p>N</p></td>
+     <td><p>N</p></td>
      <td><p>Y</p></td>
-     <td><p>Y</p></td>
+     <td><p>input</p></td>
+   </tr>
+   <tr>
+     <td><p>text_dense_vector (<code>FLOAT_VECTOR</code>)</p></td>
+     <td><p>dense vector generated by a text embedding model</p></td>
+     <td><p><a href="./single-vector-search">Basic Vector Search</a></p></td>
+     <td><p>N</p></td>
+     <td><p>N</p></td>
+     <td><p>N</p></td>
+     <td><p>N</p></td>
+   </tr>
+   <tr>
+     <td><p>text_sparse_vector (<code>SPARSE_FLOAT_VECTOR</code>)</p></td>
+     <td><p>sparse vector auto-generated by a built-in BM25 function</p></td>
+     <td><p><a href="./full-text-search">Full Text Search</a></p></td>
+     <td><p>N</p></td>
+     <td><p>N</p></td>
+     <td><p>N</p></td>
+     <td><p>output</p></td>
    </tr>
 </table>
 
-## How to Implement the Example Schema{#how-to-implement-the-example-schema}
+For more information on schemas and detailed guidance on adding various types of fields, please refer to [Schema Explained](./schema-explained).
 
-### Create Schema{#create-schema}
+### Initialize schema{#initialize-schema}
 
-First, we create a Milvus client instance, which can be used to connect to the Zilliz Cloud cluster and manage collections and data. 
+To begin, we need to create an empty schema. This step establishes a foundational structure for defining the data model.
 
-To set up a schema, we use `create_schema()` to create a schema object and `add_field()` to add fields to the schema.
-
-```python
-from pymilvus import MilvusClient, DataType
-
-collection_name = "my_collection"
-
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="TOKEN_OR_API_KEY"
-)
-
-schema = MilvusClient.create_schema(
-    auto_id=False,
-)
-
-schema.add_field(field_name="article_id", datatype=DataType.INT64, is_primary=True, description="article id")
-schema.add_field(field_name="title", datatype=DataType.VARCHAR, max_length=200, description="article title")
-schema.add_field(field_name="author_info", datatype=DataType.JSON, description="author information")
-schema.add_field(field_name="publish_ts", datatype=DataType.INT32, description="publish timestamp")
-schema.add_field(field_name="image_url", datatype=DataType.VARCHAR,  max_length=500, description="image URL")
-schema.add_field(field_name="image_vector", datatype=DataType.FLOAT_VECTOR, dim=768, description="image vector")
-schema.add_field(field_name="summary", datatype=DataType.VARCHAR, max_length=1000, description="article summary")
-schema.add_field(field_name="summary_dense_vector", datatype=DataType.FLOAT_VECTOR, dim=768, description="summary dense vector")
-schema.add_field(field_name="summary_sparse_vector", datatype=DataType.SPARSE_FLOAT_VECTOR, description="summary sparse vector")
-```
-
-You might notice the argument `uri` in `MilvusClient`, which is used to connect to the Zilliz Cloud cluster. You can set the arguments as follows:
-
-Set `uri` to your Zilliz Cloud cluster's endpoint and `token` to either a colon-separated username and password of a cluster user or a valid Zilliz Cloud API key with the necessary permissions.
-
-As for the `auto_id` in `MilvusClient.create_schema`, AutoID is an attribute of the primary field that determines whether to enable auto increment for the primary field.  Since we set the field`article_id` as the primary key and want to add article id manually, we set `auto_id` False to disable this feature.
-
-After adding all the fields to the schema object, our schema object agrees with the entries in the table above.
-
-### Define Index{#define-index}
-
-After defining the schema with various fields, including metadata and vector fields for image and summary data, the next step involves preparing the index parameters. Indexing is crucial for optimizing the search and retrieval of vectors, ensuring efficient query performance. In the following section, we will define the index parameters for the specified vector and scalar fields in the collection.
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
-index_params = client.prepare_index_params()
+from pymilvus import MilvusClient
 
-index_params.add_index(
-    field_name="image_vector",
-    index_type="AUTOINDEX",
-    metric_type="IP",
-)
-index_params.add_index(
-    field_name="summary_dense_vector",
-    index_type="AUTOINDEX",
-    metric_type="IP",
-)
-index_params.add_index(
-    field_name="summary_sparse_vector",
-    index_type="AUTOINDEX",
-    metric_type="IP",
-)
-index_params.add_index(
-    field_name="publish_ts",
-    index_type="AUTOINDEX",
-)
+schema = MilvusClient.create_schema()
 ```
 
-Once the index parameters are set up and applied, Zilliz Cloud clusters are optimized for handling complex queries on vector and scalar data. This indexing enhances the performance and accuracy of similarity searches within the collection, allowing for efficient retrieval of articles based on image vectors and summary vectors. By leveraging the `AUTOINDEX` for both the specified vector and scalar fields, Zilliz Cloud can quickly identify and return the most relevant results, significantly improving the overall user experience and effectiveness of the data retrieval process.
+</TabItem>
 
-Zilliz Cloud supports AUTOINDEX as the only index type, but provides multiple metric types. For more information about them, you can refer to [AUTOINDEX Explained](./autoindex-explained) and [Metric Types](./search-metrics-explained)..
+<TabItem value='java'>
 
-### Create Collection{#create-collection}
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
-With the schema and indexes defined, we create a "collection" with these parameters. Collection to a Zilliz Cloud cluster is like a table to a relational DB.
+// 1. Connect to Milvus server
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .build();
+
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Create an empty schema
+CreateCollectionReq.CollectionSchema schema = client.createSchema();
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+
+//Skip this step using JavaScript
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import "github.com/milvus-io/milvus/client/v2/entity"
+
+schema := entity.NewSchema()
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# Skip this step using cURL
+```
+
+</TabItem>
+</Tabs>
+
+### Add fields{#add-fields}
+
+Once the schema is created, the next step is to specify the fields that will comprise your data. Each field is associated with their respective data types and attributes.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
-client.create_collection(
-    collection_name=collection_name,
-    schema=schema,
-    index_params=index_params,
+from pymilvus import DataType
+
+schema.add_field(field_name="article_id", datatype=DataType.INT64, is_primary=True, auto_id=True, description="article id")
+schema.add_field(field_name="title", datatype=DataType.VARCHAR, enable_analyzer=True, enable_match=True, max_length=200, description="article title")
+schema.add_field(field_name="timestamp", datatype=DataType.INT32, description="publish date")
+schema.add_field(field_name="text", datatype=DataType.VARCHAR, max_length=2000, enable_analyzer=True, description="article text content")
+schema.add_field(field_name="text_dense_vector", datatype=DataType.FLOAT_VECTOR, dim=768, description="text dense vector")
+schema.add_field(field_name="text_sparse_vector", datatype=DataType.SPARSE_FLOAT_VECTOR, description="text sparse vector")
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("article_id")
+        .dataType(DataType.Int64)
+        .isPrimaryKey(true)
+        .autoID(true)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("title")
+        .dataType(DataType.VarChar)
+        .maxLength(200)
+        .enableAnalyzer(true)
+        .enableMatch(true)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("timestamp")
+        .dataType(DataType.Int32)
+        .build())
+schema.addField(AddFieldReq.builder()
+        .fieldName("text")
+        .dataType(DataType.VarChar)
+        .maxLength(2000)
+        .enableAnalyzer(true)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("text_dense_vector")
+        .dataType(DataType.FloatVector)
+        .dimension(768)
+        .build());
+schema.addField(AddFieldReq.builder()
+        .fieldName("text_sparse_vector")
+        .dataType(DataType.SparseFloatVector)
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const fields = [
+    {
+        name: "article_id",
+        data_type: DataType.Int64,
+        is_primary_key: true,
+        auto_id: true
+    },
+    {
+        name: "title",
+        data_type: DataType.VarChar,
+        max_length: 200,
+        enable_analyzer: true,
+        enable_match: true
+    },
+    {
+        name: "timestamp",
+        data_type: DataType.Int32
+    },
+    {
+        name: "text",
+        data_type: DataType.VarChar,
+        max_length: 2000,
+        enable_analyzer: true
+    },
+    {
+        name: "text_dense_vector",
+        data_type: DataType.FloatVector,
+        dim: 768
+    },
+    {
+        name: "text_sparse_vector",
+        data_type: DataType.SparseFloatVector
+    }
+]
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+schema.WithField(entity.NewField().
+    WithName("article_id").
+    WithDataType(entity.FieldTypeInt64).
+    WithIsPrimaryKey(true).
+    WithIsAutoID(true).
+    WithDescription("article id"),
+).WithField(entity.NewField().
+    WithName("title").
+    WithDataType(entity.FieldTypeVarChar).
+    WithMaxLength(200).
+    WithEnableAnalyzer(true).
+    WithEnableMatch(true).
+    WithDescription("article title"),
+).WithField(entity.NewField().
+    WithName("timestamp").
+    WithDataType(entity.FieldTypeInt32).
+    WithDescription("publish date"),
+).WithField(entity.NewField().
+    WithName("text").
+    WithDataType(entity.FieldTypeVarChar).
+    WithMaxLength(2000).
+    WithEnableAnalyzer(true).
+    WithDescription("article text content"),
+).WithField(entity.NewField().
+    WithName("text_dense_vector").
+    WithDataType(entity.FieldTypeFloatVector).
+    WithDim(768).
+    WithDescription("text dense vector"),
+).WithField(entity.NewField().
+    WithName("text_sparse_vector").
+    WithDataType(entity.FieldTypeSparseVector).
+    WithDescription("text sparse vector"),
 )
 ```
 
-We can verify that the collection has been successfully created by describing the collection.
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export fields='[
+    {
+        "fieldName": "article_id",
+        "dataType": "Int64",
+        "isPrimary": true
+    },
+    {
+        "fieldName": "title",
+        "dataType": "VarChar",
+        "elementTypeParams": {
+            "max_length": 200,
+            "enable_analyzer": true,
+            "enable_match": true
+        }
+    },
+    {
+        "fieldName": "timestamp",
+        "dataType": "Int32"
+    },
+    {
+       "fieldName": "text",
+       "dataType": "VarChar",
+       "elementTypeParams": {
+            "max_length": 2000,
+            "enable_analyzer": true
+        }
+    },
+    {
+       "fieldName": "text_dense_vector",
+       "dataType": "FloatVector",
+       "elementTypeParams": {
+            "dim": 768
+        }
+    },
+    {
+       "fieldName": "text_sparse_vector",
+       "dataType": "SparseFloatVector",
+    }
+]'
+
+export schema="{
+    \"autoID\": true,
+    \"fields\": $fields
+}"
+```
+
+</TabItem>
+</Tabs>
+
+In this example, the following attributes are specified for fields:
+
+- Primary key: the `article_id` is used as the primary key enabling automatically allocation of primary keys for incoming entities.
+
+- Partition key: the `timestamp` is assigned as a partition key allowing filtering by partitions. This might be
+
+- Text analyzer: text analyzer is applied to 2 string fields `title` and `text` to support text match and full-text search respectively.
+
+### (Optional) Add functions{#optional-add-functions}
+
+To enhance data querying capabilities, functions can be incorporated into the schema. For instance, a function can be created to process related to specific fields.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
-collection_desc = client.describe_collection(
-    collection_name=collection_name
+from pymilvus import Function, FunctionType
+
+bm25_function = Function(
+    name="text_bm25",
+    input_field_names=["text"],
+    output_field_names=["text_sparse_vector"],
+    function_type=FunctionType.BM25,
 )
-print(collection_desc)
+
+schema.add_function(bm25_function)
 ```
 
-## Other Considerations{#other-considerations}
+</TabItem>
 
-### Loading Index{#loading-index}
+<TabItem value='java'>
 
-When creating a collection in a Zilliz Cloud cluster, you can choose to load the index immediately or defer it until after bulk ingesting some data. Typically, you don't need to make an explicit choice about this, as the above examples show that the index is automatically built for any ingested data right after collection creation. This allows for immediate searchability of the ingested data. However, if you have a large bulk insert after collection creation and don't need to search for any data until a certain point, you can defer the index building by omitting index_params in the collection creation and build the index by calling load explicitly after ingesting all the data. This method is more efficient for building the index on a large collection, but no searches can be done until calling load().
+```java
+import io.milvus.common.clientenum.FunctionType;
+import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
 
-### How to Define Data Model For Multi-tenancy{#how-to-define-data-model-for-multi-tenancy}
+import java.util.*;
 
-The concept of multiple tenants is commonly used in scenarios where a single software application or service needs to serve multiple independent users or organizations, each with their own isolated environment. This is frequently seen in cloud computing, SaaS (Software as a Service) applications, and database systems. For example, a cloud storage service may utilize multi-tenancy to allow different companies to store and manage their data separately while sharing the same underlying infrastructure. This approach maximizes resource utilization and efficiency while ensuring data security and privacy for each tenant.
+schema.addFunction(Function.builder()
+        .functionType(FunctionType.BM25)
+        .name("text_bm25")
+        .inputFieldNames(Collections.singletonList("text"))
+        .outputFieldNames(Collections.singletonList("text_sparse_vector"))
+        .build());
+```
 
-The easiest way to differentiate tenants is by isolating their data and resources from each other. Each tenant either has exclusive access to specific resources or shares resources with others to manage Zilliz Cloud entities such as databases, collections, and partitions. There are specific methods aligned with these entities to implement multi-tenancy. You can refer to the [Milvus multi-tenancy page](https://milvus.io/docs/multi_tenancy.md#Multi-tenancy-strategies) for more information.
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import FunctionType from "@zilliz/milvus2-sdk-node";
+
+const functions = [
+    {
+      name: 'text_bm25',
+      description: 'bm25 function',
+      type: FunctionType.BM25,
+      input_field_names: ['text'],
+      output_field_names: ['text_sparse_vector'],
+      params: {},
+    },
+]；
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+function := entity.NewFunction().
+    WithName("text_bm25").
+    WithInputFields("text").
+    WithOutputFields("text_sparse_vector").
+    WithType(entity.FunctionTypeBM25)
+schema.WithFunction(function)
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export myFunctions='[
+    {
+        "name": "text_bm25",
+        "type": "BM25",
+        "inputFieldNames": ["text"],
+        "outputFieldNames": ["text_sparse_vector"],
+        "params": {}
+    }
+]'
+
+export schema="{
+    \"autoID\": true,
+    \"fields\": $fields
+    \"functions\": $myFunctions
+}"
+```
+
+</TabItem>
+</Tabs>
+
+This example adds a built-in BM25 function in schema, utilizing the `text` field as input and storing the resulting sparse vectors in the `text_sparse_vector` field.
+
+## Next Steps{#next-steps}
+
+- [Create Collection](./manage-collections-sdks)
+
+- [Alter Collection Field](./alter-collection-field)
+

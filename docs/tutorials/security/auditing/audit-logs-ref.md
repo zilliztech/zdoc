@@ -14,10 +14,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 
@@ -113,7 +113,7 @@ On Zilliz Cloud, audit logs have the following syntax:
    <tr>
      <td><p><code>user</code></p></td>
      <td><p>String</p></td>
-     <td><p>The user who performed the action. Possible values:</p><ul><li><p><code>zcloud_dms</code>: The action was performed through the Zilliz Cloud console.</p></li><li><p><code>zcloud_apikey_admin</code>: The action was performed via the RESTful API. <strong>Note:</strong> Actions performed via API keys are logged as <code>zcloud_apikey_admin</code>, without identifying the specific user. Support for logging individual API keys will be added in a later release.</p></li></ul></td>
+     <td><p>The user who performed the action.</p></td>
    </tr>
 </table>
 

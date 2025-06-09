@@ -18,10 +18,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

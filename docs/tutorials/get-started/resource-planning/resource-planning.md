@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Topics related to resource planning before you move your data to Zilliz Cloud. | Cloud"
 type: origin
 token: NM2OwCcfVijX8DkNsIxcdajEnr7
-sidebar_position: 7
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database
   - cloud
   - resource
   - planning
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

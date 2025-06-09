@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Learn how to configure auditing for your Zilliz Cloud cluster. | Cloud"
 type: origin
 token: UfGkwPQIPiJi6OkEu47cH3Umnvb
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - auditing
   - log
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 
@@ -38,13 +38,13 @@ After logging into the [Zilliz Cloud console](https://cloud.zilliz.com/login), y
 
 For a quick view of all the organizations you've joined, just click **All Organizations** in the top left corner.
 
-![view-organizations](/byoc/view-organizations.png)
+![view-organizations](/img/view-organizations.png)
 
 ## Rename an organization{#rename-an-organization}
 
 To rename an organization, you must be an [Organization Owner](./organization-users).
 
-    ![edit-organization-name-byoc](/byoc/edit-organization-name-byoc.png)
+    ![edit-organization-name-byoc](/img/edit-organization-name-byoc.png)
 
 ## Manage timezone{#manage-timezone}
 
@@ -52,7 +52,7 @@ The system time zone is set to where your first login occurs and applies to all 
 
 To view the current time zone, you can either be an Organization Owner or an Organization Member. For details on roles in an organization, refer to [Manage Organization Users](./organization-users).
 
-![byoc-timezone-settings](/byoc/byoc-timezone-settings.png)
+![byoc-timezone-settings](/img/byoc-timezone-settings.png)
 
 To modify the system time zone, you must be an [Organization Owner](./organization-users). Click **Edit** to open the **Time Zone Settings** dialog box, and select a time zone from the drop-down list. You can also enter the name of a time zone to quickly filter the desired time zone.
 
@@ -72,7 +72,7 @@ To view the current time zone, choose **Settings** from the left navigation pane
 
 To change the system maintenance window hours, click **Edit** to open the Edit System Maintenance Window dialog box, and select a time window from the **System Maintenance Window** drop-down list.
 
-![byoc-maintenance-window](/byoc/byoc-maintenance-window.png)
+![byoc-maintenance-window](/img/byoc-maintenance-window.png)
 
 ## Delete organization{#delete-organization}
 
@@ -102,5 +102,5 @@ To delete an organization:
 
 </Admonition>
 
-![byoc-delete-organization](/byoc/byoc-delete-organization.png)
+![byoc-delete-organization](/img/byoc-delete-organization.png)
 

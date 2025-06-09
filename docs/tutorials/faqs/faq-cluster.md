@@ -23,12 +23,12 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 - [Can I change the cloud region of my cluster after it is created?](#can-i-change-the-cloud-region-of-my-cluster-after-it-is-created)
 - [How can I scale down my cluster CU size?](#how-can-i-scale-down-my-cluster-cu-size)
 - [Can I deploy a free cluster on AWS?](#can-i-deploy-a-free-cluster-on-aws)
-- [Do clusters in the Free plan support customized schema?](#do-clusters-in-the-free-plan-support-customized-schema)
 - [How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?](#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud)
 - [Why can’t I connect to the cluster after the cluster is created?](#why-cant-i-connect-to-the-cluster-after-the-cluster-is-created)
 - [What can I do if I cannot connect to Zilliz Cloud with Node.js SDK?](#what-can-i-do-if-i-cannot-connect-to-zilliz-cloud-with-nodejs-sdk)
 - [What happens to my inactive clusters?](#what-happens-to-my-inactive-clusters)
 - [Will I be charged if I suspend my cluster?](#will-i-be-charged-if-i-suspend-my-cluster)
+- [How to obtain a cluster URI?](#how-to-obtain-a-cluster-uri)
 
 ## FAQs
 
@@ -39,7 +39,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 Generally, a free cluster can handle 1 million 768-dimensional vectors. However, the actual capacity depends on your schema. 
 
-If your data exceeds the maximum capacity of a free cluster, please [upgrade](./select-zilliz-cloud-service-plans#select-a-cluster-plan) to Serverless or Dedicated plan to create a new cluster and [migrate your data](./migrate-between-clusters) there. For more information about the capacity of a  cluster, please refer to [Select the Right CU](./cu-types-explained#assess-capacity)
+If your data exceeds the maximum capacity of a free cluster, please [upgrade](./select-zilliz-cloud-service-plans#plan-overview) to Serverless or Dedicated plan to create a new cluster and [migrate your data](./offline-migration) there. For more information about the capacity of a  cluster, please refer to [Select the Right CU](./cu-types-explained#assess-capacity)
 
 ### What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?{#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources}
 
@@ -47,7 +47,7 @@ When inserting or upserting data, you will receive this error because your data 
 
 To address this issue, you can follow the instructions below.
 
-- If you are using a free cluster, please [upgrade](./manage-cluster#upgrade-plan) to Serverless or Dedicated plan.
+- If you are using a free cluster, please [upgrade](./manage-cluster) to Serverless or Dedicated plan.
 
 - If you are using a Dedicated cluster, please [scale up your cluster](./scale-cluster#scale-up-a-cluster) by increasing the CU size.
 
@@ -57,15 +57,15 @@ Yes. To change the CU type, you need to follow the steps below.
 
 1. Create a new cluster with the desired CU type. Use the [calculator](https://zilliz.com/pricing#calculator) to determine the CU size of this new cluster.
 
-1. [Migrate](./migrate-between-clusters) the data from the current cluster to the new cluster you just created. Alternatively, you can also [contact us](https://support.zilliz.com/hc/en-us) to handle the data migration between clusters for you. Please specify your source cluster and target cluster when reaching out to us.
+1. [Migrate](./offline-migration) the data from the current cluster to the new cluster you just created. Alternatively, you can also [contact us](https://support.zilliz.com/hc/en-us) to handle the data migration between clusters for you. Please specify your source cluster and target cluster when reaching out to us.
 
 ### Can I change the cloud region of my cluster after it is created?{#can-i-change-the-cloud-region-of-my-cluster-after-it-is-created}
 
 Yes. To change the cloud region of your cluster, you need to follow the steps below.
 
-1. Create a new cluster with the desired cloud region. Use the [calculator](https://zilliz.com/pricing#calculator) to determine the CU size of this new cluster.
+1. Create a new cluster with the desired cloud region.
 
-1. [Migrate](./migrate-between-clusters) the data from the current cluster to the new cluster you just created. Alternatively, you can also [contact us](https://support.zilliz.com/hc/en-us) to handle the data migration between clusters for you. Please specify your source cluster and target cluster when reaching out to us.
+1. [Migrate](./offline-migration) the data from the current cluster to the new cluster you just created. Alternatively, you can also [contact us](https://support.zilliz.com/hc/en-us) to handle the data migration between clusters for you. Please specify your source cluster and target cluster when reaching out to us.
 
 ### How can I scale down my cluster CU size?{#how-can-i-scale-down-my-cluster-cu-size}
 
@@ -76,10 +76,6 @@ For more information, refer to [Scale Cluster](./scale-cluster).
 ### Can I deploy a free cluster on AWS?{#can-i-deploy-a-free-cluster-on-aws}
 
 No. Currently, Zilliz Cloud only supports deploying a free cluster on GCP. If you need to deploy a cluster on AWS, please choose the Dedicated (Standard) or Dedicated (Enterprise) plan.
-
-### Do clusters in the Free plan support customized schema?{#do-clusters-in-the-free-plan-support-customized-schema}
-
-No. The free clusters do not support customized schema. However, dynamic schema is enabled by default, meaning you can always insert data with fields that are not pre-defined. Refer to [Dynamic Field](./enable-dynamic-field) for more details about dynamic schema.
 
 ### How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
 
@@ -142,3 +138,8 @@ Your free clusters are automatically suspended with notice after 7 days of inact
 ### Will I be charged if I suspend my cluster?{#will-i-be-charged-if-i-suspend-my-cluster}
 
 When your cluster is suspended, you will only be charged for storage, not computing. For more details about storage costs, see [Pricing](https://zilliz.com/pricing).
+
+### How to obtain a cluster URI?{#how-to-obtain-a-cluster-uri}
+A cluster URI refers to your cluster endpoint which can be used for connection.
+
+You can obtain the URI from the Zilliz Cloud web console. For details, refer to [Connect to Cluster](./connect-to-cluster#connect-to-a-cluster).

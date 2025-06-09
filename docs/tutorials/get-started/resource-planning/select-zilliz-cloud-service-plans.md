@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster plan
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
@@ -27,9 +27,23 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud provides a range of cluster plans to suit diverse requirements. Whether you're new to vector databases or require robust solutions for enterprise-level tasks, making the right choice ensures optimal performance, scalability, and cost-efficiency. This guide will help you make an informed decision. 
 
-## Select a cluster plan{#select-a-cluster-plan}
+## Plan overview{#plan-overview}
 
-Zilliz Cloud categorizes its offerings into five distinct plans: **Free**, **Serverless**, **Dedicated-Standard**, **Dedicated-Enterprise**, and **Bring Your Own Cloud (BYOC)**.
+Zilliz Cloud categorizes its offerings into five distinct plans.
+
+- **Free:** The Free plan is perfect for individuals or small teams who are just getting started with Zilliz Cloud or want to experiment with its capabilities. It offers 5 GB of storage, 2.5 million vCUs per month, and support for up to 5 collections, making it ideal for small-scale projects, prototyping, or learning purposes. Choose this plan if you’re exploring Zilliz Cloud for the first time and don’t yet need advanced features or large-scale resources.
+
+- **Serverless:** The Serverless plan is designed for users who need flexibility and scalability without the hassle of managing infrastructure. It’s a great choice for businesses with fluctuating workloads or those who want to pay only for what they use. Opt for this plan if you need to store massive data at a low cost and do not prefer committing to fixed resources.
+
+- **Dedicated (Standard):** The Dedicated (Standard) plan is tailored for businesses with consistent, high-performance needs. It provides dedicated resources, ensuring reliable performance. Choose this plan if your project demands higher storage, compute power, and advanced features like backup and restore.
+
+- **Dedicated (Enterprise):** The Dedicated (Enterprise) plan is designed for large enterprises. It offers enhanced security, priority support, and custom configurations to meet the most demanding requirements. Select this plan if you have strict security requirements and need features like private networking, fine-grained RBAC, and HIPPA compliance.
+
+- **Bring Your Own Cloud (BYOC):** The BYOC Plan is ideal for enterprises that require full control over their data and infrastructure while leveraging Zilliz Cloud's advanced vector database capabilities. This plan is perfect for organizations with strict data security and compliance needs, such as those in healthcare, finance, or government, as it allows deployment within your own private cloud environment. Choose the BYOC plan if you need seamless integration with your existing cloud infrastructure, scalability for large-scale AI applications, and the ability to maintain complete data sovereignty.
+
+## Plan comparison{#plan-comparison}
+
+The following table compares the plans, detailing the specific features available in each plan.
 
 <table>
    <tr>
@@ -100,8 +114,8 @@ Zilliz Cloud categorizes its offerings into five distinct plans: **Free**, **Ser
      <td><p><strong>Max. collections</strong></p></td>
      <td><p>5 Collections</p></td>
      <td><p>10 Collections per cluster.</p></td>
-     <td><p>64 per CU, and &lt;= 4096</p></td>
-     <td><p>64 per CU, and &lt;= 4096</p></td>
+     <td><p>For details, refer to <a href="./limits#collections">Zilliz Cloud Limits</a>.</p></td>
+     <td><p>For details, refer to <a href="./limits#collections">Zilliz Cloud Limits</a>.</p></td>
      <td><p>Customizable</p></td>
    </tr>
    <tr>
@@ -250,14 +264,6 @@ Zilliz Cloud categorizes its offerings into five distinct plans: **Free**, **Ser
    </tr>
    <tr>
      <td><p><strong>Recycle bin</strong></p></td>
-     <td><p>Available</p></td>
-     <td><p>Available</p></td>
-     <td><p>Available</p></td>
-     <td><p>Available</p></td>
-     <td><p>Available</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Pipelines</strong></p></td>
      <td><p>Available</p></td>
      <td><p>Available</p></td>
      <td><p>Available</p></td>

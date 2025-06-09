@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

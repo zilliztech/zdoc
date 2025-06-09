@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 
@@ -36,7 +36,7 @@ The table provides a description of each metric and the actions that you are adv
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, free clusters offer only one metric, CU Capacity. To unlock a range of advanced metrics, <a href="./manage-cluster#upgrade-plan">upgrade your plan tier</a>.</p>
+<p>To unlock a range of advanced metrics, <a href="./manage-cluster">upgrade your plan tier</a>.</p>
 
 </Admonition>
 
@@ -46,6 +46,9 @@ The table provides a description of each metric and the actions that you are adv
      <th><p>Unit</p></th>
      <th><p>Description</p></th>
      <th><p>Recommended Action</p></th>
+   </tr>
+   <tr>
+     <td colspan="4"></td>
    </tr>
    <tr>
      <td colspan="4"><p><strong>Resources</strong></p></td>

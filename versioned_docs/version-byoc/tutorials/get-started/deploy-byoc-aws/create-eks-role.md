@@ -16,15 +16,17 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
+
+import Supademo from '@site/src/components/Supademo';
 
 # Create EKS IAM Role
 
@@ -32,33 +34,25 @@ This page describes how to create and configure an IAM role for Zilliz Cloud to 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud sales</a>.</p>
 
 </Admonition>
 
 ## Procedure{#procedure}
 
-You can use the AWS console to create the EKS role. As an alternative, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on AWS. For details, refer to [Bootstrap Project Infrastructure (Terraform)](./bootstrap-infrastructure-terraform).
+You can use the AWS console to create the EKS role. As an alternative, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on AWS. For details, refer to [Terraform Provider](./terraform-provider).
 
 ### Step 1: Create an IAM role{#step-1-create-an-iam-role}
 
 In this step, you will create an IAM role on AWS for Zilliz Cloud to manage EKS clusters on your behalf and paste the ARN of the role back to Zilliz Cloud console.
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>Upon the creation of an EKS cluster, two <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-service-linked-role">service-linked roles</a> will also be automatically created along with the cluster, and they are <a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSServiceRolePolicy.html">AmazonEKSServiceRolePolicy</a> and <a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSServiceRoleForAmazonEKSNodegroup.html">AWSServiceRoleForAmazonEKSNodegroup</a>. These two roles are required for Amazon EKS to call other AWS services on your behalf.</p>
-
-</Admonition>
+<Supademo id="cmb7llk244s2yppkpeo4oz85z" title=""  />
 
 1. Log into your AWS Console as a user with administrator privileges and go to the IAM dashboard.
 
 1. Expand your account information, and click the copy button at the start of your AWS Account ID.
 
-    ![RJFObn104o2f1fx2kgIcZi78n6g](/byoc/RJFObn104o2f1fx2kgIcZi78n6g.png)
-
 1. Click the **Roles** tab in the left sidebar, and then click **Create Role**.
-
-    ![UQUbbRI7IoSJdBxx1uqcF6RInbb](/byoc/UQUbbRI7IoSJdBxx1uqcF6RInbb.png)
 
 1. In **Select trusted entity**, click the **Custom trust policy** tile. In **Common trust policy**, paste the trust JSON from below into the editor in the **Custom trust policy** section and replace `{accountId}` with your **AWS Account ID**.
 
@@ -132,35 +126,21 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to manage EKS 
       }
     ```
 
-    ![XB4CbBWlFoO3QLxhJAqca6FrnJc](/byoc/XB4CbBWlFoO3QLxhJAqca6FrnJc.png)
-
 1. Click **Next** and skip adding permissions.
 
 1. In the **Name, review, and create** step, name the role, review the trusted entities, and click **Create role**.
 
-    <Admonition type="info" icon="📘" title="Notes">
-
-    <p>When naming the role, use the prefix <code>zilliz-byoc</code>.</p>
-
-    </Admonition>
-
-1. Once the role has been created, click **View role** in the green bar to go to the role details. 
-
-    ![JWndbA1JAoa9EJxGxI2c7JOBnRf](/byoc/JWndbA1JAoa9EJxGxI2c7JOBnRf.png)
+1. Once the role has been created, click **View role** in the green bar to go to the role details.
 
 1. Click the copy icon in front of the role's **ARN**.
 
-    ![TaYsbFd3VoJ3CXxxrr2ctXvSndP](/byoc/TaYsbFd3VoJ3CXxxrr2ctXvSndP.png)
-
-1. Go back to the Zilliz Cloud console, paste the role ARN in **IAM Role ARN** under **EKS settings**. 
-
-    ![GUusbTpq1oJpFFx9mjycBcXsndf](/byoc/GUusbTpq1oJpFFx9mjycBcXsndf.png)
+1. Go back to the Zilliz Cloud console, paste the role ARN in **IAM Role ARN** under **EKS settings**.
 
 ### Step 2: Add permissions{#step-2-add-permissions}
 
 In this step, you are going to add several permissions to the EKS role. On the role's details page, click the **Permissions** tab.  In the **Permissions policies** section, click **Add permissions**. In this step, you need to select **Attach policies** and then **Create inline policy** to add multiple policies from different sources .
 
-![W1aCbP9zyojMylxG18Scpcfwnxd](/byoc/W1aCbP9zyojMylxG18Scpcfwnxd.png)
+<Supademo id="cmb7nj2tb4u69ppkptf3is7bo" title=""  />
 
 #### Attach AWS-managed policies{#attach-aws-managed-policies}
 
@@ -201,11 +181,13 @@ The following table lists the permissions to add as attached policies. Click the
 
 After you choose **Attach policies**, in the **Other permissions policies** section on the page that opens, fill in the name of each AWS-managed policy listed above in the search box and select the radio box in front of it. Once you have selected all the required policies, click **Add permissions**. 
 
-![V0IobWDQ3oktBLxq6NCcfYuwnSc](/byoc/V0IobWDQ3oktBLxq6NCcfYuwnSc.png)
-
 You will find that these policies are listed in the **Permissions** policies list.
 
-![TcGBbwgzKoEAIBxKiQ9cJfPQnue](/byoc/TcGBbwgzKoEAIBxKiQ9cJfPQnue.png)
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Upon the creation of an EKS cluster, two <a href="https://docs.aws.amazon.com/IAM/latest/UserGuide/id_roles.html#iam-term-service-linked-role">service-linked roles</a> will also be automatically created along with the cluster, and they are <a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AmazonEKSServiceRolePolicy.html">AmazonEKSServiceRolePolicy</a> and <a href="https://docs.aws.amazon.com/aws-managed-policy/latest/reference/AWSServiceRoleForAmazonEKSNodegroup.html">AWSServiceRoleForAmazonEKSNodegroup</a>. These two roles are required for Amazon EKS to call other AWS services on your behalf.</p>
+
+</Admonition>
 
 #### Create inline policies{#create-inline-policies}
 
@@ -236,19 +218,5 @@ The following table lists the policies that need to be added as customer inline 
 
 After you choose **Create inline policy**, on the **Specify permissions** page, click **JSON** in the **Policy editor** section to open the policy editor. Then copy one of the above permissions and paste it into the policy editor.
 
-![EzxybNlqXoABrmxAOWDc4nzinwe](/byoc/EzxybNlqXoABrmxAOWDc4nzinwe.png)
-
-Click **Next**, and set **Policy name** in **Policy details**.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>As shown in the following figure, when naming the policy, use the prefix <code>zilliz-byoc</code>.</p>
-
-</Admonition>
-
-![QMu4bLEoEo4lrAxDurIcgpINnnb](/byoc/QMu4bLEoEo4lrAxDurIcgpINnnb.png)
-
-Once you have added all the listed inline policies, click **Create policy**. You will find that these policies are listed in the **Permissions** policies list.
-
-![FD9rbE25YofQJDxafNLc0IUInWg](/byoc/FD9rbE25YofQJDxafNLc0IUInWg.png)
+Click **Next**, and set **Policy name** in **Policy details**. Once you have added all the listed inline policies, click **Create policy**. You will find that these policies are listed in the **Permissions** policies list.
 

@@ -2,7 +2,7 @@
 title: "Filter Reference | Cloud"
 slug: /analyzer-filters
 sidebar_label: "Filter"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "This section provides a detailed reference for filters in analyzers. | Cloud"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

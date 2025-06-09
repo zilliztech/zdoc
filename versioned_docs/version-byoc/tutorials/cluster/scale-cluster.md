@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 
@@ -44,7 +44,7 @@ You have the option to scale cluster manually by using the Zilliz Cloud web cons
 
 ### Scale up a cluster{#scale-up-a-cluster}
 
-![manual-scale-entry](/byoc/manual-scale-entry.png)
+![manual-scale-entry](/img/manual-scale-entry.png)
 
 In the Scale Cluster dialog box, you can scale up the size allocated to the cluster of the same type in the same cloud region as the original one. 
 
@@ -62,7 +62,7 @@ If you require a larger CU size, please [create a support ticket](http://support
 
 ### Scale down a cluster{#scale-down-a-cluster}
 
-![manual-scale-entry](/byoc/manual-scale-entry.png)
+![manual-scale-entry](/img/manual-scale-entry.png)
 
 In the **Scale Cluster** dialog box, select the desired CU size in the dialog window. Once you click **Scale**, Zilliz Cloud will check the cluster's data volume and collection numbers. Scaling down will be successfully triggered only when both of the following two conditions are met:
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - backup
   - files
   - view
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 
@@ -50,7 +50,7 @@ If the status of your backup file is neither of the two, errors may occur. Pleas
 
 <TabItem value="Cloud Console">
 
-![view_all_backups](/byoc/view_all_backups.png)
+![view_all_backups](/img/view_all_backups.png)
 
 </TabItem>
 <TabItem value="Bash">
@@ -102,7 +102,7 @@ Expected output:
 
 <TabItem value="Cloud Console">
 
-![view_snapshot_details](/byoc/view_snapshot_details.png)
+![view_snapshot_details](/img/view_snapshot_details.png)
 
 </TabItem>
 <TabItem value="Bash">

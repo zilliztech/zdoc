@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
+  - image similarity search
   - Context Window
   - Natural language search
   - Similarity Search
-  - multimodal RAG
 
 ---
 

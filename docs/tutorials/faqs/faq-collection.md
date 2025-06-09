@@ -26,6 +26,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 - [Why do I fail to load collections? What can I do?](#why-do-i-fail-to-load-collections-what-can-i-do)
 - [Is there any limit to the number of fields I can add in a collection?](#is-there-any-limit-to-the-number-of-fields-i-can-add-in-a-collection)
 - [What's the difference between partitions and partition keys?](#whats-the-difference-between-partitions-and-partition-keys)
+- [Can I modify the number of shards in a collection?](#can-i-modify-the-number-of-shards-in-a-collection)
 
 ## FAQs
 
@@ -34,7 +35,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 ### How many collections are allowed in a single cluster?{#how-many-collections-are-allowed-in-a-single-cluster}
 
-A free cluster can have up to 5 collections.  If you have reached the upper limit and need to create more collections, please [upgrade](./manage-cluster#upgrade-plan) the cluster plan.
+A free cluster can have up to 5 collections.  If you have reached the upper limit and need to create more collections, please [upgrade](./manage-cluster) the cluster plan.
 
 A Serverless cluster can have up to 100 collections.
 
@@ -60,7 +61,7 @@ No. Once you have enabled/disabled dynamic schema when creating a collection, yo
 
 ### What are the indexing metric types supported by Zilliz Cloud?{#what-are-the-indexing-metric-types-supported-by-zilliz-cloud}
 
-Zilliz Cloud supports 3 types of metrics.
+Zilliz Cloud supports the following types of metrics.
 
 1. **Euclidean (L2)** measures the distance between two vectors in a plane. The smaller the result, the more similar the two vectors are.
 
@@ -74,7 +75,7 @@ Zilliz Cloud supports 3 types of metrics.
 
 ### How to set the TTL (time to live) property of a created collection?{#how-to-set-the-ttl-time-to-live-property-of-a-created-collection}
 
-You can set the TTL of a collection with our PyMilvus SDK by providing the value of the parameter **collection.ttl.seconds**.
+You can set the TTL of a collection with our SDKs by providing the value of the parameter **collection.ttl.seconds**. For details, refer to [Set Collection TTL](./set-collection-ttl).
 
 The following example sets the TTL to 1800 seconds.
 
@@ -96,10 +97,30 @@ Yes. You can have a maximum of 64 fields in 1 collection.
 
 ### What's the difference between partitions and partition keys?{#whats-the-difference-between-partitions-and-partition-keys}
 
-Partitions are used to organize data based on certain criteria.
+A partition is a subset of a collection. Each partition shares the same data structure with its parent collection but contains only a subset of the data in the collection. Partitions are used to organize data based on certain criteria.
 
-The partition key groups entities by the same key and speed up query performance.
+The Partition Key is a search optimization solution based on partitions. By designating a specific scalar field as the Partition Key and specifying filtering conditions based on the Partition Key during the search, the search scope can be narrowed down to several partitions, thereby improving search efficiency. 
 
-The difference is that data are physically isolated in partitions while partition keys group data logically. 
+The difference is that data are physically isolated in partitions while partition keys group data logically. In addition, partitions need to be manually created and managed, but if you enable partition key, 16 partitions will be created automatically and data with the same partition key values will be routed to the same partition.
 
 For details, refer to [Manage Partitions](./manage-partitions) and [Use Partition Key](./use-partition-key).
+
+### Can I modify the number of shards in a collection?{#can-i-modify-the-number-of-shards-in-a-collection}
+
+Yes. To change the number of shards, use the "[clone collection](./manage-collections-console#create-collection)" feature:
+
+1. Go to the **Overview** page of the target collection.
+
+1. In the **Actions** dropdown, select **Clone**.
+
+1. In the dialog,
+
+    - Enter a collection name
+
+    - Set **Clone scope** to **Collection schema and data**.
+
+    - Expand **Settings** and specify the desired number of shards.
+
+    - Click **Clone**.
+
+1. After the cloned collection is created, update your application code to use the newly cloned collection.

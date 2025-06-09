@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Zilliz Cloud pulls data from your data sources and sends it to target clusters using a set of fixed IP addresses. To ensure that Zilliz Cloud can do this, you must safelist these IP addresses in your firewall | Cloud"
 type: origin
 token: KfgvwJKPDi8uDekl2aHcPOvgnSb
-sidebar_position: 1
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - migrations
   - ips
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

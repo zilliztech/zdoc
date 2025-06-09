@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 
@@ -34,13 +34,13 @@ A collection is a two-dimensional table with fixed columns and variant rows. Eac
 
 The following chart shows a collection with eight columns and six entities.
 
-![BitLbgzN4oYspwxM4vQcAmg2n9f](/byoc/BitLbgzN4oYspwxM4vQcAmg2n9f.png)
+![BitLbgzN4oYspwxM4vQcAmg2n9f](/img/BitLbgzN4oYspwxM4vQcAmg2n9f.png)
 
 ## Schema and Fields{#schema-and-fields}
 
 When describing an object, we usually mention its attributes, such as size, weight, and position. You can use these attributes as fields in a collection. Each field has various constraining properties, such as the data type and the dimensionality of a vector field. You can form a collection schema by creating the fields and defining their order. For possible applicable data types, refer to [Schema Explained](./schema-explained).
 
-You should include all schema-defined fields in the entities to insert. To make some of them optional, consider enabling dynamic field. For details, refer to [Dynamic Field](./enable-dynamic-field).
+You should include all schema-defined fields in the entities to insert. To make some of them optional, consider the following options:
 
 - **Making them nullable or setting default values**
 

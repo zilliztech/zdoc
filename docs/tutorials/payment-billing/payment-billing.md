@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This guide details the available ways for you to subscribe to our services on Zilliz Cloud with relevant notes on invoice management | Cloud"
 type: origin
 token: FmkCwm1QHitB7uk9U9ncLnHrnse
-sidebar_position: 11
+sidebar_position: 12
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - private link
   - payment
   - billing
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

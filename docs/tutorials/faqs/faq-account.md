@@ -35,7 +35,7 @@ For more information, please refer to [Email Accounts](./email-accounts#update-a
 
 ### Why is my account locked and how to unlock it?{#why-is-my-account-locked-and-how-to-unlock-it}
 
-Your account will be locked after five failed login attempts.
+Your account will be locked after 5 failed login attempts.
 
 To unlock your account, you can choose one of the following methods.
 

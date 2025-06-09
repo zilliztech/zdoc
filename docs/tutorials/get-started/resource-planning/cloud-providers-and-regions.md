@@ -14,10 +14,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 
@@ -68,6 +68,22 @@ Zilliz Cloud supports deploying dedicated clusters on AWS.
      <td><p>Yes</p></td>
    </tr>
    <tr>
+     <td><p>ca-central-1</p></td>
+     <td><p>Canada (Central)</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
+   </tr>
+   <tr>
+     <td><p>eu-central-1</p></td>
+     <td><p>Frankfurt, Germany</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
+   </tr>
+   <tr>
      <td><p>ap-southeast-1</p></td>
      <td><p>Singapore</p></td>
      <td><p>No</p></td>
@@ -76,16 +92,8 @@ Zilliz Cloud supports deploying dedicated clusters on AWS.
      <td><p>Yes</p></td>
    </tr>
    <tr>
-     <td><p>eu-central-1</p></td>
-     <td><p>Frankfurt</p></td>
-     <td><p>No</p></td>
-     <td><p>No</p></td>
-     <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
-   </tr>
-   <tr>
      <td><p>ap-northeast-1</p></td>
-     <td><p>Tokyo</p></td>
+     <td><p>Tokyo, Japan</p></td>
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>
@@ -174,8 +182,16 @@ Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
      <td><p>Yes</p></td>
    </tr>
    <tr>
+     <td><p>East US 2</p></td>
+     <td><p>Virginia, USA</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
+   </tr>
+   <tr>
      <td><p>Central US</p></td>
-     <td><p>Lowa, USA</p></td>
+     <td><p>Iowa, USA</p></td>
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>

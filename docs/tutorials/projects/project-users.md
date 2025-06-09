@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

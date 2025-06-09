@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Similarity metrics are used to measure similarities among vectors. Choosing an appropriate distance metric helps improve classification and clustering performance significantly. | BYOC"
 type: origin
 token: EOxmwUDxMiy2cpkOfIsc1dYzn4c
-sidebar_position: 17
+sidebar_position: 18
 keywords: 
   - zilliz
   - vector database
@@ -20,10 +20,10 @@ keywords:
   - IP
   - COSINE
   - Jaccard
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 
@@ -132,7 +132,7 @@ Essentially, Euclidean distance measures the length of a segment that connects 2
 
 The formula for Euclidean distance is as follows:
 
-![C8gHbw8dSozNslx9wXbcyt2hnLe](/byoc/C8gHbw8dSozNslx9wXbcyt2hnLe.png)
+![C8gHbw8dSozNslx9wXbcyt2hnLe](/img/C8gHbw8dSozNslx9wXbcyt2hnLe.png)
 
 where **a = (a<sub>0</sub>, a<sub>1</sub>,..., a<sub>n-1</sub>)** and **b = (b<sub>0</sub>, b<sub>1</sub>,..., b<sub>n-1</sub>)** are two points in n-dimensional Euclidean space.
 
@@ -148,7 +148,7 @@ It's the most commonly used distance metric and is very useful when the data are
 
 The IP distance between two embeddings is defined as follows:
 
-![Dqp4b8OP3oaQWgxZqoycL3ainwg](/byoc/Dqp4b8OP3oaQWgxZqoycL3ainwg.png)
+![Dqp4b8OP3oaQWgxZqoycL3ainwg](/img/Dqp4b8OP3oaQWgxZqoycL3ainwg.png)
 
 IP is more useful if you need to compare non-normalized data or when you care about magnitude and angle.
 
@@ -160,11 +160,11 @@ IP is more useful if you need to compare non-normalized data or when you care ab
 
 Suppose X' is normalized from embedding X:
 
-![U23obWPTJoID9KxeGyjc1HAXn9d](/byoc/U23obWPTJoID9KxeGyjc1HAXn9d.png)
+![U23obWPTJoID9KxeGyjc1HAXn9d](/img/U23obWPTJoID9KxeGyjc1HAXn9d.png)
 
 The correlation between the two embeddings is as follows:
 
-![SHDAb6UUgo7qR6xLXb5cv4bKnke](/byoc/SHDAb6UUgo7qR6xLXb5cv4bKnke.png)
+![SHDAb6UUgo7qR6xLXb5cv4bKnke](/img/SHDAb6UUgo7qR6xLXb5cv4bKnke.png)
 
 ## Cosine similarity{#cosine-similarity}
 
@@ -172,7 +172,7 @@ Cosine similarity uses the cosine of the angle between two sets of vectors to me
 
 To calculate the cosine similarity between two sets of vectors **A = (a<sub>0</sub>, a<sub>1</sub>,..., a<sub>n-1</sub>)** and **B = (b<sub>0</sub>, b<sub>1</sub>,..., b<sub>n-1</sub>)**, use the following formula:
 
-![R1iNbuEDDoz8RdxtA4RcM706nMc](/byoc/R1iNbuEDDoz8RdxtA4RcM706nMc.png)
+![R1iNbuEDDoz8RdxtA4RcM706nMc](/img/R1iNbuEDDoz8RdxtA4RcM706nMc.png)
 
 The cosine similarity is always in the interval **[-1, 1]**. For example, two proportional vectors have a cosine similarity of **1**, two orthogonal vectors have a similarity of **0**, and two opposite vectors have a similarity of **-1**. The larger the cosine, the smaller the angle between the two vectors, indicating that these two vectors are more similar to each other.
 
@@ -182,11 +182,11 @@ By subtracting their cosine similarity from 1, you can get the cosine distance b
 
 JACCARD similarity coefficient measures the similarity between two sample sets and is defined as the cardinality of the intersection of the defined sets divided by the cardinality of the union of them. It can only be applied to finite sample sets.
 
-![Sl4dbmQRVoIf1yx55mRcibZ3nAg](/byoc/Sl4dbmQRVoIf1yx55mRcibZ3nAg.png)
+![Sl4dbmQRVoIf1yx55mRcibZ3nAg](/img/Sl4dbmQRVoIf1yx55mRcibZ3nAg.png)
 
 JACCARD distance measures the dissimilarity between data sets and is obtained by subtracting the JACCARD similarity coefficient from 1. For binary variables, JACCARD distance is equivalent to the Tanimoto coefficient.
 
-![Kj2kbpNmHoTUUixjDC1ccTntnnV](/byoc/Kj2kbpNmHoTUUixjDC1ccTntnnV.png)
+![Kj2kbpNmHoTUUixjDC1ccTntnnV](/img/Kj2kbpNmHoTUUixjDC1ccTntnnV.png)
 
 ## HAMMING distance{#hamming-distance}
 
@@ -200,31 +200,39 @@ For example, suppose there are two strings, 1101 1001 and 1001 1101.
 
 BM25 is a widely used text relevance measurement method, specifically designed for [full text search](./full-text-search). It combines the following three key factors:
 
-- **Term Frequency (TF):** Measures how frequently a term appears in a document. While higher frequencies often indicate greater importance, BM25 uses the saturation parameter  to prevent overly frequent terms from dominating the relevance score.
+- **Term Frequency (TF):** Measures how frequently a term appears in a document. While higher frequencies often indicate greater importance, BM25 uses the saturation parameter $k_1$ to prevent overly frequent terms from dominating the relevance score.
 
 - **Inverse Document Frequency (IDF):** Reflects the importance of a term across the entire corpus. Terms appearing in fewer documents receive a higher IDF value, indicating greater contribution to relevance.
 
-- **Document Length Normalization:** Longer documents tend to score higher due to containing more terms. BM25 mitigates this bias by normalizing document lengths, with parameter  controlling the strength of this normalization.
+- **Document Length Normalization:** Longer documents tend to score higher due to containing more terms. BM25 mitigates this bias by normalizing document lengths, with parameter $b$ controlling the strength of this normalization.
 
 The BM25 scoring is calculated as follows:
 
+$$
+score(D, Q)=\sum_{i=1}^{n}IDF(q_i)\cdot {{TF(q_i,D)\cdot(k_1+1)}\over{TF(q_i, D)+k_1\cdot(1-b+b\cdot {{|D|}\over{avgdl}})}}
+$$
+
 Parameter description:
 
-- : The query text provided by the user.
+- $Q$: The query text provided by the user.
 
-- : The document being evaluated.
+- $D$: The document being evaluated.
 
-- : Term frequency, representing how often term appears in document .
+- $TF(q_i, D)$: Term frequency, representing how often term $q_i$appears in document $D$.
 
-- : Inverse document frequency, calculated as:
+- $IDF(q_i)$: Inverse document frequency, calculated as:
 
-    where  is the total number of documents in the corpus, and is the number of documents containing term .
+    $$
+    IDF(q_i)=\log({N-n(q_i)+0.5\over n(q_i)+0.5} + 1)
+    $$
 
-- : Length of document  (total number of terms).
+    where $N$ is the total number of documents in the corpus, and$n(q_i)$ is the number of documents containing term $q_i$.
 
-- : Average length of all documents in the corpus.
+- $|D|$: Length of document $D$ (total number of terms).
 
-- : Controls the influence of term frequency on the score. Higher values increase the importance of term frequency. The typical range is [1.2, 2.0], while Zilliz Cloud allows a range of [0, 3].
+- $avgdl$: Average length of all documents in the corpus.
 
-- : Controls the degree of length normalization, ranging from 0 to 1. When the value is 0, no normalization is applied; when the value is 1, full normalization is applied.
+- $k_1$: Controls the influence of term frequency on the score. Higher values increase the importance of term frequency. The typical range is [1.2, 2.0], while Zilliz Cloud allows a range of [0, 3].
+
+- $b$: Controls the degree of length normalization, ranging from 0 to 1. When the value is 0, no normalization is applied; when the value is 1, full normalization is applied.
 

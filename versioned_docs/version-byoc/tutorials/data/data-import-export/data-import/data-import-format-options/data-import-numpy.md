@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 The `.npy` format is [NumPy's standard binary format](https://numpy.org/devdocs/reference/generated/numpy.lib.format.html) for saving a single array, including its shape and dtype information, ensuring it can be correctly reconstructed on different machines.  You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your raw data into Parquet files. The following figure demonstrates how your raw data can be mapped into a set of `.npy` file.
 
-![data_import-preparetion_en](/byoc/data_import-preparetion_en.png)
+![numpy_file_structure](/img/numpy_file_structure.png)
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -142,15 +142,15 @@ Zilliz Cloud supports data import from your cloud storage. The table below lists
    </tr>
    <tr>
      <td><p><strong>AWS S3</strong></p></td>
-     <td><p><code>s3://bucket-name/numpy-folder/</code></p></td>
+     <td><p>s3://<em>bucket-name</em>/<em>numpy-folder</em>/</p></td>
    </tr>
    <tr>
      <td><p><strong>Google Cloud Storage</strong></p></td>
-     <td><p><code>gs://bucket-name/numpy-folder/</code></p></td>
+     <td><p>gs://<em>bucket-name</em>/<em>numpy-folder</em>/</p></td>
    </tr>
    <tr>
      <td><p><strong>Azure Bolb</strong></p></td>
-     <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/</code></p></td>
+     <td><p><em>https:</em>//<em>myaccount</em>.blob.core.windows.net/<em>bucket-name</em>/<em>numpy-folder</em>/</p></td>
    </tr>
 </table>
 

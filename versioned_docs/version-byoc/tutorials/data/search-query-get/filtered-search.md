@@ -2,7 +2,7 @@
 title: "Filtered Search | BYOC"
 slug: /filtered-search
 sidebar_label: "Filtered Search"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "An ANN search finds vector embeddings most similar to specified vector embeddings. However, the search results may not always be correct. You can include filtering conditions in a search request so that Zilliz Cloud conducts metadata filtering before conducting ANN searches, reducing the search scope from the whole collection to only the entities matching the specified filtering conditions. | BYOC"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 
@@ -39,7 +39,7 @@ In Zilliz Cloud, filtered searches are categorized into two types — **standard
 
 If a collection contains both vector embeddings and their metadata, you can filter metadata before ANN search to improve the relevancy of the search result. Once Zilliz Cloud receives a search request carrying a filtering condition, it restricts the search scope within the entities matching the specified filtering condition.
 
-![QIeKwvDN1h7lTnb9iJ7cPubknrb](/byoc/QIeKwvDN1h7lTnb9iJ7cPubknrb.png)
+![QIeKwvDN1h7lTnb9iJ7cPubknrb](/img/QIeKwvDN1h7lTnb9iJ7cPubknrb.png)
 
 As shown in the above diagram, the search request carries `chunk like "%red%"` as the filtering condition, indicating that Zilliz Cloud should conduct the ANN search within all the entities that have the word `red` in the `chunk` field. Specifically, Zilliz Cloud does the following:
 
@@ -53,7 +53,7 @@ As shown in the above diagram, the search request carries `chunk like "%red%"` a
 
 The standard filtering process effectively narrows the search scope to a small range. However, overly complex filtering expressions may result in very high search latency. In such cases, iterative filtering can serve as an alternative, helping to reduce the workload of scalar filtering.
 
-![AOJ0wZxInhw0z8bZJtWcHMpfnCh](/byoc/AOJ0wZxInhw0z8bZJtWcHMpfnCh.png)
+![AOJ0wZxInhw0z8bZJtWcHMpfnCh](/img/AOJ0wZxInhw0z8bZJtWcHMpfnCh.png)
 
 As illustrated in the diagram above, a search with iterative filtering performs the vector search in iterations. Each entity returned by the iterator undergoes scalar filtering, and this process continues until the specified topK results are achieved.
 
@@ -131,7 +131,7 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
 
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
 SearchReq searchReq = SearchReq.builder()
-        .collectionName("filtered_search_collection")
+        .collectionName("my_collection")
         .data(Collections.singletonList(queryVector))
         .topK(5)
         .filter("color like \"red%\" and likes > 50")
@@ -161,48 +161,49 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 ```go
 import (
     "context"
-    "log"
+    "fmt"
 
-    "github.com/milvus-io/milvus/client/v2"
     "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
-func ExampleClient_Search_filter() {
-        ctx, cancel := context.WithCancel(context.Background())
-        defer cancel()
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
-        milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-        token := "YOUR_CLUSTER_TOKEN"
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+token := "YOUR_CLUSTER_TOKEN"
 
-        cli, err := client.New(ctx, &client.ClientConfig{
-                Address: milvusAddr,
-                APIKey:  token,
-        })
-        if err != nil {
-                log.Fatal("failed to connect to milvus server: ", err.Error())
-        }
-
-        defer cli.Close(ctx)
-
-        queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
-
-        resultSets, err := cli.Search(ctx, client.NewSearchOption(
-                "filtered_search_collection", // collectionName
-                3,             // limit
-                []entity.Vector{entity.FloatVector(queryVector)},
-        ).WithFilter(`color like "red%" and likes > 50`).WithOutputFields("color", "likes"))
-        if err != nil {
-                log.Fatal("failed to perform basic ANN search collection: ", err.Error())
-        }
-
-        for _, resultSet := range resultSets {
-                log.Println("IDs: ", resultSet.IDs)
-                log.Println("Scores: ", resultSet.Scores)
-        }
-        // Output:
-        // IDs:
-        // Scores:
+client, err := client.New(ctx, &client.ClientConfig{
+    Address: milvusAddr,
+    APIKey:  token,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
 }
+defer client.Close(ctx)
+
+queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
+
+    resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+        "my_collection", // collectionName
+        5,               // limit
+        []entity.Vector{entity.FloatVector(queryVector)},
+    ).WithConsistencyLevel(entity.ClStrong).
+        WithANNSField("vector").
+        WithFilter("color like 'red%' and likes > 50").
+        WithOutputFields("color", "likes"))
+    if err != nil {
+        fmt.Println(err.Error())
+        // handle error
+    }
+
+    for _, resultSet := range resultSets {
+        fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+        fmt.Println("Scores: ", resultSet.Scores)
+        fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
+        fmt.Println("likes: ", resultSet.GetColumn("likes").FieldData().GetScalars())
+    }
 
 ```
 
@@ -220,7 +221,7 @@ const client = new MilvusClient({address, token});
 const query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
 
 const res = await client.search({
-    collection_name: "filtered_search_collection",
+    collection_name: "my_collection",
     data: [query_vector],
     limit: 5,
     // highlight-start
@@ -243,13 +244,13 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "quick_setup",
+    "collectionName": "my_collection",
     "data": [
         [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
     ],
     "annsField": "vector",
     "filter": "color like \"red%\" and likes > 50",
-    "limit": 3,
+    "limit": 5,
     "outputFields": ["color", "likes"]
 }'
 # {"code":0,"cost":0,"data":[]}
@@ -339,7 +340,7 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
 
 FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
 SearchReq searchReq = SearchReq.builder()
-        .collectionName("filtered_search_collection")
+        .collectionName("my_collection")
         .data(Collections.singletonList(queryVector))
         .topK(5)
         .filter("color like \"red%\" and likes > 50")
@@ -370,47 +371,49 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 ```go
 import (
     "context"
-    "log"
+    "fmt"
 
-    "github.com/milvus-io/milvus/client/v2"
     "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
-func ExampleClient_Search_filter() {
-        ctx, cancel := context.WithCancel(context.Background())
-        defer cancel()
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
-        milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-        token := "YOUR_CLUSTER_TOKEN"
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+token := "YOUR_CLUSTER_TOKEN"
 
-        cli, err := client.New(ctx, &client.ClientConfig{
-                Address: milvusAddr,
-                APIKey:  token,
-        })
-        if err != nil {
-                log.Fatal("failed to connect to milvus server: ", err.Error())
-        }
+client, err := client.New(ctx, &client.ClientConfig{
+    Address: milvusAddr,
+    APIKey:  token,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
 
-        defer cli.Close(ctx)
+queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
 
-        queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "my_collection", // collectionName
+    5,               // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithConsistencyLevel(entity.ClStrong).
+    WithANNSField("vector").
+    WithFilter("color like 'red%' and likes > 50").
+    WithOutputFields("color", "likes").
+    WithSearchParam("hints", "iterative_filter"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 
-        resultSets, err := cli.Search(ctx, client.NewSearchOption(
-                "filtered_search_collection", // collectionName
-                3,             // limit
-                []entity.Vector{entity.FloatVector(queryVector)},
-        ).WithFilter(`color like "red%" and likes > 50`).WithHints("iterative_filter").WithOutputFields("color", "likes"))
-        if err != nil {
-                log.Fatal("failed to perform basic ANN search collection: ", err.Error())
-        }
-
-        for _, resultSet := range resultSets {
-                log.Println("IDs: ", resultSet.IDs)
-                log.Println("Scores: ", resultSet.Scores)
-        }
-        // Output:
-        // IDs:
-        // Scores:
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+    fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
+    fmt.Println("likes: ", resultSet.GetColumn("likes").FieldData().GetScalars())
 }
 
 ```
@@ -453,14 +456,14 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "quick_setup",
+    "collectionName": "my_collection",
     "data": [
         [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
     ],
     "annsField": "vector",
     "filter": "color like \"red%\" and likes > 50",
     "searchParams": {"hints": "iterative_filter"},
-    "limit": 3,
+    "limit": 5,
     "outputFields": ["color", "likes"]
 }'
 # {"code":0,"cost":0,"data":[]}

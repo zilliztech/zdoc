@@ -15,10 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 
@@ -31,7 +31,7 @@ Zilliz Cloud offers a dashboard for observing cluster-specific metrics. To acces
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>For free clusters, only the metric chart for CU capacity is available. To unlock a range of advanced metrics, <a href="./manage-cluster#upgrade-plan">upgrade your plan tier</a>.</p>
+<p>For free clusters, only read &amp; write vCUs are available. To unlock a range of advanced metrics, <a href="./manage-cluster">upgrade your plan tier</a>.</p>
 
 </Admonition>
 

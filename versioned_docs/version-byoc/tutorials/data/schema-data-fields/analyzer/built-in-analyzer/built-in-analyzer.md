@@ -2,7 +2,7 @@
 title: "Built-in Analyzer Reference | BYOC"
 slug: /built-in-analyzer
 sidebar_label: "Built-in Analyzer"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "This section provides detailed information about built-in analyzers. | BYOC"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in analyzer
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

@@ -2,7 +2,7 @@
 title: "Tune Recall Rate | BYOC"
 slug: /tune-recall-rate
 sidebar_label: "Tune Recall Rate"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud introduces a search parameter `level` to allow users to balance search recall and performance. It also provides another search parameter, `enablerecallcalculation`, to give users the estimated recall rate of the current search. You can combine these two parameters to tune the recall rate of vector searches. | BYOC"
 type: origin
@@ -18,10 +18,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 
@@ -49,7 +49,7 @@ Zilliz Cloud introduces a search parameter `level` to allow users to balance sea
 
 The recall rate in Zilliz Cloud usually refers to the proportion of relevant results successfully retrieved by a search. It measures the system's ability to recover all the relevant items from a collection.
 
-![OdMnbeHYOoAEqKxNEEnc9SwNnmf](/byoc/OdMnbeHYOoAEqKxNEEnc9SwNnmf.png)
+![OdMnbeHYOoAEqKxNEEnc9SwNnmf](/img/OdMnbeHYOoAEqKxNEEnc9SwNnmf.png)
 
 To calculate a search's recall rate, you can divide the number of relevant items retrieved by the total number of applicable items that should be retrieved. For example, if a search retrieves 90 of 100 relevant items, the recall rate should be **0.9** or **90%**.
 

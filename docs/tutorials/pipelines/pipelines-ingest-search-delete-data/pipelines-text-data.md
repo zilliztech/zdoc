@@ -2,7 +2,7 @@
 title: "Text Data | Cloud"
 slug: /pipelines-text-data
 sidebar_label: "Text Data"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The Zilliz Cloud web UI provides a simplified and intuitive way of creating, running, and managing Pipelines while the RESTful API offers more flexibility and customization compared to the Web UI. | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - text data
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 
@@ -41,7 +41,7 @@ This guide walks you through the necessary steps to create text pipelines, condu
 
 - Ensure you have created a cluster deployed in us-west1 on Google Cloud Platform (GCP).
 
-- In one project, you can only create up to 100 pipelines of the same type. For more information, refer to [Zilliz Cloud Limits](./limits#pipelines).
+- In one project, you can only create up to 100 pipelines of the same type. For more information, refer to [Zilliz Cloud Limits](./limits).
 
 ## Ingest text data{#ingest-text-data}
 

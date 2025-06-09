@@ -15,10 +15,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 
@@ -61,7 +61,7 @@ client = MilvusClient(
 )
 
 res = client.list_partitions(
-    collection_name="quick_setup"
+    collection_name="my_collection"
 )
 
 print(res)
@@ -94,7 +94,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 ListPartitionsReq listPartitionsReq = ListPartitionsReq.builder()
-        .collectionName("quick_setup")
+        .collectionName("my_collection")
         .build();
 
 List<String> partitionNames = client.listPartitions(listPartitionsReq);
@@ -116,7 +116,7 @@ const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 let res = await client.listPartitions({
-    collection_name: "quick_setup"
+    collection_name: "my_collection"
 })
 
 console.log(res);
@@ -141,17 +141,18 @@ defer cancel()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
 })
 if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
+defer client.Close(ctx)
 
-defer cli.Close(ctx)
-
-partitionNames, err := cli.ListPartitions(ctx, milvusclient.NewListPartitionOption("quick_setup"))
+partitionNames, err := client.ListPartitions(ctx, milvusclient.NewListPartitionOption("my_collection"))
 if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
 
@@ -171,7 +172,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "quick_setup"
+    "collectionName": "my_collection"
 }'
 
 # {
@@ -194,12 +195,12 @@ You can add more partitions to the collection and insert entities into these par
 
 ```python
 client.create_partition(
-    collection_name="quick_setup",
+    collection_name="my_collection",
     partition_name="partitionA"
 )
 
 res = client.list_partitions(
-    collection_name="quick_setup"
+    collection_name="my_collection"
 )
 
 print(res)
@@ -217,14 +218,14 @@ print(res)
 import io.milvus.v2.service.partition.request.CreatePartitionReq;
 
 CreatePartitionReq createPartitionReq = CreatePartitionReq.builder()
-        .collectionName("quick_setup")
+        .collectionName("my_collection")
         .partitionName("partitionA")
         .build();
 
 client.createPartition(createPartitionReq);
 
 ListPartitionsReq listPartitionsReq = ListPartitionsReq.builder()
-        .collectionName("quick_setup")
+        .collectionName("my_collection")
         .build();
 
 List<String> partitionNames = client.listPartitions(listPartitionsReq);
@@ -240,12 +241,12 @@ System.out.println(partitionNames);
 
 ```javascript
 await client.createPartition({
-    collection_name: "quick_setup",
+    collection_name: "my_collection",
     partition_name: "partitionA"
 })
 
 res = await client.listPartitions({
-    collection_name: "quick_setup"
+    collection_name: "my_collection"
 })
 
 console.log(res)
@@ -265,13 +266,18 @@ import (
     client "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
-err = cli.CreatePartition(ctx, milvusclient.NewCreatePartitionOption("quick_setup", "partitionA"))
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+err = client.CreatePartition(ctx, milvusclient.NewCreatePartitionOption("my_collection", "partitionA"))
 if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
 
-partitionNames, err := cli.ListPartitions(ctx, milvusclient.NewListPartitionOption("quick_setup"))
+partitionNames, err := client.ListPartitions(ctx, milvusclient.NewListPartitionOption("my_collection"))
 if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
 
@@ -293,7 +299,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "quick_setup",
+    "collectionName": "my_collection",
     "partitionName": "partitionA"
 }'
 
@@ -307,7 +313,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "quick_setup"
+    "collectionName": "my_collection"
 }'
 
 # {
@@ -331,7 +337,7 @@ The following code snippets demonstrate how to check whether a partition exists 
 
 ```python
 res = client.has_partition(
-    collection_name="quick_setup",
+    collection_name="my_collection",
     partition_name="partitionA"
 )
 
@@ -350,7 +356,7 @@ print(res)
 import io.milvus.v2.service.partition.request.HasPartitionReq;
 
 HasPartitionReq hasPartitionReq = HasPartitionReq.builder()
-        .collectionName("quick_setup")
+        .collectionName("my_collection")
         .partitionName("partitionA")
         .build();
 
@@ -367,7 +373,7 @@ System.out.println(hasPartitionRes);
 
 ```javascript
 res = await client.hasPartition({
-    collection_name: "quick_setup",
+    collection_name: "my_collection",
     partition_name: "partitionA"
 })
 
@@ -382,14 +388,9 @@ console.log(res.value)
 <TabItem value='go'>
 
 ```go
-import (
-    "fmt"
-    
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-)
-
-result, err := cli.HasPartition(ctx, milvusclient.NewHasPartitionOption("quick_setup", "partitionA"))
+result, err := client.HasPartition(ctx, milvusclient.NewHasPartitionOption("my_collection", "partitionA"))
 if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
 
@@ -412,7 +413,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "quick_setup",
+    "collectionName": "my_collection",
     "partitionName": "partitionA"
 }'
 
@@ -440,12 +441,12 @@ You can separately load specific partitions in a collection. It is worth noting 
 
 ```python
 client.load_partitions(
-    collection_name="quick_setup",
+    collection_name="my_collection",
     partition_names=["partitionA"]
 )
 
 res = client.get_load_state(
-    collection_name="quick_setup",
+    collection_name="my_collection",
     partition_name="partitionA"
 )
 
@@ -466,14 +467,14 @@ import io.milvus.v2.service.partition.request.LoadPartitionsReq;
 import io.milvus.v2.service.collection.request.GetLoadStateReq;
 
 LoadPartitionsReq loadPartitionsReq = LoadPartitionsReq.builder()
-        .collectionName("quick_setup")
+        .collectionName("my_collection")
         .partitionNames(Collections.singletonList("partitionA"))
         .build();
 
 client.loadPartitions(loadPartitionsReq);
 
 GetLoadStateReq getLoadStateReq = GetLoadStateReq.builder()
-        .collectionName("quick_setup")
+        .collectionName("my_collection")
         .partitionName("partitionA")
         .build();
 
@@ -489,12 +490,12 @@ System.out.println(getLoadStateRes);
 
 ```javascript
 await client.loadPartitions({
-    collection_name: "quick_setup",
+    collection_name: "my_collection",
     partition_names: ["partitionA"]
 })
 
 res = await client.getLoadState({
-    collection_name: "quick_setup",
+    collection_name: "my_collection",
     partition_name: "partitionA"
 })
 
@@ -511,19 +512,25 @@ console.log(res)
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-)
-
-task, err := cli.LoadPartitions(ctx, milvusclient.NewLoadPartitionsOption("quick_setup", "partitionA"))
+task, err := client.LoadPartitions(ctx, milvusclient.NewLoadPartitionsOption("my_collection", "partitionA"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 
 // sync wait collection to be loaded
 err = task.Await(ctx)
 if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
+
+state, err := client.GetLoadState(ctx, milvusclient.NewGetLoadStateOption("my_collection", "partitionA"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println(state)
 ```
 
 </TabItem>
@@ -539,7 +546,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "quick_setup",
+    "collectionName": "my_collection",
     "partitionNames": ["partitionA"]
 }'
 
@@ -553,7 +560,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "quick_setup",
+    "collectionName": "my_collection",
     "partitionNames": ["partitionA"]
 }'
 
@@ -579,12 +586,12 @@ You can also release specific partitions.
 
 ```python
 client.release_partitions(
-    collection_name="quick_setup",
+    collection_name="my_collection",
     partition_names=["partitionA"]
 )
 
 res = client.get_load_state(
-    collection_name="quick_setup",
+    collection_name="my_collection",
     partition_name="partitionA"
 )
 
@@ -605,14 +612,14 @@ print(res)
 import io.milvus.v2.service.partition.request.ReleasePartitionsReq;
 
 ReleasePartitionsReq releasePartitionsReq = ReleasePartitionsReq.builder()
-        .collectionName("quick_setup")
+        .collectionName("my_collection")
         .partitionNames(Collections.singletonList("partitionA"))
         .build();
 
 client.releasePartitions(releasePartitionsReq);
 
 GetLoadStateReq getLoadStateReq = GetLoadStateReq.builder()
-        .collectionName("quick_setup")
+        .collectionName("my_collection")
         .partitionName("partitionA")
         .build();
 
@@ -628,12 +635,12 @@ System.out.println(getLoadStateRes);
 
 ```javascript
 await client.releasePartitions({
-    collection_name: "quick_setup",
+    collection_name: "my_collection",
     partition_names: ["partitionA"]
 })
 
 res = await client.getLoadState({
-    collection_name: "quick_setup",
+    collection_name: "my_collection",
     partition_name: "partitionA"
 })
 
@@ -650,12 +657,18 @@ console.log(res)
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v2/milvusclient"
-
-err = cli.ReleasePartitions(ctx, milvusclient.NewReleasePartitionsOptions("quick_setup", "partitionA"))
+err = client.ReleasePartitions(ctx, milvusclient.NewReleasePartitionsOptions("my_collection", "partitionA"))
 if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
+
+state, err := client.GetLoadState(ctx, milvusclient.NewGetLoadStateOption("my_collection", "partitionA"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println(state)
 ```
 
 </TabItem>
@@ -671,7 +684,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "quick_setup",
+    "collectionName": "my_collection",
     "partitionNames": ["partitionA"]
 }'
 
@@ -685,7 +698,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "quick_setup",
+    "collectionName": "my_collection",
     "partitionNames": ["partitionA"]
 }'
 
@@ -731,17 +744,17 @@ You can drop partitions that are no longer needed. Before dropping a partition, 
 
 ```python
 client.release_partitions(
-    collection_name="quick_setup",
+    collection_name="my_collection",
     partition_names=["partitionA"]
 )
 
 client.drop_partition(
-    collection_name="quick_setup",
+    collection_name="my_collection",
     partition_name="partitionA"
 )
 
 res = client.list_partitions(
-    collection_name="quick_setup"
+    collection_name="my_collection"
 )
 
 print(res)
@@ -759,21 +772,21 @@ import io.milvus.v2.service.partition.request.ReleasePartitionsReq;
 import io.milvus.v2.service.partition.request.ListPartitionsReq;
 
 ReleasePartitionsReq releasePartitionsReq = ReleasePartitionsReq.builder()
-        .collectionName("quick_setup")
+        .collectionName("my_collection")
         .partitionNames(Collections.singletonList("partitionA"))
         .build();
 
 client.releasePartitions(releasePartitionsReq);
 
 DropPartitionReq dropPartitionReq = DropPartitionReq.builder()
-        .collectionName("quick_setup")
+        .collectionName("my_collection")
         .partitionName("partitionA")
         .build();
 
 client.dropPartition(dropPartitionReq);
 
 ListPartitionsReq listPartitionsReq = ListPartitionsReq.builder()
-        .collectionName("quick_setup")
+        .collectionName("my_collection")
         .build();
 
 List<String> partitionNames = client.listPartitions(listPartitionsReq);
@@ -789,17 +802,17 @@ System.out.println(partitionNames);
 
 ```javascript
 await client.releasePartitions({
-    collection_name: "quick_setup",
+    collection_name: "my_collection",
     partition_names: ["partitionA"]
 })
 
 await client.dropPartition({
-    collection_name: "quick_setup",
+    collection_name: "my_collection",
     partition_name: "partitionA"
 })
 
 res = await client.listPartitions({
-    collection_name: "quick_setup"
+    collection_name: "my_collection"
 })
 
 console.log(res)
@@ -813,12 +826,24 @@ console.log(res)
 <TabItem value='go'>
 
 ```go
-import "github.com/milvus-io/milvus/client/v2/milvusclient"
-
-err := cli.DropPartition(ctx, milvusclient.NewDropPartitionOption("quick_setup", "partitionA"))
+err = client.ReleasePartitions(ctx, milvusclient.NewReleasePartitionsOptions("my_collection", "partitionA"))
 if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
+
+err = client.DropPartition(ctx, milvusclient.NewDropPartitionOption("my_collection", "partitionA"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+partitionNames, err := client.ListPartitions(ctx, milvusclient.NewListPartitionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println(partitionNames)
 ```
 
 </TabItem>
@@ -834,7 +859,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "quick_setup",
+    "collectionName": "my_collection",
     "partitionNames": ["partitionA"]
 }'
 
@@ -848,7 +873,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "quick_setup",
+    "collectionName": "my_collection",
     "partitionName": "partitionA"
 }'
 
@@ -862,7 +887,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "quick_setup"
+    "collectionName": "my_collection"
 }'
 
 # {

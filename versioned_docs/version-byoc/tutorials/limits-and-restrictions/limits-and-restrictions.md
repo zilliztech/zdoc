@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Learn about the limits and restrictions you should know about your operations on Zilliz Cloud. | BYOC"
 type: origin
 token: Tve5wxmTHio0LPk50jgcKHe1nWg
-sidebar_position: 12
+sidebar_position: 13
 keywords: 
   - zilliz
   - vector database
   - cloud
   - milvus
   - limits
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

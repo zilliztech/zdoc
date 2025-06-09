@@ -2,7 +2,7 @@
 title: "Connect to Your Data | Cloud"
 slug: /connectors
 sidebar_label: "Connect to Your Data"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The connector is an in-built free tool that makes it easy to connect various data sources to a vector database. This guide will explain the concept of a connector and provide instructions on how to create and manage connectors in Zilliz Cloud Pipelines. | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - connect
   - data
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

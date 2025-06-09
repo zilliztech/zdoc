@@ -2,7 +2,7 @@
 title: "Tokenizer Reference | BYOC"
 slug: /analyzer-tokenizers
 sidebar_label: "Tokenizer"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "This section provides a detailed reference for tokenizers. | BYOC"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

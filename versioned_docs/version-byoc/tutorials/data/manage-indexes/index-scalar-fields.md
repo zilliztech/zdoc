@@ -14,10 +14,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - DiskANN
   - Sparse vector
   - Vector Dimension
   - ANN Search
+  - What are vector embeddings
 
 ---
 

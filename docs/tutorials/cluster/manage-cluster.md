@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
@@ -31,9 +31,9 @@ import Supademo from '@site/src/components/Supademo';
 
 This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals.
 
-## Rename cluster | All Plans{#rename-cluster}
+## Rename cluster{#rename-cluster}
 
-Navigate to the **Cluster Details** page of your target cluster and then follow the instruction below to rename your cluster.
+Navigate to the **Cluster Details** page of your target cluster and then follow the instructions below to rename your cluster.
 
 <Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title=""  />
 
@@ -41,15 +41,15 @@ Navigate to the **Cluster Details** page of your target cluster and then follow 
 
 For a running Dedicated cluster, you are billed for both CU and storage. To reduce costs, consider suspending the cluster. Only storage charges apply when a Dedicated cluster is suspended.
 
-Please note that during suspension, you cannot perform other actions to the cluster.
+Please note that during suspension, you cannot perform other actions on the cluster.
 
-You can suspend a Dedicated cluster via the web console or programatically.
+You can suspend a Dedicated cluster via the web console or programmatically.
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-Navigate to the **Cluster Details** page of your target cluster and then follow the instruction below to suspend your Dedicated cluster.
+Navigate to the **Cluster Details** page of your target cluster and then follow the instructions below to suspend your Dedicated cluster.
 
 <Supademo id="cm9tqgxt30snl11m7twwj7xia" title="Zilliz Cloud - Suspend Cluster Demo" />
 
@@ -89,15 +89,15 @@ For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster-v2).
 
 </Tabs>
 
-## Resume cluster | All Plans{#resume-cluster}
+## Resume cluster{#resume-cluster}
 
 Free and Serverless clusters are automatically suspended after 7 days of inactivity and can be resumed anytime.
 
 Suspended Dedicated clusters can also be resumed manually when needed.
 
-Please note that during resuming, you cannot perform other actions to the cluster.
+Please note that during resuming, you cannot perform other actions on the cluster.
 
-You can resume a cluster via the web console or programatically.
+You can resume a cluster via the web console or programmatically.
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
@@ -135,7 +135,7 @@ In the command above,
 
 - `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
 
-- `{CLUSTER_ID}`: The ID of the Dedicated cluster to suspend.
+- `{CLUSTER_ID}`: The ID of the cluster to resume.
 
 For details, refer to [Resume Cluster](/reference/restful/resume-cluster-v2).
 
@@ -143,7 +143,7 @@ For details, refer to [Resume Cluster](/reference/restful/resume-cluster-v2).
 
 </Tabs>
 
-## Upgrade plan | All Plans{#upgrade-plan}
+## Upgrade plan{#upgrade-plan}
 
 To use more advanced features, it is recommended to upgrade your cluster plan. 
 
@@ -158,11 +158,11 @@ To use more advanced features, it is recommended to upgrade your cluster plan.
    </tr>
    <tr>
      <td><p>Free to Dedicated</p></td>
-     <td><p>A new Dedicated cluster will be created, and data from your existing Free cluster will be automatically migrated. The Free cluster will remain intact. Remember to update the cluster endpoint in your application code.</p></td>
+     <td><p>A new Dedicated cluster will be created, and data from your existing Free cluster will be automatically migrated. The Free cluster will remain intact.</p><p>Remember to update the cluster endpoint in your application code.</p></td>
    </tr>
    <tr>
      <td><p>Serverless to Dedicated</p></td>
-     <td><p>A new Dedicated cluster will be created, and data from your existing Serverless cluster will be automatically migrated. The Serverless cluster will remain intact. Remember to update the cluster endpoint in your application code.</p></td>
+     <td><p>A new Dedicated cluster will be created, and data from your existing Serverless cluster will be automatically migrated. The Serverless cluster will remain intact.</p><p>Remember to update the cluster endpoint in your application code.</p></td>
    </tr>
    <tr>
      <td><p>Dedicated (Standard) to Dedicated (Enterprise)</p></td>
@@ -194,9 +194,9 @@ To try the latest preview features, you need to upgrade the compatible Milvus ve
 
 ![upgrade-to-preview-version](/img/upgrade-to-preview-version.png)
 
-## Drop cluster | All Plans{#drop-cluster}
+## Drop cluster{#drop-cluster}
 
-When a cluster is no longer needed, you can drop it.
+When a cluster is no longer needed, you can drop it. You can drop a cluster via the web console or programatically.
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
@@ -234,7 +234,7 @@ In the command above,
 
 - `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
 
-- `{CLUSTER_ID}`: The ID of the Dedicated cluster to suspend.
+- `{CLUSTER_ID}`: The ID of the Dedicated cluster to drop.
 
 For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
 

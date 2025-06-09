@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 
