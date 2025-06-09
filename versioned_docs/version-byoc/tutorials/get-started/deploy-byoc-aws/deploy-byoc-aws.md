@@ -14,10 +14,10 @@ keywords:
   - aws
   - milvus
   - vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 
@@ -82,7 +82,7 @@ In this step, you need to set the project name, determine the cloud providers an
 
     - **Use a Terraform script to provision the infrastructure.**
 
-        If you prefer to use a Terraform script to provision the infrastructure, you need to copy and paste the script output back to Zilliz Cloud. For details, see Bootstrap Project Infrastructure (Terraform). 
+        If you prefer to use a Terraform script to provision the infrastructure, you need to copy and paste the script output back to Zilliz Cloud. For details, see Terraform Provider. 
 
         Note that you still need to fill in the information returned by the Terraform script to the Zilliz Cloud console, as specified in Credential Settings and Network Settings.
 

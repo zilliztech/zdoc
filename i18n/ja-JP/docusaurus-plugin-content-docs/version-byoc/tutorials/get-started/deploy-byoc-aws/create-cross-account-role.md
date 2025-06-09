@@ -38,7 +38,7 @@ import Admonition from '@theme/Admonition';
 
 ## 手続き{#procedure}
 
-AWSコンソールを使用してブートストラップロールを作成できます。代わりに、Zilliz Cloudが提供するTerraformスクリプトを使用して、Zilliz CloudプロジェクトのインフラストラクチャをAWS上でブートストラップすることもできます。詳細については、「[Bootstrapインフラストラクチャ（Terraform）](./bootstrap-infrastructure-terraform)」を参照してください。
+AWSコンソールを使用してブートストラップロールを作成できます。代わりに、Zilliz Cloudが提供するTerraformスクリプトを使用して、Zilliz CloudプロジェクトのインフラストラクチャをAWS上でブートストラップすることもできます。詳細については、「[Bootstrapインフラストラクチャ（Terraform）](./terraform-provider)」を参照してください。
 
 ### ステップ1:クロスアカウントIAMロールを作成する{#step-1-create-a-cross-account-iam-role}
 
