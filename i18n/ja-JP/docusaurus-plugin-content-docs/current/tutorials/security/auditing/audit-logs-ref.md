@@ -14,10 +14,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

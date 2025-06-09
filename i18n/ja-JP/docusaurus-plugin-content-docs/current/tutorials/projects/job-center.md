@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 
@@ -80,7 +80,7 @@ Zilliz Cloudは、同じプロジェクト内のすべての履歴および非�
 
 ジョブの詳細を表示するには、をクリックします**。。。**[**アクション**]列で[**詳細表示**]を選択します。または、[Describe Job](/ja-JP/reference/restful/describe-job-v2)APIを使用してプログラムで詳細を取得することもできます。
 
-![view_job_details](/img/ja-JP/view_job_details.png)
+![view_job_details](/img/view_job_details.png)
 
 ## 仕事をキャンセル{#cancel-job}
 
@@ -93,7 +93,7 @@ Zilliz Cloudは、同じプロジェクト内のすべての履歴および非�
 
 </Admonition>
 
-![cancel_job](/img/ja-JP/cancel_job.png)
+![cancel_job](/img/cancel_job.png)
 
 ## 失敗したジョブを再試行{#retry-failed-job}
 
@@ -108,5 +108,5 @@ Zilliz Cloudは、同じプロジェクト内のすべての履歴および非�
 
 インポートに失敗したファイルを調整した場合は、ジョブを再試行できます。
 
-![retry_failed_job](/img/ja-JP/retry_failed_job.png)
+![retry_failed_job](/img/retry_failed_job.png)
 

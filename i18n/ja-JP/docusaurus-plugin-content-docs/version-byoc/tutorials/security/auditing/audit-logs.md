@@ -15,10 +15,10 @@ keywords:
   - auditing
   - log
   - configure
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 
@@ -49,7 +49,7 @@ import Admonition from '@theme/Admonition';
 
 - **ファイルパス**:`/<Cluster ID>/<Log type>/<Date>`
 
-- **ファイルの命名規則**:`\<File name><File name suffix>`を*HH: MM:SS-$UUID*の形式で指定します。ここで、*HH:MM:SS*はUTCで時刻を表し、*$UUID*は一意のランダム文字列です。例:`09:16:53-jz5l7D8Q`。
+- **ファイルの命名規則**:`\<File name><File name suffix>`を*HH: MM:SS-UUID*の形式で指定します。ここで、*HH:MM:SS*はUTCで時刻を表し、*UUID*は一意のランダム文字列です。例:`09:16:53-jz5l7D8Q`。
 
 以下は、バケットにストリーミングされた監査ログエントリの例です。
 
@@ -83,7 +83,7 @@ Zilliz Cloudの監査ログは、監査ログを直接ストレージバケッ�
 
 ### 手続き{#procedure}
 
-![configure-auditing-1](/byoc/ja-JP/configure-auditing-1.png)
+![configure-auditing-1](/img/configure-auditing-1.png)
 
 1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
@@ -117,7 +117,7 @@ Zilliz Cloudの監査ログは、監査ログを直接ストレージバケッ�
 
 監査ログストリーミングが有効になると、その構成を編集したり、必要に応じて無効にしたりできます。
 
-![configure-auditing-2](/byoc/ja-JP/configure-auditing-2.png)
+![configure-auditing-2](/img/configure-auditing-2.png)
 
 ## FAQ{#faq}
 

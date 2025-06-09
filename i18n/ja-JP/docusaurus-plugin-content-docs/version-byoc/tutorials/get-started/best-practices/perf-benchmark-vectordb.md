@@ -15,10 +15,10 @@ keywords:
   - milvus
   - performance
   - benchmark
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 
@@ -96,8 +96,6 @@ VectorDBBenchは、実世界の本番環境を忠実に模倣し、挿入、検�
 
     - クライアントをZilliz Cloudクラスターと同じクラウドプロバイダーとリージョンに展開します。
 
-    - クライアントがZilliz Cloudクラスタと同じVPCを共有するように設定します。パブリックインターネットと比較して、VPCのレイテンシーは低くなります。詳しくは、[プライベートエンドポイントを設定する](./setup-a-private-link)をご覧ください。
-
 ### VectorDBBenchのインストールと起動{#install-and-start-vectordbbench}
 
 ```bash
@@ -142,7 +140,7 @@ $ init_bench
 
 ウェブページを一番下までスクロールし、**テストを実行>**をクリックして独自のベンチマークテストを設定してください。
 
-![HwQqbOpK7o6dXexeNZycsMT1ngb](/byoc/ja-JP/HwQqbOpK7o6dXexeNZycsMT1ngb.png)
+![HwQqbOpK7o6dXexeNZycsMT1ngb](/img/HwQqbOpK7o6dXexeNZycsMT1ngb.png)
 
 ### ベンチマークテストを設定する{#configure-your-benchmarking-test}
 
@@ -150,9 +148,9 @@ $ init_bench
 
 ベンチマークの**結果**を表示して分析するには、[結果]をクリックします。以下はいくつかの例です。
 
-![OxxEbJtxGoRiAbx8Sbmc7X7onHc](/byoc/ja-JP/OxxEbJtxGoRiAbx8Sbmc7X7onHc.png)
+![OxxEbJtxGoRiAbx8Sbmc7X7onHc](/img/OxxEbJtxGoRiAbx8Sbmc7X7onHc.png)
 
-![SFhebhjEqoRaenxYbfMc6quGnxZ](/byoc/ja-JP/SFhebhjEqoRaenxYbfMc6quGnxZ.png)
+![SFhebhjEqoRaenxYbfMc6quGnxZ](/img/SFhebhjEqoRaenxYbfMc6quGnxZ.png)
 
 オプションで、左ナビゲーションウィンドウで**DBフィルター**と**ケースフィルター**を設定して、定義済みのベクトルデータベースとケースのベンチマーク結果を比較することができます。
 

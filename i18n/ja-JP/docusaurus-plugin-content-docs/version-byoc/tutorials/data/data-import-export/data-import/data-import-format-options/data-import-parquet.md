@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 
@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 生データをParquetファイルに準備するには、[BulkWriterツール](./use-bulkwriter)を使用することをお勧めします。次の図は、生データをParquetファイルにマッピングする方法を示しています。
 
-![data_import-preparetion_en](/byoc/ja-JP/data_import-preparetion_en.png)
+![parquet_file_structure_en](/img/parquet_file_structure_en.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 

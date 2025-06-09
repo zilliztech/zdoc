@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloud上でアプリを構築するための包括的なクイックスタートガイドと関連トピック。 | Cloud"
 type: origin
 token: FDtOwKSriiayeQkFsPAcOMmQnNc
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - get started
   - milvus
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

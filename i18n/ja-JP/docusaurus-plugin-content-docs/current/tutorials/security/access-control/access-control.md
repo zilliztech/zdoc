@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Zilliz Cloudがより効率的なアクセス制御のためにRBACを実装する方法や、クラスターのユーザーやロール、特権を管理する方法について詳しく学びましょう。 | Cloud"
 type: origin
 token: KVrtwkOo8i9B0wk50UUcno8vnjc
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

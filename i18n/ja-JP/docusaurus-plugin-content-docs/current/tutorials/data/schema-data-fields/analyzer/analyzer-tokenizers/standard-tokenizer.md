@@ -2,7 +2,7 @@
 title: "標準トークナイザー | Cloud"
 slug: /standard-tokenizer
 sidebar_label: "標準トークナイザー"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloudの標準トークナイザー（`standard`）Zilliz Cloudは、スペースと句読点に基づいてテキストを分割するため、ほとんどの言語に適しています。 | Cloud"
 type: origin
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - standard-tokenizer
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

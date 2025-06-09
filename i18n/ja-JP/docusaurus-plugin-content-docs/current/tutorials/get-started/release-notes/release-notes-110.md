@@ -7,16 +7,16 @@ notebook: FALSE
 description: "私たちは、最新のZilliz Cloudアップデートを発表できることを大変嬉しく思っています。このアップデートには、コスト見積もりのための価格計算ツール、強化されたデータセキュリティのためのデータバックアップと復元過程、グローバルユーザー向けのカスタマイズ可能なタイムゾーン設定、より良い組織化のためのコレクション名変更ツール、制限のない使用のためのストレージクォータの削除、非アクティブなデータベースのクレジット保全の改善が含まれています。 | Cloud"
 type: origin
 token: EKmAwMwAMii8VjkOh4vcnW3nnqf
-sidebar_position: 18
+sidebar_position: 20
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

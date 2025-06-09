@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Zilliz Cloudクラスターの監査を構成する方法を学びましょう。 | Cloud"
 type: origin
 token: Q9mywCJmpiFcyUkkgEkcJDLpnDd
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - auditing
   - log
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

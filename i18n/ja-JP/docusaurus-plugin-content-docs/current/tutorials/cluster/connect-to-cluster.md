@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - LLMs
-  - Machine Learning
   - RAG
   - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 
@@ -57,5 +57,5 @@ Zilliz Cloudのごみ箱機能は、意図的にまたはトライアルの期�
 
 1. 新しいリストアジョブが生成されます。[ジョブ](./job-center)ページでクラスタのリストアの進捗状況を確認できます。ジョブのステータスが**IN PROGRESS**から**SUCCESS FUL**に切り替わると、リストアが完了します。
 
-![use-recycle-bin](/img/ja-JP/use-recycle-bin.png)
+![use-recycle-bin](/img/use-recycle-bin.png)
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - console
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 
@@ -38,7 +38,7 @@ import Admonition from '@theme/Admonition';
 
     データの準備方法の詳細については、「[ストレージオプション](./data-import-storage-options)」と「[書式オプション](./data-import-format-options)」を参照してください。詳細については、エンドツーエンドのノートブック「[データインポートハンズオン](./data-import-zero-to-hero)」を参照することもできます。
 
-- サンプルデータセットに一致するスキーマを持つコレクションを作成し、既にインデックスを作成して読み込んでいます。コレクションの作成の詳細については、「[コレクションの管理(コンソール)](./drop-collection)」を参照してください。
+- サンプルデータセットに一致するスキーマを持つコレクションを作成して読み込んでいます。コレクションの作成の詳細については、「[コレクションの管理(コンソール)](./manage-collections-console)」を参照してください。
 
 ## ウェブ上のデータをインポートする{#import-data-on-the-web-ui}
 
@@ -57,7 +57,7 @@ import Admonition from '@theme/Admonition';
 
 データをインポートするには、ローカルファイルをアップロードエリアにドラッグアンドドロップして、[**インポート**]をクリックします。
 
-![data-import-on-console](/img/ja-JP/data-import-on-console.png)
+![data-import-on-console](/img/data-import-on-console.png)
 
 ### オブジェクトストレージバケットからのリモートファイル{#remote-files-from-an-object-storage-bucket}
 
@@ -83,7 +83,7 @@ import Admonition from '@theme/Admonition';
 
 </Admonition>
 
-![data-import-on-console-remote](/img/ja-JP/data-import-on-console-remote.png)
+![data-import-on-console-remote](/img/data-import-on-console-remote.png)
 
 ## 結果を検証する{#verify-resultes}
 

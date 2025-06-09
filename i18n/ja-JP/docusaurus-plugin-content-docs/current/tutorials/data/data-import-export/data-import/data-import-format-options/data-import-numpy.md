@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 NPY形式は、[NumPyの標準バイナリ形式](https://numpy.org/devdocs/reference/generated/numpy.lib.format.html)であり、形状とdtype情報を含む単一の配列を保存し、異なるマシンで正しく再構築できるようにします。生データをParquetファイルに準備するには、[BulkWriterツール](./use-bulkwriter)を使用することをお勧めします。次の図は、生データを`. npy`ファイルのセットにマップする方法を示しています。
 
-![data_import-preparetion_en](/img/ja-JP/data_import-preparetion_en.png)
+![numpy_file_structure](/img/numpy_file_structure.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -177,7 +177,7 @@ Zilliz Cloudは、クラウドストレージからのデータインポート�
    </tr>
    <tr>
      <td><p><strong>インポートごとの最大ファイル体格</strong></p></td>
-     <td><p>クラスタの空き容量:合計512 MB サーバーレス&amp;専用クラスター:</p><ul><li><p>各第1レベルのサブフォルダのファイル体格の合計: 10 GB</p></li><li><p>ファイルの体格: 100 GB</p></li></ul></td>
+     <td><p>クラスタの空き容量:合計512 MB</p><p>サーバーレス&amp;専用クラスター:</p><ul><li><p>各第1レベルのサブフォルダのファイル体格の合計: 10 GB</p></li><li><p>ファイルの体格: 100 GB</p></li></ul></td>
    </tr>
    <tr>
      <td><p><strong>使用可能なデータファイルの場所</strong></p></td>

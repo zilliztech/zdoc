@@ -16,10 +16,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

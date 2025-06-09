@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 
@@ -69,7 +69,7 @@ Zilliz Cloudには3つの組織ロールがあります。これらのロール�
        </tr>
        <tr>
          <td><ul><li><p>支払い<a href="./payment-billing">と請求を管理する</a></p></li><li><p>API<a href="./manage-api-keys">キーの表示</a></p></li><li><p>組織<a href="./organization-users">のユーザーを招待する</a></p></li><li><p>組織の<a href="./organization-settings">設定を表示する</a></p></li></ul></td>
-         <td><ul><li><p>リスト請求書</p></li><li><p>請求書を取得</p></li><li><p>クエリorg daily u sage</p></li></ul></td>
+         <td><ul><li><p><a href="/ja-JP/reference/restful/list-invoices-v2">請求書リストを見る</a></p></li><li><p><a href="/ja-JP/reference/restful/describe-invoice-v2">請求書を見る</a></p></li><li><p><a href="/ja-JP/reference/restful/query-daily-usage-v2">毎日の使用を見る</a></p></li></ul></td>
          <td><p>データプランの権限は、プロジェクトとクラスターの役割によって決定されます。ただし、請求管理者は通常、データプレーンの権限を必要としません。</p></td>
        </tr>
     </table>
@@ -101,13 +101,13 @@ Zilliz Cloudには3つの組織ロールがあります。これらのロール�
 
 </Admonition>
 
-![invite-user-to-org](/img/ja-JP/invite-user-to-org.png)
+![invite-user-to-org](/img/invite-user-to-org.png)
 
 ## 招待を取り消すか再送信する{#revoke-or-resend-an-invitation}
 
 ユーザーを組織に招待した後、Zilliz Cloudはユーザーに招待メールを送信します。ユーザーが承諾する前に、招待を取り消したり、再送信したりすることができます。
 
-![revoke-or-resend-org-invitation](/img/ja-JP/revoke-or-resend-org-invitation.png)
+![revoke-or-resend-org-invitation](/img/revoke-or-resend-org-invitation.png)
 
 ## 組織のユーザーの役割を編集する{#edit-the-role-of-an-organization-user}
 
@@ -115,7 +115,7 @@ Zilliz Cloudには3つの組織ロールがあります。これらのロール�
 
 Organizationユーザのロールを編集するには、**Organizationオーナー**である必要があります。
 
-![edit-user-role-or-remove-org-user](/img/ja-JP/edit-user-role-or-remove-org-user.png)
+![edit-user-role-or-remove-org-user](/img/edit-user-role-or-remove-org-user.png)
 
 ## 組織のユーザーを削除する{#remove-an-organization-user}
 
@@ -123,7 +123,7 @@ Organizationユーザのロールを編集するには、**Organizationオーナ
 
 Organizationユーザーを削除するには、**Organizationオーナー**である必要があります。
 
-![edit-user-role-or-remove-org-user](/img/ja-JP/edit-user-role-or-remove-org-user.png)
+![edit-user-role-or-remove-org-user](/img/edit-user-role-or-remove-org-user.png)
 
 ## 組織を離れる{#leave-an-organization}
 
@@ -141,9 +141,9 @@ Organizationユーザーを削除するには、**Organizationオーナー**で�
 
 - 組織一覧ページで組織を削除してください:
 
-    ![leave-organization](/img/ja-JP/leave-organization.png)
+    ![leave-organization](/img/leave-organization.png)
 
 - 組織を入力し、**組織メンバー**ページに残してください:
 
-    ![leave-organization](/img/ja-JP/leave-organization.png)
+    ![leave-organization](/img/leave-organization.png)
 

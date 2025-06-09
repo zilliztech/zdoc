@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 
@@ -49,9 +49,9 @@ Zilliz Cloudでは、クラスターユーザーを作成し、クラスター�
 
 - このユーザーに、組み込みのクラスターロールまたは[カスタムクラスターロールを](./cluster-roles)付与します。
 
-- クラスターユーザーのパスワードを設定します。このパスワードは[認証](./cluster-credentials-sdk)に使用されます。
+- クラスターユーザーのパスワードを設定します。このパスワードは[認証](./cluster-credentials)に使用されます。
 
-![add-cluster-user](/img/ja-JP/add-cluster-user.png)
+![add-cluster-user](/img/add-cluster-user.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -61,7 +61,7 @@ Zilliz Cloudでは、クラスターユーザーを作成し、クラスター�
 
 ## クラスターユーザーの役割を編集する{#edit-the-role-of-a-cluster-user}
 
-![edit-cluster-user-role](/img/ja-JP/edit-cluster-user-role.png)
+![edit-cluster-user-role](/img/edit-cluster-user-role.png)
 
 ## クラスタユーザを削除する{#drop-a-cluster-user}
 
@@ -71,5 +71,5 @@ Zilliz Cloudでは、クラスターユーザーを作成し、クラスター�
 
 </Admonition>
 
-![drop-cluster-user](/img/ja-JP/drop-cluster-user.png)
+![drop-cluster-user](/img/drop-cluster-user.png)
 

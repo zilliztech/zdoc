@@ -7,17 +7,17 @@ notebook: FALSE
 description: "このガイドでは、サブスクリプションの過程をステップバイステップで説明し、GCP Marketplace上のZilliz Cloudの価格条件について概説します。 | Cloud"
 type: origin
 token: IJfwwpxMSiOb39ktg4IcIr7un5f
-sidebar_position: 4
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
   - cloud
   - marketplace
   - gcp
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 
@@ -48,7 +48,7 @@ import Admonition from '@theme/Admonition';
 
 1. 検索ボックスで**Zilliz Cloud**を検索するか、[GCP Marketplaceにアクセス](https://console.cloud.google.com/marketplace/product/zilliz-public/zilliz-cloud?project=zilliz-public&pli=1)してZilliz Cloudポータルページを表示してください。
 
-    ![search_for_zilliz_on_gcp](/img/ja-JP/search_for_zilliz_on_gcp.png)
+    ![search_for_zilliz_on_gcp](/img/search_for_zilliz_on_gcp.png)
 
 1. [**Zilliz Cloud**]をクリックします。
 
@@ -56,7 +56,7 @@ import Admonition from '@theme/Admonition';
 
 1. 登録するプロジェクトを選択し、[**登録**]をクリックします。
 
-    ![click_subscribe_on_gcp](/img/ja-JP/click_subscribe_on_gcp.png)
+    ![click_subscribe_on_gcp](/img/click_subscribe_on_gcp.png)
 
 1. [**New Zilliz Cloudサブスクリプション**]ページで、次の手順を実行します。
 
@@ -66,7 +66,7 @@ import Admonition from '@theme/Admonition';
 
     1. 購読をクリックし**ます**。
 
-    ![new_zilliz_cloud_subscription_on_gcp](/img/ja-JP/new_zilliz_cloud_subscription_on_gcp.png)
+    ![new_zilliz_cloud_subscription_on_gcp](/img/new_zilliz_cloud_subscription_on_gcp.png)
 
 1. ポップアップウィンドウで、「**SIGN UP WITH ZILLIZ**」をクリックします。
 
@@ -76,7 +76,7 @@ import Admonition from '@theme/Admonition';
 
     </Admonition>
 
-    ![gcp_flash_message](/img/ja-JP/gcp_flash_message.png)
+    ![gcp_flash_message](/img/gcp_flash_message.png)
 
 1. 新しいしいタブで、以下の手順に従ってサブスクリプションを完了します。
 
@@ -86,11 +86,11 @@ import Admonition from '@theme/Admonition';
 
     1. 完全な承認。
 
-    ![aws-marketplace-dialog](/img/ja-JP/aws-marketplace-dialog.png)
+    ![aws-marketplace-dialog](/img/aws-marketplace-dialog.png)
 
 1. GCP Marketplaceのサブスクリプションが**支払**い方法として設定されていることを確認するには、請求に移動してください。
 
-    ![gcp-marketplace-success](/img/ja-JP/gcp-marketplace-success.png)
+    ![gcp-marketplace-success](/img/gcp-marketplace-success.png)
 
 ## GCP Marketplaceのサブスクリプションを更新する{#update-gcp-marketplace-subscription}
 
@@ -114,7 +114,7 @@ GCP Marketplaceから正常にサブスクリプションを申し込んだ後�
 
 1. サブスクリプションに使用する新しいGCPアカウントでGCP Marketplaceにサインインします。
 
-1. 新しいアカウントでZilliz Cloudのサブスクリプションを完了するには、[GCP Marketplaceで購読](./subscribe-on-gcp-marketplace#gcp-marketplacesubscribe-on-gcp-marketplace)するセクションの手順1から4に従ってください。
+1. 新しいアカウントでZilliz Cloudのサブスクリプションを完了するには、[GCP Marketplaceで購読](./subscribe-on-gcp-marketplace#subscribe-on-gcp-marketplace)するセクションの手順1から4に従ってください。
 
     <Admonition type="info" icon="📘" title="ノート">
 
@@ -124,7 +124,7 @@ GCP Marketplaceから正常にサブスクリプションを申し込んだ後�
 
 1. [**支払方法**]セクションの[**請求概要**]ページで更新を確認します。[サブスクリプションID]をクリックし、サブスクリプション**アカウントID**が新しいMarketplaceアカウントに更新されているかどうかを確認します。
 
-    ![view-gcp-subscription-id](/img/ja-JP/view-gcp-subscription-id.png)
+    ![view-gcp-subscription-id](/img/view-gcp-subscription-id.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -160,17 +160,19 @@ GCP Marketplaceのサブスクリプションを解約するには、GCP Marketp
 
 ## トラブルシューティング{#troubleshooting}
 
-**マーケットプレイスのサブスクリプションをZilliz Cloudにリンクする際に問題が発生した場合、どうすればよいですか?**
+**Zilliz Cloudにマーケットプレイスのサブスクリプションをリンクする際に利用可能な組織がない場合、私は何ができますか?**
 
 いくつかの理由が考えられます:
 
-1. **不十分な権限**（UIプロンプト:「不十分な権限」）
+1. **不十分な権限**
 
-    組織をマーケットプレイスサブスクリプションにリンクするには、組織の所有者である必要があります。ただし、組織のメンバーの場合、必要な権限がありません。組織の所有者にお問い合わせください。
+    これは、十分な権限がない場合に発生する可能性があります。利用できない組織の横に「権限不足」タグが表示されます。
+
+    ![insufficient-permission-subscription](/img/insufficient-permission-subscription.png)
 
 1. **すべての組織はすでにMarketplaceサブスクリプションに正常にリンクされています**(UIプロンプト: Marketplace Linked)
 
-    1. 既存のMarketplaceサブスクリプションを更新する必要がある場合は、まず組織の現在のサブスクリプションの[リンク](./subscribe-on-gcp-marketplace#gcp-marketplacecancel-gcp-marketplace-subscription)を解除してから、新しいサブスクリプションを設定してください。
+    1. 既存のMarketplaceサブスクリプションを更新する必要がある場合は、まず組織の現在のサブスクリプションの[リンク](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription)を解除してから、新しいサブスクリプションを設定してください。
 
     1. 異なるマーケットプレイスのサブスクリプションに複数の組織が必要な場合は、次のことができます:
 
@@ -180,11 +182,23 @@ GCP Marketplaceのサブスクリプションを解約するには、GCP Marketp
 
 1. **リストに組織がありません**
 
-    アカウントが閉鎖された場合や、すべての組織から離脱した場合に発生する可能性があります。この場合、次のことができます:
+    アカウントが閉鎖された場合や、すべての組織から離脱した場合に発生する可能性があります。UIは以下のようになります。
+
+    ![no-organization-during-subcription](/img/no-organization-during-subcription.png)
+
+    この場合、次のことができます:
+
+    1. 新しい組織を作る。
 
     1. 他のユーザに自分をOrganizationの所有者としてOrganizationに[招待](./organization-users#invite-a-user-to-your-organization)するように依頼します。
 
     1. [サポートチケットを送信](https://support.zilliz.com/hc/en-us)すると、新しい組織が作成されます。
+
+1. **Zilliz Cloud BYOCを使用しています。**
+
+    あなたの組織が実際にZilliz Cloud BYOC組織である場合、これが起こる可能性があります。利用できない組織の横に「署名済み契約」タグが表示されます。BYOC組織には支払い方法は必要ありません。ご質問がある場合は、[営業にお問い合わせ](https://zilliz.com/contact-sales)ください。 
+
+    ![signed-contract-subscription](/img/signed-contract-subscription.png)
 
 ## 関連するトピック{#related-topics}
 

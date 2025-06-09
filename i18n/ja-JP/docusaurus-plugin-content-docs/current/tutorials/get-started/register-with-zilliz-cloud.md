@@ -14,10 +14,10 @@ keywords:
   - register
   - cloud
   - milvus
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 
@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloudにアクセスして[サインアップし](https://cloud.zilliz.com/signup)てください。
 
-![sign_up](/img/ja-JP/sign_up.png)
+![sign_up](/img/sign_up.png)
 
 ## 登録オプション{#registration-options}
 

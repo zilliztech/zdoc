@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 
@@ -33,7 +33,7 @@ Zilliz Cloudでは、プロジェクトは組織内の論理的なコンテナ�
 
 組織に参加すると、組織内のすべてのプロジェクトのリストを閲覧可能になります。
 
-![view-projects-byoc](/byoc/ja-JP/view-projects-byoc.png)
+![view-projects-byoc](/img/view-projects-byoc.png)
 
 ## プロジェクトを作成する{#create-a-project}
 
@@ -47,7 +47,7 @@ Zilliz Cloudでは、プロジェクトは組織内の論理的なコンテナ�
 
 </Admonition>
 
-![create-project-byoc](/byoc/ja-JP/create-project-byoc.png)
+![create-project-byoc](/img/create-project-byoc.png)
 
 ## プロジェクトの名前を変更する{#rename-a-project}
 
@@ -59,7 +59,7 @@ Zilliz Cloudでは、プロジェクトは組織内の論理的なコンテナ�
 
 </Admonition>
 
-![rename-project-byoc](/byoc/ja-JP/rename-project-byoc.png)
+![rename-project-byoc](/img/rename-project-byoc.png)
 
 ## プロジェクトを削除{#delete-a-project}
 
@@ -71,5 +71,5 @@ Zilliz Cloudでは、プロジェクトは組織内の論理的なコンテナ�
 
 </Admonition>
 
-![delete-project-byoc](/byoc/ja-JP/delete-project-byoc.png)
+![delete-project-byoc](/img/delete-project-byoc.png)
 

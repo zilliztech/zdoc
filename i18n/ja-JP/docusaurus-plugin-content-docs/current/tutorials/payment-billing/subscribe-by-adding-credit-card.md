@@ -7,17 +7,17 @@ notebook: FALSE
 description: "このガイドでは、Zilliz Cloudに組織の支払いクレジットカードを追加する方法について包括的な手順を提供します。 | Cloud"
 type: origin
 token: E3TCwE0EXiQFvmk27QLcNMeunId
-sidebar_position: 2
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
   - cloud
   - credit card
   - subscribe
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 
@@ -76,13 +76,13 @@ import Admonition from '@theme/Admonition';
 
 上記のフィールドはすべて必須です。入力が完了すると、**追加**ボタンが有効になり、クレジットカード情報と請求情報を保存できます。
 
-![add-credit-card](/img/ja-JP/add-credit-card.png)
+![add-credit-card](/img/add-credit-card.png)
 
 ## 支払い方法を編集する{#edit-your-payment-method}
 
 支払い方法は、**請求** **の概要**ページからいつでも表示および編集できます。
 
-![payment-overivew](/img/ja-JP/payment-overivew.png)
+![payment-overivew](/img/payment-overivew.png)
 
 クレジットカードの有効期限が近づくと、[クレジットカード有効期限モニター](./manage-organization-alerts)によって通知されます。お支払い情報を更新するか、[AWS Marketplaceサブスクリプション](./subscribe-on-aws-marketplace)に切り替えることができます。
 
@@ -124,13 +124,13 @@ import Admonition from '@theme/Admonition';
 
 上記のフィールドはすべて必須です。入力が完了すると、**更新**ボタンが有効になり、払い戻し方法を保存できます。
 
-![update-payment-method](/img/ja-JP/update-payment-method.png)
+![update-payment-method](/img/update-payment-method.png)
 
 ### 請求プロフィールの編集{#edit-billing-profile}
 
 請求プロフィールを更新するには、**請求プロフィール**エリアの鉛筆アイコンをクリックします。
 
-![edit-billing-profile](/img/ja-JP/edit-billing-profile.png)
+![edit-billing-profile](/img/edit-billing-profile.png)
 
 ### マーケットプレイスのサブスクリプションに切り替える{#switch-to-marketplace-subscription}
 

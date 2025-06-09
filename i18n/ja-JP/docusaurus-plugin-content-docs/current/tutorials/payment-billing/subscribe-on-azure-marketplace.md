@@ -7,17 +7,17 @@ notebook: FALSE
 description: "このガイドでは、サブスクリプションの過程を順を追って説明し、Azure Marketplace上のZilliz Cloudの価格条件について概説します。 | Cloud"
 type: origin
 token: ETyHwKLQwiHeJmk25vUcSKUQnk7
-sidebar_position: 5
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - marketplace
   - azure
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 
@@ -46,7 +46,7 @@ import Admonition from '@theme/Admonition';
 
 1. 検索ボックスで**Zilliz Cloud**を検索するか、 [Azure Marketplaceに移動](https://azuremarketplace.microsoft.com/ja-jp/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=Overview)してZilliz Cloudポータルページを表示します。
 
-    ![search_for_zilliz_on_azure](/img/ja-JP/search_for_zilliz_on_azure.png)
+    ![search_for_zilliz_on_azure](/img/search_for_zilliz_on_azure.png)
 
 1. [**Zilliz Cloud**]をクリックします。
 
@@ -54,31 +54,37 @@ import Admonition from '@theme/Admonition';
 
 1. [**プラン+価格**]タブに切り替えます。[**今すぐ入手**]をクリックします。
 
-    ![get_it_now_on_azure](/img/ja-JP/get_it_now_on_azure.png)
+    ![get_it_now_on_azure](/img/get_it_now_on_azure.png)
 
 1. ポップアップウィンドウで、Zilliz Cloudが必要とする基本情報を入力してください。
 
-    ![enter_basic_information_azure](/img/ja-JP/enter_basic_information_azure.png)
+    ![enter_basic_information_azure](/img/enter_basic_information_azure.png)
 
-1. [**Zilliz Cloudに登録する**]ページで、次の手順を実行します。
+1. 「**Zilliz Cloudの購読**」ページで、以下の手順を実行してください:
 
-    1. [**プロジェクト詳細**]を設定します。
+    1. 適切なサブスクリ**プションとリソースグループ**を選択して、プロジェクトの詳細を設定します。リソースグループがない場合は、作成してください。**サブスクリプション**と**リソースグループ**の詳細については、Azuresの[SaaS購入体験](https://learn.microsoft.com/en-us/marketplace/purchase-saas-offer-in-azure-portal#the-saas-purchase-experience)を参照してください。
 
-    1. [**SaaS詳細**]を設定します。後で簡単に識別できるようにサブスクリプションに名前を付けます。[**オン**]を選択して**定期請求**を行います。
+    1. [**SaaS詳細**]を設定します。
+
+        1. 後で簡単に識別できるように、サブスクリプションに名前を付けてください。
+
+        1. 契約期間を選択してください: 1ヶ月または1年。
+
+        1. **自動更新**の設定を行います。
 
         <Admonition type="info" icon="📘" title="ノート">
 
-        <p>定期請求がオンの場合、毎月末にAzure上のZilliz Cloudに自動的にサブスクリプションされます。定期請求がオフの場合、月末にサブスクリプションが終了し、Zilliz Cloudの組織とアカウントは自動的にこのAzure Marketplaceサブスクリプションから解除されます。</p>
+        <p>自動更新がオンになっている場合、契約期間の終了時にAzure上のZilliz Cloudに自動的にサブスクリプションされます。自動更新がオフになっている場合、契約期間の終了時にサブスクリプションが終了し、Zilliz Cloudの組織とアカウントはこのAzure Marketplaceサブスクリプションから自動的に解除されます。</p>
 
         </Admonition>
 
     1. サブスクリプションの詳細を確認し、[**レビュー+購読**]をクリックします。
 
-    ![configure_subscription_on_azure](/img/ja-JP/configure_subscription_on_azure.png)
+    ![configure_subscription_on_azure](/img/configure_subscription_on_azure.png)
 
 1. 次のページで、[**今すぐアカウント**を構成]をクリックして、Azure MarketplaceサブスクリプションをZilliz Cloudにリンクします。
 
-    ![configure_account_azure](/img/ja-JP/configure_account_azure.png)
+    ![configure_account_azure](/img/configure_account_azure.png)
 
 1. 新しいしいタブで、以下の手順に従ってサブスクリプションを完了します。
 
@@ -88,11 +94,11 @@ import Admonition from '@theme/Admonition';
 
     1. 完全な承認。
 
-        ![aws-marketplace-dialog](/img/ja-JP/aws-marketplace-dialog.png)
+        ![aws-marketplace-dialog](/img/aws-marketplace-dialog.png)
 
 1. Zilliz Cloudの**請求**に移動して、Azure Marketplaceサブスクリプションが支払い方法として設定されていることを確認してください。
 
-    ![azure-marketplace-success](/img/ja-JP/azure-marketplace-success.png)
+    ![azure-marketplace-success](/img/azure-marketplace-success.png)
 
 ## Update Azure Marketplaceサブスクリプション{#update-azure-marketplace-subscription}
 
@@ -104,7 +110,7 @@ Azure Marketplaceから正常にサブスクライブした後は、必要に応
 
 更新内容は、[**支払方法**]セクションの[**請求概要**]ページで確認できます。[サブスクリプションID]をクリックし、サブスクリプション**購入者PUID**が新しいMarketplaceアカウントに更新されているかどうかを確認します。
 
-![view-azure-subscription-id](/img/ja-JP/view-azure-subscription-id.png)
+![view-azure-subscription-id](/img/view-azure-subscription-id.png)
 
 ### クレジットカード決済に切り替える{#switch-to-payment-credit-card}
 
@@ -128,11 +134,11 @@ Azure Marketplaceから正常にサブスクライブした後は、必要に応
 
 1. [**すべてのリソース**]をクリックするか、[**リソース/最近**]タブでサブスクリプションを見つけます。
 
-    ![azure_all_resources](/img/ja-JP/azure_all_resources.png)
+    ![azure_all_resources](/img/azure_all_resources.png)
 
 1. キャンセルしたいサブスクリプションに移動します。[**サブスクリプションのキャンセル**]をクリックします。Azure Marketplaceが処理を完了するまで数分間お待ちください。
 
-    ![cancel_azure_subscription](/img/ja-JP/cancel_azure_subscription.png)
+    ![cancel_azure_subscription](/img/cancel_azure_subscription.png)
 
 Azure Marketplaceでサブスクリプションをキャンセルする方法の詳細については、[こちら](https://learn.microsoft.com/en-us/marketplace/saas-subscription-lifecycle-management#cancel-subscription)を参照してください。
 
@@ -142,17 +148,19 @@ Azure Marketplaceでサブスクリプションをキャンセルする方法の
 
 ## トラブルシューティング{#troubleshooting}
 
-**マーケットプレイスのサブスクリプションをZilliz Cloudにリンクする際に問題が発生した場合、どうすればよいですか?**
+**Zilliz Cloudにマーケットプレイスのサブスクリプションをリンクする際に利用可能な組織がない場合、私は何ができますか?**
 
 いくつかの理由が考えられます:
 
-1. **不十分な権限**（UIプロンプト:「不十分な権限」）
+1. **不十分な権限**
 
-    組織をマーケットプレイスサブスクリプションにリンクするには、組織の所有者である必要があります。ただし、組織のメンバーの場合、必要な権限がありません。組織の所有者にお問い合わせください。
+    これは、十分な権限がない場合に発生する可能性があります。利用できない組織の横に「権限不足」タグが表示されます。
+
+    ![insufficient-permission-subscription](/img/insufficient-permission-subscription.png)
 
 1. **すべての組織はすでにMarketplaceサブスクリプションに正常にリンクされています**(UIプロンプト: Marketplace Linked)
 
-    1. 既存のMarketplaceサブスクリプションを更新する必要がある場合は、まず組織の現在のサブスクリプションの[リンク](./subscribe-on-azure-marketplace#azure-marketplacecancel-azure-marketplace-subscription)を解除してから、新しいサブスクリプションを設定してください。
+    1. 既存のMarketplaceサブスクリプションを更新する必要がある場合は、まず組織の現在のサブスクリプションの[リンク](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription)を解除してから、新しいサブスクリプションを設定してください。
 
     1. 異なるマーケットプレイスのサブスクリプションに複数の組織が必要な場合は、次のことができます:
 
@@ -162,11 +170,23 @@ Azure Marketplaceでサブスクリプションをキャンセルする方法の
 
 1. **リストに組織がありません**
 
-    アカウントが閉鎖された場合や、すべての組織から離脱した場合に発生する可能性があります。この場合、次のことができます:
+    アカウントが閉鎖された場合や、すべての組織から離脱した場合に発生する可能性があります。UIは以下のようになります。
+
+    ![no-organization-during-subcription](/img/no-organization-during-subcription.png)
+
+    この場合、次のことができます:
+
+    1. 新しい組織を作る。
 
     1. 他のユーザに自分をOrganizationの所有者としてOrganizationに[招待](./organization-users#invite-a-user-to-your-organization)するように依頼します。
 
     1. [サポートチケットを送信](https://support.zilliz.com/hc/en-us)すると、新しい組織が作成されます。
+
+1. **Zilliz Cloud BYOCを使用しています。**
+
+    あなたの組織が実際にZilliz Cloud BYOC組織である場合、これが起こる可能性があります。利用できない組織の横に「署名済み契約」タグが表示されます。BYOC組織には支払い方法は必要ありません。ご質問がある場合は、[営業にお問い合わせ](https://zilliz.com/contact-sales)ください。 
+
+    ![signed-contract-subscription](/img/signed-contract-subscription.png)
 
 ## 関連するトピック{#related-topics}
 

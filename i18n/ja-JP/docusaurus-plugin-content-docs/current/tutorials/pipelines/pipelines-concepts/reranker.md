@@ -2,7 +2,7 @@
 title: "Reranker | Cloud"
 slug: /reranker
 sidebar_label: "Reranker"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "情報検索において、リランカーは初期検索の結果を再配置します。ベクトル近似最近傍探索(ANN)検索のみを使用する場合と比較して、リランカーを追加することで、ドキュメントとクエリの意味的関連性をよりよく判断できるため、検索品質を向上させることができます。リランカーを使用することで、RAGアプリケーションで生成された回答の精度を向上させることもできます。これは、より少ないが高品質のドキュメントが文脈に置かれるためです。リランカーは計算量が多く、コストが高く、クエリのレイテンシが長くなる可能性があることに注意してください。 | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - concepts
   - rerankers
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 
@@ -36,7 +36,7 @@ import Admonition from '@theme/Admonition';
 
 ## リランカーとは何ですか?{#what-is-reranker}
 
-![what-is-a-reranker](/img/ja-JP/what-is-a-reranker.png)
+![what-is-a-reranker](/img/what-is-a-reranker.png)
 
 Rerankerは通常、クエリテキストと特定のドキュメントの意味的関連性をスコアリングするためにトレーニングされた機械学習モデルです。Web検索やレコメンデーションシステムなどのプロダクションレベルの情報検索システムは、通常、初期検索と再ランキングの2つの段階で構成されています。初期検索フェーズでは、しばしばベクトル近似最近傍探索(ANN)検索を利用して、膨大なデータセットを効率的に選別し、何百万もの候補者からトップ20アイテムを取得するなど、関連情報を特定します。この初期セットが取得されると、Rerankerはクエリテキストへの関連性に基づいてランキングをさらに洗練させます。再ランク付けされたリストのトップ5など、より小さなセットを使用して、元の順序に基づいて最初の5つを選択するよりも、より良い品質を提供します。
 
@@ -46,7 +46,7 @@ RAGアプリケーションは2つのフェーズで構成されています。�
 
 以下の図は、RAGパイプライン内のリランカの位置を示しています。
 
-![reranker-in-rag-application](/img/ja-JP/reranker-in-rag-application.png)
+![reranker-in-rag-application](/img/reranker-in-rag-application.png)
 
 ## いつrerankerを使うべきか{#when-to-use-reranker}
 
@@ -54,5 +54,5 @@ RAGアプリケーションは2つのフェーズで構成されています。�
 
 ユースケースでリランカーが必要と判断された場合は、検索パイプラインで有効にできます。
 
-![add-search-doc-function](/img/ja-JP/add-search-doc-function.png)
+![add-search-doc-function](/img/add-search-doc-function.png)
 

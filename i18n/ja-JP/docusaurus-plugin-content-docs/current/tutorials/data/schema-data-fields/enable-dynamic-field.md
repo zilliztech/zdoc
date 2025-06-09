@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 
@@ -40,7 +40,7 @@ import TabItem from '@theme/TabItem';
 
 ## ダイナミックフィールドを有効にする{#enable-dynamic-field}
 
-「[コレクションを即座に作成](./quick-setup-collections)」で説明されている方法を使用して作成されたコレクションには、動的フィールドがデフォルト有効になります。カスタム設定でコレクションを作成するときに、動的フィールドを手動で有効にすることもできます。
+カスタム設定でコレクションを作成するときに、動的フィールドを手動で有効にすることもできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

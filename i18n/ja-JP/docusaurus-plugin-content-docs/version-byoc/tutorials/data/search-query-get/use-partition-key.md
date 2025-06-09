@@ -16,10 +16,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 
@@ -35,9 +35,9 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloudでは、パーティションを使用してデータの分離を実装し、検索範囲を特定のパーティションに制限することで検索パフォーマンスを向上させることができます。パーティションを手動で管理する場合、コレクション内に最大1,024のパーティションを作成し、特定のルールに基づいてこれらのパーティションにエンティティを挿入して、特定のパーティション数内で検索を制限することで検索範囲を狭めることができます。
 
-Zilliz Cloudは、データ分離においてパーティションを再利用し、コレクション内で作成できるパーティションの数の制限を克服するためのパーティションキーを導入しました。コレクションを作成する際には、スカラーフィールドをパーティションキーとして使用できます。コレクションが準備できたら、Zilliz Cloudは、パーティションキーの値の範囲に対応する各パーティションをコレクション内に指定された数作成します。挿入されたエンティティを受信すると、Zilliz Cloudは、パーティションキーの値に基づいて異なるパーティションに格納します。
+Zilliz Cloudは、データ分離においてパーティションを再利用し、コレクション内で作成できるパーティションの数の制限を克服するためのパーティションキーを導入しました。コレクションを作成する際には、スカラーフィールドをパーティションキーとして使用できます。コレクションが準備できたら、Zilliz Cloudは、パーティションキーの値の範囲に対応する各パーティションをコレクション内に指定された数作成します。Zilliz Cloudは、挿入されたエンティティを受け取ると、エンティティのPartition Key値を使用してハッシュ値を計算し、ハッシュ値とコレクションのpartitions_numプロパティに基づいてモジュロ演算を実行してターゲットパーティションIDを取得し、エンティティをターゲットパーティションに格納します。
 
-![XSRjw74AshkuVqbJ4ahcY6b1nRu](/byoc/ja-JP/XSRjw74AshkuVqbJ4ahcY6b1nRu.png)
+![CBlIwLuElhntQDbtL9ncOvxBnke](/img/CBlIwLuElhntQDbtL9ncOvxBnke.png)
 
 次の図は、Zilliz Cloudが、パーティションキー機能を有効にしているかどうかにかかわらず、コレクション内の検索リクエストを処理する方法を示しています。
 
@@ -45,7 +45,7 @@ Zilliz Cloudは、データ分離においてパーティションを再利用�
 
 - パーティションキーが有効になっている場合、Zilliz Cloudは、検索フィルターで指定されたパーティションキーの値に基づいて検索範囲を決定し、一致するパーティション内のエンティティのみをスキャンします。
 
-![SMKhwOsK0hu7mrbLc9LcTexdnVc](/byoc/ja-JP/SMKhwOsK0hu7mrbLc9LcTexdnVc.png)
+![SMKhwOsK0hu7mrbLc9LcTexdnVc](/img/SMKhwOsK0hu7mrbLc9LcTexdnVc.png)
 
 ## パーティションキーを使う{#use-partition-key}
 
@@ -310,7 +310,7 @@ export filter='partition_key in ["x", "y", "z"] && <other conditions>'
 
 マルチテナントシナリオでは、テナントIDに関連するスカラーフィールドをパーティションキーとして指定し、このスカラーフィールドの特定の値に基づいてフィルタを作成できます。同様のシナリオで検索パフォーマンスをさらに向上させるために、Zilliz Cloudにはパーティションキー分離機能が導入されています。
 
-![SYAKwuWqThNNg0banPLcqkhhn3e](/byoc/ja-JP/SYAKwuWqThNNg0banPLcqkhhn3e.png)
+![SYAKwuWqThNNg0banPLcqkhhn3e](/img/SYAKwuWqThNNg0banPLcqkhhn3e.png)
 
 上記の図に示すように、Zilliz Cloudは、パーティションキーの値に基づいてエンティティをグループ化し、これらのグループごとに別々のインデックスを作成します。検索リクエストを受け取ると、Zilliz Cloudは、フィルタリング条件で指定されたパーティションキーの値に基づいてインデックスを検索し、インデックスに含まれるエンティティ内で検索範囲を制限するため、検索中に関係のないエンティティをスキャンすることを回避し、検索パフォーマンスを大幅に向上させます。
 
@@ -318,7 +318,8 @@ export filter='partition_key in ["x", "y", "z"] && <other conditions>'
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>現在、パーティションキーの分離機能は<strong>Performance-optimized</strong>クラスタにのみ適用されます。</p>
+<p>この機能は、Milvus v 2.4. xと互換性があり、Performance-optimizedCUを使用するクラスターで使用できます。</p>
+<p>他のCUタイプのクラスターとすべてのサブスクリプションプランについては、この機能を使用する前にMilvus v 2.5. xとの互換性を確認してください。</p>
 
 </Admonition>
 

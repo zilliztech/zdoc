@@ -7,16 +7,16 @@ notebook: FALSE
 description: "この章では、組織の運営と関連する設定に焦点を当てています。 | Cloud"
 type: origin
 token: TPElwgyTyi3QgWkGsQncXqaonKf
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
   - cloud
   - organizations
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

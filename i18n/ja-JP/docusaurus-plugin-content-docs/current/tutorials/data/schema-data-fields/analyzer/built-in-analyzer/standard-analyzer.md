@@ -2,7 +2,7 @@
 title: "標準アナライザ | Cloud"
 slug: /standard-analyzer
 sidebar_label: "標準アナライザ"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "アナライザーが指定されていない場合、標準アナライザーはZilliz Cloudのデフォルトアナライザーです。文法ベースのトークン化を使用しているため、ほとんどの言語で効果的です。 | Cloud"
 type: origin

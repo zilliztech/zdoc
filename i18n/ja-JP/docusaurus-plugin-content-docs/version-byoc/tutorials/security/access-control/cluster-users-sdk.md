@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - users
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

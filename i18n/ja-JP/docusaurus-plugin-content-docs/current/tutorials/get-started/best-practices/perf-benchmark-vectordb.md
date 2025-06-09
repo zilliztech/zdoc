@@ -15,10 +15,10 @@ keywords:
   - milvus
   - performance
   - benchmark
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 
@@ -142,7 +142,7 @@ $ init_bench
 
 ウェブページを一番下までスクロールし、**テストを実行>**をクリックして独自のベンチマークテストを設定してください。
 
-![HwQqbOpK7o6dXexeNZycsMT1ngb](/img/ja-JP/HwQqbOpK7o6dXexeNZycsMT1ngb.png)
+![HwQqbOpK7o6dXexeNZycsMT1ngb](/img/HwQqbOpK7o6dXexeNZycsMT1ngb.png)
 
 ### ベンチマークテストを設定する{#configure-your-benchmarking-test}
 
@@ -150,9 +150,9 @@ $ init_bench
 
 ベンチマークの**結果**を表示して分析するには、[結果]をクリックします。以下はいくつかの例です。
 
-![OxxEbJtxGoRiAbx8Sbmc7X7onHc](/img/ja-JP/OxxEbJtxGoRiAbx8Sbmc7X7onHc.png)
+![OxxEbJtxGoRiAbx8Sbmc7X7onHc](/img/OxxEbJtxGoRiAbx8Sbmc7X7onHc.png)
 
-![SFhebhjEqoRaenxYbfMc6quGnxZ](/img/ja-JP/SFhebhjEqoRaenxYbfMc6quGnxZ.png)
+![SFhebhjEqoRaenxYbfMc6quGnxZ](/img/SFhebhjEqoRaenxYbfMc6quGnxZ.png)
 
 オプションで、左ナビゲーションウィンドウで**DBフィルター**と**ケースフィルター**を設定して、定義済みのベクトルデータベースとケースのベンチマーク結果を比較することができます。
 

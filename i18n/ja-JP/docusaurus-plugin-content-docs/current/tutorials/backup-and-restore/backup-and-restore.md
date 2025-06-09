@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Zilliz Cloudクラスターに保存されたデータのバックアップと復元。 | Cloud"
 type: origin
 token: AXmzw3QBKixR0skM8LWc39jwnAe
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - backup
   - restore
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - whitelist
   - setup
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 
@@ -77,13 +77,13 @@ Zilliz Cloudのホワイトリストは、プロジェクトレベルで堅牢�
 
 </Admonition>
 
-![whitelist-ip-access](/img/ja-JP/whitelist-ip-access.png)
+![whitelist-ip-access](/img/whitelist-ip-access.png)
 
 ## 関連するトピック{#related-topics}
 
 - [APIキー](./manage-api-keys)
 
-- [クラスタの認証情報(コンソール)](./cluster-credentials-sdk)
+- [クラスタの認証情報(コンソール)](./cluster-credentials)
 
 - [プライベートエンドポイントを設定する](./setup-a-private-link)
 

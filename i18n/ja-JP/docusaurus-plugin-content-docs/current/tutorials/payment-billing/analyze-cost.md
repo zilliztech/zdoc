@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Zilliz Cloudの使用状況ページでは、可視化されたコスト分析ツールが提供されており、Zilliz Cloudの使用状況と経費を複数の次元から表示および追跡できます。 | Cloud"
 type: origin
 token: PSzRweRpci2IRIkVcULcHcYznxX
-sidebar_position: 8
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - invoice
   - view
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
@@ -36,9 +36,9 @@ Zilliz Cloudの利用ページからコストを分析するには、**Organizat
 
 Zilliz Cloudでコストを分析する方法は2つあります。
 
-- [Web UI経由](./analyze-cost#web-uivia-web-ui):コストの傾向を視覚化する必要がある場合は、Web UIを使用することをお勧めします。Web UIの使用状況の詳細は、**小数点以下2桁**まで丸められています（例:$60.0 0）。
+- [Web UI経由](./analyze-cost#via-web-ui):コストの傾向を視覚化する必要がある場合は、Web UIを使用することをお勧めします。Web UIの使用状況の詳細は、**小数点以下2桁**まで丸められています（例:$60.0 0）。
 
-- [RESTful API経由](./analyze-cost#restful-apivia-restful-api):毎日の使用状況についてより詳細な情報が必要な場合は、RESTful APIを使用することをお勧めします。RESTful APIから得られる使用状況の詳細は、**小数点以下8桁**まで正確です（例:$60.0 0 257846）。
+- [RESTful API経由](./analyze-cost#via-restful-api):毎日の使用状況についてより詳細な情報が必要な場合は、RESTful APIを使用することをお勧めします。RESTful APIから得られる使用状況の詳細は、**小数点以下8桁**まで正確です（例:$60.0 0 257846）。
 
 ### Web UIから{#via-web-ui}
 
@@ -50,7 +50,7 @@ Zilliz Cloudでコストを分析する方法は2つあります。
 
 </Admonition>
 
-![analyze_cost](/img/ja-JP/analyze_cost.png)
+![analyze_cost](/img/analyze_cost.png)
 
 - **プロジェクト別**
 
@@ -92,7 +92,7 @@ Zilliz Cloudでコストを分析する方法は2つあります。
 
 ### RESTful APIを使用する{#via-restful-api}
 
-RESTful APIのQuery Org Daily Usageから得られる使用状況の詳細は、小数点以下8桁まで正確です。1日のコストがどのように蓄積され、小数点以下2桁に丸められるかを理解する必要がある場合は、RESTful APIを使用することをお勧めします。1日の使用量を合計すると、小数点以下8桁まで正確な総使用量が得られます。次に、この総使用量を小数点以下2桁に丸めます(例:$60.5 6 724390は$60.57に丸められます)。最終的な総使用量は、請求書に表示されている数字と一致する必要があります。
+[毎日の使用を見るRESTful API](/reference/restful/query-daily-usage-v2)から得られる使用状況の詳細は、小数点以下8桁まで正確です。1日のコストがどのように蓄積され、小数点以下2桁に丸められるかを理解する必要がある場合は、RESTful APIを使用することをお勧めします。1日の使用量を合計すると、小数点以下8桁まで正確な総使用量が得られます。次に、この総使用量を小数点以下2桁に丸めます(例:$60.5 6 724390は$60.57に丸められます)。最終的な総使用量は、請求書に表示されている数字と一致する必要があります。
 
 ## よくある質問(FAQ){#faq}
 
@@ -102,7 +102,7 @@ RESTful APIのQuery Org Daily Usageから得られる使用状況の詳細は、
 
     ウェブUIでは、表示される金額は小数点以下2桁に丸められます（例:$60.0 0）。
 
-    ![precision_usage](/img/ja-JP/precision_usage.png)
+    ![precision_usage](/img/precision_usage.png)
 
     Query Org Daily U sage APIから取得した使用状況の詳細には、小数点以下8桁の精度で金額が表示されます。以下は出力の例です。
 

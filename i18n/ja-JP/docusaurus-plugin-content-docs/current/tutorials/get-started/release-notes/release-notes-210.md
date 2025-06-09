@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloudのローンチを発表できることを嬉しく思います。このリリースには、拡張されたリージョンサポートや移行、サーバーレスインスタンス管理などの拡張されたユーザビリティ機能を含む、さまざまな強化と機能が含まれています。さらに、RESTful APIをBulk-sertおよびDedicated Clusterサポートで強化しました。 | Cloud"
 type: origin
 token: Ek0fwJOE0iIKKbkna9fcfp4InGf
-sidebar_position: 16
+sidebar_position: 18
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

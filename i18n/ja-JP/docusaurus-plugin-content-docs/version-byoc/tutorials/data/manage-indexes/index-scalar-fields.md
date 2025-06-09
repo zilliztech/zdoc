@@ -14,10 +14,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

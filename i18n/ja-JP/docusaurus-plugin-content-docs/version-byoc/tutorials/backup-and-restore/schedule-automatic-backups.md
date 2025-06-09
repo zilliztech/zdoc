@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 
@@ -49,7 +49,7 @@ Zilliz Cloudを使用すると、クラスターの自動バックアップを�
 
 1. 自動バックアップの**頻度**、**バックアップ保持期間**、および時間枠を設定します。
 
-![create-snapshot-schedule](/byoc/ja-JP/create-snapshot-schedule.png)
+![create-snapshot-schedule](/img/create-snapshot-schedule.png)
 
 </TabItem>
 <TabItem value="Bash">

@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 
@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 
 次の図は、特権と特権グループのさまざまな付与過程を示しています。
 
-![DZJ3wap77hAp4CbpIqBcFyRVnLd](/img/ja-JP/DZJ3wap77hAp4CbpIqBcFyRVnLd.png)
+![DZJ3wap77hAp4CbpIqBcFyRVnLd](/img/DZJ3wap77hAp4CbpIqBcFyRVnLd.png)
 
 このトピックでは、Zilliz Cloudで利用可能な組み込みの特権グループと特権について詳しく説明します。
 

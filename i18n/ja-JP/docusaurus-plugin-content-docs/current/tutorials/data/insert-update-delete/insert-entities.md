@@ -16,10 +16,10 @@ keywords:
   - data
   - insert
   - insert entities
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 
@@ -43,7 +43,7 @@ Zilliz Cloudは、コレクションのスケーラビリティを維持する�
 
 データを挿入する前に、スキーマに従ってデータを辞書のリストに整理する必要があります。各辞書はエンティティを表し、スキーマで定義されたすべてのフィールドを含んでいます。コレクションに動的フィールドが有効になっている場合、各辞書にはスキーマで定義されていないフィールドも含めることができます。
 
-このセクションでは、[クイックセットアップの方法で](./quick-setup-collections#quick-setup)作成されたコレクションにエンティティを挿入します。この方法で作成されたコレクションには、**id**と**vector**という2つのフィールドしかありません。さらに、このコレクションには動的フィールドが有効になっているため、サンプルコードのエンティティには、スキーマで定義されていない**color**というフィールドが含まれています。
+このセクションでは、クイックセットアップの方法で作成されたコレクションにエンティティを挿入します。この方法で作成されたコレクションには、**id**と**vector**という2つのフィールドしかありません。さらに、このコレクションには動的フィールドが有効になっているため、サンプルコードのエンティティには、スキーマで定義されていない**color**というフィールドが含まれています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

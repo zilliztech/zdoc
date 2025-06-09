@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Zilliz Cloudでの操作について知っておくべき制限と制限について学びましょう。 | BYOC"
 type: origin
 token: Ox3gw1j54ipZpUkHMzMculQsndD
-sidebar_position: 12
+sidebar_position: 13
 keywords: 
   - zilliz
   - vector database
   - cloud
   - milvus
   - limits
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

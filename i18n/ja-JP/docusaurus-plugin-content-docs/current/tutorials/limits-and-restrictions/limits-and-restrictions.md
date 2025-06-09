@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Zilliz Cloudでの操作について知っておくべき制限と制限について学びましょう。 | Cloud"
 type: origin
 token: Ox3gw1j54ipZpUkHMzMculQsndD
-sidebar_position: 12
+sidebar_position: 13
 keywords: 
   - zilliz
   - vector database
   - cloud
   - milvus
   - limits
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

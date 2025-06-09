@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 
@@ -572,7 +572,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Zilliz Cloudでは、コレクションを即座に作成する方法も提供されています。詳細については、「[コレクションを即座に作成](./quick-setup-collections)」を参照してください。
+Zilliz Cloudでは、コレクションを即座に作成する方法も提供されています。
 
 ## コレクションのプロパティを設定{#set-collection-properties}
 
@@ -745,7 +745,7 @@ fmt.Println("collection created")
 
 ### セットコレクションTTL{#set-collection-ttl}
 
-コレクションを特定の期間削除する必要がある場合は、Time-To-Live(TTL)を秒単位で設定することを検討してください。TTLがタイムアウトすると、Zilliz Cloudはコレクション内のエンティティを削除し、コレクションを削除します。削除は非同期であり、削除が完了する前に検索やクエリが可能であることを示しています。
+ コレクション内のデータを特定の期間削除する必要がある場合は、Time-To-Live(TTL)を秒単位で設定することを検討してください。TTLがタイムアウトすると、Zilliz Cloudはコレクション内のエンティティを削除します。削除は非同期であり、削除が完了する前に検索やクエリが可能であることを示しています。
 
 以下のコードスニペットでは、TTLを1日（86400秒）に設定しています。TTLは最低でも数日に設定することをお勧めします。
 

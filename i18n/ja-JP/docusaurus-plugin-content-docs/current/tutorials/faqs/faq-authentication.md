@@ -26,4 +26,4 @@ sidebar_position: 12
 
 ### Zilliz Cloudクラスタへの接続に使用したパスワードを忘れた場合、どうすればよいですか?{#what-can-i-do-if-i-forget-the-password-used-to-connect-to-my-zilliz-cloud-cluster}
 
-パスワードを忘れた場合は、パスワードをリセットすることができます。ただし、デフォルトユーザーのパスワードを忘れた場合は、新しいパスワードで新しいユーザーを作成することができます。詳細については、[クラスタの認証情報(コンソール)](./cluster-credentials-sdk)と[クラスタ資格情報(SDK)](./cluster-credentials-console)を参照してください。
+パスワードを忘れた場合は、パスワードをリセットすることができます。ただし、デフォルトユーザーのパスワードを忘れた場合は、新しいパスワードで新しいユーザーを作成することができます。詳細については、[クラスタの認証情報(コンソール)](./cluster-credentials)とクラスタ資格情報(SDK)を参照してください。

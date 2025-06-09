@@ -15,10 +15,10 @@ keywords:
   - auditing
   - log
   - configure
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 
@@ -49,7 +49,7 @@ import Admonition from '@theme/Admonition';
 
 - **ファイルパス**:`/<Cluster ID>/<Log type>/<Date>`
 
-- **ファイルの命名規則**:`\<File name><File name suffix>`を*HH: MM:SS-$UUID*の形式で指定します。ここで、*HH:MM:SS*はUTCで時刻を表し、*$UUID*は一意のランダム文字列です。例:`09:16:53-jz5l7D8Q`。
+- **ファイルの命名規則**:`\<File name><File name suffix>`を*HH: MM:SS-UUID*の形式で指定します。ここで、*HH:MM:SS*はUTCで時刻を表し、*UUID*は一意のランダム文字列です。例:`09:16:53-jz5l7D8Q`。
 
 以下は、バケットにストリーミングされた監査ログエントリの例です。
 
@@ -79,7 +79,7 @@ Zilliz Cloudの監査ログは、監査ログを直接ストレージバケッ�
 
 ### 始める前に{#enable-audit-log-streaming}
 
-- Zilliz Cloudクラスタは**Dedicated-Enterprise**プランレベル以上で実行されます。必要に応じて[プランをアップグレードして](./manage-cluster#upgrade-plan)ください。
+- Zilliz Cloudクラスタは**Dedicated-Enterprise**プランレベル以上で実行されます。必要に応じて[プランをアップグレードして](./manage-cluster)ください。
 
 - Zilliz Cloudプロジェクトをオブジェクトストレージと統合しました。監査ログは設定後にバケットにストリーミングされます。詳細な手順については、「[AWS S 3との統合](./integrate-with-aws-s3)」を参照してください。
 
@@ -87,7 +87,7 @@ Zilliz Cloudの監査ログは、監査ログを直接ストレージバケッ�
 
 ### 手続き{#procedure}
 
-![configure-auditing-1](/img/ja-JP/configure-auditing-1.png)
+![configure-auditing-1](/img/configure-auditing-1.png)
 
 1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
@@ -111,7 +111,7 @@ Zilliz Cloudの監査ログは、監査ログを直接ストレージバケッ�
 
     - **Export Directory**:監査ログを保存するバケット内のディレクトリを指定してください。
 
-1. [**Enable**]をクリックします。[**Audit Log Streaming**]ステータスが[**Active**]になると、正常に有効になります。ステータスが異常の場合は、トラブルシューティングのために[FAQ](./audit-logs#faqfaq)にアクセスしてください。
+1. [**Enable**]をクリックします。[**Audit Log Streaming**]ステータスが[**Active**]になると、正常に有効になります。ステータスが異常の場合は、トラブルシューティングのために[FAQ](./audit-logs#faq)にアクセスしてください。
 
 設定が完了すると、監査ログは約5分ごとにバケットにストリーミングされます。必要に応じてバケットにアクセスしてログを表示または管理できます。
 
@@ -121,7 +121,7 @@ Zilliz Cloudの監査ログは、監査ログを直接ストレージバケッ�
 
 監査ログストリーミングが有効になると、その構成を編集したり、必要に応じて無効にしたりできます。
 
-![configure-auditing-2](/img/ja-JP/configure-auditing-2.png)
+![configure-auditing-2](/img/configure-auditing-2.png)
 
 ## FAQ{#faq}
 

@@ -2,7 +2,7 @@
 title: "データに接続する | Cloud"
 slug: /connectors
 sidebar_label: "データに接続する"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "コネクターは、様々なデータソースをベクターデータベースに簡単に接続できる無料のツールです。このガイドでは、コネクターの概念を説明し、Zilliz Cloud Pipelinesでコネクターを作成および管理する方法について説明します。 | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - connect
   - data
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 
@@ -38,7 +38,7 @@ import Admonition from '@theme/Admonition';
 
 コネクタは、オブジェクトストレージ、Kafka(近日公開予定)など、さまざまなデータソースからZilliz Cloudにデータを取り込むためのツールです。オブジェクトストレージコネクタを例にとると、コネクタはオブジェクトストレージバケット内のディレクトリを監視し、PDFやHTMLなどのファイルをZilliz Cloudパイプラインに同期して、ベクトル表現に変換してベクトルデータベースに保存して検索できます。インジェストおよび削除パイプラインを使用すると、Zilliz Cloud内のファイルとそのベクトル表現が同期されます。オブジェクトストレージ内のファイルの追加または削除は、ベクトルデータベースコレクションにマップされます。
 
-![connector-overview](/img/ja-JP/connector-overview.png)
+![connector-overview](/img/connector-overview.png)
 
 ### なぜコネクタを使用するのですか?{#why-use-a-connector}
 
@@ -78,7 +78,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
 1. プロジェクトに移動します。ナビゲーションパネルから[**パイプライン**]をクリックします。次に、[**コネクタ**]タブに切り替えます。[**+コネクタ**]をクリックします。
 
-    ![create-connector](/img/ja-JP/create-connector.png)
+    ![create-connector](/img/create-connector.png)
 
 1. データソースへのリンク。
 
@@ -128,7 +128,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
         </Admonition>
 
-        ![link-data-source](/img/ja-JP/link-data-source.png)
+        ![link-data-source](/img/link-data-source.png)
 
 1. ターゲットパイプラインを追加します。
 
@@ -140,7 +140,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
     </Admonition>
 
-    ![add-target-pipelines](/img/ja-JP/add-target-pipelines.png)
+    ![add-target-pipelines](/img/add-target-pipelines.png)
 
 1. 自動スキャンを有効にするかどうかを選択します。
 
@@ -163,7 +163,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
            </tr>
         </table>
 
-        ![enable-auto-scan](/img/ja-JP/enable-auto-scan.png)
+        ![enable-auto-scan](/img/enable-auto-scan.png)
 
 1. [**作成**]をクリックします。
 
@@ -185,7 +185,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
 </Admonition>
 
-![enable-connector](/img/ja-JP/enable-connector.png)
+![enable-connector](/img/enable-connector.png)
 
 ### 手動スキャンをトリガーする{#trigger-a-manual-scan}
 
@@ -211,7 +211,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
 - 自動スキャンスケジュール。詳細については、[コネクタの作成手順の](./connectors#procedures)ステップ4を参照してください。
 
-![configure-connector](/img/ja-JP/configure-connector.png)
+![configure-connector](/img/configure-connector.png)
 
 ### コネクタを落とす{#drop-a-connector}
 
@@ -223,7 +223,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
 </Admonition>
 
-![drop-connector](/img/ja-JP/drop-connector.png)
+![drop-connector](/img/drop-connector.png)
 
 ### コネクタログの表示{#view-connector-logs}
 
@@ -231,7 +231,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
 1. コネクタのアクティビティページにアクセスしてログを表示します。
 
-    ![view-connector-logs](/img/ja-JP/view-connector-logs.png)
+    ![view-connector-logs](/img/view-connector-logs.png)
 
 1. ステータスが`異常`な場合はエラーを示します。詳細なエラーメッセージを表示するには、ステータスの横にある「?」アイコンをクリックしてください。
 

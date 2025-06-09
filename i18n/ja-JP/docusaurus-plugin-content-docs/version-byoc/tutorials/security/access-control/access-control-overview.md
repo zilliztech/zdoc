@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
@@ -29,11 +29,11 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloudは、Zilliz Cloud内のリソースへのアクセスを細かく制御するために、Role-Based Access Control（RBAC）を実装しています。RBAC（Role-Based Access Control）は、ユーザーに直接ではなく、ロールに権限を付与するセキュリティ対策です。これらのロールには、リソースに対する特定の権限が含まれており、ユーザーのアクセス制御を効率的に管理することができます。
 
-![LZPEwzB9XhRIFebkvVic1dTInWh](/byoc/ja-JP/LZPEwzB9XhRIFebkvVic1dTInWh.png)
+![LZPEwzB9XhRIFebkvVic1dTInWh](/img/LZPEwzB9XhRIFebkvVic1dTInWh.png)
 
 ## Zilliz Cloud RBACアーキテクチャ{#zilliz-cloud-rbac-architecture}
 
-![XXLqwF2z7hdImMblotsc40vinKb](/byoc/ja-JP/XXLqwF2z7hdImMblotsc40vinKb.png)
+![XXLqwF2z7hdImMblotsc40vinKb](/img/XXLqwF2z7hdImMblotsc40vinKb.png)
 
 Zilliz Cloudは、2つのプレーン内でリソースを整理し、両方にRBACを実装しています。
 
@@ -47,7 +47,7 @@ Zilliz Cloudは、2つのプレーン内でリソースを整理し、両方にR
 
 アカウントユーザーには組織ロールとプロジェクトロールが付与され、クラスターユーザーにはクラスター、データベース、コレクションへのアクセスを制御するクラスターロールが付与されます。次の図は、Zilliz Cloudのロールの階層を示しています。
 
-![H5TewEwdhhNCwNbcTYkcM2ganbg](/byoc/ja-JP/H5TewEwdhhNCwNbcTYkcM2ganbg.png)
+![H5TewEwdhhNCwNbcTYkcM2ganbg](/img/H5TewEwdhhNCwNbcTYkcM2ganbg.png)
 
 - **組織レベルで**
 

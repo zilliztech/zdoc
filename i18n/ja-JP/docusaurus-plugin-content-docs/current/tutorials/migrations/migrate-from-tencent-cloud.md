@@ -1,7 +1,7 @@
 ---
 title: "Postgre SQLからZilliz Cloudに移行 | Cloud"
 slug: /migrate-from-tencent-cloud
-sidebar_label: "Postgre SQLからZilliz Cloudに移行"
+sidebar_label: "PostgreSQLから"
 beta: FALSE
 notebook: FALSE
 description: "Postgre SQL](https//www.postgresql.org/)は、拡張性、データの整合性、パフォーマンスで有名な堅牢でオープンソースのオブジェクトリレーショナルデータベースエンジンです。[pgvector拡張機能を利用することで、Postgre SQLはベクトルデータを保存および管理する機能を獲得します。 | Cloud"
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - tencent cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 
@@ -54,7 +54,7 @@ import Admonition from '@theme/Admonition';
 
 ソースデータを任意のプランレベルのZilliz Cloudクラスタに移行できます(CU体格がソースデータに対応している場合)。
 
-![migrate_from_pgvector](/img/ja-JP/migrate_from_pgvector.png)
+![migrate_from_pgvector](/img/migrate_from_pgvector.png)
 
 1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)にログインします。
 
@@ -96,7 +96,7 @@ import Admonition from '@theme/Admonition';
 
 </Admonition>
 
-![verify_collection](/img/ja-JP/verify_collection.png)
+![verify_collection](/img/verify_collection.png)
 
 ## 移行ジョブをキャンセル{#cancel-migration-job}
 
@@ -160,6 +160,11 @@ Postgre SQLのフィールドタイプがZilliz Cloudのフィールドタイプ
      <td><p>配列</p></td>
      <td><p>配列</p></td>
      <td><p>-</p></td>
+   </tr>
+   <tr>
+     <td><p>json</p></td>
+     <td><p>JSON</p></td>
+     <td></td>
    </tr>
 </table>
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - notification
   - channels
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 
@@ -36,7 +36,7 @@ Zilliz Cloudのアラート通知は、クラスター内で発生したイベ�
 
 Zilliz Cloudコンソールの**アラート編集**または**アラート作成**ダイアログボックスで、通知チャンネルの管理ページにアクセスできます。
 
-![manage-alert-channel](/img/ja-JP/manage-alert-channel.png)
+![manage-alert-channel](/img/manage-alert-channel.png)
 
 ### メール{#email}
 
@@ -274,5 +274,5 @@ DingTalkのアラート通知を設定するには、次の手順に従ってく
 
 通知チャンネルを設定した後、テストメッセージの送信アイコンをクリックして、正しく設定されていることを確認してください。
 
-![test-connectivity](/img/ja-JP/test-connectivity.png)
+![test-connectivity](/img/test-connectivity.png)
 

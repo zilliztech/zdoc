@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloudは、データインポート機能のユーザーエクスペリエンスを最適化し、階層的な権限を持つAPIキーを改良し、メトリックとアラートのメカニズムを強化しました。 | Cloud"
 type: origin
 token: Fd9VwkZmYiDq0LkWCigcQafEn8c
-sidebar_position: 11
+sidebar_position: 13
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 
@@ -41,7 +41,7 @@ Zilliz Cloudは、データインポート機能のユーザーエクスペリ�
 
 Zilliz Cloudの権限設計は、RBAC(Role-Based Access Control)の原則に従っており、Operation LayerとData Layerの2つのレイヤーに分かれています。Operation Layerでは、役割がクラスター、プロジェクト、ユーザー、請求などのリソースの運用権限を管理します。Data Layerでは、役割がデータの追加、削除、変更、およびクエリの機能を制御することに焦点を当てています。
 
-![XWvmbywAuo8RuVxdH9UcEq9Qnrb](/img/ja-JP/XWvmbywAuo8RuVxdH9UcEq9Qnrb.png)
+![XWvmbywAuo8RuVxdH9UcEq9Qnrb](/img/XWvmbywAuo8RuVxdH9UcEq9Qnrb.png)
 
 オペレーションレイヤーにおいて、Zilliz Cloudは4種類の役割をサポートしています。そのうち、組織オーナー、プロジェクトオーナー、プロジェクトメンバーは一般的に使用される3つの役割です。
 

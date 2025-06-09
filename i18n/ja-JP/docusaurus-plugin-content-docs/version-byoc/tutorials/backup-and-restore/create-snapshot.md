@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 
@@ -44,7 +44,7 @@ import TabItem from '@theme/TabItem';
 
 次の図に基づいて、クラスタまたはコレクションのバックアップファイルを作成できます。クラスタはまだサービス中ですが、ZillizCloudはバックアップファイルを作成しています。
 
-![create-snapshot](/byoc/ja-JP/create-snapshot.png)
+![create-snapshot](/img/create-snapshot.png)
 
 </TabItem>
 <TabItem value="Bash">

@@ -2,7 +2,7 @@
 title: "EKS IAMロールの作成 | BYOC"
 slug: /create-eks-role
 sidebar_label: "EKS IAMロールの作成"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "このページでは、Zilliz CloudプロジェクトにEKSクラスターをデプロイするために、Zilliz CloudのIAMロールを作成および構成する方法について説明します。 | BYOC"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
@@ -54,11 +54,11 @@ AWSコンソールを使用してEKSロールを作成できます。代わり�
 
 1. アカウント情報を展開し、AWSアカウントIDの先頭にあるコピーボタンをクリックしてください。
 
-    ![EMi6b2DQJonwOZx8yksclm2hntc](/byoc/ja-JP/EMi6b2DQJonwOZx8yksclm2hntc.png)
+    ![EMi6b2DQJonwOZx8yksclm2hntc](/img/EMi6b2DQJonwOZx8yksclm2hntc.png)
 
 1. 左サイドバーの[**役割**]タブをクリックし、[**役割を作成**]をクリックします。
 
-    ![IESTbOXD4o9lfJx34fCcUkF9nSd](/byoc/ja-JP/IESTbOXD4o9lfJx34fCcUkF9nSd.png)
+    ![IESTbOXD4o9lfJx34fCcUkF9nSd](/img/IESTbOXD4o9lfJx34fCcUkF9nSd.png)
 
 1. [**信頼できるエンティティ**の選択]で、[**カスタム信頼ポリシー**]タイルをクリックします。[**共通信頼ポリシー**]で、下の信頼JSONを[**カスタム信頼ポリシー**]セクションのエディタに貼り付け、`{account tId}`を**AWSアカウントID**に置き換えます。
 
@@ -132,7 +132,7 @@ AWSコンソールを使用してEKSロールを作成できます。代わり�
       }
     ```
 
-    ![IJh1b5jTSos08MxhMMKcXcKAnRg](/byoc/ja-JP/IJh1b5jTSos08MxhMMKcXcKAnRg.png)
+    ![IJh1b5jTSos08MxhMMKcXcKAnRg](/img/IJh1b5jTSos08MxhMMKcXcKAnRg.png)
 
 1. 「**次**へ」をクリックして、アクセス権の追加をスキップします。
 
@@ -146,21 +146,21 @@ AWSコンソールを使用してEKSロールを作成できます。代わり�
 
 1. ロールが作成されたら、緑色のバーの[**View role**]をクリックしてロールの詳細に移動します。
 
-    ![RsJhbMJnMogl3AxcBc7cVamNngc](/byoc/ja-JP/RsJhbMJnMogl3AxcBc7cVamNngc.png)
+    ![RsJhbMJnMogl3AxcBc7cVamNngc](/img/RsJhbMJnMogl3AxcBc7cVamNngc.png)
 
 1. ロールの**ARN**の前にあるコピーアイコンをクリックします。
 
-    ![L7rSbBI7donnqSxNZ03cjoEEn9f](/byoc/ja-JP/L7rSbBI7donnqSxNZ03cjoEEn9f.png)
+    ![L7rSbBI7donnqSxNZ03cjoEEn9f](/img/L7rSbBI7donnqSxNZ03cjoEEn9f.png)
 
 1. Zilliz Cloudコンソールに戻り、**IAM Role ARN**の**EKS設定**にARNロールを貼り付けます。
 
-    ![HoLTbTV52ogMGsxl0WfcFEHmnSc](/byoc/ja-JP/HoLTbTV52ogMGsxl0WfcFEHmnSc.png)
+    ![HoLTbTV52ogMGsxl0WfcFEHmnSc](/img/HoLTbTV52ogMGsxl0WfcFEHmnSc.png)
 
 ### ステップ2:権限を追加する{#step-2-add-permissions}
 
 このステップでは、EKSロールに複数の権限を追加します。ロールの詳細ページで、「**権限**」タブをクリックします。「**権限ポリシー**」セクションで、「**権限追加**」をクリックします。このステップでは、「**ポリシー添付**」を選択し、「**インラインポリシー作成**」を選択して、異なるソースから複数のポリシーを追加する必要があります。
 
-![PypqbYKgeolL9FxEVsxcDnPJnBf](/byoc/ja-JP/PypqbYKgeolL9FxEVsxcDnPJnBf.png)
+![PypqbYKgeolL9FxEVsxcDnPJnBf](/img/PypqbYKgeolL9FxEVsxcDnPJnBf.png)
 
 #### AWSが管理するポリシーを添付{#attach-aws-managed-policies}
 
@@ -201,11 +201,11 @@ AWSコンソールを使用してEKSロールを作成できます。代わり�
 
 「**ポリシーを添付**」を選択した後、開いたページの「**その他の権限ポリシー**」セクションで、上記にリストされた各AWS管理ポリシーの名前を検索ボックスに入力し、その前にあるラジオボックスを選択してください。必要なすべてのポリシーを選択したら、「**権限を追加**」をクリックしてください。
 
-![MK1AblIjSo5hxaxtfMDcN55AnJc](/byoc/ja-JP/MK1AblIjSo5hxaxtfMDcN55AnJc.png)
+![MK1AblIjSo5hxaxtfMDcN55AnJc](/img/MK1AblIjSo5hxaxtfMDcN55AnJc.png)
 
 これらのポリシーは、[**アクセス許可**ポリシー]リストに表示されます。
 
-![T29CbqmABoF5AmxYZ4xcY1RJn9e](/byoc/ja-JP/T29CbqmABoF5AmxYZ4xcY1RJn9e.png)
+![T29CbqmABoF5AmxYZ4xcY1RJn9e](/img/T29CbqmABoF5AmxYZ4xcY1RJn9e.png)
 
 #### インラインポリシーの作成{#create-inline-policies}
 
@@ -236,7 +236,7 @@ AWSコンソールを使用してEKSロールを作成できます。代わり�
 
 「**Create inline policy**」を選択した後、「**Specify permis**sions」ページで、「**JSON**」をクリックして**ポリシーエディタ**を開きます。次に、上記の権限のいずれかをコピーしてポリシーエディタに貼り付けます。
 
-![ZmF0bkhWOoWYZMxoZHccP1iMnah](/byoc/ja-JP/ZmF0bkhWOoWYZMxoZHccP1iMnah.png)
+![ZmF0bkhWOoWYZMxoZHccP1iMnah](/img/ZmF0bkhWOoWYZMxoZHccP1iMnah.png)
 
 [**次**へ]をクリックし、[ポリシーの詳細]で**ポリシー名**を**設定します**。
 
@@ -246,9 +246,9 @@ AWSコンソールを使用してEKSロールを作成できます。代わり�
 
 </Admonition>
 
-![DaaUbPxOPowcAgxZprNceEBMndh](/byoc/ja-JP/DaaUbPxOPowcAgxZprNceEBMndh.png)
+![DaaUbPxOPowcAgxZprNceEBMndh](/img/DaaUbPxOPowcAgxZprNceEBMndh.png)
 
 リストされたすべてのインラインポリシーを追加したら、[**ポリシーを作成**]をクリックします。これらのポリシーが[**権限**ポリシー]リストに表示されます。
 
-![Q0TkbkN04oqWYIx3777cObDIndd](/byoc/ja-JP/Q0TkbkN04oqWYIx3777cObDIndd.png)
+![Q0TkbkN04oqWYIx3777cObDIndd](/img/Q0TkbkN04oqWYIx3777cObDIndd.png)
 

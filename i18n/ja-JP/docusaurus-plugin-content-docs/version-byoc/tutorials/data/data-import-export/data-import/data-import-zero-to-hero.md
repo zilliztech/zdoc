@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

@@ -7,17 +7,17 @@ notebook: FALSE
 description: "このガイドでは、Zilliz Cloudクラスタを設定し、CRUD操作を数分で実行する方法について説明します。 | BYOC"
 type: origin
 token: LZxQwT4n7ikeackupqEchFhanub
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - quickstart
   - cloud
   - milvus
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 
@@ -35,7 +35,7 @@ Zilliz Cloudは、Bring-Your-Own-Cloud（BYOC）ソリューションを提供�
 
 次の図は、BYOCソリューションの使用を開始する手順を示しています。
 
-![TelDwEfighKqWLbgCHlcXWOvnvb](/byoc/ja-JP/TelDwEfighKqWLbgCHlcXWOvnvb.png)
+![TelDwEfighKqWLbgCHlcXWOvnvb](/img/TelDwEfighKqWLbgCHlcXWOvnvb.png)
 
 このクイックスタートを行う前に、次のことを確認してください:
 
@@ -63,13 +63,13 @@ Zilliz Cloudは、Bring-Your-Own-Cloud（BYOC）ソリューションを提供�
 
 Zilliz CloudはMilvus SDKとすべての[RESTful APIエンドポイント](/reference/restful)をサポートしています。RESTful APIを直接使用するか、以下のSDKのいずれかを選択して開始することができます。
 
-- [Python SDKをインストールします。](./install-sdks#pymilvus-python-sdkinstall-pymilvus-python-sdk)
+- [Python SDKをインストールします。](./install-sdks#install-pymilvus-python-sdk)
 
-- [Java SDKをインストールします。](./install-sdks#javasdkinstall-java-sdk)
+- [Java SDKをインストールします。](./install-sdks#install-java-sdk)
 
-- [Go SDKをインストールします。](./install-sdks#gosdkinstall-go-sdk)
+- [Go SDKをインストールします。](./install-sdks#install-go-sdk)
 
-- [Node. js SDKをインストールします。](./install-sdks#node-jssdkinstall-nodejs-sdk)
+- [Node. js SDKをインストールします。](./install-sdks#install-nodejs-sdk)
 
 ## クラスタの作成{#create-a-cluster}
 
@@ -105,9 +105,9 @@ curl --request POST \
 
 Zilliz Cloudコンソールで、クラウドリージョン、プロジェクトIDを確認できます。Zilliz Cloudコンソールで無料クラスタを作成する場合は、[クラスタ作成](./create-cluster)を参照してください。
 
-クラスタが実行されると、一度だけ[クラスタ資格情報](./cluster-credentials)を求められます。安全な場所にダウンロードして保存してください。後でクラスタに接続するために必要になります。
+クラスタが実行されると、一度だけクラスタ資格情報を求められます。安全な場所にダウンロードして保存してください。後でクラスタに接続するために必要になります。
 
-## 接続先Zilliz CloudクラスタMilvus{#connect-to-zilliz-cloud-cluster}
+## 接続先Zilliz Cloudクラスタ{#connect-to-zilliz-cloud-cluster}
 
 クラスタの資格情報を取得したら、それを使用してクラスタに接続できます。
 

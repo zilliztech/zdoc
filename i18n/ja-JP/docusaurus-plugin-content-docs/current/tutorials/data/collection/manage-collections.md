@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 
@@ -34,7 +34,7 @@ Zilliz Cloudでは、複数のコレクションを作成してデータを管�
 
 次のグラフは、8つの列と6つのエンティティを持つコレクションを示しています。
 
-![OU4cbQJr8ovxJgxmUGGc6837nVb](/img/ja-JP/OU4cbQJr8ovxJgxmUGGc6837nVb.png)
+![OU4cbQJr8ovxJgxmUGGc6837nVb](/img/OU4cbQJr8ovxJgxmUGGc6837nVb.png)
 
 ## スキーマとフィールド{#schema-and-fields}
 
@@ -50,7 +50,7 @@ Zilliz Cloudでは、複数のコレクションを作成してデータを管�
 
     ダイナミックフィールドの有効化と使用方法については、[ダイナミックフィールド](./enable-dynamic-field)を参照してください。
 
-## 主キーとAutoId{#autoid}
+## 主キーとAutoId{#primary-key-and-autoid}
 
 リレーショナルデータベースのプライマリフィールドと同様に、コレクションにはエンティティを他のものと区別するためのプライマリフィールドがあります。プライマリフィールドの各値はグローバルに一意であり、1つの特定のエンティティに対応します。
 
@@ -60,7 +60,7 @@ Zilliz Cloudでは、複数のコレクションを作成してデータを管�
 
 詳細については、[プライマリフィールドとAutoID](./primary-field-auto-id)を参照してください。
 
-## インデックス{#}
+## インデックス{#index}
 
 特定のフィールドにインデックスを作成すると、検索の効率が向上します。サービスが依存するすべてのフィールドにインデックスを作成することをお勧めします。その中でも、ベクトルフィールドのインデックスは必須です。
 
@@ -70,7 +70,7 @@ Milvusとは異なり、Zilliz Cloud上のコレクション内のベクトル�
 
 \</include>
 
-## エンティティ{#}
+## エンティティ{#entity}
 
 エンティティは、コレクション内の同じフィールドセットを共有するデータレコードです。同じ行のすべてのフィールドの値がエンティティを構成します。
 
@@ -78,7 +78,7 @@ Milvusとは異なり、Zilliz Cloud上のコレクション内のベクトル�
 
 詳細は、[スキーマの説明](./schema-explained)を参照してください。
 
-## ロードとリリース{#}
+## ロードとリリース{#load-and-release}
 
 コレクションをロードすることは、コレクション内の類似検索やクエリを実行するための前提条件です。コレクションをロードすると、Zilliz Cloudは、検索やクエリに迅速に応答するために、すべてのインデックスファイルと各フィールドの生データをメモリにロードします。
 
@@ -86,7 +86,7 @@ Milvusとは異なり、Zilliz Cloud上のコレクション内のベクトル�
 
 詳細については、[ロード&リリース](./load-release-collections)を参照してください。
 
-## 検索とクエリ{#}
+## 検索とクエリ{#search-and-query}
 
 インデックスを作成してコレクションをロードしたら、1つまたは複数のクエリベクトルを入力することで類似性検索を開始できます。たとえば、検索リクエストでクエリのベクトル表現を受け取った場合、Zilliz Cloudは指定されたメトリックタイプを使用して、クエリベクトルとターゲットコレクション内のベクトルの類似性を測定し、クエリに意味的に類似したものを返します。
 

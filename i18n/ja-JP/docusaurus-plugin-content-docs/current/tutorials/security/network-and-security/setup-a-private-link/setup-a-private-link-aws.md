@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 
@@ -53,7 +53,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloudは、プライベートエンドポイントを追加するための直感的なWebコンソールを提供しています。ターゲットプロジェクトに移動し、左側のナビゲーションで**ネットワーク>プライベートエンドポイント**をクリックします。**+プライベートエンドポイント**をクリックします。
 
-![setup_private_link_aws_01](/img/ja-JP/setup_private_link_aws_01.png)
+![setup_private_link_aws_01](/img/setup_private_link_aws_01.png)
 
 ### クラウドプロバイダーと地域を選択する{#select-a-cloud-provider-and-region}
 
@@ -61,7 +61,7 @@ AWSリージョンにデプロイされたクラスターのプライベート�
 
 利用可能なクラウドプロバイダーとリージョンの詳細については、「[クラウドプロバイダー&地域](./cloud-providers-and-regions)」を参照してください。
 
-![setup_private_link_window](/img/ja-JP/setup_private_link_window.png)
+![setup_private_link_window](/img/setup_private_link_window.png)
 
 ### エンドポイントの作成する{#create-an-endpoint}
 
@@ -73,17 +73,17 @@ UIコンソールまたはCLIを使用して、クラウドプロバイダコン
 
     1. AWSコンソールページに移動します。AWSコンソールで、クラウドリージョンがステップ1で選択したクラウドリージョンに対応しているかどうかを確認します。左ナビゲーションの**エンドポイント**をクリックします。**エンドポイントを作成**をクリックします。
 
-        ![setup_private_link_window_gcp](/img/ja-JP/setup_private_link_window_gcp.png)
+        ![setup_private_link_window_aws](/img/setup_private_link_window_aws.png)
 
     1. [**Create Endpoint**]ページで、[**Endpoint services that use NLB and GWLB**]をエンドポイントの**種類**として選択します。
 
-        ![create_endpoint_type_gcp](/img/ja-JP/create_endpoint_type_gcp.png)
+        ![create_endpoint_type_gcp](/img/create_endpoint_type_gcp.png)
 
     1. Zilliz Cloudコンソールに戻り、サービス名をコピーしてください。
 
     1. AWSコンソールに切り替えます。**サービス設定**で、Zilliz Cloudウェブコンソールからコピーした**サービス名**を**サービス名**フィールドに貼り付けます。その後、**サービスの検証**をクリックします。
 
-        ![enter_service_name_gcp](/img/ja-JP/enter_service_name_gcp.png)
+        ![enter_service_name_gcp](/img/enter_service_name_gcp.png)
 
     1. サービス名が確認されたら、ネットワーク設定、サブネット、セキュリティグループを完了し、[**作成**]をクリックします。
 
@@ -91,7 +91,7 @@ UIコンソールまたはCLIを使用して、クラウドプロバイダコン
 
 - **CLIより**
 
-    ![setup_private_link_aws_via_CLI](/img/ja-JP/setup_private_link_aws_via_CLI.png)
+    ![setup_private_link_aws_via_CLI](/img/setup_private_link_aws_via_CLI.png)
 
     1. [**Via CLI**]タブに切り替えます。
 
@@ -111,7 +111,7 @@ UIコンソールまたはCLIを使用して、クラウドプロバイダコン
 
         クラウドプロバイダーコンソールにリダイレクトされます。上部のナビゲーションで、AWS Cloud Shellを起動してください。Zilliz CloudからコピーしたCLIコマンドをCloud Shellで実行してください。
 
-        ![setup_private_link_aws_cloud_shell](/img/ja-JP/setup_private_link_aws_cloud_shell.png)
+        ![setup_private_link_aws_cloud_shell](/img/setup_private_link_aws_cloud_shell.png)
 
         以下のようなメッセージが返されます:
 
@@ -142,7 +142,7 @@ UIコンソールまたはCLIを使用して、クラウドプロバイダコン
 
 AWSコンソールから取得したエンドポイントIDをZilliz Cloudの**エンドポイントID**ボックスに貼り付けてください。**作成**をクリックしてください。
 
-![setup_private_link_aws_authorize_endpoint](/img/ja-JP/setup_private_link_aws_authorize_endpoint.png)
+![setup_private_link_aws_authorize_endpoint](/img/setup_private_link_aws_authorize_endpoint.png)
 
 ## プライベートリンクを取得する{#obtain-a-private-link}
 
@@ -158,7 +158,7 @@ Zilliz Cloudが割り当てたプライベートリンクを使用してクラ�
 
     Amazon Route 53はWebベースのDNSサービスです。DNSレコードを追加できるように、ホストされたDNSゾーンを作成してください。
 
-    ![X58sbuYieojxVoxepmlchj6On7d](/img/ja-JP/X58sbuYieojxVoxepmlchj6On7d.png)
+    ![X58sbuYieojxVoxepmlchj6On7d](/img/X58sbuYieojxVoxepmlchj6On7d.png)
 
     1. AWSアカウントにログインし、[ホストゾーン](https://us-east-1.console.aws.amazon.com/route53/v2/hostedzones)に移動します。
 
@@ -191,7 +191,7 @@ Zilliz Cloudが割り当てたプライベートリンクを使用してクラ�
 
     エイリアスレコードは、エイリアス名を真のまたは正規のドメイン名にマップするDNSレコードの一種です。Zilliz Cloudによって割り当てられたプライベートリンクをVPCエンドポイントのDNS名にマップするエイリアスレコードを作成します。その後、プライベートリンクを使用してクラスターにプライベートにアクセスできます。
 
-    ![PAgHbO5MboZu45xp92LcW0pkn5d](/img/ja-JP/PAgHbO5MboZu45xp92LcW0pkn5d.png)
+    ![PAgHbO5MboZu45xp92LcW0pkn5d](/img/PAgHbO5MboZu45xp92LcW0pkn5d.png)
 
     1. 作成したホストゾーンで、[**レコードを作成**]をクリックします。
 
@@ -228,7 +228,7 @@ Zilliz Cloudが割り当てたプライベートリンクを使用してクラ�
 
 </Admonition>
 
-![disable_public_endpoint](/img/ja-JP/disable_public_endpoint.png)
+![disable_public_endpoint](/img/disable_public_endpoint.png)
 
 ## トラブルシューティング{#troubleshooting}
 
@@ -240,7 +240,7 @@ Zilliz Cloudが割り当てたプライベートリンクを使用してクラ�
 
     DNSレコードが存在する場合は、次のようにプライベートリンクをpingできます。
 
-    ![IWHQb8XltoGWUexI5w6c4FTOnQc](/img/ja-JP/IWHQb8XltoGWUexI5w6c4FTOnQc.png)
+    ![IWHQb8XltoGWUexI5w6c4FTOnQc](/img/IWHQb8XltoGWUexI5w6c4FTOnQc.png)
 
     <Admonition type="info" icon="📘" title="ノート">
 
@@ -248,9 +248,9 @@ Zilliz Cloudが割り当てたプライベートリンクを使用してクラ�
 
     </Admonition>
 
-    以下が表示された場合は、[DNSレコードを設定](./setup-a-private-link-aws#dnsset-up-a-dns-record)する必要があります。
+    以下が表示された場合は、[DNSレコードを設定](./setup-a-private-link-aws#set-up-a-dns-record)する必要があります。
 
-    ![Akbqbv7Pko3wwZxtDXxcAW0Anie](/img/ja-JP/Akbqbv7Pko3wwZxtDXxcAW0Anie.png)
+    ![Akbqbv7Pko3wwZxtDXxcAW0Anie](/img/Akbqbv7Pko3wwZxtDXxcAW0Anie.png)
 
 - セキュリティグループ規則が存在しないか、無効です。
 
@@ -258,11 +258,11 @@ Zilliz Cloudが割り当てたプライベートリンクを使用してクラ�
 
     プライベートリンクの接続性をテストするには、`url`コマンドを使用できます。通常の場合、400レスポンスが返されます。
 
-    ![PgBnbxb7doEf7cx6IAPc6DYvnub](/img/ja-JP/PgBnbxb7doEf7cx6IAPc6DYvnub.png)
+    ![PgBnbxb7doEf7cx6IAPc6DYvnub](/img/PgBnbxb7doEf7cx6IAPc6DYvnub.png)
 
     次のスクリーンショットのように、`url`コマンドが応答せずにハングする場合は、「[Create a VPC endpoint](https://docs.amazonaws.cn/en_us/vpc/latest/privatelink/create-interface-endpoint.html)」の手順9を参照して、適切なセキュリティグループルールを設定する必要があります。
 
-    ![XLFIbDc4Iokhs2xxdL9cSco7nSf](/img/ja-JP/XLFIbDc4Iokhs2xxdL9cSco7nSf.png)
+    ![XLFIbDc4Iokhs2xxdL9cSco7nSf](/img/XLFIbDc4Iokhs2xxdL9cSco7nSf.png)
 
     <Admonition type="info" icon="📘" title="ノート">
 

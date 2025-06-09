@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - collection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 
