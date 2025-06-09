@@ -923,7 +923,7 @@ class larkDocWriter {
         const valid_langs = ['Python', 'JavaScript', 'Java', 'Go', 'Bash']
         let lang = code.style.language ? this.code_langs[code['style']['language']] : 'plaintext'
         let elements = (await Promise.all(code['elements'].map( async x => {
-            return await this.__text_run(x, code['elements'], true)
+            return (await this.__text_run(x, code['elements'], true)).replace(/&#36;/g, '$')
         }))).join('') 
 
         if (valid_langs.includes(lang)) {
