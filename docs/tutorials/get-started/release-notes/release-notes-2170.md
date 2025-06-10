@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 
@@ -43,7 +43,7 @@ This release is compatible with **Milvus v2.5.x**, and all features from Milvus 
 
     ![O3AebUiCjonYFSxLrbucDp5SnOb](/img/O3AebUiCjonYFSxLrbucDp5SnOb.png)
 
-    You can read External Migration Basics for guidance on general procedures for migrations from external sources, and learn about the requirements and common issues handling rules for specific external sources, including [Pinecone](./migrate-from-pinecone), [Qdrant](./migrate-from-qdrant), [Elasticsearch](./migrate-from-elasticsearch), [PostgreSQL](./migrate-from-pgvector), [Tencent Cloud](./migrate-from-tencent-cloud), and [OpenSearch](./migrate-from-opensearch).
+    You can read [External Migration Basics](./external-migration-basics) for guidance on general procedures for migrations from external sources, and learn about the requirements and common issues handling rules for specific external sources, including [Pinecone](./migrate-from-pinecone), [Qdrant](./migrate-from-qdrant), [Elasticsearch](./migrate-from-elasticsearch), [PostgreSQL](./migrate-from-pgvector), [Tencent Cloud](./migrate-from-tencent-cloud), and [OpenSearch](./migrate-from-opensearch).
 
 ## Policy-based alerts for granular and flexible monitoring{#policy-based-alerts-for-granular-and-flexible-monitoring}
 
@@ -63,7 +63,7 @@ For details on policy-based alerts, refer to [Manage Project Alerts](./manage-pr
 
 Zilliz Cloud follows [cluster-level defaults](./use-mmap#global-mmap-strategy) based on your CU type and plan. Since this release, you can manage **mmap settings** directly from the graphical user interface (GUI) at the collection and field levels. 
 
-- **Collection-Level Configuration:** Easily apply mmap settings on the raw data if needed.
+- **Collection-Level Configuration:** Easily apply mmap settings to raw data if needed.
 
 - **Field-Level Control:** Enable, disable, or remove mmap settings for raw and index data of a specific field.
 
