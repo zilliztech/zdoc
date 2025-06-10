@@ -388,3 +388,33 @@
     }
   }
 }
+
+.ikp-chat-button__button {
+  display: flex;
+  flex-direction: row-reverse;
+  color: #ffffff;
+  -webkit-text-fill-color: #ffffff;
+  background: linear-gradient(118deg, rgb(0, 239, 139) 0.51%, rgb(0, 68, 228) 36.98%, rgb(205, 63, 255) 72.73%) text;
+  border: 2px solid transparent;
+  position: relative;
+}
+
+.ikp-chat-button__button::after {
+  content: "";
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 12px;
+  background: linear-gradient(118deg, rgb(0, 239, 139) 0.51%, rgb(0, 68, 228) 36.98%, rgb(205, 63, 255) 72.73%);
+  z-index: -1;
+}
+
+.ikp-chat-button__text {
+  width: 100%;
+  color: transparent;
+  -webkit-text-fill-color: transparent;
+  background: linear-gradient(118deg, rgb(0, 239, 139) 0.51%, rgb(0, 68, 228) 36.98%, rgb(205, 63, 255) 72.73%) text;
+  border-radius: 12px;
+}
