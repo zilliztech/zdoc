@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 
@@ -29,7 +29,7 @@ This release delivers a more refined and intuitive user experience across multip
 
 ## Milvus Compatibility{#milvus-compatibility}
 
-This release is compatible with **Milvus v2.5.x**, and all features from Milvus v2.5.x are **Generally Available**.
+All Zilliz Cloud clusters created after this release are compatible with **Milvus v2.5.x**, and all features from Milvus v2.5.x are **Generally Available**.
 
 ## Refined user interface and best practice docs, improving the migration experience{#refined-user-interface-and-best-practice-docs-improving-the-migration-experience}
 
