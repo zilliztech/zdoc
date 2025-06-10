@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This page describes how to create and configure a cross-account service account for Zilliz Cloud to bootstrap your project data plane. This service account grants Zilliz Cloud the necessary permissions to manage VPC resources on your behalf. | BYOC"
 type: origin
 token: GeaswUCLVi04xQkLl4vc7cbdnVh
-sidebar_position: 3
+sidebar_position: 0
 keywords: 
   - zilliz
   - byoc
@@ -17,10 +17,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 
@@ -41,7 +41,7 @@ This page describes how to create and configure a cross-account service account 
 
 ## Procedures{#procedures}
 
-You can use the Google Cloud Platform (GCP) dashboard to create the EKS role. Alternatively, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on GCP. For details, refer to [Terraform Provider](./terraform-provider).
+You can use the Google Cloud Platform (GCP) dashboard to create the EKS role. Alternatively, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on GCP. For details, refer to Terraform Provider.
 
 ### Step 1: Create a service account{#step-1-create-a-service-account}
 
@@ -124,7 +124,7 @@ The steps for assigning roles to the cross-account service account are as follow
        <tr>
          <td><p><a href="./create-cross-account-sa#create-a-custom-role">Custom role created in </a><a href="./create-cross-account-sa#create-a-custom-role">the </a><a href="./create-cross-account-sa#create-a-custom-role">previous step</a></p></td>
          <td><p>Custom</p></td>
-         <td><p>N/A</p></td>
+         <td><p><code>resource.name.extract("projects/\{name}").startsWith("PROJECT_ID") &amp;&amp;resource.name.extract("zones/\{name}").startsWith("REGION") &amp;&amp;resource.name.extract("instanceGroupManagers/\{name}").startsWith("gke-CLUSTER_NAME")</code></p></td>
        </tr>
        <tr>
          <td><p>Kubernetes Engine Admin</p></td>
@@ -140,11 +140,69 @@ The steps for assigning roles to the cross-account service account are as follow
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>You should replace <code>YOUR_BUCKET_NAME</code> with the name of the bucket created in the previous step.</p>
+    <p>You need to replace the three placeholders in the above expression with actual values:</p>
+    <ul>
+    <li><code>PROJECT_ID</code></li>
+    </ul>
+    <p>This should be your GCP project ID.</p>
+    <ul>
+    <li><code>REGION</code></li>
+    </ul>
+    <p>This should be the cloud region of your BYOC project.</p>
+    <ul>
+    <li><code>CLUSTER_NAME</code></li>
+    </ul>
+    <p>This should be the name of the GKE cluster that Zilliz Cloud will create on your behalf.</p>
+    <ul>
+    <li><code>YOUR_BUCKET_NAME</code> </li>
+    </ul>
+    <p>This should be the name of the bucket created in the previous step.</p>
 
     </Admonition>
 
 1. Click **Save**.
+
+#### Grant access to other service accounts{#grant-access-to-other-service-accounts}
+
+You will grant access to the following two service accounts to the cross-account service account created in the previous step.
+
+<table>
+   <tr>
+     <th><p>Service account</p></th>
+     <th><p>Description</p></th>
+   </tr>
+   <tr>
+     <td><p><code>your-org-gke-node-sa</code></p></td>
+     <td><p>This service account is created in <a href="null">this step</a>.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>PROJECT_NUMBER-compute@developer.gserviceaccount.com</code></p></td>
+     <td><p>This service account is automatically created when you enable the Compute Engine API.</p></td>
+   </tr>
+</table>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<ul>
+<li><p>You need to replace <code>your-org-gke-node-sa</code> with the actual name of the GKE service account created in Create GKE Service Account.</p></li>
+<li><p>You need to replace <code>PROJECT_NUMBER</code> with your own GCP project number.</p></li>
+</ul>
+
+</Admonition>
+
+<Supademo id="cmbq9hdfjbatwsn1rv37dqcnr" title=""  />
+
+Follow the steps below to grant the cross-account service account access to the above-mentioned service accounts.
+
+1. On the GCP console, find and click **Service Account**.
+
+1. Find and click one of the above-mentioned service accounts to view its details.
+
+1. Switch to the **Principals with access** tab and click **Grant access**.
+
+1. Enter the cross-account service account created in the previous step in **Add principals** > **New principals**.
+
+1. Select **Service Account User** in **Assign roles** > **Role**.
 
 #### Impersonate Zilliz Cloud's service account{#impersonate-zilliz-clouds-service-account}
 
@@ -164,9 +222,9 @@ The steps for impersonating the service account that Zilliz Cloud provides are a
 
 1. Switch to the **Principals with access** tab and click **Grant access**.
 
-1. Paste the service account copied from the Zilliz Cloud console.
+1. Paste the service account copied from the Zilliz Cloud console in **Add principals** > **New principals**.
 
-1. Select **Service Account Token Creator** in **Select a role**.
+1. Select **Service Account Token Creator** in **Assign roles** > **Role**.
 
 1. Click **Save**.
 

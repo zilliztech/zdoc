@@ -1279,6 +1279,7 @@ class larkDocWriter {
                     let cell_text = this.__filter_content(cell_texts[cell_idx], this.targets).trim()
                         .replace(/^\n/, '')
                         .replace(/<br\/>/g, '\n\n')
+                        .replace(/\{/g, '\\{')
 
                     cell_text = converter.makeHtml(cell_text).replace(/\n/g, '');
                     if (i === 0) {
