@@ -94,7 +94,7 @@ export const inkeepSettings ={
       "Latest updates of Zilliz Cloud",
       "Change payment method"
     ],
-    aiAssistantAvatar: "https://assets.zilliz.com/zilliz_star_b6717656dc.svg",
+    aiAssistantAvatar: "https://assets.zilliz.com/cloud_ai_assistance_avatar_d9eb0d7763.svg",
     placeholder: "How can I get started?",
     getTools: () => [
       {
