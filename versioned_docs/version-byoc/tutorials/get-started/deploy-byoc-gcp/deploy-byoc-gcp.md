@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This page describes how to manually create a fully managed Bring-Your-Own-Cloud (BYOC) data plane in your Google Cloud Platform (GCP) Virtual Private Cloud (VPC) using the Zilliz Cloud console and custom GCP configurations. | BYOC"
 type: origin
 token: KmYgwHNOFiPQ9sk4bSDcMuIHnjC
-sidebar_position: 0
+sidebar_position: 4
 keywords: 
   - zilliz
   - byoc
