@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This page describes the procedure for creating and configuring the root storage for your Bring-Your-Own-Cloud (BYOC) project with proper permissions. | BYOC"
 type: origin
 token: RymGwWsFMi3VV1kXGmHckc2WnKc
-sidebar_position: 0
+sidebar_position: 1
 keywords: 
   - zilliz
   - byoc

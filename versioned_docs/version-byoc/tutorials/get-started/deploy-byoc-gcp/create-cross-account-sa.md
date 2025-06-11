@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This page describes how to create and configure a cross-account service account for Zilliz Cloud to bootstrap your project data plane. This service account grants Zilliz Cloud the necessary permissions to manage VPC resources on your behalf. | BYOC"
 type: origin
 token: GeaswUCLVi04xQkLl4vc7cbdnVh
-sidebar_position: 0
+sidebar_position: 3
 keywords: 
   - zilliz
   - byoc

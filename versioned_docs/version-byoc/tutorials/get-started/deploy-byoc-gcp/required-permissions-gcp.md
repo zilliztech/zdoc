@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This page lists the IAM policies required during the deployment of Zilliz BYOC data plane on your VPC network. | BYOC"
 type: origin
 token: ERIwwzvfuiLYIik9R4Ec0gCrnLb
-sidebar_position: 0
+sidebar_position: 5
 keywords: 
   - zilliz
   - byoc
