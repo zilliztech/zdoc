@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This page lists the IAM policies required during the deployment of Zilliz BYOC data plane on your VPC network. | BYOC"
 type: origin
 token: ERIwwzvfuiLYIik9R4Ec0gCrnLb
-sidebar_position: 5
+sidebar_position: 0
 keywords: 
   - zilliz
   - byoc
@@ -17,10 +17,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 
@@ -82,7 +82,7 @@ The following table lists the roles that should be assigned to the GKE service a
 
 ## Cross-account service account{#cross-account-service-account}
 
-You should create a cross-account service account so that Zilliz Cloud can assume this service account to manage network resources.
+You should create a cross-account service account so Zilliz Cloud can assume this service account to manage network resources.
 
 The following table lists the roles that should be assigned to the cross-account service account.
 
@@ -103,9 +103,14 @@ The following table lists the roles that should be assigned to the cross-account
      <td><p>--</p></td>
    </tr>
    <tr>
-     <td><p><a href="./create-cross-account-sa#create-a-custom-role">Custom Role</a></p></td>
+     <td><p><a href="./create-cross-account-sa#create-an-instance-group-manager-custom-role">Instance Group Manager Custom Role</a></p></td>
      <td><p>Binds the following permissions:</p><ul><li><p><a href="https://cloud.google.com/compute/docs/reference/rest/v1/instanceGroupManagers/get">compute.instanceGroupManagers.get</a></p></li><li><p><a href="https://cloud.google.com/compute/docs/reference/rest/v1/instanceGroupManagers/update">compute.instanceGroupManagers.update</a></p></li></ul></td>
      <td><p>Name of the GKE cluster to create</p></td>
+   </tr>
+   <tr>
+     <td><p><a href="./create-cross-account-sa#create-an-iam-custom-role">IAM Custom Role</a></p></td>
+     <td><p>Binds the following permissions:</p><ul><li><p><a href="https://cloud.google.com/iam/docs/reference/rest/v1/projects.serviceAccounts/getIamPolicy">iam.serviceAccounts.getIamPolicy</a></p></li><li><p><a href="https://cloud.google.com/iam/docs/reference/rest/v1/projects.serviceAccounts/setIamPolicy">iam.serviceAccounts.setIamPolicy</a></p></li></ul></td>
+     <td></td>
    </tr>
    <tr>
      <td><p><a href="https://cloud.google.com/iam/docs/roles-permissions/iam#iam.serviceAccountUser">Service Account User</a></p></td>

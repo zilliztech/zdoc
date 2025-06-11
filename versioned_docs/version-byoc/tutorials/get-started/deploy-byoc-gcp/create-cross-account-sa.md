@@ -17,10 +17,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 
@@ -71,13 +71,13 @@ The steps for creating a service account are as follows:
 
 In this step, you will assign permissions to the service account created above by linking several roles to the service account. 
 
-#### Create a custom role{#create-a-custom-role}
+#### Create an instance group manager custom role{#create-an-instance-group-manager-custom-role}
 
-You will create a custom role and assign the role to the service account created above so that the service account has the minimum required permissions to manage GKE nodes.
+You will create an instance group manager custom role and assign the custom role to the service account created above so that the service account has the minimum required permissions to manage GKE nodes.
 
 <Supademo id="cmbgb65fo4klnsn1rfs4be7qd" title=""  />
 
-The steps for creating a custom role are as follows:
+The steps for creating the instance group manager custom role are as follows:
 
 1. On the GCP console, find and click **IAM & Admin**.
 
@@ -97,6 +97,32 @@ The steps for creating a custom role are as follows:
 
 1. Click **Create**.
 
+#### Create an IAM custom role{#create-an-iam-custom-role}
+
+You will create an IAM custom role and assign the custom role to the service account created above so that the service account has the minimum required permissions to manage IAM policies.
+
+<Supademo id="cmbri7b73cdexsn1r99xrvvfd" title=""  />
+
+The steps for creating a custom role are as follows:
+
+1. On the GCP console, find and click **IAM & Admin**.
+
+1. Choose **Roles** from the left navigation pane.
+
+1. Click **Create role**.
+
+1. Set a title and description for the custom role to create.
+
+1. Change **Role launch stage** from **Alpha** to **General Availability**.
+
+1. Click **Add permissions**. The permissions to add in this step are as follows:
+
+    - **iam.serviceAccounts.getIamPolicy**
+
+    - **iam.serviceAccounts.setIamPolicy**
+
+1. Click **Create**.
+
 #### Assign roles to the service account{#assign-roles-to-the-service-account}
 
 You will assign the custom role created above with several GCP-managed roles to the cross-account service account.
@@ -111,9 +137,9 @@ The steps for assigning roles to the cross-account service account are as follow
 
 1. Select the cross-account service account created in the previous step in the **Grant access** pane that moves inward.
 
-1. Add the custom role created in the previous step and two GCP-managed roles to the service account.
+1. Add the custom roles created in the previous steps and several GCP-managed roles to the service account.
 
-    The following table lists the roles to be granted to the service account.
+    The following table lists the roles to be assigned to the service account.
 
     <table>
        <tr>
@@ -122,9 +148,14 @@ The steps for assigning roles to the cross-account service account are as follow
          <th><p>Condition</p></th>
        </tr>
        <tr>
-         <td><p><a href="./create-cross-account-sa#create-a-custom-role">Custom role created in </a><a href="./create-cross-account-sa#create-a-custom-role">the </a><a href="./create-cross-account-sa#create-a-custom-role">previous step</a></p></td>
+         <td><p><a href="./create-cross-account-sa#create-an-instance-group-manager-custom-role">Instance group manager custom role</a></p></td>
          <td><p>Custom</p></td>
          <td><p><code>resource.name.extract("projects/\{name}").startsWith("PROJECT_ID") &amp;&amp;resource.name.extract("zones/\{name}").startsWith("REGION") &amp;&amp;resource.name.extract("instanceGroupManagers/\{name}").startsWith("gke-CLUSTER_NAME")</code></p></td>
+       </tr>
+       <tr>
+         <td><p><a href="./create-cross-account-sa#create-an-iam-custom-role">IAM custom role</a></p></td>
+         <td><p>Custom</p></td>
+         <td><p><code>api.getAttribute("iam.googleapis.com/modifiedGrantsByRole", []).hasOnly(["roles/iam.workloadIdentityUser"])</code></p></td>
        </tr>
        <tr>
          <td><p>Kubernetes Engine Admin</p></td>
@@ -164,39 +195,39 @@ The steps for assigning roles to the cross-account service account are as follow
 
 #### Grant access to other service accounts{#grant-access-to-other-service-accounts}
 
-You will grant access to the following two service accounts to the cross-account service account created in the previous step.
-
-<table>
-   <tr>
-     <th><p>Service account</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td><p><code>your-org-gke-node-sa</code></p></td>
-     <td><p>This service account is created in <a href="null">this step</a>.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>PROJECT_NUMBER-compute@developer.gserviceaccount.com</code></p></td>
-     <td><p>This service account is automatically created when you enable the Compute Engine API.</p></td>
-   </tr>
-</table>
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<ul>
-<li><p>You need to replace <code>your-org-gke-node-sa</code> with the actual name of the GKE service account created in Create GKE Service Account.</p></li>
-<li><p>You need to replace <code>PROJECT_NUMBER</code> with your own GCP project number.</p></li>
-</ul>
-
-</Admonition>
+You will grant the cross-account service account created in the previous step access to several other service accounts.
 
 <Supademo id="cmbq9hdfjbatwsn1rv37dqcnr" title=""  />
 
-Follow the steps below to grant the cross-account service account access to the above-mentioned service accounts.
+Follow the steps below to grant the cross-account service account access to these service accounts.
 
 1. On the GCP console, find and click **Service Account**.
 
 1. Find and click one of the above-mentioned service accounts to view its details.
+
+    <table>
+       <tr>
+         <th></th>
+         <th><p>Description</p></th>
+       </tr>
+       <tr>
+         <td><p><code>your-org-gke-node-sa</code></p></td>
+         <td><p>This service account is created in <a href="null">this step</a>.</p></td>
+       </tr>
+       <tr>
+         <td><p><code>PROJECT_NUMBER-compute@developer.gserviceaccount.com</code></p></td>
+         <td><p>This service account is automatically created when you enable the Compute Engine API.</p></td>
+       </tr>
+    </table>
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <ul>
+    <li><p>You need to replace <code>your-org-gke-node-sa</code> with the actual name of the GKE service account created in Create GKE Service Account.</p></li>
+    <li><p>You need to replace <code>PROJECT_NUMBER</code> with your own GCP project number.</p></li>
+    </ul>
+
+    </Admonition>
 
 1. Switch to the **Principals with access** tab and click **Grant access**.
 

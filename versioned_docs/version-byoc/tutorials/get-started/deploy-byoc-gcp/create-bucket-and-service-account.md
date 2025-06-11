@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This page describes the procedure for creating and configuring the root storage for your Bring-Your-Own-Cloud (BYOC) project with proper permissions. | BYOC"
 type: origin
 token: RymGwWsFMi3VV1kXGmHckc2WnKc
-sidebar_position: 1
+sidebar_position: 0
 keywords: 
   - zilliz
   - byoc
@@ -17,10 +17,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 
@@ -49,7 +49,7 @@ The bucket you specify during the project deployment will be used as the root st
 
 ## Procedure{#procedure}
 
-You can use the GCP dashboard to create the bucket and service account. Alternatively, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on GCP. For details, refer to [Terraform Provider](./terraform-provider).
+You can use the GCP dashboard to create the bucket and service account. Alternatively, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on GCP. For details, refer to Terraform Provider.
 
 ### Step 1: Create a Cloud Storage bucket{#step-1-create-a-cloud-storage-bucket}
 

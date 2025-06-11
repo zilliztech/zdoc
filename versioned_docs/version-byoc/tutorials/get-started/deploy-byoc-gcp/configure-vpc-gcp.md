@@ -17,10 +17,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 
@@ -88,7 +88,7 @@ The PSC endpoint is optional and will be used when you configure private endpoin
 
 ## Procedure{#procedure}
 
-On the GCP dashboard, you can create the VPC and related resources enumerated in [VPC requirements](./configure-vpc-gcp#vpc-requirements). Alternatively, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on GCP. For details, refer to [Terraform Provider](./terraform-provider).
+On the GCP dashboard, you can create the VPC and related resources enumerated in [VPC requirements](./configure-vpc-gcp#vpc-requirements). Alternatively, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on GCP. For details, refer to Terraform Provider.
 
 ### Step 1: Create a VPC network and add the primary subnet{#step-1-create-a-vpc-network-and-add-the-primary-subnet}
 

@@ -17,10 +17,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 
@@ -41,7 +41,7 @@ This page describes how to create and configure a service account for Zilliz Clo
 
 ## Procedure{#procedure}
 
-You can use the Google Cloud Platform (GCP) dashboard to create the EKS role. Alternatively, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on GCP. For details, refer to [Terraform Provider](./terraform-provider).
+You can use the Google Cloud Platform (GCP) dashboard to create the EKS role. Alternatively, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on GCP. For details, refer to Terraform Provider.
 
 ### Step 1: Create a service account{#step-1-create-a-service-account}
 
