@@ -36184,24 +36184,10 @@
 														"COLLECTIONS_COUNT",
 														"ENTITIES_COUNT"
 													]
-												},
-												"stat": {
-													"type": "string",
-													"enum": [
-														"AVG",
-														"P99"
-													],
-													"description": "The statistical method to apply to the metric. Valid values include **AVG** (average) and **P99** (99th percentile) for latency metrics. **AVG** is available for all other metrics.",
-													"x-i18n": {
-														"zh-CN": {
-															"description": "当前指标使用的统计方法。对于延迟指标，可选值为 **AVG**（平均值）和 **P99**（99百分位）。对于其他指标，**AVG** 均可使用。"
-														}
-													}
 												}
 											},
 											"required": [
-												"metricName",
-												"stat"
+												"metricName"
 											],
 											"description": "A **MetricQuery** object.",
 											"x-i18n": {
@@ -36229,8 +36215,7 @@
 								"granularity": "PT6H",
 								"metricQueries": [
 									{
-										"name": "CU_COMPUTATION",
-										"stat": "AVG"
+										"name": "CU_COMPUTATION"
 									}
 								]
 							}
