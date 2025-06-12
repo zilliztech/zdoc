@@ -7,17 +7,17 @@ notebook: FALSE
 description: "This guide demonstrates how to use Zilliz Cloud clusters to perform operations related to high-performance semantic search. | BYOC"
 type: origin
 token: GQN0wDCrni4n36kyeVQcF41Lned
-sidebar_position: 6
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - quickstart
   - cloud
   - milvus
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 
@@ -47,7 +47,7 @@ Before going through this quick start, ensure that:
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Currently, Zilliz BYOC is in <strong>Private Preview</strong>. To participate in the trial, contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+    <p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud sales</a>.</p>
 
     </Admonition>
 
