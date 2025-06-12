@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This guide demonstrates how to use Zilliz Cloud clusters to perform operations related to high-performance semantic search. | BYOC"
 type: origin
 token: GQN0wDCrni4n36kyeVQcF41Lned
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
