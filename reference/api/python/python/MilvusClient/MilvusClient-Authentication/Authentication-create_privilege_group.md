@@ -10,19 +10,19 @@ type: docx
 token: HNJqdocBjo2zm9xcIVdchRvcnab
 sidebar_position: 2
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - create_privilege_group()
   - pymilvus25
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: pythonSidebar
 
 ---

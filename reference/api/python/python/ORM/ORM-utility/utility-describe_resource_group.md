@@ -10,19 +10,19 @@ type: docx
 token: HScCdxLNJotPCcxb4AZcxsNJn9c
 sidebar_position: 7
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describe_resource_group()
   - pymilvus25
+  - vector search algorithms
+  - Question answering system
   - llm-as-a-judge
   - hybrid vector search
-  - Video deduplication
-  - Video similarity search
 displayed_sidebar: pythonSidebar
 
 ---

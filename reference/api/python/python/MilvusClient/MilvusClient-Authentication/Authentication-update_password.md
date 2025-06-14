@@ -10,19 +10,19 @@ type: docx
 token: WGDod7Qehou4GWx4Co2cJ34VnKb
 sidebar_position: 20
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - update_password()
   - pymilvus25
+  - Pinecone vs Milvus
   - Chroma vs Milvus
   - Annoy vector search
   - milvus
-  - Zilliz
 displayed_sidebar: pythonSidebar
 
 ---

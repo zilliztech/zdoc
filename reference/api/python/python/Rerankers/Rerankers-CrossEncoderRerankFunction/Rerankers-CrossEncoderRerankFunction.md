@@ -10,19 +10,19 @@ type: docx
 token: HVGNdMYOvojQoXxvDmEcnHYanMh
 sidebar_position: 1
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - CrossEncoderRerankFunction
   - pymilvus25
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: pythonSidebar
 
 ---
@@ -56,7 +56,7 @@ CrossEncoderRerankFunction(
 
 - **model_name** (*string*)
 
-    The name of the model to use. You can specify any of the available Cross-Encoder model names, for example, `cross-encoder/ms-marco-TinyBERT-L-2-v2`, `cross-encoder/ms-marco-MiniLM-L-2-v2`, etc. If you leave this parameter unspecified, an empty string will be used. For a list of available models, refer to [Pretrained Cross-Encoders](https://www.sbert.net/docs/pretrained_cross-encoders.html#).
+    The name of the model to use. You can specify any of the available Cross-Encoder model names, for example, `cross-encoder/ms-marco-TinyBERT-L-2-v2`, `cross-encoder/ms-marco-MiniLM-L-2-v2`, etc. If you leave this parameter unspecified, an empty string will be used. For a list of available models, refer to [Pretrained Cross-Encoders](https://www.sbert.net/docs/pretrained_cross-encoders.html).
 
 - **device** (*string*)
 

@@ -73,9 +73,9 @@ The following operations are related to `construct_from_dict()`:
 
 - [DataType](../../MilvusClient/Collections/DataType.md)
 
-- [add_field()](add_field.md)
+- [add_field()](../../MilvusClient/CollectionSchema/add_field_1.md)
 
-- [to_dict()](to_dict.md)
+- [to_dict()](../../MilvusClient/CollectionSchema/to_dict_1.md)
 
-- [verify()](verify.md)
+- [verify()](../../MilvusClient/CollectionSchema/verify_1.md)
 

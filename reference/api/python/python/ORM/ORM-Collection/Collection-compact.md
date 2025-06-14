@@ -10,19 +10,19 @@ type: docx
 token: BHx6dnSmPoaqHAxKCvncbuk9nWb
 sidebar_position: 2
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - compact()
   - pymilvus25
-  - what is semantic search
   - Embedding model
   - image similarity search
   - Context Window
+  - Natural language search
 displayed_sidebar: pythonSidebar
 
 ---

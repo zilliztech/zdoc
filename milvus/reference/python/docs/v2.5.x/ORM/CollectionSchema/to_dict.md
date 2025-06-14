@@ -67,9 +67,9 @@ The following operations are related to `to_dict()`:
 
 - [DataType](../../MilvusClient/Collections/DataType.md)
 
-- [add_field()](add_field.md)
+- [add_field()](../../MilvusClient/CollectionSchema/add_field_1.md)
 
-- [construct_from_dict()](construct_from_dict.md)
+- [construct_from_dict()](../../MilvusClient/CollectionSchema/construct_from_dict_1.md)
 
-- [verify()](verify.md)
+- [verify()](../../MilvusClient/CollectionSchema/verify_1.md)
 

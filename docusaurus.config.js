@@ -520,6 +520,24 @@ const config = {
           }
         }
       },
+      pymilvus26: {
+        root: 'IaWgf4osAlpdwqdVIclct97wnCg',
+        base: 'J3Qzbv7AWazzivsv7vqcqlGCnFc',
+        sourceType: 'drive',
+        displayedSidebar: 'pythonSidebar',
+        docSourceDir: './plugins/lark-docs/meta/sources/python/v2.6.x',
+        fallbackSourceDir: './plugins/lark-docs/meta/sources/python/v2.5.x',
+        targets: {
+          milvus: {
+            outputDir: 'milvus/reference/python/docs/v2.6.x',
+            imageDir: 'milvus/reference/python/images'
+          },
+          zilliz: {
+            outputDir: 'reference/api/python/python',
+            imageDir: 'static/img',
+          }
+        }
+      },
       javaV225: {
         root: 'LJ6MfN5wzlHjz8dB642cjUh8nqq',
         base: 'Hsq1bRcqraeQW0sGFJbcI3YIn3d',

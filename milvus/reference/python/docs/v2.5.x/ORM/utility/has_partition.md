@@ -18,14 +18,14 @@ has_partition(
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
-The name of an existing collection.
+    The name of an existing collection.
 
     Setting this to a non-existing collection results in a **MilvusException**.
 
 - **partition_name** (*str*) -
 
     **[REQUIRED]**
-The name of a partition.
+    The name of a partition.
 
 - **using** (*str*) - 
 

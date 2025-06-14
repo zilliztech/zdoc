@@ -10,19 +10,19 @@ type: docx
 token: KsmadNcXRoElO2xJi5HcJO57nwb
 sidebar_position: 18
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - has_partition()
   - pymilvus25
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: pythonSidebar
 
 ---
@@ -50,14 +50,14 @@ has_partition(
 - **collection_name** (*str*) -
 
     **[REQUIRED]**
-The name of an existing collection.
+    The name of an existing collection.
 
     Setting this to a non-existing collection results in a **MilvusException**.
 
 - **partition_name** (*str*) -
 
     **[REQUIRED]**
-The name of a partition.
+    The name of a partition.
 
 - **using** (*str*) - 
 

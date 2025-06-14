@@ -10,19 +10,19 @@ type: docx
 token: BJysdlj1MoksHZxNRxicHn9fnSh
 sidebar_position: 33
 keywords: 
+  - Zilliz vector database
+  - Zilliz database
   - Unstructured Data
   - vector database
-  - IVF
-  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - load_state()
   - pymilvus25
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 displayed_sidebar: pythonSidebar
 
 ---

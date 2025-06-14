@@ -10,19 +10,19 @@ type: docx
 token: DthMdlg8Lozw89xNz4TcBv1LnOe
 sidebar_position: 3
 keywords: 
+  - Serverless vector database
+  - milvus open source
   - how does milvus work
   - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - create_alias()
   - pymilvus25
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 displayed_sidebar: pythonSidebar
 
 ---

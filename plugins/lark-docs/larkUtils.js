@@ -191,7 +191,7 @@ class larkUtils {
             matches.forEach(match => {
                 const label = match[1]
                 const path = match[2]
-                var link = path.startsWith('http') ? path : this.__convert_link(file, label, path, outputDir)
+                var link = path.startsWith('http') ? path : this.__convert_link(file, path, outputDir)
                 content = content.replace(match[0], `[${label}](${link})`)
             })
 
@@ -233,19 +233,15 @@ class larkUtils {
         var sourceRoot = sources.find(source => !source.type)
         var fallbackRoot = fallbackSources.find(fallback => !fallback.type)
 
-        if (sourceRoot && fallbackRoot) {
+        if (sourceRoot.children.length > 0 && fallbackRoot.children.length > 0) {
+
             fallbackRoot.children.forEach(child => {
                 var pair = sourceRoot.children.find(s => s.name === child.name)
 
                 if (!pair) {
                     child.parent_token = sourceRoot.token
                     sourceRoot.children.push(child)
-
-                    fallbackSources.forEach(fb => {
-                        if (fb.token === child.token) {
-                            fb.parent_token = sourceRoot.token
-                        }
-                    })                    
+                    fallbackSources.find(fb => fb.token === child.token).parent_token = sourceRoot.token
                 }
             })
 
@@ -276,12 +272,7 @@ class larkUtils {
                             child.token = pair.token
                         } else {
                             child.parent_token = source.token
-
-                            fallbackSources.forEach(fb => {
-                                if (fb.token === child.token) {
-                                    fb.parent_token = source.token
-                                }
-                            })
+                            fallbackSources.find(fb => fb.token === child.token).parent_token = source.token
                         }
                     })
 
@@ -320,7 +311,7 @@ class larkUtils {
         })
     }
 
-    __convert_link(file, label, path, outputDir) {
+    __convert_link(file, path, outputDir) {
         const folders = fs.readdirSync(outputDir, {recursive: true}).filter(path => fs.statSync(`${outputDir}/${path}`).isDirectory())
 
         var parent = path.slice(2, path.lastIndexOf('-'))
@@ -335,8 +326,11 @@ class larkUtils {
 
             if (fs.existsSync(target) && fs.statSync(target).isDirectory()) {
                 target = `${target}/${path.slice(2).replace(`#${section}`, '')}.md`
-            } else if (fs.statSync(`${target}.md`)) {
-                target = `${target}.md`
+            // } else if (fs.statSync(`${target}.md`).isFile()) {
+            //     target = `${target}.md`
+            } else if (fs.readdirSync(`${outputDir}/${folder}`).find(file => file.startsWith(path.slice(2).replace(`#${section}`, '')))) {
+                target = fs.readdirSync(`${outputDir}/${folder}`).find(file => file.startsWith(path.slice(2).replace(`#${section}`, '')))
+                target = `${outputDir}/${folder}/${target}`
             } else {
                 throw new Error(`Cannot find ${path} in ${outputDir}`)
             }
