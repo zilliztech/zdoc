@@ -231,7 +231,8 @@ class larkUtils {
         })
 
         var sourceRoot = sources.find(source => !source.type)
-        var fallbackRoot = fallbackSources.find(fallback => !fallback.type)
+        // find the fallback root by name
+        var fallbackRoot = fallbackSources.find(fallback => !fallback.type && fallback.name === fallbackSourceDir.split('/').slice(-1)[0])
 
         if (sourceRoot.children.length > 0 && fallbackRoot.children.length > 0) {
 
