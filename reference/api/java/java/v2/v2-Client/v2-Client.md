@@ -9,10 +9,10 @@ token: YEBjfrOXWl8s00dDTvdcMiYDn0d
 sidebar_position: 6
 sidebar_label: "Client"
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud

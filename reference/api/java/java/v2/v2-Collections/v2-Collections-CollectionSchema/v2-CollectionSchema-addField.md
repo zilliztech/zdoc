@@ -10,19 +10,19 @@ type: docx
 token: HWEDdIvrxo3gskxlyKkcDdzVncd
 sidebar_position: 1
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - addField()
   - javaV225
+  - knn
   - Image Search
   - LLMs
   - Machine Learning
-  - RAG
 displayed_sidebar: javaSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: MApVdDl17oU8OixzbMPcgceKnOh
 sidebar_position: 14
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - list_roles()
   - pymilvus25
+  - nearest neighbor search
   - Agentic RAG
   - rag llm architecture
   - private llms
-  - nn search
 displayed_sidebar: pythonSidebar
 
 ---

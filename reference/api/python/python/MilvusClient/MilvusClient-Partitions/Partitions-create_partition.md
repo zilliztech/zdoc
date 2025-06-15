@@ -10,19 +10,19 @@ type: docx
 token: I6hvdlYUuoUaw3xWqSnce4Fin9g
 sidebar_position: 1
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - create_partition()
   - pymilvus25
+  - Question answering system
   - llm-as-a-judge
   - hybrid vector search
   - Video deduplication
-  - Video similarity search
 displayed_sidebar: pythonSidebar
 
 ---

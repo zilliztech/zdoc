@@ -10,19 +10,19 @@ type: docx
 token: CIYQd12MNoiC4QxW97mcQLWYnYd
 sidebar_position: 7
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - dropPrivilegeGroup()
   - javaV225
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: javaSidebar
 
 ---

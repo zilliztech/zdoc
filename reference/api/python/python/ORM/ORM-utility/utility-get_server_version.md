@@ -10,19 +10,19 @@ type: docx
 token: PoPkdkzSnofUihxzKLqcw7hYnrf
 sidebar_position: 16
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - get_server_version()
   - pymilvus25
+  - AI Hallucination
   - AI Agent
   - semantic search
   - Anomaly Detection
-  - sentence transformers
 displayed_sidebar: pythonSidebar
 
 ---

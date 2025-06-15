@@ -10,19 +10,19 @@ type: docx
 token: WtyZdeFKMoSv5exaYRxcPLCSndg
 sidebar_position: 9
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - drop_user()
   - pymilvus25
-  - how does milvus work
   - Zilliz vector database
   - Zilliz database
   - Unstructured Data
+  - vector database
 displayed_sidebar: pythonSidebar
 
 ---

@@ -75,7 +75,7 @@ func NewCreateCollectionOption(name string, collectionSchema *entity.Schema) *cr
    </tr>
    <tr>
      <td><p><code>collectionSchema</code></p></td>
-     <td><p>Schema of the collection. This parameter applies when creating a collection with a custom schema.</p></td>
+     <td><p>Schema of the collection.</p><p>This parameter applies when creating a collection with a custom schema.</p></td>
      <td><p><code>*entity.Schema</code></p></td>
    </tr>
 </table>
@@ -186,7 +186,7 @@ func (opt *createCollectionOption) WithDynamicSchema(dynamicSchema bool) *create
    </tr>
    <tr>
      <td><p><code>enableDynamicSchema</code></p></td>
-     <td><p>Whether to enable the dynamic field.  If set to <code>true</code>, non-schema-defined fields and their values in incoming entities will be saved as key-value pairs in a reserved field of the JSON type named <code>$meta</code>.  For details, refer to <a href="/docs/enable-dynamic-field">Dynamic Field</a>.</p></td>
+     <td><p>Whether to enable the dynamic field. </p><p>If set to <code>true</code>, non-schema-defined fields and their values in incoming entities will be saved as key-value pairs in a reserved field of the JSON type named <code>$meta</code>. </p><p>For details, refer to <a href="/docs/enable-dynamic-field">Dynamic Field</a>.</p></td>
      <td><p><code>bool</code></p></td>
    </tr>
 </table>
@@ -207,12 +207,12 @@ func (opt *createCollectionOption) WithVarcharPK(varcharPK bool, maxLen int) *cr
    </tr>
    <tr>
      <td><p><code>varcharPK</code></p></td>
-     <td><p>Whether to use a primary key of the VarChar type. This parameter applies when creating a collection in a quick-setup manner.</p></td>
+     <td><p>Whether to use a primary key of the VarChar type.</p><p>This parameter applies when creating a collection in a quick-setup manner.</p></td>
      <td><p><code>bool</code></p></td>
    </tr>
    <tr>
      <td><p><code>maxLen</code></p></td>
-     <td><p>Maximum length for the primary key of the VarChar type.  This parameter applies only when <code>varcharPK</code> is set to <code>true</code>.</p></td>
+     <td><p>Maximum length for the primary key of the VarChar type. </p><p>This parameter applies only when <code>varcharPK</code> is set to <code>true</code>.</p></td>
      <td><p><code>int</code></p></td>
    </tr>
 </table>
@@ -233,7 +233,7 @@ func (opt *createCollectionOption) WithIndexOptions(indexOpts ...CreateIndexOpti
    </tr>
    <tr>
      <td><p><code>indexOptions</code></p></td>
-     <td><p>Index options. This parameter applies when creating a collection with a custom schema. Once set, Milvus automatically loads the collection after it is created.</p></td>
+     <td><p>Index options.</p><p>This parameter applies when creating a collection with a custom schema. Once set, Milvus automatically loads the collection after it is created.</p></td>
      <td><p><code>[]CreateIndexOption</code></p></td>
    </tr>
 </table>
@@ -275,7 +275,7 @@ func (opt *createCollectionOption) WithConsistencyLevel(cl entity.ConsistencyLev
    </tr>
    <tr>
      <td><p><code>consistencyLevel</code></p></td>
-     <td><p>Consistency level of the collection. For details, refer to <a href="/docs/consistency-level">Consistency Level</a>.</p></td>
+     <td><p>Consistency level of the collection.</p><p>For details, refer to <a href="/docs/consistency-level">Consistency Level</a>.</p></td>
      <td><p><code>entity.ConsistencyLevel</code></p></td>
    </tr>
 </table>
@@ -358,7 +358,7 @@ func (s *entity.Schema) WithDynamicFieldEnabled(dynamicEnabled bool) *entity.Sch
    </tr>
    <tr>
      <td><p><code>dynamicEnabled</code></p></td>
-     <td><p>Whether to enable the dynamic field.  If set to <code>true</code>, non-schema-defined fields and their values in incoming entities will be saved as key-value pairs in a reserved field of the JSON type named <code>$meta</code>.  For details, refer to <a href="/docs/enable-dynamic-field">Dynamic Field</a>.</p></td>
+     <td><p>Whether to enable the dynamic field. </p><p>If set to <code>true</code>, non-schema-defined fields and their values in incoming entities will be saved as key-value pairs in a reserved field of the JSON type named <code>$meta</code>. </p><p>For details, refer to <a href="/docs/enable-dynamic-field">Dynamic Field</a>.</p></td>
      <td><p><code>bool</code></p></td>
    </tr>
 </table>
@@ -494,7 +494,7 @@ func (f *Field) WithAnalyzerParams(params map[string]any) *Field
    </tr>
    <tr>
      <td><p><code>params</code></p></td>
-     <td><p>Analyzer parameters of the current field in key-value pairs. An <strong>analyzer</strong> is a crucial component that converts raw text into a structured, searchable format. For details, refer to <a href="/docs/analyzer-overview">Analyzer Overview</a>.</p></td>
+     <td><p>Analyzer parameters of the current field in key-value pairs.</p><p>An <strong>analyzer</strong> is a crucial component that converts raw text into a structured, searchable format. For details, refer to <a href="/docs/analyzer-overview">Analyzer Overview</a>.</p></td>
      <td><p><code>map[string]any</code></p></td>
    </tr>
 </table>
@@ -725,7 +725,7 @@ func (f *Field) WithEnableAnalyzer(enable bool) *Field
    </tr>
    <tr>
      <td><p><code>enable</code></p></td>
-     <td><p>Whether to enable the analyzer for the current field. An <strong>analyzer</strong> is a crucial component that converts raw text into a structured, searchable format. For details, refer to <a href="/docs/analyzer-overview">Analyzer Overview</a>.</p></td>
+     <td><p>Whether to enable the analyzer for the current field.</p><p>An <strong>analyzer</strong> is a crucial component that converts raw text into a structured, searchable format. For details, refer to <a href="/docs/analyzer-overview">Analyzer Overview</a>.</p></td>
      <td><p><code>bool</code></p></td>
    </tr>
 </table>
@@ -746,7 +746,7 @@ func (f *Field) WithIsAutoID(isAutoID bool) *Field
    </tr>
    <tr>
      <td><p><code>autoID</code></p></td>
-     <td><p>Whether the primary key automatically increments. This method applies only when you also append the <code>entity.WithIsPrimaryKey</code> to the field creation request.</p></td>
+     <td><p>Whether the primary key automatically increments.</p><p>This method applies only when you also append the <code>entity.WithIsPrimaryKey</code> to the field creation request.</p></td>
      <td><p><code>bool</code></p></td>
    </tr>
 </table>
@@ -792,7 +792,7 @@ func (f *Field) WithIsDynamic(isDynamic bool) *Field
    </tr>
    <tr>
      <td><p><code>isDynamic</code></p></td>
-     <td><p>Whether the current field serves as the dynamic field. This method applies only when you also append the <code>entity.WithDataType</code> method to the field creation request and set the <code>dataType</code> parameter to <code>entity.FieldTypeJSON</code>.</p></td>
+     <td><p>Whether the current field serves as the dynamic field.</p><p>This method applies only when you also append the <code>entity.WithDataType</code> method to the field creation request and set the <code>dataType</code> parameter to <code>entity.FieldTypeJSON</code>.</p></td>
      <td><p><code>bool</code></p></td>
    </tr>
 </table>
@@ -859,7 +859,7 @@ func (f *Field) WithMaxCapacity(maxCap int64) *Field
    </tr>
    <tr>
      <td><p><code>maxCap</code></p></td>
-     <td><p>Maximum number of elements in an array field. This method applies only when you also append the <code>entity.WithDataType</code> method to the field creation request and set the <code>dataType</code> parameter to <code>entity.FieldTypeArray</code>.</p></td>
+     <td><p>Maximum number of elements in an array field.</p><p>This method applies only when you also append the <code>entity.WithDataType</code> method to the field creation request and set the <code>dataType</code> parameter to <code>entity.FieldTypeArray</code>.</p></td>
      <td><p><code>int64</code></p></td>
    </tr>
 </table>
@@ -880,7 +880,7 @@ func (f *Field) WithMaxLength(maxLen int64) *Field
    </tr>
    <tr>
      <td><p><code>maxCap</code></p></td>
-     <td><p>Maximum length of a VarChar field. This method applies only when you also append the <code>entity.WithDataType</code> method to the field creation request and set the <code>dataType</code> parameter to <code>entity.FieldTypeVarChar</code>.</p></td>
+     <td><p>Maximum length of a VarChar field.</p><p>This method applies only when you also append the <code>entity.WithDataType</code> method to the field creation request and set the <code>dataType</code> parameter to <code>entity.FieldTypeVarChar</code>.</p></td>
      <td><p><code>int64</code></p></td>
    </tr>
 </table>

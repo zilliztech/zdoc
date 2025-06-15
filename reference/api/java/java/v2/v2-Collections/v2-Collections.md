@@ -9,10 +9,10 @@ token: Sx9jfHZP8lqVhXd9UuMcERemnjd
 sidebar_position: 1
 sidebar_label: "Collections"
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud

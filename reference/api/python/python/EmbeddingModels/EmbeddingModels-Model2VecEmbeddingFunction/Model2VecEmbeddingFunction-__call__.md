@@ -10,19 +10,19 @@ type: docx
 token: WJpVd6gQzoxCEUxM93ScXsL5ntA
 sidebar_position: 4
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
+  - Annoy vector search
+  - milvus
   - Zilliz
   - milvus vector database
-  - milvus db
-  - milvus vector db
 displayed_sidebar: pythonSidebar
 
 ---

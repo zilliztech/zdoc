@@ -10,19 +10,19 @@ type: docx
 token: IdNAdlMhjoM40pxjpKecpc7inbd
 sidebar_position: 5
 keywords: 
+  - natural language processing
   - AI chatbots
   - cosine distance
   - what is a vector database
-  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndexProperties()
   - javaV225
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: javaSidebar
 
 ---

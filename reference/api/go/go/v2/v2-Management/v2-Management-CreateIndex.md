@@ -211,7 +211,7 @@ This is an interface type. The following methods implement this interface type.
    </tr>
    <tr>
      <td><p><a href="./v2-Management-CreateIndex#indexnewgenericindex">index.NewGenericIndex</a></p></td>
-     <td><p>This is a general method for you to create parameters for any applicable index type.  If the index type you need to create is not listed above, use this method to create the index.</p></td>
+     <td><p>This is a general method for you to create parameters for any applicable index type. </p><p>If the index type you need to create is not listed above, use this method to create the index.</p></td>
    </tr>
 </table>
 

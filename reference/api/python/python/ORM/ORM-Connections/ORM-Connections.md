@@ -10,19 +10,19 @@ type: docx
 token: A96udk9seoF5x5xywQZcLasanIe
 sidebar_position: 3
 keywords: 
+  - cheap vector database
+  - Managed vector database
   - Pinecone vector database
   - Audio search
-  - what is semantic search
-  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - Connections
   - pymilvus25
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: pythonSidebar
 
 ---

@@ -80,7 +80,7 @@ func NewGrantPrivilegeOption(roleName, objectType, privilegeName, objectName str
    </tr>
    <tr>
      <td><p><code>privilegeName</code></p></td>
-     <td><p>Name of the privilege to assign. For details, refer to the <strong>Privilege name</strong> column in the table on page Users and Roles.</p></td>
+     <td><p>Name of the privilege to assign.</p><p>For details, refer to the <strong>Privilege name</strong> column in the table on page Users and Roles.</p></td>
      <td><p><code>string</code></p></td>
    </tr>
    <tr>
@@ -101,7 +101,29 @@ Null
 ## Example{#example}
 
 ```go
-// TODO 
-// https://milvus.io/api-reference/pymilvus/v2.5.x/MilvusClient/Authentication/grant_privilege.md
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    // handle error
+}
+
+defer cli.Close(ctx)
+
+readOnlyPrivileges := []*entity.RoleGrants{
+    {Object: "Global", ObjectName: "*", PrivilegeName: "DescribeCollection"},
+    {Object: "Global", ObjectName: "*", PrivilegeName: "ShowCollections"},
+    {Object: "Collection", ObjectName: "quick_setup", PrivilegeName: "Search"},
+}
+
+for _, grantItem := range readOnlyPrivileges {
+    err := cli.GrantPrivilege(ctx, milvusclient.NewGrantPrivilegeOption("my_role", grantItem.Object, grantItem.PrivilegeName, grantItem.ObjectName))
+    if err != nil {
+        // handle error
+    }
+}
 ```
 

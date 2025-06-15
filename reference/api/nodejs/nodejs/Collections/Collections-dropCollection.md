@@ -8,21 +8,21 @@ notebook: false
 description: "This operation drops a collection. | Node.js"
 type: docx
 token: KLknda2VtocQSBx7PKVc6F9Nnug
-sidebar_position: 9
+sidebar_position: 11
 keywords: 
-  - Faiss vector database
   - Chroma vector database
   - nlp search
   - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollection()
-  - node
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - nodejs25
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: nodeSidebar
 
 ---

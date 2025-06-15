@@ -38,7 +38,7 @@ func New(ctx context.Context, config *ClientConfig) (*Client, error)
    </tr>
    <tr>
      <td><p><code>config</code></p></td>
-     <td><p>Client configurations.  For details, refer to the <a href="./v2-Client-New#clientconfig">ClientConfig</a> section.</p></td>
+     <td><p>Client configurations. </p><p>For details, refer to the <a href="./v2-Client-New#clientconfig">ClientConfig</a> section.</p></td>
      <td><p><code>ClientConfig</code></p></td>
    </tr>
 </table>
@@ -49,7 +49,7 @@ This struct type defines all possible client configuration items as follows:
 
 ```go
 type ClientConfig struct {
-    Address  string // Remote address, "localhost:19530".
+    Address  string // Remote address, "YOUR_CLUSTER_ENDPOINT".
     Username string // Username for auth.
     Password string // Password for auth.
     DBName   string // DBName for this client.
@@ -97,7 +97,7 @@ type ClientConfig struct {
    </tr>
    <tr>
      <td><p><code>RetryRateLimit</code></p></td>
-     <td><p>Specifies the retry rate limit in case the connection fails. For details, refer to the <a href="./v2-Client-New#retryratelimitoption">RetryRateLimitOption</a> section.</p></td>
+     <td><p>Specifies the retry rate limit in case the connection fails.</p><p>For details, refer to the <a href="./v2-Client-New#retryratelimitoption">RetryRateLimitOption</a> section.</p></td>
      <td><p><code>*RetryRateLimitOption</code></p></td>
    </tr>
 </table>

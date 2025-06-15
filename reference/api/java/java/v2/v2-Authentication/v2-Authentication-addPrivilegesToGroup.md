@@ -10,19 +10,19 @@ type: docx
 token: T9Jqd5JfdoW5Jxxwx1eckCOCn6c
 sidebar_position: 1
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - addPrivilegesToGroup()
   - javaV225
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 displayed_sidebar: javaSidebar
 
 ---

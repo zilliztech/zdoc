@@ -10,19 +10,19 @@ type: docx
 token: Q8IidbqKMopplgxSxaicS2o9nwc
 sidebar_position: 5
 keywords: 
+  - Natural language search
+  - Similarity Search
   - multimodal RAG
   - llm hallucinations
-  - hybrid search
-  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - ConsistencyLevel
   - javaV225
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: javaSidebar
 
 ---

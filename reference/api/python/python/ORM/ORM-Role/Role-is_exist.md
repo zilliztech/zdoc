@@ -10,19 +10,19 @@ type: docx
 token: F8WOdIoz4okn5OxMEymcXNuRnkb
 sidebar_position: 6
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - is_exist()
   - pymilvus25
+  - Recommender systems
+  - information retrieval
   - dimension reduction
   - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---
