@@ -18,9 +18,9 @@ milvusClient.useDatabase({
 
 - **db_name** (*string*) -
 
-    The name of the database to create.
+    The name of the database to use.
 
-    There should be a database that has the specified name. Otherwise, exceptions will occur.
+    There should be a database with the specified name. Otherwise, exceptions will occur.
 
 **RETURNS** *Promise |\<ResStatus>*
 

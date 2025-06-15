@@ -19,9 +19,9 @@ milvusClient.dropDatabase({
 
 - **db_name** (*string*) -
 
-    The name of the database to create.
+    The name of the database to drop.
 
-    There should be a database that has the specified name. Otherwise, exceptions will occur.
+    There should be a database with the specified name. Otherwise, exceptions will occur.
 
 - **timeout** (*number*) -
 

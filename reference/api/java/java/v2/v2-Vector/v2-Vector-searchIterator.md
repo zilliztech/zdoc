@@ -10,19 +10,19 @@ type: docx
 token: M4IqdsRCNotiM4xdOA0cWSnUngb
 sidebar_position: 8
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - searchIterator()
-  - javaV2
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - javaV225
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: javaSidebar
 
 ---
@@ -67,7 +67,7 @@ searchIterator(SearchIteratorReq.builder()
 
 - `databaseName(String databaseName)`
 
-The database to which the collection belongs. You can ignore it if the database is the default.
+    The database to which the collection belongs. You can ignore it if the database is the default.
 
 - `outputFields(List<String> outputFields)`
 
@@ -83,58 +83,58 @@ The database to which the collection belongs. You can ignore it if the database 
 
 - `batchSize(long size)`
 
-A value to define the number of entities returned per batch.
+    A value to define the number of entities returned per batch.
 
 - `vectorFieldName(String vectorFieldName)`
 
-The target vector field name to do ANN search.
+    The target vector field name for which an ANN search will be conducted.
 
 - `vectors(List<BaseVector> vectors)`
 
-Set the target vectors to do ANN search.
+    Set the target vectors to do ANN search.
 
-BaseVector is a base class for abstract vector classes. The following classes are derived from BaseVector. Choose the correct class as input according to DataType of the vector field.
+    BaseVector is a base class for abstract vector classes. The following classes are derived from BaseVector. Choose the correct class as input according to DataType of the vector field.
 
-<table>
-   <tr>
-     <th><p><strong>Class Name</strong></p></th>
-     <th><p><strong>Constructors</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>FloatVec</p></td>
-     <td><p>FloatVec(List\<Float> data)FloatVec(float[] data)</p></td>
-     <td><p>For DataType.FloatVector type field.</p></td>
-   </tr>
-   <tr>
-     <td><p>BinaryVec</p></td>
-     <td><p>BinaryVec(ByteBuffer data)BinaryVec(byte[] data)</p></td>
-     <td><p>For DataType.BinaryVector type field.</p></td>
-   </tr>
-   <tr>
-     <td><p>Float16Vec</p></td>
-     <td><p>Float16Vec(ByteBuffer data)Float16Vec(byte[] data)Float16Vec(List\<Float> data)</p></td>
-     <td><p>For DataType.Float16Vector type field.</p></td>
-   </tr>
-   <tr>
-     <td><p>BFloat16Vec</p></td>
-     <td><p>BFloat16Vec(ByteBuffer data)BFloat16Vec(byte[] data)BFloat16Vec(List\<Float> data)</p></td>
-     <td><p>For DataType.BFloat16Vector type field.</p></td>
-   </tr>
-   <tr>
-     <td><p>SparseFloatVec</p></td>
-     <td><p>SparseFloatVec(SortedMap\<Long, Float> data)</p></td>
-     <td><p>For DataType.SparseFloatVector type field.</p></td>
-   </tr>
-</table>
+    <table>
+       <tr>
+         <th><p><strong>Class Name</strong></p></th>
+         <th><p><strong>Constructors</strong></p></th>
+         <th><p><strong>Description</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>FloatVec</p></td>
+         <td><p>FloatVec(List\<Float> data)</p><p>FloatVec(float[] data)</p></td>
+         <td><p>For DataType.FloatVector type field.</p></td>
+       </tr>
+       <tr>
+         <td><p>BinaryVec</p></td>
+         <td><p>BinaryVec(ByteBuffer data)</p><p>BinaryVec(byte[] data)</p></td>
+         <td><p>For DataType.BinaryVector type field.</p></td>
+       </tr>
+       <tr>
+         <td><p>Float16Vec</p></td>
+         <td><p>Float16Vec(ByteBuffer data)</p><p>Float16Vec(byte[] data)</p><p>Float16Vec(List\<Float> data)</p></td>
+         <td><p>For DataType.Float16Vector type field.</p></td>
+       </tr>
+       <tr>
+         <td><p>BFloat16Vec</p></td>
+         <td><p>BFloat16Vec(ByteBuffer data)</p><p>BFloat16Vec(byte[] data)</p><p>BFloat16Vec(List\<Float> data)</p></td>
+         <td><p>For DataType.BFloat16Vector type field.</p></td>
+       </tr>
+       <tr>
+         <td><p>SparseFloatVec</p></td>
+         <td><p>SparseFloatVec(SortedMap\<Long, Float> data)</p></td>
+         <td><p>For DataType.SparseFloatVector type field.</p></td>
+       </tr>
+    </table>
 
 - `params(String params)`
 
-A JSON format string for extra parameters.
+    A JSON format string for extra parameters.
 
 - `topK(int topk)`
 
-The topk value.
+    The topk value.
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
@@ -152,15 +152,15 @@ The topk value.
 
 - `roundDecimal(int decimal)`
 
-How many digits are reserved after the decimal point.
+    How many digits are reserved after the decimal point.
 
 - `ignoreGrowing(boolean ignoreGrwing)`
 
-Ignore growing segments or not.
+    Ignore growing segments or not.
 
 - `groupByFieldName(String fieldName)`
 
-Sets the field name to do grouping for results.
+    Sets the field name to do grouping for results.
 
 **RETURN TYPE:**
 
@@ -168,17 +168,15 @@ Sets the field name to do grouping for results.
 
 **RETURNS:**
 
-A *SearchIterator* object to iterate search results.
+A *SearchIterator* object to iterate search results, which offers the following methods:
 
-**METHODS:**
+- `List<QueryResultsWrapper.RowRecord> next()`
 
-- List\<QueryResultsWrapper.RowRecord> next()
+    Return a batch of results.
 
-Return a batch of results.
+- `close()`
 
-- close()
-
-Release the cache results.
+    Release the cache results.
 
 **EXCEPTIONS:**
 
@@ -189,9 +187,27 @@ Release the cache results.
 ## Example{#example}
 
 ```java
+import io.milvus.orm.iterator.SearchIterator;
+import io.milvus.response.QueryResultsWrapper;
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.ConsistencyLevel;
+import io.milvus.v2.common.IndexParam;
+import io.milvus.v2.service.vector.request.SearchIteratorReq;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Iterator search
 List<Float> vector = generateFloatVector();
 SearchIterator searchIterator = client.searchIterator(SearchIteratorReq.builder()
-        .collectionName(COLLECTION_NAME)
+        .collectionName("test")
         .outputFields(Lists.newArrayList("vector"))
         .batchSize(50L)
         .vectorFieldName("vector")
@@ -203,6 +219,7 @@ SearchIterator searchIterator = client.searchIterator(SearchIteratorReq.builder(
         .consistencyLevel(ConsistencyLevel.BOUNDED)
         .build());
 
+System.out.println("SearchIteratorV1 results:");
 while (true) {
     List<QueryResultsWrapper.RowRecord> res = searchIterator.next();
     if (res.isEmpty()) {

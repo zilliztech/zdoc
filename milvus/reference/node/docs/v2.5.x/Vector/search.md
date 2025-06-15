@@ -53,6 +53,10 @@ milvusClient.search({
 
     You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
 
+- **exprValues** (*keyValueObj*) -
+
+    If you choose to use placeholders in `filter` as stated in [Filtering Templating](https://milvus.io/docs/filtering-templating.md), then you can specify the actual values for these placeholders as key-value pairs as the value of this parameter.
+
 - **ignore_growing** (*boolean*) -
 
     A boolean value indicating whether to skip the search in growing segments.
@@ -174,7 +178,11 @@ This method returns a promise that resolves to a **SearchResults** object.
 
 ## Example
 
-```java
-
+```plaintext
+const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const searchResults = await milvusClient.search({
+   collection_name: 'my_collection',
+   vector: [1, 2, 3, 4],
+});
 ```
 

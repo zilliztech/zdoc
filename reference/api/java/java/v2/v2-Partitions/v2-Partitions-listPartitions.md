@@ -8,21 +8,21 @@ notebook: false
 description: "This operation lists the partitions in a specified collection. | Java | v2"
 type: docx
 token: RJcgdJpGDouomlxPTqZc5S8Lngc
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - listPartitions()
-  - javaV2
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - javaV225
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 displayed_sidebar: javaSidebar
 
 ---
@@ -70,7 +70,19 @@ A list of partition names.
 ## Example{#example}
 
 ```java
-// list partitions in collection
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.partition.request.ListPartitionsReq;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. List partitions in collection
 ListPartitionsReq listPartitionsReq = ListPartitionsReq.builder()
         .collectionName("test")
         .build();

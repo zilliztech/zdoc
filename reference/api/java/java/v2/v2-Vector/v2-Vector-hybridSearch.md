@@ -10,19 +10,19 @@ type: docx
 token: PemMdzGFnovhaWxOzFzceaH3ncd
 sidebar_position: 3
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
-  - javaV2
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - javaV225
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 displayed_sidebar: javaSidebar
 
 ---
@@ -112,6 +112,28 @@ A **SearchResp** object representing specific search results with the specified 
 ## Example{#example}
 
 ```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.ConsistencyLevel;
+import io.milvus.v2.service.vector.request.AnnSearchReq;
+import io.milvus.v2.service.vector.request.HybridSearchReq;
+import io.milvus.v2.service.vector.request.data.BinaryVec;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.request.data.SparseFloatVec;
+import io.milvus.v2.service.vector.request.ranker.RRFRanker;
+import io.milvus.v2.service.vector.response.SearchResp;
+
+import java.nio.ByteBuffer;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Setup input
 List<Float> floatVector = generateFolatVector();
 ByteBuffer binaryVector = generateBinaryVector();
 SortedMap<Long, Float> sparseVector = generateSparseVector();
@@ -134,6 +156,7 @@ searchRequests.add(AnnSearchReq.builder()
         .topK(100)
         .build());
 
+// 3. Hybrid search
 HybridSearchReq hybridSearchReq = HybridSearchReq.builder()
         .collectionName(randomCollectionName)
         .searchRequests(searchRequests)
@@ -142,6 +165,7 @@ HybridSearchReq hybridSearchReq = HybridSearchReq.builder()
         .consistencyLevel(ConsistencyLevel.BOUNDED)
         .build();
 SearchResp searchResp = client.hybridSearch(hybridSearchReq);
+
 List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
 List<SearchResp.SearchResult> results = searchResults.get(0); // nq = 1, searchResults size is 1
 for (SearchResp.SearchResult result : results) {

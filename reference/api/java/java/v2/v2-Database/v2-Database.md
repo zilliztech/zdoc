@@ -6,18 +6,18 @@ notebook: false
 description: "Methods related to database operations. | Java | v2"
 type: folder
 token: Ja2Wf1J9glm6oCdCxfDc9BzPnoc
-sidebar_position: 4
+sidebar_position: 7
 sidebar_label: "Database"
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - Database
-  - javaV2
+  - javaV225
 displayed_sidebar: javaSidebar
 ---
 

@@ -1,28 +1,28 @@
 ---
 displayed_sidbar: javaSidebar
-title: "createSchema() | Java | v2"
-slug: /java/java/v2-Collections-createSchema
-sidebar_label: "createSchema()"
+title: "CreateSchema() | Java | v2"
+slug: /java/java/v2-Collections-CreateSchema
+sidebar_label: "CreateSchema()"
 beta: false
 notebook: false
 description: "This operation creates a collection schema. | Java | v2"
 type: docx
-token: V5KXdwdO0oqkhnxsKb9c3xaKn4c
-sidebar_position: 6
+token: DAIfdXKk5oCHeNxOUvCc1KcpnNh
+sidebar_position: 23
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
-  - createSchema()
-  - javaV2
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - CreateSchema()
+  - javaV225
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: javaSidebar
 
 ---
@@ -30,12 +30,12 @@ displayed_sidebar: javaSidebar
 import Admonition from '@theme/Admonition';
 
 
-# createSchema()
+# CreateSchema()
 
 This operation creates a collection schema.
 
 ```java
-public CreateCollectionReq.CollectionSchema createSchema()
+public static CreateCollectionReq.CollectionSchema CreateSchema()
 ```
 
 ## Request Syntax{#request-syntax}
@@ -59,8 +59,23 @@ A **CreateCollectionReq.CollectionSchema** object.
 ## Example{#example}
 
 ```java
-// quickly create a collectionSchema
-CreateCollectionReq.CollectionSchema collectionSchema = client.createSchema();
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.common.DataType;
+import io.milvus.v2.service.collection.request.AddFieldReq;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2 Quickly create a collectionSchema
+CreateCollectionReq.CollectionSchema collectionSchema = client.CreateSchema();
 collectionSchema.addField(AddFieldReq.builder().fieldName("id").dataType(DataType.Int64).isPrimaryKey(Boolean.TRUE).autoID(Boolean.FALSE).description("id").build());
 collectionSchema.addField(AddFieldReq.builder().fieldName("vector").dataType(DataType.FloatVector).dimension(dim).build());
 ```
+

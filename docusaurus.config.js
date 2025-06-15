@@ -452,9 +452,9 @@ const config = {
         root: 'Vg1kfluyll0h7MdlUMaciXfEnZd',
         base: 'DVVobtXQMamuLqsQij5c29nVn3c',
         sourceType: 'drive',
-        version: 'v2.3.x',
+        version: 'v2.4.x',
         displayedSidebar: 'nodeSidebar',
-        docSourceDir: './plugins/lark-docs/meta/sources/node/v2.3.x',
+        docSourceDir: './plugins/lark-docs/meta/sources/node/v2.4.x',
         targets: {
           milvus: {
             outputDir: 'milvus/reference/node/docs/v2.4.x',
@@ -543,11 +543,11 @@ const config = {
         base: 'Hsq1bRcqraeQW0sGFJbcI3YIn3d',
         sourceType: 'drive',
         displayedSidebar: 'javaSidebar',
-        docSourceDir: './plugins/lark-docs/meta/sources/java/v2.5.x',
+        docSourceDir: './plugins/lark-docs/meta/sources/java/v2.5.x/v2',
         fallbackSourceDir: './plugins/lark-docs/meta/sources/java/v2.4.x/v2',
         targets: {
           milvus: {
-            outputDir: 'milvus/reference/java/docs/v2.5.x',
+            outputDir: 'milvus/reference/java/docs/v2/v2.5.x',
             imageDir: 'milvus/reference/java/images'
           },
           zilliz: {
@@ -562,7 +562,7 @@ const config = {
         sourceType: 'drive',
         displayedSidebar: 'nodeSidebar',
         docSourceDir: './plugins/lark-docs/meta/sources/node/v2.5.x',
-        fallbackSourceDir: './plugins/lark-docs/meta/sources/node/v2.3.x',
+        fallbackSourceDir: './plugins/lark-docs/meta/sources/node/v2.4.x',
         targets: {
           milvus: {
             outputDir: 'milvus/reference/node/docs/v2.5.x',

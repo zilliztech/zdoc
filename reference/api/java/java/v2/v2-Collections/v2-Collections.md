@@ -5,19 +5,19 @@ beta: false
 notebook: false
 description: "Methods for you to manage collections. | Java | v2"
 type: folder
-token: KzitfU6c4lFXdodYOQJcupB2nJe
-sidebar_position: 3
+token: Sx9jfHZP8lqVhXd9UuMcERemnjd
+sidebar_position: 1
 sidebar_label: "Collections"
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - Collections
-  - javaV2
+  - javaV225
 displayed_sidebar: javaSidebar
 ---
 

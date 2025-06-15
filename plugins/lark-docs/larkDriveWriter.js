@@ -27,9 +27,9 @@ class larkDriveWriter extends larkDocWriter {
                     source = JSON.parse(fs.readFileSync(node_path.join(this.docSourceDir, source), 'utf8'))
 
                     if (source.blocks) {
-                        console.log(source.slug, '=> doc')
+                        // console.log(source.slug, '=> doc')
                         const meta = await this.__is_to_publish(source.name, source.slug, source.token)
-                        console.log(meta.publish)
+                        // console.log(meta.publish)
                         if (meta['publish']) {
                             const token = source.token
                             const source_type = source.type
@@ -55,7 +55,7 @@ class larkDriveWriter extends larkDocWriter {
                     }
 
                     if (source.children) {
-                        console.log(source.slug, '=> folder')
+                        // console.log(source.slug, '=> folder')
                         const meta = await this.__is_to_publish(source.name, source.slug, source.token)
                         if (meta['publish']) {
                             const token = source.token

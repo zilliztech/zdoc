@@ -1,5 +1,6 @@
 const fs = require('node:fs')
 const node_path = require('node:path')
+const slugify = require('slugify')
 
 class larkUtils {
     constructor() {
@@ -232,7 +233,7 @@ class larkUtils {
 
         var sourceRoot = sources.find(source => !source.type)
         // find the fallback root by name
-        var fallbackRoot = fallbackSources.find(fallback => !fallback.type && fallback.name === fallbackSourceDir.split('/').slice(-1)[0])
+        var fallbackRoot = fallbackSources.find(fallback => !fallback.type && fallbackSourceDir.split('/').includes(fallback.name))
 
         if (sourceRoot.children.length > 0 && fallbackRoot.children.length > 0) {
 
@@ -242,7 +243,7 @@ class larkUtils {
                 if (!pair) {
                     child.parent_token = sourceRoot.token
                     sourceRoot.children.push(child)
-                    fallbackSources.find(fb => fb.token === child.token).parent_token = sourceRoot.token
+                    // fallbackSources.find(fb => fb.token === child.token).parent_token = sourceRoot.token
                 }
             })
 
@@ -273,7 +274,7 @@ class larkUtils {
                             child.token = pair.token
                         } else {
                             child.parent_token = source.token
-                            fallbackSources.find(fb => fb.token === child.token).parent_token = source.token
+                            // fallbackSources.find(fb => fb.token === child.token).parent_token = source.token
                         }
                     })
 
@@ -343,7 +344,25 @@ class larkUtils {
         }
 
         if (section) {
-            rel_path += '#' + section
+            target = fs.readFileSync(target, {encoding: 'utf-8', flag: 'r'})
+            const headings = target.match(/#{1,6} (.*)/g)
+
+            if (headings) {
+                const index = headings.findIndex(heading => {
+                    heading = heading.split(' ').slice(-1)[0].toLowerCase().split('{#')[0]
+                    return slugify(heading, {strict: true, lower: true}) === section
+                })
+
+                if (index > -1) {
+                    var slug = headings[index].split(' ').slice(-1)[0].split('{#')[0]
+                    var slug = slugify(slug, {strict: true})
+                    rel_path += '#' + slug
+                } else {
+                    throw new Error(`Cannot find ${section}`)
+                }
+            } else {
+                throw new Error(`Cannot find headings in ${target}`)
+            }
         }
 
         return rel_path

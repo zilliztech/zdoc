@@ -8,21 +8,21 @@ notebook: false
 description: "This operation displays whether a specified collection or partition is loaded or not. | Java | v2"
 type: docx
 token: QcaFdMJE9oHX1Axe11rcqfiynEd
-sidebar_position: 4
+sidebar_position: 6
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadState()
-  - javaV2
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - javaV225
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 displayed_sidebar: javaSidebar
 
 ---
@@ -81,10 +81,21 @@ A Boolean value that indicates the status of the specified collection or partiti
 ## Example{#example}
 
 ```java
-// get load state for collection "test"
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.collection.request.GetLoadStateReq;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Get load state for collection "test"
 GetLoadStateReq getLoadStateReq = GetLoadStateReq.builder()
         .collectionName("test")
         .build();
 Boolean resp = client.getLoadState(getLoadStateReq);
-// return true or false
 ```

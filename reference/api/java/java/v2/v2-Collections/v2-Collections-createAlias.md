@@ -8,7 +8,7 @@ notebook: false
 description: "This operation creates an alias for an existing collection. | Java | v2"
 type: docx
 token: NMAOdxhL1oo0E7xcFqXcF6yPnBg
-sidebar_position: 4
+sidebar_position: 6
 keywords: 
   - Pinecone vector database
   - Audio search
@@ -18,11 +18,11 @@ keywords:
   - zilliz cloud
   - cloud
   - createAlias()
-  - javaV2
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - javaV225
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: javaSidebar
 
 ---
@@ -89,7 +89,19 @@ createAlias(CreateAliasReq.builder()
 ## Example{#example}
 
 ```java
-// create a alias "test_alias" for collection "test"
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.utility.request.CreateAliasReq;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Create an alias "test_alias" for collection "test"
 CreateAliasReq createAliasReq = CreateAliasReq.builder()
         .collectionName("test")
         .alias("test_alias")

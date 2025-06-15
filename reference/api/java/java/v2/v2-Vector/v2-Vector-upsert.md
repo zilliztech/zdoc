@@ -10,19 +10,19 @@ type: docx
 token: A0UBd45iyoGah2xaFjQc4bp6n2b
 sidebar_position: 9
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
-  - javaV2
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - javaV225
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: javaSidebar
 
 ---
@@ -119,18 +119,31 @@ An **UpsertResp** object that contains information about the number of inserted 
 ## Example{#example}
 
 ```java
-// upsert operation
-JsonObject jsonObject = new JsonObject();
+import com.google.gson.JsonObject;
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.UpsertReq;
+
+// 1. Set up a client
+ConnectConfig connectConfig = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build();
+        
+MilvusClientV2 client = new MilvusClientV2(connectConfig);
+
+// 2. Upsert operation
+JsonObject row = new JsonObject();
 List<Float> vectorList = new ArrayList<>();
 vectorList.add(2.0f);
 vectorList.add(3.0f);
-jsonObject.add("vector", gson.toJsonTree(vectorList));
-jsonObject.addProperty("id", 0L);
+row.add("vector", gson.toJsonTree(vectorList));
+row.addProperty("id", 0L);
+
 UpsertReq upsertReq = UpsertReq.builder()
         .collectionName("test")
-        .data(Collections.singletonList(jsonObject))
+        .data(Collections.singletonList(row))
         .build();
-
 client.upsert(upsertReq);
 ```
 
