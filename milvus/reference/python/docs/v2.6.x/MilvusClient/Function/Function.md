@@ -174,6 +174,8 @@ Function(
 
         - **Model Ranker**
 
+            **TEI Provider**:
+
             ```python
             params={
                 "reranker": "model",  # Specify model reranker. Must be "model"
@@ -181,6 +183,21 @@ Function(
                 "queries": ["machine learning for time series"],  # Query text
                 "endpoint": "http://model-service:8080",  # Model service endpoint
                 "maxBatch": 32  # Optional (default: 32)
+                "truncate": True,                # Optional: Truncate the inputs that are longer than the maximum supported size
+                "truncation_direction": "Right",    # Optional: Direction to truncate the inputs
+            }
+            ```
+
+            **vLLM Provider**:
+
+            ```python
+            params={
+                "reranker": "model",        # Specifies model-based reranking
+                "provider": "vllm",         # Specifies vLLM service
+                "queries": ["renewable energy developments"],  # Query text
+                "endpoint": "http://localhost:8080",  # vLLM service address
+                "maxBatch": 64,              # Optional: batch size
+                "truncate_prompt_tokens": 256,  # Optional: Use last 256 tokens
             }
             ```
 
@@ -194,7 +211,11 @@ Function(
 
             - `maxBatch` *(int)*: Maximum number of documents to process in a single batch. Default: 32.
 
-            For details, refer to [Model Ranker Overview](https://milvus.io/docss/model-ranker-overview.md).
+            - `truncate` *(bool)*: **[TEI only]** Whether to truncate inputs that exceed the maximum supported size. For details, refer to [TEI Ranker](https://milvus.io/docs/tei-ranker.md).
+
+            - `truncation_direction` (*str*): **[TEI only]** Direction for truncation (`"Left"` or `"Right"`). For details, refer to [TEI Ranker](https://milvus.io/docs/tei-ranker.md).
+
+            - `truncate_prompt_tokens` *(int)*: **[vLLM only]** Number of tokens to keep from the end of the prompt when truncating. For details, refer to [vLLM Ranker](https://milvus.io/docs/vllm-ranker.md).
 
 - `description` (*str*) -
 
