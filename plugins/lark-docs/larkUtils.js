@@ -209,9 +209,13 @@ class larkUtils {
 
         // remove index files
         const folders = fs.readdirSync(outputDir, {recursive: true}).filter(path => fs.statSync(`${outputDir}/${path}`).isDirectory())
+
         for (const folder of folders) {
-            if (fs.existsSync(`${outputDir}/${folder}/${folder}.md`)) {
-                fs.rmSync(`${outputDir}/${folder}/${folder}.md`, {recursive: true, force: true})
+            if (fs.existsSync(`${outputDir}/${folder}/${folder.split('/').slice(-1)[0]}.md`)) {
+                const content = fs.readFileSync(`${outputDir}/${folder}/${folder.split('/').slice(-1)[0]}.md`, {encoding: 'utf-8', flag: 'r'})
+                if (content.split('\n').length < 7) {
+                    fs.rmSync(`${outputDir}/${folder}/${folder.split('/').slice(-1)[0]}.md`, {recursive: true, force: true})
+                }
             }
         }
     }
