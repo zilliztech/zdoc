@@ -60,13 +60,11 @@ Function(
 
 - `params` (*dict*) -
 
-    **[OPTIONAL]**
+    A configuration dictionary for the embedding/ranking function. Supported keys vary by `function_type`:
 
-    A dictionary containing the configurations for the specified embedding function. The parameters available in this dictionary vary with the specified function type:
+    - `FunctionType.BM25`: No parameters required. Pass an empty dictionary or omit entirely.
 
-    - When `function_type` is set to `FunctionType.BM25`: No `params` config is available.
-
-    - When `function_type` is set to `FunctionType.TEXTEMBEDDING`, possible `params` configs:
+    - `FunctionType.TEXTEMBEDDING`:
 
         - `provider` (*str*) -
 
@@ -116,33 +114,87 @@ Function(
 
             </div>
 
-    - When `function_type` is set to `FunctionType.RERANK`, possible `params` configs:
+    - `FunctionType.RERANK`: Configure `params` based on reranker type:
 
-        -
+        - **Weighted Ranker**
 
-    - `user` (*str*) -   
+            ```python
+            params = {
+                "reranker": "weighted", # Required
+                "weights": [0.1, 0.9], # List[float], weights per search path ∈ [0,1]
+                "norm_score": True  # Optional
+            }
+            ```
 
-        A user-level identifier for tracking API usage.
+            - `reranker` (*str*): Specifies the reranking method to use. Must be set to `weighted` to use Weighted Ranker.
 
-    - `reranker` (*str*) -
+            - `weights` (*List[float]*): Array of weights corresponding to each search path; values ∈ [0,1]. For details, refer to [Mechanism of Weighted Ranker](https://milvus.io/docs/weighted-ranker.md#Mechanism-of-Weighted-Ranker).
 
-        A unique identifier for this reranking function. Possible values areas follows:
+            - `norm_score` (*boolean*): Whether to normalize raw scores (using arctan) before weighting. For details, refer to [Mechanism of Weighted Ranker](https://milvus.io/docs/weighted-ranker.md#Mechanism-of-Weighted-Ranker).
 
-    - `weights` (*List[float]*) -
+        - **RRF Ranker**
 
-    - `norm_score` (*boolean*) -
+            ```python
+            params = {
+                "reranker": "rrf", # Required
+                "k": 100  # Optional (default: 60)
+            }
+            ```
 
-    - `k` (*int*) -
+            - `reranker` (*str*): Specifies the reranking method to use. Must be set to `"rrf"` to use RRF Ranker.
 
-    - `function` (*str*) -
+            - `k` (*int*): Smoothing parameter that controls the impact of document ranks; higher `k` reduces sensitivity to top ranks. Value range: (0, 16384); default: `60`. For details, refer to [Mechanism of RRF Ranker](https://milvus.io/docs/rrf-ranker.md#Mechanism-of-RRF-Ranker).
 
-    - `origin` (*int*) -
+        - **Decay Ranker**
 
-    - `scale` (*int*) -
+            ```python
+            params={
+                "reranker": "decay",            # Specify decay reranker. Must be "decay"
+                "function": "gauss",            # Choose decay function type: "gauss", "exp", or "linear"
+                "origin": 1720000000,           # Reference point (e.g., Unix timestamp)
+                "scale": 7 * 24 * 60 * 60,      # 7 days in seconds
+                "offset": 24 * 60 * 60,         # 1 day no-decay zone
+                "decay": 0.5                    # Half score at scale distance
+            }
+            ```
 
-    - `offset` (*int*) -
+            - `reranker` (*str*): Specifies the reranking method to use. Must be set to `"decay"` to enable decay ranking functionality.
 
-    - `decay` (*float*) -
+            - `function` (*str*): Specifies which mathematical decay ranker to apply. Possible values: `"gauss"`, `"expr"`, `"linear"`. For details, refer to [Choose the right decay ranker](https://milvus.io/docs/decay-ranker-overview.md#Choose-the-right-decay-ranker).
+
+            - `origin` (*int*): Reference point from which decay score is calculated.
+
+            - `scale`  (*int*): Distance or time at which relevance drops to the `decay` value.
+
+            - `offset` (*int*): Creates a "no-decay zone" around the `origin` where items maintain full scores (decay score = 1.0).
+
+            - `decay` (*float*): Score value at the `scale` distance, controls curve steepness.
+
+            For details on decay ranking, refer to [Decay Ranker Overview](https://milvus.io/docs/decay-ranker-overview.md).
+
+        - **Model Ranker**
+
+            ```python
+            params={
+                "reranker": "model",  # Specify model reranker. Must be "model"
+                "provider": "tei",  # Choose provider: "tei" or "vllm"
+                "queries": ["machine learning for time series"],  # Query text
+                "endpoint": "http://model-service:8080",  # Model service endpoint
+                "maxBatch": 32  # Optional (default: 32)
+            }
+            ```
+
+            - `reranker` (*str*): Must be set to `"model"` to enable model reranking.
+
+            - `provider` (*str*): The model service provider to use for reranking. Possible values: `"tei"` or `"vllm"`. For details, refer to [Choose a model provider for your needs](https://milvus.io/docs/model-ranker-overview.md#Choose-a-model-provider-for-your-needs).
+
+            - `queries` (*List[str]*): List of query strings used by the reranking model to calculate relevance scores.
+
+            - `endpoint` (*str*): URL of the model service.
+
+            - `maxBatch` *(int)*: Maximum number of documents to process in a single batch. Default: 32.
+
+            For details, refer to [Model Ranker Overview](https://milvus.io/docss/model-ranker-overview.md).
 
 - `description` (*str*) -
 
@@ -182,30 +234,58 @@ A `Function` object that can be registered with a Milvus collection, facilitatin
 
 ## Examples
 
-```python
-from pymilvus import Function, FunctionType
+- Use `BM25`
 
-# use BM25
-bm25_function = Function(
-    name="bm25_fn",
-    input_field_names=["document_content"],
-    output_field_names=["sparse_vector"],
-    function_type=FunctionType.BM25,
-)
+    ```python
+    from pymilvus import Function, FunctionType
+    
+    # use BM25
+    bm25_function = Function(
+        name="bm25_fn",
+        input_field_names=["document_content"],
+        output_field_names=["sparse_vector"],
+        function_type=FunctionType.BM25,
+    )
+    ```
 
-# use TEXTEMBEDDING
-text_embedding_function = Function(
-    name="openai_embedding",                        # Unique identifier for this embedding function
-    function_type=FunctionType.TEXTEMBEDDING,       # Type of embedding function
-    input_field_names=["document"],                 # Scalar field to embed
-    output_field_names=["dense"],                   # Vector field to store embeddings
-    params={                                        # Provider-specific configuration (highest priority)
-        "provider": "openai",                       # Embedding model provider
-        "model_name": "text-embedding-3-small",     # Embedding model
-        # "credential": "apikey1",                    # Optional: Credential label specified in milvus.yaml
-        # Optional parameters:
-        # "dim": "1536",                            # Optionally shorten the output vector dimension
-        # "user": "user123"                         # Optional: identifier for API tracking
-    }
-)
-```
+- Use `TEXTEMBEDDING`
+
+    ```python
+    from pymilvus import Function, FunctionType
+    
+    # use TEXTEMBEDDING
+    text_embedding_function = Function(
+        name="openai_embedding",                        # Unique identifier for this embedding function
+        function_type=FunctionType.TEXTEMBEDDING,       # Type of embedding function
+        input_field_names=["document"],                 # Scalar field to embed
+        output_field_names=["dense"],                   # Vector field to store embeddings
+        params={                                        # Provider-specific configuration (highest priority)
+            "provider": "openai",                       # Embedding model provider
+            "model_name": "text-embedding-3-small",     # Embedding model
+            # "credential": "apikey1",                    # Optional: Credential label specified in milvus.yaml
+            # Optional parameters:
+            # "dim": "1536",                            # Optionally shorten the output vector dimension
+            # "user": "user123"                         # Optional: identifier for API tracking
+        }
+    )
+    ```
+
+- Use `RERANK`
+
+    ```python
+    from pymilvus import Function, FunctionType
+    
+    # use RERANK
+    model_ranker = Function(
+        name="semantic_ranker",  # Function identifier
+        input_field_names=["document"],  # VARCHAR field to use for reranking
+        function_type=FunctionType.RERANK,  # Must be set to RERANK
+        params={
+            "reranker": "model",  # Specify model reranker. Must be "model"
+            "provider": "tei",  # Choose provider: "tei" or "vllm"
+            "queries": ["machine learning for time series"],  # Query text
+            "endpoint": "http://model-service:8080",  # Model service endpoint
+            # "maxBatch": 32  # Optional: batch size for processing
+        }
+    )
+    ```
