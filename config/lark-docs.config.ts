@@ -282,6 +282,7 @@ export default {
     javaV1,
     javaV2,
     javaV225,
+    node,
     nodejs25,
     gov1,
     gov2
