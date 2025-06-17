@@ -24,7 +24,6 @@ const guides : Manual = {
     sourceType: 'wiki',
     displayedSidebar: 'default',
     docSourceDir: './plugins/lark-docs/meta/sources/guides',
-    fallbackSourceDir: './plugins/lark-docs/meta/sources/guides',
     targets: {
         milvus: {
             outputDir: 'milvus/guides/docs',
