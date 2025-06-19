@@ -14,10 +14,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 
@@ -200,6 +200,14 @@ Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
    <tr>
      <td><p>Germany West Central</p></td>
      <td><p>Frankfurt, Germany</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
+   </tr>
+   <tr>
+     <td><p>Central India</p></td>
+     <td><p>Pune, India</p></td>
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>
