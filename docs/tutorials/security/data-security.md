@@ -4,7 +4,7 @@ slug: /data-security
 sidebar_label: "Data Security"
 beta: FALSE
 notebook: FALSE
-description: "Data security is a crucial aspect of any cloud platform, and Zilliz Cloud is no exception. To safeguard data, Zilliz Cloud provides robust measures in various aspects, including authorization and authentication, network isolation, encryption, and backup and restoration. | Cloud"
+description: "Data security is integral to Zilliz Cloud. This document summarizes key measures and policies that Zilliz Cloud implements to safeguard your data comprehensively. | Cloud"
 type: origin
 token: SIhBwKFJri4u2CkyD3ucnO7an3g
 sidebar_position: 1
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data
   - security
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
 
 ---
 
@@ -26,68 +26,112 @@ import Admonition from '@theme/Admonition';
 
 # Data Security
 
-Data security is a crucial aspect of any cloud platform, and Zilliz Cloud is no exception. To safeguard data, Zilliz Cloud provides robust measures in various aspects, including authorization and authentication, network isolation, encryption, and backup and restoration.
+Data security is integral to Zilliz Cloud. This document summarizes key measures and policies that Zilliz Cloud implements to safeguard your data comprehensively.
 
-This topic provides an overview of how Zilliz Cloud secures data at every stage.
+## Account and Privacy Protection{#account-and-privacy-protection}
 
-## Registering an account with privacy protection{#registering-an-account-with-privacy-protection}
+Zilliz Cloud protects user data from registration onwards by:
 
-Zilliz Cloud prioritizes data security from the moment of account registration.
+- Using advanced cryptographic algorithms (SHA-256, bcrypt).
 
-When you register an account in the web console, Zilliz Cloud employs a combination of encryption techniques to protect user data. Robust cryptographic algorithms such as [SHA-256](https://en.wikipedia.org/wiki/SHA-2) and [bcrypt](https://en.wikipedia.org/wiki/Bcrypt) are utilized to encrypt your account information.
+- Adhering to strict policies against internal storage of usernames and passwords.
 
-In addition, Zilliz Cloud adheres to a stringent policy of not storing usernames and passwords within its systems. This approach ensures that, even in the unlikely event of a security breach, the confidential account information remains secure.
+## Data Isolation & Residency{#data-isolation-and-residency}
 
-## Starting a cluster with security{#starting-a-cluster-with-security}
+Zilliz Cloud provides robust isolation and protection for your clusters:
 
-Once an account is ready, you can log into the Zilliz Cloud console to create and run a cluster with security enabled.
+- **Multiple data residency options**: You can create clusters in your preferred cloud providers and regions. For details, refer to [Cloud Providers & Regions](./cloud-providers-and-regions).
 
-By design, the Zilliz Cloud platform comprises two planes: the control plane and the kernel plane. These planes reside in separate security groups with isolated networks. Such a design reinforces data security.
+- **Dedicated Namespaces:** Each dedicated cluster operates in an isolated namespace with tailored network policies.
 
-As a supplement, Zilliz Cloud supports security settings, such as whitelists, and private links, access control, securing internal and external communication with your cluster.
+- **Separate Storage:** Data is stored separately in dedicated object storage buckets.
 
-### Authentication{#authentication}
+- **Distinct VPC or subnet:** The **Control Plane** (administrative tasks) and **Data Plane** (operational handling) reside in separate, isolated VPC or subnet.
 
-Zilliz Cloud implements authentication using the OAuth2 protocol, which requires users to prove their identity by providing a cluster credential (a token), before they can access or execute on any cluster resources. Cluster credentials usually consist of username and password pairs or API keys.
+## Authentication{#authentication}
 
-For details, see [Cluster Credentials (Console)](./cluster-credentials) and [API Keys](./manage-api-keys).
+Zilliz Cloud utilizes OAuth0 for secure user authentication:
 
-### Access control{#access-control}
+- Supports Single Sign-On (SSO).
 
-In many cases, authenticating users is far from enough. You also need a way to control what users can access and which scope of operations they can perform.
+- Supports Multi-Factor Authentication (MFA).
 
-To meet these needs, Zilliz Cloud enables access control, which allows you to restrict user permissions and authorize them to access only specific resources. With this mechanism, users can be granted one or more roles that determine the scope of their permissions on cluster resources and operations. This helps prevent unauthorized access beyond the defined permission scope.
+- Provides cluster access through API keys and cluster credentials.
 
-For details, see [Access Control](./access-control).
+For details, refer to [Authentication](./authentication).
 
-### Whitelists{#whitelists}
+## Access Control{#access-control}
 
-For Internet connections, Zilliz Cloud uses the HTTPS protocol and provides a whitelist feature to enable IP filtering.
+Granular and role-based access control:
 
-Once you add specific CIDR blocks to the whitelist of a cluster, only IP addresses in the specified range can access the cluster. To completely prevent Internet access, you can add **127.0.0.1/32** to the cluster whitelist.
+- Hierarchical permissions (organization, project, cluster).
 
-For details, see [Set up Whitelist](./setup-whitelist).
+- Pre-defined roles to simplify permission assignments.
 
-### Private links{#private-links}
+- Both intuitive operations on the console and programmatic access from your app are available.
 
-If you do not want cluster traffic to go over the Internet, Zilliz Cloud also supports adding a private link to your cluster. This private link serves as an extra layer of protection by ensuring that only resources in the trusted virtual private cloud (VPC) can establish communication with the cluster.
+For details, refer to [Access Control](./access-control).
 
-For details, see [Set up a Private Link](./setup-a-private-link).
+## Secure Network Access{#secure-network-access}
 
-## Storing and transmitting data with encryption{#storing-and-transmitting-data-with-encryption}
+Zilliz Cloud secures your network interactions through:
 
-Once a cluster is up and security settings are applied, Zilliz Cloud implements various measures to secure data storage and transmission.
+- **IP Allowlisting:** Define allowed IP ranges (CIDR blocks) to restrict access.
 
-In Zilliz Cloud, vector data is stored in object storage (AWS S3 or GCS) with server-side encryption enabled. Data belonging to different users is isolated in buckets. Additionally, Zilliz Cloud uses [JumpServer](https://en.wikipedia.org/wiki/Jump_server) to keep records and perform audits on all cluster access operations, such as logins, queries, and modifications. These audit logs can be used to track and investigate potential security incidents or data leakage risks.
+- **Private Links:** Establish secure, private connections between your VPC and Zilliz Cloud control plane.
 
-## Backup and restoration{#backup-and-restoration}
+For details, refer to [Set up Whitelist](./setup-whitelist) and [Set up a Private Endpoint](./setup-a-private-link).
 
-To safeguard data integrity, Zilliz Cloud offers reliable backup and restoration mechanisms.
+## Data Encryption{#data-encryption}
 
-The platform features a recycle bin functionality with a maximum retention period of 30 days, allowing you to recover accidentally deleted data. Furthermore, you can schedule automatic backups to ensure regular and secure data backups.
+### In Transit{#in-transit}
 
-For details, see [Backup & Restore](/docs/backup-and-restore).
+- HTTPS/gRPC with TLS 1.2+.
+
+- AES-256 encryption ensures secure data transfers.
+
+### At Rest{#at-rest}
+
+- The stored data on Disk/Object Storage is encrypted using the AES-256 (256-bit Advanced Encryption Standard ) encryption algorithm
+
+## Audit Logging and Monitoring{#audit-logging-and-monitoring}
+
+Maintain visibility and accountability through audit logs:
+
+- Record activities across both control-plane and data-plane.
+
+- Stream logs directly to your storage solutions.
+
+- Leverage third-party tools for log analysis.
+
+For details, refer to [Auditing](./auditing).
+
+## Data Integrity and Backup{#data-integrity-and-backup}
+
+Ensure data availability and recovery:
+
+- Automated and manual backup options.
+
+- Recycle bin functionality for data restoration (with defined retention).
+
+For details, refer to [Backup & Restore](./backup-and-restore) and [Use Recycle Bin](./use-recycle-bin).
+
+## Certificates and TLS{#certificates-and-tls}
+
+Zilliz Cloud ensures secure connections:
+
+- Uses Let's Encrypt and AWS Certificate Manager for SSL certificates.
+
+- Auto-renews certificates 30 days before expiration (validity: 90 days).
+
+- Exclusively supports TLS 1.2 or higher.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Two-way TLS (mTLS) is currently not available. </p>
+
+</Admonition>
 
 ## Summary{#summary}
 
-In summary, Zilliz Cloud prioritizes data security at every stage, employing encryption techniques, authentication protocols, access control, whitelists, private links, server-side encryption, audit logs, and backup and restoration mechanisms to ensure the confidentiality, integrity, and availability of your data.
+Zilliz Cloud always places data security as its top priority. It emphasizes data security through comprehensive encryption, rigorous authentication, robust access control, private networking, and consistent auditing practices to maintain data confidentiality, integrity, and availability.
