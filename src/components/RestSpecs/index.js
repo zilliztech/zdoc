@@ -224,7 +224,7 @@ const Enums = ({ enums, defaultValue, lang, target }) => {
                 <select id="enumSelect" value={enumItem} onChange={handleEnumChange}>
                     {enums.map((enumValue) => textFilter(enumValue, target))
                         .filter(enumValue => enumValue !== '').map((enumValue, index) => {
-                            enumValue = enumValue.replace(/<\/?p>/g, "").replace(/<\/?em>/g, "-")
+                            enumValue = enumValue.replace(/<\/?p>/g, "").replace(/<\/?em>/g, "_")
                             return (
                                 <option key={index} value={enumValue}>{enumValue}</option>
                             )
