@@ -17,10 +17,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 
@@ -49,7 +49,7 @@ The bucket you specify during the project deployment will be used as the root st
 
 ## Procedure{#procedure}
 
-You can use the GCP dashboard to create the bucket and service account. Alternatively, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on GCP. For details, refer to Terraform Provider.
+You can use the GCP dashboard to create the bucket and service account. Alternatively, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on GCP. For details, refer to [Terraform Provider](./terraform-provider).
 
 ### Step 1: Create a Cloud Storage bucket{#step-1-create-a-cloud-storage-bucket}
 
@@ -85,6 +85,8 @@ The steps to create a bucket are as follows:
 
 In this step, you will create a service account, associate several roles with the service account, and provide the service account to Zilliz Cloud so that Zilliz Cloud can access the bucket created above.
 
+<Supademo id="cmc1mg9bvjk4bsn1r8awkyndh" title=""  />
+
 The steps to create the storage service account are as follows:
 
 1. On the GCP console, find and click **IAM & Admin**.
@@ -103,20 +105,11 @@ The steps to create the storage service account are as follows:
 
     1. Select **Storage Object Admin** from the drop-down list.
 
-    1. Click **Add IAM condition**, set the condition title, and put the following condition in the **Condition builder**.
+    1. Click **Add IAM condition**, set the condition title, and put the following condition in the **Condition editor**.
 
-        <table>
-           <tr>
-             <th><p>Condition type</p></th>
-             <th><p>Operator</p></th>
-             <th><p>Value</p></th>
-           </tr>
-           <tr>
-             <td><p>Name</p></td>
-             <td><p>Starts with</p></td>
-             <td><p><code>projects/_/buckets/YOUR_BUCKET_NAME</code></p></td>
-           </tr>
-        </table>
+        ```json
+        resource.name.startsWith("projects/_/buckets/YOUR_BUCKET_NAME")
+        ```
 
         <Admonition type="info" icon="📘" title="Notes">
 

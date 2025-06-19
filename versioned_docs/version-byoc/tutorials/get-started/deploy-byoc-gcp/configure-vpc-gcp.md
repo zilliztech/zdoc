@@ -1,7 +1,7 @@
 ---
-title: "Configure a Customer-Managed VPC | BYOC"
+title: "Configure a Customer-Managed VPC on GCP | BYOC"
 slug: /configure-vpc-gcp
-sidebar_label: "Configure a Customer-Managed VPC"
+sidebar_label: "Configure a Customer-Managed VPC on GCP"
 beta: CONTACT SALES
 notebook: FALSE
 description: "The Zilliz Cloud Bring-Your-Own-Cloud (BYOC) solution enables you to set up a project within your own Virtual Private Cloud (VPC). With a Zilliz Cloud project running in a customer-managed VPC, you gain greater control over your network configurations, allowing you to meet specific cloud security and governance standards required by your organization. | BYOC"
@@ -17,10 +17,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 
@@ -29,7 +29,7 @@ import Admonition from '@theme/Admonition';
 
 import Supademo from '@site/src/components/Supademo';
 
-# Configure a Customer-Managed VPC
+# Configure a Customer-Managed VPC on GCP
 
 The Zilliz Cloud Bring-Your-Own-Cloud (BYOC) solution enables you to set up a project within your own Virtual Private Cloud (VPC). With a Zilliz Cloud project running in a customer-managed VPC, you gain greater control over your network configurations, allowing you to meet specific cloud security and governance standards required by your organization. 
 
@@ -88,7 +88,7 @@ The PSC endpoint is optional and will be used when you configure private endpoin
 
 ## Procedure{#procedure}
 
-On the GCP dashboard, you can create the VPC and related resources enumerated in [VPC requirements](./configure-vpc-gcp#vpc-requirements). Alternatively, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on GCP. For details, refer to Terraform Provider.
+On the GCP dashboard, you can create the VPC and related resources enumerated in [VPC requirements](./configure-vpc-gcp#vpc-requirements). Alternatively, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on GCP. For details, refer to [Terraform Provider](./terraform-provider).
 
 ### Step 1: Create a VPC network and add the primary subnet{#step-1-create-a-vpc-network-and-add-the-primary-subnet}
 
@@ -229,7 +229,7 @@ The steps to add these firewall rules are as follows:
         <table>
            <tr>
              <th><p><strong>Name</strong></p></th>
-             <th><p>Ingress-rule-for-health-checks</p></th>
+             <th><p>ingress-rule-for-health-checks</p></th>
            </tr>
            <tr>
              <td><p><strong>Targets</strong></p></td>
@@ -254,7 +254,7 @@ The steps to add these firewall rules are as follows:
         <table>
            <tr>
              <th><p><strong>Name</strong></p></th>
-             <th><p>Ingress-rule-for-local-traffic</p></th>
+             <th><p>ingress-rule-for-local-traffic</p></th>
            </tr>
            <tr>
              <td><p><strong>Targets</strong></p></td>
@@ -266,7 +266,7 @@ The steps to add these firewall rules are as follows:
            </tr>
            <tr>
              <td><p><strong>Source IPv4 ranges</strong></p></td>
-             <td><p><a href="./configure-vpc-gcp#subnets">IPv4 address range of the primary subnet</a></p></td>
+             <td><p><a href="./configure-vpc-gcp#step-1-create-a-vpc-network-and-add-the-primary-subnet">IPv4 address range of the primary subnet</a></p></td>
            </tr>
            <tr>
              <td><p><strong>Protocols and ports</strong></p></td>
@@ -290,7 +290,7 @@ The steps for creating the PSC endpoint are as follows:
 
 1. Select **Published service** in **Target**.
 
-1. Enter the service attachment ID that Zilliz Cloud provides.
+1. Enter the service attachment ID in **Target details** that Zilliz Cloud provides.
 
     The following table lists the service attachment ID specific to each available cloud regions.
 
@@ -312,6 +312,8 @@ The steps for creating the PSC endpoint are as follows:
 1. Assign an IP address to the endpoint.
 
     In the prompted dialog box, do as follows:
+
+    1. Click **Create IP address**.
 
     1. Set a name for the IP address.
 

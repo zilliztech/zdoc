@@ -17,10 +17,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 
@@ -41,35 +41,11 @@ This page describes how to create and configure a cross-account service account 
 
 ## Procedures{#procedures}
 
-You can use the Google Cloud Platform (GCP) dashboard to create the EKS role. Alternatively, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on GCP. For details, refer to Terraform Provider.
+You can use the Google Cloud Platform (GCP) dashboard to create the EKS role. Alternatively, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on GCP. For details, refer to [Terraform Provider](./terraform-provider).
 
-### Step 1: Create a service account{#step-1-create-a-service-account}
+### Step 1: Create custom roles{#step-1-create-custom-roles}
 
-In this step, you will create a service account for Zilliz Cloud to manage VPC resources on your behalf and paste the service account email address back to Zilliz Cloud console.
-
-<Supademo id="cmbgab1q34jjnsn1r4j9hk4pb" title=""  />
-
-The steps for creating a service account are as follows:
-
-1. On the GCP console, find and click **IAM & Admin**.
-
-1. Choose **Service Accounts** on the left navigation pane.
-
-1. Click **Create service account**.
-
-1. Set a proper name for the service account to create.
-
-    In this demo, you can set it to `your-org-cross-account-sa`. The service account ID is the first 18 characters of the service account name. You can manually set it to a proper value.
-
-1. Click **Create and continue**.
-
-1. Keep the default settings for **Permissions** and **Principals**.
-
-1. Click **Done**.
-
-### Step 2: Grant permissions{#step-2-grant-permissions}
-
-In this step, you will assign permissions to the service account created above by linking several roles to the service account. 
+Before creating the cross-account service account, you need create several custom roles that needs to be assigned to the service account.
 
 #### Create an instance group manager custom role{#create-an-instance-group-manager-custom-role}
 
@@ -86,6 +62,8 @@ The steps for creating the instance group manager custom role are as follows:
 1. Click **Create role**.
 
 1. Set a title and description for the custom role to create.
+
+    In this demo, you can use **Zilliz Cloud Custom Role for GKE Management**.
 
 1. Change **Role launch stage** from **Alpha** to **General Availability**.
 
@@ -113,6 +91,8 @@ The steps for creating a custom role are as follows:
 
 1. Set a title and description for the custom role to create.
 
+    In this demo, you can use **IAM custom role**.
+
 1. Change **Role launch stage** from **Alpha** to **General Availability**.
 
 1. Click **Add permissions**. The permissions to add in this step are as follows:
@@ -123,21 +103,27 @@ The steps for creating a custom role are as follows:
 
 1. Click **Create**.
 
-#### Assign roles to the service account{#assign-roles-to-the-service-account}
+### Step 2: Create a service account{#step-2-create-a-service-account}
 
-You will assign the custom role created above with several GCP-managed roles to the cross-account service account.
+In this step, you will create a service account for Zilliz Cloud to manage VPC resources on your behalf and paste the service account email address back to Zilliz Cloud console.
 
-<Supademo id="cmbhawpc15ia7sn1r90fhwxhi" title=""  />
+<Supademo id="cmc1pq4ikjo9nsn1rzuxbs1p0" title=""  />
 
-The steps for assigning roles to the cross-account service account are as follows:
+The steps for creating a service account are as follows:
 
 1. On the GCP console, find and click **IAM & Admin**.
 
-1. On the **IAM** page, click **Grant access**.
+1. Choose **Service Accounts** on the left navigation pane.
 
-1. Select the cross-account service account created in the previous step in the **Grant access** pane that moves inward.
+1. Click **Create service account**.
 
-1. Add the custom roles created in the previous steps and several GCP-managed roles to the service account.
+1. Set a proper name for the service account to create.
+
+    In this demo, you can set it to `your-org-cross-account-sa`. The service account ID is the first 18 characters of the service account name. You can manually set it to a proper value.
+
+1. Click **Create and continue**.
+
+1. In the **Permissions** section, add the custom roles created in the previous steps and several GCP-managed roles to the service account.
 
     The following table lists the roles to be assigned to the service account.
 
@@ -148,12 +134,12 @@ The steps for assigning roles to the cross-account service account are as follow
          <th><p>Condition</p></th>
        </tr>
        <tr>
-         <td><p><a href="./create-cross-account-sa#create-an-instance-group-manager-custom-role">Instance group manager custom role</a></p></td>
+         <td><p><a href="./create-cross-account-sa">Instance group manager custom role</a></p></td>
          <td><p>Custom</p></td>
          <td><p><code>resource.name.extract("projects/\{name}").startsWith("PROJECT_ID") &amp;&amp;resource.name.extract("zones/\{name}").startsWith("REGION") &amp;&amp;resource.name.extract("instanceGroupManagers/\{name}").startsWith("gke-CLUSTER_NAME")</code></p></td>
        </tr>
        <tr>
-         <td><p><a href="./create-cross-account-sa#create-an-iam-custom-role">IAM custom role</a></p></td>
+         <td><p><a href="./create-cross-account-sa">IAM custom role</a></p></td>
          <td><p>Custom</p></td>
          <td><p><code>api.getAttribute("iam.googleapis.com/modifiedGrantsByRole", []).hasOnly(["roles/iam.workloadIdentityUser"])</code></p></td>
        </tr>
@@ -203,16 +189,12 @@ Follow the steps below to grant the cross-account service account access to thes
 
 1. On the GCP console, find and click **Service Account**.
 
-1. Find and click one of the above-mentioned service accounts to view its details.
+1. Find and click the following service accounts in the list.
 
     <table>
        <tr>
          <th></th>
          <th><p>Description</p></th>
-       </tr>
-       <tr>
-         <td><p><code>your-org-gke-node-sa</code></p></td>
-         <td><p>This service account is created in <a href="null">this step</a>.</p></td>
        </tr>
        <tr>
          <td><p><code>PROJECT_NUMBER-compute@developer.gserviceaccount.com</code></p></td>
@@ -222,10 +204,8 @@ Follow the steps below to grant the cross-account service account access to thes
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <ul>
-    <li><p>You need to replace <code>your-org-gke-node-sa</code> with the actual name of the GKE service account created in Create GKE Service Account.</p></li>
-    <li><p>You need to replace <code>PROJECT_NUMBER</code> with your own GCP project number.</p></li>
-    </ul>
+    <p>A GCP project has a project ID and a project number: A project ID is a string you have entered when you create the project on the GCP console, while a project number is a string that GCP allocates to the project upon its creation.</p>
+    <p>You need to replace <code>PROJECT_NUMBER</code> with your own GCP project number.</p>
 
     </Admonition>
 

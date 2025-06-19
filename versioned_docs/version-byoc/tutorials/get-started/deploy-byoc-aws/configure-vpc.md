@@ -1,7 +1,7 @@
 ---
-title: "Configure a Customer-Managed VPC | BYOC"
+title: "Configure a Customer-Managed VPC on AWS | BYOC"
 slug: /configure-vpc
-sidebar_label: "Configure a Customer-Managed VPC"
+sidebar_label: "Configure a Customer-Managed VPC on AWS"
 beta: CONTACT SALES
 notebook: FALSE
 description: "The Zilliz Cloud Bring-Your-Own-Cloud (BYOC) solution enables you to set up a project within your own Virtual Private Cloud (VPC). With a Zilliz Cloud project running in a customer-managed VPC, you gain greater control over your network configurations, allowing you to meet specific cloud security and governance standards required by your organization. | BYOC"
@@ -18,17 +18,17 @@ keywords:
   - subnet
   - milvus
   - vector database
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Configure a Customer-Managed VPC
+# Configure a Customer-Managed VPC on AWS
 
 The Zilliz Cloud Bring-Your-Own-Cloud (BYOC) solution enables you to set up a project within your own Virtual Private Cloud (VPC). With a Zilliz Cloud project running in a customer-managed VPC, you gain greater control over your network configurations, allowing you to meet specific cloud security and governance standards required by your organization. 
 
