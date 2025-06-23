@@ -120,20 +120,17 @@ milvusClient.createCollection({
        type_params: {
          dim: "8"
        },
-       
        nullable: boolean,
        default_value: object,
        enable_analyzer: boolean,
        enable_match: boolean,
        analyzer_params: object
-       
      }
    ],
    num_partitions?: number,
    partition_key_field?: string,
    shards_num?: number,
    timeout?: number,
-   
    functions: [
       {
         name: string,
@@ -144,7 +141,6 @@ milvusClient.createCollection({
         params: Record<string, any>,
       },
    ]
-   
  })
 ```
 
@@ -196,6 +192,20 @@ milvusClient.createCollection({
 
         The description of the field.
 
+    - **is_clustering_key** (*boolean*) -
+
+        A boolean value indicating whether this field will work as the clustering key.
+
+    - **is_partition_key** (*boolean)* -
+
+        A boolean value indicating whether this field will work as the partition key field.
+
+    - **is_primary_key** (*boolean)* -
+
+        Whether the field will work as the primary key.
+
+        The value defaults to **False**. Setting this to **True** makes the field a primary key field which is unique throughout the collection.
+
     - **type_params** (*string* | *number)* -
 
         Other parameters for the field.
@@ -217,16 +227,6 @@ milvusClient.createCollection({
             The data type of the elements in an array. 
 
             This parameter applies if the current field is an array field.
-
-        - **is_partition_key** (*boolean)* -
-
-            A boolean value indicating whether this field will work as the partition key field.
-
-        - **is_primary_key** (*boolean)* -
-
-            Whether the field will work as the primary key.
-
-            The value defaults to **False**. Setting this to **True** makes the field a primary key field which is unique throughout the collection.
 
         - **max_capacity** (*string* | *number)* -
 
@@ -384,13 +384,11 @@ milvusClient.createCollection({
        type_params: {
          dim: "8"
        },
-       
        nullable: boolean,
        default_value: object,
        enable_analyzer: boolean,
        enable_match: boolean,
        analyzer_params: object
-       
      }
    ],
    num_partitions?: number,
@@ -406,7 +404,6 @@ milvusClient.createCollection({
        params?: keyValueObj
      }     
    ],
-   
    functions: [
       {
         name: string,
@@ -417,7 +414,6 @@ milvusClient.createCollection({
         params: Record<string, any>,
       },
    ]
-   
  })
 ```
 
@@ -469,6 +465,18 @@ milvusClient.createCollection({
 
         The description of the field.
 
+    - **is_clustering_key** (*boolean*) -
+
+        A boolean value indicating whether this field will work as the clustering key.
+
+    - **is_partition_key** (*boolean)* -
+
+        A boolean value indicating whether this field will work as the partition key field.
+
+    - **is_primary_key** (*boolean)* -
+
+        Whether the field will work as the primary key.
+
     - **type_params** (*string* | *number)* -
 
         Other parameters for the field.
@@ -495,15 +503,11 @@ milvusClient.createCollection({
 
             This parameter applies if the current field is an array field.
 
-        - **is_partition_key** (*boolean)* -
+        - **max_capacity** (*string* | *number)* -
 
-            A boolean value indicating whether this field will work as the partition key field.
+            The number of elements in an array.
 
-        - **is_primary_key** (*boolean)* -
-
-            Whether the field will work as the primary key.
-
-            The value defaults to **False**. Setting this to **True** makes the field a primary key field which is unique throughout the collection.**max_capacity** (*string* | *number)* -
+            This parameter applies if the current field is an array field.
 
         - **max_length** (*string*) -
 

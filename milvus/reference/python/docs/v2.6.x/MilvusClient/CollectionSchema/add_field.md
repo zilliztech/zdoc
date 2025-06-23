@@ -174,7 +174,7 @@ add_field(
 
 - **multi_analyzer_params** (*dict*) -
 
-    Configures language-specific text analyzers for multilingual collections. This parameter enables the system to apply different analyzers to documents based on their language, significantly improving text search accuracy across multiple languages. For more information, refer to Multi-language Analyzers.
+    Configures language-specific text analyzers for multilingual collections. This parameter enables the system to apply different analyzers to documents based on their language, significantly improving text search accuracy across multiple languages. For more information, refer to [Multi-language Analyzer](https://milvus.io/docs/multi-language-analyzers.md).
 
     ```python
     multi_analyzer_params = {
