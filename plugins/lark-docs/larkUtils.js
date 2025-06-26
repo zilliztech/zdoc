@@ -319,9 +319,18 @@ class larkUtils {
 
     __convert_link(file, path, outputDir) {
         const folders = fs.readdirSync(outputDir, {recursive: true}).filter(path => fs.statSync(`${outputDir}/${path}`).isDirectory())
+        const files = fs.readdirSync(outputDir, {recursive: true}).filter(path => path.endsWith('.md'))
 
-        var parent = path.slice(2, path.lastIndexOf('-'))
         var section = path.indexOf("#") > -1 ? path.slice(path.lastIndexOf("#") + 1) : ""
+        var link_path = files.find(file => file.endsWith(path.slice(2).replace(`#${section}`, '') + '.md'))
+
+        if (!link_path) {
+            console.log(path, path.slice(2).replace(`#${section}`, '') + '.md', file)
+            throw new Error(`Cannot find linked file for ${path} in ${outputDir}`)
+        }
+
+        var parent = link_path.split('/').slice(0, -1).join('/')
+        
         var rel_path = ''
 
         var folder = folders.find(folder => folder.endsWith(parent))

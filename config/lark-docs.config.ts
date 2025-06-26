@@ -191,6 +191,26 @@ const javaV225 : Manual = {
     }
 }
 
+const javaV226 : Manual = {
+    root: 'B1agfRbPglv4tpdTkjlcUMgVnRV',
+    base: 'Sbtcbm660abngWsXryKct5nOn2e',
+    sourceType: 'drive',
+    displayedSidebar: 'javaSidebar',
+    version: 'v2.6.x',
+    docSourceDir: './plugins/lark-docs/meta/sources/java/v2.6.x/v2',
+    fallbackSourceDir: './plugins/lark-docs/meta/sources/java/v2.5.x/v2',
+    targets: {
+        milvus: {
+            outputDir: 'milvus/reference/java/docs/v2/v2.6.x',
+            imageDir: 'milvus/reference/java/images'
+        },
+        zilliz: {
+            outputDir: 'reference/api/java/java/v2',
+            imageDir: 'static/img',
+        }
+    }
+}
+
 // sdk: node ===============================
 
 const node : Manual = {
@@ -301,6 +321,7 @@ export default {
     javaV1,
     javaV2,
     javaV225,
+    javaV226,
     node,
     nodejs25,
     nodejs26,
