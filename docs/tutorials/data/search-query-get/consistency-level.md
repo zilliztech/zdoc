@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 
@@ -83,7 +83,7 @@ When creating a collection, you can set the consistency level for the searches a
 client.create_collection(
     collection_name="my_collection",
     schema=schema,
-    # highlight-next
+    # highlight-next-line
     consistency_level="Strong",
 )
 ```
@@ -96,7 +96,7 @@ client.create_collection(
 CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
-        // highlight-next
+        // highlight-next-line
         .consistencyLevel(ConsistencyLevel.STRONG)
         .build();
 client.createCollection(createCollectionReq);
@@ -172,7 +172,7 @@ Possible values for the `consistency_level` parameter are `Strong`, `Bounded`, `
 
 You can always change the consistency level for a specific search. The following code example sets the consistency level back to the **Bounded**. The change applies only to the current search request.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -204,9 +204,10 @@ SearchResp searchResp = client.search(searchReq);
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='go'>
+
+```go
 resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     "my_collection", // collectionName
     3,               // limit
@@ -218,6 +219,10 @@ if err != nil {
     // handle error
 }
 ```
+
+</TabItem>
+
+<TabItem value='bash'>
 
 ```bash
 curl --request POST \
@@ -234,13 +239,16 @@ curl --request POST \
 }'
 ```
 
+</TabItem>
+</Tabs>
+
 This parameter is also available in hybrid searches and the search iterator. Possible values for the `consistency_level` parameter are `Strong`, `Bounded`, `Eventually`, and `Session`.
 
 ### Set Consistency Level in Query{#set-consistency-level-in-query}
 
 You can always change the consistency level for a specific search. The following code example sets the consistency level to the **Eventually**. The setting applies only to the current query request.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -272,9 +280,10 @@ QueryReq queryReq = QueryReq.builder()
 ```
 
 </TabItem>
-</Tabs>
 
-```plaintext
+<TabItem value='go'>
+
+```go
 resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter("color like \"red%\"").
     WithOutputFields("vector", "color").
@@ -285,5 +294,25 @@ if err != nil {
     // handle error
 }
 ```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "my_collection",
+    "filter": "color like \"red_%\"",
+    "consistencyLevel": "Bounded",
+    "limit": 3
+}'
+```
+
+</TabItem>
+</Tabs>
 
 This parameter is also available in the query iterator. Possible values for the `consistency_level` parameter are `Strong`, `Bounded`, `Eventually`, and `Session`.
