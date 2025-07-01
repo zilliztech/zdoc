@@ -91,29 +91,29 @@ func NewColumnBasedInsertOption(collName string, columns ...column.Column) *colu
 
 You can chain the following method to get an implementation of the `columnBasedDataOption` struct.
 
-- [WithColumns](Upsert.md)
+- [WithColumns](Insert.md#WithColumns)
 
-- [WithBoolColumn](Upsert.md)
+- [WithBoolColumn](Insert.md#WithBoolColumn)
 
-- [WithInt8Column](Upsert.md)
+- [WithInt8Column](Insert.md#WithInt8Column)
 
-- [WithInt16Column](Upsert.md)
+- [WithInt16Column](Insert.md#WithInt16Column)
 
-- [WithInt32Column](Upsert.md)
+- [WithInt32Column](Insert.md#WithInt32Column)
 
-- [WithInt64Column](Upsert.md)
+- [WithInt64Column](Insert.md#WithInt64Column)
 
-- [WithVarcharColumn](Upsert.md)
+- [WithVarcharColumn](Insert.md#WithVarcharColumn)
 
-- [WithFloatVectorColumn](Upsert.md)
+- [WithFloatVectorColumn](Insert.md#WithFloatVectorColumn)
 
-- [WithFloat16VectorColumn](Upsert.md)
+- [WithFloat16VectorColumn](Insert.md#WithFloat16VectorColumn)
 
-- [WithBFloat16VectorColumn](Upsert.md)
+- [WithBFloat16VectorColumn](Insert.md#WithBFloat16VectorColumn)
 
-- [WithBinaryVectorColumn](Upsert.md)
+- [WithBinaryVectorColumn](Insert.md#WithBinaryVectorColumn)
 
-- [WithPartition](Upsert.md)
+- [WithPartition](Insert.md#WithPartition)
 
 ## UpsertResult
 

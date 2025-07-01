@@ -1,9 +1,9 @@
-# GrantPrivilegeV2()
+# RevokePrivilegeV2()
 
-This method grants a privilege or a privilege group to a role. In Milvus, you can allocate multiple privileges or privilege groups to a role and grant the role to a user so that the user gains the privileges allocated to the role.
+This method revokes a privilege or a privilege group from a role. In Milvus, you can allocate multiple privileges or privilege groups to a role and grant the role to a user so that the user gains the privileges allocated to the role.
 
 ```plaintext
-func (c *Client) GrantPrivilegeV2(ctx context.Context, option GrantPrivilegeV2Option, callOptions ...grpc.CallOption) error
+func (c *Client) RevokePrivilegeV2(ctx context.Context, option RevokePrivilegeV2Option, callOptions ...grpc.CallOption) error
 ```
 
 ## Request Parameters
@@ -22,7 +22,7 @@ func (c *Client) GrantPrivilegeV2(ctx context.Context, option GrantPrivilegeV2Op
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>GrantPrivilegeV2Option</code></p></td>
+     <td><p><code>RevokePrivilegeV2Option</code></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -31,18 +31,18 @@ func (c *Client) GrantPrivilegeV2(ctx context.Context, option GrantPrivilegeV2Op
    </tr>
 </table>
 
-## GrantPrivilegeV2Option
+## RevokePrivilegeV2Option
 
-This is an interface type. The `grantPrivilegeV2Option` struct type implements this interface type. 
+This is an interface type. The `revokePrivilegeV2Option` struct type implements this interface type. 
 
-You can use the `NewGrantPrivilegeV2Option()` function to get the concrete implementation.
+You can use the `NewRemovePrivilegeV2Option()` function to get the concrete implementation.
 
-### NewGrantPrivilegeV2Option
+### NewRemovePrivilegeV2Option
 
-The signature of the `NewGrantPrivilegeV2Option()` is as follows:
+The signature of the `NewRemovePrivilegeV2Option()` is as follows:
 
 ```go
-func NewGrantPrivilegeV2Option(roleName, privilegeName, collectionName string) *grantV2Option
+func NewRevokePrivilegeV2Option(roleName, privilegeName, collectionName string) *revokePrivilegeV2Option
 ```
 
 <table>
@@ -79,21 +79,6 @@ Null
 ## Example
 
 ```go
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-})
-if err != nil {
-    // handle error
-}
-
-defer cli.Close(ctx)
-
-err = cli.GrantPrivilegeV2(ctx, milvusclient.NewGrantPrivilegeV2Option("my_role", "Search", "quick_setup"))
-if err != nil {
-    // handle error
-}
 ```
 
