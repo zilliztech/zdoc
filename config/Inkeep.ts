@@ -126,9 +126,97 @@ const detectedSalesSignal = z.object({
   type: salesSignalType,
 });
 
+const supportSignalType = z
+  .union([
+    z.literal("technical_issue").describe(`
+      The user is reporting a bug, error, crash, timeout, or unexpected system behavior.
+      Examples:
+      • "I'm getting error code 1807"
+      • "recvmsg:Operation timed out"
+      • "My cluster is stuck resuming"
+      • "The API crashes when I call it"
+      • "Token doesn’t work with MilvusClient"
+      • "Why does search return inconsistent results?"
+      • "max_capacity for array field?"
+      • "Quota exceeded error"
+      • "Illegal connection params"
+    `),
+
+    z.literal("configuration_or_schema_question").describe(`
+      The user is asking about schema definitions, metadata usage, indexing, or general setup issues.
+      Examples:
+      • "How do I remove a field?"
+      • "Can I update just metadata?"
+      • "Which index should I use for 6M vectors?"
+      • "How to exclude the query vector from results?"
+      • "How to set default = null?"
+      • "Do I need to specify vector dim when using AUTOINDEX?"
+    `),
+
+    z.literal("auth_or_access_issue").describe(`
+      The user is confused about authentication, tokens, permissions, or access control.
+      Examples:
+      • "What's the difference between API key and cluster token?"
+      • "I have admin access but still get denied"
+      • "Is my IP whitelisted?"
+      • "How do I access the database securely from Python?"
+    `),
+
+    z.literal("product_capability_question").describe(`
+      The user is asking about supported features, regions, performance limits, or deployment options.
+      Examples:
+      • "Do you support SQL?"
+      • "Is BYOK available?"
+      • "Is UK Azure supported?"
+      • "Can 100 users search at once?"
+      • "Can I deploy this on-prem?"
+      • "What’s the difference between Knowhere and Cardinal?"
+    `),
+
+    z.literal("data_ops_or_migration").describe(`
+      The user is asking about data import/export, ETL, or migration from another system.
+      Examples:
+      • "How easy is it to migrate from Mongo?"
+      • "Import keeps failing"
+      • "Do you support Pinecone migration?"
+      • "What's the fastest way to upsert metadata?"
+    `),
+
+    z.literal("ai_low_confidence_or_docs_missing").describe(`
+      The AI assistant was unable to provide a confident or complete answer due to vague input or lack of documentation.
+      Examples:
+      • "I'm not sure"
+      • "There is no documented API for this"
+      • "Documentation doesn't cover this"
+      • "Can you check this?"
+      • "Why doesn't it work?"
+    `),
+    
+    z.literal("direct_support_request").describe(`
+  The user is explicitly requesting to contact support or asking for human assistance.
+  Examples:
+  • "Can I talk to support?"
+  • "I need help"
+  • "Is there someone I can speak to?"
+  • "This is urgent, please escalate"
+  • "How do I open a support ticket?"
+`),
+
+  ])
+  .describe("General type of support signal detected in the user's message.");
+
+const detectedSupportSignal = z.object({
+  explanation: z
+    .string()
+    .describe("Short justification for why this is a support-related message."),
+  type: supportSignalType,
+});
+
 export {
   answerConfidence,
   provideAnswerConfidenceSchema,
   salesSignalType,
   detectedSalesSignal,
+  supportSignalType,
+  detectedSupportSignal,
 };

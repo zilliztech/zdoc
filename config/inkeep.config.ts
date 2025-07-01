@@ -4,10 +4,16 @@ import {
     answerConfidence, 
     salesSignalType,
     detectedSalesSignal, 
+    supportSignalType,
+    detectedSupportSignal,
     provideAnswerConfidenceSchema 
 } from './Inkeep';
 
 const validSalesSignalTypes = salesSignalType.options.map(
+  option => option.value
+);
+
+const validSupportSignalTypes = supportSignalType.options.map(
   option => option.value
 );
 
@@ -97,32 +103,32 @@ export const inkeepSettings ={
     aiAssistantAvatar: "https://assets.zilliz.com/cloud_ai_assistance_avatar_d9eb0d7763.svg",
     placeholder: "How can I get started?",
     getTools: () => [
-      {
-        type: "function",
-        function: {
-          name: "provideAnswerConfidence",
-          description: "Determine how confident the AI assistant was and whether or not to escalate to humans.",
-          parameters: zodToJsonSchema(provideAnswerConfidenceSchema),
-        },
-        renderMessageButtons: ({ args }) => {
-          const confidence = args.answerConfidence;
-          if (["not_confident", "no_sources", "other"].includes(confidence)) {
-            return [
-              {
-                label: "Contact Support",
-                action: {
-                  type: "open_link",
-                  url: "https://support.zilliz.com/hc/en-us",
-                },
-                icon: {
-                  builtIn: "IoHelpBuoyOutline"
-                }
-              }
-            ];
-          }
-          return [];
-        },
-      },
+      // {
+      //   type: "function",
+      //   function: {
+      //     name: "provideAnswerConfidence",
+      //     description: "Determine how confident the AI assistant was and whether or not to escalate to humans.",
+      //     parameters: zodToJsonSchema(provideAnswerConfidenceSchema),
+      //   },
+      //   renderMessageButtons: ({ args }) => {
+      //     const confidence = args.answerConfidence;
+      //     if (["not_confident", "no_sources", "other"].includes(confidence)) {
+      //       return [
+      //         {
+      //           label: "Contact Support",
+      //           action: {
+      //             type: "open_link",
+      //             url: "https://support.zilliz.com/hc/en-us",
+      //           },
+      //           icon: {
+      //             builtIn: "IoHelpBuoyOutline"
+      //           }
+      //         }
+      //       ];
+      //     }
+      //     return [];
+      //   },
+      // },
       {
         type: "function",
         function: {
@@ -139,6 +145,29 @@ export const inkeepSettings ={
                 action: {
                   type: "open_link",
                   url: "https://zilliz.com/contact-sales?contact_sales_traffic_source=websiteBot"
+                }
+              }
+            ];
+          }
+          return []
+        }
+      },
+      {
+        type: "function",
+        function: {
+          name: "detectSupportSignal",
+          description: "Identify when users need support or assistance.",
+          parameters: zodToJsonSchema(detectedSupportSignal),
+        },
+        renderMessageButtons: ({ args }) => {
+          if (args.type && validSupportSignalTypes.includes(args.type)) {
+            return [
+              {
+                label: "Contact Support",
+                icon: { builtIn: "IoHelpBuoyOutline" },
+                action: {
+                  type: "open_link",
+                  url: "https://support.zilliz.com/hc/en-us"
                 }
               }
             ];
