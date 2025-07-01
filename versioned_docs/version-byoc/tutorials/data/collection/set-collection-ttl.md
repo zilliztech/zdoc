@@ -15,10 +15,10 @@ keywords:
   - collection
   - collection ttl
   - time-to-live
-  - how does milvus work
-  - Zilliz vector database
   - Zilliz database
   - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 
@@ -35,6 +35,12 @@ Once data is inserted into a collection, it remains there by default. However, i
 Time-to-Live (TTL) is commonly used in databases for scenarios where data should only remain valid or accessible for a certain period after any insertion or modification. Then, the data can be automatically removed. 
 
 For instance, if you ingest data daily but only need to retain records for 14 days, you can configure Zilliz Cloud to automatically remove any data older than that by setting the collection’s TTL to **14 × 24 × 3600 = 1209600** seconds. This ensures that only the most recent 14 days’ worth of data remain in the collection.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Expired entities will not appear in any search or query results. However, they may stay in the storage until the subsequent data compaction, which should be carried out within the next 24 hours.</p>
+
+</Admonition>
 
 The TTL property in a Zilliz Cloud collection is specified as an integer in seconds. Once set, any data that surpasses its TTL will be automatically deleted from the collection.
 
