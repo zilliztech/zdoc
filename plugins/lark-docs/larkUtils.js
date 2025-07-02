@@ -202,21 +202,22 @@ class larkUtils {
             fs.writeFileSync(`${outputDir}/${file}`, content, {encoding: 'utf-8', flag: 'w'})
         }
 
-        // rename folders
-        if (outputDir.includes('reference')) {
-            this.__rename_file_path(outputDir)
-        }
-
         // remove index files
         const folders = fs.readdirSync(outputDir, {recursive: true}).filter(path => fs.statSync(`${outputDir}/${path}`).isDirectory())
 
         for (const folder of folders) {
-            if (fs.existsSync(`${outputDir}/${folder}/${folder.split('/').slice(-1)[0]}.md`)) {
-                const content = fs.readFileSync(`${outputDir}/${folder}/${folder.split('/').slice(-1)[0]}.md`, {encoding: 'utf-8', flag: 'r'})
-                if (content.split('\n').length < 7) {
-                    fs.rmSync(`${outputDir}/${folder}/${folder.split('/').slice(-1)[0]}.md`, {recursive: true, force: true})
+            var index_page_name = folder.split('/').slice(-1)[0] + '.md'
+            if (fs.existsSync(`${outputDir}/${folder}/${index_page_name}`)) {
+                const content = fs.readFileSync(`${outputDir}/${folder}/${index_page_name}`, {encoding: 'utf-8', flag: 'r'})
+                if (content.split('\n').length < 15) {
+                    fs.rmSync(`${outputDir}/${folder}/${index_page_name}`, {recursive: true, force: true})
                 }
             }
+        }
+
+        // rename folders
+        if (outputDir.includes('reference')) {
+            this.__rename_file_path(outputDir)
         }
     }
 
