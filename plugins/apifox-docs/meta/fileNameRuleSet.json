@@ -108,5 +108,35 @@
         "path": "-import-job",
         "name": "-",
         "match": "removeAndCapitalize"
+    },
+    {
+        "path": "alter-field-properties",
+        "name": "Alter Field Properties",
+        "match": "contains"
+    },
+    {
+        "path": "refresh-load",
+        "name": "Refresh Load",
+        "match": "contains"
+    },
+    {
+        "path": "-database",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-databases",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },    
+    {
+        "path": "-resource-group",
+        "name": "-",
+        "match": "removeAndCapitalize"
+    },
+    {
+        "path": "-resource-groups",
+        "name": "-",
+        "match": "removeAndCapitalize"
     }
 ]

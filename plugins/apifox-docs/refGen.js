@@ -1,5 +1,3 @@
-const ErrorGenerator = require('./errGen.js')
-const RestI18n = require('./resti18n.js')
 const nunjucks = require("nunjucks")
 const fs = require('node:fs')
 
@@ -7,8 +5,6 @@ class refGen {
   constructor(options) {
     this.options = options
     this.options.parents = []
-    this.resti18n = new RestI18n()
-
 
     for ( const x of Object.keys(this.options.specifications.tags)) {
       this.options.parents.push(this.options.specifications.tags[x].name)
