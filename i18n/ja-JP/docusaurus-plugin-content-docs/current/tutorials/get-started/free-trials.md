@@ -4,20 +4,20 @@ slug: /free-trials
 sidebar_label: "Zilliz Cloudを無料で試す"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudは、無料プランと無料トライアルの両方を提供しており、強力なベクトルデータベース機能を評価またはテストし、Zilliz Cloudの使用コストを見積もるのに役立ちます。開始するには、Zilliz Cloudにアカウントを登録するだけです。支払い情報は必要ありません。 | Cloud"
+description: "Zilliz Cloudは、強力なベクトルデータベースの機能を評価またはテストし、Zilliz Cloudの使用コストを見積もるために、無料プランと無料トライアルの両方を提供しています。開始するには、Zilliz Cloudでアカウントを登録するだけです。支払い情報は必要ありません。 | Cloud"
 type: origin
-token: CBrbwbZtoiIcEFkUOTYcUjFMnze
-sidebar_position: 6
+token: LMfdwRwKIiJtywkwbHVcGnOFnRf
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
   - cloud
   - free trial
   - milvus
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 
@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 # Zilliz Cloudを無料で試す
 
-Zilliz Cloudは、**無料プラン**と**無料トライアル**の両方を提供しており、強力なベクトルデータベース機能を評価またはテストし、Zilliz Cloudの使用コストを見積もるのに役立ちます。開始するには、Zilliz Cloudに[アカウントを登録](./register-with-zilliz-cloud)するだけです。支払い情報は必要ありません。
+Zilliz Cloudは、強力なベクトルデータベースの機能を評価またはテストし、Zilliz Cloudの使用コストを見積もるために、無料プランと無料トライアルの両方を提供しています。開始するには、Zilliz Cloudで[アカウントを登録](./register-with-zilliz-cloud)するだけです。支払い情報は必要ありません。
 
 ## フリープラン{#free-plan}
 
@@ -38,33 +38,33 @@ Zilliz Cloudは、サーバーレスクラスタ機能を無料で利用でき�
 
 - 5つのコレクションまで
 
-より多くのリソースが必要な場合や高度な機能にアクセスしたい場合は、サーバーレスおよび専用プランの無料トライアルをご利用ください。
+より多くのリソースが必要な場合や、高度な機能にアクセスしたい場合は、サーバーレスおよび専用プランの[無料トライアル](./free-trials#free-training)をご利用ください。
 
 ## 無料トライアル{#free-trial}
 
-Zilliz Cloudは、Serverless、Dedicated(Standard)、Dedicated(Enterprise)の3つの[サブスクリプションプラン](./select-zilliz-cloud-service-plans)の無料トライアルを提供しています。
+Zilliz Cloudは、Serverless、Dedicated(Standard)、Dedicated(Enterprise)の3つの[サブスクリプションプラン](./select-zilliz-cloud-service-plans)の無料トライアルを提供しています。 
 
 ### 無料トライアルを利用する{#use-free-trial}
 
-Zilliz Cloudにサインアップすると、組織は請求アカウントに追加される**$100**の無料クレジットを受け取ります。これらのクレジットは**30日**後に期限切れとなり、サーバーレスおよび専用プランを探索するために使用できます。クレジットが使い果たされるか期限切れになると、無料トライアルは終了します。
+Zilliz Cloudに仕事のメールでサインアップすると、あなたの組織は請求アカウントに追加される**100ドル**の無料クレジットを受け取ります。これらのクレジットは**30日**後に期限切れになり、サーバーレスおよび専用プランを探索するために使用できます。クレジットが使い果たされるか期限切れになると、無料トライアルは終了します。
 
-トライアル後、あなたの組織は凍結されます。この間、サーバーレスおよび専用クラスターは[ごみ箱](./use-recycle-bin)に移動され、これらのクラスター専用の機能(バックアップと復元、アラートなど)にアクセスできなくなります。
+トライアル後、あなたの組織は凍結されます。この間、サーバーレスおよび専用クラスターは[リサイクルビン](./use-リサイクルビン)に移動され、これらのクラスター専用の機能(バックアップと復元、アラートなど)にアクセスできなくなります。
 
-組織の凍結を解除するには、単に[支払い方法を追加](./payment-billing)してください。これにより、ごみ箱から削除されたデータを復元できます。凍結後3 0日以内に支払い方法を追加しない場合、サーバーレスおよび専用クラスターは永久に削除されますが、組織は引き続き保持されます。
+あなたの組織を凍結解除するには、単に[支払い方法を追加](./payment-bill)してください。これにより、ごみ箱から削除されたデータを復元できます。凍結後3 0日以内に支払い方法を追加しない場合、サーバーレスおよび専用クラスターは永久に削除されますが、組織は引き続き保持されます。
 
-### クレジットを獲得する{#earn-credits-and-extend-credit-expiration}
+### クレジットを獲得し、クレジットの有効期限を延長する{#earn-credits-and-extend-credit-expiration}
 
-登録すると、$100の無料クレジットがもらえます。[マーケットプレイス](./subscribe-on-aws-marketplace)でZilliz Cloudに登録すると、さらに$100を獲得できます。さらに、支払い方法を追加すると、クレジットの有効期限が**1年間**延長されます。
+仕事のメールアドレスで登録すると、無料のクレジットが100件もらえます。Zilliz Cloudで[支払い方法](./payment-ビリング)を追加することで、さらに100件のクレジットを獲得できます。さらに、支払い方法を追加すると、クレジットの有効期限が1年間延長されます。
 
-追加のクレジットが必要な場合、または試用期間を延長したい場合は、[営業部までお問い合わせ](https://zilliz.com/contact-sales)ください。
+追加のクレジットが必要な場合、または試用期間を延長したい場合は、[営業部](https://zilliz.com/contact-sales)までお問い合わせください。
 
-### クレジット残高を見る{#view-credit-balance}
+### クレジット残高を表示する{#view-credit-balance}
 
-左側のナビゲーションペインの下部で、残りのクレジットと有効期限をすばやく確認できます。
+左側のナビゲーションペインの下部で、残りのクレジットと有効期限をすばやく確認できます。 
 
-または、[請求の概要]ページの[**クレジット**]セクションに移動**しま**す。
+代わりに、**請求概要**ページの**クレジット**セクションに移動してください。
 
-![view-credit-balance](/img/ja-JP/view-credit-balance.png)
+![view-credit-balance](/img/view-credit-balance.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -74,7 +74,9 @@ Zilliz Cloudにサインアップすると、組織は請求アカウントに�
 
 ### 無料トライアル通知{#free-trial-notifications}
 
-無料トライアル期間中、Zilliz Cloudからステータスに関する複数のメール通知を受け取ります。これらのメールは組織のオーナーに送信され、以下のイベントによってトリガーされます。
+無料トライアル期間中、Zilliz Cloudからステータスに関する複数のメール通知を受け取ります。これらのメールは、以下のイベントによってトリガーされ、組織のオーナーに送信されます。
+
+- クレジットが付与されてから最初の3日間は消費されません。
 
 - クレジットの60%が消費されます。
 
@@ -88,15 +90,9 @@ Zilliz Cloudにサインアップすると、組織は請求アカウントに�
 
 - すべてのクレジットが使い果たされました。
 
-<Admonition type="info" icon="📘" title="ノート">
-
-<p>試用期間が終了する前に支払い方法を追加すると、無料試用期間に関するメール通知が届かなくなります。</p>
-
-</Admonition>
-
 ## 関連するトピック{#related-topics}
 
-- [Zilliz Cloudに登録する](./register-with-zilliz-cloud)
+- [Zilliz Cloudに登録](./register-with-zilliz-cloud)
 
 - [クラスタ作成](./create-cluster)
 

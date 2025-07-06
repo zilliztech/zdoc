@@ -1,20 +1,19 @@
 const fetch = require('node-fetch')
 const Bottleneck = require('bottleneck')
-const larkTokenFetcher = require('./larkTokenFetcher.js')
+const tokenFetcher = require('./larkTokenFetcher.js')
 require('dotenv').config()
 
 const FEISHU_HOST = process.env.FEISHU_HOST
 
 class larkTranslator {
-    constructor(source, target, cache) {
+    constructor({source, target, cache}) {
         this.source = source
         this.target = target
-        this.cache = cache
+        this.cache = cache || []
         this.limiter = new Bottleneck({
             maxConcurrent: 1,
-            minTime: 33
+            minTime: 100
         })
-        this.tokenFetcher = new larkTokenFetcher()
     }
 
     async translate(text) {
@@ -28,34 +27,48 @@ class larkTranslator {
         return throttledTranslator(text)
     }
 
-    async __translateText(text) {
-        const url = `${FEISHU_HOST}/open-apis/translation/v1/text/translate`
+    async __translateText(source, glossary = []) {
+        var target = ''
 
-        const headers = {
-            'Content-Type': 'application/json; charset=utf-8',
-            'Authorization': `Bearer ${this.token}`
+        if (this.cache.some(item => item.source === source)) {
+            target = this.cache.find(item => item.source === source).target
+        } else {
+            const url = `${FEISHU_HOST}/open-apis/translation/v1/text/translate`
+
+            const headers = {
+                'Content-Type': 'application/json; charset=utf-8',
+                'Authorization': `Bearer ${this.token}`
+            }
+
+            const body = {
+                source_language: this.source,
+                target_language: this.target,
+                text: source,
+                glossary: glossary
+            }
+
+            const response = await fetch(url, {
+                method: 'POST',
+                headers: headers,
+                body: JSON.stringify(body)
+            })
+
+            const data = await response.json()
+
+            if (data.code !== 0) {
+                throw new Error(`Lark translation error: ${data.msg}`)
+            }
+
+            target = data.data.text
         }
 
-        const body = {
-            source_language: this.source,
-            target_language: this.target,
-            text: text
-        }
-
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: headers,
-            body: JSON.stringify(body)
+        this.cache.push({
+            source,
+            target
         })
 
-        const data = await response.json()
-
-        if (data.code !== 0) {
-            throw new Error(`Lark translation error: ${data.msg}`)
-        }
-
-        return data.data.text
+        return target
     }
 }
 
-export default larkTranslator
+module.exports = larkTranslator

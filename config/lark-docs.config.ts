@@ -43,11 +43,14 @@ const guides : Manual = {
 }
 
 const guidesJapanese : Manual = {
-    root: 'KSvxw0h8LiXtIdkpAnCcrl7cnio',
-    base: 'LkxfbrY6sa5jQ4sHquEcMqOsnCe',
+    // root: 'KSvxw0h8LiXtIdkpAnCcrl7cnio',
+    // base: 'LkxfbrY6sa5jQ4sHquEcMqOsnCe',
+    root: 'OUWXw5c4gia34ZkQUcEcMFbWn6s',
+    base: 'PnsobATKVayIDFs6hhQcChlGnje',
     sourceType: 'wiki',
     displayedSidebar: 'default',
-    docSourceDir: './plugins/lark-docs/meta/sources/guidesJapanese',
+    // docSourceDir: './plugins/lark-docs/meta/sources/guidesJapanese',
+    docSourceDir: './plugins/lark-docs/meta/sources/guides',
     targets: {
         milvus: {
             outputDir: 'milvus/guides/docs',

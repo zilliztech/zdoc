@@ -1,5 +1,6 @@
 const larkTokenFetcher = require('./larkTokenFetcher.js')
 const Downloader = require('./larkImageDownloader.js')
+const Translator = require('./larkTranslator.js')
 const slugify = require('slugify')
 const fs = require('node:fs')
 const { URL } = require('node:url')
@@ -22,131 +23,15 @@ class larkDocWriter {
         this.skip_image_download = skip_image_download
         this.imageDir = imageDir
         this.iframes = []
-        this.block_types = [
-            "page",
-            "text",
-            "heading1",
-            "heading2",
-            "heading3",
-            "heading4",
-            "heading5",
-            "heading6",
-            "heading7",
-            "heading8",
-            "heading9",
-            "bullet",
-            "ordered",
-            "code",
-            "quote",
-            null,
-            "todo",
-            "bitable",
-            "callout",
-            "chat_card",
-            "diagram",
-            "divider",
-            "file",
-            "grid",
-            "grid_column",
-            "iframe",
-            "image",
-            "isv",
-            "mindnote",
-            "sheet",
-            "table",
-            "table_cell",
-            "view",
-            "quote_container",
-            "task",
-            "okr",
-            "okr_objective",
-            "okr_key_result",
-            "okr_progress",
-            "add_ons",
-            "jira_issue",
-            "wiki_catelog",
-            "board"
-        ]
-        this.code_langs = [
-            null,
-            "PlainText",
-            "ABAP",
-            "Ada",
-            "Apache",
-            "Apex",
-            "Assembly",
-            "Bash",
-            "CSharp",
-            "C++",
-            "C",
-            "COBOL",
-            "CSS",
-            "CoffeeScript",
-            "D",
-            "Dart",
-            "Delphi",
-            "Django",
-            "Dockerfile",
-            "Erlang",
-            "Fortran",
-            "FoxPro",
-            "Go",
-            "Groovy",
-            "HTML",
-            "HTMLBars",
-            "HTTP",
-            "Haskell",
-            "JSON",
-            "Java",
-            "JavaScript",
-            "Julia",
-            "Kotlin",
-            "LateX",
-            "Lisp",
-            "Logo",
-            "Lua",
-            "MATLAB",
-            "Makefile",
-            "Markdown",
-            "Nginx",
-            "Objective",
-            "OpenEdgeABL",
-            "PHP",
-            "Perl",
-            "PostScript",
-            "Power",
-            "Prolog",
-            "ProtoBuf",
-            "Python",
-            "R",
-            "RPG",
-            "Ruby",
-            "Rust",
-            "SAS",
-            "SCSS",
-            "SQL",
-            "Scala",
-            "Scheme",
-            "Scratch",
-            "Shell",
-            "Swift",
-            "Thrift",
-            "TypeScript",
-            "VBScript",
-            "Visual",
-            "XML",
-            "YAML",
-            "CMake",
-            "Diff",
-            "Gherkin",
-            "GraphQL",
-            "OpenGL Shading Language",
-            "Properties",
-            "Solidity",
-            "TOML",        
-        ]
+        this.block_types = this.__list_block_types()
+        this.code_langs = this.__list_code_langs()
         this.tokenFetcher = new larkTokenFetcher()
         this.downloader = new Downloader({}, imageDir)
+        this.translator = new Translator({
+            source: 'en',
+            target: 'ja',
+            cache: []
+        })
     }
 
     __fetch_doc_source (type, value, slug="") {
@@ -181,7 +66,7 @@ class larkDocWriter {
                 await callback(array[index], index, array);
             }
         }
-
+        this.output_path = path
         var current_path = path
         const node = this.__fetch_doc_source('node_token', token)
 
@@ -276,6 +161,14 @@ class larkDocWriter {
         keywords,
         doc_card_list
     }) {
+        if (!this.output_path) {
+            this.output_path = path
+        }
+
+        if (this.output_path.includes('i18n')) {
+            page_title = await this.translator.translate(page_title)
+        }
+
         let obj;
         let blocks;
         if (page_token) {
@@ -821,21 +714,24 @@ class larkDocWriter {
     }
 
     async __page(page) {
-        return '# ' + await this.__text_elements(page['elements']);
+        let elements = await this.__text_elements(page['elements']);
+        return '# ' + elements.content;
     }
 
     async __text(text) {
-        return await this.__text_elements(text['elements']);
+        let elements = await this.__text_elements(text['elements']);
+        console.log(elements.source)
+        return elements.content;
     }
 
     async __heading(heading, level) {
-        let content = await this.__text_elements(heading['elements'])
-        content = this.__clean_headings(content)
+        let elements = await this.__text_elements(heading['elements'])
+        let content = this.__clean_headings(elements.content)
         
         if (content.length > 0) {
             
             if (content.indexOf('{#') < 0) {
-                let slug = slugify(content.split('|')[0].trim(), {lower: true, strict: true})
+                let slug = slugify(elements.source.split('|')[0].trim(), {lower: true, strict: true})
                 return '#'.repeat(level) + ' ' + content + '{#'+slug+'}';
             } else {
                 return '#'.repeat(level) + ' ' + content;
@@ -865,9 +761,9 @@ class larkDocWriter {
             children = await this.__markdown(children, indent+4)
         }
 
-        let content = await this.__text_elements(block['bullet']['elements'])
+        let elements = await this.__text_elements(block['bullet']['elements'])
 
-        return ' '.repeat(indent) + '- ' + content + '\n\n' + children;
+        return ' '.repeat(indent) + '- ' + elements.content + '\n\n' + children;
     }
 
     async __ordered(block, indent) {
@@ -879,9 +775,9 @@ class larkDocWriter {
             children = await this.__markdown(children, indent+4)
         }
 
-        let content = await this.__text_elements(block['ordered']['elements'])
+        let elements = await this.__text_elements(block['ordered']['elements'])
 
-        return ' '.repeat(indent) + '1. ' + content + '\n\n' + children;
+        return ' '.repeat(indent) + '1. ' + elements.content + '\n\n' + children;
     }
 
     async __callout(block, indent) {
@@ -1527,10 +1423,10 @@ class larkDocWriter {
                     if (headerBlock) {
                         const blockType = this.block_types[headerBlock['block_type'] - 1];
                         if (parseInt(blockType.slice(-1)) <= 9) {
-                            var content = await this.__text_elements(headerBlock[blockType]['elements']);
-                            content = this.__filter_content(content, this.targets)
+                            let elements = await this.__text_elements(headerBlock[blockType]['elements']);
+                            let content = this.__filter_content(elements.content, this.targets)
                             content = this.__clean_headings(content)
-                            const slug = content.includes('{#') ? content.split('{#')[1].replace(/}$/, '') : slugify(content, {strict: true, lower: true});
+                            const slug = content.includes('{#') ? content.split('{#')[1].replace(/}$/, '') : slugify(elements.source, {strict: true, lower: true});
                             newUrl += `#${slug}`;
                         }
                     }
@@ -1554,6 +1450,7 @@ class larkDocWriter {
 
     async __text_elements(elements) {
         let paragraph = "";
+        let source = "";
         for (let element of elements) {
             if ('text_run' in element) {
                 paragraph += await this.__text_run(element, elements);
@@ -1570,7 +1467,15 @@ class larkDocWriter {
             paragraph = await this.__auto_link(paragraph, this.docs)
         }
 
-        return paragraph;
+        if (this.output_path.includes('i18n')) {
+            source = paragraph;
+            paragraph = await this.translator.translate(paragraph);
+        }
+
+        return {
+            source: source,
+            content: paragraph
+        };
     }
 
     async __auto_link(paragraph, docs) {
@@ -1610,6 +1515,135 @@ class larkDocWriter {
         const keywords = fs.readFileSync(node_path.join('plugins', 'lark-docs', 'meta', 'keywords.txt'), 'utf8').trim().split('\n')
         const seed = Math.floor(Math.random() * keywords.length)
         return [keywords[seed], keywords[(seed+1)%keywords.length], keywords[(seed+2)%keywords.length], keywords[(seed+3)%keywords.length]]
+    }
+
+    __list_block_types() {
+        return [
+            "page",
+            "text",
+            "heading1",
+            "heading2",
+            "heading3",
+            "heading4",
+            "heading5",
+            "heading6",
+            "heading7",
+            "heading8",
+            "heading9",
+            "bullet",
+            "ordered",
+            "code",
+            "quote",
+            null,
+            "todo",
+            "bitable",
+            "callout",
+            "chat_card",
+            "diagram",
+            "divider",
+            "file",
+            "grid",
+            "grid_column",
+            "iframe",
+            "image",
+            "isv",
+            "mindnote",
+            "sheet",
+            "table",
+            "table_cell",
+            "view",
+            "quote_container",
+            "task",
+            "okr",
+            "okr_objective",
+            "okr_key_result",
+            "okr_progress",
+            "add_ons",
+            "jira_issue",
+            "wiki_catelog",
+            "board"
+        ]
+    }
+
+    __list_code_langs() {
+        return [
+            null,
+            "PlainText",
+            "ABAP",
+            "Ada",
+            "Apache",
+            "Apex",
+            "Assembly",
+            "Bash",
+            "CSharp",
+            "C++",
+            "C",
+            "COBOL",
+            "CSS",
+            "CoffeeScript",
+            "D",
+            "Dart",
+            "Delphi",
+            "Django",
+            "Dockerfile",
+            "Erlang",
+            "Fortran",
+            "FoxPro",
+            "Go",
+            "Groovy",
+            "HTML",
+            "HTMLBars",
+            "HTTP",
+            "Haskell",
+            "JSON",
+            "Java",
+            "JavaScript",
+            "Julia",
+            "Kotlin",
+            "LateX",
+            "Lisp",
+            "Logo",
+            "Lua",
+            "MATLAB",
+            "Makefile",
+            "Markdown",
+            "Nginx",
+            "Objective",
+            "OpenEdgeABL",
+            "PHP",
+            "Perl",
+            "PostScript",
+            "Power",
+            "Prolog",
+            "ProtoBuf",
+            "Python",
+            "R",
+            "RPG",
+            "Ruby",
+            "Rust",
+            "SAS",
+            "SCSS",
+            "SQL",
+            "Scala",
+            "Scheme",
+            "Scratch",
+            "Shell",
+            "Swift",
+            "Thrift",
+            "TypeScript",
+            "VBScript",
+            "Visual",
+            "XML",
+            "YAML",
+            "CMake",
+            "Diff",
+            "Gherkin",
+            "GraphQL",
+            "OpenGL Shading Language",
+            "Properties",
+            "Solidity",
+            "TOML",        
+        ]
     }
 }
 
