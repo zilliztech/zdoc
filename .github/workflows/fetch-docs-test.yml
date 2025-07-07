@@ -1,4 +1,4 @@
-name: "fetch lark docs (manual)"
+name: "fetch lark docs (test)"
 on: workflow_dispatch
 
 jobs:
