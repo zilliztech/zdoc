@@ -15,6 +15,7 @@ jobs:
     - name: fetch japanese docs
       id: fetch_jp_docs
       run: |
+        yarn
         npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.saas
         npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.saas -post
         npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.paas -skipS
