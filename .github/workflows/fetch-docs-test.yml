@@ -16,6 +16,8 @@ jobs:
       id: fetch_jp_docs
       run: |
         yarn
+        npx docusaurus report-to-lark -m "🔥 Start building global docs..."
+        npx docusaurus report-to-lark -m "🔥 Fetching Japanese docs..."
         npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.saas
         npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.saas -post
         npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.paas -skipS
