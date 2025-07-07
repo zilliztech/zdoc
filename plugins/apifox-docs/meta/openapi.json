@@ -35070,10 +35070,10 @@
 											},
 											"nullable": {
 												"type": "boolean",
-												"description": "Whether the field can be null. If set to `true`, the field can contain null values.",
+												"description": "Whether the field can be null. To be compatible with existing data in the collection, this should be set to `true`.",
 												"x-i18n": {
 													"zh-CN": {
-														"description": "字段是否可以为 null。如果设置为 `true`，则该字段可以包含 null 值。"
+														"description": "字段是否可以为 null。在此处处须设置为 `true`，以兼容 Collection 中已经存在数据的情形。"
 													}
 												}
 											},
@@ -35092,27 +35092,6 @@
 														"description": "字段的默认值。若当前字段为 `VarChar` 类型，则该参数为必填项。"
 													}
 												}
-											},
-											"isPartitionKey": {
-												"type": "boolean",
-												"description": "Whether the current field serves as the partition key. Setting this to True makes the current field serve as the partition key. In this case, <include target=\"milvus\">Milvus</include><include target=\"milvus\">Zilliz Cloud</include> manages all partitions in the current collection.",
-												"x-i18n": {
-													"zh-CN": {
-														"description": "当前字段是否为 Partition Key。将该参数设置为 `True` 则当前字段将作为 Partition Key。在这种情况下，<include target=\"milvus\">Milvus</include><include target=\"milvus\">Zilliz Cloud</include> 会管理当前 Collection 中的所有 Partition。"
-													}
-												}
-											},
-											"isClusteringKey": {
-												"type": "boolean",
-												"description": "Whether the current field serves as the clustering key. Setting this to True makes the current field serve as the clustering key. You can read more about the cluster key in <a href=\"https://milvus.io/docs/clustering-compaction.md\">Clustering Compaction</a>.",
-												"x-i18n": {
-													"zh-CN": {
-														"description": "当前字段是否为 Clustering Key。将该参数设置为 `True` 则当前字段将作为 Clustering Key。您可以在<a href=\"https://milvus.io/docs/clustering-compaction.md\">Clustering Compaction</a>中了解更多关于 Clustering Key 的信息。"
-													}
-												},
-												"x-include-target": [
-													"milvus"
-												]
 											},
 											"elementTypeParams": {
 												"type": "object",
@@ -35145,6 +35124,19 @@
 											}
 										}
 									}									
+								}
+							},
+							"example": {
+								"dbName": "test_db",
+								"collectionName": "test_collection",
+								"schema": {
+									"fieldName": "new_field",
+									"dataType": "DataType.VARCHAR",
+									"nullable": true,
+									"defaultValue": "default_value",
+									"elementTypeParams": {
+										"max_length": 255
+									}
 								}
 							}
 						}
@@ -35212,6 +35204,21 @@
 											}
 										}										
 									]
+								},
+								"examples": {
+									"1": {
+										"summary": "success",
+										"x-target-response": "OPTION 1",
+										"value": {"code":0,"data":{}}
+									},
+									"2": {
+										"summary": "failure",
+										"x-target-response": "OPTION 2",
+										"value": {
+											"code": 1800,
+											"message": "User hasn't authenticated"
+										}
+									}									
 								}
 							}
 						}						
