@@ -1470,6 +1470,20 @@ class larkDocWriter {
         if (this.output_path.includes('i18n')) {
             source = paragraph;
             paragraph = await this.translator.translate(paragraph);
+
+            // extract markdown links from the source and find match in paragraph
+            const regex = /\[(.*?)\]\((.*?)\)/g
+            const source_matches = [...source.matchAll(regex)];
+            const paragraph_matches = [...paragraph.matchAll(regex)];
+            for (let match of source_matches) {
+                const url = match[2];
+                if (url.startsWith('./') && paragraph_matches.some(m => m[2].startsWith(url.split('-')[0]))) {
+                    const match_in_pragraph = paragraph_matches.find(m => m[2].startsWith(url.split('-')[0]))
+                    paragraph = paragraph.replace(match_in_pragraph[0], `[${match_in_pragraph[1]}](${match[2]})`);
+                }
+            }
+
+            // process html tags            
         }
 
         return {

@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Zilliz Cloudは、強力なベクトルデータベースの機能を評価またはテストし、Zilliz Cloudの使用コストを見積もるために、無料プランと無料トライアルの両方を提供しています。開始するには、Zilliz Cloudでアカウントを登録するだけです。支払い情報は必要ありません。 | Cloud"
 type: origin
 token: LMfdwRwKIiJtywkwbHVcGnOFnRf
-sidebar_position: 8
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - free trial
   - milvus
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 
@@ -38,7 +38,7 @@ Zilliz Cloudは、サーバーレスクラスタ機能を無料で利用でき�
 
 - 5つのコレクションまで
 
-より多くのリソースが必要な場合や、高度な機能にアクセスしたい場合は、サーバーレスおよび専用プランの[無料トライアル](./free-trials#free-training)をご利用ください。
+より多くのリソースが必要な場合や、高度な機能にアクセスしたい場合は、サーバーレスおよび専用プランの[無料トライアル](./free-trials#free-trial)をご利用ください。
 
 ## 無料トライアル{#free-trial}
 
@@ -48,13 +48,13 @@ Zilliz Cloudは、Serverless、Dedicated(Standard)、Dedicated(Enterprise)の3�
 
 Zilliz Cloudに仕事のメールでサインアップすると、あなたの組織は請求アカウントに追加される**100ドル**の無料クレジットを受け取ります。これらのクレジットは**30日**後に期限切れになり、サーバーレスおよび専用プランを探索するために使用できます。クレジットが使い果たされるか期限切れになると、無料トライアルは終了します。
 
-トライアル後、あなたの組織は凍結されます。この間、サーバーレスおよび専用クラスターは[リサイクルビン](./use-リサイクルビン)に移動され、これらのクラスター専用の機能(バックアップと復元、アラートなど)にアクセスできなくなります。
+トライアル後、あなたの組織は凍結されます。この間、サーバーレスおよび専用クラスターは[リサイクルビン](./use-recycle-bin)に移動され、これらのクラスター専用の機能(バックアップと復元、アラートなど)にアクセスできなくなります。
 
-あなたの組織を凍結解除するには、単に[支払い方法を追加](./payment-bill)してください。これにより、ごみ箱から削除されたデータを復元できます。凍結後3 0日以内に支払い方法を追加しない場合、サーバーレスおよび専用クラスターは永久に削除されますが、組織は引き続き保持されます。
+あなたの組織を凍結解除するには、単に[支払い方法を追加](./payment-billing)してください。これにより、ごみ箱から削除されたデータを復元できます。凍結後3 0日以内に支払い方法を追加しない場合、サーバーレスおよび専用クラスターは永久に削除されますが、組織は引き続き保持されます。
 
 ### クレジットを獲得し、クレジットの有効期限を延長する{#earn-credits-and-extend-credit-expiration}
 
-仕事のメールアドレスで登録すると、無料のクレジットが100件もらえます。Zilliz Cloudで[支払い方法](./payment-ビリング)を追加することで、さらに100件のクレジットを獲得できます。さらに、支払い方法を追加すると、クレジットの有効期限が1年間延長されます。
+仕事のメールアドレスで登録すると、無料のクレジットが100件もらえます。Zilliz Cloudで[支払い方法](./payment-billing)を追加することで、さらに100件のクレジットを獲得できます。さらに、支払い方法を追加すると、クレジットの有効期限が1年間延長されます。
 
 追加のクレジットが必要な場合、または試用期間を延長したい場合は、[営業部](https://zilliz.com/contact-sales)までお問い合わせください。
 
