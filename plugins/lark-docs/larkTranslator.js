@@ -15,14 +15,15 @@ class larkTranslator {
             maxConcurrent: 1,
             minTime: 100
         })
+        this.token_fetcher = new tokenFetcher()
     }
 
     async translate(text, glossary = []) {
         if (!this.token) {
-            const fetcher = new tokenFetcher()
-            await fetcher.fetchToken()
-            this.token = await fetcher.token()
+            await token_fetcher.fetchToken()
         }
+
+        this.token = await token_fetcher.token()
 
         const throttledTranslator = this.limiter.wrap(this.__translateText.bind(this))
 
