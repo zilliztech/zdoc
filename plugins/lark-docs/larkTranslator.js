@@ -1,5 +1,6 @@
 const fetch = require('node-fetch')
 const Bottleneck = require('bottleneck')
+const sentencize = require('@stdlib/nlp-sentencize')
 const tokenFetcher = require('./larkTokenFetcher.js')
 require('dotenv').config()
 
@@ -16,7 +17,7 @@ class larkTranslator {
         })
     }
 
-    async translate(text) {
+    async translate(text, glossary = []) {
         if (!this.token) {
             const fetcher = new tokenFetcher()
             await fetcher.fetchToken()
@@ -24,7 +25,15 @@ class larkTranslator {
         }
 
         const throttledTranslator = this.limiter.wrap(this.__translateText.bind(this))
-        return throttledTranslator(text)
+
+        if (text.length > 1000) {
+            const sentences = sentencize(text);
+            const promises = sentences.map(sentence => throttledTranslator(sentence, glossary));
+            const results = await Promise.all(promises);
+            return results.join(' ');
+        }
+
+        return throttledTranslator(text, glossary)
     }
 
     async __translateText(source, glossary = []) {

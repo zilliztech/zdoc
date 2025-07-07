@@ -10,6 +10,7 @@ const cheerio = require('cheerio')
 const showdown = require('showdown')
 const Jimp = require("jimp");
 const _ = require('lodash')
+const { text } = require('node:stream/consumers')
 
 class larkDocWriter {
     constructor(root_token, base_token, displayedSidebar, docSourceDir='plugins/lark-docs/meta/sources', imageDir='static/img', targets='zilliz.saas', skip_image_download=false) {
@@ -720,7 +721,7 @@ class larkDocWriter {
 
     async __text(text) {
         let elements = await this.__text_elements(text['elements']);
-        console.log(elements.source)
+        // console.log(elements.source)
         return elements.content;
     }
 
@@ -1469,20 +1470,35 @@ class larkDocWriter {
 
         if (this.output_path.includes('i18n')) {
             source = paragraph;
-            paragraph = await this.translator.translate(paragraph);
 
-            // extract markdown links from the source and find match in paragraph
+            // prepare the source text for translation
             const regex = /\[(.*?)\]\((.*?)\)/g
             const source_matches = [...source.matchAll(regex)];
-            const paragraph_matches = [...paragraph.matchAll(regex)];
-            for (let match of source_matches) {
-                const url = match[2];
-                if (url.startsWith('./') && paragraph_matches.some(m => m[2].startsWith(url.split('-')[0]))) {
-                    const match_in_pragraph = paragraph_matches.find(m => m[2].startsWith(url.split('-')[0]))
-                    paragraph = paragraph.replace(match_in_pragraph[0], `[${match_in_pragraph[1]}](${match[2]})`);
-                }
+            for ( var i = 0; i < source_matches.length; i++ ) {
+                source = source.replace(source_matches[i][0], `LINK_PLACEHOLDER_${i}`)
             }
 
+            if (source !== 'LINK_PLACEHOLDER_0') {
+                // translate the source text
+                paragraph = await this.translator.translate(source, [{
+                    "from": "LINK_PLACEHOLDER_",
+                    "to": "LINK_PLACEHOLDER_"
+                }]);
+            } else {
+                paragraph = 'LINK_PLACEHOLDER_0'
+            }
+
+            // translate link text
+            await Promise.all(source_matches.map(async (match, i) => {
+                const link_text = match[1];
+                const link_url = match[2];
+                const translated = await this.translator.translate(link_text)
+
+                console.log(link_text, translated)
+
+                paragraph = paragraph.replace(`LINK_PLACEHOLDER_${i}`, `[${translated}](${link_url})`)
+            }))
+            
             // process html tags            
         }
 

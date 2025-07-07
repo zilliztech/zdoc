@@ -4,19 +4,19 @@ slug: /release-notes-2100
 sidebar_label: "リリースノート（2024年9月4日）"
 beta: FALSE
 notebook: FALSE
-description: "このリリースでは、Zilliz Cloud ServerlessのGAから始まり、自動スケーリングを提供し、最大50倍のコスト削減が可能になりました。Milvus 2.4機能がGAになり、スパースベクトル、マルチベクトルハイブリッド検索、ファジーマッチング付き逆インデックスなどの機能が導入されました。このリリースには、パブリックプレビューのマルチレプリカ機能も含まれており、複数の可用性ゾーン(AZ)のレプリカにワークロードを分散することで、クエリのスループットと可用性を向上させることができます。さらに、Zilliz Cloudの新しいMigration Serviceは、オープンソースのMilvus、pgvector、Elasticsearchからの移行をサポートし、Zilliz Cloud内での組織内および組織間のデータ移行を可能にします。バックアップ、リストア、移行、ジョブ管理のための拡張されたRESTful APIにより、ユーザーは自動化された運用ワークフローをその他の機能強化には、プロジェクトの読み取り専用ロールのサポート、クラスターとスナップショットの名前変更機能が含まれます。 | Cloud"
+description: "このリリースには、Zilliz Cloudにいくつかの重要なアップデートが含まれており、最初にZilliz Cloud ServerlessのGAが提供され、自動スケーリングが可能になり、最大50倍のコスト削減が可能になりました。 Milvus 2.4の機能がGAになりました。スパースベクトル、マルチベクトルハイブリッド検索、ファジーマッチング付きの逆インデックスなどの機能が導入されました。 このリリースには、パブリックプレビューのマルチレプリカ機能も含まれており、複数のアベイラビリティゾーン(AZ)のレプリカにワークロードを分散することで、クエリのスループットと可用性を向上させることができます。 さらに、Zilliz Cloudの新しいMigration Serviceは、オープンソースのMilvus、pgvector、Elasticsearchからの移行をサポートし、Zilliz Cloud内での組織内および組織間のデータ移行を可能にします。バックアップ、復元、移行、ジョブ管理のための拡張されたRESTful APIにより、ユーザーは自動化された運用ワークフローを構築できます。 その他の機能強化には、プロジェクトの読み取り専用ロールのサポート、クラスターとスナップショットの名前変更機能が含まれます。 | Cloud"
 type: origin
-token: IAMrwQHwWiHZHekyLuZcVMVunyg
-sidebar_position: 5
+token: PJ4hwwD1DiVnv0kWPZBceLrdnSf
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 
@@ -25,7 +25,7 @@ import Admonition from '@theme/Admonition';
 
 # リリースノート（2024年9月4日）
 
-このリリースでは、**Zilliz Cloud ServerlessのGA**から始まり、自動スケーリングを提供し、最大50倍のコスト削減が可能になりました。**Milvus 2.4機能**がGAになり、スパースベクトル、マルチベクトルハイブリッド検索、ファジーマッチング付き逆インデックスなどの機能が導入されました。このリリースには、パブリックプレビューの**マルチレプリカ機能**も含まれており、複数の可用性ゾーン(AZ)のレプリカにワークロードを分散することで、クエリのスループットと可用性を向上させることができます。さらに、Zilliz Cloudの新しい**Migration Service**は、オープンソースのMilvus、pgvector、Elasticsearchからの移行をサポートし、Zilliz Cloud内での組織内および組織間のデータ移行を可能にします。バックアップ、リストア、移行、ジョブ管理のための拡張された**RESTful API**により、ユーザーは自動化された運用ワークフローをその他の機能強化には、プロジェクトの読み取り専用ロールのサポート、クラスターとスナップショットの名前変更機能が含まれます。
+このリリースには、Zilliz Cloudにいくつかの重要なアップデートが含まれており、最初に**Zilliz Cloud ServerlessのGA**が提供され、自動スケーリングが可能になり、最大50倍のコスト削減が可能になりました。 Milvus 2.4の機能がGAになりました。スパースベクトル、マルチベクトルハイブリッド検索、ファジーマッチング付きの逆インデックスなどの機能が導入されました。 このリリースには、パブリックプレビューの**マルチレプリカ機能**も含まれており、複数のアベイラビリティゾーン(AZ)のレプリカにワークロードを分散することで、クエリのスループットと可用性を向上させることができます。 さらに、Zilliz Cloudの新しい**Migration Service**は、オープンソースのMilvus、pgvector、Elasticsearchからの移行をサポートし、Zilliz Cloud内での組織内および組織間のデータ移行を可能にします。バックアップ、復元、移行、ジョブ管理のための拡張された**RESTful API**により、ユーザーは自動化された運用ワークフローを構築できます。 その他の機能強化には、プロジェクトの読み取り専用ロールのサポート、クラスターとスナップショットの名前変更機能が含まれます。
 
 ### Milvusの互換性{#milvus-compatibility}
 
@@ -61,7 +61,7 @@ Milvus 2.4は、RAGおよびマルチモーダルデータ検索のための多�
 
 - 最適なモデルの組み合わせを見つけるために、さまざまな埋め込みモデルを実験してください。
 
-マルチベクトルサポートにより、FLOAT_VECTORやSPARSE_FLOAT_VECTORなど、異なるタイプの複数のベクトルフィールドに対して、コレクション内に格納、インデックス化、再ランキング戦略を適用することができます。現在、2つの再ランキング戦略が利用可能です。**Reciprocal Rank Fusion(RRF)**と**Average Weighted Scoring**です。両方の戦略は、異なるベクトルフィールドからの検索結果を統一された結果セットに結合します。RRFは、元のランキング内のアイテムの位置を考慮し、複数のリストで上位にランクされるアイテムに高い重要性を与え、異なるベクトルフィールドに一貫して表示されるエンティティに優先順位を付けます。Average Weighted Scoringは、各ベクトルフィールドの検索結果に重みを割り当て、最終結果セットでの重要性を決定します。
+マルチベクトルサポートにより、FLOAT_VECTORやSPARSE_FLOAT_VECTORなど、異なるタイプの複数のベクトルフィールドに対して、コレクション内に格納、インデックス化、再ランキング戦略を適用することができます。現在、2つの再ランキング戦略が利用可能です:**Reciprocal Rank Fusion(RRF)**と**Average Weighted Scoring**。両方の戦略は、異なるベクトルフィールドからの検索結果を統合した結果セットに結合します。RRFは、元のランキング内のアイテムの位置を考慮し、複数のリストで上位にランク付けされたアイテムに高い重要性を与え、異なるベクトルフィールドに一貫して表示されるエンティティに優先順位を付けます。Average Weighted Scoringは、各ベクトルフィールドの検索結果に重みを割り当て、最終結果セットでの重要性を決定します。
 
 サンプルコードは[hybrid_search.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/hybrid_search.py)にあります。
 
@@ -69,13 +69,13 @@ Milvus 2.4は、RAGおよびマルチモーダルデータ検索のための多�
 
 今回のリリースでは、メタデータフィルタリングに2つの重要な改善を加えました。1つ目は、新しいスカラー反転インデックスを導入することで、スカラーデータ型のフィルタリングのパフォーマンスを向上させました。2つ目は、メタデータフィルタリング中の部分文字列マッチングのサポートを拡大しました
 
-Milvusの以前のリリースでは、メモリベースのバイナリサーチインデックスとMarisa Trieインデックスを使用してメタデータフィルタリングが実装されていました。これらの方法はメモリを大量に消費します。Zilliz Cloudの最新リリースでは、すべての数値および文字列データ型に適用できるTantivyベースの逆インデックスが使用されています。この新しいインデックスは、文字列に対するスカラークエリのパフォーマンスを10倍向上させます。また、内部インデックス構造にデータ圧縮とメモリマップドストレージ(MMap)メカニズムを適用することで、より少ないメモリを消費します。サンプルコードは以下にあります[inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py)
+Milvusの以前のリリースでは、メモリベースのバイナリサーチインデックスとMarisa Trieインデックスを使用してメタデータフィルタリングが実装されていました。これらの方法はメモリを大量に消費します。Zilliz Cloudの最新リリースでは、すべての数値および文字列データ型に適用できるTantivyベースの逆インデックスが採用されています。この新しいインデックスは、文字列に対するスカラークエリのパフォーマンスを10倍向上させます。また、内部インデックス構造にデータ圧縮とメモリマップドストレージ(MMap)メカニズムを適用することで、より少ないメモリを消費します。サンプルコードは[inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py)にあります
 
 このリリースでは、プレフィックス、インフィックス、ポストフィックス、ワイルドカードパターンなど、より柔軟な文字列マッチングのサポートも追加されています。
 
 #### グループ検索{#grouping-search}
 
-特定のスカラーフィールドの値によって検索結果を集計できるようになりました。これは、検索クエリに関連する一意のドキュメントIDを返すだけでなく、ドキュメントチャンクを取得するためにRAGで役立ちます。各ドキュメントが複数のチャンクに分割され、各チャンクがベクトル埋め込みで表されるドキュメントのコレクションを考慮すると、`group_by_field`引数を`search()`操作で使用して、ドキュメントIDによって結果をグループ化し、意味的に関連するチャンクを検索しながら関連するドキュメントのリストを見つけることができます。
+特定のスカラーフィールドの値によって検索結果を集計できるようになりました。これは、検索クエリに関連する一意のドキュメントIDを返すだけでなく、ドキュメントチャンクを取得するためにRAGで役立ちます。各ドキュメントが複数のチャンクに分割され、各チャンクがベクトル埋め込みで表されるドキュメントのコレクションを考慮すると、「search()」操作の「group_by_field」引数を使用して、ドキュメントIDによって結果をグループ化し、意味的に関連するチャンクを検索しながら関連するドキュメントのリストを見つけることができます。
 
 サンプルコードは[example_group_by.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/example_group_by.py)にあります。
 
@@ -83,41 +83,41 @@ Milvusの以前のリリースでは、メモリベースのバイナリサー�
 
 機械学習やニューラルネットワークは、しばしばFloat 16やBFloatなどの半精度データ型を使用します。これらのデータ型は、クエリの効率を向上させ、メモリ使用量を減らすことができますが、精度は低下します。このリリースにより、Zilliz Cloudはベクトルフィールドに対してこれらのデータ型をサポートするようになりました。
 
-サンプルコードは[float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/float16_example.py)と[bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/bfloat16_example.py)にあります。
+サンプルコードは、[float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/float16_example.py)と[bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/bfloat16_example.py)にあります。
 
 ### マルチレプリカ{#multi-replica}
 
 Zilliz Cloudでマルチレプリカが利用可能になりました。これにより、クラスターレベルのレプリケーションが可能になり、クエリのスループットと可用性の両方が向上します。
 
-- **改善されたクエリパフォーマンス**:高いクエリ毎秒(QPS)を必要とするユーザーにとって、マルチレプリカはクエリワークロードをレプリカ全体に分散させることができます。この並列処理により、全体的なスループットが向上し、レイテンシが減少し、クエリ集中型アプリケーションの効率が向上します。ほとんどの場合、レプリカが追加されるにつれて、全体的なQPSは線形に改善されます。
+- 改善されたクエリパフォーマンス:高いクエリ毎秒(QPS)を必要とするユーザーにとって、マルチレプリカはクエリワークロードをレプリカ全体に分散させることができます。この並列処理により、全体的なスループットが向上し、レイテンシが減少し、クエリ集中型アプリケーションの効率が向上します。ほとんどの場合、レプリカが追加されるにつれて、全体的なQPSは線形に改善されます。
 
-- **拡張可用性**:マルチレプリカは、複数の可用性ゾーン(AZ)にレプリカを配布することで可用性を強化します。この設定により、AZの障害が発生してもデータへの継続的なアクセスが確保され、ミッションクリティカルなアプリケーションの信頼性が向上します。
+- 強化された可用性:マルチレプリカは、レプリカを複数の可用性ゾーン(AZ)に分散させることで可用性を強化します。この設定により、AZの障害が発生してもデータへの継続的なアクセスが確保され、ミッションクリティカルなアプリケーションの信頼性が向上します。
 
-現在、マルチレプリカ機能はパブリックプレビューであり、Enterprise Planで利用可能です。詳細については、「[レプリカの管理](./manage-replica)」をご覧ください。
+現在、マルチレプリカ機能はパブリックプレビューであり、Enterprise Planで利用可能です。詳細については、[レプリカの管理](./manage-replica)をご覧ください。
 
 ### マイグレーションサービス{#migration-service}
 
 Zilliz Cloudは、ユーザーが簡単に移行タスクを完了できる包括的な移行サービスを提供しています。現在、3種類の移行がサポートされています。
 
-- オープンソースのMilvusからZilliz Cloudへの移行を行います。移行対象は、Free Planインスタンス、Serverlessインスタンス、Dedicated Clusterのいずれかです。詳細については、「[MilvusからZilliz Cloudへの移行](./migrate-from-milvus)」を参照してください。
+- オープンソースのMilvusからZilliz Cloudへの移行を行います。移行対象は、Free Planインスタンス、Serverlessインスタンス、Dedicated Clusterのいずれかです。詳細については、[MilvusからZilliz Cloudへの移行](./migrate-from-milvus)を参照してください。
 
-- 他のオープンソースデータベースからZilliz Cloudへの移行をサポートしています。現在、pgvectorとElasticsearchからの移行がサポートされています。移行対象は、Free Planインスタンス、Serverlessインスタンス、またはDedicated Clusterです。詳細については、「[ElasticsearchからZilliz Cloudへの移行](./migrate-from-elasticsearch)」と「[Postgre SQLからZilliz Cloudに移行](./migrate-from-tencent-cloud)」を参照してください。
+- 他のオープンソースデータベースからZilliz Cloudへの移行が可能で、現在はpgvectorやElasticsearchからの移行もサポートされています。移行対象は、Free Planインスタンス、Serverlessインスタンス、Dedicated Clusterのいずれかです。詳細については、[ElasticsearchからZilliz Cloudへの移行](./migrate-from-elasticsearch)と[pgvectorからZilliz Cloudへの移行](./migrate-from-pgvector)を参照してください。
 
-- Zilliz Cloud内でデータを移行し、組織内および組織間のデータ移行をサポートします。詳細については、[クラスタ間の移行](./undefined)を参照してください。
+- Zilliz Cloud内でデータを移行し、組織内および組織間のデータ移行をサポートします。詳細については、[クラスタ間の移行](./offline-migration)を参照してください。
 
 ### バックアップ/復元/移行/ジョブRESTful API{#backuprestoremigrationjobs-restful-api}
 
 このアップデートにより、Zilliz CloudはコントロールプレーンAPIを拡張し、バックアップ、リストア、移行、ジョブ管理をサポートする新しい機能を導入しました。
 
-これらのRESTful APIにより、ユーザーは独自の自動化された運用ワークフローを構築し、データ管理およびメンテナンスプロセスに対するより大きな柔軟性と制御を提供できます。
+これらのRESTful APIにより、ユーザーは独自の自動化された運用ワークフローを構築でき、データ管理およびメンテナンスプロセスに対する柔軟性と制御が向上します。
 
 [APIの詳細については、こちらをご覧ください。](/reference/restful)
 
 ### その他の機能強化{#other-enhancements}
 
-このリリースには、一連の機能強化も含まれています。
+このリリースには、一連の強化も含まれています。
 
-- プロジェクトの[読み取り専用ロールのサポート](./project-users)
+- [プロジェクトの読み取り専用ロール](./project-users)のサポート
 
 - クラスタとスナップショットの名前変更のサポート
 

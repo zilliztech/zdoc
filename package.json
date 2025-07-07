@@ -24,6 +24,7 @@
     "@inkeep/docusaurus": "^2.0.16",
     "@mdx-js/react": "^3.0.0",
     "@node-rs/jieba": "^1.10.0",
+    "@stdlib/nlp-sentencize": "^0.2.2",
     "bottleneck": "^2.19.5",
     "clsx": "^2.0.0",
     "dayjs": "^1.11.13",
