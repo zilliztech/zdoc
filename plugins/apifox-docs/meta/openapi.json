@@ -2817,7 +2817,7 @@
 				}
 			}
 		},
-		"/v2/elt/merge": {
+		"/v2/etl/merge": {
 			"post": {
 				"summary": "Merge Data",
 				"deprecated": false,

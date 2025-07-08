@@ -141,7 +141,8 @@ export const isControlPlane = (endpoint) => {
 }
 
 export const isBeta = (endpoint) => {
-    return endpoint.includes('usage') ||
-        endpoint.includes('invoice') ||
-        endpoint.includes('etl')
+    return endpoint.includes('etl') ||
+        endpoint.includes('usage') ||
+        endpoint.includes('invoice')
+        
 }      
