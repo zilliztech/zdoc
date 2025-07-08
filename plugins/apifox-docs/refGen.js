@@ -58,7 +58,7 @@ class refGen {
 
         // add beta tags
         // beta_tag = page_slug.includes('invoice') || page_slug.includes('usage') ? 'PUBLIC' : beta_tag
-        beta_tag = page_slug.includes('merge') ? 'PRIVATE' : beta_tag
+        beta_tag = page_slug.includes('extract') ? 'PRIVATE' : beta_tag
         const page_method = method.toLowerCase()
         const specs = JSON.stringify(specification)
 
