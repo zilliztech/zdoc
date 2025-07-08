@@ -35,7 +35,7 @@ class refGen {
 
         const page_title = lang === "zh-CN" ? specification["x-i18n"][lang].summary : specification.summary
         const page_excerpt = this.__filter_content(lang === "zh-CN" ? specification["x-i18n"][lang].description : specification.description, target)
-        var page_parent = parents.filter(x => x === specification.tags[0])[0].replace("&", "and").split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
+        var page_parent = parents.filter(x => x === specification.tags[0])[0].replace("&", "and").split(' ').join('-').replace(/\(|\)|,/g, '').toLowerCase()
         if (target === 'milvus') {
           const descriptions = JSON.parse(fs.readFileSync('plugins/apifox-docs/meta/descriptions.json', 'utf-8'))
           const name = descriptions.filter(x => x.name === page_parent)[0]?.milvus?.name
@@ -48,14 +48,17 @@ class refGen {
         if (target === 'milvus') {
           slug_suffix = ''
         }
-        var upper_folder = page_parent.startsWith('cloud') || page_parent.startsWith('cluster') || page_parent.startsWith('import') || page_parent.startsWith('pipeline') || page_parent.includes('backup') || page_parent.includes('restore') || page_parent.includes('invoices') || page_parent.includes('usage') || page_parent.includes('metrics') ? 'control-plane' : 'data-plane'
+        var upper_folder = page_parent.startsWith('cloud') || page_parent.startsWith('cluster') || page_parent.startsWith('import') || page_parent.startsWith('pipeline') || page_parent.includes('backup') || page_parent.includes('restore') || page_parent.includes('invoices') || page_parent.includes('usage') || page_parent.includes('metrics') || page_parent.includes('extract') ? 'control-plane' : 'data-plane'
 
         if (target === 'milvus') {
-          upper_folder = page_parent.startsWith('cloud') || page_parent.startsWith('cluster') || page_parent.startsWith('pipeline') || page_parent.includes('backup') || page_parent.includes('restore') || page_parent.includes('invoices') || page_parent.includes('usage') || page_parent.includes('metrics') ? 'control-plane' : 'data-plane'
+          upper_folder = page_parent.startsWith('cloud') || page_parent.startsWith('cluster') || page_parent.startsWith('pipeline') || page_parent.includes('backup') || page_parent.includes('restore') || page_parent.includes('invoices') || page_parent.includes('usage') || page_parent.includes('metrics') || page_parent.includes('extract') ? 'control-plane' : 'data-plane'
         }
         var page_slug = (this.get_slug(page_title, target)) + slug_suffix
         var beta_tag = version === 'v2' ? 'FALSE' : 'NEAR DEPRECATE'
-        beta_tag = page_slug.includes('invoice') || page_slug.includes('usage') ? 'PUBLIC' : beta_tag
+
+        // add beta tags
+        // beta_tag = page_slug.includes('invoice') || page_slug.includes('usage') ? 'PUBLIC' : beta_tag
+        beta_tag = page_slug.includes('extract') ? 'PRIVATE' : beta_tag
         const page_method = method.toLowerCase()
         const specs = JSON.stringify(specification)
 
@@ -89,12 +92,14 @@ class refGen {
     for (const group of Object.keys(specifications.tags)) {
       if (specifications.tags[group]['x-include-target'] && !(specifications.tags[group]['x-include-target']?.includes(target))) continue;
 
-      const slug = specifications.tags[group].name.replace("&", "and").split(' ').join('-').replace(/\(|\)/g, '').toLowerCase()
+      const slug = specifications.tags[group].name.replace("&", "and").split(' ').join('-').replace(/\(|\)|,/g, '').toLowerCase()
       const version = slug.includes('v2') ? 'v2' : 'v1'
-      var upper_folder = slug.startsWith('cloud') || slug.startsWith('cluster') || slug.startsWith('import') || slug.startsWith('pipeline') || slug.includes('backup') || slug.includes('restore') || slug.includes('invoices') || slug.includes('usage') || slug.includes('metrics') ? 'control-plane' : 'data-plane'
+      var upper_folder = slug.startsWith('cloud') || slug.startsWith('cluster') || slug.startsWith('import') || slug.startsWith('pipeline') || slug.includes('backup') || slug.includes('restore') || slug.includes('invoices') || slug.includes('usage') || slug.includes('metrics') || slug.includes('extract') ? 'control-plane' : 'data-plane'
       if (target === 'milvus') {
-        upper_folder = slug.startsWith('cloud') || slug.startsWith('cluster') || slug.startsWith('pipeline') || slug.includes('backup') || slug.includes('restore') || slug.includes('invoices') || slug.includes('usage') || slug.includes('metrics') ? 'control-plane' : 'data-plane'
+        upper_folder = slug.startsWith('cloud') || slug.startsWith('cluster') || slug.startsWith('pipeline') || slug.includes('backup') || slug.includes('restore') || slug.includes('invoices') || slug.includes('usage') || slug.includes('metrics') || slug.includes('extract') ? 'control-plane' : 'data-plane'
       }
+
+      console.log(slug)
       const group_name = version === 'v2' ? specifications.tags[group].name.slice(0, -5) : specifications.tags[group].name
       const descriptions = JSON.parse(fs.readFileSync('plugins/apifox-docs/meta/descriptions.json', 'utf-8'))
       const description = descriptions.filter(x => x.name === slug)[0].description

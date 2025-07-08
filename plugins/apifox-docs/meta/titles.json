@@ -16,5 +16,6 @@
     "搜索": "search",
     "按 ID 查询": "get",
     "插入 Entity": "insert",
-    "删除 Entity": "delete"
+    "删除 Entity": "delete",
+    "合并数据": "merge-data"
 }
