@@ -474,7 +474,7 @@ class larkDocWriter {
         markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
         markdown = markdown.replace(/^[\||\s][\s|\||<br\/>]*\|\n/gm, '')
         markdown = markdown.replace(/\s*<tr>\n(\s*<td>(<br\/>)*<\/td>\n)*\s*<\/tr>/g, '')
-        markdown = this.__mdx_patches(markdown)
+        this.__mdx_patches(markdown)
 
         const description = this.__extract_description(markdown)
 
@@ -820,7 +820,6 @@ class larkDocWriter {
         let lang = code.style.language ? this.code_langs[code['style']['language']] : 'plaintext'
         let elements = (await Promise.all(code['elements'].map( async x => {
             let content = await this.__text_run(x, code['elements'], true)
-            content = content.replaceAll('&#36;', '$')
             return content
         }))).join('') 
 
@@ -1300,12 +1299,9 @@ class larkDocWriter {
         let content = element['text_run']['content'];
         let style = element['text_run']['text_element_style'];
 
-        content = content.replace(/\$/g, '&#36;') // escape $ for markdown
-
         if (!content.match(/^\s+$/) && !asis) {
             if (style['inline_code']) {
                 content = this.__style_markdown(element, elements, 'inline_code', '`');
-                content = content.replaceAll('&#36;', '#')
             } else {                
                 if (style['bold']) {
                     content = this.__style_markdown(element, elements, 'bold', '**');
@@ -1468,6 +1464,9 @@ class larkDocWriter {
             paragraph = await this.__auto_link(paragraph, this.docs)
         }
 
+        // deal with $ sign in markdown
+        paragraph = paragraph.replaceAll(/\$(\d+.\d+)/g, "&#36;$1")
+
         if (this.output_path.includes('i18n')) {
             source = paragraph;
 
@@ -1497,9 +1496,7 @@ class larkDocWriter {
                 console.log(link_text, translated)
 
                 paragraph = paragraph.replace(`LINK_PLACEHOLDER_${i}`, `[${translated}](${link_url})`)
-            }))
-            
-            // process html tags            
+            }))          
         }
 
         return {

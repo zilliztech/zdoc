@@ -28,6 +28,12 @@ jobs:
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
         SPACE_ID: ${{ secrets.SPACE_ID }}
         FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+    - name: commit to dev
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        branch: trans-dev
+        create_branch: true
+        push_options: --force
     - name: build docsite
       run: |
         npx docusaurus report-to-lark -m "🔥 Japanese docs fetched! Building docs..."
@@ -45,12 +51,6 @@ jobs:
       run: |
         npx docusaurus report-to-lark -m "🔥 Docs built! Checking links..."
         npx docusaurus link-checks
-    - name: commit to dev
-      uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        branch: trans-dev
-        create_branch: true
-        push_options: --force
   failure:
     needs: fetch
     runs-on: ubuntu-latest
