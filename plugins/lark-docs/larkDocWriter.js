@@ -1451,6 +1451,7 @@ class larkDocWriter {
         for (let element of elements) {
             if ('text_run' in element) {
                 paragraph += await this.__text_run(element, elements);
+                paragraph = this.__mdx_patches(paragraph);
             }
             if ('mention_doc' in element) {
                 paragraph += await this.__mention_doc(element);
@@ -1464,31 +1465,40 @@ class larkDocWriter {
             paragraph = await this.__auto_link(paragraph, this.docs)
         }
 
-        // deal with $ sign in markdown
-        paragraph = paragraph.replaceAll(/\$(\d+.\d+)/g, "&#36;$1")
+        source = paragraph;
 
         if (this.output_path.includes('i18n')) {
-            source = paragraph;
-
             // prepare the source text for translation
-            const regex = /\[(.*?)\]\((.*?)\)/g
-            const source_matches = [...source.matchAll(regex)];
-            for ( var i = 0; i < source_matches.length; i++ ) {
-                source = source.replace(source_matches[i][0], `LINK_PLACEHOLDER_${i}`)
+            let regex = /\[(.*?)\]\((.*?)\)/g
+            let link_source_matches = [...source.matchAll(regex)];
+            for ( var i = 0; i < link_source_matches.length; i++ ) {
+                source = source.replace(link_source_matches[i][0], `LINK_PLACEHOLDER_${i}`)
+            }
+
+            regex = /\`.*?\`/g
+            let code_source_matches = [...source.matchAll(regex)];
+            for ( var i = 0; i < code_source_matches.length; i++ ) {
+                source = source.replace(code_source_matches[i][0], `INLINE_CODE_PLACEHOLDER_${i}`)
             }
 
             if (source !== 'LINK_PLACEHOLDER_0') {
                 // translate the source text
-                paragraph = await this.translator.translate(source, [{
-                    "from": "LINK_PLACEHOLDER_",
-                    "to": "LINK_PLACEHOLDER_"
-                }]);
+                paragraph = await this.translator.translate(source, [
+                    {
+                        "from": "LINK_PLACEHOLDER_",
+                        "to": "LINK_PLACEHOLDER_"
+                    },
+                    {
+                        "from": "INLINE_CODE_PLACEHOLDER_",
+                        "to": "INLINE_CODE_PLACEHOLDER_"
+                    }
+                ]);
             } else {
                 paragraph = 'LINK_PLACEHOLDER_0'
             }
 
             // translate link text
-            await Promise.all(source_matches.map(async (match, i) => {
+            await Promise.all(link_source_matches.map(async (match, i) => {
                 const link_text = match[1];
                 const link_url = match[2];
                 const translated = await this.translator.translate(link_text)
@@ -1496,7 +1506,12 @@ class larkDocWriter {
                 console.log(link_text, translated)
 
                 paragraph = paragraph.replace(`LINK_PLACEHOLDER_${i}`, `[${translated}](${link_url})`)
-            }))          
+            })) 
+            
+            // fill back the inline code block
+            code_source_matches.map((match, i) => {
+                paragraph = paragraph.replace(`INLINE_CODE_PLACEHOLDER_${i}`, match[0])
+            })
         }
 
         return {
