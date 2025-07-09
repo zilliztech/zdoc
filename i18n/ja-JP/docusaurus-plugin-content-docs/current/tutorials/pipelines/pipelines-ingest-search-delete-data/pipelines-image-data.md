@@ -2,11 +2,11 @@
 title: "画像データ | Cloud"
 slug: /pipelines-image-data
 sidebar_label: "画像データ"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理するためのシンプルで直感的な方法を提供し、RESTful APIはWeb UIに比べてより柔軟性とカスタマイズ性を提供します。 | Cloud"
 type: origin
-token: JUOuwYrwtih4omkraU3cNc45nyb
+token: QpFSwxXbni8lM9kj22uc8THsnzg
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,16 +14,15 @@ keywords:
   - cloud
   - pipelines
   - image data
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 
 import Admonition from '@theme/Admonition';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+
 
 # 画像データ
 
@@ -41,7 +40,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
 - Google Cloud Platform(GCP)上のus-west 1にデプロイされたクラスタを作成していることを確認してください。
 
-- 一つのプロジェクトでは、同じタイプのパイプラインを最大100個まで作成できます。詳細については、[Zillizクラウドの制限](./limits#pipelines)を参照してください。
+- 一つのプロジェクトでは、同じタイプのパイプラインを最大100個まで作成できます。詳細については、[Zillizクラウドの制限](./limits)を参照してください。
 
 ## イメージデータを取り込む{#ingest-image-data}
 
@@ -49,26 +48,26 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
 ### イメージ取り込みパイプラインを作成する{#create-image-ingestion-pipeline}
 
-<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"bash","value":"bash"}]}=""></tabs>
 
-<TabItem value="Cloud Console">
+<tabitem value="Cloud Console"></tabitem>
 
 1. プロジェクトに移動します。
 
-1. ナビゲーションパネルから**パイプライン**をクリックします。次に、**概要**タブに切り替えて、**パイプライン**をクリックします。パイプラインを作成するには、**+パイプライン**をクリックしてください。
+1. ナビゲーションパネルから「パイプライン」をクリックしてください。その後、「概要」タブに切り替えて、「パイプライン」をクリックしてください。パイプラインを作成するには、「+パイプライン」をクリックしてください。
 
-    ![create-pipeline](/img/ja-JP/create-pipeline.png)
+    ![create-pipeline](/img/create-pipeline.png)
 
-1. 作成するパイプラインの種類を選択します。[**+パイプライン**]ボタンをクリックします。**Ingestion Pipeline**列。
+1. 作成するパイプラインの種類を選択してください。**Ingestion Pipeline**列の**+Pipeline**ボタンをクリックしてください。
 
-    ![choose-pipeline](/img/ja-JP/choose-pipeline.png)
+    ![choose-pipeline](/img/choose-pipeline.png)
 
 1. 作成するIngestionパイプラインを構成します。
 
     <table>
        <tr>
          <th><p><strong>パラメータ</strong></p></th>
-         <th><p><strong>説明する</strong></p></th>
+         <th><p><strong>の説明</strong></p></th>
        </tr>
        <tr>
          <td><p>ターゲットクラスタ</p></td>
@@ -88,36 +87,36 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
        </tr>
     </table>
 
-    ![configure-ingestion-pipeline](/img/ja-JP/configure-ingestion-pipeline.png)
+    ![configure-ingestion-pipeline](/img/configure-ingestion-pipeline.png)
 
-1. Ingestionパイプラインに**INDEX**関数を追加するには、**+Function**をクリックします。各Ingestionパイプラインに対して、正確に1つの**INDEX**関数を追加できます。
+1. インジェスチョンパイプラインに**INDEX**関数を追加するには、**+Function**をクリックします。各インジェスチョンパイプラインに対して、**INDEX**関数を1つだけ追加できます。
 
     1. 関数名を入力します。
 
     1. 関数タイプとして**INDEX_IMAGE**を選択してください。**INDEX_IMAGE**関数は、提供されたURL内の画像のベクトル埋め込みを生成できます。
 
-    1. ベクトル埋め込みを生成するために使用する埋め込みモデルを選択してください。現在、利用可能なモデルは2つあります:**zilliz/vit-base-patch16-224**と**zilliz/clip-vit-base-patch32**。以下のチャートは、各埋め込みモデルを簡単に紹介しています。
+    1. ベクトル埋め込みを生成するために使用する埋め込みモデルを選択してください。現在、利用可能なモデルは2つあります:**zilliz/vit-base-patch16-224**と**zilliz/clip-vit-base-patch32**。以下のチャートでは、各埋め込みモデルを簡単に紹介しています。
 
         <table>
            <tr>
              <th><p><strong>埋め込みモデル</strong></p></th>
-             <th><p><strong>説明する</strong></p></th>
+             <th><p><strong>の説明</strong></p></th>
            </tr>
            <tr>
-             <td><p>ジリズ/<a href="https://huggingface.co/google/vit-base-patch16-224">vit-base-patch16-224</a></p></td>
+             <td><p>zilliz/リンクホルダー0</p></td>
              <td><p>Vision Transformer(ViT)は、Googleによってオープンソース化されたトランスエンコーダーモデル(BERTのようなもの)です。このモデルは、画像コンテンツの意味をベクトル空間に埋め込むために、大量の画像コレクションで事前にトレーニングされています。このモデルは、最適なレイテンシを提供するためにZilliz Cloudにホストされています。</p></td>
            </tr>
            <tr>
-             <td><p>ジリズ/<a href="https://huggingface.co/openai/clip-vit-base-patch32">clip-vit-base-patch32</a></p></td>
+             <td><p>zilliz/リンクホルダー0</p></td>
              <td><p>Open AIによってリリースされたマルチモーダルモデル。このビジョンモデルとそのペアリングテキストモデルは、画像とテキストを同じベクトル空間に埋め込むことができ、視覚情報とテキスト情報の間の意味検索を可能にします。モデルはZilliz Cloudにホストされ、最高のレイテンシを提供します。</p></td>
            </tr>
         </table>
 
-        ![add-index-image-function](/img/ja-JP/add-index-image-function.png)
+        ![add-index-image-function](/img/add-index-image-function.png)
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. 関数を保存するには、**追加**をクリックしてください。
 
-1. （オプション）テキストのメタデータを保持する必要がある場合は、別の**PRE**SERVE関数を追加してください。**PRE SERVE**関数は、データ取り込みとともにコレクションにスカラーフィールドを追加します。
+1. (オプション)テキストのメタデータを保存する必要がある場合は、別の**PRESERVE**関数を追加してください。**PRESERVE**関数は、データ取り込みとともにコレクションに追加のスカラーフィールドを追加します。
 
     <Admonition type="info" icon="📘" title="ノート">
 
@@ -125,37 +124,37 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
     </Admonition>
 
-    1. [**+Function**]をクリックします。
+    1. **+Function**をクリックしてください。
 
     1. 関数名を入力します。
 
-    1. 入力フィールドの名前と種類を設定します。サポートされている入力フィールドの種類は、**Bool**、**Int 8**、**Int 16**、**Int 32**、**Int 64**、**Float**、**Double**、**VarChar**です。
+    1. 入力フィールドの名前とタイプを設定します。サポートされている入力フィールドタイプには、Bool、Int 8、Int 16、Int 32、Int 64、Float、Double、VarCharが含まれます。
 
         <Admonition type="info" icon="📘" title="ノート">
 
         <ul>
         <li><p>現在、出力フィールド名は入力フィールド名と同じでなければなりません。入力フィールド名は、Ingestionパイプラインを実行する際に使用されるフィールド名を定義します。出力フィールド名は、保存された値が保持されるベクトルコレクションスキーマ内のフィールド名を定義します。</p></li>
-        <li><p>VarCharフィールド<strong>の</strong>場合、値は最大<strong>4,000</strong>文字の英数字の文字列である必要があります。</p></li>
-        <li><p>スカラーフィールドに日時を格納する場合は、年データには<strong>Int 16</strong>データ型、タイムスタンプには<strong>Int 32</strong>データ型を使用することをお勧めします。</p></li>
+        <li><p><strong>VarChar</strong>フィールドの場合、値は最大4,000文字の英数字文字列である必要があります。</p></li>
+        <li><p>スカラーフィールドに日付と時刻を格納する場合、年データには<strong>Int 16</strong>データ型を使用し、タイムスタンプには<strong>Int 32</strong>を使用することをお勧めします。</p></li>
         </ul>
 
         </Admonition>
 
-    ![add-preserve-function](/img/ja-JP/add-preserve-function.png)
+    ![add-preserve-function](/img/add-preserve-function.png)
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. 関数を保存するには、**追加**をクリックしてください。
 
-1. [**Ingestion Pipelineを作成**]をクリックします。
+1. 「摂取パイプラインの作成」をクリックしてください。
 
-1. 作成したばかりのIngestionパイプラインと互換性があるように自動構成された検索パイプラインと削除パイプラインの作成を続けます。
+1. 作成したばかりのIngestionパイプラインと互換性があるように自動構成された検索パイプラインと削除パイプラインを作成し続けます。 
 
-    ![auto-create-image-search-and-delete-pipelines](/img/ja-JP/auto-create-image-search-and-delete-pipelines.png)
+    ![auto-create-image-search-and-delete-pipelines](/img/auto-create-image-search-and-delete-pipelines.png)
 
 </TabItem>
 
-<TabItem value="Bash">
+<tabitem value="Bash"></tabitem>
 
-次の例では、という名前のIngestionパイプラインを作成します`my_image_ingestion_パイプライン`、**INDEX_IMAGE**関数と**PRESERVE**関数が追加されました。
+次の例では、`my_image_ingestion_pipeline`という名前のIngestionパイプラインを作成し、**INDEX_IMAGE**関数と**PRESERVE**関数を追加しています。 
 
 ```bash
 curl --request POST \
@@ -188,17 +187,17 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーを表示する](/docs/manage-api-keys#view-api-keys)の詳細については、こちらをご覧ください。
 
-- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west1`のみがサポートされています。
 
-- `lusterId`:パイプラインを作成するクラスタのIDです。現在、GCP上のus-west 1にデプロイされたクラスタのみを選択できます。CLUSTER_IDの確認方法については、[How can I find my CLUSTER_ID?を参照してください。](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
+- `clusterId`:パイプラインを作成するクラスタのIDです。現在、GCP上のus-west 1にデプロイされたクラスタのみを選択できます。[CLUSTER_IDをどのように見つけることができますか?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)について詳しくはこちらをご覧ください。
 
-- `projectId`:パイプラインを作成するプロジェクトのID。詳しくは[プロジェクトIDの取得方法をご覧ください。](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
+- `projectId`:パイプラインを作成するプロジェクトのIDです。[プロジェクトIDはどのように取得できますか?](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)について詳しく学びましょう。
 
-- `lectionName:`作成するインジェストパイプラインで自動的に生成されるコレクションの名前です。また、既存のコレクションを指定することもできます。
+- `collectionName`:インジェストパイプラインで自動的に生成されたコレクションの名前です。また、既存のコレクションを指定することもできます。
 
-- `name`:作成するパイプラインの名前。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
+- `name`:作成するパイプラインの名前です。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
 - `description`(オプション):作成するパイプラインの説明。
 
@@ -206,16 +205,16 @@ curl --request POST \
 
 - `functions`:パイプラインに追加する関数。**Ingestionパイプラインには、1つのINDEX関数と最大50個のPRESERVE関数しか持てません。**
 
-    - `name`:関数の名前です。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
+    - `name`:関数の名前。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-    - `action`:追加する関数の種類。現在利用可能なオプションには、`INDEX_DOC`、`INDEX_TEXT`、`INDEX_IMAGE`、`PRE`SERVEがあります。
+    - `action`:追加する関数のタイプです。現在利用可能なオプションには、`INDEX_DOC`、`INDEX_TEXT`、`INDEX_IMAGE`、`PRESERVE`があります。
 
-    - `埋め込み`:画像のベクトル埋め込みを生成するために使用される埋め込みモデルです。利用可能なオプションは以下の通りです。*（このパラメータは`INDEX`関数でのみ使用されます。）*
+    - `embedding`:画像のベクトル埋め込みを生成するために使用される埋め込みモデルです。利用可能なオプションは以下の通りです。*（このパラメータは`INDEX`関数でのみ使用されます。）*
 
         <table>
            <tr>
              <th><p><strong>埋め込みモデル</strong></p></th>
-             <th><p><strong>説明する</strong></p></th>
+             <th><p><strong>の説明</strong></p></th>
            </tr>
            <tr>
              <td><p>ジリズ/vit-base-patch16-224</p></td>
@@ -227,16 +226,16 @@ curl --request POST \
            </tr>
         </table>
 
-- `input tField`:`input`フィールドの名前です。値はカスタマイズできますが、output tFieldと同じにしてくださ`い`。*（このパラメータは`PRESERVE`関数でのみ使用されます。）*
+- `inputField`: `inputField`の名前です。値はカスタマイズできますが、`outputField`と同じである必要があります。*(このパラメータは`PRESERVE`関数でのみ使用されます。)*
 
-- `output`Field:コレクションスキーマで使用される出力フィールドの名前。現在、出力フィールドの名前は入力フィールドの名前と同じでなければなりません。*（このパラメータは`PRESERVE`関数でのみ使用されます。）*
+- `outputField`:コレクションスキーマで使用される出力フィールドの名前です。現在、出力フィールド名は入力フィールド名と同じでなければなりません。*(このパラメータは`PRESERVE`関数でのみ使用されます。)*
 
-- `fieldType`:入力フィールドと出力フィールドのデータ型です。使用可能な値は、`Bool`、`Int 8`、`Int 16`、`Int 32`、`Int 64`、`Float`、`Double`、および`VarCharです`。*(このパラメータは`PRESERVE`関数でのみ使用されます。)*
+- `fieldType`:入力フィールドと出力フィールドのデータ型です。使用可能な値には、`Bool`、`Int8`、`Int16`、`Int32`、`Int64`、`Float`、`Double`、`VarChar`があります。*(このパラメータは`PRESERVE`関数でのみ使用されます。)*
 
     <Admonition type="info" icon="📘" title="ノート">
 
-    <p>スカラーフィールドに日時を格納する場合は、年データには<strong>Int 16</strong>データ型、タイムスタンプには<strong>Int 32</strong>データ型を使用することをお勧めします。</p>
-    <p>VarCharフィールド<code>型</code>の場合、このフィールドのデータの<code>max_length</code>は4,000を超えることはできません。</p>
+    <p>スカラーフィールドに日付と時刻を格納する場合、年データには<strong>Int 16</strong>データ型を使用し、タイムスタンプには<strong>Int 32</strong>を使用することをお勧めします。</p>
+    <p><code>VarChar</code>フィールドタイプの場合、このフィールドのデータの<code>max_length</code>は4,000を超えることはできません。</p>
 
     </Admonition>
 
@@ -284,7 +283,7 @@ curl --request POST \
 
 Ingestionパイプラインが作成されると、`my_collection`という名前のコレクションが自動的に作成されます。
 
-このコレクションには、**INDEX_IMAGE**関数の2つの出力フィールドと、**PRE**SERVE関数ごとに1つの出力フィールドが含まれています。コレクションのスキーマは以下の通りです。
+このコレクションには、**INDEX_IMAGE**関数の2つの出力フィールドと、**PRESERVE**関数ごとに1つの出力フィールドが含まれています。コレクションのスキーマは以下の通りです。
 
 <table>
    <tr>
@@ -300,15 +299,15 @@ Ingestionパイプラインが作成されると、`my_collection`という名�
 
 ### イメージ取り込みパイプラインを実行する{#run-image-ingestion-pipeline}
 
-<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"bash","value":"bash"}]}=""></tabs>
 
-<TabItem value="Cloud Console">
+<tabitem value="Cloud Console"></tabitem>
 
-1. インジェスチョンパイプラインの横にある「▶︎」ボタンをクリックしてください。または、**プレイグラウンド**タブをクリックすることもできます。
+1. インジェスチョンパイプラインの横にある「▶︎」ボタンをクリックしてください。または、「プレイグラウンド」タブをクリックすることもできます。
 
-    ![run-pipeline](/img/ja-JP/run-pipeline.png)
+    ![run-pipeline](/img/run-pipeline.png)
 
-1. 画像IDとURLを`image_id`と`image_url`フィールドに入力してください。PRESERVE関数を追加した場合は、定義済みの保存フィールドにも値を入力してください。**実行**をクリックしてください。
+1. `image_id`および`image_url`フィールドにクエリ画像IDとURLを入力してください。PRESERVE関数を追加した場合は、定義された保存フィールドに値を入力してください。**実行**をクリックしてください。
 
 1. 結果を確認してください。
 
@@ -316,9 +315,9 @@ Ingestionパイプラインが作成されると、`my_collection`という名�
 
 </TabItem>
 
-<TabItem value="Bash">
+<tabitem value="Bash"></tabitem>
 
-次の例では、Ingestionパイプライン`my_image_ingestion_Pipeline`を実行します。
+次の例では、Ingestionパイプライン`my_image_ingestion_pipeline`を実行します。 
 
 ```python
 curl --request POST \
@@ -336,15 +335,15 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーを表示する](/docs/manage-api-keys#view-api-keys)の詳細については、こちらをご覧ください。
 
-- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west1`のみがサポートされています。
 
 - `image_id`:オブジェクトストレージに保存されている画像のID。
 
-- `image_url`:オブジェクトストレージに保存されている画像のURLです。エンコードされていないか、UTF-8でエンコードされたURLを使用してください。URLが少なくとも1時間有効であることを確認してください。
+- `image_url`:オブジェクトストレージに保存されている画像のURLです。エンコードされていないか、UTF-8でエンコードされたURLを使用する必要があります。URLが少なくとも1時間有効であることを確認してください。
 
-- `image_title:`保存する必要のあるメタデータフィールド。
+- `image_title`:保持する必要があるメタデータフィールド。
 
 以下は回答例です。
 
@@ -368,30 +367,30 @@ curl --request POST \
 
 任意のデータを検索するには、まず検索パイプラインを作成してから実行する必要があります。IngestionおよびDeletionパイプラインとは異なり、検索パイプラインを作成する場合、クラスタとコレクションはパイプラインレベルではなく関数レベルで定義されます。これは、Zilliz Cloudが複数のコレクションから同時に検索できるためです。
 
-画像データを検索するには2つの方法があります。[逆画像検索を行う](./pipelines-image-data#conduct-a-reverse-image-search)か、[テキストによる画像検索](./pipelines-image-data#search-image-by-text)を行います。
+画像データを検索するには、[逆画像検索を行う](./pipelines-image-data#conduct-a-reverse-image-search)または[テキストで画像を検索する](./pipelines-image-data#search-image-by-text)の2つの方法があります。
 
 ### 逆画像検索を行う{#conduct-a-reverse-image-search}
 
 #### 画像検索パイプラインの作成{#create-image-search-pipeline}
 
-<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"bash","value":"bash"}]}=""></tabs>
 
-<TabItem value="Cloud Console">
+<tabitem value="Cloud Console"></tabitem>
 
 1. プロジェクトに移動します。
 
-1. ナビゲーションパネルから**パイプライン**をクリックします。次に、**概要**タブに切り替えて、**パイプライン**をクリックします。パイプラインを作成するには、**+パイプライン**をクリックしてください。
+1. ナビゲーションパネルから「パイプライン」をクリックしてください。その後、「概要」タブに切り替えて、「パイプライン」をクリックしてください。パイプラインを作成するには、「+パイプライン」をクリックしてください。
 
-1. 作成するパイプラインの種類を選択してください。「**+パイプライン**」ボタンを**検索パイプライン**欄でクリックしてください。
+1. 作成するパイプラインの種類を選択してください。**Search Pipeline**列の**+Pipeline**ボタンをクリックしてください。
 
-    ![create-search-pipeline](/img/ja-JP/create-search-pipeline.png)
+    ![create-search-pipeline](/img/create-search-pipeline.png)
 
 1. 作成したい検索パイプラインを構成します。
 
     <table>
        <tr>
          <th><p><strong>パラメータ</strong></p></th>
-         <th><p><strong>説明する</strong></p></th>
+         <th><p><strong>の説明</strong></p></th>
        </tr>
        <tr>
          <td><p>パイプライン名</p></td>
@@ -403,27 +402,27 @@ curl --request POST \
        </tr>
     </table>
 
-    ![configure-search-pipeline](/img/ja-JP/configure-search-pipeline.png)
+    ![configure-search-pipeline](/img/configure-search-pipeline.png)
 
-1. 「**+Function**」をクリックして、検索パイプラインに関数を追加します。正確に1つの関数を追加できます。
+1. **+Function**をクリックして、検索パイプラインに関数を追加します。正確に1つの関数を追加できます。
 
     1. 関数名を入力します。
 
-    1. 「**Target Cluster**」と「**Target collection**」を選択します。**Target Cluster**は、**us-west 1 on Google Cloud Platform(GCP)**にデプロイされたクラスタである必要があります。また、**Target Collection**はIngestionパイプラインによって作成されている必要があります。そうでない場合、Searchパイプラインは互換性がありません。
+    1. 「ターゲットクラスター」と「ターゲットコレクション」を選択してください。「ターゲットクラスター」は、Google Cloud Platform(GCP)上の「us-west 1」に展開されたクラスターである必要があります。「ターゲットコレクション」は、Ingestionパイプラインによって作成される必要があります。そうでない場合、Searchパイプラインは互換性がありません。
 
-    1. Function Typeとして**SEARCH_IMAGE_BY_IMAGE**を選択してください。**Function Type**として**SEARCH_IMAGE_BY_IMAGE**関数を使用すると、クエリ画像をベクトル埋め込みに変換し、最も類似した画像を取得できます。
+    1. **関数タイプ**として**SEARCH_IMAGE_BY_IMAGE**を選択してください。**SEARCH_IMAGE_BY_IMAGE**関数は、クエリ画像をベクトル埋め込みに変換し、最も類似した画像を取得できます。
 
-        ![add-search-image-function](/img/ja-JP/add-search-image-function.png)
+        ![add-search-image-function](/img/add-search-image-function.png)
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. 関数を保存するには、**追加**をクリックしてください。
 
-1. [**検索パイプラインを作成**]をクリックします。
+1. 「検索パイプラインの作成」をクリックしてください。
 
 </TabItem>
 
-<TabItem value="Bash">
+<tabitem value="Bash"></tabitem>
 
-次の例では、`my_image_search_Pipeline`という名前の検索パイプラインを作成し、**SEARCH_IMAGE_BY_IMAGE**関数を追加します。
+次の例では、`my_image_search_pipeline`という名前の検索パイプラインを作成し、**SEARCH_IMAGE_BY_IMAGE**関数を追加しています。 
 
 ```bash
 curl --request POST \
@@ -449,29 +448,29 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーを表示する](/docs/manage-api-keys#view-api-keys)の詳細については、こちらをご覧ください。
 
-- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west1`のみがサポートされています。
 
-- `projectId`:パイプラインを作成するプロジェクトのID。詳しくは[プロジェクトIDの取得方法をご覧ください。](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
+- `projectId`:パイプラインを作成するプロジェクトのIDです。[プロジェクトIDはどのように取得できますか?](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)について詳しく学びましょう。
 
-- `name`:作成するパイプラインの名前。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
+- `name`:作成するパイプラインの名前です。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
 - `description`(オプション):作成するパイプラインの説明。
 
 - `type`:作成するパイプラインの種類。現在利用可能なパイプラインの種類には、`INGESTION`、`SEARCH`、`DELETION`があります。
 
-- `functions`:パイプラインに追加する関数。**Searchパイプラインには1つの関数しか持てません。**
+- `functions`:パイプラインに追加する関数。**検索パイプラインには1つの関数しか持てません。**
 
-    - `name`:関数の名前です。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
+    - `name`:関数の名前。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-    - `action`:追加する関数の種類。現在利用可能なオプションは、`SEARCH_DOC_CHUNK`、`SEARCH_TEXT`、`SEARCH_IMAGE_BY_IMAGE`、`SEARCH_IMAGE_BY_TEXT`です。
+    - `action`:追加する関数のタイプです。現在利用可能なオプションには、`SEARCH_DOC_CHUNK`、`SEARCH_TEXT`、`SEARCH_IMAGE_BY_IMAGE`、`SEARCH_IMAGE_BY_TEXT`があります。
 
-    - `lusterId`:パイプラインを作成するクラスタのIDです。現在、GCP上のus-west 1にデプロイされたクラスタのみを選択できます。CLUSTER_IDの確認方法については、[How can I find my CLUSTER_ID?を参照してください。](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
+    - `clusterId`:パイプラインを作成するクラスタのIDです。現在、GCP上のus-west 1にデプロイされたクラスタのみを選択できます。[CLUSTER_IDをどのように見つけることができますか?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)について詳しくはこちらをご覧ください。
 
-    - `collection`Name:パイプラインを作成するコレクションの名前。
+    - `collectionName`:パイプラインを作成するコレクションの名前。
 
-    - `埋め込み`:ベクトル検索中に使用される埋め込みモデル。モデルは、互換性のあるコレクションで選択されたものと一致する必要があります。
+    - `embedding`:ベクトル検索中に使用される埋め込みモデル。モデルは、互換性のあるコレクションで選択されたものと一致する必要があります。
 
 以下は出力例です。
 
@@ -511,17 +510,17 @@ curl --request POST \
 
 </Tabs>
 
-#### 画像検索パイプラインの実行{#search-image-by-text}
+#### 画像検索パイプラインの実行{#run-image-search-pipeline}
 
-<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"bash","value":"bash"}]}=""></tabs>
 
-<TabItem value="Cloud Console">
+<tabitem value="Cloud Console"></tabitem>
 
-1. 検索パイプラインの横にある「▶︎」ボタンをクリックしてください。または、**プレイグラウンド**タブをクリックすることもできます。
+1. 検索パイプラインの横にある「▶︎」ボタンをクリックしてください。または、「プレイグラウンド」タブをクリックすることもできます。
 
-    ![run-pipeline](/img/ja-JP/run-pipeline.png)
+    ![run-pipeline](/img/run-pipeline.png)
 
-1. クエリ画像のURLを入力し、**実行**をクリックします。
+1. クエリ画像のURLを入力してください。**実行**をクリックしてください。
 
 1. 結果を確認してください。
 
@@ -529,9 +528,9 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value="Bash">
+<tabitem value="Bash"></tabitem>
 
-次の例では、`my_image_search_パイプライン`という名前の検索パイプラインを実行します。
+次の例では、`my_image_search_pipeline`という名前の検索パイプラインを実行します。 
 
 ```bash
 curl --request POST \
@@ -553,23 +552,23 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーを表示する](/docs/manage-api-keys#view-api-keys)の詳細については、こちらをご覧ください。
 
-- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west1`のみがサポートされています。
 
-- `query_image_url`:類似検索を実行するために使用されるクエリ画像のURL。
+- `query_image_url`:類似検索を行うために使用されるクエリ画像のURL。
 
 - `params`:設定する検索パラメータ。
 
-    - `limit`:返すエンティティの最大数。値は**1**から**500**までの整数である必要があります。この値と`offset`の値の合計は**1024**になる必要があります。
+    - `limit`:返すエンティティの最大数。値は**1**から**500**までの整数である必要があります。この値と`offset`の値の合計は**1024**小なりになる必要があります。
 
-    - `オフセット`:検索結果でスキップするエンティティの数。
+    - `offset`:検索結果でスキップするエンティティの数。
 
-        この値と`limit`の合計は大なり**1024**ではありません。最大値は**1024**です。
+        この値と`limit`の値の合計は大なり**1024**ではありません。最大値は**1024**です。
 
-    - `output`Fields:検索結果とともに返されるフィールドの配列です。デフォルトでは、検索結果に`id`（エンティティID）、`distance`が返されます。返される結果に他の出力フィールドが必要な場合は、このパラメータを設定できます。
+    - `outputFields`:検索結果とともに返されるフィールドの配列です。`id`（エンティティID）、`distance`はデフォルトで検索結果に返されます。返された結果に他の出力フィールドが必要な場合は、このパラメータを設定できます。
 
-    - `フィルター`:検索に一致するものを見つけるために使用されるブール式の[フィルター](./filtering)
+    - `filter`:検索に一致するものを見つけるために使用されるブール式の[フィルタ](./filtering)
 
 以下は回答例です。
 
@@ -606,24 +605,24 @@ curl --request POST \
 
 #### 画像検索パイプラインの作成{#create-image-search-pipeline}
 
-<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"bash","value":"bash"}]}=""></tabs>
 
-<TabItem value="Cloud Console">
+<tabitem value="Cloud Console"></tabitem>
 
 1. プロジェクトに移動します。
 
-1. ナビゲーションパネルから**パイプライン**をクリックします。次に、**概要**タブに切り替えて、**パイプライン**をクリックします。パイプラインを作成するには、**+パイプライン**をクリックしてください。
+1. ナビゲーションパネルから「パイプライン」をクリックしてください。その後、「概要」タブに切り替えて、「パイプライン」をクリックしてください。パイプラインを作成するには、「+パイプライン」をクリックしてください。
 
-1. 作成するパイプラインの種類を選択してください。「**+パイプライン**」ボタンを**検索パイプライン**欄でクリックしてください。
+1. 作成するパイプラインの種類を選択してください。**Search Pipeline**列の**+Pipeline**ボタンをクリックしてください。
 
-    ![create-search-pipeline](/img/ja-JP/create-search-pipeline.png)
+    ![create-search-pipeline](/img/create-search-pipeline.png)
 
 1. 作成したい検索パイプラインを構成します。
 
     <table>
        <tr>
          <th><p><strong>パラメータ</strong></p></th>
-         <th><p><strong>説明する</strong></p></th>
+         <th><p><strong>の説明</strong></p></th>
        </tr>
        <tr>
          <td><p>パイプライン名</p></td>
@@ -635,13 +634,13 @@ curl --request POST \
        </tr>
     </table>
 
-    ![configure-search-pipeline](/img/ja-JP/configure-search-pipeline.png)
+    ![configure-search-pipeline](/img/configure-search-pipeline.png)
 
-1. 「**+Function**」をクリックして、検索パイプラインに関数を追加します。正確に1つの関数を追加できます。
+1. **+Function**をクリックして、検索パイプラインに関数を追加します。正確に1つの関数を追加できます。
 
     1. 関数名を入力します。
 
-    1. 「**Target Cluster**」と「**Target collection**」を選択します。**Target Cluster**は、**us-west 1 on Google Cloud Platform(GCP)**にデプロイされたクラスタである必要があります。また、**Target Collection**はIngestionパイプラインによって作成されている必要があります。そうでない場合、Searchパイプラインは互換性がありません。
+    1. 「ターゲットクラスター」と「ターゲットコレクション」を選択してください。「ターゲットクラスター」は、Google Cloud Platform(GCP)上の「us-west 1」に展開されたクラスターである必要があります。「ターゲットコレクション」は、Ingestionパイプラインによって作成される必要があります。そうでない場合、Searchパイプラインは互換性がありません。
 
         <Admonition type="info" icon="📘" title="ノート">
 
@@ -649,21 +648,21 @@ curl --request POST \
 
         </Admonition>
 
-    1. Function Typeとして**SEARCH_IMAGE_BY_TEXT**を選択してください。**Function Type**として**SEARCH_IMAGE_BY_TEXT関数**を使用すると、クエリテキストをベクトル埋め込みに変換し、最も類似した画像を取得できます。
+    1. **関数タイプ**として**SEARCH_IMAGE_BY_TEXT**を選択してください。**SEARCH_IMAGE_BY_TEXT**関数は、クエリテキストをベクトル埋め込みに変換し、最も類似した画像を取得できます。
 
-        関数**SEARCH_IMAGE_BY_TEXT**を選択した場合、マルチモーダルテキスト埋め込みサービス`zilliz/clip-vit-base-patch32-multilingual-v1`がデフォルトで使用され、対応する取り込みパイプラインとターゲットコレクションに一致します。
+        **SEARCH_IMAGE_BY_TEXT**関数を選択した場合、マルチモーダルテキスト埋め込みサービス`zilliz/clip-vit-base-patch32-multilingual-v1`がデフォルトで使用され、対応するインジェストパイプラインとターゲットコレクションに一致します。
 
-        ![add-search-image-by-text-function](/img/ja-JP/add-search-image-by-text-function.png)
+        ![add-search-image-by-text-function](/img/add-search-image-by-text-function.png)
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. 関数を保存するには、**追加**をクリックしてください。
 
-1. [**検索パイプラインを作成**]をクリックします。
+1. 「検索パイプラインの作成」をクリックしてください。
 
 </TabItem>
 
-<TabItem value="Bash">
+<tabitem value="Bash"></tabitem>
 
-次の例では、`my_image_search_Pipeline`という名前の検索パイプラインを作成し、**SEARCH_IMAGE_BY_TEXT**関数を追加します。
+次の例では、`my_image_search_pipeline`という名前の検索パイプラインを作成し、**SEARCH_IMAGE_BY_TEXT**関数を追加しています。 
 
 ```bash
 curl --request POST \
@@ -689,29 +688,29 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーを表示する](/docs/manage-api-keys#view-api-keys)の詳細については、こちらをご覧ください。
 
-- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west1`のみがサポートされています。
 
-- `projectId`:パイプラインを作成するプロジェクトのID。詳しくは[プロジェクトIDの取得方法をご覧ください。](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
+- `projectId`:パイプラインを作成するプロジェクトのIDです。[プロジェクトIDはどのように取得できますか?](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)について詳しく学びましょう。
 
-- `name`:作成するパイプラインの名前。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
+- `name`:作成するパイプラインの名前です。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
 - `description`(オプション):作成するパイプラインの説明。
 
 - `type`:作成するパイプラインの種類。現在利用可能なパイプラインの種類には、`INGESTION`、`SEARCH`、`DELETION`があります。
 
-- `functions`:パイプラインに追加する関数。**Searchパイプラインには1つの関数しか持てません。**
+- `functions`:パイプラインに追加する関数。**検索パイプラインには1つの関数しか持てません。**
 
-    - `name`:関数の名前です。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
+    - `name`:関数の名前。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-    - `action`:追加する関数の種類。現在利用可能なオプションは、`SEARCH_DOC_CHUNK`、`SEARCH_TEXT`、`SEARCH_IMAGE_BY_IMAGE`、`SEARCH_IMAGE_BY_TEXT`です。
+    - `action`:追加する関数のタイプです。現在利用可能なオプションには、`SEARCH_DOC_CHUNK`、`SEARCH_TEXT`、`SEARCH_IMAGE_BY_IMAGE`、`SEARCH_IMAGE_BY_TEXT`があります。
 
-    - `lusterId`:パイプラインを作成するクラスタのIDです。現在、GCP上のus-west 1にデプロイされたクラスタのみを選択できます。CLUSTER_IDの確認方法については、[How can I find my CLUSTER_ID?を参照してください。](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
+    - `clusterId`:パイプラインを作成するクラスタのIDです。現在、GCP上のus-west 1にデプロイされたクラスタのみを選択できます。[CLUSTER_IDをどのように見つけることができますか?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)について詳しくはこちらをご覧ください。
 
-    - `collection`Name:パイプラインを作成するコレクションの名前。
+    - `collectionName`:パイプラインを作成するコレクションの名前。
 
-    - `埋め込み`:ベクトル検索中に使用される埋め込みモデルです。ここでは、埋め込みモデル`zilliz/clip-vit-base-patch32-multilingual-v1`を使用する必要があります。このモデルは、Open AIの[CLIP-ViT-B 32](https://huggingface.co/openai/clip-vit-base-patch32)モデルの多言語バリアントです。`zilliz/clip-vit-base-patch32`ビジョンモデルと一緒に動作するように設計されており、50以上の言語でテキストを処理できます。
+    - `embedding`:ベクトル検索中に使用される埋め込みモデルです。ここでは、埋め込みモデル`zilliz/clip-vit-base-patch32-multilingual-v1`を使用する必要があります。このモデルは、Open AIの[クリップ-ViT-B 32](https://huggingface.co/openai/clip-vit-base-patch32)モデルの多言語バリアントです。`zilliz/clip-vit-base-patch32`ビジョンモデルと連携するように設計されており、50以上の言語でテキストを過程化することができます。
 
 以下は出力例です。
 
@@ -753,15 +752,15 @@ curl --request POST \
 
 #### 画像検索パイプラインの実行{#run-image-search-pipeline}
 
-<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"bash","value":"bash"}]}=""></tabs>
 
-<TabItem value="Cloud Console">
+<tabitem value="Cloud Console"></tabitem>
 
-1. 検索パイプラインの横にある「▶︎」ボタンをクリックしてください。または、**プレイグラウンド**タブをクリックすることもできます。
+1. 検索パイプラインの横にある「▶︎」ボタンをクリックしてください。または、「プレイグラウンド」タブをクリックすることもできます。
 
-    ![run-pipeline](/img/ja-JP/run-pipeline.png)
+    ![run-pipeline](/img/run-pipeline.png)
 
-1. クエリテキストを入力します。[**実行**]をクリックします。
+1. クエリテキストを入力してください。**実行**をクリックしてください。
 
 1. 結果を確認してください。
 
@@ -769,9 +768,9 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value="Bash">
+<tabitem value="Bash"></tabitem>
 
-次の例では、`my_image_search_パイプライン`という名前の検索パイプラインを実行します。
+次の例では、`my_image_search_pipeline`という名前の検索パイプラインを実行します。 
 
 ```bash
 curl --request POST \
@@ -793,23 +792,23 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーを表示する](/docs/manage-api-keys#view-api-keys)の詳細については、こちらをご覧ください。
 
-- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west1`のみがサポートされています。
 
 - `query_text`:類似検索を実行するために使用されるクエリテキスト。
 
 - `params`:設定する検索パラメータ。
 
-    - `limit`:返すエンティティの最大数。値は**1**から**100**までの整数である必要があります。この値と`offset`の値の合計は**1024**になる必要があります。
+    - `limit`:返すエンティティの最大数。値は**1**から**100**までの整数である必要があります。この値と`offset`の値の合計は**1024**小なりになる必要があります。
 
-    - `オフセット`:検索結果でスキップするエンティティの数。
+    - `offset`:検索結果でスキップするエンティティの数。
 
-        この値と`limit`の合計は大なり**1024**ではありません。最大値は**1024**です。
+        この値と`limit`の値の合計は大なり**1024**ではありません。最大値は**1024**です。
 
-    - `output`Fields:検索結果とともに返されるフィールドの配列です。デフォルトでは、検索結果に`id`（エンティティID）、`distance`が返されます。返される結果に他の出力フィールドが必要な場合は、このパラメータを設定できます。
+    - `outputFields`:検索結果とともに返されるフィールドの配列です。`id`（エンティティID）、`distance`はデフォルトで検索結果に返されます。返された結果に他の出力フィールドが必要な場合は、このパラメータを設定できます。
 
-    - `フィルター`:検索に一致するものを見つけるために使用されるブール式の[フィルター](./filtering)
+    - `filter`:検索に一致するものを見つけるために使用されるブール式の[フィルタ](./filtering)
 
 以下は回答例です。
 
@@ -848,30 +847,30 @@ curl --request POST \
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>まず<a href="./pipelines-image-data#create-image-ingestion-pipeline">、</a><a href="./pipelines-image-data#create-image-ingestion-pipeline">Ingestionパイプライン</a>を作成する必要があります。Ingestionパイプラインの作成に成功したら、検索パイプラインと削除パイプラインを作成して、新しく作成したIngestionパイプラインを操作できます。</p>
+<p>最初に<a href="./pipelines-image-data#create-image-ingestion-pipeline">作成する </a> <a href="./pipelines-image-data#create-image-ingestion-pipeline">摂取パイプライン</a>を作成する必要があります。Ingestionパイプラインが正常に作成されたら、新しく作成したIngestionパイプラインを使用するための検索パイプラインと削除パイプラインを作成できます。 </p>
 
 </Admonition>
 
 ### イメージ削除パイプラインの作成{#create-image-deletion-pipeline}
 
-<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"bash","value":"bash"}]}=""></tabs>
 
-<TabItem value="Cloud Console">
+<tabitem value="Cloud Console"></tabitem>
 
 1. プロジェクトに移動します。
 
-1. ナビゲーションパネルから**パイプライン**をクリックします。次に、**概要**タブに切り替えて、**パイプライン**をクリックします。パイプラインを作成するには、**+パイプライン**をクリックしてください。
+1. ナビゲーションパネルから「パイプライン」をクリックしてください。その後、「概要」タブに切り替えて、「パイプライン」をクリックしてください。パイプラインを作成するには、「+パイプライン」をクリックしてください。
 
-1. 作成するパイプラインの種類を選択してください。「**+パイプライン**」ボタンを**削除パイプライン**欄でクリックしてください。
+1. 作成するパイプラインの種類を選択してください。**Deletion Pipeline**列の**+Pipeline**ボタンをクリックしてください。
 
-    ![create-deletion-pipeline](/img/ja-JP/create-deletion-pipeline.png)
+    ![create-deletion-pipeline](/img/create-deletion-pipeline.png)
 
 1. 作成する削除パイプラインを構成します。
 
     <table>
        <tr>
          <th><p><strong>パラメータ</strong></p></th>
-         <th><p><strong>説明する</strong></p></th>
+         <th><p><strong>の説明</strong></p></th>
        </tr>
        <tr>
          <td><p>パイプライン名</p></td>
@@ -883,23 +882,23 @@ curl --request POST \
        </tr>
     </table>
 
-    ![configure-deletion-pipeline](/img/ja-JP/configure-deletion-pipeline.png)
+    ![configure-deletion-pipeline](/img/configure-deletion-pipeline.png)
 
-1. 「**+Function**」をクリックして、削除パイプラインに関数を追加します。1つの関数だけを追加できます。
+1. **+Function**をクリックして、削除パイプラインに関数を追加します。正確に1つの関数を追加できます。
 
     1. 関数名を入力します。
 
-    1. 「**PURGE_IMAGE_INDEX**」または「**PURGE_BY_EXPRESSION**」を**関数タイプ**として選択します。**PURGE_IMAGE_INDEX**関数は指定されたimage_idを持つすべての画像を削除できますが、**PURGE_BY_EXPRESSION**関数は指定されたフィルタ式に一致するすべてのテキストエンティティを削除できます。
+    1. **関数タイプ**として、**PURGE_IMAGE_INDEX**または**PURGE_BY_EXPRESSION**のいずれかを選択してください。**PURGE_IMAGE_INDEX**関数は指定されたimage_idを持つすべての画像を削除できますが、**PURGE_BY_EXPRESSION**関数は指定されたフィルタ式に一致するすべてのテキストエンティティを削除できます。
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. 関数を保存するには、**追加**をクリックしてください。
 
-1. [**削除パイプラインを作成**]をクリックします。
+1. 「削除パイプラインの作成」をクリックしてください。
 
 </TabItem>
 
-<TabItem value="Bash">
+<tabitem value="Bash"></tabitem>
 
-以下の例では、`my_image_delete_Pipeline`という名前のDeletionパイプラインを作成し、**PURGE_IMAGE_INDEX**関数を追加しています。
+以下の例では、`my_image_deletion_pipeline`という名前のDeletionパイプラインを作成し、**PURGE_IMAGE_INDEX**関数を追加しています。 
 
 ```bash
 curl --request POST \
@@ -924,13 +923,13 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーを表示する](/docs/manage-api-keys#view-api-keys)の詳細については、こちらをご覧ください。
 
-- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west1`のみがサポートされています。
 
-- `projectId`:パイプラインを作成するプロジェクトのID。詳しくは[プロジェクトIDの取得方法をご覧ください。](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
+- `projectId`:パイプラインを作成するプロジェクトのIDです。[プロジェクトIDはどのように取得できますか?](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)について詳しく学びましょう。
 
-- `name`:作成するパイプラインの名前。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
+- `name`:作成するパイプラインの名前です。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
 - `description`(オプション):作成するパイプラインの説明。
 
@@ -938,13 +937,13 @@ curl --request POST \
 
 - `functions`:パイプラインに追加する関数。**Deletionパイプラインには1つの関数しか持てません。**
 
-    - `name`:関数の名前です。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
+    - `name`:関数の名前。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-    - `アクション`:追加する関数の種類。利用可能なオプションには、`PURGE_DOC_INDEX`、`PURGE_TEXT_INDEX`、`PURGE_BY_EXPRESSION`、`PURGE_IMAGE_INDEX`があります。
+    - `action`:追加する関数の種類。利用可能なオプションには、`PURGE_DOC_INDEX`、`PURGE_TEXT_INDEX`、`PURGE_BY_EXPRESSION`、および`PURGE_IMAGE_INDEX`があります。
 
-- `lusterId`:パイプラインを作成するクラスタのIDです。現在、GCP us-west 1にデプロイされたクラスタのみを選択できます。詳しくは[How can I find my CLUSTER_ID?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
+- `clusterId`:パイプラインを作成するクラスタのIDです。現在、GCP us-west 1にデプロイされたクラスタのみを選択できます。[CLUSTER_IDをどのように見つけることができますか?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)について詳しくはこちらをご覧ください。
 
-- `collection`Name:パイプラインを作成するコレクションの名前。
+- `collectionName`:パイプラインを作成するコレクションの名前。
 
 以下は出力例です。
 
@@ -977,23 +976,23 @@ curl --request POST \
 
 ### イメージ削除パイプラインの実行{#run-image-deletion-pipeline}
 
-<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"bash","value":"bash"}]}=""></tabs>
 
-<TabItem value="Cloud Console">
+<tabitem value="Cloud Console"></tabitem>
 
-1. 削除パイプラインの横にある「▶︎」ボタンをクリックしてください。または、**プレイグラウンド**タブをクリックすることもできます。
+1. 削除パイプラインの横にある「▶︎」ボタンをクリックしてください。または、「プレイグラウンド」タブをクリックすることもできます。
 
-    ![run-pipeline](/img/ja-JP/run-pipeline.png)
+    ![run-pipeline](/img/run-pipeline.png)
 
-1. フィルタ式を入力します。[**実行**]をクリックします。
+1. フィルタ式を入力します。**実行**をクリックします。
 
 1. 結果を確認してください。
 
 </TabItem>
 
-<TabItem value="Bash">
+<tabitem value="Bash"></tabitem>
 
-次の例では、Deletionパイプライン`my_image_deletion_Pipelineを`実行します。
+次の例では、`my_image_deletion_pipeline`という名前のDeletionパイプラインを実行します。 
 
 ```bash
 curl --request POST \
@@ -1009,9 +1008,9 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーを表示する](/docs/manage-api-keys#view-api-keys)の詳細については、こちらをご覧ください。
 
-- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west1`のみがサポートされています。
 
 - `image_id`:削除する画像のID。
 
@@ -1036,17 +1035,17 @@ curl --request POST \
 
 ### ビューパイプライン{#view-pipeline}
 
-<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"bash","value":"bash"}]}=""></tabs>
 
-<TabItem value="Cloud Console">
+<tabitem value="Cloud Console"></tabitem>
 
-左ナビゲーションの**パイプライン**をクリックします。**パイプライン**タブを選択します。利用可能なすべてのパイプラインが表示されます。
+左ナビゲーションの**パイプライン**をクリックします。**パイプライン**タブを選択します。利用可能なすべてのパイプラインが表示されます。 
 
-![view-pipelines-on-web-ui](/img/ja-JP/view-pipelines-on-web-ui.png)
+![view-pipelines-on-web-ui](/img/view-pipelines-on-web-ui.png)
 
 特定のパイプラインをクリックすると、基本情報、合計使用量、機能、関連コネクタなどの詳細情報が表示されます。
 
-![view-pipeline-details](/img/ja-JP/view-pipeline-details.png)
+![view-pipeline-details](/img/view-pipeline-details.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -1056,17 +1055,17 @@ curl --request POST \
 
 Web UIでパイプラインのアクティビティを確認することもできます。
 
-![view-pipelines-activities-on-web-ui](/img/ja-JP/view-pipelines-activities-on-web-ui.png)
+![view-pipelines-activities-on-web-ui](/img/view-pipelines-activities-on-web-ui.png)
 
 </TabItem>
 
-<TabItem value="Bash">
+<tabitem value="Bash"></tabitem>
 
 APIを呼び出して、既存のすべてのパイプラインを一覧表示したり、特定のパイプラインの詳細を表示したりできます。
 
-- **既存のパイプラインをすべて表示する**
+- **すべての既存のパイプラインを表示**
 
-    以下の例に従い、projectIdを指定してくださ`い`。[プロジェクトIDの取得方法に](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID-)ついては、こちらをご覧ください。
+    以下の例に従って、`projectId`を指定してください。[プロジェクトIDの取得方法](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID-)の詳細については、こちらをご覧ください。
 
     ```bash
     curl --request GET \
@@ -1229,19 +1228,19 @@ APIを呼び出して、既存のすべてのパイプラインを一覧表示�
 
 </Admonition>
 
-<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"bash","value":"bash"}]}=""></tabs>
 
-<TabItem value="Cloud Console">
+<tabitem value="Cloud Console"></tabitem>
 
-Web UIにパイプラインをドロップするには、をクリックします**。。。**「**アクション**」列の下にあるボタンをクリックします。次に、「**ドロップ**」をクリックします。
+Web UIにパイプラインをドロップするには、**をクリックします。。。「アクション」列の下にあるボタンをクリックして、「ドロップ」をクリックしてください。
 
-![delete-pipeline](/img/ja-JP/delete-pipeline.png)
+![delete-pipeline](/img/delete-pipeline.png)
 
 </TabItem>
 
-<TabItem value="Bash">
+<tabitem value="Bash"></tabitem>
 
-以下の例に従って、パイプラインを削除してください。
+以下の例に従って、パイプラインを削除してください。 
 
 ```bash
 curl --request GET \

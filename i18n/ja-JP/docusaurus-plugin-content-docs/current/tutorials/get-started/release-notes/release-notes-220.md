@@ -4,19 +4,19 @@ slug: /release-notes-220
 sidebar_label: "リリースノート（2023年9月13日）"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudのリリースを発表できることを嬉しく思います。Zilliz Cloudクラスター間およびElastic Searchからのデータ移行、新しいチケットシステムの稼働、および強化されたデータインポート機能を含む、ユーザーエクスペリエンスを向上させるために設計された新機能のスイートを誇っています。 | Cloud"
+description: "Zilliz Cloudのリリースを発表できることを嬉しく思います。これには、Zilliz Cloudクラスター間およびElastic Searchからのデータ移行、新しいチケットシステムの稼働、強化されたデータインポート機能など、ユーザーエクスペリエンスを向上させるために設計された新機能が含まれています。 | Cloud"
 type: origin
-token: UYXeweIQ9iLFsMkyzoecTt87nSe
-sidebar_position: 15
+token: GqyhwKVspiYRwDk8OaucNfgJnhd
+sidebar_position: 18
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 
@@ -25,7 +25,7 @@ import Admonition from '@theme/Admonition';
 
 # リリースノート（2023年9月13日）
 
-Zilliz Cloudのリリースを発表できることを嬉しく思います。Zilliz Cloudクラスター間およびElastic Searchからのデータ移行、新しいチケットシステムの稼働、および強化されたデータインポート機能を含む、ユーザーエクスペリエンスを向上させるために設計された新機能のスイートを誇っています。
+Zilliz Cloudのリリースを発表できることを嬉しく思います。これには、Zilliz Cloudクラスター間およびElastic Searchからのデータ移行、新しいチケットシステムの稼働、強化されたデータインポート機能など、ユーザーエクスペリエンスを向上させるために設計された新機能が含まれています。
 
 ## Milvusの互換性{#milvus-compatibility}
 
@@ -45,15 +45,15 @@ Zilliz Cloudのリリースを発表できることを嬉しく思います。Zi
 
 - リアルタイムモニタリング:ユーザーが移行の進捗状況を監視し、ステータスの更新を瞬時に受け取るための直感的なUI。
 
-詳細は[クラスタ間の移行](./undefined)を参照してください。
+詳細は[クラスタ間の移行](./offline-migration)をご覧ください。
 
 ## Elastic SearchからZilliz Cloudへの簡単な移行{#easy-migration-from-elasticsearch-to-zilliz-cloud}
 
-Elastic SearchからZilliz Cloudへの移行は、これまで以上に簡単になりました。私たちは、包括的なドキュメントと組み込みツールで補完されたパスウェイを作成し、移行後もスムーズな切り替えと一貫したデータを体験できるようにしました。詳細については、[ElasticsearchからZilliz Cloudへの移行](./migrate-from-elasticsearch)するをご覧ください。
+Elastic SearchからZilliz Cloudへの移行は、これまで以上に簡単になりました。私たちは、包括的なドキュメントと組み込みツールで補完されたパスウェイを作成し、移行後もスムーズな切り替えと一貫したデータを体験できるようにしました。詳細については、[Elasticsearchからの移行](./migrate-from-elasticsearch)をご覧ください。
 
 ## 新しいチケットシステムGo-Live{#new-ticket-system-go-live}
 
-私たちの新しいチケットシステムは、Zilliz Cloudユーザーに私たちのチームへの直接的なチャネルを提供します。フィードバックを提出したり、問題を報告したり、専門家のサポートを求めたりする場合でも、私たちは効率性と明確さのためにシステムを設計しました。[今すぐチケットシステムを探索して、スムーズなサポートを体験してください。](https://support.zilliz.com/hc/en-us/)
+Zilliz Cloudの新しいチケットシステムは、Zilliz Cloudのユーザーに私たちのチームへの直接的なチャネルを提供します。フィードバックの提出、問題の報告、専門家のサポートなど、効率性と明確性を考慮してシステムを設計しました。[今すぐチケットシステムを探索し、スムーズなサポートを体験してください。](https://support.zilliz.com/hc/en-us/)
 
 ## データインポート機能の強化{#enhanced-data-import-capabilities}
 
@@ -61,6 +61,6 @@ Zilliz Cloudにデータをインポートする方法を革新しました:
 
 - フォルダーインポート:以前の単一ファイルモードの制約から解放されます。ファイルのフォルダー全体を使用してデータをインポートできるようになり、バルクデータの取り込みを効率化できます。
 
-- インポートタスクの監視: Zilliz Cloudウェブコンソールを介して、データのインポートタスクをリアルタイムで監視し、データのアップロードに対する透明性と制御を確保します。
+- インポートタスクの監視: Zilliz Cloudウェブコンソールを介して、データのインポートタスクをリアルタイムで監視し、データアップロードの透明性と制御を確保します。
 
-詳細は[データを変換する](./prepare-data-import)をご確認ください。
+[データインポートの準備](./prepare-data-import)で詳細を確認してください。

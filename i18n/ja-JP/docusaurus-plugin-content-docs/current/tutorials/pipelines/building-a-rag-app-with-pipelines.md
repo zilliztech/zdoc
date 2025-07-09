@@ -1,12 +1,12 @@
 ---
 title: "パイプラインを使用したRAGアプリケーションの構築 | Cloud"
 slug: /building-a-rag-app-with-pipelines
-sidebar_label: "パイプラインを使用したRAGアプリケーションの構築"
-beta: FALSE
+sidebar_label: "Pipelines Quickstart"
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Zilliz Cloud Pipelinesは、ドキュメント、テキスト、画像などの非構造化データを検索可能なベクトルコレクションに変換するための堅牢なソリューションです。このガイドでは、3つの主要なPipelinesタイプの詳細な説明と、Pipelinesを使用したRAGアプリケーションの構築例を提供します。 | Cloud"
 type: origin
-token: LA95wqbMsifPhGkTrOgc82YAnDf
+token: CCU1wZs6NiTEiwk8vN6cIP41nQf
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - pipelines
   - RAG
   - application
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 
@@ -35,25 +35,25 @@ Zilliz Cloud Pipelinesは、ドキュメント、テキスト、画像などの�
 
 </Admonition>
 
-![pipeline-overview](/img/ja-JP/pipeline-overview.png)
+![pipeline-overview](/img/pipeline-overview.png)
 
 ## パイプラインの理解{#understanding-pipelines}
 
 多くの現代のサービスやアプリケーションでは、意味論による検索が必要です。クエリの意味に一致するテキストの塊を検索することから、お互いに似ている画像を見つけることまで。このようなタスクを完了する典型的な検索システムは、データの準備と埋め込み、多次元空間でテキストや画像を数値ベクトルとして表現する過程で構築されます。Zilliz Cloud Pipelinesは、シンプルで柔軟なインターフェースでこのようなユースケースを支援します。
 
-現在、私たちはテキスト、ドキュメント、画像の意味検索のためのパイプラインを提供しており、[Retrieval Augmented Generation(RAG)アプリケーション](https://github.com/milvus-io/bootcamp/blob/master/bootcamp/RAG/zilliz_pipeline_rag.ipynb)の重要な構成要素を提供しています。将来的には、ビデオフレーム検索やマルチモーダル検索など、より多くの意味検索ユースケースのために、より多くのパイプラインが追加される予定です。
+現在、[RAG(Retrieval Augmented Generation)アプリケーション](https://github.com/milvus-io/bootcamp/blob/master/bootcamp/RAG/zilliz_pipeline_rag.ipynb)の重要な構成要素であるテキスト、ドキュメント、画像の意味検索のためのパイプラインを提供しています。将来的には、ビデオフレーム検索やマルチモーダル検索など、より多くの意味検索ユースケースのために、より多くのパイプラインが追加される予定です。
 
 Zilliz Cloudには3種類のPiplineがあります。
 
 ### 摂取パイプライン{#ingestion-pipeline}
 
-インジェスチョンパイプラインは、非構造化データを検索可能なベクトル埋め込みに過程化し、Zilliz Cloudベクトルデータベースに格納することができます。
+インジェスチョンパイプラインは、非構造化データを検索可能なベクトル埋め込みに過程化し、Zilliz Cloudベクトルデータベースに格納することができます。 
 
 Ingestionパイプラインには、いくつかの関数が含まれており、それぞれが非構造化データ(画像、テキスト、ドキュメントなど)のベクトル埋め込みを生成し、ベクトル検索中に取得できる追加情報として入力値を保存するなど、入力フィールドの変換を記述しています。
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>1つのインジェスチョンパイプラインは、Zilliz Cloud上の正確に1つの<strong>ベクトルデータベースコレクション</strong>にマップされます。</p>
+<p>1つのインジェスチョンパイプラインは、Zilliz Cloud上の正確に1つのベクトルデータベースコレクションにマップされます。 </p>
 
 </Admonition>
 
@@ -67,19 +67,19 @@ Deletionパイプラインは、コレクションから指定されたすべて
 
 ## 例:パイプラインを使用したRAGアプリケーションの構築{#example-building-a-rag-application-with-pipelines}
 
-この[チュートリアル](https://github.com/milvus-io/bootcamp/blob/master/bootcamp/RAG/zilliz_pipeline_rag.ipynb)では、Zilliz Cloud Pipelinesを使用して、Pythonでシンプルでスケーラブルな[Retrieval Augmented Generation(RAG)](https://zilliz.com/jp/vector-database-use-cases)アプリケーションを構築する方法を示します。統一されたAPIセットを提供することにより、Zilliz Cloud PipelinesはRAGアプリケーションの構築過程を簡素化します。DevOpsの手間を省き、シンプルなAPI呼び出しですべてを達成できます。以下の図は、基本的なRAGアプリケーションの主要なコンポーネントを示しています。
+この[チュートリアル](https://github.com/milvus-io/bootcamp/blob/master/bootcamp/RAG/zilliz_pipeline_rag.ipynb)は、Zilliz Cloud Pipelinesを使用して、Pythonでシンプルでスケーラブルな[アクセス拡張生成(RAG)](https://zilliz.com/use-cases/llm-retrieval-augmented-generation)アプリケーションを構築する方法を示します。統一されたAPIセットを提供することにより、Zilliz Cloud PipelinesはRAGアプリケーションの構築過程を簡素化します。DevOpsの手間を省き、シンプルなAPI呼び出しですべてを達成できます。以下の図は、基本的なRAGアプリケーションの主要なコンポーネントを示しています。
 
-![rag-application](/img/ja-JP/rag-application.png)
+![rag-application](/img/rag-application.png)
 
 ### 始める前に{#before-you-start}
 
-- Zilliz Cloudで[Free-tierクラスタを作成し](./create-cluster#set-up-a-free-cluster)ていることを確認してください。
+- Zilliz Cloudに[Free-tierクラスタを作成しました](./create-cluster#set-up-a-free-cluster)があることを確認してください。
 
 ### Zilliz Cloudパイプラインの設定{#set-up-zilliz-cloud-pipelines}
 
 #### クラスタ情報を取得する{#obtain-cluster-information}
 
-クラスタID、クラウドリージョン、APIキー、プロジェクトIDなど、作成したFreeクラスタに関する必要な情報を取得します。
+クラスタID、クラウドリージョン、APIキー、プロジェクトIDなど、作成したFreeクラスタに関する必要な情報を取得します。 
 
 ```bash
 import os
@@ -94,21 +94,21 @@ PROJECT_ID = 'your PROJECT_ID'
 
 インジェスチョンパイプラインは、非構造化データを検索可能なベクトル埋め込みに変換し、Zilliz Cloud Vector Databaseに保存することができます。インジェスチョンパイプラインでは、関数を指定することで、処理する非構造化データの種類を定義できます。現在、インジェスチョンパイプラインでは、以下の種類の関数を使用できます。
 
-- `INDEX_TEXT`:この関数はテキストを処理するために使用されます。各テキストをベクトル埋め込みに変換し、入力フィールド（`text_list`）を2つの出力フィールド（`text`、`埋め込み`）にマップします。
+- `INDEX_TEXT`:この関数は、テキストを処理するために使用されます。各テキストをベクトル埋め込みに変換し、入力フィールド(`text_list`)を2つの出力フィールド(`text`、`embedding`)にマップします。
 
-- `INDEX_DOC`:この関数はドキュメントを処理するために使用されます。入力テキストドキュメントをチャンクに分割し、各チャンクに対してベクトル埋め込みを生成します。この関数は、入力フィールド(`doc_url`)を4つの出力フィールド(`doc_name`、`chunk_id`、`chunk_text`、および`埋め込み`)にマップします。
+- `INDEX_DOC`:この関数はドキュメントを過程化するために使用されます。入力テキストドキュメントをチャンクに分割し、各チャンクのベクトル埋め込みを生成します。この関数は、入力フィールド(`doc_url`)を4つの出力フィールド(`doc_name`、`chunk_id`、`chunk_text`、および`embedding`)にマップします。
 
-- `INDEX_IMAGE`:この関数は画像を処理するために使用されます。画像の埋め込みを生成し、2つの入力フィールド(`image_url`と`image_id`)を2つの出力フィールド(`image_id`と`埋め込み`)にマップします。
+- `INDEX_IMAGE`:この関数は画像を処理するために使用されます。画像の埋め込みを生成し、2つの入力フィールド(`image_url`と`image_id`)を2つの出力フィールド(`image_id`と`embedding`)にマップします。
 
 - `PRESERVE`:この関数は、追加のメタデータをスカラーフィールドとして保存するために使用されます。これらのメタデータには、通常、ドキュメントの発行者情報、タグ、発行日などのプロパティが含まれます。
 
-このチュートリアルでは、`INDEX_TEXT`関数と`PRE`SERVE関数を持つIngestionパイプラインを作成します。Ingestionパイプラインの作成の一環として、クラスタに`my_text_collection`というベクトルデータベースコレクションが作成されます。これには5つのフィールドが含まれています
+このチュートリアルでは、`INDEX_TEXT`関数と`PRESERVE`関数を持つIngestionパイプラインを作成します。Ingestionパイプラインの作成の一環として、`my_text_collection`というベクトルデータベースコレクションがクラスターに作成されます。これには5つのフィールドが含まれています
 
-- `id`は各エンティティの自動生成された主キーです
+- 各エンティティの自動生成された主キーとして`id`
 
-- `テキスト`、`INDEX`_TEXT関数で定義された`埋め込み`方法
+- `INDEX_TEXT`関数で定義された`text`、`embedding`
 
-- `PRESERVE関数`で定義された`タイトル`。
+- `PRESERVE`関数で定義された`title`
 
 ```bash
 import requests
@@ -157,7 +157,7 @@ ingestion_pipe_id = response.json()["data"]["pipelineId"]
 
 #### 検索パイプラインを作成する{#create-a-search-pipeline}
 
-検索パイプラインは、クエリ文字列をベクトル埋め込みに変換し、その後、上位K個の最近傍ベクトルを取得することにより、セマンティック検索を可能にします。各ベクトルは、取り込まれたドキュメントのチャンクやファイル名などの他の保存されたプロパティを表します。現在、検索パイプラインでは、以下の種類の関数が使用できます
+検索パイプラインは、クエリ文字列をベクトル埋め込みに変換し、その後、上位K個の最近傍ベクトルを取得することにより、セマンティック検索を可能にします。各ベクトルは、取り込まれたドキュメントのチャンクやファイル名などの他の保存されたプロパティを表します。現在、検索パイプラインには以下の種類の機能があります
 
 - `SEARCH_DOC_CHUNK`:この関数は、ユーザークエリを入力として受け取り、ナレッジベースから関連する文書チャンクを返します。
 
@@ -195,7 +195,7 @@ search_pipe_id = response.json()["data"]["pipelineId"]
 
 #### インジェストパイプラインを実行する{#run-ingestion-pipeline}
 
-このチュートリアルでは、ブログ[What Milvus version to start with](https://milvus.io/blog/what-milvus-version-to-start-with.md)からテキストピースを取り込みます。
+このチュートリアルでは、ブログ[どのMilvusバージョンから始めるか](https://milvus.io/blog/what-milvus-version-to-start-with.md)からテキストピースを取り込みます。
 
 ```bash
 run_pipeline_url = f"https://controller.api.{CLOUD_REGION}.zillizcloud.com/v1/pipelines/{ingestion_pipe_id}/run"
@@ -239,7 +239,7 @@ for data in [milvus_lite_data, milvus_standalone_data, milvus_cluster_data]:
     print(response.json())
 ```
 
-今、対応するタイトルと埋め込みを持つテキストピースをベクトルデータベースに正常に取り込みました。取り込まれたデータは、このコレクションの**データプレビュー**タブ（`my_text_collection`）の[Zilliz Cloud Web UI](https://cloud.zilliz.com/)で確認できます。
+今、私たちは対応するタイトルと埋め込みを持つテキストピースをベクトルデータベースに正常に取り込みました。取り込まれたデータは、このコレクションの**データプレビュー**タブ([Zilliz CloudウェブUI](https://cloud.zilliz.com/)の`my_text_collection`)で確認できます。
 
 ### RAGアプリケーションを構築する{#build-a-rag-application}
 
@@ -276,7 +276,7 @@ question = 'Which Milvus should I choose if I want to use in the jupyter noteboo
 retrieval_with_pipeline(question, search_pipe_id, top_k=2, verbose=True)
 ```
 
-paramsで`は`、上位k件の検索結果を取得し、「Milvus Lite」というタイトルの記事のみをフィルタリングし、`テキスト`と`タイトル`フィールドのみを返すように指定します。検索パイプラインの実行パラメータの詳細については、[こちら](./pipelines-text-data#run-text-search-pipeline)を参照してください。
+`params`では、上位k件の検索結果を取得し、「Milvus Lite」という記事のみをフィルタリングし、`text`と`title`のフィールドのみを返すように指定しています。検索パイプラインのパラメータについては、[わたくし](/docs/pipelines-text-data#run-text-search-pipeline)を参照してください。
 
 以下が出力です。
 
@@ -324,7 +324,7 @@ Out[7]:
 
 #### RAGを使ってチャットボットを構築する{#build-a-chatbot-powered-by-rag}
 
-上記の便利なヘルパー関数「`Retrive_with_Pipeline`」を使用すると、ベクトルデータベースに取り込まれた知識を取得できます。次に、作成した知識ベースに基づいてユーザーの質問に答えることができる簡単なRAG対応チャットボットを構築しましょう。このチュートリアルでは、LLMとしてOpen AI`gpt-3.5-ターボ`を使用します。以下のコードでは、独自のOpen AI APIキーを使用してください。
+上記の便利なヘルパー関数`retrieval_with_pipeline`を使用すると、ベクトルデータベースに取り込まれた知識を取得できます。次に、作成した知識ベースに基づいてユーザーの質問に答えることができる簡単なRAG対応チャットボットを構築しましょう。このチュートリアルでは、LLMとしてOpen AI `gpt-3.5-turbo`を使用します。以下のコードでは、独自のOpen AI APIキーを使用してください。
 
 ```bash
 import os
@@ -421,9 +421,9 @@ chatbot.chat_without_rag(question)
 If you are working with a small scale of data in a Jupyter notebook, you may want to consider using Milvus CE (Community Edition). Milvus CE is a free and open-source vector database that is suitable for small-scale projects and experimentation. It is easy to set up and use in a Jupyter notebook environment, making it a good choice for beginners or those working with limited data. Additionally, Milvus CE offers a range of features and functionalities that can help you efficiently store and query your data in a vectorized format.
 ```
 
-明らかに、今回、チャットボットはドメイン知識を注入されておらず、[幻覚](https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)を見ます。
+明らかに、今回のチャットボットにはドメイン知識と[幻覚を見る](https://en.wikipedia.org/wiki/Hallucination_(artificial_intelligence)が注入されていません。
 
 ### 結論として{#conclusion}
 
-私たちは、ドメイン知識を注入し、ユーザーの質問に正確な回答を提供するRAG対応のチャットボットを成功裏に構築しました。
+私たちは、ドメイン知識を注入し、ユーザーの質問に正確な回答を提供するRAG対応のチャットボットを成功裏に構築しました。 
 

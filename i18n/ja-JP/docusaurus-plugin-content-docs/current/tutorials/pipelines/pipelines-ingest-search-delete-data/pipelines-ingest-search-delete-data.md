@@ -1,12 +1,12 @@
 ---
 title: "データの取り込み、検索、削除 | Cloud"
 slug: /pipelines-ingest-search-delete-data
-sidebar_label: "データの取り込み、検索、削除"
-beta: FALSE
+sidebar_label: "Ingest, Search, Delete"
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Zilliz Cloud Pipelinesを使用して、さまざまな形式の非構造化データ（画像、テキスト、ドキュメントなど）を取り込み、検索、削除する方法を学びましょう。現在、3つのデータ形式がサポートされています。 | Cloud"
 type: origin
-token: ZnuxwyKQFiLbVIkw68KcVvu5nFV
+token: ZSPVwfZyTilSfKkuVxWcCG58nzb
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -16,10 +16,10 @@ keywords:
   - ingest
   - search
   - delete
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

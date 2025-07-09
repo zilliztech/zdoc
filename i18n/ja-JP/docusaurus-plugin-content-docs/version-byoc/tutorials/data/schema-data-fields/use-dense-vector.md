@@ -1,12 +1,12 @@
 ---
-title: "密集ベクトル | BYOC"
+title: "密ベクトル | BYOC"
 slug: /use-dense-vector
-sidebar_label: "密集ベクトル"
+sidebar_label: "密ベクトル"
 beta: FALSE
 notebook: FALSE
 description: "密集ベクトルは、機械学習やデータ分析で広く使用されている数値データ表現です。実数の配列で構成され、ほとんどまたはすべての要素が非ゼロです。疎ベクトルと比較して、密集ベクトルは、各次元が意味のある値を保持するため、同じ次元レベルでより多くの情報を含んでいます。この表現により、複雑なパターンや関係を効果的に捉えることができ、データを高次元空間で分析および過程化することが容易になります。密集ベクトルには通常、特定のアプリケーションや要件に応じて、数十から数百、さらには数千の固定された次元があります。 | BYOC"
 type: origin
-token: Ikz7wS5FtiPuFRkE7pic3azonxg
+token: ARalwpaVDiCwDZkoSHtcPNgXnRg
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 
@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 密集ベクトル
+# 密ベクトル
 
 密集ベクトルは、機械学習やデータ分析で広く使用されている数値データ表現です。実数の配列で構成され、ほとんどまたはすべての要素が非ゼロです。疎ベクトルと比較して、密集ベクトルは、各次元が意味のある値を保持するため、同じ次元レベルでより多くの情報を含んでいます。この表現により、複雑なパターンや関係を効果的に捉えることができ、データを高次元空間で分析および過程化することが容易になります。密集ベクトルには通常、特定のアプリケーションや要件に応じて、数十から数百、さらには数千の固定された次元があります。
 
@@ -34,19 +34,19 @@ import TabItem from '@theme/TabItem';
 
 ## 概要について{#overview}
 
-密ベクトルは通常、固定長の浮動小数点数の配列として表されます(例:`[0.2,0.7,0.1,0.8,0.3,...)。。。0.5]`。これらのベクトルの次元数は通常、128、256、768、または1024など、数百から数千に及びます。各次元はオブジェクトの特定の意味的特徴を捉えるため、類似性計算を通じてさまざまなシナリオに適用できます。
+密集ベクトルは通常、`[0.2, 0.7, 0.1, 0.8, 0.3, ..., 0.5]`のような固定長の浮動小数点数の配列として表されます。これらのベクトルの次元は通常、128、256、768、または1024など、数百から数千に及びます。各次元はオブジェクトの特定の意味的特徴を捉えるため、類似性計算を通じてさまざまなシナリオに適用できます。
 
-![UwqzwxzPEhCv3mbkQIacyplJnTe](/byoc/ja-JP/UwqzwxzPEhCv3mbkQIacyplJnTe.png)
+![QOgMwbrhLhvvtbbk5TxcarhEn8i](/img/QOgMwbrhLhvvtbbk5TxcarhEn8i.png)
 
 上の画像は、2 D空間における密集ベクトルの表現を示しています。現実世界のアプリケーションにおける密集ベクトルはしばしばはるかに高次元を持っていますが、この2 Dイラストはいくつかの重要な概念を効果的に伝えています
 
-- **多次元表現:**各点は概念オブジェクト(**Milvus**、**ベクトルデータベース**、**検索システム**など)を表し、その位置はその次元の値によって決定されます。
+- 多次元表現:各点は概念的なオブジェクト(Milvus、ベクトルデータベース、検索システムなど)を表し、その位置はその次元の値によって決定されます。
 
-- **意味関係:**ポイント間の距離は、概念間の意味的類似性を反映しています。より近いポイントは、より意味的に関連する概念を示します。
+- 意味的関係:ポイント間の距離は、概念間の意味的類似性を反映しています。より近いポイントは、より意味的に関連する概念を示します。
 
-- **クラスタリング効果:**関連する概念(**Milvus**、**ベクトルデータベース**、**検索システム**など)は、空間内で互いに近接して配置され、意味的クラスタを形成します。
+- クラスタリング効果:関連する概念(Milvus、ベクトルデータベース、検索システムなど)は、空間内で互いに近接して配置され、意味的なクラスタを形成します。
 
-以下は、`「Milvusは効率的なベクトルデータベースである」`というテキストを表す実密ベクトルの例です
+以下は、テキスト`"Milvus is an efficient vector database"`を表す実密ベクトルの例です。
 
 ```json
 [
@@ -63,15 +63,15 @@ import TabItem from '@theme/TabItem';
 
 ```
 
-密ベクトルは、CNNモデル([ResNet](https://en.wikipedia.org/wiki/Embedding)、[VGG](https://pytorch.org/vision/stable/models/vgg.html)など)や言語モデル([BERT](https://en.wikipedia.org/wiki/BERT_(language_model))、[Word 2Vec](https://en.wikipedia.org/wiki/Word2vec)など)など、さまざまな[embedding](https://pytorch.org/hub/pytorch_vision_resnet/)モデルを使用して生成できます。これらのモデルは、生データを高次元空間の点に変換し、データの意味的特徴をキャプチャします。さらに、Zilliz Cloudは、Embeddingsで詳しく説明されているように、過程的で密なベクトルを生成するための便利な方法を提供しています。
+画像用のCNNモデル([ResNet](https://pytorch.org/hub/pytorch_vision_resnet/)、[VG G](https://pytorch.org/vision/stable/models/vgg.html)など)やテキスト用の言語モデル([BERT](https://en.wikipedia.org/wiki/BERT_(language_model)、[Word 2Vec](https://en.wikipedia.org/wiki/Word2vec)など)など、さまざまな[埋め込み](https://en.wikipedia.org/wiki/Embedding)モデルを使用して、密ベクトルを生成できます。これらのモデルは、生データを高次元空間の点に変換し、データの意味的特徴をキャプチャします。さらに、Zillizクラウド埋め込みで詳しく説明されているように、密集したベクトルを生成および過程するための便利な方法を提供します。
 
-データがベクトル化されると、管理とベクトル取得のためにZilliz Cloudクラスターに保存できます。以下の図は基本的な過程を示しています。
+データがベクトル化されたら、それを保存できますZilliz Cloudクラスタ管理とベクトル検索のために。以下の図は基本的な過程を示しています。
 
-![BxnSwYJ4ghxlIkb9vF4c5k1Bny1](/byoc/ja-JP/BxnSwYJ4ghxlIkb9vF4c5k1Bny1.png)
+![No8KwR6wPhTIP6bKEqGcbBDWngc](/img/No8KwR6wPhTIP6bKEqGcbBDWngc.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>密集ベクトル以外にも、Zilliz Cloudはスパースベクトルとバイナリベクトルもサポートしています。スパースベクトルは、キーワード検索や用語マッチングなど、特定の用語に基づく正確なマッチングに適しています。一方、バイナリベクトルは、画像パターンマッチングや特定のハッシュアプリケーションなど、バイナリ化されたデータを効率的に処理するために一般的に使用されます。詳細については、「<a href="./use-binary-vector">バイナリベクトル</a>」と「<a href="./use-sparse-vector">疎ベクトル</a>」を参照してください。</p>
+<p>密度ベクトル以外にも、Zillizクラウドスパースベクトルとバイナリベクトルもサポートしています。スパースベクトルは、キーワード検索や用語マッチングなど、特定の用語に基づく正確な一致に適しています。一方、バイナリベクトルは、画像パターンマッチングや特定のハッシュアプリケーションなど、バイナリ化されたデータを効率的に処理するために一般的に使用されます。詳細については、<a href="./use-binary-vector">バイナリベクトル</a>および<a href="./use-sparse-vector">疎ベクトル</a>を参照してください。</p>
 
 </Admonition>
 
@@ -79,15 +79,15 @@ import TabItem from '@theme/TabItem';
 
 ### ベクトルフィールドを追加{#add-vector-field}
 
-[コレクションを作成する](./manage-collections-sdks)際に、Zilliz Cloudクラスターで密集ベクトルを使用するには、まず密集ベクトルを格納するベクトルフィールドを定義します。この過程には以下が含まれます:
+密度ベクトルを使用するにはZilliz Cloudクラスタ最初に、コレクションを作成する際に密度の高いベクトルを格納するためのベクトル場を定義します。この過程には以下が含まれます:
 
-1. サポートされている高密度ベクトルデータ型に`datatype`を設定します。サポートされている高密度ベクトルデータ型については、データ型を参照してください。
+1. `datatype`をサポートされている高密度ベクトルデータ型に設定します。サポートされている高密度ベクトルデータ型については、データ型を参照してください。
 
-1. 密ベクトルの次元を`dim`パラメータを使用して指定します。
+1. `dim`パラメータを使用して、密集ベクトルの寸法を指定します。
 
-以下の例では、高密度ベクトルを格納するために`dense_vector`という名前のベクトルフィールドを追加します。フィールドのデータ型は`FLOAT_VECTOR`で、次元は`4`です。
+以下の例では、密なベクトルを格納するために`dense_vector`という名前のベクトルフィールドを追加します。フィールドのデータ型は`FLOAT_VECTOR`で、次元は`4`です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -147,9 +147,51 @@ import { DataType } from "@zilliz/milvus2-sdk-node";
 schema.push({
   name: "dense_vector",
   data_type: DataType.FloatVector,
-  dim: 128,
+  dim: 4,
 });
 
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/column"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/index"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+schema := entity.NewSchema()
+schema.WithField(entity.NewField().
+    WithName("pk").
+    WithDataType(entity.FieldTypeVarChar).
+    WithIsPrimaryKey(true).
+    WithIsAutoID(true).
+    WithMaxLength(100),
+).WithField(entity.NewField().
+    WithName("dense_vector").
+    WithDataType(entity.FieldTypeFloatVector).
+    WithDim(4),
+)
 ```
 
 </TabItem>
@@ -186,7 +228,7 @@ export schema="{
 </TabItem>
 </Tabs>
 
-**高密度ベクトルフィールドでサポートされるデータ型**:
+**密集ベクトルフィールドのサポートされるデータ型**:
 
 <table>
    <tr>
@@ -194,16 +236,20 @@ export schema="{
      <th><p>説明する</p></th>
    </tr>
    <tr>
-     <td><p><code>フロートベクトル</code></p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
      <td><p>32ビット浮動小数点数を格納し、科学計算や機械学習で実数を表現するために一般的に使用されます。類似するベクトルを区別するなど、高精度が必要なシナリオに最適です。</p></td>
    </tr>
    <tr>
-     <td><p><code>ベクターデータ</code></p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
      <td><p>16ビットの半精度浮動小数点数を格納し、深層学習やGPU計算に使用されます。精度が重要でないシナリオ、例えばレコメンデーションシステムの低精度リコールフェーズでストレージスペースを節約します。</p></td>
    </tr>
    <tr>
-     <td><p><code>その他のベクトル:</code></p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
      <td><p>16ビットのBrain Floating Point(bfloat16)数値を格納し、Float 32と同じ範囲の指数を提供しますが、精度が低下します。大規模な画像取得など、大量のベクトルを迅速に処理する必要があるシナリオに適しています。</p></td>
+   </tr>
+   <tr>
+     <td><p>インラインコードプレースホルダー0</p><p></include></p></td>
+     <td><p>各次元の個々の要素が8ビット整数(int 8)で、各要素の範囲が-128から127であるベクトルを格納します。量子化されたディープラーニングモデル(ResNet、EfficientNetなど)向けに設計されたINT8_VECTORは、モデルの体格を減らし、最小限の精度損失で推論を高速化します。</p><p><strong>注意</strong>:このベクトルタイプはHNSWインデックスでのみサポートされています。</p><p></include></p></td>
    </tr>
 </table>
 
@@ -211,7 +257,7 @@ export schema="{
 
 意味検索を加速するためには、ベクトル場のインデックスを作成する必要があります。インデックス化は、大規模なベクトルデータの検索効率を大幅に向上させることができます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -259,6 +305,15 @@ const indexParams = {
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+idx := index.NewAutoIndex(index.MetricType(entity.IP))
+indexOption := milvusclient.NewCreateIndexOption("my_collection", "dense_vector", idx)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -275,20 +330,24 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-上記の例では、`dence_vector_index`という名前のインデックスが、`dence_vector`フィールドに対して`AUTOINDEX`インデックスタイプを使用して作成されます。`メトリックタイプ`は`IP`に設定されており、内積が距離メトリックとして使用されることを示しています。
+上記の例では、`dense_vector`フィールドに`AUTOINDEX`インデックスタイプを使用して`dense_vector_index`という名前のインデックスが作成されます。`metric_type`は`IP`に設定されており、内積が距離メトリックとして使用されることを示しています。
 
-Zilliz Cloudは他のメトリックタイプをサポートしています。詳細については、「[メトリックの種類](./search-metrics-explained)」を参照してください。
+Milvusは、ベクトル検索をより快適にするために、様々なインデックスタイプを提供しています。AUTOINDEXは、ベクトル検索の学習曲線をスムーズにするために設計された特別なインデックスタイプです。選択できるインデックスタイプはたくさんあります。詳細については、xxxを参照してください。
+
+</include>
+
+Zillizクラウド他のメトリックタイプをサポートしています。詳細については、[メトリックの種類](./search-metrics-explained)を参照してください。
 
 ### コレクションを作成{#create-collection}
 
-密ベクトルとインデックスパラメータの設定が完了したら、密ベクトルを含むコレクションを作成できます。以下の例では、`create_collection`メソッドを使用して、`my_dence_collection`という名前のコレクションを作成しています。
+密ベクトルとインデックスパラメータの設定が完了したら、密ベクトルを含むコレクションを作成できます。以下の例では、`create_collection`メソッドを使用して、`my_collection`という名前のコレクションを作成しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 client.create_collection(
-    collection_name="my_dense_collection",
+    collection_name="my_collection",
     schema=schema,
     index_params=index_params
 )
@@ -307,7 +366,7 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .build());
 
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
-        .collectionName("my_dense_collection")
+        .collectionName("my_collection")
         .collectionSchema(schema)
         .indexParams(indexes)
         .build();
@@ -326,11 +385,25 @@ const client = new MilvusClient({
 });
 
 await client.createCollection({
-    collection_name: 'my_dense_collection',
+    collection_name: 'my_collection',
     schema: schema,
     index_params: indexParams
 });
 
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("my_collection", schema).
+        WithIndexOptions(indexOption))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -343,7 +416,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d "{
-    \"collectionName\": \"my_dense_collection\",
+    \"collectionName\": \"my_collection\",
     \"schema\": $schema,
     \"indexParams\": $indexParams
 }"
@@ -354,9 +427,9 @@ curl --request POST \
 
 ### データの挿入{#insert-data}
 
-コレクションを作成した後、`挿入`メソッドを使用して、高密度ベクトルを含むデータを追加します。挿入される高密度ベクトルの次元が、高密度ベクトルフィールドを追加するときに定義された`dim`値と一致することを確認してください。
+コレクションを作成した後、`insert`メソッドを使用して、密集ベクトルを含むデータを追加します。挿入される密集ベクトルの次元が、密集ベクトルフィールドを追加するときに定義された`dim`値と一致することを確認してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -366,7 +439,7 @@ data = [
 ]
 
 client.insert(
-    collection_name="my_dense_collection",
+    collection_name="my_collection",
     data=data
 )
 ```
@@ -387,7 +460,7 @@ rows.add(gson.fromJson("{\"dense_vector\": [0.1, 0.2, 0.3, 0.4]}", JsonObject.cl
 rows.add(gson.fromJson("{\"dense_vector\": [0.2, 0.3, 0.4, 0.5]}", JsonObject.class));
 
 InsertResp insertR = client.insert(InsertReq.builder()
-        .collectionName("my_dense_collection")
+        .collectionName("my_collection")
         .data(rows)
         .build());
 ```
@@ -403,9 +476,26 @@ const data = [
 ];
 
 client.insert({
-  collection_name: "my_dense_collection",
+  collection_name: "my_collection",
   data: data,
 });
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
+    WithFloatVectorColumn("dense_vector", 4, [][]float32{
+        {0.1, 0.2, 0.3, 0.7},
+        {0.2, 0.3, 0.4, 0.8},
+    }),
+)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
 ```
 
 </TabItem>
@@ -422,7 +512,7 @@ curl --request POST \
         {"dense_vector": [0.1, 0.2, 0.3, 0.4]},
         {"dense_vector": [0.2, 0.3, 0.4, 0.5]}        
     ],
-    "collectionName": "my_dense_collection"
+    "collectionName": "my_collection"
 }'
 
 ## {"code":0,"cost":0,"data":{"insertCount":2,"insertIds":["453577185629572531","453577185629572532"]}}
@@ -433,9 +523,9 @@ curl --request POST \
 
 ### 類似検索を行う{#perform-similarity-search}
 
-密集ベクトルに基づく意味検索は、Zilliz Cloudクラスターのコア機能の1つであり、ベクトル間の距離に基づいてクエリベクトルに最も類似したデータをすばやく見つけることができます。類似検索を実行するには、クエリベクトルと検索パラメータを準備し、`検索`メソッドを呼び出します。
+密集ベクトルに基づく意味検索は、コア機能の1つですZilliz Cloudクラスタベクトル間の距離に基づいてクエリベクトルに最も類似したデータを素早く見つけることができます。類似検索を実行するには、クエリベクトルと検索パラメータを準備し、`search`メソッドを呼び出します。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -446,7 +536,7 @@ search_params = {
 query_vector = [0.1, 0.2, 0.3, 0.7]
 
 res = client.search(
-    collection_name="my_dense_collection",
+    collection_name="my_collection",
     data=[query_vector],
     anns_field="dense_vector",
     search_params=search_params,
@@ -473,7 +563,7 @@ searchParams.put("nprobe",10);
 FloatVec queryVector = new FloatVec(new float[]{0.1f, 0.3f, 0.3f, 0.4f});
 
 SearchResp searchR = client.search(SearchReq.builder()
-        .collectionName("my_dense_collection")
+        .collectionName("my_collection")
         .data(Collections.singletonList(queryVector))
         .annsField("dense_vector")
         .searchParams(searchParams)
@@ -496,7 +586,7 @@ System.out.println(searchR.getSearchResults());
 query_vector = [0.1, 0.2, 0.3, 0.7];
 
 client.search({
-    collection_name: my_dense_collection,
+    collection_name: 'my_collection',
     data: query_vector,
     limit: 5,
     output_fields: ['pk'],
@@ -504,6 +594,34 @@ client.search({
         nprobe: 10
     }
 });
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+queryVector := []float32{0.1, 0.2, 0.3, 0.7}
+
+annParam := index.NewCustomAnnParam()
+annParam.WithExtraParam("nprobe", 10)
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "my_collection", // collectionName
+    5,                     // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("dense_vector").
+    WithOutputFields("pk").
+    WithAnnParam(annParam))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+    fmt.Println("Pks: ", resultSet.GetColumn("pk").FieldData().GetScalars())
+}
 ```
 
 </TabItem>
@@ -516,7 +634,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "my_dense_collection",
+    "collectionName": "my_collection",
     "data": [
         [0.1, 0.2, 0.3, 0.7]
     ],
@@ -534,4 +652,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-類似検索パラメータの詳細については、「[基本的なベクトル検索](./single-vector-search)」を参照してください。
+類似検索パラメータの詳細については、[基本的なANN検索](./single-vector-search)を参照してください。

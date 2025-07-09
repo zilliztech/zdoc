@@ -4,20 +4,20 @@ slug: /analyze-cost
 sidebar_label: "コスト分析"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudの使用状況ページでは、可視化されたコスト分析ツールが提供されており、Zilliz Cloudの使用状況と経費を複数の次元から表示および追跡できます。 | Cloud"
+description: "Zilliz Cloudの使用状況ページには、可視化されたコスト分析ツールがあり、複数の次元からZilliz Cloudの使用状況と費用を表示および追跡できます。 | Cloud"
 type: origin
-token: PSzRweRpci2IRIkVcULcHcYznxX
-sidebar_position: 8
+token: LJplw7Q9Gi09GMkiy8PcbYp6nrg
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - invoice
   - view
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 
@@ -26,23 +26,23 @@ import Admonition from '@theme/Admonition';
 
 # コスト分析
 
-Zilliz Cloudの**使用状況**ページでは、可視化されたコスト分析ツールが提供されており、Zilliz Cloudの使用状況と経費を複数の次元から表示および追跡できます。
+Zilliz Cloudの**使用状況**ページには、可視化されたコスト分析ツールがあり、複数の次元からZilliz Cloudの使用状況と費用を表示および追跡できます。 
 
 ## 前提条件{#prerequisites}
 
-Zilliz Cloudの利用ページからコストを分析するには、**Organization Owner**または**Billing Admin**の権限が必要です。
+Zilliz Cloudの利用ページからコストをアクセスして分析するには、**組織オーナー**または**請求管理者**の権限が必要です。
 
 ## 手続き{#procedures}
 
-Zilliz Cloudでコストを分析する方法は2つあります。
+Zilliz Cloudでコストを分析する方法は2つあります。 
 
-- [Web UI経由](./analyze-cost#web-uivia-web-ui):コストの傾向を視覚化する必要がある場合は、Web UIを使用することをお勧めします。Web UIの使用状況の詳細は、**小数点以下2桁**まで丸められています（例:$60.0 0）。
+- [Web UIから](./analyze-cost#via-web-ui):コストの傾向を視覚化する必要がある場合は、Web UIを使用することをお勧めします。Web UIの使用状況の詳細は、**小数点以下2桁**に丸められています（例:$60.0 0）。
 
-- [RESTful API経由](./analyze-cost#restful-apivia-restful-api):毎日の使用状況についてより詳細な情報が必要な場合は、RESTful APIを使用することをお勧めします。RESTful APIから得られる使用状況の詳細は、**小数点以下8桁**まで正確です（例:$60.0 0 257846）。
+- [RESTful APIを使用する](./analyze-cost#via-restful-api):日々の使用状況についてより詳細な洞察が必要な場合は、RESTful APIの使用をお勧めします。RESTful APIから取得される使用状況の詳細は、小数点以下8桁まで正確です(例:$60.0 0 257846)。
 
 ### Web UIから{#via-web-ui}
 
-[**請求**]ページで、[**使用状況**]タブに切り替えます。さまざまな次元で使用状況とコストの傾向を監視できます。
+「請求」ページで、「使用状況」タブに切り替えます。さまざまな次元で使用状況とコストの傾向を監視できます。
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -50,11 +50,11 @@ Zilliz Cloudでコストを分析する方法は2つあります。
 
 </Admonition>
 
-![analyze_cost](/img/ja-JP/analyze_cost.png)
+![analyze_cost](/img/analyze_cost.png)
 
 - **プロジェクト別**
 
-    異なるビジネスまたは部門向けに複数のプロジェクトを作成した場合、特定のプロジェクトの使用状況とコストをフィルタリングして表示できます。
+    異なるビジネスまたは部門のために複数のプロジェクトを作成した場合、特定のプロジェクトの使用状況とコストをフィルタリングして表示できます。
 
     例えば、R&D部門用の「Default Project」とマーケティング部門用の「Project_01」の2つのプロジェクトを作成した場合、プロジェクトフィルターで「Default Project」を選択して、過去1か月間のR&D部門の使用状況とコストを分析できます。
 
@@ -62,11 +62,11 @@ Zilliz Cloudでコストを分析する方法は2つあります。
 
 - **クラスタ別**
 
-    ビジネスに基づいて複数の異なるクラスターを作成した場合、クラスターに応じて特定のクラスターの特定の使用状況とコストをフィルタリングして表示できます。
+    ビジネスに基づいて複数の異なるクラスタを作成した場合は、クラスタに応じて特定のクラスタの特定の使用状況とコストをフィルタリングして表示できます。 
 
     たとえば、ユーザ情報と注文情報のためにそれぞれ2つの異なるクラスタを作成した場合、注文情報を格納するクラスタの使用状況とコストを確認する必要がある場合は、フィルタで対応するクラスタを選択できます。
 
-- **期間によって**
+- **期間で**
 
     特定の期間にわたる使用状況とコストの傾向を確認するには、フィルターで期間を選択できます。
 
@@ -92,77 +92,101 @@ Zilliz Cloudでコストを分析する方法は2つあります。
 
 ### RESTful APIを使用する{#via-restful-api}
 
-RESTful APIのQuery Org Daily Usageから得られる使用状況の詳細は、小数点以下8桁まで正確です。1日のコストがどのように蓄積され、小数点以下2桁に丸められるかを理解する必要がある場合は、RESTful APIを使用することをお勧めします。1日の使用量を合計すると、小数点以下8桁まで正確な総使用量が得られます。次に、この総使用量を小数点以下2桁に丸めます(例:$60.5 6 724390は$60.57に丸められます)。最終的な総使用量は、請求書に表示されている数字と一致する必要があります。
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>現在、Query Daily U sage RESTful APIはパブリックプレビュー中です。このAPIを使用するには、<a href="http://support.zilliz.com">お問い合わせ</a>を使用してください。</p>
+
+</Admonition>
+
+[クエリの毎日の使用](/reference/restful/query-daily-usage-v2) APIを使用して、組織の日々の使用状況をクエリすることもできます。このRESTful APIから得られる使用状況の詳細は、小数点以下8桁まで正確です。日々のコストがどのように蓄積され、小数点以下2桁に丸められるかを理解する必要がある場合は、RESTful APIを使用することをお勧めします。日々の使用状況を合計することで、小数点以下8桁まで正確な総使用量が得られます。その後、この総使用量を小数点以下2桁に丸めます(例:$60.5 6 724390は$60.57に丸められます)。最終的な総使用量は、請求書に表示される数字と一致する必要があります。
+
+次の例は、組織の毎日の使用状況をクエリする方法を示しています。
+
+```bash
+curl --request POST \
+--url "https://api.cloud.zilliz.com/v2/usage/query" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "start": "2024-01-01",
+    "end": "2024-02-01"
+}'
+```
+
+上記のコマンドで、
+
+- `start`: `YYYY-MM-DD`の形式で、クエリ期間の開始時刻。
+
+- `end`:クエリ期間の終了時刻で、`YYYY-MM-DD`の形式です。
 
 ## よくある質問(FAQ){#faq}
 
-- **Zilliz Cloudの利用詳細に表示される金額はどの程度正確ですか?**
+**Zilliz Cloudの利用詳細に表示される金額はどの程度正確ですか?** 
 
-    Zilliz Cloudは小数点以下8桁の精度で製品の価格を設定します。その結果、料金は小数点以下8桁で計算されます。請求過程で、これらの詳細な日次料金は合計され、小数点以下2桁に丸められます。
+Zilliz Cloudは小数点以下8桁の精度で製品の価格を設定します。その結果、料金は小数点以下8桁で計算されます。請求過程で、これらの詳細な日次料金は合計され、小数点以下2桁に丸められます。
 
-    ウェブUIでは、表示される金額は小数点以下2桁に丸められます（例:$60.0 0）。
+ウェブUIでは、表示される金額は小数点以下2桁に丸められます（例:$60.0 0）。 
 
-    ![precision_usage](/img/ja-JP/precision_usage.png)
+![precision_usage](/img/precision_usage.png)
 
-    Query Org Daily U sage APIから取得した使用状況の詳細には、小数点以下8桁の精度で金額が表示されます。以下は出力の例です。
+[クエリの毎日の使用](/reference/restful/query-daily-usage-v2) APIから取得した使用状況の詳細は、小数点以下8桁の精度で表示されます。以下は出力の例です。
 
-    ```bash
-    {
-        "code": 0,
-        "data": {
-            "list": [
-                {
-                    "intervalStart": "2024-01-01T00:00:00Z",
-                    "intervalEnd": "2024-01-02T00:00:00Z",
-                    "total": 69.59794400,
-                    "currency": "RMB"
-                    "results": [
-                        {
-                            "costType": "compute",
-                            "properties": {
-                                "projectId": "prj-xxxxx",
-                                "regionId": "ali-cn-hangzhou",
-                                "cuType": "Performance-optimized",
-                                "plan": "Enterprise",
-                                "clusterId": "in01-xxxxx"
-                            },
-                            "quantity": 55.6778,
-                            "unit": "CU-hours",
-                            "listPrice": {
-                                "unitPrice": 1.25000000
-                            },
-                            "price": {
-                                "unitPrice": 1.25000000
-                            },
-                            "amount": 69.59725000 
+```bash
+{
+    "code": 0,
+    "data": {
+        "results": [
+            {
+                "intervalStart": "2024-01-01T00:00:00Z",
+                "intervalEnd": "2024-01-02T00:00:00Z",
+                "total": 69.59794400,
+                "currency": "USD"
+                "results": [
+                    {
+                        "costType": "compute",
+                        "properties": {
+                            "projectId": "prj-12jhiu212748391",
+                            "regionId": "aws-us-west-2",
+                            "cuType": "Performance-optimized",
+                            "plan": "Enterprise",
+                            "clusterId": "in01-xxxxx"
                         },
-                        {
-                            "costType": "storage",
-                            "properties": {
-                                "projectId": "prj-xxxxx",
-                                "regionId": "ali-cn-hangzhou",
-                                "cuType": "Performance-optimized",
-                                "plan": "Enterprise",
-                                "clusterId": "in01-xxxxx",
-                            },
-                            "quantity": 323,
-                            "unit": "GB-hours",
-                            "listPrice": {
-                                "unitPrice": 0.000694
-                            },
-                            "price": {
-                                "unitPrice": 0.000694
-                            },
-                            "amount": 0.00069400
-                        }
-                    ]
-                }
-            ],
-            "currentPage": 1,
-            "pageSize": 100,
-            "total": 10000
-        }
+                        "quantity": 55.6778,
+                        "unit": "CU-hours",
+                        "listPrice": {
+                            "unitPrice": 1.25000000
+                        },
+                        "price": {
+                            "unitPrice": 1.25000000
+                        },
+                        "amount": 69.59725000 
+                    },
+                    {
+                        "costType": "storage",
+                        "properties": {
+                            "projectId": "prj-12jhiu212748391",
+                            "regionId": "aws-us-west-2",
+                            "cuType": "Performance-optimized",
+                            "plan": "Enterprise",
+                            "clusterId": "in01-xxxxx",
+                        },
+                        "quantity": 323,
+                        "unit": "GB-hours",
+                        "listPrice": {
+                            "unitPrice": 0.000694
+                        },
+                        "price": {
+                            "unitPrice": 0.000694
+                        },
+                        "amount": 0.00069400
+                    }
+                ]
+            }
+        ],
+        "currentPage": 1,
+        "pageSize": 100,
+        "total": 10000
     }
-    ```
+}
+```
 
-    

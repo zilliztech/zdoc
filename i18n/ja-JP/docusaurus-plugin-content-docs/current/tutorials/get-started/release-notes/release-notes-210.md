@@ -6,17 +6,17 @@ beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloudのローンチを発表できることを嬉しく思います。このリリースには、拡張されたリージョンサポートや移行、サーバーレスインスタンス管理などの拡張されたユーザビリティ機能を含む、さまざまな強化と機能が含まれています。さらに、RESTful APIをBulk-sertおよびDedicated Clusterサポートで強化しました。 | Cloud"
 type: origin
-token: Ek0fwJOE0iIKKbkna9fcfp4InGf
-sidebar_position: 16
+token: Ti5uwysf0iZhuyk4xvjcFmsSnhG
+sidebar_position: 19
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 
@@ -33,9 +33,9 @@ Zilliz Cloudのローンチを発表できることを嬉しく思います。�
 
 ## 地域サポートの拡大{#expanded-regional-support}
 
-Zilliz Cloudは、シンガポールのパブリッククラウドリージョン、具体的には**ap-南東-1**のAWSと**asia-南東-1**のGCPを含めてサービスを拡大しました。この拡大により、東南アジアのユーザーはより広い範囲でより良いパフォーマンスを得ることができます。
+Zilliz Cloudは、シンガポールのパブリッククラウドリージョン、具体的にはAWSの**ap-東南-1**とGCPの**asia-southeast-1**を含めてサービスを拡大しました。この拡大により、東南アジアのユーザーはより広い範囲にアクセスし、パフォーマンスが向上します。
 
-サポートされているすべてのパブリッククラウドリージョンについては、「[クラウドプロバイダー&地域](./cloud-providers-and-regions)」を参照してください。
+サポートされているすべてのパブリッククラウドリージョンについては、[クラウドプロバイダー&地域](./cloud-providers-and-regions)を参照してください。
 
 ## 使いやすさの向上{#enhanced-usability-features}
 
@@ -49,15 +49,15 @@ Zilliz Cloudは、シンガポールのパブリッククラウドリージョ�
 
     スケーリングと操作の柔軟性を高めるために、サーバーレスインスタンスから専用クラスターへのコレクションのシームレスな移行をサポートするようになりました。
 
-詳細は、[クラスタ管理](./manage-cluster)を参照してください。
+詳細については、[クラスタ管理](./manage-cluster)を参照してください。
 
-## RESTfulAPIの強化{#restful-api-enhancements}
+## RESTful APIの強化{#restful-api-enhancements}
 
 - バルクインサート
 
-    データ取り込みプロセスを効率化するために、バルクデータインポート用に特別に設計された新しいRESTfulAPIを導入しました。この機能は、データアップロードの時間と複雑さを大幅に削減することを目的としています。詳細については、[APIリファレンス](/reference/restful/import-operations)を参照してください。
+    データの取り込み過程を効率化するために、バルクデータのインポートに特化した新しいRESTful APIを導入しました。この機能は、データアップロードの時間と複雑さを大幅に削減することを目的としています。詳細については、[APIリファレンス](/reference/restful/import-operations)を参照してください。
 
 - クラスタへの専用アクセス
 
-    ユーザーにより広範な制御と柔軟性を提供するために、RESTfulAPIを介して専用クラスターにアクセスして管理できるようになり、統合と自動化がより簡単になりました。詳細については、[APIリファレンス](/reference/restful/cloud-meta)を参照してください。
+    ユーザーにより広範な制御と柔軟性を提供するために、RESTful APIを介して専用クラスターにアクセスして管理できるようになり、統合と自動化がより簡単になりました。詳細については、[APIリファレンス](/reference/restful/cloud-meta)を参照してください。
 

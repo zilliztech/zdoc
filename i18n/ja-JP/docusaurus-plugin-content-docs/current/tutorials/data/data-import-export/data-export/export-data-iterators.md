@@ -1,12 +1,12 @@
 ---
 title: "イテレータを使用したデータのエクスポート | Cloud"
 slug: /export-data-iterators
-sidebar_label: "イテレータを使用したデータのエクスポート"
+sidebar_label: "Using Iterators"
 beta: FALSE
 notebook: FALSE
 description: "このガイドでは、Zilliz Cloudコレクションからデータをエクスポートする方法の例を提供します。 | Cloud"
 type: origin
-token: YehKwci6ViokYUkkz5rcIwP5nzg
+token: N6fZwCUXqiqoJEkFiVNcvDJEnnc
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 
@@ -31,15 +31,15 @@ import TabItem from '@theme/TabItem';
 
 ## 概要について{#overview}
 
-MilvusのPythonおよびJava SDKは、コレクション内のエンティティをメモリ効率的に反復処理するための一連のイテレータAPIを提供しています。詳細については、「[検索イテレータ](./with-iterators)」を参照してください。
+MilvusのPythonおよびJava SDKは、コレクション内のエンティティをメモリ効率的に反復処理するための一連のイテレータAPIを提供しています。詳細については、[検索イテレータ](./with-iterators)を参照してください。
 
 イテレータを使用すると、次の利点があります。
 
-- **シンプルさ**:複雑な**オフセット**と**リミット**設定を排除します。
+- シンプルさ:複雑なオフセットと制限の設定を排除します。
 
 - **効率性**:必要なデータのみを取得してスケーラブルなデータ取得を提供します。
 
-- **Consistency**:ブールフィルタを使用して一貫したデータセット体格を確保します。
+- **一貫性**:ブールフィルタを使用して一貫したデータセット体格を確保します。
 
 これらのAPIを使用して、Zilliz Cloudコレクションから特定またはすべてのエンティティをエクスポートできます。
 
@@ -238,7 +238,7 @@ System.out.println(wrapper.getInsertCount());
 
 1. すべてのデータが取得されたら、`close()`メソッドを呼び出してイテレータを閉じます。
 
-次のコードスニペットは、**QueryIterator**APIを使用してエクスポートされたデータをファイルに追加する方法を示しています。
+次のコードスニペットは、**QueryIterator**APIを使用してエクスポートされたデータをファイルに追加する方法を示しています。  
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>

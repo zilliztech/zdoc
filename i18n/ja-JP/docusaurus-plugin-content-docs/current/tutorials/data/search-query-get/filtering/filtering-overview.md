@@ -17,10 +17,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 
@@ -35,7 +35,7 @@ Zillizクラウドデータの正確なクエリを可能にする強力なフ�
 
 Zillizクラウドデータをフィルタリングするためのいくつかの基本的な演算子をサポートしています:
 
-- 比較演算子: `==`、`!=`、`>`、`\<`、`>=`、および`<=`は、数値フィールドまたはテキストフィールドに基づくフィルタリングを可能にします。
+- 比較演算子: `==`、`!=`、`>`、`<`、`>=`、および`<=`は、数値フィールドまたはテキストフィールドに基づくフィルタリングを可能にします。
 
 - **範囲フィルター**: `IN`と`LIKE`は、特定の値の範囲やセットを一致させるのに役立ちます。
 
@@ -171,12 +171,10 @@ ZillizクラウドTantivyを使用して、逆索引と用語ベースのテキ�
 
 詳細については、[テキスト一致](./text-match)を参照してください。
 
-\
-
 #### `PHRASE_MATCH`オペレーター{#inlinecodeplaceholder0-operator}
 
 **PHRASE_MATCH**演算子は、クエリ用語の順序と隣接性の両方を考慮して、完全なフレーズ一致に基づく文書の正確な検索を可能にします。
 
 詳細については、[フレーズマッチ](./undefined)を参照してください。
 
-\</include>
+</include>

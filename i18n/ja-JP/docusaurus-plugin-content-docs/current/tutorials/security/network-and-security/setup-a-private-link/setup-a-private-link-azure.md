@@ -1,12 +1,12 @@
 ---
-title: "Private Link (Azure) を設定する | Cloud"
+title: "Azureでプライベートリンクを設定する | Cloud"
 slug: /setup-a-private-link-azure
-sidebar_label: "Private Link (Azure) を設定する"
+sidebar_label: "Azureでプライベートリンクを設定する"
 beta: FALSE
 notebook: FALSE
 description: "このガイドでは、Zilliz Cloudクラスターから異なるMicrosoft Azure VPCでホストされているサービスへのプライベートリンクを設定する手順を示します。 | Cloud"
 type: origin
-token: YminwoNGmi0ECFktXDlcH44inOe
+token: W2fZwrrhVibvpGkd0MbcQGJQnib
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -19,17 +19,17 @@ keywords:
   - aws
   - gcp
   - azure
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Private Link (Azure) を設定する
+# Azureでプライベートリンクを設定する
 
 このガイドでは、Zilliz Cloudクラスターから異なるMicrosoft Azure VPCでホストされているサービスへのプライベートリンクを設定する手順を示します。
 
@@ -39,7 +39,7 @@ import Admonition from '@theme/Admonition';
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>Zilliz Cloudはプライベートリンクに対して料金を請求しません。ただし、Zilliz Cloudにアクセスするために作成した<a href="https://azure.microsoft.com/ja-jp/pricing/details/private-link/">エンドポイントごと</a>に、クラウドプロバイダーから料金が請求される場合があります。</p>
+<p>Zilliz Cloudはプライベートリンクに対して料金を請求しません。ただし、クラウドプロバイダーは、Zilliz Cloudにアクセスするために作成した<a href="https://azure.microsoft.com/en-us/pricing/details/private-link/">各エンドポイントごとに料金を請求します</a>を使用する場合があります。</p>
 
 </Admonition>
 
@@ -47,77 +47,77 @@ import Admonition from '@theme/Admonition';
 
 以下の条件が満たされていることを確認してください。
 
-- 専用(Enterprise)クラスタが作成されました。クラスタの作成方法については、「[クラスタ作成](./create-cluster)する」を参照してください。
+- 企業向けの専用クラスタが作成されました。クラスタの作成方法については、[クラスタ作成](./create-cluster)を参照してください。
 
-## プライベートエンドポイントの作成する{#create-private-endpoint}
+## プライベートエンドポイントの作成{#create-private-endpoint}
 
 Zilliz Cloudは、プライベートエンドポイントを追加するための直感的なWebコンソールを提供しています。ターゲットプロジェクトに移動し、左側のナビゲーションで**ネットワーク>プライベートエンドポイント**をクリックします。**+プライベートエンドポイント**をクリックします。
 
-![setup_private_link_aws_01](/img/ja-JP/setup_private_link_aws_01.png)
+![setup_private_link_aws_01](/img/setup_private_link_aws_01.png)
 
-### クラウドプロバイダーと地域を選択する{#select-a-cloud-provider-and-region}
+### クラウドプロバイダーと地域を選択してください{#select-a-cloud-provider-and-region}
 
-Azureリージョンにデプロイされたクラスターのプライベートエンドポイントを作成するには、[**Azure**]を[**クラウドプロバイダー**]ドロップダウンリストから選択します。[**リージョン**]で、プライベートにアクセスするクラスターを収容するリージョンを選択します。[**次**へ]をクリックします。
+Azureリージョンにデプロイされたクラスターのプライベートエンドポイントを作成するには、Cloud ProviderドロップダウンリストからAzureを選択します。Regionで、プライベートにアクセスしたいクラスターを収容するリージョンを選択します。Nextをクリックしてください。 
 
-利用可能なクラウドプロバイダーとリージョンの詳細については、「[クラウドプロバイダー&地域](./cloud-providers-and-regions)」を参照してください。
+利用可能なクラウドプロバイダーとリージョンの詳細については、[クラウドプロバイダー&地域](./cloud-providers-and-regions)を参照してください。 
 
-![setup_private_link_window_azure](/img/ja-JP/setup_private_link_window_azure.png)
+![setup_private_link_window_azure](/img/setup_private_link_window_azure.png)
 
 ### エンドポイントサービスを確立する{#establish-and-endpoint-service}
 
-![establish_endpoint_service_azure](/img/ja-JP/establish_endpoint_service_azure.png)
+![establish_endpoint_service_azure](/img/establish_endpoint_service_azure.png)
 
-以下は[Microsoft Azureサブスクリプションページ](https://portal.azure.com/#view/Microsoft_Azure_Billing/SubscriptionsBladeV1)からコピーしたサブスクリプションIDの例です。
+[Microsoft Azureのサブスクリプションページ](https://portal.azure.com/#view/Microsoft_Azure_Billing/SubscriptionsBladeV1)からコピーしたサブスクリプションIDを入力してください。以下は例です。
 
 ### エンドポイントを作成する{#create-an-endpoint}
 
 クラウドプロバイダーコンソールでこの手順を完了する必要があります。
 
-1. [[プライベートリンクセンター](https://portal.azure.com/#view/Microsoft_Azure_Network/PrivateLinkCenterBlade/~/privateendpoints)]に移動し、[**+作成**]をクリックします。
+1. [プライベートリンクセンター](https://portal.azure.com/#view/Microsoft_Azure_Network/PrivateLinkCenterBlade/~/privateendpoints)に移動し、**+Create**をクリックしてください。
 
-    ![NMJVb8eq1o8cysxlcM4c3N6rneh](/img/ja-JP/NMJVb8eq1o8cysxlcM4c3N6rneh.png)
+    ![TQB9bT5KKojscoxcOZbcZ4Q6nNf](/img/TQB9bT5KKojscoxcOZbcZ4Q6nNf.png)
 
 1. 作成するプライベートエンドポイントの基本情報を入力してください。
 
-    ![RSAebLea3oj1OyxXT6jc1IrJnph](/img/ja-JP/RSAebLea3oj1OyxXT6jc1IrJnph.png)
+    ![ECcPbN4Kaog5bdxyed3cyP3HnHe](/img/ECcPbN4Kaog5bdxyed3cyP3HnHe.png)
 
-1. [**Next: Resource>**]をクリックし、[**Connect to an Azure resource by resource ID or alias**]を選択します。次に、Zilliz Cloudコンソールからコピーしたリソースを**リソースIDまたはエイリアス**に貼り付けます。
+1. 「次へ:リソース」をクリックし、「リソースIDまたはエイリアスでAzureリソースに接続する」を選択します。その後、Zilliz Cloudコンソールからコピーしたものを「リソースIDまたはエイリアス」に貼り付けます。
 
-    ![P5jUbCghNoJ26bxKnoycO1Lnn6r](/img/ja-JP/P5jUbCghNoJ26bxKnoycO1Lnn6r.png)
+    ![TDJVb0pkWoxVPIxCThvct9Hpnae](/img/TDJVb0pkWoxVPIxCThvct9Hpnae.png)
 
-1. [**仮想ネットワーク**]と[**サブネット**]で適切な値を選択し、このタブのその他の設定はデフォルトのままにします。
+1. **仮想ネットワーク**と**サブネット**で適切な値を選択し、このタブの他の設定についてはデフォルトを維持してください。
 
-    ![CthVb5C4Eouf0mxVARnc7RPEnZf](/img/ja-JP/CthVb5C4Eouf0mxVARnc7RPEnZf.png)
+    ![SNdZbzo0EoP7PYxg1z4clUijnQg](/img/SNdZbzo0EoP7PYxg1z4clUijnQg.png)
 
-1. [**次**へ]をクリックして、[**レビュー+作成**]タブに移動します。検証に合格した場合は、[**作成**]をクリックしてプライベートエンドポイントを作成します。
+1. 「レビュー+作成」タブに到達するまで、「次へ」をクリックしてください。検証が合格した場合は、「作成」をクリックしてプライベートエンドポイントを作成してください。
 
-    ![LxXxbI88joBShBxnK1McboINnTf](/img/ja-JP/LxXxbI88joBShBxnK1McboINnTf.png)
+    ![FJ95b4S4voMavqxFWEac3JdinAc](/img/FJ95b4S4voMavqxFWEac3JdinAc.png)
 
 1. 展開が成功すると、以下が表示されます。
 
-    ![H5TUbOss2oRNoMxIEp8cj9tdnmb](/img/ja-JP/H5TUbOss2oRNoMxIEp8cj9tdnmb.png)
+    ![QNHubedZWoJFe7xkX5ac5TOInzg](/img/QNHubedZWoJFe7xkX5ac5TOInzg.png)
 
-1. [**リソースに移動**]をクリックして、作成したプライベートエンドポイントの概要ページを表示します。
+1. 「リソースに移動」をクリックして、作成されたプライベートエンドポイントの概要ページを表示してください。
 
-1. Overviewページの右上にある**JSON View**をクリックしてくださ**い**。**Connection Status**は**Pending**と表示されます。
+1. 「概要」ページの右上隅にある「JSONビュー」をクリックしてください。「接続ステータス」は「保留中」と表示されていることに注意してください。 
 
-    ![Yf3CbAO3MoklJAxopqUck54dnvc](/img/ja-JP/Yf3CbAO3MoklJAxopqUck54dnvc.png)
+    ![YYrobZKr4oFJJ8xNRYicL2PZnde](/img/YYrobZKr4oFJJ8xNRYicL2PZnde.png)
 
-    「**リソースJSON**」パネルで、`name`とproperties. resourceGuidの値をコピーし`ま`す。エンドポイントIDは、これら2つの値にピリオド(.)を付けたものである必要があり`ま`す。
+    **リソースJSON**パネルで、`name`と`properties.resourceGuid`の値をコピーしてください。エンドポイントIDは、これら2つの値にピリオド(`.`)を加えたものである必要があります。 
 
-    ![MKJQbI9THo4gQ3xQKuocGhBOnjg](/img/ja-JP/MKJQbI9THo4gQ3xQKuocGhBOnjg.png)
+    ![Vm7pbEGggo2tx6xirE3c9ZyRnSg](/img/Vm7pbEGggo2tx6xirE3c9ZyRnSg.png)
 
-    例えば、キー`名`の値は`zilliz`で、キーproperties. resourceGuidの値は`d73e9b55-7b9c-4f8d-8f0a-40e737f1ccbf`です。プライベートエンドポイントIDは`d73e9b55-7b9c-4f8d-8f0a-40e737f1ccbf`である必要がありま`す。`
+    たとえば、キー`name`の値は`zilliz`であり、キー`properties.resourceGuid`の値は`d73e9b55-7b9c-4f8d-8f0a-40e737f1ccbf`です。プライベートエンドポイントIDは`zilliz.d73e9b55-7b9c-4f8d-8f0a-40e737f1ccbf`である必要があります。
 
 ### エンドポイントを承認する{#authorize-your-endpoint}
 
-Azureコンソールから取得したエンドポイントIDをZilliz Cloudの[**エンドポイントID**]ボックスに貼り付けます。[**作成**]をクリックします。
+Azureコンソールから取得したエンドポイントIDをZilliz Cloudの**Endpoint ID**ボックスに貼り付けます。**作成**をクリックしてください。
 
 ## プライベートリンクを取得する{#obtain-a-private-link}
 
-送信した属性を確認して承認した後、Zilliz Cloudはこのエンドポイントにプライベートリンクを割り当てます。この過程には約5分かかります。
+送信した属性を確認して承認した後、Zilliz Cloudはこのエンドポイントにプライベートリンクを割り当てます。この過程には約5分かかります。 
 
-プライベートリンクが準備できたら、Zilliz Cloudの**プライベートリンク**ページで閲覧可能です。
+プライベートリンクが準備できたら、Zilliz Cloudの**プライベートリンク**ページから閲覧可能です。
 
 ## DNSの設定{#set-up-dns}
 
@@ -125,57 +125,57 @@ Zilliz Cloudが割り当てたプライベートリンクを使用してクラ�
 
 ### AzureポータルでプライベートDNSゾーンを作成する{#create-a-private-dns-zone-on-the-azure-portal}
 
-1. 作成したプライベートエンドポイントの[**概要**]ページで、[**設定**]>[**DNS構成**]を選択し、プライベートエンドポイントとともに作成したネットワークインターフェイスの**IPアドレス**をコピーします。
+1. 作成されたプライベートエンドポイントの「概要」ページで、「設定」>「DNS構成」を選択し、プライベートエンドポイントと一緒に作成されたネットワークインターフェイスの「IPアドレス」をコピーしてください。
 
-    ![Ro6obryyhoNnVCxExrLcu97DnFb](/img/ja-JP/Ro6obryyhoNnVCxExrLcu97DnFb.png)
+    ![GC9jbsUp2oXgCZxkojbcrmJanJb](/img/GC9jbsUp2oXgCZxkojbcrmJanJb.png)
 
-    上のスクリーンショットの値の例は**10.0.0.4。**
+    上のスクリーンショットの例の値は**10.0.0.4**です。
 
-1. [[プライベートDNSゾーンの作成](https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.Network%2FprivateDnsZones)]に移動し、[**+作成**]をクリックしてプロセスを開始します。
+1. [プライベートDNSゾーンを作成する](https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.Network%2FprivateDnsZones)に移動し、**+Create**をクリックしてプロセスを開始します。
 
-1. [**基本**]タブで、上記で使用したサブスクリプションとリソースグループを選択し、Zilliz CloudコンソールからコピーしたプライベートリンクURIを[**インスタンス詳細**]>[**名前**]に貼り付けます。次に、[**作成を確認**]をクリックします。
+1. 「基本」タブで、上記で使用したサブスクリプションとリソースグループを選択し、Zilliz CloudコンソールからコピーしたプライベートリンクURIを「インスタンスの詳細」>「名前」に貼り付けます。次に、「作成の確認」をクリックします。
 
-    ![XD2TbAf62osTeRxQ2ZPcn1rQnkh](/img/ja-JP/XD2TbAf62osTeRxQ2ZPcn1rQnkh.png)
+    ![QweWbLRSioY9Cix8nMUc0Q75n1e](/img/QweWbLRSioY9Cix8nMUc0Q75n1e.png)
 
 1. 検証が完了したら、作成をクリックして過程を開始します。
 
-    ![LoMUbPFMkoO4EdxEAiScfOJ7nVf](/img/ja-JP/LoMUbPFMkoO4EdxEAiScfOJ7nVf.png)
+    ![LsmabNzrwoz9lvxJpKac2gEdnGG](/img/LsmabNzrwoz9lvxJpKac2gEdnGG.png)
 
 1. デプロイが成功した場合、以下が表示されます。
 
-    ![Vro4b1Yfbonb5QxGhvRccgginSd](/img/ja-JP/Vro4b1Yfbonb5QxGhvRccgginSd.png)
+    ![LGB3bC80FoQnXIxx527cVkTMnAe](/img/LGB3bC80FoQnXIxx527cVkTMnAe.png)
 
-1. [**リソースに移動**]をクリックして、作成したプライベートDNSゾーンの**概要**ページを表示します。
+1. 作成されたプライベートDNSゾーンの概要ページを表示するには、「リソースに移動」をクリックしてください。
 
-    ![EhaqbNu1homiZRxUC8BcDSf3nHd](/img/ja-JP/EhaqbNu1homiZRxUC8BcDSf3nHd.png)
+    ![M401b0RiNoauaHxbBH6crLXlnXc](/img/M401b0RiNoauaHxbBH6crLXlnXc.png)
 
-### プライベートDNSゾーンを仮想ネットワークにリンクする{#link-the-private-dns-zone-to-your-virtual-network}
+### プライベートDNSゾーンを仮想ネットワークにリンクします。{#link-the-private-dns-zone-to-your-virtual-network}
 
-1. 作成したプライベートDNSゾーンの[概要]ページで、左側のナビゲーションウィンドウの[**設定**]>[**仮想ネットワークリンク**]を選択します。
+1. 作成したプライベートDNSゾーンの概要ページで、左側のナビゲーションペインで**設定**>**DNS管理**を選択してください。
 
-1. [**+追加**]をクリックします。[**仮想ネットワークリンク**の追加]ダイアログボックスで、**リンク名**を入力し、上記で使用した[**サブスクリプション**と**仮想ネットワーク**]を選択します。[**構成**]セクションで、[**自動登録**も有効にする]を選択します。
+1. 「+追加」をクリックしてください。「仮想ネットワークリンクの追加」ダイアログボックスで、「リンク名」を入力し、上記で使用した「サブスクリプション」と「仮想ネットワーク」を選択してください。「構成」セクションでも、「自動登録を有効にする」を選択してください。
 
-    ![NWyGbpkMXogi8kx5MLDciI1GnYf](/img/ja-JP/NWyGbpkMXogi8kx5MLDciI1GnYf.png)
+    ![KQZ2bvbbUodBlAxV98ccbrwxnWg](/img/KQZ2bvbbUodBlAxV98ccbrwxnWg.png)
 
-    すべてが期待どおりに設定されたら、[**OK**]をクリックして続行します。デプロイが成功すると、作成された仮想ネットワークリンクのリンクステータスが[**完了**]に変わります。
+    すべてが期待どおりに設定されたら、「OK」をクリックして続行します。デプロイが成功すると、作成された仮想ネットワークリンクのリンクステータスが「完了」に変わります。
 
-    ![ZIbEbBZQho5R9jxelfncfpkjnEc](/img/ja-JP/ZIbEbBZQho5R9jxelfncfpkjnEc.png)
+    ![R84pbAxcKo24pDxQvlKcyxV7n4b](/img/R84pbAxcKo24pDxQvlKcyxV7n4b.png)
 
-1. 左ナビゲーションウィンドウの**概要**をクリックして、プライベートDNSゾーンの**概要**ページに戻ります。
+1. 左ナビゲーションペインの**概要**をクリックして、プライベートDNSゾーンの**概要**ページに戻ります。
 
-    ![AIzobdHXwoN0evxn1yRc9ooKnBf](/img/ja-JP/AIzobdHXwoN0evxn1yRc9ooKnBf.png)
+    ![S4bTb3ICwoWnlgxqSFrcYwEInvh](/img/S4bTb3ICwoWnlgxqSFrcYwEInvh.png)
 
-1. [**+レコードセット**]をクリックします。[**レコードセット追加**]ダイアログボックスで、`名前`に-privatelinkを付けたクラスターIDを入力し、**タイプ**で**A-アドレスレコード**を**選択**し、**TTL**を**10分**に設定します。リストされたIPアドレスがメモしたものであるかどうかを確認してください。
+1. 「+レコードセット」をクリックしてください。「レコードセットの追加」ダイアログボックスで、「名前」に`-privatelink`を付加したクラスターIDを入力し、「タイプ」で「A-アドレスレコード」を選択し、「TTL」を「10分」に設定してください。リストされたIPアドレスがメモしたものかどうかを確認してください。
 
-    ![YJpzbctcJoiAz3xEAsTc7Rp2n6g](/img/ja-JP/YJpzbctcJoiAz3xEAsTc7Rp2n6g.png)
+    ![DtFQb18jloG9JDxYg0AcSlRsn75](/img/DtFQb18jloG9JDxYg0AcSlRsn75.png)
 
-    [**OK**]をクリックしてレコードセットを保存します。
+    レコードセットを保存するには、**OK**をクリックしてください。
 
-    ![IL9UbOvjaosxTqxp9XlcQGbdnmf](/img/ja-JP/IL9UbOvjaosxTqxp9XlcQGbdnmf.png)
+    ![YWSZbd4qEoAW64xf9gHcamC8nyd](/img/YWSZbd4qEoAW64xf9gHcamC8nyd.png)
 
-1. Azure Portalで作成したプライベートエンドポイントの[概要]ページに戻ると、プライベートエンドポイントの**接続状態**が[**保留中**]から[**承認済み**]に変わります。
+1. Azureポータルで作成されたプライベートエンドポイントの概要ページに戻ると、プライベートエンドポイントの「接続ステータス」が「保留中」から「承認済み」に変わることがわかります。 
 
-    ![Shh8b9DoWorTdOxksckcey6Cnch](/img/ja-JP/Shh8b9DoWorTdOxksckcey6Cnch.png)
+    ![CqAEbOjDUogQGdxl3gjclaPAn1e](/img/CqAEbOjDUogQGdxl3gjclaPAn1e.png)
 
     Azure仮想ネットワーク内のリソースは、Zilliz Cloudクラスターにプライベートでアクセス可能になりました。
 
@@ -185,22 +185,22 @@ Zilliz Cloudが割り当てたプライベートリンクを使用してクラ�
 
 パブリックエンドポイントを無効にするには:
 
-1. ターゲットクラスタの**クラスタ詳細**ページに移動します。
+1. ターゲットクラスターの**クラスターの詳細**ページに移動してください。
 
-1. [**接続**]セクションに移動します。
+1. 「接続」セクションに移動してください。
 
 1. クラスターパブリックエンドポイントの横にある構成アイコンをクリックしてください。
 
-1. 情報を読んで、**無効**にするをクリックして、**パブリックエンドポイントを無効**にするダイアログボックス。
+1. 情報を読んで、「パブリックエンドポイントを無効にする」ダイアログボックスで「無効にする」をクリックしてください。
 
 <Admonition type="info" icon="📘" title="ノート">
 
 <ul>
-<li><p>プライベートエンドポイントは<a href="/ja-JP/reference/restful/data-plane-v2">データプレーン</a>へのアクセスにのみ影響します。<a href="/ja-JP/reference/restful/control-plane-v2">コントロールプレーン</a>は引き続きパブリックインターネットからアクセスできます。</p></li>
+<li><p>プライベートエンドポイントは<a href="/reference/restful/data-plane-v2">データプレーン</a>へのアクセスにのみ影響します。<a href="/reference/restful/control-plane-v2">コントロールプレーン</a>はパブリックインターネットを介してアクセスできます。</p></li>
 <li><p>パブリックエンドポイントを再度有効にした後、ローカルDNSキャッシュの有効期限が切れるまで、パブリックエンドポイントにアクセス可能にする必要がある場合があります。</p></li>
 </ul>
 
 </Admonition>
 
-![disable_public_endpoint](/img/ja-JP/disable_public_endpoint.png)
+![disable_public_endpoint](/img/disable_public_endpoint.png)
 

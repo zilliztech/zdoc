@@ -1,12 +1,12 @@
 ---
 title: "トークナイザーリファレンス | Cloud"
 slug: /analyzer-tokenizers
-sidebar_label: "トークナイザーリファレンス"
-beta: PUBLIC
+sidebar_label: "Tokenizer"
+beta: FALSE
 notebook: FALSE
 description: "このセクションでは、トークナイザーの詳細なリファレンスを提供します。 | Cloud"
 type: origin
-token: SZT7wSD7FiTKmPk8NWbccHT8npc
+token: Zu6vw6Aifi1gvNkqqO5cDjmtngh
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

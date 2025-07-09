@@ -1,12 +1,12 @@
 ---
-title: "Zilliz Cloudに登録する | BYOC"
+title: "Zilliz Cloudに登録してください。 | BYOC"
 slug: /register-with-zilliz-cloud
-sidebar_label: "Zilliz Cloudに登録する"
+sidebar_label: "Zilliz Cloudに登録してください。"
 beta: FALSE
 notebook: FALSE
 description: "このガイドでは、Zilliz Cloudサービスにアクセスするためのアカウントの作成方法について詳しく説明します。 | BYOC"
 type: origin
-token: YcutwtyDWiIf34kYTLhcKpSLnuf
+token: HriHwEU3qiQrgskz3a0cdkcpnyf
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -14,55 +14,63 @@ keywords:
   - register
   - cloud
   - milvus
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Zilliz Cloudに登録する
+# Zilliz Cloudに登録してください。
 
 このガイドでは、Zilliz Cloudサービスにアクセスするためのアカウントの作成方法について詳しく説明します。
 
 ## 始める前に{#before-you-start}
 
-Zilliz Cloudにアクセスして[サインアップし](https://cloud.zilliz.com/signup)てください。
+Zilliz Cloudの[サインアップ](https://cloud.zilliz.com/signup)へようこそ。
 
-![sign_up](/byoc/ja-JP/sign_up.png)
+![sign_up](/img/sign_up.png)
 
 ## 登録オプション{#registration-options}
 
 以下のいずれかのオプションを使用して、Zilliz Cloudに登録してログインできます。
 
-- メールアドレスとパスワード
+- [メールアドレスとパスワード](./register-with-zilliz-cloud#with-work-email-and-password)
 
-- あなたのGoogleアカウント
+- [あなたのGoogleアカウント](./register-with-zilliz-cloud#linking-to-google-account)
 
-- あなたのGitHubアカウント
+- [あなたのGitHubアカウント](./register-with-zilliz-cloud#linking-to-github-account)
 
-ログイン目的で選択した登録方法との一貫性を維持します。必要に応じて、後でログイン方法を変更することができます。詳細については、「[メールアカウント](./email-accounts)」を参照してください。
+ログインのために選択した登録方法に一貫性を保ちます。必要に応じて、後でログイン方法を変更することができます。詳細については、[アカウントを管理する](./email-accounts#switch-login-method)を参照してください。
 
 ### 仕事のメールアドレスとパスワードで{#with-work-email-and-password}
 
 以下の手順に従って、職場のメールアドレスとパスワードを使用してZilliz Cloudアカウントを作成してください。
 
-1. [仕事用メールアドレス]フィールドに**仕事用メール**アドレスを入力します。
+1. **勤務先のメールアドレス**フィールドに勤務先のメールアドレスを入力してください。
 
-1. [パスワード]フィールドに**パスワード**を入力します。
+1. **パスワード**フィールドにパスワードを入力してください。
 
-    パスワードが128文字を超えず、少なくとも1つの大文字、1つの小文字、1つの数字、および1つの特殊文字を含むことを確認してください。
+    パスワードは少なくとも8文字で、以下の文字タイプのうち少なくとも3つを含める必要があります。
 
-1. [**I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)**]にチェックを入れてください。
+    - 小文字のアルファベット(a-z)
 
-1. [**Continue**]をクリックします。入力されたメールアドレスに確認コードが送信されます。
+    - 大文字のアルファベット(A-Z)
 
-1. ダイアログボックスに受信した確認コードを入力し、**Verify**をクリックしてください。
+    - 0から9までの数字
 
-    確認コードが届かない場合は、**Resend Code**をクリックして再試行してください。
+    - 特殊文字（例:!@#$%^&*）
+
+1. 「[サービス利用規約](https://zilliz.com/terms-and-conditions)と[プライバシーポリシー](https://zilliz.com/privacy-policy)に同意します」の横にあるボックスにチェックを入れてください。
+
+1. **続行**をクリックしてください。指定されたメールアドレスに確認コードが送信されます。
+
+1. ダイアログボックスに受信した確認コードを入力し、**確認**をクリックしてください。
+
+    確認コードが届かない場合は、**コードを再送信**をクリックして再試行してください。
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -72,19 +80,19 @@ Zilliz Cloudにアクセスして[サインアップし](https://cloud.zilliz.co
 
 ### Googleアカウントへのリンク{#linking-to-google-account}
 
-GoogleアカウントとZilliz Cloudを連携するには、以下の手順に従ってください。
+GoogleアカウントをZilliz Cloudにリンクするには、以下の手順に従ってください。
 
 1. Googleロゴボタンをクリックします。
 
-1. [**I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)**]にチェックを入れてください。
+1. 「[サービス利用規約](https://zilliz.com/terms-and-conditions)と[プライバシーポリシー](https://zilliz.com/privacy-policy)に同意します」のチェックボックスを選択し、「送信」をクリックしてください。
 
-1. Googleアカウントの[ログインページ](https://accounts.google.com/)にリダイレクトされます。Googleアカウントに関連付けられているメールアドレスまたは電話番号とパスワードを入力してください。
+1. [Googleアカウントのログインページ](https://accounts.google.com/)にリダイレクトされます。Googleアカウントに関連付けられているメールアドレスまたは電話番号とパスワードを入力してください。
 
 1. 認証に成功すると、Zilliz Cloudにリダイレクトされ、成功通知が表示されます。
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p><a href="https://support.google.com/accounts/answer/1064203?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP">Google管理のMFAを無効</a>にしてからリンクして、スムーズな登録を確保してください。</p>
+<p>スムーズな登録を確保するために、リンクする前に<a href="https://support.google.com/accounts/answer/1064203?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP">Google管理のMFAを無効にする</a>を設定してください。</p>
 
 </Admonition>
 
@@ -96,41 +104,33 @@ GitHubに登録する場合は、GitHubアカウントに公開メールアド�
 
 1. GitHubにログインし、プロフィールメニューの**設定**をクリックしてください。
 
-1. 左側のナビゲーションから「**メール**」をクリックします。
+1. 左側のナビゲーションから**メール**をクリックしてください。
 
-1. [**メールアドレスを保持]プライベート**ボックスのチェックを外します。
+1. 「メールアドレスを非公開にする」ボックスのチェックを外してください。
 
-1. 左側のナビゲーションから**公開プロフィール**をクリックし、公開メールのドロップダウンから、先ほど設定した**公開メール**アドレスを選択してください。
+1. 左側のナビゲーションの**パブリックプロファイル**をクリックし、**パブリックメール**ドロップダウンから先ほど公開したメールアドレスを選択してください。
 
-1. [**プロファイルの更新**]をクリックして変更を保存します。
+1. 変更を保存するには、**プロファイルを更新**をクリックしてください。
 
 #### 手続き{#procedures}
 
-GitHubアカウントをリンクするには、以下の手順に従ってください。
+GitHubアカウントを私たちとリンクするには、以下の手順に従ってください。
 
 1. GitHubロゴボタンをクリックします。
 
-1. [**I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)**]にチェックを入れてください。
+1. 「[サービス利用規約](https://zilliz.com/terms-and-conditions)と[プライバシーポリシー](https://zilliz.com/privacy-policy)に同意します」のチェックボックスを選択し、「送信」をクリックしてください。
 
-1. あなたは[GitHubサインインページ](https://github.com/login)にリダイレクトされます。ユーザー名またはメールアドレスと、GitHubアカウントに関連付けられた対応するパスワードを入力してください。
+1. [GitHubのサインインページ](https://github.com/login)にリダイレクトされます。ユーザー名またはメールアドレスと、GitHubアカウントに関連付けられたパスワードを入力してください。
 
 1. 認証に成功すると、Zilliz Cloudにリダイレクトされ、成功通知が表示されます。
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p><a href="https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/disabling-two-factor-authentication-for-your-personal-account">GitHub管理MFAを無効</a>にしてからリンクして、スムーズな登録を確保してください。</p>
+<p>スムーズな登録を確保するために、リンクする前に<a href="https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/disabling-two-factor-authentication-for-your-personal-account">GitHub管理のMFAを無効にする</a>を設定してください。</p>
 
 </Admonition>
 
-### Zilliz Cloudアカウントにログイン{#log-in-to-your-zilliz-cloud-account}
+### Zilliz Cloudアカウントにログインしてください。{#log-in-to-your-zilliz-cloud-account}
 
 Zilliz Cloudアカウントにログインする際は、常に登録方法と同じ方法を使用してください。
-
-## 次は何ですか{#whats-next}
-
-- [クイックスタート](./quick-start)
-
-- [クレジットカードを追加して購読する](./subscribe-by-adding-credit-card)
-
-- [AWS Marketplaceで購読する](./subscribe-on-aws-marketplace)
 

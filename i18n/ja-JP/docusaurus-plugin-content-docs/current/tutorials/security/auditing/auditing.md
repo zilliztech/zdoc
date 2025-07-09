@@ -6,18 +6,18 @@ beta: PRIVATE
 notebook: FALSE
 description: "Zilliz Cloudクラスターの監査を構成する方法を学びましょう。 | Cloud"
 type: origin
-token: Q9mywCJmpiFcyUkkgEkcJDLpnDd
-sidebar_position: 4
+token: UfGkwPQIPiJi6OkEu47cH3Umnvb
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - auditing
   - log
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

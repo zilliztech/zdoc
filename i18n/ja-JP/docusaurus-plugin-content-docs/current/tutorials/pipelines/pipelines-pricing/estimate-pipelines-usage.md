@@ -2,11 +2,11 @@
 title: "パイプライン利用予測 | Cloud"
 slug: /estimate-pipelines-usage
 sidebar_label: "パイプライン利用予測"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "パイプラインの実行コストはトークンによって測定されます。トークンを基本単位として使用する大規模言語モデル(LLM)と同様に、パイプラインはテキストを解析して一連のトークンとして埋め込むことによって、ドキュメントや検索クエリを過程化します。パイプラインの実行コストを理解するには、ファイルまたはテキスト文字列のトークンをカウントするために、当社の推定パイプライン使用量ツールを使用できます。 | Cloud"
 type: origin
-token: LrTAwIXn1ih4aPkotM1cYvHjnAd
+token: LNuqwIPPai9GUYk5U4ccAQhQn1b
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - pipelines
   - pricing
   - usage
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 
@@ -27,20 +27,20 @@ import Admonition from '@theme/Admonition';
 
 # パイプライン利用予測
 
-パイプラインの実行コストはトークンによって測定されます。トークンを基本単位として使用する大規模言語モデル(LLM)と同様に、パイプラインはテキストを解析して一連のトークンとして埋め込むことによって、ドキュメントや検索クエリを過程化します。パイプラインの実行コストを理解するには、ファイルまたはテキスト文字列のトークンをカウントするために、当社の推定パイプライン使用量ツールを使用できます。
+パイプラインの実行コストはトークンによって測定されます。トークンを基本単位として使用する大規模言語モデル(LLM)と同様に、パイプラインはテキストを解析して一連のトークンとして埋め込むことによって、ドキュメントや検索クエリを過程化します。パイプラインの実行コストを理解するには、ファイルまたはテキスト文字列のトークンをカウントするために、当社の推定パイプライン使用量ツールを使用できます。 
 
 <Admonition type="info" icon="📘" title="ノート">
 
 <ul>
 <li><p>Zilliz Cloud Pipelinesは、2025年第2四半期の終わりまでに廃止され、「Data In, Data Out」という新しい機能に置き換えられます。これにより、MilvusとZilliz Cloudの両方で埋め込み生成が効率化されます。2024年12月24日現在、新規ユーザー登録は受け付けられていません。現在のユーザーは、日没日まで月額20ドルの無料手当内でサービスを継続して利用できますが、SLAは提供されていません。モデルプロバイダーまたはオープンソースモデルの埋め込みAPIを使用してベクトル埋め込みを生成することを検討してください。</p></li>
-<li><p>このツールはByte-Pair Encoding(BPE)トークナイザーを使用しており、処理戦略によって推定使用量が30%異なる場合があります。そのため、推定使用量は参考としてのみ使用してください。実際の使用方法については、<a href="./pipelines-ingest-search-delete-data">パイプラインリスト</a>を参照してください。</p></li>
+<li><p>このツールはByte-Pair Encoding(BPE)トークナイザーを使用しており、処理戦略によって推定使用量が30%異なる場合があります。そのため、推定使用量は参考値としてのみ使用してください。実際の使用方法については、<a href="./pipelines-ingest-search-delete-data">パイプライン一覧</a>を参照してください。</p></li>
 </ul>
 
 </Admonition>
 
 ## トークンとは何ですか?{#what-are-tokens}
 
-トークンはNLPにおける特別な概念です。それはサブワードと考えることができます。一部の単語はトークンそのものであり、一部の長い単語には複数のトークンが含まれる場合があります。トークンは言語にも依存します。一般的には、次のようになります:
+トークンはNLPにおける特別な概念です。それはサブワードと考えることができます。一部の単語はトークンそのものであり、一部の長い単語には複数のトークンが含まれる場合があります。トークンは言語にも依存します。一般的には、以下のようになります:
 
 - 1トークンは3～4文字の英語です
 
@@ -58,7 +58,7 @@ Ingestion Pipelineは、ファイルをトークンに解析し、トークン�
 
 パイプラインの実行に伴うコストの影響を簡単に理解するために、ファイルやテキスト文字列のトークンを推定できるWeb UIツールを提供しています。このツールを使用して、パイプラインを実行する前にコストを推定できます。
 
-![estimate-piplines-usage-tool-entrance](/img/ja-JP/estimate-piplines-usage-tool-entrance.png)
+![estimate-piplines-usage-tool-entrance](/img/estimate-piplines-usage-tool-entrance.png)
 
 1. 入力する
 
@@ -66,11 +66,11 @@ Ingestion Pipelineは、ファイルをトークンに解析し、トークン�
 
         - ローカルファイルをアップロードする
 
-            10 MB以下のローカルファイルをアップロードしてください。サポートされているファイル形式は、`. txt`、.`pdf`、`.md`、`.html`、`.epub`、`.csv`、`.document`、`.docx`、`.xls`、.xlsx`、.ppt`、`.pptx`です。
+            10 MB以下のローカルファイルをアップロードしてください。サポートされているファイル形式は、`.txt`、`.pdf`、`.md`、`.html`、`.epub`、`.csv`、`.doc`、`.docx`、`.xls`、`.xlsx`、`.ppt`、`.pptx`です。
 
         - オブジェクトストレージからファイルをインポートする
 
-            公開または事前署名されたURLを[AWS S 3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html)または[GCS](https://cloud.google.com/storage/docs/access-control/signed-urls)で提供してください。毎回1つのURLを入力してください。
+            [AWSのS 3](https://docs.aws.amazon.com/AmazonS3/latest/userguide/ShareObjectPreSignedURL.html)または[GCS](https://cloud.google.com/storage/docs/access-control/signed-urls)に公開または事前署名されたURLを入力してください。毎回1つのURLを入力してください。
 
     - 検索パイプラインはクエリ文字列を入力として受け取ります。テキスト文字列を直接入力することで、検索パイプラインの実行状況を推定することができます。
 
@@ -82,17 +82,17 @@ Ingestion Pipelineは、ファイルをトークンに解析し、トークン�
 
         </Admonition>
 
-1. 「**計算**」をクリックします。
+1. 「計算」をクリックしてください。
 
-    ![estimate-piplines-usage](/img/ja-JP/estimate-piplines-usage.png)
+    ![estimate-piplines-usage](/img/estimate-piplines-usage.png)
 
 1. ファイルの推定トークン数を確認してください。
 
-1. [**リセット**]をクリックして、別のローカルファイルをアップロードします。
+1. 別のローカルファイルをアップロードするには、**リセット**をクリックしてください。
 
 ## 関連するトピック{#related-topics}
 
-- [Zillizクラウドの制限](./limits)
+- リンク_PLACEHOLDER_0
 
-- [よくある質問(FAQ)](./faqs)
+- [よくある質問(FAQ)](/docs/faq-pipelines)
 

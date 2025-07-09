@@ -1,23 +1,23 @@
 ---
 title: "ネットワークとセキュリティ | Cloud"
 slug: /network-and-security
-sidebar_label: "ネットワークとセキュリティ"
+sidebar_label: "Network Access"
 beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud上のデータへのアクセスを保護するために、ホワイトリストとプライベートリンクを設定する方法について詳しく学びましょう。 | Cloud"
 type: origin
-token: Sn0DwMXwuieTHEk7xpacEihJnVc
-sidebar_position: 3
+token: WVcuwmMQ8iKlrKk7Kwacu9w1nCZ
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - network
   - security
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 
@@ -27,8 +27,6 @@ import Admonition from '@theme/Admonition';
 # ネットワークとセキュリティ
 
 Zilliz Cloud上のデータへのアクセスを保護するために、ホワイトリストとプライベートリンクを設定する方法について詳しく学びましょう。
-
-
 
 import DocCardList from '@theme/DocCardList';
 

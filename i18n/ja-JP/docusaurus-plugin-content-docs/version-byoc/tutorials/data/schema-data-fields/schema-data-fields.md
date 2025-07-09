@@ -6,7 +6,7 @@ beta: FALSE
 notebook: FALSE
 description: "スキーマは、コレクションのデータ構造を定義し、コレクションフィールドの名前、順序、データ型、および関連する属性を決定します。この章では、主にスキーマと関連する概念について説明します。 | BYOC"
 type: origin
-token: AtsqwVGeAiLZ66keX9PcrC08n8b
+token: NuWQwL1AhiDzokkx5UPckhthnsf
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

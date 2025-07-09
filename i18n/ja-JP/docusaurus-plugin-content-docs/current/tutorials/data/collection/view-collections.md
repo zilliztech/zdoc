@@ -6,7 +6,7 @@ beta: FALSE
 notebook: FALSE
 description: "現在接続されているデータベース内のすべてのコレクションの名前リストを取得し、特定のコレクションの詳細を確認できます。 | Cloud"
 type: origin
-token: RWOjwFwsDi7MPykySlEc35v1nTb
+token: VAirw0c7ZiKCSqkjtDscAsC4nAf
 sidebar_position: 4
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
   - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 
@@ -77,7 +77,7 @@ System.out.println(resp.getCollectionNames());
 import { MilvusClient } from '@zilliz/milvus2-sdk-node';
 
 const client = new MilvusClient({
-    address: 'localhost:19530',
+    address: 'YOUR_CLUSTER_ENDPOINT',
     token: 'YOUR_CLUSTER_TOKEN'
 });
 
@@ -102,19 +102,19 @@ defer cancel()
 
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 token := "YOUR_CLUSTER_TOKEN"
-
-cli, err := client.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
     APIKey:  token,
 })
 if err != nil {
-    log.Fatal("failed to connect to milvus server: ", err.Error())
+    fmt.Println(err.Error())
+    // handle err
 }
+defer client.Close(ctx)
 
-defer cli.Close(ctx)
-
-collectionNames, err := cli.ListCollections(ctx, milvusclient.NewListCollectionOption())
+collectionNames, err := client.ListCollections(ctx, milvusclient.NewListCollectionOption())
 if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
 
@@ -130,14 +130,13 @@ curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/list" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
--d '{}
-}'
+-d '{}'
 ```
 
 </TabItem>
 </Tabs>
 
-すでに`quick_setup`という名前のコレクションを作成している場合、上記の例の結果は次のようになります。
+`quick_setup`という名前のコレクションをすでに作成している場合、上記の例の結果は次のようになります。
 
 ```json
 ["quick_setup"]
@@ -190,30 +189,10 @@ console.log(res);
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-})
+collection, err := client.DescribeCollection(ctx, milvusclient.NewDescribeCollectionOption("quick_setup"))
 if err != nil {
-    log.Fatal("failed to connect to milvus server: ", err.Error())
-}
-
-defer cli.Close(ctx)
-
-collection, err := cli.DescribeCollection(ctx, milvusclient.NewDescribeCollectionOption("quick_setup"))
-if err != nil {
-    // handle error
+    fmt.Println(err.Error())
+    // handle err
 }
 
 fmt.Println(collection)
@@ -238,7 +217,36 @@ curl --request POST \
 
 上記の例の結果は、次のようになります。
 
-```json
-// TO BE ADDED
+```plaintext
+{
+    'collection_name': 'quick_setup', 
+    'auto_id': False, 
+    'num_shards': 1, 
+    'description': '', 
+    'fields': [
+        {
+            'field_id': 100, 
+            'name': 'id', 
+            'description': '', 
+            'type': <DataType.INT64: 5>, 
+            'params': {}, 
+            'is_primary': True
+        }, 
+        {
+            'field_id': 101, 
+            'name': 'vector', 
+            'description': '', 
+            'type': <DataType.FLOAT_VECTOR: 101>, 
+            'params': {'dim': 768}
+        }
+    ], 
+    'functions': [], 
+    'aliases': [], 
+    'collection_id': 456909630285026300, 
+    'consistency_level': 2, 
+    'properties': {}, 
+    'num_partitions': 1, 
+    'enable_dynamic_field': True
+}
 ```
 

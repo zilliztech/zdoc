@@ -6,17 +6,17 @@ beta: FALSE
 notebook: FALSE
 description: "このアップデートにより、Zilliz Cloudに強力なツールと強化が導入されました。Object Storageなどのソースから簡単にデータを取り込むための新しいコネクタ、検索の関連性を向上させるためのRerankers、詳細なシステム状態分析のためのMetrics Monitoring API、AWS S 3、Google Cloud Storage、Azure Blob Storageからベクトルデータベースインスタンスに直接インポートすることができるCross Cloud Data Import機能が追加されました。これらの機能は、データの取り込み、検索精度、運用洞察を向上させ、クラウド上のベクトルデータベースの管理を効率化します。 | Cloud"
 type: origin
-token: K2piwxZFZiL00xkf2TtctY80nSe
-sidebar_position: 9
+token: S7PMwgqGOiURCpkTFT4cTnTjnAc
+sidebar_position: 12
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 
@@ -33,11 +33,11 @@ import Admonition from '@theme/Admonition';
 
 ### Azure Marketplace Azureブログ{#azure-marketplace}
 
-Zilliz CloudがAzure Marketplaceで利用可能になりました。これにより、ユーザーはAzure上で高度で完全に管理されたベクトルデータベースサービスにアクセスすることがこれまで以上に簡単になりました。この新しい統合は、スケーラブルなAIアプリケーションの必要性がますます高まる中で、重要な時期に到着しました。Zilliz CloudがAzure Marketplaceに登場したことで、ユーザーは簡単にAIアプリケーションを構築および拡張することができます。Zilliz Cloud on Azureのパワーを活用して、AIプロジェクトを加速しましょう。[Zilliz Cloud on Azure Marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=PlansAndPrice)をご覧ください。
+Zilliz CloudがAzure Marketplaceで利用可能になりました。これにより、ユーザーはAzure上で高度で完全に管理されたベクトルデータベースサービスにアクセスすることがこれまで以上に簡単になりました。この新しい統合は、スケーラブルなAIアプリケーションの必要性がますます高まる中で、重要な時期に到着しました。Zilliz CloudがAzure Marketplaceに登場したことで、ユーザーは簡単にAIアプリケーションを構築および拡張することができます。Zilliz Cloud on Azureのパワーを活用して、AIプロジェクトを加速しましょう。[Zilliz Cloud on Azure Marketplace Azureブログまとめ](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=PlansAndPrice)を参照してください。
 
 ### コネクタ{#connectors}
 
-コネクタは、Object Storage、Kafka(近日中にサポートが提供されます)など、複数のデータソースからZilliz Cloudにデータをストリーミングするために設計された組み込みツールです。たとえば、Object Storageコネクタには、特定のオブジェクトストレージバケットを監視し、PDFやHTMLなどのファイルをZilliz Cloud Ingestion Pipelinesに自動的に同期する機能があります。この過程により、これらのファイルをベクトル表現に変換し、検索機能を強化するために効率的にベクトルデータベースにロードできます。詳細については、「[データに接続する](./connectors)」を参照してください。
+コネクタは、Object Storage、Kafka(近日中にサポートが提供されます)など、複数のデータソースからZilliz Cloudにデータをストリーミングするために設計された組み込みツールです。たとえば、Object Storageコネクタには、特定のオブジェクトストレージバケットを監視し、PDFやHTMLなどのファイルをZilliz Cloud Ingestion Pipelinesに自動的に同期する機能があります。この過程により、これらのファイルをベクトル表現に変換し、検索機能を強化するために効率的にベクトルデータベースにロードできます。詳細については、[データに接続する](./connectors)を参照してください。
 
 ### リランカーズ{#rerankers}
 
@@ -45,7 +45,7 @@ Zilliz CloudがAzure Marketplaceで利用可能になりました。これによ
 
 - zilliz/bge-reranker-base-ダウンロード
 
-[リランカーの機能と利点の詳細をご覧ください](./reranker)。
+リンク_PLACEHOLDER_0.
 
 ### メトリクスモニタリング用API{#api-for-metrics-monitoring}
 
@@ -61,7 +61,7 @@ Zilliz CloudがAzure Marketplaceで利用可能になりました。これによ
 
 - コレクションとエンティティの統計:コレクションとエンティティの詳細な統計にアクセスし、データ管理を改善します。
 
-[APIの詳細についてはこちらをご覧ください](/reference/restful/query-metrics)。
+リンク_PLACEHOLDER_0.
 
 ### クロスクラウドデータのインポートと移行の強化{#cross-cloud-data-import-and-migration-enhancement}
 

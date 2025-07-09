@@ -6,17 +6,17 @@ beta: FALSE
 notebook: FALSE
 description: "この章では、プロジェクトの操作と関連する設定に焦点を当てています。 | Cloud"
 type: origin
-token: AfluwWdKUiSnIgkaR4LcW5XUn1b
-sidebar_position: 8
+token: QHzrwVlEOipspAkPiyucWezqneC
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database
   - cloud
   - projects
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

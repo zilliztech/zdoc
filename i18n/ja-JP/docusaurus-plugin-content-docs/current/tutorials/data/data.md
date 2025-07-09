@@ -4,9 +4,9 @@ slug: /data
 sidebar_label: "データ"
 beta: FALSE
 notebook: FALSE
-description: "この章では、データ操作に焦点を当てる。 | Cloud"
+description: "この章では、データ操作に焦点を当てます。 | Cloud"
 type: origin
-token: W9XywM68GiqcrokcwmDcIsDxnQe
+token: KyTFwqmCJiIJsuk9d6Ncg2eDnDd
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 
@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 # データ
 
-この章では、データ操作に焦点を当てる。
+この章では、データ操作に焦点を当てます。
 
 import DocCardList from '@theme/DocCardList';
 

@@ -6,18 +6,18 @@ beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloudにデータを移動する前のリソースプランニングに関するトピック。 | BYOC"
 type: origin
-token: QShBwEVusiPyWDkfnjfc8yxFnHe
-sidebar_position: 7
+token: NM2OwCcfVijX8DkNsIxcdajEnr7
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database
   - cloud
   - resource
   - planning
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

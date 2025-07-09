@@ -4,19 +4,19 @@ slug: /integrate-with-third-parties
 sidebar_label: "サードパーティーとの統合"
 beta: FALSE
 notebook: FALSE
-description: "(placeholder) | BYOC"
+description: "Zilliz Cloudプロジェクトをサードパーティサービスと統合する方法を学びましょう。 | BYOC"
 type: origin
-token: ED3jwUknjiLx4bkn3CrcvWD3nWh
+token: LykvwFyJCiloeQk2WmGce2s8nZg
 sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - project third-party
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 
@@ -25,7 +25,7 @@ import Admonition from '@theme/Admonition';
 
 # サードパーティーとの統合
 
-
+Zilliz Cloudプロジェクトをサードパーティサービスと統合する方法を学びましょう。
 
 import DocCardList from '@theme/DocCardList';
 

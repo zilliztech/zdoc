@@ -1,12 +1,12 @@
 ---
 title: "フィルタリファレンス | Cloud"
 slug: /analyzer-filters
-sidebar_label: "フィルタリファレンス"
-beta: PUBLIC
+sidebar_label: "Filter"
+beta: FALSE
 notebook: FALSE
 description: "このセクションでは、アナライザのフィルタの詳細なリファレンスを提供します。 | Cloud"
 type: origin
-token: J221wV4l2i1lYykdMYwcVJkXnmp
+token: ZIakwn5V8i1msRk7EDscPNqsnUf
 sidebar_position: 4
 keywords: 
   - zilliz
@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

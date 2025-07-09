@@ -4,19 +4,19 @@ slug: /authentication
 sidebar_label: "認証プロセス"
 beta: FALSE
 notebook: FALSE
-description: "メールアカウント、クラスター資格情報、および多要素認証(MFA)対策の管理について詳しく学びましょう。 | BYOC"
+description: "メールアカウントの管理についてもっと学ぶクラスター資格情報とマルチファクタ認証（MFA）対策。 | BYOC"
 type: origin
-token: SrspwB2DfiaSkTkkocHcHSAunGW
-sidebar_position: 1
+token: XiOsw8A3eibZInk1aJNceBqznLb
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - cloud
   - authentication
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 
@@ -25,7 +25,7 @@ import Admonition from '@theme/Admonition';
 
 # 認証プロセス
 
-メールアカウント、クラスター資格情報、および多要素認証(MFA)対策の管理について詳しく学びましょう。
+メールアカウントの管理についてもっと学ぶクラスター資格情報とマルチファクタ認証（MFA）対策。
 
 import DocCardList from '@theme/DocCardList';
 

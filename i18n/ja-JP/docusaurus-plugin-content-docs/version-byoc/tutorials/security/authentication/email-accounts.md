@@ -4,19 +4,19 @@ slug: /email-accounts
 sidebar_label: "メールアカウント"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudにアカウントを登録すると、アカウント情報の管理、ログイン方法の切り替え、GoogleまたはGitHubアカウントからのリンク解除が可能になります。 | BYOC"
+description: "Zilliz Cloudでアカウントを登録しましたを取得すると、アカウント情報の管理、ログイン方法の切り替え、GoogleまたはGitHubアカウントからのリンク解除が可能になります。 | BYOC"
 type: origin
-token: WiyZwvV6IicSb5kM8HPc0VQAn9b
+token: GMdhwQQCRi2QaLkimNOcc3qNnbh
 sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
   - cloud
   - email accounts
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 
@@ -25,11 +25,11 @@ import Admonition from '@theme/Admonition';
 
 # メールアカウント
 
-Zilliz Cloudに[アカウントを登録](./register-with-zilliz-cloud)すると、アカウント情報の管理、ログイン方法の切り替え、GoogleまたはGitHubアカウントからのリンク解除が可能になります。
+Zilliz Cloudで[アカウントを登録しました](./register-with-zilliz-cloud)を取得すると、アカウント情報の管理、ログイン方法の切り替え、GoogleまたはGitHubアカウントからのリンク解除が可能になります。
 
 ## プロフィール情報を変更する{#modify-your-profile-information}
 
-1. あなたの**プロフィール**に行き、**アカウント設定**をクリックしてください。
+1. あなたの**プロフィール**に移動し、**アカウント設定**をクリックしてください。
 
 1. 以下のアカウント情報を編集できます。
 
@@ -39,9 +39,11 @@ Zilliz Cloudに[アカウントを登録](./register-with-zilliz-cloud)すると
 
     - 国
 
-![modify_account_info](/byoc/ja-JP/modify_account_info.png)
+![modify_account_info](/img/modify_account_info.png)
 
 ## アカウントのメールアドレスを更新{#update-account-email-address}
+
+![update_email_address](/img/update_email_address.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -49,7 +51,19 @@ Zilliz Cloudに[アカウントを登録](./register-with-zilliz-cloud)すると
 
 </Admonition>
 
-## アカウントのパスワードを変更する{#update-account-email-address}
+## アカウントのパスワードを変更する{#change-account-password}
+
+![change_password](/img/change_password.png)
+
+パスワードは少なくとも8文字で、以下の文字タイプのうち少なくとも3つを含める必要があります。
+
+- 小文字のアルファベット(a-z)
+
+- 大文字のアルファベット(A-Z)
+
+- 0から9までの数字
+
+- 特殊文字（例:!@#$%^&*）
 
 ## MFAの有効化と無効化{#enable-and-disable-mfa}
 
@@ -61,55 +75,55 @@ Zilliz Cloudに[アカウントを登録](./register-with-zilliz-cloud)すると
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>組織のユーザーは、アイデンティティプロバイダー（IdP）のOktaとシングルサインオン（SSO）を設定することができます。これにより、組織のユーザーはOktaで認証し、ビジネスメールを使用してZilliz Cloudにシームレスにアクセスできます。詳細については、<a href="./saml-2-0">SAML 2.0ダウンロード</a>を参照してください。</p>
+<p>組織のユーザーは、アイデンティティプロバイダー（IdP）Oktaとシングルサインオン（SSO）を設定することができます。これにより、組織のユーザーはOktaで認証し、ビジネスメールを使用してZilliz Cloudにシームレスにアクセスできます。詳細については、<a href="./single-sign-on-with-okta">Oktaによるシングルサインオン</a>を参照してください。</p>
 
 </Admonition>
 
 ### パスワードログインからサードパーティログインに切り替える{#switch-from-password-login-to-third-party-login}
 
-パスワードからサードパーティ(GoogleまたはGitHub)のログインに切り替えるには、[Zilliz Cloudアカウントをサードパーティサービスにリンク](./register-with-zilliz-cloud#googlelinking-to-google-account)する手順と同じ手順に従い、事前に[MFAが無効](./multi-factor-auth#mfadisable-mfa)になっていることを確認してください。
+パスワードからサードパーティ（GoogleまたはGitHub）のログインに切り替えるには、[Zilliz Cloudアカウントをサードパーティサービスにリンクする](./register-with-zilliz-cloud#linking-to-google-account)と同じ手順に従い、事前に[MFAは無効です。](./multi-factor-auth#disable-mfa)を確認してください。
 
 ### サードパーティログインからパスワードログインに切り替える{#switch-from-third-party-login-to-password-login}
 
-Zilliz Cloudアカウントをサードパーティのアカウントにリンクした後、ログインにメールアドレスとパスワードを使用するように戻すには、[Zilliz Cloudアカウントをサードパーティサービスから解除](./email-accounts#unlink-from-third-party-authentication)してください。
+Zilliz Cloudアカウントをサードパーティアカウントにリンクした後、ログインにメールアドレスとパスワードを使用するように戻すには、単に[サードパーティサービスからZilliz Cloudアカウントのリンクを解除してください](./email-accounts#unlink-from-third-party-authentication)を使用してください。
 
 ### サードパーティのログインを切り替える{#switch-between-third-party-logins}
 
 Zilliz Cloudアカウントを既にサードパーティのアカウントにリンクしており、別のサードパーティのログインに切り替えたい場合は、以下の手順に従ってください。
 
-1. [現在のサードパーティアカウントからリンクを解除します](./email-accounts#unlink-from-third-party-authentication)。
+1. リンク_PLACEHOLDER_0.
 
-1. [Zilliz Cloudアカウントを新しいサードパーティアカウントにリンクします](./register-with-zilliz-cloud)。
+1. リンク_PLACEHOLDER_0.
 
 ## サードパーティ認証からのリンク解除{#unlink-from-third-party-authentication}
 
-### Googleアカウントからのリンクを解除{#unlink-from-your-google-account}
+### Googleアカウントからのリンクを解除してください。{#unlink-from-your-google-account}
 
-1. あなたの**プロフィール**に行き、**アカウント設定**をクリックしてください。
+1. あなたの**プロフィール**に移動し、**アカウント設定**をクリックしてください。
 
-1. [**Googleからリンク解除**]をクリックします。
+1. 「Googleからのリンク解除」をクリックしてください。
 
-1. [**リンク解除**]をクリックします。
+1. 「リンク解除」をクリックしてください。 
 
     - すでにパスワードを設定している場合、Googleアカウントは直接リンク解除され、元のメールアドレスとパスワードでログインできます。
 
     - パスワードをまだ設定していない場合は、メールに送信されたリンクから新しいパスワードを設定してください。パスワードが設定されると、ログイン方法が仕事用のメールと新しいパスワードに変更されます。
 
-![unlink_from_google](/byoc/ja-JP/unlink_from_google.png)
+![unlink_from_google](/img/unlink_from_google.png)
 
 ### GitHubアカウントからのリンク解除{#unlink-from-your-github-account}
 
-1. あなたの**プロフィール**に行き、**アカウント設定**をクリックしてください。
+1. あなたの**プロフィール**に移動し、**アカウント設定**をクリックしてください。
 
-1. [**GitHubからUnlink**]をクリックします。
+1. 「GitHubからのリンク解除」をクリックしてください。
 
-1. [**リンク解除**]をクリックします。
+1. 「リンク解除」をクリックしてください。 
 
     - すでにパスワードを設定している場合、GitHubアカウントは直接リンク解除され、元のメールアドレスとパスワードでログインできます。
 
     - パスワードをまだ設定していない場合は、メールに送信されたリンクから新しいパスワードを設定してください。パスワードが設定されると、ログイン方法が仕事用のメールと新しいパスワードに変更されます。
 
-![unlink_from_github](/byoc/ja-JP/unlink_from_github.png)
+![unlink_from_github](/img/unlink_from_github.png)
 
 ## アカウントを閉じてください{#close-your-account}
 
@@ -123,22 +137,22 @@ Zilliz Cloudアカウントを既にサードパーティのアカウントに�
 
 次に進む前に、以下の基準を満たしていることを確認してください。
 
-- クラスタがあるプロジェクトで唯一のプロジェクト管理者である場合は、[プロジェクトクラスタを削除](./manage-cluster)します。
+- クラスタを持つプロジェクトで唯一のプロジェクト管理者である場合、[プロジェクトクラスタを削除する](./manage-cluster).
 
 - 組織の所有者があなただけの場合は、組織を削除してください。
 
 ### 手続き{#procedures}
 
-1. Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
+1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)にログインしてください。
 
-1. 右上隅のプロフィールアイコンをクリックします。**アカウント設定**をクリックします。
+1. 右上隅のプロフィールアイコンをクリックしてください。**アカウント設定**をクリックしてください。
 
-1. [**アカウント** **設定**]ウィンドウで、[**アカウントを閉じ**る]ボタンをクリックします。
+1. 「アカウント設定」ウィンドウで、「アカウントを閉じる」ボタンをクリックしてください。
 
-1. アカウントの削除を確認する前に、まずフィードバックフォームに記入してください。ボタンをクリックして削除を続行してください。
+1. Zilliz Cloudを離れる理由を教えて、フィードバックを送信してください。
 
-1. テキストボックスにアカウントのメールアドレスを再度入力します。[**確認コードを送信**]をクリックし、メール受信トレイに受け取ったコードを入力します。以下の情報を読み、ボックスにチェックを入れます。[**次**へ]をクリックして続行します。
+1. テキストボックスにアカウントのメールアドレスを再度入力してください。「確認コードを送信」をクリックし、メールの受信トレイに受け取ったコードを入力してください。以下の情報を読んで、ボックスにチェックを入れてください。「次へ」をクリックして続行してください。
 
 1. アカウントが正常に削除されると、メール通知が届きます。
 
-![delete-account-en](/byoc/ja-JP/delete-account-en.png)
+![delete-account-en](/img/delete-account-en.png)

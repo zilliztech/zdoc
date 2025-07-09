@@ -1,12 +1,12 @@
 ---
 title: "VectorDBBenchによるパフォーマンスベンチマーク | Cloud"
 slug: /perf-benchmark-vectordb
-sidebar_label: "VectorDBBenchによるパフォーマンスベンチマーク"
+sidebar_label: "Use VectorDBBench"
 beta: FALSE
 notebook: FALSE
 description: "VectorDBBenchは、ベクトルデータベースに特化したオープンソースのベンチマークツールです。 | Cloud"
 type: origin
-token: Ge7uwHtZUi2MS0klHO4cE3n8nKd
+token: Za3QwAcfjiSSvxk8UzUcTPmfnmb
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - milvus
   - performance
   - benchmark
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 
@@ -27,24 +27,24 @@ import Admonition from '@theme/Admonition';
 
 # VectorDBBenchによるパフォーマンスベンチマーク
 
-[VectorDBBench](https://github.com/zilliztech/VectorDBBench)は、ベクトルデータベースに特化したオープンソースのベンチマークツールです。
+[VectorDBBench](https://github.com/zilliztech/VectorDBBench)は、ベクトルデータベースに特化したオープンソースのベンチマークツールです。 
 
-このトピックでは、VectorDBBenchを使用してZilliz Cloudのパフォーマンステスト結果を再現する方法を紹介します。
+このトピックでは、VectorDBBenchを使用してZilliz Cloudのパフォーマンステスト結果を再現する方法を紹介します。 
 
 ## 概要について{#overview}
 
-VectorDBBenchは、主流のベクトルデータベースやクラウドサービスのベンチマーク結果の提供だけでなく、究極のパフォーマンスとコスト効率の比較のためのツールでもあります。
+VectorDBBenchは、主流のベクトルデータベースやクラウドサービスのベンチマーク結果の提供だけでなく、究極のパフォーマンスとコスト効率の比較のためのツールでもあります。 
 
-VectorDBBenchは直感的なビジュアルインターフェースを提供します。これにより、ユーザーは簡単にベンチマークを開始できるだけでなく、比較結果レポートを表示してベンチマーク結果を簡単に再現できます。
+VectorDBBenchは直感的なビジュアルインターフェースを提供します。これにより、ユーザーは簡単にベンチマークを開始できるだけでなく、比較結果レポートを表示してベンチマーク結果を簡単に再現できます。 
 
-VectorDBBenchは、実世界の本番環境を忠実に模倣し、挿入、検索、フィルタリングされた検索を含む多様なテストシナリオを設定しています。信頼性の高いデータを提供するために、VectorDBBenchは、[SIFT](http://corpus-texmex.irisa.fr/)、[GIST](http://corpus-texmex.irisa.fr/)、[Cohere](https://huggingface.co/datasets/Cohere/wikipedia-22-12/tree/main/en)などの実際の本番シナリオからの公開データセット、およびオープンソースの[生データセット](https://huggingface.co/datasets/allenai/c4)から生成されたOpen AIによるデータセットも含めています。
+VectorDBBenchは、実世界の本番環境を忠実に模倣し、挿入、検索、フィルター検索を含む多様なテストシナリオを設定しています。信頼性の高いデータを提供するために、VectorDBBenchは、[SIFT](http://corpus-texmex.irisa.fr/)、[GIST](http://corpus-texmex.irisa.fr/)、[コヒア](https://huggingface.co/datasets/Cohere/wikipedia-22-12/tree/main/en)などの実際の本番シナリオからの公開データセット、およびオープンソースの[RAWデータセット](https://huggingface.co/datasets/allenai/c4)からOpen AIによって生成されたデータセットも含めています。 
 
 ## ベンチマーク指標{#benchmark-metrics}
 
 <table>
    <tr>
-     <th><p><strong>メートル法</strong></p></th>
-     <th><p><strong>説明する</strong></p></th>
+     <th><p><strong>メトリック</strong></p></th>
+     <th><p><strong>の説明</strong></p></th>
      <th><p><strong>テストシナリオ</strong></p></th>
    </tr>
    <tr>
@@ -54,7 +54,7 @@ VectorDBBenchは、実世界の本番環境を忠実に模倣し、挿入、検�
    </tr>
    <tr>
      <td><p>QPS</p></td>
-     <td><p>ベクトルデータベースが1秒あたりの同時クエリを処理する能力。VectorDBBenchは、複数回にわたってトップ100の検索を使用し、最も高いQPS値を最終結果として選択します。</p><p>高いQPS値はベクトルデータベースのパフォーマンスが良いことを示します。</p></td>
+     <td><p>ベクトルデータベースが1秒あたりの同時クエリを処理する能力。VectorDBBenchは、複数回にわたってトップ100の検索を使用し、最も高いQPS値を最終結果として選択します。</p><p>QPS値が高いほど、ベクトルデータベースのパフォーマンスが良いことを示します。</p></td>
      <td><p>検索&amp;フィルター検索</p></td>
    </tr>
    <tr>
@@ -76,9 +76,9 @@ VectorDBBenchは、実世界の本番環境を忠実に模倣し、挿入、検�
 
 ## 前提条件{#prerequisites}
 
-- [Zilliz Cloudアカウント登録](/docs/register-with-zilliz-cloud)が必要です。
+- [Zilliz Cloudアカウントの登録](/docs/register-with-zilliz-cloud)が必要です。
 
-- [少なくとも1つのクラスタを作成](/docs/create-cluster)してください。Zilliz Cloudは、[無料](./free-trials)のクラスタを提供しています。これにより、Zilliz Cloudベクトルデータベースをすばやく利用できます。
+- リンク_PLACEHOLDER_0.Zilliz Cloudは、[無料の](./free-trials)クラスタを提供しています。これにより、Zilliz Cloudベクトルデータベースをすばやく利用できます。
 
 - Python 3.11以降がインストールされている必要があります。
 
@@ -88,15 +88,17 @@ VectorDBBenchは、実世界の本番環境を忠実に模倣し、挿入、検�
 
 1. マシンを提供する。
 
-    Zilliz Cloudの究極のパフォーマンスをテストするために、複数のスレッドを確保するために、クライアントマシンに8つ以上のv CPUをプロビジョニングすることをお勧めします。
+    Zilliz Cloudの究極のパフォーマンスをテストするには、複数のスレッドを確保するために、クライアントマシンに8つ以上のv CPUをプロビジョニングすることをお勧めします。
 
 1. ネットワークの設定
 
-    ネットワーク通信は、特にクエリテストシナリオでは、テスト結果に影響します。ネットワークレイテンシの影響を軽減するには、次のことをお勧めします。
+    ネットワーク通信は、特にクエリテストシナリオでテスト結果に影響を与えます。ネットワークレイテンシの影響を軽減するために、次のことをお勧めします。
 
     - クライアントをZilliz Cloudクラスターと同じクラウドプロバイダーとリージョンに展開します。
 
-    - クライアントがZilliz Cloudクラスタと同じVPCを共有するように設定します。パブリックインターネットと比較して、VPCのレイテンシーは低くなります。詳しくは、[プライベートエンドポイントを設定する](./setup-a-private-link)をご覧ください。
+    - クライアントを設定して、Zilliz Cloudクラスターと同じVPCを共有するようにします。パブリックインターネットと比較して、VPCのレイテンシーは低くなります。詳しくは[プライベートエンドポイントを設定する](./setup-a-private-link)をご覧ください。
+
+    </include>
 
 ### VectorDBBenchのインストールと起動{#install-and-start-vectordbbench}
 
@@ -140,24 +142,24 @@ $ init_bench
 
 ホームページでは、VectorDBBenchが提供するいくつかの事前定義されたテストデータセットを見ることができ、それらを使用して迅速なパフォーマンスベンチマークを行うことができます。
 
-ウェブページを一番下までスクロールし、**テストを実行>**をクリックして独自のベンチマークテストを設定してください。
+ウェブページを一番下までスクロールし、**テストの実行>**をクリックして、独自のベンチマークテストを設定してください。
 
-![HwQqbOpK7o6dXexeNZycsMT1ngb](/img/ja-JP/HwQqbOpK7o6dXexeNZycsMT1ngb.png)
+![AATGbLxqwo32yexKYzPcdYVTnph](/img/AATGbLxqwo32yexKYzPcdYVTnph.png)
 
 ### ベンチマークテストを設定する{#configure-your-benchmarking-test}
 
 ### ベンチマーク結果を見る{#view-benchmarking-results}
 
-ベンチマークの**結果**を表示して分析するには、[結果]をクリックします。以下はいくつかの例です。
+ベンチマークの結果を表示および分析するには、**結果**をクリックしてください。以下はいくつかの例の結果です。
 
-![OxxEbJtxGoRiAbx8Sbmc7X7onHc](/img/ja-JP/OxxEbJtxGoRiAbx8Sbmc7X7onHc.png)
+![LWa7bJGzOo9qKJx0ZNicjLXjnJh](/img/LWa7bJGzOo9qKJx0ZNicjLXjnJh.png)
 
-![SFhebhjEqoRaenxYbfMc6quGnxZ](/img/ja-JP/SFhebhjEqoRaenxYbfMc6quGnxZ.png)
+![DJBibk5puoOLxYxxnH3chlxcnAd](/img/DJBibk5puoOLxYxxnH3chlxcnAd.png)
 
-オプションで、左ナビゲーションウィンドウで**DBフィルター**と**ケースフィルター**を設定して、定義済みのベクトルデータベースとケースのベンチマーク結果を比較することができます。
+オプションで、左のナビゲーションペインで**DBフィルター**と**ケースフィルター**を設定して、事前に定義されたベクトルデータベースとケースのベンチマーク結果を比較することができます。
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>データベースは、[database<em>name]-[db</em>label]の形式で命名されます。 </p>
+<p>データベースは[database<em>name]-[db</em>label]の形式で名前が付けられます。 </p>
 
 </Admonition>

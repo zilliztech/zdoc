@@ -4,9 +4,9 @@ slug: /filtering
 sidebar_label: "フィルタリング"
 beta: FALSE
 notebook: FALSE
-description: "この章では、スカラーフィールドと適用可能なフィルタリング演算子でフィルタリングを実行する方法について説明します。 | BYOC"
+description: "この章では、スカラーフィールドでフィルタリングを実行する方法と適用可能なフィルタリング演算子について説明しますこれが私の人生です。 | BYOC"
 type: origin
-token: VbVFwA9LUiqwN2kBGyPc7XUWnPc
+token: ObdvwrXi9ia9i0kTLKUcCaYtnhd
 sidebar_position: 8
 keywords: 
   - zilliz
@@ -17,10 +17,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
@@ -29,9 +29,7 @@ import Admonition from '@theme/Admonition';
 
 # フィルタリング
 
-この章では、スカラーフィールドと適用可能なフィルタリング演算子でフィルタリングを実行する方法について説明します。
-
-
+この章では、スカラーフィールドでフィルタリングを実行する方法と適用可能なフィルタリング演算子について説明しますこれが私の人生です。
 
 import DocCardList from '@theme/DocCardList';
 

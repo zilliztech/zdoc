@@ -4,9 +4,9 @@ slug: /scale-cluster
 sidebar_label: "スケールクラスタ"
 beta: FALSE
 notebook: FALSE
-description: "データが増えるにつれて、データの書き込みに影響を与える制約に直面する可能性があります。たとえば、読み取り操作は機能し続けますが、クラスタが最大容量に達すると、新しいデータの挿入または挿入が失敗する可能性があります。 | Cloud"
+description: "ワークロードが増加し、より多くのデータが書き込まれると、クラスタは容量制限に達する可能性があります。このような場合、読み取り操作は引き続き機能しますが、新しい書き込み操作は失敗する可能性があります。 | Cloud"
 type: origin
-token: XGrbwNm3OiDxstkfMMTcf1Tenkc
+token: ExUFwDY1siCa2Bkp4incCvxFnlh
 sidebar_position: 4
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 
@@ -26,102 +26,116 @@ import Admonition from '@theme/Admonition';
 
 # スケールクラスタ
 
-データが増えるにつれて、データの書き込みに影響を与える制約に直面する可能性があります。たとえば、読み取り操作は機能し続けますが、クラスタが最大容量に達すると、新しいデータの挿入または挿入が失敗する可能性があります。
+ワークロードが増加し、より多くのデータが書き込まれると、クラスタは容量制限に達する可能性があります。このような場合、読み取り操作は引き続き機能しますが、新しい書き込み操作は失敗する可能性があります。
 
-このような問題に対処するために、ワークロードやストレージ要件の変動に合わせてCUの数を調整することができます。CPUまたはメモリ使用量の増加に応じてCUをスケーリングアップすることでクラスタのパフォーマンスを向上させ、需要が低い期間にコストを削減するためにスケールダウンすることができます。
+これを積極的に管理するには、[メトリクス](./metrics-alerts-reference)ページで**CU Capacity**を監視して、スケーリングが必要な時期を判断できます。ビジネスのニーズやパターンに基づいて、クラスタ容量を拡大するためにCU体格を増やすか、需要が減少した場合に減らしてコストを節約することができます。
 
-このガイドでは、クラスタのスケーリング手順について説明します。
+このガイドでは、変化するワークロードに合わせてクラスターのサイズを変更する方法について説明します。
+
+<Admonition type="caution" icon="🚧" title="undefined">
+
+<p>クエリのパフォーマンス(QPS)または可用性を向上させるには、<a href="./manage-replica">レプリカ</a>を増やします。</p>
+
+</Admonition>
+
+## Zilliz Cloudのスケーリングオプション{#scaling-options-in-zilliz-cloud}
+
+Zilliz Cloudには、クラスターをスケーリングするためのいくつかの方法があります
+
+- [手動スケーリング](./scale-cluster#manual-scaling):いつでも手動でCU体格を調整して完全に制御できます。ワークロードパターンを明確に理解している場合に最適です。
+
+- [ダイナミックオートスケーリング](./scale-cluster#dynamic-auto-scaling):リアルタイムのメトリクスに基づいてCU体格を自動的に調整します。1日を通して急激に変化したり低下したりする予測不可能なワークロードに最適です。
+
+- [スケジュールされた自動スケーリング](./scale-cluster#scheduled-auto-scaling):事前に定義されたタイムスケジュールに基づいてCU体格を自動的に調整します。営業日のピークや週末の需要の低下など、繰り返し発生するワークロードパターンに最適です。
+
+## 考慮事項{#considerations}
+
+- スケーリングは、専用クラスターでのみ使用できます。
+
+- ダウンワードオートスケーリングは現在、ダイナミックオートスケーリングではサポートされていません。
+
+- スケーリングはわずかなサービスジッターを引き起こす可能性があります。完了時間はデータ量によって異なります。
 
 ## 手動スケーリング{#manual-scaling}
 
-Zilliz CloudのWebコンソールを使用するか、APIリクエストを行ってクラスターを手動でスケーリングするオプションがあります。このガイドでは、Webコンソールを使用してクラスターを手動でスケーリングする方法に焦点を当てています。RESTful APIの使用方法の詳細については、[クラスター変更](/reference/restful/modify-cluster-v2)を参照してください。
+Zilliz CloudコンソールまたはRESTful APIを使用して、クラスターを手動でスケールアップまたはスケールダウンできます。
 
-<Admonition type="caution" icon="🚧" title="警告">
+以下は、手動スケーリングの制限と考慮事項です。
 
-<p>スケーリングにより、わずかなサービスジッターが発生する可能性があります。注意してください。</p>
+- **スケールアップ**
 
-</Admonition>
+    - 専用（標準）クラスタ:最大32 CU
 
-### クラスタをスケールアップする{#scale-up-a-cluster}
+        企業向けの専用クラスタ:最大256 CU
 
-![manual-scale-entry](/img/ja-JP/manual-scale-entry.png)
+        大きなCUサイズの場合は、[お問い合わせ](http://zilliz.com/contact-sales).
 
-[クラスタのスケール]ダイアログボックスでは、元のクラスタと同じクラウドリージョン内の同じタイプのクラスタに割り当てられた体格をスケールアップできます。
+    - **CU体格**×**レプリカ数**の積は256を超えてはいけません
 
-- Dedicated(Standard)クラスターの場合、体格を最大32 CUまで拡張できます。
+- **スケールダウン**
 
-- 専用(エンタープライズ)クラスターの場合、最大256 CUまでスケールアップできます。
+    - レプリカを持つクラスターは8 CU小なりにスケールダウンできません
 
-より大きなCU体格が必要な場合は、[サポートチケットを作成](http://support.zilliz.com/)してください。
+    - スケールダウンリクエストは、次の場合にのみ成功します:
 
-<Admonition type="info" icon="📘" title="ノート">
+        - 現在のデータ量は、新しいCU体格のCU容量の80%未満です。
 
-<p>クラスターのCUサイズx<a href="./manage-replica">レプリカ</a>数は256を超えてはいけません。そうしないと、クラスターのスケーリングに失敗する可能性があります。</p>
+        - 現在のコレクション数<新しいCU体格で許可される[最大コレクション数](./limits#collections)。
 
-</Admonition>
+#### ウェブコンソールから{#via-web-console}
 
-### クラスタを縮小する{#scale-down-a-cluster}
+次のデモでは、Zilliz Cloud Webコンソールでクラスタを手動でスケールアップおよびスケールダウンする方法を示します。
 
-![manual-scale-entry](/img/ja-JP/manual-scale-entry.png)
+[Supdemo]
 
-「**スケールクラスタ**」ダイアログボックスで、ダイアログウィンドウで希望のCU体格を選択します。「**スケール**」をクリックすると、Zilliz Cloudはクラスタのデータ量とコレクション番号を確認します。スケールダウンは、以下の2つの条件の両方が満たされた場合にのみ正常にトリガーされます
+#### RESTful APIを使用する{#via-restful-api}
 
-- 現在のデータ量は、新しいCU体格のCU容量の80%未満です。
+次の例では、既存のクラスタを2 CUにスケーリングします。詳細については、[クラスタの変更](/reference/restful/modify-cluster-v2)を参照してください。
 
-- 現在のコレクション数新しいCUスタイルで許可される[コレクションの最大数](./limits#collections)。
+```bash
+curl --request POST \
+--url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/modify" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Accept: application/json" \
+--header "Content-Type: application/json" \
+-d '{
+    "cuSize": 2
+}'
+```
 
-この過程を完了するのに必要な時間は、クラスタ内のデータ量によって異なります。
+以下は出力例です。
 
-<Admonition type="info" icon="📘" title="ノート">
-
-<p>クラスターのCU体格を8 CU未満に縮小するには、クラスターにレプリカがないことを確認してください。</p>
-
-</Admonition>
+```bash
+{
+    "code": 0,
+    "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "prompt": "successfully submitted. Cluster is being upgraded, which is expected to take several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK."
+    }
+}
+```
 
 ## オートスケーリング{#auto-scaling}
 
-<Admonition type="info" icon="📘" title="ノート">
+オペレーションのオーバーヘッドを減らし、サービスの中断を避けるために、Zilliz Cloudウェブコンソールで自動スケーリングを有効にすることができます。ダイナミックモードとスケジュールモードの2つのモードがあり、どちらかまたは両方を有効にすることができます。
 
-<ul>
-<li><p>この機能は専用クラスターでのみ利用可能です。サーバーレスクラスターの場合、ワークロードに基づいて自動的にスケーリングされるため、CUリソースの手動設定は不要です。</p></li>
-<li><p>レプリカを含むクラスターでは、自動スケーリングは無効になっています。</p></li>
-</ul>
+以下は、自動スケーリングの制限と考慮事項です。
 
-</Admonition>
+- 現在、動的自動スケーリングでは下方自動スケーリングはサポートされていません。
 
-オートスケーリングは、ニーズが急速に変化するビジネス向けに設計されています。クラスタCUの容量不足によるユーザーの書き込みアクセスの制限を防止し、業務負担を軽減し、業務の中断を最小限に抑えることができます。
+- 2つの自動スケーリングイベントの間には、10分間のクールダウンがあります。
 
-この機能を有効にした後、クラスターが正常に作成されたときに自動スケーリングオプションを構成できます。
+### 動的な自動スケーリング{#dynamic-auto-scaling}
 
-![configure_autoscaling](/img/ja-JP/configure_autoscaling.png)
+次のデモでは、Zilliz Cloud Webコンソールで動的自動スケーリングを設定する方法を示します。 
 
-ダイアログボックスで、次の構成を設定できます:
+[スパデモ]
 
-- **最大CUサイズ:**クラスタが自動的にスケールアップできる最大CUサイズです。CUサイズが8未満の場合、増分は2 CUとなり、1、2、4、6、8 CUとなります。8以上の場合、増分は4 CUとなり、8、12、16、20、24、28、32などとなります。
+**CU容量閾値**:過去2分間にすべてのサンプルポイントで一貫して超過した場合に自動スケーリングをトリガーする使用率(デフォルト70%)。書き込みレートが高すぎると、クラスタがスケーリングを完了する前にCU容量が100%になり、書き込み禁止になるため、あまり高く設定しないでください(例:>90%)。
 
-    <Admonition type="info" icon="📘" title="ノート">
+### スケジュールされた自動スケーリング{#scheduled-auto-scaling}
 
-    <p>下方自動スケーリングは現在サポートされていません。</p>
+次のデモでは、Zilliz Cloudウェブコンソールでスケジュールされた自動スケーリングを設定する方法を示しています。
 
-    </Admonition>
-
-- **CU容量閾値:**Zilliz CloudはクラスタのCU容量を毎分チェックします。過去2分間にすべてのサンプリングポイントで指定された閾値（デフォルトで70%）を超えた場合、スケーリング過程が自動的に開始されます。
-
-    <Admonition type="info" icon="📘" title="ノート">
-
-    <p>しきい値をあまり高く設定することはお勧めできません(90%以上)。これは、データ挿入率が高い場合、クラスタが時間内に自動スケーリングを完了しない可能性があり、書き込み禁止につながるためです。</p>
-
-    </Admonition>
-
-2つの自動スケーリングイベントの間には10分間のクールダウン期間があります。自動スケーリング過程を完了するのにかかる時間は、クラスタ内のデータ量によって異なります。
-
-<Admonition type="caution" icon="🚧" title="警告">
-
-<p>スケーリング過程で、わずかなサービスジッターが発生する可能性がありますが、読み取りおよび書き込み操作には影響しません。高い書き込みレートは、CU容量が100%に達することがあり、書き込み禁止につながることがあります。</p>
-
-</Admonition>
-
-## QPSを増やす{#increase-qps}
-
-QPSとクエリのスループットを向上させるには、レプリカの追加を検討してください。詳細については、「[レプリカの管理](./manage-replica)」を参照してください。
+[スパデモ]
 

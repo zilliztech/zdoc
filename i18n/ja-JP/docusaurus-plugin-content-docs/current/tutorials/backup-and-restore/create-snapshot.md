@@ -4,144 +4,155 @@ slug: /create-snapshot
 sidebar_label: "バックアップを作成"
 beta: FALSE
 notebook: FALSE
-description: "バックアップは、Zilliz Cloud上の管理されたクラスタまたは特定のコレクションのポイントオブタイムコピーです。新しいクラスタやコレクションのベースラインとして、またはデータバックアップとして使用できます。 | Cloud"
+description: "Zilliz Cloudでは、バックアップとはデータのコピーであり、データの損失やシステム障害が発生した場合に、クラスタ全体または特定のコレクションを復元することができます。 | Cloud"
 type: origin
-token: EPjawOTTtigqJkkgDOecRXxGnpg
+token: HHXewT7wTiM1zqkySjHcMNX5n9b
 sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
   - cloud
   - backup
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 
 import Admonition from '@theme/Admonition';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+
+
+import Supademo from '@site/src/components/Supademo';
 
 # バックアップを作成
 
-バックアップは、Zilliz Cloud上の管理されたクラスタまたは特定のコレクションのポイントオブタイムコピーです。新しいクラスタやコレクションのベースラインとして、またはデータバックアップとして使用できます。
+Zilliz Cloudでは、バックアップとはデータのコピーであり、データの損失やシステム障害が発生した場合に、クラスタ全体または特定のコレクションを復元することができます。 
 
-手動で作成されたバックアップはZilliz Cloudに永久に保持されるため、自動的に削除されることはありません。
+バックアップの作成には、バックアップが保存されているクラウドリージョンに基づいた価格設定で、追加の[チャージ](./understand-cost#backup-cost)が発生します。すべてのバックアップファイルは、ソースクラスターと同じクラウドリージョンに保存されます。たとえば、`AWS us-west-2`のクラスターは、バックアップが`AWS us-west-2`に保存されます。
 
-## 始める前に{#before-you-start}
-
-以下の条件が満たされていることを確認してください。
-
-- ターゲット組織で[組織所有者](./organization-users)または[プロジェクト管理者](./project-users)の役割が付与されていること。
-
-- クラスターは**専用**レベルで実行されます。
+このガイドでは、バックアップを手動で作成する方法について説明します。バックアップ作成を自動化するには、[自動バックアップをスケジュールする](./schedule-automatic-backups)を参照してください。
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>バックアップは<strong>専用</strong>クラスターでのみ利用可能です。クラスターが<strong>Free</strong>レベルで実行されている場合は、まず<a href="./manage-cluster">アップグレード</a>してください。クラスターが<strong>Serverless</strong>レベルで実行されている場合は、まず専用クラスターに<a href="./undefined">移行</a>してください。バックアップの作成には料金がかかる場合があります。バックアップコストの詳細については、「<a href="./billing-rules">請求ルール</a>について」を参照してください。</p>
+<p>バックアップと復元機能は、専用クラスターでのみ利用可能です。 </p>
 
 </Admonition>
 
-## バックアップを作成する{#create-backup}
+</exclude>
 
-<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+## 限界{#limits}
 
-<TabItem value="Cloud Console">
+- アクセス制御:プロジェクト管理者、組織オーナー、またはバックアップ権限を持つカスタムロールが必要です。
 
-次の図に基づいて、クラスタまたはコレクションのバックアップファイルを作成できます。クラスタはまだサービス中ですが、ZillizCloudはバックアップファイルを作成しています。
+- **バックアップから除外**:
 
-![create-snapshot](/img/ja-JP/create-snapshot.png)
+    - コレクションのTTL設定
 
-</TabItem>
-<TabItem value="Bash">
+    - デフォルトユーザー`db_admin`のパスワード(新しいパスワードは[復元する](./restore-from-snapshot)中に生成されます)
 
-クラスタ全体または特定のコレクションのバックアップを作成できます。パラメータの詳細については、「[バックアップを作成](/reference/restful/create-backup-v2)する」を参照してください。
+- クラスターシャード設定:バックアップされますが、CUあたりのシャード制限によりクラスターCU体格が低下した場合、復元中に調整される可能性があります。詳細については、[Zillizクラウドの制限](./limits#shards)を参照してください。
 
-- クラスタ全体のバックアップを作成します。
+- **バックアップジョブの制限**:
 
-    ```bash
-    export BASE_URL="https://api.cloud.zilliz.com"
-    export CLUSTER_ID="inxx-xxxxxxxxxxxxxx"
-    
-    curl --request POST \
-         --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/create" \
-         --header "Authorization: Bearer ${TOKEN}" \
-         --header "Content-Type: application/json" \
-         --data-raw '{
-                "backupType": "CLUSTER"
-          }'
-    ```
+    - 一度にアクティブまたは保留中の手動バックアップは1つだけです。
 
-    予想される出力:
+    - **自動バックアップ**が有効になっている場合:
 
-    ```bash
-    {
-      "code": 0,
-      "data": {
-        "backupId": "backup0_c7b18539b97xxxx",
-        "backupName": "Dedicated-01_backup2",
-        "jobId": "job-031a8e3587ba7zqkadxxxx"
-      }
-    }
-    ```
+        - 自動バックアップが進行中の場合、手動バックアップを開始できません。
 
-- 特定のコレクションのバックアップを作成します。
+        - 手動バックアップが既に進行中の場合でも、自動バックアップは実行されます。
 
-    ```bash
-    export BASE_URL="https://api.cloud.zilliz.com"
-    export CLUSTER_ID="inxx-xxxxxxxxxxxxxx"
-    
-    curl --request POST \
-    --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/create" \
-    --header "Authorization: Bearer ${TOKEN}" \
-    --header "Content-Type: application/json" \
-    -d '{
-        "backupType": "COLLECTION",
-        "dbCollections": [
-            {
-                "collectionNames": [
-                    "medium_articles"
-                ]
-            }
-        ]
-    }'
-    ```
+## クラスタバックアップの作成{#create-cluster-backup}
 
-    予想される出力:
+クラスタ全体のバックアップを作成し、後でクラスタ全体または選択したコレクションのいずれかを復元できます。
 
-    ```bash
-    {
-      "code": 0,
-      "data": {
-        "backupId": "backup11_4adb19e3f9exxxx",
-        "backupName": "medium_articles_bacxxxx",
-        "jobId": "job-039dbc113c5ozfwunvxxxx"
-      }
-    }
-    ```
+### ウェブコンソールから{#via-web-console}
 
-</TabItem>
-</Tabs>
+次のデモでは、Zilliz Cloud Webコンソールでクラスタバックアップを作成する方法を示します。
 
-バックアップジョブが生成されます。[ジョブ](./job-center)ページでバックアップの進捗状況を確認できます。ジョブのステータスが**IN PROGRESS**から**SUCCESS FUL**に切り替わると、バックアップは正常に作成されます。
+<Supademo id="cmcske0x90dpa9st802gnvbz9" title=""  />
 
-<Admonition type="info" icon="📘" title="ノート">
+### RESTful APIを使用する{#via-restful-api}
 
-<p>同じクラスター内では、手動で作成されたバックアップジョブは1つしか実行中または保留中にできません。以前に要求されたジョブが完了したら、手動で別のバックアップファイルを作成できます。</p>
+次の例では、クラスタ`in01-xxxxxxxxxxxxxx`のバックアップを作成します。RESTful APIの詳細については、[バックアップを作成](/reference/restful/create-backup-v2)を参照してください。
 
-</Admonition>
+```bash
+curl --request POST \
+     --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/create" \
+     --header "Authorization: Bearer ${TOKEN}" \
+     --header "Content-Type: application/json" \
+     --data-raw '{
+            "backupType": "CLUSTER"
+      }'
+```
 
-バックアップを作成するのにかかる時間は異なることに注意してください。クラスタバックアップの場合、クラスタの体格とクラスタを収容するCUの体格によって異なります。例えば、4-CUインスタンス上の128次元ベクトルの1億2000万レコード以上を保持する単一コレクションクラスタは、バックアップファイルを作成するのに約5分かかります。
+以下は出力例です。バックアップジョブが生成され、[プロジェクトジョブセンター](./job-center)で進捗状況を確認できます。
 
-## 関連するトピック{#related-topics}
+```bash
+{
+  "code": 0,
+  "data": {
+    "backupId": "backup0_c7b18539b97xxxx",
+    "backupName": "Dedicated-01_backup2",
+    "jobId": "job-031a8e3587ba7zqkadxxxx"
+  }
+}
+```
 
-- [自動バックアップをスケジュールする](./schedule-automatic-backups)
+## コレクションのバックアップを作成する{#create-collection-backup}
 
-- [バックアップファイルを表示する](./view-snapshot-details)
+クラスター内の特定のコレクションまたはコレクションのサブセットをバックアップするには、コレクションレベルのバックアップを作成します。
 
-- [バックアップファイルからの復元](./restore-from-snapshot)
+### ウェブコンソールから{#via-web-console}
 
-- [バックアップファイルを削除](./delete-snapshot)
+次のデモでは、Webコンソールでコレクションバックアップを作成する方法を示します。
+
+<Supademo id="cmcskksub0dra9st8cy34b2vi" title=""  />
+
+### RESTful APIを使用する{#via-restful-api}
+
+次の例では、`in01-xxxxxxxxxxxxxx`クラスター内の`medium_articles`コレクションのバックアップを作成します。RESTful APIの詳細については、[バックアップを作成](/reference/restful/create-backup-v2)を参照してください。
+
+```bash
+curl --request POST \
+--url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "backupType": "COLLECTION",
+    "dbCollections": [
+        {
+            "collectionNames": [
+                "medium_articles"
+            ]
+        }
+    ]
+}'
+```
+
+以下は出力例です。バックアップジョブが生成され、[プロジェクトジョブセンター](./job-center)で進捗状況を確認できます。
+
+```bash
+{
+  "code": 0,
+  "data": {
+    "backupId": "backup0_c7b18539b97xxxx",
+    "backupName": "Dedicated-01_backup2",
+    "jobId": "job-031a8e3587ba7zqkadxxxx"
+  }
+}
+```
+
+## よくある質問(FAQ){#faqs}
+
+バックアップジョブにはどのくらい時間がかかりますか?
+バックアップの所要時間はデータの体格によって異なります。参考までに、700 MBのバックアップには通常約1秒かかります。クラスタに1,000以上のコレクションが含まれている場合、その過程には少し時間がかかる場合があります。
+
+バックアップ中にDDL(データ定義言語)操作を実行できますか?
+バックアップの実行中は、コレクションの作成や削除などの大規模なDDL(Data Definition Language)操作を避けることをお勧めします。これらの操作は、バックアップの過程を妨げたり、一貫性のない結果につながる可能性があります。
+
+**元のクラスタが削除された場合、バックアップファイルは削除されますか?**
+
+これはバックアップファイルの作成方法によって異なります。すべての[自動バックアップ](./schedule-automatic-backups)は元のクラスタとともに削除されます。ただし、手動のクラスタバックアップは永久に保持され、クラスタが削除されても削除されません。不要になった場合は手動で削除する必要があります。
 

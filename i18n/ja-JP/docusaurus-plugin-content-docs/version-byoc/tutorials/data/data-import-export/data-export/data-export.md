@@ -6,17 +6,17 @@ beta: FALSE
 notebook: FALSE
 description: "このガイドでは、さまざまな方法を使用してZilliz Cloudからデータをエクスポートする方法の例を紹介します。 | BYOC"
 type: origin
-token: OyMpwQi09iopGikeSojcMGTDnsh
+token: CeH9wPtUfiOdDckoPszcAuLonce
 sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - cloud
   - data export
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

@@ -1,12 +1,12 @@
 ---
-title: "S3バケットとIAMロールの作成 | BYOC"
+title: "S 3バケットとIAMロールの作成 | BYOC"
 slug: /create-bucket-and-role
-sidebar_label: "S3バケットとIAMロールの作成"
-beta: PRIVATE
+sidebar_label: "S 3バケットとIAMロールの作成"
+beta: CONTACT SALES
 notebook: FALSE
-description: "このページでは、適切なアクセス許可を持つBring-Your-Own-Cloud(BYOC)プロジェクトのルートストレージを作成および構成する方法について説明します。 | BYOC"
+description: "このページでは、適切なアクセス許可を持つBring-Your-Own-Cloud(BYOC)プロジェクトのルートストレージを作成および構成する手順について説明します。 | BYOC"
 type: origin
-token: Xt6MwVyNjihD1pkJC04cUBhonqj
+token: Lv1Pw8lORiaX44kjGL0cNnpPnub
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -16,75 +16,69 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# S3バケットとIAMロールの作成
+import Supademo from '@site/src/components/Supademo';
 
-このページでは、適切なアクセス許可を持つBring-Your-Own-Cloud(BYOC)プロジェクトのルートストレージを作成および構成する方法について説明します。
+# S 3バケットとIAMロールの作成
+
+このページでは、適切なアクセス許可を持つBring-Your-Own-Cloud(BYOC)プロジェクトのルートストレージを作成および構成する手順について説明します。
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>Zilliz BYOCは現在<strong>一般提供</strong>中です。アクセスと実装の詳細については、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p>
+<p>Zilliz BYOCは現在<strong>General Availability</strong>で利用可能です。アクセスと実装の詳細については、<a href="https://zilliz.com/contact-sales">Zillizクラウド販売</a>にお問い合わせください。</p>
 
 </Admonition>
 
-## S3バケットのベストプラクティス{#best-practices-for-the-s3-bucket}
+## S 3バケットのベストプラクティス{#best-practices-for-the-s3-bucket}
 
-プロジェクトのデプロイ中に指定したバケットは、プロジェクトで作成されたクラスターのルートストレージとして使用されます。S3バケットを作成する前に、以下のベストプラクティスを確認してください。
+プロジェクトのデプロイ中に指定したバケットは、プロジェクトで作成されたクラスターのルートストレージとして使用されます。S 3バケットを作成する前に、以下のベストプラクティスを確認してください。
 
-- S3バケットは、プロジェクトデプロイと同じAWSリージョンにある必要があります。
+- S 3バケットは、プロジェクトデプロイと同じAWSリージョンにある必要があります。
 
-- プロジェクトのデプロイ中に作成されたS3バケットは、プロジェクト内のすべてのクラスタで共有されます。Zilliz Cloudは、プロジェクト専用のS3バケットを使用し、他のサービスやリソースと共有しないことを推奨しています。
+- プロジェクトのデプロイ中に作成されたS 3バケットは、プロジェクト内のすべてのクラスタで共有されます。Zilliz Cloudは、プロジェクト専用のS 3バケットを使用し、他のサービスやリソースと共有しないことを推奨しています。
 
 ## 手続き{#procedure}
 
-AWSコンソールを使用してバケットとロールを作成できます。代わりに、Zilliz Cloudが提供するTerraformスクリプトを使用して、Zilliz CloudプロジェクトのインフラストラクチャをAWS上でブートストラップすることもできます。詳細については、「[Bootstrapインフラストラクチャ（Terraform）](./bootstrap-infrastructure-terraform)」を参照してください。
+AWSコンソールを使用してバケットとロールを作成できます。代わりに、Zilliz Cloudが提供するTerraformスクリプトを使用して、Zilliz CloudプロジェクトのインフラストラクチャをAWS上でブートストラップすることもできます。詳細については、[テラフォームプロバイダName](./terraform-provider)を参照してください。
 
-### ステップ1: S3バケットを作成する{#step-1-create-the-s3-bucket}
+### ステップ1: S 3バケットを作成する{#step-1-create-the-s3-bucket}
 
-このステップでは、BYOCプロジェクトデプロイメント用にAWS上にS3バケットを作成します。既存のS3バケットを使用する場合は、バケットがBYOCプロジェクトと同じリージョンにあることを確認してください。Zilliz Cloudコンソールの**ストレージ設定**でバケット名を入力する必要があります。
+このステップでは、BYOCプロジェクトの展開のためにAWS上にS 3バケットを作成します。既存のS 3バケットを使用する場合は、バケットがBYOCプロジェクトと同じリージョンにあることを確認してください。作成されたら、Zilliz Cloudコンソールの**ストレージ設定**にバケット名を入力してください。
 
-1. 管理者権限を持つユーザーとしてAWSコンソールにログインし、**S3**サービスに移動します。
+<Supademo id="cmb5xlhej39irppkpeihkx9eg" title=""  />
 
-1. [**汎用バケット**]タブで、[**バケットを作成**]をクリックします。
+1. 管理者権限を持つユーザーとしてAWSコンソールにログインし、S 3サービスに移動してください。
 
-    ![EDPzbdL3qoL07Zxn20scT2shnW4](/byoc/ja-JP/EDPzbdL3qoL07Zxn20scT2shnW4.png)
+1. 「汎用バケット」タブで、「バケットの作成」をクリックしてください。
 
-1. [**バケット名**]にバケットの名前を入力し、他の設定ではデフォルト値を維持します。
+1. **バケット名**にバケットの名前を入力し、他の設定ではデフォルト値を維持してください。
 
-    ![As0YbBOo5orZD0x46Y2co4VQnqc](/byoc/ja-JP/As0YbBOo5orZD0x46Y2co4VQnqc.png)
+1. 「バケットを作成」をクリックしてください。
 
-1. 「**バケットを作成**」をクリックします。
+1. **Zilliz Cloudコンソール**に戻り、**ストレージ設定**の**バケット**にバケット名を貼り付けてください。
 
-    ![M84BbzFwNomzQSxnjoPcPUgWnLh](/byoc/ja-JP/M84BbzFwNomzQSxnjoPcPUgWnLh.png)
+### ステップ2: S 3バケットにアクセスするためのIAMロールを作成する{#step-2-create-an-iam-role-to-access-the-s3-bucket}
 
-1. Zilliz**Cloudコンソール**に戻り、**バケット**の**ストレージ設定**にバケット名を貼り付けます。
+このステップでは、前のステップで作成したS 3バケットにアクセスするために、Zilliz CloudのAWS上にIAMロールを作成します。
 
-    ![NDNeb6jePo9mQhxe9vzcmhcTn1g](/byoc/ja-JP/NDNeb6jePo9mQhxe9vzcmhcTn1g.png)
+<Supademo id="cmb5y39ss39r5ppkplsrz1nqd" title=""  />
 
-### ステップ2: S3バケットにアクセスするためのIAMロールを作成する{#step-2-create-an-iam-role-to-access-the-s3-bucket}
-
-このステップでは、前のステップで作成したS3バケットにアクセスするために、Zilliz CloudのAWS上にIAMロールを作成します。
-
-1. 管理者権限を持つユーザーとして**AWSコンソール**にログインし、**IAM**ダッシュボードに移動します。
+1. 管理者権限を持つユーザーとしてAWSコンソールにログインし、IAMダッシュボードに移動してください。
 
 1. アカウント情報を展開し、**AWSアカウントID**の前にあるコピーボタンをクリックしてください。
 
-    ![A7vYbCzp1osavYxEx0wcPaZan1d](/byoc/ja-JP/A7vYbCzp1osavYxEx0wcPaZan1d.png)
+1. 左サイドバーの「ロール」タブをクリックし、「ロールの作成」をクリックしてください。
 
-1. 左サイドバーの[**役割**]タブをクリックし、[**役割を作成**]をクリックします。
-
-    ![C5bbbRXxioqdrXxYhWiczehwndh](/byoc/ja-JP/C5bbbRXxioqdrXxYhWiczehwndh.png)
-
-1. [**信頼できるエンティティ**の選択]で、[**カスタム信頼ポリシー**]タイルをクリックします。[**共通信頼ポリシー**]で、下の信頼JSONを[**カスタム信頼ポリシー**]セクションのエディタに貼り付け、`{account tId}`を**AWSアカウントID**に置き換えます。
+1. 「信頼できるエンティティを選択」で、「カスタム信頼ポリシー」タイルをクリックしてください。「共通信頼ポリシー」で、以下の信頼JSONを「カスタム信頼ポリシー」セクションのエディタに貼り付け、`{accountId}`を「AWSアカウントID」に置き換えてください。
 
     ```json
     {
@@ -111,41 +105,27 @@ AWSコンソールを使用してバケットとロールを作成できます�
     }
     ```
 
-    ![GYHgb2VNIocfN2xWCkXcuRhanCd](/byoc/ja-JP/GYHgb2VNIocfN2xWCkXcuRhanCd.png)
+1. 「次へ」をクリックして、権限の追加をスキップしてください。
 
-1. 「**次**へ」をクリックして、アクセス権の追加をスキップします。
+1. 「名前を付け、確認し、作成する」ステップで、役割に名前を付け、信頼できるエンティティを確認し、「役割を作成する」をクリックしてください。
 
-1. 「**名前、レビュー、および作成**」ステップで、役割に名前を付け、信頼されたエンティティを確認し、「**役割を作成**」をクリックします。
+1. 役割が作成されたら、緑色のバーにある**役割を表示**をクリックして、役割の詳細に移動してください
 
-    <Admonition type="info" icon="📘" title="ノート">
+1. 役割の**ARN**の前にあるコピーアイコンをクリックしてください。
 
-    <p>ロールに名前を付けるときは、プレフィックス<code>zilliz-byoc</code>を使用します。</p>
-
-    </Admonition>
-
-1. ロールが作成されたら、緑色のバーにある**View role**をクリックしてロールの詳細に移動します。
-
-    ![XPKub0oMNoyGPgxntQpcLXJznRE](/byoc/ja-JP/XPKub0oMNoyGPgxntQpcLXJznRE.png)
-
-1. ロールの**ARN**の前にあるコピーアイコンをクリックします。
-
-    ![DgzNbw3WIoIbg9xGAJ5cVPFhngc](/byoc/ja-JP/DgzNbw3WIoIbg9xGAJ5cVPFhngc.png)
-
-1. Zilliz Cloudコンソールに戻り、[**IAM Role ARN**]の[**ストレージ設定**]にARNロールを貼り付けます。
-
-    ![FIVObWf57onQEpxJHbxczL8CnNg](/byoc/ja-JP/FIVObWf57onQEpxJHbxczL8CnNg.png)
+1. Zilliz Cloudコンソールに戻り、**ストレージ設定**の**IAMロールARN**に役割ARNを貼り付けてください。
 
 ### ステップ3:権限を追加する{#step-3-add-permissions}
 
-このステップはAWSコンソール上でのみ行われます。このステップでは、[ステップ2](./create-bucket-and-role#2-s3iamstep-2-create-an-iam-role-to-access-the-s3-bucket)で作成したロールのインラインポリシーを作成します。
+このステップはAWSコンソール上でのみ行われます。このステップでは、[ステップ2](./create-bucket-and-role#step-2-create-an-iam-role-to-access-the-s3-bucket)で作成されたロールのインラインポリシーを作成します。
 
-1. 作成したロールの詳細ページに移動します。[**権限ポリシー**]セクションで、[**権限を追加**]をクリックし、[**インラインポリシーを作成**]を選択します。
+<Supademo id="cmb65arpv3e11ppkpgy2d4q1v" title=""  />
 
-    ![Iwf4b7aL0oPRHmxFf4ocpud6n9g](/byoc/ja-JP/Iwf4b7aL0oPRHmxFf4ocpud6n9g.png)
+1. 作成したロールの詳細ページに移動します。**権限ポリシー**セクションで、**権限の追加**をクリックし、**インラインポリシーの作成**を選択します。
 
-1. [**権限の指定**]ページで、[ポリシーエディター]セクションの[**JSON**]をクリックして**ポリシーエディター**を開きます。次に、下の権限をコピーしてポリシーエディターに貼り付けます。
+1. 「権限の指定」ページで、「ポリシーエディター」セクションの「JSON」をクリックしてポリシーエディターを開きます。その後、以下の権限をコピーしてポリシーエディターに貼り付けます。
 
-    `{bucketName}`を[ステップ1](./create-bucket-and-role#1-s3step-1-create-the-s3-bucket)で作成したバケットに置き換え、変更したポリシーのJSONをコピーして、AWSの**ポリシーエディタ**に貼り付ける必要があります。
+    `{bucketName}`を[ステップ1](./create-bucket-and-role#step-1-create-the-s3-bucket)で作成したバケットのものに置き換え、変更したポリシーJSONをコピーして、AWSの**ポリシーエディタ**に貼り付ける必要があります。
 
     ```json
     {
@@ -174,16 +154,6 @@ AWSコンソールを使用してバケットとロールを作成できます�
     }
     ```
 
-    ![TaqNb47MzonywUxQqBucQWcfn0D](/byoc/ja-JP/TaqNb47MzonywUxQqBucQWcfn0D.png)
-
-1. [**レビューと作成**]で、ポリシー名を入力し、権限を確認して、[**ポリシーを作成**]をクリックします。
-
-    <Admonition type="info" icon="📘" title="ノート">
-
-    <p>ポリシーに名前を付けるときは、プレフィックス<code>zilliz-byoc</code>を使用します。</p>
-
-    </Admonition>
-
-    ![HnCtbqVUrotnStxlp4nc2LqznNf](/byoc/ja-JP/HnCtbqVUrotnStxlp4nc2LqznNf.png)
+1. 「レビューと作成」で、ポリシー名を入力し、権限を確認して、「ポリシーの作成」をクリックしてください。
 
     

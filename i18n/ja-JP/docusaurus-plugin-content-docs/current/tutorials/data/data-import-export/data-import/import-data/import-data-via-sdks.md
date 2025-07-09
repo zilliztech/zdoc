@@ -1,12 +1,12 @@
 ---
 title: "データのインポート(SDK) | Cloud"
 slug: /import-data-via-sdks
-sidebar_label: "データのインポート(SDK)"
+sidebar_label: "SDKs"
 beta: FALSE
 notebook: FALSE
 description: "このガイドでは、バルクライターおよびバルクインポートAPIを使用して、S DKを使用してデータをコレクションにインポートする方法について説明します。 | Cloud"
 type: origin
-token: AIsmwf4qIiGUUckvWLNcbfn0nac
+token: MvgAwL4HIiuRRJkH0FwcJhxSnld
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 
@@ -29,15 +29,15 @@ import TabItem from '@theme/TabItem';
 
 このガイドでは、バルクライターおよびバルクインポートAPIを使用して、S DKを使用してデータをコレクションにインポートする方法について説明します。
 
-また、データの準備とZilliz Cloudコレクションへのデータインポートの両方をカバーする[ファストトラックのエンドツーエンドコース](./data-import-zero-to-hero)を参照することもできます。
+代わりに、[私たちのファストトラックのエンドツーエンドコース](./data-import-zero-to-hero)を参照することもできます。これは、データの準備とZilliz Cloudコレクションへのデータのインポートの両方をカバーしています。
 
 ## 依存関係のインストール{#install-dependencies}
 
-<Tabs groupId="code"defaultValue='python'value={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<tabs groupid="code" defaultvalue="python" values="{[{&#34;label&#34;:&#34;Python&#34;,&#34;value&#34;:&#34;python&#34;},{&#34;label&#34;:&#34;Java&#34;,&#34;value&#34;:&#34;java&#34;}]}"></tabs>
 
-<TabItem value='python'>
+<tabitem value="python"></tabitem>
 
-端末で以下のコマンドを実行して、**pymilvus**と**minio**をインストールするか、最新バージョンにアップグレードしてください。
+ターミナルで次のコマンドを実行して、**pymilvus**と**minio**をインストールするか、最新バージョンにアップグレードしてください。
 
 ```shell
 python3 -m pip install --upgrade pymilvus minio
@@ -45,9 +45,9 @@ python3 -m pip install --upgrade pymilvus minio
 
 </TabItem>
 
-<TabItem value='java'>
+<tabitem value="java"></tabitem>
 
-- Apache Mavenの場合、**pom. xml**の依存関係に以下を追加してください:
+- Apache Mavenの場合、**pom. xml**依存関係に以下を追加してください
 
 ```java
 <dependency>
@@ -76,7 +76,7 @@ compile 'io.minio:minio:8.5.9'
 
 ## 準備したデータを確認する{#check-prepared-data}
 
-[BulkWriterツール](./use-bulkwriter)を使用してデータを準備し、準備したファイルのパスを取得したら、Zilliz Cloudコレクションにインポートする準備ができました。準備ができているかどうかを確認するには、次の手順を実行します。
+[BulkWriterツール](./use-bulkwriter)を使用してデータを準備し、準備したファイルへのパスを取得したら、Zilliz Cloudコレクションにインポートする準備ができます。準備ができているかどうかを確認するには、次の手順を実行してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -157,6 +157,194 @@ while (results.hasNext()) {
 
 </TabItem>
 </Tabs>
+
+## コレクションを作成{#create-collection}
+
+データファイルの準備ができたら、Zilliz Cloudクラスタに接続し、スキーマからコレクションを作成し、ストレージバケット内のファイルからデータをインポートします。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient, DataType
+
+# set up your collection
+
+## Zilliz Cloud constants
+CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
+TOKEN = "YOUR_CLUSTER_TOKEN"
+API_KEY = "YOUR_CLUSTER_TOKEN"
+CLUSTER_ID = "YOUR_CLUSTER_ID" # inxx-xxxxxxxxxxxxxxx
+CLUSTER_REGION = "YOUR_CLUSTER_REGION"
+COLLECTION_NAME = "medium_articles"
+
+## Third-party constants
+OBJECT_URL = "YOUR_OBJECT_URL"
+
+# create a milvus client
+client = MilvusClient(
+    uri=CLUSTER_ENDPOINT,
+    token=TOKEN
+)
+
+# prepare schema
+schema = MilvusClient.create_schema(
+    auto_id=False,
+    enable_dynamic_schema=False
+)
+
+schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True)
+schema.add_field(field_name="title", datatype=DataType.VARCHAR, max_length=512)
+schema.add_field(field_name="vector", datatype=DataType.FLOAT_VECTOR, dim=768)
+schema.add_field(field_name="link", datatype=DataType.VARCHAR, max_length=512)
+schema.add_field(field_name="reading_time", datatype=DataType.INT64)
+schema.add_field(field_name="publication", datatype=DataType.VARCHAR, max_length=512)
+schema.add_field(field_name="claps", datatype=DataType.INT64)
+schema.add_field(field_name="responses", datatype=DataType.INT64)
+
+schema.verify()
+
+# prepare index parameters
+index_params = MilvusClient.prepare_index_params()
+
+index_params.add_index(
+    field_name="vector",
+    index_type="AUTOINDEX",
+    metric_type="L2"
+)
+
+client.create_collection(
+    collection_name="customized_setup",
+    schema=schema,
+    index_params=index_params
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.param.collection.CollectionSchemaParam;
+import io.milvus.param.collection.FieldType;
+import io.milvus.grpc.DataType;
+import io.milvus.client.MilvusServiceClient;
+import io.milvus.param.ConnectParam;
+import io.milvus.param.IndexType;
+import io.milvus.param.MetricType;
+import io.milvus.param.collection.CreateCollectionParam;
+import io.milvus.param.collection.LoadCollectionParam;
+import io.milvus.param.index.CreateIndexParam;
+
+// Configs for Zilliz Cloud cluster
+String CLUSTER_ENDPOINT = "";
+String TOKEN = "";
+String API_KEY = "";
+String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
+String CLOUD_REGION = "";
+String COLLECTION_NAME = "";
+
+// Third-party constants 
+String OBJECT_URL = ""
+
+// Define schema for the target collection
+FieldType id = FieldType.newBuilder()
+        .withName("id")
+        .withDataType(DataType.Int64)
+        .withPrimaryKey(true)
+        .withAutoID(false)
+        .build();
+
+FieldType titleVector = FieldType.newBuilder()
+        .withName("vector")
+        .withDataType(DataType.FloatVector)
+        .withDimension(768)
+        .build();
+
+FieldType title = FieldType.newBuilder()
+        .withName("title")
+        .withDataType(DataType.VarChar)
+        .withMaxLength(512)
+        .build();
+
+FieldType link = FieldType.newBuilder()
+        .withName("link")
+        .withDataType(DataType.VarChar)
+        .withMaxLength(512)
+        .build();
+        
+FieldType readingTime = FieldType.newBuilder()
+        .withName("reading_time")
+        .withDataType(DataType.Int64)
+        .build();
+        
+FieldType publication = FieldType.newBuilder()
+        .withName("publication")
+        .withDataType(DataType.VarChar)
+        .withMaxLength(512)
+        .build();
+
+FieldType claps = FieldType.newBuilder()
+        .withName("claps")
+        .withDataType(DataType.Int64)
+        .build();     
+        
+FieldType responses = FieldType.newBuilder()
+        .withName("responses")
+        .withDataType(DataType.Int64)
+        .build();
+
+CollectionSchemaParam schema = CollectionSchemaParam.newBuilder()
+        .withEnableDynamicField(false)
+        .addFieldType(id)
+        .addFieldType(titleVector)
+        .addFieldType(title)
+        .addFieldType(link)
+        .addFieldType(readingTime)
+        .addFieldType(publication)
+        .addFieldType(claps)
+        .addFieldType(responses)
+        .build();
+        
+// Create a collection with the given schema
+ConnectParam connectParam = ConnectParam.newBuilder()
+        .withUri(CLUSTER_ENDPOINT)
+        .withToken(TOKEN)
+        .build();
+
+MilvusServiceClient milvusClient = new MilvusServiceClient(connectParam);
+
+CreateCollectionParam collectionParam = CreateCollectionParam.newBuilder()
+        .withCollectionName(COLLECTION_NAME)
+        .withSchema(schema)
+        .build();
+
+milvusClient.createCollection(collectionParam);
+
+CreateIndexParam indexParam = CreateIndexParam.newBuilder()
+        .withCollectionName(COLLECTION_NAME)
+        .withFieldName("title_vector")
+        .withIndexType(IndexType.AUTOINDEX)
+        .withMetricType(MetricType.L2)
+        .build();
+
+milvusClient.createIndex(indexParam);
+
+LoadCollectionParam loadCollectionParam = LoadCollectionParam.newBuilder()
+        .withCollectionName(COLLECTION_NAME)
+        .build();
+
+milvusClient.loadCollection(loadCollectionParam);
+```
+
+</TabItem>
+</Tabs>
+
+上記のコードスニペットで、`CLUSTER_ENDPOINT`、`TOKEN`、`API_KEY`、`CLUSTER_ID`、`CLOUD_REGION`にそれぞれデータを入力してください。 
+
+クラスターのパブリックエンドポイントから`CLOUD_REGION`と`CLUSTER_ID`を取得できます。例えば、パブリックエンドポイント`https://in03-3bf3c31f4248e22.api.aws-us-east1.zillizcloud.com`では、`CLOUD_REGION_ID`は`aws-us-east1`であり、`CLUSTER_ID`は`in03-3bf3c31f4248e22`です。 
+
+</include>
 
 ## データのインポート{#import-data}
 
@@ -306,7 +494,7 @@ public static void main(String[] args) throws Exception {
 
 ### インポートジョブの一覧{#list-all-import-jobs}
 
-一括インポートタスクについても知りたい場合は、以下のようにlist-import-jobsAPIを呼び出すことができます。
+一括インポートタスクについても知りたい場合は、以下のようにlist-import-jobs APIを呼び出すことができます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -358,13 +546,13 @@ public static void main(String[] args) throws Exception {
 </TabItem>
 </Tabs>
 
-## 関連するトピック{#list-all-import-jobs}
+## 関連するトピック{#related-topics}
 
 - [ストレージオプション](./data-import-storage-options)
 
 - [書式オプション](./data-import-format-options)
 
-- [データのインポート(RESTful API)](./import-data-via-restful-api)
+- [RESTful APIを使用してデータをインポートする](./import-data-via-restful-api)
 
-- [データインポートハンズオン](./data-import-zero-to-hero)
+- リンク_PLACEHOLDER_0 
 

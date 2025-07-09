@@ -4,9 +4,9 @@ slug: /primary-field-auto-id
 sidebar_label: "プライマリフィールドとAutoID"
 beta: FALSE
 notebook: FALSE
-description: "プライマリフィールドはエンティティを一意に識別します。このページでは、2つの異なるデータ型のプライマリフィールドを追加する方法と、Zilliz Cloudを有効にしてプライマリフィールドの値を自動的に割り当てる方法を紹介します。 | BYOC"
+description: "プライマリフィールドはエンティティを一意に識別します。このページでは、2つの異なるデータ型のプライマリフィールドを追加する方法と有効にする方法を紹介します。Zillizクラウド主要なフィールド値を自動的に割り当てる。 | BYOC"
 type: origin
-token: Fk0iwPAsGipnxxkFM6TcS1F1nQe
+token: D2ctwKZhNilLY0ke1vpcHL62n5G
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -17,10 +17,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 
@@ -30,19 +30,28 @@ import TabItem from '@theme/TabItem';
 
 # プライマリフィールドとAutoID
 
-プライマリフィールドはエンティティを一意に識別します。このページでは、2つの異なるデータ型のプライマリフィールドを追加する方法と、Zilliz Cloudを有効にしてプライマリフィールドの値を自動的に割り当てる方法を紹介します。
+プライマリフィールドはエンティティを一意に識別します。このページでは、2つの異なるデータ型のプライマリフィールドを追加する方法と有効にする方法を紹介します。Zillizクラウド主要なフィールド値を自動的に割り当てる。
 
 ## 概要について{#overview}
 
-コレクションでは、各エンティティの主キーはグローバルに一意である必要があります。主フィールドを追加する場合は、明示的にデータ型を**VARCHAR**または**INT64**に設定する必要があります。データ型を**INT64**に設定すると、主キーは`12345`に似た整数である必要があります。データ型を**VARCHAR**に設定すると、主キーは`my_entity_1234`に似た文字列である必要があります。
+コレクションにおいて、各エンティティの主キーはグローバルに一意である必要があります。主フィールドを追加する際には、そのデータ型を明示的にVARCHARまたはINT64に設定する必要があります。INT64にデータ型を設定すると、主キーは`12345`に似た整数である必要があります。VARCHARにデータ型を設定すると、主キーは`my_entity_1234`に似た文字列である必要があります。
 
-また、**AutoID**を有効にして、Zilliz Cloudが受信するエンティティのプライマリキーを自動的に割り当てるようにすることもできます。コレクションで**AutoID**を有効にしたら、エンティティを挿入する際にプライマリキーを含めないようにしてください。
+**AutoID**を有効にすることもできますZillizクラウド受信するエンティティのプライマリキーを自動的に割り当てます。コレクションで**AutoID**を有効にしたら、エンティティを挿入する際にプライマリキーを含めないでください。
 
 コレクション内のプライマリフィールドにはデフォルト値がなく、nullにすることはできません。
 
+<Admonition type="info" icon="📘" title="ノート">
+
+<ul>
+<li><p>コレクションに既に存在するプライマリキーを持つ標準の<code>insert</code>操作は、古いエントリを上書きしません。代わりに、同じプライマリキーを持つ新しい別々のエンティティを作成します。これにより、予期しない検索結果やデータの冗長性が生じる可能性があります。</p></li>
+<li><p>既存のデータを更新するユースケースがある場合、または挿入するデータがすでに存在する可能性がある場合は、<code>upsert</code>操作を使用することを強くお勧めします。<code>upsert</code>操作は、主キーが存在する場合はエンティティをインテリジェントに更新し、存在しない場合は新しいキーを挿入します。詳細については、<a href="./upsert-entities">Upsertエンティティ</a>を参照してください。</p></li>
+</ul>
+
+</Admonition>
+
 ## Int 64プライマリキーを使用{#use-int64-primary-keys}
 
-Int 64型のプライマリキーを使用するには、`datatype`を`DataType.INT64`に設定し、`is_primary`を`true`に設定する必要があります。受信するエンティティのプライマリキーを割り当てるためにZilliz Cloudも必要な場合は、`auto_id`を`true`に設定してください。
+Int 64型のプライマリキーを使用するには、`datatype`を`DataType.INT64`に設定し、`is_primary`を`true`に設定する必要があります。Zillizクラウド受信エンティティの主キーを割り当てるには、`auto_id`を`true`に設定します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -95,7 +104,7 @@ const schema = [
   {
     name: "pk",
     description: "ID field",
-    data_type: DataType.VARCHAR,
+    data_type: DataType.INT64,
     is_primary_key: true,
     max_length: 100,
   },
@@ -107,7 +116,14 @@ const schema = [
 <TabItem value='go'>
 
 ```go
-// Go
+import "github.com/milvus-io/milvus/client/v2/entity"
+
+schema := entity.NewSchema()
+schema.WithField(entity.NewField().WithName("my_id").
+    WithDataType(entity.FieldTypeInt64).
+    WithIsPrimaryKey(true).
+    WithIsAutoID(true),
+)
 ```
 
 </TabItem>
@@ -134,7 +150,7 @@ export schema="{
 
 ## VarCharプライマリキーを使用する{#use-varchar-primary-keys}
 
-VarCharプライマリキーを使用するには、`datatype`パラメータの値を`DataType.VARCHAR`に変更するだけでなく、フィールドの`max_length`パラメータも設定する必要があります。
+VarCharプライマリキーを使用するには、`data_type`パラメーターの値を`DataType.VARCHAR`に変更するだけでなく、フィールドの`max_length`パラメーターも設定する必要があります。 
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -156,9 +172,6 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq; 
-
 schema.addField(AddFieldReq.builder()
         .fieldName("my_id")
         .dataType(DataType.VarChar)
@@ -191,7 +204,15 @@ schema.push({
 <TabItem value='go'>
 
 ```go
-// Go
+schema := entity.NewSchema()
+schema.WithField(entity.NewField().WithName("my_id").
+    WithDataType(entity.FieldTypeVarChar).
+    // highlight-start
+    WithIsPrimaryKey(true).
+    WithIsAutoID(true).
+    WithMaxLength(512),
+    // highlight-end
+)
 ```
 
 </TabItem>

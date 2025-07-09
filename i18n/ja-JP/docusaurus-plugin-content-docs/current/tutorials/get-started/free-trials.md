@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Zilliz Cloudは、強力なベクトルデータベースの機能を評価またはテストし、Zilliz Cloudの使用コストを見積もるために、無料プランと無料トライアルの両方を提供しています。開始するには、単にZilliz Cloud上のアカウントを登録するをクリックしてください。支払い情報は必要ありません。 | Cloud"
 type: origin
 token: LMfdwRwKIiJtywkwbHVcGnOFnRf
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
   - cloud
   - free trial
   - milvus
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

@@ -2,11 +2,11 @@
 title: "アナライザ | Cloud"
 slug: /analyzer
 sidebar_label: "アナライザ"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
-description: "テキスト処理において、アナライザーは生のテキストを構造化された検索可能な形式に変換する重要なコンポーネントです。各アナライザーは通常、トークナイザーとフィルターの2つのコア要素で構成されています。これらを組み合わせることで、入力テキストをトークンに変換し、これらのトークンを改良し、効率的なインデックス作成と取得のために準備します。この章では、Zilliz Cloudでアナライザーを使用する方法について、詳しく説明します。 | Cloud"
+description: "テキスト処理において、アナライザは生のテキストを構造化された検索可能な形式に変換する重要なコンポーネントです。各アナライザは通常、トークナイザーとフィルターの2つのコア要素で構成されています。これらを組み合わせることで、入力テキストをトークンに変換し、これらのトークンを改良し、効率的なインデックス作成と検索のために準備します。この章では、アナライザを使用する方法について詳しく説明しますZillizクラウドこれが私の人生です。 | Cloud"
 type: origin
-token: KpFlwUmbfi20WmkVADZcCKmbnie
+token: Cou4wUDwti8G0FkibG4cFNRNnre
 sidebar_position: 12
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 
@@ -27,7 +27,7 @@ import Admonition from '@theme/Admonition';
 
 # アナライザ
 
-テキスト処理において、**アナライザー**は生のテキストを構造化された検索可能な形式に変換する重要なコンポーネントです。各アナライザーは通常、トーク**ナイザー**と**フィルター**の2つのコア要素で構成されています。これらを組み合わせることで、入力テキストをトークンに変換し、これらのトークンを改良し、効率的なインデックス作成と取得のために準備します。この章では、Zilliz Cloudでアナライザーを使用する方法について、詳しく説明します。
+テキスト処理において、**アナライザ**は生のテキストを構造化された検索可能な形式に変換する重要なコンポーネントです。各アナライザは通常、**トークナイザー**と**フィルター**の2つのコア要素で構成されています。これらを組み合わせることで、入力テキストをトークンに変換し、これらのトークンを改良し、効率的なインデックス作成と検索のために準備します。この章では、アナライザを使用する方法について詳しく説明しますZillizクラウドこれが私の人生です。
 
 import DocCardList from '@theme/DocCardList';
 

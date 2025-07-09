@@ -6,17 +6,17 @@ beta: FALSE
 notebook: FALSE
 description: "私たちは、Zilliz Cloudの重要なアップデートの一般提供を発表できることを喜んでいます。このリリースにより、ベクトルデータベースサービスの使いやすさ、セキュリティ、パフォーマンス、および機能の標準が新たな段階に引き上げられ、誰でも利用できる最新のベクトルデータベース体験が提供されます。 | Cloud"
 type: origin
-token: GIf9wQ1oKilIeekY9qTcXR9JnRg
-sidebar_position: 19
+token: XmUYwRgNDitesQkl9QDc3IslnOh
+sidebar_position: 22
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 
@@ -29,9 +29,9 @@ import Admonition from '@theme/Admonition';
 
 - 10億スケールのベクトルコレクションのサポート
 
-    このリリースにより、Zilliz Cloudはベクトルデータベースの容量制限を10億スケールに引き上げました。これにより、エンタープライズユーザーはZilliz CloudのWebインターフェースを介して、[32 CUデータベースインスタンス](https://zilliz.com/pricing)（performance-optimizedCUと容量最適化CUの両方）を作成できます。
+    このリリースにより、Zilliz Cloudはベクトルデータベースの容量制限を10億スケールに引き上げました。これにより、エンタープライズユーザーはZilliz CloudのWebインターフェースを介して、performance-optimizedCUと容量最適化CUの両方に対応した[32個のCUデータベースインスタンス](https://zilliz.com/pricing)を作成できるようになりました。
 
-    PoCや本番環境でより大きなインスタンスが必要な場合は、最大256個のperformance-optimizedCU(13億個の128次元ベクトルに対応)または128個のキャパシティ最適化CU(30億個の128次元ベクトルに対応)のインスタンスを取得するために、お気軽に[お問い合わせ](https://zilliz.com/contact-sales)ください。
+    PoCや本番環境でより大きなインスタンスを必要とするユーザーは、[お問い合わせ](https://zilliz.com/contact-sales)を使用して、最大256個のperformance-optimizedCU(13億個の128次元ベクトルを処理できる)または128個の容量最適化CU(30億個の128次元ベクトルを処理できる)のインスタンスを取得することを躊躇しないでください。
 
 - パフォーマンスの改善
 
@@ -49,13 +49,13 @@ import Admonition from '@theme/Admonition';
 
 - AWSマーケットプレイス
 
-    Zilliz Cloudは[AWS Marketplace](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio)でも利用可能であり、AWS上で完全に管理されたベクトルデータベースサービスにアクセスすることがこれまで以上に簡単になりました。AIアプリケーションの需要が高まる中、この統合はより良いタイミングで実現しました。AWS Marketplace上のZilliz Cloudを使用することで、ユーザーは迅速にAIアプリケーションを構築し、スケーリングすることができます。
+    Zilliz Cloudは[AWSマーケットプレイス](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio)でも利用可能であり、AWS上で完全に管理されたベクトルデータベースサービスにアクセスすることがこれまで以上に簡単になりました。AIアプリケーションの需要が高まる中、この統合は最適なタイミングです。AWS Marketplace上のZilliz Cloudを使用することで、ユーザーは迅速にAIアプリケーションを構築し、スケーリングすることができます。
 
     この統合の利点の1つは、製品をシームレスに管理できることです。請求、キャンセル、返金などは、すべてユーザーのAWSアカウントで管理および追跡できます。この機能だけで、時間と手間を節約し、プロセス全体を効率化できます。
 
     もう一つの利点は、AWS Cost Explorerを通じてコストを表示できることです。このツールを使用すると、簡単に費用を追跡し、請求およびコスト管理プロセスに関する洞察を得ることができます。
 
-    詳細については、「[AWS Marketplaceで購読する](./subscribe-on-aws-marketplace)」を参照してください。
+    詳細については、[AWS Marketplaceで購読する](./subscribe-on-aws-marketplace)を参照してください。
 
 - ローリングアップグレード
 
@@ -75,7 +75,7 @@ import Admonition from '@theme/Admonition';
 
     データセキュリティは常に私たちの最優先事項です。このリリースでは、Zilliz Cloud上のRecycler Binを導入し、データをさらに安全にします。たとえば、ユーザーが無料トライアルでの長期間の活動停止や未払い料金によるサービス停止のためにデータベースを削除したり、自動的に削除したりした場合、Zilliz Cloudは自動的にデータベース/コレクションをRecycler Binに移動し、次の30日間でいつでもデータを回復できます。
 
-    詳しくは、[使用ごみ箱](./use-recycle-bin)を参照してください。
+    詳細については、[使用ごみ箱](./use-recycle-bin)を参照してください。
 
 - Open Source Milvusからのデータベース移行
 

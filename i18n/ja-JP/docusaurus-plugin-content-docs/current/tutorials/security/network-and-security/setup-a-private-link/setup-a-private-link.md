@@ -6,7 +6,7 @@ beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、プライベートリンクを介してクラスタへのプライベートアクセスを提供します。これは、クラスタのトラフィックがインターネットを経由しないようにする場合に便利です。 | Cloud"
 type: origin
-token: LIehwcqZFiGZitkmzdrckoP0n8d
+token: O5W3wHvmbiVSoLkzKgHcvB9XnUb
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -18,10 +18,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 
@@ -36,7 +36,7 @@ Zilliz Cloud上のクラスタへのプライベートクライアントアク�
 
 次の図は、その動作を示しています。
 
-![XUG2wLW0vhuX4kbAggzctrnknie](/img/ja-JP/XUG2wLW0vhuX4kbAggzctrnknie.png)
+![BkbRwb8YhhqePCbZn2Kc8lWknNc](/img/BkbRwb8YhhqePCbZn2Kc8lWknNc.png)
 
 このガイドでは、クラスターのプライベートエンドポイントの設定方法について説明します。
 

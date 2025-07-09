@@ -6,7 +6,7 @@ beta: FALSE
 notebook: FALSE
 description: "この章では、挿入、挿入、削除の操作に焦点を当てています。 | Cloud"
 type: origin
-token: FxwxwixRtiW3v7kkT8Ycr8adngR
+token: DCZNwZdcfivVfIkAZ6qcaK5wnHd
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

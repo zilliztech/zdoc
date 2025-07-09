@@ -1,23 +1,23 @@
 ---
 title: "基本を理解する | Cloud"
 slug: /understand-basics
-sidebar_label: "基本を理解する"
+sidebar_label: "Concepts"
 beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloudの使い方を議論する際に使用する一般的な用語についての説明。 | Cloud"
 type: origin
-token: JACqwQ7uJiVGCsk02HhcI0TRnjg
-sidebar_position: 5
+token: L4qDwChWLi1Vy6kbt30cd7W4ntC
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - basics
   - milvus
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

@@ -1,12 +1,12 @@
 ---
 title: "組み込みアナライザのリファレンス | Cloud"
 slug: /built-in-analyzer
-sidebar_label: "組み込みアナライザのリファレンス"
-beta: PUBLIC
+sidebar_label: "Built-in Analyzer"
+beta: FALSE
 notebook: FALSE
 description: "このセクションでは、組み込みアナライザに関する詳細情報を提供します。 | Cloud"
 type: origin
-token: RWl2wA3omiCIo2ksxxTcN6oYnrf
+token: VvJowcWXeiFPlDkYU7ScezGznIb
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in analyzer
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

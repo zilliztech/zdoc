@@ -2,11 +2,11 @@
 title: "テキストデータ | Cloud"
 slug: /pipelines-text-data
 sidebar_label: "テキストデータ"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理するためのシンプルで直感的な方法を提供し、RESTful APIはWeb UIに比べてより柔軟性とカスタマイズ性を提供します。 | Cloud"
 type: origin
-token: LKM5wYZW6iaxYokW6s6cOkmLn6b
+token: ISAjwB6VLiAdS5kGoXYcdPBJnbf
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,16 +14,15 @@ keywords:
   - cloud
   - pipelines
   - text data
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 
 import Admonition from '@theme/Admonition';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+
 
 # テキストデータ
 
@@ -41,7 +40,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
 - Google Cloud Platform(GCP)上のus-west 1にデプロイされたクラスタを作成していることを確認してください。
 
-- 一つのプロジェクトでは、同じタイプのパイプラインを最大100個まで作成できます。詳細については、[Zillizクラウドの制限](./limits#pipelines)を参照してください。
+- 一つのプロジェクトでは、同じタイプのパイプラインを最大100個まで作成できます。詳細については、[Zillizクラウドの制限](./limits)を参照してください。
 
 ## テキストデータを取り込む{#ingest-text-data}
 
@@ -49,26 +48,26 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
 ### テキスト取り込みパイプラインの作成{#create-text-ingestion-pipeline}
 
-<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"bash","value":"bash"}]}=""></tabs>
 
-<TabItem value="Cloud Console">
+<tabitem value="Cloud Console"></tabitem>
 
 1. プロジェクトに移動します。
 
-1. ナビゲーションパネルから**パイプライン**をクリックします。次に、**概要**タブに切り替えて、**パイプライン**をクリックします。パイプラインを作成するには、**+パイプライン**をクリックしてください。
+1. ナビゲーションパネルから「パイプライン」をクリックしてください。その後、「概要」タブに切り替えて、「パイプライン」をクリックしてください。パイプラインを作成するには、「+パイプライン」をクリックしてください。
 
-    ![create-pipeline](/img/ja-JP/create-pipeline.png)
+    ![create-pipeline](/img/create-pipeline.png)
 
-1. 作成するパイプラインの種類を選択します。[**+パイプライン**]ボタンをクリックします。**Ingestion Pipeline**列。
+1. 作成するパイプラインの種類を選択してください。**Ingestion Pipeline**列の**+Pipeline**ボタンをクリックしてください。
 
-    ![choose-pipeline](/img/ja-JP/choose-pipeline.png)
+    ![choose-pipeline](/img/choose-pipeline.png)
 
 1. 作成するIngestionパイプラインを構成します。
 
     <table>
        <tr>
          <th><p><strong>パラメータ</strong></p></th>
-         <th><p><strong>説明する</strong></p></th>
+         <th><p><strong>の説明</strong></p></th>
        </tr>
        <tr>
          <td><p>ターゲットクラスタ</p></td>
@@ -88,20 +87,20 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
        </tr>
     </table>
 
-    ![configure-ingestion-pipeline](/img/ja-JP/configure-ingestion-pipeline.png)
+    ![configure-ingestion-pipeline](/img/configure-ingestion-pipeline.png)
 
-1. Ingestionパイプラインに**INDEX**関数を追加するには、**+Function**をクリックします。各Ingestionパイプラインに対して、正確に1つの**INDEX**関数を追加できます。
+1. インジェスチョンパイプラインに**INDEX**関数を追加するには、**+Function**をクリックします。各インジェスチョンパイプラインに対して、**INDEX**関数を1つだけ追加できます。
 
     1. 関数名を入力します。
 
-    1. 関数タイプとして**INDEX_TEXT**を選択します。**INDEX_TEXT**関数は、提供されたすべてのテキスト入力に対してベクトル埋め込みを生成できます。
+    1. 関数タイプとして**INDEX_TEXT**を選択してください。**INDEX_TEXT**関数は、提供されたすべてのテキスト入力に対してベクトル埋め込みを生成できます。
 
-    1. ベクトル埋め込みを生成するために使用する埋め込みモデルを選択します。異なるテキスト言語には異なる埋め込みモデルがあります。現在、英語には5つの利用可能なモデルがあります:**zilliz/bge-base-en-v 1.5**、**voyageai/voyage-2**、**voyageai/voyage-code-2**、**openai/text-embedding-3-small**、および**openai/text-embedding-3-large**。中国語には、**zilliz/bge-base-zh-v 1.5**のみが利用可能です。以下の表は、各埋め込みモデルを簡単に紹介しています。
+    1. ベクトル埋め込みを生成するために使用される埋め込みモデルを選択してください。異なるテキスト言語には異なる埋め込みモデルがあります。現在、英語には5つの利用可能なモデルがあります:**zilliz/bge-base-en-v 1.5**、**voyageai/voyage-2**、**voyageai/voyage-code-2**、**openai/vtext-embedding-3-small**、および**openai/v 1.text-embedding-3-large**。中国語には、**zilliz/bge-base-zh-v 1.5**のみが利用可能です。以下の表は、各埋め込みモデルを簡単に紹介しています。
 
         <table>
            <tr>
              <th><p><strong>埋め込みモデル</strong></p></th>
-             <th><p><strong>説明する</strong></p></th>
+             <th><p><strong>の説明</strong></p></th>
            </tr>
            <tr>
              <td><p>zilliz/bge-based-en-v 1.5-ダウンロード</p></td>
@@ -109,35 +108,35 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
            </tr>
            <tr>
              <td><p><a href="https://docs.voyageai.com/docs/embeddings">タイトル: voyageai/voyage-2</a></p></td>
-             <td><p>Voyage AIによってホストされています。この汎用モデルは、説明的なテキストとコードを含む技術文書の取得に優れています。軽量版はvoyage-lite-02-instructMTEBリーダーボードでトップにランクされています。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
+             <td><p>Voyage AIによってホストされています。この汎用モデルは、説明テキストとコードを含む技術文書の取得に優れています。その軽量版voyage-lite-02-instructはMTEBリーダーボードでトップにランクされています。このモデルは、<code>language</code>が<code>ENGLISH</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
              <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/航海コード-2</a></p></td>
-             <td><p>Voyage AIがホストしています。このモデルはソフトウェアコードに最適化されており、ソフトウェアドキュメントとソースコードを取得するための優れた品質を提供します。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
+             <td><p>Voyage AIがホストしています。このモデルはソフトウェアコードに最適化されており、ソフトウェアドキュメントやソースコードを取得するための優れた品質を提供します。このモデルは、<code>language</code>が<code>ENGLISH</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
              <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/ヴォヤージュラージ2</a></p></td>
-             <td><p>Voyage AIによってホストされています。これはVoyage AIからの最も強力な汎用埋め込みモデルです。16 kのコンテキスト長(voyage-2の4倍)をサポートし、技術的および長いコンテキスト文書を含むさまざまなタイプのテキストに優れています。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
+             <td><p>Voyage AIによってホストされています。これはVoyage AIからの最も強力な汎用埋め込みモデルです。16 kのコンテキスト長(voyage-2の4倍)をサポートし、技術的および長いコンテキスト文書を含むさまざまなタイプのテキストで優れています。このモデルは、<code>language</code>が<code>ENGLISH</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
-             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">OPENAI/text-embedding-3-small</a></p></td>
-             <td><p>Open AIによってホストされています。この非常に効率的な埋め込みモデルは、先行モデルよりも強力なパフォーマンスを持ちtext-embedding-ada-002推論コストと品質をバランスさせています。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
+             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">OPENAI/text-embedding-3-small </a></p></td>
+             <td><p>Open AIによってホストされています。この非常に効率的な埋め込みモデルは、前身のtext-embedding-ada-002よりも強力なパフォーマンスを持ち、推論コストと品質のバランスが取れています。このモデルは、<code>language</code>が<code>ENGLISH</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
              <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">OPENAI/text-embedding-3-large</a></p></td>
-             <td><p>Open AIがホストしています。これはOpen AIの最高のパフォーマンスモデルです。text-embedding-ada-002と比較して、MTEBスコアは61.0%から64.6%に増加しました。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
+             <td><p>Open AIによってホストされています。これはOpen AIの最高のパフォーマンスモデルです。text-embedding-ada-002と比較して、MTEBスコアは61.0%から64.6%に増加しました。このモデルは、<code>language</code>が<code>ENGLISH</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
              <td><p>zilliz/bge-base-zh-v 1.5-ダウンロード</p></td>
-             <td><p>BAAIによってリリースされたこの最先端のオープンソースモデルは、Zilliz Cloudにホストされ、ベクトルデータベースと共同配置されており、高品質で最高のネットワークレイテンシを提供します。これは、<code>言語</code>が<code>中国</code>語の場合のデフォルトの埋め込みモデルです。</p></td>
+             <td><p>BAAIによってリリースされたこの最先端のオープンソースモデルは、Zilliz Cloudでホストされ、ベクトルデータベースと共有されており、高品質で最高のネットワークレイテンシを提供します。これは、<code>language</code>が<code>CHINESE</code>の場合のデフォルトの埋め込みモデルです。</p></td>
            </tr>
         </table>
 
-        ![add-index-text-function](/img/ja-JP/add-index-text-function.png)
+        ![add-index-text-function](/img/add-index-text-function.png)
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. 関数を保存するには、**追加**をクリックしてください。
 
-1. （オプション）テキストのメタデータを保持する必要がある場合は、別の**PRE**SERVE関数を追加してください。**PRESERVE**関数は、データ取り込みとともにコレクションにスカラーフィールドを追加します。
+1. (オプション)テキストのメタデータを保存する必要がある場合は、別の**PRESERVE**関数を追加してください。**PRESERVE**関数は、データ取り込みとともにコレクションに追加のスカラーフィールドを追加します。
 
     <Admonition type="info" icon="📘" title="ノート">
 
@@ -145,43 +144,43 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
     </Admonition>
 
-    1. [**+Function**]をクリックします。
+    1. **+Function**をクリックしてください。
 
     1. 関数名を入力します。
 
-    1. 入力フィールドの名前と種類を設定します。サポートされている入力フィールドの種類は、**Bool**、**Int 8**、**Int 16**、**Int 32**、**Int 64**、**Float**、**Double**、**VarChar**です。
+    1. 入力フィールドの名前とタイプを設定します。サポートされている入力フィールドタイプには、Bool、Int 8、Int 16、Int 32、Int 64、Float、Double、VarCharが含まれます。
 
         <Admonition type="info" icon="📘" title="ノート">
 
         <ul>
         <li><p>現在、出力フィールド名は入力フィールド名と同じでなければなりません。入力フィールド名は、Ingestionパイプラインを実行する際に使用されるフィールド名を定義します。出力フィールド名は、保存された値が保持されるベクトルコレクションスキーマ内のフィールド名を定義します。</p></li>
-        <li><p>VarCharフィールド<strong>の</strong>場合、値は最大<strong>4,000</strong>文字の英数字の文字列である必要があります。</p></li>
-        <li><p>スカラーフィールドに日時を格納する場合は、年データには<strong>Int 16</strong>データ型、タイムスタンプには<strong>Int 32</strong>データ型を使用することをお勧めします。</p></li>
+        <li><p><strong>VarChar</strong>フィールドの場合、値は最大4,000文字の英数字文字列である必要があります。</p></li>
+        <li><p>スカラーフィールドに日付と時刻を格納する場合、年データには<strong>Int 16</strong>データ型を使用し、タイムスタンプには<strong>Int 32</strong>を使用することをお勧めします。</p></li>
         </ul>
 
         </Admonition>
 
-        ![add-preserve-function](/img/ja-JP/add-preserve-function.png)
+        ![add-preserve-function](/img/add-preserve-function.png)
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. 関数を保存するには、**追加**をクリックしてください。
 
-1. [**Ingestion Pipelineを作成**]をクリックします。
+1. 「摂取パイプラインの作成」をクリックしてください。
 
-1. 作成したばかりのIngestionパイプラインと互換性があるように自動構成された検索パイプラインと削除パイプラインの作成を続けます。
+1. 作成したばかりのIngestionパイプラインと互換性があるように自動構成された検索パイプラインと削除パイプラインを作成し続けます。 
 
-    ![ingestion-pipeline-created-successfully](/img/ja-JP/ingestion-pipeline-created-successfully.png)
+    ![ingestion-pipeline-created-successfully](/img/ingestion-pipeline-created-successfully.png)
 
     <Admonition type="info" icon="📘" title="ノート">
 
-    <p>デフォルトでは、自動設定された検索パイプラインでreranker機能は無効になっています。rerankerを有効にする必要がある場合は、手動で<a href="./pipelines-text-data#search-text-data">新しい検索パイプラインを作成</a>してください。</p>
+    <p>デフォルトでは、自動設定された検索パイプラインでは再ランク機能は無効になっています。再ランクを有効にする必要がある場合は、手動で<a href="./pipelines-text-data#search-text-data">新しい検索パイプラインを作成する</a>を設定してください。</p>
 
     </Admonition>
 
 </TabItem>
 
-<TabItem value="Bash">
+<tabitem value="Bash"></tabitem>
 
-次の例では、という名前のIngestionパイプラインを作成します`my_text_ingestion_パイプライン`、**INDEX_TEXT**関数と**PRE**SERVE関数を追加します。
+次の例では、`my_text_ingestion_pipeline`という名前のIngestionパイプラインを作成し、INDEX_TEXT関数とPRESERVE関数を追加しています。 
 
 ```bash
 curl --request POST \
@@ -215,17 +214,17 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーを表示する](/docs/manage-api-keys#view-api-keys)の詳細については、こちらをご覧ください。
 
-- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west1`のみがサポートされています。
 
-- `lusterId`:パイプラインを作成するクラスタのIDです。現在、GCP上のus-west 1にデプロイされたクラスタのみを選択できます。CLUSTER_IDの確認方法については、[How can I find my CLUSTER_ID?を参照してください。](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
+- `clusterId`:パイプラインを作成するクラスタのIDです。現在、GCP上のus-west 1にデプロイされたクラスタのみを選択できます。[CLUSTER_IDをどのように見つけることができますか?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)について詳しくはこちらをご覧ください。
 
-- `projectId`:パイプラインを作成するプロジェクトのID。詳しくは[プロジェクトIDの取得方法をご覧ください。](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
+- `projectId`:パイプラインを作成するプロジェクトのIDです。[プロジェクトIDはどのように取得できますか?](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)について詳しく学びましょう。
 
-- `lectionName:`作成するインジェストパイプラインで自動的に生成されるコレクションの名前です。また、既存のコレクションを指定することもできます。
+- `collectionName`:インジェストパイプラインで自動的に生成されたコレクションの名前です。また、既存のコレクションを指定することもできます。
 
-- `name`:作成するパイプラインの名前。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
+- `name`:作成するパイプラインの名前です。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
 - `description`(オプション):作成するパイプラインの説明。
 
@@ -233,18 +232,18 @@ curl --request POST \
 
 - `functions`:パイプラインに追加する関数。**Ingestionパイプラインには、1つのINDEX関数と最大50個のPRESERVE関数しか持てません。**
 
-    - `name`:関数の名前です。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
+    - `name`:関数の名前。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-    - `action`:追加する関数の種類。現在利用可能なオプションには、`INDEX_DOC`、`INDEX_TEXT`、`INDEX_IMAGE`、`PRE`SERVEがあります。
+    - `action`:追加する関数のタイプです。現在利用可能なオプションには、`INDEX_DOC`、`INDEX_TEXT`、`INDEX_IMAGE`、`PRESERVE`があります。
 
-    - `language`:取り込むテキストの言語。使用可能な値は`ENGLISH`と`CHINESEです`。*(このパラメータは`INDEX_TEXT`と`INDEX_DOC_CHUNK`関数でのみ使用されます。)*
+    - `language`:インジェストするテキストの言語です。`ENGLISH`と`CHINESE`を指定できます。*(このパラメータは`INDEX_TEXT`と`INDEX_DOC_CHUNK`関数でのみ使用されます。)*
 
-    - `埋め込み`:テキストのベクトル埋め込みを生成するために使用する埋め込みモデルです。利用可能なオプションは以下の通りです。*（このパラメータは`In dex`関数でのみ使用されます。）*
+    - `embedding`:テキストのベクトル埋め込みを生成するために使用される埋め込みモデルです。利用可能なオプションは以下の通りです。*（このパラメータは`Index`関数でのみ使用されます。）*
 
         <table>
            <tr>
              <th><p><strong>埋め込みモデル</strong></p></th>
-             <th><p><strong>説明する</strong></p></th>
+             <th><p><strong>の説明</strong></p></th>
            </tr>
            <tr>
              <td><p>zilliz/bge-based-en-v 1.5-ダウンロード</p></td>
@@ -252,40 +251,40 @@ curl --request POST \
            </tr>
            <tr>
              <td><p><a href="https://docs.voyageai.com/docs/embeddings">タイトル: voyageai/voyage-2</a></p></td>
-             <td><p>Voyage AIによってホストされています。この汎用モデルは、説明的なテキストとコードを含む技術文書の取得に優れています。軽量版はvoyage-lite-02-instructMTEBリーダーボードでトップにランクされています。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
+             <td><p>Voyage AIによってホストされています。この汎用モデルは、説明テキストとコードを含む技術文書の取得に優れています。その軽量版voyage-lite-02-instructはMTEBリーダーボードでトップにランクされています。このモデルは、<code>language</code>が<code>ENGLISH</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
              <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/航海コード-2</a></p></td>
-             <td><p>Voyage AIがホストしています。このモデルはプログラミングコードに最適化されており、検索コードブロックに優れた品質を提供します。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
+             <td><p>Voyage AIがホストしています。このモデルはプログラミングコードに最適化されており、検索コードブロックに優れた品質を提供します。このモデルは、<code>language</code>が<code>ENGLISH</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
              <td><p><a href="https://docs.voyageai.com/docs/embeddings">voyageai/ヴォヤージュラージ2</a></p></td>
-             <td><p>Voyage AIによってホストされています。これはVoyage AIからの最も強力な汎用埋め込みモデルです。16 kのコンテキスト長(voyage-2の4倍)をサポートし、技術的および長いコンテキスト文書を含むさまざまなタイプのテキストに優れています。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
+             <td><p>Voyage AIによってホストされています。これはVoyage AIからの最も強力な汎用埋め込みモデルです。16 kのコンテキスト長(voyage-2の4倍)をサポートし、技術的および長いコンテキスト文書を含むさまざまなタイプのテキストで優れています。このモデルは、<code>language</code>が<code>ENGLISH</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
-             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">OPENAI/text-embedding-3-small</a></p></td>
-             <td><p>Open AIによってホストされています。この非常に効率的な埋め込みモデルは、先行モデルよりも強力なパフォーマンスを持ちtext-embedding-ada-002推論コストと品質をバランスさせています。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
+             <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">OPENAI/text-embedding-3-small </a></p></td>
+             <td><p>Open AIによってホストされています。この非常に効率的な埋め込みモデルは、前身のtext-embedding-ada-002よりも強力なパフォーマンスを持ち、推論コストと品質のバランスが取れています。このモデルは、<code>language</code>が<code>ENGLISH</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
              <td><p><a href="https://openai.com/index/new-embedding-models-and-api-updates/">OPENAI/text-embedding-3-large</a></p></td>
-             <td><p>Open AIがホストしています。これはOpen AIの最高のパフォーマンスモデルです。text-embedding-ada-002と比較して、MTEBスコアは61.0%から64.6%に増加しました。このモデルは、<code>言語</code>が<code>英語</code>の場合にのみ利用可能です。</p></td>
+             <td><p>Open AIによってホストされています。これはOpen AIの最高のパフォーマンスモデルです。text-embedding-ada-002と比較して、MTEBスコアは61.0%から64.6%に増加しました。このモデルは、<code>language</code>が<code>ENGLISH</code>の場合にのみ利用可能です。</p></td>
            </tr>
            <tr>
              <td><p>zilliz/bge-base-zh-v 1.5-ダウンロード</p></td>
-             <td><p>BAAIによってリリースされたこの最先端のオープンソースモデルは、Zilliz Cloudにホストされ、ベクトルデータベースと共同配置されており、高品質で最高のネットワークレイテンシを提供します。これは、<code>言語</code>が<code>中国</code>語の場合のデフォルトの埋め込みモデルです。</p></td>
+             <td><p>BAAIによってリリースされたこの最先端のオープンソースモデルは、Zilliz Cloudでホストされ、ベクトルデータベースと共有されており、高品質で最高のネットワークレイテンシを提供します。これは、<code>language</code>が<code>CHINESE</code>の場合のデフォルトの埋め込みモデルです。</p></td>
            </tr>
         </table>
 
-- `input tField`:`input`フィールドの名前です。値はカスタマイズできますが、output tFieldと同じにしてくださ`い`。*（このパラメータは`PRESERVE`関数でのみ使用されます。）*
+- `inputField`: `inputField`の名前です。値はカスタマイズできますが、`outputField`と同じである必要があります。*(このパラメータは`PRESERVE`関数でのみ使用されます。)*
 
-- `output`Field:コレクションスキーマで使用される出力フィールドの名前。現在、出力フィールドの名前は入力フィールドの名前と同じでなければなりません。*（このパラメータは`PRESERVE`関数でのみ使用されます。）*
+- `outputField`:コレクションスキーマで使用される出力フィールドの名前です。現在、出力フィールド名は入力フィールド名と同じでなければなりません。*(このパラメータは`PRESERVE`関数でのみ使用されます。)*
 
-- `fieldType`:入力フィールドと出力フィールドのデータ型です。使用可能な値は、`Bool`、`Int 8`、`Int 16`、`Int 32`、`Int 64`、`Float`、`Double`、および`VarCharです`。*(このパラメータは`PRESERVE`関数でのみ使用されます。)*
+- `fieldType`:入力フィールドと出力フィールドのデータ型です。使用可能な値には、`Bool`、`Int8`、`Int16`、`Int32`、`Int64`、`Float`、`Double`、`VarChar`があります。*(このパラメータは`PRESERVE`関数でのみ使用されます。)*
 
     <Admonition type="info" icon="📘" title="ノート">
 
-    <p>スカラーフィールドに日時を格納する場合は、年データには<strong>Int 16</strong>データ型、タイムスタンプには<strong>Int 32</strong>データ型を使用することをお勧めします。</p>
-    <p>VarCharフィールド<code>型</code>の場合、このフィールドのデータの<code>max_length</code>は4,000を超えることはできません。</p>
+    <p>スカラーフィールドに日付と時刻を格納する場合、年データには<strong>Int 16</strong>データ型を使用し、タイムスタンプには<strong>Int 32</strong>を使用することをお勧めします。</p>
+    <p><code>VarChar</code>フィールドタイプの場合、このフィールドのデータの<code>max_length</code>は4,000を超えることはできません。</p>
 
     </Admonition>
 
@@ -332,9 +331,9 @@ curl --request POST \
 
 </Admonition>
 
-クラスタに存在しない場合、`my_collection`という名前のコレクションが自動的に作成されます。しかし、存在する場合、Zililz Cloud Pipelinesはコレクションスキーマがパイプラインで定義されたスキーマと一致しているかどうかをチェックします。
+クラスタに`my_collection`という名前のコレクションが存在しない場合、自動的に存在します。しかし、存在する場合、Zililz Cloud Pipelinesはコレクションスキーマがパイプラインで定義されたスキーマと一致しているかどうかをチェックします。 
 
-このコレクションには、**INDEX_TEXT**関数の出力フィールドが3つ、**PRE**SERVE関数ごとに1つの出力フィールドが含まれています。コレクションのスキーマは以下の通りです。
+このコレクションには、**INDEX_TEXT**関数の3つの出力フィールドと、**PRESERVE**関数ごとに1つの出力フィールドが含まれています。コレクションのスキーマは以下の通りです。
 
 <table>
    <tr>
@@ -351,15 +350,15 @@ curl --request POST \
 
 ### テキスト取り込みパイプラインを実行する{#run-text-ingestion-pipeline}
 
-<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"bash","value":"bash"}]}=""></tabs>
 
-<TabItem value="Cloud Console">
+<tabitem value="Cloud Console"></tabitem>
 
-1. Ingestionパイプラインの横にある「▶︎」ボタンをクリックしてください。
+1. Ingestionパイプラインの横にある「▶︎」ボタンをクリックしてください。 
 
-    ![run-pipeline](/img/ja-JP/run-pipeline.png)
+    ![run-pipeline](/img/run-pipeline.png)
 
-1. text_listフィールドに取り込む必要のあるテキストまたは`テキストリスト`を入力します。PRESERVE関数を追加した場合は、定義済みの保存フィールドにも値を入力します。[**実行**]をクリックします。
+1. `text_list`フィールドに取り込む必要があるテキストまたはテキストリストを入力してください。PRESERVE関数を追加した場合は、定義された保存フィールドに値を入力してください。**実行**をクリックしてください。
 
 1. 結果を確認してください。
 
@@ -367,9 +366,9 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value="Bash">
+<tabitem value="Bash"></tabitem>
 
-次の例では、Ingestionパイプライン`my_text_ingestion_Pipeline`を実行します。`source`は、保持する必要のあるメタデータフィールドです。
+次の例では、Ingestionパイプライン`my_text_ingestion_pipeline`を実行します。`source`は、保持する必要があるメタデータフィールドです。 
 
 ```bash
 curl --request POST \
@@ -389,13 +388,13 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーを表示する](/docs/manage-api-keys#view-api-keys)の詳細については、こちらをご覧ください。
 
-- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west1`のみがサポートされています。
 
 - `text_list`:取り込むテキストまたはテキストリスト。
 
-- `source`（オプション）:保存するメタデータフィールド。入力フィールド名は、Ingestionパイプラインを作成し、**PRESERVE**関数を追加したときに定義したものと一致する必要があります。このフィールドの値は、定義済みのフィールドタイプに従う必要があります。
+- `source`(オプション):保持するメタデータフィールド。入力フィールド名は、Ingestionパイプラインを作成し、**PRESERVE**関数を追加する際に定義したものと一致する必要があります。このフィールドの値は、事前定義されたフィールドタイプに従う必要があります。
 
 以下は回答例です。
 
@@ -425,24 +424,24 @@ curl --request POST \
 
 ### テキスト検索パイプラインの作成{#create-text-search-pipeline}
 
-<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"bash","value":"bash"}]}=""></tabs>
 
-<TabItem value="Cloud Console">
+<tabitem value="Cloud Console"></tabitem>
 
 1. プロジェクトに移動します。
 
-1. ナビゲーションパネルから**パイプライン**をクリックします。次に、**概要**タブに切り替えて、**パイプライン**をクリックします。パイプラインを作成するには、**+パイプライン**をクリックしてください。
+1. ナビゲーションパネルから「パイプライン」をクリックしてください。その後、「概要」タブに切り替えて、「パイプライン」をクリックしてください。パイプラインを作成するには、「+パイプライン」をクリックしてください。
 
-1. 作成するパイプラインの種類を選択してください。「**+パイプライン**」ボタンを**検索パイプライン**欄でクリックしてください。
+1. 作成するパイプラインの種類を選択してください。**Search Pipeline**列の**+Pipeline**ボタンをクリックしてください。
 
-    ![create-search-pipeline](/img/ja-JP/create-search-pipeline.png)
+    ![create-search-pipeline](/img/create-search-pipeline.png)
 
 1. 作成したい検索パイプラインを構成します。
 
     <table>
        <tr>
          <th><p><strong>パラメータ</strong></p></th>
-         <th><p><strong>説明する</strong></p></th>
+         <th><p><strong>の説明</strong></p></th>
        </tr>
        <tr>
          <td><p>パイプライン名</p></td>
@@ -454,22 +453,22 @@ curl --request POST \
        </tr>
     </table>
 
-    ![configure-search-pipeline](/img/ja-JP/configure-search-pipeline.png)
+    ![configure-search-pipeline](/img/configure-search-pipeline.png)
 
-1. 「**+Function**」をクリックして、検索パイプラインに関数を追加します。正確に1つの関数を追加できます。
+1. **+Function**をクリックして、検索パイプラインに関数を追加します。正確に1つの関数を追加できます。
 
     1. 関数名を入力します。
 
-    1. 「**Target Cluster**」と「**Target collection**」を選択します。**Target Cluster**は、**us-west 1 on Google Cloud Platform(GCP)**にデプロイされたクラスタである必要があります。また、**Target Collection**はIngestionパイプラインによって作成されている必要があります。そうでない場合、Searchパイプラインは互換性がありません。
+    1. 「ターゲットクラスター」と「ターゲットコレクション」を選択してください。「ターゲットクラスター」は、Google Cloud Platform(GCP)上の「us-west 1」に展開されたクラスターである必要があります。「ターゲットコレクション」は、Ingestionパイプラインによって作成される必要があります。そうでない場合、Searchパイプラインは互換性がありません。
 
-    1. [**SEARCH_TEXT**]を**関数タイプ**として選択します。**SEARCH_TEXT**関数は、クエリテキストをベクトル埋め込みに変換し、最も関連性の高いテキストエンティティを取得できます。
+    1. 「関数タイプ」として「SEARCH_TEXT」を選択してください。「SEARCH_TEXT」関数は、クエリテキストをベクトル埋め込みに変換し、最も関連性の高いテキストエンティティを取得できます。
 
-    1. (オプション)[reranker](./reranker)を有効にすると、クエリとの関連性に基づいて検索結果をランク付けして検索品質を向上させることができます。ただし、rerankerを有効にすると、コストと検索レイテンシが高くなることに注意してください。デフォルトでは、この機能は無効になっています。有効にすると、再ランキングに使用するモデルサービスを選択できます。現在、**zilliz/bge-reranker-base**のみが利用可能です。
+    1. (オプション)クエリとの関連性に基づいて検索結果をランク付けして検索品質を向上させたい場合は、[reranker](./reranker)を有効にしてください。ただし、rerankerを有効にすると、コストと検索レイテンシが高くなることに注意してください。デフォルトでは、この機能は無効になっています。有効にすると、再ランキングに使用されるモデルサービスを選択できます。現在、**zilliz/bge-reranker-base**のみが利用可能です。
 
         <table>
            <tr>
              <th><p><strong>リランカーモデルサービス</strong></p></th>
-             <th><p><strong>説明する</strong></p></th>
+             <th><p><strong>の説明</strong></p></th>
            </tr>
            <tr>
              <td><p>zilliz/bge-reranker-base-ダウンロード</p></td>
@@ -477,17 +476,17 @@ curl --request POST \
            </tr>
         </table>
 
-        ![add-search-text-function](/img/ja-JP/add-search-text-function.png)
+        ![add-search-text-function](/img/add-search-text-function.png)
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. 関数を保存するには、**追加**をクリックしてください。
 
-1. [**検索パイプラインを作成**]をクリックします。
+1. 「検索パイプラインの作成」をクリックしてください。
 
 </TabItem>
 
-<TabItem value="Bash">
+<tabitem value="Bash"></tabitem>
 
-次の例では、`my_text_search_Pipeline`という名前の検索パイプラインを作成し、**SEARCH_TEXT**関数を追加します。
+次の例では、`my_text_search_pipeline`という名前の検索パイプラインを作成し、**SEARCH_TEXT**関数を追加しています。 
 
 ```bash
 curl --request POST \
@@ -514,31 +513,31 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーを表示する](/docs/manage-api-keys#view-api-keys)の詳細については、こちらをご覧ください。
 
-- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west1`のみがサポートされています。
 
-- `projectId`:パイプラインを作成するプロジェクトのID。詳しくは[プロジェクトIDの取得方法をご覧ください。](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
+- `projectId`:パイプラインを作成するプロジェクトのIDです。[プロジェクトIDはどのように取得できますか?](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)について詳しく学びましょう。
 
-- `name`:作成するパイプラインの名前。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
+- `name`:作成するパイプラインの名前です。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
 - `description`(オプション):作成するパイプラインの説明。
 
 - `type`:作成するパイプラインの種類。現在利用可能なパイプラインの種類には、`INGESTION`、`SEARCH`、`DELETION`があります。
 
-- `functions`:パイプラインに追加する関数。**Searchパイプラインには1つの関数しか持てません。**
+- `functions`:パイプラインに追加する関数。**検索パイプラインには1つの関数しか持てません。**
 
-    - `name`:関数の名前です。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
+    - `name`:関数の名前。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-    - `action`:追加する関数の種類。現在利用可能なオプションは、`SEARCH_DOC_CHUNK`、`SEARCH_TEXT`、`SEARCH_IMAGE_BY_IMAGE`、`SEARCH_IMAGE_BY_TEXT`です。
+    - `action`:追加する関数のタイプです。現在利用可能なオプションには、`SEARCH_DOC_CHUNK`、`SEARCH_TEXT`、`SEARCH_IMAGE_BY_IMAGE`、`SEARCH_IMAGE_BY_TEXT`があります。
 
-    - `lusterId`:パイプラインを作成するクラスタのIDです。現在、GCP上のus-west 1にデプロイされたクラスタのみを選択できます。CLUSTER_IDの確認方法については、[How can I find my CLUSTER_ID?を参照してください。](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
+    - `clusterId`:パイプラインを作成するクラスタのIDです。現在、GCP上のus-west 1にデプロイされたクラスタのみを選択できます。[CLUSTER_IDをどのように見つけることができますか?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)について詳しくはこちらをご覧ください。
 
-    - `collection`Name:パイプラインを作成するコレクションの名前。
+    - `collectionName`:パイプラインを作成するコレクションの名前。
 
-    - `埋め込み`:ベクトル検索中に使用される埋め込みモデル。モデルは、互換性のあるコレクションで選択されたものと一致する必要があります。
+    - `embedding`:ベクトル検索中に使用される埋め込みモデル。モデルは、互換性のあるコレクションで選択されたものと一致する必要があります。
 
-    - `reranker`(オプション):検索結果の品質を向上させるために、一連の候補出力を並べ替えたりランク付けしたりするためのオプションのパラメータです。[reranker](./reranker)が必要ない場合は、このパラメータを省略できます。現在、パラメータ値として`zilliz/bge-reranker-base`のみが利用可能です。
+    - `reranker`（オプション）:これは、検索結果の品質を向上させるために一連の候補出力を並べ替えたりランク付けしたりする場合のオプションパラメータです。[reranker](./reranker)が必要ない場合は、このパラメータを省略できます。現在、パラメータ値として使用できるのは`zilliz/bge-reranker-base`のみです。
 
 以下は出力例です。
 
@@ -585,15 +584,15 @@ curl --request POST \
 
 ### テキスト検索パイプラインの実行{#run-text-search-pipeline}
 
-<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"bash","value":"bash"}]}=""></tabs>
 
-<TabItem value="Cloud Console">
+<tabitem value="Cloud Console"></tabitem>
 
-1. 検索パイプラインの横にある「▶︎」ボタンをクリックしてください。または、**プレイグラウンド**タブをクリックすることもできます。
+1. 検索パイプラインの横にある「▶︎」ボタンをクリックしてください。または、「プレイグラウンド」タブをクリックすることもできます。
 
-    ![run-pipeline](/img/ja-JP/run-pipeline.png)
+    ![run-pipeline](/img/run-pipeline.png)
 
-1. クエリテキストを入力します。[**実行**]をクリックします。
+1. クエリテキストを入力してください。**実行**をクリックしてください。
 
 1. 結果を確認してください。
 
@@ -601,9 +600,9 @@ curl --request POST \
 
 </TabItem>
 
-<TabItem value="Bash">
+<tabitem value="Bash"></tabitem>
 
-以下の例では、`my_text_search_パイプライン`という名前の検索パイプラインを実行しています。クエリテキストは「Zilliz Cloudとは何ですか?」です。
+次の例では、`my_text_search_pipeline`という名前の検索パイプラインを実行しています。クエリテキストは「Zilliz Cloudとは何ですか?」です。
 
 ```bash
 curl --request POST \
@@ -625,23 +624,23 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーを表示する](/docs/manage-api-keys#view-api-keys)の詳細については、こちらをご覧ください。
 
-- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west1`のみがサポートされています。
 
 - `query_text`:セマンティック検索を実行するために使用されるクエリテキスト。
 
 - `params`:設定する検索パラメータ。
 
-    - `limit`:返すエンティティの最大数。値は**1**から**500**までの整数である必要があります。この値と`offset`の値の合計は**1024**になる必要があります。
+    - `limit`:返すエンティティの最大数。値は**1**から**500**までの整数である必要があります。この値と`offset`の値の合計は**1024**小なりになる必要があります。
 
-    - `オフセット`:検索結果でスキップするエンティティの数。
+    - `offset`:検索結果でスキップするエンティティの数。
 
-        この値と`limit`の合計は大なり**1024**ではありません。最大値は**1024**です。
+        この値と`limit`の値の合計は大なり**1024**ではありません。最大値は**1024**です。
 
-    - `output`Fields:検索結果とともに返されるフィールドの配列です。デフォルトでは、`id`（エンティティID）、`distance`、`text`が検索結果に返されます。返された結果に他の出力フィールドが必要な場合は、このパラメータを設定できます。
+    - `outputFields`:検索結果とともに返されるフィールドの配列です。`id`（エンティティID）、`distance`、および`text`は、デフォルトで検索結果に返されます。返された結果に他の出力フィールドが必要な場合は、このパラメータを設定できます。
 
-    - `フィルター`:検索に一致するものを見つけるために使用されるブール式の[フィルター](./filtering)
+    - `filter`:検索に一致するものを見つけるために使用されるブール式の[フィルタ](./filtering)
 
 以下は回答例です。
 
@@ -674,24 +673,24 @@ curl --request POST \
 
 ### テキスト削除パイプラインの作成{#create-text-deletion-pipeline}
 
-<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"bash","value":"bash"}]}=""></tabs>
 
-<TabItem value="Cloud Console">
+<tabitem value="Cloud Console"></tabitem>
 
 1. プロジェクトに移動します。
 
-1. ナビゲーションパネルから**パイプライン**をクリックします。次に、**概要**タブに切り替えて、**パイプライン**をクリックします。パイプラインを作成するには、**+パイプライン**をクリックしてください。
+1. ナビゲーションパネルから「パイプライン」をクリックしてください。その後、「概要」タブに切り替えて、「パイプライン」をクリックしてください。パイプラインを作成するには、「+パイプライン」をクリックしてください。
 
-1. 作成するパイプラインの種類を選択してください。「**+パイプライン**」ボタンを**削除パイプライン**欄でクリックしてください。
+1. 作成するパイプラインの種類を選択してください。**Deletion Pipeline**列の**+Pipeline**ボタンをクリックしてください。
 
-    ![create-deletion-pipeline](/img/ja-JP/create-deletion-pipeline.png)
+    ![create-deletion-pipeline](/img/create-deletion-pipeline.png)
 
 1. 作成する削除パイプラインを構成します。
 
     <table>
        <tr>
          <th><p><strong>パラメータ</strong></p></th>
-         <th><p><strong>説明する</strong></p></th>
+         <th><p><strong>の説明</strong></p></th>
        </tr>
        <tr>
          <td><p>パイプライン名</p></td>
@@ -703,23 +702,23 @@ curl --request POST \
        </tr>
     </table>
 
-    ![configure-deletion-pipeline](/img/ja-JP/configure-deletion-pipeline.png)
+    ![configure-deletion-pipeline](/img/configure-deletion-pipeline.png)
 
-1. 「**+Function**」をクリックして、削除パイプラインに関数を追加します。1つの関数だけを追加できます。
+1. **+Function**をクリックして、削除パイプラインに関数を追加します。正確に1つの関数を追加できます。
 
     1. 関数名を入力します。
 
-    1. 「**PURGE_TEXT_INDEX**」または「**PURGE_BY_EXPRESSION**」を**関数タイプ**として選択します。**PURGE_TEXT_INDEX**関数は、指定されたidを持つすべてのテキストエンティティを削除できます。**PURGE_BY_EXPRESSION**関数は、指定されたフィルタ式に一致するすべてのテキストエンティティを削除できます。
+    1. **関数タイプ**として、**PURGE_TEXT_INDEX**または**PURGE_BY_EXPRESSION**のいずれかを選択してください。**PURGE_TEXT_INDEX**関数は指定されたidを持つすべてのテキストエンティティを削除できますが、**PURGE_BY_EXPRESSION**関数は指定されたフィルタ式に一致するすべてのテキストエンティティを削除できます。
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. 関数を保存するには、**追加**をクリックしてください。
 
-1. [**削除パイプラインを作成**]をクリックします。
+1. 「削除パイプラインの作成」をクリックしてください。
 
 </TabItem>
 
-<TabItem value="Bash">
+<tabitem value="Bash"></tabitem>
 
-以下の例では、`my_text_delete_Pipeline`という名前の削除パイプラインを作成し、**PURGE_BY_EXPRESSION**関数を追加しています。
+以下の例では、`my_text_deletion_pipeline`という名前のDeletionパイプラインを作成し、**PURGE_BY_EXPRESSION**関数を追加しています。 
 
 ```bash
 curl --request POST \
@@ -744,13 +743,13 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーを表示する](/docs/manage-api-keys#view-api-keys)の詳細については、こちらをご覧ください。
 
-- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west1`のみがサポートされています。
 
-- `projectId`:パイプラインを作成するプロジェクトのID。詳しくは[プロジェクトIDの取得方法をご覧ください。](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)
+- `projectId`:パイプラインを作成するプロジェクトのIDです。[プロジェクトIDはどのように取得できますか?](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID)について詳しく学びましょう。
 
-- `name`:作成するパイプラインの名前。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
+- `name`:作成するパイプラインの名前です。パイプライン名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
 - `description`(オプション):作成するパイプラインの説明。
 
@@ -758,13 +757,13 @@ curl --request POST \
 
 - `functions`:パイプラインに追加する関数。**Deletionパイプラインには1つの関数しか持てません。**
 
-    - `name`:関数の名前です。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
+    - `name`:関数の名前。関数名は3～64文字の文字列で、英数字とアンダースコアのみを含めることができます。
 
-    - `アクション`:追加する関数の種類。利用可能なオプションには、`PURGE_DOC_INDEX`、`PURGE_TEXT_INDEX`、`PURGE_BY_EXPRESSION`、`PURGE_IMAGE_INDEX`があります。
+    - `action`:追加する関数の種類。利用可能なオプションには、`PURGE_DOC_INDEX`、`PURGE_TEXT_INDEX`、`PURGE_BY_EXPRESSION`、および`PURGE_IMAGE_INDEX`があります。
 
-- `lusterId`:パイプラインを作成するクラスタのIDです。現在、GCP us-west 1にデプロイされたクラスタのみを選択できます。詳しくは[How can I find my CLUSTER_ID?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)
+- `clusterId`:パイプラインを作成するクラスタのIDです。現在、GCP us-west 1にデプロイされたクラスタのみを選択できます。[CLUSTER_IDをどのように見つけることができますか?](https://support.zilliz.com/hc/en-us/articles/21129365415067-How-can-I-find-my-CLUSTER-ID-and-CLOUD-REGION-ID)について詳しくはこちらをご覧ください。
 
-- `collection`Name:パイプラインを作成するコレクションの名前。
+- `collectionName`:パイプラインを作成するコレクションの名前。
 
 以下は出力例です。
 
@@ -797,23 +796,23 @@ curl --request POST \
 
 ### テキスト削除パイプラインを実行{#run-text-deletion-pipeline}
 
-<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"bash","value":"bash"}]}=""></tabs>
 
-<TabItem value="Cloud Console">
+<tabitem value="Cloud Console"></tabitem>
 
-1. 削除パイプラインの横にある「▶︎」ボタンをクリックしてください。または、**プレイグラウンド**タブをクリックすることもできます。
+1. 削除パイプラインの横にある「▶︎」ボタンをクリックしてください。または、「プレイグラウンド」タブをクリックすることもできます。
 
-    ![run-pipeline](/img/ja-JP/run-pipeline.png)
+    ![run-pipeline](/img/run-pipeline.png)
 
-1. フィルタ式を入力します。[**実行**]をクリックします。
+1. フィルタ式を入力します。**実行**をクリックします。
 
 1. 結果を確認してください。
 
 </TabItem>
 
-<TabItem value="Bash">
+<tabitem value="Bash"></tabitem>
 
-次の例では、`my_text_deletion_Pipeline`という名前のDeletionパイプラインを実行します。
+次の例では、`my_text_deletion_pipeline`という名前のDeletionパイプラインを実行します。 
 
 ```bash
 curl --request POST \
@@ -829,11 +828,11 @@ curl --request POST \
 
 上記のコードのパラメータは次のように説明されています
 
-- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーの表示](./manage-api-keys#apiview-api-keys)方法については、こちらをご覧ください。
+- `YOUR_API_KEY`: APIリクエストの認証に使用される資格情報。[APIキーを表示する](/docs/manage-api-keys#view-api-keys)の詳細については、こちらをご覧ください。
 
-- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west 1`のみがサポートされています。
+- `cloud-region`:クラスターが存在するクラウドリージョンのID。現在、`gcp-us-west1`のみがサポートされています。
 
-- `expression`:削除する必要のあるエンティティをフィルタリングするために使用されるブール式。ブール式の書き方の詳細については、[フィルタリング](./filtering)を参照してください。
+- `expression`:削除が必要なエンティティをフィルタリングするために使用されるブール式です。ブール式の書き方の詳細については、[フィルタリング](./filtering)を参照してください。
 
 以下は回答例です。
 
@@ -856,17 +855,17 @@ curl --request POST \
 
 ### ビューパイプライン{#view-pipeline}
 
-<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"bash","value":"bash"}]}=""></tabs>
 
-<TabItem value="Cloud Console">
+<tabitem value="Cloud Console"></tabitem>
 
-左ナビゲーションの**パイプライン**をクリックします。**パイプライン**タブを選択します。利用可能なすべてのパイプラインが表示されます。
+左ナビゲーションの**パイプライン**をクリックします。**パイプライン**タブを選択します。利用可能なすべてのパイプラインが表示されます。 
 
-![view-pipelines-on-web-ui](/img/ja-JP/view-pipelines-on-web-ui.png)
+![view-pipelines-on-web-ui](/img/view-pipelines-on-web-ui.png)
 
 特定のパイプラインをクリックすると、基本情報、合計使用量、機能、関連コネクタなどの詳細情報が表示されます。
 
-![view-pipeline-details](/img/ja-JP/view-pipeline-details.png)
+![view-pipeline-details](/img/view-pipeline-details.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -876,17 +875,17 @@ curl --request POST \
 
 Web UIでパイプラインのアクティビティを確認することもできます。
 
-![view-pipelines-activities-on-web-ui](/img/ja-JP/view-pipelines-activities-on-web-ui.png)
+![view-pipelines-activities-on-web-ui](/img/view-pipelines-activities-on-web-ui.png)
 
 </TabItem>
 
-<TabItem value="Bash">
+<tabitem value="Bash"></tabitem>
 
 APIを呼び出して、既存のすべてのパイプラインを一覧表示したり、特定のパイプラインの詳細を表示したりできます。
 
-- **既存のパイプラインをすべて表示する**
+- **すべての既存のパイプラインを表示**
 
-    以下の例に従い、projectIdを指定してくださ`い`。[プロジェクトIDの取得方法に](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID-)ついては、こちらをご覧ください。
+    以下の例に従って、`projectId`を指定してください。[プロジェクトIDの取得方法](https://support.zilliz.com/hc/en-us/articles/22048954409755-How-Can-I-Obtain-the-Project-ID-)の詳細については、こちらをご覧ください。
 
     ```bash
     curl --request GET \
@@ -1049,19 +1048,19 @@ APIを呼び出して、既存のすべてのパイプラインを一覧表示�
 
 </Admonition>
 
-<Tabs groupId="cluster"defaultValue="Cloud Console"value={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"bash","value":"bash"}]}=""></tabs>
 
-<TabItem value="Cloud Console">
+<tabitem value="Cloud Console"></tabitem>
 
-Web UIにパイプラインをドロップするには、をクリックします**。。。**「**アクション**」列の下にあるボタンをクリックします。次に、「**ドロップ**」をクリックします。
+Web UIにパイプラインをドロップするには、**をクリックします。。。「アクション」列の下にあるボタンをクリックして、「ドロップ」をクリックしてください。
 
-![delete-pipeline](/img/ja-JP/delete-pipeline.png)
+![delete-pipeline](/img/delete-pipeline.png)
 
 </TabItem>
 
-<TabItem value="Bash">
+<tabitem value="Bash"></tabitem>
 
-以下の例に従って、パイプラインを削除してください。
+以下の例に従って、パイプラインを削除してください。 
 
 ```bash
 curl --request GET \

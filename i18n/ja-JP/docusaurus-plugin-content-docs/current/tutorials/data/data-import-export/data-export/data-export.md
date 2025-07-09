@@ -6,17 +6,17 @@ beta: FALSE
 notebook: FALSE
 description: "このガイドでは、さまざまな方法を使用してZilliz Cloudからデータをエクスポートする方法の例を紹介します。 | Cloud"
 type: origin
-token: OyMpwQi09iopGikeSojcMGTDnsh
+token: CeH9wPtUfiOdDckoPszcAuLonce
 sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - cloud
   - data export
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

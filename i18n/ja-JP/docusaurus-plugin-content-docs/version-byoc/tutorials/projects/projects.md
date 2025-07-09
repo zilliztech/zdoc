@@ -6,17 +6,17 @@ beta: FALSE
 notebook: FALSE
 description: "この章では、プロジェクトの操作と関連する設定に焦点を当てています。 | BYOC"
 type: origin
-token: AfluwWdKUiSnIgkaR4LcW5XUn1b
-sidebar_position: 8
+token: QHzrwVlEOipspAkPiyucWezqneC
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database
   - cloud
   - projects
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

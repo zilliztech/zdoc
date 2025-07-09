@@ -7,16 +7,16 @@ notebook: FALSE
 description: "このリリースには、Zilliz Cloudにいくつかの重要なアップデートが含まれており、最初にZilliz Cloud ServerlessのGAが提供され、自動スケーリングが可能になり、最大50倍のコスト削減が可能になりました。 Milvus 2.4の機能がGAになりました。スパースベクトル、マルチベクトルハイブリッド検索、ファジーマッチング付きの逆インデックスなどの機能が導入されました。 このリリースには、パブリックプレビューのマルチレプリカ機能も含まれており、複数のアベイラビリティゾーン(AZ)のレプリカにワークロードを分散することで、クエリのスループットと可用性を向上させることができます。 さらに、Zilliz Cloudの新しいMigration Serviceは、オープンソースのMilvus、pgvector、Elasticsearchからの移行をサポートし、Zilliz Cloud内での組織内および組織間のデータ移行を可能にします。バックアップ、復元、移行、ジョブ管理のための拡張されたRESTful APIにより、ユーザーは自動化された運用ワークフローを構築できます。 その他の機能強化には、プロジェクトの読み取り専用ロールのサポート、クラスターとスナップショットの名前変更機能が含まれます。 | Cloud"
 type: origin
 token: PJ4hwwD1DiVnv0kWPZBceLrdnSf
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 
@@ -75,7 +75,7 @@ Milvusの以前のリリースでは、メモリベースのバイナリサー�
 
 #### グループ検索{#grouping-search}
 
-特定のスカラーフィールドの値によって検索結果を集計できるようになりました。これは、検索クエリに関連する一意のドキュメントIDを返すだけでなく、ドキュメントチャンクを取得するためにRAGで役立ちます。各ドキュメントが複数のチャンクに分割され、各チャンクがベクトル埋め込みで表されるドキュメントのコレクションを考慮すると、「search()」操作の「group_by_field」引数を使用して、ドキュメントIDによって結果をグループ化し、意味的に関連するチャンクを検索しながら関連するドキュメントのリストを見つけることができます。
+特定のスカラーフィールドの値によって検索結果を集計できるようになりました。これは、検索クエリに関連する一意のドキュメントIDを返すだけでなく、ドキュメントチャンクを取得するためにRAGで役立ちます。各ドキュメントが複数のチャンクに分割され、各チャンクがベクトル埋め込みで表されるドキュメントのコレクションを考慮すると、`search()`操作の`group_by_field`引数を使用して、ドキュメントIDによって結果をグループ化し、意味的に関連するチャンクを検索しながら関連するドキュメントのリストを見つけることができます。
 
 サンプルコードは[example_group_by.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/example_group_by.py)にあります。
 

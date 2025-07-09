@@ -1,12 +1,12 @@
 ---
-title: "API の可用性 | BYOC"
+title: "APIの利用可能性 | BYOC"
 slug: /api-comparison
-sidebar_label: "API の可用性"
+sidebar_label: "APIの利用可能性"
 beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、より良いユーザーエクスペリエンスを提供するために、Milvusとはやや異なる方法で動作します。この記事では、APIに関する2つのプラットフォームの違いを明確にすることを目的としています。 | BYOC"
 type: origin
-token: LlLcwvH1FirFu7k0dhXcL3AZnCb
+token: DAk8w3GCJiuUTTkms6IcMtnAnMf
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -14,17 +14,17 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# API の可用性
+# APIの利用可能性
 
 Zilliz Cloudは、より良いユーザーエクスペリエンスを提供するために、Milvusとはやや異なる方法で動作します。この記事では、APIに関する2つのプラットフォームの違いを明確にすることを目的としています。
 
@@ -32,146 +32,146 @@ MilvusからZilliz Cloudへの移行を計画している場合は、レガシ�
 
 ## シナリオ固有の権限{#scenario-specific-privileges}
 
-以下の表では、さまざまなサービスレベルでのAPIの可用性を比較しています。[Bring Your Own Cloud (BYOC)](./byoc-intro) ソリューションのAPIの可用性は、StandardおよびEnterpriseレベルと一致しています。
+以下の表は、さまざまなサービス層でのAPIの利用可能性を比較しています。[Bring Your Own Cloud（BYOC）について](/docs/byoc/byoc-intro)ソリューションのAPIの利用可能性は、**StandardおよびEnterprise**層と一致しています。
 
 <table>
    <tr>
      <th><p><strong>カテゴリー</strong></p></th>
-     <th><p><strong>API</strong></p></th>
-     <th><p><strong>Console</strong></p></th>
-     <th><p><strong>Free</strong></p></th>
-     <th><p><strong>Serverless</strong></p></th>
-     <th><p><strong>Dedicated</strong></p></th>
+     <th><p><strong>APIの</strong></p></th>
+     <th><p><strong>コンソール</strong></p></th>
+     <th><p><strong>フリー</strong></p></th>
+     <th><p><strong>サーバーレス</strong></p></th>
+     <th><p><strong>専用の</strong></p></th>
    </tr>
    <tr>
-     <td rowspan="5"><p>Alias</p></td>
-     <td><p>alterAlias()</p></td>
+     <td rowspan="5"><p>エイリアス</p></td>
+     <td><p>AlterAlias()の設定</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>createAlias()</p></td>
+     <td><p>CreateAlias()を作成する</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>dropAlias()</p></td>
+     <td><p>ドロップエイリアス()</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>describeAlias()</p></td>
+     <td><p>DescribeAlias()の説明</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>listAliases()</p></td>
+     <td><p>listAliases()メソッド</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td rowspan="4"><p>Authentication</p></td>
-     <td><p>createCredential()</p></td>
-     <td><p>✔︎</p></td>
+     <td rowspan="4"><p>認証プロセス</p></td>
+     <td><p>CreateCredential()を作成する</p></td>
+     <td><p>✔❄</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>deleteCredential()</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>タグ: deleteCredential()</p></td>
+     <td><p>✔❄</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>listCredUsers()</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>listCredUsers()の設定</p></td>
+     <td><p>✔❄</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>updateCredential()</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>updateCredential()を更新する</p></td>
+     <td><p>✔❄</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td rowspan="3"><p>BulkInsert</p></td>
-     <td><p>bulkInsert()</p></td>
-     <td><p>✔︎</p></td>
+     <td rowspan="3"><p>バルクインサート</p></td>
+     <td><p>バルク挿入()</p></td>
+     <td><p>✔❄</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
    </tr>
    <tr>
-     <td><p>getBulkInsertState()</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>getBulkInsertState()を取得する</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>listBulkInsertTasks()</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>listBulkInsertTasks()リスト</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td rowspan="16"><p>Collection</p></td>
+     <td rowspan="16"><p>コレクション</p></td>
      <td><p>getCollectionStatistics()</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>createCollection()</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>クリエイトコレクション()</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>describeCollection()</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>DescribeCollection()の説明</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>dropCollection()</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>ドロップコレクション()</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>alterCollection()</p></td>
+     <td><p>AlterCollection(アルターコレクション)</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>getLoadingProgress()</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>getLoading Progress()を取得する</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
      <td><p>getPersistentSgementInfo()</p></td>
@@ -181,341 +181,332 @@ MilvusからZilliz Cloudへの移行を計画している場合は、レガシ�
      <td><p>✘</p></td>
    </tr>
    <tr>
-     <td><p>getQuerySegmentInfo()</p></td>
+     <td><p>この関数は、</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
    </tr>
    <tr>
-     <td><p>getReplicas()</p></td>
+     <td><p>getReplicas()メソッド</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
    </tr>
    <tr>
-     <td><p>insert()</p></td>
+     <td><p>挿入する</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>loadCollection()</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>これは、</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>releaseCollection()</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>リリースコレクション()</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>showCollections()</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>showCollections()を表示する</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>getLoadState()</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>getLoadState()を取得する</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>renameCollection()</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>ルネサンス()</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>upsert()</p></td>
+     <td><p>upsert()より</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td rowspan="3"><p>Database</p></td>
-     <td><p>ListDatabases</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-   </tr>
-   <tr>
-     <td><p>DropDatabase</p></td>
-     <td><p>✔︎</p></td>
+     <td rowspan="3"><p>データベース</p></td>
+     <td><p>リストデータベース</p></td>
+     <td><p>✔❄</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>CreateDatabase</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>ドロップデータベース</p></td>
+     <td><p>✔❄</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td rowspan="5"><p>Index</p></td>
-     <td><p>createIndex()</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>データベースの作成</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>describeIndex()</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td rowspan="5"><p>インデックス</p></td>
+     <td><p>クリエイトインデックス()</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>dropIndex()</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><h1 id="">インデックス</h1></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+   </tr>
+   <tr>
+     <td><p>ドロップインデックス()</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
      <td><p>getIndexBuildProgress()</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>getIndexState()</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>getIndexState()を取得する</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td rowspan="6"><p>Management</p></td>
-     <td><p>getCompactionState()</p></td>
+     <td rowspan="6"><p>マネジメント</p></td>
+     <td><p>この関数は</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
      <td><p>getCompactionStateWithPlan()</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>getFlushState()</p></td>
+     <td><p>getFlushState()を取得する</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>getMetrics()</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
-   </tr>
-   <tr>
-     <td><p>loadBalance()</p></td>
+     <td><p>getMetrics()を取得する</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
    </tr>
    <tr>
-     <td><p>manualCompact()</p></td>
+     <td><p>これは、</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
    </tr>
    <tr>
-     <td rowspan="7"><p>Partition</p></td>
-     <td><p>createPartition()</p></td>
+     <td><p>マニュアルコンパクト()</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>dropPartition()</p></td>
+     <td rowspan="7"><p>パーティション</p></td>
+     <td><p>CreatePartition()を作成する</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+   </tr>
+   <tr>
+     <td><p>ドロップパーティション()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
      <td><p>getPartitionStatistics()</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>hasPartiotion()</p></td>
+     <td><h1 id="">パーティション</h1></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>loadPartitions()</p></td>
+     <td><p>ロードパーティション()</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>releasePartitions()</p></td>
+     <td><p>リリースパーティション()</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>showPartitions()</p></td>
+     <td><p>showPartitions()を表示する</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td rowspan="2"><p>Search &amp; Query</p></td>
-     <td><p>search()</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td rowspan="2"><p>検索とクエリ</p></td>
+     <td><p>検索する</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>query()</p></td>
+     <td><p>クエリー()</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td rowspan="12"><p>Role-based access control (RBAC)</p></td>
-     <td><p>addUserToRole()</p></td>
-     <td><p>✔︎</p></td>
+     <td rowspan="12"><p>ロールベースアクセス制御(RBAC)</p></td>
+     <td><p>addUserToRole()の設定</p></td>
+     <td><p>✔❄</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>createRole()</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>CreateRole()を作成する</p></td>
+     <td><p>✔❄</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>dropRole()</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>ドロップロール()</p></td>
+     <td><p>✔❄</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>grantRolePrivilege()</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
-   </tr>
-   <tr>
-     <td><p>removeUserFromRole()</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-   </tr>
-   <tr>
-     <td><p>revokeRolePrivilege()</p></td>
+     <td><p>タグ: grantRolePrivilege</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
    </tr>
    <tr>
-     <td><p>selectGrantForRole()</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>removeUser FromRole()を削除する</p></td>
+     <td><p>✔❄</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+   </tr>
+   <tr>
+     <td><p>リボーク権限()</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+   </tr>
+   <tr>
+     <td><p>SelectGrantForRole()を選択してください。</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
      <td><p>selectGrantForRoleAndObject()</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>selectRole()</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>SelectRole()を選択してください。</p></td>
+     <td><p>✔❄</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>selectUser()</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>SelectUser()を選択してください。</p></td>
+     <td><p>✔❄</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>grantPrivilegeV2()</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>GrantPrivilegeV2()の設定</p></td>
+     <td><p>✔❄</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>revokePrivilegeV2</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>権限を取り消すV 2</p></td>
+     <td><p>✔❄</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td rowspan="2"><p>System</p></td>
-     <td><p>getVersion()</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td rowspan="2"><p>システム</p></td>
+     <td><p>getVersion()を取得する</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
    <tr>
-     <td><p>checkHealth()</p></td>
+     <td><p>チェックヘルス()</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
+     <td><p>✔❄</p></td>
    </tr>
 </table>
-
-## 関連するトピック{#related-topics}
-
-- [バックアップファイルを使用してMilvusからZilliz Cloudに移行する](./via-backup-files)
-
-- [AUTOINDEXの説明](./autoindex-explained)
-
-- [適切なCUを選択してください](./cu-types-explained)
-

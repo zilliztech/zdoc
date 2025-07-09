@@ -1,12 +1,12 @@
 ---
-title: "検索&ランク | BYOC"
+title: "検索する | BYOC"
 slug: /search-query-get
-sidebar_label: "検索&ランク"
+sidebar_label: "検索する"
 beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloudはベクトルベースの類似検索を実装し、検索効率とパフォーマンスを向上させるための複数の最適化を提供します。この章では、Zilliz Cloudで利用可能なさまざまなベクトル検索方法の原則とチュートリアルを学びます。 | BYOC"
 type: origin
-token: N9D5wwK8eiB7tbkeeVyc9QDXnVd
+token: CSYrwhK4Gigk07kd6ufcNTGMnZf
 sidebar_position: 5
 keywords: 
   - zilliz
@@ -15,19 +15,21 @@ keywords:
   - collection
   - data
   - DML
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# 検索&ランク
+# 検索する
 
 Zilliz Cloudはベクトルベースの類似検索を実装し、検索効率とパフォーマンスを向上させるための複数の最適化を提供します。この章では、Zilliz Cloudで利用可能なさまざまなベクトル検索方法の原則とチュートリアルを学びます。
+
+
 
 import DocCardList from '@theme/DocCardList';
 

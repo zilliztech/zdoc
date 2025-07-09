@@ -6,8 +6,8 @@ beta: FALSE
 notebook: FALSE
 description: "この章では、Zilliz Cloudクラスターにデータをインポートしたり、データをエクスポートするための一般的な手順について説明します。 | Cloud"
 type: origin
-token: DTs5w8R6die9xGk9nHncNE2jnlb
-sidebar_position: 6
+token: Oh3VwT15Yi03bRkOtoXcZpurnWe
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - data import
   - export
   - milvus
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

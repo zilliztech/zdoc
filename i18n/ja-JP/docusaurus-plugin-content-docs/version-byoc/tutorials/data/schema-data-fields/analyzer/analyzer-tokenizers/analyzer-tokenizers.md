@@ -1,12 +1,12 @@
 ---
 title: "トークナイザーリファレンス | BYOC"
 slug: /analyzer-tokenizers
-sidebar_label: "トークナイザーリファレンス"
-beta: PUBLIC
+sidebar_label: "Tokenizer"
+beta: FALSE
 notebook: FALSE
 description: "このセクションでは、トークナイザーの詳細なリファレンスを提供します。 | BYOC"
 type: origin
-token: SZT7wSD7FiTKmPk8NWbccHT8npc
+token: Zu6vw6Aifi1gvNkqqO5cDjmtngh
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

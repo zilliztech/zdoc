@@ -2,11 +2,11 @@
 title: "データに接続する | Cloud"
 slug: /connectors
 sidebar_label: "データに接続する"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "コネクターは、様々なデータソースをベクターデータベースに簡単に接続できる無料のツールです。このガイドでは、コネクターの概念を説明し、Zilliz Cloud Pipelinesでコネクターを作成および管理する方法について説明します。 | Cloud"
 type: origin
-token: Vw7zwhnd7ifEWAk6w9vcYR6lnQe
+token: UcAvwL6N0iAq7bkuDcQcJgWqn3b
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - connect
   - data
-  - open source vector database
   - Vector index
   - vector database open source
   - open source vector db
+  - vector database example
 
 ---
 
@@ -36,9 +36,9 @@ import Admonition from '@theme/Admonition';
 
 ## コネクターの理解{#understanding-connectors}
 
-コネクタは、オブジェクトストレージ、Kafka(近日公開予定)など、さまざまなデータソースからZilliz Cloudにデータを取り込むためのツールです。オブジェクトストレージコネクタを例にとると、コネクタはオブジェクトストレージバケット内のディレクトリを監視し、PDFやHTMLなどのファイルをZilliz Cloudパイプラインに同期して、ベクトル表現に変換してベクトルデータベースに保存して検索できます。インジェストおよび削除パイプラインを使用すると、Zilliz Cloud内のファイルとそのベクトル表現が同期されます。オブジェクトストレージ内のファイルの追加または削除は、ベクトルデータベースコレクションにマップされます。
+コネクタは、オブジェクトストレージ、Kafka(近日公開予定)など、さまざまなデータソースからZilliz Cloudにデータを取り込むためのツールです。オブジェクトストレージコネクタを例にとると、コネクタはオブジェクトストレージバケット内のディレクトリを監視し、PDFやHTMLなどのファイルをZilliz Cloudパイプラインに同期して、ベクトル表現に変換してベクトルデータベースに保存して検索することができます。インジェストおよび削除パイプラインを使用すると、Zilliz Cloud内のファイルとそのベクトル表現が同期されます。オブジェクトストレージ内のファイルの追加または削除は、ベクトルデータベースコレクションにマップされます。
 
-![connector-overview](/img/ja-JP/connector-overview.png)
+![connector-overview](/img/connector-overview.png)
 
 ### なぜコネクタを使用するのですか?{#why-use-a-connector}
 
@@ -46,7 +46,7 @@ import Admonition from '@theme/Admonition';
 
     リアルタイムでデータを楽々と取り込み、インデックス化することで、すべての検索問い合わせに対して最新のコンテンツが即座にアクセス可能になります。
 
-1. **スケーラブルで適応性がある**
+1. **スケーラブルで適応性のある**
 
     DevOpsの手間をかけずに、データ取り込みパイプラインを簡単に拡張できます。アダプティブコネクタは、変動するトラフィック負荷をシームレスに処理し、スムーズなスケーラビリティを確保します。
 
@@ -54,7 +54,7 @@ import Admonition from '@theme/Admonition';
 
     ドキュメントの追加と削除を検索インデックスに自動的に同期します。また、すべての一般的なデータソースを融合します（近日公開予定）。
 
-1. **可観測性**
+1. **観測可能性**
 
     詳細なログを記録し、透明性を確保し、発生する可能性のある異常を検出することで、データフローの洞察を得ることができます。
 
@@ -64,7 +64,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
 ### 前提条件{#prerequisites}
 
-- 必ず[コレクションを作成し](./manage-collections-sdks)てください。
+- [コレクションを作成しました](./manage-collections-sdks)があることを確認してください。
 
 - 作成されたコレクションには、文書の取り込みパイプラインと削除パイプラインがあることを確認してください。
 
@@ -76,18 +76,18 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
 ### 手続き{#procedures}
 
-1. プロジェクトに移動します。ナビゲーションパネルから[**パイプライン**]をクリックします。次に、[**コネクタ**]タブに切り替えます。[**+コネクタ**]をクリックします。
+1. プロジェクトに移動します。ナビゲーションパネルから**パイプライン**をクリックします。次に、**コネクター**タブに切り替えます。**+コネクター**をクリックします。
 
-    ![create-connector](/img/ja-JP/create-connector.png)
+    ![create-connector](/img/create-connector.png)
 
 1. データソースへのリンク。
 
-    1. コネクタの基本情報を設定します。
+    1. コネクタの基本情報を設定します。 
 
         <table>
            <tr>
              <th><p><strong>パラメータ</strong></p></th>
-             <th><p><strong>説明する</strong></p></th>
+             <th><p><strong>の説明</strong></p></th>
            </tr>
            <tr>
              <td><p>コネクタ名</p></td>
@@ -104,15 +104,15 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
         <table>
            <tr>
              <th><p><strong>パラメータ</strong></p></th>
-             <th><p><strong>説明する</strong></p></th>
+             <th><p><strong>の説明</strong></p></th>
            </tr>
            <tr>
              <td><p>オブジェクトストレージサービス</p></td>
-             <td><p>データソースのオブジェクトストレージサービスを選択してください。利用可能なオプションには、次のものがあります:</p><ul><li><p>AWSのS 3</p></li><li><p>Google Cloud Storageです。</p></li></ul></td>
+             <td><p>データソースのオブジェクトストレージサービスを選択してください。利用可能なオプションには、次のものがあります: </p><ul><li><p>AWSのS 3</p></li><li><p>Google Cloud Storageです。</p></li></ul></td>
            </tr>
            <tr>
              <td><p>バケットURL</p></td>
-             <td><p>ソースデータにアクセスするために使用するバケットURLを指定してください。特定のファイルではなく、ファイルディレクトリのURLを入力してください。また、ルートディレクトリはサポートされていません。</p><p>URLを取得する方法の詳細については、以下を参照してください:</p><ul><li><p><a href="https://docs.aws.amazon.com/ja_jp/AmazonS3/latest/userguide/access-bucket-intro.html">Amazon S 3バケットへのアクセスとリスティング</a></p></li><li><p><a href="https://cloud.google.com/storage/docs/discover-object-storage-console?hl=ja#share_the_object">Google Cloudコンソールでオブジェクトストレージを発見する</a></p></li></ul></td>
+             <td><p>ソースデータにアクセスするために使用するバケットURLを指定してください。特定のファイルではなく、ファイルディレクトリのURLを入力してください。また、ルートディレクトリはサポートされていません。</p><p>URLを取得する方法の詳細については、以下を参照してください:</p><ul><li><p><a href="https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html">Amazon S 3バケットへのアクセスとリスティング</a></p></li><li><p><a href="https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object">Google Cloudコンソールでオブジェクトストレージを発見する</a></p></li></ul></td>
            </tr>
            <tr>
              <td><p>認証のためのアクセスキー（任意）</p></td>
@@ -120,7 +120,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
            </tr>
         </table>
 
-        次のステップに進むには**、リンクと続行**をクリックしてください。
+        次のステップに進むには、**リンクして続行**をクリックしてください。
 
         <Admonition type="info" icon="📘" title="ノート">
 
@@ -128,11 +128,11 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
         </Admonition>
 
-        ![link-data-source](/img/ja-JP/link-data-source.png)
+        ![link-data-source](/img/link-data-source.png)
 
-1. ターゲットパイプラインを追加します。
+1. ターゲットパイプラインを追加します。 
 
-    まず、ターゲットクラスタを選択し、次に1つのインジェストパイプラインと削除パイプラインを持つコレクションを選択します。ターゲットインジェストパイプラインにはINDEX_DOC関数**のみ**が必要です。複数の削除パイプラインが利用可能な場合は、適切なものを手動で選択してください。
+    まず、ターゲットクラスタを選択し、次に1つのインジェストパイプラインと削除パイプラインを持つコレクションを選択します。ターゲットインジェストパイプラインにはINDEX_DOC関数のみが必要です。複数の削除パイプラインが利用可能な場合は、適切なものを手動で選択してください。
 
     <Admonition type="info" icon="📘" title="ノート">
 
@@ -140,9 +140,9 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
     </Admonition>
 
-    ![add-target-pipelines](/img/ja-JP/add-target-pipelines.png)
+    ![add-target-pipelines](/img/add-target-pipelines.png)
 
-1. 自動スキャンを有効にするかどうかを選択します。
+1. 自動スキャンを有効にするかどうかを選択します。 
 
     - 無効になっている場合、ソースデータに更新がある場合は、手動でスキャンをトリガーする必要があります。
 
@@ -151,7 +151,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
         <table>
            <tr>
              <th><p><strong>パラメータ</strong></p></th>
-             <th><p><strong>説明する</strong></p></th>
+             <th><p><strong>の説明</strong></p></th>
            </tr>
            <tr>
              <td><p>周波数</p></td>
@@ -159,13 +159,13 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
            </tr>
            <tr>
              <td><p>次のRun at</p></td>
-             <td><p>次のスキャンの時間を指定します。タイムゾーンは、<a href="./organization-settings#manage-timezone">システムタイムゾーン</a>と組織設定で一致しています。</p></td>
+             <td><p>次のスキャンの時間を指定してください。タイムゾーンは、組織設定の<a href="./organization-settings#manage-timezone">システムタイムゾーン</a>と一致しています。</p></td>
            </tr>
         </table>
 
-        ![enable-auto-scan](/img/ja-JP/enable-auto-scan.png)
+        ![enable-auto-scan](/img/enable-auto-scan.png)
 
-1. [**作成**]をクリックします。
+1. 「作成」をクリックしてください。
 
 ## コネクタの管理{#manage-connector}
 
@@ -175,23 +175,23 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
 1. 管理するコネクタを探します。
 
-1. クリック**。。。**下の**アクション**。
+1. クリック**。。。アクションの下に。
 
-1. [**有効**]または[**無効**]を選択します。
+1. 「有効にする」または「無効にする」を選択してください。
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>コネクタをアクティブにするには、ターゲットパイプラインが構成されていることを確認します。</p>
+<p>コネクタをアクティブにするには、ターゲットパイプラインが構成されていることを確認します。 </p>
 
 </Admonition>
 
-![enable-connector](/img/ja-JP/enable-connector.png)
+![enable-connector](/img/enable-connector.png)
 
 ### 手動スキャンをトリガーする{#trigger-a-manual-scan}
 
-自動スキャン機能がオフの場合は、手動スキャンを実行してください。
+自動スキャン機能がオフの場合は、手動スキャンを実行してください。 
 
-をクリック**。。。**"ターゲットコネクタの横にある**アクション**の下で、**スキャン**をクリックします。
+「**」をクリックしてください。。。ターゲットコネクタの横にある「アクション」の下にある「スキャン」をクリックしてください。
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -209,9 +209,9 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
     - (Google Cloud Storageの場合)アクセスキーIDとシークレットアクセスキー
 
-- 自動スキャンスケジュール。詳細については、[コネクタの作成手順の](./connectors#procedures)ステップ4を参照してください。
+- 自動スキャンスケジュール。詳細については、[コネクタを作成する手順](./connectors#procedures)のステップ4を参照してください。
 
-![configure-connector](/img/ja-JP/configure-connector.png)
+![configure-connector](/img/configure-connector.png)
 
 ### コネクタを落とす{#drop-a-connector}
 
@@ -223,7 +223,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
 </Admonition>
 
-![drop-connector](/img/ja-JP/drop-connector.png)
+![drop-connector](/img/drop-connector.png)
 
 ### コネクタログの表示{#view-connector-logs}
 
@@ -231,10 +231,10 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
 1. コネクタのアクティビティページにアクセスしてログを表示します。
 
-    ![view-connector-logs](/img/ja-JP/view-connector-logs.png)
+    ![view-connector-logs](/img/view-connector-logs.png)
 
-1. ステータスが`異常`な場合はエラーを示します。詳細なエラーメッセージを表示するには、ステータスの横にある「?」アイコンをクリックしてください。
+1. `abnormal`ステータスはエラーを示します。詳細なエラーメッセージを表示するには、ステータスの横にある「?」アイコンをクリックしてください。
 
 ### パイプライン内の関連コネクタを表示する{#view-related-connectors-in-a-pipeline}
 
-パイプライン内のすべてのリンクされたコネクタを表示するには、[パイプラインの詳細を確認](./pipelines-text-data#view-pipeline)してください。
+パイプライン内のすべてのリンクされたコネクタを表示するには、[パイプラインの詳細を確認する](./pipelines-text-data#view-pipeline)を参照してください。  

@@ -6,17 +6,17 @@ beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloudのローンチを発表できることを嬉しく思います。このリリースでは、新しいCUサイズオプションによる柔軟性の向上、前払いのサポート、より多くのAWSリージョンなど、さまざまな強化と機能を導入しています。 | Cloud"
 type: origin
-token: VfMmwEGR5ivR4FkCwCPc5Mb4nyh
-sidebar_position: 14
+token: YtxBwrPfBiuFDdk10GVcYY1DnGg
+sidebar_position: 17
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 
@@ -39,7 +39,7 @@ Zilliz Cloudのローンチを発表できることを嬉しく思います。�
 
 私たちは現在、前払いのサポートを提供しています。この機能は、消費するサービスの前払いを好むオフライン契約ユーザー向けに特別に設計されています。このオプションを提供することで、内部の財務および調達プロセスを効率化し、貴重なお客様のリスクを最小限に抑えることを目指しています。
 
-特定の要件がある場合、または前払いオプションについて詳しく知りたい場合は、お気軽に[お問い合わせ](https://zilliz.com/contact-sales)ください。
+特定の要件がある場合、または前払いオプションについて詳しく知りたい場合は、[お問い合わせ](https://zilliz.com/contact-sales)までお気軽にお問い合わせください。
 
 ## その他のAWSリージョン{#more-aws-regions}
 
@@ -47,7 +47,7 @@ Zilliz Cloudのローンチを発表できることを嬉しく思います。�
 
 ## その他のハイライト{#other-highlights}
 
-- クレジット有効期限の監視機能のUIを強化しました
+- クレジット期限の監視機能のUIを強化しました
 
 - プレイグラウンド機能でのユーザーエクスペリエンスの向上
 

@@ -6,18 +6,18 @@ beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloudクラスターに保存されたデータのバックアップと復元。 | BYOC"
 type: origin
-token: AXmzw3QBKixR0skM8LWc39jwnAe
-sidebar_position: 6
+token: VvikwOKc9iZ5vBkgMnycrXKmnId
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - backup
   - restore
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

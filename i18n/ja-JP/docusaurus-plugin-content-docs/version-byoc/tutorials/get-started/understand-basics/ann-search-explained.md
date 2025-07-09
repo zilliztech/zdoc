@@ -6,7 +6,7 @@ beta: FALSE
 notebook: FALSE
 description: "k最近傍探索(kNN)は、クエリベクトルに最も近いk個のベクトルを見つけます。具体的には、クエリベクトルをベクトル空間内のすべてのベクトルと比較して、k個の完全一致が現れるまで行います。kNN探索は完全な精度を保証しますが、高次元ベクトルを含む大規模なデータセットにとっては時間がかかります。 | BYOC"
 type: origin
-token: Ty2xwHh8lin64dk2hLncfNCCnye
+token: CWHGw3g9Ui9GEHkjhu2cHBOInXf
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 
@@ -36,7 +36,7 @@ k最近傍探索(kNN)は、クエリベクトルに最も近いk個のベクト�
 
 ## HNSW:グラフベースのインデックス付けアルゴリズム{#hnsw-a-graph-based-indexing-algorithm}
 
-Hierarchical Navigable Small World(HNSW)は、階層的な近接グラフを作成することによってベクトル空間をインデックス化します。具体的には、HNSWは、各層のベクトル(または頂点)間に近接リンク(またはエッジ)を描画して、単層の近接グラフを形成し、それらを積み重ねて階層グラフを形成します。最下層にはすべてのベクトルとその近接リンクが含まれています。層が上がるにつれて、より小さなベクトルと近接リンクのセットのみが残ります。
+Hierarchical Navigable Small World(HNSW)は、階層的な近接グラフを作成することによってベクトル空間をインデックス化します。具体的には、HNSWは、各層のベクトル(または頂点)間に近接リンク(またはエッジ)を描画して、単層の近接グラフを形成し、それらを積み重ねて階層グラフを形成します。最下層にはすべてのベクトルとその近接リンクが含まれます。層が上がるにつれて、より小さなベクトルと近接リンクのセットのみが残ります。
 
 階層的な近接グラフが作成されたら、検索は以下のように行われます:
 
@@ -46,19 +46,19 @@ Hierarchical Navigable Small World(HNSW)は、階層的な近接グラフを作�
 
 1. 最上層で最も近いベクトルを決定したら、エントリーポイントとして下層で同じベクトルを使用して、その層で最も近い隣人を見つけます。
 
-1. 最下層に最も近いベクトルが見つかるまで、前の手順を繰り返してください。
+1. 一番下のレイヤーに最も近いベクトルが見つかるまで、前の手順を繰り返してください。
 
-![hnsw-explained](/byoc/ja-JP/hnsw-explained.png)
+![hnsw-explained](/img/hnsw-explained.png)
 
 ## LSH:ハッシュベースのANNインデックスアルゴリズム{#lsh-a-hash-based-ann-indexing-algorithm}
 
 局所性に敏感なハッシング(LSH)は、さまざまなハッシュ関数を使用して、任意の長さのデータピースを固定長の値にハッシュとしてマッピングし、これらのハッシュをハッシュバケットに収集し、少なくとも1回同じ値にハッシュされたベクトルを候補ペアとしてタグ付けすることによって、ベクトル空間をインデックス化します。
 
-![locality_sensitive_hashing](/byoc/ja-JP/locality_sensitive_hashing.png)
+![locality_sensitive_hashing](/img/locality_sensitive_hashing.png)
 
 ## DiskANN: Vamanaグラフに基づくディスク上のANN検索{#diskann-ann-search-on-disk-based-on-vamana-graphs}
 
-HNSWとは異なり、Vamanaのインデックス作成過程は比較的シンプルです。
+HNSWとは異なり、Vamanaのインデックス作成過程は比較的簡単です。
 
 1. ランダムグラフを初期化する
 
@@ -70,7 +70,7 @@ HNSWとは異なり、Vamanaのインデックス作成過程は比較的シン�
 
 インデックスが準備できたら、検索は以下のように行われます:
 
-1. 関連データ(クエリセット、PQ中心点データ、コードブックデータ、検索開始点、インデックスメタなど)をロードします。
+1. クエリセット、PQ中心点データ、コードブックデータ、検索開始点、インデックスメタなどの関連データをロードします。
 
 1. インデックス付きデータセットを使用してcached_beam_searchを実行し、各ポイントのアクセス時間をカウントし、アクセス頻度が最も高いnum_nodes_to_cacheポイントをキャッシュします。
 
@@ -78,4 +78,4 @@ HNSWとは異なり、Vamanaのインデックス作成過程は比較的シン�
 
 1. 指定されたパラメータLごとに設定されたクエリでcached_beam_searchを実行し、リコール率やQPSなどの統計情報を出力します。ウォームアップデータやホットスポットデータの統計情報はクエリ時間に含まれません。
 
-詳細については、[DiskANN, A Disk-based ANNS Solution with High Recall and High QPS on Billion-scale Dataset](https://milvus.io/blog/2021-09-24-diskann.md)**を参照してください。**
+詳細については、[DiskANNは、10億規模のデータセットに対して高いリコールと高いQPSを備えたディスクベースのANNSソリューションです](https://milvus.io/blog/2021-09-24-diskann.md)**を参照してください。

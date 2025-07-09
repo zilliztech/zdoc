@@ -6,17 +6,17 @@ beta: FALSE
 notebook: FALSE
 description: "私たちは、最新のZilliz Cloudアップデートを発表できることを大変嬉しく思っています。このアップデートには、コスト見積もりのための価格計算ツール、強化されたデータセキュリティのためのデータバックアップと復元過程、グローバルユーザー向けのカスタマイズ可能なタイムゾーン設定、より良い組織化のためのコレクション名変更ツール、制限のない使用のためのストレージクォータの削除、非アクティブなデータベースのクレジット保全の改善が含まれています。 | Cloud"
 type: origin
-token: EKmAwMwAMii8VjkOh4vcnW3nnqf
-sidebar_position: 18
+token: ZvSOwB7zkir7PjkzrOPciC5WnTe
+sidebar_position: 21
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 
@@ -29,13 +29,13 @@ import Admonition from '@theme/Admonition';
 
 - 価格計算ツール
 
-    私たちは、新しい機能「Pricing Calculator」のローンチを発表することを楽しみにしています。この新しい機能は、ユーザーがコストを効果的に計画し、見積もるのを支援するために設計されています。Pricing Calculatorを使用すると、ユーザーは簡単にCUタイプを選択し、エンティティ数とベクトルディメンションを入力して、Zilliz Cloudの推奨CU体格とコスト見積もりを取得できます。[ここをクリック](https://zilliz.com/pricing#calculator)して試してみてください。
+    私たちは、新しい機能「Pricing Calculator」のローンチを発表することを楽しみにしています。この新しい機能は、ユーザーがコストを効果的に計画し、見積もるのを支援するために設計されています。Pricing Calculatorを使用すると、ユーザーは簡単にCUタイプを選択し、エンティティ数とベクトルディメンションを入力して、Zilliz Cloudの推奨CU体格とコスト見積もりを取得できます。試してみるには、[ここをクリック](https://zilliz.com/pricing#calculator)をクリックしてください。
 
     私たちの価格計算機は現在ベクトルデータのみをサポートしており、将来的にはスカラーデータも含めて機能を拡張し、ユーザーにより正確なコスト見積もりを提供する予定です。
 
 - GCPでのバックアップとリストア
 
-    今回のリリースにより、Google Cloud Platform（GCP）上でデータベースのバックアップと復元をサポートするようになりました。この最新リリースにより、ユーザーはGCP上でデータベースを簡単にバックアップおよび復元できるようになり、データの復元とビジネスの継続性を確保できます。
+    今回のリリースにより、Google Cloud Platform（GCP）上でデータベースのバックアップと復元をサポートするようになりました。この最新リリースにより、ユーザーはGCP上で簡単にデータベースのバックアップと復元を行うことができ、データの復元とビジネスの継続性を確保できます。
 
     詳細については、[バックアップと復元](./backup-and-restore)を参照してください。
 
@@ -43,7 +43,7 @@ import Admonition from '@theme/Admonition';
 
     タイムゾーン設定のサポートが追加され、ユーザーはタイムゾーンの設定をカスタマイズし、すべてのデータに正確なタイムスタンプを付けることができるようになりました。
 
-    詳しくは、[タイムゾーンを管理](./organization-settings#manage-timezone)するを参照してください。
+    詳細については、[タイムゾーンの管理](./organization-settings#manage-timezone)を参照してください。
 
 - コレクション名の変更
 

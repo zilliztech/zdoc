@@ -6,7 +6,7 @@ beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloudのホワイトリストは、プロジェクトレベルで堅牢なセキュリティレイヤーとして機能し、指定されたプロジェクト内のすべてのクラスターにその利点を拡張します。ホワイトリストを実装することで、プロジェクトのクラスターへのアクセスを特定のIPアドレスグループに効果的に絞り込み、悪意のある攻撃のリスクを大幅に軽減できます。 | Cloud"
 type: origin
-token: D1TiwX8o1iIBL3kMyCacjFwMnEf
+token: FnS1wY0iuia4qgkMycVclZyHnOf
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - whitelist
   - setup
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 
@@ -32,19 +32,21 @@ Zilliz Cloudのホワイトリストは、プロジェクトレベルで堅牢�
 
 次に進む前に、次の前提条件が満たされていることを確認してください:
 
-- Zilliz Cloudにサインアップしました。アカウントの登録方法については、「[Zilliz Cloudに登録する](./register-with-zilliz-cloud)」を参照してください。
+- Zilliz Cloudにサインアップしました。アカウントの登録方法については、[Zilliz Cloudに登録してください。](./register-with-zilliz-cloud)を参照してください。
 
-- ホワイトリストを設定する組織またはプロジェクトの所有者です。役割と権限については、「[組織のユーザーを管理する](./organization-users)」および「[プロジェクトのユーザーを管理する](./project-users)」を参照してください。
+</exclude>
+
+- ホワイトリストを設定したい組織またはプロジェクトの所有者です。役割と権限については、[組織のユーザーを管理する](./organization-users)と[プロジェクトのユーザーを管理する](./project-users)を参照してください。
 
 ## 手続き{#procedure}
 
-1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
+1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)にログインしてください。
 
 1. ホワイトリストを構成する特定の組織とプロジェクトに移動してください。
 
-1. 左側のナビゲーションウィンドウで、[**ネットワーク**]>[**IPアドレス**]を選択します。
+1. 左側のナビゲーションペインで、**ネットワーク**>**IPアドレス**を選択してください。
 
-1. [**IPアドレスを追加**]をクリックします。
+1. 「IPアドレスを追加」をクリックしてください。
 
 1. 表示されるダイアログボックスで、**IPアドレス(CIDR)**と**説明**を指定してください。
 
@@ -53,7 +55,7 @@ Zilliz Cloudのホワイトリストは、プロジェクトレベルで堅牢�
     <table>
        <tr>
          <th><p><strong>フィールド</strong></p></th>
-         <th><p><strong>説明する</strong></p></th>
+         <th><p><strong>の説明</strong></p></th>
        </tr>
        <tr>
          <td><p>IPアドレス(CIDR)</p></td>
@@ -65,7 +67,7 @@ Zilliz Cloudのホワイトリストは、プロジェクトレベルで堅牢�
        </tr>
     </table>
 
-1. [**追加**]をクリックします。
+1. 「追加」をクリックしてください。
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -77,13 +79,14 @@ Zilliz Cloudのホワイトリストは、プロジェクトレベルで堅牢�
 
 </Admonition>
 
-![whitelist-ip-access](/img/ja-JP/whitelist-ip-access.png)
+![whitelist-ip-access](/img/whitelist-ip-access.png)
 
 ## 関連するトピック{#related-topics}
 
-- [APIキー](./manage-api-keys)
+- リンク_PLACEHOLDER_0
 
-- [クラスタの認証情報(コンソール)](./cluster-credentials-sdk)
+- [クラスタの認証情報(コンソール)](./cluster-credentials)
 
-- [プライベートエンドポイントを設定する](./setup-a-private-link)
+- [プライベートリンクを設定する](./setup-a-private-link)
 
+</exclude>

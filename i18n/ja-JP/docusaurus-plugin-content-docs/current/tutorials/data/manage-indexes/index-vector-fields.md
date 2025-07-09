@@ -6,7 +6,7 @@ beta: FALSE
 notebook: FALSE
 description: "このガイドでは、コレクション内のベクトルフィールドのインデックスを作成および管理する基本的な操作について説明します。 | Cloud"
 type: origin
-token: FlsiwNE5CiR9qCkaSaNchGENnnb
+token: Qc0SwFomWiEXvMkDAH9cMAhlnIh
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
@@ -27,27 +27,33 @@ import TabItem from '@theme/TabItem';
 
 # インデックスベクトルフィールド
 
-このガイドでは、コレクション内のベクトルフィールドのインデックスを作成および管理する基本的な操作について説明します。
+このガイドでは、コレクション内のベクトルフィールドのインデックスを作成および管理する基本的な操作について説明します。 
 
 ## 概要について{#overview}
 
-インデックスファイルに格納されたメタデータを活用して、Zilliz Cloudはデータを特殊な構造に整理し、検索やクエリ中に要求された情報を迅速に取得できるようにします。
+インデックスファイルに格納されたメタデータを活用して、Zillizクラウドデータを特殊な構造に整理し、検索やクエリ中に要求された情報を迅速に取得できるようにします。
 
-Zilliz Cloudは、効率的な類似検索を可能にするために[AUTOINDEX](./autoindex-explained)を使用しています。また、次の[メトリックタイプ](./search-metrics-explained)も提供しています:**コサイン類似性**(COSINE)、**ユークリッド距離**(L 2)、**内積**(IP)、**JACCARD**、および**HAMMING**。ベクトルフィールドタイプとメトリックの詳細については、「[メトリックの種類](./search-metrics-explained)」と「[スキーマの説明](./schema-explained)」を参照してください。
+Zilliz Cloudは、効率的な類似検索を可能にするために[AUTOINDEX](./autoindex-explained)を使用しています。また、ベクトル埋め込み間の距離を測定するために、これらの[メートル法の種類](./search-metrics-explained):コサイン類似度(COSINE)、ユークリッド距離(L 2)、内積(IP)、JACCARD、およびHAMMINGを提供しています。ベクトル場の種類とメトリックについて詳しくは、[メトリックの種類](./search-metrics-explained)および[スキーマの説明](./schema-explained)を参照してください。
+
+</include>
+
+Milvusは、効率的な類似検索のためにフィールド値をソートするための[いくつかのインデックスタイプ](https://milvus.io/docs/index.md)を提供しています。また、ベクトル埋め込み間の距離を測定するために、これらの[メートル法の種類](https://milvus.io/docs/metric.md#Similarity-Metrics):コサイン類似度(COSINE)、ユークリッド距離(L 2)、内積(IP)、JACCARD、およびHAMMINGを提供しています。
+
+</include>
 
 頻繁にアクセスされるベクトル場とスカラー場の両方にインデックスを作成することをお勧めします。
 
-コレクションに複数のベクトル場が含まれる場合は、ベクトル場ごとにインデックスを個別に作成できます。
+コレクションに複数のベクトル場が含まれている場合は、ベクトル場ごとにインデックスを個別に作成できます。
 
 ## 準備する{#preparations}
 
-「[コレクションを作成](./manage-collections-sdks)」で説明したように、Zilliz Cloudは、コレクションの作成要求で以下のいずれかの条件が指定された場合、インデックスを自動的に生成してメモリにロードします。
+[コレクションを作成](./manage-collections-sdks)で説明されているように、Zillizクラウドコレクションの作成要求で次のいずれかの条件が指定された場合、コレクションの作成時にインデックスを自動的に生成してメモリにロードします。
 
 - ベクトル場とメトリック型の次元、または
 
 - スキーマとインデックスパラメーター。
 
-以下のコードスニペットは、既存のコードを再利用して、Zilliz Cloudクラスタに接続し、インデックスパラメータを指定せずにコレクションを作成します。この場合、コレクションにはインデックスがなく、アンロードされたままです。
+以下のコードスニペットは、既存のコードを再利用して接続を確立しますZilliz Cloudクラスタインデックスパラメータを指定せずにコレクションを作成します。この場合、コレクションにはインデックスがなく、アンロードされたままです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
@@ -165,7 +171,7 @@ console.log(res.error_code)
 
 ## コレクションのインデックス{#index-a-collection}
 
-コレクションのインデックスまたはインデックスを作成するには、インデックスパラメータを設定し、`create_index()`を呼び出す必要があります。
+コレクションのインデックスを作成するか、コレクションのインデックスを作成するには、インデックスパラメーターを設定し、`create_index()`を呼び出す必要があります。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
@@ -251,7 +257,9 @@ console.log(res.error_code)
 </TabItem>
 </Tabs>
 
-提供されたコードスニペットでは、インデックスタイプが`AUTOINDEX`に設定され、メトリックタイプが`COSINE`に設定されたベクトルフィールド上のインデックスが確立されています。さらに、スカラーフィールド上のインデックスがインデックスタイプ`AUTOINDEX`で作成されています。インデックスタイプとメトリックタイプの詳細については、「[メトリックの種類](./search-metrics-explained)」と「[スキーマの説明](./schema-explained)」を参照してください。
+提供されたコードスニペットでは、インデックスタイプが`AUTOINDEX`に設定され、メトリックタイプが`COSINE`に設定されたベクトルフィールドにインデックスが確立されています。さらに、インデックスタイプが`AUTOINDEX`のスカラーフィールドにインデックスが作成されました。インデックスタイプとメトリックタイプの詳細については、[AUTOINDEXの説明](./autoindex-explained)と[メトリックの種類](./search-metrics-explained)を参照してください。
+
+</include>
 
 <Admonition type="info" icon="📘" title="ノート">
 

@@ -6,8 +6,8 @@ beta: FALSE
 notebook: FALSE
 description: "この章では、RESTful APIとSDKを使用またはインストールする手順と、それらのリファレンスドキュメントにアクセスできます。 | Cloud"
 type: origin
-token: AiLpwtyT3ieHFikJsUDc9kgunUb
-sidebar_position: 10
+token: Ecwpw6cImiFV0gkkusgcQhvBnLe
+sidebar_position: 12
 keywords: 
   - zilliz
   - milvus
@@ -20,10 +20,10 @@ keywords:
   - go
   - node
   - nodejs
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 
@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 # APIとSDK
 
-この章では、RESTful APIとSDKを使用またはインストールする手順と、それらのリファレンスドキュメントにアクセスできます。
+この章では、RESTful APIとSDKを使用またはインストールする手順と、それらのリファレンスドキュメントにアクセスできます。 
 
 import DocCardList from '@theme/DocCardList';
 

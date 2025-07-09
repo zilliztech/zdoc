@@ -1,12 +1,12 @@
 ---
 title: "組み込みアナライザのリファレンス | BYOC"
 slug: /built-in-analyzer
-sidebar_label: "組み込みアナライザのリファレンス"
-beta: PUBLIC
+sidebar_label: "Built-in Analyzer"
+beta: FALSE
 notebook: FALSE
 description: "このセクションでは、組み込みアナライザに関する詳細情報を提供します。 | BYOC"
 type: origin
-token: RWl2wA3omiCIo2ksxxTcN6oYnrf
+token: VvJowcWXeiFPlDkYU7ScezGznIb
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in analyzer
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

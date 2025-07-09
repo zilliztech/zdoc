@@ -1,12 +1,12 @@
 ---
 title: "NumPyファイルからインポート | Cloud"
 slug: /data-import-numpy
-sidebar_label: "NumPyファイルからインポート"
+sidebar_label: "NumPy"
 beta: FALSE
 notebook: FALSE
-description: "NPY形式は、NumPyの標準バイナリ形式](https//numpy.org/devdocs/reference/generated/numpy.lib.format.html)であり、形状とdtype情報を含む単一の配列を保存し、異なるマシンで正しく再構築できるようにします。生データをParquetファイルに準備するには、[BulkWriterツールを使用することをお勧めします。次の図は、生データを`. npy`ファイルのセットにマップする方法を示しています。 | Cloud"
+description: "`.npy`フォーマットは、形状とdtype情報を含む単一の配列を保存するためのNumPyの標準バイナリ形式](https//numpy.org/devdocs/reference/generated/numpy.lib.format.html)であり、異なるマシンで正しく再構築できるようにします。生データをParquetファイルに準備するには、[BulkWriterツールを使用することをお勧めします。次の図は、生データを`.npy`ファイルのセットにマップする方法を示しています。 | Cloud"
 type: origin
-token: XBkrwC23yicDq0kxz3rcnYZxn5b
+token: FOwZwuxaWiuthnkZdedcGbJOnZf
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 
@@ -28,24 +28,24 @@ import Admonition from '@theme/Admonition';
 
 # NumPyファイルからインポート
 
-NPY形式は、[NumPyの標準バイナリ形式](https://numpy.org/devdocs/reference/generated/numpy.lib.format.html)であり、形状とdtype情報を含む単一の配列を保存し、異なるマシンで正しく再構築できるようにします。生データをParquetファイルに準備するには、[BulkWriterツール](./use-bulkwriter)を使用することをお勧めします。次の図は、生データを`. npy`ファイルのセットにマップする方法を示しています。
+`.npy`フォーマットは、形状とdtype情報を含む単一の配列を保存するための[NumPyの標準バイナリ形式](https://numpy.org/devdocs/reference/generated/numpy.lib.format.html)であり、異なるマシンで正しく再構築できるようにします。生データをParquetファイルに準備するには、[BulkWriterツール](./use-bulkwriter)を使用することをお勧めします。次の図は、生データを`.npy`ファイルのセットにマップする方法を示しています。
 
-![data_import-preparetion_en](/img/ja-JP/data_import-preparetion_en.png)
+![numpy_file_structure](/img/numpy_file_structure.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 
 <ul>
 <li><strong>AutoIDを有効にするかどうか</strong></li>
 </ul>
-<p>「<strong>id</strong>」フィールドは、コレクションのプライマリフィールドとして機能します。プライマリフィールドを自動的にインクリメントするには、スキーマで「<strong>AutoID</strong>」を有効にします。この場合、ソースデータの各行から「<strong>id</strong>」フィールドを除外する必要があります。</p>
+<p>「id」フィールドは、コレクションの主要なフィールドとして機能します。主要なフィールドを自動的にインクリメントするには、スキーマで「AutoID」を有効にすることができます。この場合、ソースデータの各行から「id」フィールドを除外する必要があります。</p>
 <ul>
 <li><strong>動的フィールドを有効にするかどうか</strong></li>
 </ul>
 <p>ターゲットコレクションで動的フィールドが有効になっている場合、定義済みスキーマに含まれていないフィールドを格納する必要がある場合は、書き込み操作中に<strong>$meta</strong>列を指定し、対応するキー値データを指定できます。</p>
 <ul>
-<li><strong>大文字と小文字を区別する</strong></li>
+<li><strong>大文字と小文字を区別</strong></li>
 </ul>
-<p>ディクショナリのキーとコレクションのフィールド名は大文字と小文字を区別します。データ内のディクショナリのキーがターゲットコレクションのフィールド名と完全に一致するようにしてください。ターゲットコレクションに<strong>id</strong>という名前のフィールドがある場合、各エンティティディクショナリにはidという名前のキーが必要です<strong>。ID</strong>または<strong>Idを使用するとエラーが発生します。</strong></p>
+<p>辞書のキーとコレクションフィールド名は大文字と小文字を区別します。データ内の辞書キーがターゲットコレクションのフィールド名と完全に一致するようにしてください。ターゲットコレクションにidという名前のフィールドがある場合、各エンティティ辞書にはidという名前のキーが必要です。IDまたはIdを使用するとエラーが発生します。 </p>
 
 </Admonition>
 
@@ -83,7 +83,7 @@ NumPyファイルとしてデータを準備するには、以下のツリー図
 
 </Admonition>
 
-Milvus SDKを使用して、Zilliz Cloudコンソールからデータをインポートすることもできます。詳細については、「[データのインポート(コンソール)](./import-data-on-web-ui)」および「[データのインポート(SDK)](./import-data-via-sdks)」を参照してください。
+Milvus SDKを使用して、Zilliz Cloudコンソールからデータをインポートすることもできます。詳細については、[データのインポート(コンソール)](./import-data-on-web-ui)と[データのインポート(SDK)](./import-data-via-sdks)を参照してください。
 
 ### NumPyファイルフォルダのリストからファイルをインポートする（推奨）{#import-files-from-a-list-of-numpy-file-folders-recommended}
 
@@ -138,19 +138,19 @@ Zilliz Cloudは、クラウドストレージからのデータインポート�
 <table>
    <tr>
      <th><p><strong>クラウド</strong></p></th>
-     <th><p><strong>クイックな例</strong></p></th>
+     <th><p><strong>簡単な例</strong></p></th>
    </tr>
    <tr>
-     <td><p><strong>AWS S3</strong></p></td>
-     <td><p><code>s3://bucket-name/numpy-folder/</code></p></td>
+     <td><p>AWS S 3とは</p></td>
+     <td><p>s 3://<em>バケット名</em>/<em>numpy-folder</em>/</p></td>
    </tr>
    <tr>
-     <td><p><strong>Google Cloud Storage</strong></p></td>
-     <td><p><code>gs://bucket-name/numpy-folder/</code></p></td>
+     <td><p><strong>Google Cloudストレージ</strong></p></td>
+     <td><p>gs://<em>バケット名</em>/<em>numpy-folder</em>/</p></td>
    </tr>
    <tr>
-     <td><p><strong>Azure Bolb</strong></p></td>
-     <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/</code></p></td>
+     <td><p><strong>アズールボルブ</strong></p></td>
+     <td><p><em>https://</em>myaccount<em>.blob.core.windows.net/</em>バケット名<em>/</em>numpy-folder*/</p></td>
    </tr>
 </table>
 
@@ -161,10 +161,10 @@ Zilliz Cloudは、クラウドストレージからのデータインポート�
 <table>
    <tr>
      <th><p><strong>アイテム</strong></p></th>
-     <th><p><strong>説明する</strong></p></th>
+     <th><p><strong>の説明</strong></p></th>
    </tr>
    <tr>
-     <td><p><strong>一度に複数のファイルをインポートする</strong></p></td>
+     <td><p><strong>インポートごとに複数のファイル</strong></p></td>
      <td><p>はい</p></td>
    </tr>
    <tr>
@@ -173,17 +173,16 @@ Zilliz Cloudは、クラウドストレージからのデータインポート�
    </tr>
    <tr>
      <td><p><strong>第1レベルのサブフォルダの最大数</strong></p></td>
-     <td><p>100</p></td>
+     <td><p>100,000</p></td>
    </tr>
    <tr>
      <td><p><strong>インポートごとの最大ファイル体格</strong></p></td>
-     <td><p>クラスタの空き容量:合計512 MB サーバーレス&amp;専用クラスター:</p><ul><li><p>各第1レベルのサブフォルダのファイル体格の合計: 10 GB</p></li><li><p>ファイルの体格: 100 GB</p></li></ul></td>
+     <td><p>クラスタの空き容量:合計512 MB</p><p>サーバーレス&amp;専用クラスター:</p><ul><li><p>各第1レベルのサブフォルダのファイル体格の合計: 10 GB</p></li><li><p>ファイルの体格: 1 TB</p></li></ul></td>
    </tr>
    <tr>
-     <td><p><strong>使用可能なデータファイルの場所</strong></p></td>
+     <td><p><strong>適用可能なデータファイルの場所</strong></p></td>
      <td><p>リモートファイルのみ</p></td>
    </tr>
 </table>
 
-「[データファイルの準備](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file)」を参照して、自分でデータを再構築するか、[BulkWriterツール](./use-bulkwriter)を使用してソースデータファイルを生成できます。[上の図のスキーマに基づいて準備されたサンプルデータをダウンロードするには、ここをクリックしてください](https://assets.zilliz.com/prepared_numpy_data.zip)。
-
+[データファイルを準備する](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file)を参照して自分でデータを再構築するか、[BulkWriterツール](./use-bulkwriter)を使用してソースデータファイルを生成することができます。

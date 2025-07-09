@@ -6,7 +6,7 @@ beta: FALSE
 notebook: FALSE
 description: "このガイドでは、Zilliz Cloudコンソールを最大限に活用して目標を達成するためのクラスタのライフサイクルについて説明します。 | BYOC"
 type: origin
-token: Py5VwaHKnirdQQkJBxXcmfrunfg
+token: PharwAysCiBzvgkuqqecmNzunQf
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,111 +14,224 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 # クラスタ管理
 
 このガイドでは、Zilliz Cloudコンソールを最大限に活用して目標を達成するためのクラスタのライフサイクルについて説明します。
 
-### クラスタの詳細を表示する{#view-cluster-details}
+## クラスタ名の変更{#rename-cluster}
 
-Zilliz Cloud Dedicatedクラスタを設定した後、クラスタの詳細については、各セクションに以下の内容が記載されています。
+ターゲットクラスターの**クラスターの詳細**ページに移動し、以下の手順に従ってクラスターの名前を変更してください。
 
-![byoc-cluster-lifecycle](/byoc/ja-JP/byoc-cluster-lifecycle.png)
+<Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title=""  />
 
-- **Connect**:このセクションでは、クラスターID、クラスタークラウドリージョン、接続用のパブリックエンドポイント、プライベートリンク、IPアドレスホワイトリスト、セキュアアクセス用のトークンなど、クラスターとのやり取りを開始するために必要な詳細情報を提供します。。
+## クラスタを一時停止する{#suspend-cluster}
 
-- **概要**:クラスタの基本情報のスナップショットを提供します。クラスタプラン、CUタイプ、CU体格、互換性のあるMilvusバージョンを見つけることができます。作成者の詳細、作成日時も表示されます。
+</exclude>
 
-- **トポロジ**:クラスターの構造を示すグラフィカルな表現です。これには、さまざまなノードの役割とコンピューティングリソースの指定が含まれます。
+## クラスタを一時停止する{#suspend-cluster}
 
-    - **プロキシ**:ユーザー接続を管理し、ロードバランサーでサービスアドレスを効率化するステートレスノード。
+</include>
 
-    - **クエリノード**:ハイブリッドベクトルおよびスカラー検索、および増分データ更新を担当します。
+実行中の専用クラスターについては、CUとストレージの両方に対して請求されます。コストを削減するには、クラスターを一時停止することを検討してください。専用クラスターが一時停止された場合は、ストレージ料金のみが適用されます。
 
-    - **コーディネーター**:オーケストレーションセンターで、ワーカーノード間でタスクを分散します。
+一時停止中は、クラスターで他のアクションを実行できないことに注意してください。
 
-    - **データノード**:永続性のためにデータの変異とログからスナップショットへの変換を処理します。
+専用クラスタは、Webコンソールまたはプログラムで一時停止できます。
 
-    <Admonition type="info" icon="📘" title="ノート">
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"curl","value":"bash"}]}=""></tabs>
 
-    <p>通常、<strong>1-8 CU</strong>を持つクラスターは、小規模なデータセットに適したシングルノードセットアップを使用します。<strong>8 CU</strong>以上のクラスターは、パフォーマンスとスケーラビリティを向上させるために分散型マルチサーバーノードアーキテクチャを採用しています。</p>
+<tabitem value="Cloud Console"></tabitem>
 
-    </Admonition>
+ターゲットクラスターの**クラスターの詳細**ページに移動し、以下の手順に従って専用クラスターを一時停止してください。
 
-### 接続を確立する{#establish-connection}
+<supademo id="cm9tqgxt30snl11m7twwj7xia" title="Zilliz Cloud - Suspend Cluster Demo"></supademo>
 
-- **クラスタに接続**
+</TabItem>
 
-    「**接続**」セクションでは、クラスターに接続するために使用される**パブリックエンドポイント**と**トークン**を見つけることができます。トークンは、ユーザー名とパスワードのペアで構成される[APIキー](./manage-api-keys)または[クラスター資格情報](./cluster-credentials)であることができます。
+<tabitem value="Bash"></tabitem>
 
-    詳細については、「[クラスタに接続](./connect-to-cluster)」を参照してください。
+リクエストは次の例のようになります。`{API_KEY}`は認証に使用するAPIキーです。
 
-### コレクションとデータを管理する{#manage-collections-and-data}
+次の`POST`要求は、リクエストボディを受け取り、専用クラスターを一時停止します。
 
-- **コレクション**
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/clusters/${CLUSTER_ID}/suspend" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
 
-    [**コレクション**]タブでは、クラスタ内のコレクションを管理できます。コレクションを作成したり、データをインポートしたり、ロードまたはリリースしたり、名前を変更したり、削除したりできます。
+# {
+#     "code": 0,
+#     "data": {
+#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
+#         "prompt": "Successfully Submitted. The cluster will not incur any computing costs when suspended. You will only be billed for the storage costs during this time."
+#     }
+# }     
+```
 
-    データインポートの詳細については、[データインポート](/docs/data-import)を参照してください。
+上記のコマンドで、
 
-    ![manage-collections](/byoc/ja-JP/manage-collections.png)
+- `{API_KEY}`: APIリクエストの認証に使用される資格情報。値を自分のものに置き換えてください。
 
-- **バックアップ**
+- `{CLUSTER_ID}`:サスペンドする専用クラスターのID。
 
-    [**バックアップ**]タブで、[スナップショットの作成]を選択してクラスタのバックアップを作成できます。すべての**スナップショット**は[**バックアップ**]タブにあります。バックアップとリストアの詳細については、「[バックアップ&リストア](/docs/backup-and-restore)」を参照してください。
+詳細については、[クラスタの一時停止](/reference/restful/suspend-cluster-v2)を参照してください。
 
-- **マイグレーション**
+</TabItem>
 
-    [**Migrations**]タブで、[Migrate]を選択すると、データの**移行**タスクを作成できます。
+</Tabs>
 
-### ユーザーとアクセス制御{#users-and-access-control}
+## クラスタを再開{#resume-cluster}
 
-- **ユーザー**
+無料およびサーバーレスクラスターは、非アクティブ状態が7日間続くと自動的に一時停止され、いつでも再開できます。
 
-    [**ユーザー**]タブでは、ユーザーを追加したり、パスワードをリセットしたり、削除したりできます。
+一時停止された専用クラスタは、必要に応じて手動で再開することもできます。
 
-    詳細については、[クラスタ資格情報](./cluster-credentials)を参照してください。
+再開中は、クラスターで他のアクションを実行できないことに注意してください。
 
-    ![manage-users](/byoc/ja-JP/manage-users.png)
+Webコンソールまたはプログラムからクラスタを再開できます。
 
-    <Admonition type="info" icon="📘" title="ノート">
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"curl","value":"bash"}]}=""></tabs>
 
-    <p><b>db_admin</b>を削除することはできません。Zilliz Cloudは、追加されたユーザーに対してクラスタ内のすべてのコレクションへのアクセス権限を付与します。</p>
+<tabitem value="Cloud Console"></tabitem>
 
-    </Admonition>
+ターゲットクラスターの**クラスターの詳細**ページに移動し、以下の手順に従ってクラスターを再開してください。
 
-### クラスタの一時停止と再開{#}
+<supademo id="cm9tr2hze0t1j11m7ijth1pr5" title="Zilliz Cloud - Resume Cluster Demo"></supademo>
 
-「**Actions**」ドロップダウンボタンで、「**Suspend**」を選択してクラスタを停止します。「**Suspend Cluster**」ダイアログボックスでこの操作を確認すると、クラスタの状態が「**RUNNING**」から「**SUSPENDING**」に変わり、その間はクラスタに対して他のアクションを実行できません。
+</TabItem>
 
-ステータスが**SUSPENDED**に変更されると、ストレージに対してのみ課金されます。クラスタの一部を賢明に一時停止すると、お金を節約できます。
+<tabitem value="Bash"></tabitem>
 
-サスペンドされたクラスタを再開するには、**アクション**をクリックし、ドロップダウンメニューから**再開**を選択します。**再開クラスタ**ダイアログボックスでこのアクションを確認すると、クラスタの状態が**SUSPENDED**から**RESUMING**、そして**RUNNING**に変わります。この時点で、CU設定とサービスプランに基づいて完全に請求されます。
+リクエストは次の例のようになります。`{API_KEY}`は認証に使用するAPIキーです。
 
-これらのアクションを実行するために、RESTful APIを使用することもできます。詳細については、「[クラスタ停止](/reference/restful/suspend-cluster)」と「[クラスタ再開](/reference/restful/resume-cluster)」を参照してください。
+次の`POST`要求は、リクエストボディを受け取り、クラスターを再開します。
 
-### クラスタを削除{#drop-cluster}
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/clusters/${CLUSTER_ID}/resume" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
 
-[**Actions**]ドロップダウンボタンで、[**Drop**]を選択してクラスタをドロップします。[**Drop Cluster**]ダイアログボックスでこの操作を確認した後、Zilliz Cloudはクラスタをドロップします。
+# {
+#     "code": 0,
+#     "data": {
+#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
+#         "prompt": "successfully Submitted. Cluster is being resumed, which is expected to takes several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK."
+#     }
+# }     
+```
 
-ウェブUIに加えて、クラスタを削除するためのAPIリクエストを行うこともできます。詳細については、[Drop Cluster](/reference/restful/drop-cluster-v2)を参照してください。
+上記のコマンドで、
 
-## 関連するトピック{#related-topics}
+- `{API_KEY}`: APIリクエストの認証に使用される資格情報。値を自分のものに置き換えてください。
 
-- [クラスタに接続](./connect-to-cluster)
+- `{CLUSTER_ID}`:再開するクラスタのID。
 
-- [プライベートエンドポイントを設定する](./setup-a-private-link)
+詳細については、[クラスタの再開](/reference/restful/resume-cluster-v2)を参照してください。
 
-- [バックアップと復元](./backup-and-restore)
+</TabItem>
 
-- [適切なCUを選択](./cu-types-explained)
+</Tabs>
+
+## アップグレードプラン{#upgrade-plan}
+
+より高度な機能を使用するには、クラスタープランをアップグレードすることをお勧めします。 
+
+<table>
+   <tr>
+     <th><p><strong>プランのアップグレード</strong></p></th>
+     <th><p><strong>ノート</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>無料からサーバーレスへ</p></td>
+     <td><p>無料クラスタはサーバーレスプランにアップグレードされます。クラスタがアップグレードされると、プランをダウングレードすることはできません。</p></td>
+   </tr>
+   <tr>
+     <td><p>無料から専用まで</p></td>
+     <td><p>新しい専用クラスタが作成され、既存の無料クラスタからのデータが自動的に移行されます。無料クラスタはそのまま残ります。</p><p>アプリケーションコードでクラスターエンドポイントを更新することを忘れないでください。</p></td>
+   </tr>
+   <tr>
+     <td><p>サーバーレスから専用へ</p></td>
+     <td><p>新しい専用クラスタが作成され、既存のServerlessクラスタからのデータが自動的に移行されます。Serverlessクラスタはそのまま残ります。</p><p>アプリケーションコードでクラスターエンドポイントを更新することを忘れないでください。</p></td>
+   </tr>
+   <tr>
+     <td><p>専用(Standard)から専用(Enterprise)へ</p></td>
+     <td><p>Dedicated(Standard)クラスタがDedicated(Enterprise)プランにアップグレードされます。クラスタがアップグレードされると、プランをダウングレードすることはできません。</p></td>
+   </tr>
+</table>
+
+次のデモでは、例としてFreeからDedicated(Enterprise)へのアップグレードを使用して、クラスタープランをアップグレードする方法を示します。
+
+<Supademo id="cm9tscqvw0urd11m76ey8cx2p" title=""  />
+
+## クラスタをアップグレードしてプレビュー機能を利用する{#upgrade-cluster-for-preview-features}
+
+最新のプレビュー機能を試すには、専用クラスターの互換性のあるMilvusバージョンをアップグレードする必要があります。
+
+![upgrade-to-preview-version](/img/upgrade-to-preview-version.png)
+
+</exclude>
+
+## クラスタを削除{#drop-cluster}
+
+クラスタが不要になったら、削除できます。Webコンソールまたはプログラムからクラスタを削除できます。
+
+<tabs groupid="cluster" defaultvalue="Cloud Console" values="{[{&#34;label&#34;:&#34;Cloud" console","value":"cloud="" console"},{"label":"curl","value":"bash"}]}=""></tabs>
+
+<tabitem value="Cloud Console"></tabitem>
+
+ターゲットクラスターの**クラスターの詳細**ページに移動し、以下の手順に従ってクラスターをドロップしてください。
+
+<supademo id="cm9trwi5n0txr11m7otr902sk" title="Zilliz Cloud - Drop Cluster Demo"></supademo>
+
+</TabItem>
+
+<tabitem value="Bash"></tabitem>
+
+リクエストは次の例のようになります。`{API_KEY}`は認証に使用するAPIキーです。
+
+次の`DELETE`要求は、リクエストボディを受け取り、クラスターを削除します。
+
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/clusters/${CLUSTER_ID}/drop" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
+
+# {
+#     "code": 0,
+#     "data": {
+#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
+#         "prompt": "The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period. Kindly note, this recovery feature does not apply to free clusters."
+#     }
+# }     
+```
+
+上記のコマンドで、
+
+- `{API_KEY}`: APIリクエストの認証に使用される資格情報。値を自分のものに置き換えてください。
+
+- `{CLUSTER_ID}`:削除する専用クラスタのID。
+
+詳細については、[ドロップクラスタ](/reference/restful/drop-cluster-v2)を参照してください。
+
+</TabItem>
+
+</Tabs>
 

@@ -4,9 +4,9 @@ slug: /manage-replica
 sidebar_label: "レプリカの管理"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudはクラスターレベルのレプリケーションを可能にします。各レプリカはクラスター内のリソースとデータの正確なコピーです。レプリカを使用することで、クエリのスループットと可用性を向上させることができます。 | BYOC"
+description: "Zilliz Cloudはクラスターレベルのレプリケーションをサポートしています。各レプリカはクラスター内のリソースとデータの正確なコピーです。レプリカを使用することで、クエリのスループットと可用性を向上させることができます。 | BYOC"
 type: origin
-token: F72qwzpubibfhHkfLwbcXUNrnYg
+token: W8Mhwa4faiQqtRkH4t9cdexCnlf
 sidebar_position: 5
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 
@@ -26,29 +26,27 @@ import Admonition from '@theme/Admonition';
 
 # レプリカの管理
 
-Zilliz Cloudはクラスターレベルのレプリケーションを可能にします。各レプリカはクラスター内のリソースとデータの正確なコピーです。レプリカを使用することで、クエリのスループットと可用性を向上させることができます。
+Zilliz Cloudはクラスターレベルのレプリケーションをサポートしています。各レプリカはクラスター内のリソースとデータの正確なコピーです。レプリカを使用することで、クエリのスループットと可用性を向上させることができます。
 
-QPSボトルネックが発生しているデータセットが少ないユーザーに対して、レプリカを追加することでクエリのワークロードを分散させ、全体的なクエリスループットを向上させることができます。ただし、レプリカを追加してもクラスタ容量は増加しません。なぜなら、容量は各レプリカのCU体格によってのみ決定されるためです。クラスタ容量を増やしたい場合は、[スケールクラスタ](./scale-cluster)を参照してください。
-
-レプリカを設定すると、クラスタの毎月のCUコストに影響します。クラスタのストレージコストは変更されません。
+QPSボトルネックを抱えるデータセットが少ないユーザーに対して、レプリカを追加することでクエリの負荷を分散し、全体的なクエリのスループットを向上させることができます。ただし、レプリカを追加してもクラスタの容量は増加しません。なぜなら、容量は各クラスタのCU体格によってのみ決定されるためです。クラスタの容量を増やしたい場合は、[スケールクラスタ](./scale-cluster)を参照してください。
 
 このガイドでは、Zilliz Cloudでクラスタのレプリカを構成する手順について説明します。
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>この機能は現在、専用(エンタープライズ)クラスターでのみ利用可能です。</p>
+<p>この機能は現在、専用(エンタープライズ)クラスターでのみ利用可能です。 </p>
 
 </Admonition>
 
-## レプリカの設定{#configure-replicas-for-usage-based-cluster}
+## 限界{#limits}
 
-次の条件が満たされている限り、既存の専用クラスターのレプリカを追加できます。
+次の条件が満たされている限り、既存の専用クラスターのレプリカを構成できます。
 
 - クラスタには8つ以上のCUがあります
 
 - 互換性のあるMilvusバージョンが2.4.13未満のクラスタでは、クラスタ内のすべてのコレクションをリリースする必要があります。
 
-レプリカを追加する場合は、クラスターCU体格xレプリカ数が256を超えないように注意してください。
+クラスタCU体格xレプリカ数の積は256を超えてはならないことに注意してください。
 
 <Admonition type="caution" icon="🚧" title="警告">
 
@@ -56,7 +54,42 @@ QPSボトルネックが発生しているデータセットが少ないユー�
 
 </Admonition>
 
-![configure-replica](/byoc/ja-JP/configure-replica.png)
+## レプリカを手動で設定する{#configure-replicas-manually}
 
-RESTful APIを使用してレプリカを構成する方法の詳細については、[クラスター変更](/reference/restful/modify-cluster-v2)を参照してください。
+既存の専用クラスターのレプリカの数は、コンソールで手動またはプログラムで調整できます。
+
+### ウェブコンソールから{#via-web-console}
+
+次のデモでは、Zilliz Cloud Webコンソールでレプリカを設定する方法を示します。
+
+[スパデモ]
+
+### RESTful APIを使用する{#via-restful-api}
+
+クラスター内のレプリカの数を手動で調整するには、RESTful APIを使用できます。 
+
+次の例では、クラスターレプリカのカウントを手動で2に設定します。`replica`パラメータの値は、1から8までの整数である必要があります。詳細については、[クラスタレプリカの変更](/reference/restful/modify-cluster-replica-v2)を参照してください。
+
+```bash
+export BASE_URL="https://api.cloud.zilliz.com"
+export CLUSTER_ID="YOUR_CLUSTER_ID"
+export TOKEN="YOUR_API_KEY"
+
+curl --request POST \
+     --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/modifyReplica" \
+     --header "Authorization: Bearer ${TOKEN}" \
+     --header "Accept: application/json" \
+     --header "Content-type: application/json" \
+     --data-raw '{
+        "replica": "2"
+      }'
+```
+
+## オートスケールレプリカ{#auto-scale-replicas}
+
+現在、Zilliz Cloudウェブコンソールを介して、事前に定義されたタイムスケジュールに基づいてレプリカを自動スケーリングすることしかできません。 
+
+次のデモでは、レプリカの自動スケーリングを有効にする方法を示します。
+
+[supademo]
 

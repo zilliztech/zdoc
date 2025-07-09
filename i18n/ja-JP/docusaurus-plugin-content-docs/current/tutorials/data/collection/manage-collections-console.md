@@ -1,13 +1,13 @@
 ---
-title: "コレクションを削除 | Cloud"
+title: "コレクションの管理(コンソール) | Cloud"
 slug: /manage-collections-console
-sidebar_label: "コレクションを削除"
+sidebar_label: "コレクションの管理(コンソール)"
 beta: FALSE
 notebook: FALSE
-description: "必要がなくなった場合は、コレクションを削除できます。 | Cloud"
+description: "コレクションは、ベクトルの埋め込みとメタデータを格納するために使用される2次元テーブルです。コレクション内のすべてのエンティティは同じスキーマを共有します。データ管理やマルチテナントの目的で複数のコレクションを作成できます。 | Cloud"
 type: origin
-token: KKIawFiLKiPVEOkq31BcCveHnTf
-sidebar_position: 9
+token: CmR5wFcybi3iMokOJBxcXDQcntg
+sidebar_position: 11
 keywords: 
   - zilliz
   - vector database
@@ -15,149 +15,193 @@ keywords:
   - collection
   - manage
   - console
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 
 import Admonition from '@theme/Admonition';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
-# コレクションを削除
 
-必要がなくなった場合は、コレクションを削除できます。
+import Supademo from '@site/src/components/Supademo';
 
-## 例例{#examples}
+# コレクションの管理(コンソール)
 
-次のコードスニペットは、**customised_setup_2**という名前のコレクションがあることを前提としています。
+コレクションは、ベクトルの埋め込みとメタデータを格納するために使用される2次元テーブルです。コレクション内のすべてのエンティティは同じスキーマを共有します。データ管理やマルチテナントの目的で複数のコレクションを作成できます。 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
+このガイドでは、Webコンソール上でのコレクションの作成と管理操作について説明します。ビジュアルインターフェイスを好むユーザーを対象としています。SDKに精通している場合は、それらを介してコレクションを作成および管理することもできます。詳細については、[コレクションを作成](./manage-collections-sdks)を参照してください。
 
-```python
-from pymilvus import MilvusClient
+<Admonition type="info" icon="📘" title="ノート">
 
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
-)
+<p>強力なデータ分離が必要で、少数のテナントのみを管理する場合は、テナントごとに個別のコレクションを作成できます。</p>
+<p>ただし、<a href="./limits">クラスタ計画</a>に応じて最大16,384のコレクションしか作成できません。したがって、大規模なマルチテナントの場合は、ユースケースに応じてパーティションベースまたはパーティションキーベースのマルチテナントなどの代替戦略を使用することを検討してください。詳細については、<a href="./multi-tenancy">マルチテナントを実装する</a>を参照してください。</p>
 
-client.drop_collection(
-    collection_name="customized_setup_2"
-)
-```
+</Admonition>
 
-</TabItem>
+## コレクションを作成{#create-collection}
 
-<TabItem value='java'>
+Zilliz Cloudコンソールには、異なるシナリオに対応した3つのコレクション作成方法が用意されています。
 
-```java
-import io.milvus.v2.service.collection.request.DropCollectionReq;
-import io.milvus.v2.client.ConnectConfig;
-import io.milvus.v2.client.MilvusClientV2;
+- **独自のコレクションを作成する:**スキーマとインデックスのパラメータをデータセットとユースケースに合わせてカスタマイズします。スキーマを細かく制御する必要があるユーザーに最適です。
 
-String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
-String TOKEN = "YOUR_CLUSTER_TOKEN";
+- **サンプルコレクションの作成:**事前に定義されたスキーマとサンプルデータセットを使用してコレクションをすばやく設定できます。Zilliz Cloudを利用する新規ユーザーにおすすめです。
 
-// 1. Connect to Milvus server
-ConnectConfig connectConfig = ConnectConfig.builder()
-        .uri(CLUSTER_ENDPOINT)
-        .token(TOKEN)
-        .build();
+- 既存のコレクションを複製する:同じデータベース内で既存のコレクションを複製します。テストコレクションから本番コレクションにスキーマとデータの両方をコピーする必要がある環境複製シナリオで役立ちます。また、作成されたコレクションのシャード設定を変更するためにクローンを使用することもできます。
 
-MilvusClientV2 client = new MilvusClientV2(connectConfig);
+次のデモでは、Web UIの機能を見つける場所を示しています。
 
-DropCollectionReq dropQuickSetupParam = DropCollectionReq.builder()
-        .collectionName("customized_setup_2")
-        .build();
+<supademo id="cmap9as9900yyx80ihbaf3rqt" title="Create Collection" isshowcase="true"></supademo>
 
-client.dropCollection(dropQuickSetupParam);
-```
+以下は、コレクションを作成する際に遭遇するいくつかの概念です。
 
-</TabItem>
+### 基本情報を収集する{#collection-basic-information}
 
-<TabItem value='javascript'>
+コレクションのメタデータには以下が含まれます:
 
-```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
+- コレクション名
 
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
+- (オプション)コレクションの説明
 
-// 10. Drop the collection
-res = await client.dropCollection({
-    collection_name: "customized_setup_2"
-})
+- コレクションが属するデータベース。[データベース](./database)は、クラスターとコレクションの間のレイヤーであり、コレクションを管理および整理するための論理的なコンテナとして機能します。関連するコレクションを同じデータベースにグループ化できます。
 
-console.log(res.error_code)
+### コレクションスキーマ{#collection-schema}
 
-// Output
-// 
-// Success
-// 
-```
+スキーマは、コレクションのデータ構造を定義し、次を含める必要があります:
 
-</TabItem>
+- 1つのプライマリキー（PK）フィールド
 
-<TabItem value='go'>
+- 少なくとも1つのベクトル場。デフォルトでは最大4つのベクトル場を含めることができます。最大10個を含めるには、[お問い合わせ](https://zilliz.com/contact-sales)を使用してください。
 
-```go
-import (
-    "context"
-    "fmt"
-    "log"
+- （オプション）メタデータのスカラーフィールド
 
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-)
+- (オプション)動的フィールド。動的フィールドを有効にすると、既存のスキーマを変更せずにデータ挿入中にフィールドを追加できるため、コレクションスキーマに柔軟性が与えられます。データ構造が固定されていない場合は、動的フィールドを有効にすることをお勧めします。フィルターやクエリで頻繁に使用されるフィールドについては、動的フィールドを使用する代わりに、スキーマで事前に定義しておくと、最適なクエリパフォーマンスを維持するのに役立ちます。
 
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
+<supademo id="cmaqefyds2e7aho3rna9w8trp" title="Zilliz Cloud - Create Collection Schema"></supademo>
 
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-token := "YOUR_CLUSTER_TOKEN"
+<Admonition type="info" icon="📘" title="ノート">
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-    APIKey:  token,
-})
-if err != nil {
-    log.Fatal("failed to connect to milvus server: ", err.Error())
-}
+<p>スキーマ設定のほとんどは、コレクションが作成された後は変更できません。スキーマを慎重に設計して、現在および将来のビジネスニーズを満たすようにしてください。ベストプラクティスについては、<a href="./schema-explained">スキーマの説明</a>を参照してください。</p>
 
-defer cli.Close(ctx)
+</Admonition>
 
-err = cli.DropCollection(ctx, milvusclient.NewDropCollectionOption("customized_setup_2"))
-if err != nil {
-    // handle error
-}
-```
+### インデックス{#index}
 
-</TabItem>
+インデックスとは、検索やクエリを高速化するためにデータを整理するデータ構造です。Zilliz Cloudは2種類のインデックスをサポートしています。
 
-<TabItem value='bash'>
+- ベクトルインデックス: [AUTOINDEX](./autoindex-explained)を使用して自動的に作成され、ベクトル検索を加速します。スキーマに複数のベクトルフィールドがある場合、各ベクトルフィールドに対して別々のインデックスを作成できます。さらに、ベクトル間の距離を計算するために使用されるメトリックタイプを編集することもできます。
 
-```bash
-export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-export TOKEN="YOUR_CLUSTER_TOKEN"
+- スカラーインデックス:デフォルトでは、Zilliz Cloudはスカラーフィールドのインデックスを自動的に作成しません。ただし、検索やクエリを高速化するために一般的にフィルタリングに使用されるスカラーフィールドのインデックスを手動で作成することができます。
 
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
--d '{
-    "collectionName": "customized_setup_2"
-}'
+コレクションの作成中にインデックスの作成をスキップし、後でインデックスを追加することができます。詳細については、[インデックスの管理](./manage-indexes)を参照してください。
 
-# {
-#     "code": 0,
-#     "data": {}
-# }
-```
+### ファンクション&アナライザ{#function-and-analyzer}
 
-</TabItem>
-</Tabs>
+アナライザーは、生のテキストをトークン化および正規化するために全文検索で使用されます。入力テキストを個々の検索可能な用語に分割し、ストップワードや句読点などの関係のない要素を削除して検索精度を向上させます。詳細については、[アナライザの概要](./analyzer-overview)を参照してください。
+
+フルテキスト検索では、アナライザによって生成されたトークン化された用語を関連性スコアを持つ疎ベクトルに変換するために関数が使用されます。BM 25のようなスコアリングアルゴリズムを適用して、インデックス付けとドキュメントランキングのための重み付け表現を生成します。
+
+関数を使用するには、スキーマに`SPARSE_FLOAT_VECTOR`と`VARCHAR`の両方のフィールドを追加する必要があります。詳細については、[フルテキスト検索](./full-text-search)を参照してください。
+
+### パーティション&パーティションキー{#partition-and-partition-key}
+
+**パーティション:**パーティションは、コレクションの物理的なサブセットです。パーティションは、親コレクションと同じデータスキーマを共有しますが、コレクション内のデータの一部のみを含みます。各コレクションには1つのデフォルトパーティションが付属しています。マルチテナントやデータ管理の目的で、手動でパーティションを追加することができます。追加のパーティションが作成されない場合、コレクションに挿入されたすべてのデータはデフォルトパーティションに分類されます。詳細については、[パーティションの管理](./manage-partitions)を参照してください。
+
+パーティションキー:パーティションキーは、パーティションに基づく検索最適化ソリューションです。非プライマリキーの`INT64`または`VARCHAR`フィールドをパーティションキーとして指定すると、Zilliz Cloudによって自動的に16のパーティションが作成され、挿入されたすべてのエンティティは、パーティションキーの値に基づいてこれらの16の自動生成パーティションに分類されます。コレクションでパーティションキーが有効になると、このコレクションで手動でパーティションを作成することはできません。詳細については、[パーティションキーを使う](./use-partition-key)を参照してください。
+
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>パーティションを作成する必要があるか、パーティションキーを使用する必要があるかを判断するには、次の要因を考慮します。</p>
+<ul>
+<li><p>マルチテナント戦略:何百万ものテナントをサポートする必要がある場合は、パーティションキーを使用してください。テナント間で強力な物理データの分離が必要な場合は、パーティションを使用してください。詳細については、<a href="./multi-tenancy">マルチテナントを実装する</a>を参照してください。</p></li>
+<li><p><strong>リソース管理:</strong>自分でパーティションを作成して管理したい場合は、パーティションを使用することができます。パーティションの自動作成と管理が必要な場合は、パーティションキーを使用してください。</p></li>
+<li><p><strong>ホットデータとコールドデータの管理:</strong>ホットデータとコールドデータを効率的に処理する必要がある場合は、パーティションキーを使用してください。専用クラスタでホットデータとコールドデータの管理にパーティションキーを使用する場合は、<a href="http://support.zilliz.com">お問い合わせ</a>を使用してください。</p></li>
+</ul>
+
+</Admonition>
+
+### mmap{#mmap}
+
+メモリマッピング(mmap)は、メモリにロードせずにディスク上の大きなファイルに直接アクセスできるようにするメモリ使用量の最適化です。mmapを有効にすると、同じCU体格仕様の下でより多くのデータを保存できます。以下に示すように、mmapは、CUタイプとプランに基づいて推奨されるデフォルトで構成されています。 
+
+- 拡張容量CUタイプのFree、Serverless、およびDedicatedクラスターには、mmapデフォルトが有効になっています。この設定は固定されており、変更できないため、コレクションの作成中にmmap構成オプションが表示されない場合があります。
+
+- CUタイプperformance-optimizedの専用クラスタは、デフォルトでmmapが無効になっています。
+
+- 容量が最適化されたCUタイプの専用クラスターには、mmapデフォルトが有効です。
+
+クラスターレベルの既定のmmap設定の詳細については、[mmapを使う](./use-mmap#global-mmap-strategy)を参照してください。
+
+コレクションの作成時には、ユースケースに応じて、**コレクション**レベルまたは**フィールド**レベルでmmap設定をオプションで構成できます。下位レベルの設定は上位レベルよりも優先されます:**フィールド>コレクション>クラスター** 
+
+- コレクションレベルのmmap:コレクション全体の生データに対してmmapを有効にします。この設定は後で変更できますが、最初にコレクションを解放する必要があります。
+
+- フィールドレベルのmmap:カスタム設定を介して、選択したフィールドの生データとスカラーインデックスのmmapを有効にします。一般的に、データ体格が大きく、頻繁にフィルタリングまたはクエリされないフィールドに対してmmapを有効にすることをお勧めします。この設定は選択したフィールドにのみ適用され、後で変更できます。フィールドレベルのmmap設定を変更するには、まずコレクションを解放する必要があります。
+
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>mmapの設定には注意してください。デフォルトのmmap設定を変更すると、メモリ不足(OOM)の問題によりパフォーマンスが低下したり、ロード障害が発生する可能性があります。ベストプラクティスについては、<a href="./use-mmap#collection-specific-mmap-settings">mmapを使う</a>を参照してください。</p>
+
+</Admonition>
+
+以下のデモは、Zilliz Cloudウェブコンソールでこの機能の入り口を示しています。
+
+<Supademo id="cmbk94p4i8hm0sn1rhzrph2b5" title=""  />
+
+### シャード{#shard}
+
+シャードは、データ入力チャネルに対応するコレクションの水平スライスです。デフォルトでは、各コレクションに1つのシャードが付属しています。書き込みスループットを増やすために、さらにシャードを追加できます。 
+
+一般的なガイドラインとして、1億行のデータごとに1つのシャードを追加することを検討してください。許可されるシャードの最大数は、クラスタープランとクラスターCU体格によって異なります。詳細については、[Zillizクラウドの制限](./limits#shards)を参照してください。
+
+シャードの数は、コレクションが作成された後、[クローンコレクション](./manage-collections-console#create-collection)機能を使用して後で編集できます。
+
+### 全文検索{#full-text-search}
+
+Zilliz Cloudコンソールでは、全文検索で使用する関数やアナライザの設定をサポートしています。全文検索の詳細については、[フルテキスト検索](./full-text-search)を参照してください。
+
+以下のデモは、Zilliz Cloudウェブコンソールでこの機能の入り口を示しています。
+
+<Supademo id="cmbj8ahun7j48sn1redlc3e93" title=""  />
+
+### テキスト一致{#text-match}
+
+Zilliz Cloudコンソールでは、フィールドとアナライザのテキストマッチの設定もサポートしています。テキストマッチの詳細については、[テキスト一致](./text-match)を参照してください。
+
+以下のデモは、Zilliz Cloudウェブコンソールでこの機能の入り口を示しています。
+
+<Supademo id="cmbj80qyf7it8sn1r6lzo0g1c" title=""  />
+
+## コレクションの管理{#manage-collection}
+
+Zilliz Cloudは、Webコンソールを介して作成されたコレクションの以下の管理操作をサポートしています。
+
+<supademo id="cmaqjykyn002myh0irk72q332" title="Manage Collection" isshowcase="true"></supademo>
+
+- **コレクションの名前を変更する:**既存のコレクションの名前を変更できます。
+
+- **コレクションスキーマと設定の編集:**現在、Zilliz Cloudは以下のスキーマと設定の編集のみをサポートしています。
+
+    - 既存の[VARCHARフィールド](./use-string-field)の`max_length`値を編集できます。
+
+    - 既存の[ARRAYフィールド](./use-array-fields)の`max_capacity`値と、ARRAY型がVARCHARの場合は`max_length`値を編集できます。
+
+    - シャード設定を変更するには、代わりに[クローンコレクション](./manage-collections-console#create-collection)機能を使用してください。
+
+    - TTL、mmap、またはパーティションキーの設定を変更するには、代わりにSDKを使用してください。詳細については、[コレクションの変更](./modify-collections)を参照してください。
+
+    他のコレクションスキーマ設定は編集できません。変更を適用するには、必要な構成で新しいコレクションを作成し、データをインポートします。
+
+- **コレクションのロードとリリース:**Zilliz Cloudウェブコンソールでは、コレクションが自動的にメモリにロードされ、作成後すぐに検索やクエリが可能になります。メモリスペースを解放するために、未使用のコレクションを解放することができます。
+
+- **コレクションを別のデータベースに移動する:**同じデータベース内で関連するコレクションをグループ化し、必要に応じてデータベース間でコレクションを移動できます。
+
+- コレクション内のパーティションを管理する:パーティションキーが有効なコレクションの場合、パーティションを手動で管理する必要はありません。パーティションキーが無効なコレクションの場合、パーティションを手動で管理し、以下の操作を実行できます
+
+    - **パーティションの作成:**各コレクションに最大1,024個のパーティションを作成できます。詳細については、[Zillizクラウドの制限](./limits#collections)を参照してください。
+
+    - **パーティションの削除:**デフォルトのパーティションは削除できず、パーティションを削除すると、その中のすべてのデータが不可逆的に削除されます。パーティションを削除する前に、まずコレクションを解放する必要があります。
+
+- コレクションの削除:リソースのオーバーヘッドを減らすために、不要になったコレクションを削除することができます。コレクションを削除すると、その中のすべてのデータが不可逆的に削除されます。
 

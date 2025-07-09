@@ -1,12 +1,12 @@
 ---
-title: "エンティティの更新と挿入 | BYOC"
+title: "Upsertエンティティ | BYOC"
 slug: /upsert-entities
-sidebar_label: "エンティティの更新と挿入"
+sidebar_label: "Upsertエンティティ"
 beta: FALSE
 notebook: FALSE
-description: "Upsert操作は、データの更新と挿入のアクションを組み合わせたものです。Milvusは、主キーが存在するかどうかを確認することで、更新または挿入操作を実行するかどうかを決定します。このセクションでは、エンティティをUpsertする方法と、さまざまなシナリオでのUpsert操作の具体的な動作について紹介します。 | BYOC"
+description: "`upsert`操作は、コレクションにエンティティを挿入または更新する便利な方法を提供します。プライマリキーの存在をチェックすることで、データをインテリジェントに処理します。キーがすでに存在する場合は、対応するエンティティが更新されます。そうでない場合は、新しいエンティティが挿入されます。これにより、エンティティがすでに存在するかどうかわからない場合や、重複するエントリを作成しない必要がある場合に、`upsert`がデータを管理するための推奨方法になります。 | BYOC"
 type: origin
-token: PHmAwiBrDiBYpSkkuOKcO56onNg
+token: YtJPwEVETiTaPMkWSfAccjXTnge
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -17,10 +17,10 @@ keywords:
   - upsert
   - update
   - insert
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 
@@ -28,29 +28,37 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# エンティティの更新と挿入
+# Upsertエンティティ
 
-Upsert操作は、データの更新と挿入のアクションを組み合わせたものです。Milvusは、主キーが存在するかどうかを確認することで、更新または挿入操作を実行するかどうかを決定します。このセクションでは、エンティティをUpsertする方法と、さまざまなシナリオでのUpsert操作の具体的な動作について紹介します。
+`upsert`操作は、コレクションにエンティティを挿入または更新する便利な方法を提供します。プライマリキーの存在をチェックすることで、データをインテリジェントに処理します。キーがすでに存在する場合は、対応するエンティティが更新されます。そうでない場合は、新しいエンティティが挿入されます。これにより、エンティティがすでに存在するかどうかわからない場合や、重複するエントリを作成しない必要がある場合に、`upsert`がデータを管理するための推奨方法になります。
+
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>コレクションが作成された後に新しいフィールドを動的に追加し、エンティティをアップサートする際にこれらのフィールドの値を指定しない場合、Milvusは自動的に定義されたデフォルト値またはデフォルトが設定されていない場合はNULLを入力します。詳細については、<a href="./undefined">既存のコレクションにフィールドを追加する</a>を参照してください。</p>
+
+</Admonition>
+
+</include>
 
 ## 概要について{#overview}
 
-コレクション内のエンティティを更新する必要がある場合、または更新するか挿入するかわからない場合は、Upsert操作を使用してみてください。この操作を使用する場合、Upsertリクエストに含まれるエンティティに主キーが含まれていることを確認することが重要です。そうでない場合、エラーが発生します。Upsertリクエストを受信すると、Zilliz Cloudは次の過程を実行します
+コレクション内のエンティティを更新する必要がある場合、または更新するか挿入するかわからない場合は、Upsert操作を使用してみてください。この操作を使用する場合、Upsertリクエストに含まれるエンティティに主キーが含まれていることを確認することが重要です。そうしないと、エラーが発生します。Upsertリクエストを受け取ったら、Zillizクラウド以下の過程を実行します:
 
 1. コレクションのプライマリフィールドでAutoIdが有効になっているかどうかを確認します。
 
-    1. その場合、Zilliz CloudはEntity内の主キーを自動生成された主キーに置き換え、データを挿入します。
+    1.  もしそうなら、Zillizクラウドエンティティ内の主キーを自動生成された主キーに置き換え、データを挿入します。
 
-    1. そうでない場合、Zilliz Cloudはエンティティが持つ主キーを使用してデータを挿入します。
+    1. そうでなければ、Zillizクラウドデータを挿入するためにエンティティが持つ主キーを使用します。
 
 1. Upsert要求に含まれるエンティティの主キー値に基づいて削除操作を実行します。
 
-![PbhlwMPYehvqZjboBUucBm0tniL](/byoc/ja-JP/PbhlwMPYehvqZjboBUucBm0tniL.png)
+![K2SXwCq8ThyBnGb9LxFceCk5nwe](/img/K2SXwCq8ThyBnGb9LxFceCk5nwe.png)
 
-## コレクション内のエンティティの更新と挿入{#upsert-entity-in-a-collection}
+## コレクション内のエンティティの挿入{#upsert-entity-in-a-collection}
 
-このセクションでは、[クイックセットアップの方法で](./quick-setup-collections#quick-setup)作成されたコレクションにエンティティを挿入します。この方法で作成されたコレクションには、**id**と**vector**という2つのフィールドしかありません。さらに、このコレクションには動的フィールドが有効になっているため、サンプルコードのエンティティには、スキーマで定義されていない**color**というフィールドが含まれています。
+このセクションでは、クイックセットアップの方法で作成されたコレクションにエンティティを挿入します。この方法で作成されたコレクションには、idとvectorという2つのフィールドしかありません。さらに、このコレクションには動的フィールドが有効になっているため、サンプルコードのエンティティには、スキーマで定義されていないcolorというフィールドが含まれています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -170,6 +178,58 @@ console.log(res.upsert_cnt)
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/column"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+dynamicColumn := column.NewColumnString("color", []string{
+    "pink_8682", "red_7025", "orange_6781", "pink_9298", "red_4794", "yellow_4222", "red_9392", "grey_8510", "white_9381", "purple_4976",
+})
+
+_, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("quick_setup").
+    WithInt64Column("id", []int64{0, 1, 2, 3, 4, 5, 6, 7, 8, 9}).
+    WithFloatVectorColumn("vector", 5, [][]float32{
+        {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592},
+        {0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104},
+        {0.43742130801983836, -0.5597502546264526, 0.6457887650909682, 0.7894058910881185, 0.20785793220625592},
+        {0.3172005263489739, 0.9719044792798428, -0.36981146090600725, -0.4860894583077995, 0.95791889146345},
+        {0.4452349528804562, -0.8757026943054742, 0.8220779437047674, 0.46406290649483184, 0.30337481143159106},
+        {0.985825131989184, -0.8144651566660419, 0.6299267002202009, 0.1206906911183383, -0.1446277761879955},
+        {0.8371977790571115, -0.015764369584852833, -0.31062937026679327, -0.562666951622192, -0.8984947637863987},
+        {-0.33445148015177995, -0.2567135004164067, 0.8987539745369246, 0.9402995886420709, 0.5378064918413052},
+        {0.39524717779832685, 0.4000257286739164, -0.5890507376891594, -0.8650502298996872, -0.6140360785406336},
+        {0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608},
+    }).
+    WithColumns(dynamicColumn),
+)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -221,9 +281,9 @@ curl --request POST \
 
 ## パーティション内のエンティティを消去する{#upsert-entities-in-a-partition}
 
-指定したパーティションにエンティティを挿入することもできます。次のコードスニペットは、コレクションにPartitionAという名前のパーティションがあること**を**前提としています。
+指定されたパーティションにエンティティを挿入することもできます。次のコードスニペットは、コレクションに**PartitionA**という名前のパーティションがあることを前提としています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -321,6 +381,38 @@ console.log(res.upsert_cnt)
 // 
 // 10
 // 
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+dynamicColumn = column.NewColumnString("color", []string{
+    "pink_8682", "red_7025", "orange_6781", "pink_9298", "red_4794", "yellow_4222", "red_9392", "grey_8510", "white_9381", "purple_4976",
+})
+
+_, err = client.Upsert(ctx, milvusclient.NewColumnBasedInsertOption("quick_setup").
+    WithPartition("partitionA").
+    WithInt64Column("id", []int64{10, 11, 12, 13, 14, 15, 16, 17, 18, 19}).
+    WithFloatVectorColumn("vector", 5, [][]float32{
+        {0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592},
+        {0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104},
+        {0.43742130801983836, -0.5597502546264526, 0.6457887650909682, 0.7894058910881185, 0.20785793220625592},
+        {0.3172005263489739, 0.9719044792798428, -0.36981146090600725, -0.4860894583077995, 0.95791889146345},
+        {0.4452349528804562, -0.8757026943054742, 0.8220779437047674, 0.46406290649483184, 0.30337481143159106},
+        {0.985825131989184, -0.8144651566660419, 0.6299267002202009, 0.1206906911183383, -0.1446277761879955},
+        {0.8371977790571115, -0.015764369584852833, -0.31062937026679327, -0.562666951622192, -0.8984947637863987},
+        {-0.33445148015177995, -0.2567135004164067, 0.8987539745369246, 0.9402995886420709, 0.5378064918413052},
+        {0.39524717779832685, 0.4000257286739164, -0.5890507376891594, -0.8650502298996872, -0.6140360785406336},
+        {0.5718280481994695, 0.24070317428066512, -0.3737913482606834, -0.06726932177492717, -0.6980531615588608},
+    }).
+    WithColumns(dynamicColumn),
+)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
 ```
 
 </TabItem>

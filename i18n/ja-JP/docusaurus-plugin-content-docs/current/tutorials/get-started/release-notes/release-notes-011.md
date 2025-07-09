@@ -6,17 +6,17 @@ beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloudの重要なアップデートの一般提供を発表できることを嬉しく思います。このリリースでは、メール通知と初心者向けのインラインガイダンスが追加されます。 | Cloud"
 type: origin
-token: CrKDw4WQAiFaEFkfcCwc6t5ynoh
-sidebar_position: 20
+token: E76ywex6GiUKUKkgbFAc95Q0nxe
+sidebar_position: 23
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 
@@ -47,4 +47,4 @@ Zilliz Cloudの重要なアップデートの一般提供を発表できるこ�
 
 - 初心者向けのインラインガイダンス
 
-    このリリースでは、初心者向けのインラインガイダンスが大幅に改善され、オンボーディングが迅速に行えるようになりました。これで、オンラインチュートリアルを5分以内で完了できます。背景知識は必要ありません。[お楽しみください!](https://cloud.zilliz.com/signup)
+    このリリースでは、初心者向けのインラインガイダンスが大幅に改善され、オンボーディングが迅速に行えるようになりました。これにより、オンラインチュートリアルを背景知識なしで5分以内に完了できます。[楽しんで!](https://cloud.zilliz.com/signup)

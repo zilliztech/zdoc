@@ -6,8 +6,8 @@ beta: FALSE
 notebook: FALSE
 description: "コレクションのロードは、コレクション内の類似検索やクエリを実行するための前提条件です。このページでは、コレクションのロードとリリースの手順に焦点を当てています。 | BYOC"
 type: origin
-token: RHtIwOn0yimJfQkOqsxcRiXqnhe
-sidebar_position: 6
+token: CemEwKryciMUepkgYWZcOw6wncb
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - collection
   - load
   - release
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 
@@ -32,7 +32,7 @@ import TabItem from '@theme/TabItem';
 
 ## ロードコレクション{#load-collection}
 
-コレクションをロードすると、Zilliz Cloudはインデックスファイルとすべてのフィールドの生データをメモリにロードし、検索やクエリに迅速に応答します。コレクションのロード後に挿入されたエンティティは自動的にインデックス化され、ロードされます。
+コレクションをロードするとき、Zillizクラウドインデックスファイルとすべてのフィールドの生データをメモリにロードし、検索やクエリに迅速に応答します。コレクションのロード後に挿入されたエンティティは自動的にインデックス化され、ロードされます。
 
 次のコードスニペットは、コレクションを読み込む方法を示しています。
 
@@ -49,11 +49,11 @@ client = MilvusClient(
 
 # 7. Load the collection
 client.load_collection(
-    collection_name="customized_setup_1"
+    collection_name="my_collection"
 )
 
 res = client.get_load_state(
-    collection_name="customized_setup_1"
+    collection_name="my_collection"
 )
 
 print(res)
@@ -88,14 +88,14 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 // 6. Load the collection
 LoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()
-        .collectionName("customized_setup_1")
+        .collectionName("my_collection")
         .build();
 
 client.loadCollection(loadCollectionReq);
 
 // 7. Get load state of the collection
 GetLoadStateReq loadStateReq = GetLoadStateReq.builder()
-        .collectionName("customized_setup_1")
+        .collectionName("my_collection")
         .build();
 
 Boolean res = client.getLoadState(loadStateReq);
@@ -118,7 +118,7 @@ const client = new MilvusClient({address, token});
 
 // 7. Load the collection
 res = await client.loadCollection({
-    collection_name: "customized_setup_1"
+    collection_name: "my_collection"
 })
 
 console.log(res.error_code)
@@ -129,7 +129,7 @@ console.log(res.error_code)
 // 
 
 res = await client.getLoadState({
-    collection_name: "customized_setup_1"
+    collection_name: "my_collection"
 })
 
 console.log(res.state)
@@ -148,21 +148,41 @@ console.log(res.state)
 import (
     "context"
     "fmt"
-    "log"
-
+    
     "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
-loadTask, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("customized_setup_1"))
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
 if err != nil {
+    fmt.Println(err.Error())
     // handle error
+}
+defer client.Close(ctx)
+    
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
 }
 
 // sync wait collection to be loaded
 err = loadTask.Await(ctx)
 if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
+
+state, err := client.GetLoadState(ctx, milvusclient.NewGetLoadStateOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println(state)
 ```
 
 </TabItem>
@@ -178,7 +198,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "customized_setup_1"
+    "collectionName": "my_collection"
 }'
 
 # {
@@ -191,7 +211,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "customized_setup_1"
+    "collectionName": "my_collection"
 }'
 
 # {
@@ -207,31 +227,25 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## 特定のフィールドをロード{#load-specific-fields}
+## 特定のフィールドを読み込む{#load-specific-fields}
 
-Zilliz Cloudは、検索やクエリに関係するフィールドのみを読み込むことができ、メモリ使用量を減らし、検索パフォーマンスを向上させることができます。
+Zillizクラウド検索とクエリに関係するフィールドのみを読み込むことができ、メモリ使用量を減らし、検索パフォーマンスを向上させることができます。
 
-<Admonition type="info" icon="📘" title="ノート">
-
-<p>部分コレクションの読み込みは現在ベータ版であり、本番環境での使用は推奨されていません。</p>
-
-</Admonition>
-
-次のコードスニペットは、**customised_setup_2**という名前のコレクションを作成し、コレクションにmy_**id**と**my_vector**という2つのフィールドがあることを前提としています。
+次のコードスニペットは、**my_collection**という名前のコレクションを作成し、コレクション内に**my_id**と**my_vector**という2つのフィールドがあることを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 client.load_collection(
-    collection_name="customized_setup_1",
+    collection_name="my_collection",
     # highlight-next-line
     load_fields=["my_id", "my_vector"] # Load only the specified fields
     skip_load_dynamic_field=True # Skip loading the dynamic field
 )
 
 res = client.get_load_state(
-    collection_name="customized_setup_1"
+    collection_name="my_collection"
 )
 
 print(res)
@@ -250,7 +264,7 @@ print(res)
 ```java
 // 6. Load the collection
 LoadCollectionReq loadCollectionReq = LoadCollectionReq.builder()
-        .collectionName("customized_setup_1")
+        .collectionName("my_collection")
         .loadFields(Arrays.asList("my_id", "my_vector"))
         .build();
 
@@ -258,7 +272,7 @@ client.loadCollection(loadCollectionReq);
 
 // 7. Get load state of the collection
 GetLoadStateReq loadStateReq = GetLoadStateReq.builder()
-        .collectionName("customized_setup_1")
+        .collectionName("my_collection")
         .build();
 
 Boolean res = client.getLoadState(loadStateReq);
@@ -271,13 +285,13 @@ System.out.println(res);
 
 ```javascript
 await client.load_collection({
-  collection_name: "customized_setup_1",
+  collection_name: "my_collection",
   load_fields: ["my_id", "my_vector"], // Load only the specified fields
   skip_load_dynamic_field: true //Skip loading the dynamic field
 });
 
 const loadState = client.getCollectionLoadState({
-    collection_name: "customized_setup_1",
+    collection_name: "my_collection",
 })
 
 console.log(loadState);
@@ -288,28 +302,26 @@ console.log(loadState);
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v2"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-loadTask, err := cli.LoadCollection(ctx, client.NewLoadCollectionOption("customized_setup_1").
-    WithLoadFields("my_id", "my_vector"))
+loadTask, err := client.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("my_collection").
+        WithLoadFields("my_id", "my_vector"))
 if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
 
 // sync wait collection to be loaded
 err = loadTask.Await(ctx)
 if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
+
+state, err := client.GetLoadState(ctx, milvusclient.NewGetLoadStateOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println(state)
 ```
 
 </TabItem>
@@ -317,15 +329,16 @@ if err != nil {
 <TabItem value='bash'>
 
 ```bash
-# REST 缺失
+# REST
+# Not supported yet
 ```
 
 </TabItem>
 </Tabs>
 
-特定のフィールドをロードすることを選択した場合、`load_fields`に含まれるフィールドのみが検索やクエリのフィルタや出力フィールドとして使用できることに注意してください。`load_fields`には常にプライマリフィールドと少なくとも1つのベクトルフィールドの名前を含める必要があります。
+特定のフィールドを読み込むことを選択した場合、`load_fields`に含まれるフィールドのみが検索やクエリのフィルタや出力フィールドとして使用できることに注意してください。`load_fields`には常にプライマリフィールドの名前と少なくとも1つのベクトルフィールドを含める必要があります。
 
-また、`skip_load_dynamic_field`を使用して、動的フィールドをロードするかどうかを決定することもできます。動的フィールドは**$meta**という名前の予約済みJSONフィールドで、スキーマ定義されていないすべてのフィールドとその値をキーと値のペアで保存します。動的フィールドをロードすると、フィールド内のすべてのキーがロードされ、フィルタリングと出力に使用できます。動的フィールド内のすべてのキーがメタデータのフィルタリングと出力に関与していない場合は、`skip_load_dynamic_field`を`True`に設定します。
+`skip_load_dynamic_field`を使用して、動的フィールドをロードするかどうかを決定することもできます。動的フィールドは、**\$meta**という予約済みのJSONフィールドであり、スキーマ定義されていないすべてのフィールドとその値をキーと値のペアで保存します。動的フィールドをロードすると、フィールド内のすべてのキーがロードされ、フィルタリングと出力に使用できます。動的フィールド内のすべてのキーがメタデータのフィルタリングと出力に関与していない場合は、`skip_load_dynamic_field`を`True`に設定してください。
 
 コレクションの読み込み後にさらに多くのフィールドを読み込むには、インデックスの変更によってエラーが発生する可能性があるため、最初にコレクションを解放する必要があります。
 
@@ -341,11 +354,11 @@ if err != nil {
 ```python
 # 8. Release the collection
 client.release_collection(
-    collection_name="custom_quick_setup"
+    collection_name="my_collection"
 )
 
 res = client.get_load_state(
-    collection_name="custom_quick_setup"
+    collection_name="my_collection"
 )
 
 print(res)
@@ -366,13 +379,13 @@ import io.milvus.v2.service.collection.request.ReleaseCollectionReq;
 
 // 8. Release the collection
 ReleaseCollectionReq releaseCollectionReq = ReleaseCollectionReq.builder()
-        .collectionName("custom_quick_setup")
+        .collectionName("my_collection")
         .build();
 
 client.releaseCollection(releaseCollectionReq);
 
 GetLoadStateReq loadStateReq = GetLoadStateReq.builder()
-        .collectionName("custom_quick_setup")
+        .collectionName("my_collection")
         .build();
 Boolean res = client.getLoadState(loadStateReq);
 System.out.println(res);
@@ -388,7 +401,7 @@ System.out.println(res);
 ```javascript
 // 8. Release the collection
 res = await client.releaseCollection({
-    collection_name: "custom_quick_setup"
+    collection_name: "my_collection"
 })
 
 console.log(res.error_code)
@@ -399,7 +412,7 @@ console.log(res.error_code)
 // 
 
 res = await client.getLoadState({
-    collection_name: "custom_quick_setup"
+    collection_name: "my_collection"
 })
 
 console.log(res.state)
@@ -415,16 +428,18 @@ console.log(res.state)
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-)
-
-err := cli.ReleaseCollection(ctx, milvusclient.NewReleaseCollectionOption("custom_quick_setup"))
+err = client.ReleaseCollection(ctx, milvusclient.NewReleaseCollectionOption("my_collection"))
 if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
+
+state, err := client.GetLoadState(ctx, milvusclient.NewGetLoadStateOption("my_collection"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println(state)
 ```
 
 </TabItem>
@@ -440,7 +455,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "custom_quick_setup"
+    "collectionName": "my_collection"
 }'
 
 # {
@@ -453,7 +468,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "custom_quick_setup"
+    "collectionName": "my_collection"
 }'
 
 # {

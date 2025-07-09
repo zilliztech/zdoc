@@ -4,19 +4,19 @@ slug: /authentication
 sidebar_label: "認証プロセス"
 beta: FALSE
 notebook: FALSE
-description: "メールアカウント、APIキー、クラスター資格情報、および多要素認証(MFA)対策の管理について詳しく学びましょう。 | Cloud"
+description: "メールアカウントの管理についてもっと学ぶ, APIキークラスター資格情報とマルチファクタ認証（MFA）対策。 | Cloud"
 type: origin
-token: SrspwB2DfiaSkTkkocHcHSAunGW
-sidebar_position: 1
+token: XiOsw8A3eibZInk1aJNceBqznLb
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - cloud
   - authentication
-  - Audio search
   - what is semantic search
   - Embedding model
   - image similarity search
+  - Context Window
 
 ---
 
@@ -25,7 +25,7 @@ import Admonition from '@theme/Admonition';
 
 # 認証プロセス
 
-メールアカウント、APIキー、クラスター資格情報、および多要素認証(MFA)対策の管理について詳しく学びましょう。
+メールアカウントの管理についてもっと学ぶ, APIキークラスター資格情報とマルチファクタ認証（MFA）対策。
 
 import DocCardList from '@theme/DocCardList';
 

@@ -6,7 +6,7 @@ beta: FALSE
 notebook: FALSE
 description: "不要になったエンティティは、条件またはプライマリキーをフィルタリングして削除できます。 | BYOC"
 type: origin
-token: MfVew9hnPiNq3gkyjdFcYjF0ndc
+token: RhKcwNACpi3WihkTzo8cr4BCnee
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -16,10 +16,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 
@@ -33,9 +33,9 @@ import TabItem from '@theme/TabItem';
 
 ## 条件をフィルタリングしてエンティティを削除する{#delete-entities-by-filtering-conditions}
 
-一括で属性を共有する複数のエンティティを削除する場合、フィルタ式を使用できます。以下のサンプルコードは、**in**演算子を使用して、**color**フィールドの値が**red**と**green**に設定されたすべてのエンティティを一括削除します。他の演算子を使用して、要件を満たすフィルタ式を作成することもできます。フィルタ式の詳細については、「[フィルタリング](./filtering)」を参照してください。
+バッチでいくつかの属性を共有する複数のエンティティを削除する場合、フィルター式を使用できます。以下の例のコードでは、**in**演算子を使用して、**color**フィールドが**red**と**purple**の値に設定されたすべてのエンティティを一括削除します。要件を満たすフィルター式を構築するために、他の演算子を使用することもできます。フィルター式の詳細については、[フィルタリングの説明](./filtering-overview)を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -49,7 +49,7 @@ client = MilvusClient(
 res = client.delete(
     collection_name="quick_setup",
     # highlight-next-line
-    filter="color in ['red_3314', 'purple_7392']"
+    filter="color in ['red_7025', 'purple_4976]"
 )
 
 print(res)
@@ -75,7 +75,7 @@ ilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
 
 DeleteResp deleteResp = client.delete(DeleteReq.builder()
         .collectionName("quick_setup")
-        .filter("color in ['red_3314', 'purple_7392']")
+        .filter("color in ['red_7025', 'purple_4976]")
         .build());
 
 ```
@@ -95,7 +95,7 @@ const client = new MilvusClient({address, token});
 res = await client.delete({
     collection_name: "quick_setup",
     // highlight-next-line
-    filter: "color in ['red', 'green']"
+    filter: "color in ['red_7025', 'purple_4976]"
 })
 
 console.log(res.delete_cnt)
@@ -104,6 +104,40 @@ console.log(res.delete_cnt)
 // 
 // 3
 // 
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/column"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+_, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").WithExpr("color in ['red_7025', 'purple_4976']"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
 ```
 
 </TabItem>
@@ -120,7 +154,7 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "collectionName": "quick_setup",
-    "filter": "color in [\"red_3314\", \"purple_7392\"]"
+    "filter": "color in [\"red_7025\", \"purple_4976\"]"
 }'
 ```
 
@@ -129,9 +163,9 @@ curl --request POST \
 
 ## 主キーによるエンティティの削除{#delete-entities-by-primary-keys}
 
-ほとんどの場合、プライマリキーはエンティティを一意に識別します。削除リクエストでプライマリキーを設定することで、エンティティを削除できます。以下のサンプルコードは、プライマリキー**18**と**19**を持つ2つのエンティティを削除する方法を示しています。
+ほとんどの場合、プライマリキーはエンティティを一意に識別します。削除リクエストでプライマリキーを設定することで、エンティティを削除できます。以下の例のコードは、プライマリキーが18と19の2つのエンティティを削除する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -185,6 +219,19 @@ console.log(res.delete_cnt)
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+_, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
+    WithInt64IDs("id", []int64{18, 19}))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -207,9 +254,9 @@ curl --request POST \
 
 ## パーティションからエンティティを削除{#delete-entities-from-partitions}
 
-特定のパーティションに保存されているエンティティを削除することもできます。次のコードスニペットは、コレクションにPartitionAという名前のパーティションがあること**を**前提としています。
+特定のパーティションに保存されているエンティティを削除することもできます。次のコードスニペットは、コレクションに**PartitionA**という名前のパーティションがあることを前提としています。 
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -261,6 +308,20 @@ console.log(res.delete_cnt)
 // 
 // 2
 // 
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+_, err = client.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").
+    WithInt64IDs("id", []int64{18, 19}).
+    WithPartition("partitionA"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
 ```
 
 </TabItem>

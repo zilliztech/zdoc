@@ -6,17 +6,17 @@ beta: FALSE
 notebook: FALSE
 description: "このリリースには、新しいWebコンソールのユーザーインターフェイス、Qdrant、Pinecone Serverless、およびテンセントVectorDBからのデータ移行のサポート、よりスムーズな支払い過程、および詳細な支払い情報を含む刷新された請求書ページが含まれています。 | Cloud"
 type: origin
-token: FrALwj4ihi3BEtk7vQjc1zRInUb
-sidebar_position: 3
+token: HwWfwN9SViqU0Ukcv68cufBAnBe
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 
@@ -35,11 +35,11 @@ import Admonition from '@theme/Admonition';
 
 このリリースでは、Zilliz Cloudは完全にアップグレードされたWebコンソールUIを導入しました。使い慣れたワークフローを維持しながら、新しいインターフェースはユーザーのインタラクティブな体験とビジュアルな体験の両方を大幅に向上させます。
 
-[Zilliz Cloud](https://cloud.zilliz.com)アカウントにログインして、新しいインターフェースをお試しください!
+[Zillizクラウド](https://cloud.zilliz.com)アカウントにログインして、新しいインターフェースを自分で試してみてください!
 
 ## 拡張されたソースサポートによるデータ移行の強化{#enhanced-data-migration-with-expanded-source-support}
 
-このリリースでは、Zilliz Cloudはデータ移行機能をアップグレードし、以下のような追加のデータソースをサポートしました。
+このリリースでは、Zilliz Cloudはデータ移行機能をアップグレードし、以下のような追加のデータソースをサポートしています。
 
 - Qdrant
 
@@ -47,11 +47,11 @@ import Admonition from '@theme/Admonition';
 
 - テンセントVectorDB
 
-これらの機能強化により、Zilliz Cloudが提供する独自の機能を活用して、これらのベンダーからデータを簡単にZilliz Cloudに移行できます。これらのソースからデータを移行する詳細な手順については、[QdrantからZilliz Cloudへの移行](./migrate-from-qdrant),[PineconeからZilliz Cloudへの移行](./migrate-from-pinecone), と[テンセントクラウドからZilliz Cloudへの移行](./migrate-from-pgvector)を参照してください。
+これらの機能強化により、Zilliz Cloudが提供する独自の機能を活用して、これらのベンダーからデータを簡単にZilliz Cloudに移行できます。これらのソースからデータを移行する詳細な手順については、[QdrantからZilliz Cloudへの移行](./migrate-from-qdrant)、[PineconeからZilliz Cloudへの移行](./migrate-from-pinecone)、[テンセントクラウドからZilliz Cloudへの移行](./migrate-from-tencent-cloud)を参照してください。
 
 ## 支払いプロセスの改善と請求書ページの再設計{#improved-payment-process-and-redesigned-invoice-page}
 
-今回のリリースでは、Zilliz Cloudが支払い過程を簡素化し、請求書ページを一新し、コスト管理をより明確かつ便利にしました。主な更新内容は以下の通りです:
+今回のリリースでは、Zilliz Cloudが支払い過程を簡素化し、請求書ページを一新し、コスト管理をより明確かつ便利にしました。主な更新内容は以下の通りです。
 
 - 支払いが期限切れになったときのタイムリーな通知
 
@@ -59,7 +59,7 @@ import Admonition from '@theme/Admonition';
 
 - コストとダウンロードオプションを可視化した項目別請求書
 
-これらの更新の詳細については、[インボイス](./view-invoice)をご覧ください。
+これらの更新の詳細については、[インボイス](./view-invoice)をお読みください。
 
 ### エンハンスメント{#enhancements}
 

@@ -6,7 +6,7 @@ beta: FALSE
 notebook: FALSE
 description: "データ形式が要件を満たしていない場合は、pymilvusとMilvusのJava SDKにあるデータ処理ツールであるBulkWriterを使用してデータを準備することができます。 | BYOC"
 type: origin
-token: HckPwGc3IiSJM7kYS8Xco3RYnfg
+token: QyjpwAaKuihAeJkNBUJcdFesn9e
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 
@@ -31,19 +31,19 @@ import TabItem from '@theme/TabItem';
 
 ## 概要について{#overview}
 
-**BulkWriter**は、Zilliz Cloudコンソール、Milvus SDKの**BulkInsert**API、またはRESTfulフレーバーの**Import** APIなど、さまざまな方法でインポートに適した形式に生データセットを変換するために設計されたスクリプトです。2種類のライターを提供しています
+BulkWriterは、Zilliz Cloudコンソール、Milvus SDKのBulkInsert API、またはRESTfulフレーバーのImport APIなど、さまざまな方法でインポートに適した形式に生データセットを変換するために設計されたスクリプトです。2種類のライターを提供しています
 
-- **LocalBulkWriter**:指定されたデータセットを読み取り、使いやすい形式に変換します。
+- LocalBulkWriter:指定されたデータセットを読み取り、使いやすい形式に変換します。
 
-- **RemoteBulkWriter**: Local BulkWriterと同じタスクを実行し**ま**すが、変換されたデータファイルを指定したリモートオブジェクトストレージバケットに転送します。
+- **RemoteBulkWriter**:**Local BulkWriter**と同じタスクを実行しますが、変換されたデータファイルを指定されたリモートオブジェクトストレージバケットに転送します。
 
 ## 手続き{#procedure}
 
 ### 依存関係を設定する{#set-up-dependencies}
 
-<Tabs groupId="code"defaultValue='python'value={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<tabs groupid="code" defaultvalue="python" values="{[{&#34;label&#34;:&#34;Python&#34;,&#34;value&#34;:&#34;python&#34;},{&#34;label&#34;:&#34;Java&#34;,&#34;value&#34;:&#34;java&#34;}]}"></tabs>
 
-<TabItem value='python'>
+<tabitem value="python"></tabitem>
 
 シェルで次のコマンドを実行して、pymilvusをインストールするか、pymilvusを最新バージョンにアップグレードしてください。
 
@@ -53,9 +53,9 @@ pip install --upgrade pymilvus
 
 </TabItem>
 
-<TabItem value='java'>
+<tabitem value="java"></tabitem>
 
-Apache Mavenの場合、**pom. xml**の依存関係に以下を追加してください:
+Apache Mavenの場合、**pom. xml**依存関係に以下を追加してください
 
 ```java
 <dependency>
@@ -224,15 +224,15 @@ private static byte[] genBinaryVector() {
 
 ### BulkWriterを作成する{#create-a-bulkwriter}
 
-BulkWriterには**2つ**のタイプがあります。
+**BulkWriter**には2種類あります。
 
-- **LocalBulkWriterの設定**
+- **LocalBulkWriterの**
 
-    Local BulkWriter**は**、ソースデータセットから行を追加し、指定した形式のローカルファイルにコミットします。
+    Local BulkWriterは、ソースデータセットから行を追加し、指定された形式のローカルファイルにコミットします。
 
-    <Tabs groupId="code"defaultValue='python'value={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+    <tabs groupid="code" defaultvalue="python" values="{[{&#34;label&#34;:&#34;Python&#34;,&#34;value&#34;:&#34;python&#34;},{&#34;label&#34;:&#34;Java&#34;,&#34;value&#34;:&#34;java&#34;}]}"></tabs>
 
-    <TabItem value='python'>
+    <tabitem value="python"></tabitem>
 
     ```python
     from pymilvus.bulk_writer import LocalBulkWriter, BulkFileType
@@ -247,28 +247,28 @@ BulkWriterには**2つ**のタイプがあります。
     )
     ```
 
-    LocalBulkWriterを作成するとき**は**、次のようにします。
+    **Local BulkWriter**を作成する場合は、次のようにしてください:
 
-    - 作成したスキーマをschemaで**参照**。
+    - **schema**で作成したスキーマを参照してください。
 
-    - 出力ディレクトリに**local_path**を設定します。
+    - 出力ディレクトリに**local_path**を設定してください。
 
-    - file_type**に出力ファイルタイプ**を設定します。
+    - 出力ファイルの種類に**file_type**を設定してください。
 
     - データセットに多数のレコードが含まれている場合は、**sement_size**を適切な値に設定してデータをセグメント化することをお勧めします。
 
-    パラメータ設定の詳細は、S DKリファレンスのLocal**BulkWriter**を参照してください。
+    パラメータ設定の詳細については、S DKリファレンスの**Local BulkWriter**を参照してください。
 
     <Admonition type="info" icon="📘" title="ノート">
 
-    <p>Local BulkWriterで生成されたJSONファイルのみ<strong>が</strong>Zilliz Cloudに直接インポートできます。</p>
+    <p>Zilliz Cloudに直接インポートできるのは、<strong>Local BulkWriter</strong>を使用して生成されたJSONファイルのみです。 </p>
     <p>他の種類のファイルについては、インポートする前に、ターゲットクラスターと同じクラウドリージョンのバケットの1つにアップロードしてください。</p>
 
     </Admonition>
 
     </TabItem>
 
-    <TabItem value='java'>
+    <tabitem value="java"></tabitem>
 
     ```java
     import io.milvus.bulkwriter.LocalBulkWriter;
@@ -285,15 +285,15 @@ BulkWriterには**2つ**のタイプがあります。
     LocalBulkWriter localBulkWriter = new LocalBulkWriter(localBulkWriterParam);
     ```
 
-    LocalBulkWriterを作成するとき**は**、次のようにします。
+    **Local BulkWriter**を作成する場合は、次のようにしてください: 
 
     - 作成したスキーマを**withCollectionSchema()**で参照します。
 
-    - withLocal Path**()**で出力ディレクトリを設定します。
+    - **withLocal Path()**に出力ディレクトリを設定してください。
 
-    - withFileType()で出力ファイルタイプをBulkFileType.**PARQUET**に**設定します**。
+    - **withFileType()**で出力ファイルタイプを**BulkFileType. PARQUET**に設定してください。
 
-    - データセットに多数のレコードが含まれている場合は、**withChunkSize()**で適切な値を設定してデータをセグメント化することをお勧めします。
+    - データセットに多数のレコードが含まれている場合は、**withChunkSize()**に適切な値を設定してデータをセグメント化することをお勧めします。
 
     <Admonition type="info" icon="📘" title="ノート">
 
@@ -307,7 +307,7 @@ BulkWriterには**2つ**のタイプがあります。
 
 - **RemoteBulkWriter**
 
-    RemoteBulkWriterは、追加されたデータをローカルファイルにコミットする代わりに、**リモート**バケットにコミットします。そのため、RemoteBulkWriterを作成する前に、**ConnectParam**オブジェクトを設定する必要がありま**す**。
+    ローカルファイルに追加されたデータをコミットする代わりに、**RemoteBulkWriter**はそれらをリモートバケットにコミットします。そのため、**RemoteBulkWriter**を作成する前に**ConnectParam**オブジェクトを設定する必要があります。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
     <TabItem value='python'>
@@ -325,6 +325,7 @@ BulkWriterには**2つ**のタイプがあります。
     ACCESS_KEY="bucket-ak"
     SECRET_KEY="bucket-sk"
     BUCKET_NAME="a-bucket"
+    REGION_NAME="region-name"
     
     # Connections parameters to access the remote bucket
     conn = RemoteBulkWriter.S3ConnectParam(
@@ -332,7 +333,8 @@ BulkWriterには**2つ**のタイプがあります。
         access_key=ACCESS_KEY,
         secret_key=SECRET_KEY,
         bucket_name=BUCKET_NAME,
-        secure=True
+        secure=True,
+        region=REGION_NAME
     )
     
     from pymilvus.bulk_writer import BulkFileType
@@ -398,12 +400,18 @@ BulkWriterには**2つ**のタイプがあります。
     String SECRET_KEY = "";
     String BUCKET_NAME = "";
     
+    // Enumeration can refer to CloudStorage
+    String CLOUD_NAME = "";
+    String REGION_NAME = "";
+    
     // Create a remote bucket writer.
     StorageConnectParam storageConnectParam = S3ConnectParam.newBuilder()
             .withEndpoint("storage.googleapis.com")
             .withBucketName(BUCKET_NAME)
             .withAccessKey(ACCESS_KEY)
             .withSecretKey(SECRET_KEY)
+            .withCloudName(CLOUD_NAME)
+            .withRegion(REGION_NAME)
             .build();
     
     ```
@@ -429,7 +437,7 @@ BulkWriterには**2つ**のタイプがあります。
     </TabItem>
     </Tabs>
 
-    接続パラメーターの準備ができたら、RemoteBulkWriterで次のように参照でき**ま**す。
+    接続パラメーターの準備ができたら、**RemoteBulkWriter**で次のように参照できます。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
     <TabItem value='python'>
@@ -470,15 +478,15 @@ BulkWriterには**2つ**のタイプがあります。
     </TabItem>
     </Tabs>
 
-    RemoteBulkWriterを作成するためのパラメータは、**Local BulkWriter**とほとんど同じですが、**connect_paramは異なります。パラメータの設定については、S DKリファレンスのRemoteBulkWriter**と**ConnectParam**を参照してください。
+    Local BulkWriterを作成するためのパラメータは、**RemoteBulkWriter**のパラメータとほとんど同じですが、connect_paramは異なります。パラメータ設定の詳細については、S DKリファレンスの**RemoteBulkWriter**とConnectParamを参照してください。
 
 ### 書き始める{#start-writing}
 
-<Tabs groupId="code"defaultValue='python'value={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<tabs groupid="code" defaultvalue="python" values="{[{&#34;label&#34;:&#34;Python&#34;,&#34;value&#34;:&#34;python&#34;},{&#34;label&#34;:&#34;Java&#34;,&#34;value&#34;:&#34;java&#34;}]}"></tabs>
 
-<TabItem value='python'>
+<tabitem value="python"></tabitem>
 
-BulkWriterには**2つ**のメソッドがあります。**append_row()**はソースデータセットからローを追加し、**commit()**は追加されたローをローカルファイルまたはリモートバケットにコミットします。
+BulkWriterには2つのメソッドがあります。append_row()はソースデータセットから行を追加し、commit()は追加された行をローカルファイルまたはリモートバケットにコミットします。
 
 デモ目的で、次のコードはランダムに生成されたデータを追加します。
 
@@ -571,9 +579,9 @@ for i in range(10000):
 
 </TabItem>
 
-<TabItem value='java'>
+<tabitem value="java"></tabitem>
 
-BulkWriterには**2つ**のメソッドがあります。**appendRow()**はソースデータセットからローを追加し、**commit()**は追加されたローをローカルファイルまたはリモートバケットにコミットします。
+**BulkWriter**には2つのメソッドがあります。**appendRow()**はソースデータセットから行を追加し、**commit()**は追加された行をローカルファイルまたはリモートバケットにコミットします。
 
 デモ目的で、次のコードはランダムに生成されたデータを追加します。
 
@@ -692,7 +700,7 @@ private static List<Long> genIntArray(int length) {
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>上記のコードブロックでは、<code>vector</code>と<code>scalar_1</code>フィールドの値は、それぞれ<code>generateFloatVectors()</code>と<code>generateString()</code>という2つのプライベート関数によって生成されます。詳細については、<strong>Random data generator</strong>タブのコードを参照してください。</p>
+<p>上記のコードブロックでは、<code>vector</code>および<code>scalar_1</code>フィールドの値は、それぞれ<code>generateFloatVectors()</code>および<code>generateString()</code>という2つのプライベート関数によって生成されます。詳細については、<strong>ランダムデータジェネレータ</strong>タブのコードを参照してください。</p>
 
 </Admonition>
 
@@ -702,7 +710,7 @@ private static List<Long> genIntArray(int length) {
 
 ## 動的スキーマのサポート{#dynamic-schema-support}
 
-[前のセクション](./use-bulkwriter#set-up-a-collection-schema)では、ライターで動的フィールドを許可し、行を追加するときに未定義のフィールドを含めることができるスキーマを参照しました。
+[前のセクション](./use-bulkwriter#set-up-a-collection-schema)では、ライターで動的フィールドを許可するスキーマを参照し、行を追加する際に未定義のフィールドを含めることができるようにしました。
 
 デモ目的で、次のコードはランダムに生成されたデータを追加します。
 
@@ -788,7 +796,7 @@ private static String generateString(length) {
 
 ## 結果を確認する{#verify-the-result}
 
-結果を確認するには、ライターの**data_path**プロパティを印刷して、実際の出力パスを取得できます。
+結果を確認するには、ライターの**data_path**プロパティを印刷して実際の出力パスを取得できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -815,7 +823,7 @@ System.out.println(batchFiles);
 </TabItem>
 </Tabs>
 
-BulkWriterはUUIDを生成し、提供された出力ディレクトリにUUIDを使用してサブフォルダを作成し、生成されたすべてのファイルをサブフォルダに配置します。[準備されたサンプルデータをダウンロードするにはここをクリック](https://assets.zilliz.com/bulk_writer.zip)してください。
+BulkWriterはUUIDを生成し、指定された出力ディレクトリにUUIDを使用してサブフォルダを作成し、生成されたすべてのファイルをサブフォルダに配置します。[作成したサンプルデータをダウンロードするにはこちらをクリックしてください。](https://assets.zilliz.com/bulk_writer.zip).
 
 以下が可能なフォルダ構造です:
 
@@ -848,16 +856,16 @@ BulkWriterはUUIDを生成し、提供された出力ディレクトリにUUID�
          <th><p><strong>有効なインポートパス</strong></p></th>
        </tr>
        <tr>
-         <td><p><strong>JSON</strong></p></td>
-         <td><p><code>s 3://remote_bucket/folder/フォルダ/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s 3://remote_bucket/フォルダ/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</code></p></td>
+         <td><p><strong>JSONの</strong></p></td>
+         <td><p>インラインコードプレースホルダー0</p><p>インラインコードプレースホルダー0</p></td>
        </tr>
        <tr>
          <td><p><strong>パーケット</strong></p></td>
-         <td><p><code>s 3://remote_bucket/folder/フォルダ/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s 3://remote_bucket/folder//1. parquetリモートバケット/フォルダー/45ae1139-1d87-4aff-85f5-0039111f9e6b1.parquet</code></p></td>
+         <td><p>インラインコードプレースホルダー0</p><p>インラインコードプレースホルダー0</p></td>
        </tr>
        <tr>
-         <td><p><strong>NumPy</strong></p></td>
-         <td><p><code>s 3://remote_bucket/folder/フォルダ/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s 3://remote_bucket/folder/*. npyリモートバケット/フォルダー45ae1139-1d87-4aff-85f5-0039111f9e6b.npy</code></p></td>
+         <td><p><strong>NumPyの</strong></p></td>
+         <td><p>インラインコードプレースホルダー0</p><p>インラインコードプレースホルダー0</p></td>
        </tr>
     </table>
 
@@ -901,24 +909,24 @@ BulkWriterはUUIDを生成し、提供された出力ディレクトリにUUID�
          <th><p><strong>有効なインポートパス</strong></p></th>
        </tr>
        <tr>
-         <td><p><strong>JSON</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</code></p></td>
+         <td><p><strong>JSONの</strong></p></td>
+         <td><p>インラインコードプレースホルダー0</p></td>
        </tr>
        <tr>
-         <td><p><strong>Parquet</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet</code></p></td>
+         <td><p><strong>パーケット</strong></p></td>
+         <td><p>インラインコードプレースホルダー0</p></td>
        </tr>
        <tr>
-         <td><p><strong>NumPy</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy</code></p></td>
+         <td><p><strong>NumPyの</strong></p></td>
+         <td><p>インラインコードプレースホルダー0</p><p>インラインコードプレースホルダー0</p></td>
        </tr>
     </table>
 
 ## 関連するトピック{#related-topics}
 
-- [データのインポート(コンソール)](./import-data-on-web-ui)
+- [Web UIでデータをインポートする](./import-data-on-web-ui)
 
-- [データのインポート(RESTful API)](./import-data-via-restful-api)
+- [RESTful APIを使用してデータをインポートする](./import-data-via-restful-api)
 
-- [データのインポート(SDK)](./import-data-via-sdks)
+- [SDKを使用してデータをインポートする](./import-data-via-sdks)
 

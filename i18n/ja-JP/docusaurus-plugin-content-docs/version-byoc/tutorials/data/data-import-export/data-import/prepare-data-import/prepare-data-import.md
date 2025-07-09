@@ -6,7 +6,7 @@ beta: FALSE
 notebook: FALSE
 description: "インポートする前にデータを準備し、ソースデータの要件を満たしていることを確認する必要があります。この章では、ソースデータの要件と、データの準備を支援する使いやすいツールについて説明します。 | BYOC"
 type: origin
-token: KyR6wBH1ZiIuEgk7zktc4zK7nDf
+token: YNbGwiEjAinaQfkSdNlcTehwn8I
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

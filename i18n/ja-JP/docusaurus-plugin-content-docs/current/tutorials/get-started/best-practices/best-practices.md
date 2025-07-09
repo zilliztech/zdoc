@@ -6,18 +6,18 @@ beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloudを使用する際のベストプラクティスに関する記事を見つけることができます。 | Cloud"
 type: origin
-token: HBtcws2w1iKqApkhziCcAyXknQb
-sidebar_position: 8
+token: HWzCwbjfci51HHk4BvTcfbiHn1d
+sidebar_position: 10
 keywords: 
   - zilliz
   - vector database
   - cloud
   - milvus
   - best practices
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

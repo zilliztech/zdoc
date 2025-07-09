@@ -6,18 +6,18 @@ beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、組織やクラスターで何が起こっているかを知るための便利なメトリックチャートとアラートを提供します。 | Cloud"
 type: origin
-token: ZrlmwoHRUiZCLGkng9wc6nlzn0g
-sidebar_position: 5
+token: Xma9w6Ne9ihcsZkFkSmcHidEnZg
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
   - cloud
   - metrics
   - alerts
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

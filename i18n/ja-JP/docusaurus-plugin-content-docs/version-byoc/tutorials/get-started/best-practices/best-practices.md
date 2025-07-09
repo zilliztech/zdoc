@@ -6,18 +6,18 @@ beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloudを使用する際のベストプラクティスに関する記事を見つけることができます。 | BYOC"
 type: origin
-token: HBtcws2w1iKqApkhziCcAyXknQb
-sidebar_position: 8
+token: HWzCwbjfci51HHk4BvTcfbiHn1d
+sidebar_position: 10
 keywords: 
   - zilliz
   - vector database
   - cloud
   - milvus
   - best practices
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

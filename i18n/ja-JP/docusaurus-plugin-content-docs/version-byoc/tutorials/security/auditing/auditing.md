@@ -6,18 +6,18 @@ beta: PRIVATE
 notebook: FALSE
 description: "Zilliz Cloudクラスターの監査を構成する方法を学びましょう。 | BYOC"
 type: origin
-token: Q9mywCJmpiFcyUkkgEkcJDLpnDd
-sidebar_position: 4
+token: UfGkwPQIPiJi6OkEu47cH3Umnvb
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - auditing
   - log
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

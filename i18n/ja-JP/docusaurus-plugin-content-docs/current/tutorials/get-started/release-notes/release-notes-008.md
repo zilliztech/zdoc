@@ -6,17 +6,17 @@ beta: FALSE
 notebook: FALSE
 description: "私たちは、招待状が必要なく一般に公開されたZilliz Cloudの大規模なアップデートの一般提供を発表できることを嬉しく思っています。このリリースでは、キャパシティ最適化されたコンピュートユニット(CU)が導入され、データベースあたり最大32 CUを使用してパフォーマンスを向上させることができます。また、ローカルファイルやAWS S 3バケットからのデータインポートが可能になり、自動インデックス化による過程の簡素化、QPSおよびクエリレイテンシのリソースモニタリングが追加されました。さらに、データベースの作成速度が5倍向上し、ユーザーインターフェースが優れたエクスペリエンスに最適化されました。 | Cloud"
 type: origin
-token: ITj7wmQKpiqhBLk0ko8ctw8tnIc
-sidebar_position: 23
+token: Q9ZcwPZieiYoU4kwEuOcFjewneP
+sidebar_position: 26
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 
@@ -35,9 +35,9 @@ import Admonition from '@theme/Admonition';
 
 - ローカルファイルとAWS S 3バケットからのデータのインポートをサポートします。
 
-- インデックスの種類を選択する必要がなくなり、[自動インデックス](./autoindex-explained)をサポートしています。
+- [自動インデックス](./autoindex-explained)をサポートし、インデックスの種類を選択する必要がなくなりました。
 
-- QPSとクエリレイテンシの[リソースモニター](./metrics-and-alerts)の設定をサポートします。
+- QPSとクエリレイテンシの[リソースモニタ](./metrics-and-alerts)までの設定をサポートします。
 
 - データベース作成のパフォーマンスが5倍に向上しました。
 

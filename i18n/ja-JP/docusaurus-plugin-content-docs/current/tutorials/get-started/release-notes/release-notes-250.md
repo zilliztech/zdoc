@@ -6,17 +6,17 @@ beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、データインポート機能のユーザーエクスペリエンスを最適化し、階層的な権限を持つAPIキーを改良し、メトリックとアラートのメカニズムを強化しました。 | Cloud"
 type: origin
-token: Fd9VwkZmYiDq0LkWCigcQafEn8c
-sidebar_position: 11
+token: VbjiwU5RYi4bWdkC48Jceltnnpd
+sidebar_position: 14
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 
@@ -29,19 +29,19 @@ Zilliz Cloudは、データインポート機能のユーザーエクスペリ�
 
 ## Milvusの互換性{#milvus-compatibility}
 
-このリリースは、**Milvus 2.2. x**および**Milvus 2.3.x(Beta)**と互換性があります。
+このリリースは、Milvus 2.2. xおよびMilvus 2.3.x(Beta)と互換性があります。
 
 ## データインポート{#data-import}
 
-私たちは、最新リリースでParquetデータ形式のサポートを発表することを楽しみにしています。ユーザーエクスペリエンスを向上させるために、PyMilvusライターユーティリティを導入しました。これは、滑らかなデータインポートのためにJSONまたはParquet形式のファイルを簡単に作成するために設計された強力なツールです。詳細については、[データインポート](./data-import)で新しい可能性を探索してください。
+私たちは、最新リリースでParquetデータ形式のサポートを発表することを楽しみにしています。ユーザーエクスペリエンスを向上させるために、PyMilvusライターユーティリティを導入しました。これは、滑らかなデータインポートのためにJSONまたはParquet形式のファイルを簡単に作成するために設計された強力なツールです。詳細については、[データインポート](./data-import)をご覧ください。
 
 ## APIキー{#api-key}
 
-このリリースでは、Zilliz CloudはAPIキーの統一デザインを導入しました。各ユーザーは、1つの統一[APIキー](./manage-api-keys)を使用して、Zilliz Cloudプラットフォームと複数のクラスターにアクセス可能です。
+このリリースでは、Zilliz Cloudは[APIキー](./manage-api-keys)の統一デザインを導入しました。各ユーザーは、1つの統一APIキーを使用して、Zilliz Cloudプラットフォームと複数のクラスターにアクセス可能です。
 
 Zilliz Cloudの権限設計は、RBAC(Role-Based Access Control)の原則に従っており、Operation LayerとData Layerの2つのレイヤーに分かれています。Operation Layerでは、役割がクラスター、プロジェクト、ユーザー、請求などのリソースの運用権限を管理します。Data Layerでは、役割がデータの追加、削除、変更、およびクエリの機能を制御することに焦点を当てています。
 
-![XWvmbywAuo8RuVxdH9UcEq9Qnrb](/img/ja-JP/XWvmbywAuo8RuVxdH9UcEq9Qnrb.png)
+![V6ZhbOu0go1AORx0dxFcELQ3ndd](/img/V6ZhbOu0go1AORx0dxFcELQ3ndd.png)
 
 オペレーションレイヤーにおいて、Zilliz Cloudは4種類の役割をサポートしています。そのうち、組織オーナー、プロジェクトオーナー、プロジェクトメンバーは一般的に使用される3つの役割です。
 
@@ -51,11 +51,11 @@ Zilliz Cloudの権限設計は、RBAC(Role-Based Access Control)の原則に従�
 
 - プロジェクトメンバー:プロジェクト内のすべてのクラスターに対する読み取りおよび書き込み権限、閲覧可能なクラスターの詳細、コレクションとインデックスの管理を行います。
 
-データレイヤーにおいて、Zilliz Cloudは3つの組み込みロール、Admin、Read-Only、Read-Writeを提供し、データの管理、書き込み、読み取り権限を制御します。Zilliz Cloudでは、ユーザーがカスタムロールを作成できます。これらのカスタムロールは、特定のコレクション、パーティション、または操作の権限を定義でき、Zilliz Cloudを使用する際に最小限のデータ権限の原則を確保します。詳細については、*ドキュメント*を参照してください。
+データレイヤーにおいて、Zilliz Cloudは3つの組み込みロール、Admin、Read-Only、Read-Writeを提供し、データの管理、書き込み、読み取り権限を制御します。Zilliz Cloudでは、ユーザーがカスタムロールを作成できます。これらのカスタムロールは、特定のコレクション、パーティション、または操作の権限を定義でき、Zilliz Cloudを使用する際に最小限のデータ権限の原則を確保します。詳細については、*ドキュメンテーション*を参照してください。
 
 ## メトリクスとアラート{#metrics-and-alert}
 
-このリリースでは、[メトリックボードとアラートシステム](./metrics-and-alerts)のリファクタリングを行いました。新しいバージョンでは、包括的な範囲のメトリックを監視する機能があります。
+今回のリリースでは、[メトリックボードとアラートシステム](./metrics-and-alerts)のリファクタリングを行いました。新しいバージョンでは、包括的な範囲のメトリクスを監視できるようになりました。
 
 - リソース使用率のメトリクス:これには、CU(Compute Unit)の計算リソース使用率、CUの容量使用率(容量)、および全体的なストレージ使用率の詳細ビューが含まれます。
 
@@ -63,11 +63,11 @@ Zilliz Cloudの権限設計は、RBAC(Role-Based Access Control)の原則に従�
 
 - データメトリクス:コレクションの数、エンティティの合計数、検索にロードされたエンティティの数、インデックスされたエンティティの数に関する洞察を得ることができます。
 
-さらに、私たちの強化されたアラートシステムにより、上記のすべてのメトリックに対してカスタマイズされたアラートルールを設定できます。これにより、Query Per Second(QPS)レートが1000を超えた場合や、CUフルネスが70%を超えた場合などのシナリオに対してアラートを作成でき、システムの健康状態とパフォーマンスについて常に情報を把握し、積極的に対応できます。
+さらに、私たちの強化されたアラートシステムにより、上記のすべてのメトリックに対してカスタマイズされたアラートルールを設定できます。これは、クエリ毎秒(QPS)レートが1000を超えた場合や、CUフルネスが70%を超えた場合などのシナリオに対してアラートを作成できることを意味し、システムの健康状態とパフォーマンスについて常に情報を把握し、積極的に対応できます。
 
 ## エンハンスメント{#enhancements}
 
-このリリースには、一連の機能強化も含まれています。
+このリリースには、一連の強化も含まれています。
 
 - いくつかのWebコンソールページのエクスペリエンスが改善されました。
 

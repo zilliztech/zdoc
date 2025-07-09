@@ -1,17 +1,17 @@
 ---
-title: "よくある質問(FAQ) | BYOC"
+title: "FAQs | BYOC"
 slug: /faqs
-sidebar_label: "よくある質問(FAQ)"
+sidebar_label: "FAQs"
 beta: FALSE
 notebook: FALSE
 description: "Frequently asked questions | BYOC"
 type: origin
-token: LKxiwykkhi5VyLkTfAGcE3LinBe
+token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 999
 
 ---
 
-# よくある質問(FAQ)
+# FAQs
 
 import DocCardList from '@theme/DocCardList';
 

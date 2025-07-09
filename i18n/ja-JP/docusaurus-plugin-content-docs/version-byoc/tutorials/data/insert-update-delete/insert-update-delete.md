@@ -6,7 +6,7 @@ beta: FALSE
 notebook: FALSE
 description: "この章では、挿入、挿入、削除の操作に焦点を当てています。 | BYOC"
 type: origin
-token: FxwxwixRtiW3v7kkT8Ycr8adngR
+token: DCZNwZdcfivVfIkAZ6qcaK5wnHd
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

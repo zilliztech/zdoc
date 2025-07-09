@@ -6,7 +6,7 @@ beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、Parquet（推奨）、JSON、NumPyファイルなど、さまざまな形式のデータのインポートをサポートしています。このセクションでは、これらの形式でデータをインポートする手順と、注意すべき点について説明します。 | Cloud"
 type: origin
-token: OPv7wuxYdiwnzXkDGYhcC971nfb
+token: MtGywZwmXiHg0AkJMavcWAtxnCg
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

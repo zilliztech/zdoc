@@ -6,7 +6,7 @@ beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloudでは、クラスターユーザーを作成し、クラスターロールを割り当てて特権を定義し、データセキュリティを実現できます。 | Cloud"
 type: origin
-token: OEtOwsYVRiYpp5kWiUuc3voEnxe
+token: CWT2wh5YriZfPZkGlgCcWxVnnAf
 sidebar_position: 2
 keywords: 
   - zilliz
@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 
@@ -33,7 +33,7 @@ Zilliz Cloudでは、クラスターユーザーを作成し、クラスター�
 
 クラスタを作成すると、`db_admin`という名前のデフォルトユーザが自動的に生成されます。このユーザは削除できません。このデフォルトユーザに加えて、より細かいアクセス制御のためのクラスタユーザを作成することができます。
 
-クラスターユーザーを管理するには、**組織オーナー**または**プロジェクト管理者**であるか、**Cluster_Admin**権限を持つロールが必要です。
+クラスターユーザーを管理するには、**組織オーナー**または**プロジェクト管理者**であるか、**Cluster_Admin**権限を持つロールを持っている必要があります。
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -47,11 +47,11 @@ Zilliz Cloudでは、クラスターユーザーを作成し、クラスター�
 
 - ユーザーの名前を入力します。
 
-- このユーザーに、組み込みのクラスターロールまたは[カスタムクラスターロールを](./cluster-roles)付与します。
+- このユーザーに組み込みのクラスターロールまたは[カスタムクラスターロール](./cluster-roles)を付与します。
 
-- クラスターユーザーのパスワードを設定します。このパスワードは[認証](./cluster-credentials-sdk)に使用されます。
+- このクラスターユーザーのパスワードを設定します。このパスワードは[認証について](./cluster-credentials)に使用されます。
 
-![add-cluster-user](/img/ja-JP/add-cluster-user.png)
+![add-cluster-user](/img/add-cluster-user.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -61,15 +61,15 @@ Zilliz Cloudでは、クラスターユーザーを作成し、クラスター�
 
 ## クラスターユーザーの役割を編集する{#edit-the-role-of-a-cluster-user}
 
-![edit-cluster-user-role](/img/ja-JP/edit-cluster-user-role.png)
+![edit-cluster-user-role](/img/edit-cluster-user-role.png)
 
 ## クラスタユーザを削除する{#drop-a-cluster-user}
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>デフォルトのユーザ<strong>db_admin</strong>は削除できません。</p>
+<p>デフォルトのユーザー<strong>db_admin</strong>は削除できません。</p>
 
 </Admonition>
 
-![drop-cluster-user](/img/ja-JP/drop-cluster-user.png)
+![drop-cluster-user](/img/drop-cluster-user.png)
 

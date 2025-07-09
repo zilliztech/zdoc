@@ -1,12 +1,12 @@
 ---
 title: "Prometheusと統合する | BYOC"
 slug: /prometheus-monitoring
-sidebar_label: "Prometheusと統合する"
+sidebar_label: "Prometheus"
 beta: FALSE
 notebook: FALSE
-description: "Prometheusは、指定された間隔で設定されたターゲットからメトリックを収集し、ルール式を評価し、結果を表示し、特定の条件に基づいてアラートをトリガーできる監視システムです。 | BYOC"
+description: "プロメテウスは、指定された間隔で設定されたターゲットからメトリックを収集し、ルール式を評価し、結果を表示し、特定の条件に基づいてアラートをトリガーできる監視システムです。 | BYOC"
 type: origin
-token: Xw77wFha7i8uqJkmnsJcLMO2nkg
+token: Ex99woZlsico4FkfwxGckjRRnqf
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 
@@ -27,13 +27,13 @@ import Admonition from '@theme/Admonition';
 
 # Prometheusと統合する
 
-[Prometheus](https://prometheus.io/)は、指定された間隔で設定されたターゲットからメトリックを収集し、ルール式を評価し、結果を表示し、特定の条件に基づいてアラートをトリガーできる監視システムです。
+[プロメテウス](https://prometheus.io/)は、指定された間隔で設定されたターゲットからメトリックを収集し、ルール式を評価し、結果を表示し、特定の条件に基づいてアラートをトリガーできる監視システムです。
 
 Zilliz CloudをPrometheusと統合することで、Zilliz Cloudの展開に関連するメトリックを収集し、監視することができます。
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p><a href="https://prometheus.io/">Prometheus</a>の統合は、<strong>Dedicated-Enterprise</strong>または<strong>BYOC</strong>プランを実行しているZilliz Cloudクラスターでのみサポートされています。</p>
+<p><a href="https://prometheus.io/">プロメテウス</a>の統合は、<strong>Dedicated-Enterprise</strong>または<strong>BYOC</strong>プランを実行しているZilliz Cloudクラスターでのみサポートされています。</p>
 
 </Admonition>
 
@@ -41,13 +41,13 @@ Zilliz CloudをPrometheusと統合することで、Zilliz Cloudの展開に関�
 
 PrometheusでZilliz Cloudクラスタを監視するには、次の手順に従ってください:
 
-1. Prometheusサーバー上の`Prometheus`. yml設定ファイルにアクセスします。詳細については、[設定](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#configuration)を参照してください。
+1. Prometheusサーバー上の`Prometheus.yml`設定ファイルにアクセスしてください。詳細については、[コンフィギュレーション](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#configuration)を参照してください。
 
-1. Prometheus. ymlファイルの`scrape_configs`セクションに次のスニペットを追加し`ま`す。プレースホルダを適切な値に置き換えます。
+1. `Prometheus.yml`ファイルの`scrape_configs`セクションに次のスニペットを追加します。プレースホルダーを適切な値に置き換えます。
 
-    - `{{apiKey}}:`クラスタメトリクスにアクセスするためのZilliz Cloud APIキー。
+    - `{{apiKey}}`:クラスタメトリクスにアクセスするためのZilliz Cloud APIキー。
 
-    - `{{cluster terId}}`:監視したいZilliz CloudクラスタのID。
+    - `{{clusterId}}`:監視したいZilliz CloudクラスタのID。
 
     ```yaml
     scrape_configs:
@@ -68,38 +68,38 @@ PrometheusでZilliz Cloudクラスタを監視するには、次の手順に従�
          <th><p>説明する</p></th>
        </tr>
        <tr>
-         <td><p><code>job_name</code></p></td>
+         <td><p>インラインコードプレースホルダー0</p></td>
          <td><p>スクレイピングされたメトリックに割り当てられた人間が読めるラベル。</p></td>
        </tr>
        <tr>
-         <td><p><code>schema</code></p></td>
-         <td><p>Zilliz Cloudエンドポイントからメトリックをスクレイピングするために使用されるプロトコルスキームは<code>https</code>に設定されています。</p></td>
+         <td><p>インラインコードプレースホルダー0</p></td>
+         <td><p>Zilliz Cloudエンドポイントからメトリックをスクレイピングするために使用されるプロトコルスキームは、<code>https</code>に設定されています。</p></td>
        </tr>
        <tr>
-         <td><p><code>metrics_path</code></p></td>
+         <td><p>インラインコードプレースホルダー0</p></td>
          <td><p>メトリックデータを提供するターゲットサービス上のパス。</p></td>
        </tr>
        <tr>
-         <td><p><code>authorization.type</code></p></td>
+         <td><p>インラインコードプレースホルダー0</p></td>
          <td><p>Zilliz Cloudのメトリックにアクセスするために使用される認証タイプ。値を<code>Bearer</code>に設定してください。</p></td>
        </tr>
        <tr>
-         <td><p><code>authorization.credentials</code></p></td>
+         <td><p>インラインコードプレースホルダー0</p></td>
          <td><p>Zilliz Cloudメトリクスエンドポイントにアクセスするために使用されるAPIキー。</p></td>
        </tr>
        <tr>
-         <td><p><code>static_configs.targets</code></p></td>
-         <td><p>Prometheusがスクレイピングする静的ターゲットは、Zilliz Cloud RESTful APIのホストアドレスを<code>api.cloud.zilliz.com</code>する必要があります。</p></td>
+         <td><p>インラインコードプレースホルダー0</p></td>
+         <td><p>Prometheusがスクレイピングする静的ターゲットは、Zilliz Cloud RESTful APIのホストアドレスである<code>api.cloud.zilliz.com</code>である必要があります。</p></td>
        </tr>
     </table>
 
-1. 変更をPrometheus. ymlファイルに保存`し`ます。
+1. `Prometheus.yml`ファイルに変更を保存します。
 
 詳細については、[Prometheus公式ドキュメント](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config)を参照してください。
 
 ## スクレイピングされたメトリックの例{#example-scraped-metrics}
 
-以下は、Zilliz Cloud`/metrics/export`エンドポイントからスクレイピングされたPrometheusメトリクスの例です。
+以下は、Zilliz Cloud `/metrics/export`エンドポイントからスクレイピングされたPrometheusメトリクスの例です。
 
 ```plaintext
 # HELP zilliz_cluster_capacity Cluster capacity ratio
@@ -131,34 +131,34 @@ Zilliz Cloudによって公開されるメトリックは、以下の識別子�
      <th><p>価値観</p></th>
    </tr>
    <tr>
-     <td><p><code>cluster_id</code></p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
      <td><p>メトリックが含まれるZilliz CloudクラスターのID。</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
-     <td><p><code>org_id</code></p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
      <td><p>Zilliz Cloudクラスターを所有する組織のID。</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
-     <td><p><code>project_id</code></p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
      <td><p>クラスターが属する組織内のプロジェクトのID。</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
-     <td><p><code>collection_name</code></p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
      <td><p>監視されているコレクションの名前。</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
-     <td><p><code>request_type</code></p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
      <td><p>データに対して実行される操作の種類。</p></td>
-     <td><p><code>insert</code>, <code>upsert</code>, <code>delete</code>, <code>bulk_insert</code>, <code>flush</code>, <code>search</code>, <code>query</code></p></td>
+     <td><p><code>insert</code>, <code>upsert</code>,<code>delete</code>,<code>bulk_insert</code>,<code>flush</code>,<code>search</code>,<code>query</code></p></td>
    </tr>
    <tr>
-     <td><p><code>status</code></p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
      <td><p>データ操作の結果。</p></td>
-     <td><p><code>success</code>, <code>fail</code></p></td>
+     <td><p>インラインコードプレースホルダー0、インラインコードプレースホルダー1</p></td>
    </tr>
 </table>
 
@@ -174,88 +174,88 @@ Zilliz Cloudによって公開されるメトリックは、以下の識別子�
      <th><p>ラベル</p></th>
    </tr>
    <tr>
-     <td><p><code>zilliz_cluster_computation</code></p></td>
-     <td><p>Gauge</p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
+     <td><p>ゲージ</p></td>
      <td><p>現在の計算容量の利用率。</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
+     <td><p><code>cluster_id</code>, <code>org_id</code>,<code>project_id</code>,インラインコードプレースホルダー</p></td>
    </tr>
    <tr>
-     <td><p><code>zilliz_cluster_capacity</code></p></td>
-     <td><p>Gauge</p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
+     <td><p>ゲージ</p></td>
      <td><p>現在のストレージ容量の利用率。</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
+     <td><p><code>cluster_id</code>, <code>org_id</code>,<code>project_id</code>,インラインコードプレースホルダー</p></td>
    </tr>
    <tr>
-     <td><p><code>zilliz_storage_bytes</code></p></td>
-     <td><p>Gauge</p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
+     <td><p>ゲージ</p></td>
      <td><p>使用された総ストレージスペース。</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
+     <td><p><code>cluster_id</code>, <code>org_id</code>,<code>project_id</code>,インラインコードプレースホルダー</p></td>
    </tr>
    <tr>
-     <td><p><code>zilliz_cluster_write_capacity</code></p></td>
-     <td><p>Gauge</p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
+     <td><p>ゲージ</p></td>
      <td><p>現在の書き込みスループット。</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
+     <td><p><code>cluster_id</code>, <code>org_id</code>,<code>project_id</code>,インラインコードプレースホルダー</p></td>
    </tr>
    <tr>
-     <td><p><code>zilliz_requests_total</code></p></td>
-     <td><p>Counter</p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
+     <td><p>カウンター</p></td>
      <td><p>処理されたリクエストの総数。</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>request_type</code>, <code>status</code></p></td>
+     <td><p><code>cluster_id</code>, <code>org_id</code>,<code>project_id</code>,<code>request_type</code>,<code>status</code>,INLINE_CODE_PLACEHOLDER_0,INLINE_CODE_PLACEHOLDER_1,INLINE_CODE_PLACEHOLDER_2,INLINE_CODE_PLACEHOLDER_3,INLINE_CODE_PLACEHOLDER_4,INLINE_CODE_PLACEHOLD</p></td>
    </tr>
    <tr>
-     <td><p><code>zilliz_request_vectors_total</code></p></td>
-     <td><p>Counter</p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
+     <td><p>カウンター</p></td>
      <td><p>すべての要求で操作されたベクトルの総数。</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>request_type</code></p></td>
+     <td><p><code>cluster_id</code>, <code>org_id</code>,<code>project_id</code>,<code>request_type</code>,INLINE_CODE_PLACEHOLDER_0,INLINE_CODE_PLACEHOLDER_1,INLINE_CODE_PLACEHOLDER_2,INLINE_CODE_PLACEHOLDER_2,INLINE_CODE_PLACEHOLDER_3,INLINE_CODE_PLACEHOLD</p></td>
    </tr>
    <tr>
-     <td><p><code>zilliz_request_duration_seconds_bucket</code></p></td>
-     <td><p>Histogram</p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
+     <td><p>ヒストグラム</p></td>
      <td><p>処理されたリクエストのレイテンシ分布。</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>request_type</code></p></td>
+     <td><p><code>cluster_id</code>, <code>org_id</code>,<code>project_id</code>,<code>request_type</code>,INLINE_CODE_PLACEHOLDER_0,INLINE_CODE_PLACEHOLDER_1,INLINE_CODE_PLACEHOLDER_2,INLINE_CODE_PLACEHOLDER_2,INLINE_CODE_PLACEHOLDER_3,INLINE_CODE_PLACEHOLD</p></td>
    </tr>
    <tr>
-     <td><p><code>zilliz_slow_queries_total</code></p></td>
-     <td><p>Counter</p></td>
-     <td><p>遅延のしきい値を超えるクエリの数。</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
+     <td><p>カウンター</p></td>
+     <td><p>遅延しきい値を超えるクエリの数。</p></td>
+     <td><p><code>cluster_id</code>, <code>org_id</code>,<code>project_id</code>,インラインコードプレースホルダー</p></td>
    </tr>
    <tr>
-     <td><p><code>zilliz_entities</code></p></td>
-     <td><p>Gauge</p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
+     <td><p>ゲージ</p></td>
      <td><p>格納されているエンティティの総数。</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>collection_name</code></p></td>
+     <td><p><code>cluster_id</code>, <code>org_id</code>,<code>project_id</code>,<code>collection_name</code>,INLINE_CODE_PLACEHOLDER_0,INLINE_CODE_PLACEHOLDER_1,INLINE_CODE_PLACEHOLDER_2,INLINE_CODE_PLACEHOLDER_2,INLINE_CODE_PLACEHOLDER_3,INLINE_CODE_PLACEHOLD</p></td>
    </tr>
    <tr>
-     <td><p><code>zilliz_loaded_entities</code></p></td>
-     <td><p>Gauge</p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
+     <td><p>ゲージ</p></td>
      <td><p>現在メモリにロードされているエンティティの数。</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>collection_name</code></p></td>
+     <td><p><code>cluster_id</code>, <code>org_id</code>,<code>project_id</code>,<code>collection_name</code>,INLINE_CODE_PLACEHOLDER_0,INLINE_CODE_PLACEHOLDER_1,INLINE_CODE_PLACEHOLDER_2,INLINE_CODE_PLACEHOLDER_2,INLINE_CODE_PLACEHOLDER_3,INLINE_CODE_PLACEHOLD</p></td>
    </tr>
    <tr>
-     <td><p><code>zilliz_indexed_entities</code></p></td>
-     <td><p>Gauge</p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
+     <td><p>ゲージ</p></td>
      <td><p>インデックス化されたエンティティの数。</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>collection_name</code></p></td>
+     <td><p><code>cluster_id</code>, <code>org_id</code>,<code>project_id</code>,<code>collection_name</code>,INLINE_CODE_PLACEHOLDER_0,INLINE_CODE_PLACEHOLDER_1,INLINE_CODE_PLACEHOLDER_2,INLINE_CODE_PLACEHOLDER_2,INLINE_CODE_PLACEHOLDER_3,INLINE_CODE_PLACEHOLD</p></td>
    </tr>
    <tr>
-     <td><p><code>zilliz_collections</code></p></td>
-     <td><p>Gauge</p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
+     <td><p>ゲージ</p></td>
      <td><p>コレクションの総数。</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
+     <td><p><code>cluster_id</code>, <code>org_id</code>,<code>project_id</code>,インラインコードプレースホルダー</p></td>
    </tr>
    <tr>
-     <td><p><code>zilliz_unloaded_collections</code></p></td>
-     <td><p>Gauge</p></td>
+     <td><p>インラインコードプレースホルダー0</p></td>
+     <td><p>ゲージ</p></td>
      <td><p>アンロードされたコレクションの数。</p></td>
-     <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
+     <td><p><code>cluster_id</code>, <code>org_id</code>,<code>project_id</code>,インラインコードプレースホルダー</p></td>
    </tr>
 </table>
 
 ## Prometheusクエリの例{#example-prometheus-queries}
 
-以下は、Prometheusを使用してZilliz Cloudメトリックスを分析するために使用できるクエリの例です。
+以下は、Prometheusを使用してZilliz Cloudメトリクスを分析するために使用できるクエリの例です。
 
 - インサートQPSを計算する
 

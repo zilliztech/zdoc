@@ -4,9 +4,9 @@ slug: /data
 sidebar_label: "データ"
 beta: FALSE
 notebook: FALSE
-description: "この章では、データ操作に焦点を当てる。 | BYOC"
+description: "この章では、データ操作に焦点を当てます。 | BYOC"
 type: origin
-token: W9XywM68GiqcrokcwmDcIsDxnQe
+token: KyTFwqmCJiIJsuk9d6Ncg2eDnDd
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 
@@ -26,7 +26,7 @@ import Admonition from '@theme/Admonition';
 
 # データ
 
-この章では、データ操作に焦点を当てる。
+この章では、データ操作に焦点を当てます。
 
 import DocCardList from '@theme/DocCardList';
 

@@ -4,9 +4,9 @@ slug: /view-activities
 sidebar_label: "アクティビティを見る"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudのアクティビティ機能は、の課金イベントやのアクセスイベントなど、特定のZilliz Cloud組織に関連するイベントを包括的に表示します。 | Cloud"
+description: "Zilliz Cloudのアクティビティ機能は、特定のZilliz Cloud組織に関連するイベントの包括的なビューを提供します。請求およびアクセスイベント | Cloud"
 type: origin
-token: MqTVwHcERia7pIkfkg3c2syFnne
+token: NeUWwqRl2iwn4HkZg3ocjLjmnth
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - activities
   - view
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 
@@ -26,13 +26,19 @@ import Admonition from '@theme/Admonition';
 
 # アクティビティを見る
 
-Zilliz Cloudの**アクティビティ**機能は、の課金イベントやのアクセスイベントなど、特定のZilliz Cloud組織に関連するイベントを包括的に表示します。
+Zilliz Cloudの**アクティビティ**機能は、特定のZilliz Cloud組織に関連するイベントの包括的なビューを提供します。請求およびアクセスイベント
 
 ## アクティビティを見る{#view-activities}
 
-組織ページで、左ナビゲーションウィンドウの[**アクティビティ**]をクリックします。ここでは、アクティビティの概要、各アクティビティが置かれた時間、および特定のアクティビティに関与したオペレーターのIDを閲覧できます。
+組織ページで、左ナビゲーションペインの**アクティビティ**をクリックします。ここでは、アクティビティの概要、各アクティビティが置くされた時間、および特定のアクティビティに関与したオペレーターのIDを閲覧可能された時間、および特定のアクティビティに関与したオペレーターのIDを閲覧可能です。
 
-![view-activities-saas](/img/ja-JP/view-activities-saas.png)
+![view-activities-saas](/img/view-activities-saas.png)
+
+</exclude>
+
+![view-activities-byoc](/img/view-activities-byoc.png)
+
+</include>
 
 ## フィルター活動{#filter-activities}
 
@@ -40,28 +46,28 @@ Zilliz Cloudの**アクティビティ**機能は、の課金イベントやの�
 
 - **時間範囲でフィルター**
 
-    特定の期間内に発生したアクティビティを表示するには、開始時間と終了時間を選択します。希望の時間範囲を設定したら、[**適用**]をクリックして、この期間内のすべてのアクティビティを表示します。
+    特定の期間内に発生したアクティビティを表示するために、開始時間と終了時間を選択してください。希望の時間範囲を設定した後、**適用**をクリックして、この期間内のすべてのアクティビティを表示してください。
 
     <Admonition type="info" icon="📘" title="ノート">
 
-    <p>選択した開始時間から終了時間までの期間が30日を超えないようにしてください。</p>
+    <p>選択した開始時間と終了時間が30日を超えないようにしてください。</p>
 
     </Admonition>
 
-    ![filter-by-time-range](/img/ja-JP/filter-by-time-range.png)
+    ![filter-by-time-range](/img/filter-by-time-range.png)
 
-- **アクティビティタイプで絞り込む**
+- **アクティビティタイプでフィルター**
 
-    アクティビティリストからお好みのアクティビティタイプを選択してください。Zilliz Cloudは、アクティビティを**情報**、**警告**、**エラー**の3つのタイプに分類します。
+    アクティビティリストからお好みのアクティビティタイプを選択してください。Zilliz Cloudでは、アクティビティを「情報」「警告」「エラー」の3つのタイプに分類しています。
 
     <table>
        <tr>
          <th><p><strong>アクティビティタイプ</strong></p></th>
-         <th><p><strong>説明する</strong></p></th>
+         <th><p><strong>の説明</strong></p></th>
        </tr>
        <tr>
          <td><p>情報を</p></td>
-         <td><p>クラスタ、アクセス、または請求に関する一般的な情報。</p><p>例:クラスタin01-xxxxxxxxxxxxxxxが作成されました。</p></td>
+         <td><p>クラスタ、アクセス、または請求に関する一般的な情報。 </p><p>例:クラスタin01-xxxxxxxxxxxxxxxが作成されました。</p></td>
        </tr>
        <tr>
          <td><p>警告</p></td>
@@ -69,13 +75,13 @@ Zilliz Cloudの**アクティビティ**機能は、の課金イベントやの�
        </tr>
        <tr>
          <td><p>エラー</p></td>
-         <td><p>支払いの失敗またはその他のシステムの誤動作の通知には、直ちに対応または対応が必要です。</p><p>例:「請求書invo-xxxxxxxxxxxxxxxxxxxxxxxxの支払いに失敗しました。」</p></td>
+         <td><p>支払いの失敗またはその他のシステムの誤動作の通知には、直ちに対応または対応が必要です。 </p><p>例:「請求書invo-xxxxxxxxxxxxxxxxxxxxxxxxの支払いに失敗しました。」</p></td>
        </tr>
     </table>
 
-    ![filter-by-activity-type](/img/ja-JP/filter-by-activity-type.png)
+    ![filter-by-activity-type](/img/filter-by-activity-type.png)
 
 - **アクティビティでフィルター**
 
-    ![filter-by-activity](/img/ja-JP/filter-by-activity.png)
+    ![filter-by-activity](/img/filter-by-activity.png)
 

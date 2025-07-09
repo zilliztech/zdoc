@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

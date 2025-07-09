@@ -6,8 +6,8 @@ beta: FALSE
 notebook: FALSE
 description: "ANN検索には、1つのクエリで呼び出すことができるエンティティの最大数に制限があり、基本的なANN検索だけでは大規模な検索の要求を満たすことができない場合があります。topKが16,384を超えるANN検索リクエストの場合は、SearchIteratorの使用を検討することをお勧めします。このセクションでは、SearchIteratorの使用方法と関連する考慮事項を紹介します。 | Cloud"
 type: origin
-token: RDm8w6cS4ixDOzkP9V8cgIeNnwb
-sidebar_position: 12
+token: QVTnwVz2aifvSAkgomAc9KWRnHb
+sidebar_position: 13
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 
@@ -32,21 +32,21 @@ ANN検索には、1つのクエリで呼び出すことができるエンティ�
 
 ## 概要について{#overview}
 
-Searchリクエストは検索結果を返し、SearchIteratorはイテレータを返します。このイテレータの**next()**メソッドを呼び出すことで、検索結果を取得できます。
+Searchリクエストは検索結果を返しますが、SearchIteratorはイテレータを返します。このイテレータの**next()**メソッドを呼び出すことで、検索結果を取得できます。
 
 具体的には、以下のようにSearchIteratorsを使用できます。
 
-1. SearchIteratorを作成し、**検索要求ごとに返すエンティティの数**と**返すエンティティの総数を**設定します。
+1. SearchIteratorを作成し、検索リクエストごとに返すエンティティの数と返すエンティティの総数を設定してください。
 
-1. SearchIteratorの**next()**メソッドをループで呼び出して、ページ分割された検索結果を取得します。
+1. SearchIteratorの**next()**メソッドをループで呼び出して、ページ分割された方法で検索結果を取得します。
 
-1. イテレータの**close()**メソッドが空の結果を返した場合、**next()**メソッドを呼び出してループを終了します。
+1. イテレータの**close()**メソッドを呼び出して、**next()**メソッドが空の結果を返す場合にループを終了します。
 
 ## SearchIteratorの作成{#create-searchiterator}
 
 次のコードスニペットは、SearchIteratorを作成する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -106,15 +106,60 @@ SearchIterator searchIterator = client.searchIterator(SearchIteratorReq.builder(
 ```
 
 </TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+import { MilvusClient } from '@zilliz/milvus2-sdk-node';
+
+const milvusClient = new MilvusClient({
+  address: 'YOUR_CLUSTER_ENDPOINT',
+  token: 'YOUR_CLUSTER_TOKEN',
+});
+
+const queryVectors = [
+[0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
+];
+const collectionName = 'iterator_collection';
+
+const iterator = milvusClient.searchIterator({
+    collection_name: collectionName,
+    vectors: queryVectors,
+    anns_field: 'vector',
+    params: { metric_type: 'L2', params: { nprobe: 16 } },
+    batch_size: 50,
+    output_fields: ['color'],
+    limit: 20000,
+});
+
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
 </Tabs>
 
-上記の例では、検索ごとに返すエンティティの数(**batch_size/batchSize**)**を**50に設定し、返すエンティティの総数(**topK**)を20,000に設定しています。
+上記の例では、検索ごとに返すエンティティの数(batch_size/batchSize)を50に設定し、返すエンティティの総数(topK)を20,000に設定しています。
 
 ## SearchIteratorを使う{#use-searchiterator}
 
 SearchIteratorの準備ができたら、そのnext()メソッドを呼び出して、ページ分割された検索結果を取得できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -150,6 +195,32 @@ while (true) {
         System.out.println(record);
     }
 }
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+for await (const result of iterator) {
+    console.log(result);
+}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
 ```
 
 </TabItem>

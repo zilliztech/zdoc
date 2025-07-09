@@ -4,19 +4,19 @@ slug: /release-notes-230
 sidebar_label: "リリースノート（2023年10月17日）"
 beta: FALSE
 notebook: FALSE
-description: "私たちは、EUにおけるAWSフランクフルト地域のローンチを発表できることを喜んでいます。この拡張に伴い、ベータ機能であるRange Search、Upsert、Cosine Metric Typeを導入し、検索機能とデータ管理の効率を向上させました。追加機能には、APIKey Access、Retrieve Raw Vectors、JSONCONTAINS Filter、Entity Countが含まれます。RBAC、請求、価格計算、アカウントマネジメント、サービスの安定性にも注目すべき改善が実装され、ユーザーエクスペリエンスが向上しました。 | Cloud"
+description: "私たちは、AWSフランクフルト地域のEUでのローンチを発表できることを喜んでいます。この拡張に伴い、ベータ機能であるRange Search、Upsert、Cosine Metric Typeを導入し、検索機能とデータ管理の効率を向上させます。追加機能には、APIキーアクセス、生のベクトルの取得、JSONCONTAINSフィルター、エンティティカウントが含まれます。RBAC、請求、価格計算、アカウントマネジメント、サービスの安定性においても、ユーザーエクスペリエンスを向上させるために注目すべき改善が実装されています。 | Cloud"
 type: origin
-token: QEWhwhoNciJQCDklDF4cJEYrnfh
-sidebar_position: 13
+token: MocQwCCItiHYEbkkJtOcROPTnod
+sidebar_position: 16
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 
@@ -25,15 +25,15 @@ import Admonition from '@theme/Admonition';
 
 # リリースノート（2023年10月17日）
 
-私たちは、EUにおけるAWSフランクフルト地域のローンチを発表できることを喜んでいます。この拡張に伴い、ベータ機能であるRange Search、Upsert、Cosine Metric Typeを導入し、検索機能とデータ管理の効率を向上させました。追加機能には、APIKey Access、Retrieve Raw Vectors、JSON_CONTAINS Filter、Entity Countが含まれます。RBAC、請求、価格計算、アカウントマネジメント、サービスの安定性にも注目すべき改善が実装され、ユーザーエクスペリエンスが向上しました。
+私たちは、AWSフランクフルト地域のEUでのローンチを発表できることを喜んでいます。この拡張に伴い、ベータ機能であるRange Search、Upsert、Cosine Metric Typeを導入し、検索機能とデータ管理の効率を向上させます。追加機能には、APIキーアクセス、生のベクトルの取得、JSON_CONTAINSフィルター、エンティティカウントが含まれます。RBAC、請求、価格計算、アカウントマネジメント、サービスの安定性においても、ユーザーエクスペリエンスを向上させるために注目すべき改善が実装されています。 
 
-## Milvusの互換性{#milvus}
+## Milvusの互換性{#milvus-compatibility}
 
-このリリースは、**Milvus 2.2. x**および**Milvus 2.3.x(Beta)**と互換性があります。
+このリリースは、Milvus 2.2. xおよびMilvus 2.3.x(Beta)と互換性があります。
 
 ## 新しいAWSリージョン:フランクフルト(aws-eu-central-1)が利用可能になりました。{#new-aws-region-frankfurt-aws-eu-central-1-now-live}
 
-私たちは、ヨーロッパのユーザーベースにより適した新しいAWSフランクフルトリージョンを発表できることを喜んでいます。このリージョンは、強化されたサポートだけでなく、AWS Marketplaceの支払いオプションの利便性も提供しています。利用可能なすべてのクラウドリージョンについては、「[クラウドプロバイダー&地域](./cloud-providers-and-regions)」を参照してください。
+私たちは、ヨーロッパのユーザーベースにより適した新しいAWSフランクフルトリージョンを発表できることを喜んでいます。このリージョンは、強化されたサポートだけでなく、AWS Marketplaceの支払いオプションの利便性も提供しています。利用可能なすべてのクラウドリージョンについては、[クラウドプロバイダー&地域](./cloud-providers-and-regions)を参照してください。
 
 ## 革新的なベータ機能{#innovative-beta-features}
 
@@ -41,31 +41,31 @@ import Admonition from '@theme/Admonition';
 
 - *レンジ検索*
 
-    範囲検索を使用してクエリを再定義し、[検索](./range-search)の半径を設定できるようにします。従来のANN検索とは異なり、範囲検索は指定された半径内のすべてのベクトルを確実に含めるため、より包括的なビューを提供します。
+    [レンジ検索](./range-search)を使用してクエリを再定義すると、検索の半径を設定できます。従来のANN検索とは異なり、範囲検索では指定された半径内のすべてのベクトルが確実に含まれるため、より包括的なビューが提供されます。
 
 - *アップサート*
 
-    「更新」と「挿入」を融合した[Upsert](./upsert-entities)を使用して、動的なデータセットをシームレスに管理できます。頻繁に変更が行われるデータセットの効率を高めることができます。
+    [アップサート](./upsert-entities)を使用することで、動的なデータセットをシームレスに管理できます。更新と挿入が融合しています。頻繁に変更されるデータセットの効率を高めることができます。
 
-- *コサインメトリック型*
+- *コサインメトリックタイプ*
 
-    高度なベクトル検索を[コサイン](./search-metrics-explained#cosine-similarity)、[内積](./search-metrics-explained#ipinner-product-ip)、[ユークリッド距離](./search-metrics-explained#l2euclidean-distance-l2)のサポートで体験できます。コサインメトリックにより、事前のベクトル正規化が不要になり、検索過程が効率化されます。
+    [コサイン](./search-metrics-explained#cosine-similarity)、[インナープロダクト](./search-metrics-explained#inner-product-ip)、[ユークリッド距離](./search-metrics-explained#euclidean-distance-l2)のサポートにより、高度なベクトル検索を体験できます。コサインメトリックにより、事前のベクトル正規化が不要になり、検索過程が効率化されます。
 
 - *アクセス制御*
 
-    専用クラスタやサーバーレスインスタンスには、[APIキー](./manage-api-keys)または[ユーザー名パスワード認証](./cluster-credentials)で安全にアクセスできます。
+    [APIキー](./manage-api-keys)または[ユーザー名とパスワードの認証](./cluster-credentials)を使用して、専用クラスターやサーバーレスインスタンスに安全にアクセスできます。
 
 - *生のベクトルを返す*
 
-    検索結果の一部として受け取るために、[検索パラメータ](./single-vector-search#use-output-fields)にベクトルフィールドを指定してください。
+    [検索パラメータ](./single-vector-search#use-output-fields)にベクトルフィールドを指定すると、検索結果の一部として受け取ることができます。
 
 - *JSON_CONTAINSフィルタ*
 
-    さらに[JSON_CONTAINS演算子](./json-filtering-operators)を使用して検索を絞り込むと、JSONフィールドの値に基づいてフィルタリング条件を指定できます。
+    [JSON_CONTAINS演算子](./json-filtering-operators)を使用して検索をさらに絞り込むことで、JSONフィールドの値に基づいてフィルタリング条件を指定できます。
 
 - *エンティティカウント*
 
-    データ管理を改善するために、[ロードされたコレクション内のエンティティの総数](./single-vector-search#use-output-fields)の概要をすばやく確認できます。
+    より良いデータ管理のために、[ロードされたコレクション内のエンティティの総数](./single-vector-search#use-output-fields)の概要を簡単に把握してください。
 
 ## エンハンスメント{#enhancements}
 
@@ -73,7 +73,7 @@ import Admonition from '@theme/Admonition';
 
 - *RBACの新しい役割*
 
-    より効率的なコラボレーションのために、[プロジェクトメンバーロール](./project-users)をプロジェクトコラボレーターに付与します。
+    プロジェクトコラボレーターに[プロジェクトメンバーの役割](./project-users)を付与して、より効率的なコラボレーションを実現します。
 
 - *課金の最適化*
 
@@ -85,9 +85,9 @@ import Admonition from '@theme/Admonition';
 
 - *セルフサービスアカウントの削除*
 
-    簡単に[自分のアカウント](./email-accounts)や[組織](./organizations)を削除して、プロフィールをより細かく管理できます。
+    プロフィールをより細かく制御するために、[自分のアカウントを削除してください](./email-accounts#close-your-account)または[組織など](./organization-settings#delete-organization)を簡単に使用できます。
 
-- *安定性の強化*
+- *安定性の向上*
 
     私たちは、サービスの信頼性を高めるために既知の問題に対処しました。
 

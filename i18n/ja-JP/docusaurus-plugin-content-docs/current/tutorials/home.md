@@ -6,8 +6,8 @@ beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud Developer Hubのホームページです。 | Cloud"
 type: origin
-token: Yv5Iw1UMni5EzvkvZvMcvSgSnLO
-sidebar_position: 0
+token: KXgEwDH8yifWxukkXXFctMdLnpg
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - developer hub
   - home page
   - home
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 hide_title: true
 hide_table_of_contents: true
@@ -26,22 +26,34 @@ hide_table_of_contents: true
 
 import Admonition from '@theme/Admonition';
 
+
+
 import Hero from '@site/src/components/Hero';
+
+
 import Bars from '@site/src/components/Bars';
+
+
 import Blocks from '@site/src/components/Blocks';
+
+
 import Cards from '@site/src/components/Cards';
+
+
 import Stories from '@site/src/components/Stories';
+
+
 import Banner from '@site/src/components/Banner';
 
 
 
 <Hero>
 
-# Zilliz Cloud ドキュメントへようこそ!{#welcome-to-zilliz-cloud-docs}
+# Zilliz Cloudドキュメントへようこそ!{#welcome-to-zilliz-cloud-docs}
 
-Zilliz Cloudは、完全に管理されたMilvusサービスを提供し、セキュリティを考慮したベクトル検索アプリケーションの展開とスケーリングを簡素化し、複雑なインフラストラクチャの構築と維持を不要にします。[詳しくはこちらをご覧ください](./get-started)。
+Zilliz Cloudは、セキュリティを考慮したベクトル検索アプリケーションの展開とスケーリングを簡素化し、複雑なインフラストラクチャの構築と維持を不要にする、完全に管理されたMilvusサービスを提供します。[もっと学ぶ](./get-started)。
 
-![XduOwp2luhJnskb9lBgcXOFXned](/img/XduOwp2luhJnskb9lBgcXOFXned.png)
+![H1i9wA7f9huNQDbDat4cf813nig](/img/H1i9wA7f9huNQDbDat4cf813nig.png)
 
 </Hero>
 
@@ -49,67 +61,67 @@ Zilliz Cloudは、完全に管理されたMilvusサービスを提供し、セ�
 
 次のプランでクラスターを作成できます。
 
-- [Free](./free-trials)
+- [フリー](./create-cluster#set-up-a-free-cluster)
 
-- [Serverless](./select-zilliz-cloud-service-plans)
+- [サーバーレス](./create-cluster#set-up-a-serverless-cluster)
 
-- [Dedicated](./select-zilliz-cloud-service-plans)
+- [専用の](./create-cluster#create-alessinclude-targetsaasgreater-dedicatedlessincludegreater-cluster)
 
-- [BYOC](/ja-JP/docs/byoc/byoc-intro)
+- [BYOC](/docs/byoc/byoc-intro)
 
-あなたにとって正しい計画が何かわからないですか?
+[あなたにとって正しい計画が何かわからないですか?](./select-zilliz-cloud-service-plans)
 
 </Bars>
 
 <Stories>
 
-# Zilliz Cloud でデータを操作する{#work-with-your-data-in-zilliz-cloud}
+# Zilliz Cloudでデータを操作する{#work-with-your-data-in-zilliz-cloud}
 
-## 自身のベクトルを持参して{#bring-your-own-vectors}
+## あなた自身のベクトルを持参してください{#bring-your-own-vectors}
 
 1. クラスタを作成して接続します。
 
-    必要なコンピューティングリソースとストレージリソースを使用して[クラスターを作成し](./create-cluster)、それに[接続して](./connect-to-cluster)ください。
+    [クラスタを作成する](./create-cluster)に必要なコンピューティングリソースとストレージリソースを入力し、[接続する](./connect-to-cluster)を入力してください。
 
 1. コレクションを作成します。
 
-    コレクションは、固定列と可変行を持つ2次元テーブルです。データを操作するために[コレクションを作成し](./manage-collections-sdks)てください。
+    コレクションは、固定列と可変行を持つ2次元テーブルです。データを操作するには、[コレクションを作成する](./manage-collections-sdks)を使用してください。
 
 1. データのインポート。
 
-    ローカルファイルまたはオブジェクトストレージバケットから[データをインポートし](./data-import)ます。
+    ローカルファイルまたはオブジェクトストレージバケットからの[データのインポート](./data-import)。
 
-1. ベクトル類似検索を行います。
+1. ベクトル類似性検索を行います。
 
-    [基本的なベクトル類似検索](./single-vector-search)は、最も類似した結果を見つけるのに役立ちます。
+    [基本ベクトル類似検索](./single-vector-search)は、最も類似した結果を見つけるのに役立ちます。
 
 ## 他のデータインフラからの移行{#migrate-from-other-data-infra}
 
 1. データソースに接続します。
 
-    Zilliz Cloudは、Pinecone、MongoDB、Qdrant、Postgre SQLなど、さまざまなデータソースをサポートしています。[移行ガイド](./migrations)を参照してください。
+    Zilliz Cloudは、Pinecone、MongoDB、Qdrant、Postgre SQLなど、さまざまなデータソースをサポートしています。[マイグレーション ](./migrations) [g](./migrations) [uides](./migrations)を参照してください。
 
 1. 移行元と移行先を設定します。
 
     データソース情報を確認し、移行ターゲットを構成してください。
 
-1. レビューマッピング。
+1. マッピングのレビュー。
 
     ソースデータとターゲットデータのスキーマ間のマッピングを設定して確認してください。
 
-## バックアップと復元{#backup-restore}
+## バックアップと復元{#backup-and-restore}
 
 1. クラスターまたはコレクションのバックアップを作成します。
 
-    バックアップは、クラスタまたはコレクションのポイントオブタイムコピーです。バックアップは[手動](./create-snapshot)または[自動](./schedule-automatic-backups)で作成できます。
+    バックアップとは、クラスタまたはコレクションの時点のコピーです。バックアップは[手動で](./create-snapshot)または[自動的に](./schedule-automatic-backups)で作成できます。
 
 1. (オプション)バックアップをオブジェクトストレージサービスにエクスポートします。
 
-    作成したバックアップファイルは、AWS S 3またはAzure Blob Storageに[エクスポート](./export-backup-files)できます。
+    作成した_PLACEHOLDER_0をAWS S 3またはAzure Blob Storageにリンクできます。
 
 1. データを復元する。
 
-    予期せぬシステム障害やデータ損失が発生した場合に[データを復元](./restore-from-snapshot)します。
+    予期しないシステム障害やデータ損失が発生した場合の[データを復元する](./restore-from-snapshot)。
 
 </Stories>
 
@@ -117,25 +129,25 @@ Zilliz Cloudは、完全に管理されたMilvusサービスを提供し、セ�
 
 # Zilliz Cloudでさらに進む{#go-further-with-zilliz-cloud}
 
-- [Monitoring & Alerts](./metrics-and-alerts)
+- [モニタリングとアラート](./metrics-and-alerts)
 
     クラスターを監視し、時間通りにアラートを受け取ります。
 
-- [Access Control](./access-control)
+- [アクセス制御](./access-control)
 
     きめ細かなアクセス制御でデータを保護しましょう。
 
-- [Private Networking](./setup-a-private-link)
+- [プライベートネットワーキング](./setup-a-private-link)
 
     クラスタをプライベートネットワークに接続します。
 
-- break
+- 壊れる
 
-- [Billing](./payment-billing)
+- [ビリング](./payment-billing)
 
-    使用した分だけ支払い、前払い費用はかかりません。
+    使用した分だけ支払い、前払い費用はありません。
 
-- [Integrations](https://zilliz.com/learn/milvus-notebooks)
+- [インテグレーション](./integrate-with-third-parties)
 
     既存のツールやワークフローと統合します。
 
@@ -145,17 +157,17 @@ Zilliz Cloudは、完全に管理されたMilvusサービスを提供し、セ�
 
 # お好みの言語でビルドを開始{#start-building-with-your-preferred-language}
 
-- [Python](/reference/python)
+- [パイソン](/reference/python)
 
 - [Java](/reference/java)
 
-- [Go](/reference/go)
+- [行く](/reference/go)
 
-- [Node.js](/reference/nodejs)
+- [Node. jsの](/reference/nodejs)
 
 - [RESTful API](/reference/restful)
 
 </Blocks>
 
-<Banner bannerText="お探しのものが見つかりませんか?" bannerLinkText="Ask AIを試して" />
+<banner bannertext="Can&#39;t find what you&#39;re looking for?" bannerlinktext="Try Ask AI"></banner>
 

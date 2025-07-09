@@ -6,17 +6,17 @@ beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは最新リリースで2つの主要な改良を導入しました。まず、Pipelinesは現在、6つの最新の(SOTA)埋め込みモデルをサポートしており、データ処理能力を拡張しています。もう1つの主要な改良は、Collection Playground機能が追加され、オンボーディング体験を簡素化することです。この機能を使用すると、Zilliz Cloudコンソールから基本的な作成、実行、更新、削除(CRUD)操作を簡単に実行でき、データインタラクションプロセスをより効率的に行うことができます。これらの新機能を今すぐ試して、より効率的かつ効果的なワークフローを楽しむことができます。 | Cloud"
 type: origin
-token: GNqXwvnHDiFtWqk3ytcc60xlnae
-sidebar_position: 10
+token: NmolwVTkCiQ2yZkXsJhcftyTnhc
+sidebar_position: 13
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 
@@ -35,19 +35,19 @@ Zilliz Cloudは最新リリースで2つの主要な改良を導入しました�
 
 Zilliz Cloud Pipelineは現在、6つのSOTA埋め込みモデルをサポートしており、データ処理能力を拡大しています。
 
-- **OPENAI/text-embedding-3-small**
+- **オープンアイ/text-embedding-3-small**
 
     Open AIによってホストされています。この非常に効率的な埋め込みモデルは、前身のtext-embedding-ada-002よりも強力なパフォーマンスを持ち、推論コストと品質のバランスを取っています。
 
-- **OPENAI/text-embedding-3-large**
+- **オープンアイ/text-embedding-3-large**
 
     Open AIがホストしています。これはOpen AIの最高のパフォーマンスモデルです。**text-embedding-ada-002**と比較して、MTEBスコアは61.0%から64.6%に増加しました。
 
-- **タイトル: voyageai/voyage-2**
+- **voyageai/ヴォヤージュ2**
 
     Voyage AIによってホストされています。この汎用モデルは、説明的なテキストやコードを含む技術文書を取得することに優れています。より効率的なバージョンvoyage-lite-02-instructは、MTEBリーダーボードでトップにランクされています。
 
-- **voyageai/航海コード-2**
+- **voyageai/voyage-code-2**の意味
 
     Voyage AIがホストしています。このモデルはプログラミングコードに最適化されており、検索コードブロックに優れた品質を提供します。
 
@@ -55,7 +55,7 @@ Zilliz Cloud Pipelineは現在、6つのSOTA埋め込みモデルをサポート
 
     Voyage AIによってホストされています。これはVoyage AIからの最も強力な汎用埋め込みモデルです。16 kのコンテキスト長(voyage-2の4倍)をサポートし、技術的および長いコンテキスト文書を含むさまざまなタイプのテキストで優れています。このモデルは、言語が英語の場合にのみ利用可能です。
 
-- **zilliz/bge-based-en-v 1.5-ダウンロード**
+- **zilliz/bge-base-in-v 1.5**パッケージ
 
     BAAIによってリリースされたこのSOTAオープンソースモデルは、Zilliz Cloudでホストされ、ベクトルデータベースと共同配置されており、高品質で最高のネットワークレイテンシを提供します。これはデフォルトの埋め込みモデルです。
 

@@ -2,22 +2,22 @@
 title: "責任の共有 | BYOC"
 slug: /shared-responsibilities
 sidebar_label: "責任の共有"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "このページでは、Zilliz CloudとBYOCのユーザーが、クラウド管理、アップグレード、セキュリティ、アクセス制御、サービスの可用性、技術サポートに関するタスクの分担を明確にし、安全で効率的な運用環境を維持しながらスムーズなコラボレーションを実現するための責任を概説しています。 | BYOC"
 type: origin
-token: X0MBwUNIqipdMvkTbqDcN3LHnNh
-sidebar_position: 9
+token: QqtGwq7lSimnHJk6IuXcM9synWg
+sidebar_position: 11
 keywords: 
   - zilliz
   - byoc
   - milvus
   - vector database
   - shared responsibilities
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 
@@ -27,12 +27,6 @@ import Admonition from '@theme/Admonition';
 # 責任の共有
 
 このページでは、Zilliz CloudとBYOCのユーザーが、クラウド管理、アップグレード、セキュリティ、アクセス制御、サービスの可用性、技術サポートに関するタスクの分担を明確にし、安全で効率的な運用環境を維持しながらスムーズなコラボレーションを実現するための責任を概説しています。
-
-<Admonition type="info" icon="📘" title="ノート">
-
-<p>Zilliz BYOCは現在<strong>一般提供</strong>中です。アクセスと実装の詳細については、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p>
-
-</Admonition>
 
 ## クラウド管理{#cloud-management}
 

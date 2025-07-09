@@ -2,11 +2,11 @@
 title: "クロスアカウントIAMロールの作成 | BYOC"
 slug: /create-cross-account-role
 sidebar_label: "クロスアカウントIAMロールの作成"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
-description: "このページでは、プロジェクトをブートストラップするためにZilliz Cloudのクロスアカウントロールを作成および設定する方法について説明します。このロールにより、Zilliz Cloudはあなたの代わりにVPCリソースを管理するための制限付き権限を与えられます。 | BYOC"
+description: "このページでは、プロジェクトデータプレーンをブートストラップするために、Zilliz Cloudのクロスアカウントロールを作成および設定する方法について説明します。このロールにより、Zilliz CloudはVPCリソースを管理するための制限付き権限を付与されます。 | BYOC"
 type: origin
-token: ILTuw2RQeiSXWykKoCucyZL5nig
+token: TQpDw2mkViTQ98k9RbfcxUarneb
 sidebar_position: 3
 keywords: 
   - zilliz
@@ -16,89 +16,75 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 # クロスアカウントIAMロールの作成
 
-このページでは、プロジェクトをブートストラップするためにZilliz Cloudのクロスアカウントロールを作成および設定する方法について説明します。このロールにより、Zilliz Cloudはあなたの代わりにVPCリソースを管理するための制限付き権限を与えられます。
+このページでは、プロジェクトデータプレーンをブートストラップするために、Zilliz Cloudのクロスアカウントロールを作成および設定する方法について説明します。このロールにより、Zilliz CloudはVPCリソースを管理するための制限付き権限を付与されます。
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>Zilliz BYOCは現在<strong>一般提供</strong>中です。アクセスと実装の詳細については、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p>
+<p>Zilliz BYOCは現在<strong>General Availability</strong>で利用可能です。アクセスと実装の詳細については、<a href="https://zilliz.com/contact-sales">Zillizクラウド販売</a>にお問い合わせください。</p>
 
 </Admonition>
 
 ## 手続き{#procedure}
 
-AWSコンソールを使用してブートストラップロールを作成できます。代わりに、Zilliz Cloudが提供するTerraformスクリプトを使用して、Zilliz CloudプロジェクトのインフラストラクチャをAWS上でブートストラップすることもできます。詳細については、「[Bootstrapインフラストラクチャ（Terraform）](./bootstrap-infrastructure-terraform)」を参照してください。
+AWSコンソールを使用してブートストラップロールを作成できます。代わりに、Zilliz Cloudが提供するTerraformスクリプトを使用して、Zilliz CloudプロジェクトのインフラストラクチャをAWS上でブートストラップすることもできます。詳細については、[テラフォームプロバイダName](./terraform-provider)を参照してください。
 
 ### ステップ1:クロスアカウントIAMロールを作成する{#step-1-create-a-cross-account-iam-role}
 
 このステップでは、Zilliz CloudとVPC間の通信のためのクロスアカウントIAMロールを作成します。
 
-1. Zilliz Cloudコンソールで、セットアップガイドに表示されている**外部ID**をコピーします。
+<Supademo id="cmb913tte0m0usn1rnm0ft6bp" title=""  />
 
-    ![HlT5b37CKoWnsexqAk4cXYqgnpe](/byoc/ja-JP/HlT5b37CKoWnsexqAk4cXYqgnpe.png)
+1. Zilliz Cloudコンソールで、セットアップガイドに表示されている**外部ID**をコピーしてください。
 
-1. 管理者権限を持つユーザーとして**AWSコンソール**にログインし、**IAM**ダッシュボードに移動します。
+1. 管理者権限を持つユーザーとしてAWSコンソールにログインし、IAMダッシュボードに移動してください。
 
-1. 左サイドバーの[**役割**]タブをクリックし、[**役割を作成**]をクリックします。
+1. 左サイドバーの「ロール」タブをクリックし、「ロールの作成」をクリックしてください。
 
-    ![S6eKbYvD5om0jGxUIWDcwdSEnXf](/byoc/ja-JP/S6eKbYvD5om0jGxUIWDcwdSEnXf.png)
+1. 「信頼できるエンティティを選択」で、「AWSアカウント」タイルをクリックしてください。
 
-1. [**信頼できるエンティティ**の選択]で、**AWSアカウント**タイルをクリックします。
+1. 「An AWS account」で、「Another AWS account」チェックボックスを選択してください。
 
-    ![WQOCbEPNeoceCBxg2DVcf9Xln3g](/byoc/ja-JP/WQOCbEPNeoceCBxg2DVcf9Xln3g.png)
-
-1. [**An AWS account**]で、[**Another AWS account**]チェックボックスをオンにします。
-
-1. [**アカウントID**]に、Zilliz CloudアカウントID 9655 7 0 9670 8 4を入力し`ま`す。
+1. **アカウントID**に、Zilliz CloudのアカウントID `965570967084`を入力してください。 
 
     これは、Zilliz Cloudコンソールからコピーした外部IDではありません。
 
-1. [**外部IDが必要]**チェックボックスをオンにします。
+1. **外部IDが必要**チェックボックスを選択してください。
 
-1. [**外部ID**]に、Zilliz CloudコンソールからコピーしたIDを入力します。
+1. **外部ID**には、Zilliz Cloudコンソールからコピーしたものを入力してください。
 
-1. 「**次**へ」をクリックして、アクセス権の追加をスキップします。
+1. 「次へ」をクリックして、権限の追加をスキップしてください。
 
-1. 「**名前、レビュー、および作成**」ステップで、役割に名前を付け、信頼されたエンティティを確認し、「**役割を作成**」をクリックします。
+1. 「名前を付け、確認し、作成する」ステップで、役割に名前を付け、信頼できるエンティティを確認し、「役割を作成する」をクリックしてください。
 
-    <Admonition type="info" icon="📘" title="ノート">
+1. 役割が作成されたら、緑色のバーにある「役割を表示」をクリックして、役割の詳細に移動してください。
 
-    <p>ロールに名前を付けるときは、プレフィックス<code>zilliz-byoc</code>を使用します。</p>
+1. 役割の**ARN**の前にあるコピーアイコンをクリックしてください。
 
-    </Admonition>
-
-1. ロールが作成されたら、緑色のバーの[**View role**]をクリックしてロールの詳細に移動します。
-
-    ![IkpJbCkEiomCLJxVekpcpRD4nh5](/byoc/ja-JP/IkpJbCkEiomCLJxVekpcpRD4nh5.png)
-
-1. ロールの**ARN**の前にあるコピーアイコンをクリックします。
-
-    ![LRmfbjfczo3BCAxIgyyc1EIznFc](/byoc/ja-JP/LRmfbjfczo3BCAxIgyyc1EIznFc.png)
-
-1. Zilliz Cloudコンソールに戻り、**IAM Role ARN**の**EKS設定**にARNロールを貼り付けます。
-
-    ![BdPebdKp0oc4nkxeUVgcK3ndn7e](/byoc/ja-JP/BdPebdKp0oc4nkxeUVgcK3ndn7e.png)
+1. Zilliz Cloudコンソールに戻り、**EKS設定**の**IAMロールARN**に役割ARNを貼り付けてください。
 
 ### ステップ2:権限を追加する{#step-2-add-permissions}
 
 このステップはAWSコンソール上でのみ行われます。このステップでは、上記で作成したロールのインラインポリシーを作成します。
 
-1. 作成したロールの詳細ページに移動します。[**権限ポリシー**]セクションで、[**権限を追加**]をクリックし、[**インラインポリシーを作成**]を選択します。
+<Supademo id="cmb92f3910mpwsn1rtrjo3szx" title=""  />
 
-    ![UjQBb1Xbxo88qExt4amchip9nmg](/byoc/ja-JP/UjQBb1Xbxo88qExt4amchip9nmg.png)
+1. 作成したロールの詳細ページに移動します。**権限ポリシー**セクションで、**権限の追加**をクリックし、**インラインポリシーの作成**を選択します。
 
-1. 「**Specify permis**sions」ページで、「**JSON**」をクリックして**ポリシーエディタ**を開きます。その後、以下のパーミッションをコピーしてポリシーエディタに貼り付け、`{bucketName}`を「Create S3 Bucket and Role」で作成したバケットに置き換えます。
+1. 「権限の指定」ページで、「ポリシーエディター」セクションの「JSON」をクリックしてポリシーエディターを開きます。その後、以下の権限をコピーしてポリシーエディターに貼り付け、`{bucketName}`を[S 3バケットとロールの作成](./create-bucket-and-role)で作成したバケットに置き換えます。
 
     ```json
     {
@@ -400,16 +386,6 @@ AWSコンソールを使用してブートストラップロールを作成で�
       }
     ```
 
-    ![OT5obistsoSodixuW5ncltJQnKe](/byoc/ja-JP/OT5obistsoSodixuW5ncltJQnKe.png)
-
-1. [**レビューと作成**]で、ポリシー名を入力し、権限を確認して、[**ポリシーを作成**]をクリックします。
-
-    <Admonition type="info" icon="📘" title="ノート">
-
-    <p>ポリシーに名前を付けるときは、プレフィックス<code>zilliz-byoc</code>を使用します。</p>
-
-    </Admonition>
-
-    ![LGHebTzMzoHTV1xRxIlcpV7rntc](/byoc/ja-JP/LGHebTzMzoHTV1xRxIlcpV7rntc.png)
+1. 「レビューと作成」で、ポリシー名を入力し、権限を確認して、「ポリシーの作成」をクリックしてください。
 
     
