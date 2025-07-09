@@ -1451,7 +1451,6 @@ class larkDocWriter {
         for (let element of elements) {
             if ('text_run' in element) {
                 paragraph += await this.__text_run(element, elements);
-                paragraph = this.__mdx_patches(paragraph);
             }
             if ('mention_doc' in element) {
                 paragraph += await this.__mention_doc(element);
