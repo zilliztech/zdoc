@@ -137,11 +137,13 @@ export const isControlPlane = (endpoint) => {
         endpoint.includes('usage') ||
         endpoint.includes('invoices') ||
         endpoint.includes('job') ||
-        endpoint.includes('etl') 
+        endpoint.includes('etl') ||
+        endpoint.includes('stage')
 }
 
 export const isBeta = (endpoint) => {
     return endpoint.includes('etl') ||
+        endpoint.includes('stage') ||
         endpoint.includes('usage') ||
         endpoint.includes('invoice')
         

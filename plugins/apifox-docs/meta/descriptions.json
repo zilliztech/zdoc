@@ -134,5 +134,9 @@
     {
         "name": "extract-load-and-transform-v2",
         "description": "This set of APIs provides a way to extract, load, and transform data."
+    },
+    {
+        "name": "stage-v2",
+        "description": "This set of APIs provides a way to manage stages."
     }
 ]
