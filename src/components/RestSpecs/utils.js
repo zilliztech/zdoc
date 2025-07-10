@@ -137,6 +137,7 @@ export const isControlPlane = (endpoint) => {
         endpoint.includes('usage') ||
         endpoint.includes('invoices') ||
         endpoint.includes('job') ||
+        endpoint.includes('alert') ||
         endpoint.includes('etl') ||
         endpoint.includes('stage')
 }
