@@ -104,7 +104,8 @@ class refGen {
       const description = descriptions.filter(x => x.name === slug)[0].description
       const position = specifications.tags.map(x => x.name).indexOf(specifications.tags[group].name)
       var beta_tag = version === 'v2' ? 'FALSE' : 'NEAR DEPRECATE'
-      beta_tag = slug.includes('invoice') || slug.includes('usage') ? 'PUBLIC' : beta_tag
+      // beta_tag = slug.includes('invoice') || slug.includes('usage') ? 'PUBLIC' : beta_tag
+      beta_tag = slug.includes('extract') || slug.includes('stage') ? 'PRIVATE' : beta_tag
       const t = template.render({
         group_name,
         position,
