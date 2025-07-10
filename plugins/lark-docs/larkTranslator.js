@@ -66,7 +66,7 @@ class larkTranslator {
             const data = await response.json()
 
             if (data.code !== 0) {
-                throw new Error(`Lark translation error: ${data.msg}`)
+                throw new Error(`Lark translation error: ${data.code} - ${data.msg}`)
             }
 
             target = data.data.text
