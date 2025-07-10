@@ -1480,8 +1480,15 @@ class larkDocWriter {
                 source = source.replace(code_source_matches[i][0], `INLINE_CODE_PLACEHOLDER_${i}`)
             }
 
-            if (source !== 'LINK_PLACEHOLDER_0') {
-                // translate the source text
+            regex = /<\/?[^>]+(>|$)/g
+            let html_tags = [...source.matchAll(regex)];
+            for ( var i = 0; i < html_tags.length; i++ ) {
+                source = source.replace(html_tags[i][0], `HTML_PLACEHOLDER_${i}`)
+            }
+
+            if (source === 'LINK_PLACEHOLDER_0' || source === 'HTML_PLACEHOLDER_0') {
+                paragraph = source
+            } else {
                 paragraph = await this.translator.translate(source, [
                     {
                         "from": "LINK_PLACEHOLDER_",
@@ -1490,11 +1497,22 @@ class larkDocWriter {
                     {
                         "from": "INLINE_CODE_PLACEHOLDER_",
                         "to": "INLINE_CODE_PLACEHOLDER_"
+                    },
+                    {
+                        "from": "HTML_PLACEHOLDER_",
+                        "to": "HTML_PLACEHOLDER_"
                     }
                 ]);
-            } else {
-                paragraph = 'LINK_PLACEHOLDER_0'
             }
+
+            // fill back the inline code block
+            code_source_matches.map((match, i) => {
+                paragraph = paragraph.replace(`INLINE_CODE_PLACEHOLDER_${i}`, match[0])
+            })
+
+            html_tags.map((match, i) => {
+                paragraph = paragraph.replace(`HTML_PLACEHOLDER_${i}`, match[0])
+            })
 
             // translate link text
             await Promise.all(link_source_matches.map(async (match, i) => {
@@ -1502,15 +1520,8 @@ class larkDocWriter {
                 const link_url = match[2];
                 const translated = await this.translator.translate(link_text)
 
-                console.log(link_text, translated)
-
                 paragraph = paragraph.replace(`LINK_PLACEHOLDER_${i}`, `[${translated}](${link_url})`)
             })) 
-            
-            // fill back the inline code block
-            code_source_matches.map((match, i) => {
-                paragraph = paragraph.replace(`INLINE_CODE_PLACEHOLDER_${i}`, match[0])
-            })
         }
 
         return {
