@@ -27397,18 +27397,10 @@
 										"summary": "success",
 										"x-target-response": "OPTION 1",
 										"value": {
-											"code": 200,
-											"data": [
-												{
-													"stageName": "my_stage_1"
-												},
-												{
-													"stageName": "my_stage_2"
-												},
-												{
-													"stageName": "my_stage_3"
-												}
-											]
+											"code": 0,
+											"data": {
+												"stageName": "mysql-stage"
+											}
 										}
 									},
 									"2": {
@@ -27559,18 +27551,10 @@
 										"summary": "success",
 										"x-target-response": "OPTION 1",
 										"value": {
-											"code": 200,
-											"data": [
-												{
-													"stageName": "my_stage_1"
-												},
-												{
-													"stageName": "my_stage_2"
-												},
-												{
-													"stageName": "my_stage_3"
-												}
-											]
+											"code": 0,
+											"data": {
+												"stageName": "mysql-stage"
+											}
 										}
 									},
 									"2": {
