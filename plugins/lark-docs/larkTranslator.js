@@ -16,6 +16,7 @@ class larkTranslator {
             minTime: 100
         })
         this.token_fetcher = new tokenFetcher()
+        this.exceed_rate_limit_counts = 0
     }
 
     async translate(text, glossary = []) {
@@ -65,6 +66,26 @@ class larkTranslator {
 
             const data = await response.json()
 
+            if (data.code === 2200) {
+                // Exponential backoff with jitter to handle rate limiting
+                const waitTime = Math.min(
+                    Math.pow(2, this.exceed_rate_limit_counts) + Math.random(),
+                    MAX_RETRY_WAIT_SECONDS || 30
+                );
+                
+                console.warn(`Lark translation rate limit exceeded, retry #${this.exceed_rate_limit_counts + 1}, waiting ${waitTime.toFixed(2)} seconds...`);
+                
+                await this.__wait(waitTime * 1000);
+                this.exceed_rate_limit_counts += 1;
+                
+                if (this.exceed_rate_limit_counts > (MAX_RETRIES || 5)) {
+                    throw new Error(`Max retry attempts (${MAX_RETRIES || 5}) exceeded for rate limited request`);
+                }
+                
+                return this.__translateText(source, glossary);
+            }
+
+
             if (data.code !== 0) {
                 throw new Error(`Lark translation error: ${data.code} - ${data.msg}`)
             }
@@ -78,6 +99,10 @@ class larkTranslator {
         })
 
         return target
+    }
+
+    async __wait(n) {
+        return new Promise(resolve => setTimeout(resolve, n * 1000))
     }
 }
 
