@@ -5,6 +5,8 @@ const tokenFetcher = require('./larkTokenFetcher.js')
 require('dotenv').config()
 
 const FEISHU_HOST = process.env.FEISHU_HOST
+const MAX_RETRY_WAIT_SECONDS = 0
+const MAX_RETRIES = 0
 
 class larkTranslator {
     constructor({source, target, cache}) {
