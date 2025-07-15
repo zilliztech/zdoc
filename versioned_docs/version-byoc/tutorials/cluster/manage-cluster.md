@@ -14,109 +14,180 @@ keywords:
   - cloud
   - cluster
   - manage
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 
 import Admonition from '@theme/Admonition';
+import Tabs from '@theme/Tabs';
+import TabItem from '@theme/TabItem';
 
+import Supademo from '@site/src/components/Supademo';
 
 # Manage Cluster
 
 This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals.
 
-### View cluster details{#view-cluster-details}
+## Rename cluster{#rename-cluster}
 
-After setting up your Zilliz Cloud Dedicated cluster, here’s what you’ll find in each section for cluster details:
+Navigate to the **Cluster Details** page of your target cluster and then follow the instructions below to rename your cluster.
 
-![byoc-cluster-lifecycle](/byoc/byoc-cluster-lifecycle.png)
+<Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title=""  />
 
-- **Connect**: This section provides the necessary details to begin interacting with your cluster, including the cluster ID, cluster cloud region, public endpoint for connections,, IP address whitelist, and a token for secure access.
+## Suspend cluster{#suspend-cluster}
 
-- **Summary**: This offers a snapshot of your cluster's essentials. You can find the cluster plan, CU type, and CU size, compatible Milvus version. Details on the creator, as well as the creation date and time, are also presented.
+For a running Dedicated cluster, you are billed for both CU and storage. To reduce costs, consider suspending the cluster. Only storage charges apply when a Dedicated cluster is suspended.
 
-- **Topology**: A graphical representation showing the structure of your cluster. This includes the designation of roles and compute resources for various nodes:
+Please note that during suspension, you cannot perform other actions on the cluster.
 
-    - **Proxy**: Stateless nodes that manage user connections and streamline service addresses with load balancers.
+You can suspend a Dedicated cluster via the web console or programmatically.
 
-    - **Query Node**: Responsible for hybrid vector and scalar searches and incremental data updates.
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
-    - **Coordinator**: The orchestration center, distributing tasks across worker nodes.
+<TabItem value="Cloud Console">
 
-    - **Data Node**: Handles data mutations and log-to-snapshot conversions for persistence.
+Navigate to the **Cluster Details** page of your target cluster and then follow the instructions below to suspend your Dedicated cluster.
 
-    <Admonition type="info" icon="📘" title="Notes">
+<Supademo id="cm9tqgxt30snl11m7twwj7xia" title="Zilliz Cloud - Suspend Cluster Demo" />
 
-    <p>Clusters with <strong>1-8 CUs</strong> typically use a single-node setup suitable for smaller datasets. Clusters with more than <strong>8 CUs</strong> adopt a distributed multi-server node architecture to improve performance and scalability.</p>
+</TabItem>
 
-    </Admonition>
+<TabItem value="Bash">
 
-### Establish connection{#establish-connection}
+Your request should resemble the following example, where `{API_KEY}` is your API key used for authentication.
 
-- **Connect to cluster**
+The following `POST` request takes a request body and suspends a Dedicated cluster.
 
-    In the **Connect** section, you can find the **Public Endpoint** and **Token** that are used to connect to the cluster. The token can bea [cluster credential](./cluster-credentials) that consists of a username and password pair.
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/clusters/${CLUSTER_ID}/suspend" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
 
-    For more information, refer to [Connect to Cluster](./connect-to-cluster).
+# {
+#     "code": 0,
+#     "data": {
+#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
+#         "prompt": "Successfully Submitted. The cluster will not incur any computing costs when suspended. You will only be billed for the storage costs during this time."
+#     }
+# }     
+```
 
-### Manage collections and data{#manage-collections-and-data}
+In the command above,
 
-- **Collections**
+- `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
 
-    On the **Collections** tab, you can manage the collections in the cluster. You can create collections, import data into them, load or release them, rename them, and drop them.
+- `{CLUSTER_ID}`: The ID of the Dedicated cluster to suspend.
 
-    For details on data import, refer to [Data Import](/docs/data-import).
+For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster-v2).
 
-    ![manage-collections](/byoc/manage-collections.png)
+</TabItem>
 
-- **Backups**
+</Tabs>
 
-    In the **Backups** tab, you can create backups of your cluster by selecting **Create Snapshot**. You can find all snapshots on the **Backups** tab. For details on backups and restores, refer to [Backup & Restore](/docs/backup-and-restore).
+## Resume cluster{#resume-cluster}
 
-- **Migrations**
+Free and Serverless clusters are automatically suspended after 7 days of inactivity and can be resumed anytime.
 
-    In the **Migrations** tab, you can create data migration tasks by selecting **Migrate**.
+Suspended Dedicated clusters can also be resumed manually when needed.
 
-### Users and access control{#users-and-access-control}
+Please note that during resuming, you cannot perform other actions on the cluster.
 
-- **Users**
+You can resume a cluster via the web console or programmatically.
 
-    On the **Users** tab, you can add users, reset their passwords, and drop them.
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
-    For details, refer to [Cluster Credentials (Console)](./cluster-credentials-console).
+<TabItem value="Cloud Console">
 
-    ![manage-users](/byoc/manage-users.png)
+Navigate to the **Cluster Details** page of your target cluster and then follow the instruction below to resume your cluster.
 
-    <Admonition type="info" icon="📘" title="Notes">
+<Supademo id="cm9tr2hze0t1j11m7ijth1pr5" title="Zilliz Cloud - Resume Cluster Demo" />
 
-    <p>You cannot drop <b>db_admin</b>. Zilliz Cloud grants access permissions to all collections in the cluster to any added users.</p>
+</TabItem>
 
-    </Admonition>
+<TabItem value="Bash">
 
-### Suspend & resume cluster{#suspend-and-resume-cluster}
+Your request should resemble the following example, where `{API_KEY}` is your API key used for authentication.
 
-In the **Actions** drop-down button, select **Suspend** to stop the cluster. Once you confirm this operation in the **Suspend Cluster** dialog box, the cluster status changes from **RUNNING** to **SUSPENDING**, during which you cannot perform other actions to the cluster.
+The following `POST` request takes a request body and resumes a cluster.
 
-Once the status changes to **SUSPENDED**, you will only be charged for storage. Wisely suspending some of your clusters can save you money.
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/clusters/${CLUSTER_ID}/resume" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
 
-To resume a suspended cluster, click on **Actions** and select **Resume** from the drop-down menu. Upon confirming this action in the **Resume Cluster** dialog box, the cluster's status will change from **SUSPENDED** to **RESUMING**, and then to **RUNNING**. At this point, you will be charged fully based on your CU settings and service plan.
+# {
+#     "code": 0,
+#     "data": {
+#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
+#         "prompt": "successfully Submitted. Cluster is being resumed, which is expected to takes several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK."
+#     }
+# }     
+```
 
-You can also use RESTful APIs to perform these actions. For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster) and [Resume Cluster](/reference/restful/resume-cluster).
+In the command above,
 
-### **Drop cluster**{#drop-cluster}
+- `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
 
-In the **Actions** drop-down button, select **Drop** to drop the cluster. Zilliz Cloud drops your cluster only after you confirm this operation in the **Drop Cluster** dialog box.
+- `{CLUSTER_ID}`: The ID of the cluster to resume.
 
-In addition to the web UI, you can also make an API request to drop a cluster. For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
+For details, refer to [Resume Cluster](/reference/restful/resume-cluster-v2).
 
-## Related topics{#related-topics}
+</TabItem>
 
-- [Connect to Cluster](./connect-to-cluster)
+</Tabs>
 
-- [Backup & Restore](./backup-and-restore)
+## Drop cluster{#drop-cluster}
 
-- [Select the Right CU](./cu-types-explained)
+When a cluster is no longer needed, you can drop it. You can drop a cluster via the web console or programatically.
+
+<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
+
+<TabItem value="Cloud Console">
+
+Navigate to the **Cluster Details** page of your target cluster and then follow the instruction below to drop your cluster.
+
+<Supademo id="cm9trwi5n0txr11m7otr902sk" title="Zilliz Cloud - Drop Cluster Demo" />
+
+</TabItem>
+
+<TabItem value="Bash">
+
+Your request should resemble the following example, where `{API_KEY}` is your API key used for authentication.
+
+The following `DELETE` request takes a request body and drops a cluster.
+
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/clusters/${CLUSTER_ID}/drop" \
+     --header "Authorization: Bearer ${API_KEY}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
+
+# {
+#     "code": 0,
+#     "data": {
+#         "clusterId": "inxx-xxxxxxxxxxxxxxx",
+#         "prompt": "The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period. Kindly note, this recovery feature does not apply to free clusters."
+#     }
+# }     
+```
+
+In the command above,
+
+- `{API_KEY}`: The credential used to authenticate API requests. Replace the value with your own.
+
+- `{CLUSTER_ID}`: The ID of the Dedicated cluster to drop.
+
+For details, refer to [Drop Cluster](/reference/restful/drop-cluster-v2).
+
+</TabItem>
+
+</Tabs>
 

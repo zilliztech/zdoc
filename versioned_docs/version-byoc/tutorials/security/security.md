@@ -7,16 +7,16 @@ notebook: FALSE
 description: "The chapter focuses on security-related measures, including authentication, role-based access control (RBAC), private endpoints, and whitelist. | BYOC"
 type: origin
 token: HAF7wZny2ip5BRky4zmcK446nOe
-sidebar_position: 9
+sidebar_position: 10
 keywords: 
   - zilliz
   - vector database
   - cloud
   - security
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

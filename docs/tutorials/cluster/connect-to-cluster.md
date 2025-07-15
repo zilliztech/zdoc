@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 
@@ -47,7 +47,15 @@ Ensure the following prerequisites are met before proceeding:
 
 ## Connect to a cluster{#connect-to-a-cluster}
 
-Once your cluster is operational, connect to it utilizing its public endpoint and an authentication token. This token can be  an [API key](./manage-api-keys) or a [cluster credential](./cluster-credentials) that consists of a username and password pair.
+Once your cluster is operational, connect to it utilizing its public endpoint and an authentication token. 
+
+- **Cluster public endpoint:** You can obtain this on the Zilliz Cloud web console. Navigate to the **Cluster Details** page of the target cluster. On the **Connect** card, you can copy the cluster public endpoint.
+
+    ![connection-info](/img/connection-info.png)
+
+- **Token:** This token can be  an [API key](./manage-api-keys) or a [cluster credential](./cluster-credentials) that consists of a username and password pair.
+
+The following example shows how to connect to a cluster.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>

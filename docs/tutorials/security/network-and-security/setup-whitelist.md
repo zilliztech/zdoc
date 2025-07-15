@@ -14,10 +14,10 @@ keywords:
   - cloud
   - whitelist
   - setup
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 
@@ -83,7 +83,7 @@ Ensure the following prerequisites are met before proceeding:
 
 - [API Keys](./manage-api-keys)
 
-- [Cluster Credentials (Console)](./cluster-credentials-console)
+- [Cluster Credentials (Console)](./cluster-credentials)
 
 - [Set up a Private Link](./setup-a-private-link)
 

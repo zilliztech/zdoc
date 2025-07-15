@@ -7,16 +7,16 @@ notebook: FALSE
 description: "In this release, Zilliz Cloud has unveiled an array of new features backed by Milvus 2.4, including sparse vector support, enhanced multi-vector and hybrid search, an inverted index and fuzzy matching for faster queries, and grouping search for document-level recall. It also introduces Float16 and BFloat16 data types for improved search efficiency. In addition, the Pipelines feature now tracks token usage stats with every data ingestion and search request, streamlining performance monitoring. You can find detailed stats on the invoice page. | Cloud"
 type: origin
 token: GanXwLnJkiymKVkNPhecdi9MnGf
-sidebar_position: 7
+sidebar_position: 11
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 
@@ -83,7 +83,7 @@ For details, check out the [Grouping Search](./grouping-search) guide and the ex
 
 Machine learning and neural networks often use half-precision data types, such as Float16 and BFloat- While these data types can improve query efficiency and reduce memory usage, they come with a tradeoff of reduced accuracy. With this release, Zilliz Cloud now supports these data types for vector fields.
 
-For deatils, refer to the [Search & Rerank](./search-query-get) and the example code in [float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/float16_example.py) and [bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/bfloat16_example.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials.*
+For deatils, refer to the [Search & Rerank](./search-query-get) and the example code in [float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/float16_example.py) and [bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/bfloat16_example.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials.*
 
 ### Refined MilvusClient Interfaces{#refined-milvusclient-interfaces}
 

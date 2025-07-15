@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 
@@ -92,7 +92,7 @@ For collection-level access control, it is recommended to create custom roles.
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>This feature is exclusively available to Dedicated clusters.</p>
-<p>Currently, Zilliz Cloud only supports creating custom roles with built-in privilege groups. If you need to create custom roles with user-defined privileges and privilege groups, please <a href="http://support.zilliz.com">contact us</a>.</p>
+<p>Currently, Zilliz Cloud only supports creating custom roles with built-in privilege groups on the web console. If you need to create custom roles with specific privileges or custom privilege groups, please <a href="http://support.zilliz.com">create a support ticket</a> first so that we can enable this feature for you. Once the feature is enabled, you can use the SDKs to <a href="./cluster-privileges#custom-privilege-groups">create custom privilege groups</a>.</p>
 
 </Admonition>
 
@@ -104,9 +104,9 @@ For collection-level access control, it is recommended to create custom roles.
 
 1. Enter the role name.
 
-1. Configure the privileges on the collection, database, and cluster level.  Select a privilege group and then select the target resource. 
+1. Configure the privileges on the collection, database, and cluster level.  Select a built-in privilege group and then select the target resource. 
 
-    Zilliz Cloud provides 9 privilege groups in total: 
+    Zilliz Cloud provides 9 built-in privilege groups in total: 
 
     - Collection Privilege Group: Admin (`COLL_ADMIN`), Read-Write (`COLL_RW`), Read-Only (`COLL_RO`)
 
@@ -114,15 +114,13 @@ For collection-level access control, it is recommended to create custom roles.
 
     - Cluster Privilege Group: Admin (`Cluster_Admin`), Read-Write (`Cluster_RW`), Read-Only (`Cluster_RO`)
 
-    For details about the specific privileges in each privilege group, refer to [Privileges Explained](./cluster-privileges).
-
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>The three levels of built-in privilege groups do not have a cascading relationship. Setting a privilege group at the instance level does not automatically set permissions for all databases and collections under that instance. Privileges at the database and collection levels need to be set manually.</p>
+    <p>The three levels of built-in privilege groups do not have a cascading relationship. Setting a built-in privilege group at the instance level does not automatically set permissions for all databases and collections under that instance. Privileges at the database and collection levels need to be set manually.</p>
 
     </Admonition>
 
-    If you need to create your own privilege group, please [contact us](http://support.zilliz.com).
+    For details about the specific privileges in each built-in privilege group, refer to [Privileges & Privilege Groups](./cluster-privileges#built-in-privilege-groups).
 
     ![add-cluster-role-form](/img/add-cluster-role-form.png)
 

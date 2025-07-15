@@ -4,7 +4,7 @@ slug: /create-snapshot
 sidebar_label: "Create Backup"
 beta: FALSE
 notebook: FALSE
-description: "Backups are point-of-time copies of a managed cluster or a specific collection on Zilliz Cloud. You can use it as a baseline for new clusters and collections or just for data backup. | Cloud"
+description: "In Zilliz Cloud, a backup is a copy of the data that allows you to restore the entire cluster or specific collections in the event of data loss or system failure. | Cloud"
 type: origin
 token: HHXewT7wTiM1zqkySjHcMNX5n9b
 sidebar_position: 1
@@ -13,135 +13,144 @@ keywords:
   - vector database
   - cloud
   - backup
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 
 import Admonition from '@theme/Admonition';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+
+
+import Supademo from '@site/src/components/Supademo';
 
 # Create Backup
 
-Backups are point-of-time copies of a managed cluster or a specific collection on Zilliz Cloud. You can use it as a baseline for new clusters and collections or just for data backup.
+In Zilliz Cloud, a backup is a copy of the data that allows you to restore the entire cluster or specific collections in the event of data loss or system failure. 
 
-Manually created backups are permanently retained on Zilliz Cloud, which means they will not be automatically deleted.
+Backup creation incurs additional [charges](./understand-cost#backup-cost), with pricing based on the cloud region where the backup is stored. All backup files are stored in the same cloud region as the source cluster. For example, a cluster in `AWS us-west-2` will have its backups stored in `AWS us-west-2`.
 
-## Before you start{#before-you-start}
-
-Make sure the following conditions are met:
-
-- You are granted the [Organization Owner](./organization-users) or [Project Admin](./project-users) role in the target organization.
-
-- Your cluster runs on the **Dedicated** tier.
+This guide explains how to **manually create backups**. To automate backup creation, see [Schedule Automatic Backups](./schedule-automatic-backups).
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Backups are available only to the <strong>Dedicated</strong> clusters. If your cluster runs on the <strong>Free</strong>, <a href="./manage-cluster#upgrade-plan">upgrade</a> it first. If your cluster runs on the <strong>Serverless</strong> tier, <a href="./migrate-between-clusters">migrate</a> it to a dedicated cluster first. Creating backups may incur charges. For more information about backup cost, please refer to <a href="./understand-cost">Understand Cost</a>.</p>
+<p>The backup and restore feature is exclusively available to <strong>Dedicated</strong> clusters. </p>
 
 </Admonition>
 
-## Create backup{#create-backup}
+## Limits{#limits}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+- **Access control**: You must be a **project admin**, **organization owner**, or have a **custom role** with backup privileges.
 
-<TabItem value="Cloud Console">
+- **Excluded from backup**:
 
-You can create a backup file of your cluster or collection based on the following figure. Your cluster is still in service while Zilliz Cloud is creating the backup file.
+    - Collection TTL settings
 
-![create-snapshot](/img/create-snapshot.png)
+    - Password for the default user `db_admin` (a new password is generated during [restore](./restore-from-snapshot))
 
-</TabItem>
-<TabItem value="Bash">
+- **Cluster shard settings**: Backed up but may be adjusted during restore if the cluster CU size is reduced, due to shard-per-CU limits. See [Zilliz Cloud Limits](./limits#shards) for details.
 
-You can create a backup for an entire cluster or a specific collection. For details on parameters, refer to [Create Backup](/reference/restful/create-backup-v2).
+- **Backup job restrictions**:
 
-- Create a backup for an entire cluster.
+    - Only **one manual backup** can be active or pending at a time.
 
-    ```bash
-    export BASE_URL="https://api.cloud.zilliz.com"
-    export CLUSTER_ID="inxx-xxxxxxxxxxxxxx"
-    
-    curl --request POST \
-         --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/create" \
-         --header "Authorization: Bearer ${TOKEN}" \
-         --header "Content-Type: application/json" \
-         --data-raw '{
-                "backupType": "CLUSTER"
-          }'
-    ```
+    - If **automatic backups** are enabled:
 
-    Expected output:
+        - Manual backups cannot start while an automatic backup is in progress.
 
-    ```bash
-    {
-      "code": 0,
-      "data": {
-        "backupId": "backup0_c7b18539b97xxxx",
-        "backupName": "Dedicated-01_backup2",
-        "jobId": "job-031a8e3587ba7zqkadxxxx"
-      }
-    }
-    ```
+        - Automatic backups will still run if a manual backup is already in progress.
 
-- Create a backup for a specific collection.
+## Create cluster backup{#create-cluster-backup}
 
-    ```bash
-    export BASE_URL="https://api.cloud.zilliz.com"
-    export CLUSTER_ID="inxx-xxxxxxxxxxxxxx"
-    
-    curl --request POST \
-    --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/create" \
-    --header "Authorization: Bearer ${TOKEN}" \
-    --header "Content-Type: application/json" \
-    -d '{
-        "backupType": "COLLECTION",
-        "dbCollections": [
-            {
-                "collectionNames": [
-                    "medium_articles"
-                ]
-            }
-        ]
-    }'
-    ```
+You can create a backup of an entire cluster and later restore either the whole cluster or selected collections.
 
-    Expected output:
+### Via web console{#via-web-console}
 
-    ```bash
-    {
-      "code": 0,
-      "data": {
-        "backupId": "backup11_4adb19e3f9exxxx",
-        "backupName": "medium_articles_bacxxxx",
-        "jobId": "job-039dbc113c5ozfwunvxxxx"
-      }
-    }
-    ```
+The following demo shows how to create a cluster backup on the Zilliz Cloud web console.
 
-</TabItem>
-</Tabs>
+<Supademo id="cmcske0x90dpa9st802gnvbz9" title=""  />
 
-A backup job will be generated. You can check the backup progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the backup is created successfully.
+### Via RESTful API{#via-restful-api}
 
-<Admonition type="info" icon="📘" title="Notes">
+The following example creates a backup for the cluster `in01-xxxxxxxxxxxxxx`. For details about the RESTful API, see [Create Backup](/reference/restful/create-backup-v2).
 
-<p>Within the same cluster, only one manually created backup job can be in progress or pending at a time. You can manually create another backup file when the previously requested job is completed. </p>
+```bash
+curl --request POST \
+     --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/create" \
+     --header "Authorization: Bearer ${TOKEN}" \
+     --header "Content-Type: application/json" \
+     --data-raw '{
+            "backupType": "CLUSTER"
+      }'
+```
 
-</Admonition>
+The following is an example output. A backup job is generated and you can check the progress in the [project job center](./job-center).
 
-Please note that the time it takes to create a backup varies. For cluster backups, it depends on the size of the cluster and the size of the CUs accommodating the cluster. For example, a single-collection cluster holding over 120 million records of 128-dimensional vectors on a 4-CU instance takes approximately 5 minutes to create a backup file.
+```bash
+{
+  "code": 0,
+  "data": {
+    "backupId": "backup0_c7b18539b97xxxx",
+    "backupName": "Dedicated-01_backup2",
+    "jobId": "job-031a8e3587ba7zqkadxxxx"
+  }
+}
+```
 
-## Related topics{#related-topics}
+## Create collection backup{#create-collection-backup}
 
-- [Schedule Automatic Backups](./schedule-automatic-backups)
+To back up a specific collection or a subset of collections in a cluster, create a collection-level backup.
 
-- [View Snapshot Details](./view-snapshot-details)
+### Via web console{#via-web-console}
 
-- [Restore from Snapshot](./restore-from-snapshot)
+The following demo shows how to create a collection backup on the web console.
 
-- [Delete Snapshot](./delete-snapshot) 
+<Supademo id="cmcskksub0dra9st8cy34b2vi" title=""  />
+
+### Via RESTful API{#via-restful-api}
+
+The following example creates a backup for the collection `medium_articles` in the cluster `in01-xxxxxxxxxxxxxx`. For details about the RESTful API, see [Create Backup](/reference/restful/create-backup-v2).
+
+```bash
+curl --request POST \
+--url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "backupType": "COLLECTION",
+    "dbCollections": [
+        {
+            "collectionNames": [
+                "medium_articles"
+            ]
+        }
+    ]
+}'
+```
+
+The following is an example output. A backup job is generated and you can check the progress in the [project job center](./job-center).
+
+```bash
+{
+  "code": 0,
+  "data": {
+    "backupId": "backup0_c7b18539b97xxxx",
+    "backupName": "Dedicated-01_backup2",
+    "jobId": "job-031a8e3587ba7zqkadxxxx"
+  }
+}
+```
+
+## FAQs{#faqs}
+
+**How long does a backup job take?**
+Backup duration depends on the size of your data. As a reference, backing up 700 MB typically takes about 1 second. If your cluster contains more than 1,000 collections, the process may take slightly longer.
+
+**Can I perform DDL (Data Definition Language) operations during a backup?**
+It is recommended to avoid major DDL (Data Definition Language) operations—such as creating or dropping collections—while a backup is in progress, as they may interfere with the process or lead to inconsistent results.
+
+**Will backup files be deleted if the original cluster is dropped?**
+
+This depends on the creation method of the backup file. All [automatic backups](./schedule-automatic-backups) are deleted along with the original cluster. But manual cluster backups are retained permanently and will not be deleted when the cluster is deleted. You must delete them manually if no longer needed.
 

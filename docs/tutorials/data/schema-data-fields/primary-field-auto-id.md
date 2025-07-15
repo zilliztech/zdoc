@@ -17,10 +17,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 
@@ -39,6 +39,15 @@ In a collection, the primary key of each entity should be globally unique. When 
 You can also enable **AutoID** to make Zilliz Cloud automatically allocate primary keys for incoming entities. Once you have enabled **AutoID** in your collection, do not include primary keys when inserting entities.
 
 The primary field in a collection does not have a default value and cannot be null.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<ul>
+<li><p>A standard <code>insert</code> operation with a primary key that already exists in the collection will <strong>not</strong> overwrite the old entry. Instead, it will create a new, separate entity with the same primary key. This can lead to unexpected search results and data redundancy.</p></li>
+<li><p>If your use case involves updating existing data or you suspect that the data you are inserting may already exist, it is highly recommended to use the <code>upsert</code> operation. The <code>upsert</code> operation will intelligently update the entity if the primary key exists, or insert a new one if it does not. For more details, refer to the <a href="./upsert-entities">Upsert Entities</a>.</p></li>
+</ul>
+
+</Admonition>
 
 ## Use Int64 Primary Keys{#use-int64-primary-keys}
 
@@ -95,7 +104,7 @@ const schema = [
   {
     name: "pk",
     description: "ID field",
-    data_type: DataType.VARCHAR,
+    data_type: DataType.INT64,
     is_primary_key: true,
     max_length: 100,
   },
@@ -107,7 +116,14 @@ const schema = [
 <TabItem value='go'>
 
 ```go
-// Go
+import "github.com/milvus-io/milvus/client/v2/entity"
+
+schema := entity.NewSchema()
+schema.WithField(entity.NewField().WithName("my_id").
+    WithDataType(entity.FieldTypeInt64).
+    WithIsPrimaryKey(true).
+    WithIsAutoID(true),
+)
 ```
 
 </TabItem>
@@ -156,9 +172,6 @@ schema.add_field(
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.common.DataType;
-import io.milvus.v2.service.collection.request.AddFieldReq; 
-
 schema.addField(AddFieldReq.builder()
         .fieldName("my_id")
         .dataType(DataType.VarChar)
@@ -191,7 +204,15 @@ schema.push({
 <TabItem value='go'>
 
 ```go
-// Go
+schema := entity.NewSchema()
+schema.WithField(entity.NewField().WithName("my_id").
+    WithDataType(entity.FieldTypeVarChar).
+    // highlight-start
+    WithIsPrimaryKey(true).
+    WithIsAutoID(true).
+    WithMaxLength(512),
+    // highlight-end
+)
 ```
 
 </TabItem>

@@ -15,10 +15,10 @@ keywords:
   - auditing
   - log
   - configure
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 
@@ -32,8 +32,8 @@ Audit logging allows administrators to track and monitor user-driven operations 
 <Admonition type="info" icon="📘" title="Notes">
 
 <ul>
-<li><p>Audit logging is in <strong>Private Preview</strong>. To request access to this feature or learn about associated costs, contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p></li>
-<li><p>Audit logging does not support attributing API key connections to specific users. To achieve user-specific auditing, consider using a cluster user for authentication. Support for API key user attribution is planned for future releases.</p></li>
+<li><p>Audit logging is in <strong>Private Preview</strong>. To request access to this feature or learn about associated costs, contact <a href="https://support.zilliz.com/hc/en-us">Zilliz Cloud support</a>.</p></li>
+<li><p>Audit logging is supported only for Zilliz Cloud clusters running Milvus 2.5.x.</p></li>
 </ul>
 
 </Admonition>
@@ -88,15 +88,11 @@ Audit logging on Zilliz Cloud streams audit logs directly to your storage bucket
 
 ### Before you start{#before-you-start}
 
-- Your Zilliz Cloud cluster runs on a **Dedicated-Enterprise** plan tier or higher. [Upgrade your plan](./manage-cluster) if necessary.
-
-- You have integrated your Zilliz Cloud project with object storage, as audit logs will be streamed to your bucket after configuration. For detailed steps, refer to [Integrate with AWS S3](./integrate-with-aws-s3).
-
 - You have **Organization Owner** or **Project Admin** access to the project. If you do not have the necessary permissions, contact your Zilliz Cloud administrator.
 
 ### Procedure{#procedure}
 
-![configure-auditing-1](/byoc/configure-auditing-1.png)
+![configure-auditing-1](/img/configure-auditing-1.png)
 
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
@@ -120,9 +116,11 @@ Audit logging on Zilliz Cloud streams audit logs directly to your storage bucket
 
     - **Export Directory**: Specify a directory within the bucket to store audit logs.
 
-1. Click **Enable**. Once the **Audit Log Streaming** status is **Active**, it has been enabled successfully. If the status is **Abnormal**, go to [FAQ](./audit-logs) for troubleshooting.
+1. Click **Enable**. Once the **Audit Log Streaming** status is **Active**, it has been enabled successfully. If the status is **Abnormal**, go to [FAQ](./audit-logs#faq) for troubleshooting.
 
 Once configured, audit logs will be streamed to your bucket at an interval of about 5 minutes. You can access your bucket to view or manage the logs as needed.
+
+Once your audit logs are streamed to your S3 bucket, you can integrate your S3 storage to visualization platforms for enhanced monitoring and analysis. For instance, if you want to use Snowflake to gain deeper insights, refer to [Automating Snowpipe for Amazon S3](https://docs.snowflake.com/en/user-guide/data-load-snowpipe-auto-s3).
 
 To understand parameters in log entries, refer to [Audit Logs](./audit-logs-ref).
 
@@ -130,15 +128,15 @@ To understand parameters in log entries, refer to [Audit Logs](./audit-logs-ref)
 
 Once audit log streaming is enabled, you can edit its configuration or disable it as needed.
 
-![configure-auditing-2](/byoc/configure-auditing-2.png)
+![configure-auditing-2](/img/configure-auditing-2.png)
 
 ## FAQ{#faq}
 
-This FAQ addresses common issues and questions related to audit logging on Zilliz Cloud. For further assistance, contact [Zilliz Cloud support](https://zilliz.com/contact-sales).
+This FAQ addresses common issues and questions related to audit logging on Zilliz Cloud. For further assistance, contact [Zilliz Cloud support](https://support.zilliz.com/hc/en-us).
 
 - **Why can’t I find the Auditing tab on my cluster’s details page?**
 
-    The **Auditing** tab is currently only available to users who have been added to the whitelist as part of **Private Preview**. If you would like to access this feature, contact [Zilliz Cloud support](https://zilliz.com/contact-sales).
+    The **Auditing** tab is currently only available to users who have been added to the whitelist as part of **Private Preview**. If you would like to access this feature, contact [Zilliz Cloud support](https://support.zilliz.com/hc/en-us).
 
 - **What should I do if my Audit Log Streaming status is Abnormal?**
 
@@ -148,9 +146,9 @@ This FAQ addresses common issues and questions related to audit logging on Zilli
 
     1. **Verify your bucket:** Confirm that the configured storage bucket is set up correctly and that you have the necessary permissions.
 
-    1. **Contact support:** If the issue persists, contact [Zilliz Cloud support](https://zilliz.com/contact-sales) for further assistance.
+    1. **Contact support:** If the issue persists, contact [Zilliz Cloud support](https://support.zilliz.com/hc/en-us) for further assistance.
 
 - **Will an Abnormal cluster status affect the Audit Log Streaming service?**
 
-    An abnormal cluster status indicates that the cluster may be experiencing issues, such as network connectivity problems or disruptions in Zilliz Cloud services. However, these issues do not impact the Audit Log Streaming service, which continues to function normally and stream logs as expected. If you encounter persistent problems, contact [Zilliz Cloud support](https://zilliz.com/contact-sales).
+    An abnormal cluster status indicates that the cluster may be experiencing issues, such as network connectivity problems or disruptions in Zilliz Cloud services. However, these issues do not impact the Audit Log Streaming service, which continues to function normally and stream logs as expected. If you encounter persistent problems, contact [Zilliz Cloud support](https://support.zilliz.com/hc/en-us).
 

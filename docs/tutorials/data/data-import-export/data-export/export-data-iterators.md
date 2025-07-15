@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

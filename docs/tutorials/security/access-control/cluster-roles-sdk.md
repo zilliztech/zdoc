@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 
@@ -152,53 +152,50 @@ Below is an example output. `role_a` is the new role that is just created.
 ['role_a']
 ```
 
-## Grant a built-in privilege group to a role{#grant-a-built-in-privilege-group-to-a-role}
+## Grant a privilege or a privilege group to a role{#grant-a-privilege-or-a-privilege-group-to-a-role}
+
+In Zilliz Cloud, you can grant the followings to a role:
+
+- **Privileges:** Zilliz Cloud provides various types of privileges. For details, refer to [All privileges](./cluster-privileges#all-privileges).
+
+- **Built-in privilege groups:** Zilliz Cloud offers 9 built-in privilege groups. For details about the specific privileges included in each built-in privilege group, refer to [Built-in privilege groups](./cluster-privileges#built-in-privilege-groups).
+
+- **Custom privilege groups:** If the built-in privileges do not meet your needs, you can combine different privileges to create your own custom privilege groups. For details, refer to [Custom privilege groups](./cluster-privileges#custom-privilege-groups).
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, Zilliz Cloud only supports creating custom roles with built-in privilege groups. For details about built-in privilege groups, refer to <a href="./cluster-privileges#built-in-privilege-groups">Privileges</a>.</p>
-<p>If you need to create custom roles with user-defined privileges and privilege groups, please <a href="http://support.zilliz.com">contact us</a>.</p>
+<p>If you need to grant specific privileges and custom privilege groups to a role, please <a href="http://support.zilliz.com">create a support ticket</a> first so that we can enable this feature for you.</p>
 
 </Admonition>
 
-The following example demonstrates how to grant `role_a` read-only access to all collections in the `default` database and admin access to `collection_01`.
+The following example demonstrates how to grant the privilege `PrivilegeSearch` on `collection_01` under the `default` database as well as a custom privilege group named `privilege_group_1` to the role `role_a`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
-)
-
 client.grant_privilege_v2(
     role_name="role_a",
-    privilege="COLL_ADMIN"
-    collection_name='collection_01'
+    privilege="Search",
+    collection_name='collection_01',
+    db_name='default',
+)
+    
+client.grant_privilege_v2(
+    role_name="role_a",
+    privilege="privilege_group_1",
+    collection_name='collection_01',
     db_name='default',
 )
 
 client.grant_privilege_v2(
     role_name="role_a",
-    privilege="DatabaseReadOnly"
-    collection_name='*'
-    db_name='default',
+    privilege="ClusterReadOnly",
+    collection_name='*',
+    db_name='*',
 )
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import "github.com/milvus-io/milvus-sdk-go/v2/client"
-
-client.GrantV2(context.Background(), "role_a", "collection_01", "COLL_ADMIN", entity.WithOperatePrivilegeDatabase("default"))
-
-client.GrantV2(context.Background(), "role_a", "*", "DatabaseReadOnly", entity.WithOperatePrivilegeDatabase("default"))
 ```
 
 </TabItem>
@@ -210,17 +207,68 @@ import io.milvus.v2.service.rbac.request.GrantPrivilegeReqV2
 
 client.grantPrivilegeV2(GrantPrivilegeReqV2.builder()
         .roleName("role_a")
-        .privilege("COLL_ADMIN")
+        .privilege("Search")
         .collectionName("collection_01")
         .dbName("default")
         .build());
 
 client.grantPrivilegeV2(GrantPrivilegeReqV2.builder()
         .roleName("role_a")
-        .privilege("DatabaseReadOnly")
-        .collectionName("*")
+        .privilege("privilege_group_1")
+        .collectionName("collection_01")
         .dbName("default")
         .build());
+
+client.grantPrivilegeV2(GrantPrivilegeReqV2.builder()
+        .roleName("role_a")
+        .privilege("ClusterReadOnly")
+        .collectionName("*")
+        .dbName("*")
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+err = client.GrantV2(ctx, milvusclient.NewGrantV2Option("role_a", "Search", "default", "collection_01"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+err = client.GrantV2(ctx, milvusclient.NewGrantV2Option("role_a", "privilege_group_1", "default", "collection_01"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+err = client.GrantV2(ctx, milvusclient.NewGrantV2Option("role_a", "ClusterReadOnly", "*", "*"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -234,12 +282,26 @@ const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
-await milvusClient.grantPrivilege({
-   roleName: 'role_a',
-   object: 'Collection', 
-   objectName: 'collection_01',
-   privilegeName: 'COLL_ADMIN'
- });
+await client.grantPrivilegeV2({
+    role: "role_a",
+    privilege: "Search"
+    collection_name: 'collection_01'
+    db_name: 'default',
+});
+    
+await client.grantPrivilegeV2({
+    role: "role_a",
+    privilege: "privilege_group_1"
+    collection_name: 'collection_01'
+    db_name: 'default',
+});
+
+await client.grantPrivilegeV2({
+    role: "role_a",
+    privilege: "ClusterReadOnly"
+    collection_name: '*'
+    db_name: '*',
+});
 ```
 
 </TabItem>
@@ -253,7 +315,7 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "roleName": "role_a",
-    "privilege": "COLL_ADMIN",
+    "privilege": "Search",
     "collectionName": "collection_01",
     "dbName":"default"
 }'
@@ -264,9 +326,20 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "roleName": "role_a",
-    "privilege": "DatabaseReadOnly",
-    "collectionName": "*",
+    "privilege": "privilege_group_1",
+    "collectionName": "collection_01",
     "dbName":"default"
+}'
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/roles/grant_privilege_v2" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "roleName": "role_a",
+    "privilege": "ClusterReadOnly",
+    "collectionName": "*",
+    "dbName":"*"
 }'
 
 ```
@@ -350,46 +423,34 @@ Below is an example output.
 }
 ```
 
-## Revoke a built-in privilege group from a role{#revoke-a-built-in-privilege-group-from-a-role}
+## Revoke a privilege or a privilege group from a role{#revoke-a-privilege-or-a-privilege-group-from-a-role}
 
-The following example demonstrates how to revoke the read-only access to all collections in the `default` database and admin access to `collection_01` from `role_a`.
+The following example demonstrates how to revoke the privilege `PrivilegeSearch` on `collection_01` under the `default` database as well as the privilege group `privilege_group_1` that have been granted to the role `role_a`.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
-)
-   
 client.revoke_privilege_v2(
     role_name="role_a",
-    privilege="COLL_ADMIN"
-    collection_name='collection_01'
+    privilege="Search",
+    collection_name='collection_01',
+    db_name='default',
+)
+    
+client.revoke_privilege_v2(
+    role_name="role_a",
+    privilege="privilege_group_1",
+    collection_name='collection_01',
     db_name='default',
 )
 
 client.revoke_privilege_v2(
     role_name="role_a",
-    privilege="ClusterReadOnly"
-    collection_name='*'
+    privilege="ClusterReadOnly",
+    collection_name='*',
     db_name='*',
 )
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import "github.com/milvus-io/milvus-sdk-go/v2/client"
-
-client.RevokeV2(context.Background(), "role_a", "collection_01", "COLL_ADMIN", entity.WithOperatePrivilegeDatabase("default"))
-
-client.RevokeV2(context.Background(), "role_a", "*", "ClusterReadOnly", entity.WithOperatePrivilegeDatabase("*"))
 ```
 
 </TabItem>
@@ -401,7 +462,14 @@ import io.milvus.v2.service.rbac.request.RevokePrivilegeReqV2
 
 client.revokePrivilegeV2(RevokePrivilegeReqV2.builder()
         .roleName("role_a")
-        .privilege("COLL_ADMIN")
+        .privilege("Search")
+        .collectionName("collection_01")
+        .dbName("default")
+        .build());
+
+client.revokePrivilegeV2(RevokePrivilegeReqV2.builder()
+        .roleName("role_a")
+        .privilege("privilege_group_1")
         .collectionName("collection_01")
         .dbName("default")
         .build());
@@ -416,6 +484,60 @@ client.revokePrivilegeV2(RevokePrivilegeReqV2.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+err = client.RevokePrivilegeV2(ctx, milvusclient.NewRevokePrivilegeV2Option("role_a", "Search", "collection_01").
+        WithDbName("default"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+err = client.RevokePrivilegeV2(ctx, milvusclient.NewRevokePrivilegeV2Option("role_a", "privilege_group_1", "collection_01").
+    WithDbName("default"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+err = client.RevokePrivilegeV2(ctx, milvusclient.NewRevokePrivilegeV2Option("role_a", "ClusterReadOnly", "*").
+    WithDbName("*"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.revokePrivilegeV2({
+    role: 'role_a',
+    privilege: 'Search',
+    collection_name: 'collection_01',
+    db_name: 'default'
+});
+
+await client.revokePrivilegeV2({
+    role: 'role_a',
+    collection_name: 'collection_01',
+    privilege: 'Search',
+    db_name: 'default'
+});
+
+await client.revokePrivilegeV2({
+    role: 'role_a',
+    collection_name: '*',
+    privilege: 'ClusterReadOnly',
+    db_name: '*'
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -425,7 +547,18 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "roleName": "role_a",
-    "privilege": "COLL_ADMIN",
+    "privilege": "Search",
+    "collectionName": "collection_01",
+    "dbName":"default"
+}'
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/roles/revoke_privilege_v2" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "roleName": "role_a",
+    "privilege": "Search",
     "collectionName": "collection_01",
     "dbName":"default"
 }'

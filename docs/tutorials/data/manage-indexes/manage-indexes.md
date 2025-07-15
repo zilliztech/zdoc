@@ -14,10 +14,10 @@ keywords:
   - cloud
   - index
   - manage
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

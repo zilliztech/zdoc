@@ -4,7 +4,7 @@ slug: /scale-cluster
 sidebar_label: "Scale Cluster"
 beta: FALSE
 notebook: FALSE
-description: "As data grows, you may face constraints that impact data writing. For example, read operations remain functional, but inserting or upserting new data might fail when the cluster reaches its maximum capacity. | Cloud"
+description: "As your workload grows and more data is written, the cluster may reach its capacity limit. In such cases, read operations will continue to function, but new write operations may fail. | Cloud"
 type: origin
 token: ExUFwDY1siCa2Bkp4incCvxFnlh
 sidebar_position: 4
@@ -14,114 +14,130 @@ keywords:
   - cloud
   - cluster
   - manage
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 # Scale Cluster
 
-As data grows, you may face constraints that impact data writing. For example, read operations remain functional, but inserting or upserting new data might fail when the cluster reaches its maximum capacity.  
+As your workload grows and more data is written, the cluster may reach its capacity limit. In such cases, read operations will continue to function, but new write operations may fail.
 
-To address such issues, you can adjust the number of CUs to match fluctuations in workload or storage requirements. You can enhance your cluster's performance by scaling up CUs in response to increased CPU or memory usage, and scale down to reduce costs during periods of low demand.
+To proactively manage this, you can monitor **CU Capacity** on the [metrics](./metrics-alerts-reference) page to determine when scaling is needed. Based on your business needs and patterns, you can increase the CU size to expand cluster capacity or reduce it when demand decreases to save on costs.
 
-This guide outlines the procedures of scaling a cluster.
+This guide explains how to resize a cluster to suit your changing workload.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>To improve query performance (QPS) or availability, increase <a href="./manage-replica">replicas</a>—not CU size, which only affects storage and ingestion capacity.</p>
+
+</Admonition>
+
+## Scaling Options in Zilliz Cloud{#scaling-options-in-zilliz-cloud}
+
+Zilliz Cloud offers several ways to scale your cluster:
+
+- [Manual Scaling](./scale-cluster#manual-scaling): Manually adjust CU size anytime for full control. Ideal if you have a clear understanding of your workload patterns.
+
+- [Dynamic Auto-Scaling](./scale-cluster#dynamic-auto-scaling): Automatically adjust CU size based on real-time metrics. Best for unpredictable workloads that may spike or dip throughout the day.
+
+- [Scheduled Auto-Scaling](./scale-cluster#scheduled-auto-scaling): Automatically adjust CU size based on a predefined time schedule. Perfect for recurring workload patterns, such as peaks during business days and lower demand on weekends.
+
+## Considerations{#considerations}
+
+- Scaling is only available for Dedicated clusters.
+
+- Downward auto-scaling is currently not supported in dynamic auto-scaling.
+
+- Scaling may cause slight service jitter. Completion time varies by data volume.
 
 ## Manual scaling{#manual-scaling}
 
-You have the option to scale cluster manually by using the Zilliz Cloud web console or making an API request to scale your cluster. This guide focuses on how to manually scale a cluster using the web console. For more information about using the RESTful API, please refer to [Modify Cluster](/reference/restful/modify-cluster-v2).
+You can manually scale your cluster up or down via the Zilliz Cloud console or RESTful API.
 
-<Admonition type="caution" icon="🚧" title="Warning">
+The followings are the limits and considerations for manual scaling.
 
-<p>The scaling may lead to slight service jitter. Please exercise caution.</p>
+- **Scale up**
 
-</Admonition>
+    - Dedicated (Standard) clusters: Up to 32 CUs
 
-### Scale up a cluster{#scale-up-a-cluster}
+        Dedicated (Enterprise) clusters: Up to 256 CUs
 
-![manual-scale-entry](/img/manual-scale-entry.png)
+        For larger CU sizes, [contact sales](http://zilliz.com/contact-sales).
 
-In the Scale Cluster dialog box, you can scale up the size allocated to the cluster of the same type in the same cloud region as the original one. 
+    - The product of **CU size** × **Replica count** must not exceed 256
 
-- For Dedicated (Standard) clusters, you can scale the size up to a maximum of 32 CUs.
+- **Scale down**
 
-- For Dedicated (Enterprise) clusters, you can scale up to a maximum of 256 CUs.
+    - Clusters with replicas cannot scale down to less than 8 CUs
 
-If you require a larger CU size, please [create a support ticket](http://support.zilliz.com/).
+    - A scale-down request only succeeds if:
 
-<Admonition type="info" icon="📘" title="Notes">
+        - Current data volume < 80% of the CU capacity of the new CU size.
 
-<p>The cluster CU size x <a href="./manage-replica">replica</a> count should not exceed 256. Otherwise, cluster scaling may fail. </p>
+        - Current number of collections < the [maximum number of collections](./limits#collections) allowed in the new CU size.
 
-</Admonition>
+#### Via web console{#via-web-console}
 
-### Scale down a cluster{#scale-down-a-cluster}
+The following demo shows how to manually scale up and down a cluster on the Zilliz Cloud web console.
 
-![manual-scale-entry](/img/manual-scale-entry.png)
+<Supademo id="cmd2r0jc634jlc4kju69onxyh" title=""  />
 
-In the **Scale Cluster** dialog box, select the desired CU size in the dialog window. Once you click **Scale**, Zilliz Cloud will check the cluster's data volume and collection numbers. Scaling down will be successfully triggered only when both of the following two conditions are met:
+#### Via RESTful API{#via-restful-api}
 
-- Current data volume < 80% of the CU capacity of the new CU size.
+The following example scales an existing cluster to 2 CU. For details, see [Modify Cluster](/reference/restful/modify-cluster-v2).
 
-- Current number of collections < the [maximum number of collections](./limits#collections) allowed in the new CU size.
+```bash
+curl --request POST \
+--url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/modify" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Accept: application/json" \
+--header "Content-Type: application/json" \
+-d '{
+    "cuSize": 2
+}'
+```
 
-The time required to complete the process depends on the data volume in your cluster.
+The following is an example output.
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>To scale down the cluster CU size to fewer than 8 CUs, ensure that there are no replicas in the cluster.</p>
-
-</Admonition>
+```bash
+{
+    "code": 0,
+    "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "prompt": "successfully submitted. Cluster is being upgraded, which is expected to take several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK."
+    }
+}
+```
 
 ## Auto-scaling{#auto-scaling}
 
-<Admonition type="info" icon="📘" title="Notes">
+To reduce operational overhead and avoid service interruptions, you can enable auto-scaling in the Zilliz Cloud web console. Two modes are available—**dynamic** and **scheduled**—and you can enable either or both.
 
-<ul>
-<li><p>This feature is exclusively available to Dedicated clusters. For Serverless clusters, manual configuration of CU resources is unnecessary, as they automatically scale based on workload.</p></li>
-<li><p>Auto-scaling is disabled for clusters with replicas.</p></li>
-</ul>
+The followings are the limits and considerations for auto-scaling.
 
-</Admonition>
+- Downward auto-scaling is not currently supported in dynamic auto-scaling.
 
-Auto-scaling is designed for businesses with rapidly changing needs. It can prevent restrictions on user write access caused by insufficient cluster CU capacity and can reduce operational burdens, minimizing disruptions to business operations.
+- There is **10-minute cooldown** between two automatic scaling events.
 
-After enabling this feature, you can configure auto-scaling options when a cluster is successfully created.
+### Dynamic auto-scaling{#dynamic-auto-scaling}
 
-![configure_autoscaling](/img/configure_autoscaling.png)
+The following demo shows how to configure dynamic auto-scaling on the Zilliz Cloud web console. 
 
-In the dialog box, you can set the following configurations:
+<Supademo id="cmd2r7eqb34nbc4kj3wly357s" title=""  />
 
-- **Maximum CU Size:** The maximum CU size to which a cluster can automatically scale up. For CU sizes below 8, the increments are 2 CUs, resulting in the sequence: 1, 2, 4, 6, 8 CUs. For sizes above 8, the increments are 4 CUs, leading to the sequence: 8, 12, 16, 20, 24, 28, 32, etc.
+**CU Capacity Threshold**: The usage percentage (default 70%) that triggers auto-scaling if consistently exceeded at all sample points over the past 2 minutes. Avoid setting it too high (e.g., >90%), as high write rates can push CU capacity to 100% before the cluster can finish scaling, resulting in write prohibitions.
 
-    <Admonition type="info" icon="📘" title="Notes">
+### Scheduled auto-scaling{#scheduled-auto-scaling}
 
-    <p>Downward auto-scaling is not currently supported. </p>
+The following demo shows how to configure scheduled auto-scaling on the Zilliz Cloud web console.
 
-    </Admonition>
-
-- **CU Capacity Threshold:** Zilliz Cloud checks the cluster CU capacity every minute. If it has exceeded the specified threshold  (set at 70% by default) at all sampling points for the past 2 minutes, a scaling process is automatically initiated. 
-
-    <Admonition type="info" icon="📘" title="Notes">
-
-    <p>It is not recommended to set the threshold too high (above 90%). This is because when data insertion rate is high, the cluster may not complete auto-scaling in time, leading to write prohibitions.</p>
-
-    </Admonition>
-
-There is a cooldown period of 10 minutes between two automatic scaling events. The time it takes to complete the auto-scaling process varies based on the data volume in the cluster.
-
-<Admonition type="caution" icon="🚧" title="Warning">
-
-<p>During the scaling process, slight service jitters may occur but they do not affect read and write operations. High write rates can sometimes cause CU capacity to hit 100%, resulting in write prohibitions.</p>
-
-</Admonition>
-
-## Increase QPS{#increase-qps}
-
-To boost QPS and query throughput, please consider adding replicas. For more information, refer to [Manage Replica](./manage-replica)
+<Supademo id="cmd2rdlw234orc4kjuqvvhss6" title=""  />
 

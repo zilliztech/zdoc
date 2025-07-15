@@ -4,7 +4,7 @@ slug: /manage-organization-alerts
 sidebar_label: "Manage Organization Alerts"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud offers two types of alerts for resource monitoring Organization Alerts for license-related matters and Project Alerts for operational performance of clusters in specific projects. For a quick reference, refer to Metrics & Alerts Reference. | BYOC"
+description: "Organization alerts monitor billing and account-related metrics across your entire Zilliz Cloud organization. Unlike project alerts that focus on cluster performance, organization alerts help you track credit balances, payment methods, and usage patterns to ensure uninterrupted service and prevent unexpected billing issues. Stay informed about account health and avoid service disruptions by receiving timely notifications about credit depletion, payment failures, and usage thresholds. | BYOC"
 type: origin
 token: UPg7wiU71ioeELk8I8KcLDYqncb
 sidebar_position: 3
@@ -14,109 +14,120 @@ keywords:
   - cloud
   - organization
   - alerts
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 # Manage Organization Alerts
 
-Zilliz Cloud offers two types of alerts for resource monitoring: **Organization Alerts** for license-related matters and **Project Alerts** for operational performance of clusters in specific projects. For a quick reference, refer to [Metrics & Alerts Reference](./metrics-alerts-reference).
+Organization alerts monitor billing and account-related metrics across your entire Zilliz Cloud organization. Unlike project alerts that focus on cluster performance, organization alerts help you track credit balances, payment methods, and usage patterns to ensure uninterrupted service and prevent unexpected billing issues. Stay informed about account health and avoid service disruptions by receiving timely notifications about credit depletion, payment failures, and usage thresholds.
 
-This topic describes how to view and manage organization alerts.
+## Before you start{#before-you-start}
 
-## Overview{#overview}
+Before viewing or managing organization alerts, ensure you have:
 
- Below is a table outlining the default configuration for each organization alert.
-
-When an alert in an **ON** status, the specified recipients will receive notifications once the conditions are met. You can [edit an alert](./manage-organization-alerts#edit-organization-alerts) to change its status.
-
-<table>
-   <tr>
-     <th><p>Alert Target</p></th>
-     <th><p>Unit</p></th>
-     <th><p>Description</p></th>
-     <th><p>Recommended Action</p></th>
-     <th><p>Default Trigger Condition</p></th>
-   </tr>
-   <tr>
-     <td><p>License (Core Usage)</p></td>
-     <td><p>%</p></td>
-     <td><p>Monitor the percentage of used CPU cores against the total licensed cores.</p></td>
-     <td><p><strong>Below 70%</strong>: Continue monitoring to ensure core usage stays within this range. </p><p><strong>70-99%</strong>: Assess future needs and prepare to renew or upgrade the license.</p><p><strong>100% or above</strong>: Renew or upgrade the license immediately to avoid operational disruptions.</p></td>
-     <td><p><strong>WARNING</strong>: Triggered when the count of used CPU cores reaches or exceeds 70% of the total.</p><p><strong>CRITICAL</strong>: Triggered when the count of used CPU cores reaches or exceeds 100% of the total.</p></td>
-   </tr>
-   <tr>
-     <td><p>License (Validity Period)</p></td>
-     <td><p>Day</p></td>
-     <td><p>Track the remaining days of license validity.</p></td>
-     <td><p><strong>Above 60 days</strong>: Continue monitoring to ensure more than 60 days of validity remain. </p><p><strong>60 days or below</strong>: Start preparing to renew or upgrade the license. </p><p><strong>Expired</strong>: Renew or upgrade the license immediately to avoid restrictions like the inability to create new clusters or scale up.</p></td>
-     <td><p><strong>WARNING</strong>: Triggered when the license validity is 60 days or less.</p><p><strong>CRITICAL</strong>: Triggered when the license expires.</p></td>
-   </tr>
-</table>
-
-**Permissions**:
-
-- **View and configuration**: Available to organization owners only.
-
-- **Receiving notifications**: Available to any organization member if designated by the owner.
-
-For a detailed explanation of user roles, refer to [Manage Organization Users](./organization-users).
+- **Organization Owner** role access
 
 ## View organization alerts{#view-organization-alerts}
 
-Navigate to the **Organization Alert** page to view various license-related alerts.
+Navigate to **Organization Alerts** in the left sidebar to access your organization alert dashboard and monitor your account's financial health.
 
-**Components of an alert**:
+<Supademo id="cmb66uk3u3fadppkplclhnmdd" title="Zilliz Cloud - View Organization Alerts Demo" />
 
-- **Alert Target**: Preconfigured by Zilliz Cloud with trigger conditions and severity.
+### Alert history{#alert-history}
 
-- **Status**: Indicates if the alert is active (**ON**) or not. When an alert in an **ON** status, the specified recipients will receive notifications once the conditions are met.
+Use the **History** tab to investigate past alert activities and understand billing patterns. This is useful for analyzing spending trends, reviewing credit usage, or demonstrating account management to stakeholders.
 
-- **Condition**: Trigger conditions for the alert.
+### Alert settings{#alert-settings}
 
-- **Severity Level**: Categorized as **WARNING** or **CRITICAL**.
+Use the **Settings** tab to monitor the current status of all billing-related alerts. Check here when you need to verify which alerts are protecting your organization and review their configuration.
 
-- **Receiver**: Designated roles or email addresses for receiving notifications. You can also set up custom notification channels using webhooks. For more information, refer to [Manage Notification Channels](./manage-notification-channels).
+When viewing alerts, you'll encounter the following configuration items:
 
-![byoc-view-organization-alerts](/byoc/byoc-view-organization-alerts.png)
+<table>
+   <tr>
+     <th><p>Field</p></th>
+     <th><p>Description</p></th>
+   </tr>
+   <tr>
+     <td><p>Name</p></td>
+     <td><p>Alert identifier describing the billing event (e.g., "Credit Balance Low", "Payment Method Expiring")</p></td>
+   </tr>
+   <tr>
+     <td><p>Status</p></td>
+     <td><p>Current alert state: Enabled (Active monitoring) or Disabled (No notifications)</p></td>
+   </tr>
+   <tr>
+     <td><p>Target</p></td>
+     <td><p>Monitored scope - Organization-wide</p></td>
+   </tr>
+   <tr>
+     <td><p>Metric &amp; Condition</p></td>
+     <td><p>Trigger parameters including credit thresholds, payment status, and usage limits</p></td>
+   </tr>
+   <tr>
+     <td><p>Severity Level</p></td>
+     <td><p>Impact classification</p><ul><li><p><strong>Warning:</strong> Approaching limits</p></li><li><p><strong>Critical:</strong> Immediate attention required</p></li></ul></td>
+   </tr>
+   <tr>
+     <td><p>Receiver</p></td>
+     <td><p>Notification recipients including configured email addresses and communication channels</p></td>
+   </tr>
+   <tr>
+     <td><p>Actions</p></td>
+     <td><p>Available management options: Edit, Clone</p></td>
+   </tr>
+</table>
 
-## Edit organization alerts{#edit-organization-alerts}
+## Manage organization alerts{#manage-organization-alerts}
 
-- **Customizations**: Modify alert conditions, update notification recipients, and change the active status.
+Modify and maintain your existing alerts to ensure effective billing monitoring that matches your organization's needs and notification preferences.
 
-- **Restrictions**: Alert targets and severity level are fixed and cannot be changed.
+<Supademo id="cmb67wl2i00ys1b0i2hcg3ls7" title="Manage Organization Alerts" isShowcase="true" />
 
-<Admonition type="info" icon="📘" title="Notes">
+### Disable or enable an alert{#disable-or-enable-an-alert}
 
-<p>To quickly enable or disable an alert, you can select <strong>Enable</strong> or <strong>Disable</strong> from the <strong>Actions</strong> column.</p>
+Control active monitoring without losing alert configuration.
 
-</Admonition>
+- **Disabled alerts:** Retain all configuration but stop monitoring and notifications
 
-## Enable or disable an organization alert{#enable-or-disable-an-organization-alert}
+- **Enabled alerts:** Actively monitor billing metrics and send notifications when conditions are met
 
-To quickly enable or disable an organization alert, select **Enable** or **Disable** from the **Actions** column. 
+### Edit an alert{#edit-an-alert}
 
-<Admonition type="info" icon="📘" title="Notes">
+Customize notification recipients and modify trigger conditions for existing alerts.
 
-<p>Once an alert is disabled, you'll no longer receive alert notifications if alert conditions are met.</p>
+### Clone an alert{#clone-an-alert}
 
-</Admonition>
+Create similar alerts with different notification settings or threshold modifications.
 
-## View alert history{#view-alert-history}
+## Configure alert receiver settings{#configure-alert-receiver-settings}
 
-View triggered alerts on the **Alert History** tab, with filters for alert target, severity level, and time range.
+Set organization-wide default notification settings that automatically apply to new alerts, ensuring consistent billing notification practices across your organization.
 
-## Related topics{#related-topics}
+<Supademo id="cmb67pjbs3g31ppkpfd4l8mcv" title="Configure Alert Receiver Settings"/>
 
-- [View Cluster Metric Charts](./view-cluster-metric-charts)
+### How often will I receive alert notifications when an alert is triggered?{#how-often-will-i-receive-alert-notifications-when-an-alert-is-triggered}
 
-- [Manage Project Alerts](./manage-project-alerts)
+Alert notifications follow an automatic frequency pattern:
 
-- [Metrics & Alerts Reference](./metrics-alerts-reference)
+- **First notification**: Sent immediately when the alert threshold is exceeded
+
+- **Second notification**: Sent after 1 hour if the condition persists
+
+- **Subsequent notifications**: Sent once daily while the alert condition remains active
+
+If you find the notifications too frequent, you can:
+
+- [Edit the alert](./manage-organization-alerts#edit-an-alert) to adjust the condition thresholds or duration requirements
+
+- [Disable the alert](./manage-organization-alerts#disable-or-enable-an-alert) temporarily to stop all notifications while retaining the configuration
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

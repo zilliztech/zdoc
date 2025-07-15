@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Learn more about the management of email accounts, cluster credentials, and multi-factor authentication (MFA) measures. | BYOC"
 type: origin
 token: XiOsw8A3eibZInk1aJNceBqznLb
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - cloud
   - authentication
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

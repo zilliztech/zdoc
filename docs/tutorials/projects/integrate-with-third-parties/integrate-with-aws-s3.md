@@ -17,10 +17,10 @@ keywords:
   - integrate
   - object
   - storage
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 
@@ -33,7 +33,7 @@ Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon 
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is in <strong>Private Preview</strong> for clusters on the <strong>Dedicated-Enterprise</strong> plan. To enable this feature or learn about the associated costs, contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+<p>This feature is in <strong>Private Preview</strong> for clusters on the <strong>Dedicated-Enterprise</strong> plan. To enable this feature or learn about the associated costs, contact <a href="https://support.zilliz.com/hc/en-us">Zilliz Cloud support</a>.</p>
 
 </Admonition>
 
@@ -205,6 +205,10 @@ You can now use this integration to export backup files to your Amazon S3 bucket
 Once the integration is added, you can view its details or remove the integration as needed.
 
 ![integrate-with-aws-6](/img/integrate-with-aws-6.png)
+
+### Obtain the integration ID{#obtain-the-integration-id}
+
+If you need to use the RESTful API to export backup files to one of your AWS S3 buckets integrated with Zilliz Cloud, click **View Details** to display the details of an integration and copy its integration ID.
 
 ## Troubleshooting{#troubleshooting}
 

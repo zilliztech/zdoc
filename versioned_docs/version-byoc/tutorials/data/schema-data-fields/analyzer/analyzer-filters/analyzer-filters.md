@@ -2,7 +2,7 @@
 title: "Filter Reference | BYOC"
 slug: /analyzer-filters
 sidebar_label: "Filter"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "This section provides a detailed reference for filters in analyzers. | BYOC"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

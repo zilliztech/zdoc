@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 
@@ -36,7 +36,7 @@ The table provides a description of each metric and the actions that you are adv
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Currently, free clusters offer only one metric, CU Capacity. To unlock a range of advanced metrics, <a href="./manage-cluster#upgrade-plan">upgrade your plan tier</a>.</p>
+<p>To unlock a range of advanced metrics, <a href="./manage-cluster">upgrade your plan tier</a>.</p>
 
 </Admonition>
 
@@ -46,6 +46,9 @@ The table provides a description of each metric and the actions that you are adv
      <th><p>Unit</p></th>
      <th><p>Description</p></th>
      <th><p>Recommended Action</p></th>
+   </tr>
+   <tr>
+     <td colspan="4"></td>
    </tr>
    <tr>
      <td colspan="4"><p><strong>Resources</strong></p></td>
@@ -190,7 +193,7 @@ Organization alerts keep you informed about billing-related issues such as expir
      <td><p>&#36;</p></td>
      <td><p>Track the balance of free credits, alerting the user when it falls low to prompt a top-up.</p></td>
      <td><p>Top up credits to maintain account functionality.</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts when the balance of free credits falls below $10.</p></td>
+     <td><p>Trigger <strong>WARNING</strong> alerts when the balance of free credits falls below &#36;10.</p></td>
    </tr>
    <tr>
      <td><p>Credit Validity Period</p></td>
@@ -204,14 +207,14 @@ Organization alerts keep you informed about billing-related issues such as expir
      <td><p>&#36;</p></td>
      <td><p>Monitor the advance pay balance, alerting the user when it falls low to prevent service disruption.</p></td>
      <td><p>Add funds to the advance pay balance to avoid service interruption.</p></td>
-     <td><p>Trigger <strong>CRITICAL</strong> alerts when the balance falls below $100.</p></td>
+     <td><p>Trigger <strong>CRITICAL</strong> alerts when the balance falls below &#36;100.</p></td>
    </tr>
    <tr>
      <td><p>Usage Amount</p></td>
      <td><p>&#36;</p></td>
      <td><p>Track the usage amount, informing the user when it exceeds a set threshold to suggest monitoring and management.</p></td>
      <td><p>Monitor and manage usage to stay within budget limits.</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts when the amount of usage exceeds $100.</p></td>
+     <td><p>Trigger <strong>WARNING</strong> alerts when the amount of usage exceeds &#36;100.</p></td>
    </tr>
 </table>
 

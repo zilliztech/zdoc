@@ -17,10 +17,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

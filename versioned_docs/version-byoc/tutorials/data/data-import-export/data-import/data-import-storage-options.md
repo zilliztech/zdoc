@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 
@@ -40,15 +40,15 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, virtual-hosted–style</strong></p></td>
-         <td><p><code>https://bucket-name.s3.region-code.amazonaws.com/object-name</code></p></td>
+         <td><p><em>https://\<bucket_name></em>.s3.<em>\<region-code></em>.amazonaws.com/<em>\<object_name></em></p></td>
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, path-style</strong></p></td>
-         <td><p><code>https://s3.region-code.amazonaws.com/bucket-name/object-name</code></p></td>
+         <td><p><em>https://</em>s3.<em>\<region-code></em>.amazonaws.co<em>m</em>/<em>\<bucket_name></em>/<em>\<object_name></em></p></td>
        </tr>
        <tr>
          <td><p><strong>AWS S3 URI</strong></p></td>
-         <td><p><code>s3://bucket-name/object-name</code></p></td>
+         <td><p>s3://<em>\<bucket_name></em>/<em>\<object_name></em></p></td>
        </tr>
     </table>
 
@@ -62,13 +62,21 @@ Before importing data, it's important to understand the supported cloud storage 
 
     - `s3:GetBucketLocation`
 
+    - `kms:Decrypt`
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <p>If your bucket or specific items in the bucket are encrypted with a custom KMS ID, you must provide decryption permissions for that KMS ID along with the authentication credentials.</p>
+
+        </Admonition>
+
 - **Credential acquisition**
 
     Based on your data security requirements, you can use either long-term credentials or session tokens during data import:
 
     - If you prefer to authenticate with long-term credentials, read [Authenticate using long-term credentials](https://docs.aws.amazon.com/sdkref/latest/guide/access-iam-users.html) for details.
 
-    - If you prefer to authenticate with a session-token, refer to [this FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service).
+    - If you prefer to authenticate with short-term credentials, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
 
 ## Google Cloud Storage{#google-cloud-storage}
 
@@ -81,11 +89,11 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>GSC public URL</strong></p></td>
-         <td><p><code>https://storage.googleapis.com/bucket_name/object_name</code></p></td>
+         <td><p><em>https://</em>storage.cloud.google.co<em>m</em>/<em>\<bucket_name></em>/<em>\<object_name></em></p></td>
        </tr>
        <tr>
          <td><p><strong>GSC gsutil URI</strong></p></td>
-         <td><p><code>gs://bucket_name/object_name</code></p></td>
+         <td><p>gs://<em>\<bucket_name></em>/<em>\<object_name></em></p></td>
        </tr>
     </table>
 
@@ -103,7 +111,7 @@ Before importing data, it's important to understand the supported cloud storage 
 
     - If you prefer to authenticate with long-term credentials, read [Manage HMAC keys for service accounts](https://cloud.google.com/storage/docs/authentication/managing-hmackeys) for details.
 
-    - If you prefer to authenticate with a session-token, refer to [this FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service).
+    - If you prefer to authenticate with short-term credentials, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
 
 ## Azure Blob Storage{#azure-blob-storage}
 
@@ -116,7 +124,7 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>Azure storage blob URI</strong></p></td>
-         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/object_name</code></p></td>
+         <td><p><em>https://\<storage_account></em>.blob.core.windows.net/<em>\<container></em>/<em>\<blob></em></p></td>
        </tr>
     </table>
 
@@ -128,5 +136,5 @@ Before importing data, it's important to understand the supported cloud storage 
 
     - If you prefer to authenticate with long-term credentials, read [View account access keys](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys) for details
 
-    - If you prefer to authenticate with a session-token, refer to [this FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service).
+    - If you prefer to authenticate with short-term credentials, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
 

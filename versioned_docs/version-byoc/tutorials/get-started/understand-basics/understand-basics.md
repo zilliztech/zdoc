@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Explanations about the common terms we use when discussing how to use Zilliz Cloud. | BYOC"
 type: origin
 token: L4qDwChWLi1Vy6kbt30cd7W4ntC
-sidebar_position: 5
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - basics
   - milvus
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

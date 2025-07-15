@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 
@@ -29,11 +29,11 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud implements Role-Based Access Control (RBAC) to finely control access to resources in Zilliz Cloud. RBAC (Role-Based Access Control) is a security measure that grants privileges to roles rather than directly to users. These roles, which contains specific privileges to resources, are then granted to users, enabling efficient management of user access control.
 
-![L1WGwjF2NhxLRXbcyl6cSroNnoc](/byoc/L1WGwjF2NhxLRXbcyl6cSroNnoc.png)
+![L1WGwjF2NhxLRXbcyl6cSroNnoc](/img/L1WGwjF2NhxLRXbcyl6cSroNnoc.png)
 
 ## Zilliz Cloud RBAC architecture{#zilliz-cloud-rbac-architecture}
 
-![WVIgwWtMYhhTBIbgAdAcegDRnle](/byoc/WVIgwWtMYhhTBIbgAdAcegDRnle.png)
+![WVIgwWtMYhhTBIbgAdAcegDRnle](/img/WVIgwWtMYhhTBIbgAdAcegDRnle.png)
 
 Zilliz Cloud organizes its resources within two planes, implementing RBAC across both:
 
@@ -41,13 +41,13 @@ Zilliz Cloud organizes its resources within two planes, implementing RBAC across
 
 - **Data plane:** This plane includes clusters, databases, and collections, focusing on data access management. [Cluster users](./cluster-users) are granted appropriate cluster roles and authenticate using [API keys](./manage-api-keys) or [username-password pairs](./cluster-credentials) when interacting with data plane resources.
 
-Normally, each account user corresponds to a cluster user. However, not all users require access for both planes. In some cases, a control plane account user like a Billing Admin might only need access to the control plane for billing management purposes and do not require data plane access. Conversely, temporary cluster users can be created and granted access to data plane resources through customized API keys, allowing data access without a registered account. For details about managing customized API keys, refer to [API Keys](./manage-api-keys#create-an-api-key).
+Normally, each account user corresponds to a cluster user. However, not all users require access for both planes. In some cases, a control plane account user like a Billing Admin might only need access to the control plane for billing management purposes and do not require data plane access. Conversely, temporary cluster users can be created and granted access to data plane resources through customized API keys, allowing data access without a registered account. For details about managing customized API keys, refer to [API Keys](./manage-api-keys).
 
 ## Roles and privileges{#roles-and-privileges}
 
 Account users are granted organization roles and project roles while cluster users are granted cluster roles that control access to cluster, databases, and collections. The following diagram illustrates the hierarchy for roles in Zilliz Cloud. 
 
-![TnkCwHx6jhk7UmbvYT7cVGlIn7b](/byoc/TnkCwHx6jhk7UmbvYT7cVGlIn7b.png)
+![TnkCwHx6jhk7UmbvYT7cVGlIn7b](/img/TnkCwHx6jhk7UmbvYT7cVGlIn7b.png)
 
 - **On the organization level**
 
@@ -75,5 +75,21 @@ Account users are granted organization roles and project roles while cluster use
 
     - Additionally, [custom roles](./cluster-roles#custom-cluster-roles) can be created at this level to precisely manage [privileges](./cluster-privileges) to cluster resources, such as databases and collections.
 
-    For details about cluster roles, refer to [Manage Cluster Roles (Console)](./cluster-roles).
+    For details about cluster roles, refer to [Manage Cluster Roles (Console)](./cluster-roles). 
+
+## Implement RBAC in Zilliz Cloud{#implement-rbac-in-zilliz-cloud}
+
+The following diagram shows the complete workflow to implement RBAC in Zilliz Cloud.
+
+![B8sbwgywghYn1tbMTOwcjg65nne](/img/B8sbwgywghYn1tbMTOwcjg65nne.png)
+
+1. **Create a user:** In addition to the default user `db_admin` in Zilliz Cloud, you can create new users and set passwords to protect data security via the [web console](./cluster-users) or using [SDKs](./cluster-users-sdk).
+
+1. **Create a role:** You can create customized roles via the [web console](./cluster-roles) or using [SDKs](./cluster-roles-sdk). The specific capabilities of a role are determined by its privileges.
+
+1. **(Optional) Create a privilege group and add privileges to the privilege group:** Combine multiple [privileges](./cluster-privileges) into one privilege group to streamline the process of granting privileges to a role. In addition to the built-in privilege groups provided by Zilliz Cloud, you can also create your own customized privilege groups using the [SDKs](./cluster-privileges#custom-privilege-groups).
+
+1. **Grant privileges or privilege groups to a role:** Define the capabilities of a role be granting privileges or privilege groups to this role. Currently you can only grant built-in privilege groups to a role on the [web console](./cluster-roles#create-a-custom-cluster-role). To grant specific privileges or customized privilege groups to a role, please [create a support ticket](http://support.zilliz.com) and then use the [SDKs](./cluster-roles-sdk#grant-a-privilege-or-a-privilege-group-to-a-role) instead.
+
+1. **Grant roles to users:** Grant roles with certain privileges to users so that users can have the privileges of a role. A single role can be granted to multiple users. You can complete this step either via the [web console](./cluster-users#edit-the-role-of-a-cluster-user) or using [SDKs](./cluster-users-sdk#grant-a-role-to-a-user).
 

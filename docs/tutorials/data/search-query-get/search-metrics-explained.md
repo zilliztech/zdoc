@@ -20,10 +20,10 @@ keywords:
   - IP
   - COSINE
   - Jaccard
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 
@@ -72,7 +72,7 @@ The table below summarizes the mapping between different field types and their c
    <tr>
      <td><p><code>BINARY_VECTOR</code></p></td>
      <td><p>8-32,768*8</p></td>
-     <td><p><code>HAMMING</code>, <code>JACCARD</code></p></td>
+     <td><p><code>HAMMING</code>, <code>JACCARD</code>,</p></td>
      <td><p><code>HAMMING</code></p></td>
    </tr>
 </table>
@@ -180,7 +180,7 @@ By subtracting their cosine similarity from 1, you can get the cosine distance b
 
 ## JACCARD distance{#jaccard-distance}
 
-JACCARD similarity coefficient measures the similarity between two sample sets and is defined as the cardinality of the intersection of the defined sets divided by the cardinality of the union of them. It can only be applied to finite sample sets.
+JACCARD distance coefficient measures the similarity between two sample sets and is defined as the cardinality of the intersection of the defined sets divided by the cardinality of the union of them. It can only be applied to finite sample sets.
 
 ![Sl4dbmQRVoIf1yx55mRcibZ3nAg](/img/Sl4dbmQRVoIf1yx55mRcibZ3nAg.png)
 

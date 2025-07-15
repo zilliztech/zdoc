@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 
@@ -37,7 +37,7 @@ Ensure:
 
 - Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see [Access Control](./access-control).
 
-## Create a dedicated cluster{#create-a-dedicated-cluster}
+## Create a cluster{#create-a-cluster}
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
@@ -49,11 +49,11 @@ Ensure:
 
 1. Click **Create Cluster**.
 
-    ![create-cluster-byoc](/byoc/create-cluster-byoc.png)
+    ![create-cluster-byoc](/img/create-cluster-byoc.png)
 
 1. On the **Create New Cluster** page, fill out the relevant parameters.
 
-    ![cluster-cluster-byoc](/byoc/cluster-cluster-byoc.png)
+    ![cluster-cluster-byoc](/img/cluster-cluster-byoc.png)
 
     - **Cluster Name**: Assign a unique identifier for your cluster.
 

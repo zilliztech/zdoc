@@ -2,7 +2,7 @@
 title: "Doc Data | Cloud"
 slug: /pipelines-doc-data
 sidebar_label: "Doc Data"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The Zilliz Cloud web UI provides a simplified and intuitive way of creating, running, and managing Pipelines while the RESTful API offers more flexibility and customization compared to the Web UI. | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - doc data
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 
@@ -33,7 +33,7 @@ This guide walks you through the necessary steps to create doc pipelines, conduc
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz Cloud Pipelines will be discontinued by the end of Q2 2025 and replaced by a new feature, “Data In, Data Out,” to streamline embedding generation in both Milvus and Zilliz Cloud. As of December 24, 2024, new user registrations are no longer accepted. Current users can continue using the service within the $20 monthly free allowance until the sunset date; however, no SLA is provided. Please consider using embedding APIs from model providers or open-source models to generate vector embeddings.</p>
+<p>Zilliz Cloud Pipelines will be discontinued by the end of Q2 2025 and replaced by a new feature, “Data In, Data Out,” to streamline embedding generation in both Milvus and Zilliz Cloud. As of December 24, 2024, new user registrations are no longer accepted. Current users can continue using the service within the &#36;20 monthly free allowance until the sunset date; however, no SLA is provided. Please consider using embedding APIs from model providers or open-source models to generate vector embeddings.</p>
 
 </Admonition>
 
@@ -41,7 +41,7 @@ This guide walks you through the necessary steps to create doc pipelines, conduc
 
 - Ensure you have created a cluster deployed in us-west1 on Google Cloud Platform (GCP).
 
-- In one project, you can only create up to 100 pipelines of the same type. For more information, refer to [Zilliz Cloud Limits](./limits#pipelines).
+- In one project, you can only create up to 100 pipelines of the same type. For more information, refer to [Zilliz Cloud Limits](./limits).
 
 ## Ingest doc data{#ingest-doc-data}
 
@@ -278,7 +278,7 @@ The parameters in the above code are described as follows:
            </tr>
         </table>
 
-    - `chunkSize` (optional): The INDEX_DOC function segments each document into smaller chunks. By default, each chunk contains no more than 500 tokens, but you can adjust the size for custom chunking strategies. For more information about the supported chunk size range of each embedding model, please refer to [Zilliz Cloud Limits](./limits#ingestion).
+    - `chunkSize` (optional): The INDEX_DOC function segments each document into smaller chunks. By default, each chunk contains no more than 500 tokens, but you can adjust the size for custom chunking strategies. For more information about the supported chunk size range of each embedding model, please refer to [Zilliz Cloud Limits](./limits).
 
         Moreover, for markdown or HTML files, the function first divides the document by headers, then further by larger sections based on the specified chunk size. *(This parameter is only used in the `INDEX_DOC` function.)*
 

@@ -14,10 +14,10 @@ keywords:
   - register
   - cloud
   - milvus
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 
@@ -38,11 +38,11 @@ You are welcome to visit Zilliz Cloud to [sign up](https://cloud.zilliz.com/sign
 
 You can use one and only one of the following options to register with and log in to Zilliz Cloud.
 
-- Your email address and password
+- [Your email address and password](./register-with-zilliz-cloud#with-work-email-and-password)
 
-- Your Google account
+- [Your Google account](./register-with-zilliz-cloud#linking-to-google-account)
 
-- Your GitHub account
+- [Your GitHub account](./register-with-zilliz-cloud#linking-to-github-account)
 
 Maintain consistency with your chosen registration method for login purposes. If necessary, you can alter your login method at a later stage. For further details, refer to [Manage Your Account](./email-accounts#switch-login-method).
 
@@ -54,7 +54,15 @@ Follow the steps below to create a Zilliz Cloud account using your work email an
 
 1. Enter a password in the **Password** field.
 
-    Ensure that your password does not exceed 128 characters and includes at least one uppercase letter, one lowercase letter, one numeral, and one special character.
+    Your password must be at least 8 characters long and include at least 3 of the following character types:
+
+    - Lowercase letters (a–z)
+
+    - Uppercase letters (A–Z)
+
+    - Numbers (0–9)
+
+    - Special characters (e.g., !@#&#36;%^&*)
 
 1. Check the box next to **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)**.
 
@@ -125,12 +133,4 @@ To link your GitHub account with us, follow the steps below.
 ### Log in to your Zilliz Cloud account{#log-in-to-your-zilliz-cloud-account}
 
 Always use the same method you chose for registration when logging in to your Zilliz Cloud account.
-
-## What’s next{#whats-next}
-
-- [Quickstart](./quick-start)
-
-- [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card)
-
-- [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace)
 

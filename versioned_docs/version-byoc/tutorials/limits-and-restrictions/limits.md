@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 
@@ -30,7 +30,7 @@ This page provides information about limits on the Zilliz Cloud platform. You ca
 
 ## Organizations & Projects{#organizations-and-projects}
 
-The following table lists the limits on the maximum number of organizations and projects allowed for a single user.
+The following table lists the limits on the maximum number of orgsanizations and projects allowed for a single user.
 
 <table>
    <tr>
@@ -47,76 +47,31 @@ The following table lists the limits on the maximum number of organizations and 
 
 ## Collections{#collections}
 
-<table>
-   <tr>
-     <th><p><strong>Cluster Plan</strong></p></th>
-     <th><p><strong>Max Number</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster</p></td>
-     <td><p>64 per CU, and &lt;= 4096</p></td>
-     <td><p>You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster.</p></td>
-   </tr>
-</table>
+The maximum number of collections and partitions in a Zilliz Cloud cluster varies with the number of CUs allocated to it and its compatible Milvus version. You can refer to the following descriptions and calculate the maximum number of collections and partitions in your cluster.
 
-In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity. The following formula shows how Zilliz Cloud calculates the general capacity of a cluster. The consumed capacity should be less than the general capacity available.
+### Clusters compatible with Milvus v2.4.x{#clusters-compatible-with-milvus-v24x}
 
-```java
-General Capacity = 512 x Number of CUs
-```
+You can create a maximum of **256** collections or **1,024** partitions per CU, with up to **1,024** partitions allowed per collection. You can use the following formulae to calculate the upper limits for the number of collections and partitions in a cluster:
 
-<Admonition type="info" icon="📘" title="How can I know the general capacity of a cluster?">
+![MhA4wDlMwhhXrvbFio6cS3LNnNe](/img/MhA4wDlMwhhXrvbFio6cS3LNnNe.png)
 
-<p>The general capacity of a cluster indicates the maximum physical resources allocated to the cluster, and it can be determined using the following formula:</p>
-<p><strong>\<= 512 x Number of CUs</strong></p>
-<p>For instance, </p>
-<ul>
-<li><p>In a cluster of <strong>2</strong> CUs, you can create a maximum of <strong>128</strong> collections with a general capacity of <strong>1,024</strong>.</p></li>
-<li><p>In a cluster of <strong>12</strong> CUs, you can create a maximum of <strong>768</strong> collections with a general capacity of <strong>6,144</strong>.</p></li>
-<li><p>In a cluster of <strong>32</strong> CUs or more, you can create a maximum of <strong>4,096</strong> collections with a general capacity of <strong>16,384</strong>. </p></li>
-</ul>
+- The total number of collections in a cluster should be less than 256 times the number of CUs in the cluster or 16,384, whichever is lower.
 
-</Admonition>
+- The total number of partitions across all collections in a cluster should be less than 1,024 times the number of CUs allocated to the cluster or 65,536, whichever is lower.
 
-<Admonition type="info" icon="📘" title="How can I know the consumed capacity of a cluster?">
+- Both conditions must be met.
 
-<p>The consumed capacity of a cluster indicates the physical resources consumed by the cluster. </p>
-<p>For instance, let's assume that you have created <strong>50</strong> collections in a cluster; each of the first <strong>20</strong> collections has <strong>20</strong> partitions, while each of the remaining <strong>30</strong> collections has <strong>10</strong> partition. The consumed capacity of the cluster can be calculated as follows:</p>
-<p><strong>20 (collections) x 20 (partitions) + 30 (collections) x 10 (partitions) = 400 + 300 = 700</strong></p>
-<p>Based on the above calculation, Zilliz Cloud regards the cluster has a consumed capacity of <strong>700</strong>.</p>
+### Cluster compatible with Milvus v2.5.x{#cluster-compatible-with-milvus-v25x}
 
-</Admonition>
+You can create a maximum of **1,024** collections or **4,096** partitions per CU, with up to **1,024** partitions allowed per collection. You can use the following formulae to calculate the upper limits for the number of collections and partitions in a cluster:
 
-Zilliz Cloud also imposed rate limits on collection operations including creating, loading, releasing, and dropping collections. The following rate limit applies to collections in both Serverless and Dedicated clusters.
+![I1aJwA2LShihxQbyG30cFm14ngf](/img/I1aJwA2LShihxQbyG30cFm14ngf.png)
 
-<table>
-   <tr>
-     <th></th>
-     <th><p><strong>Rate Limit</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Collection Operation (create, load, release, drop)</p></td>
-     <td><p>5 req/s per cluster</p></td>
-   </tr>
-</table>
+- The total number of collections in a cluster should be less than 1,024 times the number of CUs in the cluster or 16,384, whichever is lower.
 
-### Partitions{#partitions}
+- The total number of partitions across all collections in a cluster should be less than  4,096 times the number of CUs allocated to the cluster or 65,536, whichever is lower.
 
-<table>
-   <tr>
-     <th><p><strong>Cluster Type</strong></p></th>
-     <th><p><strong>Max Number (Per Collection)</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster</p></td>
-     <td><p>1,024</p></td>
-     <td><p>You can create up to 1,024 partitions per collection in a dedicated cluster.</p></td>
-   </tr>
-</table>
-
-When calculating the consumed and general capacity, refer to the notes in [Collections](./limits#collections). Additionally, the rate limit for creating partitions is **1** partition/s per cluster.
+- Both conditions must be met.
 
 ### Fields{#fields}
 
@@ -145,6 +100,57 @@ Other limits on fields:
 
 The maximum number of dimensions of a vector field is **32,768**.
 
+### Shards{#shards}
+
+The maximum number of shards allowed depends on the cluster plan and cluster CU size.
+
+<table>
+   <tr>
+     <th colspan="2"><p><strong>Cluster Plan & CU Size</strong></p></th>
+     <th><p><strong>Max Number</strong></p></th>
+   </tr>
+   <tr>
+     <td colspan="2"><p>Free</p></td>
+     <td><p>2</p></td>
+   </tr>
+   <tr>
+     <td colspan="2"><p>Serverless</p></td>
+     <td><p>2</p></td>
+   </tr>
+   <tr>
+     <td rowspan="4"><p>Dedicated</p></td>
+     <td><p>1-2 CU</p></td>
+     <td><p>2</p></td>
+   </tr>
+   <tr>
+     <td><p>4-8 CU</p></td>
+     <td><p>4</p></td>
+   </tr>
+   <tr>
+     <td><p>12-64 CU</p></td>
+     <td><p>8</p></td>
+   </tr>
+   <tr>
+     <td><blockquote>  <p>64 CU</p></blockquote></td>
+     <td><p>16</p></td>
+   </tr>
+</table>
+
+### Rate limit{#rate-limit}
+
+Zilliz Cloud also imposed rate limits on collection operations, including creating, loading, releasing, and dropping collections. The following rate limit applies to collections in both Serverless and Dedicated clusters.
+
+<table>
+   <tr>
+     <th></th>
+     <th><p><strong>Rate Limit</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Collection Operation </p><p>(create, load, release, drop)</p></td>
+     <td><p>5 req/s per cluster</p></td>
+   </tr>
+</table>
+
 ## Operations{#operations}
 
 This section focuses on the rate limit for common data operations in Zilliz Cloud clusters.
@@ -161,15 +167,15 @@ The rate limit that applies varies with the cluster types and the number of CUs 
      <th><p>Maximum Insert Rate Limits</p></th>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 1 - 2 CUs</p></td>
+     <td><p>Dedicated cluster [1 CU, 2 CUs]</p></td>
      <td><p>8 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
+     <td><p>Dedicated cluster [4 CUs,  8 CUs]</p></td>
      <td><p>12 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
+     <td><p>Dedicated cluster [12 CUs, 20 CUs]</p></td>
      <td><p>16 MB/s</p></td>
    </tr>
    <tr>
@@ -206,15 +212,15 @@ The rate limit that applies varies with the cluster types and the number of CUs 
      <th><p>Maximum Upsert Rate Limits</p></th>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 1 - 2 CUs</p></td>
+     <td><p>Dedicated cluster [1 CU, 2 CUs]</p></td>
      <td><p>8 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 4 - 8 CUs</p></td>
+     <td><p>Dedicated cluster [4 CUs,  8 CUs]</p></td>
      <td><p>12 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster 12 - 20 CUs</p></td>
+     <td><p>Dedicated cluster [12 CUs, 20 CUs]</p></td>
      <td><p>16 MB/s</p></td>
    </tr>
    <tr>
@@ -342,17 +348,17 @@ Zilliz Cloud also imposes limits on the files to import on the web console.
    <tr>
      <td><p>JSON</p></td>
      <td><p>1 GB</p></td>
-     <td><p>1 GB</p></td>
+     <td><p>Free: 512 MB</p><p>Serverless &amp; Dedicated: 1 TB</p></td>
    </tr>
    <tr>
      <td><p>Numpy</p></td>
      <td><p>Not support</p></td>
-     <td><p>The maximum size of the folder is 100 GB and the maximum size of each subdirectory is 15 GB</p></td>
+     <td><p>Free: 512 MB</p><p>Serverless &amp; Dedicated: The maximum size of the folder is 1 TB and the maximum size of each subdirectory is 10 GB</p></td>
    </tr>
    <tr>
      <td><p>Parquet</p></td>
      <td><p>Not support</p></td>
-     <td><p>10 GB</p></td>
+     <td><p>Free: 512 MB</p><p>Serverless &amp; Dedicated: 1 TB</p></td>
    </tr>
 </table>
 
@@ -382,4 +388,195 @@ You can restore a snapshot in the same region as the original cluster of the sna
      <td><p>You can add up to 20 IP addresses to the allow list.</p></td>
    </tr>
 </table>
+
+## Migration{#migration}
+
+You can migrate data from other vendors to your Zilliz Cloud cluster, and the maximum number of collections per migration varies with the subscription plan for your Zilliz Cloud cluster.
+
+<table>
+   <tr>
+     <th><p>Subscription Plan of the Target Cluster</p></th>
+     <th><p>Maximum Number of Collections Per Migration</p></th>
+   </tr>
+   <tr>
+     <td><p>Free</p></td>
+     <td><p>5</p></td>
+   </tr>
+   <tr>
+     <td><p>Serverless / Dedicated</p></td>
+     <td><p>10</p></td>
+   </tr>
+</table>
+
+## Pipelines | NEAR DEPRECATE{#pipelines}
+
+### Number of pipelines{#number-of-pipelines}
+
+The following table lists the limits on different types of pipelines you can create in a project.
+
+<table>
+   <tr>
+     <th><p><strong>Pipeline Type</strong></p></th>
+     <th><p><strong>Max. Number (Per Project)</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Ingestion Pipeline</p></td>
+     <td><p>100</p></td>
+   </tr>
+   <tr>
+     <td><p>Deletion Pipeline</p></td>
+     <td><p>100</p></td>
+   </tr>
+   <tr>
+     <td><p>Search Pipeline</p></td>
+     <td><p>100</p></td>
+   </tr>
+</table>
+
+### Ingestion{#ingestion}
+
+The following table lists the limits on customized chunk size supported in each embedding model.
+
+<table>
+   <tr>
+     <th><p><strong>Embedding Model</strong></p></th>
+     <th><p><strong>Chunk Size Range (Tokens）</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>zilliz/bge-base-en-v1.5</p></td>
+     <td><p>20-500</p></td>
+   </tr>
+   <tr>
+     <td><p>zilliz/bge-base-zh-v1.5</p></td>
+     <td><p>20-500</p></td>
+   </tr>
+   <tr>
+     <td><p>voyageai/voyage-2</p></td>
+     <td><p>20-3,000</p></td>
+   </tr>
+   <tr>
+     <td><p>voyageai/voyage-code-2</p></td>
+     <td><p>20-12,000</p></td>
+   </tr>
+   <tr>
+     <td><p>voyageai/voyage-large-2</p></td>
+     <td><p>20-12,000</p></td>
+   </tr>
+   <tr>
+     <td><p>openai/text-embedding-3-small</p></td>
+     <td><p>250-8,191</p></td>
+   </tr>
+   <tr>
+     <td><p>openai/text-embedding-3-large</p></td>
+     <td><p>250-8,191</p></td>
+   </tr>
+</table>
+
+The following table lists the limits on metadata fields generated by a PRESERVE function in an Ingestion Pipeline.
+
+<table>
+   <tr>
+     <th></th>
+     <th><p><strong>Max. Number</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Number of metadata fields</p></td>
+     <td><p>50</p></td>
+   </tr>
+   <tr>
+     <td><p>The max_length of a VARCHAR field</p></td>
+     <td><p>4,000</p></td>
+   </tr>
+</table>
+
+The following table lists the limits on the number of chunks that are allowed to be ingested each time.
+
+<table>
+   <tr>
+     <th><p><strong>Embedding Model</strong></p></th>
+     <th><p><strong>Max. Chunks/Ingestion</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>zilliz/bge-base-en-v1.5</p></td>
+     <td><p>3,500</p></td>
+   </tr>
+   <tr>
+     <td><p>voyageai/voyage-2</p></td>
+     <td><p>6,000</p></td>
+   </tr>
+   <tr>
+     <td><p>voyageai/voyage-code-2</p></td>
+     <td><p>6,000</p></td>
+   </tr>
+   <tr>
+     <td><p>openai/text-embedding-3-small</p></td>
+     <td><p>6,000</p></td>
+   </tr>
+   <tr>
+     <td><p>openai/text-embedding-large</p></td>
+     <td><p>6,000</p></td>
+   </tr>
+   <tr>
+     <td><p>zilliz/bge-base-zh-v1.5</p></td>
+     <td><p>3,500</p></td>
+   </tr>
+</table>
+
+### Pipeline usage{#pipeline-usage}
+
+<table>
+   <tr>
+     <th></th>
+     <th><p><strong>Max. Usage</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>Each organization</p></td>
+     <td><p>&#36;20/month</p></td>
+   </tr>
+</table>
+
+### Token usage{#token-usage}
+
+The following table lists the limits on token usage.
+
+<table>
+   <tr>
+     <th><p><strong>Pipeline Type</strong></p></th>
+     <th><p><strong>Embedding Model</strong></p></th>
+     <th><p><strong>Max. Token Usage</strong></p></th>
+   </tr>
+   <tr>
+     <td rowspan="2"><p>Ingestion Pipeline</p></td>
+     <td><p>openai/text-embedding-3-small &amp; openai/text-embedding-3-large</p></td>
+     <td><p>80,000,000</p></td>
+   </tr>
+   <tr>
+     <td><p>Others</p></td>
+     <td><p>100,000,000</p></td>
+   </tr>
+   <tr>
+     <td rowspan="2"><p>Search Pipeline</p></td>
+     <td><p>openai/text-embedding-3-small &amp; openai/text-embedding-3-large</p></td>
+     <td><p>30,000,000</p></td>
+   </tr>
+   <tr>
+     <td><p>Others</p></td>
+     <td><p>20,000,000</p></td>
+   </tr>
+   <tr>
+     <td rowspan="2"><p>All Pipelines in an Organization</p></td>
+     <td><p>openai/text-embedding-3-small &amp; openai/text-embedding-3-large</p></td>
+     <td><p>150,000,000</p></td>
+   </tr>
+   <tr>
+     <td><p>Others</p></td>
+     <td><p>200,000,000</p></td>
+   </tr>
+</table>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>For the maximum token usage of all pipelines in an organization, the token usage of a dropped pipeline is still included in the overall count.</p>
+
+</Admonition>
 

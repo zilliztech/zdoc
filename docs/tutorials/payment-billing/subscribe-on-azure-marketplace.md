@@ -14,10 +14,10 @@ keywords:
   - cloud
   - marketplace
   - azure
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 
@@ -44,9 +44,9 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 ## Subscribe on Azure Marketplace{#subscribe-on-azure-marketplace}
 
-<Supademo id="cm9jmpiac3eq2ljv5itt1tn7s" title="Zilliz Cloud - Azure Marketplace Subscription Demo" />
-
 Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and start subscribing to Zilliz Cloud as follows:
+
+<Supademo id="cm9jmpiac3eq2ljv5itt1tn7s" title="Zilliz Cloud - Azure Marketplace Subscription Demo" />
 
 1. Search for **Zilliz Cloud** in the search box, or [go to the Azure Marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=Overview) to view the Zilliz Cloud portal page.
 
@@ -152,47 +152,51 @@ Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms)
 
 ## Troubleshooting{#troubleshooting}
 
-**What I can do if there is no organization available when linking a marketplace subscription to Zilliz Cloud?**
+- **Why do I see “No plans are available for market 'XX country'” when subscribing via Azure Marketplace?**
 
-There could be several reasons.
+    This message appears because Zilliz Cloud is not yet available in the Azure Marketplace for your billing country. Please [contact support](http://support.zilliz.com) and let us know which country you are subscribing from. We may be able to provide alternative solutions or update availability.
 
-1. **Insufficient permissions** 
+- **What I can do if there is no organization available when linking a marketplace subscription to Zilliz Cloud?**
 
-    This can happen when you do not have sufficient privileges. You will see an **"Insufficient Permissions"** tag next to the unavailable organization.
+    There could be several reasons.
 
-    ![insufficient-permission-subscription](/img/insufficient-permission-subscription.png)
+    1. **Insufficient permissions** 
 
-    To link an organization with a marketplace subscription, you must be an **Organization Owner** or an **Organization Billing Admin**. But if you are only an Organization Member, you do not have the required permissions. Please contact the organization owner for assistance.
+        This can happen when you do not have sufficient privileges. You will see an **"Insufficient Permissions"** tag next to the unavailable organization.
 
-1. **All organizations have already been successfully linked to a Marketplace subscription**
+        ![insufficient-permission-subscription](/img/insufficient-permission-subscription.png)
 
-    This can happen when all your organizations are already linked to Marketplace subscriptions. You will see a **"Marketplace Linked"** tag next to the unavailable organization.
+        To link an organization with a marketplace subscription, you must be an **Organization Owner** or an **Organization Billing Admin**. But if you are only an Organization Member, you do not have the required permissions. Please contact the organization owner for assistance.
 
-    ![marketplace-already-linked-subscription](/img/marketplace-already-linked-subscription.png)
+    1. **All organizations have already been successfully linked to a Marketplace subscription**
 
-    In this case,
+        This can happen when all your organizations are already linked to Marketplace subscriptions. You will see a **"Marketplace Linked"** tag next to the unavailable organization.
 
-    1. If you need to update an existing marketplace subscription, please [unlink](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription) the current subscription of the organization first and then set up a new subscription.
+        ![marketplace-already-linked-subscription](/img/marketplace-already-linked-subscription.png)
 
-    1. If you need multiple organizations for different Marketplace subscription, you can:
+        In this case,
 
-        1. [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
+        1. If you need to update an existing marketplace subscription, please [unlink](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription) the current subscription of the organization first and then set up a new subscription.
 
-        1. [Create a support ticket](http://support.zilliz.com) so that we will create new organizations for you. Currently, Zilliz Cloud does not support manually creating organizations by users.
+        1. If you need multiple organizations for different Marketplace subscription, you can:
 
-1. **No organizations in the list**
+            1. [Register](./register-with-zilliz-cloud) a new Zilliz Cloud account to create a new organization. Then, [invite](./organization-users#invite-a-user-to-your-organization) the organization owner to the new organization. This organization owner will then belong to multiple organizations and can setup different marketplace subscriptions for each organization.
 
-    This can happen if your account has been closed or if you have left all organizations. Your UI will be similar to the following.
+            1. [Create a support ticket](http://support.zilliz.com) so that we will create new organizations for you. Currently, Zilliz Cloud does not support manually creating organizations by users.
 
-    ![no-organization-during-subcription](/img/no-organization-during-subcription.png)
+    1. **No organizations in the list**
 
-    In this case, you can:
+        This can happen if your account has been closed or if you have left all organizations. Your UI will be similar to the following.
 
-    - Create a new organization.
+        ![no-organization-during-subcription](/img/no-organization-during-subcription.png)
 
-    - Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organizations and grant you the role of an Organization Owner.
+        In this case, you can:
 
-    - [Create a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
+        - Create a new organization.
+
+        - Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organizations and grant you the role of an Organization Owner.
+
+        - [Create a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 
 ## Related topics{#related-topics}
 

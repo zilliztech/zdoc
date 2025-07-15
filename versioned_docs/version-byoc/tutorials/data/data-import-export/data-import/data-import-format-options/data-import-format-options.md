@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

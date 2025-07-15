@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

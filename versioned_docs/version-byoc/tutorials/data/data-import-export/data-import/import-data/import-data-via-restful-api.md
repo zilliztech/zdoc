@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 
@@ -38,13 +38,15 @@ Make sure the following conditions are met:
 
     For details on how to prepare your data, refer to [Storage Options](./data-import-storage-options) and [Format Options](./data-import-format-options). You can also refer to the end-to-end notebook [Data Import Hands-On](./data-import-zero-to-hero) to get more.
 
-- You have created a collection with a schema matching the example dataset and already have the collection indexed and loaded. For details on creating a collection, see [Manage Collections (Console)](./manage-collections-console).
+- You have created a collection with a schema matching the example dataset.
+
+     For details on creating a collection, see [Manage Collections (Console)](./manage-collections-console).
 
 ## Import data using the RESTful API{#import-data-using-the-restful-api}
 
 To import data from files using the RESTful API, you must first upload the files to an object storage bucket. Once uploaded, obtain the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket. For details on supported object paths, refer to [Storage Options](./data-import-storage-options).
 
-Based on your data security requirements, you can use either long-term credentials or session tokens during data import. 
+Based on your data security requirements, you can use either long-term or short-term credentials during data import. 
 
 For more information about obtaining credentials, refer to:
 
@@ -54,7 +56,7 @@ For more information about obtaining credentials, refer to:
 
 - Azure Blob Storage: [View account access keys](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys)
 
-For more information about using session tokens, refer to [the FAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service).
+For more information about using session tokens, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -75,7 +77,7 @@ curl --request POST \
         "clusterId": "inxx-xxxxxxxxxxxxxxx",
         "collectionName": "medium_articles",
         "partitionName": "",
-        "objectUrl": "https://s3.us-west-2.amazonaws.com/publicdataset.zillizcloud.com/medium_articles_2020_dpr/medium_articles_2020_dpr.json",
+        "objectUrl": "https://assets.zilliz.com/docs/example-data-import.json",
         "accessKey": "",
         "secretKey": ""
     }'
@@ -112,7 +114,5 @@ If the command output is similar as follows, the import job is successfully subm
 }
 ```
 
-You can also call RESTful APIs to [get the progress of the current import job](/reference/restful/get-import-job-progress-v2) and [list all import jobs](/reference/restful/list-import-jobs-v2) to get more. As an alternative, you can also go to the Zilliz Cloud console to view the result and job details:
-
-![data_import_complete_restful](/byoc/data_import_complete_restful.png)
+You can also call RESTful APIs to [get the progress of the current import job](/reference/restful/get-import-job-progress-v2) and [list all import jobs](/reference/restful/list-import-jobs-v2) to get more. As an alternative, you can also go to the [job center](./job-center) on the Zilliz Cloud console to view the result and job details.
 

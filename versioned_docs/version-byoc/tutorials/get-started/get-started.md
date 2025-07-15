@@ -1,31 +1,31 @@
 ---
-title: "Get Started | BYOC"
+title: "Get Started with Zilliz Cloud | BYOC"
 slug: /get-started
 sidebar_label: "Get Started"
 beta: FALSE
 notebook: FALSE
-description: "A comprehensive quick start guide and related topics to help you build your apps on Zilliz Cloud. | BYOC"
+description: "This chapter provides materials for you to get started with Zilliz Cloud. | BYOC"
 type: origin
 token: BDOHwqlMDiei78kdUefcjSQUnEg
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - get started
   - milvus
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Get Started
+# Get Started with Zilliz Cloud
 
-A comprehensive quick start guide and related topics to help you build your apps on Zilliz Cloud.
+This chapter provides materials for you to get started with Zilliz Cloud.
 
 
 

@@ -7,22 +7,24 @@ notebook: FALSE
 description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on AWS Marketplace. | Cloud"
 type: origin
 token: LDlOweEzmiLkdQkvPFec5lrcnbf
-sidebar_position: 3
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - cloud
   - marketplace
   - aws
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 
 import Admonition from '@theme/Admonition';
 
+
+import Supademo from '@site/src/components/Supademo';
 
 # Subscribe on AWS Marketplace
 
@@ -45,6 +47,8 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 - If your AWS account is part of an organization, you must be authorized to make purchases by the billing administrator.
 
 ## Subscribe on AWS Marketplace{#subscribe-on-aws-marketplace}
+
+<Supademo id="cm9hwfyvq1zgoljv5tu13vdk6" title="Zilliz Cloud - AWS Marketplace Subscription Demo" />
 
 Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribing to Zilliz Cloud as follows:
 
@@ -148,6 +152,8 @@ After successfully subscribing from AWS Marketplace, you can always update your 
 
 ### Switch to payment credit card{#switch-to-payment-credit-card}
 
+<Supademo id="cm9i80zwc26e2ljv56y6iydeu" title="Zilliz Cloud - Change Payment Method Demo" />
+
 1. Sign in to AWS Marketplace with the original AWS account you used for the subscription.
 
 1. Cancel your Zilliz Cloud subscription. Refer to [Cancel your product subscription](https://docs.aws.amazon.com/marketplace/latest/buyerguide/cancel-subscription.html#cancel-saas-subscription) for more details.
@@ -174,15 +180,25 @@ Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms)
 
 ## Troubleshooting{#troubleshooting}
 
-**What I can do if I encounter issues when linking a marketplace subscription to Zilliz Cloud?**
+**What I can do if there is no organization available when linking a marketplace subscription to Zilliz Cloud?**
 
-There are several possible reasons:
+There could be several reasons.
 
-1. **Insufficient permissions** (UI prompt: Insufficient Permissions)
+1. **Insufficient permissions** 
 
-    To link an organization with a marketplace subscription, you must be an organization owner. But if you are an organization member, you do not have the required permissions. Please contact the organization owner for assistance.
+    This can happen when you do not have sufficient privileges. You will see an **"Insufficient Permissions"** tag next to the unavailable organization.
 
-1. **All organizations have already been successfully linked to a Marketplace subscription** (UI prompt: Marketplace Linked)
+    ![insufficient-permission-subscription](/img/insufficient-permission-subscription.png)
+
+    To link an organization with a marketplace subscription, you must be an **Organization Owner** or an **Organization Billing Admin**. But if you are only an Organization Member, you do not have the required permissions. Please contact the organization owner for assistance.
+
+1. **All organizations have already been successfully linked to a Marketplace subscription**
+
+    This can happen when all your organizations are already linked to Marketplace subscriptions. You will see a **"Marketplace Linked"** tag next to the unavailable organization.
+
+    ![marketplace-already-linked-subscription](/img/marketplace-already-linked-subscription.png)
+
+    In this case,
 
     1. If you need to update an existing marketplace subscription, please [unlink](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription) the current subscription of the organization first and then set up a new subscription.
 
@@ -194,11 +210,17 @@ There are several possible reasons:
 
 1. **No organizations in the list**
 
-    This can happen if your account has been closed or if you have left all organizations. In this case, you can:
+    This can happen if your account has been closed or if you have left all organizations. Your UI will be similar to the following.
 
-    1. Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organization as an organization owner.
+    ![no-organization-during-subcription](/img/no-organization-during-subcription.png)
 
-    1. [Submit a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
+    In this case, you can:
+
+    - Create a new organization.
+
+    - Ask other users to [invite](./organization-users#invite-a-user-to-your-organization) you to their organizations and grant you the role of an Organization Owner.
+
+    - [Submit a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 
 ## Related topics{#related-topics}
 

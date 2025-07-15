@@ -33,9 +33,7 @@ Yes. You can use [VectorDBBench](https://zilliz.com/vector-database-benchmark-to
 
 ### Which type of index is supported by Zilliz Cloud?{#which-type-of-index-is-supported-by-zilliz-cloud}
 
-Currently, Zilliz Cloud only supports AUTOINDEX, a proprietary index type that can help you achieve better search performance. 
-
-For a performance-optimized cluster with 1.5 million 768-dimensional vectors, the QPS can reach several hundred and the latency is below 100 milliseconds. For a capacity-optimized cluster with 5 million 768-dimensional vectors, the QPS can reach 50 and the latency is over 200 milliseconds. For more details, see [AUTOINDEX Explained](./autoindex-explained).
+Currently, Zilliz Cloud only supports AUTOINDEX, a proprietary index type that can help you achieve better search performance. For more details, see [AUTOINDEX Explained](./autoindex-explained).
 
 However, please[ submit a request](https://support.zilliz.com/hc/en-us) if you are familiar with using [any of the indexes](https://milvus.io/docs/index.md) we support. We can help you evaluate your application demand and enable the indexes for you.
 

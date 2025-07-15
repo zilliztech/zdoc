@@ -2,7 +2,7 @@
 title: "Building a RAG Application with Pipelines | Cloud"
 slug: /building-a-rag-app-with-pipelines
 sidebar_label: "Pipelines Quickstart"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Zilliz Cloud Pipelines is a robust solution for transforming unstructured data such as documents, text pieces and images into a searchable vector collection. This guide provides a detailed description of the three main Pipelines types and provides and example of building a RAG application with Pipelines. | Cloud"
 type: origin
@@ -15,10 +15,10 @@ keywords:
   - pipelines
   - RAG
   - application
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 
@@ -31,7 +31,7 @@ Zilliz Cloud Pipelines is a robust solution for transforming unstructured data s
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz Cloud Pipelines will be discontinued by the end of Q2 2025 and replaced by a new feature, “Data In, Data Out,” to streamline embedding generation in both Milvus and Zilliz Cloud. As of December 24, 2024, new user registrations are no longer accepted. Current users can continue using the service within the $20 monthly free allowance until the sunset date; however, no SLA is provided. Please consider using embedding APIs from model providers or open-source models to generate vector embeddings.</p>
+<p>Zilliz Cloud Pipelines will be discontinued by the end of Q2 2025 and replaced by a new feature, “Data In, Data Out,” to streamline embedding generation in both Milvus and Zilliz Cloud. As of December 24, 2024, new user registrations are no longer accepted. Current users can continue using the service within the &#36;20 monthly free allowance until the sunset date; however, no SLA is provided. Please consider using embedding APIs from model providers or open-source models to generate vector embeddings.</p>
 
 </Admonition>
 

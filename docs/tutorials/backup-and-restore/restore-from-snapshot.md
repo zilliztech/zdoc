@@ -4,67 +4,67 @@ slug: /restore-from-snapshot
 sidebar_label: "Restore from Backup Files"
 beta: FALSE
 notebook: FALSE
-description: "This guide walks you through how to restore clusters or collections from a listed backup file. You can only restore the backup files in the AVAILABLE state. | Cloud"
+description: "The restore feature in Zilliz Cloud lets you recover data from backup files in cases of accidental loss, corruption, or system failure—ensuring business continuity. It is a reliable way to recover from incidents, revert unintended changes, or clone a cluster for testing with minimal disruption. | Cloud"
 type: origin
 token: Dd6jwYIGiiz6HWkEPJqcpMA3n6g
-sidebar_position: 4
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
   - cloud
   - backup
   - restore
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 
 import Admonition from '@theme/Admonition';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+
+
+import Supademo from '@site/src/components/Supademo';
 
 # Restore from Backup Files
 
-This guide walks you through how to restore clusters or collections from a listed backup file. You can only restore the backup files in the **AVAILABLE** state.
+The restore feature in Zilliz Cloud lets you recover data from backup files in cases of accidental loss, corruption, or system failure—ensuring business continuity. It is a reliable way to recover from incidents, revert unintended changes, or clone a cluster for testing with minimal disruption.
 
-## Before you start{#before-you-start}
+This guide walks you through how to restore a full or partial cluster from backup files.
 
-Make sure the following conditions are met:
+<Admonition type="info" icon="📘" title="Notes">
 
-- You are granted the [Organization Owner](./organization-users) or [Project Admin](./project-users) role in the target organization.
+<p>The backup and restore feature is exclusively available to <strong>Dedicated</strong> clusters. </p>
 
-- Your cluster runs on the **Dedicated** tier.
+</Admonition>
 
-## Restore a cluster{#restore-a-cluster}
+## Limits{#limits}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+- **Access Control**: You must be a project admin, organization owner, or have a custom role with backup privileges.
 
-<TabItem value="Cloud Console">
+## Restore a full cluster{#restore-a-full-cluster}
 
-Navigate to the **Backups** page, locate your target backup file. If you need to restore a cluster, the type of the target backup file should be **Cluster**. Click **...** in the **Actions** column and select **Restore Cluster**.
+You can restore an entire cluster—including all databases and collections—to a **new cluster**. This is useful for cloning environments for testing or recovery. To restore an entire cluster, the backup file must be a cluster backup.
 
-Set the attributes for the cluster to be restored from the backup file.
+During restoration, you may choose whether to include RBAC settings. 
 
-![restore_cluster](/img/restore_cluster.png)
+<Admonition type="info" icon="📘" title="Notes">
 
-While setting these attributes, note that:
+<p>RBAC restoration is currently supported only via the web console; the RESTful API does not support it yet.</p>
 
-- You can restore from a backup file to create a target cluster in a different project, but not in a different cloud provider and region.
+</Admonition>
 
-- You can choose to retain the load status of the collections in the target cluster.
+After the restore, **a new password** is generated for the `db_admin` user. Use this password to connect to the restored cluster.
 
-- You can rename the target cluster and reset its CU size and password, but not its CU type.
+### Via web console{#via-web-console}
 
-- 
+The following demo shows how to restore a full cluster on the Zilliz Cloud web console.
 
-Once you click **Restore**, Zilliz Cloud will start creating the target cluster with the specified attributes and then restore the collections in the backup file to the target cluster. A new restoration job will be generated. You can check the cluster restoration progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the restoration is complete.
+<Supademo id="cmcsruzjd0gyo9st8kcjye30i" title=""  />
 
-</TabItem>
-<TabItem value="Bash">
+### Via RESTful API{#via-restful-api}
 
-Restore a cluster. For details on parameters, refer to [Restore Cluster Backup](/reference/restful/restore-cluster-backup-v2).
+The following example restores a full cluster for an existing backup file to a new cluster named `Dedicated-01-backup`. For details about the RESTful API, see [Restore Cluster Backup](/reference/restful/restore-cluster-backup-v2).
 
 ```bash
 curl --request POST \
@@ -80,73 +80,56 @@ curl --request POST \
       }'
 ```
 
-Expected output:
+The following is an example output. A restore job is generated and you can check the progress in the [project job center](./job-center).
 
 ```bash
 {
   "code": 0,
   "data": {
-    "clusterId": "in01-4a96cde32afxxxx",
+    "clusterId": "inxx-xxxxxxxxxxxxxxx",
     "username": "db_admin",
-    "password": "Th0]sT4137WOxxxx"
+    "password": "xxxxxxxxx",
+    "jobId": "job-xxxxxxxxxxxxxx"
   }
 }
 ```
 
-</TabItem>
-</Tabs>
+## Restore a partial cluster{#restore-a-partial-cluster}
 
-## Restore a collection{#restore-a-collection}
+You can also select to only restore specific databases and collections to **an existing cluster**.
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+### Via web console{#via-web-console}
 
-<TabItem value="Cloud Console">
+The following demo shows how to restore specific databases and collections in a cluster on the Zilliz Cloud web console.
 
-Navigate to the **Backups** page, locate your target backup file. If you need to restore a collection, the type of the target backup file should be **Collection**. Click **...** in the **Actions** column and select **Restore Collection**.
+<Supademo id="cmcss7xi00h8c9st8qsqnutnn" title=""  />
 
-Set the attributes for the collection to be restored from the backup file.
+### Via RESTful API{#via-restful-api}
 
-![restore_collection](/img/restore_collection.png)
-
-While setting these attributes, note that:
-
-- You can restore from a backup file to create a target collection in a different project and a different running cluster.
-
-- You can choose to load or unload the target collection.
-
-- You can rename the target collection.
-
-Once you click **Restore**, Zilliz Cloud will start creating the target collection with the specified attributes. A new restoration job will be generated. You can check the collection restoration progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the restoration is complete.
-
-</TabItem>
-<TabItem value="Bash">
-
-Restore a collection. For details on parameters, refer to [Restore Collection Backup](/reference/restful/restore-collection-backup-v2).
+The following example restores a collection from backup file to an existing cluster `in01-3e5ad8adc38xxxx`. For details about the RESTful API, see [Restore Collection Backup](/reference/restful/restore-collection-backup-v2).
 
 ```bash
 curl --request POST \
-     --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}/restoreCollection" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "Accept: application/json" \
-     --header "Content-type: application/json" \
-     --data-raw '{
-        "targetProjectId": "proj-20e13e974c7d659a83xxxx",
-        "targetClusterId": "in01-3e5ad8adc38xxxx",
-        "dbCollections": [
-           { 
+--url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}/restoreCollection" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "destClusterId": "in01-xxxxxxxxxxxxxx",
+    "dbCollections": [
+        {
             "collections": [
-               {
-                 "collectionName": "medium_articles",
-                 "targetCollectionName": "restore_medium_articles",
-                 "targetCollectionStatus": "LOADED"
-               }
-             ]
-          }
-        ]
-      }'
+                {
+                    "collectionName": "medium_articles",
+                    "destCollectionName": "restore_medium_articles",
+                    "destCollectionStatus": "LOADED"
+                }
+            ]
+        }
+    ]
+}'
 ```
 
-Expected output:
+The following is an example output. A restore job is generated and you can check the progress in the [project job center](./job-center).
 
 ```bash
 {
@@ -156,17 +139,4 @@ Expected output:
   }
 }
 ```
-
-</TabItem>
-</Tabs>
-
-## Related topics{#related-topics}
-
-- [Create Snapshot](./create-snapshot)
-
-- [Schedule Automatic Backups](./schedule-automatic-backups)
-
-- [View Snapshot Details](./view-snapshot-details)
-
-- [Delete Snapshot](./delete-snapshot) 
 

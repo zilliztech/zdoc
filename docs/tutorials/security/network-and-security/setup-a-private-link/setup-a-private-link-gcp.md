@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

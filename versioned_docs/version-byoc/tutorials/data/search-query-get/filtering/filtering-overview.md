@@ -17,10 +17,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 
@@ -42,6 +42,8 @@ Zilliz Cloud supports several basic operators for filtering data:
 - **Arithmetic Operators**: `+`, `-`, `*`, `/`, `%`, and `**` are used for calculations involving numeric fields.
 
 - **Logical Operators**: `AND`, `OR`, and `NOT` combine multiple conditions into complex expressions.
+
+- **IS NULL and IS NOT NULL Operators**: The `IS NULL` and `IS NOT NULL` operators are used to filter fields based on whether they contain a null value (absence of data). For details, refer to [Basic Operators](./basic-filtering-operators#is-null-and-is-not-null-operators).
 
 ### Example: Filtering by Color{#example-filtering-by-color}
 
@@ -155,7 +157,11 @@ For more details on array operators, see [ARRAY Operators](./array-filtering-ope
 
 ### VARCHAR field-specific operators{#varchar-field-specific-operators}
 
-The `Text_Match` operator allows precise document retrieval based on specific query terms. It is particularly useful for filtered searches that combine scalar filters with vector similarity searches. Unlike semantic searches, Text Match focuses on exact term occurrences.
+Zilliz Cloud provides specialized operators for precise text-based searches on VARCHAR fields:
+
+#### `TEXT_MATCH` operator{#textmatch-operator}
+
+The `TEXT_MATCH` operator allows precise document retrieval based on specific query terms. It is particularly useful for filtered searches that combine scalar filters with vector similarity searches. Unlike semantic searches, Text Match focuses on exact term occurrences.
 
 Zilliz Cloud uses Tantivy to support inverted indexing and term-based text search. The process involves:
 
@@ -164,3 +170,4 @@ Zilliz Cloud uses Tantivy to support inverted indexing and term-based text searc
 1. **Indexing**: Creates an inverted index mapping unique tokens to documents.
 
 For more details, refer to [Text Match](./text-match).
+

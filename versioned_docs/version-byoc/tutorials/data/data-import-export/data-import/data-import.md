@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

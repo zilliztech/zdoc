@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

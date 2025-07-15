@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

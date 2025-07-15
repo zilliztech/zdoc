@@ -2,7 +2,7 @@
 title: "Pipelines Pricing | Cloud"
 slug: /understand-pipelines-billing
 sidebar_label: "Pipelines Pricing"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "Zilliz Cloud Pipelines adopts a pay-as-you-go pricing model. More specifically, you only pay for the actual usage of the models in Ingestion and Search Pipelines. | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - pricing
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 
@@ -30,7 +30,7 @@ Zilliz Cloud Pipelines adopts a pay-as-you-go [pricing](https://zilliz.com/prici
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz Cloud Pipelines will be discontinued by the end of Q2 2025 and replaced by a new feature, “Data In, Data Out,” to streamline embedding generation in both Milvus and Zilliz Cloud. As of December 24, 2024, new user registrations are no longer accepted. Current users can continue using the service within the $20 monthly free allowance until the sunset date; however, no SLA is provided. Please consider using embedding APIs from model providers or open-source models to generate vector embeddings.</p>
+<p>Zilliz Cloud Pipelines will be discontinued by the end of Q2 2025 and replaced by a new feature, “Data In, Data Out,” to streamline embedding generation in both Milvus and Zilliz Cloud. As of December 24, 2024, new user registrations are no longer accepted. Current users can continue using the service within the &#36;20 monthly free allowance until the sunset date; however, no SLA is provided. Please consider using embedding APIs from model providers or open-source models to generate vector embeddings.</p>
 
 </Admonition>
 
@@ -38,9 +38,9 @@ Zilliz Cloud Pipelines adopts a pay-as-you-go [pricing](https://zilliz.com/prici
 
 For detailed information on the pricing of each embedding model and reranker model, please visit [Pricing](https://zilliz.com/pricing).
 
-Currently, Zilliz Cloud Pipelines offers free quota. This means that your initial spend of $20 is complimentary. 
+Currently, Zilliz Cloud Pipelines offers free quota. This means that your initial spend of &#36;20 is complimentary. 
 
-Additionally, there is a [cap on the total usage](./limits#pipeline-usage) of Zilliz Cloud Pipelines. Each organization can consume up to $20 worth of pipeline usage per month. If you need to increase the quota limit, please [contact sales](https://zilliz.com/contact-sales) or submit a ticket at the [Zilliz Support Portal](https://support.zilliz.com/hc/en-us).
+Additionally, there is a [cap on the total usage](./limits) of Zilliz Cloud Pipelines. Each organization can consume up to &#36;20 worth of pipeline usage per month. If you need to increase the quota limit, please [contact sales](https://zilliz.com/contact-sales) or submit a ticket at the [Zilliz Support Portal](https://support.zilliz.com/hc/en-us).
 
 ## View costs and usage{#view-costs-and-usage}
 

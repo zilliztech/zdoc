@@ -4,7 +4,7 @@ slug: /manage-collections-console
 sidebar_label: "Manage Collections (Console)"
 beta: FALSE
 notebook: FALSE
-description: "This guide provides step-by-step instructions for creating and managing collections in Zilliz Cloud. It is intended for users who prefer a visual interface. If you are familiar with SDKs, you can also create and manage collections through them. For more information, refer to Collection. | Cloud"
+description: "A collection is a two-dimensional table used to store vector embeddings and metadata. All entities in a collection share the same schema. You can create multiple collections for data management or multi-tenancy purposes. | Cloud"
 type: origin
 token: CmR5wFcybi3iMokOJBxcXDQcntg
 sidebar_position: 11
@@ -15,192 +15,193 @@ keywords:
   - collection
   - manage
   - console
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 # Manage Collections (Console)
 
-This guide provides step-by-step instructions for creating and managing collections in Zilliz Cloud. It is intended for users who prefer a visual interface. If you are familiar with SDKs, you can also create and manage collections through them. For more information, refer to [Collection](./collection).
+A collection is a two-dimensional table used to store vector embeddings and metadata. All entities in a collection share the same schema. You can create multiple collections for data management or multi-tenancy purposes. 
 
-## Create collection{#create-collection}
-
-Zilliz Cloud offers three methods to create a collection, each catering to different needs:
-
-- **[Use Your Own Data](./manage-collections-console#method-1-use-your-own-data)**: Ideal for users who desire full control. You'll have the autonomy to define the schema and the index parameters according to your dataset and specific needs.
-
-- **[Use Example Data](./manage-collections-console#method-2-use-example-data)**: Ideal for users who are new to Zilliz Cloud seeking a quick setup. Zilliz Cloud offers a sample collection with a schema matching the example dataset. This method is hassle-free, but it does not allow configuration modifications.
-
-- **[Clone Existing Collection](./manage-collections-console#method-3-clone-existing-collection)**: Suitable for duplicating existing collections within the cluster, saving time and effort in setup.
-
-### Method 1: Use your own data{#method-1-use-your-own-data}
-
-For complete control over your collection, follow these steps.
-
-![create_custom_collection](/img/create_custom_collection.png)
-
-1. On the **Create Collection** page, define the schema of your collection.
-
-    <table>
-       <tr>
-         <th><p>Config</p></th>
-         <th><p>Description</p></th>
-       </tr>
-       <tr>
-         <td><p>Field Name</p></td>
-         <td><p>The name of the field. Each collection has the unique primary key and at least one vector field (up to 4).</p><p>In default schema design, Zilliz Cloud reserves the primary field (<code>primary_key</code>) and a float vector (<code>vector</code>). You can customize their settings as needed.</p></td>
-       </tr>
-       <tr>
-         <td><p>Field Type</p></td>
-         <td><p>The data type of the field. Fields supported by Zilliz Cloud fall into these main categories: primary key, vector field, and scalar field. The data types supported for different fields vary based on the field types.</p><ul><li><p>Primary field: <code>INT64</code>, <code>VARCHAR</code></p></li><li><p>Vector field: <code>FLOAT_VECTOR</code>, <code>BINARY_VECTOR</code>, <code>FLOAT16_VECTOR</code>, <code>BFLOAT16_VECTOR</code>, <code>SPARSE_FLOAT_VECTOR</code>.</p></li><li><p>Scalar field: <code>INT64</code>, <code>VARCHAR</code>, <code>INT8</code>, <code>INT16</code>, <code>INT32</code>, <code>FLOAT</code>, <code>DOUBLE</code>, <code>BOOL</code>, <code>JSON</code>, <code>ARRAY</code>.</p><p>For details, refer to <a href="./schema-explained">Schema Explained</a>.</p></li></ul></td>
-       </tr>
-       <tr>
-         <td><p>Index</p></td>
-         <td><p>Whether to index the field for better search performance. Once enabled, Zilliz Cloud creates an AUTOINDEX for your field. For details, refer to <a href="./autoindex-explained">AUTOINDEX Explained</a>.</p></td>
-       </tr>
-       <tr>
-         <td><p>Metric Type</p></td>
-         <td><p>The type of metric used to measure the similarity between vectors. This parameter is configurable only for a vector field. For details, refer to <a href="./search-metrics-explained">Metric Types</a>.</p></td>
-       </tr>
-       <tr>
-         <td><p>Default Value</p></td>
-         <td><p>Whether to set a default value for the field. This parameter is configurable only for a scalar field (excluding the primary field). For details, refer to <a href="./nullable-and-default">Nullable & Default</a>.</p></td>
-       </tr>
-       <tr>
-         <td><p>Nullable</p></td>
-         <td><p>Whether to allow null values for the field. This parameter is configurable only for a scalar field (excluding the primary field). For details, refer to <a href="./nullable-and-default">Nullable & Default</a>.</p></td>
-       </tr>
-       <tr>
-         <td><p>Mmap</p></td>
-         <td><p>Whether to enable MMAP. This parameter is configurable only for a scalar field (excluding the primary field). For details, refer to <a href="./use-mmap">Use mmap</a>.</p></td>
-       </tr>
-       <tr>
-         <td><p>Description</p></td>
-         <td><p>Optional. The description of the field.</p></td>
-       </tr>
-       <tr>
-         <td><p>Auto ID</p></td>
-         <td><p>Whether to enable Auto ID for the primary field. Once enabled, Zilliz Cloud automatically generates unique IDs for the primary key, without the need to manually assign or manage them during data insertion.</p></td>
-       </tr>
-    </table>
-
-1. (Optional) In **Advanced Settings**, consider dynamic fields and partition keys for advanced configurations.
-
-    - **Dynamic Field**: Allow the insertion of new fields beyond the predefined schema. For more information, refer to [Schema Explained](./schema-explained).
-
-    - **Partition Key**: Improve query efficiency by grouping data into partitions. For more information, refer to [Use Partition Key](./use-partition-key).
-
-1. Click **Create Collection**. Then, you can [insert data](./insert-entities) into your collection.
-
-### Method 2: Use example data{#method-2-use-example-data}
-
-Select **Load Sample Data**, review the preset collection, and confirm creation.
+This guide walks you through the collection creation and management operations on the web console. It is intended for users who prefer a visual interface. If you are familiar with SDKs, you can also create and manage collections through them. For details, see [Create Collection](./manage-collections-sdks).
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>When you create a sample collection, Zilliz Cloud takes care of all the details, but does not allow configuration adjustments.</p>
+<p>If you need strong data isolation and manage only a small number of tenants, you can create a separate collection for each tenant.</p>
+<p>However, you can only create a maximum of 16,384 collections depending on your <a href="./limits">cluster plan</a>. Therefore, for large-scale multi-tenancy, consider using alternative strategies such as partition-based or partition-key-based multi-tenancy, depending on your use case. For details, see <a href="./multi-tenancy">Implement Multi-tenancy</a>.</p>
 
 </Admonition>
 
-![create_sample_collection](/img/create_sample_collection.png)
+## Create collection{#create-collection}
 
-### Method 3: Clone existing collection{#method-3-clone-existing-collection}
+The Zilliz Cloud console provides 3 ways to create a collection, each designed for different scenarios:
 
-Choose **Clone Collection** from the **Actions** menu.
+- **Create your own collection:** Customize the schema and index parameters to fit your dataset and use case. Ideal for users who need fine-grained control over the schema.
 
-1. Enter the new collection's name and description.
+- **Create sample collection:** Quickly set up a collection with a predefined schema and sample dataset. Recommended for new users exploring Zilliz Cloud.
 
-1. Select the scope of the clone action. You can either clone both the schema and existing data of a collection or just the collection schema without data in the current cluster.
+- **Clone existing collection:** Duplicate an existing collection within the same database. Useful in environment duplication scenarios where you need to copy both schema and data from a testing collection to a production collection. Alternatively, you can also use cloning to modify the shard settings of a created collection.
 
-1. Click **Clone**.
+The following demo shows you where to find the features on the web UI.
 
-    ![copy_collection](/img/copy_collection.png)
+<Supademo id="cmap9as9900yyx80ihbaf3rqt" title="Create Collection" isShowcase="true" />
 
-1. You can check the clone progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, a new collection with the specified attributes is created in the current cluster.
+Below are some of the concepts you will encounter when creating a collection.
 
-    <Admonition type="info" icon="📘" title="Notes">
+### Collection basic information{#collection-basic-information}
 
-    <p>A job record will be generated only if you choose clone collection with both data and schema. Cloning a collection with schema only will not trigger a job record.</p>
+The metadata of a collection contains:
 
-    </Admonition>
+- Collection name
 
-## View collections{#view-collections}
+- (Optional) Collection description
 
-You can view the list of all existing collections created in your cluster, or click the name of a collection to view its details.
+- The database to which the collection belongs. A [database](./database) is a layer between clusters and collections and serves as a logical container to manage and organize collections. You can group relevant collections under the same database.
 
-![view_collection](/img/view_collection.png)
+### Collection schema{#collection-schema}
 
-## Load & release collection{#load-and-release-collection}
+A schema defines the data structure of your collection and must include:
 
-In Zilliz Cloud, all search and query operations are performed in memory. Thus, loading a collection involves writing its data into memory, which is essential for these operations. Conversely, releasing a collection frees up memory space.
+- 1 primary key (PK) field
 
-![load_release_collection](/img/load_release_collection.png)
+- At least 1 vector field. You can include up to four vector fields by default. To include up to 10, [contact us](https://zilliz.com/contact-sales).
 
-## Move collection to another database{#move-collection-to-another-database}
+- (Optional) Scalar fields for metadata
 
-You can move a collection from one database to another.
+- (Optional) Dynamic field. Enabling dynamic field provides flexibility to the collection schema because it allows you to add fields during data insertion without modifying the existing schema. It is recommended to enable dynamic field when your data structure is not fixed. For fields that are frequently used in filters or queries, define them in advance in the schema instead of using dynamic fields, as this can help maintain optimal query performance.
 
-![move-collection-to-another-database](/img/move-collection-to-another-database.png)
+<Supademo id="cmaqefyds2e7aho3rna9w8trp" title="Zilliz Cloud - Create Collection Schema" />
 
-## Drop collection{#drop-collection}
+<Admonition type="info" icon="📘" title="Notes">
 
-Dropping a collection is a permanent action used when a collection is no longer required. It helps in saving resources but needs to be done cautiously.
-
-<Admonition type="caution" icon="🚧" title="Warning">
-
-<p>Dropping a collection irreversibly deletes all data within it.</p>
+<p>Most of the schema configurations cannot be modified once the collection is created. Design your schema carefully to ensure it meets current and future business needs. For best practices, see <a href="./schema-explained">Schema Explained</a>.</p>
 
 </Admonition>
 
-![drop_collection](/img/drop_collection.png)
+### Index{#index}
 
-## Limits on collections{#limits-on-collections}
+An index is a data structure that organizes data to accelerate searches and queries. Zilliz Cloud supports two types of indexes:
 
-<table>
-   <tr>
-     <th><p><strong>Cluster Type</strong></p></th>
-     <th><p><strong>Max Number</strong></p></th>
-     <th><p><strong>Remarks</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>Free cluster</p></td>
-     <td><p>5</p></td>
-     <td><p>You can create up to 5 collections.</p></td>
-   </tr>
-   <tr>
-     <td><p>Serverless cluster</p></td>
-     <td><p>100</p></td>
-     <td><p>You can create up to 100 collections.</p></td>
-   </tr>
-   <tr>
-     <td><p>Dedicated cluster</p></td>
-     <td><p>64 per CU, and &lt;= 4096</p></td>
-     <td><p>You can create up to 64 collections per CU used in a dedicated cluster and no more than 4,096 collections in the cluster.</p></td>
-   </tr>
-</table>
+- **Vector index**: Automatically created using [AUTOINDEX](./autoindex-explained) to accelerate vector searches. If you have multiple vector fields in the schema, you can create a separate index for each vector field. In addition, you can also edit the metric type used to calculate the distance between vectors.
 
-In addition to the limits on the number of collections per cluster, Zilliz Cloud also applies limits on consumed capacity, which indicates the physical resources consumed by your cluster. The following table lists the limits on the general capacity of a cluster.
+- **Scalar index**: By default, Zilliz Cloud does not automatically create indexes for scalar fields. However, you can manually create indexes on scalar fields that are commonly used for filtering to accelerate searches and queries.
 
-<table>
-   <tr>
-     <th><p><strong>Number of CUs</strong></p></th>
-     <th><p><strong>General Capacity</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>1-8 CUs</p></td>
-     <td><p>&lt;= 4,096</p></td>
-   </tr>
-   <tr>
-     <td><p>12+ CUs</p></td>
-     <td><p>Min(512 x Number of CUs, 65536)</p></td>
-   </tr>
-</table>
+You can skip creating indexes during collection creation and add indexes later. For details, see [Manage Indexes](./manage-indexes).
 
-For details on the calculation of general and consumed capacity, refer to [Zilliz Cloud Limits](./limits#collections).
+### Function & analyzer{#function-and-analyzer}
+
+An analyzer is used in full-text search to tokenize and normalize raw text. It breaks input text into individual, searchable terms and removes irrelevant elements like stop words and punctuation to improve search precision. For details, see [Analyzer Overview](./analyzer-overview).
+
+A function is used in full-text search to convert tokenized terms generated by an analyzer into sparse vectors with relevance scores. It applies scoring algorithms like BM25 to generate weighted representations for indexing and document ranking.
+
+To use functions, you need to add both `SPARSE_FLOAT_VECTOR` and `VARCHAR` fields in the schema. For details, see [Full Text Search](./full-text-search).
+
+### Partition & partition key{#partition-and-partition-key}
+
+**Partition:** A partition is a physical subset of a collection. A partition shares the same data schema with its parent collection but contains only a portion of the data in the collection. Each collection comes with one default partition. You can manually add more partitions for multi-tenancy and data management purposes. If no extra partition is created, all data inserted into a collection will fall into the default partition. For details, see [Manage Partitions](./manage-partitions)
+
+**Partition key:** A partition key is a search optimization solution based on partitions. When you specify a non-primary key `INT64` or `VARCHAR` field as the partition key, 16 partitions will be automatically created by Zilliz Cloud and all inserted entities will fall into these 16 auto-generated partitions based on their partition key values. Once partition key is enabled for a collection, you will not be able to manually create partitions in this collection. For details, see [Use Partition Key](./use-partition-key).
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>To decide whether you need to create partitions or use partition key, you can consider the following factors:</p>
+<ul>
+<li><p><strong>Multi-tenancy strategies:</strong> If you need to support millions of tenants, please use partition key. If you need strong physical data isolation between tenants, please use partitions. For details, refer to <a href="./multi-tenancy">Implement Multi-tenancy</a>.</p></li>
+<li><p><strong>Resource management:</strong> If you prefer creating and managing partitions on you own, you can choose to use partitions. If you need automatic creation and management of partitions, please use partitions keys.</p></li>
+<li><p><strong>Hot and cold data management:</strong> If you need efficient handling of hot and cold data, please use partition key. To use partition key for hot and cold data management in Dedicated clusters, please <a href="http://support.zilliz.com">contact us</a>.</p></li>
+</ul>
+
+</Admonition>
+
+### mmap{#mmap}
+
+Memory mapping (mmap) is a memory usage optimization that enables direct access to large files on disk without loading them to memory. After enabling mmap, you can store more data under the same CU size specifications. As indicated below, mmap is configured with recommended defaults based on your CU type and plan. 
+
+- Free, Serverless, and Dedicated clusters with the extended-capacity CU type have mmap enabled by default. This setting is fixed and cannot be modified, so you may not see mmap configuration options during collection creation.
+
+- Dedicated clusters with the performance-optimized CU type have mmap disabled by default.
+
+- Dedicated clusters with the capacity-optimized CU type have mmap enabled by default.
+
+For details about the cluster-level default mmap settings, see [Use mmap](./use-mmap#global-mmap-strategy).
+
+During collection creation, you can optionally configure mmap settings at the **collection** or **field** level, depending on your use case. Settings at lower levels take precedence over higher levels: **Field > Collection > Cluster.** 
+
+- **Collection-level mmap:** Enable mmap for raw data across the entire collection. This setting can be modified later, but requires releasing the collection first.
+
+- **Field-level mmap:** Enable mmap for raw data and scalar indexes of selected fields via custom settings. Generally, it is recommended to enable mmap for fields whose data size is large and are not frequently filtered or queried. The setting applies only to the selected fields and can later be modified. To modify field-level mmap settings, you need to release the collection first.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Please be cautious with mmap settings. Changing the default mmap settings may cause performance degradation or load failures due to out-of-memory (OOM) issues. For best practices, see <a href="./use-mmap#collection-specific-mmap-settings">Use mmap</a>.</p>
+
+</Admonition>
+
+The demo below shows the entrance of this feature on the Zilliz Cloud web console.
+
+<Supademo id="cmbk94p4i8hm0sn1rhzrph2b5" title=""  />
+
+### Shard{#shard}
+
+A shard is a horizontal slice of a collection that corresponds to a data input channel. Every collection comes with one shard by default. You can add more shards to increase write throughput. 
+
+As a general guideline, consider adding 1 shard for every 100 million rows of data. The maximum number of shards allowed depends on the cluster plan and cluster CU size. For details, see [Zilliz Cloud Limits](./limits#shards).
+
+The number of shards can be later edited via the [clone collection](./manage-collections-console#create-collection) feature once the collection is created.
+
+### Full text search{#full-text-search}
+
+The Zilliz Cloud console supports configuring the functions and analyzer to use in a full text search. For details about full text search, see [Full Text Search](./full-text-search).
+
+The demo below shows the entrance of this feature on the Zilliz Cloud web console.
+
+<Supademo id="cmbj8ahun7j48sn1redlc3e93" title=""  />
+
+### Text Match{#text-match}
+
+The Zilliz Cloud console also supports configuring the field and analyzer for text match. For details about text match, see [Text Match](./text-match).
+
+The demo below shows the entrance of this feature on the Zilliz Cloud web console.
+
+<Supademo id="cmbj80qyf7it8sn1r6lzo0g1c" title=""  />
+
+## Manage collection{#manage-collection}
+
+Zilliz Cloud supports the following management operations on created collections via the web console.
+
+<Supademo id="cmaqjykyn002myh0irk72q332" title="Manage Collection" isShowcase="true" />
+
+- **Rename a collection:** You can change the name of an existing collection.
+
+- **Edit collection schema and settings:** Currently, Zilliz Cloud only supports editing the following schema and settings.
+
+    - You can edit the `max_length` value of an existing [VARCHAR field](./use-string-field).
+
+    - You can edit the `max_capacity` value of an existing [ARRAY field](./use-array-fields) as well as the `max_length`value if the ARRAY type is VARCHAR.
+
+    - To change **shard** settings, use the [Clone collection](./manage-collections-console#create-collection) feature instead.
+
+    - To modify **TTL**, **mmap**, or **partition key** settings, use the SDKs instead. For details, see [Modify Collection](./modify-collections).
+
+    Other collection schema settings are not editable. To apply changes, create a new collection with the desired configuration and import the data into it.
+
+- **Load & release collection:** On the Zilliz Cloud web console, collections are automatically loaded to memory and made available for search and query immediately after creation. To free up memory space, you can release unused collections.
+
+- **Move collection to another database:** You can group related collections within the same database and move collections between databases as needed.
+
+- **Manage partitions within a collection:** For collections with **partition key** **enabled**, you do not need to manually manage partitions. For collections with partition key **disabled**, you can manually manage partitions and perform the following operations:
+
+    - **Create partition:** You can create a maximum of 1,024 partitions in each collection. For details, see [Zilliz Cloud Limits](./limits#collections).
+
+    - **Drop partition:** The default partition cannot be dropped and dropping a partition irreversibly deletes all data within it. You must release a collection first before dropping any partitions in it.
+
+- **Drop collection:** To reduce resource overhead, you can drop collections that are no longer needed. Dropping a collection irreversibly deletes all data within it.
 

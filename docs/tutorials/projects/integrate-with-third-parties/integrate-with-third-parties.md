@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

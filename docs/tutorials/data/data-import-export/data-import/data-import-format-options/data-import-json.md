@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - json
+  - Video deduplication
+  - Video similarity search
   - Vector retrieval
   - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
 
 ---
 
@@ -158,15 +158,15 @@ Zilliz Cloud supports data import from your cloud storage. The table below lists
    </tr>
    <tr>
      <td><p><strong>AWS S3</strong></p></td>
-     <td><p><code>s3://bucket-name/json-folder/</code></p><p><code>s3://bucket-name/json-folder/data.json</code></p></td>
+     <td><p>s3://<em>bucket-name</em>/<em>json-folder</em>/</p><p>s3://<em>bucket-name</em>/<em>json-folder</em>/<em>data.json</em></p></td>
    </tr>
    <tr>
      <td><p><strong>Google Cloud Storage</strong></p></td>
-     <td><p><code>gs://bucket-name/json-folder/</code></p><p><code>gs://bucket-name/json-folder/data.json</code></p></td>
+     <td><p>gs://<em>bucket-name</em>/<em>json-folder</em>/</p><p>gs://<em>bucket-name</em>/<em>json-folder</em>/<em>data.json</em></p></td>
    </tr>
    <tr>
      <td><p><strong>Azure Bolb</strong></p></td>
-     <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/</code></p><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</code></p></td>
+     <td><p><em>https:</em>//myaccount.blob.core.windows.net/bucket-name/json-folder/</p><p><em>https:</em>//myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</p></td>
    </tr>
 </table>
 
@@ -181,11 +181,11 @@ There are some limits you need to observe when you import data in the JSON forma
    </tr>
    <tr>
      <td><p><strong>Multiple files per import</strong></p></td>
-     <td><p>Yes</p></td>
+     <td><p>Yes.</p><p>Each import allows up to 100,000 files.</p></td>
    </tr>
    <tr>
      <td><p><strong>Maximum file size per import</strong></p></td>
-     <td><p>Free cluster: 512 MB in total</p><p>Serverless and Dedicated cluster:</p><ul><li><p>Individual file size: 10 GB</p></li><li><p>Total file size: 100 GB</p></li></ul></td>
+     <td><p>Free cluster: 512 MB in total</p><p>Serverless &amp; Dedicated cluster</p><ul><li><p>Individual file size: 10 GB</p></li><li><p>Total file size: 1 TB</p></li></ul></td>
    </tr>
    <tr>
      <td><p><strong>Applicable data file locations</strong></p></td>

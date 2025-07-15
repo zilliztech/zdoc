@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 
@@ -92,7 +92,7 @@ For collection-level access control, it is recommended to create custom roles.
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>This feature is exclusively available to Dedicated clusters.</p>
-<p>Currently, Zilliz Cloud only supports creating custom roles with built-in privilege groups. If you need to create custom roles with user-defined privileges and privilege groups, please <a href="http://support.zilliz.com">contact us</a>.</p>
+<p>Currently, Zilliz Cloud only supports creating custom roles with built-in privilege groups on the web console. If you need to create custom roles with specific privileges or custom privilege groups, please <a href="http://support.zilliz.com">create a support ticket</a> first so that we can enable this feature for you. Once the feature is enabled, you can use the SDKs to <a href="./cluster-privileges#custom-privilege-groups">create custom privilege groups</a>.</p>
 
 </Admonition>
 
@@ -100,13 +100,13 @@ For collection-level access control, it is recommended to create custom roles.
 
 1. Navigate to the **Roles** tab of the target cluster. Click **+ Cluster Role**.
 
-    ![add-cluster-role](/byoc/add-cluster-role.png)
+    ![add-cluster-role](/img/add-cluster-role.png)
 
 1. Enter the role name.
 
-1. Configure the privileges on the collection, database, and cluster level.  Select a privilege group and then select the target resource. 
+1. Configure the privileges on the collection, database, and cluster level.  Select a built-in privilege group and then select the target resource. 
 
-    Zilliz Cloud provides 9 privilege groups in total: 
+    Zilliz Cloud provides 9 built-in privilege groups in total: 
 
     - Collection Privilege Group: Admin (`COLL_ADMIN`), Read-Write (`COLL_RW`), Read-Only (`COLL_RO`)
 
@@ -114,17 +114,15 @@ For collection-level access control, it is recommended to create custom roles.
 
     - Cluster Privilege Group: Admin (`Cluster_Admin`), Read-Write (`Cluster_RW`), Read-Only (`Cluster_RO`)
 
-    For details about the specific privileges in each privilege group, refer to [Privileges Explained](./cluster-privileges).
-
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>The three levels of built-in privilege groups do not have a cascading relationship. Setting a privilege group at the instance level does not automatically set permissions for all databases and collections under that instance. Privileges at the database and collection levels need to be set manually.</p>
+    <p>The three levels of built-in privilege groups do not have a cascading relationship. Setting a built-in privilege group at the instance level does not automatically set permissions for all databases and collections under that instance. Privileges at the database and collection levels need to be set manually.</p>
 
     </Admonition>
 
-    If you need to create your own privilege group, please [contact us](http://support.zilliz.com).
+    For details about the specific privileges in each built-in privilege group, refer to [Privileges & Privilege Groups](./cluster-privileges#built-in-privilege-groups).
 
-    ![add-cluster-role-form](/byoc/add-cluster-role-form.png)
+    ![add-cluster-role-form](/img/add-cluster-role-form.png)
 
 1. Click **Create**. Each cluster can have up to 20 custom cluster roles.
 
@@ -132,19 +130,19 @@ For collection-level access control, it is recommended to create custom roles.
 
 Once a cluster role is created, you can grant it to users. Navigate to the Users tab, grant the role either when you [create a new cluster user](./cluster-users#create-a-cluster-user) or when you [edit the role of an existing cluster user](./cluster-users#edit-the-role-of-a-cluster-user).
 
-![grant-role-to-user](/byoc/grant-role-to-user.png)
+![grant-role-to-user](/img/grant-role-to-user.png)
 
 ## Revoke a role from a user{#revoke-a-role-from-a-user}
 
 When a cluster role is no longer fit for a user, you can revoke the role. Navigate to the Users tab, find the target user, and click [edit role](./cluster-users#edit-the-role-of-a-cluster-user). Select a different role in the dialog box. 
 
-![revoke-role-from-user](/byoc/revoke-role-from-user.png)
+![revoke-role-from-user](/img/revoke-role-from-user.png)
 
 ## Edit a custom cluster role{#edit-a-custom-cluster-role}
 
 You can adjust the privileges of a custom cluster role. The adjustment will be applied to all users who are granted this role.
 
-![edit-custom-role](/byoc/edit-custom-role.png)
+![edit-custom-role](/img/edit-custom-role.png)
 
 ## Delete a custom cluster role{#delete-a-custom-cluster-role}
 
@@ -152,5 +150,5 @@ When a role is no longer necessary, you can delete a custom cluster role.
 
 Roles that have been granted to users cannot be delete. You need to first identify the users who are granted the target role, and then assign them a different role. 
 
-![delete-cluster-role](/byoc/delete-cluster-role.png)
+![delete-cluster-role](/img/delete-cluster-role.png)
 

@@ -1,0 +1,34 @@
+---
+title: "Migrate from External Sources | Cloud"
+slug: /migrate-from-external-sources
+sidebar_label: "Migrate from External Sources"
+beta: FALSE
+notebook: FALSE
+description: "Zilliz Cloud helps you confidently handle complex collection and field mappings with improved data type support, dynamic-to-fixed field conversion, and intuitive controls for configuring field and shard settings within a responsive, user-friendly interface. | Cloud"
+type: origin
+token: OpQHwQrMki9brIkTsAGcq93Zndf
+sidebar_position: 3
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - migrations
+  - external
+  - data source
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# Migrate from External Sources
+
+Zilliz Cloud helps you confidently handle complex collection and field mappings with improved data type support, dynamic-to-fixed field conversion, and intuitive controls for configuring field and shard settings within a responsive, user-friendly interface.
+
+import DocCardList from '@theme/DocCardList';
+
+<DocCardList />

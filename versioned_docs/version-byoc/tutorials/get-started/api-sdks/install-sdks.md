@@ -14,10 +14,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 
@@ -52,8 +52,8 @@ PyMilvus is Milvus's Python SDK. Access its [source code on GitHub](https://gith
 </Admonition>
 
 ```bash
-# Install pymilvus compatible with Milvus v2.4.x
-python -m pip install pymilvus==2.4.10
+# Install pymilvus compatible with Milvus v2.5.x
+python -m pip install pymilvus==2.5.8
 
 # Update PyMilvus to the newest version
 python -m pip install --upgrade pymilvus
@@ -73,10 +73,10 @@ For Milvus's Node.js SDK, employ **npm** or **yarn**. Access its [source code on
 </Admonition>
 
 ```bash
-# Install Node.js SDK compatible with Milvus v2.4.x
-npm install @zilliz/milvus2-sdk-node@2.4.9
+# Install Node.js SDK compatible with Milvus v2.5.x
+npm install @zilliz/milvus2-sdk-node@2.5.8
 # Alternatively,
-yarn add @zilliz/milvus2-sdk-node@2.4.9
+yarn add @zilliz/milvus2-sdk-node@2.5.8
 
 # Upgrade to the latest version
 npm update @zilliz/milvus2-sdk-node
@@ -106,19 +106,19 @@ Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on 
 - For Apache Maven, append this to the `pom.xml` dependencies:
 
 ```xml
-<!-- Install Java SDK compatible with Milvus v2.4.x -->
+<!-- Install Java SDK compatible with Milvus v2.5.x -->
 <dependency>
      <groupId>io.milvus</groupId>
      <artifactId>milvus-sdk-java</artifactId>
-     <version>2.4.9</version>
+     <version>2.5.9</version>
  </dependency>
 ```
 
 - For Gradle/Grails, execute:
 
 ```bash
-# Install Java SDK compatible with Milvus v2.4.x
-compile 'io.milvus:milvus-sdk-java:2.4.9'
+# Install Java SDK compatible with Milvus v2.5.x
+compile 'io.milvus:milvus-sdk-java:2.5.9'
 ```
 
 ## Install Go SDK{#install-go-sdk}
@@ -126,7 +126,7 @@ compile 'io.milvus:milvus-sdk-java:2.4.9'
 The Go SDK is available via `go get`. Explore its [source code on GitHub](https://github.com/milvus-io/milvus-sdk-go).
 
 ```bash
-# Install Go SDK compatible with Milvus v2.4.x
-go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.4.2
+# Install Go SDK compatible with Milvus v2.5.x
+go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.5.3
 ```
 

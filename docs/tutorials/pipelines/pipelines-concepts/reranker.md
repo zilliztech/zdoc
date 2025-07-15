@@ -2,7 +2,7 @@
 title: "Reranker | Cloud"
 slug: /reranker
 sidebar_label: "Reranker"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "In information retrieval, a reranker rearranges results from intial retrieval. Compared to using only vector Approximate Nearest Neighbor (ANN) search for retrieval, adding reranker can improve search quality as it can better judge the semantic relevancy between docs and the query. Using a reranker can also enhance accuracy of generated answer in RAG applications, as fewer but higher quality docs are put in the context. Note that rerankers can be computationally heavy, leading to higher costs and longer query latency. | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - concepts
   - rerankers
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 
@@ -30,7 +30,7 @@ In information retrieval, a reranker rearranges results from intial retrieval. C
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz Cloud Pipelines will be discontinued by the end of Q2 2025 and replaced by a new feature, “Data In, Data Out,” to streamline embedding generation in both Milvus and Zilliz Cloud. As of December 24, 2024, new user registrations are no longer accepted. Current users can continue using the service within the $20 monthly free allowance until the sunset date; however, no SLA is provided. Please consider using embedding APIs from model providers or open-source models to generate vector embeddings.</p>
+<p>Zilliz Cloud Pipelines will be discontinued by the end of Q2 2025 and replaced by a new feature, “Data In, Data Out,” to streamline embedding generation in both Milvus and Zilliz Cloud. As of December 24, 2024, new user registrations are no longer accepted. Current users can continue using the service within the &#36;20 monthly free allowance until the sunset date; however, no SLA is provided. Please consider using embedding APIs from model providers or open-source models to generate vector embeddings.</p>
 
 </Admonition>
 

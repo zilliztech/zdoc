@@ -4,19 +4,19 @@ slug: /migrations
 sidebar_label: "Migrations"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud provides migration options from external sources such as Milvus, Elasticsearch, and pgvector, as well as cross-cluster migrations within the same or different organizations, enabling efficient data integration and management. | Cloud"
+description: "Zilliz Cloud provides migration options from external sources such as Milvus, Elasticsearch, and PostgreSQL, as well as cross-cluster migrations within the same or different organizations, enabling efficient data integration and management. | Cloud"
 type: origin
 token: IeNswy8ySiutKAkdphRc4lfynsf
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - migrations
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 
@@ -25,7 +25,7 @@ import Admonition from '@theme/Admonition';
 
 # Migrations
 
-Zilliz Cloud provides migration options from external sources such as Milvus, Elasticsearch, and pgvector, as well as cross-cluster migrations within the same or different organizations, enabling efficient data integration and management.
+Zilliz Cloud provides migration options from external sources such as Milvus, Elasticsearch, and PostgreSQL, as well as cross-cluster migrations within the same or different organizations, enabling efficient data integration and management.
 
 
 

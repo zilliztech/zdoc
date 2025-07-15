@@ -14,10 +14,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 
@@ -48,13 +48,13 @@ Once the hierarchical proximity graph is created, the search goes as follows:
 
 1. Repeat the preceding steps until you find the nearest vector at the bottom layer.
 
-![hnsw-explained](/byoc/hnsw-explained.png)
+![hnsw-explained](/img/hnsw-explained.png)
 
 ## LSH: A hash-based ANN indexing algorithm{#lsh-a-hash-based-ann-indexing-algorithm}
 
 Locality-sensitive hashing (LSH) indexes a vector space by mapping data pieces of any length to fixed-length values as hashes using various hash functions, gathering these hashes into hash buckets, and tagging vectors that have been hashed to the same value at least once as candidate pairs.
 
-![locality_sensitive_hashing](/byoc/locality_sensitive_hashing.png)
+![locality_sensitive_hashing](/img/locality_sensitive_hashing.png)
 
 ## DiskANN: ANN search on disk based on Vamana graphs{#diskann-ann-search-on-disk-based-on-vamana-graphs}
 

@@ -4,7 +4,7 @@ slug: /schedule-automatic-backups
 sidebar_label: "Schedule Automatic Backups"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud allows you to enable automatic backups for your clusters, ensuring data recovery in case of unexpected mishaps. Regular backup prevent data loss and allow easy recovery to a specific point in time, giving you more control over your data. | Cloud"
+description: "Zilliz Cloud allows you to enable automatic backups for your clusters, helping ensure data recovery in case of unexpected issues. Automatic backups apply to the entire cluster—backing up individual collections automatically is not supported. | Cloud"
 type: origin
 token: HDmKwGeGLi2P67kGdNXcigXDn3e
 sidebar_position: 2
@@ -14,116 +14,184 @@ keywords:
   - cloud
   - backup
   - automatic
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 
 import Admonition from '@theme/Admonition';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+
+
+import Supademo from '@site/src/components/Supademo';
 
 # Schedule Automatic Backups
 
-Zilliz Cloud allows you to enable automatic backups for your clusters, ensuring data recovery in case of unexpected mishaps. Regular backup prevent data loss and allow easy recovery to a specific point in time, giving you more control over your data.
+Zilliz Cloud allows you to enable **automatic backups** for your clusters, helping ensure data recovery in case of unexpected issues. Automatic backups apply to the **entire cluster**—backing up individual collections automatically is not supported.
 
-## Before you start{#before-you-start}
+Backup creation incurs additional [charges](./understand-cost#backup-cost), with pricing based on the cloud region where the backup is stored. All backup files are stored in the same cloud region as the source cluster. For example, a cluster in `AWS us-west-2` will have its backups stored in `AWS us-west-2`.
 
-Make sure the following conditions are met:
-
-- You are granted the [Organization Owner](./organization-users) or [Project Admin](./project-users) role in the target organization.
-
-- Your cluster runs on the **Dedicated** tier.
+This guide walks you through how to schedule automatic backups on Zilliz Cloud. To create on-demand backups, see [Create Backup](./create-snapshot).
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Automatic backups are available only to the <strong>Dedicated</strong> clusters. If your cluster runs on the <strong>Free</strong>, <a href="./manage-cluster#upgrade-plan">upgrade</a> it first. If your cluster runs on the <strong>Serverless</strong> tier, <a href="./migrate-between-clusters">migrate</a> it to a dedicated cluster first. Creating backups may incur charges. For more information about backup cost, please refer to <a href="./understand-cost">Understand Cost</a>.</p>
+<p>The backup and restore feature is exclusively available to <strong>Dedicated</strong> clusters. </p>
 
 </Admonition>
 
-## Create backup schedule{#create-backup-schedule}
+## Limits{#limits}
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+- **Access control**: You must be a **project admin**, **organization owner**, or have a **custom role** with backup privileges.
 
-<TabItem value="Cloud Console">
+- **Excluded from backup**:
 
-To create a backup schedule, follow these steps:
+    - Collection TTL settings
 
-1. Go to the **Backups** tab of your cluster and click on **Automatic** **Backup**.
+    - Password for the default user `db_admin` (a new password is generated during [restore](./restore-from-snapshot))
 
-1. In the **Automatic Backup Settings** dialog box that appears, switch on **Enable Automatic Backup**.
+- **Cluster shard settings**: Backed up but may be adjusted during restore if the cluster CU size is reduced, due to shard-per-CU limits. See [Zilliz Cloud Limits](./limits#shards) for details.
 
-1. Set the **Frequency**, **Backup Retention Period**, and the time window for automatic backups.
+- **Backup job restrictions**:
 
-![create-snapshot-schedule](/img/create-snapshot-schedule.png)
+    - Manual backups cannot start while an automatic backup is in progress.
 
-<Admonition type="info" icon="📘" title="Notes">
+    - Automatic backups will still run if a manual backup is already in progress.
 
-<p>For more information about backup cost, please refer to <a href="./understand-cost">Understand Cost</a>.</p>
+## Enable automatic backup{#enable-automatic-backup}
 
-</Admonition>
+Automatic backup settings are cluster-specific and **disabled by default**. Because backups incur storage costs, you can control when and how Zilliz Cloud creates them. Once automatic backup is enabled, Zilliz Cloud generates an initial backup immediately, followed by recurring backups based on your specified schedule.
 
-</TabItem>
-<TabItem value="Bash">
+### Via web console{#via-web-console}
 
-You can set a backup policy to enable automatic backups at regular intervals. 
+When you enable automatic backup on the web console, Zilliz Cloud is configured to the followings by default:
 
-The following code creates a backup policy that will execute backups on 4 specific weekdays (Monday, Tuesday, Wednesday, and Friday). For details on parameters, refer to [Set Backup Policy](/reference/restful/set-backup-policy-v2).
+- **Frequency:** Create a backup daily
+
+- **Backup Time:** Between 8 a.m. and 10 a.m. (UTC +08:00)
+
+- **Retention Period:** Retain each backup for 7 days
+
+You can adjust these settings to fit your needs. 
+
+The following demo shows how to enable and configure automatic backups:
+
+<Supademo id="cmcsqvpfk0gns9st8bd3faaje" title=""  />
+
+### Via RESTful API{#via-restful-api}
+
+The following example enables automatic backup for a cluster. For details about the RESTful API, see [Set Backup Policy](/reference/restful/set-backup-policy-v2).
 
 ```bash
 curl --request POST \
-     --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/policy" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "Accept: application/json" \
-     --header "Content-type: application/json" \
-     --data-raw '{
-        "frequency": "1,2,3,5",
-        "startTime": "02:00-04:00",
-        "retentionDays": 7,
-        "enabled": true
-      }'
+--url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/policy" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "frequency": "1,2,3,5",
+    "startTime": "02:00-04:00",
+    "retentionDays": 7,
+    "enabled": true
+}'
 ```
 
-Expected output:
+The following is an example output. A backup job is immediately generated once automatic backup is enabled. You can check the progress in the [project job center](/docs/job-center).
 
 ```bash
 {
-  "code": 0,
-  "data": {
-    "clusterId": "in01-3e5ad8adc38xxxx",
-    "status": "ENABLED"
-  }
+    "code": 0,
+    "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "status": "ENABLED"
+    }
 }
 ```
 
-</TabItem>
-</Tabs>
+## Check backup schedule{#check-backup-schedule}
 
-## Adjust automated backup schedule{#adjust-automated-backup-schedule}
+When automatic backup is enabled, you can check its schedule.
 
-The automated backup schedule settings are cluster-specific and disabled by default. Since there is a [cost](./understand-cost) for creating backups, you can determine when and how Zilliz Cloud creates backup files on your behalf.
+### Via web console{#via-web-console}
 
-The default setting configures that Zilliz Cloud automatically creates a backup file for your cluster every day (**Frequency**) between 8 a.m. and 10 a.m. (**Time Period**), and keeps the backup file for 7 days (**Retention Period**). Change the settings as you see fit.
+The following demo shows how to check automatic backup schedule on the Zilliz Cloud web console.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Supademo id="cmcsr43kx02umxk0ih3i31jaq" title=""  />
 
-<p>The maximum retention period for automatically created backups is 30 days.</p>
+### Via RESTful API{#via-restful-api}
 
-</Admonition>
+The following example checks the automatic backup policy of a cluster. For details about the RESTful API, see [Get Backup Policy](/reference/restful/get-backup-policy-v2).
 
-## Delete automatically created backup file{#delete-automatically-created-backup-file}
+```bash
+curl --request GET \
+--url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/policy" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json"
+```
 
-Dropping a cluster will remove all auto-created backup files of this cluster. Also, the auto-created backup files are removed when they reach the end of their retention period. If you need to manually delete auto-created backup files, refer to [Delete Backup File](./delete-snapshot).
+The following is an example output. 
 
-## Related topics{#related-topics}
+```bash
+{
+    "code": 0,
+    "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "status": "ENABLED",
+        "startTime": "02:00-04:00",
+        "frequency": "1,2,3,5",
+        "retentionDays": 7
+    }
+}
+```
 
-- [Create Snapshot](./create-snapshot)
+## Disable automatic backup{#disable-automatic-backup}
 
-- [View Snapshot Details](./view-snapshot-details)
+You can also disable automatic backup for a cluster.
 
-- [Restore from Snapshot](./restore-from-snapshot)
+### Via web console{#via-web-console}
 
-- [Delete Snapshot](./delete-snapshot) 
+The following demo shows how to check automatic backup schedule on the Zilliz Cloud web console.
+
+<Supademo id="cmcsr7chx0gu29st8s0obm37l" title=""  />
+
+### Via RESTful API{#via-restful-api}
+
+The following example disables automatic backup for a cluster. For details about the RESTful API, see [Set Backup Policy](/reference/restful/set-backup-policy-v2).
+
+```bash
+curl --request POST \
+--url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/policy" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "enabled": false
+}'
+```
+
+The following is an example output. 
+
+```bash
+{
+    "code": 0,
+    "data": {
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "status": "DISABLED"
+    }
+}
+```
+
+## FAQs{#faqs}
+
+**How long does a backup job take?**
+Backup duration depends on the size of your data. As a reference, backing up 700 MB typically takes about 1 second. If your cluster contains more than 1,000 collections, the process may take slightly longer.
+
+**Can I perform DDL (Data Definition Language) operations during a backup?**
+It is recommended to avoid major DDL (Data Definition Language) operations—such as creating or dropping collections—while a backup is in progress, as they may interfere with the process or lead to inconsistent results.
+
+**What is the retention period of automatic backup files?**
+
+The default retention period for automatic backups is 7 days, and you can adjust it up to a maximum of 30 days.
+
+**Will backup files be deleted if the original cluster is dropped?**
+
+This depends on the creation method of the backup file. All automatic backups are deleted along with the original cluster. But [manual cluster backups](./create-snapshot) are retained permanently and will not be deleted when the cluster is deleted. You must delete them manually if no longer needed.
 

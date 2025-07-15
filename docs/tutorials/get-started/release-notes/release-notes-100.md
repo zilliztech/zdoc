@@ -7,16 +7,16 @@ notebook: FALSE
 description: "We are pleased to announce the general availability of a significant update to Zilliz Cloud. This release raises the standard of vector database services for usability, security, performance, and capability to a new stage, bringing you a state-of-the-art vector database experience built for everyone. | Cloud"
 type: origin
 token: XmUYwRgNDitesQkl9QDc3IslnOh
-sidebar_position: 19
+sidebar_position: 23
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 
@@ -45,7 +45,7 @@ We are pleased to announce the general availability of a significant update to Z
 
     We are pleased to announce that Zilliz Cloud is now available on Google Cloud Platform (GCP). Zilliz Cloud offers the best experience and meets the diverse requirements of various users, ranging from startups to large enterprises. You can deploy managed vector database instances on GCP with just a few clicks.
 
-    The us-west1 region (The Dalles, Oregon) is now available. The cost per CU for our services on GCP is $0.215 per hour for both performance-optimized and capacity-optimized types, and the storage cost is $0.02/GB per month.
+    The us-west1 region (The Dalles, Oregon) is now available. The cost per CU for our services on GCP is &#36;0.215 per hour for both performance-optimized and capacity-optimized types, and the storage cost is &#36;0.02/GB per month.
 
 - AWS Marketplace
 

@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This page lists all IAM permissions that Zilliz Cloud requires to perform operations on your behalf. | BYOC"
 type: origin
 token: IOPFwYrC2iJDw3k2iElcBrkMnef
-sidebar_position: 6
+sidebar_position: 5
 keywords: 
   - zilliz
   - byoc
@@ -16,10 +16,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 
@@ -32,7 +32,7 @@ This page lists all IAM permissions that Zilliz Cloud requires to perform operat
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud sales</a>.</p>
 
 </Admonition>
 

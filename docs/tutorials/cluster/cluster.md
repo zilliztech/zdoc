@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Everything you need to know about managing clusters on Zilliz Cloud. | Cloud"
 type: origin
 token: BIy4we6qXiq8NpkHfXgcxuONngb
-sidebar_position: 2
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - cluster
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

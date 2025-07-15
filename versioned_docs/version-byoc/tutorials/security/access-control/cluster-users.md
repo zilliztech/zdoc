@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 
@@ -49,9 +49,9 @@ When creating a cluster user, you need to:
 
 - Grant this user either a built-in cluster role or [a custom cluster role](./cluster-roles).
 
-- Set the password for this cluster user. This password will be used for [authentication](./cluster-credentials-console).
+- Set the password for this cluster user. This password will be used for [authentication](./cluster-credentials).
 
-![add-cluster-user](/byoc/add-cluster-user.png)
+![add-cluster-user](/img/add-cluster-user.png)
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -61,7 +61,7 @@ When creating a cluster user, you need to:
 
 ## Edit the role of a cluster user{#edit-the-role-of-a-cluster-user}
 
-![edit-cluster-user-role](/byoc/edit-cluster-user-role.png)
+![edit-cluster-user-role](/img/edit-cluster-user-role.png)
 
 ## Drop a cluster user{#drop-a-cluster-user}
 
@@ -71,5 +71,5 @@ When creating a cluster user, you need to:
 
 </Admonition>
 
-![drop-cluster-user](/byoc/drop-cluster-user.png)
+![drop-cluster-user](/img/drop-cluster-user.png)
 

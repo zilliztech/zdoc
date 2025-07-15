@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 
@@ -103,7 +103,6 @@ const res = await client.renameCollection({
 import (
     "context"
     "fmt"
-    "log"
 
     "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
@@ -114,18 +113,19 @@ defer cancel()
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 token := "YOUR_CLUSTER_TOKEN"
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
     APIKey:  token,
 })
 if err != nil {
-    log.Fatal("failed to connect to milvus server: ", err.Error())
+    fmt.Println(err.Error())
+    // handle error
 }
+defer client.Close(ctx)
 
-defer cli.Close(ctx)
-
-err = cli.RenameCollection(ctx, milvusclient.NewRenameCollectionOption("my_collection", "my_new_collection"))
+err = client.RenameCollection(ctx, milvusclient.NewRenameCollectionOption("my_collection", "my_new_collection"))
 if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
 ```
@@ -153,7 +153,7 @@ curl --request POST \
 
 ## Set Collection Properties{#set-collection-properties}
 
-The following code snippet demonstrates how to set collection TTL. 
+The following code snippet demonstrates how to set collection TTL.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -205,31 +205,9 @@ res = await client.alterCollection({
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-    "github.com/milvus-io/milvus/pkg/common"
-)
-
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-})
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.CollectionTTLConfigKey, 60))
 if err != nil {
-    log.Fatal("failed to connect to milvus server: ", err.Error())
-}
-
-defer cli.Close(ctx)
-
-err = cli.AlterCollection(ctx, milvusclient.NewAlterCollectionOption("my_collection").WithProperty(common.CollectionTTLConfigKey, 60))
-if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
 ```
@@ -239,7 +217,19 @@ if err != nil {
 <TabItem value='bash'>
 
 ```bash
-# REST
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/alter_properties" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "test_collection",
+    "properties": {
+        "collection.ttl.seconds": 60
+    }
+}'
 ```
 
 </TabItem>
@@ -254,11 +244,85 @@ The applicable collection properties are as follows:
    </tr>
    <tr>
      <td><p><code>collection.ttl.seconds</code></p></td>
-     <td><p>If the data of a collection needs to be deleted after a specific period, consider setting its Time-To-Live (TTL) in seconds. Once the TTL times out, Zilliz Cloud deletes all entities from the collection. </p><p>The deletion is asynchronous, indicating that searches and queries are still possible before the deletion is complete.</p></td>
+     <td><p>If the data of a collection needs to be deleted after a specific period, consider setting its Time-To-Live (TTL) in seconds. Once the TTL times out, Zilliz Cloud deletes all entities from the collection. </p><p>The deletion is asynchronous, indicating that searches and queries are still possible before the deletion is complete.</p><p>For details, refer to <a href="./set-collection-ttl">Set Collection TTL</a>.</p></td>
    </tr>
    <tr>
      <td><p><code>mmap.enabled</code></p></td>
-     <td><p>Memory mapping (Mmap) enables direct memory access to large files on disk, allowing Zilliz Cloud to store indexes and data in both memory and hard drives. This approach helps optimize data placement policy based on access frequency, expanding storage capacity for collections without impacting search performance.</p><p></p><p>Zilliz Cloud implements <a href="./use-mmap#global-mmap-strategy">global mmap settings</a> for your clusters. You can change the settings on a specific field or its index.</p><p></p></td>
+     <td><p>Memory mapping (Mmap) enables direct memory access to large files on disk, allowing Zilliz Cloud to store indexes and data in both memory and hard drives. This approach helps optimize data placement policy based on access frequency, expanding storage capacity for collections without impacting search performance.</p><p>Zilliz Cloud implements <a href="./use-mmap#global-mmap-strategy">global mmap settings</a> for your clusters. You can change the settings on a specific field or its index.</p><p>For details, refer to Use mmap.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>partitionkey.isolation</code></p></td>
+     <td><p>With Partition Key Isolation enabled, Zilliz Cloud groups entities based on the Partition Key value and creates a separate index for each of these groups. Upon receiving a search request, Zilliz Cloud locates the index based on the Partition Key value specified in the filtering condition and restricts the search scope within the entities included in the index, thus avoiding scanning irrelevant entities during the search and greatly enhancing the search performance.</p><p>For details, refer to <a href="./use-partition-key#use-partition-key-isolation">Use Partition Key Isolation</a>.</p></td>
    </tr>
 </table>
+
+## Drop Collection Properties{#drop-collection-properties}
+
+You can also reset a collection property by dropping it as follows. 
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+client.drop_collection_properties(
+    collection_name="my_collection",
+    property_keys=[
+        "collection.ttl.seconds"
+    ]
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+client.dropCollectionProperties(DropCollectionPropertiesReq.builder()
+        .collectionName("my_collection")
+        .propertyKeys(Collections.singletonList("collection.ttl.seconds"))
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+client.dropCollectionProperties({
+    collection_name:"my_collection",
+    properties: ['collection.ttl.seconds'],
+});
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.DropCollectionProperties(ctx, milvusclient.NewDropCollectionPropertiesOption("my_collection", common.CollectionTTLConfigKey))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/collections/drop_properties" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "my_collection",
+    "propertyKeys": [
+        "collection.ttl.seconds"
+    ]
+}'
+```
+
+</TabItem>
+</Tabs>
 

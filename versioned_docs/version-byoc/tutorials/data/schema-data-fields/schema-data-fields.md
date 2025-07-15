@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

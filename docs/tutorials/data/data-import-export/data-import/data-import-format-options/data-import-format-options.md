@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

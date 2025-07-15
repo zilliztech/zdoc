@@ -1,7 +1,7 @@
 ---
-title: "Search & Rerank | BYOC"
+title: "Search | BYOC"
 slug: /search-query-get
-sidebar_label: "Search & Rerank"
+sidebar_label: "Search"
 beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud implements vector-based similarity searches and provides multiple optimizations to improve search efficiency and performance. In this chapter, you will learn the principles and tutorials of various vector search methods available on Zilliz Cloud. | BYOC"
@@ -15,19 +15,21 @@ keywords:
   - collection
   - data
   - DML
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Search & Rerank
+# Search
 
 Zilliz Cloud implements vector-based similarity searches and provides multiple optimizations to improve search efficiency and performance. In this chapter, you will learn the principles and tutorials of various vector search methods available on Zilliz Cloud.
+
+
 
 import DocCardList from '@theme/DocCardList';
 

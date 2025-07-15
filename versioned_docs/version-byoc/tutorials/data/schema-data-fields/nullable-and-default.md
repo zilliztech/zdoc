@@ -2,7 +2,7 @@
 title: "Nullable & Default | BYOC"
 slug: /nullable-and-default
 sidebar_label: "Nullable & Default"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "Zilliz Cloud allows you to set the `nullable` attribute and default values for scalar fields, except the primary field. For fields marked as `nullable=True`, you can skip the field when inserting data, or set it directly to a null value, and the system will treat it as null without causing an error. When a field has a default value, the system will automatically apply this value if no data is specified for the field during insertion. | BYOC"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 
@@ -47,15 +47,17 @@ The default value and nullable attributes streamline data migration from other d
 
 - When creating an index on a scalar field with the nullable attribute enabled, null values will be excluded from the index.
 
+- **JSON and ARRAY fields**: When using `IS NULL` or `IS NOT NULL` operators to filter on JSON or ARRAY fields, these operators work at the column level, which indicates they only evaluate whether the entire JSON object or array is null. For instance, if a key inside a JSON object is null, it will not be recognized by the `IS NULL` filter. For more information, refer to [Basic Operators](./basic-filtering-operators).
+
 ## Nullable attribute{#nullable-attribute}
 
 The `nullable` attribute allows you to store null values in a collection, providing flexibility when handling unknown data.
 
 ### Set the nullable attribute{#set-the-nullable-attribute}
 
-When creating a collection, use `nullable=True` to define nullable fields (defaults to `False`). The following example creates a collection named `user_profiles_null` and sets the `age` field as nullable:
+When creating a collection, use `nullable=True` to define nullable fields (defaults to `False`). The following example creates a collection named `my_collection` and sets the `age` field as nullable:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -75,10 +77,10 @@ schema.add_field(field_name="age", datatype=DataType.INT64, nullable=True) # Nul
 
 # Set index params
 index_params = client.prepare_index_params()
-index_params.add_index(field_name="vector", index_type="IVF_FLAT", metric_type="L2", params={ "nlist": 128 })
+index_params.add_index(field_name="vector", index_type="AUTOINDEX", metric_type="L2")
 
 # Create collection
-client.create_collection(collection_name="user_profiles_null", schema=schema, index_params=index_params)
+client.create_collection(collection_name="my_collection", schema=schema, index_params=index_params)
 ```
 
 </TabItem>
@@ -122,16 +124,15 @@ schema.addField(AddFieldReq.builder()
 
 List<IndexParam> indexes = new ArrayList<>();
 Map<String,Object> extraParams = new HashMap<>();
-extraParams.put("nlist", 128);
+
 indexes.add(IndexParam.builder()
         .fieldName("vector")
-        .indexType(IndexParam.IndexType.IVF_FLAT)
+        .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.L2)
-        .extraParams(extraParams)
         .build());
 
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
-        .collectionName("user_profiles_null")
+        .collectionName("my_collection")
         .collectionSchema(schema)
         .indexParams(indexes)
         .build();
@@ -151,7 +152,7 @@ const client = new MilvusClient({
 });
 
 await client.createCollection({
-  collection_name: "user_profiles_null",
+  collection_name: "my_collection",
   schema: [
     {
       name: "id",
@@ -173,6 +174,62 @@ await client.createCollection({
   ],
 });
 
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/column"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/index"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+schema := entity.NewSchema()
+schema.WithField(entity.NewField().
+    WithName("id").
+    WithDataType(entity.FieldTypeInt64).
+    WithIsPrimaryKey(true),
+).WithField(entity.NewField().
+    WithName("vector").
+    WithDataType(entity.FieldTypeFloatVector).
+    WithDim(5),
+).WithField(entity.NewField().
+    WithName("age").
+    WithDataType(entity.FieldTypeInt64).
+    WithNullable(true),
+)
+
+indexOption := milvusclient.NewCreateIndexOption("my_collection", "vector",
+    index.NewAutoIndex(index.MetricType(entity.L2)))
+
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("my_collection", schema).
+        WithIndexOptions(indexOption))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -213,8 +270,7 @@ export indexParams='[
         {
             "fieldName": "vector",
             "metricType": "L2",
-            "indexType": "IVF_FLAT",
-            "params":{"nlist": 128}
+            "indexType": "AUTOINDEX"
         }
     ]'
 
@@ -223,7 +279,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d "{
-    \"collectionName\": \"user_profiles_null\",
+    \"collectionName\": \"my_collection\",
     \"schema\": $schema,
     \"indexParams\": $indexParams
 }"
@@ -236,7 +292,7 @@ curl --request POST \
 
 When you insert data into a nullable field, insert null or directly omit this field:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -246,7 +302,7 @@ data = [
     {"id": 3, "vector": [0.3, 0.4, 0.5, 0.6, 0.7]}
 ]
 
-client.insert(collection_name="user_profiles_null", data=data)
+client.insert(collection_name="my_collection", data=data)
 ```
 
 </TabItem>
@@ -267,7 +323,7 @@ rows.add(gson.fromJson("{\"id\": 2, \"vector\": [0.2, 0.3, 0.4, 0.5, 0.6], \"age
 rows.add(gson.fromJson("{\"id\": 3, \"vector\": [0.3, 0.4, 0.5, 0.6, 0.7]}", JsonObject.class));
 
 InsertResp insertR = client.insert(InsertReq.builder()
-        .collectionName("user_profiles_null")
+        .collectionName("my_collection")
         .data(rows)
         .build());
 ```
@@ -284,10 +340,34 @@ const data = [
 ];
 
 client.insert({
-  collection_name: "user_profiles_null",
+  collection_name: "my_collection",
   data: data,
 });
 
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+column, _ := column.NewNullableColumnInt64("age",
+    []int64{30},
+    []bool{true, false, false})
+
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
+    WithInt64Column("id", []int64{1, 2, 3}).
+    WithFloatVectorColumn("vector", 5, [][]float32{
+        {0.1, 0.2, 0.3, 0.4, 0.5},
+        {0.2, 0.3, 0.4, 0.5, 0.6},
+        {0.3, 0.4, 0.5, 0.6, 0.7},
+    }).
+    WithColumns(column),
+)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
 ```
 
 </TabItem>
@@ -305,7 +385,7 @@ curl --request POST \
         {"id": 2, "vector": [0.2, 0.3, 0.4, 0.5, 0.6], "age": null}, 
         {"id": 3, "vector": [0.3, 0.4, 0.5, 0.6, 0.7]} 
     ],
-    "collectionName": "user_profiles_null"
+    "collectionName": "my_collection"
 }'
 ```
 
@@ -316,12 +396,12 @@ curl --request POST \
 
 When using the `search` method, if a field contains `null` values, the search result will return the field as null:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 res = client.search(
-    collection_name="user_profiles_null",
+    collection_name="my_collection",
     data=[[0.1, 0.2, 0.4, 0.3, 0.128]],
     limit=2,
     search_params={"params": {"nprobe": 16}},
@@ -346,7 +426,7 @@ import io.milvus.v2.service.vector.response.SearchResp;
 Map<String,Object> params = new HashMap<>();
 params.put("nprobe", 16);
 SearchResp resp = client.search(SearchReq.builder()
-        .collectionName("user_profiles_null")
+        .collectionName("my_collection")
         .annsField("vector")
         .data(Collections.singletonList(new FloatVec(new float[]{0.1f, 0.2f, 0.3f, 0.4f, 0.5f})))
         .topK(2)
@@ -367,15 +447,42 @@ System.out.println(resp.getSearchResults());
 
 ```javascript
 client.search({
-    collection_name: 'user_profiles_null',
+    collection_name: 'my_collection',
     data: [0.3, -0.6, 0.1, 0.3, 0.5],
     limit: 2,
     output_fields: ['age', 'id'],
-    filter: '25 <= age <= 35',
     params: {
         nprobe: 16
     }
 });
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+queryVector := []float32{0.1, 0.2, 0.4, 0.3, 0.128}
+
+annParam := index.NewCustomAnnParam()
+annParam.WithExtraParam("nprobe", 16)
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "my_collection", // collectionName
+    2,                    // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("vector").
+    WithAnnParam(annParam).
+    WithOutputFields("id", "age"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+    fmt.Println("age: ", resultSet.GetColumn("age").FieldData().GetScalars())
+}
 ```
 
 </TabItem>
@@ -388,16 +495,16 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "user_profiles_null",
+    "collectionName": "my_collection",
     "data": [
         [0.1, -0.2, 0.3, 0.4, 0.5]
     ],
     "annsField": "vector",
-    "limit": 5,
+    "limit": 2,
     "outputFields": ["id", "age"]
 }'
 
-#{"code":0,"cost":0,"data":[{"age":30,"distance":0.16000001,"id":1},{"age":null,"distance":0.28999996,"id":2},{"age":null,"distance":0.52000004,"id":3}]}
+#{"code":0,"cost":0,"data":[{"age":30,"distance":0.16000001,"id":1},{"age":null,"distance":0.28999996,"id":2}]}
 ```
 
 </TabItem>
@@ -405,7 +512,7 @@ curl --request POST \
 
 When you use the `query` method for scalar filtering, the filtering results for null values are all false, indicating that they will not be selected.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -415,7 +522,7 @@ When you use the `query` method for scalar filtering, the filtering results for 
 # {"id": 3, "vector": [0.3, 0.4, ..., 0.130], "age": None}  # Omitted age  column is treated as None
 
 results = client.query(
-    collection_name="user_profiles_null",
+    collection_name="my_collection",
     filter="age >= 0",
     output_fields=["id", "age"]
 )
@@ -436,7 +543,7 @@ import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.response.QueryResp;
 
 QueryResp resp = client.query(QueryReq.builder()
-        .collectionName("user_profiles_null")
+        .collectionName("my_collection")
         .filter("age >= 0")
         .outputFields(Arrays.asList("id", "age"))
         .build());
@@ -454,10 +561,26 @@ System.out.println(resp.getQueryResults());
 
 ```javascript
 const results = await client.query(
-    collection_name: "user_profiles_null",
+    collection_name: "my_collection",
     filter: "age >= 0",
     output_fields: ["id", "age"]
 );
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("age >= 0").
+    WithOutputFields("id", "age"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println("id: ", resultSet.GetColumn("id").FieldData().GetScalars())
+fmt.Println("age: ", resultSet.GetColumn("age").FieldData().GetScalars())
 ```
 
 </TabItem>
@@ -470,7 +593,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "user_profiles_null",
+    "collectionName": "my_collection",
     "filter": "age >= 0",
     "outputFields": ["id", "age"]
 }'
@@ -489,12 +612,12 @@ To return entities with `null` values, query without any scalar filtering condit
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 null_results = client.query(
-    collection_name="user_profiles_null",
+    collection_name="my_collection",
     filter="",     # Query without any filtering condition
     output_fields=["id", "age"],
     limit=10
@@ -510,7 +633,7 @@ null_results = client.query(
 
 ```java
 QueryResp resp = client.query(QueryReq.builder()
-        .collectionName("user_profiles_null")
+        .collectionName("my_collection")
         .filter("")
         .outputFields(Arrays.asList("id", "age"))
         .limit(10)
@@ -525,11 +648,28 @@ System.out.println(resp.getQueryResults());
 
 ```javascript
 const results = await client.query(
-    collection_name: "user_profiles_null",
+    collection_name: "my_collection",
     filter: "",
     output_fields: ["id", "age"],
     limit: 10
 );
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+resultSet, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("").
+    WithLimit(10).
+    WithOutputFields("id", "age"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println("id: ", resultSet.GetColumn("id"))
+fmt.Println("age: ", resultSet.GetColumn("age"))
 ```
 
 </TabItem>
@@ -542,7 +682,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "user_profiles_null",
+    "collectionName": "my_collection",
     "expr": "",
     "outputFields": ["id", "age"],
     "limit": 10
@@ -562,7 +702,7 @@ Default values are preset values assigned to scalar fields. If you do not provid
 
 When creating a collection, use the `default_value` parameter to define the default value for a field. The following example shows how to set the default value of `age` to `18` and `status` to `"active"`:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -577,9 +717,9 @@ schema.add_field(field_name="age", datatype=DataType.INT64, default_value=18)
 schema.add_field(field_name="status", datatype=DataType.VARCHAR, default_value="active", max_length=10)
 
 index_params = client.prepare_index_params()
-index_params.add_index(field_name="vector", index_type="IVF_FLAT", metric_type="L2", params={ "nlist": 128 })
+index_params.add_index(field_name="vector", index_type="AUTOINDEX", metric_type="L2")
 
-client.create_collection(collection_name="user_profiles_default", schema=schema, index_params=index_params)
+client.create_collection(collection_name="my_collection", schema=schema, index_params=index_params)
 ```
 
 </TabItem>
@@ -624,16 +764,15 @@ schema.addField(AddFieldReq.builder()
 
 List<IndexParam> indexes = new ArrayList<>();
 Map<String,Object> extraParams = new HashMap<>();
-extraParams.put("nlist", 128);
+
 indexes.add(IndexParam.builder()
         .fieldName("vector")
-        .indexType(IndexParam.IndexType.IVF_FLAT)
+        .indexType(IndexParam.IndexType.AUTOINDEX)
         .metricType(IndexParam.MetricType.L2)
-        .extraParams(extraParams)
         .build());
 
 CreateCollectionReq requestCreate = CreateCollectionReq.builder()
-        .collectionName("user_profiles_default")
+        .collectionName("my_collection")
         .collectionSchema(schema)
         .indexParams(indexes)
         .build();
@@ -653,7 +792,7 @@ const client = new MilvusClient({
 });
 
 await client.createCollection({
-  collection_name: "user_profiles_default",
+  collection_name: "my_collection",
   schema: [
     {
       name: "id",
@@ -670,11 +809,71 @@ await client.createCollection({
       index_name: "vector_inde",
       field_name: "vector",
       metric_type: MetricType.L2,
-      index_type: IndexType.IVF_FLAT,
+      index_type: IndexType.AUTOINDEX,
     },
   ],
 });
 
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/column"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/index"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+schema := entity.NewSchema()
+schema.WithField(entity.NewField().
+    WithName("id").
+    WithDataType(entity.FieldTypeInt64).
+    WithIsPrimaryKey(true),
+).WithField(entity.NewField().
+    WithName("vector").
+    WithDataType(entity.FieldTypeFloatVector).
+    WithDim(5),
+).WithField(entity.NewField().
+    WithName("age").
+    WithDataType(entity.FieldTypeInt64).
+    WithDefaultValueLong(18),
+).WithField(entity.NewField().
+    WithName("status").
+    WithDataType(entity.FieldTypeVarChar).
+    WithMaxLength(10).
+    WithDefaultValueString("active"),
+)
+
+indexOption := milvusclient.NewCreateIndexOption("my_collection", "vector",
+    index.NewAutoIndex(index.MetricType(entity.L2)))
+
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("my_collection", schema).
+        WithIndexOptions(indexOption))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -725,8 +924,7 @@ export indexParams='[
         {
             "fieldName": "vector",
             "metricType": "L2",
-            "indexType": "IVF_FLAT",
-            "params":{"nlist": 128}
+            "indexType": "AUTOINDEX"
         }
     ]'
 
@@ -735,7 +933,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d "{
-    \"collectionName\": \"user_profiles_default\",
+    \"collectionName\": \"my_collection\",
     \"schema\": $schema,
     \"indexParams\": $indexParams
 }"
@@ -748,7 +946,7 @@ curl --request POST \
 
 When inserting data, if you omit fields with a default value or set their value to null, the system uses the default value:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -759,7 +957,7 @@ data = [
     {"id": 4, "vector": [0.4, 0.5, ..., 0.131], "age": None, "status": "inactive"}  # `age` uses default value
 ]
 
-client.insert(collection_name="user_profiles_default", data=data)
+client.insert(collection_name="my_collection", data=data)
 ```
 
 </TabItem>
@@ -781,7 +979,7 @@ rows.add(gson.fromJson("{\"id\": 3, \"vector\": [0.3, 0.4, 0.5, 0.6, 0.7], \"age
 rows.add(gson.fromJson("{\"id\": 4, \"vector\": [0.4, 0.5, 0.6, 0.7, 0.8], \"age\": null, \"status\": \"inactive\"}", JsonObject.class));
 
 InsertResp insertR = client.insert(InsertReq.builder()
-        .collectionName("user_profiles_default")
+        .collectionName("my_collection")
         .data(rows)
         .build());
 ```
@@ -799,9 +997,37 @@ const data = [
 ];
 
 client.insert({
-  collection_name: "user_profiles_default",
+  collection_name: "my_collection",
   data: data,
 });
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+column1, _ := column.NewNullableColumnInt64("age",
+    []int64{30, 25},
+    []bool{true, false, true, false})
+column2, _ := column.NewNullableColumnVarChar("status",
+    []string{"premium", "inactive"},
+    []bool{true, false, false, true})
+
+_, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collection").
+    WithInt64Column("id", []int64{1, 2, 3, 4}).
+    WithFloatVectorColumn("vector", 5, [][]float32{
+        {0.1, 0.2, 0.3, 0.4, 0.5},
+        {0.2, 0.3, 0.4, 0.5, 0.6},
+        {0.3, 0.4, 0.5, 0.6, 0.7},
+        {0.4, 0.5, 0.6, 0.7, 0.8},
+    }).
+    WithColumns(column1, column2),
+)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle err
+}
 ```
 
 </TabItem>
@@ -820,7 +1046,7 @@ curl --request POST \
         {"id": 3, "vector": [0.3, 0.4, 0.5, 0.6, 0.7], "age": 25, "status": null}, 
         {"id": 4, "vector": [0.4, 0.5, 0.6, 0.7, 0.8], "age": null, "status": "inactive"}      
     ],
-    "collectionName": "user_profiles_default"
+    "collectionName": "my_collection"
 }'
 ```
 
@@ -829,7 +1055,7 @@ curl --request POST \
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>For more information on how nullable and default value settings take effect, refer to <a href="./nullable-and-default">Applicable rules</a>. </p>
+<p>For more information on how nullable and default value settings take effect, refer to <a href="./nullable-and-default#applicable-rules">Applicable rules</a>. </p>
 
 </Admonition>
 
@@ -839,13 +1065,13 @@ Entities that contain default values are treated the same as any other entities 
 
 For example, in a `search` operation, entities with `age` set to the default value of `18` will be included in the results:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 res = client.search(
-    collection_name="user_profiles_default",
-    data=[[0.1, 0.2, 0.4, 0.3, 0.128]],
+    collection_name="my_collection",
+    data=[[0.1, 0.2, 0.4, 0.3, 0.5]],
     search_params={"params": {"nprobe": 16}},
     filter="age == 18",  # 18 is the default value of the `age` field
     limit=10,
@@ -855,7 +1081,7 @@ res = client.search(
 print(res)
 
 # Output
-# data: ["[{'id': 2, 'distance': 0.28278401494026184, 'entity': {'id': 2, 'age': 18, 'status': 'active'}}, {'id': 4, 'distance': 0.8315839767456055, 'entity': {'id': 4, 'age': 18, 'status': 'inactive'}}]"] 
+# data: ["[{'id': 2, 'distance': 0.050000004, 'entity': {'id': 2, 'age': 18, 'status': 'active'}}, {'id': 4, 'distance': 0.45000002, 'entity': {'id': 4, 'age': 18, 'status': 'inactive'}}]"] 
 
 ```
 
@@ -871,7 +1097,7 @@ import io.milvus.v2.service.vector.response.SearchResp;
 Map<String,Object> params = new HashMap<>();
 params.put("nprobe", 16);
 SearchResp resp = client.search(SearchReq.builder()
-        .collectionName("user_profiles_default")
+        .collectionName("my_collection")
         .annsField("vector")
         .data(Collections.singletonList(new FloatVec(new float[]{0.1f, 0.2f, 0.3f, 0.4f, 0.5f})))
         .searchParams(params)
@@ -893,7 +1119,7 @@ System.out.println(resp.getSearchResults());
 
 ```javascript
 client.search({
-    collection_name: 'user_profiles_default',
+    collection_name: 'my_collection',
     data: [0.3, -0.6, 0.1, 0.3, 0.5],
     limit: 2,
     output_fields: ['age', 'id', 'status'],
@@ -906,6 +1132,36 @@ client.search({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+queryVector := []float32{0.1, 0.2, 0.4, 0.3, 0.5}
+
+annParam := index.NewCustomAnnParam()
+annParam.WithExtraParam("nprobe", 16)
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "my_collection", // collectionName
+    10,              // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("vector").
+    WithFilter("age == 18").
+    WithAnnParam(annParam).
+    WithOutputFields("id", "age", "status"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+    fmt.Println("age: ", resultSet.GetColumn("age").FieldData().GetScalars())
+    fmt.Println("status: ", resultSet.GetColumn("status").FieldData().GetScalars())
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -914,12 +1170,12 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "user_profiles_default",
+    "collectionName": "my_collection",
     "data": [
         [0.1, 0.2, 0.3, 0.4, 0.5]
     ],
     "annsField": "vector",
-    "limit": 5,
+    "limit": 10,
     "filter": "age == 18",
     "outputFields": ["id", "age", "status"]
 }'
@@ -932,20 +1188,20 @@ curl --request POST \
 
 In a `query` operation, you can match or filter by default values directly:
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 # Query all entities where `age` equals the default value (18)
 default_age_results = client.query(
-    collection_name="user_profiles_default",
+    collection_name="my_collection",
     filter="age == 18",
     output_fields=["id", "age", "status"]
 )
 
 # Query all entities where `status` equals the default value ("active")
 default_status_results = client.query(
-    collection_name="user_profiles_default",
+    collection_name="my_collection",
     filter='status == "active"',
     output_fields=["id", "age", "status"]
 )
@@ -960,7 +1216,7 @@ import io.milvus.v2.service.vector.request.QueryReq;
 import io.milvus.v2.service.vector.response.QueryResp;
 
 QueryResp ageResp = client.query(QueryReq.builder()
-        .collectionName("user_profiles_default")
+        .collectionName("my_collection")
         .filter("age == 18")
         .outputFields(Arrays.asList("id", "age", "status"))
         .build());
@@ -972,7 +1228,7 @@ System.out.println(ageResp.getQueryResults());
 // [QueryResp.QueryResult(entity={id=2, age=18, status=active}), QueryResp.QueryResult(entity={id=4, age=18, status=inactive})]
 
 QueryResp statusResp = client.query(QueryReq.builder()
-        .collectionName("user_profiles_default")
+        .collectionName("my_collection")
         .filter("status == \"active\"")
         .outputFields(Arrays.asList("id", "age", "status"))
         .build());
@@ -991,16 +1247,44 @@ System.out.println(statusResp.getQueryResults());
 ```javascript
 // Query all entities where `age` equals the default value (18)
 const default_age_results = await client.query(
-    collection_name: "user_profiles_default",
+    collection_name: "my_collection",
     filter: "age == 18",
     output_fields: ["id", "age", "status"]
 );
 // Query all entities where `status` equals the default value ("active")
 const default_status_results = await client.query(
-    collection_name: "user_profiles_default",
+    collection_name: "my_collection",
     filter: 'status == "active"',
     output_fields: ["id", "age", "status"]
 )
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("age == 18").
+    WithOutputFields("id", "age", "status"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println("id: ", resultSet.GetColumn("id").FieldData().GetScalars())
+fmt.Println("age: ", resultSet.GetColumn("age").FieldData().GetScalars())
+fmt.Println("status: ", resultSet.GetColumn("status").FieldData().GetScalars())
+
+resultSet, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("status == \"active\"").
+    WithOutputFields("id", "age", "status"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+fmt.Println("id: ", resultSet.GetColumn("id").FieldData().GetScalars())
+fmt.Println("age: ", resultSet.GetColumn("age").FieldData().GetScalars())
+fmt.Println("status: ", resultSet.GetColumn("status").FieldData().GetScalars())
 ```
 
 </TabItem>
@@ -1013,7 +1297,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "user_profiles_default",
+    "collectionName": "my_collection",
     "filter": "age == 18",
     "outputFields": ["id", "age", "status"]
 }'
@@ -1025,7 +1309,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "user_profiles_default",
+    "collectionName": "my_collection",
     "filter": "status == \"active\"",
     "outputFields": ["id", "age", "status"]
 }'

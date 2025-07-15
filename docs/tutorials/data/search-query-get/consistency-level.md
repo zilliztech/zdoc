@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 
@@ -84,7 +84,7 @@ client.create_collection(
     collection_name="my_collection",
     schema=schema,
     # highlight-next-line
-    consistency_level="Strong",
+    consistency_level="Bounded",
 )
 ```
 
@@ -97,7 +97,7 @@ CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
         // highlight-next-line
-        .consistencyLevel(ConsistencyLevel.STRONG)
+        .consistencyLevel(ConsistencyLevel.Bounded)
         .build();
 client.createCollection(createCollectionReq);
 ```
@@ -109,7 +109,7 @@ client.createCollection(createCollectionReq);
 ```go
 err = client.CreateCollection(ctx,
     milvusclient.NewCreateCollectionOption("my_collection", schema).
-        WithConsistencyLevel(entity.ClStrong))
+        WithConsistencyLevel(entity.ClBounded))
 if err != nil {
     fmt.Println(err.Error())
     // handle error
@@ -149,7 +149,7 @@ export schema='{
     }'
 
 export params='{
-    "consistencyLevel": "Strong"
+    "consistencyLevel": "Bounded"
 }'
 
 curl --request POST \
@@ -258,7 +258,7 @@ res = client.query(
     output_fields=["vector", "color"],
     limit=3，
     # highlight-start
-    consistency_level="Eventually",
+    consistency_level="Bounded",
     # highlight-next
 )
 ```
@@ -273,7 +273,7 @@ QueryReq queryReq = QueryReq.builder()
         .filter("color like \"red%\"")
         .outputFields(Arrays.asList("vector", "color"))
         .limit(3)
-        .consistencyLevel(ConsistencyLevel.EVENTUALLY)
+        .consistencyLevel(ConsistencyLevel.Bounded)
         .build();
         
  QueryResp getResp = client.query(queryReq);
@@ -288,7 +288,7 @@ resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection")
     WithFilter("color like \"red%\"").
     WithOutputFields("vector", "color").
     WithLimit(3).
-    WithConsistencyLevel(entity.ClEventually))
+    WithConsistencyLevel(entity.ClBounded))
 if err != nil {
     fmt.Println(err.Error())
     // handle error

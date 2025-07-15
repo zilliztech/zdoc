@@ -31,4 +31,4 @@ You can easily migrate data from Elasticsearch on the Zilliz Cloud via the Zilli
 
 ### Can I upgrade a free cluster to a Serverless or Dedicated cluster?{#can-i-upgrade-a-free-cluster-to-a-serverless-or-dedicated-cluster}
 
-Yes. For more information , please refer to [Manage Cluster](./manage-cluster#upgrade-plan).
+Yes. For more information , please refer to [Manage Cluster](./manage-cluster).

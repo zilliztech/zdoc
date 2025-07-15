@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Zilliz Cloud provides handy metric charts and alerts for you to know what is happening in your organization and clusters. | Cloud"
 type: origin
 token: Xma9w6Ne9ihcsZkFkSmcHidEnZg
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
   - cloud
   - metrics
   - alerts
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

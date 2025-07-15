@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 
@@ -46,7 +46,7 @@ Authentication serves as a gateway to verify one's identity during the login pro
 
 </Admonition>
 
-![enable_mfa_en](/byoc/enable_mfa_en.png)
+![enable_mfa_en](/img/enable_mfa_en.png)
 
 ### Disable MFA{#disable-mfa}
 

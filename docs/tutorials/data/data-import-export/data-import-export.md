@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This chapter covers the common procedures for you to import data into and export data from Zilliz Cloud clusters. | Cloud"
 type: origin
 token: Oh3VwT15Yi03bRkOtoXcZpurnWe
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - data import
   - export
   - milvus
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

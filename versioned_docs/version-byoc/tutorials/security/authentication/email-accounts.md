@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 
@@ -39,11 +39,11 @@ Once you have [registered an account](./register-with-zilliz-cloud) with Zilliz 
 
     - Country
 
-![modify_account_info](/byoc/modify_account_info.png)
+![modify_account_info](/img/modify_account_info.png)
 
 ## Update account email address{#update-account-email-address}
 
-![update_email_address](/byoc/update_email_address.png)
+![update_email_address](/img/update_email_address.png)
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -53,7 +53,17 @@ Once you have [registered an account](./register-with-zilliz-cloud) with Zilliz 
 
 ## Change account password{#change-account-password}
 
-![change_password](/byoc/change_password.png)
+![change_password](/img/change_password.png)
+
+Your password must be at least 8 characters long and include at least 3 of the following character types:
+
+- Lowercase letters (a–z)
+
+- Uppercase letters (A–Z)
+
+- Numbers (0–9)
+
+- Special characters (e.g., !@#&#36;%^&*)
 
 ## Enable and disable MFA{#enable-and-disable-mfa}
 
@@ -65,7 +75,7 @@ Maintaining a consistent login method with your initial registration is required
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>For organization users, you can set up Single Sign-on (SSO) with the identity provider (IdP) Okta. This allows your organization users to authenticate with Okta and then seamlessly access Zilliz Cloud using their business email rather than creating a separate Zilliz Cloud account. For details, refer to <a href="./saml-2-0">Single Sign-on with Okta</a>.</p>
+<p>For organization users, you can set up Single Sign-on (SSO) with the identity provider (IdP) Okta. This allows your organization users to authenticate with Okta and then seamlessly access Zilliz Cloud using their business email rather than creating a separate Zilliz Cloud account. For details, refer to <a href="./single-sign-on-with-okta">Single Sign-on with Okta</a>.</p>
 
 </Admonition>
 
@@ -99,7 +109,7 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
     - If you have not set a password yet, set a new password via the link sent to your email. Once the password is set, your login method is changed to your work email and the new password.
 
-![unlink_from_google](/byoc/unlink_from_google.png)
+![unlink_from_google](/img/unlink_from_google.png)
 
 ### Unlink from your GitHub account{#unlink-from-your-github-account}
 
@@ -113,7 +123,7 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
     - If you have not set a password yet, set a new password via the link sent to your email. Once the password is set, your login method is changed to your work email and the new password.
 
-![unlink_from_github](/byoc/unlink_from_github.png)
+![unlink_from_github](/img/unlink_from_github.png)
 
 ## Close your account{#close-your-account}
 
@@ -139,10 +149,10 @@ Ensure you meet the following criteria before proceeding:
 
 1. In the **Account** **Settings** window, click the **Close Account** button.
 
-1. Before confirming to delete your account, fill out the feedback form first. Click the button to proceed with the deletion.
+1. Tell us your reason to leave Zilliz Cloud and submit the feedback.
 
 1. Enter your account email address again in the text box. Click **Send Verification Code** and enter the code you received in your email inbox. Read the information below and tick the boxes. Click **Next** to continue.
 
 1. You will receive an email notification when your account is successfully deleted.
 
-![delete-account-en](/byoc/delete-account-en.png)
+![delete-account-en](/img/delete-account-en.png)

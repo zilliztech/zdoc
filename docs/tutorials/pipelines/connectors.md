@@ -2,7 +2,7 @@
 title: "Connect to Your Data | Cloud"
 slug: /connectors
 sidebar_label: "Connect to Your Data"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The connector is an in-built free tool that makes it easy to connect various data sources to a vector database. This guide will explain the concept of a connector and provide instructions on how to create and manage connectors in Zilliz Cloud Pipelines. | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - connect
   - data
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 
@@ -30,7 +30,7 @@ The connector is an in-built free tool that makes it easy to connect various dat
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz Cloud Pipelines will be discontinued by the end of Q2 2025 and replaced by a new feature, “Data In, Data Out,” to streamline embedding generation in both Milvus and Zilliz Cloud. As of December 24, 2024, new user registrations are no longer accepted. Current users can continue using the service within the $20 monthly free allowance until the sunset date; however, no SLA is provided. Please consider using embedding APIs from model providers or open-source models to generate vector embeddings.</p>
+<p>Zilliz Cloud Pipelines will be discontinued by the end of Q2 2025 and replaced by a new feature, “Data In, Data Out,” to streamline embedding generation in both Milvus and Zilliz Cloud. As of December 24, 2024, new user registrations are no longer accepted. Current users can continue using the service within the &#36;20 monthly free allowance until the sunset date; however, no SLA is provided. Please consider using embedding APIs from model providers or open-source models to generate vector embeddings.</p>
 
 </Admonition>
 

@@ -15,15 +15,17 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
+
+import Supademo from '@site/src/components/Supademo';
 
 # Migrate from Milvus to Zilliz Cloud Via Backup Files
 
@@ -41,13 +43,17 @@ Make sure the following prerequisites are met:
 
     - **From Object Storage**: The public URL and access credentials for the Milvus object storage. You can choose long-term or temporary credentials.
 
-- You have been granted the Organization Owner or Project Admin role. If you do not have the necessary permissions, contact your Zilliz Cloud administrator.
+- You have been granted the **Organization Owner** or **Project Admin** role. If you do not have the necessary permissions, contact your Zilliz Cloud administrator.
+
+- Make sure the CU size of the target cluster can accommodate your source data. To estimate the required CU size, use the [calculator](https://zilliz.com/pricing?_gl=1*qro801*_ga*MzkzNTY1NDM0LjE3Mjk1MDExNzQ.*_ga_Q1F8R2NWDP*MTc0NTQ4MzY1Ni4zMDEuMS4xNzQ1NDg0MTEzLjAuMC4w*_ga_KKMVYG8YF2*MTc0NTQ4MzY1Ni4yNTIuMS4xNzQ1NDg0MTEzLjAuMC4w#calculator).
 
 ## Prepare backup files for migration{#prepare-backup-files-for-migration}
 
 To prepare migration data for Milvus 2.x,
 
 1. Download **[milvus-backup](https://github.com/zilliztech/milvus-backup/releases)**. Always use the latest release.
+
+    Currently, you can migrate data from Milvus 2.2 and later versions to Zilliz Cloud clusters. For details on compatible source and target Milvus versions, refer to [Milvus Backup Overview](https://milvus.io/docs/milvus_backup_overview.md).
 
 1. Create a **configs** folder side by side with the downloaded binary, and download **[backup.yaml](https://raw.githubusercontent.com/zilliztech/milvus-backup/master/configs/backup.yaml)** into the **configs** folder.
 
@@ -126,33 +132,11 @@ To prepare migration data for Milvus 2.x,
 
 With backup files ready, you can migrate the data from local files directly or from object storage.
 
-1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
-
-1. Go to the target project and select **Migrations** > **Milvus** > **Via Backup Files**.
-
-1. On the **Migrate From Milvus** page,
-
-    - If your data is on a local file:
-
-        - Select **From Local File**, upload the folder containing your data, and choose the target cluster.
-
-    - If your data is in object storage:
-
-        - Select **From Object Storage**, choose the service (e.g., S3, Azure Blob, GCP), enter the object URL or S3 URI of your data, provide the necessary credentials, and choose the target cluster.
-
-        - Provide the necessary credentials by specifying the appropriate **Credential Type**:
-
-            - **Long-term**: Use this option for persistent access to resources without frequent re-authentication.
-
-            - **Session**: Choose this for temporary credentials that are valid for a limited duration, ideal for short-lived access during a specific user session.
-
-1. Click **Migrate**.
-
-![migrate_from_milvus_via_backup_file](/img/migrate_from_milvus_via_backup_file.png)
+<Supademo id="cmbhd2wj85jktsn1rnjmi4t5o" title="Zilliz Cloud - Migrate from Milvus via Backup File Demo" />
 
 ## Monitor the migration process{#monitor-the-migration-process}
 
-Once you click **Migrate**, a migration job will be generated. You can check the migration progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the migration is complete.
+Once you click **Migrate**, a migration job will be generated. You can check the migration progress on the [Jobs](./job-center) page. When the job status switches from **In Progress** to **Successful**, the migration is complete.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -162,9 +146,13 @@ Once you click **Migrate**, a migration job will be generated. You can check the
 
 ![verify_collection](/img/verify_collection.png)
 
-Note that Zilliz Cloud exclusively supports [AUTOINDEX](./autoindex-explained) for optimized indexing, and will automatically index your migrated collection using this algorithm.
+## Post-migration{#post-migration}
 
-Once the collections are loaded, you are free to interact with them using your preferred method.
+After the migration job is completed, note the following:
+
+- **Index Creation**: The migration process automatically creates [AUTOINDEX](./autoindex-explained) for the migrated collections.
+
+- **Manual Loading Required**: Despite automatic indexing, the migrated collections are not immediately available for search or query operations. You must manually load the collections in Zilliz Cloud to enable search and query functionalities. For details, refer to [Load & Release](./load-release-collections).
 
 ## Cancel migration job{#cancel-migration-job}
 
