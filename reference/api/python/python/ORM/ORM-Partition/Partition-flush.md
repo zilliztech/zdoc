@@ -10,19 +10,19 @@ type: docx
 token: VRGwdg75Ao7ZXQx7uANc9wzXnVb
 sidebar_position: 3
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - pymilvus25
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 displayed_sidebar: pythonSidebar
 
 ---

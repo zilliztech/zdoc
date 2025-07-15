@@ -10,19 +10,19 @@ type: docx
 token: Y7pOdKR4MoqmvVxcS1TcjqUynMc
 sidebar_position: 2
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - drop_database()
   - pymilvus25
-  - llm hallucinations
   - hybrid search
   - lexical search
   - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 ---

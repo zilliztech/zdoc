@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method operates a privilege group, such as adding or removing privileges. | Go | v2"
 type: origin
 token: Cj20wi64SiTh6Qkck5scQRtDnV2
-sidebar_position: 17
+sidebar_position: 23
 displayed_sidebar: goSidebar
 
 ---
@@ -99,7 +99,7 @@ Null
 import (
    "context"
    "google.golang.org/grpc"
-   "github.com/milvus-io/milvus/v2/milvusclient"
+   "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
 privilegeGroupName := "my_privilege_group"

@@ -9,10 +9,10 @@ token: E2Zlf8PdXlx097dT2sNchgqpnbF
 sidebar_position: 4
 sidebar_label: "db"
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud

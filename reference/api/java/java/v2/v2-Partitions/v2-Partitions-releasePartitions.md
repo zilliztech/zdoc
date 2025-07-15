@@ -10,19 +10,19 @@ type: docx
 token: VsyQdDkXnoloWYxfjXNchc0dnng
 sidebar_position: 7
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - releasePartitions()
   - javaV225
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: javaSidebar
 
 ---

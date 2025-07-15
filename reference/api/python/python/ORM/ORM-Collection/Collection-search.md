@@ -10,19 +10,19 @@ type: docx
 token: OaM5dkbPjohKhNxHvKNcfnYMnVb
 sidebar_position: 25
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - pymilvus25
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: pythonSidebar
 
 ---

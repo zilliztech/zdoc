@@ -10,19 +10,19 @@ type: docx
 token: YCzNdg5yWoeZVrxj7jGcb1UXnBd
 sidebar_position: 8
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - describeAlias()
   - nodejs25
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: nodeSidebar
 
 ---

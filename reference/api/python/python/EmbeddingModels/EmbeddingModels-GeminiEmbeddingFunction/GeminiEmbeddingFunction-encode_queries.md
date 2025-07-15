@@ -10,19 +10,19 @@ type: docx
 token: KtyxdkxpSoTvacxJp27cOXwCnhe
 sidebar_position: 2
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus25
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: pythonSidebar
 
 ---

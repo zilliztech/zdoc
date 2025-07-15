@@ -10,19 +10,19 @@ type: docx
 token: PsAGd1CNqosvirxDJ5ncIHudnSg
 sidebar_position: 14
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollection()
   - javaV225
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: javaSidebar
 
 ---

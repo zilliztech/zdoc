@@ -10,19 +10,19 @@ type: docx
 token: RQH5dhSenoDGjYxyBb2c3n1rnie
 sidebar_position: 2
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionFieldProperties()
   - nodejs25
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: nodeSidebar
 
 ---

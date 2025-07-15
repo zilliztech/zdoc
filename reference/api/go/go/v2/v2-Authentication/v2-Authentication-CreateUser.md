@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method creates a user. In Milvus, you can allocate multiple privileges or privilege groups to a role and grant the role to a user so that the user gains the privileges allocated to the role. | Go | v2"
 type: origin
 token: GNaCwzGGFiFN49kh7ghcxUyZnAf
-sidebar_position: 2
+sidebar_position: 4
 displayed_sidebar: goSidebar
 
 ---
@@ -94,7 +94,7 @@ Null
 import (
    "context"
    "google.golang.org/grpc"
-   "github.com/milvus-io/milvus/v2/milvusclient"
+   "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
 userName := "my_user"

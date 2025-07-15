@@ -10,19 +10,19 @@ type: docx
 token: Vy5GdSeTdoNbSqxCdsOcSmQPnvf
 sidebar_position: 2
 keywords: 
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: pythonSidebar
 
 ---

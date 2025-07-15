@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method creates an index on a specific field. | Go | v2"
 type: origin
 token: FT7FwU4P6itcFmkHJNvcnTe6nRb
-sidebar_position: 1
+sidebar_position: 2
 displayed_sidebar: goSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: Jc43d397doxCRkxal2XcQ1Wyn2g
 sidebar_position: 16
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - refreshLoad()
   - nodejs25
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: nodeSidebar
 
 ---

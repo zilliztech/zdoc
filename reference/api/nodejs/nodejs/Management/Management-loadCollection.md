@@ -10,19 +10,19 @@ type: docx
 token: LoNvdRK80oWllFxV0H6co0HrnBe
 sidebar_position: 14
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollection()
   - nodejs25
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: nodeSidebar
 
 ---

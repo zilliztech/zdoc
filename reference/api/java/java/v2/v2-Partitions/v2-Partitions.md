@@ -6,13 +6,13 @@ notebook: false
 description: "Methods related to the manipulation of the partitions in a collection. | Java | v2"
 type: folder
 token: YkL6fqkaNlgeWXdNaWLcltkZnRc
-sidebar_position: 8
+sidebar_position: 9
 sidebar_label: "Partitions"
 keywords: 
+  - milvus
+  - Zilliz
   - milvus vector database
   - milvus db
-  - milvus vector db
-  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud

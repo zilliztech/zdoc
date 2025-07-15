@@ -10,19 +10,19 @@ type: docx
 token: GulFdOWMboEK9bxnzMSc8Uf8n8b
 sidebar_position: 4
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabaseProperties()
   - nodejs25
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 displayed_sidebar: nodeSidebar
 
 ---

@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method drops a role. | Go | v2"
 type: origin
 token: K81WwNJxai0qZukzVMKc8QANnOh
-sidebar_position: 6
+sidebar_position: 8
 displayed_sidebar: goSidebar
 
 ---
@@ -89,7 +89,7 @@ Null
 import (
    "context"
    "google.golang.org/grpc"
-   "github.com/milvus-io/milvus/v2/milvusclient"
+   "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
 roleName := "my_role"

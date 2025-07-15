@@ -10,19 +10,19 @@ type: docx
 token: UehMdosTGoZVzaxdTcUcpy1ynef
 sidebar_position: 3
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus25
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 displayed_sidebar: pythonSidebar
 
 ---

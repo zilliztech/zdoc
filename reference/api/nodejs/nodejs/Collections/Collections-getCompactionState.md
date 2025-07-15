@@ -10,19 +10,19 @@ type: docx
 token: CRFLdvgkhoeRikxMcMAcJk3qnIc
 sidebar_position: 14
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
   - getCompactionState()
   - nodejs25
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 displayed_sidebar: nodeSidebar
 
 ---

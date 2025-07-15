@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation conducts a scalar filtering with a specified boolean expression. | Java | v2"
 type: docx
-token: Oy7PdvBJ7omRcKxvRvUcbWLcn1d
+token: OnIpdTTSOoV06KxhhAkcFQCKnWd
 sidebar_position: 5
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - javaV225
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: javaSidebar
 
 ---
@@ -42,6 +42,7 @@ public QueryResp query(QueryReq request)
 
 ```java
 query(QueryReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .partitionNames(List<String> partitionNames)
     .outputFields(List<String> outputFields)
@@ -56,13 +57,17 @@ query(QueryReq.builder()
 
 **BUILDER METHODS:**
 
+- `databaseName(String databaseName)`
+
+    The name of an existing database.
+
 - `collectionName(String collectionName)`
 
-    The name of an existing collection.
+    The name of an existing collection in the above-specified database.
 
 - `partitionNames(List<String> partitionNames)`
 
-    A list of partition names.
+    A list of partition names in the above-specified collection.
 
 - `outputFields(List<String> outputFields)`
 

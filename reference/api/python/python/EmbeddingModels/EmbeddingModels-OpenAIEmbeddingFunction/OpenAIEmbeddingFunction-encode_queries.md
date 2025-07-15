@@ -10,19 +10,19 @@ type: docx
 token: Sf9UdzL3rolQNAxDm8Ecga3snhg
 sidebar_position: 2
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus25
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: pythonSidebar
 
 ---

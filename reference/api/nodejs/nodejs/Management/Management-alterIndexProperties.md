@@ -10,19 +10,19 @@ type: docx
 token: PcQcdDwthoSEZaxI6GncpUpGnBh
 sidebar_position: 1
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - alterIndexProperties()
   - nodejs25
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: nodeSidebar
 
 ---

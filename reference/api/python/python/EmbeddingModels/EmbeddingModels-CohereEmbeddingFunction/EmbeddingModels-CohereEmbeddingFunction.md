@@ -10,19 +10,19 @@ type: docx
 token: JzDLdkv3QoCY8OxKpBjc5zsmnId
 sidebar_position: 1
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - CohereEmbeddingFunction
   - pymilvus25
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: pythonSidebar
 
 ---

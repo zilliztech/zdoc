@@ -10,19 +10,19 @@ type: docx
 token: HQiHd82orov0XvxAzLWcl5xRnzc
 sidebar_position: 31
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - loading_progress()
   - pymilvus25
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: pythonSidebar
 
 ---

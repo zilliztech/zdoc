@@ -10,19 +10,19 @@ type: docx
 token: WazKdTlcOoYoBWxIJEEc7gFMnfC
 sidebar_position: 18
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - revoke_privilege_v2()
   - pymilvus25
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: pythonSidebar
 
 ---

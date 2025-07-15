@@ -10,19 +10,19 @@ type: docx
 token: WtyZdeFKMoSv5exaYRxcPLCSndg
 sidebar_position: 9
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - drop_user()
   - pymilvus25
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: pythonSidebar
 
 ---

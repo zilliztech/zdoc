@@ -10,19 +10,19 @@ type: docx
 token: Of5xdscL1o5Svzxy8yOckqaMnzg
 sidebar_position: 16
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - IndexType
   - nodejs25
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: nodeSidebar
 
 ---

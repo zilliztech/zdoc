@@ -10,19 +10,19 @@ type: docx
 token: Uwsfd443boKKgyx2zZTcYDqKnCe
 sidebar_position: 12
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - flush_all()
   - pymilvus25
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: pythonSidebar
 
 ---

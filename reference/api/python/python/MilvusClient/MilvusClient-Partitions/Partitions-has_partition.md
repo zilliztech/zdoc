@@ -10,19 +10,19 @@ type: docx
 token: MxTAd0haboKnRrxQvoOckGghn1T
 sidebar_position: 4
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - has_partition()
   - pymilvus25
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: pythonSidebar
 
 ---

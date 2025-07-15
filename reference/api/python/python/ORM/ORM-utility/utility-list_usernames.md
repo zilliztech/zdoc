@@ -10,19 +10,19 @@ type: docx
 token: RXi3dgtNYogU0cxmTsgcdT72nsc
 sidebar_position: 29
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - list_usernames()
   - pymilvus25
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 displayed_sidebar: pythonSidebar
 
 ---

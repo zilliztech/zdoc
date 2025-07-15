@@ -10,19 +10,19 @@ type: docx
 token: TRFadKWOAofCVoxH3qYcdTvynHf
 sidebar_position: 14
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - alter_index_properties()
   - pymilvus25
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 ---

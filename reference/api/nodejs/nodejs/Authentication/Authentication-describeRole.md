@@ -10,19 +10,19 @@ type: docx
 token: ItZPd1o4uoodqtx1sxIcq38hn7e
 sidebar_position: 7
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
   - nodejs25
+  - open source vector database
+  - Vector index
+  - vector database open source
   - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
 displayed_sidebar: nodeSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: KSECdBDcUoIkL7xI4KOc29Ukn1g
 sidebar_position: 5
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - verify()
   - pymilvus25
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: pythonSidebar
 
 ---

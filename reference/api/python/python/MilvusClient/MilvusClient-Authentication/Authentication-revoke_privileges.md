@@ -10,19 +10,19 @@ type: docx
 token: UP2GdfHHzoIQ56x2JvScs0sAnzh
 sidebar_position: 17
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - revoke_privileges()
   - pymilvus25
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: pythonSidebar
 
 ---

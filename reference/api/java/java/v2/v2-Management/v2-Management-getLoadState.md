@@ -10,19 +10,19 @@ type: docx
 token: QcaFdMJE9oHX1Axe11rcqfiynEd
 sidebar_position: 6
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadState()
   - javaV225
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: javaSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: XW72dhBuNoqNWhxUQLtcfa6Fnwd
 sidebar_position: 10
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - pymilvus25
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: pythonSidebar
 
 ---

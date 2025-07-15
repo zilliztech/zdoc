@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method drops an alias. | Go | v2"
 type: origin
 token: L4pQwb5CRixHdvkff3Zc90eznbg
-sidebar_position: 11
+sidebar_position: 13
 displayed_sidebar: goSidebar
 
 ---

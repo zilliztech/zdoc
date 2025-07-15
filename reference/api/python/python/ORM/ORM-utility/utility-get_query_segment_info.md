@@ -10,19 +10,19 @@ type: docx
 token: CB9edh2ySoJyWhxBoLcchPj9nxg
 sidebar_position: 14
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - get_query_segment_info()
   - pymilvus25
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: pythonSidebar
 
 ---

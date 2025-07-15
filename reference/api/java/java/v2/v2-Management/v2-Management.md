@@ -6,13 +6,13 @@ notebook: false
 description: "Methods for you to index, load, and release a collection. | Java | v2"
 type: folder
 token: MTBuf5wQ7lardCddEtCc4R2uncb
-sidebar_position: 2
+sidebar_position: 4
 sidebar_label: "Management"
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud

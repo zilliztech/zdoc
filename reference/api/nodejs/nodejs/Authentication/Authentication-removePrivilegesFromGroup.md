@@ -10,19 +10,19 @@ type: docx
 token: EeAfdukBNoIIgCxX248c6VULnOb
 sidebar_position: 20
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - removePrivilegesFromGroup()
   - nodejs25
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: nodeSidebar
 
 ---

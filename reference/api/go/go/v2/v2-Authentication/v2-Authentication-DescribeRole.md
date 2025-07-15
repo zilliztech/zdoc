@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method returns the detailed information about the specified role. | Go | v2"
 type: origin
 token: GihqwvwlGiiVhUkwftTcvzRuncc
-sidebar_position: 4
+sidebar_position: 6
 displayed_sidebar: goSidebar
 
 ---
@@ -100,7 +100,7 @@ type Role struct {
 import (
    "context"
    "google.golang.org/grpc"
-   "github.com/milvus-io/milvus/v2/milvusclient"
+   "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
 roleName := "my_role"

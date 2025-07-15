@@ -10,19 +10,19 @@ type: docx
 token: CSpOd0XgWoVAhzx5xbVcpCVfnPg
 sidebar_position: 5
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - S3ConnectParam
   - pymilvus25
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: pythonSidebar
 
 ---

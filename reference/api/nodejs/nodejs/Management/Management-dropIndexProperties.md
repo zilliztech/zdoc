@@ -10,19 +10,19 @@ type: docx
 token: Acvxd7t9poXj6nxb0vMco0wsngh
 sidebar_position: 5
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndexProperties()
   - nodejs25
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: nodeSidebar
 
 ---

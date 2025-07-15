@@ -10,19 +10,19 @@ type: docx
 token: FpWXdmIuforYz9xUCsqclyCXnLe
 sidebar_position: 10
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - drop_alias()
   - pymilvus25
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: pythonSidebar
 
 ---

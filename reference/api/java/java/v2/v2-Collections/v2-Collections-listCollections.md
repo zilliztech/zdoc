@@ -10,19 +10,19 @@ type: docx
 token: WxhmdPZydowLVLxR2LacSrUNnme
 sidebar_position: 20
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - listCollections()
   - javaV225
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: javaSidebar
 
 ---

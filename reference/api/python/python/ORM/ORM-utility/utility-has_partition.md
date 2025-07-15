@@ -10,19 +10,19 @@ type: docx
 token: KsmadNcXRoElO2xJi5HcJO57nwb
 sidebar_position: 18
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - has_partition()
   - pymilvus25
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: EZ2YdBHoDoRTlxx91tscffm1nSb
 sidebar_position: 15
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - list_users()
   - pymilvus25
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: pythonSidebar
 
 ---

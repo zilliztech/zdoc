@@ -10,19 +10,19 @@ type: docx
 token: HN7nddgueo3scIxmPXAcpjkFnDf
 sidebar_position: 8
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describe_alias()
   - pymilvus25
-  - HNSW
-  - What is unstructured data
   - Vector embeddings
   - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: pythonSidebar
 
 ---

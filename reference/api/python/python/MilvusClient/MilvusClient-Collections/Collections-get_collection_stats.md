@@ -10,19 +10,19 @@ type: docx
 token: VVyNdx038oECxNxMQavc9vssnoh
 sidebar_position: 13
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - get_collection_stats()
   - pymilvus25
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

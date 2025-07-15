@@ -10,19 +10,19 @@ type: docx
 token: N44ndTSrgoEBx7xCID5cXRS7n1c
 sidebar_position: 5
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - create_user()
   - pymilvus25
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: pythonSidebar
 
 ---

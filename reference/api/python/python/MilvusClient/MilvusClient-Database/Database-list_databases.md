@@ -10,19 +10,19 @@ type: docx
 token: FZuddXocNopEufxRFGdcbvkRnnb
 sidebar_position: 6
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - list_databases()
   - pymilvus25
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 ---

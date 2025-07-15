@@ -10,19 +10,19 @@ type: docx
 token: E3opdXwZCoY8igxMjQ1cwsTbnzh
 sidebar_position: 1
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - JinaRerankFunction
   - pymilvus25
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
   - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 displayed_sidebar: pythonSidebar
 
 ---

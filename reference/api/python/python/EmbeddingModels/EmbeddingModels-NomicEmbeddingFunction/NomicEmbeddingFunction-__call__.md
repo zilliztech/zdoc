@@ -10,19 +10,19 @@ type: docx
 token: Dsl1dDLBeoGixjxt2lpcFP5ynSA
 sidebar_position: 4
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 ---

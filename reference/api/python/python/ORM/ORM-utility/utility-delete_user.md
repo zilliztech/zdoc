@@ -10,19 +10,19 @@ type: docx
 token: E7zOdU2JpoqaU5xNYXvcAjgPnNh
 sidebar_position: 6
 keywords: 
+  - AI Hallucination
   - AI Agent
   - semantic search
   - Anomaly Detection
-  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - delete_user()
   - pymilvus25
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: pythonSidebar
 
 ---

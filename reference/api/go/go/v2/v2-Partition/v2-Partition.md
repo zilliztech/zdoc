@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This chapter provides references for the methods to manipulate partitions. | Go | v2"
 type: origin
 token: UyX7worDHi0VNEk5zmwcXR7FnNf
-sidebar_position: 6
+sidebar_position: 7
 displayed_sidebar: goSidebar
 
 ---

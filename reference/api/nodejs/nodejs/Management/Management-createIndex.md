@@ -10,19 +10,19 @@ type: docx
 token: Nu0Id3wzGoJIFyxkC7IcmjAznNf
 sidebar_position: 2
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
   - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
   - nodejs25
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: nodeSidebar
 
 ---

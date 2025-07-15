@@ -10,19 +10,19 @@ type: docx
 token: HVGNdMYOvojQoXxvDmEcnHYanMh
 sidebar_position: 1
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - CrossEncoderRerankFunction
   - pymilvus25
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: pythonSidebar
 
 ---

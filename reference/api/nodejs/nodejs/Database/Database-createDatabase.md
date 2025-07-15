@@ -10,19 +10,19 @@ type: docx
 token: JmlKdBz7Io91Ffx9rpKce3vUnMc
 sidebar_position: 2
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - createDatabase()
   - nodejs25
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: nodeSidebar
 
 ---

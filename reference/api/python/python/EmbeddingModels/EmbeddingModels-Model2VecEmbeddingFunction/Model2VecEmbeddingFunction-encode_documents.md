@@ -10,19 +10,19 @@ type: docx
 token: WJY1dMUO5owB1gxkOlLcaB2Rn7g
 sidebar_position: 1
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus25
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 ---

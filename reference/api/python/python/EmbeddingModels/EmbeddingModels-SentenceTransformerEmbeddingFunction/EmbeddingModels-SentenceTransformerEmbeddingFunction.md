@@ -10,19 +10,19 @@ type: docx
 token: JOFedA4h8otTjHxsYQ7cnjsunHd
 sidebar_position: 3
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - SentenceTransformerEmbeddingFunction
   - pymilvus25
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: pythonSidebar
 
 ---

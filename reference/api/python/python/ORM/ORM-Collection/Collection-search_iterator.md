@@ -10,19 +10,19 @@ type: docx
 token: HrnndnWtKoPuenxvsXBchF1wnnh
 sidebar_position: 26
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - search_iterator()
   - pymilvus25
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: pythonSidebar
 
 ---

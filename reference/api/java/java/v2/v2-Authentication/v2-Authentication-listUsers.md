@@ -10,19 +10,19 @@ type: docx
 token: EfM3drSXlo4Yzyxq2GpcmvoHnTm
 sidebar_position: 15
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - listUsers()
   - javaV225
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 displayed_sidebar: javaSidebar
 
 ---

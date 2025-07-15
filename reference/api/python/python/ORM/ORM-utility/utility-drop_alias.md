@@ -10,19 +10,19 @@ type: docx
 token: V7BWdrC39oPAauxoWBzcaldwnVc
 sidebar_position: 9
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - drop_alias()
   - pymilvus25
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: pythonSidebar
 
 ---

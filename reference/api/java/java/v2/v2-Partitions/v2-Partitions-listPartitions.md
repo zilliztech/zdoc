@@ -10,19 +10,19 @@ type: docx
 token: RJcgdJpGDouomlxPTqZc5S8Lngc
 sidebar_position: 5
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - listPartitions()
   - javaV225
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: javaSidebar
 
 ---

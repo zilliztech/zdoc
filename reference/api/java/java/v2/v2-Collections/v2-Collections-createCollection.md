@@ -10,19 +10,19 @@ type: docx
 token: DkFxdDBvaoUPQRxzudxcDtTXnue
 sidebar_position: 7
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
   - javaV225
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: javaSidebar
 
 ---
@@ -56,6 +56,8 @@ createCollection(CreateCollectionReq.builder()
     .collectionSchema(CreateCollectionReq.CollectionSchema collectionSchema)
     .indexParams(List<IndexParam> indexParams)
     .numPartitions(int numPartitions)
+    .consistencyLevel(ConsistencyLevel consistencyLevel)
+    .properties(Map<String, String> properties)
     .build()
 )
 ```
@@ -156,6 +158,14 @@ createCollection(CreateCollectionReq.builder()
 - `numPartitions(int numPartitions)`
 
     The number of partitions. Used when isPartitionKey is set to true in Field Schema. Default is 64.
+
+- `consistencyLevel(ConsistencyLevel consistencyLevel)`
+
+    The consistency level of the collection. This applies to searches and queries within the collection if the search or query request lacks consistency.
+
+- `properties(Map<String, String> properties)`
+
+    Extra collection properties in a hash map.
 
 **RETURNS:**
 

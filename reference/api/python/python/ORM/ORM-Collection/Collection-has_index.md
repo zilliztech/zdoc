@@ -10,19 +10,19 @@ type: docx
 token: WDk4dXY8IoV3SJxp9e7c3aq1nBh
 sidebar_position: 15
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
   - has_index()
   - pymilvus25
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: TUrSdmskuoGdFRxFT75c6xhinzc
 sidebar_position: 2
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClient
   - pymilvus25
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: pythonSidebar
 
 ---

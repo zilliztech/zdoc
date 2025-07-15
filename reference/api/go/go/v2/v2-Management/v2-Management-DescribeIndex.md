@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method describes the specified index by providing its detailed information. | Go | v2"
 type: origin
 token: RciIwOPIJiPV8EkKPglcIg7Fn3e
-sidebar_position: 2
+sidebar_position: 3
 displayed_sidebar: goSidebar
 
 ---

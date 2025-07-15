@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "A MilvusClientV2 instance represents a Java client that connects to a specific Zilliz Cloud cluster. | Java | v2"
 type: docx
-token: Y4qvdMEeioKXShxxNmncvnJ2nJf
+token: IeOWd0yR2onm5Ex6XyqcrGjKnpS
 sidebar_position: 1
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClientV2
   - javaV225
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 displayed_sidebar: javaSidebar
 
 ---
@@ -152,6 +152,10 @@ ConnectConfig.builder()
 
     The expected name of the server.
 
+- `proxyAddress(String proxyAddress)`
+
+    The proxy server's address through which the connection is to be established.
+
 - `secure(boolean enable)`
 
     Whether to use TLS for the connection.
@@ -161,6 +165,32 @@ ConnectConfig.builder()
 - `idleTimeoutMs(long idleTimeout)`
 
     The idle timeout for a connection.
+
+**PUBLIC METHODS:**
+
+- `getHost()`
+
+    Returns the hostname of the currently connected Milvus instance.
+
+- `getPort()`
+
+    Returns the port number at which the currently connected Milvus instance.
+
+- `getAuthorization()`
+
+    Returns the credentials used to set up the current connection.
+
+- `getDbName()`
+
+    Returns the name of the database currently in use.
+
+- `isSecure()`
+
+    Returns whether the current connection is over TLS.
+
+- `getProxyAddress()`
+
+    Returns the proxy server's address specified in **ConnectConfig**.
 
 ## Examples{#examples}
 

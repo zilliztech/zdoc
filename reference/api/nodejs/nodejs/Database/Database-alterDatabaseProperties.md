@@ -10,19 +10,19 @@ type: docx
 token: NNWed9Vd1o7vDkxY4pncM4wYnaf
 sidebar_position: 7
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - alterDatabaseProperties()
   - nodejs25
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 displayed_sidebar: nodeSidebar
 
 ---

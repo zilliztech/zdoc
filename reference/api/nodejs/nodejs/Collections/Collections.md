@@ -9,10 +9,10 @@ token: SU7xfa1bal8yS0dioBmcCncYn5c
 sidebar_position: 1
 sidebar_label: "Collections"
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud

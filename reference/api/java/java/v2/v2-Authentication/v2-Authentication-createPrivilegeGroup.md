@@ -10,19 +10,19 @@ type: docx
 token: MF3tdne4DoEiC0xlAe0ctyxHn9g
 sidebar_position: 2
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - createPrivilegeGroup()
   - javaV225
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 displayed_sidebar: javaSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: QPcodlsnAoSMvIxEFmlcMNPbntd
 sidebar_position: 3
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - OpenAIEmbeddingFunction
   - pymilvus25
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 displayed_sidebar: pythonSidebar
 
 ---

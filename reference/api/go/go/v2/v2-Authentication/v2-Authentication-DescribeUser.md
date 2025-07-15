@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method returns the detailed information about the specified user. | Go | v2"
 type: origin
 token: YEaPwIU9TiN44iktkLrcboGzndc
-sidebar_position: 5
+sidebar_position: 7
 displayed_sidebar: goSidebar
 
 ---
@@ -100,7 +100,7 @@ type User struct {
 import (
    "context"
    "google.golang.org/grpc"
-   "github.com/milvus-io/milvus/v2/milvusclient"
+   "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
 userName := "my_user"

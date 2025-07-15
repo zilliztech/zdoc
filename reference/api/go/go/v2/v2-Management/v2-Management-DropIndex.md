@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method drops the specified index. | Go | v2"
 type: origin
 token: Bp2iw4UZNi5dk5kwXMwcqvVLnrf
-sidebar_position: 3
+sidebar_position: 4
 displayed_sidebar: goSidebar
 
 ---

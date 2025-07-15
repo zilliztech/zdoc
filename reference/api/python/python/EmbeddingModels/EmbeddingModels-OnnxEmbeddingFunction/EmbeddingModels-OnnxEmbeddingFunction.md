@@ -10,19 +10,19 @@ type: docx
 token: MVLRdU9nPonUeExs7ogctwZ1n4c
 sidebar_position: 3
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
   - OnnxEmbeddingFunction
   - pymilvus25
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: pythonSidebar
 
 ---

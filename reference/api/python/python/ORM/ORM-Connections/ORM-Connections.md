@@ -10,19 +10,19 @@ type: docx
 token: A96udk9seoF5x5xywQZcLasanIe
 sidebar_position: 3
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - Connections
   - pymilvus25
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 displayed_sidebar: pythonSidebar
 
 ---

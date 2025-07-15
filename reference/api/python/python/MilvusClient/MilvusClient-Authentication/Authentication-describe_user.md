@@ -10,19 +10,19 @@ type: docx
 token: Wz3HdtvPCoEquvxFY7PcDHxcnEe
 sidebar_position: 6
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describe_user()
   - pymilvus25
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 displayed_sidebar: pythonSidebar
 
 ---

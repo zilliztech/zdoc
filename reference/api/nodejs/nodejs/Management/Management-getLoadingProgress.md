@@ -10,19 +10,19 @@ type: docx
 token: DkImdRkJwoUmdqxzqn1cpQr9nhy
 sidebar_position: 11
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadingProgress()
   - nodejs25
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: nodeSidebar
 
 ---

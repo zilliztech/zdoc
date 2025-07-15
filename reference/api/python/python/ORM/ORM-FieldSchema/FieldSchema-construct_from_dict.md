@@ -10,19 +10,19 @@ type: docx
 token: DCLUdOpVjohl8HxPUx1cGjokngf
 sidebar_position: 1
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dict()
   - pymilvus25
-  - sentence transformers
-  - Recommender systems
   - information retrieval
   - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: pythonSidebar
 
 ---

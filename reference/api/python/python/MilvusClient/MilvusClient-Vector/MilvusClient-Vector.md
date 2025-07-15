@@ -9,10 +9,10 @@ token: BCcWfIoxvlY1oOdsLcXcqTtcnMf
 sidebar_position: 7
 sidebar_label: "Vector"
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud

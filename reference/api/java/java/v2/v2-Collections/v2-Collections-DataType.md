@@ -10,19 +10,19 @@ type: docx
 token: QYPIdgWL7oDWrWxVUx0clo32nz4
 sidebar_position: 10
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
   - javaV225
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 displayed_sidebar: javaSidebar
 
 ---

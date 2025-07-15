@@ -10,19 +10,19 @@ type: docx
 token: UUJWdoEnjoXx69xahsScdMVSnzf
 sidebar_position: 10
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - revoke()
   - pymilvus25
-  - natural language processing
-  - AI chatbots
   - cosine distance
   - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: pythonSidebar
 
 ---

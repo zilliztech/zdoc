@@ -5,14 +5,14 @@ beta: false
 notebook: false
 description: "Classes and methods for you to manage the MilvusClient instances. | Java | v2"
 type: folder
-token: YEBjfrOXWl8s00dDTvdcMiYDn0d
-sidebar_position: 6
+token: QW8NfURhvl0NtOdmS3DcvQYCnFh
+sidebar_position: 1
 sidebar_label: "Client"
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud

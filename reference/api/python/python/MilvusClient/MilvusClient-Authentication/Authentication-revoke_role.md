@@ -10,19 +10,19 @@ type: docx
 token: JJOId59ePoMLefxz1ChcBZ6inOh
 sidebar_position: 19
 keywords: 
-  - Audio search
   - what is semantic search
   - Embedding model
   - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - revoke_role()
   - pymilvus25
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 displayed_sidebar: pythonSidebar
 
 ---

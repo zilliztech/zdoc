@@ -10,19 +10,19 @@ type: docx
 token: Q8IidbqKMopplgxSxaicS2o9nwc
 sidebar_position: 5
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - ConsistencyLevel
   - javaV225
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: javaSidebar
 
 ---

@@ -19,10 +19,10 @@ keywords:
   - cloud
   - flush()
   - nodejs25
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: nodeSidebar
 
 ---

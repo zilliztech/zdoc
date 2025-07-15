@@ -10,19 +10,19 @@ type: docx
 token: QHcpd1aJzo5aYbxJtMXc58een4f
 sidebar_position: 39
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - transfer_node()
   - pymilvus25
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: XDXid6aZ8oCHnVxxFpPcKAB9n0c
 sidebar_position: 3
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - getPartitionStatistics()
   - nodejs25
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 displayed_sidebar: nodeSidebar
 
 ---

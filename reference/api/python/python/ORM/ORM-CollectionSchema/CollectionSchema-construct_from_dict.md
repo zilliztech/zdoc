@@ -10,19 +10,19 @@ type: docx
 token: DYuUdc503o1TANxuGozcXhCmnRN
 sidebar_position: 3
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dict()
   - pymilvus25
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 displayed_sidebar: pythonSidebar
 
 ---

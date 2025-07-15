@@ -41,12 +41,12 @@ func (c *GrpcClient) Get(ctx context.Context, collectionName string, ids entity.
    </tr>
    <tr>
      <td><p><code>ids</code></p></td>
-     <td><p>Boolean expression for metadata filtering. For details, refer to <a href="https://milvus.io/docs/boolean.md">Scalar Filtering Rules</a>.</p></td>
+     <td><p>Boolean expression for metadata filtering.</p><p>For details, refer to <a href="https://milvus.io/docs/boolean.md">Scalar Filtering Rules</a>.</p></td>
      <td><p><code>entity.Column</code></p></td>
    </tr>
    <tr>
      <td><p><code>opts</code></p></td>
-     <td><p>Extra query options. You can add multiple <code>client.GetOption</code> instances.</p></td>
+     <td><p>Extra query options.</p><p>You can add multiple <code>client.GetOption</code> instances.</p></td>
      <td><p><code>...client.GetOption</code></p></td>
    </tr>
 </table>

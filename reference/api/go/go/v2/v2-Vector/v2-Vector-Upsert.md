@@ -108,29 +108,29 @@ func NewColumnBasedInsertOption(collName string, columns ...column.Column) *colu
 
 You can chain the following method to get an implementation of the `columnBasedDataOption` struct.
 
-- [WithColumns](./v2-Vector-Upsert)
+- [WithColumns](./v2-Vector-Insert#withcolumns)
 
-- [WithBoolColumn](./v2-Vector-Upsert)
+- [WithBoolColumn](./v2-Vector-Insert#withboolcolumn)
 
-- [WithInt8Column](./v2-Vector-Upsert)
+- [WithInt8Column](./v2-Vector-Insert#withint8column)
 
-- [WithInt16Column](./v2-Vector-Upsert)
+- [WithInt16Column](./v2-Vector-Insert#withint16column)
 
-- [WithInt32Column](./v2-Vector-Upsert)
+- [WithInt32Column](./v2-Vector-Insert#withint32column)
 
-- [WithInt64Column](./v2-Vector-Upsert)
+- [WithInt64Column](./v2-Vector-Insert#withint64column)
 
-- [WithVarcharColumn](./v2-Vector-Upsert)
+- [WithVarcharColumn](./v2-Vector-Insert#withvarcharcolumn)
 
-- [WithFloatVectorColumn](./v2-Vector-Upsert)
+- [WithFloatVectorColumn](./v2-Vector-Insert#withfloatvectorcolumn)
 
-- [WithFloat16VectorColumn](./v2-Vector-Upsert)
+- [WithFloat16VectorColumn](./v2-Vector-Insert#withfloat16vectorcolumn)
 
-- [WithBFloat16VectorColumn](./v2-Vector-Upsert)
+- [WithBFloat16VectorColumn](./v2-Vector-Insert#withbfloat16vectorcolumn)
 
-- [WithBinaryVectorColumn](./v2-Vector-Upsert)
+- [WithBinaryVectorColumn](./v2-Vector-Insert#withbinaryvectorcolumn)
 
-- [WithPartition](./v2-Vector-Upsert)
+- [WithPartition](./v2-Vector-Insert#withpartition)
 
 ## UpsertResult{#upsertresult}
 

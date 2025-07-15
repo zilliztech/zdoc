@@ -10,19 +10,19 @@ type: docx
 token: K1Npdj5Ddod6UWxRN2ecf6K4nxf
 sidebar_position: 38
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - reset_password()
   - pymilvus25
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: pythonSidebar
 
 ---

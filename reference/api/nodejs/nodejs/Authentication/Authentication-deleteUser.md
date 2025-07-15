@@ -10,19 +10,19 @@ type: docx
 token: Cl5PdhU5jouHnrxyYXLcOQAZneb
 sidebar_position: 6
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - deleteUser()
   - nodejs25
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: nodeSidebar
 
 ---

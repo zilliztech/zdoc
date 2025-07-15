@@ -6,13 +6,13 @@ notebook: false
 description: "Methods related to implement role-based access control to your resources. | Java | v2"
 type: folder
 token: U16KfBnGVlNp5edR7DycvFF1nfy
-sidebar_position: 5
+sidebar_position: 7
 sidebar_label: "Authentication"
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud

@@ -10,19 +10,19 @@ type: docx
 token: J76vdPHNgoyp2wxAiTcceIVJnOe
 sidebar_position: 4
 keywords: 
-  - open source vector db
-  - vector database example
   - rag vector database
   - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - create_index()
   - pymilvus25
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: pythonSidebar
 
 ---

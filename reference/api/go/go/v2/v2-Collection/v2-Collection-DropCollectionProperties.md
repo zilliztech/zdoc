@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method resets the specified properties of a collection to their default values. | Go | v2"
 type: origin
 token: HGMpwzYmBiiApWkJRQjcj5Fknmh
-sidebar_position: 14
+sidebar_position: 16
 displayed_sidebar: goSidebar
 
 ---

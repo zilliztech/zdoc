@@ -10,19 +10,19 @@ type: docx
 token: CbCodEGY9o6pKuxowNdctUppn7d
 sidebar_position: 19
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
   - pymilvus25
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: pythonSidebar
 
 ---

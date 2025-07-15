@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method describes a collection by providing its detailed information. | Go | v2"
 type: origin
 token: NmRwwnWK6in8rNkk5iucAWBznOf
-sidebar_position: 6
+sidebar_position: 9
 displayed_sidebar: goSidebar
 
 ---

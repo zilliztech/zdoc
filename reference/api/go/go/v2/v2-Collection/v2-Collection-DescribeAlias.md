@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method describes an alias by providing detailed information about its associated collection. | Go | v2"
 type: origin
 token: PuCzwybCuiPwPwkhbkRc1j5Yncq
-sidebar_position: 5
+sidebar_position: 8
 displayed_sidebar: goSidebar
 
 ---

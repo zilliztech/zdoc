@@ -10,19 +10,19 @@ type: docx
 token: Qc72dTKgroNdHjxIG2xcwNdmnHb
 sidebar_position: 2
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - addUserToRole()
   - nodejs25
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 displayed_sidebar: nodeSidebar
 
 ---

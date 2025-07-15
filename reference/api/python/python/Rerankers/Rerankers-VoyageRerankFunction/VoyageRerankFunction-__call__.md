@@ -10,19 +10,19 @@ type: docx
 token: N2aHdla1Uohk1HxGyPHcdG4lnnb
 sidebar_position: 2
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
+  - Pinecone vector database
+  - Audio search
   - what is semantic search
   - Embedding model
-  - image similarity search
-  - Context Window
 displayed_sidebar: pythonSidebar
 
 ---

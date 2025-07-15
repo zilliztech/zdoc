@@ -9,10 +9,10 @@ token: CcDcf33k1lcbiZdS6GFc4L9anub
 sidebar_position: 8
 sidebar_label: "Database"
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud

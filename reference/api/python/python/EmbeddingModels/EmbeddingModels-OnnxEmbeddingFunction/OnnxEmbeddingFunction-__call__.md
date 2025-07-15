@@ -10,19 +10,19 @@ type: docx
 token: PlzSdJTGnoFVH6xSlS6cYBHZnph
 sidebar_position: 4
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: pythonSidebar
 
 ---

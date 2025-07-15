@@ -10,19 +10,19 @@ type: docx
 token: BBmsddqZEozxWyxkoADcFfzpncW
 sidebar_position: 2
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - dropPartition()
   - nodejs25
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: nodeSidebar
 
 ---

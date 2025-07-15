@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method revokes a privilege or a privilege group of a role. In Milvus, you can allocate multiple privileges or privilege groups to a role and grant the role to a user so that the user gains the privileges allocated to the role. | Go | v2"
 type: origin
 token: BZZIwLZ8xiik1fkTZYDcShJInJf
-sidebar_position: 15
+sidebar_position: 21
 displayed_sidebar: goSidebar
 
 ---

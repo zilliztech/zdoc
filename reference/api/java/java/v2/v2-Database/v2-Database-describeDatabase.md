@@ -10,19 +10,19 @@ type: docx
 token: MJjHd3uGcoxEYBx0laKcAIKNnhg
 sidebar_position: 3
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - describeDatabase()
   - javaV225
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: javaSidebar
 
 ---

@@ -2,7 +2,7 @@
 title: "get() | Java | v1"
 slug: /java/v1-HighlevelAPI-get
 sidebar_label: "get()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The MilvusClient interface. This method gets entity(s) based on the primary field ids. Note that the order of the returned entities can not be guaranteed. | Java | v1"
 type: origin

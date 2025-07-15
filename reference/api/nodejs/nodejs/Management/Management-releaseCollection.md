@@ -10,19 +10,19 @@ type: docx
 token: UxOXdeKF1oOIBuxTjPhcKBtPnRb
 sidebar_position: 17
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - releaseCollection()
   - nodejs25
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: nodeSidebar
 
 ---

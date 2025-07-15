@@ -9,10 +9,10 @@ token: I5i9f86n4lsy9IddsDocMOsfnXg
 sidebar_position: 2
 sidebar_label: "BulkImport"
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud

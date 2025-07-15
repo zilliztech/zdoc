@@ -10,19 +10,19 @@ type: docx
 token: IdNAdlMhjoM40pxjpKecpc7inbd
 sidebar_position: 5
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndexProperties()
   - javaV225
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
 displayed_sidebar: javaSidebar
 
 ---

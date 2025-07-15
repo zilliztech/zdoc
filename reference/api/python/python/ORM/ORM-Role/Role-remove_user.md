@@ -10,19 +10,19 @@ type: docx
 token: SlmSdaD7rocMJsxThNHcOtEknVd
 sidebar_position: 9
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - remove_user()
   - pymilvus25
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: pythonSidebar
 
 ---

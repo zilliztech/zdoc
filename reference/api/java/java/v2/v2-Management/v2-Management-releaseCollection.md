@@ -10,19 +10,19 @@ type: docx
 token: BA9edMrWMosYWFxwTBAcl2WOnff
 sidebar_position: 13
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - releaseCollection()
   - javaV225
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: javaSidebar
 
 ---

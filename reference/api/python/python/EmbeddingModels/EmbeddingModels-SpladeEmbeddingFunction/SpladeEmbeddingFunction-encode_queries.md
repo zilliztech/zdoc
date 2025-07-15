@@ -10,19 +10,19 @@ type: docx
 token: S9zPdiLkpokjfkxfZ68cWIFynnd
 sidebar_position: 2
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus25
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: pythonSidebar
 
 ---

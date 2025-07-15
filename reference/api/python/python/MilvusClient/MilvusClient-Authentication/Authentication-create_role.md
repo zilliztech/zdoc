@@ -10,19 +10,19 @@ type: docx
 token: OUz3drncZo1Er8xyITZcYz66nWE
 sidebar_position: 3
 keywords: 
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - create_role()
   - pymilvus25
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -9,10 +9,10 @@ token: MvvMf16FLlVOmtdgx5UcZ8qtnyd
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud

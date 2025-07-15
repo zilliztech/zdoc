@@ -10,19 +10,19 @@ type: docx
 token: AQ1ydMXbOog5VJxITgUc4GFvnVe
 sidebar_position: 28
 keywords: 
+  - DiskANN
   - Sparse vector
   - Vector Dimension
   - ANN Search
-  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - pymilvus25
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
   - Dense embedding
   - Faiss vector database
+  - Chroma vector database
+  - nlp search
 displayed_sidebar: pythonSidebar
 
 ---

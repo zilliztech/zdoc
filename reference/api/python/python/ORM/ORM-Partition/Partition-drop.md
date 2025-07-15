@@ -10,19 +10,19 @@ type: docx
 token: D3sndK8DgoqDkUxaNGcctwcSnuE
 sidebar_position: 2
 keywords: 
+  - Pinecone vector database
   - Audio search
   - what is semantic search
   - Embedding model
-  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - drop()
   - pymilvus25
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: pythonSidebar
 
 ---

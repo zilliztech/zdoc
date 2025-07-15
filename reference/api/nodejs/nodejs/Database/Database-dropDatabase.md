@@ -10,19 +10,19 @@ type: docx
 token: Ja99dnnaOoncwbx2zIPc4PjunXx
 sidebar_position: 3
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabase()
   - nodejs25
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: nodeSidebar
 
 ---

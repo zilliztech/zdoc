@@ -10,19 +10,19 @@ type: docx
 token: KzCXdTVVSoOmkbxuFjsccDlXnff
 sidebar_position: 2
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - connect()
   - pymilvus25
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

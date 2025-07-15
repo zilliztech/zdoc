@@ -10,19 +10,19 @@ type: docx
 token: PPLtdSbtfomgF1x5MHncKPgPnSf
 sidebar_position: 1
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - createPartition()
   - nodejs25
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 displayed_sidebar: nodeSidebar
 
 ---

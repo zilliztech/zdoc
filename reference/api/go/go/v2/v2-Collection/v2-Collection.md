@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This chapter provides methods to manage collections and aliases of a collected Milvus instance. | Go | v2"
 type: origin
 token: Qm2ywNbN3iVx6Wk4BJzc6crhntc
-sidebar_position: 4
+sidebar_position: 5
 displayed_sidebar: goSidebar
 
 ---

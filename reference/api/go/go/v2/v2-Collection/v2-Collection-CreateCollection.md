@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method creates a collection. | Go | v2"
 type: origin
 token: TbsowUEnFiT14Hkaf0dcgQKInFg
-sidebar_position: 9
+sidebar_position: 11
 displayed_sidebar: goSidebar
 
 ---
@@ -969,7 +969,7 @@ This method creates an empty function. You can chain the following methods to ap
 
 - [WithParam](./v2-Collection-CreateCollection#entitywithparam)
 
-- WithType
+- [WithType](./v2-Collection-CreateCollection#entitytype)
 
 ### entity.WithInputFields{#entitywithinputfields}
 
@@ -1122,6 +1122,7 @@ const (
         FunctionTypeUnknown       = schemapb.FunctionType_Unknown
         FunctionTypeBM25          = schemapb.FunctionType_BM25
         FunctionTypeTextEmbedding = schemapb.FunctionType_TextEmbedding
+        FunctionTypeRerank        = schemapb.FunctionType_Rerank
 )
 ```
 

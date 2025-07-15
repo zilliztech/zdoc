@@ -10,19 +10,19 @@ type: docx
 token: XIIyd3bMzoAVx3xVsoLcnQ2pnKh
 sidebar_position: 14
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - listRoles()
   - javaV225
+  - Audio search
+  - what is semantic search
   - Embedding model
   - image similarity search
-  - Context Window
-  - Natural language search
 displayed_sidebar: javaSidebar
 
 ---

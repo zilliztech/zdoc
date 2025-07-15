@@ -2,7 +2,7 @@
 title: "Misc | Java | v1"
 slug: /java/v1-Misc
 sidebar_label: "Misc"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "(placeholder) | Java | v1"
 type: origin

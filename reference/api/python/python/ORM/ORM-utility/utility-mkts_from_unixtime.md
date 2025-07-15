@@ -10,19 +10,19 @@ type: docx
 token: ZdKEd2ua6o9AHHxKq25ctNSdncb
 sidebar_position: 36
 keywords: 
+  - vector database open source
   - open source vector db
   - vector database example
   - rag vector database
-  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_unixtime()
   - pymilvus25
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: JQ4QdTaadoIDSPxDJRZcSDu3n5g
 sidebar_position: 3
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionProperties()
   - javaV225
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: javaSidebar
 
 ---

@@ -9,10 +9,10 @@ token: Ph7xfldrplFoihdiSAkciCuenyh
 sidebar_position: 5
 sidebar_label: "Rerankers"
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud

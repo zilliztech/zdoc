@@ -10,19 +10,19 @@ type: docx
 token: MfTsdrbGcoO9JqxjgPtcMZTvncc
 sidebar_position: 1
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - alter_alias()
   - pymilvus25
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: pythonSidebar
 
 ---

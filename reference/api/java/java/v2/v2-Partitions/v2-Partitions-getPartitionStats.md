@@ -10,19 +10,19 @@ type: docx
 token: G09ndDq8poAh24xxmr4c7oHknid
 sidebar_position: 3
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - getPartitionStats()
   - javaV225
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 displayed_sidebar: javaSidebar
 
 ---

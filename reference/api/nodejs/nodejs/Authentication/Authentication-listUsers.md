@@ -10,19 +10,19 @@ type: docx
 token: Z0EOd1PXooNeowx4SQgcq3synBc
 sidebar_position: 19
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - listUsers()
   - nodejs25
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: nodeSidebar
 
 ---

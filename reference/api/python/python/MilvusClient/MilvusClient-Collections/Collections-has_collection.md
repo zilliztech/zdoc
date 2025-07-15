@@ -10,19 +10,19 @@ type: docx
 token: SSQ6dFGdxouy7hxRwCOcatnEn0e
 sidebar_position: 14
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - has_collection()
   - pymilvus25
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This chapter provides references for the methods to manipulate data. | Go | v2"
 type: origin
 token: J9bRwGTZfi8zs7kzoUlcwu9GnQd
-sidebar_position: 7
+sidebar_position: 8
 displayed_sidebar: goSidebar
 
 ---

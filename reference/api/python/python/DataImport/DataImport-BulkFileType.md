@@ -10,19 +10,19 @@ type: docx
 token: NV3Ud1M9iojhaSxZY4ec8RjgnlP
 sidebar_position: 1
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - BulkFileType
   - pymilvus25
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: pythonSidebar
 
 ---
@@ -41,10 +41,12 @@ This is an enumeration that provides the following constants.
     Sets the file type to **NumPy** (*.npy*).
 
 - **JSON_RB** = 2
-Sets the file type to **JSON** (*.json*).
+
+    Sets the file type to **JSON** (*.json*).
 
 - **PARQUET** = 3
-Sets the file type to [Parquet](https://parquet.apache.org/) (*.parquet*).
+
+    Sets the file type to [Parquet](https://parquet.apache.org/) (*.parquet*).
 
 - **CSV** = 4
 

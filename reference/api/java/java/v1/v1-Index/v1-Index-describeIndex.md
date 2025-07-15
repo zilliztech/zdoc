@@ -2,7 +2,7 @@
 title: "describeIndex() | Java | v1"
 slug: /java/v1-Index-describeIndex
 sidebar_label: "describeIndex()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "MilvusClient interface. This method shows the information of the specified index. | Java | v1"
 type: origin

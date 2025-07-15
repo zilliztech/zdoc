@@ -10,19 +10,19 @@ type: docx
 token: FLmWdFP9Zo3JcixOEgucU8JMnLc
 sidebar_position: 10
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - load_collection()
   - pymilvus25
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: pythonSidebar
 
 ---

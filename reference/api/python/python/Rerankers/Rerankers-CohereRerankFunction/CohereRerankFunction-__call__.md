@@ -10,19 +10,19 @@ type: docx
 token: M7pWdbu8foKkJAxY3uBcMfHrnrh
 sidebar_position: 2
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: pythonSidebar
 
 ---

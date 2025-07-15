@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method changes the specified property of a collection field. | Go | v2"
 type: origin
 token: LtptwJPdRi9AGgkJteGctpecnsb
-sidebar_position: 7
+sidebar_position: 3
 displayed_sidebar: goSidebar
 
 ---

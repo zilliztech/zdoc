@@ -43,12 +43,12 @@ func (c *GrpcClient) CreateCollection(ctx context.Context, collSchema *entity.Sc
    </tr>
    <tr>
      <td><p><code>shardNum</code></p></td>
-     <td><p>Shard number of the collection to create. The value defaults to <code>1</code>. If it is left unspecified, the default value applies.</p></td>
+     <td><p>Shard number of the collection to create.</p><p>The value defaults to <code>1</code>. If it is left unspecified, the default value applies.</p></td>
      <td><p><code>int32</code></p></td>
    </tr>
    <tr>
      <td><p><code>opts</code></p></td>
-     <td><p>Extra options for the current request. This parameter is optional. You can add multiple <code>CreateCollectionOption</code> in the request.</p></td>
+     <td><p>Extra options for the current request.</p><p>This parameter is optional. You can add multiple <code>CreateCollectionOption</code> in the request.</p></td>
      <td><p><code>...entity.CreateCollectionOption</code></p></td>
    </tr>
 </table>
@@ -87,11 +87,11 @@ schema := entity.NewSchema().
    </tr>
    <tr>
      <td><p><code>WithField(f *entity.Field)</code></p></td>
-     <td><p>A field in the collection to create. Call the method multiple types to add more fields.</p></td>
+     <td><p>A field in the collection to create.</p><p>Call the method multiple types to add more fields.</p></td>
    </tr>
    <tr>
      <td><p><code>WithDynamicFieldEnabled(dynamicEnabled bool)</code></p></td>
-     <td><p>Whether to enable the dynamic field for non-schema-defined fields. Once enabled, non-schema-defined fields and their values are saved in the reserved JSON field named <strong>$meta</strong>.</p><p>As an alternative, you can use <code>entity.WithEnableDynamicSchema()</code> to create an <code>entity.CreateCollectionOption</code> instead.</p><p>If you assign different values to this method and <code>entity.WithEnableDynamicSchema()</code>, the one set to <code>true</code> takes precedence.</p></td>
+     <td><p>Whether to enable the dynamic field for non-schema-defined fields.</p><p>Once enabled, non-schema-defined fields and their values are saved in the reserved JSON field named <strong>$meta</strong>.</p><p>As an alternative, you can use <code>entity.WithEnableDynamicSchema()</code> to create an <code>entity.CreateCollectionOption</code> instead.</p><p>If you assign different values to this method and <code>entity.WithEnableDynamicSchema()</code>, the one set to <code>true</code> takes precedence.</p></td>
    </tr>
 </table>
 
@@ -133,7 +133,7 @@ field := entity.NewField().
    </tr>
    <tr>
      <td><p><code>WithIsAutoID(isAutoID bool)</code></p></td>
-     <td><p>Whether the primary field value is automatically generated upon data insertions. If this value is different from the one specified in <code>entity.Schema</code>, this value takes precedence.</p></td>
+     <td><p>Whether the primary field value is automatically generated upon data insertions.</p><p>If this value is different from the one specified in <code>entity.Schema</code>, this value takes precedence.</p></td>
    </tr>
    <tr>
      <td><p><code>WithDataType(dataType entity.FieldType)</code></p></td>
@@ -141,19 +141,19 @@ field := entity.NewField().
    </tr>
    <tr>
      <td><p><code>WithDim(dim int64)</code></p></td>
-     <td><p>The dimensionality of a vector field. This only applies when you set <code>dataType</code> to a vector field type in <code>WithDataType()</code>.</p></td>
+     <td><p>The dimensionality of a vector field.</p><p>This only applies when you set <code>dataType</code> to a vector field type in <code>WithDataType()</code>.</p></td>
    </tr>
    <tr>
      <td><p><code>WithMaxLength(maxLen int64)</code></p></td>
-     <td><p>The maximum length of a VarChar field. This only applies when you set <code>dataType</code> to <code>FieldTypeVarChar</code> in <code>WithDataType()</code>.</p></td>
+     <td><p>The maximum length of a VarChar field.</p><p>This only applies when you set <code>dataType</code> to <code>FieldTypeVarChar</code> in <code>WithDataType()</code>.</p></td>
    </tr>
    <tr>
      <td><p><code>WithMaxCapacity(maxCap int64)</code></p></td>
-     <td><p>The maximum number of elements of an ARRAY field. This only applies when you set <code>dataType</code> to <code>FieldTypeArray</code> in <code>WithDataType()</code>.</p></td>
+     <td><p>The maximum number of elements of an ARRAY field.</p><p>This only applies when you set <code>dataType</code> to <code>FieldTypeArray</code> in <code>WithDataType()</code>.</p></td>
    </tr>
    <tr>
      <td><p><code>WithElementType(eleType entity.FieldType)</code></p></td>
-     <td><p>The maximum number of elements of an ARRAY field. This only applies when you set <code>dataType</code> to <code>FieldTypeArray</code> in <code>WithDataType()</code>.</p></td>
+     <td><p>The maximum number of elements of an ARRAY field.</p><p>This only applies when you set <code>dataType</code> to <code>FieldTypeArray</code> in <code>WithDataType()</code>.</p></td>
    </tr>
    <tr>
      <td><p><code>WithIsPartitionKey(isPartitionKey bool)</code></p></td>
@@ -229,11 +229,11 @@ You can add extra collection settings to the `CreateCollection()` request using 
    </tr>
    <tr>
      <td><p><code>WithEnableDynamicSchema(enable bool)</code></p></td>
-     <td><p>Whether to enable the dynamic field for non-schema-defined fields. Once enabled, non-schema-defined fields and their values are saved in the reserved JSON field named <strong>$meta</strong>.</p><p>As an alternative, you can append <code>WithDynamicFieldEnable(true)</code> to the <code>entity.NewSchema()</code> request instead.</p><p>If you assign different values to this method and <code>entity.WithDynamicFieldEnable()</code>, the one set to <code>true</code> takes precedence.</p></td>
+     <td><p>Whether to enable the dynamic field for non-schema-defined fields.</p><p>Once enabled, non-schema-defined fields and their values are saved in the reserved JSON field named <strong>$meta</strong>.</p><p>As an alternative, you can append <code>WithDynamicFieldEnable(true)</code> to the <code>entity.NewSchema()</code> request instead.</p><p>If you assign different values to this method and <code>entity.WithDynamicFieldEnable()</code>, the one set to <code>true</code> takes precedence.</p></td>
    </tr>
    <tr>
      <td><p><code>WithPartitionNum(partitionNums int64)</code></p></td>
-     <td><p>The number of partitions to create along with the collection.  This is required if a field has <code>isPartitionKey</code> set to <code>true</code> in <code>WithIsPartitionKey()</code>.</p></td>
+     <td><p>The number of partitions to create along with the collection. </p><p>This is required if a field has <code>isPartitionKey</code> set to <code>true</code> in <code>WithIsPartitionKey()</code>.</p></td>
    </tr>
 </table>
 

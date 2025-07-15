@@ -10,19 +10,19 @@ type: docx
 token: Lc03dk5YVo8Ilvx4XINcv5KBn9e
 sidebar_position: 12
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
   - javaV225
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: javaSidebar
 
 ---
@@ -97,13 +97,25 @@ A **DescribeCollectionResp** object that contains detailed information about the
 
     Whether Zilliz Cloud automatically generates the primary key for the collection.
 
-- **collectionSchema** (CreateCollectionReq.CollectionSchema)
+- **collectionSchema** (*CreateCollectionReq.CollectionSchema*)
 
     The scheme of the collection.
 
-- **createTime** (*long*)
+- **createTime** (*Long*)
 
     The time when the collection was created.
+
+- **createUtcTime** (*Long*) -
+
+    The time when the collection was created in UTC.
+
+- **consistencyLevel** (*ConsistencyLevel*) -
+
+    The consistency level of the collection.
+
+- **shardsNum** (*Integer*) -
+
+    The number of shards in the collection.
 
 **EXCEPTIONS:**
 

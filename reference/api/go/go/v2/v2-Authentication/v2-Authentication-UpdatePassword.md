@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method updates the password for an existing user. | Go | v2"
 type: origin
 token: JROjw7wQFi2uS8k1DZCcDkYEnFd
-sidebar_position: 3
+sidebar_position: 5
 displayed_sidebar: goSidebar
 
 ---
@@ -99,7 +99,7 @@ Null
 import (
    "context"
    "google.golang.org/grpc"
-   "github.com/milvus-io/milvus/v2/milvusclient"
+   "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
 userName := "my_user"

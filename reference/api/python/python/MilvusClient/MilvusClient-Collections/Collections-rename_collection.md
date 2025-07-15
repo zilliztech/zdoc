@@ -10,19 +10,19 @@ type: docx
 token: IeiIdJ71Pox2OjxMiOzczUTenud
 sidebar_position: 18
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - rename_collection()
   - pymilvus25
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 ---

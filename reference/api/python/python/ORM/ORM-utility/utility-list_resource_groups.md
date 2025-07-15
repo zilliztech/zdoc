@@ -10,19 +10,19 @@ type: docx
 token: FXTZd5FgNo9ta0xvjaIclEM1nPf
 sidebar_position: 26
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - list_resource_groups()
   - pymilvus25
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: pythonSidebar
 
 ---

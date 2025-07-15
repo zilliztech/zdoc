@@ -10,19 +10,19 @@ type: docx
 token: UOIddRBUXotHvyx4Yyocer0mnId
 sidebar_position: 15
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - get_server_type()
   - pymilvus25
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: pythonSidebar
 
 ---

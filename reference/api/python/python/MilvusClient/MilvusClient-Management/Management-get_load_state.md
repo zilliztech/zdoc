@@ -10,19 +10,19 @@ type: docx
 token: KEPYdKup1o3nHdxKbjvcQUzwnnd
 sidebar_position: 8
 keywords: 
+  - Faiss
+  - Video search
+  - AI Hallucination
   - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - get_load_state()
   - pymilvus25
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: pythonSidebar
 
 ---

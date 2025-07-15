@@ -9,10 +9,10 @@ token: H1JWfZh74lkVhgdfGiKcQfsinPg
 sidebar_position: 6
 sidebar_label: "Authentication"
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud

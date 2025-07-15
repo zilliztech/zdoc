@@ -10,19 +10,19 @@ type: docx
 token: MfR8dw5TioPvw3xvrstcgYixnUb
 sidebar_position: 43
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
   - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - wait_for_index_building_complete()
   - pymilvus25
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: pythonSidebar
 
 ---

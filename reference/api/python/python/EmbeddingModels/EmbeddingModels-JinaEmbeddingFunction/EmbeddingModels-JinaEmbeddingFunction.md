@@ -10,19 +10,19 @@ type: docx
 token: U7NJd5eKAo0c1TxYZndcgPj2nlc
 sidebar_position: 3
 keywords: 
+  - milvus vector database
+  - milvus db
   - milvus vector db
   - Zilliz Cloud
-  - what is milvus
-  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - JinaEmbeddingFunction
   - pymilvus25
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: pythonSidebar
 
 ---

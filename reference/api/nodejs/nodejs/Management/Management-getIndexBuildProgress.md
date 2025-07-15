@@ -10,19 +10,19 @@ type: docx
 token: G6CGdbM4QoNgr5xS1ZAc94lhnFd
 sidebar_position: 9
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - getIndexBuildProgress()
   - nodejs25
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: nodeSidebar
 
 ---

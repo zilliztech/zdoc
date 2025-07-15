@@ -9,10 +9,10 @@ token: I37hfvVOClbThMdGuH4cV4R6nkc
 sidebar_position: 1
 sidebar_label: "DataImport"
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud

@@ -10,19 +10,19 @@ type: docx
 token: ByLVdf2nRocLcxxwH3Gc9CyFnbb
 sidebar_position: 6
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - queryIterator()
   - javaV225
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 displayed_sidebar: javaSidebar
 
 ---

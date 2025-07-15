@@ -9,10 +9,10 @@ token: YHQ9fF9IDlENsMd9RZucYalqnNg
 sidebar_position: 3
 sidebar_label: "MilvusClient"
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud

@@ -10,19 +10,19 @@ type: docx
 token: JXNXdQuwhoYmZQxSohNcdxtwnzh
 sidebar_position: 7
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - list_grant()
   - pymilvus25
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: pythonSidebar
 
 ---

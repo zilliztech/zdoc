@@ -10,19 +10,19 @@ type: docx
 token: BqtYdPHHPoNhyKxhSnEcVOKenFb
 sidebar_position: 3
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus25
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: pythonSidebar
 
 ---

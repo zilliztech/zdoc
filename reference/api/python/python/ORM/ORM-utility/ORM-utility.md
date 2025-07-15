@@ -9,10 +9,10 @@ token: BvYKfbpMUlczBxdyBvEc5Gb3nfb
 sidebar_position: 8
 sidebar_label: "utility"
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud

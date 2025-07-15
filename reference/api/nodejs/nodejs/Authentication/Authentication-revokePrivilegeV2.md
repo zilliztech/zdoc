@@ -10,19 +10,19 @@ type: docx
 token: UlAUdLNkCo1Mp8xFZYWclSL9n6b
 sidebar_position: 24
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
   - revokePrivilegeV2()
   - nodejs25
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: nodeSidebar
 
 ---

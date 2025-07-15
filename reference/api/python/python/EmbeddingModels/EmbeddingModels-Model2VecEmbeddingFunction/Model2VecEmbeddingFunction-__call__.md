@@ -10,19 +10,19 @@ type: docx
 token: WJpVd6gQzoxCEUxM93ScXsL5ntA
 sidebar_position: 4
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: V9BidASNqoWYrmxo11ecuN99neg
 sidebar_position: 1
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - pymilvus25
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: X8qWdMHg5oQQK6xZdBYcGNOnn3c
 sidebar_position: 8
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - getFlushState()
   - nodejs25
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: nodeSidebar
 
 ---

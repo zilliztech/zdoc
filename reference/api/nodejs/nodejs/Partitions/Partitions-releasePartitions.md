@@ -19,10 +19,10 @@ keywords:
   - cloud
   - releasePartitions()
   - nodejs25
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: nodeSidebar
 
 ---

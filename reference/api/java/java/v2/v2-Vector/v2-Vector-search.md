@@ -10,19 +10,19 @@ type: docx
 token: W1mxdmaelo4co4x0ruwcTWQrn5b
 sidebar_position: 7
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - javaV225
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: javaSidebar
 
 ---
@@ -42,6 +42,7 @@ public SearchResp search(SearchReq request)
 
 ```java
 search(SearchReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .partitionNames(List<String> partitionNames)
     .annsField(String annsField)
@@ -66,13 +67,17 @@ search(SearchReq.builder()
 
 **BUILDER METHODS:**
 
+- `databaseName(String databaseName)`
+
+    The name of an existing database.
+
 - `collectionName(String collectionName)`
 
-    The name of an existing collection.
+    The name of an existing collection in the above-specified database.
 
 - `partitionNames(List<String> partitionNames)`
 
-    A list of partition names.
+    A list of partition names in the above-specified collection.
 
 - `annsField(String annsField)`
 
@@ -219,6 +224,14 @@ search(SearchReq.builder()
 - `groupByFieldName(String fieldName)`
 
     Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.
+
+- `groupSize(Integer groupSize)`
+
+    The target number of entities to return within each group in a grouping search. For example, setting `groupSize=2` instructs the system to return up to 2 of the most similar entities (e.g., document passages or vector representations) within each group. Without setting `groupSize`, the system defaults to returning only 1 entity per group.
+
+- `strictGroupSize(Boolean strictGroupSize)`
+
+    This Boolean parameter dictates whether `groupSize` should be strictly enforced. When `strictGroupSize=True`, the system will attempt to fill each group with exactly `groupSize` results, as long as sufficient data exists within each group. If there is an insufficient number of entities in a group, it will return only the available entities, ensuring that groups with adequate data meet the specified `groupSize`.
 
 **RETURN TYPE:**
 

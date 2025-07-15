@@ -10,19 +10,19 @@ type: docx
 token: KLknda2VtocQSBx7PKVc6F9Nnug
 sidebar_position: 11
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollection()
   - nodejs25
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 displayed_sidebar: nodeSidebar
 
 ---

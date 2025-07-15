@@ -10,19 +10,19 @@ type: docx
 token: H9IFdpWWUouzXOxKlx9cImP8nnd
 sidebar_position: 1
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - add_field()
   - pymilvus25
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 displayed_sidebar: pythonSidebar
 
 ---

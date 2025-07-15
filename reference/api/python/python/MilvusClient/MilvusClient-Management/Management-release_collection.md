@@ -10,19 +10,19 @@ type: docx
 token: PRR7dRfi8o1s61xFRovccAdRnHe
 sidebar_position: 13
 keywords: 
+  - nn search
+  - llm eval
   - Sparse vs Dense
   - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
   - release_collection()
   - pymilvus25
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: pythonSidebar
 
 ---

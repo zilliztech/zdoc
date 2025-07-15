@@ -10,19 +10,19 @@ type: docx
 token: TWxddf6iboyM15xK4Kzc8ASknRb
 sidebar_position: 6
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - load()
   - pymilvus25
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: pythonSidebar
 
 ---

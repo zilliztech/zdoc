@@ -7,7 +7,7 @@ notebook: FALSE
 description: "In this chapter, you will find functions related to role-based access control (RBAC). | Go | v2"
 type: origin
 token: UMgkwcXZdiLdi1kw0dQckGkHn5f
-sidebar_position: 1
+sidebar_position: 2
 displayed_sidebar: goSidebar
 
 ---

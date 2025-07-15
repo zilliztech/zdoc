@@ -10,19 +10,19 @@ type: docx
 token: JB90dbBNRoz1I2xZY5rcSmJ1nSb
 sidebar_position: 12
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - grantRole()
   - javaV225
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: javaSidebar
 
 ---

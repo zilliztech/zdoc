@@ -10,19 +10,19 @@ type: docx
 token: NS1xdv6f4oQlN4xqnOGc6ssWnTf
 sidebar_position: 4
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - hasPartition()
   - javaV225
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 displayed_sidebar: javaSidebar
 
 ---

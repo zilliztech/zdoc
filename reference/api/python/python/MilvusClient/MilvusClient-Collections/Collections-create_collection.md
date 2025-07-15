@@ -10,19 +10,19 @@ type: docx
 token: H7eOdq9hOo7so7xes5LchIVwnrb
 sidebar_position: 5
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - create_collection()
   - pymilvus25
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: pythonSidebar
 
 ---

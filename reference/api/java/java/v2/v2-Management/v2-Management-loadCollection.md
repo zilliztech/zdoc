@@ -10,19 +10,19 @@ type: docx
 token: XEWvdbuFHoLOo7xKrAJcqip6n5J
 sidebar_position: 10
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollection()
   - javaV225
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: javaSidebar
 
 ---

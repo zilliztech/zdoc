@@ -10,19 +10,19 @@ type: docx
 token: RFv2dtZ1qoP9XQxJEGqcgLGUnhc
 sidebar_position: 9
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - dropUser()
   - javaV225
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: javaSidebar
 
 ---

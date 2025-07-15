@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method retrieves the load status of a specified collection or partitions. | Go | v2"
 type: origin
 token: CPSXwgQoHiz5fvk8bevcen22nEh
-sidebar_position: 9
+sidebar_position: 11
 displayed_sidebar: goSidebar
 
 ---

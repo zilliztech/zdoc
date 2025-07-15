@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method changes the specified properties of a collection. | Go | v2"
 type: origin
 token: L5CJwxseBio45VkAwtMcCK7RnQh
-sidebar_position: 8
+sidebar_position: 4
 displayed_sidebar: goSidebar
 
 ---

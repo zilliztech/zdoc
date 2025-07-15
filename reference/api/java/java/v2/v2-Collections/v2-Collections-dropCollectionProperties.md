@@ -10,19 +10,19 @@ type: docx
 token: OPPHd2AabonMIzxzfupcyNS9n1a
 sidebar_position: 15
 keywords: 
-  - milvus benchmark
-  - managed milvus
   - Serverless vector database
   - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollectionProperties()
   - javaV225
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: javaSidebar
 
 ---

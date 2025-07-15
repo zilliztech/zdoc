@@ -10,19 +10,19 @@ type: docx
 token: Tjq5dE0wdodKcgxH0yZcmNdrnSg
 sidebar_position: 1
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus25
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: pythonSidebar
 
 ---

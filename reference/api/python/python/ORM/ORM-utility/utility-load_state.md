@@ -10,19 +10,19 @@ type: docx
 token: BJysdlj1MoksHZxNRxicHn9fnSh
 sidebar_position: 33
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - load_state()
   - pymilvus25
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: pythonSidebar
 
 ---

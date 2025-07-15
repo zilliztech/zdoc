@@ -10,19 +10,19 @@ type: docx
 token: TGsXduN5OoAjVyxZTvRc8HR2nse
 sidebar_position: 13
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - listPrivilegeGroups()
   - javaV225
-  - Elastic vector database
-  - Pinecone vs Milvus
   - Chroma vs Milvus
   - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: javaSidebar
 
 ---

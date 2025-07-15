@@ -10,19 +10,19 @@ type: docx
 token: NDcldy9OLo62DLxw1a9cFSLsnYb
 sidebar_position: 6
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - useDatabase()
   - nodejs25
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: nodeSidebar
 
 ---

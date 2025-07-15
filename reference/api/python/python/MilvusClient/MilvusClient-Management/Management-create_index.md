@@ -10,19 +10,19 @@ type: docx
 token: B3n3db0idoia02xXxJfcONK8nRh
 sidebar_position: 3
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - create_index()
   - pymilvus25
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: pythonSidebar
 
 ---

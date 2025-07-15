@@ -10,19 +10,19 @@ type: docx
 token: QsTwdUbgyoZPV1xzCBxchX8Fnid
 sidebar_position: 7
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - flushSync()
   - nodejs25
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: nodeSidebar
 
 ---

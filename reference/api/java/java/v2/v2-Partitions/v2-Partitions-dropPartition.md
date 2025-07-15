@@ -10,19 +10,19 @@ type: docx
 token: JTdSdyToooA6Srx2HolcmTPunoe
 sidebar_position: 2
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - dropPartition()
   - javaV225
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: javaSidebar
 
 ---

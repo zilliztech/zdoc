@@ -10,19 +10,19 @@ type: docx
 token: G2jjdHvbBoko6BxBZj7csemWnFc
 sidebar_position: 2
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - alter_collection_field()
   - pymilvus25
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: pythonSidebar
 
 ---

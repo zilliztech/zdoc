@@ -10,19 +10,19 @@ type: docx
 token: N6kjdex5Ao0lRqxPXBhcxq4AnNh
 sidebar_position: 13
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - list_privilege_groups()
   - pymilvus25
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: pythonSidebar
 
 ---

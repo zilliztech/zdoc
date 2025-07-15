@@ -10,19 +10,19 @@ type: docx
 token: EMI8dM8uooIAFPxVfffcoqRwnZf
 sidebar_position: 2
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - drop_partition()
   - pymilvus25
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: pythonSidebar
 
 ---

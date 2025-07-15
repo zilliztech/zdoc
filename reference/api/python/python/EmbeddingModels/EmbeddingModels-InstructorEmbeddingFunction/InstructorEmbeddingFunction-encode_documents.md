@@ -10,19 +10,19 @@ type: docx
 token: Mp7CdNfJnoBF2DxscRNc6RO0n7d
 sidebar_position: 1
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus25
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: pythonSidebar
 
 ---

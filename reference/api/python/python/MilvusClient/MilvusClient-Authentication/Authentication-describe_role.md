@@ -10,10 +10,10 @@ type: docx
 token: JJz3dFrE2oJP3AxySWYcJlf4nMh
 sidebar_position: 5
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud

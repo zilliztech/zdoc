@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method grants a privilege | Go | v2"
 type: origin
 token: WiPMw01uRisBBqknRyAcp7fhnMb
-sidebar_position: 9
+sidebar_position: 11
 displayed_sidebar: goSidebar
 
 ---

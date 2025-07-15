@@ -10,19 +10,19 @@ type: docx
 token: OF1mdh4tSo8ZQQxxVgEcdITRndb
 sidebar_position: 3
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - MGTEEmbeddingFunction
   - pymilvus25
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: pythonSidebar
 
 ---

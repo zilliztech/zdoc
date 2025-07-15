@@ -7,22 +7,22 @@ beta: false
 notebook: false
 description: "This operation describes a specific index. | Java | v2"
 type: docx
-token: WUgedTmyZoW4clxSgHVcl1ZtnZl
+token: JBBldcrAHoYZ2mxMGeocZHMAnze
 sidebar_position: 3
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
   - javaV225
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: javaSidebar
 
 ---
@@ -42,6 +42,7 @@ public DescribeIndexResp describeIndex(DescribeIndexReq request)
 
 ```java
 describeIndex(DescribeIndexReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .fieldName(String fieldName)
     .indexName(String indexName)
@@ -51,9 +52,13 @@ describeIndex(DescribeIndexReq.builder()
 
 **BUILDER METHODS:**
 
+- `databaseName(String databaseName)`
+
+    The name of an existing database.
+
 - `collectionName(String collectionName)`
 
-    The name of an existing collection.
+    The name of an existing collection in the above-specified collection.
 
     Setting this to a non-existing collection results in **MilvusException**.
 

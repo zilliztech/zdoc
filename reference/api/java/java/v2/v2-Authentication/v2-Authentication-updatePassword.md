@@ -10,19 +10,19 @@ type: docx
 token: GQH8dgqlPoRY1sxFhCRcLlgInNc
 sidebar_position: 20
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - updatePassword()
   - javaV225
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 displayed_sidebar: javaSidebar
 
 ---

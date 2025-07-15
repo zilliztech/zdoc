@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method releases the specified collection. | Go | v2"
 type: origin
 token: ICyuweLbjiEjMkktBIzcLQTHnDc
-sidebar_position: 7
+sidebar_position: 9
 displayed_sidebar: goSidebar
 
 ---

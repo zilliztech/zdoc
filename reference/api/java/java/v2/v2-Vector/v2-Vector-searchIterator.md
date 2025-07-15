@@ -10,19 +10,19 @@ type: docx
 token: M4IqdsRCNotiM4xdOA0cWSnUngb
 sidebar_position: 8
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - searchIterator()
   - javaV225
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: javaSidebar
 
 ---

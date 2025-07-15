@@ -10,19 +10,19 @@ type: docx
 token: TjqHdZqO1oSwwYxuny2cchWzn6S
 sidebar_position: 9
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
   - nodejs25
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: nodeSidebar
 
 ---

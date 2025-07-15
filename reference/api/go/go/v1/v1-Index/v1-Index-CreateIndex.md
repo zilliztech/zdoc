@@ -56,7 +56,7 @@ func (c *GrpcClient) CreateIndex(ctx context.Context, collName string, fieldName
    </tr>
    <tr>
      <td><p><code>opts</code></p></td>
-     <td><p>Extra index settings You can include multiple <code>entity.IndexOption</code> in this request.</p></td>
+     <td><p>Extra index settings</p><p>You can include multiple <code>entity.IndexOption</code> in this request.</p></td>
      <td><p><code>client.IndexOption</code></p></td>
    </tr>
 </table>
@@ -109,7 +109,7 @@ This type provides methods to modify index settings when you create, describe, o
    </tr>
    <tr>
      <td><p><code>WithIndexName(name string)</code></p></td>
-     <td><p>Name of the index to create. The value defaults to the target field name.</p></td>
+     <td><p>Name of the index to create.</p><p>The value defaults to the target field name.</p></td>
    </tr>
    <tr>
      <td><p><code>WithMmap(enabled bool)</code></p></td>

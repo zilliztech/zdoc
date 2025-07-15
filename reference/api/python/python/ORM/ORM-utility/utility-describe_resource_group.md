@@ -10,19 +10,19 @@ type: docx
 token: HScCdxLNJotPCcxb4AZcxsNJn9c
 sidebar_position: 7
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - describe_resource_group()
   - pymilvus25
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: pythonSidebar
 
 ---

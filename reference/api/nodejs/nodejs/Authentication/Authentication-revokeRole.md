@@ -10,19 +10,19 @@ type: docx
 token: W7XJdZDHnoFECDxCYoMcrZqrnnd
 sidebar_position: 25
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - revokeRole()
   - nodejs25
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: nodeSidebar
 
 ---

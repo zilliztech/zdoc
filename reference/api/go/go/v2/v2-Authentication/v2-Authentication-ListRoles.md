@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method returns a list of existing roles. | Go | v2"
 type: origin
 token: R0QcwSVIsiPi07kILCXcXtd1nSd
-sidebar_position: 11
+sidebar_position: 14
 displayed_sidebar: goSidebar
 
 ---
@@ -76,7 +76,7 @@ This interface provided by the gRPC Go library allows you to specify additional 
 import (
    "context"
    "google.golang.org/grpc"
-   "github.com/milvus-io/milvus/v2/milvusclient"
+   "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
 opts := client.NewListRoleOption()

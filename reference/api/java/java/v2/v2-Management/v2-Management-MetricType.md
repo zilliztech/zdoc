@@ -10,19 +10,19 @@ type: docx
 token: KIYUdM0oVo0dQmxTgS2c8Mxxn4v
 sidebar_position: 11
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - MetricType
   - javaV225
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: javaSidebar
 
 ---

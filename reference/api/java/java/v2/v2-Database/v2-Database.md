@@ -6,13 +6,13 @@ notebook: false
 description: "Methods related to database operations. | Java | v2"
 type: folder
 token: Ja2Wf1J9glm6oCdCxfDc9BzPnoc
-sidebar_position: 7
+sidebar_position: 8
 sidebar_label: "Database"
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud

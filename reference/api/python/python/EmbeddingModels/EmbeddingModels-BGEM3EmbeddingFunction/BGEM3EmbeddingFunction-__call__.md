@@ -10,19 +10,19 @@ type: docx
 token: K7qWdSwtNo976VxcvopczGLjnLf
 sidebar_position: 4
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - Zilliz Cloud
-  - what is milvus
   - milvus database
   - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: pythonSidebar
 
 ---

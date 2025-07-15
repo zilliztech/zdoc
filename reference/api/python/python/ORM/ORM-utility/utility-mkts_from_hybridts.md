@@ -10,19 +10,19 @@ type: docx
 token: GRarduHPSoFY3Yx9EWRcdcTfn1g
 sidebar_position: 35
 keywords: 
+  - Unstructured Data
+  - vector database
+  - IVF
   - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_hybridts()
   - pymilvus25
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 displayed_sidebar: pythonSidebar
 
 ---

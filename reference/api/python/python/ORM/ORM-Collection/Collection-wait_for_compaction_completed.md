@@ -10,19 +10,19 @@ type: docx
 token: VFKIdx0tDoeAzSx4Ud6c3u5Snsf
 sidebar_position: 29
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - wait_for_compaction_completed()
   - pymilvus25
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: pythonSidebar
 
 ---

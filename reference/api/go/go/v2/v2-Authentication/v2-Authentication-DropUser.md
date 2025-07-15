@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method drops a user. | Go | v2"
 type: origin
 token: MfZEwTsPAiTWrTkRXZBc9jyznLh
-sidebar_position: 7
+sidebar_position: 9
 displayed_sidebar: goSidebar
 
 ---
@@ -89,7 +89,7 @@ Null
 import (
    "context"
    "google.golang.org/grpc"
-   "github.com/milvus-io/milvus/v2/milvusclient"
+   "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
 userName := "my_user"

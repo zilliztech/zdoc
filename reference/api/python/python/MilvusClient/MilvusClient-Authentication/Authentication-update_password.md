@@ -19,10 +19,10 @@ keywords:
   - cloud
   - update_password()
   - pymilvus25
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: pythonSidebar
 
 ---

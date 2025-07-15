@@ -10,19 +10,19 @@ type: docx
 token: X5qsdhFQ5oOhkcxOprzcOZq4nMc
 sidebar_position: 4
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - create_resource_group()
   - pymilvus25
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 ---

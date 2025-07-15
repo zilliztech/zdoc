@@ -10,19 +10,19 @@ type: docx
 token: P0vxdEVBPoTNKLxkKIzcznlYnNc
 sidebar_position: 3
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - list_import_jobs()
   - pymilvus25
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: pythonSidebar
 
 ---

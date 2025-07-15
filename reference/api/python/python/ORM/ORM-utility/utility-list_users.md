@@ -10,19 +10,19 @@ type: docx
 token: MtF2dkZcso4XduxM194cUaiinqb
 sidebar_position: 30
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - list_users()
   - pymilvus25
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: pythonSidebar
 
 ---

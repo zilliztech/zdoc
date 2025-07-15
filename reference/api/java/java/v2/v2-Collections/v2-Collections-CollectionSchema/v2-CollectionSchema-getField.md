@@ -10,19 +10,19 @@ type: docx
 token: AXWod56QkoprlXxOXkwcPXfonHg
 sidebar_position: 3
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - getField()
   - javaV225
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 displayed_sidebar: javaSidebar
 
 ---

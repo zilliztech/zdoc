@@ -10,19 +10,19 @@ type: docx
 token: B57cdiaEkotJQnxl7I9cJqotnPb
 sidebar_position: 11
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - describeAlias()
   - javaV225
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: javaSidebar
 
 ---

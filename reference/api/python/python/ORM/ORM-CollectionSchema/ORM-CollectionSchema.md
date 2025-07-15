@@ -10,19 +10,19 @@ type: docx
 token: CmFKd9eG2oE6xmx9dIGcVPycnth
 sidebar_position: 2
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - CollectionSchema
   - pymilvus25
-  - what is semantic search
-  - Embedding model
   - image similarity search
   - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: pythonSidebar
 
 ---

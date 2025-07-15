@@ -10,19 +10,19 @@ type: docx
 token: FhbbdNrlNouBXJxHIdKctXVKnmf
 sidebar_position: 15
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - hasCollection()
   - nodejs25
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 displayed_sidebar: nodeSidebar
 
 ---

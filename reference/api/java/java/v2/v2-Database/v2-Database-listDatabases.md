@@ -10,19 +10,19 @@ type: docx
 token: IHoodknUJohFAbxMFg3c0q8un6f
 sidebar_position: 6
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
   - javaV225
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: javaSidebar
 
 ---

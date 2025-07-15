@@ -10,19 +10,19 @@ type: docx
 token: FieTdj7WDoVbBVxp5xjcqO02nrh
 sidebar_position: 4
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 displayed_sidebar: pythonSidebar
 
 ---

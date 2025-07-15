@@ -10,19 +10,19 @@ type: docx
 token: M2kXd5zWSoMIOnxXWamcgCkznih
 sidebar_position: 15
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - drop_index_properties()
   - pymilvus25
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: pythonSidebar
 
 ---

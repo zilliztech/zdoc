@@ -10,19 +10,19 @@ type: docx
 token: Djg7dlb5NoINz9xOAs1cyY67nsh
 sidebar_position: 18
 keywords: 
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
   - listCollections()
   - nodejs25
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: nodeSidebar
 
 ---

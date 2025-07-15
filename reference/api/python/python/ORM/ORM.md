@@ -9,10 +9,10 @@ token: QYo4fSeVFlex8ZdeGZ4cAlmcnof
 sidebar_position: 4
 sidebar_label: "ORM"
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud

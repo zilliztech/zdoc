@@ -10,19 +10,19 @@ type: docx
 token: UcacdecoZoAyxsxJzOGcTqWzn7d
 sidebar_position: 2
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - get()
   - javaV225
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: javaSidebar
 
 ---

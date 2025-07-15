@@ -2,7 +2,7 @@
 title: "checkHealth() | Java | v1"
 slug: /java/v1-System-checkHealth
 sidebar_label: "checkHealth()"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "MilvusClient interface. This method checks milvus server health. | Java | v1"
 type: origin

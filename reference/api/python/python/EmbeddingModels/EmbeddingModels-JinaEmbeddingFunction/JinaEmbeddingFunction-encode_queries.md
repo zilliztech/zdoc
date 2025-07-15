@@ -10,19 +10,19 @@ type: docx
 token: FgbjdQHBEoITxgxk7NMc1NzpnAc
 sidebar_position: 2
 keywords: 
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus25
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: pythonSidebar
 
 ---

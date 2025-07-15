@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method loads one or multiple specified partitions. | Go | v2"
 type: origin
 token: OvcxwsncEiH64fkJyX9cFnzvnLd
-sidebar_position: 6
+sidebar_position: 8
 displayed_sidebar: goSidebar
 
 ---

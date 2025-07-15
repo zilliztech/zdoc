@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method compacts segments to improve search efficiency. | Go | v2"
 type: origin
 token: EPiVwFDR4iicrbkg50dcQYWsnMb
-sidebar_position: 11
+sidebar_position: 13
 displayed_sidebar: goSidebar
 
 ---

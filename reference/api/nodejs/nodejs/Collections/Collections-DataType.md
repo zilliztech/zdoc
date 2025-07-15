@@ -10,19 +10,19 @@ type: docx
 token: VUp6d9FvcoBV0AxYJmvcq9DAnUg
 sidebar_position: 7
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
   - nodejs25
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: nodeSidebar
 
 ---

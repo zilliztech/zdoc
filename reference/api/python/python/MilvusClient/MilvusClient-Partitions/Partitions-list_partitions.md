@@ -10,19 +10,19 @@ type: docx
 token: Dxgqdvlk5o2VScxqmL1ctc1Inqb
 sidebar_position: 5
 keywords: 
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - list_partitions()
   - pymilvus25
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 displayed_sidebar: pythonSidebar
 
 ---

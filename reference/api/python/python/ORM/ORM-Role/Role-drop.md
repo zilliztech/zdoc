@@ -10,19 +10,19 @@ type: docx
 token: KEzNdJPoDoHOjlx2FC8cNcHqngg
 sidebar_position: 3
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - drop()
   - pymilvus25
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

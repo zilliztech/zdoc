@@ -10,19 +10,19 @@ type: docx
 token: DAIfdXKk5oCHeNxOUvCc1KcpnNh
 sidebar_position: 23
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - CreateSchema()
   - javaV225
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: javaSidebar
 
 ---

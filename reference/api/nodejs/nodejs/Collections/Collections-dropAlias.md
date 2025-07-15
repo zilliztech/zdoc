@@ -10,19 +10,19 @@ type: docx
 token: FubcdxJ0LoyQiJxmUMjcZnbjnbc
 sidebar_position: 10
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - dropAlias()
   - nodejs25
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: nodeSidebar
 
 ---

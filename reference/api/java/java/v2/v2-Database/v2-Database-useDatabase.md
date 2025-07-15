@@ -10,19 +10,19 @@ type: docx
 token: LAJHdQKQQoPjmYxcfQgcvjvLnqh
 sidebar_position: 7
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - useDatabase()
   - javaV225
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 displayed_sidebar: javaSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: YXogdv0Dpovi2Pxbyh2cdA4nnbe
 sidebar_position: 5
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - verify()
   - pymilvus25
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 displayed_sidebar: pythonSidebar
 
 ---

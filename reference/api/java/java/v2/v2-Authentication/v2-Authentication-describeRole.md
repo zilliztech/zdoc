@@ -10,19 +10,19 @@ type: docx
 token: Fs7qdzeHZo305txlj45cgqoVnUf
 sidebar_position: 5
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
   - javaV225
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 displayed_sidebar: javaSidebar
 
 ---

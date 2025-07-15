@@ -9,10 +9,10 @@ token: YpEjf83y1lvvzxd31BqcvQmknEd
 sidebar_position: 6
 sidebar_label: "Partitions"
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud

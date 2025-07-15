@@ -10,19 +10,19 @@ type: docx
 token: XYSVdCqCDoJ9Y5xqKEAceYkpnnh
 sidebar_position: 1
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - BGEM3EmbeddingFunction
   - pymilvus25
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: pythonSidebar
 
 ---

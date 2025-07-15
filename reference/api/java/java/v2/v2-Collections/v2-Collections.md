@@ -6,13 +6,13 @@ notebook: false
 description: "Methods for you to manage collections. | Java | v2"
 type: folder
 token: Sx9jfHZP8lqVhXd9UuMcERemnjd
-sidebar_position: 1
+sidebar_position: 2
 sidebar_label: "Collections"
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud

@@ -10,19 +10,19 @@ type: docx
 token: BCGKdCttdotF32xUJTec8UFlndg
 sidebar_position: 26
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - updateUser()
   - nodejs25
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 displayed_sidebar: nodeSidebar
 
 ---

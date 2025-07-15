@@ -10,19 +10,19 @@ type: docx
 token: HNJqdocBjo2zm9xcIVdchRvcnab
 sidebar_position: 2
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - create_privilege_group()
   - pymilvus25
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: pythonSidebar
 
 ---

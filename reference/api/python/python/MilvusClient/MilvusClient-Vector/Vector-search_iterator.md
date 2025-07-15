@@ -10,19 +10,19 @@ type: docx
 token: T9KhdDJQColJEuxZ7YOcV2zdnlb
 sidebar_position: 7
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - search_iterator()
   - pymilvus25
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 displayed_sidebar: pythonSidebar
 
 ---

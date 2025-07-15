@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method lists all existing collections. | Go | v2"
 type: origin
 token: TMbPw3Rt3iukcPkkqufc8VMRnhg
-sidebar_position: 3
+sidebar_position: 6
 displayed_sidebar: goSidebar
 
 ---

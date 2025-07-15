@@ -10,19 +10,19 @@ type: docx
 token: Da9KdvvWroKX9cxOwsmcLRBxnVb
 sidebar_position: 8
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - describeUser()
   - nodejs25
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 displayed_sidebar: nodeSidebar
 
 ---

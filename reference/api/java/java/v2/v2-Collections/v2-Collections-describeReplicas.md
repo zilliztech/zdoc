@@ -10,19 +10,19 @@ type: docx
 token: WRSYdEZwroNY1Txpk2DcI1sSnVg
 sidebar_position: 24
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describeReplicas()
   - javaV225
+  - Anomaly Detection
+  - sentence transformers
   - Recommender systems
   - information retrieval
-  - dimension reduction
-  - hnsw algorithm
 displayed_sidebar: javaSidebar
 
 ---

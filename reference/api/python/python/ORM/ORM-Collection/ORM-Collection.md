@@ -10,19 +10,19 @@ type: docx
 token: OSehdj15Ao3AUvxOIJucXzU8nWW
 sidebar_position: 1
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - Collection
   - pymilvus25
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: pythonSidebar
 
 ---

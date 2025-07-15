@@ -10,19 +10,19 @@ type: docx
 token: BqR9dyTk6oOl8BxbZOOcW2Phnsn
 sidebar_position: 2
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - CollectionSchema
   - pymilvus25
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 displayed_sidebar: pythonSidebar
 
 ---

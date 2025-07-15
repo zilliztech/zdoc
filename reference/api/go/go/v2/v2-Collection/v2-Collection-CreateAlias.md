@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method creates an alias and associates it with the specified collection. | Go | v2"
 type: origin
 token: TfTEwVVWOiG9eqkKNEtcm8OKnVc
-sidebar_position: 4
+sidebar_position: 7
 displayed_sidebar: goSidebar
 
 ---

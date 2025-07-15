@@ -10,19 +10,19 @@ type: docx
 token: OtrZdy7OtoC9N9xb8TjcCtM7nfc
 sidebar_position: 2
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionField()
   - javaV225
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: javaSidebar
 
 ---

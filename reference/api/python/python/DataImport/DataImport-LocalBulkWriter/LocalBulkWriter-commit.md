@@ -10,19 +10,19 @@ type: docx
 token: EtBDdoGaFo3bOExKxCHcKgpenib
 sidebar_position: 2
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - commit()
   - pymilvus25
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: pythonSidebar
 
 ---

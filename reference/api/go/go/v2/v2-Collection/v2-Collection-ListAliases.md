@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method lists all existing aliases associated with the specified collection. | Go | v2"
 type: origin
 token: TDRiwn2VdiQXAUkNjVUclZ6yneb
-sidebar_position: 2
+sidebar_position: 5
 displayed_sidebar: goSidebar
 
 ---

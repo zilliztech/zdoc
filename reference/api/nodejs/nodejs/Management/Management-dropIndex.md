@@ -10,19 +10,19 @@ type: docx
 token: UBbndftiQo2HdOxUNtocIISnnVh
 sidebar_position: 4
 keywords: 
+  - DiskANN
+  - Sparse vector
   - Vector Dimension
   - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndex()
   - nodejs25
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: nodeSidebar
 
 ---

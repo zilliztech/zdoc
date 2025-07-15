@@ -10,19 +10,19 @@ type: docx
 token: CCOhd671iog6rRxu8aOcaPncnLK
 sidebar_position: 4
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - get_users()
   - pymilvus25
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: pythonSidebar
 
 ---

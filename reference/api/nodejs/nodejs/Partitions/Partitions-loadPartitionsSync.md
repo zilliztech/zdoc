@@ -10,19 +10,19 @@ type: docx
 token: VGofdSRi0o6EagxNkokc9Iinndf
 sidebar_position: 7
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitionsSync()
   - nodejs25
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 displayed_sidebar: nodeSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: YRoGdgQmWoIEaJx84ICcHTILnMe
 sidebar_position: 8
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - list_grants()
   - pymilvus25
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 displayed_sidebar: pythonSidebar
 
 ---

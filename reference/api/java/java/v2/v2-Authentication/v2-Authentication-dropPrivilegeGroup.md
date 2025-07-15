@@ -10,19 +10,19 @@ type: docx
 token: CIYQd12MNoiC4QxW97mcQLWYnYd
 sidebar_position: 7
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - dropPrivilegeGroup()
   - javaV225
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 displayed_sidebar: javaSidebar
 
 ---

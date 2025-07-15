@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method checks whether the specified collection exists. | Go | v2"
 type: origin
 token: QwFkw7ytxinUZlk8ZbKc6bXVn0f
-sidebar_position: 13
+sidebar_position: 15
 displayed_sidebar: goSidebar
 
 ---

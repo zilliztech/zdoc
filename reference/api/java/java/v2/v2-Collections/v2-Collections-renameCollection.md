@@ -10,19 +10,19 @@ type: docx
 token: CtTvdQVMoo2ec5xbWTPcSzjNnQc
 sidebar_position: 21
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
   - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
   - renameCollection()
   - javaV225
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: javaSidebar
 
 ---

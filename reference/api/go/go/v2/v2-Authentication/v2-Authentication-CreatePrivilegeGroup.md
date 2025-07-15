@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method creates a privilege group that contains several privileges. You can grant a privilege group to a role in the same way as you would grant a privilege. | Go | v2"
 type: origin
 token: KMwbwqMP5ifjTAkCoQmcgm8LnTd
-sidebar_position: 16
+sidebar_position: 22
 displayed_sidebar: goSidebar
 
 ---
@@ -89,7 +89,7 @@ Null
 import (
    "context"
    "google.golang.org/grpc"
-   "github.com/milvus-io/milvus/v2/milvusclient"
+   "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
 privilegeGroupName := "my_privilege_group"

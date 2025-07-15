@@ -10,19 +10,19 @@ type: docx
 token: QNB4d2q2ZorIApxpnzqczW2HnL7
 sidebar_position: 11
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - drop_collection()
   - pymilvus25
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: pythonSidebar
 
 ---

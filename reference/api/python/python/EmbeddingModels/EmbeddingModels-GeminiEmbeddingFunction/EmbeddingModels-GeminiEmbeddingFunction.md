@@ -10,19 +10,19 @@ type: docx
 token: DhZRdYbfMoYIBtxrudGcwWjrngd
 sidebar_position: 3
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - GeminiEmbeddingFunction
   - pymilvus25
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: pythonSidebar
 
 ---

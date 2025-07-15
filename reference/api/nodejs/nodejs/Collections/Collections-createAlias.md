@@ -10,19 +10,19 @@ type: docx
 token: MPuIdwujBoXM6rx7Okfc3lhZnUd
 sidebar_position: 5
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - createAlias()
   - nodejs25
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: nodeSidebar
 
 ---

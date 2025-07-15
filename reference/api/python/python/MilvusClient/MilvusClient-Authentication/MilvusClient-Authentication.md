@@ -9,10 +9,10 @@ token: W9SBfQfXUlZAXDdK6nTcop4rnFd
 sidebar_position: 1
 sidebar_label: "Authentication"
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud

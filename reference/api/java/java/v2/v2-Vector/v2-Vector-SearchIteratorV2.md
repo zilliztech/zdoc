@@ -8,21 +8,21 @@ notebook: false
 description: "This operation creates an iterator for you to iterate over the search results. It is useful, especially when the search result contains a large volume of data. | Java | v2"
 type: docx
 token: JxXHdFBRhoDT8MxlTvEc42IsnEh
-sidebar_position: 10
+sidebar_position: 11
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - SearchIteratorV2()
   - javaV225
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 displayed_sidebar: javaSidebar
 
 ---

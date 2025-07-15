@@ -10,19 +10,19 @@ type: docx
 token: CJ9DdmU1ooquOnxcK5AciA3sn3g
 sidebar_position: 16
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - listGrants()
   - nodejs25
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: nodeSidebar
 
 ---

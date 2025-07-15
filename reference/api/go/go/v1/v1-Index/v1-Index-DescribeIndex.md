@@ -48,7 +48,7 @@ func (c *GrpcClient) DescribeIndex(ctx context.Context, collName string, fieldNa
    </tr>
    <tr>
      <td><p><code>opts</code></p></td>
-     <td><p>Extra index settings You can include multiple <code>entity.IndexOption</code> in this request.</p></td>
+     <td><p>Extra index settings</p><p>You can include multiple <code>entity.IndexOption</code> in this request.</p></td>
      <td><p><code>client.IndexOption</code></p></td>
    </tr>
 </table>

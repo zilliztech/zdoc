@@ -9,10 +9,10 @@ token: M0pgf1TX3lTotndwA7Vc3gJsnAd
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud

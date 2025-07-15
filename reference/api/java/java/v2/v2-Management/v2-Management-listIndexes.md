@@ -10,19 +10,19 @@ type: docx
 token: OyWwdNBG1o2pTQxNDD1cLHcTnwc
 sidebar_position: 9
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - listIndexes()
   - javaV225
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: javaSidebar
 
 ---

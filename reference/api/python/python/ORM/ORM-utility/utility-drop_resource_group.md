@@ -10,19 +10,19 @@ type: docx
 token: EofGdftYjoQ9E6x8mxLcpbG1nhc
 sidebar_position: 11
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - drop_resource_group()
   - pymilvus25
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: pythonSidebar
 
 ---

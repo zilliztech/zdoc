@@ -10,19 +10,19 @@ type: docx
 token: YLQJdvVA8odibAx7mQscYwMVn8g
 sidebar_position: 6
 keywords: 
-  - what are vector databases
-  - vector databases comparison
   - Faiss
   - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - describeUser()
   - javaV225
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 displayed_sidebar: javaSidebar
 
 ---

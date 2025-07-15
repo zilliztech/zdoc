@@ -10,19 +10,19 @@ type: docx
 token: IqQudFVIKot4mVxWD4xclJymn8g
 sidebar_position: 2
 keywords: 
+  - Zilliz
+  - milvus vector database
   - milvus db
   - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - createDatabase()
   - javaV225
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: javaSidebar
 
 ---

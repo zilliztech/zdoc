@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method refreshes the load state of the specified collection. | Go | v2"
 type: origin
 token: YlhLwS9n1inn7kk2jvpcLmxdnFd
-sidebar_position: 10
+sidebar_position: 12
 displayed_sidebar: goSidebar
 
 ---

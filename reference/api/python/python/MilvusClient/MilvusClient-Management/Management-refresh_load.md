@@ -10,19 +10,19 @@ type: docx
 token: X3NXdtC2koiAxyxhcUBcv38Wnsh
 sidebar_position: 12
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - refresh_load()
   - pymilvus25
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: pythonSidebar
 
 ---

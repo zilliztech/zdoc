@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method collects the statistics on the specified collections. | Go | v2"
 type: origin
 token: CFBVw8mkOimkUzkZhwFclTjqnge
-sidebar_position: 15
+sidebar_position: 17
 displayed_sidebar: goSidebar
 
 ---

@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method renames the specified collection. | Go | v2"
 type: origin
 token: GLEBw9UQHi3Qzqk50NUckratnbe
-sidebar_position: 12
+sidebar_position: 14
 displayed_sidebar: goSidebar
 
 ---

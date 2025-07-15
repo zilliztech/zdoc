@@ -10,19 +10,19 @@ type: docx
 token: XBwxdP96Go8ITyx7UuNcL7EonPd
 sidebar_position: 22
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - list_aliases()
   - pymilvus25
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: pythonSidebar
 
 ---

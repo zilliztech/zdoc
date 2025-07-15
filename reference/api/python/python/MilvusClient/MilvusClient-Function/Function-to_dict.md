@@ -10,19 +10,19 @@ type: docx
 token: AmwJdW0z6opMPcxhMlBcYPIWn2M
 sidebar_position: 4
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - to_dict()
   - pymilvus25
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: pythonSidebar
 
 ---

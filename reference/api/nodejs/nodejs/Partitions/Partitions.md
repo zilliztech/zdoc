@@ -9,10 +9,10 @@ token: JfB5fh16rl1R1qdNVgec1Kdongc
 sidebar_position: 8
 sidebar_label: "Partitions"
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud

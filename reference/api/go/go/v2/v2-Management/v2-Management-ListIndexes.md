@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method lists all indexes created within the specified collection. | Go | v2"
 type: origin
 token: HCI1wkDbMiGPfwkKUk3cX0vVnAe
-sidebar_position: 4
+sidebar_position: 6
 displayed_sidebar: goSidebar
 
 ---

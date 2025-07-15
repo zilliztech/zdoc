@@ -10,19 +10,19 @@ type: docx
 token: OTMXd9uNWoMwe4xvg70cg49Pnmh
 sidebar_position: 4
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
   - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - createUser()
   - javaV225
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 displayed_sidebar: javaSidebar
 
 ---

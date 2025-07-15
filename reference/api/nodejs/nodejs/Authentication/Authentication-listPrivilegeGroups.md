@@ -10,19 +10,19 @@ type: docx
 token: HGpSdc7AOo7AV3xKCmOcWaIEnrd
 sidebar_position: 17
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - listPrivilegeGroups()
   - nodejs25
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 displayed_sidebar: nodeSidebar
 
 ---

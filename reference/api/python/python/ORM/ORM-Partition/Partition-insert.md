@@ -10,19 +10,19 @@ type: docx
 token: QXDxdv36FoVgjcxDV1gcDwWXnsd
 sidebar_position: 5
 keywords: 
+  - Video search
+  - AI Hallucination
   - AI Agent
   - semantic search
-  - Anomaly Detection
-  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
   - pymilvus25
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 displayed_sidebar: pythonSidebar
 
 ---

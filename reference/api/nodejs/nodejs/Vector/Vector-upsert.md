@@ -10,19 +10,19 @@ type: docx
 token: MErAdudCloVawFxpxoWcgqZonLc
 sidebar_position: 8
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - nodejs25
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 displayed_sidebar: nodeSidebar
 
 ---

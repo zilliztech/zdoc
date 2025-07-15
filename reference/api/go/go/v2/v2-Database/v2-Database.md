@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This chapter provides references for the methods to manipulate databases. | Go | v2"
 type: origin
 token: F9HZwritviOKr8kiJWxcNviUnSf
-sidebar_position: 3
+sidebar_position: 4
 displayed_sidebar: goSidebar
 
 ---

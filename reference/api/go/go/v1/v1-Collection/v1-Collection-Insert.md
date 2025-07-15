@@ -48,7 +48,7 @@ func (c *GrpcClient) Insert(ctx context.Context, collName string, partitionName 
    </tr>
    <tr>
      <td><p><code>columns</code></p></td>
-     <td><p>Data to insert into the specified collection. You should include the data for all the fields defined in the collection schema.</p></td>
+     <td><p>Data to insert into the specified collection.</p><p>You should include the data for all the fields defined in the collection schema.</p></td>
      <td><p><code>...entity.Column</code></p></td>
    </tr>
 </table>
@@ -99,13 +99,13 @@ type Column interface {
      <td><p>Return a column that contains the specified rows from the column.</p></td>
    </tr>
    <tr>
-     <td><p><code>AppendValue(interface{})</code></p></td>
+     <td><p><code>AppendValue(interface\{})</code></p></td>
      <td><p><code>error</code></p></td>
      <td><p>Append values to the column.</p></td>
    </tr>
    <tr>
      <td><p><code>Get(int)</code></p></td>
-     <td><p><code>interface{}, error</code></p></td>
+     <td><p><code>interface\{}, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
    <tr>

@@ -10,19 +10,19 @@ type: docx
 token: LPJsdEnvwo6apcxjhZgc3rpDnuc
 sidebar_position: 14
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - grantRole()
   - nodejs25
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 displayed_sidebar: nodeSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: Vs26d4WrYoJ3moxuLifcyP2enyh
 sidebar_position: 18
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - hasCollection()
   - javaV225
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: javaSidebar
 
 ---

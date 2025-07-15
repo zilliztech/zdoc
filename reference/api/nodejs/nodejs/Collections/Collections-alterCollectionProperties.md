@@ -10,19 +10,19 @@ type: docx
 token: EHPGdbCP5o7UzCxlDnRc6y5Pn1c
 sidebar_position: 3
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionProperties()
   - nodejs25
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: nodeSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: F1MFdP8VvoMu17x4Vg9cH6ztnqb
 sidebar_position: 1
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
   - append_row()
   - pymilvus25
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 displayed_sidebar: pythonSidebar
 
 ---

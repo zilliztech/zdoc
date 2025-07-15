@@ -10,19 +10,19 @@ type: docx
 token: WRYFdoDe8ofrlDxxTxQcdoJjnAh
 sidebar_position: 8
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - pymilvus25
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 displayed_sidebar: pythonSidebar
 
 ---

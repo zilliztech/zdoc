@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This chapter provides references for the methods to set up and close a MilvusClient object. | Go | v2"
 type: origin
 token: Rf7nwAtp2iqVM9kTKy1cNVMsnef
-sidebar_position: 2
+sidebar_position: 3
 displayed_sidebar: goSidebar
 
 ---

@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method loads the specified collection. | Go | v2"
 type: origin
 token: OmqGwFub5i55uzk0jbTc0fn1nEf
-sidebar_position: 5
+sidebar_position: 7
 displayed_sidebar: goSidebar
 
 ---

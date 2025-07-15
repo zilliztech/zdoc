@@ -10,19 +10,19 @@ type: docx
 token: IGPAdBQ5Von3lFxv4uSc5dGDnAd
 sidebar_position: 16
 keywords: 
-  - Vector retrieval
   - Audio similarity search
   - Elastic vector database
   - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - remove_privileges_from_group()
   - pymilvus25
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 displayed_sidebar: pythonSidebar
 
 ---

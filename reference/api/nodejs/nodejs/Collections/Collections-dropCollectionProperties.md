@@ -10,19 +10,19 @@ type: docx
 token: EjFMdRFz0ofehXxxCPqc6raSnAg
 sidebar_position: 12
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollectionProperties()
   - nodejs25
+  - cheap vector database
+  - Managed vector database
   - Pinecone vector database
   - Audio search
-  - what is semantic search
-  - Embedding model
 displayed_sidebar: nodeSidebar
 
 ---

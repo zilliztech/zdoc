@@ -10,19 +10,19 @@ type: docx
 token: DyPldeRNXo4nMqxQeE0cMnd2nEf
 sidebar_position: 7
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - list_connections()
   - pymilvus25
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
   - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 displayed_sidebar: pythonSidebar
 
 ---

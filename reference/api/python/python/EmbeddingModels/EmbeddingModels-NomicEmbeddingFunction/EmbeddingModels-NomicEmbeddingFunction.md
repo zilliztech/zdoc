@@ -10,19 +10,19 @@ type: docx
 token: OOQvdXDqdoqKfmxEkTecfuVMnsb
 sidebar_position: 3
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - NomicEmbeddingFunction
   - pymilvus25
-  - What is unstructured data
   - Vector embeddings
   - Vector store
   - open source vector database
+  - Vector index
 displayed_sidebar: pythonSidebar
 
 ---

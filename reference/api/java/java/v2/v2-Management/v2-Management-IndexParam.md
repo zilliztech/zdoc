@@ -10,19 +10,19 @@ type: docx
 token: FUNwdQQqAon41YxMWiIcHIBmned
 sidebar_position: 7
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - IndexParam
   - javaV225
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: javaSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: SGjed7w9toewDlxmXHKc7BFancf
 sidebar_position: 41
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - update_password()
   - pymilvus25
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 displayed_sidebar: pythonSidebar
 
 ---

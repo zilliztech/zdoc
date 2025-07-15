@@ -10,19 +10,19 @@ type: docx
 token: MbTMdBf7Bow3k6xA4R4c7j1DnRd
 sidebar_position: 1
 keywords: 
-  - Sparse vector
   - Vector Dimension
   - ANN Search
   - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - add_privileges_to_group()
   - pymilvus25
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: pythonSidebar
 
 ---

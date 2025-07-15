@@ -9,10 +9,10 @@ token: CEYUfuKoYlVIfod63clcDaS9nxc
 sidebar_position: 2
 sidebar_label: "Database"
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud

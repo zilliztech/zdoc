@@ -10,19 +10,19 @@ type: docx
 token: XhcVd1JXvoAgUfxSEpQcL2H6nVg
 sidebar_position: 1
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - add_function()
   - pymilvus25
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 displayed_sidebar: pythonSidebar
 
 ---

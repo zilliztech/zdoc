@@ -10,19 +10,19 @@ type: docx
 token: JzcYdBQ5zoU4KpxPqUHcPLQonKd
 sidebar_position: 22
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - pymilvus25
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
 displayed_sidebar: pythonSidebar
 
 ---

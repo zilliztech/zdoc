@@ -10,19 +10,19 @@ type: docx
 token: DsnpdZuDGo77TYxFuYvcDpOgnIf
 sidebar_position: 12
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - grant_role()
   - pymilvus25
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: LCQTdebkConhUqxwnk7c3EbPnWh
 sidebar_position: 34
 keywords: 
+  - milvus open source
   - how does milvus work
   - Zilliz vector database
   - Zilliz database
-  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_datetime()
   - pymilvus25
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: pythonSidebar
 
 ---

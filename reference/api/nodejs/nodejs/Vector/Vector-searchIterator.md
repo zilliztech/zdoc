@@ -10,19 +10,19 @@ type: docx
 token: KQAidyvxhoVaALxLratcCjMuniU
 sidebar_position: 9
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - searchIterator()
   - nodejs25
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: nodeSidebar
 
 ---
@@ -173,24 +173,13 @@ This method returns a promise that resolves to a **SearchResults** object.
 
 ```javascript
 {
-    data: list[string],
-    status: object
+    status: object,
+    results: list[string],
+    recalls: list[number]
 }
 ```
 
 **PARAMETERS:**
-
-- **results** (*object*) -
-
-    - **id** (*string*) -
-
-        The ID of the search result
-
-    - **score**(*number*) -
-
-        The similarity score of the search result.
-
-    - Plus output fields and their values.
 
 - **status** (*object*) -
 
@@ -205,6 +194,24 @@ This method returns a promise that resolves to a **SearchResults** object.
     - **reason** (*string*) - 
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
+
+- **results** (*list[object]*) -
+
+    Each result object has the following keys:
+
+    - **id** (*string*) -
+
+        The ID of the search result
+
+    - **score**(*number*) -
+
+        The similarity score of the search result.
+
+    - Plus output fields and their values.
+
+- **recalls** (*list[number]*) -
+
+    Each number indicates the recall rate of a search against a query vector.
 
 ## Example{#example}
 

@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method drops a privilege group. | Go | v2"
 type: origin
 token: IfskwFAkmiWmYUkF9Vncde8OnvJ
-sidebar_position: 18
+sidebar_position: 24
 displayed_sidebar: goSidebar
 
 ---
@@ -89,7 +89,7 @@ Null
 import (
    "context"
    "google.golang.org/grpc"
-   "github.com/milvus-io/milvus/v2/milvusclient"
+   "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
 
 privilegeGroupName := "my_privilege_group"

@@ -10,19 +10,19 @@ type: docx
 token: L4PUdEhrpoS1Q5xN3m2chVVEnWg
 sidebar_position: 4
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - cosine distance
-  - what is a vector database
   - vectordb
   - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: pythonSidebar
 
 ---

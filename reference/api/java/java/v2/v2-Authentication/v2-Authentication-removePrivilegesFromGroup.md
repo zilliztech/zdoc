@@ -10,19 +10,19 @@ type: docx
 token: Qbntdds6XoByxcxrG1acL7IxnQe
 sidebar_position: 16
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
   - removePrivilegesFromGroup()
   - javaV225
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: javaSidebar
 
 ---

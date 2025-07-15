@@ -10,19 +10,19 @@ type: docx
 token: WjNRdifU9o3xl5xG0W7ch4Fjnme
 sidebar_position: 12
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - drop_collection_properties()
   - pymilvus25
-  - milvus lite
-  - milvus benchmark
   - managed milvus
   - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: pythonSidebar
 
 ---

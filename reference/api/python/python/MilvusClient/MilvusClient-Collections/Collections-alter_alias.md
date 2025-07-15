@@ -10,19 +10,19 @@ type: docx
 token: CBc3d1mrdoYqmDxe4Kcc9zxAnzh
 sidebar_position: 1
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - alter_alias()
   - pymilvus25
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: pythonSidebar
 
 ---

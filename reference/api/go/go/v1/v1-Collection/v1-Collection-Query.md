@@ -41,12 +41,12 @@ func (c *GrpcClient) Query(ctx context.Context, collectionName string, partition
    </tr>
    <tr>
      <td><p><code>partitionNames</code></p></td>
-     <td><p>List of partition names.  If left empty, all partitions are involved in this operation. Otherwise, only the specified partitions are involved.</p></td>
+     <td><p>List of partition names. </p><p>If left empty, all partitions are involved in this operation. Otherwise, only the specified partitions are involved.</p></td>
      <td><p><code>[]string</code></p></td>
    </tr>
    <tr>
      <td><p><code>expr</code></p></td>
-     <td><p>Boolean expression for metadata filtering. For details, refer to <a href="https://milvus.io/docs/boolean.md">Scalar Filtering Rules</a>.</p></td>
+     <td><p>Boolean expression for metadata filtering.</p><p>For details, refer to <a href="https://milvus.io/docs/boolean.md">Scalar Filtering Rules</a>.</p></td>
      <td><p><code>string</code></p></td>
    </tr>
    <tr>
@@ -56,7 +56,7 @@ func (c *GrpcClient) Query(ctx context.Context, collectionName string, partition
    </tr>
    <tr>
      <td><p><code>opts</code></p></td>
-     <td><p>Extra query options. You can add multiple <code>client.SearchQueryOptionFunc</code> instances.</p></td>
+     <td><p>Extra query options.</p><p>You can add multiple <code>client.SearchQueryOptionFunc</code> instances.</p></td>
      <td><p><code>...client.SearchQueryOptionFunc</code></p></td>
    </tr>
 </table>

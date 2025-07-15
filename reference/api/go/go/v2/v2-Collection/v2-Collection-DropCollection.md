@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This method drops a collection. | Go | v2"
 type: origin
 token: KAzcwdwuFiDhdak0QiZcMrp0n4h
-sidebar_position: 10
+sidebar_position: 12
 displayed_sidebar: goSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: SuePdciB0o4du5xtpIhcMVyYnPb
 sidebar_position: 40
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - transfer_replica()
   - pymilvus25
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: pythonSidebar
 
 ---

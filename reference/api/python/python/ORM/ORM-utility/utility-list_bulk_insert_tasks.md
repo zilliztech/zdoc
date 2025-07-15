@@ -10,19 +10,19 @@ type: docx
 token: T1CGdXeVkoG2yAxkualc1jVonRb
 sidebar_position: 23
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - list_bulk_insert_tasks()
   - pymilvus25
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: MBy3dDXFbo0buwxkh0IczwLInPf
 sidebar_position: 13
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - dropAlias()
   - javaV225
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: javaSidebar
 
 ---

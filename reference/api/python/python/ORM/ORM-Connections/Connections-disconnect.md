@@ -10,19 +10,19 @@ type: docx
 token: IpSBdcabbosobvxQkAEcv6CvnJd
 sidebar_position: 4
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - disconnect()
   - pymilvus25
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: Xcl2dbLC6osEskxx87Wc1Q3rn4f
 sidebar_position: 3
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - Function
   - pymilvus25
-  - managed milvus
-  - Serverless vector database
   - milvus open source
   - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 displayed_sidebar: pythonSidebar
 
 ---

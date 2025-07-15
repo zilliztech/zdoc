@@ -10,19 +10,19 @@ type: docx
 token: PNtoddjsMoYuqcxCWK4c3IWKnde
 sidebar_position: 1
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - nodejs25
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: nodeSidebar
 
 ---

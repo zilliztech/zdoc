@@ -10,19 +10,19 @@ type: docx
 token: CzC6dm9N8oBvQZxRMyocNfTpn9f
 sidebar_position: 5
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabaseProperties()
   - javaV225
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: javaSidebar
 
 ---

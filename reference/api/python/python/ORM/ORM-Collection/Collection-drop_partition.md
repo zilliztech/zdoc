@@ -10,19 +10,19 @@ type: docx
 token: Aym2dpBuIo81mExCqyLcSWhunBe
 sidebar_position: 10
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - drop_partition()
   - pymilvus25
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: pythonSidebar
 
 ---

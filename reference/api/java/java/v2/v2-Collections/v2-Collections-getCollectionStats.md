@@ -10,19 +10,19 @@ type: docx
 token: XgfcdpBWCof3pfxhUudcRZajnPc
 sidebar_position: 17
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStats()
   - javaV225
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: javaSidebar
 
 ---

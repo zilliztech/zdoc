@@ -10,19 +10,19 @@ type: docx
 token: CadTdZ5YGocDymxaIOvcr08pnxd
 sidebar_position: 1
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - createPartition()
   - javaV225
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: javaSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: FxUxdWGz2oUh1ixyquZcAndBnAf
 sidebar_position: 2
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - CollectionSchema
   - javaV225
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: javaSidebar
 
 ---

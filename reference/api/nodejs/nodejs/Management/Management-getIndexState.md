@@ -10,19 +10,19 @@ type: docx
 token: HqE5d2jOroEuObxIjkZcHkX4nWX
 sidebar_position: 10
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - getIndexState()
   - nodejs25
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 displayed_sidebar: nodeSidebar
 
 ---

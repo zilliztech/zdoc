@@ -10,19 +10,19 @@ type: docx
 token: XzHhd3AdCo9DCsxawYycr69CnAb
 sidebar_position: 13
 keywords: 
-  - Agentic RAG
   - rag llm architecture
   - private llms
   - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - get_bulk_insert_state()
   - pymilvus25
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: pythonSidebar
 
 ---

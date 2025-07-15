@@ -10,19 +10,19 @@ type: docx
 token: HSIDdxQGEoPdyaxkMDjcAWGQnpd
 sidebar_position: 15
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - listGrant()
   - nodejs25
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: nodeSidebar
 
 ---

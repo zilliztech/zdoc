@@ -10,19 +10,19 @@ type: docx
 token: E5rYdw3EWo2WKZxEyGac049an3e
 sidebar_position: 9
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - dropAllRoles()
   - nodejs25
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: nodeSidebar
 
 ---

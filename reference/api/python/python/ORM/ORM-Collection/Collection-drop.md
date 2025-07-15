@@ -10,19 +10,19 @@ type: docx
 token: L8UTdDNkPoeew0x6LoDcfHx4nof
 sidebar_position: 8
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - drop()
   - pymilvus25
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: pythonSidebar
 
 ---

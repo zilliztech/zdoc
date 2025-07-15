@@ -10,19 +10,19 @@ type: docx
 token: NOX7dAR3zodEH3xinMecMjq5n4S
 sidebar_position: 1
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - javaV225
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 displayed_sidebar: javaSidebar
 
 ---

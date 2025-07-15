@@ -10,19 +10,19 @@ type: docx
 token: QasfdVW4voAzfwxfSc1civsHnVf
 sidebar_position: 1
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - alterAlias()
   - javaV225
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: javaSidebar
 
 ---

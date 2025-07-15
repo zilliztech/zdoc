@@ -10,19 +10,19 @@ type: docx
 token: XmyMdqvDLosr6oxzvhWcw8H2ntg
 sidebar_position: 21
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - removeUserFromRole()
   - nodejs25
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: nodeSidebar
 
 ---

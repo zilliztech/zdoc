@@ -10,19 +10,19 @@ type: docx
 token: ZkWBdbMZkoBjT1xe4qDcTBOHnGx
 sidebar_position: 2
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus25
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: pythonSidebar
 
 ---
