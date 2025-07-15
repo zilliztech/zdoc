@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloudのローンチを発表できることを嬉しく思います。このリリースでは、新しいCUサイズオプションによる柔軟性の向上、前払いのサポート、より多くのAWSリージョンなど、さまざまな強化と機能を導入しています。 | Cloud"
 type: origin
 token: VfMmwEGR5ivR4FkCwCPc5Mb4nyh
-sidebar_position: 14
+sidebar_position: 16
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

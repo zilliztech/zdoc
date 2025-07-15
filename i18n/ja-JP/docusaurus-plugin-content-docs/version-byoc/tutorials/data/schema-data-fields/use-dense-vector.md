@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 
@@ -36,7 +36,7 @@ import TabItem from '@theme/TabItem';
 
 密ベクトルは通常、固定長の浮動小数点数の配列として表されます(例:`[0.2,0.7,0.1,0.8,0.3,...)。。。0.5]`。これらのベクトルの次元数は通常、128、256、768、または1024など、数百から数千に及びます。各次元はオブジェクトの特定の意味的特徴を捉えるため、類似性計算を通じてさまざまなシナリオに適用できます。
 
-![UwqzwxzPEhCv3mbkQIacyplJnTe](/byoc/ja-JP/UwqzwxzPEhCv3mbkQIacyplJnTe.png)
+![UwqzwxzPEhCv3mbkQIacyplJnTe](/img/UwqzwxzPEhCv3mbkQIacyplJnTe.png)
 
 上の画像は、2 D空間における密集ベクトルの表現を示しています。現実世界のアプリケーションにおける密集ベクトルはしばしばはるかに高次元を持っていますが、この2 Dイラストはいくつかの重要な概念を効果的に伝えています
 
@@ -67,7 +67,7 @@ import TabItem from '@theme/TabItem';
 
 データがベクトル化されると、管理とベクトル取得のためにZilliz Cloudクラスターに保存できます。以下の図は基本的な過程を示しています。
 
-![BxnSwYJ4ghxlIkb9vF4c5k1Bny1](/byoc/ja-JP/BxnSwYJ4ghxlIkb9vF4c5k1Bny1.png)
+![BxnSwYJ4ghxlIkb9vF4c5k1Bny1](/img/BxnSwYJ4ghxlIkb9vF4c5k1Bny1.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 

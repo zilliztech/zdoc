@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - range search
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 
@@ -34,7 +34,7 @@ import TabItem from '@theme/TabItem';
 
 範囲検索リクエストを実行する場合、Zilliz Cloudは、ANN検索結果のクエリベクトルに最も類似したベクトルを中心に、検索リクエストで指定された**半径**を外側の円の半径、**range_filter**を内側の円の半径として使用して、2つの同心円を描画します。これら2つの同心円によって形成される環状領域に含まれる類似度スコアを持つすべてのベクトルが返されます。ここで、**range_filter**を**0**に設定すると、指定された類似度スコア(半径)内のすべてのエンティティが返されます。
 
-![JrMzwgnfvhxaFob5s5LcxxUxnPc](/img/ja-JP/JrMzwgnfvhxaFob5s5LcxxUxnPc.png)
+![JrMzwgnfvhxaFob5s5LcxxUxnPc](/img/JrMzwgnfvhxaFob5s5LcxxUxnPc.png)
 
 上の図は、範囲検索リクエストが**半径**と**range_filter**の2つのパラメータを持っていることを示しています。範囲検索リクエストを受け取ると、Zilliz Cloudは次のようにします:
 

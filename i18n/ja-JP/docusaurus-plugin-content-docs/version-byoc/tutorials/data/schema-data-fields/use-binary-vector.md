@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - Chroma vector database
-  - nlp search
   - hallucinations llm
   - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 
@@ -38,7 +38,7 @@ import TabItem from '@theme/TabItem';
 
 以下の図は、バイナリベクトルがテキストコンテンツ内のキーワードの存在を表す方法を示しています。この例では、10次元のバイナリベクトルを使用して、2つの異なるテキスト(**テキスト1**と**テキスト2**)を表します。各次元は語彙内の単語に対応します。1はテキスト内の単語の存在を示し、0はその不在を示します。
 
-![Cp6WwpBBvhzfBCbuFkycFjz7noc](/byoc/ja-JP/Cp6WwpBBvhzfBCbuFkycFjz7noc.png)
+![Cp6WwpBBvhzfBCbuFkycFjz7noc](/img/Cp6WwpBBvhzfBCbuFkycFjz7noc.png)
 
 バイナリベクトルには以下の特徴があります。
 
@@ -54,7 +54,7 @@ import TabItem from '@theme/TabItem';
 
 バイナリベクトル化後、データは管理とベクトル取得のためにZilliz Cloudクラスターに保存できます。以下の図は基本的な過程を示しています。
 
-![BW8awBfRThXBnobymw9cBYEzn3c](/byoc/ja-JP/BW8awBfRThXBnobymw9cBYEzn3c.png)
+![BW8awBfRThXBnobymw9cBYEzn3c](/img/BW8awBfRThXBnobymw9cBYEzn3c.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -202,12 +202,11 @@ import java.util.*;
 
 List<IndexParam> indexParams = new ArrayList<>();
 Map<String,Object> extraParams = new HashMap<>();
-extraParams.put("nlist",128);
+
 indexParams.add(IndexParam.builder()
         .fieldName("binary_vector")
         .indexType(IndexParam.IndexType.AUTOINDEX)
-        .metricType(IndexParam.MetricType.HAMMING)
-        .extraParams(extraParams)
+        .metricType(IndexParam.MetricType.HAMMING)loca
         .build());
 ```
 

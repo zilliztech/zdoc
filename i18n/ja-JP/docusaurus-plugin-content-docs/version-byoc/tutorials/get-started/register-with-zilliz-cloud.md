@@ -14,10 +14,10 @@ keywords:
   - register
   - cloud
   - milvus
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 
@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloudにアクセスして[サインアップし](https://cloud.zilliz.com/signup)てください。
 
-![sign_up](/byoc/ja-JP/sign_up.png)
+![sign_up](/img/sign_up.png)
 
 ## 登録オプション{#registration-options}
 
@@ -129,8 +129,4 @@ Zilliz Cloudアカウントにログインする際は、常に登録方法と�
 ## 次は何ですか{#whats-next}
 
 - [クイックスタート](./quick-start)
-
-- [クレジットカードを追加して購読する](./subscribe-by-adding-credit-card)
-
-- [AWS Marketplaceで購読する](./subscribe-on-aws-marketplace)
 

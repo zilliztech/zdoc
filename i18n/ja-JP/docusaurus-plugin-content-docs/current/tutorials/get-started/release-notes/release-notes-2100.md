@@ -7,16 +7,16 @@ notebook: FALSE
 description: "このリリースでは、Zilliz Cloud ServerlessのGAから始まり、自動スケーリングを提供し、最大50倍のコスト削減が可能になりました。Milvus 2.4機能がGAになり、スパースベクトル、マルチベクトルハイブリッド検索、ファジーマッチング付き逆インデックスなどの機能が導入されました。このリリースには、パブリックプレビューのマルチレプリカ機能も含まれており、複数の可用性ゾーン(AZ)のレプリカにワークロードを分散することで、クエリのスループットと可用性を向上させることができます。さらに、Zilliz Cloudの新しいMigration Serviceは、オープンソースのMilvus、pgvector、Elasticsearchからの移行をサポートし、Zilliz Cloud内での組織内および組織間のデータ移行を可能にします。バックアップ、リストア、移行、ジョブ管理のための拡張されたRESTful APIにより、ユーザーは自動化された運用ワークフローをその他の機能強化には、プロジェクトの読み取り専用ロールのサポート、クラスターとスナップショットの名前変更機能が含まれます。 | Cloud"
 type: origin
 token: IAMrwQHwWiHZHekyLuZcVMVunyg
-sidebar_position: 5
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 
@@ -83,7 +83,7 @@ Milvusの以前のリリースでは、メモリベースのバイナリサー�
 
 機械学習やニューラルネットワークは、しばしばFloat 16やBFloatなどの半精度データ型を使用します。これらのデータ型は、クエリの効率を向上させ、メモリ使用量を減らすことができますが、精度は低下します。このリリースにより、Zilliz Cloudはベクトルフィールドに対してこれらのデータ型をサポートするようになりました。
 
-サンプルコードは[float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/float16_example.py)と[bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/bfloat16_example.py)にあります。
+サンプルコードは[float16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/float16_example.py)と[bfloat16_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/datatypes/bfloat16_example.py)にあります。
 
 ### マルチレプリカ{#multi-replica}
 
@@ -103,7 +103,7 @@ Zilliz Cloudは、ユーザーが簡単に移行タスクを完了できる包�
 
 - 他のオープンソースデータベースからZilliz Cloudへの移行をサポートしています。現在、pgvectorとElasticsearchからの移行がサポートされています。移行対象は、Free Planインスタンス、Serverlessインスタンス、またはDedicated Clusterです。詳細については、「[ElasticsearchからZilliz Cloudへの移行](./migrate-from-elasticsearch)」と「[Postgre SQLからZilliz Cloudに移行](./migrate-from-tencent-cloud)」を参照してください。
 
-- Zilliz Cloud内でデータを移行し、組織内および組織間のデータ移行をサポートします。詳細については、[クラスタ間の移行](./undefined)を参照してください。
+- Zilliz Cloud内でデータを移行し、組織内および組織間のデータ移行をサポートします。詳細については、[クラスタ間の移行](./migrate-between-clusters)を参照してください。
 
 ### バックアップ/復元/移行/ジョブRESTful API{#backuprestoremigrationjobs-restful-api}
 

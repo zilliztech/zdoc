@@ -2,7 +2,7 @@
 title: "BYOCの概要 | BYOC"
 slug: /byoc-intro
 sidebar_label: "BYOCの概要"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "Bring Your Own Cloud (BYOC) は、Zilliz Cloud のインフラストラクチャを使用する代わりに、組織が独自のクラウドアカウントでアプリケーションやデータをホストするための展開オプションです。このソリューションは、特定のセキュリティ要件や規制遵守ニーズを持つ組織に最適であり、完全なデータ制御主権を維持する必要があります。 | BYOC"
 type: origin
@@ -13,10 +13,10 @@ keywords:
   - byoc
   - milvus
   - vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 
@@ -53,7 +53,17 @@ Zilliz BYOCは、以下の利点により、運用オーバーヘッドを排除
 
 BYOC は、アップグレードワークフロー、リソーススケジューラー、オープンAPIサービス、Webコンソールなど、Zillizが管理するバックエンドサービスと一緒にMilvusをクラウド環境内に展開することを含みます。通常、あなた自身の Virtual Private Cloud (VPC) 内にあります。このセットアップにより、あなたのデータがあなた自身のインフラストラクチャ内で保存および処理されることが保証されます。
 
-![PbtCwAj3Th0zDpbkNMfcw9L2npp](/byoc/ja-JP/PbtCwAj3Th0zDpbkNMfcw9L2npp.png)
+Zilliz BYOCは、多様な企業ガバナンス要件に適応するために2つの展開モードを実装しています。
+
+- BYOC
+
+- BYOC-I
+
+### BYOC{#byoc}
+
+Zilliz BYOCのこのフルマネージドモードでは、クラウドプロバイダーが提供するクロスアカウントの役割仮定メカニズムを使用して、Zilliz CloudがEKSクラスターとEC 2インスタンスを管理する権限を取得できます。
+
+![PbtCwAj3Th0zDpbkNMfcw9L2npp](/img/PbtCwAj3Th0zDpbkNMfcw9L2npp.png)
 
 上記のアーキテクチャに従うと、Zilliz Cloud がEKSクラスターを開始し、必要なコンポーネント(Milvus Operator、Import/Backup ツール、Grafana およびPrometheusを含む監視スタック、およびMilvusインスタンスなど)を展開するために、VPC、S3バケット、および最小限の権限を提供する必要があります。
 
@@ -67,11 +77,15 @@ BYOC は、アップグレードワークフロー、リソーススケジュー
 
     データプレーンは、VPCにデプロイされたMilvusインスタンスとアプリケーション/サービス間の通信を可能にし、データの保存と取得に特化しています。
 
-<Admonition type="info" icon="📘" title="ノート">
+### BYOC-I{#byoc-i}
 
-<p>Zilliz BYOCは現在<strong>プライベートプレビュー</strong>で利用可能です。アクセスと実装の詳細については、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p>
+このモードでは、完全に管理されたZilliz BYOC展開でクロスアカウントの役割仮定方法を使用する代わりに、包括的な運用およびメンテナンス機能のためにBYOCエージェントを環境に展開します。クラウドプレーンとBYOCエージェントの間に暗号化されたポイントツーポイント(P 2 P)逆トンネルが作成され、通信セキュリティが向上します。
 
-</Admonition>
+![PjFDwKRK8hoewbbg71kcRixvnFc](/img/PjFDwKRK8hoewbbg71kcRixvnFc.png)
+
+BYOC-Iモードでは、インフラストラクチャリソースを管理するためにクロスアカウント権限を要求する代わりに、Zillizはインフラストラクチャ管理を完全にあなたの手に委ねることで、データ制御主権を強化します。
+
+ただし、必要に応じてZillizがインフラストラクチャ管理を支援できるように、エージェントに必要な権限を付与することもできます。
 
 ## セキュリティ保証{#security-assurance}
 
@@ -113,5 +127,5 @@ Zilliz BYOCは、消費するサービスに料金を置くためにライセン
 
 以下の図は、Zilliz BYOCとSaaSサブスクリプションのコストを比較したものです。
 
-![UFUhwt8q8hBvWUb44rJcts2inYg](/byoc/ja-JP/UFUhwt8q8hBvWUb44rJcts2inYg.png)
+![UFUhwt8q8hBvWUb44rJcts2inYg](/img/UFUhwt8q8hBvWUb44rJcts2inYg.png)
 

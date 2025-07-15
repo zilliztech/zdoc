@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

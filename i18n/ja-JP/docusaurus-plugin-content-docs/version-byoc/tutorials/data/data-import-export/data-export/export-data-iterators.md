@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

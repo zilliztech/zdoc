@@ -14,10 +14,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 
@@ -108,7 +108,7 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 - **受信者**:通知を受け取るための役割またはメールアドレスを指定します。Webhookを使用してカスタム通知チャンネルを設定することもできます。詳細については、「[通知チャンネルの管理](./manage-notification-channels)」を参照してください。
 
-![view-project-alert](/img/ja-JP/view-project-alert.png)
+![view-project-alert](/img/view-project-alert.png)
 
 ## プロジェクトのアラートを作成する{#create-a-project-alert}
 
@@ -116,7 +116,7 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 サポートされているカスタムアラートターゲットについては、[メトリクスとアラートのリファレンス](./metrics-alerts-reference)を参照してください。
 
-![create-alert](/img/ja-JP/create-alert.png)
+![create-alert](/img/create-alert.png)
 
 ## プロジェクトのアラートを編集する{#edit-a-project-alert}
 
@@ -154,7 +154,7 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 [**Alert History**]タブでトリガーされたアラートを表示します。アラートの対象、重要度レベル、時間範囲のフィルターがあります。
 
-![view-project-alert-history](/img/ja-JP/view-project-alert-history.png)
+![view-project-alert-history](/img/view-project-alert-history.png)
 
 ## アラート受信の設定を行う{#configure-alert-receiver-settings}
 
@@ -162,7 +162,7 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 プロジェクトアラートの[**アラート設定**]ページで、アラート受信者の設定を構成します。
 
-![alert-receiver-settings](/img/ja-JP/alert-receiver-settings.png)
+![alert-receiver-settings](/img/alert-receiver-settings.png)
 
 ## 関連するトピック{#related-topics}
 

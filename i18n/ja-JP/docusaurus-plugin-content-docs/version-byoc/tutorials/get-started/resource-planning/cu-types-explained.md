@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cu
   - select
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 
@@ -32,7 +32,7 @@ Zilliz Cloudでクラスタを作成する際には、適切なコンピュー�
 
 Zilliz Cloudは、次のCUタイプを提供しています:**Performance-optimized、容量最適化**、および**拡張容量。**
 
-以下の表は、異なる側面で3つのCUタイプを簡単に比較したものです。CUタイプ間の容量と性能の詳細な比較については、「[最適なCUタイプを選択](./cu-types-explained#cuselect-an-optimal-cu-type)する」を参照してください。
+以下の表は、異なる側面で3つのCUタイプを簡単に比較したものです。CUタイプ間の容量と性能の詳細な比較については、「[最適なCUタイプを選択](./cu-types-explained#select-an-optimal-cu-type)する」を参照してください。
 
 <table>
    <tr>
@@ -47,21 +47,21 @@ Zilliz Cloudは、次のCUタイプを提供しています:**Performance-optimi
      <td><p>500~1500</p></td>
      <td><p>サブ10ミリ秒</p></td>
      <td><p>150万個の768暗ベクトル</p></td>
-     <td><p>$65/月から。</p></td>
+     <td><p>&#36;65/月から。</p></td>
    </tr>
    <tr>
      <td><p><strong>キャパシティ最適化</strong></p></td>
      <td><p>100~300</p></td>
      <td><p>十ミリ秒</p></td>
      <td><p>500万個の768-dimベクトル</p></td>
-     <td><p>$20/月から。</p></td>
+     <td><p>&#36;20/月から。</p></td>
    </tr>
    <tr>
      <td><p><strong>拡張キャパシティ</strong></p></td>
      <td><p>5~20</p></td>
      <td><p>百ミリ秒</p></td>
      <td><p>20百万の768暗いベクトル</p></td>
-     <td><p>$10/月から。</p></td>
+     <td><p>&#36;10/月から。</p></td>
    </tr>
 </table>
 

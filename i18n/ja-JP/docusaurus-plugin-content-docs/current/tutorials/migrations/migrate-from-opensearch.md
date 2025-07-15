@@ -15,10 +15,10 @@ keywords:
   - migrations
   - amazon
   - opensearch
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 
@@ -29,13 +29,13 @@ import Admonition from '@theme/Admonition';
 
 [Open Search](https://opensearch.org/)は、Webサイト上の検索ボックスの実装から脅威検出のためのセキュリティデータの分析まで、さまざまなユースケースをサポートする分散型検索および分析エンジンです。Zilliz Cloudは、Open Searchからのスムーズな移行を可能にし、高度な分析とAIによる洞察を活用できます。このガイドでは、Open SearchデータをZilliz Cloudに転送する方法について説明します。
 
-## 考慮事項{#}
+## 考慮事項{#considerations}
 
 - 各移行タスクについて、各ソースインデックスから1つのベクトルフィールドのみを選択できます。
 
 - 各移行タスクは、単一のソースOpen Searchクラスタに制限されます。複数のソースクラスタにデータがある場合は、それぞれに別々の移行ジョブを設定できます。
 
-## 始める前に{#}
+## 始める前に{#before-you-start}
 
 - ソースのOpen Searchクラスタはインターネットからアクセスできます。
 
@@ -43,11 +43,11 @@ import Admonition from '@theme/Admonition';
 
 - あなたには**組織オーナー**または**プロジェクト管理者**の役割が付与されています。必要な権限がない場合は、Zilliz Cloudの管理者にお問い合わせください。
 
-## Open SearchからZilliz Cloudへの移行{#open-searchzilliz-cloud}
+## Open SearchからZilliz Cloudへの移行{#migrate-from-opensearch-to-zilliz-cloud}
 
 ソースデータを任意のプランレベルのZilliz Cloudクラスタに移行できます(CU体格がソースデータに対応している場合)。
 
-![migrate_from_opensearch](/img/ja-JP/migrate_from_opensearch.png)
+![migrate_from_opensearch](/img/migrate_from_opensearch.png)
 
 1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
@@ -79,7 +79,7 @@ import Admonition from '@theme/Admonition';
 
 1. [**移行**]をクリックします。
 
-## 移行過程を監視する{#}
+## 移行過程を監視する{#monitor-the-migration-process}
 
 「**移行**」をクリックすると、移行ジョブが生成されます。[ジョブ](./job-center)ページで移行の進捗状況を確認できます。ジョブのステータスが「**IN PROGRESS**」から「**SUCCESS FUL**」に切り替わると、移行が完了します。
 
@@ -89,9 +89,9 @@ import Admonition from '@theme/Admonition';
 
 </Admonition>
 
-![verify_collection](/img/ja-JP/verify_collection.png)
+![verify_collection](/img/verify_collection.png)
 
-## 移行ジョブをキャンセル{#}
+## 移行ジョブをキャンセル{#cancel-migration-job}
 
 移行過程で問題が発生した場合は、次の手順に従ってトラブルシューティングを行い、移行を再開できます。
 
@@ -99,7 +99,7 @@ import Admonition from '@theme/Admonition';
 
 1. [アクション]列の[**詳細**を**表示**]をクリックして、エラーログにアクセスします。
 
-## フィールドマッピングリファレンス{#}
+## フィールドマッピングリファレンス{#field-mapping-reference}
 
 Open SearchデータタイプがZilliz Cloudフィールドタイプにどのようにマップされるかを理解するには、以下の表を確認してください。
 
@@ -112,7 +112,7 @@ Open SearchデータタイプがZilliz Cloudフィールドタイプにどのよ
    <tr>
      <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/knn-vector/">k-NNベクトル</a></p></td>
      <td><p><code>フロートベクトル</code></p></td>
-     <td><p>Open Searchからの<code>float</code>ベクトルタイプは、Zilliz Cloud上の<code>FLOAT_VECTOR</code>にマップされます。Open Searchからのバイト/バイナリベクトルは移行に対応していません。 ベクトルの寸法は変わりません。</p></td>
+     <td><p>Open Searchからの<code>float</code>ベクトルタイプは、Zilliz Cloud上の<code>FLOAT_VECTOR</code>にマップされます。Open Searchからのバイト/バイナリベクトルは移行に対応していません。</p><p>ベクトルの寸法は変わりません。</p></td>
    </tr>
    <tr>
      <td><p><a href="https://opensearch.org/docs/latest/field-types/supported-field-types/alias/">エイリアス</a></p></td>

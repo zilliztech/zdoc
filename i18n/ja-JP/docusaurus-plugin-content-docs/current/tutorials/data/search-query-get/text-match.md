@@ -2,7 +2,7 @@
 title: "テキスト一致 | Cloud"
 slug: /text-match
 sidebar_label: "テキスト一致"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "Zilliz CloudのText Matchは、特定の用語に基づく正確なドキュメント検索を可能にします。この機能は、特定の条件を満たすために主にフィルタリングされた検索に使用され、スカラーフィルタリングを組み込んでクエリ結果を絞り込むことができ、スカラー基準を満たすベクトル内の類似検索を可能にします。 | Cloud"
 type: origin
@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - text-match
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 
@@ -49,7 +49,7 @@ Zilliz Cloudは、[Tantivy](https://github.com/quickwit-oss/tantivy)を統合し
 
 ユーザーがテキストマッチを実行すると、転置インデックスが使用され、用語を含むすべてのドキュメントが迅速に取得されます。これは、各ドキュメントを個別にスキャンするよりもはるかに高速です。
 
-![Hj7ZwCqNnhHOktbDnstcOeYXn3s](/img/ja-JP/Hj7ZwCqNnhHOktbDnstcOeYXn3s.png)
+![Hj7ZwCqNnhHOktbDnstcOeYXn3s](/img/Hj7ZwCqNnhHOktbDnstcOeYXn3s.png)
 
 ## テキストマッチを有効にする{#enable-text-match}
 

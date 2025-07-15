@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloudのリリースを発表できることを嬉しく思います。Zilliz Cloudクラスター間およびElastic Searchからのデータ移行、新しいチケットシステムの稼働、および強化されたデータインポート機能を含む、ユーザーエクスペリエンスを向上させるために設計された新機能のスイートを誇っています。 | Cloud"
 type: origin
 token: UYXeweIQ9iLFsMkyzoecTt87nSe
-sidebar_position: 15
+sidebar_position: 17
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 
@@ -45,7 +45,7 @@ Zilliz Cloudのリリースを発表できることを嬉しく思います。Zi
 
 - リアルタイムモニタリング:ユーザーが移行の進捗状況を監視し、ステータスの更新を瞬時に受け取るための直感的なUI。
 
-詳細は[クラスタ間の移行](./undefined)を参照してください。
+詳細は[クラスタ間の移行](./migrate-between-clusters)を参照してください。
 
 ## Elastic SearchからZilliz Cloudへの簡単な移行{#easy-migration-from-elasticsearch-to-zilliz-cloud}
 

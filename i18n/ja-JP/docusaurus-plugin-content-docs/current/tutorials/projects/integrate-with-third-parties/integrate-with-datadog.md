@@ -2,7 +2,7 @@
 title: "Datadogとの統合 | Cloud"
 slug: /integrate-with-datadog
 sidebar_label: "Datadogとの統合"
-beta: PRIVATE
+beta: FALSE
 notebook: FALSE
 description: "Datadogは、アプリケーションのパフォーマンス、インフラストラクチャ、ログ管理に関するリアルタイムの洞察を提供するクラウドモニタリングおよび分析プラットフォームです。Zilliz CloudとDatadogを統合することで、Zilliz Cloudクラスターに関するメトリックデータをDatadogダッシュボードに送信できます。 | Cloud"
 type: origin
@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - datadog
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 
@@ -112,7 +112,7 @@ import Admonition from '@theme/Admonition';
 
     1. [**作成**]をクリックします。
 
-![integrate-with-datadog-1](/img/ja-JP/integrate-with-datadog-1.png)
+![integrate-with-datadog-1](/img/integrate-with-datadog-1.png)
 
 ## インテグレーションの進捗をモニターする{#monitor-integration-progress}
 
@@ -120,7 +120,7 @@ import Admonition from '@theme/Admonition';
 
 インテグレーションの横にある外部リンクアイコンをクリックすると、関連するDatadogダッシュボードを開き、選択したZilliz Cloudクラスターからプッシュされたクラスターメトリクスを表示できます。
 
-![integrate-with-datadog-2](/img/ja-JP/integrate-with-datadog-2.png)
+![integrate-with-datadog-2](/img/integrate-with-datadog-2.png)
 
 ## インテグレーションの管理{#manage-integrations}
 
@@ -130,7 +130,7 @@ Datadogインテグレーションを管理するには、[**アクション**]�
 
 - **削除**:必要がなくなった場合は、統合を削除します。
 
-![integrate-with-datadog-3](/img/ja-JP/integrate-with-datadog-3.png)
+![integrate-with-datadog-3](/img/integrate-with-datadog-3.png)
 
 ## Datadogで利用可能なパフォーマンスメトリクス{#performance-metrics-available-to-datadog}
 

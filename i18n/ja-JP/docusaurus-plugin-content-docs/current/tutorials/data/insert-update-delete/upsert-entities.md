@@ -17,10 +17,10 @@ keywords:
   - upsert
   - update
   - insert
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 
@@ -44,11 +44,11 @@ Upsert操作は、データの更新と挿入のアクションを組み合わ�
 
 1. Upsert要求に含まれるエンティティの主キー値に基づいて削除操作を実行します。
 
-![PbhlwMPYehvqZjboBUucBm0tniL](/img/ja-JP/PbhlwMPYehvqZjboBUucBm0tniL.png)
+![PbhlwMPYehvqZjboBUucBm0tniL](/img/PbhlwMPYehvqZjboBUucBm0tniL.png)
 
 ## コレクション内のエンティティの更新と挿入{#upsert-entity-in-a-collection}
 
-このセクションでは、[クイックセットアップの方法で](./quick-setup-collections#quick-setup)作成されたコレクションにエンティティを挿入します。この方法で作成されたコレクションには、**id**と**vector**という2つのフィールドしかありません。さらに、このコレクションには動的フィールドが有効になっているため、サンプルコードのエンティティには、スキーマで定義されていない**color**というフィールドが含まれています。
+このセクションでは、クイックセットアップの方法で作成されたコレクションにエンティティを挿入します。この方法で作成されたコレクションには、**id**と**vector**という2つのフィールドしかありません。さらに、このコレクションには動的フィールドが有効になっているため、サンプルコードのエンティティには、スキーマで定義されていない**color**というフィールドが含まれています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

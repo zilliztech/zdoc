@@ -2,7 +2,7 @@
 title: "アナライザの概要 | BYOC"
 slug: /analyzer-overview
 sidebar_label: "アナライザの概要"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "テキスト処理において、アナライザーは生のテキストを構造化された検索可能な形式に変換する重要なコンポーネントです。各アナライザーは通常、トークナイザーとフィルターの2つのコア要素で構成されています。これらを組み合わせることで、入力テキストをトークンに変換し、これらのトークンを改良し、効率的なインデックス作成と検索に備えます。 | BYOC"
 type: origin
@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 
@@ -58,7 +58,7 @@ Zilliz Cloudのアナライザは、1つのトークナイザと**ゼロ以上**
 
 以下のワークフローは、アナライザーがテキストを処理する方法を示しています。
 
-![NWNHwRvu9hQUL1b4atdccSVhnhf](/byoc/ja-JP/NWNHwRvu9hQUL1b4atdccSVhnhf.png)
+![NWNHwRvu9hQUL1b4atdccSVhnhf](/img/NWNHwRvu9hQUL1b4atdccSVhnhf.png)
 
 ## アナライザーの種類{#analyzer-types}
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 
@@ -44,7 +44,7 @@ Zilliz CloudはAWS上で専用クラスタのデプロイをサポートして�
      <th><p><strong>専用クラスタ(Enterprise)</strong></p></th>
    </tr>
    <tr>
-     <td><p>us-east-1ファイル</p></td>
+     <td><p>us-east-1</p></td>
      <td><p>アメリカ合衆国バージニア州</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
@@ -52,7 +52,7 @@ Zilliz CloudはAWS上で専用クラスタのデプロイをサポートして�
      <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>us-east-2ファイル</p></td>
+     <td><p>us-east-2</p></td>
      <td><p>アメリカ、オハイオ州</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
@@ -60,7 +60,7 @@ Zilliz CloudはAWS上で専用クラスタのデプロイをサポートして�
      <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>us-west-2ファイル</p></td>
+     <td><p>us-west-2</p></td>
      <td><p>アメリカ合衆国オレゴン州</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
@@ -68,7 +68,23 @@ Zilliz CloudはAWS上で専用クラスタのデプロイをサポートして�
      <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>ap-1のダウンロード</p></td>
+     <td><p>ca-central-1</p></td>
+     <td><p>カナダ(中部)</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
+   </tr>
+   <tr>
+     <td><p>eu-central-1</p></td>
+     <td><p>フランクフルト,ドイツ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
+   </tr>
+   <tr>
+     <td><p>ap-southeast-1</p></td>
      <td><p>シンガポール</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
@@ -76,16 +92,8 @@ Zilliz CloudはAWS上で専用クラスタのデプロイをサポートして�
      <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>eu-central-1ダウンロード</p></td>
-     <td><p>フランクフルト</p></td>
-     <td><p>いいえ</p></td>
-     <td><p>いいえ</p></td>
-     <td><p>はい</p></td>
-     <td><p>はい</p></td>
-   </tr>
-   <tr>
-     <td><p>ap-北東の1</p></td>
-     <td><p>東京</p></td>
+     <td><p>ap-northeast-1</p></td>
+     <td><p>東京,日本</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
      <td><p>はい</p></td>
@@ -109,7 +117,7 @@ Zilliz CloudはAWS上で専用クラスタのデプロイをサポートして�
      <th><p><strong>専用クラスタ(Enterprise)</strong></p></th>
    </tr>
    <tr>
-     <td><p>us-westとは</p></td>
+     <td><p>us-west1</p></td>
      <td><p>アメリカ合衆国オレゴン州</p></td>
      <td><p>はい</p></td>
      <td><p>はい</p></td>
@@ -117,7 +125,7 @@ Zilliz CloudはAWS上で専用クラスタのデプロイをサポートして�
      <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>私たちの東4</p></td>
+     <td><p>us-east4</p></td>
      <td><p>アメリカ合衆国バージニア州</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
@@ -125,7 +133,7 @@ Zilliz CloudはAWS上で専用クラスタのデプロイをサポートして�
      <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>us-centralダウンロード</p></td>
+     <td><p>us-central1</p></td>
      <td><p>アイオワ州、アメリカ</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
@@ -133,7 +141,7 @@ Zilliz CloudはAWS上で専用クラスタのデプロイをサポートして�
      <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>ヨーロッパ西3</p></td>
+     <td><p>europe-west3</p></td>
      <td><p>フランクフルト,ドイツ</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
@@ -141,7 +149,7 @@ Zilliz CloudはAWS上で専用クラスタのデプロイをサポートして�
      <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>アジア南東部1</p></td>
+     <td><p>asia-southeast1</p></td>
      <td><p>シンガポール</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
@@ -166,7 +174,7 @@ Zilliz Cloudは、Microsoft Azure上で専用クラスタを展開すること�
      <th><p><strong>専用クラスタ(Enterprise)</strong></p></th>
    </tr>
    <tr>
-     <td><p>アメリカ東部</p></td>
+     <td><p>East US</p></td>
      <td><p>アメリカ合衆国バージニア州</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
@@ -174,7 +182,15 @@ Zilliz Cloudは、Microsoft Azure上で専用クラスタを展開すること�
      <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>中央アメリカ</p></td>
+     <td><p>East US 2</p></td>
+     <td><p>アメリカ合衆国バージニア州</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
+   </tr>
+   <tr>
+     <td><p>Central US</p></td>
      <td><p>アメリカ合衆国ロワ州</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
@@ -182,7 +198,7 @@ Zilliz Cloudは、Microsoft Azure上で専用クラスタを展開すること�
      <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>ドイツ西中部</p></td>
+     <td><p>Germany West Central</p></td>
      <td><p>フランクフルト,ドイツ</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>

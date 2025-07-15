@@ -7,16 +7,16 @@ notebook: FALSE
 description: "私たちは、Zilliz Cloudの重要なアップデートの一般提供を発表できることを喜んでいます。このリリースにより、ベクトルデータベースサービスの使いやすさ、セキュリティ、パフォーマンス、および機能の標準が新たな段階に引き上げられ、誰でも利用できる最新のベクトルデータベース体験が提供されます。 | Cloud"
 type: origin
 token: GIf9wQ1oKilIeekY9qTcXR9JnRg
-sidebar_position: 19
+sidebar_position: 21
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

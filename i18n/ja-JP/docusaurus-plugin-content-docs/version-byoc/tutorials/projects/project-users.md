@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 
@@ -102,7 +102,7 @@ Zilliz Cloudには3つのプロジェクトロールがあります。これら�
 
 </Admonition>
 
-![invite-user-to-project](/byoc/ja-JP/invite-user-to-project.png)
+![invite-user-to-project](/img/invite-user-to-project.png)
 
 ## 招待を取り消すか再送信する{#revoke-or-resend-an-invitation}
 
@@ -116,7 +116,7 @@ Zilliz Cloudには3つのプロジェクトロールがあります。これら�
 
 </Admonition>
 
-![revoke-or-cancel-invitation-to-project](/byoc/ja-JP/revoke-or-cancel-invitation-to-project.png)
+![revoke-or-cancel-invitation-to-project](/img/revoke-or-cancel-invitation-to-project.png)
 
 ## コラボレーターの役割を編集するか、コラボレーターを削除する{#edit-a-collaborators-role-or-remove-a-collaborator}
 
@@ -124,7 +124,7 @@ Zilliz Cloudには3つのプロジェクトロールがあります。これら�
 
 コラボレーターの役割を編集したり、プロジェクトコラボレーターを削除するには、**組織オーナー**または**プロジェクト管理者**である必要があります。
 
-![edit-user-role-or-remove-project-user](/byoc/ja-JP/edit-user-role-or-remove-project-user.png)
+![edit-user-role-or-remove-project-user](/img/edit-user-role-or-remove-project-user.png)
 
 ## プロジェクトを終了する{#leave-a-project}
 
@@ -138,5 +138,5 @@ Zilliz Cloudには3つのプロジェクトロールがあります。これら�
 
 </Admonition>
 
-![leave-project](/byoc/ja-JP/leave-project.png)
+![leave-project](/img/leave-project.png)
 

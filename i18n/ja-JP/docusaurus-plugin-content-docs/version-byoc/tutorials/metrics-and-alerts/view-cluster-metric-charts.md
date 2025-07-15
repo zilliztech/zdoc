@@ -15,10 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 
@@ -29,7 +29,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloudは、クラスタ固有のメトリクスを観察するためのダッシュボードを提供しています。この機能にアクセスするには、クラスタ内の**メトリクス**タブに移動してください。
 
-![view_metric_charts](/byoc/ja-JP/view_metric_charts.png)
+![view_metric_charts](/img/view_metric_charts.png)
 
 ## クラスタメトリックチャートへのアクセス{#access-cluster-metric-charts}
 

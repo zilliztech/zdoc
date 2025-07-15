@@ -2,7 +2,7 @@
 title: "トークナイザーリファレンス | BYOC"
 slug: /analyzer-tokenizers
 sidebar_label: "トークナイザーリファレンス"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "このセクションでは、トークナイザーの詳細なリファレンスを提供します。 | BYOC"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

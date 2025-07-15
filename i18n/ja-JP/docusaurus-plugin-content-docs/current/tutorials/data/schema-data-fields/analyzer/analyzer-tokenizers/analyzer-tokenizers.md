@@ -2,7 +2,7 @@
 title: "トークナイザーリファレンス | Cloud"
 slug: /analyzer-tokenizers
 sidebar_label: "トークナイザーリファレンス"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "このセクションでは、トークナイザーの詳細なリファレンスを提供します。 | Cloud"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

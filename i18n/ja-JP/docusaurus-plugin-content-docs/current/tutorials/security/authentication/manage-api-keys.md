@@ -4,7 +4,7 @@ slug: /manage-api-keys
 sidebar_label: "APIキー"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudでは、すべての組織にAPIキーのセットが付属しています。これらのキーは、RESTful APIまたはSDKの呼び出しを開始するために必要な必須の認証トークンです。組織内の特定のプロジェクトやリソースにアクセスする際に重要な役割を果たします。 | Cloud"
+description: "APIキーは、Zilliz CloudのコントロールプレーンおよびデータプレーンリソースにアクセスするためにAPIまたはSDK呼び出しを行うユーザーまたはアプリケーションを認証するために使用されます。APIキーは、名前やIDなどの独自のプロパティを持つ英数字の文字列です。 | Cloud"
 type: origin
 token: V9nuw98wtiAwPkkmNRocftgknye
 sidebar_position: 2
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - api key
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 
@@ -26,215 +26,303 @@ import Admonition from '@theme/Admonition';
 
 # APIキー
 
-Zilliz Cloudでは、すべての組織にAPIキーのセットが付属しています。これらのキーは、RESTful APIまたはSDKの呼び出しを開始するために必要な必須の認証トークンです。組織内の特定のプロジェクトやリソースにアクセスする際に重要な役割を果たします。
+APIキーは、Zilliz CloudのコントロールプレーンおよびデータプレーンリソースにアクセスするためにAPIまたはSDK呼び出しを行うユーザーまたはアプリケーションを認証するために使用されます。APIキーは、名前やIDなどの独自のプロパティを持つ英数字の文字列です。
 
 ## APIキーの概要{#overview-of-api-keys}
 
 さまざまな要件に対応するため、Zilliz Cloudは2種類の異なるAPIキーを提供しています。
 
-- **個人キー**:個々のユーザーにリンクされたこのタイプのキーは、Zilliz Cloudによって各組織のユーザーごとに自動生成され、ユーザーロールの権限を継承します。ユーザーが組織を離れると、その個人キーは自動的に削除されるため、長期的なプロジェクトには適していない場合があります。
+- **パーソナルAPIキー**:ユーザー登録時に自動的に生成され、各キーはユーザーのアカウントにリンクされ、ユーザーが所属する組織およびプロジェクト内のユーザーの役割の特権を継承します。アカウントのユーザーが組織を離れると、関連するパーソナルキーは自動的に削除されます。[組織オーナー](./organization-users#organization-roles)または[プロジェクト管理者](./project-users#project-roles)として、Zilliz Cloudウェブコンソールで2種類のパーソナルAPIキーを確認できます
 
-- **カスタマイズキー**:個々のユーザーではなく、アプリケーションやプログラムに関連付けられています。[所有者](./organization-users#organization-roles)または[管理者](./project-users#project-roles)ステータスを持つユーザーは、組織ごとに最大100個のカスタムAPIキーを使用して、このタイプのキーを作成および監視できます。カスタマイズキーは開発目的に適しており、安定した長期的なAPI統合および自動化機能を提供します。
+    - **あなた専用のAPIキー**:あなた専用の個人キーです。このAPIキーは閲覧可能で、コピーすることができます。
 
-<Admonition type="info" icon="📘" title="ノート">
+    - **メンバーの個人APIキー**:組織またはプロジェクト内の他のユーザーが所有する既存の個人キーのリストです。これらのキーの名前とIDのみを表示できますが、キー自体は表示できません。
 
-<p>2024年1月16日以前にリリースされたバージョンでは、APIキータイプは分類されていませんでした。この日以前にリリースされたバージョンからZilliz Cloudサービスをアップグレードする場合、以前に生成されたAPIキーはカスタマイズされたAPIキーとして指定されます。これらのキーは、元のAPIキーのプロジェクトレベルの権限を継承します。</p>
+- **カスタマイズされたAPIキー**: Zilliz Cloudアカウントを持たないアプリケーションまたは外部ユーザー向けに、組織のオーナーやプロジェクト管理者が手動で作成します。これらのキーは、APIキーの最初の作成者が組織を離れた場合でもサービスの継続性を確保し、長期的なアクセスニーズに最適です。
 
-</Admonition>
+次の図は、APIキーの役割とリソースへのアクセスを示しています。
 
-### RBACを使用した安全なAPI呼び出しを実現{#secure-api-calls-with-rbac}
+![IgKXwil0vhi9DPbDFo5c3pS9n4d](/img/IgKXwil0vhi9DPbDFo5c3pS9n4d.png)
 
-ロールベースアクセス制御(RBAC)は、API呼び出しの管理に適用されるZilliz Cloudの重要なセキュリティメカニズムです。このシステムにより、組織内のユーザーに特定の権限を持つロールを割り当てることで、リソースへのアクセスを細かく制御できます。
-
-各ロールのアクセスレベルの詳細については、[ネットワークとセキュリティ](./network-and-security)を参照してください。
-
-![api-key-access](/img/ja-JP/api-key-access.png)
-
-### APIキーの管理{#api-key-management}
-
-組織内のユーザーロールは、APIキー管理権限の範囲に影響します。具体的な権限は以下の通りです。
+以下の表は、割り当てられたロールに基づくAPIキーのアクセス範囲を詳しく示しています。ロールと権限の詳細については、「[アクセス制御](./access-control)」を参照してください。
 
 <table>
    <tr>
-     <th></th>
-     <th><p>組織オーナー</p></th>
-     <th><p>プロジェクト管理者</p></th>
-     <th><p>プロジェクトの読み書き</p></th>
-     <th><p>読み取り専用プロジェクト</p></th>
+     <th colspan="2"><p><strong>APIキーの役割</strong></p></th>
+     <th><p><strong>アクセスレベル</strong></p></th>
    </tr>
    <tr>
-     <td colspan="5"><p><strong>パーソナルAPIキー</strong></p></td>
+     <td colspan="2"><p>組織オーナー</p></td>
+     <td><p>プロジェクトやクラスターを含む組織内のすべてのリソースへの完全な管理者アクセス。</p></td>
    </tr>
    <tr>
-     <td><p>クリエーション</p></td>
-     <td><p>自動生成された</p></td>
-     <td><p>自動生成された</p></td>
-     <td><p>自動生成された</p></td>
-     <td><p>自動生成された</p></td>
+     <td colspan="2"><p>組織の請求管理</p></td>
+     <td><p>組織の課金には管理者のみがアクセスできます。組織内のプロジェクトやクラスターにはアクセスできません。</p></td>
    </tr>
    <tr>
-     <td><p>ユーザーに割り当てられたAPIキーの表示</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td rowspan="3"><p>組織メンバー</p></td>
+     <td><p>プロジェクト管理者</p></td>
+     <td><p>デフォルトでは、指定されたプロジェクトへの完全な管理者アクセスと、プロジェクト内のすべてのクラスターへの完全な管理者アクセスが可能です。</p></td>
    </tr>
    <tr>
-     <td><p>メンバーのAPIキー名を表示する[1]</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
+     <td><p>プロジェクトの読み書き</p></td>
+     <td><p>デフォルトでは、指定されたプロジェクトへの読み書きアクセス、およびプロジェクト内のすべてのクラスタへの読み書きアクセスが可能です。</p></td>
    </tr>
    <tr>
-     <td><p>リセットAPIキー[2]</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-   </tr>
-   <tr>
-     <td colspan="5"><p><strong>カスタマイズされたAPIキー</strong></p></td>
-   </tr>
-   <tr>
-     <td><p>クリエーション</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️ [3]</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
-   </tr>
-   <tr>
-     <td><p>閲覧する</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️ [4]</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
-   </tr>
-   <tr>
-     <td><p>アクセス許可をAPIキーから削除する</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️ [4]</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
-   </tr>
-   <tr>
-     <td><p>APIキー名の編集</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
-   </tr>
-   <tr>
-     <td><p>APIキーのリセット</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
-   </tr>
-   <tr>
-     <td><p>APIキーの削除</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
-     <td><p>✘</p></td>
+     <td><p>読み取り専用プロジェクト</p></td>
+     <td><p>既定では、指定されたプロジェクトへの読み取り専用アクセスと、プロジェクト内のすべてのクラスターへの読み取り専用アクセスが可能です。</p></td>
    </tr>
 </table>
 
-メモ:
+### 制限と制約{#limits-and-restrictions}
 
-[1][オーナー](./organization-users#organization-roles)または[管理者](./project-users#project-roles)のユーザーは、権限範囲に基づいてメンバーのAPIキー名を閲覧できます。Organizationのオーナーは、Organization全体のメンバーのAPIキー名を閲覧できますが、プロジェクト管理者は自分の権限範囲内のキーのみを閲覧できます。プロジェクトの読み書きまたは読み取り専用は、自分の個人キーのみを閲覧できます。
+- 各組織は最大100個のカスタマイズされたAPIキーを含めることができます。
 
-[2]各ユーザーは自分の個人キーのみをリセットできます。
+- APIキーの管理権限は、組織やプロジェクト内のユーザーの役割によって影響を受けます。具体的な権限は以下の通りです:
 
-[3]プロジェクト管理者がカスタマイズされたAPIキーに付与できるパーミッションは、プロジェクト管理者自身のパーミッションスコープの対象となります。
-
-[4]プロジェクト管理者は、権限範囲内でのみカスタマイズされたAPIキーを表示または管理できます。たとえば、**ユーザー1**が**プロジェクトA**を所有し、カスタマイズされたAPIキー(**Key 1**)が**プロジェクトA**、**B**、および**C**にアクセスできる場合、**ユーザー1**はアクセス範囲が**Key 1**の権限を超えるため、**Key 1**にアクセスできません。
+    <table>
+       <tr>
+         <th rowspan="2"></th>
+         <th rowspan="2"><p><strong>組織オーナー</strong></p></th>
+         <th rowspan="2"><p><strong>組織の請求管理</strong></p></th>
+         <th colspan="3"><p><strong>組織メンバー</strong></p></th>
+       </tr>
+       <tr>
+         <td><p><strong>プロジェクト管理者</strong></p></td>
+         <td><p><strong>プロジェクトの読み書き</strong></p></td>
+         <td><p><strong>読み取り専用プロジェクト</strong></p></td>
+       </tr>
+       <tr>
+         <td colspan="6"><p><strong>あなた自身の個人用APIキー</strong></p></td>
+       </tr>
+       <tr>
+         <td><p>作成する</p></td>
+         <td><p>自動生成された</p></td>
+         <td><p>自動生成された</p></td>
+         <td><p>自動生成された</p></td>
+         <td><p>自動生成された</p></td>
+         <td><p>自動生成された</p></td>
+       </tr>
+       <tr>
+         <td><p>表示とコピーする</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✔️</p></td>
+       </tr>
+       <tr>
+         <td><p>編集する</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+       </tr>
+       <tr>
+         <td><p>リセット</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✔️</p></td>
+       </tr>
+       <tr>
+         <td><p>削除する</p></td>
+         <td><p>ユーザーが組織を離れると自動的に削除されます</p></td>
+         <td><p>ユーザーが組織を離れると自動的に削除されます</p></td>
+         <td><p>ユーザーが組織を離れると自動的に削除されます</p></td>
+         <td><p>ユーザーが組織を離れると自動的に削除されます</p></td>
+         <td><p>ユーザーが組織を離れると自動的に削除されます</p></td>
+       </tr>
+       <tr>
+         <td colspan="6"><p><strong>メンバーの個人APIキー</strong></p></td>
+       </tr>
+       <tr>
+         <td><p>作成する</p></td>
+         <td><p>自動生成された</p></td>
+         <td><p>自動生成された</p></td>
+         <td><p>自動生成された</p></td>
+         <td><p>自動生成された</p></td>
+         <td><p>自動生成された</p></td>
+       </tr>
+       <tr>
+         <td><p>名前とIDを表示する</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✘</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+       </tr>
+       <tr>
+         <td><p>コピーする</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+       </tr>
+       <tr>
+         <td><p>編集する</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+       </tr>
+       <tr>
+         <td><p>リセット</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+       </tr>
+       <tr>
+         <td><p>削除する</p></td>
+         <td><p>メンバーが組織を離れると自動的に削除されます</p></td>
+         <td><p>メンバーが組織を離れると自動的に削除されます</p></td>
+         <td><p>メンバーが組織を離れると自動的に削除されます</p></td>
+         <td><p>メンバーが組織を離れると自動的に削除されます</p></td>
+         <td><p>メンバーが組織を離れると自動的に削除されます</p></td>
+       </tr>
+       <tr>
+         <td colspan="6"><p><strong>カスタマイズされたAPIキー</strong></p></td>
+       </tr>
+       <tr>
+         <td><p>作成する</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✘</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+       </tr>
+       <tr>
+         <td><p>表示とコピーする</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✘</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+       </tr>
+       <tr>
+         <td><p>編集する</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✘</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+       </tr>
+       <tr>
+         <td><p>リセット</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✘</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+       </tr>
+       <tr>
+         <td><p>削除する</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✘</p></td>
+         <td><p>✔️</p></td>
+         <td><p>✘</p></td>
+         <td><p>✘</p></td>
+       </tr>
+    </table>
 
 ## 作成するAPIキー{#create-an-api-key}
 
-Zilliz Cloudが組織のユーザーごとに自動的に生成する個人キー以外にも、カスタマイズされたキーを作成することができます。長期プロジェクトやアプリケーション開発の場合は、個人キーではなく[カスタマイズされたAPIキー](./manage-api-keys)を使用することをお勧めします。
+Zilliz Cloudが各組織のユーザーに対して自動的に生成する個人キー以外にも、カスタマイズされたキーを作成することができます。カスタマイズされたAPIキーを作成できるのは、**組織のオーナー**と**プロジェクト管理者**だけです。
 
-各[Organizationオーナー](./organization-users#organization-roles)または[プロジェクト管理者](./project-users#project-roles)は、カスタマイズされた APIキーを作成する権限を持っています。APIキーを作成するための重要なステップは、アクセス範囲を定義することです。ここで、APIキーがアクセス可能なプロジェクトやクラスタを決定します。
+1. 組織の**APIキー**ページに移動します。**+APIキー**をクリックしてください。
 
-- **APIキーアクセス**:現在のカスタマイズされたAPIキーのアクセススコープを定義するには、適切な組織の役割を割り当て、ターゲットプロジェクトにキーをアクセス可能に指定し、そのプロジェクト内でキーの役割を設定します。より細かいアクセス制御を行うには、**Restrict Access to Specific Clusters**でホワイトリストを設定して、キーがアクセス可能なクラスターを制限できます。
+    ![create-api-key](/img/create-api-key.png)
 
-プロジェクトは**API Key Access**で追加できます。
+1. **APIキー名**を入力し、**APIキーアクセス**を設定してください。
 
-<Admonition type="info" icon="📘" title="ノート">
+    ![Xnfyb1o4JoIqMTxdcDYc2VjCnGg](/img/Xnfyb1o4JoIqMTxdcDYc2VjCnGg.png)
 
-<p>カスタマイズされたAPIキーを作成する<a href="./project-users#project-roles">プロジェクト管理者</a>の場合、付与できる権限は自分の権限範囲に限定されます。これにより、各APIキーの機能が作成者の責任と役割に合わせて調整され、安全で制御された環境が維持されます。</p>
+    - **APIキー名**:名前は64文字を超えてはいけません。
 
-</Admonition>
+    - **APIキーのアクセス**:適切な組織とプロジェクトの役割を割り当てることで、現在のカスタマイズされたAPIキーのアクセス範囲を定義します。より詳細なアクセス制御を行うには、[**特定のクラスターへのアクセスを制限する**]をオンにして、キーがアクセス可能なクラスターを制限できます。
 
-![create-customized-api-key](/img/ja-JP/create-customized-api-key.png)
+        <Admonition type="info" icon="📘" title="ノート">
 
-カスタマイズされたAPIキーを使用して、APIキーがアクセスできるクラスタへの接続を確立できます。詳細については、[Clusterに接続](./connect-to-cluster)を参照してください。
+        <p>プロジェクト管理者の場合、このユーザーがAPIキーに付与できる権限は、ユーザー自身の権限範囲に限定されます。 </p>
+
+        </Admonition>
 
 ## APIキーを見る{#view-api-keys}
 
-Organizationで作成されたAPIキーを表示するには、[Organization Owner](./organization-users#organization-roles)または[Project Admin](./project-users#project-roles)の役割を持っている必要があります。
+組織のAPIキーページに移動します。あなたの見解は、あなたの特定の[役割](./manage-api-keys#limits-and-restrictions)に基づいて異なる場合があります。
 
-- **個人キー**:Organizationオーナーまたはプロジェクト管理者は、Organization内のユーザーのために生成されたメンバーのAPIキーの名前を見る特権を持っています。ただし、これらの個人APIキーの実際の値にはアクセスできないため、ユーザーのプライバシーとセキュリティが確保されます。
+- **オーガニゼーションオーナー**は、自分の個人キー、全メンバーの個人キー、およびカスタマイズされたキーを閲覧可能です。
 
-- **カスタマイズされたキー**:[Organization Owners](./organization-users#organization-roles)Organization内で作成されたすべてのカスタマイズされたAPIキーを閲覧可能です。[プロジェクト管理者](./project-users#project-roles)の場合、アクセス範囲が自分自身の範囲内にあるAPIキーのみ閲覧可能です。つまり、プロジェクトに関連し、管理者がアクセスできるAPIキーのみにアクセスできます。
+- **プロジェクト管理者**は、自分の個人キー、メンバーの個人キー、権限範囲内のカスタマイズキーを閲覧可能です。例えば、ユーザー1がプロジェクトAのプロジェクト管理者であり、キー1がプロジェクトA、B、Cに管理者権限を持っている場合、キー1はユーザー1の権限範囲を超えているため、ユーザー1に表示されません。
 
-![view-api-keys](/img/ja-JP/view-api-keys.png)
+- **Organization Billing Admin**、**Project Read-Write**、または**Project Read-Only**は、自分の個人APIキーのみを表示できます。
+
+以下のスクリーンショットは、APIキーの**Organization Owner**ビューを表示しています。
+
+![UnDgbOk5zo0OL2xKuTCcdJ6Onkd](/img/UnDgbOk5zo0OL2xKuTCcdJ6Onkd.png)
 
 ## APIキーの編集{#edit-an-api-key}
 
-Organization[オーナー](./organization-users#organization-roles)または[プロジェクト管理者](./project-users#project-roles)は、APIキーを編集して名前を変更したり、アクセス権限を変更したりできます。
+現在、カスタマイズされたAPIキーのみを編集できます。個人キーはアカウントユーザーに関連付けられているため、編集できません。個人キーのアクセス範囲を変更するには、まずユーザーの組織とプロジェクトの役割を調整する必要があります。ユーザーの役割に対する変更は、自動的にキーのアクセス許可に反映されます。
 
-- **カスタマイズキーの名前変更**:[Organizationオーナー](./organization-users#organization-roles)のみが、カスタマイズAPIキーの名前を変更できます。
+以下の手順では、カスタマイズされたAPIキーを編集する方法について説明します。
 
-- **アクセス権限の変更**:[Organization Owner](./organization-users#organization-roles)として、APIキーの権限を任意の容量で更新する権限があります。[プロジェクト管理者](./project-users#project-roles)の場合、APIキーの権限を変更する権限は、すでに保持している権限の範囲に制限されます。つまり、[プロジェクト管理者](./project-users#project-roles)として、現在のアクセス権限よりも高いレベルに権限を拡張することはできず、権限の昇格が発生しないようにします。
+1. 組織のAPIキーページに移動します。をクリックします。。。 アクション列で編集をクリックしてください。
 
-<Admonition type="info" icon="📘" title="ノート">
+    ![edit-api-key](/img/edit-api-key.png)
 
-<p>カスタマイズされたAPIキーのみが編集できます。</p>
+1. API Key API Key NameとAPI Key Accessを編集します。
 
-</Admonition>
+    ![IkIobbPDdoZCdoxnCZtcmtjmnnd](/img/IkIobbPDdoZCdoxnCZtcmtjmnnd.png)
 
-![edit-api-key](/img/ja-JP/edit-api-key.png)
+    - **APIキー名**:名前は64文字を超えてはいけません。
+
+    - **APIキーのアクセス**:適切な組織とプロジェクトの役割を割り当てることで、現在のカスタマイズされたAPIキーのアクセス範囲を定義します。より詳細なアクセス制御を行うには、[**特定のクラスターへのアクセスを制限する**]をオンにして、キーがアクセス可能なクラスターを制限できます。
+
+        <Admonition type="info" icon="📘" title="ノート">
+
+        <p>プロジェクト管理者の場合、このユーザーがAPIキーに付与できる権限は、ユーザー自身の権限範囲に限定されます。 </p>
+
+        </Admonition>
 
 ## APIキーをリセットする{#reset-an-api-key}
 
-アクセス制御のセキュリティと整合性を維持するために、APIキーをリセットすることは非常に重要です。キーの種類によって、その過程は異なります。
-
-- **個人キー**:各組織のユーザーは、役割に関係なく、自分の個人APIキーのみをリセットできます。これにより、ユーザーは新しいキーを生成してセキュリティ上の懸念やアクセスの問題に迅速に対応し、安全でパーソナライズされたアクセスシステムを維持できます。
-
-- **カスタマイズされたキー**:カスタマイズされたAPIキーのリセットは、[組織所有者](./organization-users#organization-roles)専用です。このレベルの制御は、より広範な組織全体のアクセスとセキュリティを管理する上で重要です。[組織所有者](./organization-users#organization-roles)は、これらのキーをリセットしてセキュリティ問題に対処したり、アクセスプロトコルを更新したりして、アプリケーションレベルのアクセスの整合性が損なわれないようにすることができます。
+個人用またはカスタマイズされたAPIキーが侵害されたと思われる場合は、すぐにリセットする必要があります。 
 
 <Admonition type="caution" icon="🚧" title="警告">
 
-<p>この操作により、現在のAPIキーがリセットおよび無効化されます。このキーを使用するカスタムコードは、関連するコードを新しいキーで更新するまで機能しなくなります。</p>
+<p>この操作により、現在のAPIキーがリセットおよび無効化されます。このキーを使用するアプリケーションコードは、関連するコードを新しいキー値で更新するまで機能しなくなります。</p>
 
 </Admonition>
 
-![reset-api-key](/img/ja-JP/reset-api-key.png)
+キーの種類によって、その過程は異なります。
+
+- **個人APIキーのリセット**:ロールに関係なく、自分の個人APIキーのみをリセットできます。 
+
+    ![reset-personal-api-keys](/img/reset-personal-api-keys.png)
+
+- **カスタマイズAPIキーのリセット**:カスタマイズAPIキーをリセットできるのは、Organizationのオーナーとプロジェクト管理者のみです。
+
+    ![reset-customized-api-keys](/img/reset-customized-api-keys.png)
 
 ## APIキーの削除{#delete-an-api-key}
 
-不要になったAPIキーは、[Organization Owner](./organization-users#organization-roles)として削除できます。
+カスタマイズされたAPIキーが使用されなくなった場合は、できるだけ早く削除する必要があります。カスタマイズされたAPIキーを削除できるのは、Organizationのオーナーとプロジェクト管理者のみです。
 
-カスタマイズされたAPIキーのみ削除できます。個人キーは自分のユーザーによってリセットできますが、削除することはできません。
+個人キーは手動で削除することはできません。ただし、該当するユーザーが組織を離れると、自動的に無効化され、削除されます。 
+
+次のスクリーンショットは、カスタマイズされたAPIキーを削除する方法を示しています。
 
 <Admonition type="caution" icon="🚧" title="警告">
 
-<p>APIキーを削除する場合は注意してください。削除すると、そのキーを使用していたリソースへのアクセスがすぐに取り消されます。</p>
+<p>APIキーを削除すると、そのキーを使用するサービスのZilliz Cloudリソースへのアクセスが不可逆的に終了します。</p>
 
 </Admonition>
 
-![delete-api-key](/img/ja-JP/delete-api-key.png)
-
-## 関連するトピック{#related-topics}
-
-- [Clusterに接続](./connect-to-cluster)
-
-- [クラスタの認証情報(コンソール)](./cluster-credentials-sdk)
-
-- [クラスタ資格情報(SDK)](./cluster-credentials-console)
-
-- [ホワイトリストの設定](./setup-whitelist)
-
-- [プライベートエンドポイントを設定する](./setup-a-private-link)
-
+![delete-customized-api-keys](/img/delete-customized-api-keys.png)

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 
@@ -46,7 +46,7 @@ import Admonition from '@theme/Admonition';
 
 </Admonition>
 
-![enable_mfa_en](/byoc/ja-JP/enable_mfa_en.png)
+![enable_mfa_en](/img/enable_mfa_en.png)
 
 ### MFAを無効にする{#disable-mfa}
 

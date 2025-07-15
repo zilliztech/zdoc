@@ -7,7 +7,7 @@ notebook: FALSE
 description: "このガイドでは、Zilliz Cloudでサービスを購読する方法と、請求書の管理に関する注意事項について詳しく説明しています。 | Cloud"
 type: origin
 token: OTqfwuVkeivCadkCFYPcLaVWnkc
-sidebar_position: 11
+sidebar_position: 12
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - private link
   - payment
   - billing
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 
@@ -110,7 +110,7 @@ Zilliz Cloudは、異なる支払い方法の切り替えに柔軟性を提供�
 
 #### マーケットプレイスの定期購読からクレジットカードへ{#from-marketplace-subscription-to-credit-card}
 
-- 元の[AWS](./subscribe-on-aws-marketplace#aws-marketplacecancel-aws-marketplace-subscription)または[GCP](./subscribe-on-gcp-marketplace#gcp-marketplacecancel-gcp-marketplace-subscription)または[Azure](./subscribe-on-azure-marketplace#azure-marketplacecancel-azure-marketplace-subscription)Marketplaceから手動で登録解除してください。
+- 元の[AWS](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription)または[GCP](./subscribe-on-gcp-marketplace#cancel-gcp-marketplace-subscription)または[Azure](./subscribe-on-azure-marketplace#cancel-azure-marketplace-subscription)Marketplaceから手動で登録解除してください。
 
 - [クレジットカードを](./subscribe-by-adding-credit-card)Zilliz Cloudウェブコンソールに追加します。
 
@@ -126,7 +126,7 @@ Zilliz Cloudサービスを[AWS](./subscribe-on-aws-marketplace)、[GPC](./subsc
 
 価格はクラウドプロバイダー、リージョン、クラスタープランによって異なります。詳細については、[Zilliz Cloud価格](https://zilliz.com/jp/pricing)を参照してください。
 
-価格情報を使用して、**スタンダードプラン**でZilliz Cloudクラスターをデプロイし、AWS-us-east-1(バージニア)に1つのperformance-optimizedCUを持っている場合、Marketplaceサブスクリプションを通じて1時間あたり$0.159が請求されます。
+価格情報を使用して、**スタンダードプラン**でZilliz Cloudクラスターをデプロイし、AWS-us-east-1(バージニア)に1つのperformance-optimizedCUを持っている場合、Marketplaceサブスクリプションを通じて1時間あたり&#36;0.159が請求されます。
 
 ## 関連するトピック{#related-topics}
 

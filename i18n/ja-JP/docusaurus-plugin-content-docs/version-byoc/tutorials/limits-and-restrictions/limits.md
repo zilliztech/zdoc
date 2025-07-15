@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 
@@ -39,8 +39,8 @@ import Admonition from '@theme/Admonition';
      <th><p><strong>備考</strong></p></th>
    </tr>
    <tr>
-     <td><p></p></td>
-     <td><p></p></td>
+     <td></td>
+     <td></td>
      <td><p>アカウント登録が完了すると、Zilliz Cloudは自動的に1つの組織を作成します。それ以上の組織が必要な場合は、<a href="http://support.zilliz.com">サポートチケットを作成</a>してください。ユーザーは複数の組織に参加できます。</p></td>
    </tr>
    <tr>
@@ -52,91 +52,29 @@ import Admonition from '@theme/Admonition';
 
 ## コレクション{#collections}
 
-<table>
-   <tr>
-     <th><p><strong>クラスタ計画</strong></p></th>
-     <th><p><strong>マックス数</strong></p></th>
-     <th><p><strong>備考</strong></p></th>
-   </tr>
-   <tr>
-     <td><p></p></td>
-     <td><p></p></td>
-     <td><p>最大5つのコレクションを作成できます。</p></td>
-   </tr>
-   <tr>
-     <td><p></p></td>
-     <td><p></p></td>
-     <td><p>最大100個のコレクションを作成できます。</p></td>
-   </tr>
-   <tr>
-     <td><p>専用クラスタ</p></td>
-     <td><p>CUあたり64、および&lt;=409 6</p></td>
-     <td><p>専用クラスターで使用されるCUごとに最大64個のコレクションを作成でき、クラスター内には4,096個を超えるコレクションは作成できません。</p></td>
-   </tr>
-</table>
+### Milvus v 2.4. xに対応したクラスタ{#clusters-compatible-with-milvus-v24x}
 
-クラスタあたりのコレクション数の制限に加えて、Zilliz Cloudは消費容量にも制限を適用します。以下のレシピは、Zilliz Cloudがクラスタの一般的な容量を計算する方法を示しています。消費容量は、利用可能な一般的な容量よりも小なりである必要があります。
+CUごとに最大256個のコレクションまたは1,024個のパーティションを作成でき、コレクションごとに最大1,024個のパーティションが許可されます。次の式を使用して、クラスター内のコレクションとパーティションの数の上限を計算できます。
 
-```java
-General Capacity = 512 x Number of CUs
-```
+![GaPtwwjdXhgqnwb7dTEcBZKUnWf](/img/GaPtwwjdXhgqnwb7dTEcBZKUnWf.png)
 
-<Admonition type="info" icon="📘" title="クラスタの一般的な容量を知るにはどうすればよいですか?">
+- クラスター内のコレクションの合計数は、クラスター内のCU数の256倍または16,384の小なりの数にする必要があります。
 
-<p>クラスタの一般的な容量は、クラスタに割り当てられた最大物理リソースを示し、次のレシピを使用して決定できます。</p>
-<p><strong>\<=512 x CUの数</strong></p>
-<p>例えば、</p>
-<ul>
-<li><p>クラスタを<strong>2</strong>つのCUで構成すると、最大<strong>128</strong>個のコレクションを作成でき、一般容量は<strong>1,024</strong>個です。</p></li>
-<li><p>クラスタは<strong>12</strong>個のCUで、最大<strong>768</strong>個のコレクションを作成できます。一般容量は<strong>6</strong>,144個です。</p></li>
-<li><p>クラスタが<strong>32</strong>CU以上の場合、最大<strong>4,096</strong>コレクションを作成でき、一般容量は16,384で<strong>す</strong>。</p></li>
-</ul>
+- クラスタ内のすべてのコレクションのパーティションの合計数は、クラスタに割り当てられたCUの数の1,024倍または65,536のいずれか小さい方の小なりにする必要があります。
 
-</Admonition>
+- 両方の条件を満たす必要があります。
 
-<Admonition type="info" icon="📘" title="クラスタの消費容量を知るにはどうすればよいですか?">
+### Milvus v 2.5. xと互換性のあるクラスタ{#clusters-compatible-with-milvus-v25x}
 
-<p>クラスタの消費容量は、クラスタによって消費される物理リソースを示します。</p>
-<p>例えば、クラスタ内に<strong>50</strong>のコレクションを作成したとします。最初の<strong>20</strong>のコレクションにはそれぞれ<strong>20</strong>のパーティションがあり、残りの<strong>30</strong>のコレクションにはそれぞれ<strong>10</strong>のパーティションがあります。クラスタの消費容量は以下のように計算できます:</p>
-<p><strong>20(コレクション)x 20(パーティション)+30(コレクション)x 10(パーティション)=400+300=70 0</strong></p>
-<p>上記の計算に基づいて、Zilliz Cloudはクラスタの消費容量を<strong>700</strong>と見なしています。</p>
+CUごとに最大1,024個のコレクションまたは4,096個のパーティションを作成できます。コレクションごとに最大1,024個のパーティションが許可されます。次の式を使用して、クラスター内のコレクションとパーティションの数の上限を計算できます。
 
-</Admonition>
+![Yn0Bws7QGhDdAsbkQKhcx2AYnHc](/img/Yn0Bws7QGhDdAsbkQKhcx2AYnHc.png)
 
-Zilliz Cloudは、コレクションの作成、読み込み、リリース、削除を含むコレクション操作に対してレート制限を課しました。以下のレート制限は、サーバーレスおよび専用クラスターのコレクションに適用されます。
+- クラスタ内のすべてのコレクションのパーティションの合計数は、クラスタに割り当てられたCUの数の4,096倍または65,536の小なり倍または65,536の小なりになる必要があります。以下のレシピを参照してください。
 
-<table>
-   <tr>
-     <th></th>
-     <th><p><strong>レート制限</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>コレクションオペレーション(作成、ロード、リリース、ドロップ)</p></td>
-     <td><p>クラスタあたり5 req/s</p></td>
-   </tr>
-</table>
+- クラスター内のコレクションの合計数は、クラスター内のCU数の1,024倍または16,384倍の小なりにする必要があります。
 
-### パーティション{#partitions}
-
-<table>
-   <tr>
-     <th><p><strong>クラスタタイプ</strong></p></th>
-     <th><p><strong>一つのコレクションあたりの最大数</strong></p></th>
-     <th><p><strong>備考</strong></p></th>
-   </tr>
-   <tr>
-     <td><p></p></td>
-     <td><p></p></td>
-     <td><p>サーバーレスクラスターでは、コレクションごとに最大1,024個のパーティションを作成できます。</p></td>
-   </tr>
-   <tr>
-     <td><p>専用クラスタ</p></td>
-     <td><p>1,024</p></td>
-     <td><p>専用クラスターでは、コレクションごとに最大1,024のパーティションを作成できます。</p></td>
-   </tr>
-</table>
-
-消費容量と一般容量を計算する場合は、[コレクション](./limits#collections)のノートを参照してください。さらに、パーティション作成のレート制限はクラスタあたり**1**パーティション/秒です。
+- 両方の条件を満たす必要があります。
 
 ### フィールド{#fields}
 
@@ -164,6 +102,21 @@ Zilliz Cloudは、コレクションの作成、読み込み、リリース、�
 ### ディメンション{#dimensions}
 
 ベクトル場の最大次元数は32,768であ**る**。
+
+### **レート制限**{#rate-limit}
+
+Zilliz Cloudは、コレクションの作成、読み込み、リリース、削除を含むコレクション操作に対してレート制限を課しました。以下のレート制限は、サーバーレスおよび専用クラスターのコレクションに適用されます。
+
+<table>
+   <tr>
+     <th></th>
+     <th><p><strong>レート制限</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>コレクションオペレーション</p><p>(作成、ロード、リリース、ドロップ)</p></td>
+     <td><p>クラスタあたり5 req/s</p></td>
+   </tr>
+</table>
 
 ## オペレーション{#operations}
 
@@ -402,4 +355,176 @@ Zilliz Cloudは、Webコンソールにインポートするファイルに制�
      <td><p>許可リストには最大20個のIPアドレスを追加できます。</p></td>
    </tr>
 </table>
+
+## パイプライン | NEAR DEPRECATE{#pipelines}
+
+### パイプラインの数{#number-of-pipelines}
+
+次の表に、プロジェクトで作成できるさまざまな種類のパイプラインの制限を示します。
+
+<table>
+   <tr>
+     <th><p><strong>パイプラインタイプ</strong></p></th>
+     <th><p><strong>プロジェクトごとの最大数</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>摂取パイプライン</p></td>
+     <td><p>100</p></td>
+   </tr>
+   <tr>
+     <td><p>削除パイプライン</p></td>
+     <td><p>100</p></td>
+   </tr>
+   <tr>
+     <td><p>検索パイプライン</p></td>
+     <td><p>100</p></td>
+   </tr>
+</table>
+
+### 摂取する{#ingestion}
+
+次の表は、各埋め込みモデルでサポートされるカスタマイズされたチャンク体格の制限を示しています。
+
+<table>
+   <tr>
+     <th><p><strong>埋め込みモデル</strong></p></th>
+     <th><p><strong>チャンクサイズの範囲（トークン）</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>zilliz/bge-based-en-v 1.5-ダウンロード</p></td>
+     <td><p>20-500</p></td>
+   </tr>
+   <tr>
+     <td><p>zilliz/bge-base-zh-v 1.5-ダウンロード</p></td>
+     <td><p>20-500</p></td>
+   </tr>
+   <tr>
+     <td><p>タイトル: voyageai/voyage-2</p></td>
+     <td><p>20-3,000</p></td>
+   </tr>
+   <tr>
+     <td><p>voyageai/航海コード-2</p></td>
+     <td><p>20-12,000</p></td>
+   </tr>
+   <tr>
+     <td><p>voyageai/ヴォヤージュラージ2</p></td>
+     <td><p>20-12,000</p></td>
+   </tr>
+   <tr>
+     <td><p>OPENAI/text-embedding-3-small</p></td>
+     <td><p>250-8,191</p></td>
+   </tr>
+   <tr>
+     <td><p>OPENAI/text-embedding-3-large</p></td>
+     <td><p>250-8,191</p></td>
+   </tr>
+</table>
+
+次の表に、取り込みパイプラインでPRESERVE関数によって生成されるメタデータフィールドの制限を示します。
+
+<table>
+   <tr>
+     <th></th>
+     <th><p><strong>マックス数</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>メタデータフィールドの数</p></td>
+     <td><p>50</p></td>
+   </tr>
+   <tr>
+     <td><p>VARCHARフィールドのmax_length</p></td>
+     <td><p>4,000</p></td>
+   </tr>
+</table>
+
+次の表は、毎回摂取できるチャンクの数の制限を示しています。
+
+<table>
+   <tr>
+     <th><p><strong>埋め込みモデル</strong></p></th>
+     <th><p><strong>マックス。チャンク/摂取</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>zilliz/bge-based-en-v 1.5-ダウンロード</p></td>
+     <td><p>3,500</p></td>
+   </tr>
+   <tr>
+     <td><p>タイトル: voyageai/voyage-2</p></td>
+     <td><p>6,000</p></td>
+   </tr>
+   <tr>
+     <td><p>voyageai/航海コード-2</p></td>
+     <td><p>6,000</p></td>
+   </tr>
+   <tr>
+     <td><p>OPENAI/text-embedding-3-small</p></td>
+     <td><p>6,000</p></td>
+   </tr>
+   <tr>
+     <td><p>OPENAI/text-embedding-large</p></td>
+     <td><p>6,000</p></td>
+   </tr>
+   <tr>
+     <td><p>zilliz/bge-base-zh-v 1.5-ダウンロード</p></td>
+     <td><p>3,500</p></td>
+   </tr>
+</table>
+
+### パイプラインの使用{#pipeline-usage}
+
+<table>
+   <tr>
+     <th></th>
+     <th><p><strong>マックス。使用法</strong></p></th>
+   </tr>
+   <tr>
+     <td><p>それぞれの組織</p></td>
+     <td><p>20ドル/月</p></td>
+   </tr>
+</table>
+
+### トークンの使用{#pipeline-usage}
+
+次の表に、トークンの使用制限を示します。
+
+<table>
+   <tr>
+     <th><p><strong>パイプラインタイプ</strong></p></th>
+     <th><p><strong>埋め込みモデル</strong></p></th>
+     <th><p><strong>最大トークン使用量</strong></p></th>
+   </tr>
+   <tr>
+     <td rowspan="2"><p>摂取パイプライン</p></td>
+     <td><p>Openai/text-embedding-3-small&amp;Openai/text-embedding-3-large</p></td>
+     <td><p>80,000,000</p></td>
+   </tr>
+   <tr>
+     <td><p>その他</p></td>
+     <td><p>100,000,000</p></td>
+   </tr>
+   <tr>
+     <td rowspan="2"><p>検索パイプライン</p></td>
+     <td><p>Openai/text-embedding-3-small&amp;Openai/text-embedding-3-large</p></td>
+     <td><p>30,000,000</p></td>
+   </tr>
+   <tr>
+     <td><p>その他</p></td>
+     <td><p>20,000,000</p></td>
+   </tr>
+   <tr>
+     <td rowspan="2"><p>組織内のすべてのパイプライン</p></td>
+     <td><p>Openai/text-embedding-3-small&amp;Openai/text-embedding-3-large</p></td>
+     <td><p>150,000,000</p></td>
+   </tr>
+   <tr>
+     <td><p>その他</p></td>
+     <td><p>200,000,000</p></td>
+   </tr>
+</table>
+
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>組織内のすべてのパイプラインの最大トークン使用量については、削除されたパイプラインのトークン使用量も全体のカウントに含まれます。</p>
+
+</Admonition>
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - console
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 
@@ -38,7 +38,7 @@ import Admonition from '@theme/Admonition';
 
     データの準備方法の詳細については、「[ストレージオプション](./data-import-storage-options)」と「[書式オプション](./data-import-format-options)」を参照してください。詳細については、エンドツーエンドのノートブック「[データインポートハンズオン](./data-import-zero-to-hero)」を参照することもできます。
 
-- サンプルデータセットに一致するスキーマを持つコレクションを作成し、既にインデックスを作成して読み込んでいます。コレクションの作成の詳細については、「[コレクションの管理(コンソール)](./drop-collection)」を参照してください。
+- サンプルデータセットに一致するスキーマを持つコレクションを作成して読み込んでいます。コレクションの作成の詳細については、「[コレクションの管理(コンソール)](./manage-collections-console)」を参照してください。
 
 ## ウェブ上のデータをインポートする{#import-data-on-the-web-ui}
 
@@ -77,7 +77,7 @@ import Admonition from '@theme/Admonition';
 
 </Admonition>
 
-![byoc-data-import-on-console-remote](/byoc/ja-JP/byoc-data-import-on-console-remote.png)
+![byoc-data-import-on-console-remote](/img/byoc-data-import-on-console-remote.png)
 
 ## 結果を検証する{#verify-resultes}
 

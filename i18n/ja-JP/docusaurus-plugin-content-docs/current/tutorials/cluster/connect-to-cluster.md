@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

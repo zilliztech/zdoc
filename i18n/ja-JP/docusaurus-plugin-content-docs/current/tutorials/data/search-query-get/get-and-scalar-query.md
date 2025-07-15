@@ -17,10 +17,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

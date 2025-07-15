@@ -2,7 +2,7 @@
 title: "アナライザ | Cloud"
 slug: /analyzer
 sidebar_label: "アナライザ"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "テキスト処理において、アナライザーは生のテキストを構造化された検索可能な形式に変換する重要なコンポーネントです。各アナライザーは通常、トークナイザーとフィルターの2つのコア要素で構成されています。これらを組み合わせることで、入力テキストをトークンに変換し、これらのトークンを改良し、効率的なインデックス作成と取得のために準備します。この章では、Zilliz Cloudでアナライザーを使用する方法について、詳しく説明します。 | Cloud"
 type: origin
@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

@@ -7,16 +7,16 @@ notebook: FALSE
 description: "このリリースにより、Zilliz CloudはBYOCソリューション全体でセキュリティ、パフォーマンス、使いやすさを向上させるための重要な強化を導入しています。グローバルmmap戦略が実装され、フィールドレベルとインデックスレベルの両方でカスタマイズ可能な構成が提供され、検索パフォーマンスを維持しながら収集容量を増やすことができます。MilvusをベースにしたZilliz Cloudは、クラスタ内でのデータベース作成をサポートし、コレクションレベルのロールベースアクセス制御(RBAC)を提供して、より良いデータ管理とマルチテナントを実現しています。さらに、検索精度設定が改良され、これらはリコール率推定機能と組み合わせて、検索精度とパフォーマンスを効果的に最適化するのに役立ちます。 | Cloud"
 type: origin
 token: B9TFwpoIxijeyNkSylxcOQ2wnqd
-sidebar_position: 2
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

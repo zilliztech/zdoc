@@ -2,7 +2,7 @@
 title: "標準アナライザ | BYOC"
 slug: /standard-analyzer
 sidebar_label: "標準アナライザ"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "アナライザーが指定されていない場合、標準アナライザーはZilliz Cloudのデフォルトアナライザーです。文法ベースのトークン化を使用しているため、ほとんどの言語で効果的です。 | BYOC"
 type: origin
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - standard-analyzer
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

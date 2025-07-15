@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloudのこのリリースでは、いくつかの主要なアップデートが導入されています。Notebook Galleryでは、RAG、埋め込み、マルチモーダル検索などの高度な機能の例が提供されます。Improved Capacity ofPerformance-optimizedCUは50%増加し、CUあたり最大150万個の768-dimベクトルを収容し、大量のデータに対してコストを30%削減する可能性があります。そして、マルチレプリカアベイラビリティは、ワークロードとレプリカをアベイラビリティゾーン(AZ)全体に分散することで、クエリのパフォーマンスと信頼性を向上させます。さらに、Zilliz Cloudは現在、アジア太平洋地域でのパフォーマンス向上のためのAWS Tokyo Region、リアルタイムモニタリングとトラブルシューティングのためのPrometheus Integration、およびSSOを含む複数のログイン方法を提供する改良されたAuthentication and Login System with Auth 0をサポートしています。最後に、ユーザーはAWS Marketplace Free Trialを通じてZilliz製品を評価でき、パフォーマンスとスケーラビリティのテストのためのコア機能へのリスクフリーアクセスを提供します。 | Cloud"
 type: origin
 token: Anm3wgkIeibZapkuZr7cb5lqn9B
-sidebar_position: 4
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

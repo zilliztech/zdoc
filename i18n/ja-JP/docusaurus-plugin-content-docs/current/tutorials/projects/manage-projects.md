@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 
@@ -33,7 +33,7 @@ Zilliz Cloudでは、プロジェクトは組織内の論理的なコンテナ�
 
 組織に参加すると、組織内のすべてのプロジェクトのリストを閲覧可能になります。
 
-![view-projects-saas](/img/ja-JP/view-projects-saas.png)
+![view-projects-saas](/img/view-projects-saas.png)
 
 ## プロジェクトを作成する{#create-a-project}
 
@@ -47,7 +47,7 @@ Zilliz Cloudでは、プロジェクトは組織内の論理的なコンテナ�
 
 </Admonition>
 
-![create-project](/img/ja-JP/create-project.png)
+![create-project](/img/create-project.png)
 
 ## プロジェクトの名前を変更する{#rename-a-project}
 
@@ -59,7 +59,7 @@ Zilliz Cloudでは、プロジェクトは組織内の論理的なコンテナ�
 
 </Admonition>
 
-![rename-project](/img/ja-JP/rename-project.png)
+![rename-project](/img/rename-project.png)
 
 ## プロジェクトを削除{#delete-a-project}
 
@@ -71,5 +71,5 @@ Zilliz Cloudでは、プロジェクトは組織内の論理的なコンテナ�
 
 </Admonition>
 
-![delete-project](/img/ja-JP/delete-project.png)
+![delete-project](/img/delete-project.png)
 

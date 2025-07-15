@@ -2,7 +2,7 @@
 title: "mmapを使う | Cloud"
 slug: /use-mmap
 sidebar_label: "mmapを使う"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "メモリマッピング(Mmap)により、ディスク上の大きなファイルに直接メモリアクセスできるため、Zilliz Cloudはインデックスとデータをメモリとハードドライブの両方に保存できます。このアプローチにより、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張できます。このページでは、Zilliz Cloudがmmapを使用して高速かつ効率的なデータストレージと取得を可能にする方法を理解するのに役立ちます。 | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 
@@ -41,7 +41,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloudは、ベクトル埋め込みとそのメタデータを整理するためにコレクションを使用し、コレクション内の各行はエンティティを表します。下の左図に示すように、ベクトルフィールドにはベクトル埋め込みが格納され、スカラーフィールドにはメタデータが格納されます。特定のフィールドにインデックスを作成し、コレクションをロードすると、Zilliz Cloudは作成されたインデックスとすべてのフィールドからの生データをメモリにロードします。
 
-![BHV4wSDV0hAYCeb8aOkcuz0Enof](/img/ja-JP/BHV4wSDV0hAYCeb8aOkcuz0Enof.png)
+![BHV4wSDV0hAYCeb8aOkcuz0Enof](/img/BHV4wSDV0hAYCeb8aOkcuz0Enof.png)
 
 Zilliz Cloudクラスターはメモリを大量に消費するデータベースシステムであり、利用可能なメモリ体格がコレクションの容量を決定します。データ体格がメモリ容量を超える場合、大量のデータを含むフィールドをメモリにロードすることは不可能であり、これはAI駆動型アプリケーションの通常の場合です。
 
@@ -56,36 +56,37 @@ Zilliz Cloudクラスターはメモリを大量に消費するデータベー�
 <table>
    <tr>
      <th rowspan="2"><p>Mmapターゲット</p></th>
-     <th colspan="2"><p>専用クラスター</p></th>
-     <th rowspan="2"><p>フリー&amp;サーバーレスクラスタ</p></th>
+     <th colspan="3"><p>専用クラスター</p></th>
+     <th rowspan="2"><p>フリークラスタと\</br> </p><p>サーバーレスクラスタ</p></th>
    </tr>
    <tr>
      <td><p>Performance-optimized</p></td>
-     <td><p>キャパシティ最適化</p></td>
+     <td><p>Capacity-optimized</p></td>
+     <td><p>Extended-capacity</p></td>
    </tr>
    <tr>
      <td><p>スカラー場の生データ</p></td>
      <td><p>無効と変更可能</p></td>
      <td><p>有効および変更可能</p></td>
-     <td><p>有効および変更不可</p></td>
+     <td colspan="2"><p>有効および変更不可</p></td>
    </tr>
    <tr>
      <td><p>スカラー場指数</p></td>
      <td><p>無効と変更可能</p></td>
      <td><p>有効および変更可能</p></td>
-     <td><p>有効および変更不可</p></td>
+     <td colspan="2"><p>有効および変更不可</p></td>
    </tr>
    <tr>
      <td><p>ベクトルデータ</p></td>
      <td><p>有効および変更可能</p></td>
      <td><p>有効および変更可能</p></td>
-     <td><p>有効および変更不可</p></td>
+     <td colspan="2"><p>有効および変更不可</p></td>
    </tr>
    <tr>
      <td><p>ベクトル場インデックス</p></td>
      <td><p>無効および変更不可</p></td>
      <td><p>無効および変更不可</p></td>
-     <td><p>有効および変更不可</p></td>
+     <td colspan="2"><p>有効および変更不可</p></td>
    </tr>
 </table>
 
@@ -93,7 +94,7 @@ Zilliz Cloudクラスターはメモリを大量に消費するデータベー�
 
 専用クラスターで**Capacity-Optimized**CUを使用する場合、Zilliz Cloudは自動インデックスのためにベクトルフィールドインデックスのmmapを無効にし、スカラーフィールドとすべてのフィールド生データのインデックスをメモリマップして、最大ストレージ容量を確保します。メタデータフィルタリング条件で使用される一部のフィールドの生データまたは出力フィールドにリストされている生データが大きすぎてハードドライブに残されると、応答が遅くなったりネットワークジッターが発生する場合は、これらのフィールドのmmapを無効にして検索パフォーマンスを向上させることを検討できます。
 
-Zilliz Cloudは、**Free**クラスタと**Serverless**クラスタで、すべてのフィールドの生データとインデックスのmmapを有効にし、システムキャッシュを最大限に活用し、ホットデータのパフォーマンスを向上させ、コールドデータのコストを削減します。
+Zilliz Cloudを使用すると、**フリー**および**サーバーレスクラスター**、および**Extended-capacity**CUを使用する専用クラスターでは、すべてのフィールドの生データとインデックスのmmapを使用して、システムキャッシュを最大限に活用し、ホットデータのパフォーマンスを向上させ、コールドデータのコストを削減できます。
 
 ## コレクション固有のmmap設定{#collection-specific-mmap-settings}
 

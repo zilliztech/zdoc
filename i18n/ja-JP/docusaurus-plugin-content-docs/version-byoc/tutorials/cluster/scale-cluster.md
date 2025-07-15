@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 
@@ -44,7 +44,7 @@ Zilliz CloudのWebコンソールを使用するか、APIリクエストを行�
 
 ### クラスタをスケールアップする{#scale-up-a-cluster}
 
-![manual-scale-entry](/byoc/ja-JP/manual-scale-entry.png)
+![manual-scale-entry](/img/manual-scale-entry.png)
 
 [クラスタのスケール]ダイアログボックスでは、元のクラスタと同じクラウドリージョン内の同じタイプのクラスタに割り当てられた体格をスケールアップできます。
 
@@ -62,7 +62,7 @@ Zilliz CloudのWebコンソールを使用するか、APIリクエストを行�
 
 ### クラスタを縮小する{#scale-down-a-cluster}
 
-![manual-scale-entry](/byoc/ja-JP/manual-scale-entry.png)
+![manual-scale-entry](/img/manual-scale-entry.png)
 
 「**スケールクラスタ**」ダイアログボックスで、ダイアログウィンドウで希望のCU体格を選択します。「**スケール**」をクリックすると、Zilliz Cloudはクラスタのデータ量とコレクション番号を確認します。スケールダウンは、以下の2つの条件の両方が満たされた場合にのみ正常にトリガーされます
 

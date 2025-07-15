@@ -2,7 +2,7 @@
 title: "ロール内の権限 | BYOC"
 slug: /permissions-in-roles
 sidebar_label: "ロール内の権限"
-beta: PRIVATE
+beta: CONTACT SALES
 notebook: FALSE
 description: "このページでは、Zilliz Cloudがあなたの代わりに操作を実行するために必要なすべてのIAM権限がリストされています。 | BYOC"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

@@ -2,7 +2,7 @@
 title: "フィルタリファレンス | BYOC"
 slug: /analyzer-filters
 sidebar_label: "フィルタリファレンス"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "このセクションでは、アナライザのフィルタの詳細なリファレンスを提供します。 | BYOC"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

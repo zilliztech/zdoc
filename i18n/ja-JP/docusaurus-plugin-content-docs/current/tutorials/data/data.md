@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

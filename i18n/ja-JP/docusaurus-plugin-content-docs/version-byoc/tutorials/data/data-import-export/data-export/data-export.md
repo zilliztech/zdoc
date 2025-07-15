@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

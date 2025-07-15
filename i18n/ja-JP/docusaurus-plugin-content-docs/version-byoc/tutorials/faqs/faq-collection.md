@@ -40,7 +40,7 @@ sidebar_position: 3
 
 1. [クラスタ](./manage-cluster)をより大きなCUサイズにスケーリングします。
 
-1. [未使用](./manage-collections-console)のコレクションを削除する。
+1. [未使用](./drop-collection)のコレクションを削除する。
 
 1. コレクションの代わりに[パーティション](./manage-partitions)を作成してみてください。
 
@@ -48,7 +48,7 @@ sidebar_position: 3
 
 Zilliz Cloudのウェブコンソールから動的スキーマの状態を閲覧できます。コレクションを選択し、**概要**タブに移動します。動的スキーマが有効かどうかを確認できます。詳細については、「[ダイナミックフィールド](./enable-dynamic-field)」を参照してください。
 
-![faq_dynamic_schema_enabled](/byoc/ja-JP/faq_dynamic_schema_enabled.png)
+![faq_dynamic_schema_enabled](/img/faq_dynamic_schema_enabled.png)
 
 ### コレクションが作成されたときに動的スキーマが無効になっていた場合、後で有効にできますか?{#if-dynamic-schema-was-disabled-when-the-collection-was-created-can-i-enable-it-later}
 

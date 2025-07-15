@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

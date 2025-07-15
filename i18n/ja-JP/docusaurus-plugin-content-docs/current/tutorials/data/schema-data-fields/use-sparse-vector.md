@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 
@@ -42,7 +42,7 @@ import TabItem from '@theme/TabItem';
 
 以下の図に示すように、密集ベクトルは通常、各位置に値がある連続配列として表されます(例:`[0.3, 0.8、0.2, 0.3, 0.1]`)。対照的に、疎ベクトルは非ゼロ要素とそのインデックスのみを格納し、しばしばキーと値のペアとして表されます(例:`[{2: 0.2}, ..., {9997: 0.5}, {9999:0.7}]`)。この表現は、特に非常に高次元のデータ(例:10,000次元)を扱う場合に、ストレージスペースを大幅に削減し、計算効率を向上させます。
 
-![ShX4wNrWLhLww4bLgAtcxT7rnAg](/img/ja-JP/ShX4wNrWLhLww4bLgAtcxT7rnAg.png)
+![ShX4wNrWLhLww4bLgAtcxT7rnAg](/img/ShX4wNrWLhLww4bLgAtcxT7rnAg.png)
 
 テキスト処理において、[TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf)(Term Frequency-Inverse Document Frequency)や[BM25](https://en.wikipedia.org/wiki/Okapi_BM25)などの様々な手法を用いて、疎ベクトルを生成することができます。また、Zilliz Cloudでは、疎ベクトルの生成や過程を簡単に行うことができます。
 
@@ -50,7 +50,7 @@ import TabItem from '@theme/TabItem';
 
 ベクトル化後、データは管理とベクトル取得のためにZilliz Cloudに保存できます。以下の図は基本的な過程を示しています。
 
-![TbzFwKxRehqywAbVObVczg9Tnke](/img/ja-JP/TbzFwKxRehqywAbVObVczg9Tnke.png)
+![TbzFwKxRehqywAbVObVczg9Tnke](/img/TbzFwKxRehqywAbVObVczg9Tnke.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 

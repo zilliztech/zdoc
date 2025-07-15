@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 
@@ -38,13 +38,13 @@ Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインす�
 
 参加しているすべてのコミュニティをすばやく表示するには、左上の[**すべてのコミュニティ**]をクリックします。
 
-![view-organizations](/byoc/ja-JP/view-organizations.png)
+![view-organizations](/img/view-organizations.png)
 
 ## 組織の名前を変更する{#rename-an-organization}
 
 組織の名前を変更するには、[組織オーナー](./organization-users)である必要があります。
 
-    ![edit-organization-name-byoc](/byoc/ja-JP/edit-organization-name-byoc.png)
+    ![edit-organization-name-byoc](/img/edit-organization-name-byoc.png)
 
 ## タイムゾーンの管理{#manage-timezone}
 
@@ -52,7 +52,7 @@ Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインす�
 
 現在のタイムゾーンを表示するには、組織オーナーまたは組織メンバーのいずれかになります。組織の役割の詳細については、「[組織のユーザーを管理する](./organization-users)」を参照してください。
 
-![byoc-timezone-settings](/byoc/ja-JP/byoc-timezone-settings.png)
+![byoc-timezone-settings](/img/byoc-timezone-settings.png)
 
 システムのタイムゾーンを変更するには、[組織オーナー](./organization-users)である必要があります。**編集**をクリックして**タイムゾーン設定**ダイアログボックスを開き、ドロップダウンリストからタイムゾーンを選択します。また、タイムゾーンの名前を入力して、希望のタイムゾーンを素早くフィルタリングすることもできます。
 
@@ -72,7 +72,7 @@ Zilliz Cloudがホストされたクラスターのメンテナンスをスケ�
 
 システムメンテナンスウィンドウの時間を変更するには、[**編集**]をクリックして[システムメンテナンスウィンドウの編集]ダイアログボックスを開き、[**システムメンテナンスウィンドウ**]ドロップダウンリストから時間ウィンドウを選択します。
 
-![byoc-maintenance-window](/byoc/ja-JP/byoc-maintenance-window.png)
+![byoc-maintenance-window](/img/byoc-maintenance-window.png)
 
 ## 組織を削除{#delete-organization}
 
@@ -102,5 +102,5 @@ Zilliz Cloudがホストされたクラスターのメンテナンスをスケ�
 
 </Admonition>
 
-![byoc-delete-organization](/byoc/ja-JP/byoc-delete-organization.png)
+![byoc-delete-organization](/img/byoc-delete-organization.png)
 

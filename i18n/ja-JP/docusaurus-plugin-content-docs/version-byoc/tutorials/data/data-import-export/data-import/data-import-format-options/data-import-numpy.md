@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 
@@ -30,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 NPY形式は、[NumPyの標準バイナリ形式](https://numpy.org/devdocs/reference/generated/numpy.lib.format.html)であり、形状とdtype情報を含む単一の配列を保存し、異なるマシンで正しく再構築できるようにします。生データをParquetファイルに準備するには、[BulkWriterツール](./use-bulkwriter)を使用することをお勧めします。次の図は、生データを`. npy`ファイルのセットにマップする方法を示しています。
 
-![data_import-preparetion_en](/byoc/ja-JP/data_import-preparetion_en.png)
+![numpy_file_structure](/img/numpy_file_structure.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -73,9 +73,9 @@ NumPyファイルとしてデータを準備するには、以下のツリー図
 
 データの準備ができたら、次のいずれかの方法を使用して、Zilliz Cloudコレクションにデータをインポートできます。
 
-- [NumPyファイルフォルダのリストからファイルをインポートする（推奨）](./data-import-numpy#numpyimport-files-from-a-list-of-numpy-file-folders-recommended)
+- [NumPyファイルフォルダのリストからファイルをインポートする（推奨）](./data-import-numpy#import-files-from-a-list-of-numpy-file-folders-recommended)
 
-- [NumPyファイルフォルダからファイルをインポートする](./data-import-numpy#numpyimport-files-from-a-numpy-file-folder)
+- [NumPyファイルフォルダからファイルをインポートする](./data-import-numpy#import-files-from-a-numpy-file-folder)
 
 <Admonition type="info" icon="📘" title="ノート">
 

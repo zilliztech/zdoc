@@ -2,7 +2,7 @@
 title: "ストップフィルター | Cloud"
 slug: /stop-filter
 sidebar_label: "ストップフィルター"
-beta: PUBLIC
+beta: FALSE
 notebook: FALSE
 description: "ストップフィルター（stop）は、トークン化されたテキストから指定された`ストップ`ワードを削除し、一般的で意味のない単語を取り除くのに役立ちます。ストップワードのリストは、`stopwords`パラメータを使用して設定できます。 | Cloud"
 type: origin
@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - stop
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

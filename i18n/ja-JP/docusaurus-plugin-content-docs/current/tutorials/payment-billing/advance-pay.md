@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloudは、クレジットカードの追加やAWSMarketplaceでのサブスクリプションの代わりに、前払い(銀行振込)を支払い方法として受け付けています。 | Cloud"
 type: origin
 token: H3mBwoua5idJsokeRfGcii8tnHe
-sidebar_position: 6
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - advance pay
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 
@@ -42,7 +42,7 @@ Zilliz Cloudは、クレジットカードの追加やAWSMarketplaceでのサブ
 
 銀行振込履歴を表示するには、上部ナビゲーションバーまたは左ナビゲーションペインの「請求」をクリックします。次に、「前払い」セクションの「履歴」をクリックします。**銀行振込履歴**ページでは、過去のすべての振込の詳細、振込を行った時間、追加した資金の金額などを閲覧できます。
 
-![add-fund-en](/img/ja-JP/add-fund-en.png)
+![add-fund-en](/img/add-fund-en.png)
 
 ## Advance Payの残高をモニターに設定する{#set-monitor-for-advance-pay-balance}
 

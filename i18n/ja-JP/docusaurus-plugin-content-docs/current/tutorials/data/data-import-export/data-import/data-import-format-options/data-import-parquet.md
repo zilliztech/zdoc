@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 
@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 生データをParquetファイルに準備するには、[BulkWriterツール](./use-bulkwriter)を使用することをお勧めします。次の図は、生データをParquetファイルにマッピングする方法を示しています。
 
-![data_import-preparetion_en](/img/ja-JP/data_import-preparetion_en.png)
+![parquet_file_structure_en](/img/parquet_file_structure_en.png)
 
 <Admonition type="info" icon="📘" title="ノート">
 

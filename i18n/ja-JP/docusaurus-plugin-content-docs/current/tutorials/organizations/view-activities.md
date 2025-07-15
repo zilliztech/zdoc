@@ -14,10 +14,10 @@ keywords:
   - cloud
   - activities
   - view
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 
@@ -32,7 +32,7 @@ Zilliz Cloudの**アクティビティ**機能は、の課金イベントやの�
 
 組織ページで、左ナビゲーションウィンドウの[**アクティビティ**]をクリックします。ここでは、アクティビティの概要、各アクティビティが置かれた時間、および特定のアクティビティに関与したオペレーターのIDを閲覧できます。
 
-![view-activities-saas](/img/ja-JP/view-activities-saas.png)
+![view-activities-saas](/img/view-activities-saas.png)
 
 ## フィルター活動{#filter-activities}
 
@@ -48,7 +48,7 @@ Zilliz Cloudの**アクティビティ**機能は、の課金イベントやの�
 
     </Admonition>
 
-    ![filter-by-time-range](/img/ja-JP/filter-by-time-range.png)
+    ![filter-by-time-range](/img/filter-by-time-range.png)
 
 - **アクティビティタイプで絞り込む**
 
@@ -73,9 +73,9 @@ Zilliz Cloudの**アクティビティ**機能は、の課金イベントやの�
        </tr>
     </table>
 
-    ![filter-by-activity-type](/img/ja-JP/filter-by-activity-type.png)
+    ![filter-by-activity-type](/img/filter-by-activity-type.png)
 
 - **アクティビティでフィルター**
 
-    ![filter-by-activity](/img/ja-JP/filter-by-activity.png)
+    ![filter-by-activity](/img/filter-by-activity.png)
 

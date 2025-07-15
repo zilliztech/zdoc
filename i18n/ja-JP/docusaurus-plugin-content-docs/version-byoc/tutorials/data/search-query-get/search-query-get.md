@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - DML
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

@@ -1,7 +1,7 @@
 ---
 title: "ElasticsearchからZilliz Cloudへの移行 | Cloud"
 slug: /migrate-from-elasticsearch
-sidebar_label: "ElasticsearchからZilliz Cloudへの移行"
+sidebar_label: "Elasticsearchから"
 beta: FALSE
 notebook: FALSE
 description: "Elasticsearchは、大量のデータを処理するスピードと柔軟性で知られる、スケーラブルな検索および分析エンジンです。Zilliz Cloudの移行機能を活用することで、ElasticsearchインスタンスからZilliz Cloudクラスタへデータをシームレスに転送できます。 | Cloud"
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - elasticsearch
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 
@@ -54,7 +54,7 @@ import Admonition from '@theme/Admonition';
 
 ソースデータを任意のプランレベルのZilliz Cloudクラスタに移行できます(CU体格がソースデータに対応している場合)。
 
-![migrate_from_es](/img/ja-JP/migrate_from_es.png)
+![migrate_from_es](/img/migrate_from_es.png)
 
 1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)にログインします。
 
@@ -96,7 +96,7 @@ import Admonition from '@theme/Admonition';
 
 </Admonition>
 
-![verify_collection](/img/ja-JP/verify_collection.png)
+![verify_collection](/img/verify_collection.png)
 
 ## 移行ジョブをキャンセル{#cancel-migration-job}
 

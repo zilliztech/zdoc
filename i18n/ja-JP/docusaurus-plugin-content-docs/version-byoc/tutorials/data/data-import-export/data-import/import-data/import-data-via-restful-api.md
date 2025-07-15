@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 
@@ -38,13 +38,13 @@ import Admonition from '@theme/Admonition';
 
     データの準備方法の詳細については、「[ストレージオプション](./data-import-storage-options)」と「[書式オプション](./data-import-format-options)」を参照してください。詳細については、エンドツーエンドのノートブック「[データインポートハンズオン](./data-import-zero-to-hero)」を参照することもできます。
 
-- サンプルデータセットに一致するスキーマを持つコレクションを作成し、既にインデックスを作成して読み込んでいます。コレクションの作成の詳細については、「[コレクションの管理(コンソール)](./drop-collection)」を参照してください。
+- サンプルデータセットに一致するスキーマを持つコレクションを作成して読み込んでいます。コレクションの作成の詳細については、「[コレクションの管理(コンソール)](./manage-collections-console)」を参照してください。
 
 ## RESTful APIを使用したデータのインポート{#import-data-using-the-restful-api}
 
 RESTfulAPIを使用してファイルからデータをインポートするには、まずファイルをオブジェクトストレージバケット(paas)にアップロードする必要があります。例えば、AWS S 3やGoogle Cloud Storage(GCS)などです。アップロードが完了したら、リモートバケット内のファイルへのパスと、Zilliz Cloudがバケットからデータを取得するためのバケットの認証情報を取得してください。サポートされているオブジェクトパスの詳細については、「[ストレージオプション](./data-import-storage-options)」を参照してください。
 
-データのセキュリティ要件に基づいて、データのインポート中に長期的な資格情報またはセッショントークンを使用できます。
+データのセキュリティ要件に基づいて、データのインポート中に長期または短期の資格情報を使用できます。 
 
 資格情報の取得に関する詳細については、次を参照してください:
 
@@ -112,7 +112,5 @@ curl --request GET \
 }
 ```
 
-RESTful APIを呼び出して、[現在のインポートジョブの進行状況を取得](/reference/restful/get-import-job-progress-v2)し、[すべてのインポートジョブ](/reference/restful/list-import-jobs-v2)を一覧表示してさらに取得することもできます。代わりに、Zilliz Cloudコンソールに移動して、結果とジョブの詳細を表示することもできます。
-
-![data_import_complete_restful](/byoc/ja-JP/data_import_complete_restful.png)
+RESTful APIを呼び出して、[現在のインポートジョブの進行状況を取得](/reference/restful/get-import-job-progress-v2)し、[すべてのインポートジョブ](/reference/restful/list-import-jobs-v2)を一覧表示してさらに取得することもできます。代わりに、Zilliz Cloudコンソールの[ジョブセンター](./job-center)にアクセスして、結果とジョブの詳細を表示することもできます。
 
