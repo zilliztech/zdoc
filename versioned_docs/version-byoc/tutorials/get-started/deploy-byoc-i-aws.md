@@ -17,10 +17,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 
@@ -33,7 +33,10 @@ This page explains how to deploy a Bring-Your-Own-Cloud (BYOC) data plane with a
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p>
+<ul>
+<li><p>Zilliz BYOC is currently available in <strong>General Availability</strong>. For access and implementation details, please contact <a href="https://zilliz.com/contact-sales">Zilliz Cloud support</a>.</p></li>
+<li><p>This guide demonstrates how to create the necessary resources on the AWS console step-by-step. If you prefer to use a Terraform script to provision the infrastructure,  see <a href="./terraform-provider">Terraform Provider</a>. </p></li>
+</ul>
 
 </Admonition>
 
@@ -162,51 +165,3 @@ Once you have prepared the deployment environment and executed the displayed com
 ### Projects with a Running tag{#projects-with-a-running-tag}
 
 Once the status tag on a project card reads **Running**, you can start creating clusters in the project. To rename or delete a running project, ensure that there are no clusters in the project.
-
-## Initial Project Sizes{#initial-project-sizes}
-
-The data plane of a Zilliz BYOC project comprises three types of components: **Search Services**, **Fundamental Database Components**, and **Core Support Services**, which use different EC2 instances. 
-
-![EDY4bdBPdoPv2KxOEvHcQIAtnGF](/img/EDY4bdBPdoPv2KxOEvHcQIAtnGF.png)
-
-In the **General settings**, you need to determine the EC2 instance types for the three data plane components mentioned above. Additionally, you need to specify the number of EC2 instances for **Core Support Services**, which determines the maximum number of clusters that can be created within the project.
-
-There are four predefined project size options, and they are described as follows:
-
-<table>
-   <tr>
-     <th rowspan="2"><p>Size</p></th>
-     <th rowspan="2"><p>Maximum Cluster Quantity</p></th>
-     <th colspan="2"><p>Maximum Number of Entities</p></th>
-   </tr>
-   <tr>
-     <td><p>Performance-optimized CU</p></td>
-     <td><p>Capacity-optimized CU</p></td>
-   </tr>
-   <tr>
-     <td><p>Small</p></td>
-     <td><p>3 clusters with 8 to 16 CUs</p></td>
-     <td><p>10 Million - 25 Million</p></td>
-     <td><p>40 Million - 80 Million</p></td>
-   </tr>
-   <tr>
-     <td><p>Medium</p></td>
-     <td><p>7 clusters with 16 to 64 CUs</p></td>
-     <td><p>25 Million - 100 Million</p></td>
-     <td><p>80 Million - 350 Million</p></td>
-   </tr>
-   <tr>
-     <td><p>Large</p></td>
-     <td><p>12 clusters with 64 to 192 CUs</p></td>
-     <td><p>100 Million - 300 Million</p></td>
-     <td><p>350 Million - 1 Billion</p></td>
-   </tr>
-   <tr>
-     <td><p>X-Large</p></td>
-     <td><p>17 clusters with 192 to 576 CUs</p></td>
-     <td><p>300 Million - 900 Million</p></td>
-     <td><p>1 Billion - 3 Billion</p></td>
-   </tr>
-</table>
-
-You can also choose to customize the settings by selecting **Custom** in **Initial Project Size** and adjusting the EC2 instance types and counts for all data plane components. If your preferred EC2 instance types are not listed, please [contact Zilliz support](https://zilliz.com/contact). 
