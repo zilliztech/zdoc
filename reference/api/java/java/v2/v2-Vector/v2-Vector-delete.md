@@ -10,19 +10,19 @@ type: docx
 token: NOX7dAR3zodEH3xinMecMjq5n4S
 sidebar_position: 1
 keywords: 
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - javaV225
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 displayed_sidebar: javaSidebar
 
 ---

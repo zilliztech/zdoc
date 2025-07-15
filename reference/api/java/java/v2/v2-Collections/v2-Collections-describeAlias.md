@@ -10,19 +10,19 @@ type: docx
 token: B57cdiaEkotJQnxl7I9cJqotnPb
 sidebar_position: 11
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - describeAlias()
   - javaV225
+  - how do vector databases work
   - vector db comparison
   - openai vector db
   - natural language processing database
-  - cheap vector database
 displayed_sidebar: javaSidebar
 
 ---

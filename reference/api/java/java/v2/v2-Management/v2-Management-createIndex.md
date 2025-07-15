@@ -10,19 +10,19 @@ type: docx
 token: OCjUdfc6eo0VihxNUGmcqb7FnTh
 sidebar_position: 2
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
   - javaV225
+  - Embedding model
+  - image similarity search
+  - Context Window
   - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
 displayed_sidebar: javaSidebar
 
 ---

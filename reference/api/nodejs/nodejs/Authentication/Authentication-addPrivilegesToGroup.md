@@ -10,19 +10,19 @@ type: docx
 token: IEqAdO0Pto6rgbxebo5cIXp0nMX
 sidebar_position: 1
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - addPrivilegesToGroup()
   - nodejs25
-  - Knowledge base
-  - natural language processing
   - AI chatbots
   - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: nodeSidebar
 
 ---

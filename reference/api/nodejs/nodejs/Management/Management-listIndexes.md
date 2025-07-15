@@ -10,19 +10,19 @@ type: docx
 token: N1fldMqhtoWBJPxh8VccivqxnZd
 sidebar_position: 13
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
   - Unstructured Data
   - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - listIndexes()
   - nodejs25
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: nodeSidebar
 
 ---

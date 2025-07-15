@@ -9,10 +9,10 @@ token: AtkCfVN4Ll6GqMdVJfxcybHanDf
 sidebar_position: 3
 sidebar_label: "Data Import"
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud

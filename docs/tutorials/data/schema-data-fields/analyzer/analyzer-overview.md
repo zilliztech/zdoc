@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 
@@ -30,7 +30,7 @@ import TabItem from '@theme/TabItem';
 
 In text processing, an **analyzer** is a crucial component that converts raw text into a structured, searchable format. Each analyzer typically consists of two core elements: **tokenizer** and **filter**. Together, they transform input text into tokens, refine these tokens, and prepare them for efficient indexing and retrieval.
 
-In Zilliz Cloud, analyzers are configured during collection creation when you add `VARCHAR` fields to the collection schema. Tokens produced by an analyzer can be used to build an index for keyword matching or converted into sparse embeddings for full text search. For more information, refer to  [Full Text Search](./full-text-search), [Phrase Match](./undefined), or [Text Match](./text-match).
+In Zilliz Cloud, analyzers are configured during collection creation when you add `VARCHAR` fields to the collection schema. Tokens produced by an analyzer can be used to build an index for keyword matching or converted into sparse embeddings for full text search. For more information, refer to  [Full Text Search](./full-text-search) or [Text Match](./text-match).
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -970,3 +970,12 @@ if err != nil {
 
 </TabItem>
 </Tabs>
+
+## What's next{#whats-next}
+
+After configuring an analyzer, you can integrate with text retrieval features provided by Zilliz Cloud. For details:
+
+- [Full Text Search](./full-text-search)
+
+- [Text Match](./text-match)
+

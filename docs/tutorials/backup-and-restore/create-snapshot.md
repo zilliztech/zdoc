@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 
@@ -29,7 +29,7 @@ import Supademo from '@site/src/components/Supademo';
 
 In Zilliz Cloud, a backup is a copy of the data that allows you to restore the entire cluster or specific collections in the event of data loss or system failure. 
 
-Backup creation incurs additional [charges](./understand-cost#backup-cost), with pricing based on the cloud region where the backup is stored. All backup files are stored in the same cloud region as the source cluster. For example, a cluster in `AWS us-west-2` will have its backups stored in `AWS us-west-2`.
+Backup creation incurs additional [charges](/docs/understand-cost#backup-cost), with pricing based on the cloud region where the backup is stored. All backup files are stored in the same cloud region as the source cluster. For example, a cluster in `AWS us-west-2` will have its backups stored in `AWS us-west-2`.
 
 This guide explains how to **manually create backups**. To automate backup creation, see [Schedule Automatic Backups](./schedule-automatic-backups).
 

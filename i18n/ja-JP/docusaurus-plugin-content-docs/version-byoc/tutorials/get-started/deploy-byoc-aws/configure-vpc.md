@@ -84,7 +84,7 @@ VPCエンドポイントはオプションであり、BYOCクラスターのプ�
 
 ## 手続き{#procedure}
 
-AWSコンソールを使用してVPCおよび関連リソースを作成できます。代わりに、Zilliz Cloudが提供するTerraformスクリプトを使用して、Zilliz CloudプロジェクトのインフラストラクチャをAWS上でブートストラップすることもできます。詳細については、[Bootstrapインフラストラクチャ（Terraform）](./bootstrap-infrastructure-terraform)を参照してください。
+AWSコンソールを使用してVPCおよび関連リソースを作成できます。代わりに、Zilliz Cloudが提供するTerraformスクリプトを使用して、Zilliz CloudプロジェクトのインフラストラクチャをAWS上でブートストラップすることもできます。詳細については、[Bootstrapインフラストラクチャ（Terraform）](./terraform-provider)を参照してください。
 
 ### ステップ1: VPCとリソースを作成する{#step-1-create-vpc-and-resources}
 

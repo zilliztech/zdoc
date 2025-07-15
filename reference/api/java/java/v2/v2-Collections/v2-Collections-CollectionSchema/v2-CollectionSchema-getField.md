@@ -10,19 +10,19 @@ type: docx
 token: AXWod56QkoprlXxOXkwcPXfonHg
 sidebar_position: 3
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - getField()
   - javaV225
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: javaSidebar
 
 ---
@@ -56,7 +56,7 @@ CollectionSchema.getField(String fieldName)
 
 **RETURNS:**
 
-A [FieldSchema](./v2-FieldSchema) object containing details of the field.
+A [FieldSchema](./v2-Collections-FieldSchema) object containing details of the field.
 
 **EXCEPTIONS:**
 

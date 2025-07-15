@@ -49,7 +49,7 @@ import Admonition from '@theme/Admonition';
 
 - **ファイルパス**:`/<Cluster ID>/<Log type>/<Date>`
 
-- **ファイルの命名規則**:`\<File name><File name suffix>`を*HH: MM:SS-UUID*の形式で指定します。ここで、*HH:MM:SS*はUTCで時刻を表し、*UUID*は一意のランダム文字列です。例:`09:16:53-jz5l7D8Q`。
+- **ファイルの命名規則**:`\<File name><File name suffix>`をHH: MM:SS-UUIDの形式で指定します。ここで、HH:MM:SSはUTCで時刻を表し、UUIDは一意のランダム文字列です。例:`09:16:53-jz5l7D8Q`。
 
 以下は、バケットにストリーミングされた監査ログエントリの例です。
 

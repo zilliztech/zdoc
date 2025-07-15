@@ -10,19 +10,19 @@ type: docx
 token: Z467dWnBYoGmDhxbJMocAGoHnle
 sidebar_position: 27
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
   - FunctionType
   - javaV225
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 displayed_sidebar: javaSidebar
 
 ---

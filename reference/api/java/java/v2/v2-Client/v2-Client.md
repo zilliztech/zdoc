@@ -9,10 +9,10 @@ token: QW8NfURhvl0NtOdmS3DcvQYCnFh
 sidebar_position: 1
 sidebar_label: "Client"
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud

@@ -10,19 +10,19 @@ type: docx
 token: LQMGdRHjKogdeMxekCtcdBLqnNf
 sidebar_position: 13
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStatistics()
   - nodejs25
+  - Similarity Search
+  - multimodal RAG
   - llm hallucinations
   - hybrid search
-  - lexical search
-  - nearest neighbor search
 displayed_sidebar: nodeSidebar
 
 ---

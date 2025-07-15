@@ -10,19 +10,19 @@ type: docx
 token: Vs26d4WrYoJ3moxuLifcyP2enyh
 sidebar_position: 18
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - hasCollection()
   - javaV225
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
 displayed_sidebar: javaSidebar
 
 ---

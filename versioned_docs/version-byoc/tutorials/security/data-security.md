@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data
   - security
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 
@@ -44,7 +44,7 @@ Zilliz implements isolation between your VPC and ours to ensure data security in
 
 Zilliz Cloud provides robust isolation and protection for your clusters:
 
-- **Multiple data residency options**: You can create clusters in your preferred cloud providers and regions. For details, refer to [Cloud Providers & Regions](./cloud-providers-and-regions).
+- **Multiple data residency options**: You can create clusters in your preferred cloud providers and regions.
 
 - **Dedicated Namespaces:** Each dedicated cluster operates in an isolated namespace with tailored network policies.
 
@@ -83,8 +83,6 @@ Zilliz Cloud secures your network interactions through:
 - **IP Allowlisting:** Define allowed IP ranges (CIDR blocks) to restrict access.
 
 - **Private Links:** Establish secure, private connections between your VPC and Zilliz Cloud control plane.
-
-For details, refer to [Set up Whitelist](./setup-whitelist) and [Set up a Private Endpoint](./setup-a-private-link).
 
 ## Data Encryption{#data-encryption}
 
