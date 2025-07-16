@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Zilliz Cloud provides an MCP server](https//github.com/zilliztech/zilliz-mcp-server/tree/master) that enables AI agents to interact with Zilliz Cloud seamlessly through the standardized [Model Context Protocol (MCP). This page guides you through setting up the Zilliz MCP Server locally and using it with your preferred AI agents. | Cloud"
 type: origin
 token: WRFqwygyNiZ0YJkmsfwcGEsSn4d
-sidebar_position: 13
+sidebar_position: 0
 keywords: 
   - zilliz
   - vector database
@@ -15,16 +15,15 @@ keywords:
   - mcp
   - milvus
   - mcp server
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
+
 
 # MCP Server
 
@@ -60,7 +59,7 @@ Ensure that you have
 
 ## Procedure{#procedure}
 
-To run Zilliz MCP Server, you do not need to clone the Zilliz MCP Server repository. Just prepare the Zilliz MCP Server configuration and add configurations to your preferred AI Agents, such as Cursor or Claud Desktop.
+To run Zilliz MCP Server, you need to prepare the configuration and add it to your preferred AI agents.
 
 ### Step 1: Prepare Zilliz MCP Server configuration{#step-1-prepare-zilliz-mcp-server-configuration}
 
@@ -107,33 +106,23 @@ If you prefer to share Zilliz MCP Server among multiple AI agents running on dif
 
     The **.env** file is similar to the following. Append a valid Zilliz Cloud API key with sufficient permissions to the end of `ZILLIZ_CLOUD_TOKEN=`.
 
-    <Tabs groupId="bash" defaultValue='bash' values={[{"label":"Zilliz MCP Server Configuration","value":"bash"},{"label":"Zilliz Cloud Configuration","value":"bash_1"}]}>
-    <TabItem value='bash'>
-
     ```bash
+    # Zilliz MCP Server Configuration
     # Copy this file to .env and fill in your actual values
     
-    ```
-
-    </TabItem>
-    <TabItem value='bash_1'>
-
-    ```bash
+    # Zilliz Cloud Configuration
+    
     ZILLIZ_CLOUD_TOKEN=
     ZILLIZ_CLOUD_URI=https://api.cloud.zilliz.com
     ZILLIZ_CLOUD_FREE_CLUSTER_REGION=gcp-us-west1
     
-    # ===========================================
     # MCP Server Configuration
-    # ===========================================
+    
     # Port for MCP server when using HTTP/SSE transports (default: 8000)
     MCP_SERVER_PORT=8000
     # Host for MCP server when using HTTP/SSE transports (default: localhost)
     MCP_SERVER_HOST=localhost
     ```
-
-    </TabItem>
-    </Tabs>
 
     Zilliz MCP Server starts at `localhost:8000` by default. You can change this by setting `MCP_SERVER_HOST` and `MCP_SERVER_PORT` to proper values.
 
