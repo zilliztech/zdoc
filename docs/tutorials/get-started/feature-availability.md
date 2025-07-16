@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Last updated Jul 14, 2025 | Cloud"
 type: origin
 token: HpbSwzS6kiW9gikHpQ0cUZLWnlc
-sidebar_position: 15
+sidebar_position: 16
 keywords: 
   - zilliz
   - vector database

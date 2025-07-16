@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Zilliz Cloud provides an MCP server](https//github.com/zilliztech/zilliz-mcp-server/tree/master) that enables AI agents to interact with Zilliz Cloud seamlessly through the standardized [Model Context Protocol (MCP). This page guides you through setting up the Zilliz MCP Server locally and using it with your preferred AI agents. | Cloud"
 type: origin
 token: WRFqwygyNiZ0YJkmsfwcGEsSn4d
-sidebar_position: 0
+sidebar_position: 14
 keywords: 
   - zilliz
   - vector database
