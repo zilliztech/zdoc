@@ -11,33 +11,33 @@ export async function tutorialsItemsGenerator({
         if (item.label === 'Get Started') {
             item.items = item.items.map(subItem => {
                 if (subItem.label === 'API & SDKs') {
-                subItem.items.push(...[
-                    {
-                        type: 'link',
-                        label: 'Python SDK',
-                        href: '/reference/python'
-                    },
-                    {
-                        type: 'link',
-                        label: 'Java SDK',
-                        href: '/reference/java'
-                    },
-                    {
-                        type: 'link',
-                        label: 'Go SDK',
-                        href: '/reference/go'
-                    },
-                    {
-                        type: 'link',
-                        label: 'Node.js SDK',
-                        href: '/reference/nodejs'
-                    },
-                    {
-                        type: 'link',
-                        label: 'RESTful API',
-                        href: '/reference/restful'
-                    }
-                ])
+                    subItem.items.push(...[
+                        {
+                            type: 'link',
+                            label: 'Python SDK',
+                            href: '/reference/python'
+                        },
+                        {
+                            type: 'link',
+                            label: 'Java SDK',
+                            href: '/reference/java'
+                        },
+                        {
+                            type: 'link',
+                            label: 'Go SDK',
+                            href: '/reference/go'
+                        },
+                        {
+                            type: 'link',
+                            label: 'Node.js SDK',
+                            href: '/reference/nodejs'
+                        },
+                        {
+                            type: 'link',
+                            label: 'RESTful API',
+                            href: '/reference/restful'
+                        }
+                    ])
                 }
 
                 return subItem;
@@ -47,33 +47,33 @@ export async function tutorialsItemsGenerator({
         if (item.label === '始める') {
             item.items = item.items.map(subItem => {
                 if (subItem.label === 'APIとSDK') {
-                subItem.items.push(...[
-                    {
-                        type: 'link',
-                        label: 'Python SDK',
-                        href: '/ja-JP/reference/python'
-                    },
-                    {
-                        type: 'link',
-                        label: 'Java SDK',
-                        href: '/ja-JP/reference/java'
-                    },
-                    {
-                        type: 'link',
-                        label: 'Go SDK',
-                        href: '/ja-JP/reference/go'
-                    },
-                    {
-                        type: 'link',
-                        label: 'Node.js SDK',
-                        href: '/ja-JP/reference/nodejs'
-                    },
-                    {
-                        type: 'link',
-                        label: 'RESTful API',
-                        href: '/ja-JP/reference/restful'
-                    }
-                ])
+                    subItem.items.push(...[
+                        {
+                            type: 'link',
+                            label: 'Python SDK',
+                            href: '/ja-JP/reference/python'
+                        },
+                        {
+                            type: 'link',
+                            label: 'Java SDK',
+                            href: '/ja-JP/reference/java'
+                        },
+                        {
+                            type: 'link',
+                            label: 'Go SDK',
+                            href: '/ja-JP/reference/go'
+                        },
+                        {
+                            type: 'link',
+                            label: 'Node.js SDK',
+                            href: '/ja-JP/reference/nodejs'
+                        },
+                        {
+                            type: 'link',
+                            label: 'RESTful API',
+                            href: '/ja-JP/reference/restful'
+                        }
+                    ])
                 }
 
                 return subItem;
@@ -87,11 +87,13 @@ export async function tutorialsItemsGenerator({
                     {
                         type: 'link',
                         label: 'Manage Organization Roles',
+                        description: "Manage organization roles and permissions.",
                         href: '/docs/organization-users#organization-roles'
                     },
                     {
                         type: 'link',
                         label: 'Manage Project Roles',
+                        description: "Manage project roles and permissions.",
                         href: '/docs/project-users#project-roles'
                     },
                 ])

@@ -229,29 +229,17 @@ const config = {
           },
           {
             type: 'dropdown',
-            label: 'Resources',
+            label: 'Releases',
             position: 'left',
             items: [
               {
-                label: 'Developers',
-                to: '/docs/quick-start',
+                label: 'Feature Availability',
+                to: '/docs/feature-availability',
               },
               {
-                label: 'Notebooks',
-                to: 'https://zilliz.com/learn/milvus-notebooks',
-              },
-              {
-                label: 'Blogs',
-                href: 'https://zilliz.com/blog',
-              },
-              {
-                label: 'GitHub',
-                href: 'https://github.com/zilliztech/',
-              },
-              {
-                label: 'Resources',
-                href: 'https://zilliz.com/resources',
-              },
+                label: 'Release Notes',
+                to: '/docs/release-notes',
+              }
             ],
           },
           {

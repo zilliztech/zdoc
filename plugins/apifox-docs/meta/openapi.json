@@ -2936,10 +2936,10 @@
 											},
 											"stageName": {
 												"type": "string",
-												"description": "The name of a Zilliz Cloud stage that holds the PARQUET file. This parameter applies only when you set `type` to `stage`. For details on how to create a stage, see the documentation for the `Create Stage` operation.",
+												"description": "The name of a Zilliz Cloud stage that holds the PARQUET file. This parameter applies only when you set `type` to `stage`. For details on how to create a stage, see the documentation for the [Create Stage](/reference/restful/create-stage-v2) operation.",
 												"x-i18n": {
 													"zh-CN": {
-														"description": "Zilliz Cloud 存储点的名称。此参数仅当您将 `type` 设置为 `stage` 时有效。有关创建存储点的详细信息，请参阅 `Create Stage` 操作的文档。"
+														"description": "Zilliz Cloud 存储点的名称。此参数仅当您将 `type` 设置为 `stage` 时有效。有关创建存储点的详细信息，请参阅 [Create Stage](/reference/restful/create-stage-v2) 操作的文档。"
 													}
 												}
 											},
@@ -3059,9 +3059,10 @@
 								"clusterId": "in00-xxxxxxxxxxxxxxx",
 								"dbName": "my_database",
 								"collectionName": "my_collection",
-								"targetDbName": "my_database",
-								"targetCollectionName": "my_merged_collection",
-								"mergeData": {
+								"destDbName": "my_database",
+								"destCollectionName": "my_merged_collection",
+								"dataSource": {
+									"type": "s3",
 									"dataPath": "s3://my-bucket/my_data.parquet",
 									"regionId": "us-west-2",
 									"credential": {
@@ -3069,8 +3070,8 @@
 										"secretKey": "my-secret-key"
 									}
 								},
-								"mergeKey": "id",
-								"mergeFieldSchema": [
+								"mergeField": "id",
+								"newFields": [
 									{
 										"name": "my_field1",
 										"dataType": "VARCHAR",
