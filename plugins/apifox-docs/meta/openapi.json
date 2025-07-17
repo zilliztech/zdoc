@@ -36299,6 +36299,9 @@
 				"tags": [
 					"Collection Operations (V2)"
 				],
+				"x-include-target": [
+					"milvus"
+				],
 				"parameters": [
 					{
 						"name": "Authorization",
