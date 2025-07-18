@@ -478,7 +478,7 @@ class larkDocScraper {
                     node.blocks.items = jres.data.items
                     node.blocks.counts = jres.data.items.length
                 } else {
-                    jres.data.items.forEach(item => node.blocks.items.push(item))
+                    node.blocks.items = node.blocks.items.concat(jres.data.items)
                     node.blocks.counts = node.blocks.items.length
                 }
 
@@ -504,6 +504,8 @@ class larkDocScraper {
                 await this.__fetch_blocks(node, page_token)
             }
         }
+
+        await this.__wait(500)
     }
 
     async __fetch_sheet_meta(sheetToken, sheetTitle) {
