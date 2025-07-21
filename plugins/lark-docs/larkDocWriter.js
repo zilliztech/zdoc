@@ -10,7 +10,6 @@ const cheerio = require('cheerio')
 const showdown = require('showdown')
 const Jimp = require("jimp");
 const _ = require('lodash')
-const { text } = require('node:stream/consumers')
 
 class larkDocWriter {
     constructor(root_token, base_token, displayedSidebar, docSourceDir='plugins/lark-docs/meta/sources', imageDir='static/img', targets='zilliz.saas', skip_image_download=false) {
