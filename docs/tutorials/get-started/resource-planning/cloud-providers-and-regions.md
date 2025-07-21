@@ -14,10 +14,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 
@@ -78,8 +78,8 @@ Zilliz Cloud supports deploying dedicated clusters on AWS.
    <tr>
      <td><p>eu-central-1</p></td>
      <td><p>Frankfurt, Germany</p></td>
-     <td><p>No</p></td>
-     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
      <td><p>Yes</p></td>
      <td><p>Yes</p></td>
    </tr>
