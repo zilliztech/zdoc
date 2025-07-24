@@ -75,7 +75,7 @@ For more information, refer to [Scale Cluster](./scale-cluster).
 
 ### Can I deploy a free cluster on AWS?{#can-i-deploy-a-free-cluster-on-aws}
 
-No. Currently, Zilliz Cloud only supports deploying a free cluster on GCP. If you need to deploy a cluster on AWS, please choose the Dedicated (Standard) or Dedicated (Enterprise) plan.
+Yes. You can deploy a free cluster in either AWS eu-central-1 (Frankfurt, Germany) or Google Cloud us-west1 (Oregon, USA). To deploy a cluster in other cloud regions, simply upgrade to the Dedicated plan. For a complete list of supported cloud providers and regions, refer to [Cloud Providers & Regions](./cloud-providers-and-regions).
 
 ### How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
 
