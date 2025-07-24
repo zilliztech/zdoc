@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 
@@ -205,13 +205,19 @@ The following table lists the limits on the capacity of each type of cluster pla
    </tr>
    <tr>
      <td><p>Serverless</p></td>
-     <td><p>100 million 768-dim vectors per partition</p></td>
+     <td><p>Serverless clusters in Zilliz Cloud have no capacity limits.</p></td>
    </tr>
    <tr>
      <td><p>Dedicated (per CU)</p></td>
-     <td><p>Dedicated clusters in Zilliz Cloud have no capacity limits. Below is a quick reference for the capacities of Dedicated clusters with various CU types. For larger capacities, simply scale your Dedicated cluster. For details, refer to <a href="./scale-cluster">Scale Cluster</a>.</p><ul><li><p>Performance-optimized CU: 1.5 million 768-dim vectors per CU</p></li><li><p>Capacity-optimized CU: 5 million 768-dim vectors per CU</p></li><li><p>Extended-capacity CU: 20 million 768-dim vectors per CU</p></li></ul></td>
+     <td><p>Dedicated clusters in Zilliz Cloud have no capacity limits.</p></td>
    </tr>
 </table>
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The upper limits for dedicated cluster capacity depend on the CU type and size used. If your cluster's capacity is not enough, consider adjusting the CU type and size. For details, see <a href="./scale-cluster">Scale Cluster</a>.</p>
+
+</Admonition>
 
 ## Replicas{#replicas}
 
@@ -562,17 +568,17 @@ Zilliz Cloud also imposes limits on the files to import on the web console.
    <tr>
      <td><p>JSON</p></td>
      <td><p>1 GB</p></td>
-     <td><p>Free: 512 MB</p><p>Serverless &amp; Dedicated: 1 TB</p></td>
+     <td><p>Free: 1 GB</p><p>Serverless &amp; Dedicated: The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files.</p></td>
    </tr>
    <tr>
      <td><p>Numpy</p></td>
      <td><p>Not support</p></td>
-     <td><p>Free: 512 MB</p><p>Serverless &amp; Dedicated: The maximum size of the folder is 1 TB and the maximum size of each subdirectory is 10 GB</p></td>
+     <td><p>Free: 1 GB</p><p>Serverless &amp; Dedicated: The maximum total import size is 1 TB and the maximum size of each subdirectory is 10 GB with up to 1,000 subdirectories.</p></td>
    </tr>
    <tr>
      <td><p>Parquet</p></td>
-     <td><p>Not support</p></td>
-     <td><p>Free: 512 MB</p><p>Serverless &amp; Dedicated: 1 TB</p></td>
+     <td><p>1 GB</p></td>
+     <td><p>Free: 1 GB</p><p>Serverless &amp; Dedicated: The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files.</p></td>
    </tr>
 </table>
 
