@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - stage
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 
@@ -46,7 +46,7 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
-    "regionId": "us-west-1",
+    "regionId": "aws-us-west-1",
     "stageName": "my_stage"
 }'
 ```

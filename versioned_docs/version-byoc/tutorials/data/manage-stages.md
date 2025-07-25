@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - stage
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 
@@ -46,7 +46,7 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
-    "regionId": "us-west-1",
+    "regionId": "aws-us-west-1",
     "stageName": "my_stage"
 }'
 ```
