@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 
@@ -160,7 +160,90 @@ while (results.hasNext()) {
 
 ## Import data{#import-data}
 
-Once your data and collection are ready, you can start the import process as follows:
+Once your data and collection are ready, you can import your data into a specific collection either via a stage or via an external storage, such as an object storage bucket and a block storage blob container.
+
+### Import data via stage | PRIVATE{#import-data-via-stage}
+
+To import data via stage, you need to create a storage and upload your data into the stage beforehand. For details, refer to [Merge Data](./merge-data).
+
+Once the stage is ready and the source data file is in place, you can import data from a stage as follows:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus.bulk_writer import bulk_import
+
+def cloud_bulkinsert():
+    # The value of the URL is fixed.
+    # For overseas regions, it is: https://api.cloud.zilliz.com
+    # For regions in China, it is: https://api.cloud.zilliz.com.cn
+    url = "https://api.cloud.zilliz.com"
+    api_key = ""
+    cluster_id = "inxx-xxxxxxxxxxxxxxx"
+    stage_name = "my-first-stage"
+    data_path = "dataPath"
+
+    print(f"\n===================== import files to cloud vectordb ====================")
+
+    resp = bulk_import(
+        url=url,
+        api_key=api_key,
+        cluster_id=cluster_id,
+        collection_name='quick_setup',
+        stage_name=stage_name,
+        data_paths=[[data_path]]
+    )
+    print(resp.json())
+
+if __name__ == '__main__':
+    # # to call cloud bulkinsert api, you need to apply a cloud service from Zilliz Cloud(https://zilliz.com/cloud)
+    cloud_bulkinsert()
+
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+private static String bulkImport() throws InterruptedException {
+    /**
+     * The value of the URL is fixed.
+     */
+    String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+    String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
+    String API_KEY = "";
+    String STAGE_NAME = "my-first-stage";
+    List<String> DATA_PATH = Lists.newArrayList("dataPath");
+
+    StageImportRequest stageImportRequest = StageImportRequest.builder()
+            .apiKey(API_KEY)
+            .clusterId(CLUSTER_ID).collectionName("quick_setup")
+            .stageName(STAGE_NAME).dataPaths(Lists.newArrayList(Collections.singleton(DATA_PATH)))
+            .build();
+    String bulkImportResult = BulkImportUtils.bulkImport(CLOUD_API_ENDPOINT, stageImportRequest);
+    System.out.println(bulkImportResult);
+
+    JsonObject bulkImportObject = new Gson().fromJson(bulkImportResult, JsonObject.class);
+    String jobId = bulkImportObject.getAsJsonObject("data").get("jobId").getAsString();
+    System.out.println("Create a bulkInert task, job id: " + jobId);
+    return jobId;
+}
+
+public static void main(String[] args) throws Exception {
+    String jobId = bulkImport();
+}
+
+// 0f7fe853-d93e-4681-99f2-4719c63585cc
+```
+
+</TabItem>
+</Tabs>
+
+### Import data via external storage{#import-data-via-external-storage}
+
+If you prefer to import data via external storage, do as follows:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
