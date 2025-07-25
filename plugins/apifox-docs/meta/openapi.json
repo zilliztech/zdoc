@@ -2955,10 +2955,10 @@
 											},
 											"credential": {
 												"type": "object",
-												"description": "The credentials to access the bucket that holds the PARQUET file.",
+												"description": "The credentials to access the bucket that holds the PARQUET file. This parameter applies only when you set `type` to `s3` or `oss`.",
 												"x-i18n": {
 													"zh-CN": {
-														"description": "存放待合并数据文件的存储桶的访问凭据。"
+														"description": "存放待合并数据文件的存储桶的访问凭据。此参数仅当您将 `type` 设置为 `s3` 或 `oss` 时有效。"
 													}
 												},
 												"properties": {
@@ -2986,10 +2986,10 @@
 									},
 									"mergeField": {
 										"type": "string",
-										"description": "The name of the field to use as the merge field. The merge field must be present in both the existing collection and the new data records. In common cases, you can use the primary key as the merge field.",
+										"description": " The data merging operation is similar to a LEFT JOIN operation in relational database systems, with the merge field serving as the shared key between the source collection and the Parquet file containing column-wise data. You need to provide the name of the shared key as the merge field. The merge field must be present in both the existing collection and the Parquet file. In common cases, you can use the primary key as the merge field.",
 										"x-i18n": {
 											"zh-CN": {
-												"description": "作为合并键的字段名称。该字段必须同时存在于待合并 Collection 和待插入数据记录中。在一般情况下，您可以使用主键作为合并字段。"
+												"description": "数据合并操作类似于关系型数据库中的左连接操作，其合并字段充当源 Collection 和 Parquet 文件之间共享键的角色。您需要提供共享键的名称作为合并字段。合并字段必须在源 Collection 和 Parquet 文件中都存在。在一般情况下，您可以使用主键作为合并字段。"
 											}
 										}
 									},
