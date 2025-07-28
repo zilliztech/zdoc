@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - stage
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

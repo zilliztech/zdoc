@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 
@@ -342,7 +342,7 @@ The maximum number of shards allowed depends on the cluster plan and cluster CU 
 
 ### Rate limit{#rate-limit}
 
-Zilliz Cloud also imposed rate limits on collection operations, including creating, loading, releasing, and dropping collections. The following rate limit applies to collections in both Serverless and Dedicated clusters.
+Zilliz Cloud also imposes rate limits on collection and partition data definition language (DDL) operations, including creating, loading, releasing, and dropping collections. The following rate limit applies to collections in both Serverless and Dedicated clusters.
 
 <table>
    <tr>
@@ -350,8 +350,12 @@ Zilliz Cloud also imposed rate limits on collection operations, including creati
      <th><p><strong>Rate Limit</strong></p></th>
    </tr>
    <tr>
-     <td><p>Collection Operation </p><p>(create, load, release, drop)</p></td>
-     <td><p>5 req/s per cluster</p></td>
+     <td><p>Collection DDL Operation </p><p>(create, load, release, drop)</p></td>
+     <td><p>20 req/s per cluster</p></td>
+   </tr>
+   <tr>
+     <td><p>Partition DDL Operation</p><p>(create, load, release, drop)</p></td>
+     <td><p>20 req/s per cluster</p></td>
    </tr>
 </table>
 
@@ -513,7 +517,7 @@ The rate limit for flush requests is 0.1 requests per second, imposed at the col
 
 ### Load{#load}
 
-The rate limit for load requests is **5** req/s per cluster.
+The rate limit for load requests is **20** req/s per cluster.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -551,11 +555,11 @@ The rate limit for delete requests is **0.5** MB/s per cluster.
 
 ### Drop{#drop}
 
-The rate limit for drop requests is **5** req/s per cluster.
+The rate limit for drop requests is **20** req/s per cluster.
 
 ### Data import{#data-import}
 
-You can have up to **10** running or pending import jobs in a collection.
+You can have up to **10,000** running or pending import jobs in a collection.
 
 Zilliz Cloud also imposes limits on the files to import on the web console.
 
@@ -567,6 +571,36 @@ Zilliz Cloud also imposes limits on the files to import on the web console.
    </tr>
    <tr>
      <td><p>JSON</p></td>
+     <td><p>Free: 512 MB</p><p>Serverless &amp; Dedicated: 1 GB</p></td>
+     <td><p>Free: 512 MB</p><p>Serverless &amp; Dedicated: The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files.</p></td>
+   </tr>
+   <tr>
+     <td><p>Numpy</p></td>
+     <td><p>Not support</p></td>
+     <td><p>Free: 512 MB</p><p>Serverless &amp; Dedicated: The maximum size of the folder is 1 TB and the maximum size of each subdirectory is 10 GB with up to 1,000 subdirectories.</p></td>
+   </tr>
+   <tr>
+     <td><p>Parquet</p></td>
+     <td><p>Not support</p></td>
+     <td><p>Free: 512 MB</p><p>Serverless &amp; Dedicated: The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files.</p></td>
+   </tr>
+</table>
+
+<include targe="indev">
+
+<table>
+   <tr>
+     <th><p>File Type</p></th>
+     <th><p>Local upload</p></th>
+     <th><p>From Object Storage</p></th>
+   </tr>
+   <tr>
+     <td><p>JSON</p></td>
+     <td><p>1 GB</p></td>
+     <td><p>Free: 1 GB</p><p>Serverless &amp; Dedicated: The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files.</p></td>
+   </tr>
+   <tr>
+     <td><p>Parquet</p></td>
      <td><p>1 GB</p></td>
      <td><p>Free: 1 GB</p><p>Serverless &amp; Dedicated: The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files.</p></td>
    </tr>
@@ -575,12 +609,9 @@ Zilliz Cloud also imposes limits on the files to import on the web console.
      <td><p>Not support</p></td>
      <td><p>Free: 1 GB</p><p>Serverless &amp; Dedicated: The maximum total import size is 1 TB and the maximum size of each subdirectory is 10 GB with up to 1,000 subdirectories.</p></td>
    </tr>
-   <tr>
-     <td><p>Parquet</p></td>
-     <td><p>1 GB</p></td>
-     <td><p>Free: 1 GB</p><p>Serverless &amp; Dedicated: The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files.</p></td>
-   </tr>
 </table>
+
+</include>
 
 For details, refer to [Storage Options](./data-import-storage-options) and [Format Options](./data-import-format-options).
 

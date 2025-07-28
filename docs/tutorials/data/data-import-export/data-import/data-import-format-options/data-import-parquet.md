@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 
@@ -181,7 +181,7 @@ There are some limits you need to observe when you import data in the Parquet fo
    </tr>
    <tr>
      <td><p><strong>Multiple files per import</strong></p></td>
-     <td><p>Yes.</p><p>Each import allows up to 100,000 files.</p></td>
+     <td><p>Yes.</p><p>Each import allows up to 1,000 files.</p></td>
    </tr>
    <tr>
      <td><p><strong>Maximum file size per import</strong></p></td>

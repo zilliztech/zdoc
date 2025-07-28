@@ -2863,188 +2863,160 @@
 					"content": {
 						"application/json": {
 							"schema": {
-								"type": "object",
-								"properties": {
-									"clusterId": {
-										"type": "string",
-										"description": "Name of the cluster that holds the target collection of this operation.",
-										"x-i18n": {
-											"zh-CN": {
-												"description": "本操作目标 Collection 所在集群的名称。"
-											}
-										},
-										"example": "in00-xxxxxxxxxxxxxxxxxx"
-									},
-									"dbName": {
-										"type": "string",
-										"description": "Name of the database that holds the target collection of this operation.",
-										"x-i18n": {
-											"zh-CN": {
-												"description": "本操作目标 Collection 所在数据库的名称。"
-											}
-										}
-									},
-									"collectionName": {
-										"type": "string",
-										"description": "Name of the target collection of this operation.",
-										"x-i18n": {
-											"zh-CN": {
-												"description": "本操作目标 Collection 的名称。"
-											}
-										}
-									},
-									"destDbName": {
-										"type": "string",
-										"description": "Name of the database that holds the collection to create.",
-										"x-i18n": {
-											"zh-CN": {
-												"description": "待创建 Collection 所在数据库的名称。"	
-											}
-										}
-									},
-									"destCollectionName": {
-										"type": "string",
-										"description": "Name of the collection to create. This collection will hold the merged data.",
-										"x-i18n": {
-											"zh-CN": {
-												"description": "待创建 Collection 的名称。该 Collection 将保存合并后的数据。"
-											}
-										}
-									},
-									"dataSource": {
+								"oneOf": [
+									{
+										"x-tab-label": "use stage",
 										"type": "object",
-										"description": "The data to merge with the existing collection. The data should be a PARQUET file stored in a storage spot that Zilliz Cloud can access. You need to provide the URL of the PARQUET file and the credentials to access the bucket that holds the file.",
-										"x-i18n": {
-											"zh-CN": {
-												"description": "待与指定 Collection 合并的数据。您需要将待合并数据存为 PARQUET 文件，然后将其上传到 Zilliz Cloud 可以访问的对象存储桶中。在此参数中，您需要提供待合并数据文件的 URL 及存放该数据文件的存储桶的访问凭据。"
-											}
-										},
 										"properties": {
-											"type": {
+											"clusterId": {
 												"type": "string",
-												"description": "The type of the data source.",
+												"description": "Name of the cluster that holds the target collection of this operation.",
 												"x-i18n": {
 													"zh-CN": {
-														"description": "数据源的类型。"
+														"description": "本操作目标 Collection 所在集群的名称。"
 													}
 												},
-												"enum": [
-													"s3",
-													"oss",
-													"stage"
-												]
+												"example": "in00-xxxxxxxxxxxxxxxxxx"
 											},
-											"stageName": {
+											"dbName": {
 												"type": "string",
-												"description": "The name of a Zilliz Cloud stage that holds the PARQUET file. This parameter applies only when you set `type` to `stage`. For details on how to create a stage, see the documentation for the [Create Stage](/reference/restful/create-stage-v2) operation.",
+												"description": "Name of the database that holds the target collection of this operation.",
 												"x-i18n": {
 													"zh-CN": {
-														"description": "Zilliz Cloud 存储点的名称。此参数仅当您将 `type` 设置为 `stage` 时有效。有关创建存储点的详细信息，请参阅 [Create Stage](/reference/restful/create-stage-v2) 操作的文档。"
+														"description": "本操作目标 Collection 所在数据库的名称。"
 													}
 												}
 											},
-											"dataPath": {
+											"collectionName": {
 												"type": "string",
-												"description": "The URL of the PARQUET file to merge with the existing collection. ",
+												"description": "Name of the target collection of this operation.",
 												"x-i18n": {
 													"zh-CN": {
-														"description": "待与指定 Collection 合并的 PARQUET 文件的 URL。"
+														"description": "本操作目标 Collection 的名称。"
 													}
-												},
-												"example": "s3://my-bucket/my_data.parquet"
+												}
 											},
-											"credential": {
-												"type": "object",
-												"description": "The credentials to access the bucket that holds the PARQUET file. This parameter applies only when you set `type` to `s3` or `oss`.",
+											"destDbName": {
+												"type": "string",
+												"description": "Name of the database that holds the collection to create.",
 												"x-i18n": {
 													"zh-CN": {
-														"description": "存放待合并数据文件的存储桶的访问凭据。此参数仅当您将 `type` 设置为 `s3` 或 `oss` 时有效。"
+														"description": "待创建 Collection 所在数据库的名称。"	
+													}
+												}
+											},
+											"destCollectionName": {
+												"type": "string",
+												"description": "Name of the collection to create. This collection will hold the merged data.",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "待创建 Collection 的名称。该 Collection 将保存合并后的数据。"
+													}
+												}
+											},
+											"dataSource": {
+												"type": "object",
+												"description": "The data to merge with the existing collection. The data should be a PARQUET file stored in a storage spot that Zilliz Cloud can access. You need to provide the URL of the PARQUET file and the credentials to access the bucket that holds the file.",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "待与指定 Collection 合并的数据。您需要将待合并数据存为 PARQUET 文件，然后将其上传到 Zilliz Cloud 可以访问的对象存储桶中。在此参数中，您需要提供待合并数据文件的 URL 及存放该数据文件的存储桶的访问凭据。"
 													}
 												},
 												"properties": {
-													"accessKey": {
+													"type": {
 														"type": "string",
-														"description": "The access key of the bucket that holds the PARQUET file.",
+														"description": "The type of the data source. When using a stage, set this parameter to `stage`.",
 														"x-i18n": {
 															"zh-CN": {
-																"description": "存放待合并数据文件的存储桶的访问密钥。"
+																"description": "数据源的类型。"
+															}
+														},
+														"example": "stage"
+													},
+													"stageName": {
+														"type": "string",
+														"description": "The name of a Zilliz Cloud stage that holds the PARQUET file. This parameter applies only when you set `type` to `stage`. For details on how to create a stage, see the documentation for the [Create Stage](/reference/restful/create-stage-v2) operation.",
+														"x-i18n": {
+															"zh-CN": {
+																"description": "Zilliz Cloud 存储点的名称。此参数仅当您将 `type` 设置为 `stage` 时有效。有关创建存储点的详细信息，请参阅 [Create Stage](/reference/restful/create-stage-v2) 操作的文档。"
 															}
 														}
 													},
-													"secretKey": {
+													"dataPath": {
 														"type": "string",
-														"description": "The secret key of the bucket that holds the PARQUET file.",
+														"description": "The URL of the PARQUET file to merge with the existing collection. ",
 														"x-i18n": {
 															"zh-CN": {
-																"description": "存放待合并数据文件的存储桶的访问密钥。"
+																"description": "待与指定 Collection 合并的 PARQUET 文件的 URL。"
 															}
-														}
+														},
+														"example": "path/to/your/data.parquet"
 													}
-												}
-											}
-										}
-									},
-									"mergeField": {
-										"type": "string",
-										"description": " The data merging operation is similar to a LEFT JOIN operation in relational database systems, with the merge field serving as the shared key between the source collection and the Parquet file containing column-wise data. You need to provide the name of the shared key as the merge field. The merge field must be present in both the existing collection and the Parquet file. In common cases, you can use the primary key as the merge field.",
-										"x-i18n": {
-											"zh-CN": {
-												"description": "数据合并操作类似于关系型数据库中的左连接操作，其合并字段充当源 Collection 和 Parquet 文件之间共享键的角色。您需要提供共享键的名称作为合并字段。合并字段必须在源 Collection 和 Parquet 文件中都存在。在一般情况下，您可以使用主键作为合并字段。"
-											}
-										}
-									},
-									"newFields": {
-										"type": "array",
-										"description": "The schema of the fields to create in the new collection. The schema should be an array of field schemas.",
-										"x-i18n": {
-											"zh-CN": {
-												"description": "待创建 Collection 的各字段数据结构。该参数的值应该为字段数据结构数组。"
-											}
-										},
-										"items": {
-											"type": "object",
-											"description": "The schema of a field to add.",
-											"x-i18n": {
-												"zh-CN": {
-													"description": "一个待添加字段的数据结构。"
 												}
 											},
-											"properties": {
-												"fieldName": {
-													"type": "string",
-													"description": "Name of the current field to add.",
-													"x-i18n": {
-														"zh-CN": "待添加字段的名称。"
+											"mergeField": {
+												"type": "string",
+												"description": " The data merging operation is similar to a LEFT JOIN operation in relational database systems, with the merge field serving as the shared key between the source collection and the Parquet file containing column-wise data. You need to provide the name of the shared key as the merge field. The merge field must be present in both the existing collection and the Parquet file. In common cases, you can use the primary key as the merge field.",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "数据合并操作类似于关系型数据库中的左连接操作，其合并字段充当源 Collection 和 Parquet 文件之间共享键的角色。您需要提供共享键的名称作为合并字段。合并字段必须在源 Collection 和 Parquet 文件中都存在。在一般情况下，您可以使用主键作为合并字段。"
+													}
+												}
+											},
+											"newFields": {
+												"type": "array",
+												"description": "The schema of the fields to create in the new collection. The schema should be an array of field schemas.",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "待创建 Collection 的各字段数据结构。该参数的值应该为字段数据结构数组。"
 													}
 												},
-												"dataType": {
-													"type": "string",
-													"description": "Data type of the current field to add.",
-													"x-i18n": {
-														"zh-CN": "待添加字段的数据类型。"
-													},
-													"enum": [
-														"VARCHAR",
-														"INT32",
-														"INT64",
-														"FLOAT",
-														"DOUBLE",
-														"BOOL"
-													]
-												},
-												"params": {
+												"items": {
 													"type": "object",
-													"description": "Extra settings for the current field to add.",
+													"description": "The schema of a field to add.",
 													"x-i18n": {
-														"zh-CN": "待添加字段的详细设置。"
+														"zh-CN": {
+															"description": "一个待添加字段的数据结构。"
+														}
 													},
 													"properties": {
-														"maxLength": {
-															"type": "integer",
-															"description": "The maximum length of a VARCHAR field value. This parameter is applicable only when `dataType` is set to `VARCHAR`.",
+														"fieldName": {
+															"type": "string",
+															"description": "Name of the current field to add.",
 															"x-i18n": {
-																"zh-CN": {
-																	"description": "VARCHAR 字段的最大长度。该参数仅当 `dataType` 设置为 `VARCHAR` 时可用。"
+																"zh-CN": "待添加字段的名称。"
+															}
+														},
+														"dataType": {
+															"type": "string",
+															"description": "Data type of the current field to add.",
+															"x-i18n": {
+																"zh-CN": "待添加字段的数据类型。"
+															},
+															"enum": [
+																"VARCHAR",
+																"INT32",
+																"INT64",
+																"FLOAT",
+																"DOUBLE",
+																"BOOL"
+															]
+														},
+														"params": {
+															"type": "object",
+															"description": "Extra settings for the current field to add.",
+															"x-i18n": {
+																"zh-CN": "待添加字段的详细设置。"
+															},
+															"properties": {
+																"maxLength": {
+																	"type": "integer",
+																	"description": "The maximum length of a VARCHAR field value. This parameter is applicable only when `dataType` is set to `VARCHAR`.",
+																	"x-i18n": {
+																		"zh-CN": {
+																			"description": "VARCHAR 字段的最大长度。该参数仅当 `dataType` 设置为 `VARCHAR` 时可用。"
+																		}
+																	}
 																}
 															}
 														}
@@ -3052,34 +3024,276 @@
 												}
 											}
 										}
-									}
-								}
-							},
-							"example": {
-								"clusterId": "in00-xxxxxxxxxxxxxxx",
-								"dbName": "my_database",
-								"collectionName": "my_collection",
-								"destDbName": "my_database",
-								"destCollectionName": "my_merged_collection",
-								"dataSource": {
-									"type": "s3",
-									"dataPath": "s3://my-bucket/my_data.parquet",
-									"regionId": "us-west-2",
-									"credential": {
-										"accessKey": "my-access-key",
-										"secretKey": "my-secret-key"
-									}
-								},
-								"mergeField": "id",
-								"newFields": [
+									},
 									{
-										"name": "my_field1",
-										"dataType": "VARCHAR",
-										"params": {
-											"maxLength": 512
-										}
+										"x-tab-label": "use external storage",
+										"type": "object",
+										"properties": {
+											"clusterId": {
+												"type": "string",
+												"description": "Name of the cluster that holds the target collection of this operation.",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "本操作目标 Collection 所在集群的名称。"
+													}
+												},
+												"example": "in00-xxxxxxxxxxxxxxxxxx"
+											},
+											"dbName": {
+												"type": "string",
+												"description": "Name of the database that holds the target collection of this operation.",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "本操作目标 Collection 所在数据库的名称。"
+													}
+												}
+											},
+											"collectionName": {
+												"type": "string",
+												"description": "Name of the target collection of this operation.",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "本操作目标 Collection 的名称。"
+													}
+												}
+											},
+											"destDbName": {
+												"type": "string",
+												"description": "Name of the database that holds the collection to create.",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "待创建 Collection 所在数据库的名称。"	
+													}
+												}
+											},
+											"destCollectionName": {
+												"type": "string",
+												"description": "Name of the collection to create. This collection will hold the merged data.",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "待创建 Collection 的名称。该 Collection 将保存合并后的数据。"
+													}
+												}
+											},
+											"dataSource": {
+												"type": "object",
+												"description": "The data to merge with the existing collection. The data should be a PARQUET file stored in a storage spot that Zilliz Cloud can access. You need to provide the URL of the PARQUET file and the credentials to access the bucket that holds the file.",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "待与指定 Collection 合并的数据。您需要将待合并数据存为 PARQUET 文件，然后将其上传到 Zilliz Cloud 可以访问的对象存储桶中。在此参数中，您需要提供待合并数据文件的 URL 及存放该数据文件的存储桶的访问凭据。"
+													}
+												},
+												"properties": {
+													"type": {
+														"type": "string",
+														"description": "The type of the data source. When using S3, you need to set this parameter to `s3`.",
+														"x-i18n": {
+															"zh-CN": {
+																"description": "数据源的类型。在使用 OSS 对象存储时，请将该参数设置为 `oss`。"
+															}
+														}
+													},
+													"dataPath": {
+														"type": "string",
+														"description": "The URL of the PARQUET file to merge with the existing collection. ",
+														"x-i18n": {
+															"zh-CN": {
+																"description": "待与指定 Collection 合并的 PARQUET 文件的 URL。"
+															}
+														},
+														"example": "s3://my-bucket/my_data.parquet"
+													},
+													"credential": {
+														"type": "object",
+														"description": "The credentials to access the bucket that holds the PARQUET file. This parameter applies only when you set `type` to `s3`.",
+														"x-i18n": {
+															"zh-CN": {
+																"description": "存放待合并数据文件的存储桶的访问凭据。此参数仅当您将 `type` 设置为 `oss` 时有效。"
+															}
+														},
+														"properties": {
+															"accessKey": {
+																"type": "string",
+																"description": "The access key of the bucket that holds the PARQUET file.",
+																"x-i18n": {
+																	"zh-CN": {
+																		"description": "存放待合并数据文件的存储桶的访问密钥。"
+																	}
+																}
+															},
+															"secretKey": {
+																"type": "string",
+																"description": "The secret key of the bucket that holds the PARQUET file.",
+																"x-i18n": {
+																	"zh-CN": {
+																		"description": "存放待合并数据文件的存储桶的访问密钥。"
+																	}
+																}
+															}
+														}
+													}
+												}
+											},
+											"mergeField": {
+												"type": "string",
+												"description": " The data merging operation is similar to a LEFT JOIN operation in relational database systems, with the merge field serving as the shared key between the source collection and the Parquet file containing column-wise data. You need to provide the name of the shared key as the merge field. The merge field must be present in both the existing collection and the Parquet file. In common cases, you can use the primary key as the merge field.",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "数据合并操作类似于关系型数据库中的左连接操作，其合并字段充当源 Collection 和 Parquet 文件之间共享键的角色。您需要提供共享键的名称作为合并字段。合并字段必须在源 Collection 和 Parquet 文件中都存在。在一般情况下，您可以使用主键作为合并字段。"
+													}
+												}
+											},
+											"newFields": {
+												"type": "array",
+												"description": "The schema of the fields to create in the new collection. The schema should be an array of field schemas.",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "待创建 Collection 的各字段数据结构。该参数的值应该为字段数据结构数组。"
+													}
+												},
+												"items": {
+													"type": "object",
+													"description": "The schema of a field to add.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "一个待添加字段的数据结构。"
+														}
+													},
+													"properties": {
+														"fieldName": {
+															"type": "string",
+															"description": "Name of the current field to add.",
+															"x-i18n": {
+																"zh-CN": "待添加字段的名称。"
+															}
+														},
+														"dataType": {
+															"type": "string",
+															"description": "Data type of the current field to add.",
+															"x-i18n": {
+																"zh-CN": "待添加字段的数据类型。"
+															},
+															"enum": [
+																"VARCHAR",
+																"INT32",
+																"INT64",
+																"FLOAT",
+																"DOUBLE",
+																"BOOL"
+															]
+														},
+														"params": {
+															"type": "object",
+															"description": "Extra settings for the current field to add.",
+															"x-i18n": {
+																"zh-CN": "待添加字段的详细设置。"
+															},
+															"properties": {
+																"maxLength": {
+																	"type": "integer",
+																	"description": "The maximum length of a VARCHAR field value. This parameter is applicable only when `dataType` is set to `VARCHAR`.",
+																	"x-i18n": {
+																		"zh-CN": {
+																			"description": "VARCHAR 字段的最大长度。该参数仅当 `dataType` 设置为 `VARCHAR` 时可用。"
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}										
 									}
 								]
+							},
+							"examples": {
+								"1": {
+									"summary": "use stage",
+									"x-target-request": "OPTION 1",
+									"value": {
+										"clusterId": "in00-xxxxxxxxxxxxxxx",
+										"dbName": "my_database",
+										"collectionName": "my_collection",
+										"destDbName": "my_database",
+										"destCollectionName": "my_merged_collection",
+										"dataSource": {
+											"type": "stage",
+											"stageName": "my_stage",
+											"dataPath": "path/to/your/data.parquet"
+										},
+										"mergeField": "id",
+										"newFields": [
+											{
+												"name": "my_field1",
+												"dataType": "VARCHAR",
+												"params": {
+													"maxLength": 512
+												}
+											}
+										]
+									}
+								},
+								"2": {
+									"summary": "use external storage",
+									"x-target-lang": "en-US",
+									"x-target-request": "OPTION 2",
+									"value": {
+										"clusterId": "in00-xxxxxxxxxxxxxxx",
+										"dbName": "my_database",
+										"collectionName": "my_collection",
+										"destDbName": "my_database",
+										"destCollectionName": "my_merged_collection",
+										"dataSource": {
+											"type": "s3",
+											"dataPath": "s3://my-bucket/my_data.parquet",
+											"credential": {
+												"accessKey": "my-access-key",
+												"secretKey": "my-secret-key"
+											}
+										},
+										"mergeField": "id",
+										"newFields": [
+											{
+												"name": "my_field1",
+												"dataType": "VARCHAR",
+												"params": {
+													"maxLength": 512
+												}
+											}
+										]
+									}
+								},
+								"3": {
+									"summary": "use external storage",
+									"x-target-lang": "zh-CN",
+									"x-target-request": "OPTION 2",
+									"value": {
+										"clusterId": "in00-xxxxxxxxxxxxxxx",
+										"dbName": "my_database",
+										"collectionName": "my_collection",
+										"destDbName": "my_database",
+										"destCollectionName": "my_merged_collection",
+										"dataSource": {
+											"type": "oss",
+											"dataPath": "https://oss-cn-hangzhou.aliyuncs.com/my-bucket/my_data.parquet",
+											"credential": {
+												"accessKey": "my-access-key",
+												"secretKey": "my-secret-key"
+											}
+										},
+										"mergeField": "id",
+										"newFields": [
+											{
+												"name": "my_field1",
+												"dataType": "VARCHAR",
+												"params": {
+													"maxLength": 512
+												}
+											}
+										]
+									}
+								}
 							}
 						}
 					}
@@ -17894,7 +18108,96 @@
 							"schema": {
 								"oneOf": [
 									{
-										"x-tab-label": "use block storage",
+										"x-tab-label": "use stage",
+										"x-include-target": [
+											"zilliz"
+										],
+										"type": "object",
+										"properties": {
+											"clusterId": {
+												"type": "string",
+												"description": "The ID of the cluster to which the collection belongs.\nSetting this to a non-existing cluster results in an error. You can get the cluster ID by calling the [`/v2/clusters`](/reference/restful/list-clusters-v2) endpoint, or copy the cluster ID from the [Zilliz Cloud console](/docs/on-zilliz-cloud-console).",
+												"example": "inxx-xxxxxxxxxxxxxxxx",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "Collection 所属的集群 ID。设置为不存在的集群将导致错误。您可以通过调用 [`/v2/clusters`](/reference/restful/list-clusters-v2) 端点获取集群 ID，或从 [Zilliz Cloud 控制台](/docs/on-zilliz-cloud-console) 复制集群 ID。"
+													}
+												},
+												"x-include-target": [
+													"zilliz"
+												]
+											},
+											"dbName": {
+												"type": "string",
+												"description": "The name of the database that to which the collection belongs .\nSetting this to a non-existing database results in an error.",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
+													}
+												}
+											},
+											"collectionName": {
+												"type": "string",
+												"description": "The name of the target collection.\nSetting this to a non-existing collection results in an error.",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "目标 Collection 的名称。设置为不存在的 Collection 将导致错误。"
+													}
+												}
+											},
+											"partitionName": {
+												"type": "string",
+												"description": "The name of the target partition.\nSetting this to a non-existing partition results in an error.",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "目标 Partition 的名称。设置为不存在的 Partition 将导致错误。"
+													}
+												}
+											},
+											"stageName": {
+												"type": "string",
+												"description": "The name of the stage from which the data files will be uploaded. The stage must be created beforehand. For details, refer to [Create Stage](/reference/restful/create-stage-v2)",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "数据文件上传的源 stage 名称。该 stage 需事先创建。详情请参考 [创建 stage](/reference/restful/create-stage-v2)"
+													}
+												}
+											},
+											"dataPaths": {
+												"type": "array",
+												"description": "The paths of the data files to be uploaded. The paths should be relative to the root of the specified stage.",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "待上传的数据文件路径列表。路径应相对于指定 stage 的根目录。"
+													}
+												},
+												"items": {
+													"type": "array",
+													"description": "A list of the paths of the data files to be uploaded. Each list contains only one path.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "待上传的数据文件路径列表。每个列表包含一个路径。"
+														}
+													},
+													"items": {
+														"type": "string",
+														"description": "The path of the data file to be uploaded. The path should be relative to the root of the specified stage.",
+														"x-i18n": {
+															"zh-CN": {
+																"description": "待上传数据文件路径。"
+															}
+														}
+													}
+												}
+											}						
+										},
+										"required": [
+											"clusterId",
+											"collectionName"
+										]
+									},
+									{
+										"x-tab-label": "use external storage",
 										"type": "object",
 										"properties": {
 											"clusterId": {
@@ -18069,102 +18372,13 @@
 											"clusterId",
 											"collectionName"
 										]
-									},
-									{
-										"x-tab-label": "use stage",
-										"x-include-target": [
-											"zilliz"
-										],
-										"type": "object",
-										"properties": {
-											"clusterId": {
-												"type": "string",
-												"description": "The ID of the cluster to which the collection belongs.\nSetting this to a non-existing cluster results in an error. You can get the cluster ID by calling the [`/v2/clusters`](/reference/restful/list-clusters-v2) endpoint, or copy the cluster ID from the [Zilliz Cloud console](/docs/on-zilliz-cloud-console).",
-												"example": "inxx-xxxxxxxxxxxxxxxx",
-												"x-i18n": {
-													"zh-CN": {
-														"description": "Collection 所属的集群 ID。设置为不存在的集群将导致错误。您可以通过调用 [`/v2/clusters`](/reference/restful/list-clusters-v2) 端点获取集群 ID，或从 [Zilliz Cloud 控制台](/docs/on-zilliz-cloud-console) 复制集群 ID。"
-													}
-												},
-												"x-include-target": [
-													"zilliz"
-												]
-											},
-											"dbName": {
-												"type": "string",
-												"description": "The name of the database that to which the collection belongs .\nSetting this to a non-existing database results in an error.",
-												"x-i18n": {
-													"zh-CN": {
-														"description": "Collection 所属的数据库名称。设置为不存在的数据库将导致错误。"
-													}
-												}
-											},
-											"collectionName": {
-												"type": "string",
-												"description": "The name of the target collection.\nSetting this to a non-existing collection results in an error.",
-												"x-i18n": {
-													"zh-CN": {
-														"description": "目标 Collection 的名称。设置为不存在的 Collection 将导致错误。"
-													}
-												}
-											},
-											"partitionName": {
-												"type": "string",
-												"description": "The name of the target partition.\nSetting this to a non-existing partition results in an error.",
-												"x-i18n": {
-													"zh-CN": {
-														"description": "目标 Partition 的名称。设置为不存在的 Partition 将导致错误。"
-													}
-												}
-											},
-											"stageName": {
-												"type": "string",
-												"description": "The name of the stage from which the data files will be uploaded. The stage must be created beforehand. For details, refer to [Create Stage](/reference/restful/create-stage-v2)",
-												"x-i18n": {
-													"zh-CN": {
-														"description": "数据文件上传的源 stage 名称。该 stage 需事先创建。详情请参考 [创建 stage](/reference/restful/create-stage-v2)"
-													}
-												}
-											},
-											"dataPaths": {
-												"type": "array",
-												"description": "The paths of the data files to be uploaded. The paths should be relative to the root of the specified stage.",
-												"x-i18n": {
-													"zh-CN": {
-														"description": "待上传的数据文件路径列表。路径应相对于指定 stage 的根目录。"
-													}
-												},
-												"items": {
-													"type": "array",
-													"description": "A list of the paths of the data files to be uploaded. Each list contains only one path.",
-													"x-i18n": {
-														"zh-CN": {
-															"description": "待上传的数据文件路径列表。每个列表包含一个路径。"
-														}
-													},
-													"items": {
-														"type": "string",
-														"description": "The path of the data file to be uploaded. The path should be relative to the root of the specified stage.",
-														"x-i18n": {
-															"zh-CN": {
-																"description": "待上传数据文件路径。"
-															}
-														}
-													}
-												}
-											}						
-										},
-										"required": [
-											"clusterId",
-											"collectionName"
-										]
 									}
 								]
 							},
 							"examples": {
 								"1": {
-									"summary": "example",
-									"x-target-request": "OPTION 1",
+									"summary": "use external storage",
+									"x-target-request": "OPTION 2",
 									"x-include-target": [
 										"milvus"
 									],
@@ -18187,7 +18401,7 @@
 								},
 								"2": {
 									"summary": "use object storage",
-									"x-target-request": "OPTION 1",
+									"x-target-request": "OPTION 2",
 									"x-include-target": [
 										"zilliz"
 									],
@@ -18205,7 +18419,7 @@
 								},
 								"3": {
 									"summary": "use stage",
-									"x-target-request": "OPTION 2",
+									"x-target-request": "OPTION 1",
 									"x-include-target": [
 										"zilliz"
 									],

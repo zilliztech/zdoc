@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - json
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 
@@ -172,7 +172,13 @@ Zilliz Cloud supports data import from your cloud storage. The table below lists
 
 ## Limits{#limits}
 
-There are some limits you need to observe when you import data in the JSON format from your cloud storage. Note that a valid JSON file has a root key named **rows**, the corresponding value of which is a list of dictionaries, each representing an entity that matches the schema of the target collection.
+There are some limits you need to observe when you import data in a local JSON file or JSON files from your cloud storage. 
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>A valid JSON file has a root key named <strong>rows</strong>, the corresponding value of which is a list of dictionaries, each representing an entity that matches the schema of the target collection.</p>
+
+</Admonition>
 
 <table>
    <tr>
@@ -181,7 +187,7 @@ There are some limits you need to observe when you import data in the JSON forma
    </tr>
    <tr>
      <td><p><strong>Multiple files per import</strong></p></td>
-     <td><p>Yes.</p><p>Each import allows up to 100,000 files.</p></td>
+     <td><p>Yes.</p><p>Each import allows up to 1,000 files.</p></td>
    </tr>
    <tr>
      <td><p><strong>Maximum file size per import</strong></p></td>
@@ -194,3 +200,4 @@ There are some limits you need to observe when you import data in the JSON forma
 </table>
 
 You can either rebuild your data on your own by referring to [Prepare the data file](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file) or use [the BulkWriter tool](./use-bulkwriter) to generate the source data file. [Click here to download the prepared sample data based on the schema in the above diagram](https://assets.zilliz.com/prepared_json_data.json).
+

@@ -4,7 +4,7 @@ slug: /manage-stages
 sidebar_label: "Manage Stages"
 beta: PRIVATE
 notebook: FALSE
-description: "A stage is an intermediate storage spot where you can hold your data for further processing, such as data merging, migration, or importing. This page explains what a stage is on Zilliz Cloud and how you can use it when managing your data there. | BYOC"
+description: "A stage is an intermediate storage spot where you can hold your data for further processing, such as data merging or importing. This page explains what a stage is on Zilliz Cloud and how you can use it when managing your data there. | BYOC"
 type: origin
 token: VCL7wmP6oieCkJkHEcicCsKQnxc
 sidebar_position: 8
@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - stage
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 
@@ -26,7 +26,7 @@ import TabItem from '@theme/TabItem';
 
 # Manage Stages
 
-A stage is an intermediate storage spot where you can hold your data for further processing, such as data merging, migration, or importing. This page explains what a stage is on Zilliz Cloud and how you can use it when managing your data there.
+A stage is an intermediate storage spot where you can hold your data for further processing, such as data merging or importing. This page explains what a stage is on Zilliz Cloud and how you can use it when managing your data there.
 
 ## Create, list, and delete stages{#create-list-and-delete-stages}
 

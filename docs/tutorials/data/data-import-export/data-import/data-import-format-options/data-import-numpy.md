@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 
@@ -156,7 +156,13 @@ Zilliz Cloud supports data import from your cloud storage. The table below lists
 
 ## Limits{#limits}
 
-A valid set of NumPy files should be named after the fields in the schema of the target collection, and the data in them should match the corresponding field definitions.
+There are some limits you need to observe when you import data in NumPy files from your cloud storage. 
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>A valid set of NumPy files should be named after the fields in the schema of the target collection, and the data in them should match the corresponding field definitions.</p>
+
+</Admonition>
 
 <table>
    <tr>
@@ -173,7 +179,7 @@ A valid set of NumPy files should be named after the fields in the schema of the
    </tr>
    <tr>
      <td><p><strong>Maximum number of first-level subfolders</strong></p></td>
-     <td><p>100,000</p></td>
+     <td><p>1,000</p></td>
    </tr>
    <tr>
      <td><p><strong>Maximum file size per import</strong></p></td>
