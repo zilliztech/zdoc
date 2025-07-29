@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 
@@ -585,33 +585,6 @@ Zilliz Cloud also imposes limits on the files to import on the web console.
      <td><p>Free: 512 MB</p><p>Serverless &amp; Dedicated: The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files.</p></td>
    </tr>
 </table>
-
-<include targe="indev">
-
-<table>
-   <tr>
-     <th><p>File Type</p></th>
-     <th><p>Local upload</p></th>
-     <th><p>From Object Storage</p></th>
-   </tr>
-   <tr>
-     <td><p>JSON</p></td>
-     <td><p>1 GB</p></td>
-     <td><p>Free: 1 GB</p><p>Serverless &amp; Dedicated: The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files.</p></td>
-   </tr>
-   <tr>
-     <td><p>Parquet</p></td>
-     <td><p>1 GB</p></td>
-     <td><p>Free: 1 GB</p><p>Serverless &amp; Dedicated: The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files.</p></td>
-   </tr>
-   <tr>
-     <td><p>Numpy</p></td>
-     <td><p>Not support</p></td>
-     <td><p>Free: 1 GB</p><p>Serverless &amp; Dedicated: The maximum total import size is 1 TB and the maximum size of each subdirectory is 10 GB with up to 1,000 subdirectories.</p></td>
-   </tr>
-</table>
-
-</include>
 
 For details, refer to [Storage Options](./data-import-storage-options) and [Format Options](./data-import-format-options).
 
