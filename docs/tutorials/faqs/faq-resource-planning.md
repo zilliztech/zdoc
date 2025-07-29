@@ -80,7 +80,7 @@ These estimates are based on vectors with primary keys only. Additional scalar f
 
 Select the Performance-optimized CU if you instant search results and high concurrent traffic for real-time applications.
 Choose the Capacity-optimized CU if you need to handle large vector datasets while maintaining reliable search speeds.
-Opt for the Extended-capacity CU if you need to manage massive-scale datasets where optimizing total cost is prioritized over latency.
+Opt for the Extended-capacity CU if you need to manage massive-scale datasets where optimizing total cost is prioritized over latency. To select an extended-capacity CU, your cluster must have at least 4 CUs.
 
 ### What's the difference between Performance-optimized CU and Capacity-optimized CU?{#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu}
 

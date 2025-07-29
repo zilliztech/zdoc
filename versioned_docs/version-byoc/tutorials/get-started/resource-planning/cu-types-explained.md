@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cu
   - select
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 
@@ -76,12 +76,6 @@ The following table offers a quick comparison of the three CU types in different
 - Crafted for handling vast datasets, boasting five times the data capacity of its Performance-optimized counterpart, albeit with subdued search performance.
 
 - Ideal for large-scale unstructured data search, copyright detection, and identity verification.
-
-### Extended-capacity CU{#extended-capacity-cu}
-
-- Best for scenarios with extensive datasets where cost-efficiency is prioritized over latency.
-
-- Ideal for applications that need to store massive volumes of data at a low cost. The capacity of an extended-capacity CU is 4 times that of a capacity-optimized CU.
 
 ## Select an optimal CU type{#select-an-optimal-cu-type}
 

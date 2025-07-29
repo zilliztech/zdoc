@@ -103,7 +103,7 @@ You can identify the problem by following these steps:
        </tr>
     </table>
 
-1. Test the connectivity of the port by running **telnet in01-(uuid).(region).vectordb.zillizcloud.com *port-number*.
+1. Test the connectivity of the port by running `telnet in01-(uuid).(region).vectordb.zillizcloud.com port-number`.
 
 If the issue persists after all above steps are tried, please[ submit a request](https://support.zilliz.com/hc/en-us).
 
