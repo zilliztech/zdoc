@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - milvus
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 
@@ -30,9 +30,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud simplifies deployment and maintenance by offering managed Milvus services, enabling easy migration of your existing Milvus deployments to the cloud. By connecting to your Milvus instance or uploading backups, you can transfer your vector data to Zilliz Cloud.
 
-Zilliz Cloud provides two primary methods for migrating your data from Milvus:
-
-- [Via endpoint](./via-endpoint): allows you to migrate one database at a time from Milvus to Zilliz Cloud. Each database is migrated individually in sequence, making it ideal for scenarios where you need to carefully manage each database's migration process.
+Zilliz Cloud provides the following methods for migrating your data from Milvus:
 
 
 

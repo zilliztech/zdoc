@@ -15,10 +15,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 
@@ -30,8 +30,6 @@ import Supademo from '@site/src/components/Supademo';
 # Offline Migration
 
 Offline Migration transfers all existing data from a source Zilliz Cloud cluster to a target Zilliz Cloud cluster. This method supports migrations both within the same organization and across different organizations. It is ideal for scenarios where temporary write interruptions are acceptable, such as during planned maintenance or smaller-scale database transitions.
-
-For migrations that require uninterrupted write operations, refer to [Zero Downtime Migration](./zero-downtime-migration).
 
 ## Migration capabilities{#migration-capabilities}
 
