@@ -7,7 +7,7 @@ notebook: FALSE
 description: "A privilege refers to the permission of specific operations on certain Zilliz Cloud resources such as clusters, databases, and collections. Privileges are assigned to roles, which are then granted to users, defining the operations users can perform on the resources. An example of a privilege could be the permission to insert data into a collection named `collection01`. | BYOC"
 type: origin
 token: NitBwKVzzi0hXBkjdDFcfwRsngb
-sidebar_position: 6
+sidebar_position: 0
 keywords: 
   - zilliz
   - vector database
@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 
@@ -43,7 +43,7 @@ This topic details the built-in privilege groups and privileges that are availab
 
 ### Built-in privilege groups{#built-in-privilege-groups}
 
-Zilliz Cloud offers a total of 9 built-in privilege groups on the collection, database, and cluster level that you can directly grant when [creating roles](./cluster-roles). 
+Zilliz Cloud offers a total of 9 built-in privilege groups on the collection, database, and cluster level that you can directly grant when [creating roles](null). 
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -88,7 +88,7 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
    <tr>
      <td><p>GetFlushState</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
      <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
@@ -136,8 +136,8 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
    <tr>
      <td><p>GetStatistics</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
@@ -166,7 +166,7 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
    <tr>
      <td><p>Load</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
@@ -209,7 +209,7 @@ The table below lists the specific privileges included in the three built-in pri
    <tr>
      <td><p>Compaction</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
@@ -221,13 +221,13 @@ The table below lists the specific privileges included in the three built-in pri
    <tr>
      <td><p>CreateAlias</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>DropAlias</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
 </table>
@@ -263,21 +263,21 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
    <tr>
      <td><p>CreateCollection</p></td>
-     <td><p>✔️</p></td>
      <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>DropCollection</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>AlterDatabase</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
 </table>
 
@@ -307,7 +307,7 @@ The table below lists the specific privileges included in the three built-in pri
    <tr>
      <td><p>RenameCollection</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
@@ -330,8 +330,8 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
    <tr>
      <td><p>SelectOwnership</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
@@ -342,105 +342,105 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
    <tr>
      <td><p>SelectUser</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>BackupRBAC</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>RestoreRBAC</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>CreateResourceGroup</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>DropResourceGroup</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>UpdateResourceGroups</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>DescribeResourceGroup</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>ListResourceGroups</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>TransferNode</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>TransferReplica</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>CreateDatabase</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>DropDatabase</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>FlushAll</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>CreatePrivilegeGroup</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>DropPrivilegeGroup</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>ListPrivilegeGroups</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>OperatePrivilegeGroup</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
 </table>
 
@@ -591,7 +591,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Once the privileges are added to a privilege group, you can grant the privilege group to a role. For details, refer to [Manage Cluster Roles (SDK)](./cluster-roles-sdk#grant-a-privilege-or-a-privilege-group-to-a-role).
+Once the privileges are added to a privilege group, you can grant the privilege group to a role. For details, refer to Manage Cluster Roles (SDK).
 
 #### Remove privileges from a custom privilege group{#remove-privileges-from-a-custom-privilege-group}
 
