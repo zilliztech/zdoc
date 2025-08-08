@@ -34,7 +34,7 @@ class refGen {
         const sidebar_position = idx; idx++;
 
         const page_title = lang === "zh-CN" ? specification["x-i18n"][lang].summary : specification.summary
-        const page_excerpt = this.__filter_content(lang === "zh-CN" ? specification["x-i18n"][lang].description : specification.description, target)
+        const page_excerpt = this.__filter_content(lang === "zh-CN" ? specification["x-i18n"][lang].description : specification.description, target).split('<')[0]
         var page_parent = parents.filter(x => x === specification.tags[0])[0].replace("&", "and").split(' ').join('-').replace(/\(|\)|,/g, '').toLowerCase()
         if (target === 'milvus') {
           const descriptions = JSON.parse(fs.readFileSync('plugins/apifox-docs/meta/descriptions.json', 'utf-8'))

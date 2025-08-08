@@ -506,7 +506,7 @@ export default function RestSpecs(props) {
             <div>
                 <div style={{ display: 'grid', gap: '2rem', gridTemplateColumns: '60% 40%' }}>
                     <div>
-                        <div dangerouslySetInnerHTML={{__html: short}} />
+                        <div style={{ marginBottom: '1rem' }} dangerouslySetInnerHTML={{__html: short}} />
                         <RestHeader 
                             method={props.method}
                             endpoint={props.endpoint}
