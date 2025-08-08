@@ -2829,7 +2829,7 @@
 			"post": {
 				"summary": "Merge Data",
 				"deprecated": false,
-				"description": "You can use this interface to add fields with or without data to an existing collection. If you choose to add fields with data, you need to upload the data file to an AWS S3 bucket or a Zilliz Cloud Stage and ensure that the data share the same merge key as the source collection. The merged data will be stored in a new collection that you specify. If you choose to add without data, the new fields will be created with default values. You need to be a project admin or above to perform this operation.\nFor details, refer to [Merge Data](/docs/merge-data).",
+				"description": "You can use this interface to add fields with or without data to an existing collection.\n- If you choose to add fields with data, you need to upload the data file to an AWS S3 bucket or a Zilliz Cloud Stage and ensure that the data share the same merge key as the source collection. The merged data will be stored in a new collection that you specify.\n- If you choose to add without data, the new fields will be created with default values. You need to be a project admin or above to perform this operation.\nFor details, refer to [Merge Data](/docs/merge-data).",
 				"x-i18n": {
 					"zh-CN": {
 						"summary": "合并数据",
