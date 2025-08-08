@@ -2829,11 +2829,11 @@
 			"post": {
 				"summary": "Merge Data",
 				"deprecated": false,
-				"description": "You can use this interface to add fields with or without data to an existing collection.\n- If you choose to add fields with data, you need to upload the data file to an AWS S3 bucket or a Zilliz Cloud Stage and ensure that the data share the same merge key as the source collection. The merged data will be stored in a new collection that you specify.\n- If you choose to add without data, the new fields will be created with default values. You need to be a project admin or above to perform this operation. \nFor details, refer to [Merge Data](/docs/merge-data).",
+				"description": "You can use this interface to add fields with or without data to an existing collection.<div style=\"padding: 8px;\"><ul style=\"margin-bottom: 0px;\"><li>If you choose to add fields with data, you need to upload the data file to an AWS S3 bucket or a Zilliz Cloud Stage and ensure that the data share the same merge key as the source collection. The merged data will be stored in a new collection that you specify.</li><li>If you choose to add without data, the new fields will be created with default values.</li></ul></div>You need to be a project admin or above to perform this operation. For details, refer to <a href=\"/docs/merge-data\">Merge Data</a>.<br/>",
 				"x-i18n": {
 					"zh-CN": {
 						"summary": "合并数据",
-						"description": "您可以使用此接口在指定 Collection 中新增字段并填充数据。\n- 如果您选择创建字段并填充数据，需要将数据文件上传到阿里云 OSS 存储桶或 Zilliz Cloud Stage，并确保数据与源 Collection 的合并键相同。合并后的数据将存储在您指定的新 Collection 中。\n- 如果您选择不填充数据，则会创建新的字段并填充默认值。您需要是项目管理员或以上权限才能执行此操作。 \n更多详情，可以参考 [合并数据](/docs/merge-data)。"
+						"description": "您可以使用此接口在指定 Collection 中新增字段并填充数据。<div style=\"padding: 8px;\"><ul style=\"margin-bottom: 0px;\"><li>如果您选择创建字段的同时填充数据，需要将数据文件上传到阿里云 OSS 存储桶或 Zilliz Cloud Stage，并确保数据与源 Collection 的合并键相同。合并后的数据将存储在您指定的新 Collection 中。</li><li>如果您选择仅创建字段但不填充数据，则会创建新的字段并填充默认值。</li></ul></div>您需要是项目管理员或以上权限才能执行此操作。更多详情，可以参考<a href=\"/docs/merge-data\">合并数据</a>。<br/>"
 					}
 				},
 				"tags": [
