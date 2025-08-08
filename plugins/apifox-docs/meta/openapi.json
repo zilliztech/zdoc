@@ -38180,7 +38180,7 @@
 												}
 											},
 											"required": [
-												"metricName"
+												"name"
 											],
 											"description": "A **MetricQuery** object.",
 											"x-i18n": {
