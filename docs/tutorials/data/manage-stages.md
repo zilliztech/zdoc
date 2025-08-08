@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - stage
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 
@@ -27,6 +27,26 @@ import TabItem from '@theme/TabItem';
 # Manage Stages
 
 A stage is an intermediate storage spot where you can hold your data for further processing, such as data merging, migration, or importing. This page explains what a stage is on Zilliz Cloud and how you can use it when managing your data there.
+
+## Overview{#overview}
+
+When using a Zilliz Cloud stage, you upload data from an applicable external source, such as local files and third-party object storage to create files in the stage for further processing. The following diagram shows the major application scenarios of Zilliz Cloud stages.
+
+![UZ2YwYMuHhDkk4bEoOHctyWFnrO](/img/UZ2YwYMuHhDkk4bEoOHctyWFnrO.png)
+
+You can use stages in data import, data migration, and data merging, all of which need to fetch data from external sources but use the fetched data in different ways. 
+
+- **Data import**
+
+    During data import, you can upload prepared datasets into a stage and import them from the stage into a Zilliz Cloud collection. For details, refer to Import Data (RESTful API) and Import Data (SDK).
+
+- **Data merging**
+
+    You can merge data from an existing Zilliz Cloud collection and that from a local file uploaded to a stage to create a collection that combines the data from both sources. For details, refer to Merge Data.
+
+- **Data migration**
+
+    In data migration, you upload backup files of your Milvus instance into a stage and use the staged data to restore the Milvus instance as a Zilliz Cloud cluster. For details, refer to Migrate from Milvus to Zilliz Cloud Via Stage.
 
 ## Create, list, and delete stages{#create-list-and-delete-stages}
 
