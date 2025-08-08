@@ -37912,7 +37912,7 @@
 										"items": {
 											"type": "object",
 											"properties": {
-												"metricName": {
+												"name": {
 													"type": "string",
 													"description": "Name of a metric. <br/>For possible values, refer to the enumerations. <br/>For details on these metrics, refer to [Metrics & Alerts Reference](/docs/metrics-alerts-reference).",
 													"x-i18n": {
