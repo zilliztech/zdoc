@@ -3224,7 +3224,7 @@
 							"examples": {
 								"1": {
 									"summary": "use stage",
-									"x-target-request": "OPTION 2",
+									"x-target-request": "OPTION 1",
 									"value": {
 										"clusterId": "in00-xxxxxxxxxxxxxxx",
 										"dbName": "my_database",
@@ -3249,9 +3249,9 @@
 									}
 								},
 								"2": {
-									"summary": "use external storage",
+									"summary": "use object storage",
 									"x-target-lang": "en-US",
-									"x-target-request": "OPTION 1",
+									"x-target-request": "OPTION 2",
 									"value": {
 										"clusterId": "in00-xxxxxxxxxxxxxxx",
 										"dbName": "my_database",
@@ -3279,9 +3279,9 @@
 									}
 								},
 								"3": {
-									"summary": "use external storage",
+									"summary": "use object storage",
 									"x-target-lang": "zh-CN",
-									"x-target-request": "OPTION 1",
+									"x-target-request": "OPTION 2",
 									"value": {
 										"clusterId": "in00-xxxxxxxxxxxxxxx",
 										"dbName": "my_database",
