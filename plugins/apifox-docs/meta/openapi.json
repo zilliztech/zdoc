@@ -38222,7 +38222,7 @@
 								"granularity": "PT6H",
 								"metricQueries": [
 									{
-										"metricName": "CU_COMPUTATION"
+										"name": "CU_COMPUTATION"
 									}
 								]
 							}
