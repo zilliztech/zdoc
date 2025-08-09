@@ -469,7 +469,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Index values inside the JSON field{#index-values-inside-the-json-field}
+## Index values inside the JSON field | PUBLIC{#index-values-inside-the-json-field}
 
 To accelerate scalar filtering on JSON fields, Zilliz Cloud supports indexing JSON fields using **JSON path indexing**. This allows you to filter by keys or nested values inside a JSON object without scanning the entire field.
 
