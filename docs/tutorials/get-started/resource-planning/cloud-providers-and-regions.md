@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Zilliz Cloud is a cloud-based service that offers vector database clusters on public clouds. With our service, you can easily create and manage your own vector database clusters on the public cloud platform of your choice. | Cloud"
 type: origin
 token: CPLrwghdWiSvGBkdeEecGjgLnSb
-sidebar_position: 5
+sidebar_position: 0
 keywords: 
   - zilliz
   - vector database
   - cloud
   - providers
   - regions
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 
@@ -84,6 +84,14 @@ Zilliz Cloud supports deploying dedicated clusters on AWS.
      <td><p>Yes</p></td>
    </tr>
    <tr>
+     <td><p>ap-northeast-1</p></td>
+     <td><p>Tokyo, Japan</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
+   </tr>
+   <tr>
      <td><p>ap-southeast-1</p></td>
      <td><p>Singapore</p></td>
      <td><p>No</p></td>
@@ -92,8 +100,8 @@ Zilliz Cloud supports deploying dedicated clusters on AWS.
      <td><p>Yes</p></td>
    </tr>
    <tr>
-     <td><p>ap-northeast-1</p></td>
-     <td><p>Tokyo, Japan</p></td>
+     <td><p>ap-southeast-2</p></td>
+     <td><p>Sydney, Australia</p></td>
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>
@@ -101,7 +109,7 @@ Zilliz Cloud supports deploying dedicated clusters on AWS.
    </tr>
 </table>
 
-For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
+For more information on cluster types, see Select Cluster Plans.
 
 ## GCP{#gcp}
 
@@ -158,7 +166,7 @@ Free, serverless, and dedicated clusters can be deployed on GCP.
    </tr>
 </table>
 
-For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
+For more information on cluster types, see Select Cluster Plans.
 
 ## Microsoft Azure{#microsoft-azure}
 
@@ -215,11 +223,11 @@ Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
    </tr>
 </table>
 
-For more information on cluster plans, see [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
+For more information on cluster plans, see Select the Right Cluster Plan.
 
 ## Related topics{#related-topics}
 
-- [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans)
+- Select the Right Cluster Plan
 
-- [Select the Right CU](./cu-types-explained)
+- Select the Right CU
 
