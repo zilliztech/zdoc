@@ -793,7 +793,7 @@ class larkDocWriter {
         const KNOWN_HTML_TAGS = new Set(['p', 'strong', 'ul', 'li', 'table', 'tr', 'td', 'th', 'a', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'em', 'i', 'b', 'br', 'hr']);
 
         // Get ranges for valid html/mdx tags.
-        const valid_tag_regex = /<\/?([a-zA-Z0-9-\:\s]+)\b[^>]*>/g;
+        const valid_tag_regex = /<\/?([a-zA-Z0-9\-:]+)(?:\s+[^>]*)?>/g;
         while (match = valid_tag_regex.exec(content)) {
             const tagName = match[1];
             if (
