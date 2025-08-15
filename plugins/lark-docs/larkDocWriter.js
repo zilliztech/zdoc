@@ -789,19 +789,52 @@ class larkDocWriter {
         } else {
             return content;
         }
-    
+
         const KNOWN_HTML_TAGS = new Set(['p', 'strong', 'ul', 'li', 'table', 'tr', 'td', 'th', 'a', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'em', 'i', 'b', 'br', 'hr']);
 
-        // Get ranges for valid html/mdx tags.
-        const valid_tag_regex = /<\/?([a-zA-Z0-9\-:]+)(?:\s+[^>]*)?>/g;
-        while (match = valid_tag_regex.exec(content)) {
-            const tagName = match[1];
+        // Find all tag-like elements and pair them, escape unpaired ones
+        const tag_like_regex = /<\/?([a-zA-Z0-9\-:]+)(?:\s+[^>]*)?>/g;
+        let tag_matches = [];
+        let tag_stack = [];
+        let unpaired_tags = new Set();
+
+        while ((match = tag_like_regex.exec(content)) !== null) {
+            tag_matches.push({ index: match.index, tag: match[1], isClosing: match[0][1] === '/', length: match[0].length });
+        }
+
+        // Pair tags using a stack
+        for (let i = 0; i < tag_matches.length; i++) {
+            const { tag, isClosing, index } = tag_matches[i];
+            if (!isClosing) {
+                tag_stack.push({ tag, index, i });
+            } else {
+                // Find last matching opening tag
+                let found = false;
+                for (let j = tag_stack.length - 1; j >= 0; j--) {
+                    if (tag_stack[j].tag === tag) {
+                        tag_stack.splice(j, 1);
+                        found = true;
+                        break;
+                    }
+                }
+                if (!found) {
+                    unpaired_tags.add(i); // closing tag without opening
+                }
+            }
+        }
+        // Any tags left in stack are unpaired opening tags
+        tag_stack.forEach(openTag => unpaired_tags.add(openTag.i));
+
+        // Get ranges for valid html/mdx tags (paired only)
+        for (let i = 0; i < tag_matches.length; i++) {
+            const { tag, index, length } = tag_matches[i];
             if (
-                KNOWN_HTML_TAGS.has(tagName.toLowerCase()) ||
-                (tagName.match(/^[A-Z]/) && /[a-z]/.test(tagName)) ||
-                tagName.includes('-')
+                !unpaired_tags.has(i) &&
+                (KNOWN_HTML_TAGS.has(tag.toLowerCase()) ||
+                (tag.match(/^[A-Z]/) && /[a-z]/.test(tag)) ||
+                tag.includes('-'))
             ) {
-                ranges.push({ start: match.index, end: match.index + match[0].length });
+                ranges.push({ start: index, end: index + length });
             }
         }
     
