@@ -790,7 +790,7 @@ class larkDocWriter {
             return content;
         }
 
-        const KNOWN_HTML_TAGS = new Set(['p', 'strong', 'ul', 'li', 'table', 'tr', 'td', 'th', 'a', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'em', 'i', 'b', 'br', 'hr']);
+        const KNOWN_HTML_TAGS = new Set(['p', 'strong', 'ul', 'li', 'table', 'tr', 'td', 'th', 'a', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'em', 'i', 'b', 'br', 'hr', 'code']);
 
         // Find all tag-like elements and pair them, escape unpaired ones
         const tag_like_regex = /<\/?([a-zA-Z0-9\-:]+)(?:\s+[^>]*)?>/g;
@@ -864,10 +864,16 @@ class larkDocWriter {
                         result += '&gt;';
                         break;
                     case '{':
-                        result += '{\'{\'}';
+                        result += '&#123;';
+                        break;
+                    case '}':
+                        result += '&#125;';
+                        break;
+                    case ']':
+                        result += '&#93;';
                         break;
                     case '[':
-                        result += '\\[';
+                        result += '&#91;';
                         break;
                     default:
                         result += content[i];
