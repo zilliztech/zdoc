@@ -778,7 +778,8 @@ class larkDocWriter {
 
     __mdx_patches(content) {
         const ranges = [];
-        
+        let match;
+    
         // Get ranges for code blocks
         const code_marks = [...content.matchAll(/`+/g)];
         if (code_marks.length % 2 === 0) {
@@ -788,24 +789,34 @@ class larkDocWriter {
         } else {
             return content;
         }
-        
+    
         const KNOWN_HTML_TAGS = new Set(['p', 'strong', 'ul', 'li', 'table', 'tr', 'td', 'th', 'a', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'em', 'i', 'b', 'br', 'hr']);
 
-        // Get ranges for valid html/mdx tags and expressions
-        const valid_tag_regex = /<\/?([a-zA-Z0-9-]+)\b[^>]*>/g;
-        let match;
+        // Get ranges for valid html/mdx tags.
+        const valid_tag_regex = /<\/?([a-zA-Z0-9-\:\s]+)\b[^>]*>/g;
         while (match = valid_tag_regex.exec(content)) {
             const tagName = match[1];
-            if (KNOWN_HTML_TAGS.has(tagName.toLowerCase()) || tagName.match(/^[A-Z]/)) {
+            if (
+                KNOWN_HTML_TAGS.has(tagName.toLowerCase()) ||
+                (tagName.match(/^[A-Z]/) && /[a-z]/.test(tagName)) ||
+                tagName.includes('-')
+            ) {
                 ranges.push({ start: match.index, end: match.index + match[0].length });
             }
         }
-
+    
+        // Get ranges for MDX expressions
         const mdx_expr_regex = /\{[^}]+\}/g;
         while (match = mdx_expr_regex.exec(content)) {
             ranges.push({ start: match.index, end: match.index + match[0].length });
         }
-        
+
+        // Get ranges for markdown links and images
+        const markdown_link_image_regex = /!?\[[^\]]*\]\([^)]+\)/g;
+        while (match = markdown_link_image_regex.exec(content)) {
+            ranges.push({ start: match.index, end: match.index + match[0].length });
+        }
+    
         let result = "";
         for (let i = 0; i < content.length; i++) {
             const in_range = ranges.some(r => i >= r.start && i < r.end);
@@ -823,7 +834,7 @@ class larkDocWriter {
                         result += '{\'{\'}';
                         break;
                     case '[':
-                        result += '['; // Not escaping for now
+                        result += '\\[';
                         break;
                     default:
                         result += content[i];
@@ -831,7 +842,7 @@ class larkDocWriter {
                 }
             }
         }
-        
+    
         return result;
     }
 
