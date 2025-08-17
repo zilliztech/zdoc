@@ -812,20 +812,21 @@ class larkDocWriter {
             if (!isComponent && !isKnownHtml) return;
     
             if (tagInfo.isSelfClosing) {
-                validTagIndices.add(i);
+                ranges.push({ start: tagInfo.start, end: tagInfo.end });
             } else if (tagInfo.isClosing) {
-                // Find matching opening tag from the end of the stack
-                for (let j = tagStack.length - 1; j >= 0; j--) {
-                    if (tagStack[j].tag === tagInfo.tag) {
-                        const openingTag = tagStack.splice(j, 1)[0];
+                // Find matching opening tag from the top of the stack
+                if (tagStack.length > 0 && tagStack[tagStack.length - 1].tag === tagInfo.tag) {
+                    const openingTag = tagStack.pop();
+                    const openingTagInfo = allTags[openingTag.originalIndex];
+                    if (isComponent) {
+                        ranges.push({ start: openingTagInfo.start, end: tagInfo.end });
+                    } else {
                         validTagIndices.add(openingTag.originalIndex);
                         validTagIndices.add(i);
                         // If it's a code tag, add its content to preserved ranges
                         if (tagInfo.tag.toLowerCase() === 'code') {
-                            const openingTagInfo = allTags[openingTag.originalIndex];
                             ranges.push({ start: openingTagInfo.end, end: tagInfo.start });
                         }
-                        break;
                     }
                 }
             } else { // Is an opening tag
@@ -837,6 +838,12 @@ class larkDocWriter {
             if (validTagIndices.has(i)) {
                 ranges.push({ start: tagInfo.start, end: tagInfo.end });
             }
+        });
+
+        // Add any remaining opening tags from the stack to ranges to prevent escaping
+        tagStack.forEach(openingTag => {
+            const tagInfo = allTags[openingTag.originalIndex];
+            ranges.push({ start: tagInfo.start, end: tagInfo.end });
         });
     
         // C. MDX expressions {...} with balanced braces
