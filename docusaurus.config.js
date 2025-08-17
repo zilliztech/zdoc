@@ -385,7 +385,7 @@ const config = {
       docsRouteBasePath: 'docs',
       highlightSearchTermsOnTargetPage: true,
     }],
-    'docusaurus-theme-frontmatter',
+    
     '@inkeep/docusaurus/chatButton'
   ],
   headTags: [

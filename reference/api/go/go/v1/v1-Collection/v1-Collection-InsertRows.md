@@ -49,7 +49,7 @@ func (c *GrpcClient) InsertRows(ctx context.Context, collName string, partitionN
    <tr>
      <td><p><code>rows</code></p></td>
      <td><p>Data to insert into the specified collection.</p><p>You should include the data for all the fields defined in the collection schema.</p></td>
-     <td><p><code>[]interface\{}</code></p></td>
+     <td><p><code>[]interface{}</code></p></td>
    </tr>
 </table>
 

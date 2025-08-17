@@ -152,7 +152,7 @@ This interface type defines a set of method signatures as follows.
    </tr>
    <tr>
      <td><p><code>Params()</code></p></td>
-     <td><p><code>map[string]interface\{}</code></p></td>
+     <td><p><code>map[string]interface{}</code></p></td>
      <td><p>Return the specified search settings.</p></td>
    </tr>
    <tr>
