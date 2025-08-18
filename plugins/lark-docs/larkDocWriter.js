@@ -780,108 +780,104 @@ class larkDocWriter {
         const ranges = [];
         let match;
     
-        // --- 1. Collect all ranges that should be preserved ---
-    
-        // A. Code blocks (fenced and inline)
-        const codeRegex = /(```[\s\S]*?```)|(`[^`\n]*?`)/g;
-        while ((match = codeRegex.exec(content))) {
-            ranges.push({ start: match.index, end: match.index + match[0].length });
-        }
-    
-        // B. HTML/MDX tags
-        const KNOWN_HTML_TAGS = new Set(['p', 'strong', 'ul', 'li', 'table', 'tr', 'td', 'th', 'a', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'em', 'i', 'b', 'br', 'hr', 'code', 'img', 'input']);
-        const tagRegex = /<(\/)?([a-zA-Z0-9\.:-]+)([^>]*?)(\/?)>/g;
-        const allTags = [];
-        while ((match = tagRegex.exec(content))) {
-            if (ranges.some(r => match.index >= r.start && match.index < r.end)) continue;
-            allTags.push({
-                tag: match[2],
-                isClosing: !!match[1],
-                isSelfClosing: !!match[4] || (match[3] && match[3].trim().endsWith('/')),
-                start: match.index,
-                end: match.index + match[0].length,
-            });
-        }
-    
-        const tagStack = [];
-        const validTagIndices = new Set();
-        allTags.forEach((tagInfo, i) => {
-            const isComponent = /^[A-Z]/.test(tagInfo.tag) || tagInfo.tag.includes('-');
-            const isKnownHtml = KNOWN_HTML_TAGS.has(tagInfo.tag.toLowerCase());
-    
-            if (!isComponent && !isKnownHtml) return;
-    
-            if (tagInfo.isSelfClosing) {
-                ranges.push({ start: tagInfo.start, end: tagInfo.end });
-            } else if (tagInfo.isClosing) {
-                // Find matching opening tag from the top of the stack
-                if (tagStack.length > 0 && tagStack[tagStack.length - 1].tag === tagInfo.tag) {
-                    const openingTag = tagStack.pop();
-                    const openingTagInfo = allTags[openingTag.originalIndex];
-                    if (isComponent) {
-                        ranges.push({ start: openingTagInfo.start, end: tagInfo.end });
-                    } else {
-                        validTagIndices.add(openingTag.originalIndex);
-                        validTagIndices.add(i);
-                        // If it's a code tag, add its content to preserved ranges
-                        if (tagInfo.tag.toLowerCase() === 'code') {
-                            ranges.push({ start: openingTagInfo.end, end: tagInfo.start });
-                        }
-                    }
-                }
-            } else { // Is an opening tag
-                tagStack.push({ tag: tagInfo.tag, originalIndex: i });
+        // Get ranges for code blocks
+        const code_marks = [...content.matchAll(/`+/g)];
+        if (code_marks.length % 2 === 0) {
+            for (let i = 0; i < code_marks.length; i += 2) {
+                ranges.push({ start: code_marks[i].index, end: code_marks[i+1].index + code_marks[i+1][0].length });
             }
-        });
-    
-        allTags.forEach((tagInfo, i) => {
-            if (validTagIndices.has(i)) {
-                ranges.push({ start: tagInfo.start, end: tagInfo.end });
-            }
-        });
+        } else {
+            return content;
+        }
 
-        // Add any remaining opening tags from the stack to ranges to prevent escaping
-        tagStack.forEach(openingTag => {
-            const tagInfo = allTags[openingTag.originalIndex];
-            ranges.push({ start: tagInfo.start, end: tagInfo.end });
-        });
-    
-        // C. MDX expressions {...} with balanced braces
-        for (let i = 0; i < content.length; i++) {
-            if (content[i] === '{' && !ranges.some(r => i >= r.start && i < r.end)) {
-                let balance = 1;
-                for (let j = i + 1; j < content.length; j++) {
-                    if (content[j] === '{') balance++;
-                    else if (content[j] === '}') balance--;
-                    if (balance === 0) {
-                        ranges.push({ start: i, end: j + 1 });
-                        i = j;
+        const KNOWN_HTML_TAGS = new Set(['p', 'strong', 'ul', 'li', 'table', 'tr', 'td', 'th', 'a', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'em', 'i', 'b', 'br', 'hr', 'code']);
+
+        // Find all tag-like elements and pair them, escape unpaired ones
+        const tag_like_regex = /<\/?([a-zA-Z0-9\-:]+)(?:\s+[^>]*)?>/g;
+        let tag_matches = [];
+        let tag_stack = [];
+        let unpaired_tags = new Set();
+
+        while ((match = tag_like_regex.exec(content)) !== null) {
+            tag_matches.push({ index: match.index, tag: match[1], isClosing: match[0][1] === '/', length: match[0].length });
+        }
+
+        // Pair tags using a stack
+        for (let i = 0; i < tag_matches.length; i++) {
+            const { tag, isClosing, index } = tag_matches[i];
+            if (!isClosing) {
+                tag_stack.push({ tag, index, i });
+            } else {
+                // Find last matching opening tag
+                let found = false;
+                for (let j = tag_stack.length - 1; j >= 0; j--) {
+                    if (tag_stack[j].tag === tag) {
+                        tag_stack.splice(j, 1);
+                        found = true;
                         break;
                     }
                 }
+                if (!found) {
+                    unpaired_tags.add(i); // closing tag without opening
+                }
+            }
+        }
+        // Any tags left in stack are unpaired opening tags
+        tag_stack.forEach(openTag => unpaired_tags.add(openTag.i));
+
+        // Get ranges for valid html/mdx tags (paired only)
+        for (let i = 0; i < tag_matches.length; i++) {
+            const { tag, index, length } = tag_matches[i];
+            if (
+                !unpaired_tags.has(i) &&
+                (KNOWN_HTML_TAGS.has(tag.toLowerCase()) ||
+                (tag.match(/^[A-Z]/) && /[a-z]/.test(tag)) ||
+                tag.includes('-'))
+            ) {
+                ranges.push({ start: index, end: index + length });
             }
         }
     
-        // D. Markdown links and images
-        const markdownLinkImageRegex = /!?\[[^]]*?\]\([^)]*?\)/g;
-        while ((match = markdownLinkImageRegex.exec(content))) {
-            if (!ranges.some(r => match.index >= r.start && match.index < r.end)) {
-                ranges.push({ start: match.index, end: match.index + match[0].length });
-            }
+        // Get ranges for MDX expressions
+        const mdx_expr_regex = /\{[^}]+\}/g;
+        while (match = mdx_expr_regex.exec(content)) {
+            ranges.push({ start: match.index, end: match.index + match[0].length });
+        }
+
+        // Get ranges for markdown links and images
+        const markdown_link_image_regex = /!?\[[^\]]*\]\([^)]+\)/g;
+        while (match = markdown_link_image_regex.exec(content)) {
+            ranges.push({ start: match.index, end: match.index + match[0].length });
         }
     
-        // --- 2. Rebuild content, escaping anything outside the preserved ranges ---
         let result = "";
         for (let i = 0; i < content.length; i++) {
-            if (ranges.some(r => i >= r.start && i < r.end)) {
+            const in_range = ranges.some(r => i >= r.start && i < r.end);
+            if (in_range) {
                 result += content[i];
             } else {
                 switch (content[i]) {
-                    case '<': result += '&lt;'; break;
-                    case '>': result += '&gt;'; break;
-                    case '{': result += '&#123;'; break;
-                    case '}': result += '&#125;'; break;
-                    default: result += content[i]; break;
+                    case '<':
+                        result += '&lt;';
+                        break;
+                    case '>':
+                        result += '&gt;';
+                        break;
+                    case '{':
+                        result += '&#123;';
+                        break;
+                    case '}':
+                        result += '&#125;';
+                        break;
+                    case ']':
+                        result += '&#93;';
+                        break;
+                    case '[':
+                        result += '&#91;';
+                        break;
+                    default:
+                        result += content[i];
+                        break;
                 }
             }
         }
