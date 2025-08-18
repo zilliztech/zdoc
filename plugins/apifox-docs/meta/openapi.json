@@ -23059,7 +23059,7 @@
 																}
 															}
 														},
-														"cuType": {
+														"clusterType": {
 															"type": "string",
 															"description": "The type of CU associated with the cluster.",
 															"enum": [
