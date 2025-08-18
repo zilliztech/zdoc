@@ -23032,6 +23032,15 @@
 																}
 															}
 														},
+														"projectId": {
+															"type": "string",
+															"description": "The ID of the project where the cluster resides.",
+															"x-i18n": {
+																"zh-CN": {
+																	"description": "集群所在项目的 ID。"
+																}
+															}
+														},
 														"description": {
 															"type": "string",
 															"description": "An optional description of the cluster.",
@@ -23050,7 +23059,7 @@
 																}
 															}
 														},
-														"clusterType": {
+														"cuType": {
 															"type": "string",
 															"description": "The type of CU associated with the cluster.",
 															"enum": [
@@ -23080,15 +23089,6 @@
 																		"Enterprise",
 																		"Serverless"
 																	]
-																}
-															}
-														},
-														"cuSize": {
-															"type": "integer",
-															"description": "The size of the CU used by the cluster.",
-															"x-i18n": {
-																"zh-CN": {
-																	"description": "集群的 CU 大小。"
 																}
 															}
 														},
@@ -23140,6 +23140,24 @@
 																}
 															}
 														},
+														"replica": {
+															"type": "integer",
+															"description": "The number of replicas used by the cluster.",
+															"x-i18n": {
+																"zh-CN": {
+																	"description": "集群的副本数量。"
+																}
+															}
+														},
+														"cuSize": {
+															"type": "integer",
+															"description": "The size of the CU used by the cluster.",
+															"x-i18n": {
+																"zh-CN": {
+																	"description": "集群的 CU 大小。"
+																}
+															}
+														},
 														"storageSize": {
 															"type": "integer",
 															"description": "The storage size of the cluster.",
@@ -23169,15 +23187,6 @@
 															},
 															"minimum": 0,
 															"maximum": 100
-														},
-														"projectId": {
-															"type": "string",
-															"description": "The ID of the project where the cluster resides.",
-															"x-i18n": {
-																"zh-CN": {
-																	"description": "集群所在项目的 ID。"
-																}
-															}
 														}
 													},
 													"description": "Response payload, which details the cluster.",
