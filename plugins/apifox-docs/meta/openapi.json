@@ -24018,6 +24018,15 @@
 																}
 															}
 														},
+														"repica": {
+															"type": "string",
+															"description": "Number of replicas of the cluster.",
+															"x-i18n": {
+																"zh-CN": {
+																	"description": "当前集群的副本数量。"
+																}
+															}
+														},
 														"cuSize": {
 															"type": "integer",
 															"description": "CU size of the cluster. For free and serverless clusters, the value is always `0`.",
