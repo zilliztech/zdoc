@@ -793,18 +793,25 @@ class larkDocWriter {
         const KNOWN_HTML_TAGS = new Set(['p', 'strong', 'ul', 'li', 'table', 'tr', 'td', 'th', 'a', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'em', 'i', 'b', 'br', 'hr', 'code']);
 
         // Find all tag-like elements and pair them, escape unpaired ones
-        const tag_like_regex = /<\/?([a-zA-Z0-9\-:]+)(?:\s+[^>]*)?>/g;
+        // Modified regex to also match self-closing tags
+        const tag_like_regex = /<\/?([a-zA-Z0-9\-:]+)(?:\s+[^>]*)?\s*\/?>/g;
         let tag_matches = [];
         let tag_stack = [];
         let unpaired_tags = new Set();
 
         while ((match = tag_like_regex.exec(content)) !== null) {
-            tag_matches.push({ index: match.index, tag: match[1], isClosing: match[0][1] === '/', length: match[0].length });
+            // Check if self-closing tag
+            const isSelfClosing = match[0].endsWith('/>');
+            tag_matches.push({ index: match.index, tag: match[1], isClosing: match[0][1] === '/', isSelfClosing, length: match[0].length });
         }
 
         // Pair tags using a stack
         for (let i = 0; i < tag_matches.length; i++) {
-            const { tag, isClosing, index } = tag_matches[i];
+            const { tag, isClosing, isSelfClosing, index } = tag_matches[i];
+            if (isSelfClosing) {
+                // Self-closing tags are always paired
+                continue;
+            }
             if (!isClosing) {
                 tag_stack.push({ tag, index, i });
             } else {
@@ -822,14 +829,16 @@ class larkDocWriter {
                 }
             }
         }
+
         // Any tags left in stack are unpaired opening tags
         tag_stack.forEach(openTag => unpaired_tags.add(openTag.i));
 
-        // Get ranges for valid html/mdx tags (paired only)
+        // Get ranges for valid html/mdx tags (paired or self-closing only)
         for (let i = 0; i < tag_matches.length; i++) {
-            const { tag, index, length } = tag_matches[i];
+            const { tag, index, length, isSelfClosing } = tag_matches[i];
             if (
-                !unpaired_tags.has(i) &&
+                (isSelfClosing ||
+                !unpaired_tags.has(i)) &&
                 (KNOWN_HTML_TAGS.has(tag.toLowerCase()) ||
                 (tag.match(/^[A-Z]/) && /[a-z]/.test(tag)) ||
                 tag.includes('-'))
@@ -837,7 +846,7 @@ class larkDocWriter {
                 ranges.push({ start: index, end: index + length });
             }
         }
-    
+
         // Get ranges for MDX expressions
         const mdx_expr_regex = /\{[^}]+\}/g;
         while (match = mdx_expr_regex.exec(content)) {
@@ -849,11 +858,44 @@ class larkDocWriter {
         while (match = markdown_link_image_regex.exec(content)) {
             ranges.push({ start: match.index, end: match.index + match[0].length });
         }
-    
+
+        // Escape curly braces inside <code>...</code> tags
+        // Find all <code>...</code> blocks and escape { and } inside them
+        const code_tag_regex = /<code>([\s\S]*?)<\/code>/g;
+        let code_tag_matches = [];
+        while ((match = code_tag_regex.exec(content)) !== null) {
+            code_tag_matches.push({ start: match.index, end: match.index + match[0].length });
+        }
+        // Add code tag ranges to ranges so they are not double-escaped
+        code_tag_matches.forEach(r => ranges.push(r));
+
+        // Now, build the result string
         let result = "";
         for (let i = 0; i < content.length; i++) {
+            // Check if inside a <code>...</code> block
+            const in_code_tag = code_tag_matches.some(r => i >= r.start && i < r.end);
             const in_range = ranges.some(r => i >= r.start && i < r.end);
-            if (in_range) {
+
+            if (in_code_tag) {
+                // Escape curly braces and sqaure brackets only inside <code>...</code>
+                switch (content[i]) {
+                    case '{':
+                        result += '&#123;';
+                        break;
+                    case '}':
+                        result += '&#125;';
+                        break;
+                    case '[':
+                        result += '&#91;';
+                        break;
+                    case ']':
+                        result += '&#93;';
+                        break;
+                    default:
+                        result += content[i];
+                        break;
+                }
+            } else if (in_range) {
                 result += content[i];
             } else {
                 switch (content[i]) {
@@ -881,7 +923,7 @@ class larkDocWriter {
                 }
             }
         }
-    
+
         return result;
     }
 
