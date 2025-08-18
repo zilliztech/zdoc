@@ -23140,15 +23140,6 @@
 																}
 															}
 														},
-														"replica": {
-															"type": "integer",
-															"description": "The number of replicas used by the cluster.",
-															"x-i18n": {
-																"zh-CN": {
-																	"description": "集群的副本数量。"
-																}
-															}
-														},
 														"cuSize": {
 															"type": "integer",
 															"description": "The size of the CU used by the cluster.",
