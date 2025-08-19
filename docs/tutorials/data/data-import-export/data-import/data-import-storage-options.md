@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Before importing data, it's important to understand the supported cloud storage options and their corresponding URL formats. This ensures that your requests can be properly processed without undergoing validation errors. | Cloud"
 type: origin
 token: TjxAw7lx6iNluBkR4a6czoHpn0f
-sidebar_position: 1
+sidebar_position: 0
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 
@@ -40,15 +40,15 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, virtual-hosted–style</strong></p></td>
-         <td><p><em>https://\<bucket_name></em>.s3.<em>\<region-code></em>.amazonaws.com/<em>\<object_name></em></p></td>
+         <td><ul><li><p><strong>File</strong>: <i>http</i>s://&lt;bucket_name&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: <i>http</i>s://&lt;bucket_name&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, path-style</strong></p></td>
-         <td><p><em>https://</em>s3.<em>\<region-code></em>.amazonaws.co<em>m</em>/<em>\<bucket_name></em>/<em>\<object_name></em></p></td>
+         <td><ul><li><p><strong>File</strong>: <i>http</i>s://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: <i>http</i>s://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>AWS S3 URI</strong></p></td>
-         <td><p>s3://<em>\<bucket_name></em>/<em>\<object_name></em></p></td>
+         <td><ul><li><p><strong>File</strong>: s3://&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: s3://&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
     </table>
 
@@ -89,11 +89,11 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>GSC public URL</strong></p></td>
-         <td><p><em>https://</em>storage.cloud.google.co<em>m</em>/<em>\<bucket_name></em>/<em>\<object_name></em></p></td>
+         <td><ul><li><p><strong>File</strong>: <i>http</i>s://storage.cloud.google.com/&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: <i>http</i>s://storage.cloud.google.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>GSC gsutil URI</strong></p></td>
-         <td><p>gs://<em>\<bucket_name></em>/<em>\<object_name></em></p></td>
+         <td><ul><li><p><strong>File</strong>: gs://&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: gs://&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
        </tr>
     </table>
 
@@ -124,7 +124,7 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>Azure storage blob URI</strong></p></td>
-         <td><p><em>https://\<storage_account></em>.blob.core.windows.net/<em>\<container></em>/<em>\<blob></em></p></td>
+         <td><ul><li><p><strong>File</strong>: <i>http</i>s://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;blob&gt;</p></li><li><p><strong>Folder</strong>: <i>http</i>s://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;folder&gt;/</p></li></ul></td>
        </tr>
     </table>
 

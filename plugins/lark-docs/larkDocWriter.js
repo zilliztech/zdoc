@@ -580,6 +580,7 @@ class larkDocWriter {
         markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
         markdown = markdown.replace(/^[\||\s][\s|\||<br\/>]*\|\n/gm, '')
         markdown = markdown.replace(/\s*<tr>\n(\s*<td>(<br\/>)*<\/td>\n)*\s*<\/tr>/g, '')
+        markdown = this.__example_http_urls(markdown)
         markdown = this.__mdx_patches(markdown)
 
         const description = this.__extract_description(markdown)
@@ -774,6 +775,54 @@ class larkDocWriter {
             .replace(/(<br\/>){2,}/g, '<br>')
             .replace("<br\/></p>", "</p>")
             .replace(/\n\s*<tr>\n(\s*<td.*><p><\/p><\/td>\n)*\s*<\/tr>/g, '');
+    }
+
+    __example_http_urls(content) {
+        // Find all fenced code blocks and mark their ranges
+        const codeBlockRegex = /```[\s\S]*?```/g;
+        let codeBlocks = [];
+        let match;
+        while ((match = codeBlockRegex.exec(content)) !== null) {
+            codeBlocks.push({ start: match.index, end: match.index + match[0].length });
+        }
+
+        // Helper to check if a position is inside any code block
+        function isInCodeBlock(pos) {
+            return codeBlocks.some(block => pos >= block.start && pos < block.end);
+        }
+
+        // Match URLs, including those containing <, >, [, ], {, }
+        const urlRegex = /https?:\/\/[^\s'")]+/g;
+        let result = '';
+        let lastIndex = 0;
+
+        // Find all URLs and process those outside code blocks
+        while ((match = urlRegex.exec(content)) !== null) {
+            const urlStart = match.index;
+            const urlEnd = urlStart + match[0].length;
+
+            // Append content before the URL
+            result += content.slice(lastIndex, urlStart);
+
+            if (!isInCodeBlock(urlStart)) {
+                // If the url contains <, [, or {, treat it as an example and encode it
+                if (/[<\[\{]/.test(match[0])) {
+                    result += match[0].replace('http', '<i>http</i>')
+                } else {
+                    result += match[0];
+                }
+            } else {
+                // Inside code block, leave as is
+                result += match[0];
+            }
+
+            lastIndex = urlEnd;
+        }
+
+        // Append remaining content
+        result += content.slice(lastIndex);
+
+        return result;
     }
 
     __mdx_patches(content) {
