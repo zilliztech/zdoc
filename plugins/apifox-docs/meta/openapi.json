@@ -24018,7 +24018,7 @@
 																}
 															}
 														},
-														"repica": {
+														"replica": {
 															"type": "string",
 															"description": "Number of replicas of the cluster.",
 															"x-i18n": {
@@ -24137,6 +24137,7 @@
 												"connectAddress": "https://in01-108240180a4faf8.aws-us-west-2.vectordb-uat3.zillizcloud.com:19539",
 												"privateLinkAddress": "",
 												"createTime": "2024-06-30T16:34:09Z",
+												"replica": 1,
 												"cuSize": 2,
 												"storageSize": 0,
 												"snapshotNumber": 0,
@@ -24161,6 +24162,7 @@
 												"connectAddress": "https://in05-991240180a4faf8.gcp-us-west1.cloud.zilliz.com",
 												"privateLinkAddress": "",
 												"createTime": "2024-06-29T16:35:09Z",
+												"replica": 1,
 												"cuSize": 0,
 												"storageSize": 0,
 												"snapshotNumber": 0,
@@ -24185,6 +24187,7 @@
 												"connectAddress": "https://in03-112340180a4faf8.api.gcp-us-west1.zillizcloud.com",
 												"privateLinkAddress": "",
 												"createTime": "2024-06-24T12:35:09Z",
+												"replica": 1,
 												"cuSize": 0,
 												"storageSize": 0,
 												"snapshotNumber": 0,
