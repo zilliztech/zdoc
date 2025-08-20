@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

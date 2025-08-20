@@ -15,10 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

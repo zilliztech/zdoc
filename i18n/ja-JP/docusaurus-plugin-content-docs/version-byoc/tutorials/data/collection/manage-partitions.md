@@ -15,10 +15,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

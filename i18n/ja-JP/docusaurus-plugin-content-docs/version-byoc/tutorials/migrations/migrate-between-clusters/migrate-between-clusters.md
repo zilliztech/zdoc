@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

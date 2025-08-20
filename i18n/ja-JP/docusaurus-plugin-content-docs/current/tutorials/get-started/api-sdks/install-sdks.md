@@ -14,10 +14,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - pricing
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

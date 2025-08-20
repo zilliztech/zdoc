@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 
@@ -274,7 +274,7 @@ Zilliz Cloudnull値を含むJSONフィールドをフィルタリングするこ
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>JSONオブジェクト内のいくつかの要素がnullである場合（例えば、個別のキー）、そのフィールドはnullではないと見なされます。例えば、<code>\{"metadata":\{"category": None,"price": 99.99}}</code>は、<code>category</code>キーがnullであってもnullとして扱われません。</p>
+<p>JSONオブジェクト内のいくつかの要素がnullである場合（例えば、個別のキー）、そのフィールドはnullではないと見なされます。例えば、<code>\&#123;"metadata":\&#123;"category": None,"price": 99.99&#125;&#125;</code>は、<code>category</code>キーがnullであってもnullとして扱われません。</p>
 
 </Admonition>
 

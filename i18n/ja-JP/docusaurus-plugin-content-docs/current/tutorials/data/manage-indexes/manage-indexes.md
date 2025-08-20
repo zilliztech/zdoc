@@ -14,10 +14,10 @@ keywords:
   - cloud
   - index
   - manage
+  - Zilliz Cloud
   - what is milvus
   - milvus database
   - milvus lite
-  - milvus benchmark
 
 ---
 

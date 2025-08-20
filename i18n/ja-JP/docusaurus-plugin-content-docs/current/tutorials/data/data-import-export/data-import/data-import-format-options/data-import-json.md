@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - json
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 
@@ -166,7 +166,7 @@ Zilliz Cloudは、クラウドストレージからのデータインポート�
    </tr>
    <tr>
      <td><p><strong>Azure Bolb</strong></p></td>
-     <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/</code></p><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</code></p></td>
+     <td><p><code><i>http</i>s://myaccount.blob.core.windows.net/bucket-name/json-folder/</code></p><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</code></p></td>
    </tr>
 </table>
 

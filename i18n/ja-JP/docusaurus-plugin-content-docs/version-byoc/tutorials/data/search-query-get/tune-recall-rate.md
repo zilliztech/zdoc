@@ -18,10 +18,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

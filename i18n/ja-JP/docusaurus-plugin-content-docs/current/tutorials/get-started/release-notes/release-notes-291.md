@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 
@@ -57,7 +57,7 @@ Zilliz Cloudは、1つのプロジェクト内にすべての履歴データと�
 
 詳細は[プロジェクトの仕事を管理する](./job-center)を参照してください。
 
-### 専用クラスタの自動スケーリング[プライベートプレビュー]{#auto-scaling-for-dedicated-clusters-private-preview}
+### 専用クラスタの自動スケーリング&#91;プライベートプレビュー&#93;{#auto-scaling-for-dedicated-clusters-private-preview}
 
 Zilliz Cloudは、需要に基づいてクラスタの容量を動的に調整する機能であるオートスケーリングを導入しています。オートスケーリングは、主にCU(Compute Unit)容量閾値によってトリガーされます。Zilliz Cloudは、クラスタのCU容量を毎分監視し、2分間連続して70%(デフォルトの閾値)を超える場合、システムは自動的にスケーリング過程を開始します。ユーザーは、自動スケーリングの最大CU体格を設定できますが、下方自動スケーリングは現在サポートされていません。
 

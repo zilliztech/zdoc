@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

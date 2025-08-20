@@ -14,10 +14,10 @@ keywords:
   - cloud
   - autoindex
   - milvus
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

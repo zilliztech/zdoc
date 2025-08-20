@@ -14,10 +14,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

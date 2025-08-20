@@ -15,10 +15,10 @@ keywords:
   - collection
   - data insertions
   - DDL
+  - Similarity Search
   - multimodal RAG
   - llm hallucinations
   - hybrid search
-  - lexical search
 
 ---
 

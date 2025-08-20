@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - multi-tenancy
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

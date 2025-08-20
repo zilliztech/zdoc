@@ -16,10 +16,10 @@ keywords:
   - data
   - vector search
   - ann
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 
@@ -287,27 +287,27 @@ Milvusは、クエリベクトルとの類似度スコアによって検索結�
    <tr>
      <td><p><code>L 2</code></p></td>
      <td><p>値が小さいほど類似度が高いことを示します。</p></td>
-     <td><p>[0, ∞)</p></td>
+     <td><p>&#91;0, ∞)</p></td>
    </tr>
    <tr>
      <td><p><code>IP</code></p></td>
      <td><p>値が大きいほど類似度が高いことを示します。</p></td>
-     <td><p>[-1, 1]</p></td>
+     <td><p>&#91;-1, 1&#93;</p></td>
    </tr>
    <tr>
      <td><p><code>コサイン</code></p></td>
      <td><p>値が大きいほど類似度が高いことを示します。</p></td>
-     <td><p>[-1, 1]</p></td>
+     <td><p>&#91;-1, 1&#93;</p></td>
    </tr>
    <tr>
      <td><p><code>ジャカード</code></p></td>
      <td><p>値が小さいほど類似度が高いことを示します。</p></td>
-     <td><p>[0, 1]</p></td>
+     <td><p>&#91;0, 1&#93;</p></td>
    </tr>
    <tr>
      <td><p><code>ハミング</code></p></td>
      <td><p>値が小さいほど類似度が高いことを示します。</p></td>
-     <td><p>[0, dim(ベクトル)]</p></td>
+     <td><p>&#91;0, dim(ベクトル)&#93;</p></td>
    </tr>
 </table>
 

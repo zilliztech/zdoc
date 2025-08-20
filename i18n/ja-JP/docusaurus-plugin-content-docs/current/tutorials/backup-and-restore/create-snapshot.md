@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 
@@ -139,9 +139,9 @@ import TabItem from '@theme/TabItem';
 
 - [自動バックアップをスケジュールする](./schedule-automatic-backups)
 
-- [バックアップファイルを表示する](./manage-backup-files)
+- [バックアップファイルを表示する](./view-snapshot-details)
 
 - [バックアップファイルからの復元](./restore-from-snapshot)
 
-- [バックアップファイルを削除](./manage-backup-files)
+- [バックアップファイルを削除](./delete-snapshot)
 

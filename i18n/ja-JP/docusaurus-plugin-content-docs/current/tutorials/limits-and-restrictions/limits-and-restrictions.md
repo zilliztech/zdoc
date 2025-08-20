@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

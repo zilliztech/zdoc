@@ -14,10 +14,10 @@ keywords:
   - cloud
   - index
   - manage
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

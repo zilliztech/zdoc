@@ -14,10 +14,10 @@ keywords:
   - cloud
   - free trial
   - milvus
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 
@@ -62,7 +62,7 @@ Zilliz Cloudに仕事用のメールでサインアップし、アンケート�
 
 左側のナビゲーションペインの下部で、残りのクレジットと有効期限をすばやく確認できます。
 
-または、[請求の概要]ページの[**クレジット**]セクションに移動**しま**す。
+または、&#91;請求の概要&#93;ページの&#91;**クレジット**&#93;セクションに移動**しま**す。
 
 ![view-credit-balance](/img/view-credit-balance.png)
 

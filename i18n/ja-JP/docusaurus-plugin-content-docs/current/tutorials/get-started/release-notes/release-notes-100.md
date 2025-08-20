@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 
@@ -41,7 +41,7 @@ import Admonition from '@theme/Admonition';
 
     詳細については、[ホワイトペーパー](https://zilliz.com/resources/milvus-performance-benchmark)をご覧ください。
 
-- トップ>Zilliz Cloud on GCP
+- トップ&gt;Zilliz Cloud on GCP
 
     Zilliz CloudがGoogle Cloud Platform（GCP）で利用可能になったことをお知らせいたします。Zilliz Cloudは、スタートアップから大企業まで、さまざまなユーザーの多様な要件を満たし、最高の体験を提供します。GCP上でマネージドベクターデータベースインスタンスをわずか数クリックでデプロイできます。
 

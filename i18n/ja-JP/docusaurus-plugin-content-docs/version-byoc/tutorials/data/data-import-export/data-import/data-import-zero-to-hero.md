@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 
@@ -331,7 +331,7 @@ private static CreateCollectionReq.CollectionSchema createSchema() {
 
 上記のコードブロックでは、
 
-- [`id`]項目はプライマリ項目で、`with AutoID`が`false`に設定されているため、インポートするデータに`id`項目を含める必要があります。
+- &#91;`id`&#93;項目はプライマリ項目で、`with AutoID`が`false`に設定されているため、インポートするデータに`id`項目を含める必要があります。
 
 - float`_vector`、`binary_vector`、float`16_vector`、`sparse_vector`フィールドはベクトルフィールドです。
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - decompounder
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

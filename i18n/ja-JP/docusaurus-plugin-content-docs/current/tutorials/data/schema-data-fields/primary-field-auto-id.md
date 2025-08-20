@@ -17,10 +17,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

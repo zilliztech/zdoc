@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

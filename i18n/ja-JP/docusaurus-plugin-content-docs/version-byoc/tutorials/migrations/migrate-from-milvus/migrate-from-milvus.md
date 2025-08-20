@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - milvus
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 

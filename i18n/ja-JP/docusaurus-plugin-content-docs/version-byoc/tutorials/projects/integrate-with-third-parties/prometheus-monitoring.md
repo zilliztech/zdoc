@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

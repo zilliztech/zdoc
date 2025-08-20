@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 
@@ -40,11 +40,11 @@ import Admonition from '@theme/Admonition';
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, virtual-hosted–style</strong></p></td>
-         <td><p><code>https://bucket-name.s3.region-code.amazonaws.com/object-name</code></p></td>
+         <td><p><code><i>http</i>s://bucket-name.s3.region-code.amazonaws.com/object-name</code></p></td>
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, path-style</strong></p></td>
-         <td><p><code>https://s3.region-code.amazonaws.com/bucket-name/object-name</code></p></td>
+         <td><p><code><i>http</i>s://s3.region-code.amazonaws.com/bucket-name/object-name</code></p></td>
        </tr>
        <tr>
          <td><p><strong>AWS S3 URI</strong></p></td>
@@ -81,7 +81,7 @@ import Admonition from '@theme/Admonition';
        </tr>
        <tr>
          <td><p><strong>GSC public URL</strong></p></td>
-         <td><p><code>https://storage.googleapis.com/bucket_name/object_name</code></p></td>
+         <td><p><code><i>http</i>s://storage.googleapis.com/bucket_name/object_name</code></p></td>
        </tr>
        <tr>
          <td><p><strong>GSC gsutil URI</strong></p></td>
@@ -116,7 +116,7 @@ import Admonition from '@theme/Admonition';
        </tr>
        <tr>
          <td><p><strong>Azure storage blob URI</strong></p></td>
-         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/object_name</code></p></td>
+         <td><p><code><i>http</i>s://myaccount.blob.core.windows.net/bucket-name/object_name</code></p></td>
        </tr>
     </table>
 

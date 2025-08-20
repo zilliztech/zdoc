@@ -16,10 +16,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 
@@ -190,7 +190,7 @@ func ExampleClient_Search_filter() {
                 "filtered_search_collection", // collectionName
                 3,             // limit
                 []entity.Vector{entity.FloatVector(queryVector)},
-        ).WithFilter(`color like "red%" and likes > 50`).WithOutputFields("color", "likes"))
+        ).WithFilter(`color like "red%" and likes &gt; 50`).WithOutputFields("color", "likes"))
         if err != nil {
                 log.Fatal("failed to perform basic ANN search collection: ", err.Error())
         }
@@ -399,7 +399,7 @@ func ExampleClient_Search_filter() {
                 "filtered_search_collection", // collectionName
                 3,             // limit
                 []entity.Vector{entity.FloatVector(queryVector)},
-        ).WithFilter(`color like "red%" and likes > 50`).WithHints("iterative_filter").WithOutputFields("color", "likes"))
+        ).WithFilter(`color like "red%" and likes &gt; 50`).WithHints("iterative_filter").WithOutputFields("color", "likes"))
         if err != nil {
                 log.Fatal("failed to perform basic ANN search collection: ", err.Error())
         }

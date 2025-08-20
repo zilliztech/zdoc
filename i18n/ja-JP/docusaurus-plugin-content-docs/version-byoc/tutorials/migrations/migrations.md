@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

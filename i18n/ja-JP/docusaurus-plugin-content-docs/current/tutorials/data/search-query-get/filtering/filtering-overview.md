@@ -17,10 +17,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 
@@ -35,7 +35,7 @@ Zilliz Cloudは、データの正確なクエリを可能にする強力なフ�
 
 Zilliz Cloudは、データをフィルタリングするためのいくつかの基本的な演算子をサポートしています。
 
-- **比較演算子**:`==`、`!=`、`>`、`\<`、`>=`、および`<=`は、数値フィールドまたはテキストフィールドに基づくフィルタリングを可能にします。
+- **比較演算子**:`==`、`!=`、`>`、`<`、`>=`、および`<=`は、数値フィールドまたはテキストフィールドに基づくフィルタリングを可能にします。
 
 - **範囲フィルター**:`IN`と`LIKE`は、特定の値範囲またはセットを一致させるのに役立ちます。
 

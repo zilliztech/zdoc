@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

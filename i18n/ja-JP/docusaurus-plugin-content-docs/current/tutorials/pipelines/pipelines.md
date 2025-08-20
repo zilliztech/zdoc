@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - pipelines
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

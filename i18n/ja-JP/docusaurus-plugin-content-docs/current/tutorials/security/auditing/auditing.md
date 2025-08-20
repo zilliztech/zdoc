@@ -14,10 +14,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

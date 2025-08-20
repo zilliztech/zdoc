@@ -18,10 +18,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 

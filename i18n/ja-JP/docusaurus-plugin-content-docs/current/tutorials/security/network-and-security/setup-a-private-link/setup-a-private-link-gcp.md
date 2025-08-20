@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 
@@ -51,13 +51,13 @@ import Admonition from '@theme/Admonition';
 
 ## プライベートエンドポイントの作成する{#create-private-endpoint}
 
-Zilliz Cloudは、プライベートエンドポイントを追加するための直感的なWebコンソールを提供しています。ターゲットプロジェクトに移動し、左側のナビゲーションで**ネットワーク>プライベートエンドポイント**をクリックします。**+プライベートエンドポイント**をクリックします。
+Zilliz Cloudは、プライベートエンドポイントを追加するための直感的なWebコンソールを提供しています。ターゲットプロジェクトに移動し、左側のナビゲーションで**ネットワーク&gt;プライベートエンドポイント**をクリックします。**+プライベートエンドポイント**をクリックします。
 
 ![setup_private_link_aws_01](/img/setup_private_link_aws_01.png)
 
 ### クラウドプロバイダーと地域を選択する{#select-a-cloud-provider-and-region}
 
-GCPリージョンにデプロイされたクラスターのプライベートエンドポイントを作成するには、[**GCP**]ドロップダウンリストから[**Cloud Provider**]を選択します。[**リージョン**]で、プライベートにアクセスするクラスターを収容するリージョンを選択します。[**次**へ]をクリックします。
+GCPリージョンにデプロイされたクラスターのプライベートエンドポイントを作成するには、&#91;**GCP**&#93;ドロップダウンリストから&#91;**Cloud Provider**&#93;を選択します。&#91;**リージョン**&#93;で、プライベートにアクセスするクラスターを収容するリージョンを選択します。&#91;**次**へ&#93;をクリックします。
 
 利用可能なクラウドプロバイダーとリージョンの詳細については、「[クラウドプロバイダー&地域](./cloud-providers-and-regions)」を参照してください。
 
@@ -77,25 +77,25 @@ UIコンソールまたはCLIを使用して、クラウドプロバイダコン
 
 - **CLIより**
 
-    1. [**Via CLI**]タブに切り替えます。
+    1. &#91;**Via CLI**&#93;タブに切り替えます。
 
-    1. [**プロジェクトID**]を入力します。
+    1. &#91;**プロジェクトID**&#93;を入力します。
 
         Google CloudプロジェクトIDを取得するには、
 
-        1. [[Google Cloudダッシュボード](https://console.cloud.google.com/home/dashboard)]を開きます。
+        1. [[Google Cloudダッシュボード](https://console.cloud.google.com/home/dashboard)&#93;を開きます。
 
         1. ご希望のプロジェクトIDを見つけ、そのIDをコピーしてください。
 
         1. Zilliz CloudのGoogle CloudプロジェクトIDにこのIDを入力してください。
 
-    1. [**VPC名**]を入力します。
+    1. &#91;**VPC名**&#93;を入力します。
 
         VPCエンドポイントを作成する前に、GCPコンソールにVPCが必要です。VPCを表示するには、以下の手順を実行してください。
 
-        1. [[Google Cloud VPCダッシュボード](https://console.cloud.google.com/networking/networks/list)]を開きます。
+        1. [[Google Cloud VPCダッシュボード](https://console.cloud.google.com/networking/networks/list)&#93;を開きます。
 
-        1. ナビゲーションウィンドウで、[**VPCネットワーク**]を選択します。
+        1. ナビゲーションウィンドウで、&#91;**VPCネットワーク**&#93;を選択します。
 
         1. あなたの希望のVPCを見つけて、その名前をコピーしてください。
 
@@ -103,13 +103,13 @@ UIコンソールまたはCLIを使用して、クラウドプロバイダコン
 
         VPCネットワークを作成するには、「[VPCネットワークの作成と管理](https://cloud.google.com/vpc/docs/create-modify-vpc-networks?hl=ja)」を参照してください。
 
-    1. [**サブネット名**]を入力します。
+    1. &#91;**サブネット名**&#93;を入力します。
 
         サブネットはVPCのサブディビジョンです。作成するプライベートリンクと同じリージョンに存在するサブネットが必要です。サブネットを表示するには、次の手順を実行します。
 
         1. あなたの[VPCネットワークリスト](https://console.cloud.google.com/networking/networks/list)を開きます。
 
-        1. ナビゲーションウィンドウで、[**VPCネットワーク**]を選択します。
+        1. ナビゲーションウィンドウで、&#91;**VPCネットワーク**&#93;を選択します。
 
         1. ご希望のVPCの名前をクリックしてください。
 
@@ -117,11 +117,11 @@ UIコンソールまたはCLIを使用して、クラウドプロバイダコン
 
         1. Zilliz Cloudの**サブネット名**にこの名前を入力してください。
 
-    1. [**Private Service Connect Endpoint Prefix**]を入力します。
+    1. &#91;**Private Service Connect Endpoint Prefix**&#93;を入力します。
 
         便宜上、**Private Service Connectエンドポイントプレフィックス**にエンドポイントプレフィックスを設定して、作成した転送ルールにこのプレフィックスを設定する必要があります。
 
-    1. [**コピーして移動]を**クリックします。
+    1. &#91;**コピーして移動&#93;を**クリックします。
 
         クラウドプロバイダーコンソールにリダイレクトされます。上部のナビゲーションで、Google Cloud Shellを有効にします。Zilliz CloudからコピーしたCLIコマンドをCloud Shellで実行してください。
 
@@ -161,7 +161,7 @@ GCPコンソールで[Cloud DNS](https://console.cloud.google.com/net-services/d
 
 1. ゾーンタイプで**プライベート**を**選択します**。
 
-1. [**ゾーン名**]を`zilliz-privatelink-zone`またはその他の適切な値に設定します。
+1. &#91;**ゾーン名**&#93;を`zilliz-privatelink-zone`またはその他の適切な値に設定します。
 
 1. ステップ7で取得したプライベートリンクに**DNS名**を設定してください。
 
@@ -169,13 +169,13 @@ GCPコンソールで[Cloud DNS](https://console.cloud.google.com/net-services/d
 
 1. ネットワークで適切なVPCネットワークを選択しま**す**。
 
-1. [**作成**]をクリックします。
+1. &#91;**作成**&#93;をクリックします。
 
 ### ホストゾーンにレコードを作成する{#create-a-record-in-the-hosted-zone}
 
 1. 上で作成したゾーンで、「RECORD SETS」タブの「**ADD STANDARD**」をクリック**しま**す。
 
-1. [**レコードセットの作成**]ページで、既定の設定で**A**レコードを作成します。
+1. &#91;**レコードセットの作成**&#93;ページで、既定の設定で**A**レコードを作成します。
 
     ![Wne6bTTreoB95Nxl7fgcynBBnkb](/img/Wne6bTTreoB95Nxl7fgcynBBnkb.png)
 
@@ -183,7 +183,7 @@ GCPコンソールで[Cloud DNS](https://console.cloud.google.com/net-services/d
 
     ![PRdFbEHHzomrexx1Z1uchKz0ncg](/img/PRdFbEHHzomrexx1Z1uchKz0ncg.png)
 
-1. [**作成**]をクリックします。
+1. &#91;**作成**&#93;をクリックします。
 
 ## クラスタへのインターネットアクセスを管理する{#manage-internet-access-to-your-clusters}
 
@@ -193,7 +193,7 @@ GCPコンソールで[Cloud DNS](https://console.cloud.google.com/net-services/d
 
 1. ターゲットクラスタの**クラスタ詳細**ページに移動します。
 
-1. [**接続**]セクションに移動します。
+1. &#91;**接続**&#93;セクションに移動します。
 
 1. クラスターパブリックエンドポイントの横にある構成アイコンをクリックしてください。
 

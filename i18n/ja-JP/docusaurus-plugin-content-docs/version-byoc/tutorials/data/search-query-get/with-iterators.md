@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - migrations
   - clusters
   - zero downtime
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 
@@ -69,7 +69,7 @@ import Admonition from '@theme/Admonition';
 
 1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. プロジェクトページで、**移行**>**現在の組織内**を選択してください。
+1. プロジェクトページで、**移行**&gt;**現在の組織内**を選択してください。
 
 1. 表示されるダイアログボックスで、移行設定を構成してください
 
@@ -89,7 +89,7 @@ import Admonition from '@theme/Admonition';
 
 ![zero-downtime-migration-2](/img/zero-downtime-migration-2.png)
 
-1. [**新しいクラスタへの移行**]ページで、ターゲットクラスタを設定します。
+1. &#91;**新しいクラスタへの移行**&#93;ページで、ターゲットクラスタを設定します。
 
     - **クラスター名:**新しいターゲットクラスターの名前を入力してください(例: cluster 01`)`。
 
@@ -109,7 +109,7 @@ import Admonition from '@theme/Admonition';
 
 1. ターゲットクラスタの詳細ページで、上部の「**View Progress**」をクリックして、マイグレーションの進行状況ダイアログを開きます。
 
-1. [**移行進行状況**]ダイアログボックスで、次の移行段階を監視します。
+1. &#91;**移行進行状況**&#93;ダイアログボックスで、次の移行段階を監視します。
 
     **ステージ1:ターゲットクラスタを準備し、既存のデータを移行する**
 
@@ -137,7 +137,7 @@ import Admonition from '@theme/Admonition';
 
         - 先に進む前に、ソースクラスタへのすべての書き込みを停止し、同期の停止とクラスタの切り替えのために約10秒間のメンテナンスウィンドウを計画してください。
 
-        - [**Lag Behind Source**]が許容可能なしきい値に達したら、チェックボックスをオンにします。**ソースクラスタへの書き込みを停止したことを確認**し、[**Stop Data Sync**]をクリックします。
+        - &#91;**Lag Behind Source**&#93;が許容可能なしきい値に達したら、チェックボックスをオンにします。**ソースクラスタへの書き込みを停止したことを確認**し、&#91;**Stop Data Sync**&#93;をクリックします。
 
         <Admonition type="info" icon="📘" title="ノート">
 
@@ -151,7 +151,7 @@ import Admonition from '@theme/Admonition';
 
 データ同期が停止したら、**新しいクラスタへの切り取り**ステップに進んでください
 
-1. [**Migration Progress**]ダイアログボックスで、[**View Connection Details**]をクリックします。ターゲットクラスタの詳細ページにリダイレクトされます。
+1. &#91;**Migration Progress**&#93;ダイアログボックスで、&#91;**View Connection Details**&#93;をクリックします。ターゲットクラスタの詳細ページにリダイレクトされます。
 
 1. クラスターの詳細ページで、ターゲットクラスターの状態を確認してください。**実行中**と表示されている場合、移行は成功しています。
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

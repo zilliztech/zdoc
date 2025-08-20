@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - elasticsearch
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 
@@ -58,7 +58,7 @@ import Admonition from '@theme/Admonition';
 
 1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. ターゲットプロジェクトページに移動し、**Migrations**>**Elasticsearch**を選択してください。
+1. ターゲットプロジェクトページに移動し、**Migrations**&gt;**Elasticsearch**を選択してください。
 
 1. 「**Connect to Data Source**」ステップで、ソースElasticsearchクラスタとやり取りする接続方法として、「**Via Endpoint**」または「**Via Cloud ID**」を選択します。次に、「**Next**」をクリックします。
 
@@ -82,9 +82,9 @@ import Admonition from '@theme/Admonition';
 
     1. 「**詳細設定**」で、**ダイナミックフィールド**と**パーティションキー**を設定します。詳細については、「[スキーマデザインハンズオン](./schema-design-hands-on)」と「[パーティションキーを使う](./use-partition-key)」を参照してください。
 
-    1. [**ターゲットコレクション名**と**説明**]で、ターゲットコレクション名と説明をカスタマイズします。コレクション名は、各クラスターで一意である必要があります。名前が既存の名前と重複する場合は、コレクション名を変更します。
+    1. &#91;**ターゲットコレクション名**と**説明**&#93;で、ターゲットコレクション名と説明をカスタマイズします。コレクション名は、各クラスターで一意である必要があります。名前が既存の名前と重複する場合は、コレクション名を変更します。
 
-1. [**移行**]をクリックします。
+1. &#91;**移行**&#93;をクリックします。
 
 ## 移行過程を監視する{#monitor-the-migration-process}
 
@@ -102,9 +102,9 @@ import Admonition from '@theme/Admonition';
 
 移行過程で問題が発生した場合は、次の手順に従ってトラブルシューティングを行い、移行を再開できます。
 
-1. [[ジョブ](./job-center)]ページで、失敗した移行ジョブを特定してキャンセルします。
+1. [[ジョブ](./job-center)&#93;ページで、失敗した移行ジョブを特定してキャンセルします。
 
-1. [アクション]列の[**詳細**を**表示**]をクリックして、エラーログにアクセスします。
+1. &#91;アクション&#93;列の&#91;**詳細**を**表示**&#93;をクリックして、エラーログにアクセスします。
 
 ## フィールドマッピングリファレンス{#field-mapping-reference}
 

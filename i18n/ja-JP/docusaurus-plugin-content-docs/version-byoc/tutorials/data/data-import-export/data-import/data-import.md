@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

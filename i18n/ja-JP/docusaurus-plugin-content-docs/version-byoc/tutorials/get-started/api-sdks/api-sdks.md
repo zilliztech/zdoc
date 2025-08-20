@@ -20,10 +20,10 @@ keywords:
   - go
   - node
   - nodejs
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

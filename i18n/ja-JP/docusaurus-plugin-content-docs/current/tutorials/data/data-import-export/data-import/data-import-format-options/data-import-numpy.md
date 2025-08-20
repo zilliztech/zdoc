@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 
@@ -150,7 +150,7 @@ Zilliz Cloudは、クラウドストレージからのデータインポート�
    </tr>
    <tr>
      <td><p><strong>Azure Bolb</strong></p></td>
-     <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/</code></p></td>
+     <td><p><code><i>http</i>s://myaccount.blob.core.windows.net/bucket-name/numpy-folder/</code></p></td>
    </tr>
 </table>
 

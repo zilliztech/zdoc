@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 
@@ -46,7 +46,7 @@ import Admonition from '@theme/Admonition';
 
 ## 手続き{#procedure}
 
-AWSコンソールを使用してバケットとロールを作成できます。代わりに、Zilliz Cloudが提供するTerraformスクリプトを使用して、Zilliz CloudプロジェクトのインフラストラクチャをAWS上でブートストラップすることもできます。詳細については、「[Bootstrapインフラストラクチャ（Terraform）](./terraform-provider)」を参照してください。
+AWSコンソールを使用してバケットとロールを作成できます。代わりに、Zilliz Cloudが提供するTerraformスクリプトを使用して、Zilliz CloudプロジェクトのインフラストラクチャをAWS上でブートストラップすることもできます。詳細については、「[Bootstrapインフラストラクチャ（Terraform）](./bootstrap-infrastructure-terraform)」を参照してください。
 
 ### ステップ1: S3バケットを作成する{#step-1-create-the-s3-bucket}
 
@@ -54,11 +54,11 @@ AWSコンソールを使用してバケットとロールを作成できます�
 
 1. 管理者権限を持つユーザーとしてAWSコンソールにログインし、**S3**サービスに移動します。
 
-1. [**汎用バケット**]タブで、[**バケットを作成**]をクリックします。
+1. &#91;**汎用バケット**&#93;タブで、&#91;**バケットを作成**&#93;をクリックします。
 
     ![EDPzbdL3qoL07Zxn20scT2shnW4](/img/EDPzbdL3qoL07Zxn20scT2shnW4.png)
 
-1. [**バケット名**]にバケットの名前を入力し、他の設定ではデフォルト値を維持します。
+1. &#91;**バケット名**&#93;にバケットの名前を入力し、他の設定ではデフォルト値を維持します。
 
     ![As0YbBOo5orZD0x46Y2co4VQnqc](/img/As0YbBOo5orZD0x46Y2co4VQnqc.png)
 
@@ -80,11 +80,11 @@ AWSコンソールを使用してバケットとロールを作成できます�
 
     ![A7vYbCzp1osavYxEx0wcPaZan1d](/img/A7vYbCzp1osavYxEx0wcPaZan1d.png)
 
-1. 左サイドバーの[**役割**]タブをクリックし、[**役割を作成**]をクリックします。
+1. 左サイドバーの&#91;**役割**&#93;タブをクリックし、&#91;**役割を作成**&#93;をクリックします。
 
     ![C5bbbRXxioqdrXxYhWiczehwndh](/img/C5bbbRXxioqdrXxYhWiczehwndh.png)
 
-1. [**信頼できるエンティティ**の選択]で、[**カスタム信頼ポリシー**]タイルをクリックします。[**共通信頼ポリシー**]で、下の信頼JSONを[**カスタム信頼ポリシー**]セクションのエディタに貼り付け、`{account tId}`を**AWSアカウントID**に置き換えます。
+1. &#91;**信頼できるエンティティ**の選択&#93;で、&#91;**カスタム信頼ポリシー**&#93;タイルをクリックします。&#91;**共通信頼ポリシー**&#93;で、下の信頼JSONを&#91;**カスタム信頼ポリシー**&#93;セクションのエディタに貼り付け、`{account tId}`を**AWSアカウントID**に置き換えます。
 
     ```json
     {
@@ -131,7 +131,7 @@ AWSコンソールを使用してバケットとロールを作成できます�
 
     ![DgzNbw3WIoIbg9xGAJ5cVPFhngc](/img/DgzNbw3WIoIbg9xGAJ5cVPFhngc.png)
 
-1. Zilliz Cloudコンソールに戻り、[**IAM Role ARN**]の[**ストレージ設定**]にARNロールを貼り付けます。
+1. Zilliz Cloudコンソールに戻り、&#91;**IAM Role ARN**&#93;の&#91;**ストレージ設定**&#93;にARNロールを貼り付けます。
 
     ![FIVObWf57onQEpxJHbxczL8CnNg](/img/FIVObWf57onQEpxJHbxczL8CnNg.png)
 
@@ -139,11 +139,11 @@ AWSコンソールを使用してバケットとロールを作成できます�
 
 このステップはAWSコンソール上でのみ行われます。このステップでは、[ステップ2](./create-bucket-and-role#step-2-create-an-iam-role-to-access-the-s3-bucket)で作成したロールのインラインポリシーを作成します。
 
-1. 作成したロールの詳細ページに移動します。[**権限ポリシー**]セクションで、[**権限を追加**]をクリックし、[**インラインポリシーを作成**]を選択します。
+1. 作成したロールの詳細ページに移動します。&#91;**権限ポリシー**&#93;セクションで、&#91;**権限を追加**&#93;をクリックし、&#91;**インラインポリシーを作成**&#93;を選択します。
 
     ![Iwf4b7aL0oPRHmxFf4ocpud6n9g](/img/Iwf4b7aL0oPRHmxFf4ocpud6n9g.png)
 
-1. [**権限の指定**]ページで、[ポリシーエディター]セクションの[**JSON**]をクリックして**ポリシーエディター**を開きます。次に、下の権限をコピーしてポリシーエディターに貼り付けます。
+1. &#91;**権限の指定**&#93;ページで、&#91;ポリシーエディター&#93;セクションの&#91;**JSON**&#93;をクリックして**ポリシーエディター**を開きます。次に、下の権限をコピーしてポリシーエディターに貼り付けます。
 
     `{bucketName}`を[ステップ1](./create-bucket-and-role#step-1-create-the-s3-bucket)で作成したバケットに置き換え、変更したポリシーのJSONをコピーして、AWSの**ポリシーエディタ**に貼り付ける必要があります。
 
@@ -176,7 +176,7 @@ AWSコンソールを使用してバケットとロールを作成できます�
 
     ![TaqNb47MzonywUxQqBucQWcfn0D](/img/TaqNb47MzonywUxQqBucQWcfn0D.png)
 
-1. [**レビューと作成**]で、ポリシー名を入力し、権限を確認して、[**ポリシーを作成**]をクリックします。
+1. &#91;**レビューと作成**&#93;で、ポリシー名を入力し、権限を確認して、&#91;**ポリシーを作成**&#93;をクリックします。
 
     <Admonition type="info" icon="📘" title="ノート">
 

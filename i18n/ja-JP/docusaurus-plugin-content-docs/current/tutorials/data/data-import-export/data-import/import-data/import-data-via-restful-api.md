@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

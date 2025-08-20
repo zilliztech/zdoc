@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - best practices
+  - openai vector db
   - natural language processing database
   - cheap vector database
   - Managed vector database
-  - Pinecone vector database
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 
@@ -74,7 +74,7 @@ Zilliz CloudでEKSクラスターを管理するために、次の権限を持�
 
 ### AWSが管理する権限{#aws-managed-permissions}
 
-これらの権限はAWSによって管理され、EKSロールに関連付けることができます。各権限の詳細については、[**権限**]列の項目をクリックして詳細を確認してください。
+これらの権限はAWSによって管理され、EKSロールに関連付けることができます。各権限の詳細については、&#91;**権限**&#93;列の項目をクリックして詳細を確認してください。
 
 <table>
    <tr>

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - console
+  - managed milvus
+  - Serverless vector database
   - milvus open source
   - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
 
 ---
 
@@ -55,7 +55,7 @@ import Admonition from '@theme/Admonition';
 
 ### ローカルJSONファイル{#local-json-file}
 
-データをインポートするには、ローカルファイルをアップロードエリアにドラッグアンドドロップして、[**インポート**]をクリックします。
+データをインポートするには、ローカルファイルをアップロードエリアにドラッグアンドドロップして、&#91;**インポート**&#93;をクリックします。
 
 ![data-import-on-console](/img/data-import-on-console.png)
 

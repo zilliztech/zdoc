@@ -14,10 +14,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 
@@ -152,7 +152,7 @@ Zilliz Cloudには、Free、Serverless、Dedicatedの3つのクラスタータ�
 
 <TabItem value="Cloud Console">
 
-1. 左ナビゲーションの[**請求**]をクリックします。
+1. 左ナビゲーションの&#91;**請求**&#93;をクリックします。
 
 1. 「**請求書**」タブに切り替えます。現在と過去のすべての請求書が表示されます。
 
@@ -218,7 +218,7 @@ curl --request GET \
 
 <TabItem value="Cloud Console">
 
-1. 左ナビゲーションの[**請求**]をクリックします。
+1. 左ナビゲーションの&#91;**請求**&#93;をクリックします。
 
 1. 請求書タブに切り替えます。
 

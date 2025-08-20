@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

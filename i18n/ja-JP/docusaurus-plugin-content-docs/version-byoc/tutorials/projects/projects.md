@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 
@@ -146,7 +146,7 @@ Zilliz Cloudは、コレクションの作成、読み込み、リリース、�
      <td><p>16メガバイト/秒</p></td>
    </tr>
    <tr>
-     <td><p>専用クラスタ[24 CU、64 CU]</p></td>
+     <td><p>専用クラスタ&#91;24 CU、64 CU&#93;</p></td>
      <td><p>24メガバイト/秒</p></td>
    </tr>
    <tr>
@@ -191,7 +191,7 @@ Zilliz Cloudは、コレクションの作成、読み込み、リリース、�
      <td><p>16メガバイト/秒</p></td>
    </tr>
    <tr>
-     <td><p>専用クラスタ[24 CU、64 CU]</p></td>
+     <td><p>専用クラスタ&#91;24 CU、64 CU&#93;</p></td>
      <td><p>24メガバイト/秒</p></td>
    </tr>
    <tr>

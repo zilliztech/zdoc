@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

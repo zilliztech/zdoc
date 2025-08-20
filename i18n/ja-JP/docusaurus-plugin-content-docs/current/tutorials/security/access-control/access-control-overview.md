@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

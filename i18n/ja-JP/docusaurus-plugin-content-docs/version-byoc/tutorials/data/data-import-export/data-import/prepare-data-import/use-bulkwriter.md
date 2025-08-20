@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

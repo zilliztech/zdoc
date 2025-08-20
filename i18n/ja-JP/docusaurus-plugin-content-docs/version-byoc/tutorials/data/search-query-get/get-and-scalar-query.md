@@ -17,10 +17,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

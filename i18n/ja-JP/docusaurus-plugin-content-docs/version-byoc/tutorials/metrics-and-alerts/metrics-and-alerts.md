@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

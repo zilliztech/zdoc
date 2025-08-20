@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

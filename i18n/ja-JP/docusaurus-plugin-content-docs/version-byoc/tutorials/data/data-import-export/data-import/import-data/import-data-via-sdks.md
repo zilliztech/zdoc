@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

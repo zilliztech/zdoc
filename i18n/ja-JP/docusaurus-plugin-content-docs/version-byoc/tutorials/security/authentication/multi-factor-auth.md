@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 
@@ -31,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 1. あなたの**プロフィール**に行き、**アカウント設定**を選択してください。
 
-1. [多要素認証]トグルをオンにします。
+1. &#91;多要素認証&#93;トグルをオンにします。
 
 1. ダイアログボックスで、アカウントのパスワードを入力して確認してください。
 
@@ -52,9 +52,9 @@ import Admonition from '@theme/Admonition';
 
 1. あなたの**プロフィール**に行き、**アカウント設定**を選択してください。
 
-1. [多要素認証]トグルをオフにします。
+1. &#91;多要素認証&#93;トグルをオフにします。
 
-1. ダイアログボックスで、[**無効**にする]をクリックしてアクションを確認します。
+1. ダイアログボックスで、&#91;**無効**にする&#93;をクリックしてアクションを確認します。
 
 1. メールアドレスに送信された認証コードを入力して、本人確認を行います。**無効**にするをクリックします。
 

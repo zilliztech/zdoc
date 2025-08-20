@@ -15,10 +15,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 
@@ -83,9 +83,9 @@ import Admonition from '@theme/Admonition';
 
 1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. ターゲットプロジェクトに移動し、**移行**>**現在の組織内**を選択してください。
+1. ターゲットプロジェクトに移動し、**移行**&gt;**現在の組織内**を選択してください。
 
-1. [**移行設定**]ダイアログボックスで、ソースクラスターとデータベース、およびターゲットクラスターを構成し、[**確認**]をクリックします。ターゲットクラスターのプランレベルがソースクラスターのプランレベルよりも低くないことを確認します(例:**専用**クラスターから**Free**または**Serverless**クラスターへの移行はサポートされていません)。クラスタープランの詳細については、「[詳細なプラン比較](./select-zilliz-cloud-service-plans)」を参照してください。
+1. &#91;**移行設定**&#93;ダイアログボックスで、ソースクラスターとデータベース、およびターゲットクラスターを構成し、&#91;**確認**&#93;をクリックします。ターゲットクラスターのプランレベルがソースクラスターのプランレベルよりも低くないことを確認します(例:**専用**クラスターから**Free**または**Serverless**クラスターへの移行はサポートされていません)。クラスタープランの詳細については、「[詳細なプラン比較](./select-zilliz-cloud-service-plans)」を参照してください。
 
     <Admonition type="info" icon="📘" title="ノート">
 
@@ -93,7 +93,7 @@ import Admonition from '@theme/Admonition';
 
     </Admonition>
 
-1. [**移行**]をクリックします。
+1. &#91;**移行**&#93;をクリックします。
 
 ![cross_cluster_migration_1](/img/cross_cluster_migration_1.png)
 
@@ -103,7 +103,7 @@ import Admonition from '@theme/Admonition';
 
 1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. ターゲットプロジェクトに移動し、**移行**>**他の組織で**選択してください。
+1. ターゲットプロジェクトに移動し、**移行**&gt;**他の組織で**選択してください。
 
 1. 「**データソースに接続**」ステップで、ソースクラスタの接続情報を構成します。次に、「**次**へ」をクリックします。
 
@@ -117,7 +117,7 @@ import Admonition from '@theme/Admonition';
 
     1. （オプション）「**一般情報**」で、ターゲットコレクションの名前と説明をカスタマイズします。コレクション名は各クラスターで一意である必要があります。名前が既存の名前と重複している場合は、コレクション名を変更します。
 
-1. [**移行**]をクリックします。
+1. &#91;**移行**&#93;をクリックします。
 
 ![cross_cluster_migration_2](/img/cross_cluster_migration_2.png)
 
@@ -137,7 +137,7 @@ import Admonition from '@theme/Admonition';
 
 移行過程で問題が発生した場合は、次の手順に従ってトラブルシューティングを行い、移行を再開できます。
 
-1. [[ジョブ](./job-center)]ページで、失敗した移行ジョブを特定してキャンセルします。
+1. [[ジョブ](./job-center)&#93;ページで、失敗した移行ジョブを特定してキャンセルします。
 
-1. [アクション]列の[**詳細**を**表示**]をクリックして、エラーログにアクセスします。
+1. &#91;アクション&#93;列の&#91;**詳細**を**表示**&#93;をクリックして、エラーログにアクセスします。
 

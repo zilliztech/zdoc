@@ -16,10 +16,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 
@@ -304,7 +304,7 @@ export filter='partition_key in ["x", "y", "z"] && <other conditions>'
 </TabItem>
 </Tabs>
 
-\<ターゲットを含める="zilliz">
+&lt;ターゲットを含める="zilliz"&gt;
 
 ## パーティションキーの分離を使用する{#use-partition-key-isolation}
 
@@ -399,4 +399,4 @@ curl --request POST \
 
 「パーティションキーの分離」を有効にした後でも、「[パーティション番号を設定する](./use-partition-key#set-partition-numbers)」で説明されているように、パーティションキーとパーティション数を設定できます。パーティションキーベースのフィルタには、特定のパーティションキー値のみを含める必要があることに注意してください。
 
-\</include>
+&lt;/include&gt;

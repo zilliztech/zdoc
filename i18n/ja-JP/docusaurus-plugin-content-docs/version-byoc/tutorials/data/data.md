@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

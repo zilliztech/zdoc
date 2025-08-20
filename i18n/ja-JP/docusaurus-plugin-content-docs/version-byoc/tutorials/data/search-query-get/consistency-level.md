@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

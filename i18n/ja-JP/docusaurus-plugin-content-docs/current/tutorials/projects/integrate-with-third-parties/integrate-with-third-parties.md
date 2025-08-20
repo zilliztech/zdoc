@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

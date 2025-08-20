@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - ips
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

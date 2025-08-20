@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

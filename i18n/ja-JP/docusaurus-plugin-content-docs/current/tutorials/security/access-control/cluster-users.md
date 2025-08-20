@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

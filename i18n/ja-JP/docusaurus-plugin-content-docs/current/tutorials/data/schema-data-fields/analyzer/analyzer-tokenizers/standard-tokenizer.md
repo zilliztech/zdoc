@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - standard-tokenizer
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

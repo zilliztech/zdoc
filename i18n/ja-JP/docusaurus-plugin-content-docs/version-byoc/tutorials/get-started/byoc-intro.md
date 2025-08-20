@@ -13,10 +13,10 @@ keywords:
   - byoc
   - milvus
   - vector database
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

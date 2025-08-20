@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

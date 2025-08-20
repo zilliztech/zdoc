@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

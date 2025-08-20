@@ -14,10 +14,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 
@@ -66,7 +66,7 @@ HNSWとは異なり、Vamanaのインデックス作成過程は比較的シン�
 
 1. ステップ2から初期化されたランダム近隣グラフと探索開始点を使用して近似最近傍探索を実行します。探索経路上のすべての点を候補近隣集合として使用し、アルファ=1でエッジトリミング戦略を適用して探索半径を縮小します。
 
-1. ステップ3を調整したアルファ値>1（論文で推奨されている1.2）で繰り返し、グラフの品質と再現率を改善してください。
+1. ステップ3を調整したアルファ値&gt;1（論文で推奨されている1.2）で繰り返し、グラフの品質と再現率を改善してください。
 
 インデックスが準備できたら、検索は以下のように行われます:
 

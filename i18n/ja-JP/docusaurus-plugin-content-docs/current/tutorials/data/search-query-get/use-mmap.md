@@ -14,10 +14,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 
@@ -57,7 +57,7 @@ Zilliz Cloudクラスターはメモリを大量に消費するデータベー�
    <tr>
      <th rowspan="2"><p>Mmapターゲット</p></th>
      <th colspan="3"><p>専用クラスター</p></th>
-     <th rowspan="2"><p>フリークラスタと\</br> </p><p>サーバーレスクラスタ</p></th>
+     <th rowspan="2"><p>フリークラスタと&lt;/br&gt; </p><p>サーバーレスクラスタ</p></th>
    </tr>
    <tr>
      <td><p>Performance-optimized</p></td>

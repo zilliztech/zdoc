@@ -14,10 +14,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

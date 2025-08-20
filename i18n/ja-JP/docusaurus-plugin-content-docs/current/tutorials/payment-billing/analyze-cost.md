@@ -14,10 +14,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 
@@ -42,7 +42,7 @@ Zilliz Cloudでコストを分析する方法は2つあります。
 
 ### Web UIから{#via-web-ui}
 
-[**請求**]ページで、[**使用状況**]タブに切り替えます。さまざまな次元で使用状況とコストの傾向を監視できます。
+&#91;**請求**&#93;ページで、&#91;**使用状況**&#93;タブに切り替えます。さまざまな次元で使用状況とコストの傾向を監視できます。
 
 <Admonition type="info" icon="📘" title="ノート">
 

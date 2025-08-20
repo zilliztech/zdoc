@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cu
   - select
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

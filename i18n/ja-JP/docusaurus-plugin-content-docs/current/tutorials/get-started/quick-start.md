@@ -14,10 +14,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

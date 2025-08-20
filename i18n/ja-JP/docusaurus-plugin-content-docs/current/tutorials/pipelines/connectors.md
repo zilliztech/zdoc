@@ -14,10 +14,10 @@ keywords:
   - cloud
   - connect
   - data
+  - hybrid search
+  - lexical search
   - nearest neighbor search
   - Agentic RAG
-  - rag llm architecture
-  - private llms
 
 ---
 
@@ -76,7 +76,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
 ### 手続き{#procedures}
 
-1. プロジェクトに移動します。ナビゲーションパネルから[**パイプライン**]をクリックします。次に、[**コネクタ**]タブに切り替えます。[**+コネクタ**]をクリックします。
+1. プロジェクトに移動します。ナビゲーションパネルから&#91;**パイプライン**&#93;をクリックします。次に、&#91;**コネクタ**&#93;タブに切り替えます。&#91;**+コネクタ**&#93;をクリックします。
 
     ![create-connector](/img/create-connector.png)
 
@@ -165,7 +165,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
         ![enable-auto-scan](/img/enable-auto-scan.png)
 
-1. [**作成**]をクリックします。
+1. &#91;**作成**&#93;をクリックします。
 
 ## コネクタの管理{#manage-connector}
 
@@ -177,7 +177,7 @@ Zilliz Cloud Pipelinesは、コネクタを作成する際に柔軟なオプシ�
 
 1. クリック**。。。**下の**アクション**。
 
-1. [**有効**]または[**無効**]を選択します。
+1. &#91;**有効**&#93;または&#91;**無効**&#93;を選択します。
 
 <Admonition type="info" icon="📘" title="ノート">
 

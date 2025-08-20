@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 
@@ -135,9 +135,9 @@ Zilliz Cloudがバックアップファイルを保存する期間は、**保存
 
 - [自動バックアップをスケジュールする](./schedule-automatic-backups)
 
-- [バックアップファイルを表示する](./manage-backup-files)
+- [バックアップファイルを表示する](./view-snapshot-details)
 
 - [バックアップファイルからの復元](./restore-from-snapshot)
 
-- [バックアップファイルを削除](./manage-backup-files#delete-backup-files)
+- [バックアップファイルを削除](./delete-snapshot)
 

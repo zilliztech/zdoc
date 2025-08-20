@@ -15,10 +15,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

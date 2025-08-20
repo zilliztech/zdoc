@@ -15,10 +15,10 @@ keywords:
   - developer hub
   - home page
   - home
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 hide_title: true
 hide_table_of_contents: true

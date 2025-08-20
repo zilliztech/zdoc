@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 
@@ -64,11 +64,11 @@ Zilliz Cloudでは、複数のコレクションを作成してデータを管�
 
 特定のフィールドにインデックスを作成すると、検索の効率が向上します。サービスが依存するすべてのフィールドにインデックスを作成することをお勧めします。その中でも、ベクトルフィールドのインデックスは必須です。
 
-\<ターゲットを含める="zilliz">
+&lt;ターゲットを含める="zilliz"&gt;
 
 Milvusとは異なり、Zilliz Cloud上のコレクション内のベクトルフィールドに適用可能なインデックスタイプはAUTOINDEXのみです。詳細については、[AUTOINDEXの説明](./autoindex-explained)を参照してください。
 
-\</include>
+&lt;/include&gt;
 
 ## エンティティ{#entity}
 
@@ -150,7 +150,7 @@ Zilliz Cloudに対して関数を設定することで、コレクション作�
 
 これらの一貫性レベルの詳細については、[一貫性レベル](./consistency-level)を参照してください。
 
-\<ターゲットを含める="zilliz">
+&lt;ターゲットを含める="zilliz"&gt;
 
 ## 限界{#limits}
 
@@ -164,12 +164,12 @@ Zilliz Cloudに対して関数を設定することで、コレクション作�
    </tr>
    <tr>
      <td><p>フリークラスタ</p></td>
-     <td><p>5\</除外する></p></td>
+     <td><p>5&lt;/除外する&gt;</p></td>
      <td><p>最大5つのコレクションを作成できます。</p></td>
    </tr>
    <tr>
      <td><p>サーバーレスクラスター</p></td>
-     <td><p>100\</除外する></p></td>
+     <td><p>100&lt;/除外する&gt;</p></td>
      <td><p>最大100個のコレクションを作成できます。</p></td>
    </tr>
    <tr>
@@ -198,5 +198,5 @@ Zilliz Cloudに対して関数を設定することで、コレクション作�
 
 一般容量と消費容量の計算の詳細については、[Zillizクラウドの制限](./limits)を参照してください。
 
-\</include>
+&lt;/include&gt;
 

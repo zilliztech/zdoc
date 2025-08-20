@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 
@@ -35,7 +35,7 @@ Zilliz Cloudのごみ箱機能は、意図的にまたはトライアルの期�
 
 1. 左側のナビゲーションメニューまたは上部のナビゲーションアイコンから**ごみ箱**にアクセスします。
 
-1. [**アクション**]ドロップダウンから[**クラスタの復元**]を選択します。
+1. &#91;**アクション**&#93;ドロップダウンから&#91;**クラスタの復元**&#93;を選択します。
 
 1. 復元されたクラスタを構成します。
 
@@ -49,7 +49,7 @@ Zilliz Cloudのごみ箱機能は、意図的にまたはトライアルの期�
 
     </Admonition>
 
-1. [**リストア**]をクリックします。Zilliz Cloudは、指定された属性を持つクラスタの作成を開始し、作成したクラスタにデータをリストアします。
+1. &#91;**リストア**&#93;をクリックします。Zilliz Cloudは、指定された属性を持つクラスタの作成を開始し、作成したクラスタにデータをリストアします。
 
 1. 新しいリストアジョブが生成されます。[ジョブ](./job-center)ページでクラスタのリストアの進捗状況を確認できます。ジョブのステータスが**IN PROGRESS**から**SUCCESS FUL**に切り替わると、リストアが完了します。
 

@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - cncharonly
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

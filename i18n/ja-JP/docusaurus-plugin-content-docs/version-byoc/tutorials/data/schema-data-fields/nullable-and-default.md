@@ -16,10 +16,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - doc data
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 
@@ -59,7 +59,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
     ![create-pipeline](/img/create-pipeline.png)
 
-1. 作成するパイプラインの種類を選択します。[**+パイプライン**]ボタンをクリックします。**Ingestion Pipeline**列。
+1. 作成するパイプラインの種類を選択します。&#91;**+パイプライン**&#93;ボタンをクリックします。**Ingestion Pipeline**列。
 
     ![choose-pipeline](/img/choose-pipeline.png)
 
@@ -135,7 +135,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
         ![add-index-doc-function](/img/add-index-doc-function.png)
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. &#91;**追加**&#93;をクリックして関数を保存します。
 
 1. （オプション）ドキュメントのメタデータを保存する必要がある場合は、別の**PRESERVE**関数を追加してください。**PRESERVE**関数は、データの取り込みとともに、コレクションに追加のスカラーフィールドを追加します。
 
@@ -145,7 +145,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
     </Admonition>
 
-    1. [**+Function**]をクリックします。
+    1. &#91;**+Function**&#93;をクリックします。
 
     1. 関数名を入力します。
 
@@ -161,11 +161,11 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
         </Admonition>
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. &#91;**追加**&#93;をクリックして関数を保存します。
 
         ![add-preserve-function](/img/add-preserve-function.png)
 
-1. [**Ingestion Pipelineを作成**]をクリックします。
+1. &#91;**Ingestion Pipelineを作成**&#93;をクリックします。
 
 1. 作成したばかりのIngestionパイプラインと互換性があるように自動構成された検索パイプラインと削除パイプラインの作成を続けます。
 
@@ -547,9 +547,9 @@ curl --request POST \
 
         ![add-search-doc-function](/img/add-search-doc-function.png)
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. &#91;**追加**&#93;をクリックして関数を保存します。
 
-1. [**検索パイプラインを作成**]をクリックします。
+1. &#91;**検索パイプラインを作成**&#93;をクリックします。
 
 </TabItem>
 
@@ -658,7 +658,7 @@ curl --request POST \
 
     ![run-pipeline](/img/run-pipeline.png)
 
-1. 必要なパラメータを設定します。[**実行**]をクリックします。
+1. 必要なパラメータを設定します。&#91;**実行**&#93;をクリックします。
 
 1. 結果を確認してください。
 
@@ -720,21 +720,21 @@ curl --request POST \
         "distance": 0.99967360496521,
         "chunk_id": 0,
         "doc_name": "zilliz_concept_doc.md",
-        "chunk_text": "# Cluster, Collection & Entities\nA Zilliz Cloud cluster is a managed Milvus instance associated with certain computing resources. You can create collections in the cluster and insert entities into them. In comparison to a relational database, a collection in a cluster is similar to a table in the database, and an entity in a collection is similar to a record in the table.\\n\\n# Cluster, Collection & Entities\n## Cluster\nWhen creating a cluster on Zilliz Cloud, you must specify the type of CU associated with the cluster. There are three types of CUs available: performance-optimized and capacity-optimized. You can learn how to choose among these types in [Select the Right CU](https://zilliverse.feishu.cn/wiki/UgqvwKh2QiKE1kkYNLJcaHt0nkg).  \nAfter determining the CU type, you must also specify its size. Note that the number of collections a cluster can hold varies based on its CU size. A cluster with less than 8 CUs can hold no more than 32 collections, while a cluster with more than 8 CUs can hold as many as 256 collections.  \nAll collections in a cluster share the CUs associated with the cluster. To save CUs, you can unload some collections. When a collection is unloaded, its data is moved to disk storage and its CUs are freed up for use by other collections. You can load the collection back into memory when you need to query it. Keep in mind that loading a collection requires some time, so you should only do so when necessary.\\n\\n# Cluster, Collection & Entities\n## Collection\nA collection collects data in a two-dimensional table with a fixed number of columns and a variable number of rows. In the table, each column corresponds to a field, and each row represents an entity.  \nThe following figure shows a sample collection that comprises six entities and eight fields."
+        "chunk_text": "# Cluster, Collection & Entities\nA Zilliz Cloud cluster is a managed Milvus instance associated with certain computing resources. You can create collections in the cluster and insert entities into them. In comparison to a relational database, a collection in a cluster is similar to a table in the database, and an entity in a collection is similar to a record in the table.\\\n\\\n# Cluster, Collection & Entities\n## Cluster\nWhen creating a cluster on Zilliz Cloud, you must specify the type of CU associated with the cluster. There are three types of CUs available: performance-optimized and capacity-optimized. You can learn how to choose among these types in [Select the Right CU](https://zilliverse.feishu.cn/wiki/UgqvwKh2QiKE1kkYNLJcaHt0nkg).  \nAfter determining the CU type, you must also specify its size. Note that the number of collections a cluster can hold varies based on its CU size. A cluster with less than 8 CUs can hold no more than 32 collections, while a cluster with more than 8 CUs can hold as many as 256 collections.  \nAll collections in a cluster share the CUs associated with the cluster. To save CUs, you can unload some collections. When a collection is unloaded, its data is moved to disk storage and its CUs are freed up for use by other collections. You can load the collection back into memory when you need to query it. Keep in mind that loading a collection requires some time, so you should only do so when necessary.\\\n\\\n# Cluster, Collection & Entities\n## Collection\nA collection collects data in a two-dimensional table with a fixed number of columns and a variable number of rows. In the table, each column corresponds to a field, and each row represents an entity.  \nThe following figure shows a sample collection that comprises six entities and eight fields."
       },
       {
         "id": 450524927755105959,
         "distance": 0.07810573279857635,
         "chunk_id": 2,
         "doc_name": "zilliz_concept_doc.md",
-        "chunk_text": "# Cluster, Collection & Entities\n## Collection\n### Index\nUnlike Milvus instances, Zilliz Cloud clusters only support the **AUTOINDEX** algorithm for indexing. This algorithm is optimized for the three types of computing units (CUs) supported by Zilliz Cloud. For more information, see [AUTOINDEX Explained](https://zilliverse.feishu.cn/wiki/EA2twSf5oiERMDkriKScU9GInc4).\\n\\n# Cluster, Collection & Entities\n## Entities\nEntities in a collection are data records sharing the same set of fields, like a book in a library or a gene in a genome. As to an entity, the data stored in each field forms the entity.  \nBy specifying a query vector, search metrics, and optional filtering conditions, you can conduct vector searches among the entities in a collection. For example, if you search with the keyword \"Interesting Python demo\", any article whose title implies such semantic meaning will be returned as a relevant result. During this process, the search is actually conducted on the vector field **title_vector** to retrieve the top K nearest results. For details on vector searches, see [Search and Query](https://zilliverse.feishu.cn/wiki/YfMEwLHzeisARCk4VZ3cVhJmnjd).  \nYou can add as many entities to a collection as you want. However, the size that an entity takes grows along with the increase of the dimensions of the vectors in the entity, reversely affecting the performance of searches within the collection. Therefore, plan your collection wisely on Zilliz Cloud by referring to [Schema Explained](https://zilliverse.feishu.cn/wiki/Vs4YwNnvzitoQ8kunlGcWMJInbf)."
+        "chunk_text": "# Cluster, Collection & Entities\n## Collection\n### Index\nUnlike Milvus instances, Zilliz Cloud clusters only support the **AUTOINDEX** algorithm for indexing. This algorithm is optimized for the three types of computing units (CUs) supported by Zilliz Cloud. For more information, see [AUTOINDEX Explained](https://zilliverse.feishu.cn/wiki/EA2twSf5oiERMDkriKScU9GInc4).\\\n\\\n# Cluster, Collection & Entities\n## Entities\nEntities in a collection are data records sharing the same set of fields, like a book in a library or a gene in a genome. As to an entity, the data stored in each field forms the entity.  \nBy specifying a query vector, search metrics, and optional filtering conditions, you can conduct vector searches among the entities in a collection. For example, if you search with the keyword \"Interesting Python demo\", any article whose title implies such semantic meaning will be returned as a relevant result. During this process, the search is actually conducted on the vector field **title_vector** to retrieve the top K nearest results. For details on vector searches, see [Search and Query](https://zilliverse.feishu.cn/wiki/YfMEwLHzeisARCk4VZ3cVhJmnjd).  \nYou can add as many entities to a collection as you want. However, the size that an entity takes grows along with the increase of the dimensions of the vectors in the entity, reversely affecting the performance of searches within the collection. Therefore, plan your collection wisely on Zilliz Cloud by referring to [Schema Explained](https://zilliverse.feishu.cn/wiki/Vs4YwNnvzitoQ8kunlGcWMJInbf)."
       },
       {
         "id": 450524927755105958,
         "distance": 0.046239592134952545,
         "chunk_id": 1,
         "doc_name": "zilliz_concept_doc.md",
-        "chunk_text": "# Cluster, Collection & Entities\n## Collection\n### Fields\nIn most cases, people describe an object in terms of its attributes, including size, weight, position, etc. These attributes of the object are similar to the fields in a collection.  \nAmong all the fields in a collection, the primary key is one of the most special, because the values stored in this field are unique throughout the entire collection. Each primary key maps to a different record in the collection.  \nIn the collection shown in Figure 1, the **id** field is the primary key. The first ID **0** maps to the article titled *The Mortality Rate of Coronavirus is Not Important*, and will not be used in any other records in this collection.\\n\\n# Cluster, Collection & Entities\n## Collection\n### Schema\nFields have their own properties, such as data types and related constraints for storing data in the field, like vector dimensions and distance metrics. By defining fields and their order, you will get a skeletal data structure termed schema, which shapes a collection in a way that resembles constructing the structure of a data table.  \nFor your reference, Zilliz Cloud supports the following field data types:  \n- Boolean value (BOOLEAN)\n- 8-byte floating-point (DOUBLE)\n- 4-byte floating-point (FLOAT)\n- Float vector (FLOAT_VECTOR)\n- 8-bit integer (INT8)\n- 32-bit integer (INT32)\n- 64-bit integer (INT64)\n- Variable character (VARCHAR)\n- [JSON](https://zilliverse.feishu.cn/wiki/H04VwNGoaimjcLkxoH4cs5TQnNd)  \nZilliz Cloud provides three types of CUs, each of which have its own application scenarios, and they are also the factor that impacts search performance.  \n> 📘 Notes\n>\n> **FLOAT_VECTOR** is the only data type that supports vector embeddings in Zilliz Cloud clusters."
+        "chunk_text": "# Cluster, Collection & Entities\n## Collection\n### Fields\nIn most cases, people describe an object in terms of its attributes, including size, weight, position, etc. These attributes of the object are similar to the fields in a collection.  \nAmong all the fields in a collection, the primary key is one of the most special, because the values stored in this field are unique throughout the entire collection. Each primary key maps to a different record in the collection.  \nIn the collection shown in Figure 1, the **id** field is the primary key. The first ID **0** maps to the article titled *The Mortality Rate of Coronavirus is Not Important*, and will not be used in any other records in this collection.\\\n\\\n# Cluster, Collection & Entities\n## Collection\n### Schema\nFields have their own properties, such as data types and related constraints for storing data in the field, like vector dimensions and distance metrics. By defining fields and their order, you will get a skeletal data structure termed schema, which shapes a collection in a way that resembles constructing the structure of a data table.  \nFor your reference, Zilliz Cloud supports the following field data types:  \n- Boolean value (BOOLEAN)\n- 8-byte floating-point (DOUBLE)\n- 4-byte floating-point (FLOAT)\n- Float vector (FLOAT_VECTOR)\n- 8-bit integer (INT8)\n- 32-bit integer (INT32)\n- 64-bit integer (INT64)\n- Variable character (VARCHAR)\n- [JSON](https://zilliverse.feishu.cn/wiki/H04VwNGoaimjcLkxoH4cs5TQnNd)  \nZilliz Cloud provides three types of CUs, each of which have its own application scenarios, and they are also the factor that impacts search performance.  \n> 📘 Notes\n>\n> **FLOAT_VECTOR** is the only data type that supports vector embeddings in Zilliz Cloud clusters."
       }
     ],
     "usage": {
@@ -798,9 +798,9 @@ curl --request POST \
 
     1. 「**PURGE_DOC_INDEX**」または「**PURGE_BY_EXPRESSION**」を**関数型**として選択します。**PURGE_DOC_INDEX**関数は、指定されたdoc_nameを持つすべての文書チャンクを削除できます。**PURGE_BY_EXPRESSION**関数は、指定されたフィルタ式に一致するすべてのエンティティを削除できます。
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. &#91;**追加**&#93;をクリックして関数を保存します。
 
-1. [**削除パイプラインを作成**]をクリックします。
+1. &#91;**削除パイプラインを作成**&#93;をクリックします。
 
 </TabItem>
 
@@ -893,7 +893,7 @@ curl --request POST \
 
     ![run-pipeline](/img/run-pipeline.png)
 
-1. [`doc_name`]フィールドに削除するドキュメントの名前を入力します。[**実行**]をクリックします。
+1. &#91;`doc_name`&#93;フィールドに削除するドキュメントの名前を入力します。&#91;**実行**&#93;をクリックします。
 
 1. 結果を確認してください。
 

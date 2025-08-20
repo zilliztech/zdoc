@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

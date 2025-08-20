@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

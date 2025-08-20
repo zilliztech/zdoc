@@ -14,10 +14,10 @@ keywords:
   - cloud
   - whitelist
   - setup
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 
@@ -42,9 +42,9 @@ Zilliz Cloudのホワイトリストは、プロジェクトレベルで堅牢�
 
 1. ホワイトリストを構成する特定の組織とプロジェクトに移動してください。
 
-1. 左側のナビゲーションウィンドウで、[**ネットワーク**]>[**IPアドレス**]を選択します。
+1. 左側のナビゲーションウィンドウで、&#91;**ネットワーク**&#93;&gt;&#91;**IPアドレス**&#93;を選択します。
 
-1. [**IPアドレスを追加**]をクリックします。
+1. &#91;**IPアドレスを追加**&#93;をクリックします。
 
 1. 表示されるダイアログボックスで、**IPアドレス(CIDR)**と**説明**を指定してください。
 
@@ -65,7 +65,7 @@ Zilliz Cloudのホワイトリストは、プロジェクトレベルで堅牢�
        </tr>
     </table>
 
-1. [**追加**]をクリックします。
+1. &#91;**追加**&#93;をクリックします。
 
 <Admonition type="info" icon="📘" title="ノート">
 

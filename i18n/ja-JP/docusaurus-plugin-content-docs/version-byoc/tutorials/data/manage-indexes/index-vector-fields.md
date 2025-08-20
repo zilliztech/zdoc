@@ -14,10 +14,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

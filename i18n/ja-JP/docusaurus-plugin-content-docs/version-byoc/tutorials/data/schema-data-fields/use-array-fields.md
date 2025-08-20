@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - array field
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

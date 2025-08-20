@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
@@ -83,7 +83,7 @@ curl --request DELETE \
 
 - [自動バックアップをスケジュールする](./schedule-automatic-backups)
 
-- [バックアップファイルを表示する](./manage-backup-files)
+- [バックアップファイルを表示する](./view-snapshot-details)
 
 - [バックアップファイルからの復元](./restore-from-snapshot)
 

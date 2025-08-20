@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

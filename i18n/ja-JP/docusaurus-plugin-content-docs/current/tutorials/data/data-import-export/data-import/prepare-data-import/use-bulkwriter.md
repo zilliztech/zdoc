@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

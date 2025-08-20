@@ -15,10 +15,10 @@ keywords:
   - milvus
   - performance
   - benchmark
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 
@@ -138,7 +138,7 @@ $ init_bench
 
 ホームページでは、VectorDBBenchが提供するいくつかの事前定義されたテストデータセットを見ることができ、それらを使用して迅速なパフォーマンスベンチマークを行うことができます。
 
-ウェブページを一番下までスクロールし、**テストを実行>**をクリックして独自のベンチマークテストを設定してください。
+ウェブページを一番下までスクロールし、**テストを実行&gt;**をクリックして独自のベンチマークテストを設定してください。
 
 ![HwQqbOpK7o6dXexeNZycsMT1ngb](/img/HwQqbOpK7o6dXexeNZycsMT1ngb.png)
 
@@ -146,7 +146,7 @@ $ init_bench
 
 ### ベンチマーク結果を見る{#view-benchmarking-results}
 
-ベンチマークの**結果**を表示して分析するには、[結果]をクリックします。以下はいくつかの例です。
+ベンチマークの**結果**を表示して分析するには、&#91;結果&#93;をクリックします。以下はいくつかの例です。
 
 ![OxxEbJtxGoRiAbx8Sbmc7X7onHc](/img/OxxEbJtxGoRiAbx8Sbmc7X7onHc.png)
 
@@ -156,6 +156,6 @@ $ init_bench
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>データベースは、[database<em>name]-[db</em>label]の形式で命名されます。 </p>
+<p>データベースは、&#91;database<em>name&#93;-&#91;db</em>label&#93;の形式で命名されます。 </p>
 
 </Admonition>

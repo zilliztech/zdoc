@@ -15,10 +15,10 @@ keywords:
   - pipelines
   - pricing
   - usage
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 
@@ -88,7 +88,7 @@ Ingestion Pipelineは、ファイルをトークンに解析し、トークン�
 
 1. ファイルの推定トークン数を確認してください。
 
-1. [**リセット**]をクリックして、別のローカルファイルをアップロードします。
+1. &#91;**リセット**&#93;をクリックして、別のローカルファイルをアップロードします。
 
 ## 関連するトピック{#related-topics}
 

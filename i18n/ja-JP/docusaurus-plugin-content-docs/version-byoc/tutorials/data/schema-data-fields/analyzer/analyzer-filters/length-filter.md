@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

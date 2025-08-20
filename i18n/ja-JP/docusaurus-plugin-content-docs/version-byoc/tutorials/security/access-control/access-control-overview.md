@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

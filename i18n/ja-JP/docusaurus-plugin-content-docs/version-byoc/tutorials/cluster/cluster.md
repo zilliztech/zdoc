@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

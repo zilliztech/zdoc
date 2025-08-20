@@ -14,10 +14,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - knn
-  - Image Search
   - LLMs
   - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

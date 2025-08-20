@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

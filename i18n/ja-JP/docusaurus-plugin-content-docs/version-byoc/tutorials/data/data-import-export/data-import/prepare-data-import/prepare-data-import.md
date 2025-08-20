@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

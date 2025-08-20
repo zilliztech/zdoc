@@ -16,10 +16,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 
@@ -168,7 +168,7 @@ Zilliz Cloudは唯一のインデックスタイプとしてAUTOINDEXをサポ�
 
 ### コレクションを作成{#create-collection}
 
-スキーマとインデックスが定義されたら、これらのパラメータを使用して「コレクション」を作成します。Zilliz Cloudクラスタ\</include>へのコレクションは、リレーショナルDBへのテーブルのようなものです。
+スキーマとインデックスが定義されたら、これらのパラメータを使用して「コレクション」を作成します。Zilliz Cloudクラスタ&lt;/include&gt;へのコレクションは、リレーショナルDBへのテーブルのようなものです。
 
 ```python
 client.create_collection(

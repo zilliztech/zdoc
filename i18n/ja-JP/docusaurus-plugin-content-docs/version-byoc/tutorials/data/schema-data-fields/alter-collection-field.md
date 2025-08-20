@@ -16,10 +16,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

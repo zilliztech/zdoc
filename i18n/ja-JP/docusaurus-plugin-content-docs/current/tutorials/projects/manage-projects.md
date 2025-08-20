@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

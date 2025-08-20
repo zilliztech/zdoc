@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cost
   - understand
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 
@@ -175,10 +175,10 @@ Read Cost = vCU Unit Price x Read vCU Usage
 
     <Admonition type="info" icon="📘" title="ノート">
 
-    <ol>
+    &lt;ol&gt;
     <li><p>vCUの使用量は、スキャンされたデータ体格に比例して増加しません。</p></li>
     <li><p>各読み取り操作には最低6つのvCUが必要です。</p></li>
-    </ol>
+    &lt;/ol&gt;
 
     </Admonition>
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

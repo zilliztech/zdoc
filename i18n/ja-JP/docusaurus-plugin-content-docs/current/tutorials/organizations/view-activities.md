@@ -14,10 +14,10 @@ keywords:
   - cloud
   - activities
   - view
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
@@ -30,7 +30,7 @@ Zilliz Cloudの**アクティビティ**機能は、の課金イベントやの�
 
 ## アクティビティを見る{#view-activities}
 
-組織ページで、左ナビゲーションウィンドウの[**アクティビティ**]をクリックします。ここでは、アクティビティの概要、各アクティビティが置かれた時間、および特定のアクティビティに関与したオペレーターのIDを閲覧できます。
+組織ページで、左ナビゲーションウィンドウの&#91;**アクティビティ**&#93;をクリックします。ここでは、アクティビティの概要、各アクティビティが置かれた時間、および特定のアクティビティに関与したオペレーターのIDを閲覧できます。
 
 ![view-activities-saas](/img/view-activities-saas.png)
 
@@ -40,7 +40,7 @@ Zilliz Cloudの**アクティビティ**機能は、の課金イベントやの�
 
 - **時間範囲でフィルター**
 
-    特定の期間内に発生したアクティビティを表示するには、開始時間と終了時間を選択します。希望の時間範囲を設定したら、[**適用**]をクリックして、この期間内のすべてのアクティビティを表示します。
+    特定の期間内に発生したアクティビティを表示するには、開始時間と終了時間を選択します。希望の時間範囲を設定したら、&#91;**適用**&#93;をクリックして、この期間内のすべてのアクティビティを表示します。
 
     <Admonition type="info" icon="📘" title="ノート">
 

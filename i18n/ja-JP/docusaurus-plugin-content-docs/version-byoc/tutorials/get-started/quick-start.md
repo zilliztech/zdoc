@@ -14,10 +14,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

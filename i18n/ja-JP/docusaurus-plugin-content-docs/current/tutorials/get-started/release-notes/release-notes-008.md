@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - dimension reduction
-  - hnsw algorithm
   - vector similarity search
   - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

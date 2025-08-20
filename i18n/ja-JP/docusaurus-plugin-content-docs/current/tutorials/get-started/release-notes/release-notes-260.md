@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

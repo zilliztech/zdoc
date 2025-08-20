@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - delete
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 
@@ -85,7 +85,7 @@ curl --request DELETE \
 
 - [自動バックアップをスケジュールする](./schedule-automatic-backups)
 
-- [バックアップファイルを表示する](./manage-backup-files)
+- [バックアップファイルを表示する](./view-snapshot-details)
 
 - [バックアップファイルからの復元](./restore-from-snapshot)
 

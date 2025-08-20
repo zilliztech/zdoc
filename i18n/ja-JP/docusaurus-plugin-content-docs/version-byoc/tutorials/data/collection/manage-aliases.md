@@ -15,10 +15,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

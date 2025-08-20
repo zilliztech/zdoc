@@ -16,10 +16,10 @@ keywords:
   - data
   - hybrid search
   - combine sparse and dense vectors
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 
@@ -65,7 +65,7 @@ import TabItem from '@theme/TabItem';
 
 1. ハイブリッド検索の実行:密なベクトルに対するANN検索は、上位K件の最も類似した結果のセットを返し、疎なベクトルに対するテキストマッチも上位K件の結果のセットを返します。
 
-1. 正規化:上位Kの2つの結果のスコアを正規化し、[0,1]の範囲に変換します。
+1. 正規化:上位Kの2つの結果のスコアを正規化し、&#91;0,1&#93;の範囲に変換します。
 
 1. 適切な再ランキング戦略を選択して、2つのトップKの結果セットをマージして再ランキングし、最終的にトップKの結果セットを返します。
 
@@ -676,7 +676,7 @@ export req='[
 
 1. **例1: WeightedRankerの使用**
 
-    WeightedRanker戦略を使用する場合、`WeightedRanker`関数に重み値を入力する必要があります。ハイブリッド検索の基本ANN検索の数は、入力する必要がある値の数に対応します。入力値は[0,1]の範囲内であり、1に近い値ほど重要度が高いことを示します。
+    WeightedRanker戦略を使用する場合、`WeightedRanker`関数に重み値を入力する必要があります。ハイブリッド検索の基本ANN検索の数は、入力する必要がある値の数に対応します。入力値は&#91;0,1&#93;の範囲内であり、1に近い値ほど重要度が高いことを示します。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

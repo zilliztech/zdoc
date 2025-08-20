@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

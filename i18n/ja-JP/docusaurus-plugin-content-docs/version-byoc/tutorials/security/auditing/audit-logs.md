@@ -15,10 +15,10 @@ keywords:
   - auditing
   - log
   - configure
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 
@@ -49,7 +49,7 @@ import Admonition from '@theme/Admonition';
 
 - **ファイルパス**:`/<Cluster ID>/<Log type>/<Date>`
 
-- **ファイルの命名規則**:`\<File name><File name suffix>`を*HH: MM:SS-UUID*の形式で指定します。ここで、*HH:MM:SS*はUTCで時刻を表し、*UUID*は一意のランダム文字列です。例:`09:16:53-jz5l7D8Q`。
+- **ファイルの命名規則**:`<File name><File name suffix>`をHH: MM:SS-UUIDの形式で指定します。ここで、HH:MM:SSはUTCで時刻を表し、UUIDは一意のランダム文字列です。例:`09:16:53-jz5l7D8Q`。
 
 以下は、バケットにストリーミングされた監査ログエントリの例です。
 
@@ -87,13 +87,13 @@ Zilliz Cloudの監査ログは、監査ログを直接ストレージバケッ�
 
 1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. 左側のナビゲーションウィンドウで、[**Clusters**]を選択します。
+1. 左側のナビゲーションウィンドウで、&#91;**Clusters**&#93;を選択します。
 
-1. ターゲットクラスタの詳細ページに移動し、[**Auditing**]タブを選択します。クラスタが**CREATING**、**DELETING**、または**DELETED**ステータスの場合、このタブは利用できません。
+1. ターゲットクラスタの詳細ページに移動し、&#91;**Auditing**&#93;タブを選択します。クラスタが**CREATING**、**DELETING**、または**DELETED**ステータスの場合、このタブは利用できません。
 
-1. [**Enable Audit Log Streaming**]をクリックします。
+1. &#91;**Enable Audit Log Streaming**&#93;をクリックします。
 
-1. [**Enable Audit Log Streaming**]ダイアログボックスで、オブジェクトストレージの統合設定を指定します。
+1. &#91;**Enable Audit Log Streaming**&#93;ダイアログボックスで、オブジェクトストレージの統合設定を指定します。
 
     - **Integrations**:オブジェクトストレージをホストするクラウドプロバイダを表示します。
 
@@ -107,7 +107,7 @@ Zilliz Cloudの監査ログは、監査ログを直接ストレージバケッ�
 
     - **Export Directory**:監査ログを保存するバケット内のディレクトリを指定してください。
 
-1. [**Enable**]をクリックします。[**Audit Log Streaming**]ステータスが[**Active**]になると、正常に有効になります。ステータスが異常の場合は、トラブルシューティングのために[FAQ](./audit-logs#faq)にアクセスしてください。
+1. &#91;**Enable**&#93;をクリックします。&#91;**Audit Log Streaming**&#93;ステータスが&#91;**Active**&#93;になると、正常に有効になります。ステータスが異常の場合は、トラブルシューティングのために[FAQ](./audit-logs#faq)にアクセスしてください。
 
 設定が完了すると、監査ログは約5分ごとにバケットにストリーミングされます。必要に応じてバケットにアクセスしてログを表示または管理できます。
 
@@ -123,7 +123,7 @@ Zilliz Cloudの監査ログは、監査ログを直接ストレージバケッ�
 
 このFAQでは、Zilliz Cloudの監査ログに関する一般的な問題や質問について説明しています。詳細については、[Zilliz Cloudサポート](https://zilliz.com/contact-sales)にお問い合わせください。
 
-- **クラスタの詳細ページに[Auditing]タブが見つからないのはなぜですか?**
+- **クラスタの詳細ページに&#91;Auditing&#93;タブが見つからないのはなぜですか?**
 
     監査タブは現在、**プライベートプレビュー**の一環としてホワイトリストに追加されたユーザーのみが利用できます。この機能にアクセスしたい場合は、[Zilliz Cloudサポート](https://zilliz.com/contact-sales)にお問い合わせください。
 

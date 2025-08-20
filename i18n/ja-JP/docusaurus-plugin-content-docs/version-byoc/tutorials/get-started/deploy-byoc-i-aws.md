@@ -17,10 +17,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 
@@ -57,7 +57,7 @@ import Admonition from '@theme/Admonition';
 
 ### ステップ2:プロジェクトを作成する{#step-2-create-a-project}
 
-BYOC-I組織内で、[**プロジェクトの作成とデータプレーンのデプロイ**]ボタンをクリックしてデプロイを開始します。
+BYOC-I組織内で、&#91;**プロジェクトの作成とデータプレーンのデプロイ**&#93;ボタンをクリックしてデプロイを開始します。
 
 ![TzN1b6TOSoGfJ9xrQV8c6rqznNf](/img/TzN1b6TOSoGfJ9xrQV8c6rqznNf.png)
 

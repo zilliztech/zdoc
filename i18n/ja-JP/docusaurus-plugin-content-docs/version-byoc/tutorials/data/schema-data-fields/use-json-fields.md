@@ -58,7 +58,7 @@ import TabItem from '@theme/TabItem';
 
 - **文字列の処理**: Milvusは、セマンティック変換なしでJSONフィールドに入力された文字列値を保存します。例えば: 
 
-    - `'a"b'`,`"a'b"`,`'a\'b'`と`"a\"b"`はそのまま保存されます。
+    - `'a"b'`,`"a'b"`,`'a\\'b'`と`"a\\"b"`はそのまま保存されます。
 
     - `'a'b'`と`"a"b"`は無効と見なされます。
 
@@ -324,8 +324,8 @@ indexes.add(IndexParam.builder()
 <TabItem value='go'>
 
 ```go
-jsonIndex1 := index.NewJSONPathIndex(index.Inverted, "varchar", `metadata["product_info"]["category"]`)
-jsonIndex2 := index.NewJSONPathIndex(index.Inverted, "double", `metadata["price"]`)
+jsonIndex1 := index.NewJSONPathIndex(index.Inverted, "varchar", `metadata&#91;"product_info"&#93;&#91;"category"&#93;`)
+jsonIndex2 := index.NewJSONPathIndex(index.Inverted, "double", `metadata&#91;"price"&#93;`)
 indexOpt1 := milvusclient.NewCreateIndexOption("my_collection", "metadata", jsonIndex1)
 indexOpt2 := milvusclient.NewCreateIndexOption("my_collection", "metadata", jsonIndex2)
 ```
@@ -429,8 +429,8 @@ curl --request POST \
    </tr>
    <tr>
      <td><p><code>params.json_path</code></p></td>
-     <td><p>インデックスを作成するJSONパスを指定します。ネストされたキー、配列の位置、または両方をターゲットにすることができます（例:<code>metadata["product_info"]["category"]</code>または<code>metadata["tags"][0]</code>）。</p><p>パスがない場合、または特定の行に配列要素が存在しない場合、インデックス作成中にその行は単にスキップされ、エラーはスローされません。</p></td>
-     <td><p><code>"metadata[\"product_info\"][\"category\"]"</code></p></td>
+     <td><p>インデックスを作成するJSONパスを指定します。ネストされたキー、配列の位置、または両方をターゲットにすることができます（例:<code>metadata&#91;"product_info"&#93;&#91;"category"&#93;</code>または<code>metadata&#91;"tags"&#93;&#91;0&#93;</code>）。</p><p>パスがない場合、または特定の行に配列要素が存在しない場合、インデックス作成中にその行は単にスキップされ、エラーはスローされません。</p></td>
+     <td><p><code>"metadata&#91;\"product_info\"&#93;&#91;\"category\"&#93;"</code></p></td>
    </tr>
    <tr>
      <td><p><code>params.json_cast_type</code></p></td>
@@ -451,7 +451,7 @@ curl --request POST \
 
 - **用語の表現**:
 
-    - [value 1, value 2,...]でjson["field"]を使用することができます。ただし、インデックスはそのパスに格納されたスカラー値に対してのみ機能します。json["field"]が配列の場合、クエリはブルートフォースにフォールバックされます（配列型インデックスはまだサポートされていません）。
+    - &#91;value 1, value 2,...&#93;でjson&#91;"field"&#93;を使用することができます。ただし、インデックスはそのパスに格納されたスカラー値に対してのみ機能します。json&#91;"field"&#93;が配列の場合、クエリはブルートフォースにフォールバックされます（配列型インデックスはまだサポートされていません）。
 
 - **数値の精度**:
 
@@ -702,15 +702,15 @@ _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collecti
     "product_info": {"category": "electronics", "brand": "BrandA"},
     "price": 99.99,
     "in_stock": True,
-    "tags": ["summer_sale"]
-}`),
+    "tags": &#91;"summer_sale"&#93;
+&#125;`),
         []byte(`null`),
         []byte(`null`),
         []byte(`"metadata": {
     "product_info": {"category": None, "brand": "BrandB"},
     "price": 59.99,
     "in_stock": None
-}`),
+&#125;`),
     }),
 ))
 if err != nil {
@@ -977,7 +977,7 @@ System.out.println(resp.getQueryResults());
 <TabItem value='go'>
 
 ```go
-filter = `metadata["product_info"]["category"] == "electronics"`
+filter = `metadata&#91;"product_info"&#93;&#91;"category"&#93; == "electronics"`
 rs, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
     WithFilter(filter).
     WithOutputFields("metadata", "pk"))

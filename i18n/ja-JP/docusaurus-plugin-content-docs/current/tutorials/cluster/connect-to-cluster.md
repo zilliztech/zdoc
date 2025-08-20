@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

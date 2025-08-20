@@ -17,10 +17,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 
@@ -35,7 +35,7 @@ Zilliz Cloudは、データの正確なクエリを可能にする強力なフ�
 
 Zilliz Cloudは、データをフィルタリングするためのいくつかの基本的な演算子をサポートしています。
 
-- **比較演算子**:`==`、`!=`、`>`、`\<`、`>=`、および`<=`は、数値フィールドまたはテキストフィールドに基づくフィルタリングを可能にします。
+- **比較演算子**:`==`、`!=`、`>`、`<`、`>=`、および`<=`は、数値フィールドまたはテキストフィールドに基づくフィルタリングを可能にします。
 
 - **範囲フィルター**:`IN`と`LIKE`は、特定の値範囲またはセットを一致させるのに役立ちます。
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - concepts
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

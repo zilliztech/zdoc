@@ -16,10 +16,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 
@@ -168,7 +168,7 @@ Zilliz Cloudは唯一のインデックスタイプとしてAUTOINDEXをサポ�
 
 ### コレクションを作成{#create-collection}
 
-スキーマとインデックスが定義されたら、これらのパラメータを使用して「コレクション」を作成します。Zilliz Cloudクラスタ\</include>へのコレクションは、リレーショナルDBへのテーブルのようなものです。
+スキーマとインデックスが定義されたら、これらのパラメータを使用して「コレクション」を作成します。Zilliz Cloudクラスタ&lt;/include&gt;へのコレクションは、リレーショナルDBへのテーブルのようなものです。
 
 ```python
 client.create_collection(
