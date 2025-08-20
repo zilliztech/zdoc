@@ -17,10 +17,10 @@ keywords:
   - rbac
   - users
   - overview
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

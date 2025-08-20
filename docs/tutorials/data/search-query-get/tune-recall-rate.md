@@ -18,10 +18,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
@@ -121,6 +121,12 @@ During the estimation process, Zilliz Cloud:
 1. Use the second search as the ground truth to estimate the recall rate.
 
 While setting `enable_recall_calculation` to `True`, you can adjust the value of the `level` parameter to obtain multiple recall rates. By considering these estimated figures and the duration of each search, you can roughly estimate the appropriate level setting.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Enabling <code>enable_recall_calculation</code> may impact search performance and is not recommended in production.</p>
+
+</Admonition>
 
 ## Limits{#limits}
 

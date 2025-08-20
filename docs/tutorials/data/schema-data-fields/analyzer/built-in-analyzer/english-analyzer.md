@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - english analyzer
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

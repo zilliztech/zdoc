@@ -1,0 +1,125 @@
+---
+title: "Data Transfer Cost | Cloud"
+slug: /data-transfer-cost
+sidebar_label: "Data Transfer"
+beta: FALSE
+notebook: FALSE
+description: "Data transfer can be traffic coming into Zilliz Cloud, leaving Zilliz Cloud out into the internet, or in between two resources within Zilliz Cloud. Data transfer costs in Zilliz Cloud are billed based on the amount of data transferred. | Cloud"
+type: origin
+token: BClgwKlHaiushBkPPssclTkYnef
+sidebar_position: 4
+keywords: 
+  - zilliz
+  - vector database
+  - cloud
+  - data transfer
+  - cost
+  - billing
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
+
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# Data Transfer Cost
+
+Data transfer can be traffic coming into Zilliz Cloud, leaving Zilliz Cloud out into the internet, or in between two resources within Zilliz Cloud. Data transfer costs in Zilliz Cloud are billed based on the amount of data transferred. 
+
+The following table compares the different data transfer types.
+
+<table>
+   <tr>
+     <th><p><strong>Data Transfer Type</strong></p></th>
+     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>Common Scenarios</strong></p></th>
+     <th><p><strong>Pricing</strong></p></th>
+   </tr>
+   <tr>
+     <td><p><strong>Public Internet Egress</strong></p></td>
+     <td><p>The transfer of data from Zilliz Cloud to destinations over the public internet, such as external networks, client applications, or third-party services outside the cloud provider’s private network.</p></td>
+     <td><p>Returning search or query results to a client app hosted outside the cloud provider.</p></td>
+     <td><p>The most expensive. For detailed rates, see <a href="http://zilliz.com/pricing-guide">Zilliz Cloud Pricing Guide</a>.</p></td>
+   </tr>
+   <tr>
+     <td><p><strong>Cross-region Transfer</strong></p></td>
+     <td><p>The movement of data between different regions within the same cloud provider’s network, which may incur additional latency and costs compared to intra-region transfer.</p></td>
+     <td><ul><li><p>Cross region backup</p></li><li><p>Data migration between Zilliz Cloud clusters deployed in different regions.</p></li></ul></td>
+     <td><ul><li><p>For AWS, the cost is determined by the source continent.</p></li><li><p>For Azure and Google Cloud, the cost is determined by both the source and destination continents - transfers to a different region within the same continent are billed at lower rates, while transfers to a different continent incur higher rates.</p><p>For detailed rates, see <a href="http://zilliz.com/pricing-guide">Zilliz Cloud Pricing Guide</a>.</p></li></ul></td>
+   </tr>
+   <tr>
+     <td><p><strong>Intra-region Transfer</strong></p></td>
+     <td><p>The transfer of data between within the same region of a cloud provider, typically incurring lower latency and cost than cross-region transfers.</p></td>
+     <td><ul><li><p>Forwarding audit logs to intra-region cloud object storage</p></li><li><p>Data migration between Zilliz Cloud clusters deployed in the same region.</p></li></ul></td>
+     <td><p>Free</p></td>
+   </tr>
+</table>
+
+## Sources of data transfer cost{#sources-of-data-transfer-cost}
+
+You will be billed for data transfer in the following scenarios:
+
+- Operations like [search/query](null)
+
+- Forwarding [audit logs](./audit-logs) to cloud object storage
+
+- [Zero downtime migration](./zero-downtime-migration) data sync
+
+- [Offline migration](./offline-migration)
+
+<Admonition type="info" icon="📘" title="Note">
+
+<p>If the data transfer occurs within the same cloud region, the cost may be &#36;0.</p>
+<p>If you use a private endpoint to conduct operations like search or query, no data transfer cost will incur.</p>
+
+</Admonition>
+
+## Cost calculation{#cost-calculation}
+
+```plaintext
+Data Transfer Cost = Data Transfer Unit Price × Transferred Data Size
+```
+
+- **Data Transfer Unit Price**: Determined by cluster cloud provider and region, data transfer type (public internet, cross-region, or intra-region). For detailed rates, see [Zilliz Cloud Pricing Guide](http://zilliz.com/pricing-guide).
+
+- **Transferred Data Size**: Measured in GB and calculated based on the size of the data sent over the network.
+
+## Examples{#examples}
+
+The following are some examples to help you understand how storage costs are calculated.
+
+### Example 1: Public internet egress{#example-1-public-internet-egress}
+
+Suppose your cluster is deployed in AWS us-east-1 (Virginia) and you return search results to clients via the public internet:
+
+- **Transferred Data Size**: 500 GB over one month
+
+- **Transfer Type**: Public Internet Egress
+
+- **Unit Price**: &#36;0.09/GB (based on AWS us-east-1 public internet egress rate)
+
+The data transfer cost is `$0.09 × 500 = $45.00`.
+
+### Example 2: Cross-region transfer{#example-2-cross-region-transfer}
+
+Suppose your cluster is deployed in GCP us-west1 (Oregon) and you need to back up this cluster to 2 different regions, GCP us-central1 (Iowa) and GCP europe-west3 (Frankfurt):
+
+- **Backup File Size**: 20 GB
+
+- **Transfer Type**: Cross-region Transfer
+
+- **Unit Price**: 
+
+    - Data transfer from GCP us-west1 (Oregon) to GCP us-central1 (Iowa) is billed at the same-continent cross-region rate of **$0.01/GB**.
+
+    - Data transfer from GCP us-west1 (Oregon) to GCP europe-west3 (Frankfurt) is billed at the different-continent cross-region rate of **$0.08/GB**.
+
+The data transfer cost is `$0.01 × 20 + $0.08 x 20 = $1.80`.
+
+### Example 3: Intra-region transfer{#example-3-intra-region-transfer}
+
+Suppose you have enabled audit logging for your cluster deployed in AWS us-east-1 (Virginia) and you need to forward the audit logs of this cluster to an AWS S3 bucket created in the same cloud region. The data transfer cost in this case will be **$0** because intra-region data transfer is free of charge.
+

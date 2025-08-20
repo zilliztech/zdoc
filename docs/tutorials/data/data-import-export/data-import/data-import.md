@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

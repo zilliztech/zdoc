@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - data
   - vector search
   - ann
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 
@@ -286,27 +286,27 @@ The following table lists the applicable metric types and the corresponding dist
    <tr>
      <td><p><code>L2</code></p></td>
      <td><p>A smaller value indicates a higher similarity.</p></td>
-     <td><p>[0, ∞)</p></td>
+     <td><p>&#91;0, ∞)</p></td>
    </tr>
    <tr>
      <td><p><code>IP</code></p></td>
      <td><p>A greater value indicates a higher similarity.</p></td>
-     <td><p>[-1, 1]</p></td>
+     <td><p>&#91;-1, 1&#93;</p></td>
    </tr>
    <tr>
      <td><p><code>COSINE</code></p></td>
      <td><p>A greater value indicates a higher similarity.</p></td>
-     <td><p>[-1, 1]</p></td>
+     <td><p>&#91;-1, 1&#93;</p></td>
    </tr>
    <tr>
      <td><p><code>JACCARD</code></p></td>
      <td><p>A smaller value indicates a higher similarity.</p></td>
-     <td><p>[0, 1]</p></td>
+     <td><p>&#91;0, 1&#93;</p></td>
    </tr>
    <tr>
      <td><p><code>HAMMING</code></p></td>
      <td><p>A smaller value indicates a higher similarity.</p></td>
-     <td><p>[0, dim(vector)]</p></td>
+     <td><p>&#91;0, dim(vector)&#93;</p></td>
    </tr>
 </table>
 

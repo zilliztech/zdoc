@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

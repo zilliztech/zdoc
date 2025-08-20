@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 
@@ -51,7 +51,7 @@ Make sure the following condition is met:
 
 ## Create private endpoint{#create-private-endpoint}
 
-Zilliz Cloud offers you an intuitive web console to add a private endpoint. Navigate to your target project and click **Network > Private Endpoint** in the left navigation. Click **+ Private Endpoint**.
+Zilliz Cloud offers you an intuitive web console to add a private endpoint. Navigate to your target project and click **Network &gt; Private Endpoint** in the left navigation. Click **+ Private Endpoint**.
 
 ![setup_private_link_aws_01](/img/setup_private_link_aws_01.png)
 
@@ -210,7 +210,7 @@ To disable public endpoints:
 
 ![disable_public_endpoint](/img/disable_public_endpoint.png)
 
-## Troubleshooting{#troubleshooting}
+## FAQ{#faq}
 
 ### Why does it always report `Name or service not known` when I ping the private link on GCP?{#why-does-it-always-report-name-or-service-not-known-when-i-ping-the-private-link-on-gcp}
 
@@ -224,4 +224,6 @@ Check your DNS settings by referring to [Set up firewall rules and a DNS record]
 
     ![private_link_gcp_ts_02](/img/private_link_gcp_ts_02.png)
 
-    
+### Can I create a private endpoint for an existing cluster?{#can-i-create-a-private-endpoint-for-an-existing-cluster}
+
+Yes. When you create a private endpoint, it will take effect on all existing and future Dedicated (Enterprise) clusters that reside in the same region and project. All you need to do is to add different DNS records for different clusters.

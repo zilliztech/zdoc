@@ -27,6 +27,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 - [Is there any limit to the number of fields I can add in a collection?](#is-there-any-limit-to-the-number-of-fields-i-can-add-in-a-collection)
 - [What's the difference between partitions and partition keys?](#whats-the-difference-between-partitions-and-partition-keys)
 - [Can I modify the number of shards in a collection?](#can-i-modify-the-number-of-shards-in-a-collection)
+- [Is there any rules for partition names?](#is-there-any-rules-for-partition-names)
 
 ## FAQs
 
@@ -120,3 +121,7 @@ Yes. To change the number of shards, use the "[clone collection](./manage-collec
     - Click **Clone**.
 
 1. After the cloned collection is created, update your application code to use the newly cloned collection.
+
+### Is there any rules for partition names?{#is-there-any-rules-for-partition-names}
+
+Yes. Partition name can contain only letters, numbers, underscores (“_”), and hyphens(“-”), and cannot start with a number or a hyphen.

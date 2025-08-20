@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - DML
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

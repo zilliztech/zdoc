@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - jieba-tokenizer
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 
@@ -32,6 +32,12 @@ import TabItem from '@theme/TabItem';
 
 The `jieba` tokenizer processes Chinese text by breaking it down into its component words.
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>The <code>jieba</code> tokenizer preserves punctuation marks as separate tokens in the output. For example, <code>"你好！世界。"</code> becomes <code>&#91;"你好", "！", "世界", "。"&#93;</code>. To remove these standalone punctuation tokens, use the <code>removepunct</code> filter.</p>
+
+</Admonition>
+
 ## Configuration{#configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
@@ -40,7 +46,7 @@ The `jieba` tokenizer processes Chinese text by breaking it down into its compon
 ```python
 # Simple configuration: only specifying the tokenizer name
 analyzer_params = {
-    "tokenizer": "jieba",  # Use the default settings: dict=["_default_"], mode="search", hmm=true
+    "tokenizer": "jieba",  # Use the default settings: dict=["_default_"], mode="search", hmm=True
 }
 ```
 

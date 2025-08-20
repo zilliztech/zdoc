@@ -16,10 +16,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 
@@ -79,7 +79,7 @@ The next step is to translate your business requirements into a concrete data mo
 
     - Numeric attributes like price or rating → integer or float
 
-    - Structured information such as author details -> json
+    - Structured information such as author details -&gt; json
 
 A clear definition of these elements ensures data consistency, accurate search results, and ease of integration with downstream application logics.
 

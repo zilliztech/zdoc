@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 
@@ -32,7 +32,7 @@ Zilliz Cloud supports cluster-level replication. Each replica is an exact copy o
 
 For users with small datasets experiencing QPS bottlenecks, adding replicas can distribute the query workload, enhancing overall query throughput. However, adding replicas will not increase the cluster capacity because the capacity is only determined by the CU size of each cluster. If you want to increase the cluster capacity, please refer to [Scale Cluster](./scale-cluster).
 
-Configuring replicas will affect the cluster's monthly CU cost. The storage cost of the cluster will remain unchanged. For more information, refer to [Estimate Cost](./understand-cost).
+Configuring replicas will affect the cluster's monthly CU cost. The storage cost of the cluster will remain unchanged. For more information, refer to [Estimate Cost](./undefined).
 
 This guide outlines the procedures of configuring replicas for a cluster in Zilliz Cloud.
 

@@ -18,10 +18,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

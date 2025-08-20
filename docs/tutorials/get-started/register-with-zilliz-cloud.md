@@ -14,10 +14,10 @@ keywords:
   - register
   - cloud
   - milvus
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 
@@ -134,3 +134,7 @@ To link your GitHub account with us, follow the steps below.
 
 Always use the same method you chose for registration when logging in to your Zilliz Cloud account.
 
+## FAQ{#faq}
+
+**Why did my registration fail?**
+You may have already registered an account with this email address. Please try logging in directly. If the issue persists, please [create a support ticket](http://support.zilliz.com).

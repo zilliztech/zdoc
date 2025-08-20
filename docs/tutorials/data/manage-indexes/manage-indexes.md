@@ -14,10 +14,10 @@ keywords:
   - cloud
   - index
   - manage
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - cncharonly
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 
@@ -41,7 +41,7 @@ The `cncharonly` filter is built into Zilliz Cloud. To use it, simply specify it
 
 ```python
 analyzer_params = {
-    "tokenizer": "standard",
+    "tokenizer": "jieba",
     "filter": ["cncharonly"],
 }
 ```
@@ -52,7 +52,7 @@ analyzer_params = {
 
 ```java
 Map<String, Object> analyzerParams = new HashMap<>();
-analyzerParams.put("tokenizer", "standard");
+analyzerParams.put("tokenizer", "jieba");
 analyzerParams.put("filter", Collections.singletonList("cncharonly"));
 ```
 
@@ -62,7 +62,7 @@ analyzerParams.put("filter", Collections.singletonList("cncharonly"));
 
 ```javascript
 const analyzer_params = {
-    "tokenizer": "standard",
+    "tokenizer": "jieba",
     "filter": ["cncharonly"],
 };
 ```
@@ -72,7 +72,7 @@ const analyzer_params = {
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"cncharonly"}}
+analyzerParams = map[string]any{"tokenizer": "jieba", "filter": []any{"cncharonly"}}
 ```
 
 </TabItem>
@@ -82,7 +82,7 @@ analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"cnchar
 ```bash
 # restful
 analyzerParams='{
-  "tokenizer": "standard",
+  "tokenizer": "jieba",
   "filter": [
     "cncharonly"
   ]
@@ -106,7 +106,7 @@ After defining `analyzer_params`, you can apply them to a `VARCHAR` field when d
 
 ```python
 analyzer_params = {
-    "tokenizer": "standard",
+    "tokenizer": "jieba",
     "filter": ["cncharonly"],
 }
 ```
@@ -117,7 +117,7 @@ analyzer_params = {
 
 ```java
 Map<String, Object> analyzerParams = new HashMap<>();
-analyzerParams.put("tokenizer", "standard");
+analyzerParams.put("tokenizer", "jieba");
 analyzerParams.put("filter", Collections.singletonList("cncharonly"));
 ```
 
@@ -134,7 +134,7 @@ analyzerParams.put("filter", Collections.singletonList("cncharonly"));
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"cncharonly"}}
+analyzerParams = map[string]any{"tokenizer": "jieba", "filter": []any{"cncharonly"}}
 ```
 
 </TabItem>

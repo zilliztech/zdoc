@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Zilliz Cloud provides an MCP server](https//github.com/zilliztech/zilliz-mcp-server/tree/master) that enables AI agents to interact with Zilliz Cloud seamlessly through the standardized [Model Context Protocol (MCP). This page guides you through setting up the Zilliz MCP Server locally and using it with your preferred AI agents. | Cloud"
 type: origin
 token: WRFqwygyNiZ0YJkmsfwcGEsSn4d
-sidebar_position: 14
+sidebar_position: 13
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - mcp
   - milvus
   - mcp server
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 
@@ -152,7 +152,7 @@ If you prefer to share Zilliz MCP Server among multiple AI agents running on dif
 
 MCP is an open protocol that standardizes how applications provide context to LLMs. Lots of AI-driven applications support it. In this step, you will learn how to add the configuration to Cursor, an AI code editor.
 
-1. Start Cursor and choose **Cursor** > **Settings** > **Cursor Settings** in the top menu bar.
+1. Start Cursor and choose **Cursor** &gt; **Settings** &gt; **Cursor Settings** in the top menu bar.
 
 1. Choose **Tools & Integrations** from the left navigation pane.
 

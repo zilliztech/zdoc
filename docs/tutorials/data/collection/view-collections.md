@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

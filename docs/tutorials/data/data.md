@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

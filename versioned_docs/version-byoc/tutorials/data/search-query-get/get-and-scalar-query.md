@@ -17,10 +17,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

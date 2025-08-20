@@ -7,16 +7,16 @@ notebook: FALSE
 description: "We are pleased to announce the general availability of a significant update to Zilliz Cloud. This release raises the standard of vector database services for usability, security, performance, and capability to a new stage, bringing you a state-of-the-art vector database experience built for everyone. | Cloud"
 type: origin
 token: XmUYwRgNDitesQkl9QDc3IslnOh
-sidebar_position: 23
+sidebar_position: 24
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

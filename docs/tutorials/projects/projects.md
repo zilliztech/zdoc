@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

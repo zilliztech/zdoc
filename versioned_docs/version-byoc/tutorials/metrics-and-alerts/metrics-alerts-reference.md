@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 
@@ -90,16 +90,16 @@ The table provides a description of each metric and the actions that you are adv
      <td colspan="4"><p><strong>Resources</strong></p></td>
    </tr>
    <tr>
-     <td><p>CU Computation</p></td>
+     <td><p>Query Node CU Computation</p></td>
      <td><p>%</p></td>
      <td><p>A measure of the utilized computational power relative to the total computational capacity of the CU.</p><p>This metric is available only for <strong>Dedicated</strong> or <strong>BYOC</strong> clusters.</p></td>
-     <td><p><strong>70%-80%</strong>: Check service status and prepare for <a href="./manage-cluster">scaling up</a>.</p><p><strong>> 90%</strong>: <a href="./manage-cluster">Scale up</a> immediately to avoid service interruption.</p></td>
+     <td><p><strong>70%-80%</strong>: Check service status and prepare for <a href="./manage-cluster">scaling up</a>.</p><p><strong>&gt; 90%</strong>: <a href="./manage-cluster">Scale up</a> immediately to avoid service interruption.</p></td>
    </tr>
    <tr>
-     <td><p>CU Capacity</p></td>
+     <td><p>Query Node CU Capacity</p></td>
      <td><p>%</p></td>
      <td><p>A measure of the used capacity relative to the total capacity of the CU.</p><p>This metric is available for <strong>Free</strong>, <strong>Dedicated</strong> or <strong>BYOC</strong> clusters.</p></td>
-     <td><p><strong>70%-80%</strong>: Check service status and prepare for scaling up.</p><p><strong>> 90%</strong>: <a href="./manage-cluster">Scale up</a> immediately to avoid service interruption.</p><p><strong>100%</strong>: When CU capacity reaches 100%, you will be unable to write data into the cluster. Please <a href="./manage-cluster">scale up</a> immediately to avoid service interruption.</p></td>
+     <td><p><strong>70%-80%</strong>: Check service status and prepare for scaling up.</p><p><strong>&gt; 90%</strong>: <a href="./manage-cluster">Scale up</a> immediately to avoid service interruption.</p><p><strong>100%</strong>: When CU capacity reaches 100%, you will be unable to write data into the cluster. Please <a href="./manage-cluster">scale up</a> immediately to avoid service interruption.</p></td>
    </tr>
    <tr>
      <td><p>Storage</p></td>
@@ -108,18 +108,30 @@ The table provides a description of each metric and the actions that you are adv
      <td><p><a href="./manage-project-alerts">Configure alerts</a> for monitoring storage usage.</p></td>
    </tr>
    <tr>
+     <td><p>Total Query Node CU Size</p></td>
+     <td><p>count</p></td>
+     <td><p>The total CU allocation for query nodes in the current cluster. It is calculated as the product of the cluster CU size and the replica count. </p><p>For example, if your cluster has 2 CUs and 2 replicas, the total query node CU size will be 4.</p><p>This metric is available only for <strong>Dedicated</strong> or <strong>BYOC</strong> clusters.</p></td>
+     <td><p>Monitor this metric to identify query node CU <a href="./scale-cluster">scaling</a> events.</p></td>
+   </tr>
+   <tr>
+     <td><p>Replica Count</p></td>
+     <td><p>count</p></td>
+     <td><p>The number of cluster replicas.</p><p>This metric is available only for <strong>Dedicated</strong> or <strong>BYOC</strong> clusters.</p></td>
+     <td><p>Monitor this metric to identify replica <a href="./manage-replica">scaling</a> events.</p></td>
+   </tr>
+   <tr>
      <td colspan="4"><p><strong>Performance</strong></p></td>
    </tr>
    <tr>
-     <td><p>QPS/VPS (Read)</p></td>
-     <td><p>QPS/VPS</p></td>
-     <td><p><strong>QPS</strong>: The number of read requests (search and query) per second.</p><p><strong>VPS</strong>: The number of read requests (search) on vectors per second. VPS is not available for query requests as query operations do not involve vectors.</p></td>
+     <td><p>Read QPS/ Search NQ per Second</p></td>
+     <td><p>-</p></td>
+     <td><p><strong>QPS</strong>: The number of read requests (search and query) per second.</p><p><strong>Search NQ per Second</strong>: The number of query vectors that each search request carries per second. Search NQ per Second is not available for query requests as query operations do not involve vectors.</p></td>
      <td><p>Refer to <a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> for system performance monitoring.</p></td>
    </tr>
    <tr>
-     <td><p>QPS/VPS (Write)</p></td>
-     <td><p>QPS/VPS</p></td>
-     <td><p><strong>QPS</strong>: The number of write requests (insert, bulk insert, upsert, and delete) per second.</p><p><strong>VPS</strong>: The number of write requests (insert, bulk insert, upsert, and delete) on vectors per second.</p></td>
+     <td><p>Write QPS/ Write Throughput (Entities/sec)</p></td>
+     <td><p>-</p></td>
+     <td><p><strong>QPS</strong>: The number of write requests (insert, bulk insert, upsert, and delete) per second.</p><p><strong>Write Throughput (Entities/sec)</strong>: The number of entities written per second across all write operations (insert, upsert, bulk insert, and delete).</p></td>
      <td><p>Refer to <a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> for system performance monitoring.</p></td>
    </tr>
    <tr>
@@ -176,14 +188,14 @@ The table provides a description of each metric and the actions that you are adv
    <tr>
      <td><p>Entity Count</p></td>
      <td><p>count</p></td>
-     <td><p>The number of entities inserted into a cluster.</p><p>Selecting a specific collection from the expanded dropdown menu on the right displays the number of entities at the collection level.</p></td>
+     <td><p>The total number of entities inserted into the cluster, including both single inserts and bulk inserts.</p><p>Selecting a specific collection from the expanded dropdown menu on the right displays the number of entities at the collection level.</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
-     <td><p>Loaded Entities</p></td>
+     <td><p>Loaded Entities (Approx.)</p></td>
      <td><p>count</p></td>
-     <td><p>The number of entities loaded (actively served) by a cluster.</p><p>Selecting a specific collection from the expanded dropdown menu on the right displays the number of loaded entities at the collection level.</p><p>This metric is available only for <strong>Dedicated</strong> or <strong>BYOC</strong> clusters.</p></td>
-     <td><p>-</p></td>
+     <td><p>The approximate number of entities loaded (actively served) by a cluster.</p><p>Selecting a specific collection from the expanded dropdown menu on the right displays the number of loaded entities at the collection level.</p><p>This metric is available only for <strong>Dedicated</strong> or <strong>BYOC</strong> clusters.</p></td>
+     <td><p>For a more accurate and real-time value, please refer to the "Loaded Entities" value on the collection overview page or use <a href="https://docs.zilliz.com.cn/docs/single-vector-search#use-count-as-output-field">count(*)</a>.</p></td>
    </tr>
    <tr>
      <td><p>Number of Unloaded Collections</p></td>
@@ -209,14 +221,14 @@ Organization alerts keep you informed about license-related issues such as the l
      <td><p>License (Core Usage)</p></td>
      <td><p>%</p></td>
      <td><p>Monitor the percentage of used CPU cores against the total licensed cores.</p></td>
-     <td><p><strong>> 70%</strong>: Assess future needs and prepare to renew or upgrade the license.</p><p><strong>> 100%</strong>: Renew or upgrade the license immediately to avoid operational disruptions.</p></td>
+     <td><p><strong>&gt; 70%</strong>: Assess future needs and prepare to renew or upgrade the license.</p><p><strong>&gt; 100%</strong>: Renew or upgrade the license immediately to avoid operational disruptions.</p></td>
      <td><p><strong>WARNING</strong>: Trigger alerts when the number of used CPU cores reaches or exceeds 70% of the total.</p><p><strong>CRITICAL</strong>: Trigger alerts when the number of used CPU cores reaches or exceeds 100% of the total.</p></td>
    </tr>
    <tr>
      <td><p>License (Validity Period)</p></td>
      <td><p>Day</p></td>
      <td><p>Track the remaining days of license validity.</p></td>
-     <td><p><strong>< 60 days</strong>: Start preparing to renew or upgrade the license. </p><p><strong>< 0 day</strong> (expired): Renew or upgrade the license immediately to avoid restrictions like the inability to create new clusters or scale up.</p></td>
+     <td><p><strong>&lt; 60 days</strong>: Start preparing to renew or upgrade the license. </p><p><strong>&lt; 0 day</strong> (expired): Renew or upgrade the license immediately to avoid restrictions like the inability to create new clusters or scale up.</p></td>
      <td><p><strong>WARNING</strong>: Trigger alerts when the license validity is 60 days or less.</p><p><strong>CRITICAL</strong>: Trigger alerts when the license expires.</p></td>
    </tr>
 </table>
@@ -225,7 +237,7 @@ Organization alerts keep you informed about license-related issues such as the l
 
 Project alerts focus on the operational aspects of your clusters, including notifications on the CU usage, QPS thresholds, latency issues, and request anomalies, ensuring you maintain optimal cluster performance.
 
-For each project alert target, the trigger condition includes a threshold value and a duration value that must be met for the alert to be triggered. The condition can be set to one of the following operators: >, >=, \<, \<=, =. The threshold value can be a numeric value, such as a number for metrics like query latency, query QPS, search QPS, CU Capacity, and CU Computation. The duration specifies how long the threshold must be exceeded, which is set to a minimum of 1 minute and a maximum of 30 minutes.
+For each project alert target, the trigger condition includes a threshold value and a duration value that must be met for the alert to be triggered. The condition can be set to one of the following operators: &gt;, &gt;=, \&lt;, \&lt;=, =. The threshold value can be a numeric value, such as a number for metrics like query latency, query QPS, search QPS, CU Capacity, and CU Computation. The duration specifies how long the threshold must be exceeded, which is set to a minimum of 1 minute and a maximum of 30 minutes.
 
 ### Default alert targets{#default-alert-targets}
 

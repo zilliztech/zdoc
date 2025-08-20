@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - cnalphanumonly
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 
@@ -41,7 +41,7 @@ The `cnalphanumonly` filter is built into Zilliz Cloud. To use it, simply specif
 
 ```python
 analyzer_params = {
-    "tokenizer": "standard",
+    "tokenizer": "jieba",
     "filter": ["cnalphanumonly"],
 }
 ```
@@ -52,7 +52,7 @@ analyzer_params = {
 
 ```java
 Map<String, Object> analyzerParams = new HashMap<>();
-analyzerParams.put("tokenizer", "standard");
+analyzerParams.put("tokenizer", "jieba");
 analyzerParams.put("filter", Collections.singletonList("cnalphanumonly"));
 ```
 
@@ -62,7 +62,7 @@ analyzerParams.put("filter", Collections.singletonList("cnalphanumonly"));
 
 ```javascript
 const analyzer_params = {
-    "tokenizer": "standard",
+    "tokenizer": "jieba",
     "filter": ["cnalphanumonly"],
 };
 ```
@@ -72,7 +72,7 @@ const analyzer_params = {
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"cnalphanumonly"}}
+analyzerParams = map[string]any{"tokenizer": "jieba", "filter": []any{"cnalphanumonly"}}
 ```
 
 </TabItem>
@@ -82,7 +82,7 @@ analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"cnalph
 ```bash
 # restful
 analyzerParams='{
-  "tokenizer": "standard",
+  "tokenizer": "jieba",
   "filter": [
     "cnalphanumonly"
   ]
@@ -105,7 +105,7 @@ After defining `analyzer_params`, you can apply them to a `VARCHAR` field when d
 
 ```python
 analyzer_params = {
-    "tokenizer": "standard",
+    "tokenizer": "jieba",
     "filter": ["cnalphanumonly"],
 }
 ```
@@ -116,7 +116,7 @@ analyzer_params = {
 
 ```java
 Map<String, Object> analyzerParams = new HashMap<>();
-analyzerParams.put("tokenizer", "standard");
+analyzerParams.put("tokenizer", "jieba");
 analyzerParams.put("filter", Collections.singletonList("cnalphanumonly"));
 ```
 
@@ -133,7 +133,7 @@ analyzerParams.put("filter", Collections.singletonList("cnalphanumonly"));
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"cnalphanumonly"}}
+analyzerParams = map[string]any{"tokenizer": "jieba", "filter": []any{"cnalphanumonly"}}
 ```
 
 </TabItem>

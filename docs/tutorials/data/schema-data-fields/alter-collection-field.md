@@ -16,10 +16,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - rag vector database
-  - what is vector db
   - what are vector databases
   - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

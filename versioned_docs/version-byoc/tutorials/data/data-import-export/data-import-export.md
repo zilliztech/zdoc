@@ -15,10 +15,10 @@ keywords:
   - data import
   - export
   - milvus
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

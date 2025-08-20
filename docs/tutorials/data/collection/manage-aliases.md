@@ -15,10 +15,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

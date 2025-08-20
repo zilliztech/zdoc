@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
@@ -91,7 +91,9 @@ For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster-v2).
 
 ## Resume cluster{#resume-cluster}
 
-Free and Serverless clusters are automatically suspended after 7 days of inactivity and can be resumed anytime.
+Free clusters are automatically suspended after 7 days of inactivity and can be resumed anytime.
+
+Serverless clusters do not support suspend and resume operations.
 
 Suspended Dedicated clusters can also be resumed manually when needed.
 

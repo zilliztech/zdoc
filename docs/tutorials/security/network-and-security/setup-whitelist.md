@@ -14,10 +14,10 @@ keywords:
   - cloud
   - whitelist
   - setup
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 
@@ -42,7 +42,7 @@ Ensure the following prerequisites are met before proceeding:
 
 1. Navigate to the specific organization and project where the whitelist is to be configured.
 
-1. In the left-side navigation pane, choose **Network** >  **IP Address**.
+1. In the left-side navigation pane, choose **Network** &gt;  **IP Address**.
 
 1. Click **Add IP Address**.
 

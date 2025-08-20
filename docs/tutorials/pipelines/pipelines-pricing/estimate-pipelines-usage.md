@@ -15,10 +15,10 @@ keywords:
   - pipelines
   - pricing
   - usage
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

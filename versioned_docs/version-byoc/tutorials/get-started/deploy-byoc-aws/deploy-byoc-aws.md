@@ -14,10 +14,10 @@ keywords:
   - aws
   - milvus
   - vector database
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 
@@ -53,7 +53,7 @@ Within your BYOC organization, click the **Create Project and Deploy Data Plane*
 
 In this step, you need to set the project name, determine the cloud providers and regions as well as the initial project size, and choose the way for Zilliz Cloud to create the project and deploy the data plane.
 
-![ECYSboT8XojmfKxXFZqcxUxrnXf](/img/ECYSboT8XojmfKxXFZqcxUxrnXf.png)
+![ObsWbiWhxo4IQHx7pPacHUl2nuh](/img/ObsWbiWhxo4IQHx7pPacHUl2nuh.png)
 
 1. Set **Project Name**.
 
@@ -73,15 +73,15 @@ In this step, you need to set the project name, determine the cloud providers an
 
     1. Configure **Initial Project Size**. 
 
-        In a BYOC project, the search services, index services, other database components, and core support services use different types of EC2 instances. You can set instance types and counts for these services and components individually. 
+        In a BYOC project, the query node, index services, Milvus components, and dependencies use different types of EC2 instances. You can set instance types and counts for these services and components individually. 
 
         If **Auto-scaling** is disabled, simply specify the number of EC2 instances required for each project component in the corresponding **Count** field.
 
-        ![MYuIbxUTcosGtjxYcEdckzKznRb](/img/MYuIbxUTcosGtjxYcEdckzKznRb.png)
+        ![V1r0b6PDzokWRqxaA4ccrTs2nEd](/img/V1r0b6PDzokWRqxaA4ccrTs2nEd.png)
 
         Once **Auto-scaling** is enabled, you need to specify a range for Zilliz Cloud to automatically scale the number of EC2 instances based on actual project workloads by setting the corresponding **Min** and **Max** fields.
 
-        ![CgI2bJva0oyf2TxR77lcPsIunih](/img/CgI2bJva0oyf2TxR77lcPsIunih.png)
+        ![XYW9bj1qfoKEXMx9L4DchlE7nHh](/img/XYW9bj1qfoKEXMx9L4DchlE7nHh.png)
 
         To facilitate resource settings, there are four predefined project size options. The following table shows the mapping between these project size options and the number of clusters that can be created in the project, as well as the number of entities these clusters can contain.
 
@@ -205,7 +205,7 @@ In **Network Settings**, create a VPC and several types of resources, such as su
 
 After you create a project, you can view its status on the project page.
 
-![Wstab2JghoTZ51xdSFQc2JHknJb](/img/Wstab2JghoTZ51xdSFQc2JHknJb.png)
+![Bw2Xb6wIKoXWAuxU4jOcDdAnn2e](/img/Bw2Xb6wIKoXWAuxU4jOcDdAnn2e.png)
 
 ## Suspend & Resume{#suspend-and-resume}
 

@@ -7,17 +7,17 @@ notebook: FALSE
 description: "If your data format does not meet the requirements, you can use BulkWriter, a data processing tool in pymilvus and Milvus' Java SDK, to prepare your data. | Cloud"
 type: origin
 token: QyjpwAaKuihAeJkNBUJcdFesn9e
-sidebar_position: 0
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
   - cloud
   - data import
   - bulk writer
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 
@@ -924,9 +924,9 @@ Possible folder structures are as follows:
 
 ## Related topics{#related-topics}
 
-- Import Data on Web UI
+- [Import Data on Web UI](./import-data-on-web-ui)
 
-- Import Data via RESTful API
+- [Import Data via RESTful API](./import-data-via-restful-api)
 
-- Import Data via SDKs
+- [Import Data via SDKs](./import-data-via-sdks)
 

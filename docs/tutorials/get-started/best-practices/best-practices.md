@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

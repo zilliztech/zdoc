@@ -17,10 +17,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - vector databases comparison
   - Faiss
   - Video search
   - AI Hallucination
+  - AI Agent
 
 ---
 
@@ -44,6 +44,20 @@ This page enumerates the minimum requirements for hosting a Zilliz Cloud BYOC pr
 ## VPC requirements{#vpc-requirements}
 
 Your VPC must meet the requirements enumerated in this section to host a Zilliz Cloud project. If you prefer to use an existing VPC for your BYOC project, ensure that your VPC meets these requirements. 
+
+**Requirements**
+
+- [VPC regions](./configure-vpc-gcp#vpc-regions)
+
+- [VPC IP address ranges](./configure-vpc-gcp#vpc-ip-address-ranges)
+
+- [Subnets](./configure-vpc-gcp#subnets)
+
+- [Cloud Router and NAT](./configure-vpc-gcp#cloud-router-and-nat)
+
+- [Firewall Rules](./configure-vpc-gcp#firewall-rules)
+
+- [Private Service Connect (PSC)](./configure-vpc-gcp#private-service-connect-psc-endpoint)
 
 ### VPC regions{#vpc-regions}
 

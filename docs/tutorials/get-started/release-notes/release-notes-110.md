@@ -7,16 +7,16 @@ notebook: FALSE
 description: "We're thrilled to unveil the newest Zilliz Cloud update, featuring a pricing calculator for cost estimation, a data backup and restore process for enhanced data security, a customizable timezone setting for global users, a collection rename tool for better organization, the removal of storage quotas for unrestricted usage, and improved credit conservation for inactive databases. | Cloud"
 type: origin
 token: ZvSOwB7zkir7PjkzrOPciC5WnTe
-sidebar_position: 22
+sidebar_position: 23
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

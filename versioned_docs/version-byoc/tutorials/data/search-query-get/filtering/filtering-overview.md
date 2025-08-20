@@ -17,10 +17,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 
@@ -35,7 +35,7 @@ Zilliz Cloud provides powerful filtering capabilities that enable precise queryi
 
 Zilliz Cloud supports several basic operators for filtering data:
 
-- **Comparison Operators**: `==`, `!=`, `>`, `\<`, `>=`, and `<=` allow filtering based on numeric or text fields.
+- **Comparison Operators**: `==`, `!=`, `>`, `<`, `>=`, and `<=` allow filtering based on numeric or text fields.
 
 - **Range Filters**: `IN` and `LIKE` help match specific value ranges or sets.
 

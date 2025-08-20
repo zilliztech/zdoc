@@ -7,17 +7,17 @@ notebook: FALSE
 description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on Azure Marketplace. | Cloud"
 type: origin
 token: LbFXwpruviFWWokwtkhcVmnhnFh
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - marketplace
   - azure
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

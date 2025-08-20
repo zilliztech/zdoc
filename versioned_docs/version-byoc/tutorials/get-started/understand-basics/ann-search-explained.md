@@ -14,10 +14,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 
@@ -66,7 +66,7 @@ Unlike HNSW that builds a hierarchical graph for layered searches, Vamana’s in
 
 1. Perform Approximate Nearest Neighbor Search with the initialized random neighbor graph and search starting point from step 2. Use all points on the search path as candidate neighbor sets and apply the edge trimming strategy with alpha = 1 to reduce the search radius.
 
-1. Repeat step 3 with adjusted alpha > 1 (1.2 recommended in the paper) to improve graph quality and recall rate.
+1. Repeat step 3 with adjusted alpha &gt; 1 (1.2 recommended in the paper) to improve graph quality and recall rate.
 
 Once the index is ready, the search goes as follows:
 

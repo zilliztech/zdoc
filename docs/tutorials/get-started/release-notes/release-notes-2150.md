@@ -7,16 +7,16 @@ notebook: FALSE
 description: "We’re thrilled to share that Zero-Downtime Migration is now available in Private Preview on Zilliz Cloud! Whether you need to upgrade your cluster or make a change to your deployment, such as switching from Capacity-optimized Compute Units (CU) to another option, you can effortlessly migrate your data without any service interruptions. Additionally, Zilliz BYOC has introduced several enhancements, allowing you to configure instance settings for your BYOC project and enable AWS PrivateLink for your cluster. | Cloud"
 type: origin
 token: JPNiwF6rPiNe0pkx460cr321nTc
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

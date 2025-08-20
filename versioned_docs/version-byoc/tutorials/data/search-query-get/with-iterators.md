@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

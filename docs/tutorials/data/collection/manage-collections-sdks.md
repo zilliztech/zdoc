@@ -15,10 +15,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

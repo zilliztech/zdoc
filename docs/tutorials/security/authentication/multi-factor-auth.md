@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

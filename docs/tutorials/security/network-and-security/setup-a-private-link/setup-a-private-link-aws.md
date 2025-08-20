@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 
@@ -51,7 +51,7 @@ Ensure that:
 
 ## Create private endpoint{#create-private-endpoint}
 
-Zilliz Cloud offers you an intuitive web console to add a private endpoint. Navigate to your target project and click **Network > Private Endpoint** in the left navigation. Click **+ Private Endpoint**.
+Zilliz Cloud offers you an intuitive web console to add a private endpoint. Navigate to your target project and click **Network &gt; Private Endpoint** in the left navigation. Click **+ Private Endpoint**.
 
 ![setup_private_link_aws_01](/img/setup_private_link_aws_01.png)
 
@@ -230,7 +230,7 @@ To disable public endpoints:
 
 ![disable_public_endpoint](/img/disable_public_endpoint.png)
 
-## Troubleshooting{#troubleshooting}
+## FAQ{#faq}
 
 ### Why does it always report a timeout when connecting to the private link on AWS?{#why-does-it-always-report-a-timeout-when-connecting-to-the-private-link-on-aws}
 
@@ -269,4 +269,8 @@ A timeout usually occurs for the following reasons:
     <p>Two security groups must be configured: one for the EC2 instance, which must allow traffic on the port associated with your private link, and another for the VPC endpoint, which must permit traffic from the IP address of the EC2 instance and target the specified port number.</p>
 
     </Admonition>
+
+### Can I create a private endpoint for an existing cluster?{#can-i-create-a-private-endpoint-for-an-existing-cluster}
+
+Yes. When you create a private endpoint, it will take effect on all existing and future Dedicated (Enterprise) clusters that reside in the same region and project. All you need to do is to add different DNS records for different clusters.
 

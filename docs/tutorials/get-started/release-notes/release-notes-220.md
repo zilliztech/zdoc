@@ -7,16 +7,16 @@ notebook: FALSE
 description: "We are pleased to announce the release of Zilliz Cloud, which boasts a suite of new features designed to enhance your user experience, including data migration across Zilliz Cloud clusters and from ElasticSearch, a brand-new ticket system going live, and enhanced data import capabilities. | Cloud"
 type: origin
 token: GqyhwKVspiYRwDk8OaucNfgJnhd
-sidebar_position: 19
+sidebar_position: 20
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

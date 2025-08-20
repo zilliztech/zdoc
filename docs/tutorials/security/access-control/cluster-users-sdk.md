@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - users
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

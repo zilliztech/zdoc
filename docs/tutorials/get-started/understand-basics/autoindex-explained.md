@@ -14,10 +14,10 @@ keywords:
   - cloud
   - autoindex
   - milvus
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

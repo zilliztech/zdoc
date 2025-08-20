@@ -14,10 +14,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 
@@ -53,7 +53,7 @@ PyMilvus is Milvus's Python SDK. Access its [source code on GitHub](https://gith
 
 ```bash
 # Install pymilvus compatible with Milvus v2.5.x
-python -m pip install pymilvus==2.5.8
+python -m pip install pymilvus==2.5.14
 
 # Update PyMilvus to the newest version
 python -m pip install --upgrade pymilvus
@@ -74,9 +74,9 @@ For Milvus's Node.js SDK, employ **npm** or **yarn**. Access its [source code on
 
 ```bash
 # Install Node.js SDK compatible with Milvus v2.5.x
-npm install @zilliz/milvus2-sdk-node@2.5.8
+npm install @zilliz/milvus2-sdk-node@2.5.12
 # Alternatively,
-yarn add @zilliz/milvus2-sdk-node@2.5.8
+yarn add @zilliz/milvus2-sdk-node@2.5.12
 
 # Upgrade to the latest version
 npm update @zilliz/milvus2-sdk-node
@@ -110,7 +110,7 @@ Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on 
 <dependency>
      <groupId>io.milvus</groupId>
      <artifactId>milvus-sdk-java</artifactId>
-     <version>2.5.9</version>
+     <version>2.5.12</version>
  </dependency>
 ```
 
@@ -118,7 +118,7 @@ Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on 
 
 ```bash
 # Install Java SDK compatible with Milvus v2.5.x
-compile 'io.milvus:milvus-sdk-java:2.5.9'
+compile 'io.milvus:milvus-sdk-java:2.5.12'
 ```
 
 ## Install Go SDK{#install-go-sdk}
@@ -127,6 +127,6 @@ The Go SDK is available via `go get`. Explore its [source code on GitHub](https:
 
 ```bash
 # Install Go SDK compatible with Milvus v2.5.x
-go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.5.3
+go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.5.6
 ```
 

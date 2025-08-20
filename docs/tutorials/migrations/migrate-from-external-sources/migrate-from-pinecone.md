@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - pinecone
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 
@@ -156,7 +156,7 @@ When converting metadata to fixed fields:
    </tr>
    <tr>
      <td><p>List of strings</p></td>
-     <td><p>ARRAY\<VARCHAR></p></td>
+     <td><p>ARRAY&lt;VARCHAR&gt;</p></td>
      <td><p>Nested arrays supported</p></td>
    </tr>
 </table>

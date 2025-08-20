@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster plan
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
@@ -72,8 +72,8 @@ The following table compares the plans, detailing the specific features availabl
    </tr>
    <tr>
      <td><p><strong>Cloud provider & region</strong></p></td>
-     <td><p>GCP Exclusive</p></td>
-     <td><p>GCP Exclusive</p></td>
+     <td><p>AWS, GCP</p></td>
+     <td><p>AWS, GCP</p></td>
      <td><p>AWS, GCP, Azure</p><p>For details, refer to <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></td>
      <td><p>AWS, GCP, Azure</p><p>For details, refer to <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></td>
      <td><p>User's VPC</p></td>
@@ -144,7 +144,7 @@ The following table compares the plans, detailing the specific features availabl
    </tr>
    <tr>
      <td><p><strong>Migration</strong></p></td>
-     <td><p>Not Available</p></td>
+     <td><p>Available</p></td>
      <td><p>Available</p></td>
      <td><p>Available</p></td>
      <td><p>Available</p></td>

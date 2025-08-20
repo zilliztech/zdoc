@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

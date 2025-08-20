@@ -17,10 +17,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 
@@ -136,12 +136,12 @@ The steps for creating a service account are as follows:
        <tr>
          <td><p><a href="./create-cross-account-sa">Instance group manager custom role</a></p></td>
          <td><p>Custom</p></td>
-         <td><p><code>resource.name.extract("projects/\{name}").startsWith("PROJECT_ID") &amp;&amp;resource.name.extract("zones/\{name}").startsWith("REGION") &amp;&amp;resource.name.extract("instanceGroupManagers/\{name}").startsWith("gke-CLUSTER_NAME")</code></p></td>
+         <td><p><code>resource.name.extract("projects/&#123;name&#125;").startsWith("PROJECT_ID") &amp;&amp;resource.name.extract("zones/&#123;name&#125;").startsWith("REGION") &amp;&amp;resource.name.extract("instanceGroupManagers/&#123;name&#125;").startsWith("gke-CLUSTER_NAME")</code></p></td>
        </tr>
        <tr>
          <td><p><a href="./create-cross-account-sa">IAM custom role</a></p></td>
          <td><p>Custom</p></td>
-         <td><p><code>api.getAttribute("iam.googleapis.com/modifiedGrantsByRole", []).hasOnly(["roles/iam.workloadIdentityUser"])</code></p></td>
+         <td><p><code>api.getAttribute("iam.googleapis.com/modifiedGrantsByRole", &#91;&#93;).hasOnly(&#91;"roles/iam.workloadIdentityUser"&#93;)</code></p></td>
        </tr>
        <tr>
          <td><p>Kubernetes Engine Admin</p></td>
@@ -211,9 +211,9 @@ Follow the steps below to grant the cross-account service account access to thes
 
 1. Switch to the **Principals with access** tab and click **Grant access**.
 
-1. Enter the cross-account service account created in the previous step in **Add principals** > **New principals**.
+1. Enter the cross-account service account created in the previous step in **Add principals** &gt; **New principals**.
 
-1. Select **Service Account User** in **Assign roles** > **Role**.
+1. Select **Service Account User** in **Assign roles** &gt; **Role**.
 
 #### Impersonate Zilliz Cloud's service account{#impersonate-zilliz-clouds-service-account}
 
@@ -233,9 +233,9 @@ The steps for impersonating the service account that Zilliz Cloud provides are a
 
 1. Switch to the **Principals with access** tab and click **Grant access**.
 
-1. Paste the service account copied from the Zilliz Cloud console in **Add principals** > **New principals**.
+1. Paste the service account copied from the Zilliz Cloud console in **Add principals** &gt; **New principals**.
 
-1. Select **Service Account Token Creator** in **Assign roles** > **Role**.
+1. Select **Service Account Token Creator** in **Assign roles** &gt; **Role**.
 
 1. Click **Save**.
 

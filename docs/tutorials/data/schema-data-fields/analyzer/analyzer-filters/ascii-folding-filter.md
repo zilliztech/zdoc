@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - ascii folding
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

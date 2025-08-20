@@ -15,10 +15,10 @@ keywords:
   - collection
   - collection ttl
   - time-to-live
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

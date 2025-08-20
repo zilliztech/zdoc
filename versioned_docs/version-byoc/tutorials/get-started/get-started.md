@@ -13,10 +13,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

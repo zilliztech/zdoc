@@ -15,10 +15,10 @@ keywords:
   - data import
   - export
   - milvus
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

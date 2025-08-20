@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - manage
-  - knn algorithm
   - HNSW
   - What is unstructured data
   - Vector embeddings
+  - Vector store
 
 ---
 

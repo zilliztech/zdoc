@@ -16,10 +16,10 @@ keywords:
   - data
   - grouping search
   - group
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

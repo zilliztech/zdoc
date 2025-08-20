@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cu
   - select
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 
@@ -82,6 +82,12 @@ The following table offers a quick comparison of the three CU types in different
 - Best for scenarios with extensive datasets where cost-efficiency is prioritized over latency.
 
 - Ideal for applications that need to store massive volumes of data at a low cost. The capacity of an extended-capacity CU is 4 times that of a capacity-optimized CU.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>To select an extended-capacity CU, your cluster must have at least 4 CUs.</p>
+
+</Admonition>
 
 ## Select an optimal CU type{#select-an-optimal-cu-type}
 

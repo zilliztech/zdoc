@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 
@@ -92,7 +92,7 @@ Zilliz Cloud provides three project roles. These roles cannot be modified or del
        </tr>
     </table>
 
-The invitees will receive an invitation via email, which must be accepted within 48 hours to join the project. 
+The invitees will receive an invitation via email, which must be accepted within 48 hours to join the project. Alternatively, you can also copy the invitation link from the web console and share it with the invitees.
 
 Once the user joins the project, this user automatically becomes an Organization Member in the organization to which the project belongs.
 

@@ -7,16 +7,16 @@ notebook: FALSE
 description: "Zilliz Cloud have optimized the user experience for data import features, refined API keys with hierarchical permissions, and enhanced the metrics and alerts mechanism. | Cloud"
 type: origin
 token: VbjiwU5RYi4bWdkC48Jceltnnpd
-sidebar_position: 15
+sidebar_position: 16
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

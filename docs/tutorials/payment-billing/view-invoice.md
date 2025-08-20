@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Zilliz Cloud charges at the organization level. To access invoices, you must have either Organization Owner or Billing Admin permissions. | Cloud"
 type: origin
 token: PBEbwjRu9iyyaFkZnuzcINHCnke
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - invoice
   - view
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 
@@ -140,7 +140,9 @@ This section provides a detailed breakdown of charges for each billable item.
 
 ### Billing profile{#billing-profile}
 
-Your billing profile includes details about where and to whom invoices are issued. To edit the billing profile, refer to [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card#edit-billing-profile).
+Your billing profile includes details about where and to whom invoices are issued. In Zilliz Cloud, relevant billing emails will be sent to Organization Owners, Organization Billing Admins, and the email addresses added in the billing profile. Therefore, to add recipients of invoices, you can add the email address in the billing profile or [invite](./organization-users) user to join the organization as an Organization Billing Admin.
+
+To edit the billing profile, refer to [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card#edit-billing-profile).
 
 ## Manage invoices{#manage-invoices}
 
@@ -307,51 +309,13 @@ To download an invoice, click the download icon next to the target invoice on th
 
     **Example:** Zilliz Cloud issues the invoice for August on September 1, 2024, with the billing period running from August 1, 2024, at 00:00:00 (UTC) to August 31, 2024, at 23:59:59 (UTC). 
 
-1. **How precise are the amounts displayed in the invoices on Zilliz Cloud?** 
+1. **How precise are the amounts displayed in the usage details on Zilliz Cloud?**
 
-    **Explanation:** Zilliz Cloud prices products with a precision of 8 decimal places. As a result, charges are calculated to eight decimals. During the billing process, these detailed daily charges are summed and then rounded to 2 decimal places.
+    Zilliz Cloud calculates charges with a precision of **10 decimal places**, and all billing is computed to this level of accuracy. Daily charges are first calculated to 10 decimals, then summed and rounded to 10 decimals during the billing process.
 
-    On the web UI, displayed amounts are rounded to 2 decimal places (for example: &#36;60.00). 
+    - **RESTful API**: All numeric values (e.g., Unit Price, Usage, Usage Amount) are always returned with exactly 10 decimal places. If the value has fewer than 10 decimal digits, trailing zeros are padded to reach 10 digits. For more information about how to use the RESTful API, see [Query Daily Usage](/reference/restful/query-daily-usage-v2).
 
-    ![precision_invoice_cn](/img/precision_invoice_cn.png)
-
-    The amounts in the invoices retrieved from [List Invoices](/reference/restful/list-invoices-v2) and [Describe Invoice](/reference/restful/describe-invoice-v2) APIs are in cents and should also be rounded to 2 decimal places. Below is an example output of the [Describe Invoice](/reference/restful/describe-invoice-v2) API.
-
-    ```bash
-    {
-        "code": 0,
-        "data": {
-            "id": "inv-12312io23810o291",
-            "orgId": "org-xxxxxx",
-            "periodStart": "2024-01-01T00:00:00Z",
-            "periodEnd": "2024-02-01T00:00:00Z",
-            "invoiceDate": "2024-02-01T00:00:00Z",
-            "dueDate": "2024-02-01T00:00:00Z",
-            "currency": "USD",
-            "status": "unpaid",
-            "usageAmount": 52400,
-            "creditsApplied": 12400,
-            "alreadyBilledAmount": 0,
-            "subtotal": 40000,
-            "tax": 5000,
-            "total": 45000,
-            "advancePayAmount": 0,
-            "amountDue": 45000
-        }
-    }
-    ```
-
-    For reconciliation, we recommend using the [Query Daily Usage](/reference/restful/query-daily-usage-v2) API to retrieve daily usage details with a precision of eight decimal places. The daily usage stats begin at 00:00:00 each day and run until 23:59:59 the same day. For example, the daily usage period for August 1, 2024, starts at 00:00:00 on August 1, 2024, and ends at 23:59:59 on August 1, 2024. After summing the daily amounts, you will get a total usage amount with an eight-decimal precision. Rounding this amount from the third decimal place will provide you with a two-decimal monthly usage total, which should match the total usage amount displayed on the invoices on the web UI.
-
-    **Example:** Suppose during reconciliation, you first retrieve three days of daily usage data via the [Query Daily Usage](/reference/restful/query-daily-usage-v2) API for August 1 to August 3, 2024. Each day's amount has an eight-decimal precision.
-
-    - Total for August 1: &#36;105.03331200
-
-    - Total for August 2: &#36;92.03000245
-
-    - Total for August 3: &#36;114.25300000
-
-    Adding up the three daily totals gives a sum of &#36;311.31631445, which rounds to &#36;311.32 after considering the third decimal. This figure should match the total usage amount shown in the invoices on the web UI.
+    - **Web Console UI**: The displayed amounts are consistent with the API values, but trailing zeros are omitted for readability. For example, `0.1234000000` would be displayed as `0.1234` in the UI.
 
 1. **Why haven’t I received my invoice?**
 

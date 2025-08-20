@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

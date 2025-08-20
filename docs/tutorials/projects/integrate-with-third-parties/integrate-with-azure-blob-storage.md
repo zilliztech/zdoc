@@ -2,12 +2,12 @@
 title: "Integrate with Azure Blob Storage | Cloud"
 slug: /integrate-with-azure-blob-storage
 sidebar_label: "Azure Blob Storage"
-beta: FALSE
+beta: PRIVATE
 notebook: FALSE
-description: "Zilliz Cloud allows you to integrate with Azure Blob Storage to export backup files to designated containers. | Cloud"
+description: "Zilliz Cloud allows you to integrate with Azure Blob Storage to export backup files or audit logs to designated containers. | Cloud"
 type: origin
 token: IzXPwUlJ5isTa4kH9KTcC6SfnvZ
-sidebar_position: 4
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
@@ -17,10 +17,10 @@ keywords:
   - azure
   - blob
   - storage
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 
@@ -29,11 +29,11 @@ import Admonition from '@theme/Admonition';
 
 # Integrate with Azure Blob Storage
 
-Zilliz Cloud allows you to integrate with [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs) to export backup files to designated containers.
+Zilliz Cloud allows you to integrate with [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs) to export backup files or audit logs to designated containers.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is in <strong>Private Preview</strong> for clusters on the <strong>Dedicated-Enterprise</strong> plan. To enable this feature or learn about the associated costs, contact <a href="https://support.zilliz.com/hc/en-us">Zilliz Cloud support</a>.</p>
+<p>This feature is available only for clusters on the <strong>Dedicated-Enterprise</strong> plan. To upgrade your plan tier, refer to <a href="./manage-cluster">Manage Cluster</a>.</p>
 
 </Admonition>
 
@@ -53,15 +53,15 @@ The following digram illustrates the necessary steps on Zilliz Cloud and Azure P
 
 1. On your project page, navigate to **Integrations** from the left-side navigation pane.
 
-1. Under the **Azure Blob Storage** section, click **+ Configuration**.
+1. Under the **Azure Blob Storage** section, click **+ Integration**.
 
-    ![QmGwb2SJCo0capxmWMJc2CdXnCb](/img/QmGwb2SJCo0capxmWMJc2CdXnCb.png)
+    ![Pxw7bG0keosOCDxfVdmcCC1rnBg](/img/Pxw7bG0keosOCDxfVdmcCC1rnBg.png)
 
 1. In the dialog box that appears, complete **Basic Settings**:
 
-    - **Configuration Name**: A unique name for this integration (e.g., `container_for_backup`).
+    - **Integration Name**: A unique name for this integration (e.g., `container_for_backup`).
 
-    - **Configuration Description** *(optional)*: A description for this integration (e.g., `for backupfile export`).
+    - **Integration Description** *(optional)*: A description for this integration (e.g., `for backupfile export`).
 
     Then, click **Next** to proceed.
 
@@ -77,7 +77,7 @@ The following digram illustrates the necessary steps on Zilliz Cloud and Azure P
 
     ![integrate-with-azure-blob-2](/img/integrate-with-azure-blob-2.png)
 
-1. On the storage account details page, go to **Data Storage** > **Containers** and click **+ Container**.
+1. On the storage account details page, go to **Data Storage** &gt; **Containers** and click **+ Container**.
 
     ![S3Evbdfp1o5JWnxhCkEcUZktnme](/img/S3Evbdfp1o5JWnxhCkEcUZktnme.png)
 
@@ -117,7 +117,7 @@ The following digram illustrates the necessary steps on Zilliz Cloud and Azure P
 
     Also, make a note of the **Cluster Issuer URL**, **Service Name**, and **Service Account Name** provided by Zilliz Cloud. These values will be required in Azure Portal.
 
-1. Navigate back to your application’s page in [Azure Portal](https://portal.azure.com/#home). Go to **Manage** > **Certificates & secrets** > **Federated credentials**, then click **Add credential**.
+1. Navigate back to your application’s page in [Azure Portal](https://portal.azure.com/#home). Go to **Manage** &gt; **Certificates & secrets** &gt; **Federated credentials**, then click **Add credential**.
 
     ![UGgmb9dKnoPlk9xtrFvcDl3Dnfd](/img/UGgmb9dKnoPlk9xtrFvcDl3Dnfd.png)
 
@@ -143,7 +143,7 @@ The following digram illustrates the necessary steps on Zilliz Cloud and Azure P
 
 ## Step 4: Add role assignment{#step-4-add-role-assignment}
 
-1. In the [Azure Portal](https://portal.azure.com/#home),  go to **Access Control (IAM)** > **+ Add** > **Add role assignment**.
+1. In the [Azure Portal](https://portal.azure.com/#home),  go to **Access Control (IAM)** &gt; **+ Add** &gt; **Add role assignment**.
 
     ![integrate-with-azure-blob-6](/img/integrate-with-azure-blob-6.png)
 

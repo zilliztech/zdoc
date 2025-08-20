@@ -16,10 +16,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

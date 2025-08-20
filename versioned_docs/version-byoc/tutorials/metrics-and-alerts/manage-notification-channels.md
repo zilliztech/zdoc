@@ -14,10 +14,10 @@ keywords:
   - cloud
   - notification
   - channels
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 
@@ -116,7 +116,7 @@ To set up Opsgenie integration,
 
 1. Obtain your API key in Opsgenie. For details, refer to [Create an API integration](https://support.atlassian.com/opsgenie/docs/create-a-default-api-integration/).
 
-    1. Go to the Opsgenie Integrations page by selecting **Settings** > **Integrations** and click **Add integration**.
+    1. Go to the Opsgenie Integrations page by selecting **Settings** &gt; **Integrations** and click **Add integration**.
 
     1. Search for and select **API**. Provide a name for this API integration and click **Continue**.
 

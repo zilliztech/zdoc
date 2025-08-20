@@ -14,10 +14,10 @@ keywords:
   - milvus
   - vector database
   - shared responsibilities
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

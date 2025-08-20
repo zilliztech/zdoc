@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

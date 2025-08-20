@@ -17,10 +17,10 @@ keywords:
   - search result reranking
   - result reranking
   - weighted reranker
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 
@@ -67,9 +67,9 @@ The main workflow of the WeightedRanker strategy is as follows:
 
 1. **Collect Search Scores**: Gather the results and scores from each path of vector search (score_1, score_2).
 
-1. **Score Normalization**: Each search may use different similarity metrics, resulting in varied score distributions. For instance, using Inner Product (IP) as a similarity type could result in scores ranging from [−∞,+∞], while using Euclidean distance (L2) results in scores ranging from [0,+∞]. Because the score ranges from different searches vary and cannot be directly compared, it is necessary to normalize the scores from each path of search. Typically, `arctan` function is applied to transform the scores into a range between [0, 1] (score_1_normalized, score_2_normalized). Scores closer to 1 indicate higher similarity.
+1. **Score Normalization**: Each search may use different similarity metrics, resulting in varied score distributions. For instance, using Inner Product (IP) as a similarity type could result in scores ranging from &#91;−∞,+∞&#93;, while using Euclidean distance (L2) results in scores ranging from &#91;0,+∞&#93;. Because the score ranges from different searches vary and cannot be directly compared, it is necessary to normalize the scores from each path of search. Typically, `arctan` function is applied to transform the scores into a range between &#91;0, 1&#93; (score_1_normalized, score_2_normalized). Scores closer to 1 indicate higher similarity.
 
-1. **Assign Weights**: Based on the importance assigned to different vector fields, weights (**wi**) are allocated to the normalized scores (score_1_normalized, score_2_normalized). The weights of each path should range between [0,1]. The resulting weighted scores are score_1_weighted and score_2_weighted.
+1. **Assign Weights**: Based on the importance assigned to different vector fields, weights (**wi**) are allocated to the normalized scores (score_1_normalized, score_2_normalized). The weights of each path should range between &#91;0,1&#93;. The resulting weighted scores are score_1_weighted and score_2_weighted.
 
 1. **Merge Scores**: The weighted scores (score_1_weighted, score_2_weighted) are ranked from highest to lowest to produce a final set of scores (score_final).
 
@@ -227,7 +227,7 @@ This example demonstrates a multimodal Hybrid Search (topK=5) involving images a
 
 ## Usage of Weighted Ranker{#usage-of-weighted-ranker}
 
-When using the WeightedRanker strategy, it is necessary to input weight values. The number of weight values to input should correspond to the number of basic ANN search requests in the Hybrid Search. The input weight values should fall in the range of [0,1], with values closer to 1 indicating greater importance.
+When using the WeightedRanker strategy, it is necessary to input weight values. The number of weight values to input should correspond to the number of basic ANN search requests in the Hybrid Search. The input weight values should fall in the range of &#91;0,1&#93;, with values closer to 1 indicating greater importance.
 
 ### Create a Weighted Ranker{#create-a-weighted-ranker}
 

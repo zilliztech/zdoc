@@ -2,7 +2,7 @@
 title: "Auditing | Cloud"
 slug: /auditing
 sidebar_label: "Auditing"
-beta: PRIVATE
+beta: FALSE
 notebook: FALSE
 description: "Learn how to configure auditing for your Zilliz Cloud cluster. | Cloud"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

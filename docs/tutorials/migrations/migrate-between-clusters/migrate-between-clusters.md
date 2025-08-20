@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

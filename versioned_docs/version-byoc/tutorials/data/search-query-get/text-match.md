@@ -18,10 +18,10 @@ keywords:
   - filtering expressions
   - filtering
   - text-match
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 
@@ -696,9 +696,9 @@ curl --request POST \
 
 - Escape rules in `filter` expressions:
 
-    - Characters enclosed in double quotes or single quotes within expressions are interpreted as string constants. If the string constant includes escape characters, the escape characters must be represented with escape sequence. For example, use `\` to represent `\`, `\t` to represent a tab `\t`, and `\n` to represent a newline.
+    - Characters enclosed in double quotes or single quotes within expressions are interpreted as string constants. If the string constant includes escape characters, the escape characters must be represented with escape sequence. For example, use `\\` to represent `\`, `\\t` to represent a tab `\t`, and `\\n` to represent a newline.
 
-    - If a string constant is enclosed by single quotes, a single quote within the constant should be represented as `\'` while a double quote can be represented as either `"` or `\"`. Example: `'It\'s milvus'`.
+    - If a string constant is enclosed by single quotes, a single quote within the constant should be represented as `\\'` while a double quote can be represented as either `"` or `\\"`. Example: `'It\\'s milvus'`.
 
-    - If a string constant is enclosed by double quotes, a double quote within the constant should be represented as `\"` while a single quote can be represented as either `'` or `\'`. Example: `"He said \"Hi\""`.
+    - If a string constant is enclosed by double quotes, a double quote within the constant should be represented as `\\"` while a single quote can be represented as either `'` or `\\'`. Example: `"He said \\"Hi\\""`.
 

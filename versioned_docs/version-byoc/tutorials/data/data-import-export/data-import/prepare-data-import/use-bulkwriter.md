@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

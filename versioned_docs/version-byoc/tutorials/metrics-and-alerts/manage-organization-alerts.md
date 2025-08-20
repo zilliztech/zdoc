@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

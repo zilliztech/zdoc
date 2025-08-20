@@ -15,10 +15,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 

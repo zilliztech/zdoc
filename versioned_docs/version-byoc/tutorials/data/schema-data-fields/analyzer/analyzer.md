@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

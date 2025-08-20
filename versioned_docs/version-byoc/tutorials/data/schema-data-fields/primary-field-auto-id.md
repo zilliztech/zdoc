@@ -17,10 +17,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

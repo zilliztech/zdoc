@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 
@@ -172,24 +172,35 @@ Zilliz Cloud supports data import from your cloud storage. The table below lists
 
 ## Limits{#limits}
 
-There are some limits you need to observe when you import data in the Parquet format from your cloud storage.
+There are some limits you need to observe when you import data in a local Parquet file or Parquet files from your cloud storage. 
 
 <table>
    <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>Import Method</strong></p></th>
+     <th><p><strong>Cluster Plan</strong></p></th>
+     <th><p><strong>Max Files per Import</strong></p></th>
+     <th><p><strong>Max File Size</strong></p></th>
+     <th><p><strong>Max Total Import Size</strong></p></th>
    </tr>
    <tr>
-     <td><p><strong>Multiple files per import</strong></p></td>
-     <td><p>Yes.</p><p>Each import allows up to 100,000 files.</p></td>
+     <td><p>From local file</p></td>
+     <td><p>All Plans</p></td>
+     <td><p>1 File</p></td>
+     <td><p>1 GB</p></td>
+     <td><p>1 GB</p></td>
    </tr>
    <tr>
-     <td><p><strong>Maximum file size per import</strong></p></td>
-     <td><p>Free cluster: 512 MB in total</p><p>Serverless &amp; Dedicated cluster</p><ul><li><p>Individual file size: 10 GB</p></li><li><p>Total file size: 1 TB</p></li></ul></td>
+     <td rowspan="2"><p>From object storage</p></td>
+     <td><p>Free</p></td>
+     <td><p>1,000 Files</p></td>
+     <td><p>1 GB</p></td>
+     <td><p>1 GB</p></td>
    </tr>
    <tr>
-     <td><p><strong>Applicable data file locations</strong></p></td>
-     <td><p>Remote files only</p></td>
+     <td><p>Serverless &amp; Dedicated</p></td>
+     <td><p>1,000 Files</p></td>
+     <td><p>10 GB</p></td>
+     <td><p>1 TB</p></td>
    </tr>
 </table>
 

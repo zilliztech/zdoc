@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - range search
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

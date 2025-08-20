@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Datadog is a cloud monitoring and analytics platform that provides real-time insights into application performance, infrastructure, and log management. By integrating Zilliz Cloud with Datadog, you can send metric data about your Zilliz Cloud clusters to your Datadog dashboards. | Cloud"
 type: origin
 token: JGFQwMcVmiikeOkhepGcQ8Ken0e
-sidebar_position: 2
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - datadog
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 
@@ -68,31 +68,31 @@ import Admonition from '@theme/Admonition';
                </tr>
                <tr>
                  <td><p><code>US1</code></p></td>
-                 <td><p><code>https://app.datadoghq.com</code></p></td>
+                 <td><p><code><i>http</i>s://app.datadoghq.com</code></p></td>
                  <td><p><code>datadoghq.com</code></p></td>
                  <td><p>US</p></td>
                </tr>
                <tr>
                  <td><p><code>US3</code></p></td>
-                 <td><p><code>https://us3.datadoghq.com</code></p></td>
+                 <td><p><code><i>http</i>s://us3.datadoghq.com</code></p></td>
                  <td><p><code>us3.datadoghq.com</code></p></td>
                  <td><p>US</p></td>
                </tr>
                <tr>
                  <td><p><code>US5</code></p></td>
-                 <td><p><code>https://us5.datadoghq.com</code></p></td>
+                 <td><p><code><i>http</i>s://us5.datadoghq.com</code></p></td>
                  <td><p><code>us5.datadoghq.com</code></p></td>
                  <td><p>US</p></td>
                </tr>
                <tr>
                  <td><p><code>EU1</code></p></td>
-                 <td><p><code>https://app.datadoghq.eu</code></p></td>
+                 <td><p><code><i>http</i>s://app.datadoghq.eu</code></p></td>
                  <td><p><code>datadoghq.eu</code></p></td>
                  <td><p>EU (Germany)</p></td>
                </tr>
                <tr>
                  <td><p><code>AP1</code></p></td>
-                 <td><p><code>https://ap1.datadoghq.com</code></p></td>
+                 <td><p><code><i>http</i>s://ap1.datadoghq.com</code></p></td>
                  <td><p><code>ap1.datadoghq.com</code></p></td>
                  <td><p>Japan</p></td>
                </tr>

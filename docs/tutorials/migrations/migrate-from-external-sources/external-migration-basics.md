@@ -16,10 +16,10 @@ keywords:
   - external
   - data source
   - basics
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 
@@ -170,7 +170,7 @@ For optimal performance, configure shards based on your data volume:
 
 - **Small datasets** (≤100M rows): Single shard typically sufficient
 
-- **Large datasets** (>1B rows): [Contact support](https://zilliz.com/contact-sales) for optimal shard configuration
+- **Large datasets** (&gt;1B rows): [Contact support](https://zilliz.com/contact-sales) for optimal shard configuration
 
 ### Phase 3: Migrate & verify{#phase-3-migrate-and-verify}
 

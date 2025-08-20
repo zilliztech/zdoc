@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

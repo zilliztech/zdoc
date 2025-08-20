@@ -16,10 +16,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

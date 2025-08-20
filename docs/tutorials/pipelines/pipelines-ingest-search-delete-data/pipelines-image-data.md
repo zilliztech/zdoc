@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - image data
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

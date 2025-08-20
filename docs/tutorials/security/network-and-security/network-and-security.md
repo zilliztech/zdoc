@@ -14,10 +14,10 @@ keywords:
   - cloud
   - network
   - security
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

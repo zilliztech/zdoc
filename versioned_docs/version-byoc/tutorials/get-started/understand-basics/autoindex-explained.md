@@ -14,10 +14,10 @@ keywords:
   - cloud
   - autoindex
   - milvus
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

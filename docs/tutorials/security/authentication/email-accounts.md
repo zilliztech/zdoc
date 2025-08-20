@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

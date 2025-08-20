@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 
@@ -92,7 +92,7 @@ Zilliz Cloud provides three project roles. These roles cannot be modified or del
        </tr>
     </table>
 
-The invitees will receive an invitation via email, which must be accepted within 48 hours to join the project. 
+The invitees will receive an invitation via email, which must be accepted within 48 hours to join the project. Alternatively, you can also copy the invitation link from the web console and share it with the invitees.
 
 Once the user joins the project, this user automatically becomes an Organization Member in the organization to which the project belongs.
 
@@ -102,7 +102,7 @@ Once the user joins the project, this user automatically becomes an Organization
 
 </Admonition>
 
-![byoc-invite-user-to-project](/img/byoc-invite-user-to-project.png)
+![invite-user-to-project](/img/invite-user-to-project.png)
 
 ## Revoke or resend an invitation{#revoke-or-resend-an-invitation}
 

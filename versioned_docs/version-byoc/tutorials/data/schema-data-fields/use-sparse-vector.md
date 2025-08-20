@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 
@@ -40,7 +40,7 @@ With tokenization and scoring, documents can be represented as bag-of-words vect
 
 - **Traditional statistical techniques**, such as [TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) (Term Frequency-Inverse Document Frequency) and [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) (Best Matching 25), assign weights to words based on their frequency and importance across a corpus. These methods compute simple statistics as scores for each dimension, which represents a token.  Zilliz Cloud provides built-in **full-text search** with the BM25 method, which automatically converts text into sparse vectors, eliminating the need for manual preprocessing. This approach is ideal for keyword-based search, where precision and exact matches are important. Refer to [Full Text Search](./full-text-search) for more information.
 
-- **Neural sparse embedding models** are learned methods to generate sparse representations by training on large datasets. They are typically deep learning models with Transformer architecture, able to expand and weigh terms based on semantic context. Zilliz Cloud also supports externally generated sparse embeddings from models like [SPLADE](https://arxiv.org/abs/2109.10086). See [Embeddings](https://milvus.io/docs/embeddings.md#Embedding-Overview) for details.\</include>
+- **Neural sparse embedding models** are learned methods to generate sparse representations by training on large datasets. They are typically deep learning models with Transformer architecture, able to expand and weigh terms based on semantic context. Zilliz Cloud also supports externally generated sparse embeddings from models like [SPLADE](https://arxiv.org/abs/2109.10086). See [Embeddings](https://milvus.io/docs/embeddings.md#Embedding-Overview) for details.&lt;/include&gt;
 
 Sparse vectors and the original text can be stored in Zilliz Cloud for efficient retrieval. The diagram below outlines the overall process.
 

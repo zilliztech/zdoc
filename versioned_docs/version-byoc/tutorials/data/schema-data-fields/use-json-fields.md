@@ -4,7 +4,7 @@ slug: /use-json-fields
 sidebar_label: "JSON Field"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloud allows you to store and index structured data within a single field using the `JSON` data type. This enables flexible schemas with nested attributes while still allowing efficient filtering via JSON path indexing. | BYOC"
+description: "Zilliz Cloud allows you to store and index structured data within a single field using the `JSON` data type. This enables flexible schemas with nested attributes while still allowing efficient filtering via JSON indexing. | BYOC"
 type: origin
 token: BkDMwo71MiZMazk7gbtc7fqknbh
 sidebar_position: 8
@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - json field
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 
@@ -28,7 +28,7 @@ import TabItem from '@theme/TabItem';
 
 # JSON Field
 
-Zilliz Cloud allows you to store and index structured data within a single field using the `JSON` data type. This enables flexible schemas with nested attributes while still allowing efficient filtering via JSON path indexing.
+Zilliz Cloud allows you to store and index structured data within a single field using the `JSON` data type. This enables flexible schemas with nested attributes while still allowing efficient filtering via JSON indexing.
 
 ## What is a JSON field?{#what-is-a-json-field}
 
@@ -415,8 +415,8 @@ _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("product_cat
                     "email": "support@supplierx.com",
                     "phone": "+1-800-555-0199"
                 }
-            }
-        }`),
+            &#125;
+        &#125;`),
     }),
 ))
 if err != nil {
@@ -471,7 +471,9 @@ curl --request POST \
 
 ## Index values inside the JSON field{#index-values-inside-the-json-field}
 
-To accelerate scalar filtering on JSON fields, Zilliz Cloud supports indexing JSON fields using **JSON path indexing**. This allows you to filter by keys or nested values inside a JSON object without scanning the entire field.
+To accelerate scalar filtering on JSON fields, Zilliz Cloud supports the following types of indexes:
+
+- **JSON path index** – index specific JSON paths with a declared scalar type.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -479,7 +481,7 @@ To accelerate scalar filtering on JSON fields, Zilliz Cloud supports indexing JS
 
 </Admonition>
 
-### JSON path indexing syntax{#json-path-indexing-syntax}
+### JSON path indexing{#json-path-indexing}
 
 To create a JSON path index, specify:
 
@@ -523,17 +525,17 @@ Cast types are case-insensitive. The following types are supported:
    <tr>
      <td><p><code>array_bool</code></p></td>
      <td><p>Array of booleans</p></td>
-     <td><p><code>[true, false, true]</code></p></td>
+     <td><p><code>&#91;true, false, true&#93;</code></p></td>
    </tr>
    <tr>
      <td><p><code>array_double</code></p></td>
      <td><p>Array of numbers</p></td>
-     <td><p><code>[1.2, 3.14, 42]</code></p></td>
+     <td><p><code>&#91;1.2, 3.14, 42&#93;</code></p></td>
    </tr>
    <tr>
      <td><p><code>array_varchar</code></p></td>
      <td><p>Array of strings</p></td>
-     <td><p><code>["tag1", "tag2", "tag3"]</code></p></td>
+     <td><p><code>&#91;"tag1", "tag2", "tag3"&#93;</code></p></td>
    </tr>
 </table>
 
@@ -649,9 +651,9 @@ import (
     "github.com/milvus-io/milvus/client/v2/index"
 )
 
-jsonIndex1 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", `metadata["category"]`)
+jsonIndex1 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", `metadata&#91;"category"&#93;`)
     .WithIndexName("category_index")
-jsonIndex2 := index.NewJSONPathIndex(index.AUTOINDEX, "array_varchar", `metadata["tags"]`)
+jsonIndex2 := index.NewJSONPathIndex(index.AUTOINDEX, "array_varchar", `metadata&#91;"tags"&#93;`)
     .WithIndexName("tags_array_index")
 
 indexOpt1 := milvusclient.NewCreateIndexOption("product_catalog", "metadata", jsonIndex1)
@@ -669,7 +671,7 @@ export categoryIndex='{
   "indexName": "category_index",
   "params": {
     "index_type": "AUTOINDEX",
-    "json_path": "metadata[\\"category\\"]",
+    "json_path": "metadata[\\\"category\\\"]",
     "json_cast_type": "varchar"
   }
 }'
@@ -679,7 +681,7 @@ export tagsArrayIndex='{
   "indexName": "tags_array_index",
   "params": {
     "index_type": "AUTOINDEX",
-    "json_path": "metadata[\\"tags\\"]",
+    "json_path": "metadata[\\\"tags\\\"]",
     "json_cast_type": "array_varchar"
   }
 }'
@@ -688,11 +690,11 @@ export tagsArrayIndex='{
 </TabItem>
 </Tabs>
 
-### Use JSON cast functions for type conversion{#use-json-cast-functions-for-type-conversion}
+#### Use JSON cast functions for type conversion{#use-json-cast-functions-for-type-conversion}
 
 If your JSON field key contains values in an incorrect format (e.g., numbers stored as strings), you can use cast functions to convert values during indexing.
 
-#### Supported cast functions{#supported-cast-functions}
+##### Supported cast functions{#supported-cast-functions}
 
 Cast functions are case-insensitive. The following types are supported:
 
@@ -709,7 +711,7 @@ Cast functions are case-insensitive. The following types are supported:
    </tr>
 </table>
 
-#### Example: Cast string numbers to double{#example-cast-string-numbers-to-double}
+##### Example: Cast string numbers to double{#example-cast-string-numbers-to-double}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -771,7 +773,7 @@ indexParams.push({
 <TabItem value='go'>
 
 ```go
-jsonIndex3 := index.NewJSONPathIndex(index.AUTOINDEX, "double", `metadata["string_price"]`)
+jsonIndex3 := index.NewJSONPathIndex(index.AUTOINDEX, "double", `metadata&#91;"string_price"&#93;`)
                     .WithIndexName("string_to_double_index")
 
 indexOpt3 := milvusclient.NewCreateIndexOption("product_catalog", "metadata", jsonIndex3)
@@ -789,7 +791,7 @@ export stringToDoubleIndex='{
   "indexName": "string_to_double_index",
   "params": {
     "index_type": "AUTOINDEX",
-    "json_path": "metadata[\\"string_price\\"]",
+    "json_path": "metadata[\\\"string_price\\\"]",
     "json_cast_type": "double",
     "json_cast_function": "STRING_TO_DOUBLE"
   }
@@ -1010,7 +1012,7 @@ Zilliz Cloud stores string values exactly as they appear in the JSON input—wit
 **Examples of valid strings**:
 
 ```plaintext
-"a\"b", "a'b", "a\b"
+"a\"b", "a'b", "a\\b"
 ```
 
 **Examples of invalid strings**:

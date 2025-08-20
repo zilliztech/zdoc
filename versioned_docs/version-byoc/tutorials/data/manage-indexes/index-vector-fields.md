@@ -14,10 +14,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 
@@ -35,9 +35,7 @@ Leveraging the metadata stored in an index file, Zilliz Cloud organizes your dat
 
 Zilliz Cloud employs [AUTOINDEX](./autoindex-explained) to enable efficient similarity searches. It also offers these [metric types](./search-metrics-explained): **Cosine Similarity** (COSINE), **Euclidean Distance** (L2), **Inner Product** (IP), **JACCARD**, and **HAMMING** to measure the distances between vector embeddings. To learn more about vector field types and metrics, refer to [Metric Types](./search-metrics-explained) and [Schema Explained](./schema-explained).
 
-It is recommended to create indexes for both the vector field and scalar fields that are frequently accessed.
-
-If your collection contains more than one vector field, you can create an index for each vector field separately.
+It is recommended to create indexes for both the vector field and scalar fields that are frequently accessed. If your collection contains more than one vector field, you can create an index for each vector field separately.
 
 ## Preparations{#preparations}
 
@@ -47,7 +45,7 @@ As explained in [Create Collection](./manage-collections-sdks), Zilliz Cloud aut
 
 - The schema and the index parameters.
 
-The code snippet below repurposes the existing code to establish a connection to a Zilliz Cloud cluster and create a collection without specifying its index parameters. In this case, the collection lacks an index and remains unloaded.
+The code snippet below repurposes the existing code to establish a connection to a Zilliz Cloud and create a collection without specifying its index parameters. In this case, the collection lacks an index and remains unloaded.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>
@@ -163,7 +161,7 @@ console.log(res.error_code)
 </TabItem>
 </Tabs>
 
-## Index a Collection{#index-a-collection}
+## Index a collection{#index-a-collection}
 
 To create an index for a collection or index a collection, you need to set up the index parameters and call `create_index()`.
 
@@ -259,7 +257,7 @@ In the provided code snippet, we have established indexes on the vector field wi
 
 </Admonition>
 
-## Check Index Details{#check-index-details}
+## Check index details{#check-index-details}
 
 Once you have created an index, you can check its details.
 
@@ -384,7 +382,7 @@ console.log(JSON.stringify(res.index_descriptions, null, 2))
 
 You can check the index file created on a specific field, and collect the statistics on the number of rows indexed using this index file.
 
-## Drop an Index{#drop-an-index}
+## Drop an index{#drop-an-index}
 
 You can simply drop an index if it is no longer needed.
 

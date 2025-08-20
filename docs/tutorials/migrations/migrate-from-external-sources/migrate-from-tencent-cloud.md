@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - tencent cloud
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

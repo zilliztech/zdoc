@@ -15,10 +15,10 @@ keywords:
   - collection
   - manage
   - console
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 
@@ -90,7 +90,7 @@ A schema defines the data structure of your collection and must include:
 
 An index is a data structure that organizes data to accelerate searches and queries. Zilliz Cloud supports two types of indexes:
 
-- **Vector index**: Automatically created using [AUTOINDEX](./autoindex-explained) to accelerate vector searches. If you have multiple vector fields in the schema, you can create a separate index for each vector field. In addition, you can also edit the metric type used to calculate the distance between vectors.
+- **Vector index**: Automatically created using [AUTOINDEX](./autoindex-explained) to accelerate vector searches. If you have multiple vector fields in the schema, you can create a separate index for each vector field. In addition, you can also edit the [metric type](./search-metrics-explained) used to calculate the distance between vectors .
 
 - **Scalar index**: By default, Zilliz Cloud does not automatically create indexes for scalar fields. However, you can manually create indexes on scalar fields that are commonly used for filtering to accelerate searches and queries.
 
@@ -133,7 +133,7 @@ Memory mapping (mmap) is a memory usage optimization that enables direct access 
 
 For details about the cluster-level default mmap settings, see [Use mmap](./use-mmap#global-mmap-strategy).
 
-During collection creation, you can optionally configure mmap settings at the **collection** or **field** level, depending on your use case. Settings at lower levels take precedence over higher levels: **Field > Collection > Cluster.** 
+During collection creation, you can optionally configure mmap settings at the **collection** or **field** level, depending on your use case. Settings at lower levels take precedence over higher levels: **Field &gt; Collection &gt; Cluster.** 
 
 - **Collection-level mmap:** Enable mmap for raw data across the entire collection. This setting can be modified later, but requires releasing the collection first.
 
@@ -202,6 +202,8 @@ Zilliz Cloud supports the following management operations on created collections
     - **Create partition:** You can create a maximum of 1,024 partitions in each collection. For details, see [Zilliz Cloud Limits](./limits#collections).
 
     - **Drop partition:** The default partition cannot be dropped and dropping a partition irreversibly deletes all data within it. You must release a collection first before dropping any partitions in it.
+
+- **View collection alias**: You can view the aliases of all collections in a cluster on the collection list page.
 
 - **Drop collection:** To reduce resource overhead, you can drop collections that are no longer needed. Dropping a collection irreversibly deletes all data within it.
 

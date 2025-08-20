@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - standard-tokenizer
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

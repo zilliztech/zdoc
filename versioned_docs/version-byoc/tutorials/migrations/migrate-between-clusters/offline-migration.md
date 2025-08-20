@@ -15,10 +15,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

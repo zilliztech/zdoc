@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster credentials
   - api key
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

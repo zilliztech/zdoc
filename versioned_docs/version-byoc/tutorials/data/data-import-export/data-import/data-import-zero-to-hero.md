@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

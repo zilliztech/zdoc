@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

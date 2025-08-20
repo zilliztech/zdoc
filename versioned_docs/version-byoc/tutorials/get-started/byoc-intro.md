@@ -13,10 +13,10 @@ keywords:
   - byoc
   - milvus
   - vector database
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 
@@ -133,4 +133,3 @@ Zilliz BYOC charges for the services you use in a BYOC project through resource 
 
 ![TudFwgMGthlQmvbeH9qcXx0jnzn](/img/TudFwgMGthlQmvbeH9qcXx0jnzn.png)
 
-For details on how to estimate the cost of a BYOC project, refer to Estimate Cost (BYOC).

@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This release brings several key updates to Zilliz Cloud, starting with the GA of Zilliz Cloud Serverless, which offers automatic scaling and enables up to 50x cost savings. Milvus 2.4 features are now GA, introducing capabilities such as sparse vectors, multi-vector hybrid search, and inverted index with fuzzy matching. This release also includes multi-replica functionality in public preview, allowing users to improve query throughput and availability by distributing workloads across replicas in multiple Availability Zones (AZs). Additionally, Zilliz Cloud’s new Migration Service supports migration from open-source Milvus, pgvector, Elasticsearch, and enables intra-organization and cross-organization data migrations within Zilliz Cloud. The expanded RESTful APIs for backup, restore, migration, and job management empower users to build automated operational workflows. Further enhancements include support for Project Read-only roles and the ability to rename clusters and snapshots. | Cloud"
 type: origin
 token: PJ4hwwD1DiVnv0kWPZBceLrdnSf
-sidebar_position: 9
+sidebar_position: 10
 keywords: 
   - zilliz
   - vector database

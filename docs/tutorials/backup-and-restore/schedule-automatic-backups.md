@@ -14,10 +14,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 
@@ -30,7 +30,7 @@ import Supademo from '@site/src/components/Supademo';
 
 Zilliz Cloud allows you to enable **automatic backups** for your clusters, helping ensure data recovery in case of unexpected issues. Automatic backups apply to the **entire cluster**—backing up individual collections automatically is not supported.
 
-Backup creation incurs additional [charges](/docs/understand-cost#backup-cost), with pricing based on the cloud region where the backup is stored. All backup files are stored in the same cloud region as the source cluster. For example, a cluster in `AWS us-west-2` will have its backups stored in `AWS us-west-2`.
+Backup creation incurs additional [charges](./storage-cost), with pricing based on the cloud region where the backup is stored. All backup files are stored in the same cloud region as the source cluster. For example, a cluster in `AWS us-west-2` will have its backups stored in `AWS us-west-2`.
 
 This guide walks you through how to schedule automatic backups on Zilliz Cloud. To create on-demand backups, see [Create Backup](./create-snapshot).
 
@@ -49,6 +49,8 @@ This guide walks you through how to schedule automatic backups on Zilliz Cloud. 
     - Collection TTL settings
 
     - Password for the default user `db_admin` (a new password is generated during [restore](./restore-from-snapshot))
+
+    - Cluster dynamic and scheduled scaling settings
 
 - **Cluster shard settings**: Backed up but may be adjusted during restore if the cluster CU size is reduced, due to shard-per-CU limits. See [Zilliz Cloud Limits](./limits#shards) for details.
 

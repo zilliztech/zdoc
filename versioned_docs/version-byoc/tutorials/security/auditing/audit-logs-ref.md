@@ -1,8 +1,8 @@
 ---
-title: "Audit Log Reference | BYOC"
+title: "Audit Logs Reference | BYOC"
 slug: /audit-logs-ref
-sidebar_label: "Audit Log Reference"
-beta: PRIVATE
+sidebar_label: "Audit Logs Reference"
+beta: FALSE
 notebook: FALSE
 description: "On Zilliz Cloud, audit logs have the following syntax | BYOC"
 type: origin
@@ -14,17 +14,17 @@ keywords:
   - cloud
   - auditing
   - log
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Audit Log Reference
+# Audit Logs Reference
 
 On Zilliz Cloud, audit logs have the following syntax:
 

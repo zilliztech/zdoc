@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

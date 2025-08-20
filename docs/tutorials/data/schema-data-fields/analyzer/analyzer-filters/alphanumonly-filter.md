@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - alphanumonly
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

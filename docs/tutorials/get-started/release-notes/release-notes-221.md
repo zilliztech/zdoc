@@ -7,16 +7,16 @@ notebook: FALSE
 description: "We are excited to announce the launch of Zilliz Cloud. With this release, we are introducing a range of enhancements and features, including increased flexibility with a New CU Size Option, the support for advance pay, and more AWS regions. | Cloud"
 type: origin
 token: YtxBwrPfBiuFDdk10GVcYY1DnGg
-sidebar_position: 18
+sidebar_position: 19
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

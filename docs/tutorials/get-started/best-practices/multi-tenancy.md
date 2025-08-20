@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - multi-tenancy
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 
@@ -162,15 +162,15 @@ The table below offers a comprehensive comparison between the four levels of mul
 
 There are several factors to consider when you choose the multi-tenancy strategy in Zilliz Cloud.
 
-1. **Scalability:** Partition Key > Partition > Collection > Database
+1. **Scalability:** Partition Key &gt; Partition &gt; Collection &gt; Database
 
     If you expect to support a very large number of tenants (millions or more), use the partition key-level strategy.
 
-1. **Strong data isolation requirements**: Database = Collection > Partition > Partition Key
+1. **Strong data isolation requirements**: Database = Collection &gt; Partition &gt; Partition Key
 
     Choose database, collection, or partition-level strategies if you have strict physical data isolation requirements. 
 
-1. **Flexible data schema for each tenant's data:** Database > Collection > Partition = Partition Key
+1. **Flexible data schema for each tenant's data:** Database &gt; Collection &gt; Partition = Partition Key
 
     Database-level and collection-level strategies provide full flexibility in data schemas. If your tenants' data structures are different, choose database-level or collection-level multi-tenancy.
 

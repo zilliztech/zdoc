@@ -19,10 +19,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 
@@ -502,7 +502,7 @@ export indexParams='[
    </tr>
    <tr>
      <td><p><code>params.bm25_k1</code></p></td>
-     <td><p>Controls the term frequency saturation. Higher values increase the importance of term frequencies in document ranking. Value range: [1.2, 2.0].</p></td>
+     <td><p>Controls the term frequency saturation. Higher values increase the importance of term frequencies in document ranking. Value range: &#91;1.2, 2.0&#93;.</p></td>
    </tr>
    <tr>
      <td><p><code>params.bm25_b</code></p></td>

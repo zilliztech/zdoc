@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

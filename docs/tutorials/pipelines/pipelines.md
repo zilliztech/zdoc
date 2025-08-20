@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - pipelines
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

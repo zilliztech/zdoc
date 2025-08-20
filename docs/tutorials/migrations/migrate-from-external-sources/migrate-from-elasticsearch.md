@@ -14,10 +14,10 @@ keywords:
   - cloud
   - migrations
   - elasticsearch
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

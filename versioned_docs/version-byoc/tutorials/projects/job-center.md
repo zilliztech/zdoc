@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

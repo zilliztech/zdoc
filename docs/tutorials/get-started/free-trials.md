@@ -14,10 +14,10 @@ keywords:
   - cloud
   - free trial
   - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

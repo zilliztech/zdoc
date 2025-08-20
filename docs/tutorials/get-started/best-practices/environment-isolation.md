@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - multi-tenancy
-  - Zilliz database
-  - Unstructured Data
   - vector database
   - IVF
+  - knn
+  - Image Search
 
 ---
 

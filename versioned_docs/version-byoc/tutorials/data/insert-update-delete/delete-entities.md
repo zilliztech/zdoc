@@ -16,10 +16,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 
@@ -75,7 +75,7 @@ ilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
 
 DeleteResp deleteResp = client.delete(DeleteReq.builder()
         .collectionName("quick_setup")
-        .filter("color in ['red_7025', 'purple_4976]")
+        .filter("color in ['red_7025', 'purple_4976']")
         .build());
 
 ```

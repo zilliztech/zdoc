@@ -1,8 +1,8 @@
 ---
-title: "Audit Log Reference | Cloud"
+title: "Audit Logs Reference | Cloud"
 slug: /audit-logs-ref
-sidebar_label: "Audit Log Reference"
-beta: PRIVATE
+sidebar_label: "Audit Logs Reference"
+beta: FALSE
 notebook: FALSE
 description: "On Zilliz Cloud, audit logs have the following syntax | Cloud"
 type: origin
@@ -14,17 +14,17 @@ keywords:
   - cloud
   - auditing
   - log
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Audit Log Reference
+# Audit Logs Reference
 
 On Zilliz Cloud, audit logs have the following syntax:
 

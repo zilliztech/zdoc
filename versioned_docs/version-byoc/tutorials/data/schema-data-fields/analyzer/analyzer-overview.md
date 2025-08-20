@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

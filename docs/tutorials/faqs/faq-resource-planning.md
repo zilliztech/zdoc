@@ -27,7 +27,6 @@ This topic lists the possible issues that you may encounter while planning your 
 - [How many CUs do I need for a given collection?](#how-many-cus-do-i-need-for-a-given-collection)
 - [Which type of CU should I pick?](#which-type-of-cu-should-i-pick)
 - [What's the difference between Performance-optimized CU and Capacity-optimized CU?](#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu)
-- [How can I downgrade from Dedicated (Enterprise) plan to Dedicated (Standard) plan?](#how-can-i-downgrade-from-dedicated-enterprise-plan-to-dedicated-standard-plan)
 
 ## FAQs
 
@@ -42,7 +41,7 @@ For more details, see [Select the Right CU](./cu-types-explained).
 
 ### What is a vCU? How does it get calculated?{#what-is-a-vcu-how-does-it-get-calculated}
 
-A vCU is a virtual compute unit used to measure the resources consumed by read operations (such as search and query) and write operations (such as insert, upsert, bulk insert, and delete). The data volume written or read will be converted from GB to vCUs. For details, refer to [Understand Cost](./understand-cost#serverless-clusters).
+A vCU is a virtual compute unit used to measure the resources consumed by read operations (such as search and query) and write operations (such as insert, upsert, bulk insert, and delete). The data volume written or read will be converted from GB to vCUs. For details, refer to [Understand Cost](./undefined#serverless-clusters).
 
 ### How can I avoid expenses on unused clusters?{#how-can-i-avoid-expenses-on-unused-clusters}
 
@@ -50,7 +49,7 @@ We recommend suspending unused clusters to save computing costs. You can resume 
 
 ### How can I estimate the cost of using Zilliz Cloud?{#how-can-i-estimate-the-cost-of-using-zilliz-cloud}
 
-You can use our [calculator](https://zilliz.com/pricing) to get a cost estimate or refer to [Estimate Cost](./understand-cost) for details.
+You can use our [calculator](https://zilliz.com/pricing) to get a cost estimate or refer to [Estimate Cost](./undefined) for details.
 
 ### Does Zilliz Cloud support deployment on Azure?{#does-zilliz-cloud-support-deployment-on-azure}
 
@@ -80,7 +79,7 @@ These estimates are based on vectors with primary keys only. Additional scalar f
 
 Select the Performance-optimized CU if you instant search results and high concurrent traffic for real-time applications.
 Choose the Capacity-optimized CU if you need to handle large vector datasets while maintaining reliable search speeds.
-Opt for the Extended-capacity CU if you need to manage massive-scale datasets where optimizing total cost is prioritized over latency.
+Opt for the Extended-capacity CU if you need to manage massive-scale datasets where optimizing total cost is prioritized over latency. To select an extended-capacity CU, your cluster must have at least 4 CUs.
 
 ### What's the difference between Performance-optimized CU and Capacity-optimized CU?{#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu}
 
@@ -89,9 +88,3 @@ The "Performance-optimized CU" suits low latency or high throughput similarity s
 The "Capacity-optimized CU" suits data volumes that are five times larger than the performance-optimized CU option. This option works best for increased storage capacity scenarios.
 
 For more details, see [Select the Right CU](./cu-types-explained).
-
-### How can I downgrade from Dedicated (Enterprise) plan to Dedicated (Standard) plan?{#how-can-i-downgrade-from-dedicated-enterprise-plan-to-dedicated-standard-plan}
-
-You can downgrade your plan by creating a new cluster in the Dedicated (Standard) plan and migrate the data from the Enterprise cluster to the new Standard cluster.
-
-If you want to ensure a smooth transition between plans, you can[ submit a request](https://support.zilliz.com/hc/en-us). We can downgrade the plan for you as well.

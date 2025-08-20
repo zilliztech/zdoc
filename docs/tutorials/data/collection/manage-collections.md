@@ -4,7 +4,7 @@ slug: /manage-collections
 sidebar_label: "Collection Explained"
 beta: FALSE
 notebook: FALSE
-description: "On Zilliz Cloud, you can create multiple collections to manage your data, and insert your data as entities into the collections. Collection and entity are similar to tables and records in relational databases. This page helps you to learn about the collection and related concepts. | Cloud"
+description: "On Zilliz Cloud, you can create multiple collections to manage your data, and insert your data as entities into the collections. Collections and entities are similar to tables and records in relational databases. This page helps you to learn about the collection and related concepts. | Cloud"
 type: origin
 token: Z9AMwNkVLiog0jkXxNscuMpJnjL
 sidebar_position: 1
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
@@ -26,11 +26,11 @@ import Admonition from '@theme/Admonition';
 
 # Collection Explained
 
-On Zilliz Cloud, you can create multiple collections to manage your data, and insert your data as entities into the collections. Collection and entity are similar to tables and records in relational databases. This page helps you to learn about the collection and related concepts.
+On Zilliz Cloud, you can create multiple collections to manage your data, and insert your data as entities into the collections. Collections and entities are similar to tables and records in relational databases. This page helps you to learn about the collection and related concepts.
 
 ## Collection{#collection}
 
-A collection is a two-dimensional table with fixed columns and variant rows. Each column represents a field, and each row represents an entity. 
+A collection is a two-dimensional table with fixed columns and variable rows. Each column represents a field, and each row represents an entity. 
 
 The following chart shows a collection with eight columns and six entities.
 
@@ -38,7 +38,7 @@ The following chart shows a collection with eight columns and six entities.
 
 ## Schema and Fields{#schema-and-fields}
 
-When describing an object, we usually mention its attributes, such as size, weight, and position. You can use these attributes as fields in a collection. Each field has various constraining properties, such as the data type and the dimensionality of a vector field. You can form a collection schema by creating the fields and defining their order. For possible applicable data types, refer to [Schema Explained](./schema-explained).
+When describing an object, we usually mention its attributes, such as size, weight, and position. You can use these attributes as fields in a collection. Each field has various constraining properties, such as the data type and the dimensionality of a vector field. You can form a collection schema by creating the fields and defining their order. For applicable data types, refer to [Schema Explained](./schema-explained).
 
 You should include all schema-defined fields in the entities to insert. To make some of them optional, consider the following options:
 

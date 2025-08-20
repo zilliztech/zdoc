@@ -15,10 +15,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

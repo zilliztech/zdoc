@@ -15,10 +15,10 @@ keywords:
   - developer hub
   - home page
   - home
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 hide_title: true
 hide_table_of_contents: true
@@ -49,7 +49,7 @@ import Banner from '@site/src/components/Banner';
 
 <Hero>
 
-# Welcome to Zilliz Cloud Docs!{#welcome-to-zilliz-cloud-docs}
+# Welcome to Zilliz Cloud Docs{#welcome-to-zilliz-cloud-docs}
 
 Zilliz Cloud provides a fully managed Milvus service, simplifying the deployment and scaling of vector search applications with security in mind, eliminating the need to construct and maintain complex infrastructure. [Learn more](./get-started).
 

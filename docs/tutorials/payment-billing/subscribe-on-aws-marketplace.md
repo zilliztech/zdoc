@@ -7,17 +7,17 @@ notebook: FALSE
 description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on AWS Marketplace. | Cloud"
 type: origin
 token: LDlOweEzmiLkdQkvPFec5lrcnbf
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
   - cloud
   - marketplace
   - aws
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

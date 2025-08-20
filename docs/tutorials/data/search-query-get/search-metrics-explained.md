@@ -20,10 +20,10 @@ keywords:
   - IP
   - COSINE
   - Jaccard
+  - Video deduplication
   - Video similarity search
   - Vector retrieval
   - Audio similarity search
-  - Elastic vector database
 
 ---
 
@@ -97,27 +97,27 @@ The table below summarizes the characteristics of the similarity distance values
    <tr>
      <td><p><code>L2</code></p></td>
      <td><p>A smaller value indicates a greater similarity.</p></td>
-     <td><p>[0, ∞)</p></td>
+     <td><p>&#91;0, ∞)</p></td>
    </tr>
    <tr>
      <td><p><code>IP</code></p></td>
      <td><p>A greater value indicates a greater similarity.</p></td>
-     <td><p>[-1, 1]</p></td>
+     <td><p>&#91;-1, 1&#93;</p></td>
    </tr>
    <tr>
      <td><p><code>COSINE</code></p></td>
      <td><p>A greater value indicates a greater similarity.</p></td>
-     <td><p>[-1, 1]</p></td>
+     <td><p>&#91;-1, 1&#93;</p></td>
    </tr>
    <tr>
      <td><p><code>JACCARD</code></p></td>
      <td><p>A smaller value indicates a greater similarity.</p></td>
-     <td><p>[0, 1]</p></td>
+     <td><p>&#91;0, 1&#93;</p></td>
    </tr>
    <tr>
      <td><p><code>HAMMING</code></p></td>
      <td><p>A smaller value indicates a greater similarity.</p></td>
-     <td><p>[0, dim(vector)]</p></td>
+     <td><p>&#91;0, dim(vector)&#93;</p></td>
    </tr>
    <tr>
      <td><p><code>BM25</code></p></td>
@@ -134,7 +134,7 @@ The formula for Euclidean distance is as follows:
 
 ![C8gHbw8dSozNslx9wXbcyt2hnLe](/img/C8gHbw8dSozNslx9wXbcyt2hnLe.png)
 
-where **a = (a<sub>0</sub>, a<sub>1</sub>,..., a<sub>n-1</sub>)** and **b = (b<sub>0</sub>, b<sub>1</sub>,..., b<sub>n-1</sub>)** are two points in n-dimensional Euclidean space.
+where **a = (a&lt;sub&gt;0&lt;/sub&gt;, a&lt;sub&gt;1&lt;/sub&gt;,..., a&lt;sub&gt;n-1&lt;/sub&gt;)** and **b = (b&lt;sub&gt;0&lt;/sub&gt;, b&lt;sub&gt;1&lt;/sub&gt;,..., b&lt;sub&gt;n-1&lt;/sub&gt;)** are two points in n-dimensional Euclidean space.
 
 It's the most commonly used distance metric and is very useful when the data are continuous.
 
@@ -168,13 +168,13 @@ The correlation between the two embeddings is as follows:
 
 ## Cosine similarity{#cosine-similarity}
 
-Cosine similarity uses the cosine of the angle between two sets of vectors to measure how similar they are. You can think of the two sets of vectors as line segments starting from the same point, such as [0,0,...], but pointing in different directions.
+Cosine similarity uses the cosine of the angle between two sets of vectors to measure how similar they are. You can think of the two sets of vectors as line segments starting from the same point, such as &#91;0,0,...&#93;, but pointing in different directions.
 
-To calculate the cosine similarity between two sets of vectors **A = (a<sub>0</sub>, a<sub>1</sub>,..., a<sub>n-1</sub>)** and **B = (b<sub>0</sub>, b<sub>1</sub>,..., b<sub>n-1</sub>)**, use the following formula:
+To calculate the cosine similarity between two sets of vectors **A = (a&lt;sub&gt;0&lt;/sub&gt;, a&lt;sub&gt;1&lt;/sub&gt;,..., a&lt;sub&gt;n-1&lt;/sub&gt;)** and **B = (b&lt;sub&gt;0&lt;/sub&gt;, b&lt;sub&gt;1&lt;/sub&gt;,..., b&lt;sub&gt;n-1&lt;/sub&gt;)**, use the following formula:
 
 ![R1iNbuEDDoz8RdxtA4RcM706nMc](/img/R1iNbuEDDoz8RdxtA4RcM706nMc.png)
 
-The cosine similarity is always in the interval **[-1, 1]**. For example, two proportional vectors have a cosine similarity of **1**, two orthogonal vectors have a similarity of **0**, and two opposite vectors have a similarity of **-1**. The larger the cosine, the smaller the angle between the two vectors, indicating that these two vectors are more similar to each other.
+The cosine similarity is always in the interval **&#91;-1, 1&#93;**. For example, two proportional vectors have a cosine similarity of **1**, two orthogonal vectors have a similarity of **0**, and two opposite vectors have a similarity of **-1**. The larger the cosine, the smaller the angle between the two vectors, indicating that these two vectors are more similar to each other.
 
 By subtracting their cosine similarity from 1, you can get the cosine distance between two vectors.
 
@@ -209,7 +209,7 @@ BM25 is a widely used text relevance measurement method, specifically designed f
 The BM25 scoring is calculated as follows:
 
 $$
-score(D, Q)=\sum_{i=1}^{n}IDF(q_i)\cdot {{TF(q_i,D)\cdot(k_1+1)}\over{TF(q_i, D)+k_1\cdot(1-b+b\cdot {{|D|}\over{avgdl}})}}
+score(D, Q)=\sum_{i=1}^{n}IDF(q_i)\cdot {{TF(q_i,D)\cdot(k_1+1)}\over{TF(q_i, D)+k_1\cdot(1-b+b\cdot {{|D|}\over{avgdl}&#125;)&#125;&#125;
 $$
 
 Parameter description:
@@ -232,7 +232,7 @@ Parameter description:
 
 - $avgdl$: Average length of all documents in the corpus.
 
-- $k_1$: Controls the influence of term frequency on the score. Higher values increase the importance of term frequency. The typical range is [1.2, 2.0], while Zilliz Cloud allows a range of [0, 3].
+- $k_1$: Controls the influence of term frequency on the score. Higher values increase the importance of term frequency. The typical range is &#91;1.2, 2.0&#93;, while Zilliz Cloud allows a range of &#91;0, 3&#93;.
 
 - $b$: Controls the degree of length normalization, ranging from 0 to 1. When the value is 0, no normalization is applied; when the value is 1, full normalization is applied.
 

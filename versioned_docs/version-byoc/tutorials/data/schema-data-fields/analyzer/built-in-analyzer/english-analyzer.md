@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - english analyzer
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

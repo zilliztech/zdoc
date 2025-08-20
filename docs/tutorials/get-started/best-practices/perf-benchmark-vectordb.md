@@ -15,10 +15,10 @@ keywords:
   - milvus
   - performance
   - benchmark
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 
@@ -140,7 +140,7 @@ Below is an example output. You will obtain a local URL in the output. Use it to
 
 On the homepage, you can see some pre-defined testing datasets provided by VectorDBBench and use them for a quick performance benchmarking.
 
-Scroll down the webpage to the bottom and click **Run Your Test >** to configure your own benchmarking test.
+Scroll down the webpage to the bottom and click **Run Your Test &gt;** to configure your own benchmarking test.
 
 ![AATGbLxqwo32yexKYzPcdYVTnph](/img/AATGbLxqwo32yexKYzPcdYVTnph.png)
 
@@ -158,6 +158,6 @@ Optionally, you can set up the **DB Filter** and **Case Filter** in the left nav
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The databases are named in the format of [database<em>name]-[db</em>label]. </p>
+<p>The databases are named in the format of &#91;database<em>name&#93;-&#91;db</em>label&#93;. </p>
 
 </Admonition>

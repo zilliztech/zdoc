@@ -7,16 +7,16 @@ notebook: FALSE
 description: "In this update, Zilliz Cloud now supports Milvus' new RESTful API v2, providing a consistent interface and expanded functionalities. A new documentation chatbot enhances user support. The Job Center introduces an intuitive interface for managing and tracking tasks such as backup, restore, migration, import, and clone collection. Auto-scaling for dedicated clusters, available in private preview, dynamically adjusts capacity based on demand, triggered by the Compute Unit (CU) Capacity Threshold. Other enhancements include more cluster monitoring metrics, a revamped cluster management interface, and improved user email templates. | Cloud"
 type: origin
 token: RlhDw3Fr9iCpWSkylfAcyes1nLh
-sidebar_position: 10
+sidebar_position: 11
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 
@@ -57,7 +57,7 @@ Zilliz Cloud now offers an intuitive Jobs page, integrating all historical and a
 
 See [Manage Project Jobs](./job-center) for details.
 
-### Auto-scaling for Dedicated Clusters [Private Preview]{#auto-scaling-for-dedicated-clusters-private-preview}
+### Auto-scaling for Dedicated Clusters &#91;Private Preview&#93;{#auto-scaling-for-dedicated-clusters-private-preview}
 
 Zilliz Cloud introduces auto-scaling, a feature that dynamically adjusts the cluster's capacity based on demand. Auto-scaling is primarily triggered by the CU (Compute Unit) Capacity Threshold. Zilliz Cloud monitors the cluster's CU capacity every minute, and if it exceeds 70% (the default threshold) for two consecutive minutes, the system automatically initiates a scaling process. Users can set a maximum CU size for automatic scaling, though downward auto-scaling is currently not supported.
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - collection
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

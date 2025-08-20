@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

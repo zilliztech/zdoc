@@ -17,10 +17,10 @@ keywords:
   - integrate
   - object
   - storage
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 
@@ -39,7 +39,7 @@ You can export backup files to object storage using the Zilliz Cloud console.
 
 ## Before you start{#before-you-start}
 
-- You have integrated Zilliz Cloud with your object storage. For detailed steps, refer to [Integrate with AWS S3](./integrate-with-aws-s3) and [Integrate with Azure Blob Storage](./integrate-with-azure-blob-storage).
+- You have integrated Zilliz Cloud with your object storage. For detailed steps, refer to [Integrate with AWS S3](./integrate-with-aws-s3), [Integrate with Azure Blob Storage](./integrate-with-azure-blob-storage), or [Integrate with Google Cloud Storage](./integrate-with-gcp).
 
 - You have **Organization Owner** or **Project Admin** access to the project. If you do not have necessary permissions, contact your Zilliz Cloud administrator.
 
@@ -65,7 +65,7 @@ You can export backup files from Zilliz Cloud either via the Zilliz Cloud consol
 
     - **Cloud Region of Cluster in Backup File**: Displays the cloud region where the backup file was created.
 
-    - **Integration**: Select the object storage provider integrated with Zilliz Cloud. Currently, AWS S3 is supported. For more information, refer to [Integrate with AWS S3](./integrate-with-aws-s3).
+    - **Integration**: Select the object storage provider integrated with Zilliz Cloud.
 
     - **Integration Configuration**: Choose the specific bucket you configured for the backup export.
 

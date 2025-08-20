@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 
@@ -93,7 +93,7 @@ Zilliz Cloud provides three organization roles. These roles cannot be modified o
 
 Note that if you are an **Organization Member** or an **Organization Billing Admin**, you can only grant invitees the role of **Organization Member**.
 
-The invitees will receive an invitation via email, which must be accepted within 48 hours to join the organization. 
+The invitees will receive an invitation via email, which must be accepted within 48 hours to join the organization. Alternatively, you can also copy the invitation link from the web console and share it with the invitees.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -101,7 +101,7 @@ The invitees will receive an invitation via email, which must be accepted within
 
 </Admonition>
 
-![invite-user-to-org-byoc](/img/invite-user-to-org-byoc.png)
+![invite-user-to-org](/img/invite-user-to-org.png)
 
 ## Revoke or resend an invitation{#revoke-or-resend-an-invitation}
 

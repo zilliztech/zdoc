@@ -15,10 +15,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

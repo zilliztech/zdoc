@@ -17,10 +17,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 
@@ -131,14 +131,14 @@ The maximum number of shards allowed depends on the cluster plan and cluster CU 
      <td><p>8</p></td>
    </tr>
    <tr>
-     <td>> <p>64 CU</p></td>
+     <td>&lt;blockquote&gt;  <p>64 CU</p>&lt;/blockquote&gt;</td>
      <td><p>16</p></td>
    </tr>
 </table>
 
 ### Rate limit{#rate-limit}
 
-Zilliz Cloud also imposed rate limits on collection operations, including creating, loading, releasing, and dropping collections. The following rate limit applies to collections in both Serverless and Dedicated clusters.
+Zilliz Cloud also imposes rate limits on collection and partition data definition language (DDL) operations, including creating, loading, releasing, and dropping collections. The following rate limit applies to collections in both Serverless and Dedicated clusters.
 
 <table>
    <tr>
@@ -146,8 +146,12 @@ Zilliz Cloud also imposed rate limits on collection operations, including creati
      <th><p><strong>Rate Limit</strong></p></th>
    </tr>
    <tr>
-     <td><p>Collection Operation </p><p>(create, load, release, drop)</p></td>
-     <td><p>5 req/s per cluster</p></td>
+     <td><p>Collection DDL Operation </p><p>(create, load, release, drop)</p></td>
+     <td><p>20 req/s per cluster</p></td>
+   </tr>
+   <tr>
+     <td><p>Partition DDL Operation</p><p>(create, load, release, drop)</p></td>
+     <td><p>20 req/s per cluster</p></td>
    </tr>
 </table>
 
@@ -167,15 +171,15 @@ The rate limit that applies varies with the cluster types and the number of CUs 
      <th><p>Maximum Insert Rate Limits</p></th>
    </tr>
    <tr>
-     <td><p>Dedicated cluster [1 CU, 2 CUs]</p></td>
+     <td><p>Dedicated cluster &#91;1 CU, 2 CUs&#93;</p></td>
      <td><p>8 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster [4 CUs,  8 CUs]</p></td>
+     <td><p>Dedicated cluster &#91;4 CUs,  8 CUs&#93;</p></td>
      <td><p>12 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster [12 CUs, 20 CUs]</p></td>
+     <td><p>Dedicated cluster &#91;12 CUs, 20 CUs&#93;</p></td>
      <td><p>16 MB/s</p></td>
    </tr>
    <tr>
@@ -212,15 +216,15 @@ The rate limit that applies varies with the cluster types and the number of CUs 
      <th><p>Maximum Upsert Rate Limits</p></th>
    </tr>
    <tr>
-     <td><p>Dedicated cluster [1 CU, 2 CUs]</p></td>
+     <td><p>Dedicated cluster &#91;1 CU, 2 CUs&#93;</p></td>
      <td><p>8 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster [4 CUs,  8 CUs]</p></td>
+     <td><p>Dedicated cluster &#91;4 CUs,  8 CUs&#93;</p></td>
      <td><p>12 MB/s</p></td>
    </tr>
    <tr>
-     <td><p>Dedicated cluster [12 CUs, 20 CUs]</p></td>
+     <td><p>Dedicated cluster &#91;12 CUs, 20 CUs&#93;</p></td>
      <td><p>16 MB/s</p></td>
    </tr>
    <tr>
@@ -293,7 +297,7 @@ The rate limit for flush requests is 0.1 requests per second, imposed at the col
 
 ### Load{#load}
 
-The rate limit for load requests is **5** req/s per cluster.
+The rate limit for load requests is **20** req/s per cluster.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -331,11 +335,11 @@ The rate limit for delete requests is **0.5** MB/s per cluster.
 
 ### Drop{#drop}
 
-The rate limit for drop requests is **5** req/s per cluster.
+The rate limit for drop requests is **20** req/s per cluster.
 
 ### Data import{#data-import}
 
-You can have up to **10** running or pending import jobs in a collection.
+You can have up to **10,000** running or pending import jobs in a collection.
 
 Zilliz Cloud also imposes limits on the files to import on the web console.
 
@@ -343,22 +347,22 @@ Zilliz Cloud also imposes limits on the files to import on the web console.
    <tr>
      <th><p>File Type</p></th>
      <th><p>Local upload</p></th>
-     <th><p>Sync from S3/GCS/Other OSS</p></th>
+     <th><p>From Object Storage</p></th>
    </tr>
    <tr>
      <td><p>JSON</p></td>
      <td><p>1 GB</p></td>
-     <td><p>Free: 512 MB</p><p>Serverless &amp; Dedicated: 1 TB</p></td>
+     <td><p><strong>Free</strong>: Each import request can import up to 1 GB of data, with a maximum of 1 GB per file, and no more than 1,000 files per import.</p><p><strong>Serverless & Dedicated</strong>: The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files.</p></td>
+   </tr>
+   <tr>
+     <td><p>Parquet</p></td>
+     <td><p>1 GB</p></td>
+     <td><p><strong>Free</strong>: Each import request can import up to 1 GB of data, with a maximum of 1 GB per file, and no more than 1,000 files per import.</p><p><strong>Serverless & Dedicated</strong>: The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files.</p></td>
    </tr>
    <tr>
      <td><p>Numpy</p></td>
      <td><p>Not support</p></td>
-     <td><p>Free: 512 MB</p><p>Serverless &amp; Dedicated: The maximum size of the folder is 1 TB and the maximum size of each subdirectory is 10 GB</p></td>
-   </tr>
-   <tr>
-     <td><p>Parquet</p></td>
-     <td><p>Not support</p></td>
-     <td><p>Free: 512 MB</p><p>Serverless &amp; Dedicated: 1 TB</p></td>
+     <td><p><strong>Free</strong>: Each import request can import up to 1 GB of data, with a maximum of 1 GB per subdirectory, and no more than 1,000 subdirectories per import.</p><p><strong>Serverless & Dedicated</strong>: The maximum total import size is 1 TB and the maximum size of each subdirectory is 10 GB with up to 1,000 subdirectories.</p></td>
    </tr>
 </table>
 

@@ -7,16 +7,16 @@ notebook: FALSE
 description: "We are pleased to announce the general availability of a significant update to Zilliz Cloud. This release adds the data preview feature and a demo dataset that can be easily imported into your collection on the console. | Cloud"
 type: origin
 token: UIaAwGay9iJHhlkxx8VcxfZ3nvb
-sidebar_position: 25
+sidebar_position: 26
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
   - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

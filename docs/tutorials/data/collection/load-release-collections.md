@@ -15,10 +15,10 @@ keywords:
   - collection
   - load
   - release
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

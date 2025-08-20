@@ -15,10 +15,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

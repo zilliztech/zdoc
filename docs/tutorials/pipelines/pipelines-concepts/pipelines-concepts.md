@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - concepts
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - cluster credentials
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

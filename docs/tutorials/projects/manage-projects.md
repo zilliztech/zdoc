@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

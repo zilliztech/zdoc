@@ -14,10 +14,10 @@ keywords:
   - cloud
   - index
   - manage
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

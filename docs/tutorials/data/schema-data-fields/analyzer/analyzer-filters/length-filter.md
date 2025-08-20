@@ -17,10 +17,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

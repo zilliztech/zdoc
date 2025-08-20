@@ -14,10 +14,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

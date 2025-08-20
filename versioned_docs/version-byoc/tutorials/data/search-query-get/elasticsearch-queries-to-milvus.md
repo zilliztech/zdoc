@@ -19,10 +19,10 @@ keywords:
   - filtering
   - elasticsearch queries
   - query mapping
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

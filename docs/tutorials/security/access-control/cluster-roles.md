@@ -16,10 +16,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

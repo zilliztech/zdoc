@@ -16,10 +16,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

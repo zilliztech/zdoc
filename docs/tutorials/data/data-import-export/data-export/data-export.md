@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 

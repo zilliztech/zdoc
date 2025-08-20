@@ -16,10 +16,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

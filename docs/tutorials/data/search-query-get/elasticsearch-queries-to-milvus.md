@@ -19,10 +19,10 @@ keywords:
   - filtering
   - elasticsearch queries
   - query mapping
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

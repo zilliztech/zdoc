@@ -14,10 +14,10 @@ keywords:
   - register
   - cloud
   - milvus
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 
@@ -134,3 +134,7 @@ To link your GitHub account with us, follow the steps below.
 
 Always use the same method you chose for registration when logging in to your Zilliz Cloud account.
 
+## FAQ{#faq}
+
+**Why did my registration fail?**
+You may have already registered an account with this email address. Please try logging in directly. If the issue persists, please [create a support ticket](http://support.zilliz.com).

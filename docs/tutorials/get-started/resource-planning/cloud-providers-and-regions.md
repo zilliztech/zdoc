@@ -7,17 +7,17 @@ notebook: FALSE
 description: "Zilliz Cloud is a cloud-based service that offers vector database clusters on public clouds. With our service, you can easily create and manage your own vector database clusters on the public cloud platform of your choice. | Cloud"
 type: origin
 token: CPLrwghdWiSvGBkdeEecGjgLnSb
-sidebar_position: 0
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - providers
   - regions
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 
@@ -109,7 +109,7 @@ Zilliz Cloud supports deploying dedicated clusters on AWS.
    </tr>
 </table>
 
-For more information on cluster types, see Select Cluster Plans.
+For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
 
 ## GCP{#gcp}
 
@@ -166,7 +166,7 @@ Free, serverless, and dedicated clusters can be deployed on GCP.
    </tr>
 </table>
 
-For more information on cluster types, see Select Cluster Plans.
+For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
 
 ## Microsoft Azure{#microsoft-azure}
 
@@ -223,11 +223,11 @@ Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
    </tr>
 </table>
 
-For more information on cluster plans, see Select the Right Cluster Plan.
+For more information on cluster plans, see [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
 
 ## Related topics{#related-topics}
 
-- Select the Right Cluster Plan
+- [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans)
 
-- Select the Right CU
+- [Select the Right CU](./cu-types-explained)
 

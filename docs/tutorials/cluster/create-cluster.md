@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 
@@ -229,7 +229,7 @@ In the command above,
 
     - **CU Settings**:
 
-        - **CU Type**: Select a CU Type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right CU](./cu-types-explained).
+        - **CU Type**: Select a CU Type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right CU](./cu-types-explained). To select an extended-capacity CU, your cluster must have at least 4 CUs.
 
         - **CU Size**: Select the total size of the cluster in terms of CUs.
 

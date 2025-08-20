@@ -14,10 +14,10 @@ keywords:
   - cloud
   - pipelines
   - pricing
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

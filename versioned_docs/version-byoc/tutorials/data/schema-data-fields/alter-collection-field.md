@@ -16,10 +16,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

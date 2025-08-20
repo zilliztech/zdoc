@@ -16,10 +16,10 @@ keywords:
   - milvus
   - backup files
   - stage
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 
@@ -46,7 +46,7 @@ This feature eliminates the operational complexity across various migration scen
 
 ## Before you start{#before-you-start}
 
-- You have been granted the **Organization Owner** or **Project Admin** role. If you do not have the necessary permissions, contact your Zilliz Cloud administrator.
+- You have been granted the **Organization Owner** or **Project Admin** role. If you do not have the necessary permissions, contact your Zilliz Cloud Organization Owner.
 
 - Make sure the CU size of the target cluster can accommodate your source data. To estimate the required CU size, use the [calculator](https://zilliz.com/pricing?_gl=1*qro801*_ga*MzkzNTY1NDM0LjE3Mjk1MDExNzQ.*_ga_Q1F8R2NWDP*MTc0NTQ4MzY1Ni4zMDEuMS4xNzQ1NDg0MTEzLjAuMC4w*_ga_KKMVYG8YF2*MTc0NTQ4MzY1Ni4yNTIuMS4xNzQ1NDg0MTEzLjAuMC4w#calculator).
 

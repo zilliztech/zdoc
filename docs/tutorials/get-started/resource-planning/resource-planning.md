@@ -14,10 +14,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

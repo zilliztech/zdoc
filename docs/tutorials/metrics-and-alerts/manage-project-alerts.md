@@ -14,10 +14,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

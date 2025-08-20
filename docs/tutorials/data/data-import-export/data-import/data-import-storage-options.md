@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Before importing data, it's important to understand the supported cloud storage options and their corresponding URL formats. This ensures that your requests can be properly processed without undergoing validation errors. | Cloud"
 type: origin
 token: TjxAw7lx6iNluBkR4a6czoHpn0f
-sidebar_position: 0
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 
@@ -29,7 +29,7 @@ import Admonition from '@theme/Admonition';
 
 Before importing data, it's important to understand the supported cloud storage options and their corresponding URL formats. This ensures that your requests can be properly processed without undergoing validation errors.
 
-## AWS Simple Storage Service (S3){#aws-simple-storage-service-s3}
+## Amazon Simple Storage Service (S3){#amazon-simple-storage-service-s3}
 
 - **Object access URIs**
 

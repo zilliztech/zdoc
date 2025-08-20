@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

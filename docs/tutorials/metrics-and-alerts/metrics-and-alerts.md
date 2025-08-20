@@ -14,10 +14,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

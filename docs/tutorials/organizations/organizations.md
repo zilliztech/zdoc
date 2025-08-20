@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

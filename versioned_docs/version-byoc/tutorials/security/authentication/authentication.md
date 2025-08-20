@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - rag llm architecture
-  - private llms
-  - nn search
   - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

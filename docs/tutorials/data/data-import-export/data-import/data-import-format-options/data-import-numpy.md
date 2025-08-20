@@ -2,7 +2,7 @@
 title: "Import from NumPy Files | Cloud"
 slug: /data-import-numpy
 sidebar_label: "NumPy"
-beta: FALSE
+beta: NEAR DEPRECATE
 notebook: FALSE
 description: "The `.npy` format is NumPy's standard binary format](https//numpy.org/devdocs/reference/generated/numpy.lib.format.html) for saving a single array, including its shape and dtype information, ensuring it can be correctly reconstructed on different machines.  You are advised to use [the BulkWriter tool to prepare your raw data into Parquet files. The following figure demonstrates how your raw data can be mapped into a set of `.npy` file. | Cloud"
 type: origin
@@ -16,10 +16,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 
@@ -156,32 +156,38 @@ Zilliz Cloud supports data import from your cloud storage. The table below lists
 
 ## Limits{#limits}
 
-A valid set of NumPy files should be named after the fields in the schema of the target collection, and the data in them should match the corresponding field definitions.
+There are some limits you need to observe when you import data in NumPy files from your cloud storage. 
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>A valid set of NumPy files should be named after the fields in the schema of the target collection, and the data in them should match the corresponding field definitions.</p>
+
+</Admonition>
 
 <table>
    <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>Import Method</strong></p></th>
+     <th><p><strong>Cluster Plan</strong></p></th>
+     <th><p><strong>Max Subdirectories per Import</strong></p></th>
+     <th><p><strong>Max Size per Subdirectory</strong></p></th>
+     <th><p><strong>Max Total Import Size</strong></p></th>
    </tr>
    <tr>
-     <td><p><strong>Multiple files per import</strong></p></td>
-     <td><p>Yes</p></td>
+     <td><p>From local file</p></td>
+     <td colspan="4"><p>Not supported</p></td>
    </tr>
    <tr>
-     <td><p><strong>Data import from first-level subfolders</strong></p></td>
-     <td><p>Yes</p></td>
+     <td rowspan="2"><p>From object storage</p></td>
+     <td><p>Free</p></td>
+     <td><p>1,000 subdirectories</p></td>
+     <td><p>1 GB</p></td>
+     <td><p>1 GB</p></td>
    </tr>
    <tr>
-     <td><p><strong>Maximum number of first-level subfolders</strong></p></td>
-     <td><p>100,000</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Maximum file size per import</strong></p></td>
-     <td><p>Free cluster: 512 MB in total</p><p>Serverless &amp; Dedicated cluster:</p><ul><li><p>Total file size in each first-level subfolder: 10 GB</p></li><li><p>Total file size: 1 TB</p></li></ul></td>
-   </tr>
-   <tr>
-     <td><p><strong>Applicable data file locations</strong></p></td>
-     <td><p>Remote files only</p></td>
+     <td><p>Serverless &amp; Dedicated</p></td>
+     <td><p>1,000 subdirectories</p></td>
+     <td><p>10 GB</p></td>
+     <td><p>1 TB</p></td>
    </tr>
 </table>
 

@@ -15,10 +15,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

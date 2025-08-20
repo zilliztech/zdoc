@@ -16,10 +16,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

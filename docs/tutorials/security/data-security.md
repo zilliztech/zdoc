@@ -14,10 +14,10 @@ keywords:
   - cloud
   - data
   - security
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

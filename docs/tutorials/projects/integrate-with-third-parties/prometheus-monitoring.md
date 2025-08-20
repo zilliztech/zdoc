@@ -7,7 +7,7 @@ notebook: FALSE
 description: "Prometheus is a monitoring system that collects metrics from configured targets at specified intervals, evaluates rule expressions, displays the results, and can trigger alerts based on specific conditions. | Cloud"
 type: origin
 token: Ex99woZlsico4FkfwxGckjRRnqf
-sidebar_position: 3
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +15,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 
@@ -33,7 +33,7 @@ By integrating Zilliz Cloud with Prometheus, you can collect and monitor metrics
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p><a href="https://prometheus.io/">Prometheus</a> integration is supported only for Zilliz Cloud clusters running the <strong>Dedicated-Enterprise</strong> or <strong>BYOC</strong> plan.</p>
+<p><a href="https://prometheus.io/">Prometheus</a> integration is available only for Zilliz Cloud clusters running the <strong>Dedicated-Enterprise</strong> or <strong>BYOC</strong> plan. To upgrade your plan tier, refer to <a href="./manage-cluster">Manage Cluster</a>.</p>
 
 </Admonition>
 

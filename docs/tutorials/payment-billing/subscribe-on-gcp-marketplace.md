@@ -7,17 +7,17 @@ notebook: FALSE
 description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on GCP Marketplace. | Cloud"
 type: origin
 token: MIqTw7iJ4iQAtVkYKiEc98a7nsh
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - marketplace
   - gcp
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

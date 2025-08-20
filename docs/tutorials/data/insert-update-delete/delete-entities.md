@@ -16,10 +16,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 
@@ -75,7 +75,7 @@ ilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
 
 DeleteResp deleteResp = client.delete(DeleteReq.builder()
         .collectionName("quick_setup")
-        .filter("color in ['red_7025', 'purple_4976]")
+        .filter("color in ['red_7025', 'purple_4976']")
         .build());
 
 ```

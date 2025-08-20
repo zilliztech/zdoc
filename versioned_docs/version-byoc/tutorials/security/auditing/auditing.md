@@ -2,7 +2,7 @@
 title: "Auditing | BYOC"
 slug: /auditing
 sidebar_label: "Auditing"
-beta: PRIVATE
+beta: FALSE
 notebook: FALSE
 description: "Learn how to configure auditing for your Zilliz Cloud cluster. | BYOC"
 type: origin
@@ -14,10 +14,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

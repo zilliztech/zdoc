@@ -15,10 +15,10 @@ keywords:
   - migrations
   - external
   - data source
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

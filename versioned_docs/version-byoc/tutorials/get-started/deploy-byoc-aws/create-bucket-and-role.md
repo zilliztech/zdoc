@@ -16,10 +16,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

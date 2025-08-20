@@ -16,10 +16,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

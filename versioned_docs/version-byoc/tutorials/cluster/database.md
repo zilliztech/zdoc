@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

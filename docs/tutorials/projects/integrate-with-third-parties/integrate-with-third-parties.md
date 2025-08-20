@@ -13,10 +13,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

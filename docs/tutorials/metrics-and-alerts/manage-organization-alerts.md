@@ -14,10 +14,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 
