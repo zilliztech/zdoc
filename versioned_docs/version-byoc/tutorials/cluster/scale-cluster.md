@@ -40,16 +40,6 @@ This guide explains how to resize a cluster to suit your changing workload.
 
 </Admonition>
 
-## Scaling Methods in Zilliz Cloud{#scaling-methods-in-zilliz-cloud}
-
-Zilliz Cloud offers several ways to scale your cluster:
-
-- [Manual Scaling](./scale-cluster#manual-scaling): Instantly adjust the number of query CU. Ideal if you have a clear understanding of your workload patterns. 
-
-    - When you choose manual scaling, you can further enable **scheduled scaling** to adjust query CU resources based on a predefined time schedule. Scheduled scaling is perfect for recurring workload patterns, such as peaks during business days and lower demand on weekends, or scenarios where your future workload is stable and predicatable.
-
-- [Dynamic Scaling](./scale-cluster#dynamic-scaling): Automatically adjusts the cluster query CU resources within a user-defined min–max range based on real-time metrics. Best for unpredictable workloads that may spike or dip throughout the day.
-
 ## Considerations{#considerations}
 
 - **Plan Availability**: Only supported for Dedicated clusters.

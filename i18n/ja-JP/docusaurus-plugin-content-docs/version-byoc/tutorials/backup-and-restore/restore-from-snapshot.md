@@ -164,7 +164,3 @@ curl --request POST \
 
 - [自動バックアップをスケジュールする](./schedule-automatic-backups)
 
-- [バックアップファイルを表示する](./view-snapshot-details)
-
-- [バックアップファイルを削除](./delete-snapshot)
-

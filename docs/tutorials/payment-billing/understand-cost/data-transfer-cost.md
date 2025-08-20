@@ -62,7 +62,7 @@ The following table compares the different data transfer types.
 
 You will be billed for data transfer in the following scenarios:
 
-- Operations like [search/query](null)
+- Operations like [search/query](search-query-get)
 
 - Forwarding [audit logs](./audit-logs) to cloud object storage
 

@@ -32,8 +32,6 @@ Zilliz Cloudは、Milvusのマネージドサービスを提供することで�
 
 Zilliz Cloudは、Milvusからデータを移行するための2つの主要な方法を提供しています
 
-- [エンドポイント経由](./via-endpoint): MilvusからZilliz Cloudへ一度に1つのデータベースを移行できます。各データベースは順番に個別に移行されるため、各データベースの移行過程を慎重に管理する必要があるシナリオに最適です。
-
 
 
 import DocCardList from '@theme/DocCardList';

@@ -85,7 +85,5 @@ curl --request DELETE \
 
 - [自動バックアップをスケジュールする](./schedule-automatic-backups)
 
-- [バックアップファイルを表示する](./view-snapshot-details)
-
 - [バックアップファイルからの復元](./restore-from-snapshot)
 

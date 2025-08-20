@@ -30,8 +30,6 @@ import Supademo from '@site/src/components/Supademo';
 
 Zilliz Cloud allows you to enable **automatic backups** for your clusters, helping ensure data recovery in case of unexpected issues. Automatic backups apply to the **entire cluster**—backing up individual collections automatically is not supported.
 
-Backup creation incurs additional [charges](./storage-cost), with pricing based on the cloud region where the backup is stored. All backup files are stored in the same cloud region as the source cluster. For example, a cluster in `AWS us-west-2` will have its backups stored in `AWS us-west-2`.
-
 This guide walks you through how to schedule automatic backups on Zilliz Cloud. To create on-demand backups, see [Create Backup](./create-snapshot).
 
 ## Limits{#limits}
