@@ -10,19 +10,19 @@ type: docx
 token: OEcUdoX1yoc94axfwpjcdA2jnEf
 sidebar_position: 2
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - close()
   - javaV225
+  - Vector index
   - vector database open source
   - open source vector db
   - vector database example
-  - rag vector database
 displayed_sidebar: javaSidebar
 
 ---

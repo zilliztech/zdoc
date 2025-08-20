@@ -10,19 +10,19 @@ type: docx
 token: LCQTdebkConhUqxwnk7c3EbPnWh
 sidebar_position: 34
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_datetime()
   - pymilvus25
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: pythonSidebar
 
 ---
@@ -47,13 +47,13 @@ mkts_from_datetime(
 **PARAMETERS:**
 
 - **d_time** (*datetime*) -
-**[REQUIRED]**
+**&#91;REQUIRED&#93;**
 A **datetime.datetime** object.
 
 - **milliseconds** (*float*) -
 An incremental time interval in milliseconds.
 
-- **delta** (*Optional[timedelta]*) -
+- **delta** (*Optional&#91;timedelta&#93;*) -
 
     A **datetime.timedelta** object that represents the duration expressing the difference between two `date`, `time`, or `datetime` instances to microsecond resolution.
 

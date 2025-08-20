@@ -99,13 +99,13 @@ type Column interface {
      <td><p>Return a column that contains the specified rows from the column.</p></td>
    </tr>
    <tr>
-     <td><p><code>AppendValue(interface{})</code></p></td>
+     <td><p><code>AppendValue(interface&#123;&#125;)</code></p></td>
      <td><p><code>error</code></p></td>
      <td><p>Append values to the column.</p></td>
    </tr>
    <tr>
      <td><p><code>Get(int)</code></p></td>
-     <td><p><code>interface{}, error</code></p></td>
+     <td><p><code>interface&#123;&#125;, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
    <tr>

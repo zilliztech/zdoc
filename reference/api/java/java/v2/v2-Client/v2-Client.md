@@ -9,10 +9,10 @@ token: QW8NfURhvl0NtOdmS3DcvQYCnFh
 sidebar_position: 1
 sidebar_label: "Client"
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud

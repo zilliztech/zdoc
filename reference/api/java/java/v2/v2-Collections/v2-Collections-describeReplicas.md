@@ -10,19 +10,19 @@ type: docx
 token: WRSYdEZwroNY1Txpk2DcI1sSnVg
 sidebar_position: 24
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - describeReplicas()
   - javaV225
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: javaSidebar
 
 ---
@@ -68,7 +68,7 @@ A DescribeReplicasResp that contains detailed information about the replicas in 
 
 **PARAMETERS:**
 
-- **replicas** (*List/\<ReplicaInfo>*) -
+- **replicas** (*List/&lt;ReplicaInfo&gt;*) -
 
     A list of replicas, each of which contains the following fields:
 
@@ -80,11 +80,11 @@ A DescribeReplicasResp that contains detailed information about the replicas in 
 
         The ID of the specified collection.
 
-    - **partitionIDs** (*List/\<Long>*) -
+    - **partitionIDs** (*List/&lt;Long&gt;*) -
 
         The IDs of partitions associated with the current replica.
 
-    - **shardReplicas** (*List/\<ShardReplicas>*) -
+    - **shardReplicas** (*List/&lt;ShardReplicas&gt;*) -
 
         The shards associated with the current replica. Each of the shards contains the following information:
 
@@ -100,11 +100,11 @@ A DescribeReplicasResp that contains detailed information about the replicas in 
 
             The name of the channel associated with the current shard.
 
-        - **nodeIDs** (*List/\<Long>*) -
+        - **nodeIDs** (*List/&lt;Long&gt;*) -
 
             The IDs of the query nodes associated with the current shard.
 
-    - **nodeIDs** (*List/\<Long>*) -
+    - **nodeIDs** (*List/&lt;Long&gt;*) -
 
         The IDs of the query nodes associated with the current replica.
 
@@ -112,7 +112,7 @@ A DescribeReplicasResp that contains detailed information about the replicas in 
 
         The name of the resource group associated with the current replica.
 
-    - **numOutboundNode** (*Map/\<String, Integer>*) -
+    - **numOutboundNode** (*Map/&lt;String, Integer&gt;*) -
 
         The number of outbound query nodes.
 

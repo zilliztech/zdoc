@@ -67,7 +67,7 @@ You can add extra settings to the `LoadCollection()` request using the following
      <td><p>Number of replicas to create upon the load of the collection.</p></td>
    </tr>
    <tr>
-     <td><p><code>WithResourceGroups(rgs []string)</code></p></td>
+     <td><p><code>WithResourceGroups(rgs &#91;&#93;string)</code></p></td>
      <td><p>A list of specific resource groups used to load the replicas.</p></td>
    </tr>
 </table>

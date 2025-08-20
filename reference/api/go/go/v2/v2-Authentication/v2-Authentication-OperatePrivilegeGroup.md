@@ -76,7 +76,7 @@ func NewOperatePrivilegeGroupOption(groupName string, privileges []*milvuspb.Pri
    <tr>
      <td><p><code>privileges</code></p></td>
      <td><p>Names of the target privileges.</p></td>
-     <td><p><code>[]*milvuspb.PrivilegeEntity</code></p></td>
+     <td><p><code>&#91;&#93;*milvuspb.PrivilegeEntity</code></p></td>
    </tr>
    <tr>
      <td><p><code>operateType</code></p></td>

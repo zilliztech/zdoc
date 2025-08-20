@@ -108,12 +108,12 @@ This method does not take any input parameters. The following table lists the va
    <tr>
      <td><p><code>segIDs</code></p></td>
      <td><p>List of segment IDs.</p></td>
-     <td><p><code>[]int64</code></p></td>
+     <td><p><code>&#91;&#93;int64</code></p></td>
    </tr>
    <tr>
      <td><p><code>flushSegIDs</code></p></td>
      <td><p>List of flush segment IDs.</p></td>
-     <td><p><code>[]int64</code></p></td>
+     <td><p><code>&#91;&#93;int64</code></p></td>
    </tr>
    <tr>
      <td><p><code>flushTs</code></p></td>
@@ -123,7 +123,7 @@ This method does not take any input parameters. The following table lists the va
    <tr>
      <td><p><code>channelCheckpoints</code></p></td>
      <td><p>Channel check points</p></td>
-     <td><p><code>map[string]*msgpb.MsgPosition</code></p></td>
+     <td><p><code>map&#91;string&#93;*msgpb.MsgPosition</code></p></td>
    </tr>
 </table>
 

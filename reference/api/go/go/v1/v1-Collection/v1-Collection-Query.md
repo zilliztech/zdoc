@@ -42,7 +42,7 @@ func (c *GrpcClient) Query(ctx context.Context, collectionName string, partition
    <tr>
      <td><p><code>partitionNames</code></p></td>
      <td><p>List of partition names. </p><p>If left empty, all partitions are involved in this operation. Otherwise, only the specified partitions are involved.</p></td>
-     <td><p><code>[]string</code></p></td>
+     <td><p><code>&#91;&#93;string</code></p></td>
    </tr>
    <tr>
      <td><p><code>expr</code></p></td>
@@ -52,7 +52,7 @@ func (c *GrpcClient) Query(ctx context.Context, collectionName string, partition
    <tr>
      <td><p><code>outputFields</code></p></td>
      <td><p>List of field names to include in the return.</p></td>
-     <td><p><code>[]string</code></p></td>
+     <td><p><code>&#91;&#93;string</code></p></td>
    </tr>
    <tr>
      <td><p><code>opts</code></p></td>

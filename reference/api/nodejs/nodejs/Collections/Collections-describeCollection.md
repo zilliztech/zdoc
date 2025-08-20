@@ -19,10 +19,10 @@ keywords:
   - cloud
   - describeCollection()
   - nodejs25
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: nodeSidebar
 
 ---
@@ -55,7 +55,7 @@ milvusClient.describeCollection({
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of an existing collection.
 
@@ -65,7 +65,7 @@ milvusClient.describeCollection({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**Returns Promise\<DescribeCollectionResponse>*
+**Returns Promise\&lt;DescribeCollectionResponse&gt;*
 
 This method returns a promise that resolves to a **DescribeCollectionResponse** object.
 
@@ -137,7 +137,7 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
 
         Whether the reserved JSON field **$meta** is used to store non-schema-defined fields in key-value pairs.
 
-    - **fields** (*FieldSchema[]*) -
+    - **fields** (*FieldSchema&#91;&#93;*) -
 
         A list of schema-defined fields. 
 

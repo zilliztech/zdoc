@@ -10,19 +10,19 @@ type: docx
 token: BLFEde4BuoCjTSxjYSUcZerEnOb
 sidebar_position: 4
 keywords: 
+  - image similarity search
+  - Context Window
   - Natural language search
   - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud
   - getBatchFiles()
   - javaV225
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: javaSidebar
 
 ---
@@ -50,7 +50,7 @@ localBulkWriter.getBatchFiles()
 
 **RETURNS TYPE:**
 
-*List\<List\<String>*
+*List\&lt;List\&lt;String&gt;&gt;*
 
 ## Example{#example}
 

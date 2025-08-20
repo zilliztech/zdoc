@@ -81,7 +81,7 @@ func NewSearchOption(collectionName string, limit int, vectors []entity.Vector) 
    <tr>
      <td><p><code>vectors</code></p></td>
      <td><p>Query vectors</p></td>
-     <td><p><code>[]entity.Vector</code></p></td>
+     <td><p><code>&#91;&#93;entity.Vector</code></p></td>
    </tr>
 </table>
 

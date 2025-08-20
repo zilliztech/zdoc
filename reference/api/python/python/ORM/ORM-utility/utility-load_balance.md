@@ -10,19 +10,19 @@ type: docx
 token: XYNMdg3Vpo3SE7xTRVqcJNvrn0d
 sidebar_position: 32
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - load_balance()
   - pymilvus25
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 displayed_sidebar: pythonSidebar
 
 ---
@@ -50,20 +50,20 @@ load_balance(
 **PARAMETERS:**
 
 - **collection_name** (*str*) -
-**[REQUIRED]**
+**&#91;REQUIRED&#93;**
 
     The name of an existing collection for which a load-balancing group is set up.
 
 - **src_node_id** (*int*) -
-**[REQUIRED]**
+**&#91;REQUIRED&#93;**
 
     The ID of the query node the collection currently uses.
 
-- **dst_node_ids** (*list[int]*) -
+- **dst_node_ids** (*list&#91;int&#93;*) -
 
     The IDs of the query nodes to be added to the load-balancing group.
 
-- **sealed_segment_ids** (*list[int]*) -
+- **sealed_segment_ids** (*list&#91;int&#93;*) -
 
     The IDs of the sealed segments to load-balance.
 

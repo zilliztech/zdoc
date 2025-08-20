@@ -10,19 +10,19 @@ type: docx
 token: Kp9Dd2dIgoxyDixuqtqctPZXnFb
 sidebar_position: 5
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
   - nodejs25
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: nodeSidebar
 
 ---
@@ -54,7 +54,7 @@ milvusClient.listDatabases({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise |\<ListDatabaseResponse>*
+**RETURNS** *Promise |&lt;ListDatabaseResponse&gt;*
 
 This method returns a promise that resolves to a **ListDatabaseResponse** object.
 
@@ -71,7 +71,7 @@ This method returns a promise that resolves to a **ListDatabaseResponse** object
 
 **PARAMETERS:**
 
-- **db_names** (*string[]*) -
+- **db_names** (*string&#91;&#93;*) -
 
     A list of database names.
 

@@ -34,7 +34,7 @@ Methods of `RemoteBulkWriter`:
     <tr>
         <td><p>appendRow(JsonObject rowData)</p></td>
         <td><p>Append a row into buffer. Once the buffer size exceeds a threshold, the writer will persist the buffer to data file.</p></td>
-        <td><p>rowData: A gson.JsonObject to store the data of a row.<br/>For each field:<br/>- If dataType is Bool/Int8/Int16/Int32/Int64/Float/Double/Varchar, use JsonObject.addProperty(key, value) to input;<br/>- If dataType is FloatVector, use JsonObject.add(key, gson.toJsonTree(List[Float]) to input;<br/>- If dataType is BinaryVector/Float16Vector/BFloat16Vector, use JsonObject.add(key, gson.toJsonTree(byte[])) to input;<br/>- If dataType is SparseFloatVector, use JsonObject.add(key, gson.toJsonTree(SortedMap[Long, Float])) to input;<br/>- If dataType is Array, use JsonObject.add(key, gson.toJsonTree(List of Boolean/Integer/Short/Long/Float/Double/String)) to input;<br/>- If dataType is JSON, use JsonObject.add(key, JsonElement) to input;</p></td>
+        <td><p>rowData: A gson.JsonObject to store the data of a row.<br/>For each field:<br/>- If dataType is Bool/Int8/Int16/Int32/Int64/Float/Double/Varchar, use JsonObject.addProperty(key, value) to input;<br/>- If dataType is FloatVector, use JsonObject.add(key, gson.toJsonTree(List&#91;Float&#93;) to input;<br/>- If dataType is BinaryVector/Float16Vector/BFloat16Vector, use JsonObject.add(key, gson.toJsonTree(byte&#91;&#93;)) to input;<br/>- If dataType is SparseFloatVector, use JsonObject.add(key, gson.toJsonTree(SortedMap&#91;Long, Float&#93;)) to input;<br/>- If dataType is Array, use JsonObject.add(key, gson.toJsonTree(List of Boolean/Integer/Short/Long/Float/Double/String)) to input;<br/>- If dataType is JSON, use JsonObject.add(key, JsonElement) to input;</p></td>
     </tr>
     <tr>
         <td><p>commit(boolean async)</p></td>
@@ -43,7 +43,7 @@ Methods of `RemoteBulkWriter`:
     </tr>
     <tr>
         <td><p>getBatchFiles()</p></td>
-        <td><p>Returns a List\<List\<String>gt; of the persisted data files. Each List\<String> is a batch files that can be input as a job for the bulkinsert interface.</p></td>
+        <td><p>Returns a List&lt;List&lt;String&gt;&gt; of the persisted data files. Each List&lt;String&gt; is a batch files that can be input as a job for the bulkinsert interface.</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>
@@ -122,17 +122,17 @@ Methods of `AzureConnectParam.Builder`:
     <tr>
         <td><p>withConnStr(String connStr)</p></td>
         <td><p>Sets the connect string.</p></td>
-        <td><p>connStr: A connection string to an Azure Storage account, which can be parsed to an account_url and a credential.To generate a connection string, read this link: <a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string">https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string</a></p></td>
+        <td><p>connStr: A connection string to an Azure Storage account, which can be parsed to an account_url and a credential.To generate a connection string, read this link: <a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string"><i>http</i>s://learn.microsoft.com/en-us/azure/storage/common/storage-configure-connection-string</a></p></td>
     </tr>
     <tr>
         <td><p>withAccountUrl(String accountUrl)</p></td>
         <td><p>Sets the account url.</p></td>
-        <td><p>accountUrl: A string in format like https://\<storage-account>.blob.core.windows.netRead this link for more info:<a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview">https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview</a></p></td>
+        <td><p>accountUrl: A string in format like <i>http</i>s://\&lt;storage-account&gt;.blob.core.windows.netRead this link for more info:<a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview"><i>http</i>s://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview</a></p></td>
     </tr>
     <tr>
         <td><p>withCredential(TokenCredential credential)</p></td>
         <td><p>Set the credential.</p></td>
-        <td><p>credential: Account access key for the account, read this link for more info:<a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys">https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys</a></p></td>
+        <td><p>credential: Account access key for the account, read this link for more info:<a href="https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys"><i>http</i>s://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys</a></p></td>
     </tr>
     <tr>
         <td><p>build()</p></td>

@@ -10,19 +10,19 @@ type: docx
 token: XW72dhBuNoqNWhxUQLtcfa6Fnwd
 sidebar_position: 10
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - pymilvus25
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: pythonSidebar
 
 ---
@@ -52,9 +52,9 @@ search(
 
 **PARAMETERS:**
 
-- **data** (*list[list[float]]*) - 
+- **data** (*list&#91;list&#91;float&#93;&#93;*) - 
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     A list of vector embeddings.
 
@@ -68,7 +68,7 @@ search(
 
 - **param** (dict) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The parameter settings specific to this operation.
 
@@ -164,11 +164,11 @@ A **SearchResult** object that contains a list of **Hits** objects.
 
     - A **Hits** object has the following fields:
 
-        - **ids** (*list[int]* | *list[str]*)
+        - **ids** (*list&#91;int&#93;* | *list&#91;str&#93;*)
 
             A list containing the IDs of the hit entities.
 
-        - **distances** (list[float]) 
+        - **distances** (list&#91;float&#93;) 
 
             A list of distances from the hit entities' vector fields to the query vector.
 
@@ -186,7 +186,7 @@ A **SearchResult** object that contains a list of **Hits** objects.
 
             An alias to **distance**.
 
-        - **vector** (*list[float]*)   
+        - **vector** (*list&#91;float&#93;*)   
 
             The vector field of a hit entity.
 

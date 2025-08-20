@@ -91,7 +91,7 @@ type Index interface {
    </tr>
    <tr>
      <td><p><code>Params()</code></p></td>
-     <td><p><code>map[string]string</code></p></td>
+     <td><p><code>map&#91;string&#93;string</code></p></td>
      <td><p>Return the index parameters.</p></td>
    </tr>
 </table>

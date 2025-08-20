@@ -10,19 +10,19 @@ type: docx
 token: QgxEdfBMSodYo6xCg24cH3hInr4
 sidebar_position: 24
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - list_collections()
   - pymilvus25
+  - Context Window
   - Natural language search
   - Similarity Search
   - multimodal RAG
-  - llm hallucinations
 displayed_sidebar: pythonSidebar
 
 ---

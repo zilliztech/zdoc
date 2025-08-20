@@ -41,7 +41,7 @@ Methods of `ShowCollectionsParam.Builder`:
         <th><p>Parameters</p></th>
     </tr>
     <tr>
-        <td><p>withCollectionNames(List\<String> collectionNames)</p></td>
+        <td><p>withCollectionNames(List&lt;String&gt; collectionNames)</p></td>
         <td><p>Sets a list of collection names. If the list is empty, the method will return all the collections in database.<br/>Collection name cannot be empty or null.</p></td>
         <td><p>collectionNames: A list of the collection names to show.</p></td>
     </tr>
@@ -98,7 +98,7 @@ Methods of `ShowCollResponseWrapper`:
      <td><p>getCollectionsInfo()</p></td>
      <td><p>Returns a list of CollectionInfo objects. Each CollectionInfo represents a collection.</p></td>
      <td><p>N/A</p></td>
-     <td><p>List\<CollectionInfo></p></td>
+     <td><p>List&lt;CollectionInfo&gt;</p></td>
    </tr>
    <tr>
      <td><p>getCollectionInfoByName(String collectionName)</p></td>

@@ -41,7 +41,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[]bool</code></p></td>
+     <td><p><code>&#91;&#93;bool</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -81,12 +81,12 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]bool</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;bool</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
      <td><p><code>ValueByIdx(idx int)</code></p></td>
-     <td><p><code>[]bool, error</code></p></td>
+     <td><p><code>&#91;&#93;bool, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
 </table>
@@ -123,7 +123,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[]float64</code></p></td>
+     <td><p><code>&#91;&#93;float64</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -163,12 +163,12 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]float64</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;float64</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
      <td><p><code>ValueByIdx(idx int)</code></p></td>
-     <td><p><code>[]float64, error</code></p></td>
+     <td><p><code>&#91;&#93;float64, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
 </table>
@@ -205,7 +205,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[]float32</code></p></td>
+     <td><p><code>&#91;&#93;float32</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -245,12 +245,12 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]float32</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;float32</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
      <td><p><code>ValueByIdx(idx int)</code></p></td>
-     <td><p><code>[]float32, error</code></p></td>
+     <td><p><code>&#91;&#93;float32, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
 </table>
@@ -287,7 +287,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[]int8</code></p></td>
+     <td><p><code>&#91;&#93;int8</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -327,12 +327,12 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]int8</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;int8</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
      <td><p><code>ValueByIdx(idx int)</code></p></td>
-     <td><p><code>[]int8, error</code></p></td>
+     <td><p><code>&#91;&#93;int8, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
 </table>
@@ -369,7 +369,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[]int16</code></p></td>
+     <td><p><code>&#91;&#93;int16</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -409,12 +409,12 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]int16</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;int16</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
      <td><p><code>ValueByIdx(idx int)</code></p></td>
-     <td><p><code>[]int16, error</code></p></td>
+     <td><p><code>&#91;&#93;int16, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
 </table>
@@ -451,7 +451,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[]int32</code></p></td>
+     <td><p><code>&#91;&#93;int32</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -491,12 +491,12 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]int32</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;int32</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
      <td><p><code>ValueByIdx(idx int)</code></p></td>
-     <td><p><code>[]int32, error</code></p></td>
+     <td><p><code>&#91;&#93;int32, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
 </table>
@@ -533,7 +533,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[]int64</code></p></td>
+     <td><p><code>&#91;&#93;int64</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -573,12 +573,12 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]int64</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;int64</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
      <td><p><code>ValueByIdx(idx int)</code></p></td>
-     <td><p><code>[]int64, error</code></p></td>
+     <td><p><code>&#91;&#93;int64, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
 </table>
@@ -615,12 +615,12 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]byte</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;byte</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
      <td><p><code>ValueByIdx(idx int)</code></p></td>
-     <td><p><code>[]byte, error</code></p></td>
+     <td><p><code>&#91;&#93;byte, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
    <tr>
@@ -660,7 +660,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[]string</code></p></td>
+     <td><p><code>&#91;&#93;string</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -700,12 +700,12 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]string</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;string</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
      <td><p><code>ValueByIdx(idx int)</code></p></td>
-     <td><p><code>[]string, error</code></p></td>
+     <td><p><code>&#91;&#93;string, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
 </table>
@@ -742,7 +742,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]byte</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;byte</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -784,7 +784,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]byte</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;byte</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -826,7 +826,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]byte</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;byte</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -868,7 +868,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]byte</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;byte</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -910,7 +910,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[]entity.SparseEmbedding</code></p></td>
+     <td><p><code>&#91;&#93;entity.SparseEmbedding</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -967,7 +967,7 @@ type SparseEmbedding interface {
    </tr>
    <tr>
      <td><p><code>Serialize()</code></p></td>
-     <td><p><code>[]byte</code></p></td>
+     <td><p><code>&#91;&#93;byte</code></p></td>
      <td><p>Return the serialized sparse vector embedding.</p></td>
    </tr>
    <tr>

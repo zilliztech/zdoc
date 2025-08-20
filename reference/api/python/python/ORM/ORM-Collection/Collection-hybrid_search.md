@@ -10,19 +10,19 @@ type: docx
 token: QqOSdTDaLoOKGRxiKEtcuuiAnrf
 sidebar_position: 17
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - hybrid_search()
   - pymilvus25
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 displayed_sidebar: pythonSidebar
 
 ---
@@ -50,7 +50,7 @@ hybrid_search(
 
 **PARAMETERS:**
 
-- **reqs** (*List[AnnSearchRequest]*) -
+- **reqs** (*List&#91;AnnSearchRequest&#93;*) -
 
     A list of search requests, where each request is an **ANNSearchRequest** object. Each request corresponds to a different vector field and a different set of search parameters.
 
@@ -91,13 +91,13 @@ hybrid_search(
 
     The sum of this value and `offset` in **param** should be less than 16,384.
 
-- **partition_names** (*List[str]*) -
+- **partition_names** (*List&#91;str&#93;*) -
 
     A list of partition names.
 
     The value defaults to **None**. If specified, only the specified partitions are involved in queries.
 
-- **output_fields** (*List[str]*) -
+- **output_fields** (*List&#91;str&#93;*) -
 
     A list of field names to include in each entity in return.
 
@@ -159,11 +159,11 @@ A **SearchResult** object that contains a list of **Hits** objects.
 
     - A **Hits** object has the following fields:
 
-        - **ids** (*list[int]* | *list[str]*)
+        - **ids** (*list&#91;int&#93;* | *list&#91;str&#93;*)
 
             A list containing the IDs of the hit entities.
 
-        - **distances** (list[float]) 
+        - **distances** (list&#91;float&#93;) 
 
             A list of distances from the hit entities' vector fields to the query vector.
 
@@ -181,7 +181,7 @@ A **SearchResult** object that contains a list of **Hits** objects.
 
             An alias to **distance**.
 
-        - **vector** (*list[float]*)   
+        - **vector** (*list&#91;float&#93;*)   
 
             The vector field of a hit entity.
 

@@ -10,19 +10,19 @@ type: docx
 token: UcacdecoZoAyxsxJzOGcTqWzn7d
 sidebar_position: 2
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - get()
   - javaV225
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: javaSidebar
 
 ---
@@ -78,11 +78,11 @@ A **GetResp** object representing one or more queried entities.
 
 **PARAMETERS:**
 
-- **getResults** (*List\<QueryResp.QueryResult\>*)
+- **getResults** (*List\&lt;QueryResp.QueryResult\&gt;*)
 
     A list of **QueryResp.QueryResult** objects.
 
-- **fields** (*Map\<String,Object\>*)
+- **fields** (*Map\&lt;String,Object\&gt;*)
 
     A map that contains key-value pairs of field names and their values.
 

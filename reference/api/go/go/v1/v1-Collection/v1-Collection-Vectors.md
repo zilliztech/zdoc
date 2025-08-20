@@ -165,7 +165,7 @@ type SparseEmbedding interface {
    </tr>
    <tr>
      <td><p><code>Serialize()</code></p></td>
-     <td><p><code>[]byte</code></p></td>
+     <td><p><code>&#91;&#93;byte</code></p></td>
      <td><p>Return the serialized representation of the vector.</p></td>
    </tr>
    <tr>

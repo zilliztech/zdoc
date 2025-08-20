@@ -10,19 +10,19 @@ type: docx
 token: HrnndnWtKoPuenxvsXBchF1wnnh
 sidebar_position: 26
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - search_iterator()
   - pymilvus25
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: pythonSidebar
 
 ---
@@ -53,9 +53,9 @@ search_iterator(
 
 **PARAMETERS:**
 
-- **data** (*list[list[float]]*) - 
+- **data** (*list&#91;list&#91;float&#93;&#93;*) - 
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     A list of vector embeddings.
 
@@ -63,13 +63,13 @@ search_iterator(
 
 - **anns_field** (str) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the vector field in the current collection.
 
 - **param** (dict) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The parameter settings specific to this operation.
 

@@ -10,19 +10,19 @@ type: docx
 token: HSIDdxQGEoPdyaxkMDjcAWGQnpd
 sidebar_position: 15
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - listGrant()
   - nodejs25
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: nodeSidebar
 
 ---
@@ -68,7 +68,7 @@ listGrant(data): Promise<SelectGrantResponse>
 
     The timeout duration of this operation.
 
-*Returns Promise\<SelectGrantResponse>*
+*Returns Promise\&lt;SelectGrantResponse&gt;*
 
 This method returns a promise that resolves to a **SelectGrantResponse** object.
 
@@ -88,7 +88,7 @@ This method returns a promise that resolves to a **SelectGrantResponse** object.
 
 **PARAMETERS:**
 
-- **entities** (*GrantEntity[]*) -
+- **entities** (*GrantEntity&#91;&#93;*) -
 
     A list of grant entities, each of which is shaped as follows:
 

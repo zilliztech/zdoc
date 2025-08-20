@@ -234,7 +234,7 @@ func (opt *createCollectionOption) WithIndexOptions(indexOpts ...CreateIndexOpti
    <tr>
      <td><p><code>indexOptions</code></p></td>
      <td><p>Index options.</p><p>This parameter applies when creating a collection with a custom schema. Once set, Milvus automatically loads the collection after it is created.</p></td>
-     <td><p><code>[]CreateIndexOption</code></p></td>
+     <td><p><code>&#91;&#93;CreateIndexOption</code></p></td>
    </tr>
 </table>
 
@@ -255,7 +255,7 @@ func (opt *createCollectionOption) WithProperty(key string, value any) *createCo
    <tr>
      <td><p><code>properties</code></p></td>
      <td><p>Other collection properties.</p></td>
-     <td><p><code>map[string]string</code></p></td>
+     <td><p><code>map&#91;string&#93;string</code></p></td>
    </tr>
 </table>
 
@@ -495,7 +495,7 @@ func (f *Field) WithAnalyzerParams(params map[string]any) *Field
    <tr>
      <td><p><code>params</code></p></td>
      <td><p>Analyzer parameters of the current field in key-value pairs.</p><p>An <strong>analyzer</strong> is a crucial component that converts raw text into a structured, searchable format. For details, refer to <a href="/docs/analyzer-overview">Analyzer Overview</a>.</p></td>
-     <td><p><code>map[string]any</code></p></td>
+     <td><p><code>map&#91;string&#93;any</code></p></td>
    </tr>
 </table>
 

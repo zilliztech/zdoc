@@ -10,19 +10,19 @@ type: docx
 token: KEzNdJPoDoHOjlx2FC8cNcHqngg
 sidebar_position: 3
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - drop()
   - pymilvus25
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

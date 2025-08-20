@@ -449,7 +449,7 @@ func NewGenericIndex(name string, params map[string]string) Index
    <tr>
      <td><p><code>params</code></p></td>
      <td><p>Parameters specific to the index type.</p></td>
-     <td><p><code>map[string]string</code></p></td>
+     <td><p><code>map&#91;string&#93;string</code></p></td>
    </tr>
 </table>
 

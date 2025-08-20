@@ -10,19 +10,19 @@ type: docx
 token: GIeMdvjlMoLwGrxUOu3cFw7bnWc
 sidebar_position: 18
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - listRoles()
   - nodejs25
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: nodeSidebar
 
 ---
@@ -59,7 +59,7 @@ milvusClient.listRoles(
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**Returns** *Promise\<SelectRoleResponse>*
+**Returns** *Promise\&lt;SelectRoleResponse&gt;*
 
 This method returns a promise that resolves to a **SelectRoleResponse** object.
 
@@ -74,9 +74,9 @@ This method returns a promise that resolves to a **SelectRoleResponse** object.
 
 - **results** 
 
-    - **RoleResult** *(RoleResult[]) -*
+    - **RoleResult** *(RoleResult&#91;&#93;) -*
 
-        - **entities** (*GrantEntity[]*) -
+        - **entities** (*GrantEntity&#91;&#93;*) -
 
             - **db_name** (*string*) -
 
@@ -114,7 +114,7 @@ This method returns a promise that resolves to a **SelectRoleResponse** object.
 
                 The name of the current role.
 
-        - **users** (*User[]*) -
+        - **users** (*User&#91;&#93;*) -
 
             - **name** (*string*) -
 

@@ -10,19 +10,19 @@ type: docx
 token: FZuddXocNopEufxRFGdcbvkRnnb
 sidebar_position: 6
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - list_databases()
   - pymilvus25
+  - multimodal RAG
+  - llm hallucinations
   - hybrid search
   - lexical search
-  - nearest neighbor search
-  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 ---
@@ -53,7 +53,7 @@ list_databases(
 
 - **db_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     Name of the database to drop.
 
@@ -63,7 +63,7 @@ list_databases(
 
 **RETURN TYPE:**
 
-*[]string*
+*&#91;&#93;string*
 
 **RETURNS:**
 

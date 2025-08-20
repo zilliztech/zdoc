@@ -10,19 +10,19 @@ type: docx
 token: KQAidyvxhoVaALxLratcCjMuniU
 sidebar_position: 9
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - searchIterator()
   - nodejs25
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
   - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: nodeSidebar
 
 ---
@@ -59,7 +59,7 @@ queryIterator(data): Promise<any>
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the collection to search
 
@@ -67,7 +67,7 @@ queryIterator(data): Promise<any>
 
     The consistency level of the target collection. The value defaults to **Bounded** (**1**) with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
 
-- **data** (*number[]* | *number[][]*) -
+- **data** (*number&#91;&#93;* | *number&#91;&#93;&#91;&#93;*) -
 
     A list of vector embeddings.
 
@@ -135,13 +135,13 @@ queryIterator(data): Promise<any>
 
         This parameter applies only when you also set `radius`.
 
-    - **output_fields** (*string[]*) -
+    - **output_fields** (*string&#91;&#93;*) -
 
         A list of field names to include in each entity in return.
 
         The value defaults to **None**. If left unspecified, only the primary field is included.
 
-    - **partition_names** (*string[]*) -
+    - **partition_names** (*string&#91;&#93;*) -
 
         A list of the names of the partitions to search.
 
@@ -149,13 +149,13 @@ queryIterator(data): Promise<any>
 
         The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-- **output_fields** (*string[]*) -
+- **output_fields** (*string&#91;&#93;*) -
 
     A list of field names to include in each entity in return.
 
     The value defaults to **None**. If left unspecified, only the primary field is included.
 
-- **partition_names** (*string[]*) -
+- **partition_names** (*string&#91;&#93;*) -
 
     A list of the names of the partitions to search.
 
@@ -167,7 +167,7 @@ queryIterator(data): Promise<any>
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<SearchResults>*
+**RETURNS** *Promise\&lt;SearchResults&gt;*
 
 This method returns a promise that resolves to a **SearchResults** object.
 
@@ -195,7 +195,7 @@ This method returns a promise that resolves to a **SearchResults** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-- **results** (*list[object]*) -
+- **results** (*list&#91;object&#93;*) -
 
     Each result object has the following keys:
 
@@ -209,7 +209,7 @@ This method returns a promise that resolves to a **SearchResults** object.
 
     - Plus output fields and their values.
 
-- **recalls** (*list[number]*) -
+- **recalls** (*list&#91;number&#93;*) -
 
     Each number indicates the recall rate of a search against a query vector.
 

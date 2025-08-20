@@ -10,19 +10,19 @@ type: docx
 token: ItZPd1o4uoodqtx1sxIcq38hn7e
 sidebar_position: 7
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
   - nodejs25
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: nodeSidebar
 
 ---
@@ -52,7 +52,7 @@ milvusClient.describeRole({
 
 - **roleName** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the role to describe.
 
@@ -66,7 +66,7 @@ milvusClient.describeRole({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**Returns** *Promise\<SelectRoleResponse>*
+**Returns** *Promise\&lt;SelectRoleResponse&gt;*
 
 This method returns a promise that resolves to a **SelectRoleResponse** object.
 
@@ -79,9 +79,9 @@ This method returns a promise that resolves to a **SelectRoleResponse** object.
 
 **PARAMETERS:**
 
-- **RoleResult** *(RoleResult[]) -*
+- **RoleResult** *(RoleResult&#91;&#93;) -*
 
-    - **entities** (*GrantEntity[]*) -
+    - **entities** (*GrantEntity&#91;&#93;*) -
 
         - **db_name** (*string*) -
 
@@ -119,7 +119,7 @@ This method returns a promise that resolves to a **SelectRoleResponse** object.
 
             The name of the current role.
 
-    - **users** (*User[]*) -
+    - **users** (*User&#91;&#93;*) -
 
         - **name** (*string*) -
 

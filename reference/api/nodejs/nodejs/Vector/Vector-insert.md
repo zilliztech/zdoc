@@ -10,19 +10,19 @@ type: docx
 token: WUZwdRNXIoS0tSxCrw6coaa2nzf
 sidebar_position: 4
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
   - nodejs25
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: nodeSidebar
 
 ---
@@ -58,11 +58,11 @@ milvusClient.insert({
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of an existing collection.
 
-- **data** (*RowData[]*) -
+- **data** (*RowData&#91;&#93;*) -
 
     The data to insert into the current collection.
 
@@ -120,7 +120,7 @@ milvusClient.insert({
 
     If specified, the data is to be inserted into the specified partition.
 
-**RETURNS** *Promise\<MutationResult>*
+**RETURNS** *Promise\&lt;MutationResult&gt;*
 
 This method returns a promise that resolves to a **MutationResult** object.
 
@@ -152,7 +152,7 @@ This method returns a promise that resolves to a **MutationResult** object.
 
     The deleted entities
 
-- **err_index** (Number[]) -
+- **err_index** (Number&#91;&#93;) -
 
     The number of entities involved in the upsert operation that fails to be indexed.
 
@@ -160,7 +160,7 @@ This method returns a promise that resolves to a **MutationResult** object.
 
     The new entities that are inserted.
 
-- **succ_index** (*list[number]*) -
+- **succ_index** (*list&#91;number&#93;*) -
 
     The number of entities involved in the upsert operation that have been successfully indexed.
 

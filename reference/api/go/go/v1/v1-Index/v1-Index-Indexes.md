@@ -46,7 +46,7 @@ index := entity.NewGenericIndex(name string, it entity.IndexType, params map[str
    <tr>
      <td><p><code>params</code></p></td>
      <td><p>Index parameters corresponding to the specified index type.</p></td>
-     <td><p><code>map[string]string</code></p></td>
+     <td><p><code>map&#91;string&#93;string</code></p></td>
    </tr>
 </table>
 
@@ -96,7 +96,7 @@ index := entity.NewIndexBinFlat(metricType MetricType, nlist int)
      <td><p><code>nlist</code></p></td>
      <td><p>Number of cluster units.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 65536]</code></p></td>
+     <td><p><code>&#91;1, 65536&#93;</code></p></td>
    </tr>
 </table>
 
@@ -125,7 +125,7 @@ index := entity.NewIndexBinIvfFlat(metricType MetricType, nlist int)
      <td><p><code>nlist</code></p></td>
      <td><p>Number of cluster units.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 65536]</code></p></td>
+     <td><p><code>&#91;1, 65536&#93;</code></p></td>
    </tr>
 </table>
 
@@ -252,7 +252,7 @@ index := entity.NewIndexGPUIvfFlat(metricType MetricType, nlist int)
      <td><p><code>nlist</code></p></td>
      <td><p>Number of cluster units.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 65536]</code></p></td>
+     <td><p><code>&#91;1, 65536&#93;</code></p></td>
    </tr>
 </table>
 
@@ -281,7 +281,7 @@ index := entity.NewIndexGPUIvfPQ(metricType MetricType, nlist int, m int, nbits 
      <td><p><code>nlist</code></p></td>
      <td><p>Number of cluster units.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 65536]</code></p></td>
+     <td><p><code>&#91;1, 65536&#93;</code></p></td>
    </tr>
    <tr>
      <td><p><code>m</code></p></td>
@@ -293,7 +293,7 @@ index := entity.NewIndexGPUIvfPQ(metricType MetricType, nlist int, m int, nbits 
      <td><p><code>nbits</code></p></td>
      <td><p>Number of bits in which each low-dimensional vector is stored.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 16]</code></p></td>
+     <td><p><code>&#91;1, 16&#93;</code></p></td>
    </tr>
 </table>
 
@@ -322,13 +322,13 @@ index := entity.NewIndexHNSW(metricType MetricType, M int, efConstruction int)
      <td><p><code>M</code></p></td>
      <td><p>Maximum number of outgoing connections in the graph. Higher M leads to higher accuracy/run_time at fixed ef/efConstruction.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[2, 2048]</code></p></td>
+     <td><p><code>&#91;2, 2048&#93;</code></p></td>
    </tr>
    <tr>
      <td><p><code>efConstruction</code></p></td>
      <td><p>Index search speed/build speed tradeoff. Increasing this parameter may enhance index quality, but it also tends to lengthen the indexing time.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, int_max]</code></p></td>
+     <td><p><code>&#91;1, int_max&#93;</code></p></td>
    </tr>
 </table>
 
@@ -357,7 +357,7 @@ index := entity.NewIndexIvfFlat(metricType MetricType, nlist int)
      <td><p><code>nlist</code></p></td>
      <td><p>Number of cluster units.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 65536]</code></p></td>
+     <td><p><code>&#91;1, 65536&#93;</code></p></td>
    </tr>
 </table>
 
@@ -401,7 +401,7 @@ index := entity.NewIndexIvfPQ(metricType MetricType, nlist int, m int, nbits int
      <td><p><code>nlist</code></p></td>
      <td><p>Number of cluster units.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 65536]</code></p></td>
+     <td><p><code>&#91;1, 65536&#93;</code></p></td>
    </tr>
    <tr>
      <td><p><code>m</code></p></td>
@@ -413,7 +413,7 @@ index := entity.NewIndexIvfPQ(metricType MetricType, nlist int, m int, nbits int
      <td><p><code>nbits</code></p></td>
      <td><p>Number of bits in which each low-dimensional vector is stored.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 16]</code></p></td>
+     <td><p><code>&#91;1, 16&#93;</code></p></td>
    </tr>
 </table>
 
@@ -442,7 +442,7 @@ index := entity.NewIndexIvfSQ8(metricType MetricType, nlist int)
      <td><p><code>nlist</code></p></td>
      <td><p>Number of cluster units.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 65536]</code></p></td>
+     <td><p><code>&#91;1, 65536&#93;</code></p></td>
    </tr>
 </table>
 
@@ -471,7 +471,7 @@ index := entity.NewIndexSCANN(metricType MetricType, nlist int, with_raw_data bo
      <td><p><code>nlist</code></p></td>
      <td><p>Number of cluster units.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 65536]</code></p></td>
+     <td><p><code>&#91;1, 65536&#93;</code></p></td>
    </tr>
    <tr>
      <td><p><code>with_raw_data</code></p></td>
@@ -506,7 +506,7 @@ index := entity.NewIndexSparseInverted(metricType MetricType, dropRatio float64)
      <td><p><code>dropRatio</code></p></td>
      <td><p>Proportion of small vector values that are excluded during the indexing process. This option allows fine-tuning of the indexing process, making a trade-off between efficiency and accuracy by disregarding small values when building the index.</p></td>
      <td><p><code>float64</code></p></td>
-     <td><p><code>[0, 1]</code></p></td>
+     <td><p><code>&#91;0, 1&#93;</code></p></td>
    </tr>
 </table>
 
@@ -535,7 +535,7 @@ index := entity.NewIndexSparseWAND(metricType MetricType, dropRatio float64)
      <td><p><code>dropRatio</code></p></td>
      <td><p>Proportion of small vector values that are excluded during the indexing process. This option allows fine-tuning of the indexing process, making a trade-off between efficiency and accuracy by disregarding small values when building the index.</p></td>
      <td><p><code>float64</code></p></td>
-     <td><p><code>[0, 1]</code></p></td>
+     <td><p><code>&#91;0, 1&#93;</code></p></td>
    </tr>
 </table>
 

@@ -65,7 +65,7 @@ func NewRunAnalyzerOption(text []string) *runAnalyzerOption
    <tr>
      <td><p><code>text</code></p></td>
      <td><p>The input text or a list of texts to be analyzed.</p></td>
-     <td><p><code>[]string</code></p></td>
+     <td><p><code>&#91;&#93;string</code></p></td>
    </tr>
 </table>
 
@@ -121,7 +121,7 @@ func (opt *runAnalyzerOption) WithAnalyzerParams(params map[string]any) *runAnal
    <tr>
      <td><p><code>params</code></p></td>
      <td><p>The analyzer parameter settings.</p></td>
-     <td><p><code>map[string]any</code></p></td>
+     <td><p><code>map&#91;string&#93;any</code></p></td>
    </tr>
 </table>
 

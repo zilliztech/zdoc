@@ -61,7 +61,7 @@ Methods of `CreateCollectionParam.Builder`:
         <td><p>description: The description of the collection to create.</p></td>
     </tr>
     <tr>
-        <td><p>withFieldTypes(List\<FieldType> fieldTypes)</p></td>
+        <td><p>withFieldTypes(List&lt;FieldType&gt; fieldTypes)</p></td>
         <td><p>Sets the collection schema. The collection schema cannot be empty.</p></td>
         <td><p>fieldTypes: a list of FieldType objects, each representing a field schema.</p></td>
     </tr>
@@ -91,7 +91,7 @@ Methods of `CreateCollectionParam.Builder`:
         <td><p>replicaNumber: Sets the default replica number for this collection.</p></td>
     </tr>
     <tr>
-        <td><p>withResourceGroups(List\<String> resourceGroups)</p></td>
+        <td><p>withResourceGroups(List&lt;String&gt; resourceGroups)</p></td>
         <td><p>Sets the resource groups in collection level, then if load collection doesn't have resource groups, it will use this resource groups.</p></td>
         <td><p>resourceGroups: resource group names</p></td>
     </tr>
@@ -171,7 +171,7 @@ Methods of `FieldType.Builder`:
    </tr>
    <tr>
      <td><p>withMaxCapacity(Integer maxCapacity)</p></td>
-     <td><p>Sets the max capacity of an Array field. </p><p>The valid capacity value range is [1, 4096]</p></td>
+     <td><p>Sets the max capacity of an Array field. </p><p>The valid capacity value range is &#91;1, 4096&#93;</p></td>
      <td><p>maxCapacity: The max capacity of the array.</p></td>
    </tr>
    <tr>
@@ -214,7 +214,7 @@ Methods of `CollectionSchemaParam.Builder`:
      <td><p>enableDynamicField: enableDynamicField of the collection</p></td>
    </tr>
    <tr>
-     <td><p>withFieldTypes(List\<FieldType> fieldTypes)</p></td>
+     <td><p>withFieldTypes(List&lt;FieldType&gt; fieldTypes)</p></td>
      <td><p>Sets the fieldTypes of the schema. The fieldTypes cannot be empty or null.</p></td>
      <td><p>fieldTypes: A list of FieldType to defines the fields.</p></td>
    </tr>

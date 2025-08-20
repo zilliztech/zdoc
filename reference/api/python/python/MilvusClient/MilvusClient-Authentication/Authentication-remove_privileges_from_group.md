@@ -19,10 +19,10 @@ keywords:
   - cloud
   - remove_privileges_from_group()
   - pymilvus25
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: pythonSidebar
 
 ---
@@ -52,11 +52,11 @@ remove_privileges_from_group(
 
     The name of the target privilege group.
 
-- **privileges** (*List[str]*) -
+- **privileges** (*List&#91;str&#93;*) -
 
     The privilages to remove in a list.
 
-- **timeout** (*Optional[float]*) - 
+- **timeout** (*Optional&#91;float&#93;*) - 
 
     The timeout duration for this operation.
 

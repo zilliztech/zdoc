@@ -10,19 +10,19 @@ type: docx
 token: HPumdTuktozoJAxYrqQcRciSnsb
 sidebar_position: 6
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
   - nodejs25
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 displayed_sidebar: nodeSidebar
 
 ---
@@ -68,7 +68,7 @@ milvusClient.createCollection({
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the collection to create.
 
@@ -178,7 +178,7 @@ milvusClient.createCollection({
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the collection to create.
 
@@ -206,7 +206,7 @@ milvusClient.createCollection({
 
     The value defaults to **True**, indicating that the meta field is used.
 
-- **schema** (*FieldType[]*) -
+- **schema** (*FieldType&#91;&#93;*) -
 
     - **name** (*string)* -
 
@@ -380,11 +380,11 @@ milvusClient.createCollection({
 
         - `FunctionType.BM25`: Uses the BM25 algorithm for generating sparse embeddings from a `VARCHAR` field.
 
-    - **input_field_names** (*string[]*)
+    - **input_field_names** (*string&#91;&#93;*)
 
         The name of the field containing the raw data that requires conversion to vector representation. For functions using `FunctionType.BM25`, this parameter accepts only one field name.
 
-    - **output_field_names** (*string[]*)
+    - **output_field_names** (*string&#91;&#93;*)
 
         The name of the field where the generated embeddings will be stored. This should correspond to a vector field defined in the collection schema. For functions using `FunctionType.BM25`, this parameter accepts only one field name.
 
@@ -443,7 +443,7 @@ milvusClient.createCollection({
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the collection to create.
 
@@ -471,7 +471,7 @@ milvusClient.createCollection({
 
     The value defaults to **True**, indicating that the meta field is used.
 
-- **schema** (*FieldType[]*) -
+- **schema** (*FieldType&#91;&#93;*) -
 
     - **name** (*string)* -
 
@@ -629,7 +629,7 @@ milvusClient.createCollection({
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
 
-- **index_params** (*CreateIndexSimpleReq[]* | *CreateIndexSimpleReq*)
+- **index_params** (*CreateIndexSimpleReq&#91;&#93;* | *CreateIndexSimpleReq*)
 
     The index parameters.
 
@@ -671,15 +671,15 @@ milvusClient.createCollection({
 
         - `FunctionType.BM25`: Uses the BM25 algorithm for generating sparse embeddings from a `VARCHAR` field.
 
-    - **input_field_names** (*string[]*)
+    - **input_field_names** (*string&#91;&#93;*)
 
         The name of the field containing the raw data that requires conversion to vector representation. For functions using `FunctionType.BM25`, this parameter accepts only one field name.
 
-    - **output_field_names** (*string[]*)
+    - **output_field_names** (*string&#91;&#93;*)
 
         The name of the field where the generated embeddings will be stored. This should correspond to a vector field defined in the collection schema. For functions using `FunctionType.BM25`, this parameter accepts only one field name.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS** *Promise\&lt;ResStatus&gt;*
 
 This method returns a promise that resolves to a **ResStatus** object.
 

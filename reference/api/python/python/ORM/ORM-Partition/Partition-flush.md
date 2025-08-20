@@ -10,19 +10,19 @@ type: docx
 token: VRGwdg75Ao7ZXQx7uANc9wzXnVb
 sidebar_position: 3
 keywords: 
+  - what is milvus
+  - milvus database
+  - milvus lite
   - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - pymilvus25
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 displayed_sidebar: pythonSidebar
 
 ---

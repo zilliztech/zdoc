@@ -44,7 +44,7 @@ func (c *GrpcClient) Search(ctx context.Context, collName string, partitions []s
    <tr>
      <td><p><code>partitions</code></p></td>
      <td><p>List of partition names. </p><p>If left empty, all partitions are involved in this operation. Otherwise, only the specified partitions are involved.</p></td>
-     <td><p><code>[]string</code></p></td>
+     <td><p><code>&#91;&#93;string</code></p></td>
    </tr>
    <tr>
      <td><p><code>expr</code></p></td>
@@ -54,12 +54,12 @@ func (c *GrpcClient) Search(ctx context.Context, collName string, partitions []s
    <tr>
      <td><p><code>outputFields</code></p></td>
      <td><p>List of field names to include in the return.</p></td>
-     <td><p><code>[]string</code></p></td>
+     <td><p><code>&#91;&#93;string</code></p></td>
    </tr>
    <tr>
      <td><p><code>vectors</code></p></td>
      <td><p>Query vectors.</p></td>
-     <td><p><code>[]entity.Vector</code></p></td>
+     <td><p><code>&#91;&#93;entity.Vector</code></p></td>
    </tr>
    <tr>
      <td><p><code>vectorField</code></p></td>
@@ -113,7 +113,7 @@ type Vector interface {
    </tr>
    <tr>
      <td><p><code>Serialize()</code></p></td>
-     <td><p><code>[]byte</code></p></td>
+     <td><p><code>&#91;&#93;byte</code></p></td>
      <td><p>Return the serialized representation of the vector.</p></td>
    </tr>
    <tr>
@@ -152,7 +152,7 @@ This interface type defines a set of method signatures as follows.
    </tr>
    <tr>
      <td><p><code>Params()</code></p></td>
-     <td><p><code>map[string]interface{}</code></p></td>
+     <td><p><code>map&#91;string&#93;interface&#123;&#125;</code></p></td>
      <td><p>Return the specified search settings.</p></td>
    </tr>
    <tr>

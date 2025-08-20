@@ -10,19 +10,19 @@ type: docx
 token: LTymdLBGUobp1fx7DOFczF46n7g
 sidebar_position: 3
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
   - javaV225
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 displayed_sidebar: javaSidebar
 
 ---
@@ -93,22 +93,22 @@ hybridSearch(HybridSearchReq.builder()
                </tr>
                <tr>
                  <td><p><code>FloatVec</code></p></td>
-                 <td><p><code>FloatVec(List&lt;Float&gt; data)</code></p><p><code>FloatVec(float[] data)</code></p></td>
+                 <td><p><code>FloatVec(List&lt;Float&gt; data)</code></p><p><code>FloatVec(float&#91;&#93; data)</code></p></td>
                  <td><p>For <code>DataType.FloatVector</code> type field.</p></td>
                </tr>
                <tr>
                  <td><p><code>BinaryVec</code></p></td>
-                 <td><p><code>BinaryVec(ByteBuffer data)</code></p><p><code>BinaryVec(byte[] data)</code></p></td>
+                 <td><p><code>BinaryVec(ByteBuffer data)</code></p><p><code>BinaryVec(byte&#91;&#93; data)</code></p></td>
                  <td><p>For <code>DataType.BinaryVector</code> type field.</p></td>
                </tr>
                <tr>
                  <td><p><code>Float16Vec</code></p></td>
-                 <td><p><code>Float16Vec(ByteBuffer data)</code></p><p><code>Float16Vec(byte[] data)</code></p></td>
+                 <td><p><code>Float16Vec(ByteBuffer data)</code></p><p><code>Float16Vec(byte&#91;&#93; data)</code></p></td>
                  <td><p>For <code>DataType.Float16Vector</code> type field.</p></td>
                </tr>
                <tr>
                  <td><p><code>BFloat16Vec</code></p></td>
-                 <td><p><code>BFloat16Vec(ByteBuffer data)</code></p><p><code>BFloat16Vec(byte[] data)</code></p></td>
+                 <td><p><code>BFloat16Vec(ByteBuffer data)</code></p><p><code>BFloat16Vec(byte&#91;&#93; data)</code></p></td>
                  <td><p>For <code>DataType.BFloat16Vector</code> type field.</p></td>
                </tr>
                <tr>
@@ -168,7 +168,7 @@ A **SearchResp** object representing specific search results with the specified 
 
 **PARAMETERS:**
 
-- **searchResults** (*List\<List\<SearchResult\>>*)
+- **searchResults** (*List\&lt;List\&lt;SearchResult\&gt;\&gt;*)
 
     A list of SearchResp.SearchResult, the size of searchResults equals the number of query vectors of the search. Each `List<SearchResult>` is a top-K result of a query vector. Each SearchResult represents an entity hit by the search.
 

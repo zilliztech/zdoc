@@ -10,19 +10,19 @@ type: docx
 token: G6CGdbM4QoNgr5xS1ZAc94lhnFd
 sidebar_position: 9
 keywords: 
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - getIndexBuildProgress()
   - nodejs25
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 displayed_sidebar: nodeSidebar
 
 ---
@@ -58,19 +58,19 @@ milvusClient.getIndexBuildProgress({
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of an existing collection.
 
 - **index_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the target index. This parameter and `field_name` are mutually exclusive. 
 
 - **field_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the target field. This parameter and `index_name` are mutually exclusive. When you use this parameter, ensure that an index has been built upon the specified field.
 
@@ -78,7 +78,7 @@ milvusClient.getIndexBuildProgress({
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<GetIndexBuildProgressResponse>*
+**RETURNS** *Promise\&lt;GetIndexBuildProgressResponse&gt;*
 
 This method returns a promise that resolves to a **GetIndexBuildProgressResponse** object.
 

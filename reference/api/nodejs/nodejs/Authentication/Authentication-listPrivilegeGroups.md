@@ -10,19 +10,19 @@ type: docx
 token: HGpSdc7AOo7AV3xKCmOcWaIEnrd
 sidebar_position: 17
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - listPrivilegeGroups()
   - nodejs25
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: nodeSidebar
 
 ---
@@ -54,7 +54,7 @@ listPrivilegeGroups(data?): Promise<ListPrivilegeGroupsResponse>
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ListPrivilegeGroupsResponse>*
+**RETURNS** *Promise\&lt;ListPrivilegeGroupsResponse&gt;*
 
 This method returns a promise that resolves to a **ListPrivilegeGroupsResponse** object.
 
@@ -77,7 +77,7 @@ This method returns a promise that resolves to a **ListPrivilegeGroupsResponse**
 
 **PARAMETERS:**
 
-- **privilege_groups** (*PrivelegeGroup[]*) -
+- **privilege_groups** (*PrivelegeGroup&#91;&#93;*) -
 
     A list of all privilege groups in the form of a **PrivelegeGroup** object.
 
@@ -85,7 +85,7 @@ This method returns a promise that resolves to a **ListPrivilegeGroupsResponse**
 
         The name of a privilege group.
 
-    - **privileges** (*PrivilegeEntity[]*) -
+    - **privileges** (*PrivilegeEntity&#91;&#93;*) -
 
         A list of privileges.
 
