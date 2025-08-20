@@ -13,17 +13,15 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 
 import Admonition from '@theme/Admonition';
 
-
-import Supademo from '@site/src/components/Supademo';
 
 # August 2025 Release Notes
 
@@ -47,7 +45,7 @@ VectorDB Audit Logs provides detailed records of user activities within your clu
 
 Starting from GA, Audit Log will be a **paid feature**. To enable it, please select a **dedicated cluster** under the **Enterprise Plan**.
 
-- For usage details, see [VectorDB Audit Logs User Guide](./audit-logs).
+- For usage details, see [VectorDB Audit Logs User Guide](null).
 
 - For pricing information, see [Pricing Guide](./understand-cost).
 
@@ -55,13 +53,9 @@ Starting from GA, Audit Log will be a **paid feature**. To enable it, please sel
 
 With this release, we’ve improved the SSO setup process in Zilliz Cloud to make configuration simpler, faster, and less error-prone.
 
- The following showcases the procedure for configuring SSO with Okta using SAML 2.0.
-
-<Supademo id="cmejy35zz000kx50i5z2dw4re?utm_source=link" title="" isShowcase />
-
 **Highlights:**
 
-- **IdP-specific flow**: Tailored guidance for **Okta**(OIDC, SAML 2.0), **Microsoft Entra**(SAML 2.0), and **Google Workspace**(SAML 2.0), both on Console and in [Documentation](./single-sign-on).
+- **IdP-specific flow**: Tailored guidance for **Okta**(OIDC, SAML 2.0), **Microsoft Entra**(SAML 2.0), and **Google Workspace**(SAML 2.0), both on Console and in [Documentation](null).
 
 - **Better UX**: Clearer field mappings and certificate upload validation help prevent misconfigurations.
 
