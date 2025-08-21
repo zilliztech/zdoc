@@ -27566,10 +27566,25 @@
 									"projectId"
 								]
 							},
-							"example": {
-								"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
-								"regionId": "us-west-1",
-								"stageName": "my_stage"
+							"examples": {
+								"1": {
+									"summary": "example-global",
+									"x-target-lang": "en-US",
+									"value": {
+										"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+										"regionId": "aws-us-west-2",
+										"stageName": "my_stage"
+									}
+								},
+								"2": {
+									"summary": "example-china",
+									"x-target-lang": "zh-CN",
+									"value": {
+										"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+										"regionId": "ali-cn-hangzhou",
+										"stageName": "my_stage"
+									}
+								}
 							}
 						}
 					}

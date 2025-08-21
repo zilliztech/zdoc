@@ -47,7 +47,7 @@ Vector Database Cost = Query CU Unit Price x Total Number of Query CU x Cluster 
 
 - **Query CU Unit Price**: Determined by your cluster cloud region, type, and plan. For detailed rates, see [Zilliz Cloud Pricing](http://zilliz.com/pricing).
 
-- **Total Number of Query CU**: The total number of query node CUs in the cluster, factoring in replicas.
+- **Total Number of Query CU**: The total number of query CUs in the cluster, factoring in replicas.
 
     ```plaintext
     Total Number of Query CU = Number of Query CU × Replica Count

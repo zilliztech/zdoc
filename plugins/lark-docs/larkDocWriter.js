@@ -22,129 +22,8 @@ class larkDocWriter {
         this.skip_image_download = skip_image_download
         this.imageDir = imageDir
         this.iframes = []
-        this.block_types = [
-            "page",
-            "text",
-            "heading1",
-            "heading2",
-            "heading3",
-            "heading4",
-            "heading5",
-            "heading6",
-            "heading7",
-            "heading8",
-            "heading9",
-            "bullet",
-            "ordered",
-            "code",
-            "quote",
-            null,
-            "todo",
-            "bitable",
-            "callout",
-            "chat_card",
-            "diagram",
-            "divider",
-            "file",
-            "grid",
-            "grid_column",
-            "iframe",
-            "image",
-            "isv",
-            "mindnote",
-            "sheet",
-            "table",
-            "table_cell",
-            "view",
-            "quote_container",
-            "task",
-            "okr",
-            "okr_objective",
-            "okr_key_result",
-            "okr_progress",
-            "add_ons",
-            "jira_issue",
-            "wiki_catelog",
-            "board"
-        ]
-        this.code_langs = [
-            null,
-            "PlainText",
-            "ABAP",
-            "Ada",
-            "Apache",
-            "Apex",
-            "Assembly",
-            "Bash",
-            "CSharp",
-            "C++",
-            "C",
-            "COBOL",
-            "CSS",
-            "CoffeeScript",
-            "D",
-            "Dart",
-            "Delphi",
-            "Django",
-            "Dockerfile",
-            "Erlang",
-            "Fortran",
-            "FoxPro",
-            "Go",
-            "Groovy",
-            "HTML",
-            "HTMLBars",
-            "HTTP",
-            "Haskell",
-            "JSON",
-            "Java",
-            "JavaScript",
-            "Julia",
-            "Kotlin",
-            "LateX",
-            "Lisp",
-            "Logo",
-            "Lua",
-            "MATLAB",
-            "Makefile",
-            "Markdown",
-            "Nginx",
-            "Objective",
-            "OpenEdgeABL",
-            "PHP",
-            "Perl",
-            "PostScript",
-            "Power",
-            "Prolog",
-            "ProtoBuf",
-            "Python",
-            "R",
-            "RPG",
-            "Ruby",
-            "Rust",
-            "SAS",
-            "SCSS",
-            "SQL",
-            "Scala",
-            "Scheme",
-            "Scratch",
-            "Shell",
-            "Swift",
-            "Thrift",
-            "TypeScript",
-            "VBScript",
-            "Visual",
-            "XML",
-            "YAML",
-            "CMake",
-            "Diff",
-            "Gherkin",
-            "GraphQL",
-            "OpenGL Shading Language",
-            "Properties",
-            "Solidity",
-            "TOML",        
-        ]
+        this.block_types = this.__block_types()
+        this.code_langs = this.__code_langs()
         this.tokenFetcher = new larkTokenFetcher()
         this.downloader = new Downloader({}, imageDir)
     }
@@ -635,6 +514,10 @@ class larkDocWriter {
             imports = imports + "\n\nimport Supademo from '@site/src/components/Supademo';"
         }
 
+        if (markdown.match(/\<Grid/g)) {
+            imports = imports + "\n\nimport Grid from '@site/src/components/Grid';"
+        }
+
         if (path) {
             fs.writeFileSync(file_path, front_matter + '\n\n' + imports + '\n\n' + markdown)
         } else {
@@ -664,6 +547,10 @@ class larkDocWriter {
 
         if (description) {
             description = description.trim().replace('\n', '|').replace(/\[(.*)\]\(.*\)/g, '$1').replace(':', '').replace(/\*+|_+/g, '').replace(/\"/g, "\\\"")
+            description = description.replace(/<\/?[^>]+>/g, '').trim()
+            if (description.length === 0) {
+                description = title
+            }
         }
 
         if (slug === 'home') {
@@ -754,6 +641,8 @@ class larkDocWriter {
                 markdown.push(await this.__callout(block, indent));
             } else if (this.block_types[block['block_type']-1] === 'board') {
                 markdown.push(await this.__board(block['board'], indent));
+            } else if (this.block_types[block['block_type']-1] === 'grid') {
+                markdown.push(await this.__grid(block, indent));
             } else if (this.block_types[block['block_type']-1] === 'add_ons') {
                 // supademo add-ons
                 if (block['add_ons']['component_type_id'] === 'blk_682093ba9580c002363b9dc3') {
@@ -1523,6 +1412,29 @@ class larkDocWriter {
         return ' '.repeat(indent) + `<Supademo id="${record['id']}" title="" ${record['isShowcase'] ? 'isShowcase' : ''} />`;
     }
 
+    async __grid(block, indent) {
+        const grid_columns = block.children.map(child => this.__retrieve_block_by_id(child));
+        const column_size = block.grid.column_size;
+        const width_ratios = grid_columns.map(column => column.grid_column.width_ratio);
+
+        // Await all columns' children markdown
+        const columnsContent = await Promise.all(
+            grid_columns.map(async column => {
+                const children = column.children.map(child => this.__retrieve_block_by_id(child));
+                // Join all children's markdown for this column
+                let childMarkdowns = await this.__markdown(children, indent + 8);
+                childMarkdowns = childMarkdowns.replace(/({#[0-9a-z-]+})/g, "\\$1")
+                return `${' '.repeat(indent + 4)}<div>\n\n${' '.repeat(indent + 8)}${childMarkdowns.trim()}\n\n${' '.repeat(indent + 4)}</div>`;
+            })
+        );
+
+        return (
+            `${' '.repeat(indent)}<Grid columnSize="${column_size}" widthRatios="${width_ratios.join(',')}">\n\n` +
+                columnsContent.join('\n\n') +
+            `\n\n${' '.repeat(indent)}</Grid>\n`
+        );
+    }
+
     __retrieve_block_by_id(block_id) {
         if (!this.page_blocks) {
             throw new Error('Page blocks not found');
@@ -1759,6 +1671,135 @@ class larkDocWriter {
         }
 
         return sdks
+    }
+
+    __block_types() {
+        return [
+            "page",
+            "text",
+            "heading1",
+            "heading2",
+            "heading3",
+            "heading4",
+            "heading5",
+            "heading6",
+            "heading7",
+            "heading8",
+            "heading9",
+            "bullet",
+            "ordered",
+            "code",
+            "quote",
+            null,
+            "todo",
+            "bitable",
+            "callout",
+            "chat_card",
+            "diagram",
+            "divider",
+            "file",
+            "grid",
+            "grid_column",
+            "iframe",
+            "image",
+            "isv",
+            "mindnote",
+            "sheet",
+            "table",
+            "table_cell",
+            "view",
+            "quote_container",
+            "task",
+            "okr",
+            "okr_objective",
+            "okr_key_result",
+            "okr_progress",
+            "add_ons",
+            "jira_issue",
+            "wiki_catelog",
+            "board"
+        ]
+    }
+
+    __code_langs() {
+        return [
+            null,
+            "PlainText",
+            "ABAP",
+            "Ada",
+            "Apache",
+            "Apex",
+            "Assembly",
+            "Bash",
+            "CSharp",
+            "C++",
+            "C",
+            "COBOL",
+            "CSS",
+            "CoffeeScript",
+            "D",
+            "Dart",
+            "Delphi",
+            "Django",
+            "Dockerfile",
+            "Erlang",
+            "Fortran",
+            "FoxPro",
+            "Go",
+            "Groovy",
+            "HTML",
+            "HTMLBars",
+            "HTTP",
+            "Haskell",
+            "JSON",
+            "Java",
+            "JavaScript",
+            "Julia",
+            "Kotlin",
+            "LateX",
+            "Lisp",
+            "Logo",
+            "Lua",
+            "MATLAB",
+            "Makefile",
+            "Markdown",
+            "Nginx",
+            "Objective",
+            "OpenEdgeABL",
+            "PHP",
+            "Perl",
+            "PostScript",
+            "Power",
+            "Prolog",
+            "ProtoBuf",
+            "Python",
+            "R",
+            "RPG",
+            "Ruby",
+            "Rust",
+            "SAS",
+            "SCSS",
+            "SQL",
+            "Scala",
+            "Scheme",
+            "Scratch",
+            "Shell",
+            "Swift",
+            "Thrift",
+            "TypeScript",
+            "VBScript",
+            "Visual",
+            "XML",
+            "YAML",
+            "CMake",
+            "Diff",
+            "Gherkin",
+            "GraphQL",
+            "OpenGL Shading Language",
+            "Properties",
+            "Solidity",
+            "TOML",        
+        ]
     }
 
     keyword_picker() {

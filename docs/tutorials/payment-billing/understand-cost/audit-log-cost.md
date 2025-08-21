@@ -43,13 +43,13 @@ Audit Logs CU Cost = Audit Logs CU Unit Price x Total Number of Query CU x Audit
 
 - **Audit Logs CU Unit Price**: Determined by the cloud region and the plan of the cluster. For detailed rates, refer to [Zilliz Cloud Pricing Guide](http://zilliz.com/pricing-guide).
 
-- **Total Number of Query CU**: The total number of query node CUs in the cluster, factoring in replicas.
+- **Total Number of Query CU**: The total number of query CUs in the cluster, factoring in replicas.
 
     ```plaintext
     Total Number of Query CU = Query CU × Replica Count
     ```
 
-    For example, a cluster with 2 query node CUs and 2 replicas has a total of 4 CUs.
+    For example, a cluster with 2 query CUs and 2 replicas has a total of 4 CUs.
 
 - **Audit Logs Runtime**: The total time the Audit Logs feature is enabled. Runtime is calculated as `Disable Time Point − Enable Time Point`. If the cluster is in a **Suspended** status, that time is excluded from the calculation because no compute resources are consumed by the audit logs feature during suspension. For an example of the calculation of runtime, see [Example](./audit-log-cost#example).
 
@@ -89,7 +89,7 @@ Suppose your cluster configuration is as follows:
 
 With the plan and cloud provider and region information, you can find on the [pricing guide page](http://zilliz.com/pricing-guide) that the audit logs unit price is **$0.031/hour**.
 
-According to the CU size and replica count information, the total query node CU size is `8 CU x 2 Replica = 16 CU`.
+According to the CU size and replica count information, the total query CU size is `8 CU x 2 Replica = 16 CU`.
 
 The total audit logs CU cost is `$0.031 x 16 x 36 = $17.856`.
 
@@ -106,8 +106,8 @@ No. Audit logs CU charges only apply while the feature is enabled and the cluste
 Intra-region forwarding is free. Cross-region transfer (not currently supported) may incur additional charges.
 
 1. **If audit logs are enabled but no logs are actually generated, will I still be charged?**
-Yes. Audit logs CU charges are based on the cluster query node CU size and runtime while the feature is enabled, regardless of whether logs are generated. If no logs are generated, data transfer costs may be &#36;0.
+Yes. Audit logs CU charges are based on the cluster query CU size and runtime while the feature is enabled, regardless of whether logs are generated. If no logs are generated, data transfer costs may be &#36;0.
 
 1. **Does the billing vary depending on the actual volume of logs generated (e.g., high QPS vs. low QPS workloads)?**
- No. Audit logs CU costs depend only on your cluster’s query node CU size and runtime, not on the volume of logs generated.
+ No. Audit logs CU costs depend only on your cluster’s query CU size and runtime, not on the volume of logs generated.
 
