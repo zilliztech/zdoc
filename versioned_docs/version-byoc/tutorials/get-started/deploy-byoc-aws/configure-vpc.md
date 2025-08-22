@@ -225,7 +225,7 @@ VPC endpoint ensures secure cluster connectivity relay and enables private calls
 
     ![VYLlboU8fofvUPx6NYUcGztpn3s](/img/VYLlboU8fofvUPx6NYUcGztpn3s.png)
 
-1. In Network settings, select [the VPC created above](./configure-vpc#step-1-create-vpc-and-resources), and select **Enable DNS name**.
+1. In **Network settings**, select [the VPC created above](./configure-vpc#step-1-create-vpc-and-resources), and select **Enable DNS name**.
 
     ![DyH3b9kOro2wf6xGcsUcD2DbnVo](/img/DyH3b9kOro2wf6xGcsUcD2DbnVo.png)
 
@@ -237,9 +237,17 @@ VPC endpoint ensures secure cluster connectivity relay and enables private calls
 
 1. Click **Create endpoint** to save the above settings.
 
-1. Copy the VPC Endpoint ID back to Zilliz Cloud.
+1. Click the created VPC endpoint ID in the **Endpoints** list to view its details.
 
-    ![B8LebFyuPofym4xT0S9c1fMMnDg](/img/B8LebFyuPofym4xT0S9c1fMMnDg.png)
+    ![KhRBbAbSAoU2X0xdnMtc0Gmunvf](/img/KhRBbAbSAoU2X0xdnMtc0Gmunvf.png)
+
+1. Check whether the value in **Private DNS names** is similar to `*.aws-{region}.byoc.cloud.zilliz.com`. 
+
+    1. If so, copy the **Endpoint ID** and paste it back into the Zilliz Cloud console. 
+
+        ![BUejbgXWJoXi5jxDmZnc7Ogdnah](/img/BUejbgXWJoXi5jxDmZnc7Ogdnah.png)
+
+    1. If not, check your settings and make necessary changes.
 
 ### Step 4: Submit VPC information to Zilliz Cloud{#step-4-submit-vpc-information-to-zilliz-cloud}
 
