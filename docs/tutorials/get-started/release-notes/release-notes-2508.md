@@ -57,7 +57,7 @@ import Grid from '@site/src/components/Grid';
 
         - For usage details, see [Audit Logs User Guide](./audit-logs).
 
-        - For pricing information, see [Pricing Guide](./understand-cost).
+        - For pricing information, see [Pricing Guide](https://zilliz.com/pricing/pricing-guide).
 
         ## Improved SSO Experience\{#improved-sso-experience}
 
