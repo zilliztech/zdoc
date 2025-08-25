@@ -41,7 +41,7 @@ The total cost of using the audit log feature is the sum of the following compon
 Audit Logs CU Cost = Audit Logs CU Unit Price x Total Number of Query CU x Audit Logs Runtime
 ```
 
-- **Audit Logs CU Unit Price**: Determined by the cloud region and the plan of the cluster. For detailed rates, refer to [Zilliz Cloud Pricing Guide](http://zilliz.com/pricing-guide).
+- **Audit Logs CU Unit Price**: Determined by the cloud region and the plan of the cluster. For detailed rates, refer to [Zilliz Cloud Pricing Guide](http://zilliz.com/pricing/pricing-guide).
 
 - **Total Number of Query CU**: The total number of query CUs in the cluster, factoring in replicas.
 
