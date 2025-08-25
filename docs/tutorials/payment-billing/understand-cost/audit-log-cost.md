@@ -87,7 +87,7 @@ Suppose your cluster configuration is as follows:
 
     The total runtime is `(24 − 12) + 24 = 36 hours`.
 
-With the plan and cloud provider and region information, you can find on the [pricing guide page](http://zilliz.com/pricing-guide) that the audit logs unit price is **$0.031/hour**.
+With the plan and cloud provider and region information, you can find on the [pricing guide page](http://zilliz.com/pricing/pricing-guide) that the audit logs unit price is **$0.031/hour**.
 
 According to the CU size and replica count information, the total query CU size is `8 CU x 2 Replica = 16 CU`.
 

@@ -42,13 +42,13 @@ The following table compares the different data transfer types.
      <td><p><strong>Public Internet Egress</strong></p></td>
      <td><p>The transfer of data from Zilliz Cloud to destinations over the public internet, such as external networks, client applications, or third-party services outside the cloud provider’s private network.</p></td>
      <td><p>Returning search or query results to a client app hosted outside the cloud provider.</p></td>
-     <td><p>The most expensive. For detailed rates, see <a href="http://zilliz.com/pricing-guide">Zilliz Cloud Pricing Guide</a>.</p></td>
+     <td><p>The most expensive. For detailed rates, see <a href="http://zilliz.com/pricing/pricing-guide">Zilliz Cloud Pricing Guide</a>.</p></td>
    </tr>
    <tr>
      <td><p><strong>Cross-region Transfer</strong></p></td>
      <td><p>The movement of data between different regions within the same cloud provider’s network, which may incur additional latency and costs compared to intra-region transfer.</p></td>
      <td><ul><li><p>Cross region backup</p></li><li><p>Data migration between Zilliz Cloud clusters deployed in different regions.</p></li></ul></td>
-     <td><ul><li><p>For AWS, the cost is determined by the source continent.</p></li><li><p>For Azure and Google Cloud, the cost is determined by both the source and destination continents - transfers to a different region within the same continent are billed at lower rates, while transfers to a different continent incur higher rates.</p><p>For detailed rates, see <a href="http://zilliz.com/pricing-guide">Zilliz Cloud Pricing Guide</a>.</p></li></ul></td>
+     <td><ul><li><p>For AWS, the cost is determined by the source continent.</p></li><li><p>For Azure and Google Cloud, the cost is determined by both the source and destination continents - transfers to a different region within the same continent are billed at lower rates, while transfers to a different continent incur higher rates.</p><p>For detailed rates, see <a href="http://zilliz.com/pricing/pricing-guide">Zilliz Cloud Pricing Guide</a>.</p></li></ul></td>
    </tr>
    <tr>
      <td><p><strong>Intra-region Transfer</strong></p></td>
@@ -83,7 +83,7 @@ You will be billed for data transfer in the following scenarios:
 Data Transfer Cost = Data Transfer Unit Price × Transferred Data Size
 ```
 
-- **Data Transfer Unit Price**: Determined by cluster cloud provider and region, data transfer type (public internet, cross-region, or intra-region). For detailed rates, see [Zilliz Cloud Pricing Guide](http://zilliz.com/pricing-guide).
+- **Data Transfer Unit Price**: Determined by cluster cloud provider and region, data transfer type (public internet, cross-region, or intra-region). For detailed rates, see [Zilliz Cloud Pricing Guide](http://zilliz.com/pricing/pricing-guide).
 
 - **Transferred Data Size**: Measured in GB and calculated based on the size of the data sent over the network.
 
