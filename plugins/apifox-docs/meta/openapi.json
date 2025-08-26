@@ -2995,6 +2995,8 @@
 															},
 															"enum": [
 																"VARCHAR",
+																"INT8",
+																"INT16",
 																"INT32",
 																"INT64",
 																"FLOAT",
@@ -3107,8 +3109,7 @@
 															"zh-CN": {
 																"description": "待与指定 Collection 合并的 PARQUET 文件的 URL。"
 															}
-														},
-														"example": "s3://my-bucket/my_data.parquet"
+														}
 													},
 													"credential": {
 														"type": "object",
@@ -3182,6 +3183,8 @@
 															},
 															"enum": [
 																"VARCHAR",
+																"INT8",
+																"INT16",
 																"INT32",
 																"INT64",
 																"FLOAT",
@@ -3234,12 +3237,12 @@
 										"dataSource": {
 											"type": "stage",
 											"stageName": "my_stage",
-											"dataPath": "path/to/your/data.parquet"
+											"dataPath": "/path/to/your/data.parquet"
 										},
 										"mergeField": "id",
 										"newFields": [
 											{
-												"name": "my_field1",
+												"fieldName": "my_field1",
 												"dataType": "VARCHAR",
 												"params": {
 													"maxLength": 512
@@ -3290,7 +3293,7 @@
 										"destCollectionName": "my_merged_collection",
 										"dataSource": {
 											"type": "oss",
-											"dataPath": "https://oss-cn-hangzhou.aliyuncs.com/my-bucket/my_data.parquet",
+											"dataPath": "oss://my-bucket/my_data.parquet",
 											"credential": {
 												"accessKey": "my-access-key",
 												"secretKey": "my-secret-key"
@@ -3299,7 +3302,7 @@
 										"mergeField": "id",
 										"newFields": [
 											{
-												"name": "my_field1",
+												"fieldName": "my_field1",
 												"dataType": "VARCHAR",
 												"params": {
 													"maxLength": 512
@@ -24134,7 +24137,7 @@
 												"cuType": "Performance-optimized",
 												"plan": "Standard",
 												"status": "RUNNING",
-												"connectAddress": "https://in01-108240180a4faf8.aws-us-west-2.vectordb-uat3.zillizcloud.com:19539",
+												"connectAddress": "https://in01-108240180a4faf8.cn-ali-hangzhou.vectordb-uat3.zillizcloud.com:19539",
 												"privateLinkAddress": "",
 												"createTime": "2024-06-30T16:34:09Z",
 												"replica": 1,
@@ -24159,7 +24162,7 @@
 												"cuType": "",
 												"plan": "Serverless",
 												"status": "RUNNING",
-												"connectAddress": "https://in05-991240180a4faf8.gcp-us-west1.cloud.zilliz.com",
+												"connectAddress": "https://in05-991240180a4faf8.cn-ali-hangzhou.cloud.zilliz.com",
 												"privateLinkAddress": "",
 												"createTime": "2024-06-29T16:35:09Z",
 												"replica": 1,
@@ -24184,7 +24187,7 @@
 												"cuType": "",
 												"plan": "Free",
 												"status": "RUNNING",
-												"connectAddress": "https://in03-112340180a4faf8.api.gcp-us-west1.zillizcloud.com",
+												"connectAddress": "https://in03-112340180a4faf8.api.cn-ali-hangzhou.zillizcloud.com",
 												"privateLinkAddress": "",
 												"createTime": "2024-06-24T12:35:09Z",
 												"replica": 1,
@@ -27566,25 +27569,10 @@
 									"projectId"
 								]
 							},
-							"examples": {
-								"1": {
-									"summary": "example-global",
-									"x-target-lang": "en-US",
-									"value": {
-										"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
-										"regionId": "aws-us-west-2",
-										"stageName": "my_stage"
-									}
-								},
-								"2": {
-									"summary": "example-china",
-									"x-target-lang": "zh-CN",
-									"value": {
-										"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
-										"regionId": "ali-cn-hangzhou",
-										"stageName": "my_stage"
-									}
-								}
+							"example": {
+								"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+								"regionId": "us-west-1",
+								"stageName": "my_stage"
 							}
 						}
 					}
