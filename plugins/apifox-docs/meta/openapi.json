@@ -2833,7 +2833,7 @@
 				"x-i18n": {
 					"zh-CN": {
 						"summary": "合并数据",
-						"description": "您可以使用此接口在指定 Collection 中新增字段并填充数据。<div style=\"padding: 8px;\"><ul style=\"margin-bottom: 0px;\"><li>如果您选择创建字段的同时填充数据，需要将数据文件上传到阿里云 OSS 存储桶或 Zilliz Cloud Stage，并确保数据与源 Collection 的合并键相同。合并后的数据将存储在您指定的新 Collection 中。</li><li>如果您选择仅创建字段但不填充数据，则会创建新的字段并填充默认值。</li></ul></div>您需要是项目管理员或以上权限才能执行此操作。更多详情，可以参考<a href=\"/docs/merge-data\">合并数据</a>。<br/>"
+						"description": "您可以使用此接口在指定 Collection 中新增字段并填充数据。<div style=\"padding: 8px;\"><ul style=\"margin-bottom: 0px;\"><li>如果您选择创建字段的同时填充数据，需要将数据文件上传到阿里云 OSS 存储桶或 Zilliz Cloud Stage，并确保数据与源 Collection 的合并键相同。合并后的数据将存储在您指定的新 Collection 中。</li><li>如果您选择仅创建字段但不填充数据，则会创建新的字段并填充 null 值。</li></ul></div>您需要是项目管理员或以上权限才能执行此操作。更多详情，可以参考<a href=\"/docs/merge-data\">合并数据</a>。<br/>"
 					}
 				},
 				"tags": [
