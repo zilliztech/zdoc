@@ -24126,6 +24126,7 @@
 									"1": {
 										"summary": "dedicated",
 										"x-target-response": "OPTION 1",
+										"x-target-lang": "en-US",
 										"value": {
 											"code": 0,
 											"data": {
@@ -24137,7 +24138,7 @@
 												"cuType": "Performance-optimized",
 												"plan": "Standard",
 												"status": "RUNNING",
-												"connectAddress": "https://in01-108240180a4faf8.cn-ali-hangzhou.vectordb-uat3.zillizcloud.com:19539",
+												"connectAddress": "https://in01-108240180a4faf8.aws-us-west-2.vectordb.zillizcloud.com:19539",
 												"privateLinkAddress": "",
 												"createTime": "2024-06-30T16:34:09Z",
 												"replica": 1,
@@ -24151,6 +24152,7 @@
 									"2": {
 										"summary": "serverless",
 										"x-target-response": "OPTION 1",
+										"x-target-lang": "en-US",
 										"value": {
 											"code": 0,
 											"data": {
@@ -24162,7 +24164,7 @@
 												"cuType": "",
 												"plan": "Serverless",
 												"status": "RUNNING",
-												"connectAddress": "https://in05-991240180a4faf8.cn-ali-hangzhou.cloud.zilliz.com",
+												"connectAddress": "https://in05-991240180a4faf8.gcp-us-west1.cloud.zilliz.com",
 												"privateLinkAddress": "",
 												"createTime": "2024-06-29T16:35:09Z",
 												"replica": 1,
@@ -24176,6 +24178,7 @@
 									"3": {
 										"summary": "free",
 										"x-target-response": "OPTION 1",
+										"x-target-lang": "en-US",
 										"value": {
 											"code": 0,
 											"data": {
@@ -24187,7 +24190,7 @@
 												"cuType": "",
 												"plan": "Free",
 												"status": "RUNNING",
-												"connectAddress": "https://in03-112340180a4faf8.api.cn-ali-hangzhou.zillizcloud.com",
+												"connectAddress": "https://in03-112340180a4faf8.api.gcp-us-west1.zillizcloud.com",
 												"privateLinkAddress": "",
 												"createTime": "2024-06-24T12:35:09Z",
 												"replica": 1,
@@ -24204,6 +24207,84 @@
 										"value": {
 											"code":21119,
 											"message":"The apikey is illegal."
+										}
+									},
+									"5": {
+										"summary": "dedicated",
+										"x-target-response": "OPTION 1",
+										"x-target-lang": "zh-CN",
+										"value": {
+											"code": 0,
+											"data": {
+												"clusterId": "in01-108240180a4faf8",
+												"clusterName": "dedicated-test",
+												"projectId": "proj-b44a39b0c51cf21791a841",
+												"description": "",
+												"regionId": "ali-cn-hangzhou",
+												"cuType": "Performance-optimized",
+												"plan": "Standard",
+												"status": "RUNNING",
+												"connectAddress": "https://in01-108240180a4faf8.ali-cn-hangzhou.vectordb.zillizcloud.com:19539",
+												"privateLinkAddress": "",
+												"createTime": "2024-06-30T16:34:09Z",
+												"replica": 1,
+												"cuSize": 2,
+												"storageSize": 0,
+												"snapshotNumber": 0,
+												"createProgress": 100
+											}
+										}
+									},
+									"6": {
+										"summary": "serverless",
+										"x-target-response": "OPTION 1",
+										"x-target-lang": "zh-CN",
+										"value": {
+											"code": 0,
+											"data": {
+												"clusterId": "in05-991240180a4faf8",
+												"clusterName": "Serverless-01",
+												"projectId": "proj-b44a39b0c51cf21791a841",
+												"description": "",
+												"regionId": "ali-cn-hangzhou",
+												"cuType": "",
+												"plan": "Serverless",
+												"status": "RUNNING",
+												"connectAddress": "https://in05-991240180a4faf8.ali-cn-hangzhou.cloud.zilliz.com",
+												"privateLinkAddress": "",
+												"createTime": "2024-06-29T16:35:09Z",
+												"replica": 1,
+												"cuSize": 0,
+												"storageSize": 0,
+												"snapshotNumber": 0,
+												"createProgress": 100
+											}
+										}
+									},
+									"7": {
+										"summary": "free",
+										"x-target-response": "OPTION 1",
+										"x-target-lang": "zh-CN",
+										"value": {
+											"code": 0,
+											"data": {
+												"clusterId": "in03-112340180a4faf8",
+												"clusterName": "Free-01",
+												"projectId": "proj-b44a39b0c51cf21791a841",
+												"description": "",
+												"regionId": "ali-cn-hangzhou",
+												"cuType": "",
+												"plan": "Free",
+												"status": "RUNNING",
+												"connectAddress": "https://in03-112340180a4faf8.api.ali-cn-hangzhou.zillizcloud.com",
+												"privateLinkAddress": "",
+												"createTime": "2024-06-24T12:35:09Z",
+												"replica": 1,
+												"cuSize": 0,
+												"storageSize": 0,
+												"snapshotNumber": 0,
+												"createProgress": 100
+											}
 										}
 									}
 								}
@@ -27569,10 +27650,27 @@
 									"projectId"
 								]
 							},
-							"example": {
-								"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
-								"regionId": "us-west-1",
-								"stageName": "my_stage"
+							"examples": {
+								"1": {
+									"summary": "success",
+									"x-target-response": "OPTION 1",
+									"x-target-lang": "en-US",
+									"value": {
+										"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+										"regionId": "aws-us-west-2",
+										"stageName": "my_stage"
+									}
+								},
+								"2": {
+									"summary": "success",
+									"x-target-response": "OPTION 1",
+									"x-target-lang": "zh-CN",
+									"value": {
+										"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+										"regionId": "ali-cn-hangzhou",
+										"stageName": "my_stage"
+									}
+								}
 							}
 						}
 					}
