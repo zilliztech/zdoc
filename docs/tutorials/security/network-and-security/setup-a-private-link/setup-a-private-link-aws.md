@@ -19,10 +19,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 
@@ -47,13 +47,15 @@ A private link is set up at the project level and is effective for all clusters 
 
 Ensure that:
 
-- A Dedicated (Enterprise) cluster has been created. For information on how to create a cluster, see [Create Cluster](./create-cluster).
+- A Dedicated (Enterprise) cluster has been created. For information on how to create a cluster, see Create Cluster.
+
+- If your service and Zilliz Cloud cluster are in different regions and the service needs to access the cluster through AWS PrivateLink, [submit a ticket](https://support.zilliz.com/hc/en-us/requests/new), and we will handle your request.
 
 ## Create private endpoint{#create-private-endpoint}
 
 Zilliz Cloud offers you an intuitive web console to add a private endpoint. Navigate to your target project and click **Network &gt; Private Endpoint** in the left navigation. Click **+ Private Endpoint**.
 
-![setup_private_link_aws_01](/img/setup_private_link_aws_01.png)
+![I02ibsAgioWpuLxwzHDcp1c2nge](/img/I02ibsAgioWpuLxwzHDcp1c2nge.png)
 
 ### Select a cloud provider and region{#select-a-cloud-provider-and-region}
 
@@ -61,13 +63,15 @@ To create a private endpoint for a cluster deployed in an AWS region, select **A
 
 For more information on available cloud providers and regions, see [Cloud Providers & Regions](./cloud-providers-and-regions). 
 
-![setup_private_link_window](/img/setup_private_link_window.png)
+![NxuFbXh41oA53VxB4sPcfR9snVg](/img/NxuFbXh41oA53VxB4sPcfR9snVg.png)
 
 ### Create an Endpoint{#create-an-endpoint}
 
 You need to complete this step on your cloud provider console using either the UI console or CLI.
 
 - **Via UI console**
+
+    ![AJlTbcoxNoXKBIxAxz6cYrkBnrc](/img/AJlTbcoxNoXKBIxAxz6cYrkBnrc.png)
 
     1. Switch to the **Via UI Console** tab.
 
@@ -91,7 +95,7 @@ You need to complete this step on your cloud provider console using either the U
 
 - **Via CLI**
 
-    ![setup_private_link_aws_via_CLI](/img/setup_private_link_aws_via_CLI.png)
+    ![TzQdb9ReToZlkTxGRVZcCdUbnOe](/img/TzQdb9ReToZlkTxGRVZcCdUbnOe.png)
 
     1. Switch to the **Via CLI** tab.
 
@@ -107,9 +111,9 @@ You need to complete this step on your cloud provider console using either the U
 
         To create a subnet, see [Create a Subnet in Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-subnets.html#create-subnets).
 
-    1. Click **Copy and Go**.
+    1. Click the copy icon in the code block and go to the AWS console.
 
-        You will be redirected to your cloud provider console. In the top navigation, launch the AWS CloudShell. Run the CLI command you just copied from Zilliz Cloud in the CloudShell.
+        In the top navigation, launch AWS CloudShell. Run the CLI command you just copied from Zilliz Cloud in the CloudShell.
 
         ![setup_private_link_aws_cloud_shell](/img/setup_private_link_aws_cloud_shell.png)
 
