@@ -17,10 +17,10 @@ keywords:
   - integrate
   - object
   - storage
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 
@@ -124,29 +124,64 @@ For simplicity, create a policy using the JSON editor.
 
     ```json
     {
-      "Version": "2012-10-17",
-      "Statement": [
-        {
-          "Sid": "Statement1",
-          "Effect": "Allow",
-          "Action": [
-            "s3:GetObject",
-            "s3:PutObject",
-            "s3:ListBucket",
-            "s3:GetBucketLocation"
-          ],
-          "Resource": [
-            "arn:aws:s3:::$bucket",
-            "arn:aws:s3:::$bucket/*"
-          ]
-        }
-      ]
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "Statement1",
+                "Effect": "Allow",
+                "Action": [
+                    "s3:GetObject",
+                    "s3:PutObject",
+                    "s3:ListBucket",
+                    "s3:GetBucketLocation"
+                ],
+                "Resource": [
+                    "arn:aws:s3:::$bucket",
+                    "arn:aws:s3:::$bucket/*"
+                ]
+            }
+        ]
+    }
+    ```
+
+    However, when you have enabled server-side encryption for the bucket using AWS KMS, you need to add another IAM policy to allow the `kms:GenerateDataKey` action.  In this case, use the following JSON policy.
+
+    ```json
+    {
+        "Version": "2012-10-17",
+        "Statement": [
+            {
+                "Sid": "Statement1",
+                "Effect": "Allow",
+                "Action": [
+                    "s3:GetObject",
+                    "s3:PutObject",
+                    "s3:ListBucket",
+                    "s3:GetBucketLocation"
+                ],
+                "Resource": [
+                    "arn:aws:s3:::$bucket",
+                    "arn:aws:s3:::$bucket/*"
+                ]
+            },
+            {
+                "Sid": "AllowKMSGenerateDataKey",
+                "Effect": "Allow",
+                "Action": [
+                    "kms:GenerateDataKey"
+                ],
+                "Resource": "arn:aws:kms:$region:$account-id:key/$key-id"
+            }
+        ]
     }
     ```
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p><code>$bucket</code> should be replaced with the actual name of your S3 bucket.</p>
+    <ul>
+    <li><p><code>$bucket</code> should be replaced with the actual name of your S3 bucket.</p></li>
+    <li><p><code>$region</code>, <code>$account_id</code>, and <code>$key_id</code> should be replaced with their actual values. For details, refer to <a href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id">Key identifiers</a> in AWS docs.</p></li>
+    </ul>
 
     </Admonition>
 

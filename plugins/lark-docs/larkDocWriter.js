@@ -1587,9 +1587,15 @@ class larkDocWriter {
 
                 // let newUrl = this.target === 'saas' ? `./${slug}` : `./byoc/${slug}`;
                 let newUrl = `./${slug}`;
+                let headerBlock;
 
                 if (header) {
-                    const headerBlock = page['blocks']['items'].filter(x => x['block_id'] === header)[0];
+                    try {
+                        headerBlock = page['blocks']['items'].filter(x => x['block_id'] === header)[0];
+                    } catch (error) {
+                        throw new Error(`Cannot find header for ${token}`);
+                    }
+                    
 
                     if (headerBlock) {
                         const blockType = this.block_types[headerBlock['block_type'] - 1];
