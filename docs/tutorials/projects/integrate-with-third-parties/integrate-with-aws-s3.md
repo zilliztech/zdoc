@@ -17,10 +17,10 @@ keywords:
   - integrate
   - object
   - storage
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 
@@ -136,8 +136,8 @@ For simplicity, create a policy using the JSON editor.
                     "s3:GetBucketLocation"
                 ],
                 "Resource": [
-                    "arn:aws:s3:::$bucket",
-                    "arn:aws:s3:::$bucket/*"
+                    "arn:aws:s3:::<bucket>",
+                    "arn:aws:s3:::<bucket>/*"
                 ]
             }
         ]
@@ -160,8 +160,8 @@ For simplicity, create a policy using the JSON editor.
                     "s3:GetBucketLocation"
                 ],
                 "Resource": [
-                    "arn:aws:s3:::$bucket",
-                    "arn:aws:s3:::$bucket/*"
+                    "arn:aws:s3:::<bucket>",
+                    "arn:aws:s3:::<bucket>/*"
                 ]
             },
             {
@@ -170,7 +170,7 @@ For simplicity, create a policy using the JSON editor.
                 "Action": [
                     "kms:GenerateDataKey"
                 ],
-                "Resource": "arn:aws:kms:$region:$account-id:key/$key-id"
+                "Resource": "arn:aws:kms:<region>:<account_id>:key/<key_id>"
             }
         ]
     }
@@ -179,8 +179,8 @@ For simplicity, create a policy using the JSON editor.
     <Admonition type="info" icon="📘" title="Notes">
 
     <ul>
-    <li><p><code>$bucket</code> should be replaced with the actual name of your S3 bucket.</p></li>
-    <li><p><code>$region</code>, <code>$account_id</code>, and <code>$key_id</code> should be replaced with their actual values. For details, refer to <a href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id">Key identifiers</a> in AWS docs.</p></li>
+    <li><p><code>&lt;bucket&gt;</code> should be replaced with the actual name of your S3 bucket.</p></li>
+    <li><p><code>&lt;region&gt;</code>, <code>&lt;account_id&gt;</code>, and <code>&lt;key_id&gt;</code> should be replaced with their actual values. For details, refer to <a href="https://docs.aws.amazon.com/kms/latest/developerguide/concepts.html#key-id">Key identifiers</a> in AWS docs.</p></li>
     </ul>
 
     </Admonition>
