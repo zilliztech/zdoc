@@ -16,10 +16,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 
