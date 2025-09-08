@@ -1479,7 +1479,7 @@ class larkDocWriter {
         let style = element['text_run']['text_element_style'];
 
         if (!content.match(/^\s+$/) && !asis) {
-            content = content.replace(/\$/g, '&#36;') // escape $ for markdown
+            element['text_run']['content'] = content.replace(/\$/g, '&#36;') // escape $ for markdown
 
             if (style['inline_code']) {
                 content = this.__style_markdown(element, elements, 'inline_code', '`');
