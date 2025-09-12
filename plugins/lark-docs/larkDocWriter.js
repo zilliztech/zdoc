@@ -648,6 +648,8 @@ class larkDocWriter {
                 if (block['add_ons']['component_type_id'] === 'blk_682093ba9580c002363b9dc3') {
                     markdown.push(await this.__supademo(block['add_ons'], indent));
                 }
+            } else if (this.block_types[block['block_type']-1] === 'source_synced') {
+                markdown.push(await this.__source_synced(block, indent));
             } else if (block['block_type'] === 999 && block['children']) {
                 const children = block['children'].map(child => {
                     return this.__retrieve_block_by_id(child)
@@ -1435,6 +1437,12 @@ class larkDocWriter {
         );
     }
 
+    async __source_synced(block, indent) {
+        let children = block.children.map(child => this.__retrieve_block_by_id(child));
+        let content = await this.__markdown(children, indent);
+        return content;
+    }
+
     __retrieve_block_by_id(block_id) {
         if (!this.page_blocks) {
             throw new Error('Page blocks not found');
@@ -1470,45 +1478,46 @@ class larkDocWriter {
         let content = element['text_run']['content'];
         let style = element['text_run']['text_element_style'];
 
-        content = content.replace(/\$/g, '&#36;') // escape $ for markdown
-
         if (!content.match(/^\s+$/) && !asis) {
+            element['text_run']['content'] = element['text_run']['content'].replace(/\$/g, '&#36;') // escape $ for markdown
+            content = element['text_run']['content'];
+
             if (style['inline_code']) {
                 content = this.__style_markdown(element, elements, 'inline_code', '`');
                 content = content.replaceAll('&#36;', '#')
-            } else {                
-                if (style['bold']) {
-                    content = this.__style_markdown(element, elements, 'bold', '**');
+            }
+                         
+            if (style['bold']) {
+                content = this.__style_markdown(element, elements, 'bold', '**');
+            }
+
+            if (style['italic']) {
+                content = this.__style_markdown(element, elements, 'italic', '*');
+            }
+
+            if (style['strikethrough']) {
+                content = this.__style_markdown(element, elements, 'strikethrough', '~~');
+            }
+
+            if ('link' in style) {
+                const url = await this.__convert_link(decodeURIComponent(style['link']['url']))
+
+                var prefix = [...content.matchAll(/(^\*\*|^\*|^~~)/g)]
+                var suffix = [...content.matchAll(/(\*\*$|\*$|~~$)/g)]
+
+                if (prefix.length > 0) {
+                    prefix = prefix[0][0]
+                } else {
+                    prefix = ''
                 }
 
-                if (style['italic']) {
-                    content = this.__style_markdown(element, elements, 'italic', '*');
+                if (suffix.length > 0) {
+                    suffix = suffix[0][0]
+                } else {
+                    suffix = ''
                 }
 
-                if (style['strikethrough']) {
-                    content = this.__style_markdown(element, elements, 'strikethrough', '~~');
-                }
-
-                if ('link' in style) {
-                    const url = await this.__convert_link(decodeURIComponent(style['link']['url']))
-
-                    var prefix = [...content.matchAll(/(^\*\*|^\*|^~~)/g)]
-                    var suffix = [...content.matchAll(/(\*\*$|\*$|~~$)/g)]
-
-                    if (prefix.length > 0) {
-                        prefix = prefix[0][0]
-                    } else {
-                        prefix = ''
-                    }
-
-                    if (suffix.length > 0) {
-                        suffix = suffix[0][0]
-                    } else {
-                        suffix = ''
-                    }
-
-                    content = `${prefix}[${content.replace(prefix, '').replace(suffix, '')}](${url})${suffix}`;
-                }
+                content = `${prefix}[${content.replace(prefix, '').replace(suffix, '')}](${url})${suffix}`;
             }
         }
 
@@ -1587,15 +1596,9 @@ class larkDocWriter {
 
                 // let newUrl = this.target === 'saas' ? `./${slug}` : `./byoc/${slug}`;
                 let newUrl = `./${slug}`;
-                let headerBlock;
 
                 if (header) {
-                    try {
-                        headerBlock = page['blocks']['items'].filter(x => x['block_id'] === header)[0];
-                    } catch (error) {
-                        throw new Error(`Cannot find header for ${token}`);
-                    }
-                    
+                    const headerBlock = page['blocks']['items'].filter(x => x['block_id'] === header)[0];
 
                     if (headerBlock) {
                         const blockType = this.block_types[headerBlock['block_type'] - 1];
@@ -1723,7 +1726,16 @@ class larkDocWriter {
             "add_ons",
             "jira_issue",
             "wiki_catelog",
-            "board"
+            "board",
+            "agenda",
+            "agenda_item",
+            "agenda_item_title",
+            "agenda_item_content",
+            "link_preview",
+            "source_synced",
+            "reference_synced",
+            "sub_page_list",
+            "ai_template"
         ]
     }
 

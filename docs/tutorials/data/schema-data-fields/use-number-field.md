@@ -4,7 +4,7 @@ slug: /use-number-field
 sidebar_label: "Boolean & Number"
 beta: FALSE
 notebook: FALSE
-description: "A number field is a scalar field that stores numeric values. These values can be whole numbers (integers) or decimal numbers (floating-point numbers). They are typically used to represent quantities, measurements, or any data that needs to be mathematically processed. | Cloud"
+description: "A boolean or number field is a scalar field that stores boolean or numeric values. These values can be one of two possible values or whole numbers (integers) and decimal numbers (floating-point numbers). They are typically used to represent quantities, measurements, or any data that needs to be logically or mathematically processed. | Cloud"
 type: origin
 token: EwArwXCOPip15hkSvvpciAMJnSe
 sidebar_position: 7
@@ -18,10 +18,10 @@ keywords:
   - int
   - integer
   - float
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 
@@ -31,7 +31,7 @@ import TabItem from '@theme/TabItem';
 
 # Boolean & Number
 
-A number field is a scalar field that stores numeric values. These values can be whole numbers (**integers**) or decimal numbers (**floating-point numbers**). They are typically used to represent quantities, measurements, or any data that needs to be mathematically processed.
+A boolean or number field is a scalar field that stores boolean or numeric values. These values can be one of two possible values or whole numbers (**integers**) and decimal numbers (**floating-point numbers**). They are typically used to represent quantities, measurements, or any data that needs to be logically or mathematically processed.
 
 The table below describes the data types of number fields available in Zilliz Cloud clusters.
 
@@ -70,19 +70,21 @@ The table below describes the data types of number fields available in Zilliz Cl
    </tr>
 </table>
 
-To declare a number field, simply set the `datatype` to one of the available numeric data types. For example, `DataType.INT64` for an integer field or `DataType.FLOAT` for a floating-point field.
+To declare a boolean field, simply set `datatype` to `BOOL`. To declare a number field, simply set that to one of the available numeric data types. For example, `DataType.INT64` for an integer field or `DataType.FLOAT` for a floating-point field.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz Cloud supports null values and default values for number fields. To enable these features, set <code>nullable</code> to <code>True</code> and <code>default_value</code> to a numeric value. For details, refer to <a href="./nullable-and-default">Nullable & Default</a>.</p>
+<p>Zilliz Cloud supports null values and default values for boolean and number fields. To enable these features, set <code>nullable</code> to <code>True</code> and <code>default_value</code> to a numeric value. For details, refer to <a href="./nullable-and-default">Nullable & Default</a>.</p>
 
 </Admonition>
 
-## Add number field{#add-number-field}
+## Add boolean and number fields{#add-boolean-and-number-fields}
 
-To store numeric data, define a number field in your collection schema. Below is an example of a collection schema with two number fields:
+To store boolean or numeric data, define corresponding types of fields in your collection schema. Below is an example of a collection schema with two number fields:
 
 - `age`: stores integer data, allows null values, and has a default value of `18`.
+
+- `broken`: stores boolean data, allows null values, but does not have a default value.
 
 - `price`: stores float data, allows null values, but does not have a default value.
 
@@ -113,6 +115,7 @@ schema = client.create_schema(
 
 # Add an INT64 field `age` that supports null values with default value 18
 schema.add_field(field_name="age", datatype=DataType.INT64, nullable=True, default_value=18)
+schema.add_field(field_name="broken", datatype=DataType.BOOL, nullable=True)
 # Add a FLOAT field `price` that supports null values without default value
 schema.add_field(field_name="price", datatype=DataType.FLOAT, nullable=True)
 schema.add_field(field_name="pk", datatype=DataType.INT64, is_primary=True)
@@ -144,6 +147,12 @@ schema.addField(AddFieldReq.builder()
         .isNullable(true)
         .defaultValue(18)
         .build());
+        
+schema.addField(AddFieldReq.builder()
+        .fieldName("broken")
+        .dataType(DataType.BOOL)
+        .isNullable(true)
+        .build());
 
 schema.addField(AddFieldReq.builder()
         .fieldName("price")
@@ -174,6 +183,10 @@ const schema = [
   {
     name: "age",
     data_type: DataType.Int64,
+  },
+  {
+    name: "broken",
+    data_type: DataType.Bool,
   },
   {
     name: "price",
@@ -240,7 +253,10 @@ schema.WithField(entity.NewField().
     WithDataType(entity.FieldTypeInt64).
     WithNullable(true).
     WithDefaultValueLong(18),
-)
+).WithField(entity.NewField().
+    WithName("broken").
+    WithDataType(entity.FieldTypeBool).
+    WithNullable(true),
 ```
 
 </TabItem>
@@ -251,6 +267,11 @@ schema.WithField(entity.NewField().
 export int64Field='{
     "fieldName": "age",
     "dataType": "Int64"
+}'
+
+export boolField='{
+    "fieldName": "broken",
+    "dataType": "Bool"
 }'
 
 export floatField='{
@@ -276,6 +297,7 @@ export schema="{
     \"autoID\": false,
     \"fields\": [
         $int64Field,
+        $boolField,
         $floatField,
         $pkField,
         $vectorField
@@ -290,7 +312,7 @@ export schema="{
 
 Indexing helps improve search and query performance. In Zilliz Cloud clusters, indexing is mandatory for vector fields but optional for scalar fields.
 
-The following example creates indexes on the vector field `embedding` and the scalar field `age`, both using the `AUTOINDEX` index type. With this type, Milvus automatically selects the most suitable index based on the data type.
+The following example creates indexes on the vector field `embedding` and the scalar field `age`, both using the `AUTOINDEX` index type. With this type, Milvus automatically selects the most suitable index based on the data type.For details, refer to AUTOINDEX Explained.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

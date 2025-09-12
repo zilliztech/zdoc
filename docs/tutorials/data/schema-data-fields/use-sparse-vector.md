@@ -15,10 +15,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 
@@ -58,14 +58,14 @@ In the following sections, we demonstrate how to store vectors from learned spar
 
 Zilliz Cloud supports  sparse vector input with the following formats:
 
-- **List of Dictionaries (formatted as `{dimension_index: value, ...}`)**
+- **List of Dictionaries (formatted as** `{dimension_index: value, ...}`**)**
 
     ```python
     # Represent each sparse vector using a dictionary
     sparse_vectors = [{27: 0.5, 100: 0.3, 5369: 0.6} , {100: 0.1, 3: 0.8}]
     ```
 
-- **Sparse Matrix (using the `scipy.sparse` class)**
+- **Sparse Matrix (using the** `scipy.sparse` **class)**
 
     ```python
     from scipy.sparse import csr_matrix
@@ -74,10 +74,10 @@ Zilliz Cloud supports  sparse vector input with the following formats:
     # Second vector: indices [3, 100] with values [0.8, 0.1]
     indices = [[27, 100, 5369], [3, 100]]
     values = [[0.5, 0.3, 0.6], [0.8, 0.1]]
-    sparse_vectors = [csr_matrix((values, ([0]*len(idx), idx)), shape=(1, 5369+1)) for idx, vals in zip(indices, values)]
+    sparse_vectors = [csr_matrix((vals, ([0]*len(idx), idx)), shape=(1, 5369+1)) for idx, vals in zip(indices, values)]
     ```
 
-- **List of Tuple Iterables (e.g. `[(dimension_index, value)]`)**
+- **List of Tuple Iterables (e.g.** `[(dimension_index, value)]`**)**
 
     ```python
     # Represent each sparse vector using a list of iterables (e.g. tuples)
@@ -373,9 +373,11 @@ This example uses the `SPARSE_INVERTED_INDEX` index type with `IP` as the metric
 
 - [Metric Types](./search-metrics-explained): Supported metric types for different field types
 
+- [Full Text Search](./full-text-search): A detailed tutorial on full-text search
+
 ## Create Collection{#create-collection}
 
-Once the sparse vector and index settings are complete, you can create a collection that contains sparse vectors. The example below uses the `create_collection` method to create a collection named `my_collection`.
+Once the sparse vector and index settings are complete, you can create a collection that contains sparse vectors. The example below uses the [`create_collection`](./manage-collections-sdks) method to create a collection named `my_collection`.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -468,6 +470,7 @@ data = [
     {
         "text": "information retrieval focuses on finding relevant information in large datasets.",
         "sparse_vector": {10: 0.1, 200: 0.7, 1000: 0.9}
+    }
 ]
 
 client.insert(
@@ -691,6 +694,7 @@ res = client.search(
     limit=3,
     output_fields=["pk"],
     search_params=search_params,
+    consistency_level="Strong"
 )
 
 print(res)
@@ -714,6 +718,7 @@ SearchResp searchR = client.search(SearchReq.builder()
         .data(Collections.singletonList(queryData))
         .annsField("sparse_vector")
         .searchParams(searchParams)
+        .consistencyLevel(ConsistencyLevel.STRONG)
         .topK(3)
         .outputFields(Collections.singletonList("pk"))
         .build());
@@ -735,7 +740,8 @@ await client.search({
     data: queryData,
     limit: 3,
     output_fields: ['pk'],
-    params: searchParams
+    params: searchParams,
+    consistency_level: "Strong"
 });
 ```
 
@@ -774,6 +780,10 @@ for _, resultSet := range resultSets {
 <TabItem value='bash'>
 
 ```bash
+export params='{
+    "consistencyLevel": "Strong"
+}'
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -784,7 +794,8 @@ curl --request POST \
     "annsField": "sparse_vector",
     "limit": 3,
     "searchParams": $searchParams,
-    "outputFields": ["pk"]
+    "outputFields": ["pk"],
+    "params": $params
 }'
 
 ## {"code":0,"cost":0,"data":[{"distance":0.63,"id":"453577185629572535","pk":"453577185629572535"},{"distance":0.1,"id":"453577185629572534","pk":"453577185629572534"}]}

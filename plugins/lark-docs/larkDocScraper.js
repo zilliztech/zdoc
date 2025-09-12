@@ -105,6 +105,66 @@ class larkDocScraper {
                 }
             }
         }
+
+        // fetch blocks of all referenced_synced blocks
+        const jsons = fs.readdirSync(this.doc_source_dir).filter(file => file.endsWith('.json'))
+
+        for (let json of jsons) {
+            let source = JSON.parse(fs.readFileSync(`${this.doc_source_dir}/${json}`, 'utf8'))
+            const replacements = [];
+            let append_blocks = [];
+            if (source.blocks && source.blocks.items) {
+                for (let block of source.blocks.items) {
+                    if (block.block_type === 50 && block.reference_synced) {
+                        const { source_document_id, source_block_id } = block.reference_synced
+                        const node = { "obj_type": "docx", obj_token: source_document_id }
+                        await this.__fetch_blocks(node)
+                        const source_block = node.blocks.items.find(b => b.block_id == source_block_id)
+                        if (source_block) {
+                            const block_id = block.block_id
+                            const parent_id = block.parent_id
+                            // replace reference_synced block with actual block
+                            Object.keys(block).forEach(key => delete block[key])
+                            Object.keys(source_block).forEach(key => block[key] = source_block[key])
+                            block.parent_id = parent_id
+                            // append child blocks from source document
+                            for (let child of block.children) {
+                                append_blocks.push(node.blocks.items.find(b => b.block_id == child))
+                            }
+
+                            replacements.push({
+                                parent_id,
+                                reference_block_id: block_id,
+                                source_block_id: source_block_id,
+                            })
+                            // save source document if not already saved
+                            console.log(`6. Fetched referenced_synced block ${source_document_id} - ${source_block_id}`)
+                            fs.writeFileSync(`${this.doc_source_dir}/${json}`, JSON.stringify(source, null, 2))
+                        }
+                    }
+                }
+            }
+
+            if (append_blocks.length > 0) {
+                console.log(`7. Appending ${append_blocks.length} blocks from source to ${json}`)
+                source.blocks.items = source.blocks.items.concat(append_blocks)
+                fs.writeFileSync(`${this.doc_source_dir}/${json}`, JSON.stringify(source, null, 2))
+            }
+
+            if (replacements.length > 0) {
+                for (let replacement of replacements) {
+                    const parent = source.blocks.items.find(b => b.block_id == replacement.parent_id)
+                    if (parent) {
+                        const index = parent.children.findIndex(child => child == replacement.reference_block_id)
+                        if (index !== -1) {
+                            parent.children[index] = replacement.source_block_id
+                        }
+                    }
+                }
+                console.log(`8. Replaced ${replacements.length} reference_synced blocks in ${json}`)
+                fs.writeFileSync(`${this.doc_source_dir}/${json}`, JSON.stringify(source, null, 2))
+            }   
+        }
     }    
 
     async __wait(duration) {

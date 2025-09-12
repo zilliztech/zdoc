@@ -14,10 +14,10 @@ keywords:
   - cloud
   - milvus
   - multi-tenancy
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 
@@ -119,8 +119,8 @@ The table below offers a comprehensive comparison between the four levels of mul
    <tr>
      <td><p><strong>Max. number of tenants</strong></p></td>
      <td><p>1024</p></td>
-     <td><p>Up to 16,384 depending on the cluster plan. </p><p>See <a href="./limits#collections">Zilliz Cloud Limits</a></p></td>
-     <td><p>Up to 1,024 per collection depending on the cluster plan. </p><p>See <a href="./limits">Zilliz Cloud Limits</a></p></td>
+     <td><p>Up to 16,384 depending on the cluster plan. </p><p>See Zilliz Cloud Limits</p></td>
+     <td><p>Up to 1,024 per collection depending on the cluster plan. </p><p>See Zilliz Cloud Limits</p></td>
      <td><p>Millions</p></td>
    </tr>
    <tr>
