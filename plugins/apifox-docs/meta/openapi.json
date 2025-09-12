@@ -37132,7 +37132,12 @@
 					{
 						"name": "Authorization",
 						"in": "header",
-						"description": "The authentication token",
+						"description": "The authentication token.",
+						"x-i18n": {
+							"zh-CN": {
+								"description": "认证令牌。"
+							}
+						},
 						"required": true,
 						"example": "Bearer {{TOKEN}}",
 						"schema": {
@@ -37166,11 +37171,21 @@
 									},
 									"newDbName": {
 										"type": "string",
-										"description": "The name of the database to which the collection belongs after this operation.\nThe value defaults to **default**. Setting this to a database rather than the one the collection belongs to before this operation moves this collection to the specified database.\nSetting this to a non-existing database results in an error."
+										"description": "The name of the database to which the collection belongs after this operation.\nThe value defaults to **default**. Setting this to a database rather than the one the collection belongs to before this operation moves this collection to the specified database.\nSetting this to a non-existing database results in an error.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "操作完成后 Collection 所属的数据库名称。默认为 **default**。若指定的值不是 Collection 原先所属的数据库，则该操作将移动 Collection 到指定的数据库。设置为不存在的数据库将导致错误。"
+											}
+										}
 									},
 									"newCollectionName": {
 										"type": "string",
-										"description": "The name of the target collection after this operation.\nSetting this to the value of **old_collection_name** results in an error."
+										"description": "The name of the target collection after this operation.\nSetting this to the original one results in an error.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "操作完成后 Collection 的名称。设置为 Collection 的原有名称将导致错误。"
+											}
+										}
 									}
 								},
 								"required": [
