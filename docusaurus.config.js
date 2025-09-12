@@ -132,16 +132,22 @@ const config = {
       }
     ],
     [
-      './plugins/i18n-check',
+      './plugins/i18n-translator',
       {
-        "zh-CN": {
-          base: 'PnsobATKVayIDFs6hhQcChlGnje:tblZepmOM8LcM8BZ'
+        glossaries: {
+          'ja-JP': [
+            { source: 'Organization Owner', target: '組織オーナー' },
+            { source: 'API keys', target: 'APIキー' }
+          ]
         },
-        "ja-JP": {
-          base: 'PnsobATKVayIDFs6hhQcChlGnje:tblb5k5XPRT7PEFY'
-        }
+        untranslatables: [
+          'Zilliz Cloud',
+          'RESTful API',
+          'V2',
+          ' | Cloud'
+        ]
       }
-    ]
+    ],
   ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
