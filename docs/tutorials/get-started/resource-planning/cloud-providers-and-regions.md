@@ -14,10 +14,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 
@@ -32,7 +32,7 @@ Zilliz Cloud provides clusters across various regions on Amazon Web Services (AW
 
 ## AWS{#aws}
 
-Zilliz Cloud supports deploying dedicated clusters on AWS.
+Zilliz Cloud supports deploying free, serverless, and dedicated clusters on AWS.
 
 <table>
    <tr>
