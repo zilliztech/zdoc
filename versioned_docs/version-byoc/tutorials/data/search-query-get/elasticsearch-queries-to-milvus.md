@@ -19,10 +19,10 @@ keywords:
   - filtering
   - elasticsearch queries
   - query mapping
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 
@@ -437,7 +437,7 @@ resp = client.search(
 
 ```
 
-Milvus, as a specialized vector database, uses index types to optimize vector searches. Typically, it prioritizes approximate nearest neighbor (ANN) search for high-dimensional vector data. While brute-force kNN search with the FLAT index type delivers precise results, it is both time-consuming and resource-intensive. In contrast, ANN search using AUTOINDEX or other index types balances speed and accuracy, offering significantly faster and more resource-efficient performance than kNN. For details on index types and AUTOINDEX, you can read [Manage Indexes](./manage-indexes) and [AUTOINDEX Explained](./autoindex-explained).
+Milvus, as a specialized vector database, uses index types to optimize vector searches. Typically, it prioritizes approximate nearest neighbor (ANN) search for high-dimensional vector data. While brute-force kNN search with the FLAT index type delivers precise results, it is both time-consuming and resource-intensive. In contrast, ANN search using AUTOINDEX or other index types balances speed and accuracy, offering significantly faster and more resource-efficient performance than kNN. For details on index types and AUTOINDEX, you can read [Manage Indexes](./manage-indexes) and AUTOINDEX Explained.
 
 A similar equivalence to the above vector query in Mlivus goes like this:
 
@@ -510,7 +510,7 @@ search_params_dense = {
     "anns_field": "vector",
     "param": {
         "metric_type": "IP",
-        "params": {"nprobe": 10}, 
+        
     },
     "limit": 100
 }
@@ -538,7 +538,7 @@ res = client.hybrid_search(
 
 This example demonstrates a hybrid search in Milvus that combines:
 
-1. **Dense vector search**: Using the inner product (IP) metric with `nprobe` set to 10 for approximate nearest neighbor (ANN) search on the `vector` field.
+1. **Dense vector search**: Using the inner product (IP) metric for approximate nearest neighbor (ANN) search on the `vector` field.
 
 1. **Sparse vector search**: Using the BM25 similarity metric with a `drop_ratio_search` parameter of 0.2 on the `text_sparse` field.
 
