@@ -10,19 +10,19 @@ type: docx
 token: UBbndftiQo2HdOxUNtocIISnnVh
 sidebar_position: 4
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndex()
   - nodejs25
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 displayed_sidebar: nodeSidebar
 
 ---

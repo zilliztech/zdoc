@@ -10,19 +10,19 @@ type: docx
 token: VNATdAYSkojgVsx5MJKcPPmMnl7
 sidebar_position: 7
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - nodejs25
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: nodeSidebar
 
 ---

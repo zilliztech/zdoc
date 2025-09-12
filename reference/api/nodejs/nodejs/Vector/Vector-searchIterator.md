@@ -10,19 +10,19 @@ type: docx
 token: KQAidyvxhoVaALxLratcCjMuniU
 sidebar_position: 9
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - searchIterator()
   - nodejs25
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: nodeSidebar
 
 ---

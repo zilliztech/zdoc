@@ -10,19 +10,19 @@ type: docx
 token: SiL3ds1HPo2bOxx4iWwcxgg8nvd
 sidebar_position: 2
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClient
   - nodejs25
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: nodeSidebar
 
 ---

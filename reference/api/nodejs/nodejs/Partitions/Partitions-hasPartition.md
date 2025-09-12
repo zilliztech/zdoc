@@ -10,19 +10,19 @@ type: docx
 token: TVWPdTw2WoPAJYxsbGMc7MX6nEf
 sidebar_position: 4
 keywords: 
-  - Elastic vector database
   - Pinecone vs Milvus
   - Chroma vs Milvus
   - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - hasPartition()
   - nodejs25
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 displayed_sidebar: nodeSidebar
 
 ---

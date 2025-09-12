@@ -10,19 +10,19 @@ type: docx
 token: KLknda2VtocQSBx7PKVc6F9Nnug
 sidebar_position: 11
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollection()
   - nodejs25
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 displayed_sidebar: nodeSidebar
 
 ---

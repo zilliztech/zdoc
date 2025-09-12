@@ -10,19 +10,19 @@ type: docx
 token: Uwsfd443boKKgyx2zZTcYDqKnCe
 sidebar_position: 12
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - flush_all()
   - pymilvus25
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: pythonSidebar
 
 ---

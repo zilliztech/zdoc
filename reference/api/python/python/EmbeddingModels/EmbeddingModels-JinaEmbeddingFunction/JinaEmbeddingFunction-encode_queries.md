@@ -10,19 +10,19 @@ type: docx
 token: FgbjdQHBEoITxgxk7NMc1NzpnAc
 sidebar_position: 2
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus25
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: QsTwdUbgyoZPV1xzCBxchX8Fnid
 sidebar_position: 7
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - flushSync()
   - nodejs25
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 displayed_sidebar: nodeSidebar
 
 ---

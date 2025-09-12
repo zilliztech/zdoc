@@ -10,19 +10,19 @@ type: docx
 token: HVGNdMYOvojQoXxvDmEcnHYanMh
 sidebar_position: 1
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - CrossEncoderRerankFunction
   - pymilvus25
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: pythonSidebar
 
 ---

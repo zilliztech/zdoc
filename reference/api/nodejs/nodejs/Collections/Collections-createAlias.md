@@ -10,19 +10,19 @@ type: docx
 token: MPuIdwujBoXM6rx7Okfc3lhZnUd
 sidebar_position: 5
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - createAlias()
   - nodejs25
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 displayed_sidebar: nodeSidebar
 
 ---

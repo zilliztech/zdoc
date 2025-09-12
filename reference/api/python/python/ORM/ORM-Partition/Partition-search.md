@@ -10,19 +10,19 @@ type: docx
 token: XW72dhBuNoqNWhxUQLtcfa6Fnwd
 sidebar_position: 10
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - pymilvus25
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: pythonSidebar
 
 ---

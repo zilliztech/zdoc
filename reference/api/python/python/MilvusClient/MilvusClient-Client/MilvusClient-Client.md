@@ -5,14 +5,14 @@ beta: false
 notebook: false
 description: "Classes and methods for you to manage the MilvusClient instances. | Python | MilvusClient"
 type: folder
-token: M0pgf1TX3lTotndwA7Vc3gJsnAd
+token: ZEQZf4BtildBijdf1T6cdDnmnZb
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud

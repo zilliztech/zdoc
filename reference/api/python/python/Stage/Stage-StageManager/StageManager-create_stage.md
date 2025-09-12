@@ -10,19 +10,19 @@ type: docx
 token: HWYXdlaGIoTNVUx34GycfwjAnrb
 sidebar_position: 1
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - create_stage()
   - pymilvus25
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: pythonSidebar
 
 ---

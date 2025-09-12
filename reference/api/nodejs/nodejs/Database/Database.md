@@ -9,10 +9,10 @@ token: CEYUfuKoYlVIfod63clcDaS9nxc
 sidebar_position: 2
 sidebar_label: "Database"
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud

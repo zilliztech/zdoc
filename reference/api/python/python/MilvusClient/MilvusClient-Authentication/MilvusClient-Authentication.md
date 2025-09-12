@@ -9,10 +9,10 @@ token: W9SBfQfXUlZAXDdK6nTcop4rnFd
 sidebar_position: 1
 sidebar_label: "Authentication"
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud

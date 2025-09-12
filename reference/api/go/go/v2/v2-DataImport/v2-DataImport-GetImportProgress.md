@@ -39,7 +39,7 @@ func GetImportProgress(ctx context.Context, option *GetImportProgressOption) (*G
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>GetImportProgressOption</code></p></td>
+     <td><p><a href="./v2-DataImport-GetImportProgress#getimportprogressoption"><code>GetImportProgressOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -174,7 +174,7 @@ type ImportProgressDetail struct {
 
 ## Return{#return}
 
-`*GetImportProgressResponse`
+`*[GetImportProgressResponse`](./v2-DataImport-GetImportProgress#getimportprogressresponse)
 
 ## Example{#example}
 

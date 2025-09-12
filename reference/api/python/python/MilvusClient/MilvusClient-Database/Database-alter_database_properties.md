@@ -10,19 +10,19 @@ type: docx
 token: GUv5dxYOZocdURx1qGlc9I8Cn5g
 sidebar_position: 1
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - alter_database_properties()
   - pymilvus25
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: pythonSidebar
 
 ---

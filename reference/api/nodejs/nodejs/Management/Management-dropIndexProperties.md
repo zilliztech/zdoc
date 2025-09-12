@@ -10,19 +10,19 @@ type: docx
 token: Acvxd7t9poXj6nxb0vMco0wsngh
 sidebar_position: 5
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndexProperties()
   - nodejs25
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: nodeSidebar
 
 ---

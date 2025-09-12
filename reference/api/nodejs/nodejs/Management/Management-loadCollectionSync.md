@@ -10,19 +10,19 @@ type: docx
 token: XXUAdI8T2oOmw2x7iITc8vJgnjm
 sidebar_position: 15
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollectionSync()
   - nodejs25
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: nodeSidebar
 
 ---

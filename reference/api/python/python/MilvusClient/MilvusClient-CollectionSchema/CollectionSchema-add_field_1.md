@@ -10,19 +10,19 @@ type: docx
 token: X1L2dAjDyo7yqOxqWELcBRBUndd
 sidebar_position: 1
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - add_field()
   - pymilvus25
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 displayed_sidebar: pythonSidebar
 
 ---

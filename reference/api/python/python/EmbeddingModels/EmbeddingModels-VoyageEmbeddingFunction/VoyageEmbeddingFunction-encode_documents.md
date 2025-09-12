@@ -10,19 +10,19 @@ type: docx
 token: S9zrdw1etovCFKx0gcic6AiVn0e
 sidebar_position: 1
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus25
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: pythonSidebar
 
 ---

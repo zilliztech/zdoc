@@ -9,10 +9,10 @@ token: I37hfvVOClbThMdGuH4cV4R6nkc
 sidebar_position: 1
 sidebar_label: "DataImport"
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud

@@ -10,19 +10,19 @@ type: docx
 token: HN7nddgueo3scIxmPXAcpjkFnDf
 sidebar_position: 8
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - describe_alias()
   - pymilvus25
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: OOQvdXDqdoqKfmxEkTecfuVMnsb
 sidebar_position: 3
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - NomicEmbeddingFunction
   - pymilvus25
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: pythonSidebar
 
 ---

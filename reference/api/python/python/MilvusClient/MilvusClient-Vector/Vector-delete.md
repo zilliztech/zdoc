@@ -10,19 +10,19 @@ type: docx
 token: DWLXdSCYnoPT4ExktRKceEqLnAd
 sidebar_position: 1
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - pymilvus25
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: pythonSidebar
 
 ---

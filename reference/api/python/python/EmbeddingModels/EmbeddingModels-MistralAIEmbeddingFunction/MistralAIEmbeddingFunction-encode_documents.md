@@ -10,19 +10,19 @@ type: docx
 token: SeFLdfKVjoGX8Xx11e3cmkY4n7g
 sidebar_position: 1
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus25
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: pythonSidebar
 
 ---

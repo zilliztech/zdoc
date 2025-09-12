@@ -10,19 +10,19 @@ type: docx
 token: I6hvdlYUuoUaw3xWqSnce4Fin9g
 sidebar_position: 1
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - create_partition()
   - pymilvus25
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: pythonSidebar
 
 ---

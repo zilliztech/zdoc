@@ -10,19 +10,19 @@ type: docx
 token: UlAUdLNkCo1Mp8xFZYWclSL9n6b
 sidebar_position: 24
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - revokePrivilegeV2()
   - nodejs25
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: nodeSidebar
 
 ---

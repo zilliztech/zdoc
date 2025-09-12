@@ -10,19 +10,19 @@ type: docx
 token: EtBDdoGaFo3bOExKxCHcKgpenib
 sidebar_position: 2
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - commit()
   - pymilvus25
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: pythonSidebar
 
 ---

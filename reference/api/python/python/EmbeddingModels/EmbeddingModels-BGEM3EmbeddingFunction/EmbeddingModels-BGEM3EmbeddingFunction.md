@@ -10,19 +10,19 @@ type: docx
 token: XYSVdCqCDoJ9Y5xqKEAceYkpnnh
 sidebar_position: 1
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - BGEM3EmbeddingFunction
   - pymilvus25
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: pythonSidebar
 
 ---

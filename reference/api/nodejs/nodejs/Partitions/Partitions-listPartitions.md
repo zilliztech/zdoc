@@ -10,19 +10,19 @@ type: docx
 token: JNPwdFI1zoleD7x9LRIc0eqcnof
 sidebar_position: 5
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - listPartitions()
   - nodejs25
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: nodeSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: SvCrdEJIdosGQYxQZhrc2OAXnpd
 sidebar_position: 21
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - partition()
   - pymilvus25
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 displayed_sidebar: pythonSidebar
 
 ---

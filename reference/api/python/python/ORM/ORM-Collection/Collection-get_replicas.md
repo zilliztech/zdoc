@@ -10,19 +10,19 @@ type: docx
 token: BQKPdDd5xo8OPgxoXorcMxk0nVb
 sidebar_position: 14
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - get_replicas()
   - pymilvus25
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 displayed_sidebar: pythonSidebar
 
 ---

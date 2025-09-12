@@ -10,19 +10,19 @@ type: docx
 token: Jc43d397doxCRkxal2XcQ1Wyn2g
 sidebar_position: 16
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud
   - refreshLoad()
   - nodejs25
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: nodeSidebar
 
 ---

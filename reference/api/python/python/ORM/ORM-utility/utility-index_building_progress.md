@@ -10,19 +10,19 @@ type: docx
 token: OVfodiKa6o3qTGxadYicI975nhh
 sidebar_position: 21
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - index_building_progress()
   - pymilvus25
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 displayed_sidebar: pythonSidebar
 
 ---

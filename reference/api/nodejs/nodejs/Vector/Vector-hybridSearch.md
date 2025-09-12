@@ -10,19 +10,19 @@ type: docx
 token: F3vqdLZS2ohhOAxQNNxciiirn4f
 sidebar_position: 3
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
   - nodejs25
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: nodeSidebar
 
 ---

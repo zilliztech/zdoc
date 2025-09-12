@@ -10,19 +10,19 @@ type: docx
 token: AQ1ydMXbOog5VJxITgUc4GFvnVe
 sidebar_position: 28
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - pymilvus25
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: DkImdRkJwoUmdqxzqn1cpQr9nhy
 sidebar_position: 11
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadingProgress()
   - nodejs25
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: nodeSidebar
 
 ---

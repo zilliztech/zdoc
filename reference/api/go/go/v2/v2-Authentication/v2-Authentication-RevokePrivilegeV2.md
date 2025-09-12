@@ -39,7 +39,7 @@ func (c *Client) RevokePrivilegeV2(ctx context.Context, option RevokePrivilegeV2
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>RevokePrivilegeV2Option</code></p></td>
+     <td><p><a href="./v2-Authentication-RevokePrivilegeV2#revokeprivilegev2option"><code>RevokePrivilegeV2Option</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>

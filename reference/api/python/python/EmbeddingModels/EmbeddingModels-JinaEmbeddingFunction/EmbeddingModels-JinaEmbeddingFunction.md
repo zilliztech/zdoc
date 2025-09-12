@@ -10,19 +10,19 @@ type: docx
 token: U7NJd5eKAo0c1TxYZndcgPj2nlc
 sidebar_position: 3
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - JinaEmbeddingFunction
   - pymilvus25
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: pythonSidebar
 
 ---

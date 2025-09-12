@@ -10,19 +10,19 @@ type: docx
 token: PwL1dndmVoxP98xp0pXcOci4nSe
 sidebar_position: 1
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus25
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: pythonSidebar
 
 ---

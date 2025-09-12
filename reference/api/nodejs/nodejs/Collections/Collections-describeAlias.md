@@ -10,19 +10,19 @@ type: docx
 token: YCzNdg5yWoeZVrxj7jGcb1UXnBd
 sidebar_position: 8
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - describeAlias()
   - nodejs25
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: nodeSidebar
 
 ---

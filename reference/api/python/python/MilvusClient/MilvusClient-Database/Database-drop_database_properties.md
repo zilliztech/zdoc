@@ -10,19 +10,19 @@ type: docx
 token: UPVjdLtz1ogFeKxP45wcqyKincc
 sidebar_position: 5
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - drop_database_properties()
   - pymilvus25
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: LffbdiHhzoHe08xivF9ccmoen5d
 sidebar_position: 23
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - query_iterator()
   - pymilvus25
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 displayed_sidebar: pythonSidebar
 
 ---

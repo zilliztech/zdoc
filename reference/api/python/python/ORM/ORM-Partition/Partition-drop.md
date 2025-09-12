@@ -10,19 +10,19 @@ type: docx
 token: D3sndK8DgoqDkUxaNGcctwcSnuE
 sidebar_position: 2
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - drop()
   - pymilvus25
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: pythonSidebar
 
 ---

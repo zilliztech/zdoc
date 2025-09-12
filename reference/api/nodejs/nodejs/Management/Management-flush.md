@@ -10,19 +10,19 @@ type: docx
 token: E2XJd4ZHvoc7QlxyrEJcrOJOn9f
 sidebar_position: 6
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - nodejs25
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: nodeSidebar
 
 ---

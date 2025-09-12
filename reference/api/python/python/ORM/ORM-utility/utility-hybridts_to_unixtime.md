@@ -10,19 +10,19 @@ type: docx
 token: HbMMdqtQGoQqwixsyrjcTTh0nu5
 sidebar_position: 20
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - hybridts_to_unixtime()
   - pymilvus25
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: pythonSidebar
 
 ---

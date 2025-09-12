@@ -10,19 +10,19 @@ type: docx
 token: AXcMd0xiOovIX6xR4ZrcKA15nwh
 sidebar_position: 13
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - get_compaction_state()
   - pymilvus25
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: pythonSidebar
 
 ---

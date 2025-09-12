@@ -10,19 +10,19 @@ type: docx
 token: TEUDde2xbo0JT7xtVvtcF53Nnub
 sidebar_position: 2
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - get()
   - pymilvus25
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: pythonSidebar
 
 ---

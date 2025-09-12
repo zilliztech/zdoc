@@ -10,19 +10,19 @@ type: docx
 token: JJOId59ePoMLefxz1ChcBZ6inOh
 sidebar_position: 19
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - revoke_role()
   - pymilvus25
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: pythonSidebar
 
 ---

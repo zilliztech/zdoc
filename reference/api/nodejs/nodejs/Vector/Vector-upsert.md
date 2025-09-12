@@ -10,19 +10,19 @@ type: docx
 token: MErAdudCloVawFxpxoWcgqZonLc
 sidebar_position: 8
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - nodejs25
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: nodeSidebar
 
 ---

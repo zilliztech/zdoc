@@ -10,19 +10,19 @@ type: docx
 token: G2jjdHvbBoko6BxBZj7csemWnFc
 sidebar_position: 2
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - alter_collection_field()
   - pymilvus25
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: pythonSidebar
 
 ---

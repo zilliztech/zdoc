@@ -9,10 +9,10 @@ token: YpEjf83y1lvvzxd31BqcvQmknEd
 sidebar_position: 6
 sidebar_label: "Partitions"
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud

@@ -10,19 +10,19 @@ type: docx
 token: Px9Ydg6KSoNFV2xBumpcGBNqn8d
 sidebar_position: 2
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus25
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: pythonSidebar
 
 ---

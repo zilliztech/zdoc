@@ -10,19 +10,19 @@ type: docx
 token: FHcYdN4apoI5TIx0LxScISvtn0f
 sidebar_position: 10
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - drop_collection()
   - pymilvus25
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 ---

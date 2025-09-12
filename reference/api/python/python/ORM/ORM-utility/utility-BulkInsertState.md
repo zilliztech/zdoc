@@ -10,19 +10,19 @@ type: docx
 token: Arn1dIKgwoISFoxT7xVc3UrBnAf
 sidebar_position: 2
 keywords: 
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - BulkInsertState
   - pymilvus25
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 displayed_sidebar: pythonSidebar
 
 ---

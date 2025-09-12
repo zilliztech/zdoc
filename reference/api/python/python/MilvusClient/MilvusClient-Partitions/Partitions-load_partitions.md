@@ -10,19 +10,19 @@ type: docx
 token: DdQ1dBNagoBa08xhEiucxZrHnzc
 sidebar_position: 6
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - load_partitions()
   - pymilvus25
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: pythonSidebar
 
 ---

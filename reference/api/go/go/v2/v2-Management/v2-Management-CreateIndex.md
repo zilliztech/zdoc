@@ -39,7 +39,7 @@ func (c *Client) CreateIndex(ctx context.Context, option CreateIndexOption, call
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>CreateIndexOption</code></p></td>
+     <td><p><a href="./v2-Management-CreateIndex#createindexoption"><code>CreateIndexOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -81,7 +81,7 @@ func NewCreateIndexOption(collectionName string, fieldName string, index index.I
    <tr>
      <td><p><code>index</code></p></td>
      <td><p>Type of the index.</p></td>
-     <td><p><code>index.Index</code></p></td>
+     <td><p><a href="./v2-Management-CreateIndex#indexindex"><code>index.Index</code></a></p></td>
    </tr>
 </table>
 
@@ -232,7 +232,7 @@ func NewAutoIndex(metricType MetricType) Index
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Name of the metric type that is used to measure the distance between two vectors.</p></td>
-     <td><p><code>index.MetricType</code></p></td>
+     <td><p><a href="./v2-Management-CreateIndex#indexmetrictype"><code>index.MetricType</code></a></p></td>
    </tr>
 </table>
 
@@ -253,7 +253,7 @@ func NewBinFlatIndex(metricType MetricType) Index
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Name of the metric type that is used to measure the distance between two vectors.</p></td>
-     <td><p><code>index.MetricType</code></p></td>
+     <td><p><a href="./v2-Management-CreateIndex#indexmetrictype"><code>index.MetricType</code></a></p></td>
    </tr>
 </table>
 
@@ -274,7 +274,7 @@ func NewBinIvfFlatIndex(metricType MetricType, nlist int) Index
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Name of the metric type that is used to measure the distance between two vectors.</p></td>
-     <td><p><code>index.MetricType</code></p></td>
+     <td><p><a href="./v2-Management-CreateIndex#indexmetrictype"><code>index.MetricType</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>nlist</code></p></td>
@@ -308,7 +308,7 @@ func NewDiskANNIndex(metricType MetricType) Index
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Name of the metric type that is used to measure the distance between two vectors.</p></td>
-     <td><p><code>index.MetricType</code></p></td>
+     <td><p><a href="./v2-Management-CreateIndex#indexmetrictype"><code>index.MetricType</code></a></p></td>
    </tr>
 </table>
 
@@ -329,7 +329,7 @@ func NewFlatIndex(metricType MetricType) Index
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Name of the metric type that is used to measure the distance between two vectors.</p></td>
-     <td><p><code>index.MetricType</code></p></td>
+     <td><p><a href="./v2-Management-CreateIndex#indexmetrictype"><code>index.MetricType</code></a></p></td>
    </tr>
 </table>
 
@@ -350,7 +350,7 @@ func NewGPUBruteForceIndex(metricType MetricType) Index
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Name of the metric type that is used to measure the distance between two vectors.</p></td>
-     <td><p><code>index.MetricType</code></p></td>
+     <td><p><a href="./v2-Management-CreateIndex#indexmetrictype"><code>index.MetricType</code></a></p></td>
    </tr>
 </table>
 
@@ -371,7 +371,7 @@ func NewGPUCagraIndex(metricType MetricType, intermediateGraphDegree, graphDegre
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Name of the metric type that is used to measure the distance between two vectors.</p></td>
-     <td><p><code>index.MetricType</code></p></td>
+     <td><p><a href="./v2-Management-CreateIndex#indexmetrictype"><code>index.MetricType</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>intermediateGraphDegree</code></p></td>
@@ -402,7 +402,7 @@ func NewGPUIVPFlatIndex(metricType MetricType) Index
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Name of the metric type that is used to measure the distance between two vectors.</p></td>
-     <td><p><code>index.MetricType</code></p></td>
+     <td><p><a href="./v2-Management-CreateIndex#indexmetrictype"><code>index.MetricType</code></a></p></td>
    </tr>
 </table>
 
@@ -423,7 +423,7 @@ func NewGPUIVPPQIndex(metricType MetricType) Index
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Name of the metric type that is used to measure the distance between two vectors.</p></td>
-     <td><p><code>index.MetricType</code></p></td>
+     <td><p><a href="./v2-Management-CreateIndex#indexmetrictype"><code>index.MetricType</code></a></p></td>
    </tr>
 </table>
 
@@ -470,7 +470,7 @@ func NewHNSWIndex(metricType MetricType, m int, efConstruction int) Index
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Name of the metric type that is used to measure the distance between two vectors.</p></td>
-     <td><p><code>index.MetricType</code></p></td>
+     <td><p><a href="./v2-Management-CreateIndex#indexmetrictype"><code>index.MetricType</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>m</code></p></td>
@@ -509,7 +509,7 @@ func NewIvfFlatIndex(metricType MetricType, nlist int) Index
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Name of the metric type that is used to measure the distance between two vectors.</p></td>
-     <td><p><code>index.MetricType</code></p></td>
+     <td><p><a href="./v2-Management-CreateIndex#indexmetrictype"><code>index.MetricType</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>nlist</code></p></td>
@@ -535,7 +535,7 @@ func NewIvfPQIndex(metricType MetricType, nlist int, m int, nbits int) Index
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Name of the metric type that is used to measure the distance between two vectors.</p></td>
-     <td><p><code>index.MetricType</code></p></td>
+     <td><p><a href="./v2-Management-CreateIndex#indexmetrictype"><code>index.MetricType</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>nlist</code></p></td>
@@ -571,7 +571,7 @@ func NewIvfSQ8Index(metricType MetricType, nlist int) Index
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Name of the metric type that is used to measure the distance between two vectors.</p></td>
-     <td><p><code>index.MetricType</code></p></td>
+     <td><p><a href="./v2-Management-CreateIndex#indexmetrictype"><code>index.MetricType</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>nlist</code></p></td>
@@ -597,7 +597,7 @@ func NewSCANNIndex(metricType MetricType, nlist int, withRawData bool) Index
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Name of the metric type that is used to measure the distance between two vectors.</p></td>
-     <td><p><code>index.MetricType</code></p></td>
+     <td><p><a href="./v2-Management-CreateIndex#indexmetrictype"><code>index.MetricType</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>nlist</code></p></td>
@@ -636,7 +636,7 @@ func NewSparseInvertedIndex(metricType MetricType, dropRatio float64) Index
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Name of the metric type that is used to measure the distance between two vectors.</p></td>
-     <td><p><code>index.MetricType</code></p></td>
+     <td><p><a href="./v2-Management-CreateIndex#indexmetrictype"><code>index.MetricType</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>dropRatio</code></p></td>
@@ -662,7 +662,7 @@ func NewSparseWANDIndex(metricType MetricType, dropRatio float64) Index
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Name of the metric type that is used to measure the distance between two vectors.</p></td>
-     <td><p><code>index.MetricType</code></p></td>
+     <td><p><a href="./v2-Management-CreateIndex#indexmetrictype"><code>index.MetricType</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>dropRatio</code></p></td>
@@ -681,7 +681,7 @@ func NewTrieIndex() Index
 
 ## index.MetricType{#indexmetrictype}
 
-This is an alias type that maps to `entity.MetricType`.
+This is an alias type that maps to [`entity.MetricType`](./v2-Collection-CreateCollection#entitymetrictype).
 
 ## Return{#return}
 

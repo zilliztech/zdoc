@@ -19,10 +19,10 @@ keywords:
   - cloud
   - insert()
   - pymilvus25
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: pythonSidebar
 
 ---

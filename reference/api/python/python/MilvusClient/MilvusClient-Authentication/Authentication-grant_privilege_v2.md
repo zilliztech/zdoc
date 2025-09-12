@@ -10,19 +10,19 @@ type: docx
 token: EiTMdIbTgoc9vVxDHUQc1zPpnch
 sidebar_position: 11
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - grant_privilege_v2()
   - pymilvus25
-  - milvus
   - Zilliz
   - milvus vector database
   - milvus db
+  - milvus vector db
 displayed_sidebar: pythonSidebar
 
 ---

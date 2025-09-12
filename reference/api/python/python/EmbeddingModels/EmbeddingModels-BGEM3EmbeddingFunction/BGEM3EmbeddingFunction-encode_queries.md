@@ -10,19 +10,19 @@ type: docx
 token: UehMdosTGoZVzaxdTcUcpy1ynef
 sidebar_position: 3
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus25
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: pythonSidebar
 
 ---

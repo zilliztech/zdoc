@@ -10,19 +10,19 @@ type: docx
 token: PlzSdJTGnoFVH6xSlS6cYBHZnph
 sidebar_position: 4
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: pythonSidebar
 
 ---

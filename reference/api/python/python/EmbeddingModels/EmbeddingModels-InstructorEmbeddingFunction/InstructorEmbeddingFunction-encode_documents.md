@@ -10,19 +10,19 @@ type: docx
 token: Mp7CdNfJnoBF2DxscRNc6RO0n7d
 sidebar_position: 1
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus25
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: pythonSidebar
 
 ---

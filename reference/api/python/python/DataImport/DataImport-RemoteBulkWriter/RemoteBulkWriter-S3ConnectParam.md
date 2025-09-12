@@ -10,19 +10,19 @@ type: docx
 token: CSpOd0XgWoVAhzx5xbVcpCVfnPg
 sidebar_position: 5
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - S3ConnectParam
   - pymilvus25
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: pythonSidebar
 
 ---

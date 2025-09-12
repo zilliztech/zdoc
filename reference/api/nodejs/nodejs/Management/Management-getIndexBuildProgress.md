@@ -10,19 +10,19 @@ type: docx
 token: G6CGdbM4QoNgr5xS1ZAc94lhnFd
 sidebar_position: 9
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - getIndexBuildProgress()
   - nodejs25
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: nodeSidebar
 
 ---

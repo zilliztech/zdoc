@@ -10,19 +10,19 @@ type: docx
 token: RkQ8dnWDHo3DiDxiCVRcP1xPnob
 sidebar_position: 18
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - index()
   - pymilvus25
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: GAWOdft83oZPvHxtxzZcjrQunGg
 sidebar_position: 1
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - CohereRerankFunction
   - pymilvus25
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: pythonSidebar
 
 ---

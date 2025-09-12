@@ -10,19 +10,19 @@ type: docx
 token: E7zOdU2JpoqaU5xNYXvcAjgPnNh
 sidebar_position: 6
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - delete_user()
   - pymilvus25
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: pythonSidebar
 
 ---

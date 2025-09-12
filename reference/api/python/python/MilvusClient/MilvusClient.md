@@ -9,10 +9,10 @@ token: YHQ9fF9IDlENsMd9RZucYalqnNg
 sidebar_position: 3
 sidebar_label: "MilvusClient"
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud

@@ -10,19 +10,19 @@ type: docx
 token: SuePdciB0o4du5xtpIhcMVyYnPb
 sidebar_position: 40
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - transfer_replica()
   - pymilvus25
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: pythonSidebar
 
 ---

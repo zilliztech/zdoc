@@ -10,19 +10,19 @@ type: docx
 token: J76vdPHNgoyp2wxAiTcceIVJnOe
 sidebar_position: 4
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - create_index()
   - pymilvus25
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

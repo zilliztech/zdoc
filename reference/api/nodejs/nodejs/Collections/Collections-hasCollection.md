@@ -10,19 +10,19 @@ type: docx
 token: FhbbdNrlNouBXJxHIdKctXVKnmf
 sidebar_position: 15
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - hasCollection()
   - nodejs25
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 displayed_sidebar: nodeSidebar
 
 ---

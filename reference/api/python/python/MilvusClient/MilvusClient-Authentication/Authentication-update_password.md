@@ -10,19 +10,19 @@ type: docx
 token: WGDod7Qehou4GWx4Co2cJ34VnKb
 sidebar_position: 20
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
   - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - update_password()
   - pymilvus25
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 displayed_sidebar: pythonSidebar
 
 ---

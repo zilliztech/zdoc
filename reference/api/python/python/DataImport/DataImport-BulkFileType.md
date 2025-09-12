@@ -10,19 +10,19 @@ type: docx
 token: NV3Ud1M9iojhaSxZY4ec8RjgnlP
 sidebar_position: 1
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - BulkFileType
   - pymilvus25
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: pythonSidebar
 
 ---

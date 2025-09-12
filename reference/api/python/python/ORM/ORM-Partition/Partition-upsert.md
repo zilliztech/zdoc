@@ -10,19 +10,19 @@ type: docx
 token: MQMzddDnao5Zz0xmSRncZM2nn5b
 sidebar_position: 11
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - pymilvus25
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: pythonSidebar
 
 ---

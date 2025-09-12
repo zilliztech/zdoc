@@ -1,28 +1,28 @@
 ---
 displayed_sidbar: nodeSidebar
-title: "addPrivilegesToGroup() | Node.js"
-slug: /node/node/Authentication-addPrivilegesToGroup
-sidebar_label: "addPrivilegesToGroup()"
+title: "createRole() | Node.js"
+slug: /node/node/Authentication-createRole
+sidebar_label: "createRole()"
 beta: false
 notebook: false
-description: "This operation adds privileges to a specific privilege group in Milvus. | Node.js"
+description: "This operation creates a custom role. | Node.js"
 type: docx
-token: IEqAdO0Pto6rgbxebo5cIXp0nMX
-sidebar_position: 1
+token: SDoYdccLWo1W3PxkNFncibwDnch
+sidebar_position: 4
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
-  - addPrivilegesToGroup()
+  - createRole()
   - nodejs25
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: nodeSidebar
 
 ---
@@ -30,39 +30,32 @@ displayed_sidebar: nodeSidebar
 import Admonition from '@theme/Admonition';
 
 
-# addPrivilegesToGroup()
+# createRole()
 
-This operation adds privileges to a specific privilege group in Milvus.
+This operation creates a custom role.
 
 ```javascript
-addPrivilegesToGroup(data): Promise<ResStatus>
+createRole(data): Promise<ResStatus>
 ```
 
 ## Request Syntax{#request-syntax}
 
 ```javascript
-milvusClient.addPrivilegesToGroup({
-   group_name: string,
-   privileges: string[],
+milvusClient.createRole({
+   roleName: string,
    timeout?: number
  })
 ```
 
 **PARAMETERS:**
 
-- **group_name** (*string*) -
+- **roleName** (*string*) -
 
     **&#91;REQUIRED&#93;**
 
-    The name of a privilege group.
+    The name of the role to create.
 
-- **privileges** (*string&#91;&#93;*) -
-
-    **&#91;REQUIRED&#93;**
-
-    The list of privileges to add to the above group.
-
-- **timeout** (*number*) -  
+- **timeout** (*number*) -
 
     The timeout duration for this operation. 
 
@@ -97,9 +90,8 @@ This method returns a promise that resolves to a **ResStatus** object.
 ## Example{#example}
 
 ```java
-await milvusClient.addPrivilegesToGroup({
-    group_name: 'exampleGroup',
-    privileges: ['CreateCollection', 'DropCollection'],
-});
+milvusClient.createRole({
+   roleName: 'exampleRole',
+ })
 ```
 

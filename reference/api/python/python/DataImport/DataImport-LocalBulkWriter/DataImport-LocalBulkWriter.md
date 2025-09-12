@@ -10,19 +10,19 @@ type: docx
 token: RcvXdmCVBog9M8xNyUFcwefnneh
 sidebar_position: 3
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - LocalBulkWriter
   - pymilvus25
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: JNZxdKEX3ohBl2xud7Wckhq7nVh
 sidebar_position: 5
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - createUser()
   - nodejs25
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: nodeSidebar
 
 ---

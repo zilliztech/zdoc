@@ -10,19 +10,19 @@ type: docx
 token: LSwVdMg4SorzZ5xSHHVcQeVDnfh
 sidebar_position: 19
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
   - renameCollection()
   - nodejs25
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: nodeSidebar
 
 ---

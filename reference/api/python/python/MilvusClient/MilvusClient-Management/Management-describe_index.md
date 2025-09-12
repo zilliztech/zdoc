@@ -10,19 +10,19 @@ type: docx
 token: WhsHdyIgyoFlsQxNJt9cFCTxnDe
 sidebar_position: 4
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - describe_index()
   - pymilvus25
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 displayed_sidebar: pythonSidebar
 
 ---

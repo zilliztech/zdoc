@@ -10,19 +10,19 @@ type: docx
 token: M7pWdbu8foKkJAxY3uBcMfHrnrh
 sidebar_position: 2
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 displayed_sidebar: pythonSidebar
 
 ---

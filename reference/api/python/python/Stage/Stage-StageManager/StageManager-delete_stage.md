@@ -10,19 +10,19 @@ type: docx
 token: FbzLd0f5ToAPRdxa8XWcWfUwnwe
 sidebar_position: 2
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
   - delete_stage()
   - pymilvus25
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: pythonSidebar
 
 ---

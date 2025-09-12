@@ -10,19 +10,19 @@ type: docx
 token: XmyMdqvDLosr6oxzvhWcw8H2ntg
 sidebar_position: 21
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - removeUserFromRole()
   - nodejs25
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: nodeSidebar
 
 ---

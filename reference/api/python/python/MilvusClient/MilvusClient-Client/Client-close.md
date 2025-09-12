@@ -10,19 +10,19 @@ type: docx
 token: CWZGd48FJoFHXYx40NMcTd2FnKc
 sidebar_position: 1
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - close()
   - pymilvus25
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 displayed_sidebar: pythonSidebar
 
 ---

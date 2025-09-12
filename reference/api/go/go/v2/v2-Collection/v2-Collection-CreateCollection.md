@@ -39,7 +39,7 @@ func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOp
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>CreateCollectionOption</code></p></td>
+     <td><p><a href="./v2-Collection-CreateCollection#createcollectionoption"><code>CreateCollectionOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -186,7 +186,7 @@ func (opt *createCollectionOption) WithDynamicSchema(dynamicSchema bool) *create
    </tr>
    <tr>
      <td><p><code>enableDynamicSchema</code></p></td>
-     <td><p>Whether to enable the dynamic field. </p><p>If set to <code>true</code>, non-schema-defined fields and their values in incoming entities will be saved as key-value pairs in a reserved field of the JSON type named <code>$meta</code>. </p><p>For details, refer to <a href="/docs/enable-dynamic-field">Dynamic Field</a>.</p></td>
+     <td><p>Whether to enable the dynamic field. </p><p>If set to <code>true</code>, non-schema-defined fields and their values in incoming entities will be saved as key-value pairs in a reserved field of the JSON type named <code>#meta</code>. </p><p>For details, refer to <a href="/docs/enable-dynamic-field">Dynamic Field</a>.</p></td>
      <td><p><code>bool</code></p></td>
    </tr>
 </table>
@@ -234,7 +234,7 @@ func (opt *createCollectionOption) WithIndexOptions(indexOpts ...CreateIndexOpti
    <tr>
      <td><p><code>indexOptions</code></p></td>
      <td><p>Index options.</p><p>This parameter applies when creating a collection with a custom schema. Once set, Milvus automatically loads the collection after it is created.</p></td>
-     <td><p><code>&#91;&#93;CreateIndexOption</code></p></td>
+     <td><p><code>&#91;&#93;&#91;CreateIndexOption</code>](./v2-Management-CreateIndex#createindexoption)</p></td>
    </tr>
 </table>
 
@@ -358,7 +358,7 @@ func (s *entity.Schema) WithDynamicFieldEnabled(dynamicEnabled bool) *entity.Sch
    </tr>
    <tr>
      <td><p><code>dynamicEnabled</code></p></td>
-     <td><p>Whether to enable the dynamic field. </p><p>If set to <code>true</code>, non-schema-defined fields and their values in incoming entities will be saved as key-value pairs in a reserved field of the JSON type named <code>$meta</code>. </p><p>For details, refer to <a href="/docs/enable-dynamic-field">Dynamic Field</a>.</p></td>
+     <td><p>Whether to enable the dynamic field. </p><p>If set to <code>true</code>, non-schema-defined fields and their values in incoming entities will be saved as key-value pairs in a reserved field of the JSON type named <code>#meta</code>. </p><p>For details, refer to <a href="/docs/enable-dynamic-field">Dynamic Field</a>.</p></td>
      <td><p><code>bool</code></p></td>
    </tr>
 </table>
@@ -380,7 +380,7 @@ func (s *entity.Schema) WithField(f *entity.Field) *entity.Schema
    <tr>
      <td><p><code>f</code></p></td>
      <td><p>An <code>entity.Field</code> object.</p></td>
-     <td><p><code>*entity.Field</code></p></td>
+     <td><p><a href="./v2-Collection-CreateCollection#entityfield"><code>*entity.Field</code></a></p></td>
    </tr>
 </table>
 
@@ -401,7 +401,7 @@ func (s *entity.Schema) WithFunction(f *entity.Function) *entity.Schema
    <tr>
      <td><p><code>f</code></p></td>
      <td><p>An <code>entity.Function</code> object.</p></td>
-     <td><p><code>*entity.Function</code></p></td>
+     <td><p><a href="./v2-Collection-CreateCollection#entityfunction"><code>*entity.Function</code></a></p></td>
    </tr>
 </table>
 
@@ -1077,7 +1077,7 @@ func (f *Function) WithType(funcType FunctionType) *Function
    <tr>
      <td><p><code>funcType</code></p></td>
      <td><p>Type of the current function.</p></td>
-     <td><p><code>FunctionType</code></p></td>
+     <td><p><a href="./v2-Collection-CreateCollection#entityfunctiontype"><code>FunctionType</code></a></p></td>
    </tr>
 </table>
 

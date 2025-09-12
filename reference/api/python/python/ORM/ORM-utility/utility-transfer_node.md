@@ -10,19 +10,19 @@ type: docx
 token: QHcpd1aJzo5aYbxJtMXc58een4f
 sidebar_position: 39
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
   - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - transfer_node()
   - pymilvus25
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: pythonSidebar
 
 ---

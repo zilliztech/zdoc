@@ -9,10 +9,10 @@ token: CcDcf33k1lcbiZdS6GFc4L9anub
 sidebar_position: 8
 sidebar_label: "Database"
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud

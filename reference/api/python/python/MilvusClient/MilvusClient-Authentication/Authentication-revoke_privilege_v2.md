@@ -10,19 +10,19 @@ type: docx
 token: WazKdTlcOoYoBWxIJEEc7gFMnfC
 sidebar_position: 18
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - revoke_privilege_v2()
   - pymilvus25
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: pythonSidebar
 
 ---

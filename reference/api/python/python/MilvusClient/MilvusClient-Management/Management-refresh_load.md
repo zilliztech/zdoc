@@ -10,19 +10,19 @@ type: docx
 token: X3NXdtC2koiAxyxhcUBcv38Wnsh
 sidebar_position: 12
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - refresh_load()
   - pymilvus25
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: pythonSidebar
 
 ---

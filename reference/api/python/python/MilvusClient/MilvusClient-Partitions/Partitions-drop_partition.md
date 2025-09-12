@@ -10,19 +10,19 @@ type: docx
 token: EMI8dM8uooIAFPxVfffcoqRwnZf
 sidebar_position: 2
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - drop_partition()
   - pymilvus25
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: pythonSidebar
 
 ---

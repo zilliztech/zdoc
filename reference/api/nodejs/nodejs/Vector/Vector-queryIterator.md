@@ -10,19 +10,19 @@ type: docx
 token: Ru8IdsrG8oayAWxly1PcqMGFnxd
 sidebar_position: 6
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - queryIterator()
   - nodejs25
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: nodeSidebar
 
 ---

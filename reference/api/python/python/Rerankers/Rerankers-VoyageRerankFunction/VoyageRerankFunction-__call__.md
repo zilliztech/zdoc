@@ -10,19 +10,19 @@ type: docx
 token: N2aHdla1Uohk1HxGyPHcdG4lnnb
 sidebar_position: 2
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 displayed_sidebar: pythonSidebar
 
 ---

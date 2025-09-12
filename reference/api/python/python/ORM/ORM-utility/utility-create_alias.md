@@ -10,19 +10,19 @@ type: docx
 token: DthMdlg8Lozw89xNz4TcBv1LnOe
 sidebar_position: 3
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - create_alias()
   - pymilvus25
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: VFKIdx0tDoeAzSx4Ud6c3u5Snsf
 sidebar_position: 29
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - wait_for_compaction_completed()
   - pymilvus25
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: KEPYdKup1o3nHdxKbjvcQUzwnnd
 sidebar_position: 8
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - get_load_state()
   - pymilvus25
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: pythonSidebar
 
 ---

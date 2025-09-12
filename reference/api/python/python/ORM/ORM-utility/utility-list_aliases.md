@@ -10,19 +10,19 @@ type: docx
 token: XBwxdP96Go8ITyx7UuNcL7EonPd
 sidebar_position: 22
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - list_aliases()
   - pymilvus25
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: pythonSidebar
 
 ---

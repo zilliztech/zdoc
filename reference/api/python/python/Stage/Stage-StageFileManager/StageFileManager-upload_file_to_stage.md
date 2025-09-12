@@ -10,19 +10,19 @@ type: docx
 token: Fr3rdPTuXoC0Lzx7urIcwBqWnDb
 sidebar_position: 2
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - upload_file_to_stage()
   - pymilvus25
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: pythonSidebar
 
 ---

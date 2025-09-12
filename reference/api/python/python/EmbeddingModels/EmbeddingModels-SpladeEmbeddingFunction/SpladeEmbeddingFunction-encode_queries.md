@@ -10,19 +10,19 @@ type: docx
 token: S9zPdiLkpokjfkxfZ68cWIFynnd
 sidebar_position: 2
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus25
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: pythonSidebar
 
 ---

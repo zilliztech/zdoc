@@ -10,19 +10,19 @@ type: docx
 token: VblKdUEU4o4t31xcFiicIGtjn9g
 sidebar_position: 7
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - release_partitions()
   - pymilvus25
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: pythonSidebar
 
 ---

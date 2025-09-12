@@ -10,19 +10,19 @@ type: docx
 token: LCQTdebkConhUqxwnk7c3EbPnWh
 sidebar_position: 34
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_datetime()
   - pymilvus25
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: pythonSidebar
 
 ---
@@ -55,7 +55,7 @@ An incremental time interval in milliseconds.
 
 - **delta** (*Optional&#91;timedelta&#93;*) -
 
-    A **datetime.timedelta** object that represents the duration expressing the difference between two `date`, `time`, or `datetime` instances to microsecond resolution.
+    A **datetime.timedelta** object that represents the duration expressing the difference between two [`date`](https://docs.python.org/3/library/datetime.html#datetime.date), [`time`](https://docs.python.org/3/library/datetime.html#datetime.time), or [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) instances to microsecond resolution.
 
 **RETURN TYPE:**
 

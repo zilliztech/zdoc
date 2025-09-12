@@ -10,19 +10,19 @@ type: docx
 token: GXXTd7JIgoUKhzxiI6ncWtwjnVc
 sidebar_position: 4
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - using_database()
   - pymilvus25
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: OF1mdh4tSo8ZQQxxVgEcdITRndb
 sidebar_position: 3
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - MGTEEmbeddingFunction
   - pymilvus25
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: pythonSidebar
 
 ---

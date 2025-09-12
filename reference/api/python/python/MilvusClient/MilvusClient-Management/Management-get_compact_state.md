@@ -10,19 +10,19 @@ type: docx
 token: WEsjdspGLokueRxggM1cNFgknze
 sidebar_position: 7
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - get_compact_state()
   - pymilvus25
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: pythonSidebar
 
 ---

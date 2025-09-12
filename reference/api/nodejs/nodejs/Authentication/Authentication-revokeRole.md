@@ -10,19 +10,19 @@ type: docx
 token: W7XJdZDHnoFECDxCYoMcrZqrnnd
 sidebar_position: 25
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - revokeRole()
   - nodejs25
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: nodeSidebar
 
 ---

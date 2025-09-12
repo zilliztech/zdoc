@@ -10,19 +10,19 @@ type: docx
 token: TjqHdZqO1oSwwYxuny2cchWzn6S
 sidebar_position: 9
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
   - nodejs25
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 displayed_sidebar: nodeSidebar
 
 ---
@@ -135,7 +135,7 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
 
     - **enable_dynamic_field** (*boolean*) -
 
-        Whether the reserved JSON field **$meta** is used to store non-schema-defined fields in key-value pairs.
+        Whether the reserved JSON field **&#36;meta** is used to store non-schema-defined fields in key-value pairs.
 
     - **fields** (*FieldSchema&#91;&#93;*) -
 

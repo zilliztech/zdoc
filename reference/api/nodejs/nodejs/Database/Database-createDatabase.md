@@ -19,10 +19,10 @@ keywords:
   - cloud
   - createDatabase()
   - nodejs25
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 displayed_sidebar: nodeSidebar
 
 ---

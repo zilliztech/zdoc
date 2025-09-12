@@ -10,19 +10,19 @@ type: docx
 token: CAzpdAw3wo4ZqrxhjTLcEGBBn1S
 sidebar_position: 11
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - prepare_index_params()
   - pymilvus25
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: pythonSidebar
 
 ---

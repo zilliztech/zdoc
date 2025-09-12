@@ -10,19 +10,19 @@ type: docx
 token: PV1PdliWZooAB8xAE5scZO2Nn6K
 sidebar_position: 3
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - list_database()
   - pymilvus25
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 displayed_sidebar: pythonSidebar
 
 ---

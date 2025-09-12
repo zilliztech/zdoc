@@ -10,19 +10,19 @@ type: docx
 token: K1Npdj5Ddod6UWxRN2ecf6K4nxf
 sidebar_position: 38
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - reset_password()
   - pymilvus25
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 displayed_sidebar: pythonSidebar
 
 ---

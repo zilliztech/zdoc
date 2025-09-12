@@ -10,19 +10,19 @@ type: docx
 token: CBc3d1mrdoYqmDxe4Kcc9zxAnzh
 sidebar_position: 1
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - alter_alias()
   - pymilvus25
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 displayed_sidebar: pythonSidebar
 
 ---

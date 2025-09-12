@@ -10,19 +10,19 @@ type: docx
 token: JJz3dFrE2oJP3AxySWYcJlf4nMh
 sidebar_position: 5
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - describe_role()
   - pymilvus25
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 displayed_sidebar: pythonSidebar
 
 ---

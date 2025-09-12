@@ -10,19 +10,19 @@ type: docx
 token: KsmadNcXRoElO2xJi5HcJO57nwb
 sidebar_position: 18
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - has_partition()
   - pymilvus25
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 displayed_sidebar: pythonSidebar
 
 ---

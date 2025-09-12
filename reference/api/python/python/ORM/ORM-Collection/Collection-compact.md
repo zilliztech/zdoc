@@ -10,19 +10,19 @@ type: docx
 token: BHx6dnSmPoaqHAxKCvncbuk9nWb
 sidebar_position: 2
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - compact()
   - pymilvus25
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: pythonSidebar
 
 ---

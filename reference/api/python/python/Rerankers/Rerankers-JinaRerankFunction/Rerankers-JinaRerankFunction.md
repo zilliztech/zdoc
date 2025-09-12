@@ -10,19 +10,19 @@ type: docx
 token: E3opdXwZCoY8igxMjQ1cwsTbnzh
 sidebar_position: 1
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
   - JinaRerankFunction
   - pymilvus25
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: Ld10d5YWJofvgGxtwYscGlWunDg
 sidebar_position: 3
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dict()
   - pymilvus25
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: Pdljdj7ysoYg2Jxu7JrcQOB8n5e
 sidebar_position: 3
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - alter_collection_properties()
   - pymilvus25
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: WRYFdoDe8ofrlDxxTxQcdoJjnAh
 sidebar_position: 8
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - pymilvus25
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 displayed_sidebar: pythonSidebar
 
 ---

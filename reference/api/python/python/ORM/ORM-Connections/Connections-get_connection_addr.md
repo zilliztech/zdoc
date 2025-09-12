@@ -10,19 +10,19 @@ type: docx
 token: H2zBdRHVtovNQGxvb0xcwpSKnBd
 sidebar_position: 5
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - get_connection_addr()
   - pymilvus25
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: pythonSidebar
 
 ---

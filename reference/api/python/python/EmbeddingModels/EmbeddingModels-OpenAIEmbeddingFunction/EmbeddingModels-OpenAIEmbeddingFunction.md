@@ -10,19 +10,19 @@ type: docx
 token: QPcodlsnAoSMvIxEFmlcMNPbntd
 sidebar_position: 3
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - OpenAIEmbeddingFunction
   - pymilvus25
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 displayed_sidebar: pythonSidebar
 
 ---

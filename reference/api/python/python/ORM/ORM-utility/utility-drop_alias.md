@@ -10,19 +10,19 @@ type: docx
 token: V7BWdrC39oPAauxoWBzcaldwnVc
 sidebar_position: 9
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - drop_alias()
   - pymilvus25
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: pythonSidebar
 
 ---

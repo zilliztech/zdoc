@@ -10,19 +10,19 @@ type: docx
 token: VdiwdqQ9iofbkoxcc8Kcqk5gnhZ
 sidebar_position: 11
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - pymilvus25
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: pythonSidebar
 
 ---

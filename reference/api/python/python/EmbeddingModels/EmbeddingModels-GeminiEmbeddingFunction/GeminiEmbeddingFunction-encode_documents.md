@@ -10,19 +10,19 @@ type: docx
 token: Tjq5dE0wdodKcgxH0yZcmNdrnSg
 sidebar_position: 1
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus25
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: R618dfeMYo9GdmxMwe9cQLclncs
 sidebar_position: 13
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - grantPrivilegeV2()
   - nodejs25
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: nodeSidebar
 
 ---

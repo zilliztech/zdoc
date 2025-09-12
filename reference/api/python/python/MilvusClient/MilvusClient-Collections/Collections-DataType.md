@@ -10,19 +10,19 @@ type: docx
 token: JiN3dU8zwoPdgBxxpw6c0JkUnze
 sidebar_position: 7
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
   - pymilvus25
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: pythonSidebar
 
 ---

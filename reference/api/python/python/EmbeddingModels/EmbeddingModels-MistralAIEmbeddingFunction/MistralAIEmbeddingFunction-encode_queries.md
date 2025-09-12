@@ -10,19 +10,19 @@ type: docx
 token: SptWdOyFqoGM5VxVS16cofqfnDg
 sidebar_position: 2
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus25
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: pythonSidebar
 
 ---

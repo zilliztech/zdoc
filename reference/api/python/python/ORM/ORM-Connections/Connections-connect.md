@@ -10,19 +10,19 @@ type: docx
 token: KzCXdTVVSoOmkbxuFjsccDlXnff
 sidebar_position: 2
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - connect()
   - pymilvus25
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 displayed_sidebar: pythonSidebar
 
 ---

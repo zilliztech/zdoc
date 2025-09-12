@@ -10,19 +10,19 @@ type: docx
 token: BJysdlj1MoksHZxNRxicHn9fnSh
 sidebar_position: 33
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - load_state()
   - pymilvus25
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 displayed_sidebar: pythonSidebar
 
 ---

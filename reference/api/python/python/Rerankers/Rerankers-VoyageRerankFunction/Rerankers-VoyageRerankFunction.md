@@ -10,19 +10,19 @@ type: docx
 token: Smobd2lIho2yQPxtRhLcLcKznCf
 sidebar_position: 1
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - VoyageRerankFunction
   - pymilvus25
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: pythonSidebar
 
 ---

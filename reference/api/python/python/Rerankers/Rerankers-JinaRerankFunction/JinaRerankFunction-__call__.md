@@ -10,19 +10,19 @@ type: docx
 token: R3gEdUOSfo6JzMxwUsTcevNHn9g
 sidebar_position: 2
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: pythonSidebar
 
 ---

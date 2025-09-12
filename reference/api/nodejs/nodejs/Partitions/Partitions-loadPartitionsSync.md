@@ -10,19 +10,19 @@ type: docx
 token: VGofdSRi0o6EagxNkokc9Iinndf
 sidebar_position: 7
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitionsSync()
   - nodejs25
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: nodeSidebar
 
 ---

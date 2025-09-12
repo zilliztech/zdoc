@@ -10,19 +10,19 @@ type: docx
 token: MfTsdrbGcoO9JqxjgPtcMZTvncc
 sidebar_position: 1
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - alter_alias()
   - pymilvus25
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: QI87dhVnioL9JLxnNKxcM8jWnkh
 sidebar_position: 3
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
   - pymilvus25
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 displayed_sidebar: pythonSidebar
 
 ---

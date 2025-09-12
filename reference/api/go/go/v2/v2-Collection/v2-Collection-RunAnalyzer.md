@@ -39,7 +39,7 @@ func (c *Client) RunAnalyzer(ctx context.Context, option RunAnalyzerOption, call
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>RunAnalyzerOption</code></p></td>
+     <td><p><a href="./v2-Collection-RunAnalyzer#runanalyzeroption"><code>RunAnalyzerOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -223,7 +223,7 @@ type Token struct {
 
 ## Return{#return}
 
-`*entity.AnalyzerResult`
+`*[entity](./v2-Collection-RunAnalyzer#entityanalyzerresult)[.](./v2-Collection-RunAnalyzer#entityanalyzerresult)[AnalyzerResult`](./v2-Collection-RunAnalyzer#entityanalyzerresult)
 
 ## Example{#example}
 

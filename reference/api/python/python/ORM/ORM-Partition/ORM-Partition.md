@@ -10,19 +10,19 @@ type: docx
 token: X9scdVMmxoBTuUxlKhecJXEunHd
 sidebar_position: 7
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - Partition
   - pymilvus25
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: GRarduHPSoFY3Yx9EWRcdcTfn1g
 sidebar_position: 35
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_hybridts()
   - pymilvus25
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: pythonSidebar
 
 ---
@@ -59,7 +59,7 @@ An incremental time interval in milliseconds.
 
 - **delta** (*Optional&#91;timedelta&#93;*) -
 
-    A **datetime.timedelta** object that represents the duration expressing the difference between two `date`, `time`, or `datetime` instances to microsecond resolution.
+    A **datetime.timedelta** object that represents the duration expressing the difference between two [`date`](https://docs.python.org/3/library/datetime.html#datetime.date), [`time`](https://docs.python.org/3/library/datetime.html#datetime.time), or [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) instances to microsecond resolution.
 
 **RETURN TYPE:**
 

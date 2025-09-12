@@ -10,19 +10,19 @@ type: docx
 token: VccVd4MTgoPzCixDVtgcEoKWnPf
 sidebar_position: 3
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - commit()
   - pymilvus25
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: pythonSidebar
 
 ---

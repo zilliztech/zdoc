@@ -10,19 +10,19 @@ type: docx
 token: XeZwdeK64oGD8rx9DA3ciqNinnh
 sidebar_position: 6
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - has_connection()
   - pymilvus25
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: pythonSidebar
 
 ---

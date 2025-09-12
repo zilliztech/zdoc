@@ -10,19 +10,19 @@ type: docx
 token: CBwkdDs7MoKkVKx0kJgcPUNxn6s
 sidebar_position: 24
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - release()
   - pymilvus25
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 displayed_sidebar: pythonSidebar
 
 ---

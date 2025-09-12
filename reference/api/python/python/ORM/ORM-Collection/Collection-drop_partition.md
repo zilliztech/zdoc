@@ -10,19 +10,19 @@ type: docx
 token: Aym2dpBuIo81mExCqyLcSWhunBe
 sidebar_position: 10
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - drop_partition()
   - pymilvus25
+  - ANN Search
   - What are vector embeddings
   - vector database tutorial
   - how do vector databases work
-  - vector db comparison
 displayed_sidebar: pythonSidebar
 
 ---

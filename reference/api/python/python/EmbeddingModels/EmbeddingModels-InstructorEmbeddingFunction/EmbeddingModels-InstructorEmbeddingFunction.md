@@ -10,19 +10,19 @@ type: docx
 token: YmnmdEeHFoctZexccqNcr8xXn8c
 sidebar_position: 3
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - InstructorEmbeddingFunction
   - pymilvus25
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: pythonSidebar
 
 ---

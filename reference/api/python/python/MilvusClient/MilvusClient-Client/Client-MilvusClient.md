@@ -10,19 +10,19 @@ type: docx
 token: TUrSdmskuoGdFRxFT75c6xhinzc
 sidebar_position: 2
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClient
   - pymilvus25
-  - Video search
-  - AI Hallucination
   - AI Agent
   - semantic search
+  - Anomaly Detection
+  - sentence transformers
 displayed_sidebar: pythonSidebar
 
 ---

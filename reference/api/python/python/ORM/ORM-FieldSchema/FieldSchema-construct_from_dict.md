@@ -10,19 +10,19 @@ type: docx
 token: DCLUdOpVjohl8HxPUx1cGjokngf
 sidebar_position: 1
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dict()
   - pymilvus25
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: pythonSidebar
 
 ---

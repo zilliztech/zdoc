@@ -10,19 +10,19 @@ type: docx
 token: K7qWdSwtNo976VxcvopczGLjnLf
 sidebar_position: 4
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

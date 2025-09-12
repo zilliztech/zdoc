@@ -10,19 +10,19 @@ type: docx
 token: DyPldeRNXo4nMqxQeE0cMnd2nEf
 sidebar_position: 7
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - list_connections()
   - pymilvus25
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: pythonSidebar
 
 ---

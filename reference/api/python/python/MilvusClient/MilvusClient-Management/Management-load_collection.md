@@ -10,19 +10,19 @@ type: docx
 token: FLmWdFP9Zo3JcixOEgucU8JMnLc
 sidebar_position: 10
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - load_collection()
   - pymilvus25
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: pythonSidebar
 
 ---

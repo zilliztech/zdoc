@@ -10,19 +10,19 @@ type: docx
 token: BBmsddqZEozxWyxkoADcFfzpncW
 sidebar_position: 2
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - dropPartition()
   - nodejs25
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 displayed_sidebar: nodeSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: CRFLdvgkhoeRikxMcMAcJk3qnIc
 sidebar_position: 14
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - getCompactionState()
   - nodejs25
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: nodeSidebar
 
 ---
@@ -53,7 +53,7 @@ milvusClient.getCompactionState({
 
     **&#91;REQUIRED&#93;**
 
-    The ID of a compaction job that is returned by a call to `compact()`.
+    The ID of a compaction job that is returned by a call to [`compact()`](./Collections-compact).
 
 - **timeout** (*number*) -
 

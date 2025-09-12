@@ -39,7 +39,7 @@ func (c *Client) DescribeRole(ctx context.Context, option DescribeRoleOption, ca
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DescribeRoleOption</code></p></td>
+     <td><p><a href="./v2-Authentication-DescribeRole#describeroleoption"><code>DescribeRoleOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -92,7 +92,7 @@ type Role struct {
 
 ## Return{#return}
 
-`*entity.Role`
+`*[entity.Role`](./v2-Authentication-DescribeRole#entityrole)
 
 ## Example{#example}
 

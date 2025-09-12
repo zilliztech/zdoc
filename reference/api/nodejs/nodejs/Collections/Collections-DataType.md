@@ -10,19 +10,19 @@ type: docx
 token: VUp6d9FvcoBV0AxYJmvcq9DAnUg
 sidebar_position: 7
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
   - nodejs25
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 displayed_sidebar: nodeSidebar
 
 ---

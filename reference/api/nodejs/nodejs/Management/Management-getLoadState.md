@@ -10,19 +10,19 @@ type: docx
 token: J17ZdPNwqo4nt3x5b8pc0H5Nnph
 sidebar_position: 12
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadState()
   - nodejs25
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: nodeSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: OCfid8DdPo1ga1x24JZcV92xnwd
 sidebar_position: 7
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - using_database()
   - pymilvus25
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: pythonSidebar
 
 ---

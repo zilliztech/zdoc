@@ -10,19 +10,19 @@ type: docx
 token: EjFMdRFz0ofehXxxCPqc6raSnAg
 sidebar_position: 12
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollectionProperties()
   - nodejs25
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: nodeSidebar
 
 ---

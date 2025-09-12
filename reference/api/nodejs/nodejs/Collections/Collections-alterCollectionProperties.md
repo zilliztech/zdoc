@@ -10,19 +10,19 @@ type: docx
 token: EHPGdbCP5o7UzCxlDnRc6y5Pn1c
 sidebar_position: 3
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionProperties()
   - nodejs25
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: nodeSidebar
 
 ---

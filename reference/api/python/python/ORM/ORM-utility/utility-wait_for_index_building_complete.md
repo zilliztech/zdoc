@@ -10,19 +10,19 @@ type: docx
 token: MfR8dw5TioPvw3xvrstcgYixnUb
 sidebar_position: 43
 keywords: 
+  - vector databases comparison
+  - Faiss
   - Video search
   - AI Hallucination
-  - AI Agent
-  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - wait_for_index_building_complete()
   - pymilvus25
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: pythonSidebar
 
 ---

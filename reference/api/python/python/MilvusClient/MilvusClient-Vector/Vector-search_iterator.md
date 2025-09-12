@@ -10,19 +10,19 @@ type: docx
 token: T9KhdDJQColJEuxZ7YOcV2zdnlb
 sidebar_position: 7
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - search_iterator()
   - pymilvus25
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 displayed_sidebar: pythonSidebar
 
 ---

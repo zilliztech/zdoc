@@ -10,19 +10,19 @@ type: docx
 token: PNtoddjsMoYuqcxCWK4c3IWKnde
 sidebar_position: 1
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - nodejs25
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: nodeSidebar
 
 ---

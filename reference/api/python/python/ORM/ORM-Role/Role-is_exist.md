@@ -10,19 +10,19 @@ type: docx
 token: F8WOdIoz4okn5OxMEymcXNuRnkb
 sidebar_position: 6
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
   - is_exist()
   - pymilvus25
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: D6Q7dq4USotLS3xxMP0cFiGLnsf
 sidebar_position: 12
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - get_compaction_plans()
   - pymilvus25
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 displayed_sidebar: pythonSidebar
 
 ---

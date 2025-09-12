@@ -10,19 +10,19 @@ type: docx
 token: BDupd28JqoNY9HxVOTfcv86enRe
 sidebar_position: 4
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - create_user()
   - pymilvus25
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: pythonSidebar
 
 ---

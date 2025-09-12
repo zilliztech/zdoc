@@ -9,10 +9,10 @@ token: E2Zlf8PdXlx097dT2sNchgqpnbF
 sidebar_position: 4
 sidebar_label: "db"
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud

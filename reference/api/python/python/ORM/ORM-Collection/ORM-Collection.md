@@ -10,19 +10,19 @@ type: docx
 token: OSehdj15Ao3AUvxOIJucXzU8nWW
 sidebar_position: 1
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - Collection
   - pymilvus25
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 displayed_sidebar: pythonSidebar
 
 ---

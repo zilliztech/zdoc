@@ -10,19 +10,19 @@ type: docx
 token: JXNXdQuwhoYmZQxSohNcdxtwnzh
 sidebar_position: 7
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - list_grant()
   - pymilvus25
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: LPJsdEnvwo6apcxjhZgc3rpDnuc
 sidebar_position: 14
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - grantRole()
   - nodejs25
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: nodeSidebar
 
 ---

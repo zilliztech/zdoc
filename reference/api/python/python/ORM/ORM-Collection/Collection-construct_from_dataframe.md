@@ -10,19 +10,19 @@ type: docx
 token: ISZadjHwyopWr5xRdJ2cqxVanEg
 sidebar_position: 3
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dataframe()
   - pymilvus25
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: pythonSidebar
 
 ---

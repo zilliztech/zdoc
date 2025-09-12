@@ -10,19 +10,19 @@ type: docx
 token: EBAFdcmoKoNJISxM8i1cqXzRn9H
 sidebar_position: 19
 keywords: 
+  - Unstructured Data
+  - vector database
+  - IVF
   - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - hybridts_to_datetime()
   - pymilvus25
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: pythonSidebar
 
 ---

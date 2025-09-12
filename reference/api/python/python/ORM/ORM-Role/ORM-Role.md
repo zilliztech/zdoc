@@ -10,19 +10,19 @@ type: docx
 token: LZL1d0kckouPXNxJLCmcwbCTnkG
 sidebar_position: 11
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - Role
   - pymilvus25
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: MApVdDl17oU8OixzbMPcgceKnOh
 sidebar_position: 14
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - list_roles()
   - pymilvus25
-  - Image Search
-  - LLMs
-  - Machine Learning
   - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: pythonSidebar
 
 ---

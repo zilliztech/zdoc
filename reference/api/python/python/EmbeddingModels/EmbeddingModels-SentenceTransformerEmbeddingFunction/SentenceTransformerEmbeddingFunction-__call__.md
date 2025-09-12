@@ -10,19 +10,19 @@ type: docx
 token: ZWLCdBWwOo4OSVxfnNRcDrv5nhe
 sidebar_position: 4
 keywords: 
+  - Image Search
   - LLMs
   - Machine Learning
   - RAG
-  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: pythonSidebar
 
 ---

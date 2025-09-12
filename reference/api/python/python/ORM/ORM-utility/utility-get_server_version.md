@@ -10,19 +10,19 @@ type: docx
 token: PoPkdkzSnofUihxzKLqcw7hYnrf
 sidebar_position: 16
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - get_server_version()
   - pymilvus25
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: pythonSidebar
 
 ---

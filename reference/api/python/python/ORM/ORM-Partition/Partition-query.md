@@ -10,19 +10,19 @@ type: docx
 token: N97pdfkjlo9j61xrtL2cbB79nKe
 sidebar_position: 8
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - pymilvus25
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: Ulypd24byoDBOpxGnnJcbF3Nnkb
 sidebar_position: 2
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dict()
   - pymilvus25
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: pythonSidebar
 
 ---

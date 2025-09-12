@@ -10,19 +10,19 @@ type: docx
 token: E5uudOLJ3o1BIhx4LLoctf8TnLf
 sidebar_position: 3
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - list_stages()
   - pymilvus25
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: pythonSidebar
 
 ---

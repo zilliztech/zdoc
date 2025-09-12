@@ -10,19 +10,19 @@ type: docx
 token: GyrmdRjGZoOFKdxsYyCcvNG7npg
 sidebar_position: 1
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus25
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: pythonSidebar
 
 ---

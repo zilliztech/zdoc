@@ -9,10 +9,10 @@ token: BCcWfIoxvlY1oOdsLcXcqTtcnMf
 sidebar_position: 7
 sidebar_label: "Vector"
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud

@@ -39,7 +39,7 @@ func BulkImport(ctx context.Context, option *BulkImportOption) (*BulkImportRespo
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>BulkImportOption</code></p></td>
+     <td><p><a href="./v2-DataImport-BulkImport#bulkimportoption"><code>BulkImportOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -199,7 +199,7 @@ type BulkImportResponse struct {
 
 ## Return{#return}
 
-`*BulkImportResponse`
+`*[BulkImportResponse`](./v2-DataImport-BulkImport#bulkimportresponse)
 
 ## Example{#example}
 

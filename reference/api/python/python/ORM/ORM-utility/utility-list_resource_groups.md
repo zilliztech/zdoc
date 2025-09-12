@@ -10,19 +10,19 @@ type: docx
 token: FXTZd5FgNo9ta0xvjaIclEM1nPf
 sidebar_position: 26
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - list_resource_groups()
   - pymilvus25
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: pythonSidebar
 
 ---

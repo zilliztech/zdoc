@@ -10,19 +10,19 @@ type: docx
 token: JeG6d5Sg2oPmXPxEhnyciq4snNd
 sidebar_position: 28
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - list_user()
   - pymilvus25
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: pythonSidebar
 
 ---

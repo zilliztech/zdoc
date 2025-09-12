@@ -10,19 +10,19 @@ type: docx
 token: ZQ2RdE2AOoH9bfx4k3Sc3Ny0ngb
 sidebar_position: 9
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - release()
   - pymilvus25
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: pythonSidebar
 
 ---

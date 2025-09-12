@@ -10,19 +10,19 @@ type: docx
 token: CvxodXz8OoWXrlxD7OVcqqJLn8e
 sidebar_position: 3
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - MistralAIEmbeddingFunction
   - pymilvus25
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: pythonSidebar
 
 ---

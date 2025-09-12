@@ -9,10 +9,10 @@ token: UJtvfGYb4lKoF1dy7iicFwcAnWr
 sidebar_position: 5
 sidebar_label: "Stage"
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud

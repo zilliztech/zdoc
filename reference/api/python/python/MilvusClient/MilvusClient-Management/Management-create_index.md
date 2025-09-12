@@ -10,19 +10,19 @@ type: docx
 token: B3n3db0idoia02xXxJfcONK8nRh
 sidebar_position: 3
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - create_index()
   - pymilvus25
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: pythonSidebar
 
 ---
@@ -71,7 +71,7 @@ create_index(
 
         - `True` (default): The client waits until the index is fully built before it returns. This means you will not get a response until the process is complete.
 
-        - `False`: The client returns immediately after the request is received and the index is being built in the background. To find out if index creation has been completed, use the `describe_index()` method.
+        - `False`: The client returns immediately after the request is received and the index is being built in the background. To find out if index creation has been completed, use the [`describe_index()`](./Management-describe_index) method.
 
 **RETURN TYPE:**
 

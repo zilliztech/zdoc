@@ -10,19 +10,19 @@ type: docx
 token: GulFdOWMboEK9bxnzMSc8Uf8n8b
 sidebar_position: 4
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabaseProperties()
   - nodejs25
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 displayed_sidebar: nodeSidebar
 
 ---

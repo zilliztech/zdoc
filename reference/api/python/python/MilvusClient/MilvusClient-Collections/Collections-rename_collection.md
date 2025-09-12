@@ -10,19 +10,19 @@ type: docx
 token: IeiIdJ71Pox2OjxMiOzczUTenud
 sidebar_position: 18
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - rename_collection()
   - pymilvus25
-  - Knowledge base
   - natural language processing
   - AI chatbots
   - cosine distance
+  - what is a vector database
 displayed_sidebar: pythonSidebar
 
 ---

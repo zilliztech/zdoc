@@ -10,19 +10,19 @@ type: docx
 token: HEyLd2lxzo3bl4xqVBOco8vWn1c
 sidebar_position: 3
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - VoyageEmbeddingFunction
   - pymilvus25
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: pythonSidebar
 
 ---

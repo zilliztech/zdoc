@@ -10,19 +10,19 @@ type: docx
 token: BCGKdCttdotF32xUJTec8UFlndg
 sidebar_position: 26
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - updateUser()
   - nodejs25
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: nodeSidebar
 
 ---

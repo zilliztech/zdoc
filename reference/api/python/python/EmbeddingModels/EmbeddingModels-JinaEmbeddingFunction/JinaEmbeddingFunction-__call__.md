@@ -10,19 +10,19 @@ type: docx
 token: Yf9GddNheoKrFCxcUeYc7NHjnVb
 sidebar_position: 4
 keywords: 
-  - Annoy vector search
-  - milvus
   - Zilliz
   - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: pythonSidebar
 
 ---

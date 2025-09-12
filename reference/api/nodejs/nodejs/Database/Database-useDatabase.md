@@ -10,19 +10,19 @@ type: docx
 token: NDcldy9OLo62DLxw1a9cFSLsnYb
 sidebar_position: 6
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
   - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - useDatabase()
   - nodejs25
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 displayed_sidebar: nodeSidebar
 
 ---

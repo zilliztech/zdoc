@@ -10,19 +10,19 @@ type: docx
 token: Dxgqdvlk5o2VScxqmL1ctc1Inqb
 sidebar_position: 5
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - list_partitions()
   - pymilvus25
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: pythonSidebar
 
 ---

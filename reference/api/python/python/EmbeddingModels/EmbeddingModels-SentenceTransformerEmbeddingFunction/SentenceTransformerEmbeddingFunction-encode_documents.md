@@ -10,19 +10,19 @@ type: docx
 token: MOPzdeyjzoO8DlxAlL0clX00nBc
 sidebar_position: 1
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus25
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: pythonSidebar
 
 ---

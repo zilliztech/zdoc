@@ -10,19 +10,19 @@ type: docx
 token: M0qRdF1cLokrxvxyrXScJ64FnEe
 sidebar_position: 37
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - rename_collection()
   - pymilvus25
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: pythonSidebar
 
 ---

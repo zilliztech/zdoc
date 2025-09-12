@@ -10,19 +10,19 @@ type: docx
 token: H9IFdpWWUouzXOxKlx9cImP8nnd
 sidebar_position: 1
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - add_field()
   - pymilvus25
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: pythonSidebar
 
 ---

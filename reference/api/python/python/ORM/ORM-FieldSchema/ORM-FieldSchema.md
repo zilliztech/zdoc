@@ -10,19 +10,19 @@ type: docx
 token: EVKhdy0vwoSLSux2RW2c660unjh
 sidebar_position: 2
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - FieldSchema
   - pymilvus25
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 displayed_sidebar: pythonSidebar
 
 ---

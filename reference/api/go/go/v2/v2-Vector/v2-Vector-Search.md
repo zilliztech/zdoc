@@ -39,7 +39,7 @@ func (c *Client) Search(ctx context.Context, option SearchOption, callOptions ..
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>SearchOption</code></p></td>
+     <td><p><a href="./v2-Vector-Search#searchoption"><code>SearchOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -81,7 +81,7 @@ func NewSearchOption(collectionName string, limit int, vectors []entity.Vector) 
    <tr>
      <td><p><code>vectors</code></p></td>
      <td><p>Query vectors</p></td>
-     <td><p><code>&#91;&#93;entity.Vector</code></p></td>
+     <td><p><code>&#91;&#93;&#91;entity.Vector</code>](./v2-Vector-Search#entityvector)</p></td>
    </tr>
 </table>
 

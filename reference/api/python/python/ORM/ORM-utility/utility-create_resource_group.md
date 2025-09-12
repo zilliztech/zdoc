@@ -10,19 +10,19 @@ type: docx
 token: X5qsdhFQ5oOhkcxOprzcOZq4nMc
 sidebar_position: 4
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - create_resource_group()
   - pymilvus25
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 displayed_sidebar: pythonSidebar
 
 ---

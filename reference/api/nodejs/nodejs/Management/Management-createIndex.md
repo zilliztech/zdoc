@@ -10,19 +10,19 @@ type: docx
 token: Nu0Id3wzGoJIFyxkC7IcmjAznNf
 sidebar_position: 2
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
   - nodejs25
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: nodeSidebar
 
 ---

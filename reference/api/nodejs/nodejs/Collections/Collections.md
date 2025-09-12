@@ -9,10 +9,10 @@ token: SU7xfa1bal8yS0dioBmcCncYn5c
 sidebar_position: 1
 sidebar_label: "Collections"
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud

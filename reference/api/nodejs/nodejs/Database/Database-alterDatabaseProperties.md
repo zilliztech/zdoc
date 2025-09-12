@@ -10,19 +10,19 @@ type: docx
 token: NNWed9Vd1o7vDkxY4pncM4wYnaf
 sidebar_position: 7
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - alterDatabaseProperties()
   - nodejs25
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: nodeSidebar
 
 ---

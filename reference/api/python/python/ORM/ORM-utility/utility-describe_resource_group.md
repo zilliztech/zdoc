@@ -10,19 +10,19 @@ type: docx
 token: HScCdxLNJotPCcxb4AZcxsNJn9c
 sidebar_position: 7
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - describe_resource_group()
   - pymilvus25
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 displayed_sidebar: pythonSidebar
 
 ---

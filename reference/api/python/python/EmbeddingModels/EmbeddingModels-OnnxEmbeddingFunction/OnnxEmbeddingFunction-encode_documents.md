@@ -10,19 +10,19 @@ type: docx
 token: XfxvdiIdOokuN1xiVBWct34Wnre
 sidebar_position: 1
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus25
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: Qc72dTKgroNdHjxIG2xcwNdmnHb
 sidebar_position: 2
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - addUserToRole()
   - nodejs25
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 displayed_sidebar: nodeSidebar
 
 ---

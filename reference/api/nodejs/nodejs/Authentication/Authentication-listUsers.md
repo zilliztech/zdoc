@@ -10,19 +10,19 @@ type: docx
 token: Z0EOd1PXooNeowx4SQgcq3synBc
 sidebar_position: 19
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - listUsers()
   - nodejs25
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: nodeSidebar
 
 ---

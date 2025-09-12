@@ -10,19 +10,19 @@ type: docx
 token: E5rYdw3EWo2WKZxEyGac049an3e
 sidebar_position: 9
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - dropAllRoles()
   - nodejs25
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: nodeSidebar
 
 ---

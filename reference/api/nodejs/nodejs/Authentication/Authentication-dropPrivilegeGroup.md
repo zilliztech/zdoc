@@ -10,19 +10,19 @@ type: docx
 token: I63tdWAY2ok8V1xrK4tcrkwjncd
 sidebar_position: 10
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - dropPrivilegeGroup()
   - nodejs25
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: nodeSidebar
 
 ---

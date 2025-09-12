@@ -9,10 +9,10 @@ token: BvYKfbpMUlczBxdyBvEc5Gb3nfb
 sidebar_position: 8
 sidebar_label: "utility"
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud

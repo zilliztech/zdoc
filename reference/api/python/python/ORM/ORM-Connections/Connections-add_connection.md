@@ -10,19 +10,19 @@ type: docx
 token: C37ldNLbFog6ThxA23ScMldnnmb
 sidebar_position: 1
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
   - Zilliz database
   - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
   - add_connection()
   - pymilvus25
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: pythonSidebar
 
 ---

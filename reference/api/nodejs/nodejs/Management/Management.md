@@ -9,10 +9,10 @@ token: Yo6ffPwKzlWzZndRXVocighbnfd
 sidebar_position: 3
 sidebar_label: "Management"
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud

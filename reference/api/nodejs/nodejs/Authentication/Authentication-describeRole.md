@@ -10,19 +10,19 @@ type: docx
 token: ItZPd1o4uoodqtx1sxIcq38hn7e
 sidebar_position: 7
 keywords: 
-  - Video deduplication
   - Video similarity search
   - Vector retrieval
   - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
   - nodejs25
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: nodeSidebar
 
 ---

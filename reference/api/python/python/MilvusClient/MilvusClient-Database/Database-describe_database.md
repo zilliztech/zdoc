@@ -10,19 +10,19 @@ type: docx
 token: LEaYdk179oZn0vxqa0lcn4mnnrg
 sidebar_position: 3
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - describe_database()
   - pymilvus25
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 displayed_sidebar: pythonSidebar
 
 ---

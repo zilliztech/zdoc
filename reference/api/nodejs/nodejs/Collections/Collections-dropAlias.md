@@ -10,19 +10,19 @@ type: docx
 token: FubcdxJ0LoyQiJxmUMjcZnbjnbc
 sidebar_position: 10
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - dropAlias()
   - nodejs25
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: nodeSidebar
 
 ---

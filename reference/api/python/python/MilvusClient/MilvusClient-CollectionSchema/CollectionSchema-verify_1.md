@@ -10,19 +10,19 @@ type: docx
 token: TfV3dOYPyoKVSMxShrTc9SZ2nqh
 sidebar_position: 5
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - verify()
   - pymilvus25
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: pythonSidebar
 
 ---

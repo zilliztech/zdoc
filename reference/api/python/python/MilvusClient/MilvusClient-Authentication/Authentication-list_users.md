@@ -10,19 +10,19 @@ type: docx
 token: EZ2YdBHoDoRTlxx91tscffm1nSb
 sidebar_position: 15
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - list_users()
   - pymilvus25
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: JOFedA4h8otTjHxsYQ7cnjsunHd
 sidebar_position: 3
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - SentenceTransformerEmbeddingFunction
   - pymilvus25
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 displayed_sidebar: pythonSidebar
 
 ---

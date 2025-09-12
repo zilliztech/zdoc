@@ -10,19 +10,19 @@ type: docx
 token: XLepdUCcTow6rpx5vxxcbLXZnyb
 sidebar_position: 25
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - list_indexes()
   - pymilvus25
+  - IVF
   - knn
   - Image Search
   - LLMs
-  - Machine Learning
 displayed_sidebar: pythonSidebar
 
 ---

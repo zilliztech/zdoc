@@ -10,19 +10,19 @@ type: docx
 token: SlmSdaD7rocMJsxThNHcOtEknVd
 sidebar_position: 9
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - remove_user()
   - pymilvus25
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: pythonSidebar
 
 ---

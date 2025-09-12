@@ -10,19 +10,19 @@ type: docx
 token: MCkjdiRNKo2HCCxzHReclrgAnbg
 sidebar_position: 9
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - describe_collection()
   - pymilvus25
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
   - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: pythonSidebar
 
 ---
@@ -191,7 +191,7 @@ A dictionary that contains detailed information about the specified collection.
 
 - **enable_dynamic_field** (*bool*)
 
-    Whether to use the reserved JSON field **$meta** to save non-schema-defined fields and their values as key-value pairs.
+    Whether to use the reserved JSON field **&#36;meta** to save non-schema-defined fields and their values as key-value pairs.
 
 **EXCEPTIONS:**
 

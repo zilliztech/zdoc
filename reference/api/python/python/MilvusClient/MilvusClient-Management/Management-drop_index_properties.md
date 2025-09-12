@@ -10,19 +10,19 @@ type: docx
 token: M2kXd5zWSoMIOnxXWamcgCkznih
 sidebar_position: 15
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
   - drop_index_properties()
   - pymilvus25
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: pythonSidebar
 
 ---

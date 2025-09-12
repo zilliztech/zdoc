@@ -10,19 +10,19 @@ type: docx
 token: MtF2dkZcso4XduxM194cUaiinqb
 sidebar_position: 30
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - list_users()
   - pymilvus25
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: pythonSidebar
 
 ---

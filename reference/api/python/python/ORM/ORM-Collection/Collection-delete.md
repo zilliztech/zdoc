@@ -10,19 +10,19 @@ type: docx
 token: TJMVdi4U2oBFnAxO95jctzVAnzg
 sidebar_position: 6
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - pymilvus25
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 displayed_sidebar: pythonSidebar
 
 ---

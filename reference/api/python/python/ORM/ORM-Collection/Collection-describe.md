@@ -10,19 +10,19 @@ type: docx
 token: EZwsd887JojFjLxbMByckhW0nxg
 sidebar_position: 7
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - describe()
   - pymilvus25
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 ---

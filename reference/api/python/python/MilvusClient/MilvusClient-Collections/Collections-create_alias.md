@@ -10,19 +10,19 @@ type: docx
 token: Kqlodu0AWoefKvxczcxc1c36nlf
 sidebar_position: 4
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - create_alias()
   - pymilvus25
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: pythonSidebar
 
 ---

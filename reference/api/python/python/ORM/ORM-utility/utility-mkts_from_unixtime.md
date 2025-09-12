@@ -10,19 +10,19 @@ type: docx
 token: ZdKEd2ua6o9AHHxKq25ctNSdncb
 sidebar_position: 36
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_unixtime()
   - pymilvus25
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 displayed_sidebar: pythonSidebar
 
 ---
@@ -70,7 +70,7 @@ An incremental time interval in milliseconds.
 
 - **delta** (*Optional&#91;timedelta&#93;*) -
 
-    A **datetime.timedelta** object that represents the duration expressing the difference between two `date`, `time`, or `datetime` instances to microsecond resolution.
+    A **datetime.timedelta** object that represents the duration expressing the difference between two [`date`](https://docs.python.org/3/library/datetime.html#datetime.date), [`time`](https://docs.python.org/3/library/datetime.html#datetime.time), or [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) instances to microsecond resolution.
 
 **RETURN TYPE:**
 

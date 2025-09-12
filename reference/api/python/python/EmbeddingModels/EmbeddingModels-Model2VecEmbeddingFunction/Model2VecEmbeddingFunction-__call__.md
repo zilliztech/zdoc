@@ -10,19 +10,19 @@ type: docx
 token: WJpVd6gQzoxCEUxM93ScXsL5ntA
 sidebar_position: 4
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: pythonSidebar
 
 ---

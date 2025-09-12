@@ -10,19 +10,19 @@ type: docx
 token: XdZ6dFzA3oUu4dxWh7Kcz4dhnQg
 sidebar_position: 4
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - StageManager
   - pymilvus25
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: pythonSidebar
 
 ---
@@ -61,7 +61,7 @@ StageManager(
 
     **&#91;REQUIRED&#93;**
 
-    The Zilliz Cloud endpoint, which is `https://api.cloud.zilliz.com` (Global) or `https://api.cloud.zilliz.com.cn` (China), depending on the platform you have registered with.
+    The Zilliz Cloud endpoint, which is `https:*//*api.cloud.zilliz.com` (Global) or `https://api.cloud.zilliz.com.cn` (China), depending on the platform you have registered with.
 
 - **api_key** (*str*) -
 

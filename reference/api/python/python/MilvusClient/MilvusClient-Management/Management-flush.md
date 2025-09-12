@@ -10,19 +10,19 @@ type: docx
 token: JnPrdOiPyo2e5gxzzFycbnvwnSd
 sidebar_position: 6
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - pymilvus25
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: pythonSidebar
 
 ---

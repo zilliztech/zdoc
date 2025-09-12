@@ -10,19 +10,19 @@ type: docx
 token: Wz3HdtvPCoEquvxFY7PcDHxcnEe
 sidebar_position: 6
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - describe_user()
   - pymilvus25
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: pythonSidebar
 
 ---

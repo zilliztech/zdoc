@@ -19,10 +19,10 @@ keywords:
   - cloud
   - IndexType
   - nodejs25
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: nodeSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: L4KSdOVTEotaiyxjTddcVRDhn3E
 sidebar_position: 8
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud
   - remove_connection()
   - pymilvus25
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: pythonSidebar
 
 ---

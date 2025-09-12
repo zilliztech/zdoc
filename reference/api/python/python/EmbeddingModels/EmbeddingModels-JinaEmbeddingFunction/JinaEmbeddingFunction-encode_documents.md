@@ -10,19 +10,19 @@ type: docx
 token: ZMs1dJJOGobyBjxRo7icXtE8nPe
 sidebar_position: 1
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus25
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: pythonSidebar
 
 ---

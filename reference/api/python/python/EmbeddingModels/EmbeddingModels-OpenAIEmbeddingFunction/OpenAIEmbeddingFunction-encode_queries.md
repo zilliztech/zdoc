@@ -10,19 +10,19 @@ type: docx
 token: Sf9UdzL3rolQNAxDm8Ecga3snhg
 sidebar_position: 2
 keywords: 
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus25
+  - Embedding model
+  - image similarity search
   - Context Window
   - Natural language search
-  - Similarity Search
-  - multimodal RAG
 displayed_sidebar: pythonSidebar
 
 ---

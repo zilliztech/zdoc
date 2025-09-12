@@ -10,19 +10,19 @@ type: docx
 token: KEzNdJPoDoHOjlx2FC8cNcHqngg
 sidebar_position: 3
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - drop()
   - pymilvus25
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 ---

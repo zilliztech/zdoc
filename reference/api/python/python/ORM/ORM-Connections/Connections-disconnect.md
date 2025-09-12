@@ -10,19 +10,19 @@ type: docx
 token: IpSBdcabbosobvxQkAEcv6CvnJd
 sidebar_position: 4
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - disconnect()
   - pymilvus25
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 displayed_sidebar: pythonSidebar
 
 ---

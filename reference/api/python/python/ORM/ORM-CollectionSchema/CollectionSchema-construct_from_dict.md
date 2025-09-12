@@ -10,19 +10,19 @@ type: docx
 token: DYuUdc503o1TANxuGozcXhCmnRN
 sidebar_position: 3
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dict()
   - pymilvus25
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: pythonSidebar
 
 ---

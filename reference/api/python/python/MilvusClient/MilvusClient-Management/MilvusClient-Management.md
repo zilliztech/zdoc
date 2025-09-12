@@ -9,10 +9,10 @@ token: MvvMf16FLlVOmtdgx5UcZ8qtnyd
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud

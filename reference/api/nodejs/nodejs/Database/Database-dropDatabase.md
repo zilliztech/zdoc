@@ -10,19 +10,19 @@ type: docx
 token: Ja99dnnaOoncwbx2zIPc4PjunXx
 sidebar_position: 3
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabase()
   - nodejs25
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: nodeSidebar
 
 ---

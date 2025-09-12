@@ -9,10 +9,10 @@ token: I5i9f86n4lsy9IddsDocMOsfnXg
 sidebar_position: 2
 sidebar_label: "BulkImport"
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud

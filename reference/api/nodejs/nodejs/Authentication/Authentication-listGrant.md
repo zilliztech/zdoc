@@ -10,19 +10,19 @@ type: docx
 token: HSIDdxQGEoPdyaxkMDjcAWGQnpd
 sidebar_position: 15
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - listGrant()
   - nodejs25
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 displayed_sidebar: nodeSidebar
 
 ---

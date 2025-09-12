@@ -10,19 +10,19 @@ type: docx
 token: PRR7dRfi8o1s61xFRovccAdRnHe
 sidebar_position: 13
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - release_collection()
   - pymilvus25
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: pythonSidebar
 
 ---

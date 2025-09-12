@@ -10,19 +10,19 @@ type: docx
 token: LkmSddW2NolgitxLhy9cx22Dnpe
 sidebar_position: 4
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - pymilvus25
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: pythonSidebar
 
 ---

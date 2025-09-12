@@ -10,19 +10,19 @@ type: docx
 token: Vjd7dE5OyoGvYaxd7OCcubBWnLd
 sidebar_position: 4
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - drop_database()
   - pymilvus25
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 displayed_sidebar: pythonSidebar
 
 ---

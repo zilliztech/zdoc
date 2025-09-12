@@ -10,19 +10,19 @@ type: docx
 token: XDXid6aZ8oCHnVxxFpPcKAB9n0c
 sidebar_position: 3
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - getPartitionStatistics()
   - nodejs25
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: nodeSidebar
 
 ---

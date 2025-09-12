@@ -10,19 +10,19 @@ type: docx
 token: DQFbdMhfcodFuxxhYFeccDzEnkf
 sidebar_position: 4
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: Sh7HdgJOIoJipXx5AoNcicjMnyd
 sidebar_position: 5
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - create_partition()
   - pymilvus25
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 displayed_sidebar: pythonSidebar
 
 ---

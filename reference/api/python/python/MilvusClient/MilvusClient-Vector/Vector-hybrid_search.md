@@ -10,19 +10,19 @@ type: docx
 token: NEyWdddQ8oKCw4xQTFPcvDTLn3f
 sidebar_position: 9
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - hybrid_search()
   - pymilvus25
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: FpWXdmIuforYz9xUCsqclyCXnLe
 sidebar_position: 10
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - drop_alias()
   - pymilvus25
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: pythonSidebar
 
 ---

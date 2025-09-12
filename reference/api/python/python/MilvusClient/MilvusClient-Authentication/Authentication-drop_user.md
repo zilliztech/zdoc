@@ -10,19 +10,19 @@ type: docx
 token: WtyZdeFKMoSv5exaYRxcPLCSndg
 sidebar_position: 9
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - drop_user()
   - pymilvus25
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: pythonSidebar
 
 ---

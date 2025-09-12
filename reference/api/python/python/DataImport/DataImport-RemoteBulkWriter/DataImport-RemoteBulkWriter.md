@@ -10,19 +10,19 @@ type: docx
 token: BDP4dew9to9tQoxNEMPcBR5xnZb
 sidebar_position: 4
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - RemoteBulkWriter
   - pymilvus25
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 displayed_sidebar: pythonSidebar
 
 ---

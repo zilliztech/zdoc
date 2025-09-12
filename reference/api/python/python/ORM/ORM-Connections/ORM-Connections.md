@@ -10,19 +10,19 @@ type: docx
 token: A96udk9seoF5x5xywQZcLasanIe
 sidebar_position: 3
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
   - Connections
   - pymilvus25
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: pythonSidebar
 
 ---

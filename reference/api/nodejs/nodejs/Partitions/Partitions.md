@@ -9,10 +9,10 @@ token: JfB5fh16rl1R1qdNVgec1Kdongc
 sidebar_position: 8
 sidebar_label: "Partitions"
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud

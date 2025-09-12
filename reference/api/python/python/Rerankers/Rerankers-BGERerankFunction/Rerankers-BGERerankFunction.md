@@ -10,19 +10,19 @@ type: docx
 token: GxAZd9O9gozzhExhMHWcMnXPngh
 sidebar_position: 1
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - BGERerankFunction
   - pymilvus25
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: pythonSidebar
 
 ---

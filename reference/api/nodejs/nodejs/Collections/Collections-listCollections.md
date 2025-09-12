@@ -10,19 +10,19 @@ type: docx
 token: Djg7dlb5NoINz9xOAs1cyY67nsh
 sidebar_position: 18
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - listCollections()
   - nodejs25
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 displayed_sidebar: nodeSidebar
 
 ---

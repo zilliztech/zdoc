@@ -10,19 +10,19 @@ type: docx
 token: XhcVd1JXvoAgUfxSEpQcL2H6nVg
 sidebar_position: 1
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - add_function()
   - pymilvus25
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 displayed_sidebar: pythonSidebar
 
 ---

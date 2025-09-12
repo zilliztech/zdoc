@@ -10,19 +10,19 @@ type: docx
 token: IbWgdAwWOoTa1exF2LicP9henJJ
 sidebar_position: 1
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
   - StageFileManager
   - pymilvus25
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: pythonSidebar
 
 ---
@@ -62,7 +62,7 @@ StageFileManager(
 
     **&#91;REQUIRED&#93;**
 
-    The Zilliz Cloud endpoint, which is `https://api.cloud.zilliz.com` (Global) or `https://api.cloud.zilliz.com.cn` (China), depending on the platform you have registered with.
+    The Zilliz Cloud endpoint, which is `https:*//*api.cloud.zilliz.com` (Global) or `https://api.cloud.zilliz.com.cn` (China), depending on the platform you have registered with.
 
 - **api_key** (*str*) -
 

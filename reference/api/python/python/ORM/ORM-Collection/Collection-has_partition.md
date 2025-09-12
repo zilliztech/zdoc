@@ -10,19 +10,19 @@ type: docx
 token: QsOsda2lRoJP32xNSLWcbgMOnKI
 sidebar_position: 16
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - has_partition()
   - pymilvus25
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: pythonSidebar
 
 ---

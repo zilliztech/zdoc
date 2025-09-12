@@ -10,19 +10,19 @@ type: docx
 token: QNB4d2q2ZorIApxpnzqczW2HnL7
 sidebar_position: 11
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - drop_collection()
   - pymilvus25
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: pythonSidebar
 
 ---

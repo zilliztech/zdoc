@@ -10,19 +10,19 @@ type: docx
 token: L4PUdEhrpoS1Q5xN3m2chVVEnWg
 sidebar_position: 4
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
 displayed_sidebar: pythonSidebar
 
 ---

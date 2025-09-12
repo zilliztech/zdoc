@@ -10,19 +10,19 @@ type: docx
 token: AmwJdW0z6opMPcxhMlBcYPIWn2M
 sidebar_position: 4
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
   - to_dict()
   - pymilvus25
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: pythonSidebar
 
 ---

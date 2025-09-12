@@ -39,7 +39,7 @@ func ListImportJobs(ctx context.Context, option *ListImportJobsOption) (*ListImp
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>ListImportJobsOption</code></p></td>
+     <td><p><a href="./v2-DataImport-ListImportJobs#listimportjobsoption"><code>ListImportJobsOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -182,7 +182,7 @@ type ListImportJobsOption struct {
 
 ## Return{#return}
 
-`*ListImportJobsResponse`
+`*[ListImportJobsResponse`](./v2-DataImport-ListImportJobs#listimportjobsresponse)
 
 ## Example{#example}
 

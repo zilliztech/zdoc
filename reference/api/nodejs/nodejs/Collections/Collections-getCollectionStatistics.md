@@ -10,19 +10,19 @@ type: docx
 token: LQMGdRHjKogdeMxekCtcdBLqnNf
 sidebar_position: 13
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStatistics()
   - nodejs25
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: nodeSidebar
 
 ---

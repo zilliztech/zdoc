@@ -10,19 +10,19 @@ type: docx
 token: G3h4d3jx6oXFHBxFZlyc9jLKnTO
 sidebar_position: 2
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - create()
   - pymilvus25
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: C2AbdIReZos7HwxiZXIcyW8nnm1
 sidebar_position: 2
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
   - nlp search
   - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 displayed_sidebar: pythonSidebar
 
 ---

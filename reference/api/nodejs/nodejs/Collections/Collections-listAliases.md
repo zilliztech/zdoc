@@ -10,19 +10,19 @@ type: docx
 token: KeoKdlitaog6n1xpX8McIIIrnWb
 sidebar_position: 17
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - listAliases()
   - nodejs25
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 displayed_sidebar: nodeSidebar
 
 ---

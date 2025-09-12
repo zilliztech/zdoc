@@ -10,19 +10,19 @@ type: docx
 token: UdeRd0YVhoDBeVxrQaBcoikVnAI
 sidebar_position: 3
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - SpladeEmbeddingFunction
   - pymilvus25
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: pythonSidebar
 
 ---

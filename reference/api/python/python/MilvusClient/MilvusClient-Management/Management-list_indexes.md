@@ -10,19 +10,19 @@ type: docx
 token: ZqmudJWyFonUKGxAxXncYrLZn2e
 sidebar_position: 9
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - list_indexes()
   - pymilvus25
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: pythonSidebar
 
 ---

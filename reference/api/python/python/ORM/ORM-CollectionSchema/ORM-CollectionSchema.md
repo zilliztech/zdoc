@@ -10,19 +10,19 @@ type: docx
 token: CmFKd9eG2oE6xmx9dIGcVPycnth
 sidebar_position: 2
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - CollectionSchema
   - pymilvus25
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: pythonSidebar
 
 ---
@@ -81,7 +81,7 @@ CollectionSchema(
 
         Whether allows Zilliz Cloud saves the values of undefined fields in a dynamic field if the data being inserted into the target collection includes fields that are not defined in the collection's schema.
 
-        When you set this to **True**,  and Zilliz Cloud will create a field called **$meta** to store any undefined fields and their values from the data that is inserted.
+        When you set this to **True**,  and Zilliz Cloud will create a field called **&#36;meta** to store any undefined fields and their values from the data that is inserted.
 
         <Admonition type="info" icon="📘" title="What is a dynamic field?">
 

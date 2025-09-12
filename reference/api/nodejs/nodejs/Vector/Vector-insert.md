@@ -10,19 +10,19 @@ type: docx
 token: WUZwdRNXIoS0tSxCrw6coaa2nzf
 sidebar_position: 4
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
   - nodejs25
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: nodeSidebar
 
 ---

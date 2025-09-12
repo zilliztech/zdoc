@@ -10,19 +10,19 @@ type: docx
 token: CB9edh2ySoJyWhxBoLcchPj9nxg
 sidebar_position: 14
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - get_query_segment_info()
   - pymilvus25
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 displayed_sidebar: pythonSidebar
 
 ---

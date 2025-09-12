@@ -9,10 +9,10 @@ token: Ph7xfldrplFoihdiSAkciCuenyh
 sidebar_position: 6
 sidebar_label: "Rerankers"
 keywords: 
+  - Vectorization
+  - k nearest neighbor algorithm
   - ANNS
   - Vector search
-  - knn algorithm
-  - HNSW
   - zilliz
   - zilliz cloud
   - cloud

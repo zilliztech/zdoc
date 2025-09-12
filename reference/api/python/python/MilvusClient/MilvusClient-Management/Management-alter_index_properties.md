@@ -10,19 +10,19 @@ type: docx
 token: TRFadKWOAofCVoxH3qYcdTvynHf
 sidebar_position: 14
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - alter_index_properties()
   - pymilvus25
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: pythonSidebar
 
 ---

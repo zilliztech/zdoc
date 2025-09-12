@@ -10,19 +10,19 @@ type: docx
 token: EeAfdukBNoIIgCxX248c6VULnOb
 sidebar_position: 20
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - removePrivilegesFromGroup()
   - nodejs25
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: nodeSidebar
 
 ---

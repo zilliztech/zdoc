@@ -10,19 +10,19 @@ type: docx
 token: C2YSddNqZoDNmNxWqqEcuzhKn4f
 sidebar_position: 2
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - AzureConnectParam
   - pymilvus25
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 displayed_sidebar: pythonSidebar
 
 ---

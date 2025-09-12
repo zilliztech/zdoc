@@ -10,19 +10,19 @@ type: docx
 token: LoNvdRK80oWllFxV0H6co0HrnBe
 sidebar_position: 14
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollection()
   - nodejs25
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: nodeSidebar
 
 ---

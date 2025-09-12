@@ -10,19 +10,19 @@ type: docx
 token: KBujdxXhko2zJjx4hFmcsHGhn4g
 sidebar_position: 2
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus25
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: pythonSidebar
 
 ---

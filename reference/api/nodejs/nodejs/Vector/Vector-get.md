@@ -10,19 +10,19 @@ type: docx
 token: IbxXdvdZlonJk9xnlk2cZlIinCh
 sidebar_position: 2
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - get()
   - nodejs25
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: nodeSidebar
 
 ---

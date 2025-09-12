@@ -10,19 +10,19 @@ type: docx
 token: W7GJdpYrYoYhSaxW6uzcVAZinYf
 sidebar_position: 1
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - add_user()
   - pymilvus25
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: pythonSidebar
 
 ---

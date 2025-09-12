@@ -10,19 +10,19 @@ type: docx
 token: Y0xbd7zL2oKAVbxcA5Hc14Eznig
 sidebar_position: 19
 keywords: 
-  - Context Window
-  - Natural language search
   - Similarity Search
   - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - FunctionType
   - pymilvus25
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: pythonSidebar
 
 ---

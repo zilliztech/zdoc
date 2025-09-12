@@ -10,19 +10,19 @@ type: docx
 token: YXogdv0Dpovi2Pxbyh2cdA4nnbe
 sidebar_position: 5
 keywords: 
+  - knn
+  - Image Search
   - LLMs
   - Machine Learning
-  - RAG
-  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - verify()
   - pymilvus25
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 displayed_sidebar: pythonSidebar
 
 ---

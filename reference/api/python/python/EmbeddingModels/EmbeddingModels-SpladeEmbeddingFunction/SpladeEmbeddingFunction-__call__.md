@@ -10,19 +10,19 @@ type: docx
 token: LJqud2x3AojxV4xKONocTe4YnFb
 sidebar_position: 4
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 displayed_sidebar: pythonSidebar
 
 ---

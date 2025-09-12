@@ -10,19 +10,19 @@ type: docx
 token: S278drWUVoRZ5fx8XkfcWaZfnwh
 sidebar_position: 2
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - create_database()
   - pymilvus25
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: pythonSidebar
 
 ---

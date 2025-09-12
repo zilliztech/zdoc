@@ -10,19 +10,19 @@ type: docx
 token: MxTAd0haboKnRrxQvoOckGghn1T
 sidebar_position: 4
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - has_partition()
   - pymilvus25
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 displayed_sidebar: pythonSidebar
 
 ---

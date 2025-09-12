@@ -10,19 +10,19 @@ type: docx
 token: RQH5dhSenoDGjYxyBb2c3n1rnie
 sidebar_position: 2
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionFieldProperties()
   - nodejs25
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 displayed_sidebar: nodeSidebar
 
 ---

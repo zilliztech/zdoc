@@ -10,19 +10,19 @@ type: docx
 token: NPnQdZCJ7oF002xTntecdI2ini8
 sidebar_position: 5
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - drop_index()
   - pymilvus25
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 displayed_sidebar: pythonSidebar
 
 ---

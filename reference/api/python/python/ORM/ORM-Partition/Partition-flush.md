@@ -10,19 +10,19 @@ type: docx
 token: VRGwdg75Ao7ZXQx7uANc9wzXnVb
 sidebar_position: 3
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - pymilvus25
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 displayed_sidebar: pythonSidebar
 
 ---

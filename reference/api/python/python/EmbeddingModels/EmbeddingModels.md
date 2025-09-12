@@ -9,10 +9,10 @@ token: A6atfZDQxl1INud6VYGcX54zngf
 sidebar_position: 2
 sidebar_label: "EmbeddingModels"
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud

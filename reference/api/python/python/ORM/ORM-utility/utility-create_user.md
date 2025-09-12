@@ -10,19 +10,19 @@ type: docx
 token: N44ndTSrgoEBx7xCID5cXRS7n1c
 sidebar_position: 5
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - create_user()
   - pymilvus25
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 displayed_sidebar: pythonSidebar
 
 ---

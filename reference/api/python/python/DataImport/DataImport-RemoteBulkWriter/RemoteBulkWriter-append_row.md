@@ -19,10 +19,10 @@ keywords:
   - cloud
   - append_row()
   - pymilvus25
+  - Audio search
   - what is semantic search
   - Embedding model
   - image similarity search
-  - Context Window
 displayed_sidebar: pythonSidebar
 
 ---

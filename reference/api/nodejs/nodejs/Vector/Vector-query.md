@@ -10,19 +10,19 @@ type: docx
 token: AJ96d6Aguos3FAxWMDxcjzqpnSg
 sidebar_position: 5
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - nodejs25
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 displayed_sidebar: nodeSidebar
 
 ---

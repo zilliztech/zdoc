@@ -10,19 +10,19 @@ type: docx
 token: WDk4dXY8IoV3SJxp9e7c3aq1nBh
 sidebar_position: 15
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
   - has_index()
   - pymilvus25
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: pythonSidebar
 
 ---

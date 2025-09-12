@@ -10,19 +10,19 @@ type: docx
 token: T1CGdXeVkoG2yAxkualc1jVonRb
 sidebar_position: 23
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - list_bulk_insert_tasks()
   - pymilvus25
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 displayed_sidebar: pythonSidebar
 
 ---

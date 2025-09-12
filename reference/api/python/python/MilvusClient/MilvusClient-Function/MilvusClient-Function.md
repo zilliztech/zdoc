@@ -10,19 +10,19 @@ type: docx
 token: Xcl2dbLC6osEskxx87Wc1Q3rn4f
 sidebar_position: 3
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - Function
   - pymilvus25
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: pythonSidebar
 
 ---

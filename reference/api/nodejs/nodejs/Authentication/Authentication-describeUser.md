@@ -10,19 +10,19 @@ type: docx
 token: Da9KdvvWroKX9cxOwsmcLRBxnVb
 sidebar_position: 8
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - describeUser()
   - nodejs25
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 displayed_sidebar: nodeSidebar
 
 ---

@@ -9,10 +9,10 @@ token: M6KJfLu4ylTkNsd9DUVcQHmfnqe
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud

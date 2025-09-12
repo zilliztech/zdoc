@@ -10,19 +10,19 @@ type: docx
 token: G1gsdGWwuoPOPrxJdABcfa76nUd
 sidebar_position: 3
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - to_dict()
   - pymilvus25
+  - Machine Learning
   - RAG
   - NLP
   - Neural Network
-  - Deep Learning
 displayed_sidebar: pythonSidebar
 
 ---

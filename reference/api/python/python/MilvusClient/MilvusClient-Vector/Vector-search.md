@@ -10,19 +10,19 @@ type: docx
 token: T1npdvcRMoIjezxK021cPvfpn7c
 sidebar_position: 6
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - pymilvus25
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 displayed_sidebar: pythonSidebar
 
 ---

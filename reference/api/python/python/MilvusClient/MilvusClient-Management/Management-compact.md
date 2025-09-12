@@ -10,19 +10,19 @@ type: docx
 token: BThKd2QThoQKGPx1ofKczmADnC6
 sidebar_position: 2
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - compact()
   - pymilvus25
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 displayed_sidebar: pythonSidebar
 
 ---

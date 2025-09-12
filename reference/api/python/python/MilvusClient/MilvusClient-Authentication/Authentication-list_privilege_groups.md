@@ -10,19 +10,19 @@ type: docx
 token: N6kjdex5Ao0lRqxPXBhcxq4AnNh
 sidebar_position: 13
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - list_privilege_groups()
   - pymilvus25
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 displayed_sidebar: pythonSidebar
 
 ---

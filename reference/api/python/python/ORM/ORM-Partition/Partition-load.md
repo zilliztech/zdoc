@@ -10,19 +10,19 @@ type: docx
 token: TWxddf6iboyM15xK4Kzc8ASknRb
 sidebar_position: 6
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - load()
   - pymilvus25
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: pythonSidebar
 
 ---

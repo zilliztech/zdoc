@@ -10,19 +10,19 @@ type: docx
 token: X8qWdMHg5oQQK6xZdBYcGNOnn3c
 sidebar_position: 8
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - getFlushState()
   - nodejs25
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: nodeSidebar
 
 ---

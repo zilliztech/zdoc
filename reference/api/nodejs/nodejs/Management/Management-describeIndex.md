@@ -10,19 +10,19 @@ type: docx
 token: PePIdiq9po6cplxAoF6ca5C2ntb
 sidebar_position: 3
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
   - nodejs25
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 displayed_sidebar: nodeSidebar
 
 ---

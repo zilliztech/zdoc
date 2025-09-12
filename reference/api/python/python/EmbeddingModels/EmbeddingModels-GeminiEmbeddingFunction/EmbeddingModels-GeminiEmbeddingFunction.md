@@ -10,19 +10,19 @@ type: docx
 token: DhZRdYbfMoYIBtxrudGcwWjrngd
 sidebar_position: 3
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - GeminiEmbeddingFunction
   - pymilvus25
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: pythonSidebar
 
 ---

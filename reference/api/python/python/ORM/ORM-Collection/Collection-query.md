@@ -10,19 +10,19 @@ type: docx
 token: JzcYdBQ5zoU4KpxPqUHcPLQonKd
 sidebar_position: 22
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - pymilvus25
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 displayed_sidebar: pythonSidebar
 
 ---

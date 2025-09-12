@@ -10,19 +10,19 @@ type: docx
 token: Kp9Dd2dIgoxyDixuqtqctPZXnFb
 sidebar_position: 5
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
   - nodejs25
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: nodeSidebar
 
 ---

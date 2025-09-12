@@ -9,10 +9,10 @@ token: H1JWfZh74lkVhgdfGiKcQfsinPg
 sidebar_position: 6
 sidebar_label: "Authentication"
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud

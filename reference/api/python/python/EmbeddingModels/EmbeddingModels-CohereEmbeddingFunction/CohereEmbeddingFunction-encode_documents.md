@@ -10,19 +10,19 @@ type: docx
 token: FIyedc51So0onWxtPAjcHFkmnHe
 sidebar_position: 2
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus25
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: pythonSidebar
 
 ---

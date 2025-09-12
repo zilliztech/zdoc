@@ -10,19 +10,19 @@ type: docx
 token: GIeMdvjlMoLwGrxUOu3cFw7bnWc
 sidebar_position: 18
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - listRoles()
   - nodejs25
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: nodeSidebar
 
 ---

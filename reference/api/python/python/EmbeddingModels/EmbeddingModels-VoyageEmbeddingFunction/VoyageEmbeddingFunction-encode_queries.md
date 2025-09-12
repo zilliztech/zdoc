@@ -10,19 +10,19 @@ type: docx
 token: CHnGdE7XlosONPxsVDDc6Fv5n8c
 sidebar_position: 2
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus25
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: pythonSidebar
 
 ---

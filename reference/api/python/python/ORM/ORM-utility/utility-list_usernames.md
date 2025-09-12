@@ -10,19 +10,19 @@ type: docx
 token: RXi3dgtNYogU0cxmTsgcdT72nsc
 sidebar_position: 29
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - list_usernames()
   - pymilvus25
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 displayed_sidebar: pythonSidebar
 
 ---

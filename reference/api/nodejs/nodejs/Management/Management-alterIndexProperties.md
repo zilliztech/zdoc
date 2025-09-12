@@ -10,19 +10,19 @@ type: docx
 token: PcQcdDwthoSEZaxI6GncpUpGnBh
 sidebar_position: 1
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
   - alterIndexProperties()
   - nodejs25
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: nodeSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: FieTdj7WDoVbBVxp5xjcqO02nrh
 sidebar_position: 4
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus25
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 displayed_sidebar: pythonSidebar
 
 ---

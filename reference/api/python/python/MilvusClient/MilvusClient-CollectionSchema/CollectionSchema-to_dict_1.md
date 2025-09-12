@@ -10,19 +10,19 @@ type: docx
 token: NnIxd6VYso9IBPx6bJDcJJmUnNd
 sidebar_position: 4
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - to_dict()
   - pymilvus25
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: pythonSidebar
 
 ---

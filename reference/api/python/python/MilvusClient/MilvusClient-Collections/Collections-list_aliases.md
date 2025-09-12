@@ -10,19 +10,19 @@ type: docx
 token: Cpynd2OFJoIXhLx3dQNct7Wgn6f
 sidebar_position: 16
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - list_aliases()
   - pymilvus25
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: pythonSidebar
 
 ---

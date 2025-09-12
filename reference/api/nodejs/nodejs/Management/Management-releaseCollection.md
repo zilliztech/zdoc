@@ -10,19 +10,19 @@ type: docx
 token: UxOXdeKF1oOIBuxTjPhcKBtPnRb
 sidebar_position: 17
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - releaseCollection()
   - nodejs25
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: nodeSidebar
 
 ---

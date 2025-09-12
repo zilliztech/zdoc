@@ -10,19 +10,19 @@ type: docx
 token: JzDLdkv3QoCY8OxKpBjc5zsmnId
 sidebar_position: 1
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - CohereEmbeddingFunction
   - pymilvus25
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: pythonSidebar
 
 ---

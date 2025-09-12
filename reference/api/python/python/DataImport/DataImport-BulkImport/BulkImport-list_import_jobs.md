@@ -10,19 +10,19 @@ type: docx
 token: P0vxdEVBPoTNKLxkKIzcznlYnNc
 sidebar_position: 3
 keywords: 
-  - cheap vector database
   - Managed vector database
   - Pinecone vector database
   - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - list_import_jobs()
   - pymilvus25
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 displayed_sidebar: pythonSidebar
 
 ---

@@ -9,10 +9,10 @@ token: QYo4fSeVFlex8ZdeGZ4cAlmcnof
 sidebar_position: 4
 sidebar_label: "ORM"
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud

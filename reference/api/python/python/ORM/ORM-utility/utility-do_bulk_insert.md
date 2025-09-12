@@ -10,19 +10,19 @@ type: docx
 token: BpqpdBWdyoxbmzx0GGCcQxksnBc
 sidebar_position: 8
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
   - do_bulk_insert()
   - pymilvus25
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 displayed_sidebar: pythonSidebar
 
 ---
@@ -71,7 +71,7 @@ do_bulk_insert(
     <ul>
     <li>A valid set of NumPy files should be named after the fields in the schema of the target collection, and the data in them should match the corresponding field definitions. </li>
     </ul>
-    <p>If the target collection allows dynamic fields, create an extra file named <strong>$meta.npy</strong> to include the dynamic fields and their values.</p>
+    <p>If the target collection allows dynamic fields, create an extra file named <strong>&#36;meta.npy</strong> to include the dynamic fields and their values.</p>
     <p>For details on preparing the source data files, refer to <a href="https://milvus.io/docs/bulk_insert.md">Insert Entities from Files</a>.</p>
     <ul>
     <li>You have to upload the source data files to the bucket defined by <code>minio.bucketname</code> in your Milvus configuration before running this operation. </li>

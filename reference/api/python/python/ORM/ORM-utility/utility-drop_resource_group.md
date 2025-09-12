@@ -10,19 +10,19 @@ type: docx
 token: EofGdftYjoQ9E6x8mxLcpbG1nhc
 sidebar_position: 11
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - drop_resource_group()
   - pymilvus25
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: pythonSidebar
 
 ---

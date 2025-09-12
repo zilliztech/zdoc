@@ -10,19 +10,19 @@ type: docx
 token: L8UTdDNkPoeew0x6LoDcfHx4nof
 sidebar_position: 8
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - drop()
   - pymilvus25
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: ClLXdDs64oixJBxlIrCcEB2dngb
 sidebar_position: 27
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - list_roles()
   - pymilvus25
-  - Vector retrieval
-  - Audio similarity search
   - Elastic vector database
   - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: pythonSidebar
 
 ---

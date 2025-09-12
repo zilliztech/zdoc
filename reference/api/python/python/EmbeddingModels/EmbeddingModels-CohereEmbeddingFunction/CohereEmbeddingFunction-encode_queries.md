@@ -10,19 +10,19 @@ type: docx
 token: BqtYdPHHPoNhyKxhSnEcVOKenFb
 sidebar_position: 3
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus25
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 displayed_sidebar: pythonSidebar
 
 ---

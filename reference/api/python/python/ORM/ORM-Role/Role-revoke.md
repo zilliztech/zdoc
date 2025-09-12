@@ -10,19 +10,19 @@ type: docx
 token: UUJWdoEnjoXx69xahsScdMVSnzf
 sidebar_position: 10
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - revoke()
   - pymilvus25
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: pythonSidebar
 
 ---

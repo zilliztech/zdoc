@@ -10,19 +10,19 @@ type: docx
 token: YRoGdgQmWoIEaJx84ICcHTILnMe
 sidebar_position: 8
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - list_grants()
   - pymilvus25
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: pythonSidebar
 
 ---

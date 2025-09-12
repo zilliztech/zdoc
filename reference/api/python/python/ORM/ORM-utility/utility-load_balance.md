@@ -10,19 +10,19 @@ type: docx
 token: XYNMdg3Vpo3SE7xTRVqcJNvrn0d
 sidebar_position: 32
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
   - load_balance()
   - pymilvus25
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 displayed_sidebar: pythonSidebar
 
 ---

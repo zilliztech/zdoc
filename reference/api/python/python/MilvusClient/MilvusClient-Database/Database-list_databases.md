@@ -10,19 +10,19 @@ type: docx
 token: FZuddXocNopEufxRFGdcbvkRnnb
 sidebar_position: 6
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - list_databases()
   - pymilvus25
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: pythonSidebar
 
 ---

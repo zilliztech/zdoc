@@ -10,19 +10,19 @@ type: docx
 token: PLKXdUB1EoNX8gxKHruc9GcEnsg
 sidebar_position: 44
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - wait_for_loading_complete()
   - pymilvus25
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: pythonSidebar
 
 ---

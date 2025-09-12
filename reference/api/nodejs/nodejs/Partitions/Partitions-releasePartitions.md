@@ -10,19 +10,19 @@ type: docx
 token: Sqoed1lkwo8umixJJO1cvKIxnZc
 sidebar_position: 8
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - releasePartitions()
   - nodejs25
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: nodeSidebar
 
 ---

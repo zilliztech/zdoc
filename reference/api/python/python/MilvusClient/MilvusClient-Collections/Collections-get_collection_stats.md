@@ -10,19 +10,19 @@ type: docx
 token: VVyNdx038oECxNxMQavc9vssnoh
 sidebar_position: 13
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - get_collection_stats()
   - pymilvus25
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 displayed_sidebar: pythonSidebar
 
 ---
@@ -71,7 +71,7 @@ A dictionary containing collected statistics on the specified collection.
 }
 ```
 
-<Admonition type="info" icon="📘" title="**Why doesn't the row count match the number of entities inserted?**">
+<Admonition type="info" icon="📘" title="Why doesn't the row count match the number of entities inserted?">
 
 <p>The data that you insert will go through a process before it is finally saved: Initially, it will flow in as data streams. Then, it will be stored in segments as entities. Milvus will select an appropriate growing segment to store the data in streams until the segment reaches its upper limit and becomes sealed.</p>
 <p>However, it's important to note that the row count displayed may not match the number of records that were inserted because data in streams is not taken into account.</p>

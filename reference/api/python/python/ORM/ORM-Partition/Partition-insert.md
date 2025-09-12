@@ -10,19 +10,19 @@ type: docx
 token: QXDxdv36FoVgjcxDV1gcDwWXnsd
 sidebar_position: 5
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
   - pymilvus25
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 displayed_sidebar: pythonSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: HGpSdc7AOo7AV3xKCmOcWaIEnrd
 sidebar_position: 17
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - listPrivilegeGroups()
   - nodejs25
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: nodeSidebar
 
 ---

@@ -10,19 +10,19 @@ type: docx
 token: L4H0dyzS1o6XlmxMQzDca6Pdnjd
 sidebar_position: 20
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
   - FunctionType
   - nodejs25
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 displayed_sidebar: nodeSidebar
 
 ---
