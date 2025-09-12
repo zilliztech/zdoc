@@ -30,9 +30,10 @@ const BaseURL = ({ endpoint, lang, target }) => {
     </>)
 }
 
-const Param = ({ name, description, type, format, required, example, inProp, enums, lang, target }) => {
+const Param = ({ name, description, type, format, required, example, inProp, enums, lang, target, x_i18n }) => {
 
     enums = enums? enums : []
+    const translatedDescription = x_i18n?.[lang]?.description ? x_i18n[lang].description : description
     
     return (
         <div className={styles.paramContainer}>
@@ -42,7 +43,7 @@ const Param = ({ name, description, type, format, required, example, inProp, enu
                 <span className={styles.label}>{inProp}</span>
                 { required && <span className={styles.required}>required</span> }
             </div>
-            <div className={styles.description} dangerouslySetInnerHTML={{__html: description ? textFilter(description, target) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
+            <div className={styles.description} dangerouslySetInnerHTML={{__html: translatedDescription ? textFilter(translatedDescription, target) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
             <div>
                 { enums.length > 0 && <Enums enums={enums} lang={lang} target={target} /> }
                 { (example === 0 || example) && <div>
@@ -235,9 +236,17 @@ const Enums = ({ enums, defaultValue, lang, target }) => {
     )
 }
 
-const Tab = ({ name, id, content, lang, target, selected, setSelected }) => {
-    const value = (content.label ? content.label : `${i18n[lang]["tab.option"]} ${id}`).toUpperCase()
+const Tab = ({ name, id, content, lang, target, selected, setSelected, optionValue }) => {
+    // Handle undefined content
+    if (!content) {
+        return null
+    }
+    
+    const value = optionValue || (content.label ? content.label : `${i18n[lang]["tab.option"]} ${id}`).toUpperCase()
     const label = (content?.['x-tab-label'] ? content['x-tab-label'] : value).toUpperCase()
+    
+    // Handle x-i18n for content description
+    const translatedDescription = content?.["x-i18n"]?.[lang]?.description ? content["x-i18n"][lang].description : content?.description
 
     return (
         <>
@@ -250,9 +259,9 @@ const Tab = ({ name, id, content, lang, target, selected, setSelected }) => {
                 onChange={e => { setSelected(e.target.value) }} />
             <label className={styles.tabLabel} htmlFor={`${name}-tab${id}`}>{label}</label>
             <div className={styles.tabPanel}>
-                { content?.type === 'object' && <Properties description={content.description} properties={content.properties} requiredFields={content.required} lang={lang} target={target} /> }
-                { content?.type === 'array' && <Items description={content.description} obj={content.items} required={content.items.required} lang={lang} target={target} /> }
-                { content?.type === 'string' || content?.type === 'number' || content?.type === 'integer' || content?.type === 'boolean' && <Primitive obj={content} lang={lang} target={target} /> }
+                { content?.type === 'object' && <Properties description={translatedDescription} properties={content.properties} requiredFields={content.required} lang={lang} target={target} /> }
+                { content?.type === 'array' && <Items description={translatedDescription} obj={content.items} required={content.items.required} lang={lang} target={target} /> }
+                { content?.type === 'string' || content?.type === 'number' || content?.type === 'integer' || content?.type === 'boolean' && <Primitive obj={{...content, description: translatedDescription}} lang={lang} target={target} /> }
                 { content?.type === 'code' && <CodeBlock className="language-json" children={JSON.stringify(content.value, null, 4)} /> }
                 { content?.type === 'reqs' && <CodeBlock className="language-bash" children={content.value} /> }
             </div>
@@ -260,10 +269,20 @@ const Tab = ({ name, id, content, lang, target, selected, setSelected }) => {
     )
 }
 
-const AnyOf = ({ name, description, arr, required, lang, target, onValueChange }) => {
+const AnyOf = ({ name, description, arr, required, lang, target, onValueChange, x_i18n }) => {
     const r = getRandomString(5)
+    const translatedDescription = x_i18n?.[lang]?.description ? x_i18n[lang].description : description
 
-    const defaultValue = (arr[0].label ? arr[0].label : `${i18n[lang]["tab.option"]} 1`).toUpperCase()
+    // Map tab labels to option values for responses and requestBody
+    const getOptionValue = (label, index) => {
+        if (name === 'responses' || name === 'requestBody') {
+            // For responses and requestBody, map labels to OPTION 1, OPTION 2, etc.
+            return `OPTION ${index + 1}`
+        }
+        return (label ? label : `${i18n[lang]["tab.option"]} ${index + 1}`).toUpperCase()
+    }
+
+    const defaultValue = getOptionValue(arr[0].label, 0)
     const [ selected, setSelected ] = useState(defaultValue)
 
     const setSelectedOption = (value) => {
@@ -280,11 +299,12 @@ const AnyOf = ({ name, description, arr, required, lang, target, onValueChange }
                 <span className={styles.label}>anyOf</span>
                 { required && <span className={styles.required}>required</span> }
             </div>
-            <div className={styles.description} dangerouslySetInnerHTML={{__html: description ? textFilter(description, target) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
+            <div className={styles.description} dangerouslySetInnerHTML={{__html: translatedDescription ? textFilter(translatedDescription, target) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
         </div> }
         <div style={{ margin: (name && name !== 'responses' && name !== 'requestBody') ? '0 0 0 2rem' : '0' }}>
             <div className={styles.tabs} style={{ marginTop: '1rem' }}>
                 {arr.map((item, index) => {
+                    const optionValue = getOptionValue(item.label, index)
                     return (
                         <Tab key={index} 
                             name={`${name}-${r}`} 
@@ -293,7 +313,8 @@ const AnyOf = ({ name, description, arr, required, lang, target, onValueChange }
                             lang={lang} 
                             target={target}
                             selected={selected}
-                            setSelected={setSelectedOption} />
+                            setSelected={setSelectedOption}
+                            optionValue={optionValue} />
                     )
                 })}
             </div>
@@ -301,10 +322,20 @@ const AnyOf = ({ name, description, arr, required, lang, target, onValueChange }
     </>)
 }
 
-const OneOf = ({ name, description, arr, required, lang, target, onValueChange }) => {
+const OneOf = ({ name, description, arr, required, lang, target, onValueChange, x_i18n }) => {
     const r = getRandomString(5)
+    const translatedDescription = x_i18n?.[lang]?.description ? x_i18n[lang].description : description
 
-    const defaultValue = (arr[0].label ? arr[0].label : `${i18n[lang]["tab.option"]} 1`).toUpperCase()
+    // Map tab labels to option values for responses and requestBody
+    const getOptionValue = (label, index) => {
+        if (name === 'responses' || name === 'requestBody') {
+            // For responses and requestBody, map labels to OPTION 1, OPTION 2, etc.
+            return `OPTION ${index + 1}`
+        }
+        return (label ? label : `${i18n[lang]["tab.option"]} ${index + 1}`).toUpperCase()
+    }
+
+    const defaultValue = getOptionValue(arr[0].label, 0)
     const [ selected, setSelected ] = useState(defaultValue)
 
     const setSelectedOption = (value) => {
@@ -321,11 +352,12 @@ const OneOf = ({ name, description, arr, required, lang, target, onValueChange }
                 <span className={styles.label}>oneOf</span>
                 { required && <span className={styles.required}>required</span> }
             </div>
-            <div className={styles.description} dangerouslySetInnerHTML={{__html: description ? textFilter(description, target) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
+            <div className={styles.description} dangerouslySetInnerHTML={{__html: translatedDescription ? textFilter(translatedDescription, target) : `<i>${i18n[lang]["to.be.added.soon"]}</i>`}}></div>
         </div> }
         <div style={{ margin: (name && name !== 'responses' && name !== 'requestBody') ? '0 0 0 2rem' : '0' }}>
             <div className={styles.tabs} style={{ marginTop: '1rem' }}>
                 {arr.map((item, index) => {
+                    const optionValue = getOptionValue(item.label, index)
                     return (
                         <Tab key={index} 
                             name={`${name}-${r}`} 
@@ -334,7 +366,8 @@ const OneOf = ({ name, description, arr, required, lang, target, onValueChange }
                             lang={lang} 
                             target={target}
                             selected={selected}
-                            setSelected={setSelectedOption} />
+                            setSelected={setSelectedOption}
+                            optionValue={optionValue} />
                     )
                 })}
             </div>
@@ -363,11 +396,13 @@ const ExampleResponses = ({ examples, lang, target, selectedResponse }) => {
         return condition
     })
 
-    const defaultValue = (examples[validKeys[0]].summary).toUpperCase()
+    // Handle case where no valid keys are found
+    const defaultValue = validKeys.length > 0 ? (examples[validKeys[0]].summary).toUpperCase() : ''
     const availableLabels = validKeys.map(key => examples[key].summary.toUpperCase())
     const [ selected, setSelected ] = useState(defaultValue)
 
-    if (!availableLabels.includes(selected)) {
+    // Only update selection if there are available labels and current selection is invalid
+    if (availableLabels.length > 0 && !availableLabels.includes(selected)) {
         setSelected(availableLabels[0])
     }
 
@@ -431,11 +466,13 @@ const ExampleRequests = ({ endpoint, method, headersExample, pathExample, queryE
             return condition
         })
 
-        const defaultValue = (examples[validKeys[0]].summary).toUpperCase()
+        // Handle case where no valid keys are found
+        const defaultValue = validKeys.length > 0 ? (examples[validKeys[0]].summary).toUpperCase() : ''
         const availableLabels = validKeys.map(key => examples[key].summary.toUpperCase())
         const [ selected, setSelected ] = useState(defaultValue)
 
-        if (!availableLabels.includes(selected)) {
+        // Only update selection if there are available labels and current selection is invalid
+        if (availableLabels.length > 0 && !availableLabels.includes(selected)) {
             setSelected(availableLabels[0])
         }
 
@@ -529,12 +566,13 @@ export default function RestSpecs(props) {
                                             lang={lang}
                                             target={target} 
                                             name={param.name} 
-                                            description={ param["x-i18n"]?.[lang]?.description ? param["x-i18n"]?.[lang]?.description : param.description } 
+                                            description={param.description}
                                             type={param.schema.type} 
                                             required={param.required} 
                                             example={param.example}
                                             inProp={param.in}
-                                            enums={param.schema.enum} />
+                                            enums={param.schema.enum}
+                                            x_i18n={param["x-i18n"]} />
                                     )
                                 })}
                                 { pathParams.length > 0 && pathParams.map((param, index) => {
@@ -545,7 +583,7 @@ export default function RestSpecs(props) {
                                             lang={lang}
                                             target={target} 
                                             name={param.name} 
-                                            description={ param.i18n?.[lang]?.description ? param.i18n[lang].description : param.description } 
+                                            description={ param["x-i18n"]?.[lang]?.description ? param["x-i18n"]?.[lang]?.description : param.description } 
                                             type={param.schema.type}
                                             required={param.required} 
                                             example={param.example}
@@ -561,7 +599,7 @@ export default function RestSpecs(props) {
                                             lang={lang}
                                             target={target} 
                                             name={param.name} 
-                                            description={ param.i18n?.[lang]?.description ? param.i18n[lang].description : param.description } 
+                                            description={ param["x-i18n"]?.[lang]?.description ? param["x-i18n"]?.[lang]?.description : param.description } 
                                             type={param.schema.type}
                                             required={param.required} 
                                             example={param.example}
@@ -592,12 +630,14 @@ export default function RestSpecs(props) {
                                         arr={requestBody.content['application/json'].schema.anyOf}
                                         lang={lang}
                                         target={target}
-                                        onValueChange={handleMultipleRequests} /> }
+                                        onValueChange={handleMultipleRequests}
+                                        x_i18n={requestBody.content['application/json'].schema["x-i18n"]} /> }
                                     { requestBody.content['application/json']?.schema?.oneOf && <OneOf name="requestBody"
                                         arr={requestBody.content['application/json'].schema.oneOf} 
                                         lang={lang}
                                         target={target}
-                                        onValueChange={handleMultipleRequests} /> }
+                                        onValueChange={handleMultipleRequests}
+                                        x_i18n={requestBody.content['application/json'].schema["x-i18n"]} /> }
                                     { requestBody.content['application/json']?.schema?.type !== 'object' && requestBody.content['application/json']?.schema?.type !== 'array' 
                                      && !Object.keys(requestBody.content['application/json'].schema).includes('anyOf') && !Object.keys(requestBody.content['application/json'].schema).includes('oneOf') && <Primitive name="requestBody"
                                         obj={requestBody.content['application/json'].schema}
@@ -634,12 +674,14 @@ export default function RestSpecs(props) {
                             arr={responses['200'].content['application/json'].schema.anyOf}
                             lang={lang}
                             target={target}
-                            onValueChange={handleMultipleResponses} /> }
+                            onValueChange={handleMultipleResponses}
+                            x_i18n={responses['200'].content['application/json'].schema["x-i18n"]} /> }
                         { responses['200']?.content['application/json']?.schema?.oneOf && <OneOf name="responses" 
                             arr={responses['200'].content['application/json'].schema.oneOf}
                             lang={lang}
                             target={target}
-                            onValueChange={handleMultipleResponses} /> }
+                            onValueChange={handleMultipleResponses}
+                            x_i18n={responses['200'].content['application/json'].schema["x-i18n"]} /> }
                         { responses['200']?.content['application/json']?.schema?.type === 'object' && <Properties properties={responses['200'].content['application/json'].schema.properties} 
                             requiredFields={responses['200'].content['application/json'].schema.required}
                             lang={lang}
