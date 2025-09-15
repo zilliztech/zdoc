@@ -53,3 +53,14 @@
     background-repeat: no-repeat;
     margin-right: 10px;    
 }
+
+@media (max-width: 768px) {
+    .banner {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .bannerLink {
+        width: 100%;
+    }
+}

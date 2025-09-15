@@ -90,3 +90,14 @@
     background-size: contain;
     background-repeat: no-repeat;
 }
+
+@media (max-width: 768px) {
+    .items {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .item {
+        width: 100%;
+    }
+}

@@ -22,30 +22,41 @@ export default function Stories({ children }) {
     const handleTabSwitch = (index) => {
         setActiveTabId(index);
     }
+
+    const handleSelectChange = (event) => {
+        setActiveTabId(parseInt(event.target.value, 10));
+    }
     
     return (
         <div className={styles.stories}>
-                { children[0] }
-                <ul className={styles.storiesList}>
-                    { tabs.map((tab, index) => {
-                        return (
-                            <li key={index} 
-                                className = { activeTabId === index? styles.active : ''} 
-                                onClick={() => handleTabSwitch(index)}>
-                                {tab}
-                            </li>
-                        )
-                    })}
-                </ul>
-                { procedures.map((procedure, index) => {
+            { children[0] }
+            <ul className={styles.storiesList}>
+                { tabs.map((tab, index) => {
                     return (
-                        <Procedures key={index} 
-                            active={activeTabId === index}>
-                            {procedure}
-                        </Procedures>
+                        <li key={index} 
+                            className = { activeTabId === index? styles.active : ''}
+                            onClick={() => handleTabSwitch(index)}>
+                            {tab}
+                        </li>
                     )
-                })
-                }
+                }) }
+            </ul>
+            <div className={styles.dropdownWrapper}>
+                <select className={styles.dropdown} onChange={handleSelectChange} value={activeTabId}>
+                    { tabs.map((tab, index) => (
+                        <option key={index} value={index}>{tab}</option>
+                    ))}
+                </select>
+            </div>
+            { procedures.map((procedure, index) => {
+                return (
+                    <Procedures key={index} 
+                        active={activeTabId === index}>
+                        {procedure}
+                    </Procedures>
+                )
+            }) 
+            }
         </div>
     )    
 }

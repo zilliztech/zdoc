@@ -9,11 +9,11 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    gap: 10px;
+    gap: 20px;
 }
 
 .subtract {
-    flex: 0 0 55%;
+    flex: 0 0 50%;
     min-width: 0; /* Prevent flex item from growing beyond container */
     padding: 60px 0;
 }
@@ -28,16 +28,34 @@
 .heroImg {
     display: flex;
     justify-content: flex-end;
+    align-items: center;
     flex: 1 1 auto;
     min-width: 0;
 }
 
 .heroImg p {
-    margin-bottom: 0 !important;
+    margin: 0 !important;
 }
 
 .heroImg img {
-    max-width: 100%;
     width: auto;
     height: auto;
+    max-width: 100%;
+}
+
+@media (max-width: 768px) {
+    .header {
+        flex-direction: column;
+        gap: 20px;
+    }
+
+    .subtract {
+        flex: 1;
+        padding: 20px 0;
+        text-align: center;
+    }
+
+    .heroImg {
+        justify-content: center;
+    }
 }

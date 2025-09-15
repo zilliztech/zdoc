@@ -56,6 +56,10 @@
     animation: activeUnderline 0.3s ease-out;
 }
 
+.dropdownWrapper {
+    display: none;
+}
+
 @keyframes activeUnderline {
     from {
         transform: scaleX(0);
@@ -67,12 +71,25 @@
     }
 }
 
-@media (max-width: 996px) {
-    .stories {
-        --doc-sidebar-width: 0;
-        left: 0;
-        right: 0; 
-        margin-left: 10px;
-        margin-right: 10px;
+@media (max-width: 768px) {
+    .storiesList {
+        display: none;
+    }
+
+    .dropdownWrapper {
+        display: block;
+        margin-bottom: 20px;
+    }
+
+    .dropdown {
+        width: 100%;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #D0D6DF;
+        background-color: #F6F8FA;
+        font-size: 16px;
+        font-weight: 600;
+        color: #333;
+        cursor: pointer;
     }
 }

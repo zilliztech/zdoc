@@ -117,3 +117,18 @@
     color: #475467;
     margin: 0 !important;
 }
+
+@media (max-width: 768px) {
+    .items {
+        flex-direction: column;
+        gap: 10px;
+    }
+
+    .item {
+        width: 100%;
+    }
+
+    .break {
+        display: none;
+    }
+}
