@@ -30,6 +30,9 @@ jobs:
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
         SPACE_ID: ${{ secrets.SPACE_ID }}
         FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
+        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+        MODEL_ID: ${{ vars.MODEL_ID }}
     - name: build docsite
       run: |
         npx docusaurus report-to-lark -m "🔥 English docs fetched! Building docs..."
@@ -38,12 +41,18 @@ jobs:
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
+        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+        MODEL_ID: ${{ vars.MODEL_ID }}
     - name: link checks
       env:
         TOKEN: ${{ secrets.ACTION_TOKEN }}
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
+        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+        MODEL_ID: ${{ vars.MODEL_ID }}
       run: |
         npx docusaurus report-to-lark -m "🔥 Docs built! Checking links..."
         npx docusaurus link-checks
@@ -67,6 +76,9 @@ jobs:
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
         SPACE_ID: ${{ secrets.SPACE_ID }}
         FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
+        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+        MODEL_ID: ${{ vars.MODEL_ID }}
     - name: build docsite
       run: |
         npx docusaurus report-to-lark -m "🔥 Japanese docs fetched! Building docs..."
@@ -75,12 +87,18 @@ jobs:
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
+        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+        MODEL_ID: ${{ vars.MODEL_ID }}
     - name: link checks
       env:
         TOKEN: ${{ secrets.ACTION_TOKEN }}
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
+        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+        MODEL_ID: ${{ vars.MODEL_ID }}
       run: |
         npx docusaurus report-to-lark -m "🔥 Docs built! Checking links..."
         npx docusaurus link-checks
@@ -115,7 +133,10 @@ jobs:
         APP_SECRET: ${{ secrets.APP_SECRET }}
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
         SPACE_ID: ${{ secrets.SPACE_ID }}
-        FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}   
+        FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
+        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+        MODEL_ID: ${{ vars.MODEL_ID }}   
     - name: build docsite
       run: |
         npx docusaurus report-to-lark -m "🔥 SDK references fetched! Building docs..."
@@ -124,12 +145,18 @@ jobs:
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
+        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+        MODEL_ID: ${{ vars.MODEL_ID }}
     - name: link checks
       env:
         TOKEN: ${{ secrets.ACTION_TOKEN }}
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
+        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+        MODEL_ID: ${{ vars.MODEL_ID }}
       run: |
         npx docusaurus report-to-lark -m "🔥 Docs built! Checking links..."
         npx docusaurus link-checks
@@ -156,6 +183,9 @@ jobs:
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
+        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+        MODEL_ID: ${{ vars.MODEL_ID }}
   success:
     needs: fetch
     runs-on: ubuntu-latest
@@ -173,4 +203,7 @@ jobs:
         APP_ID: ${{ secrets.APP_ID }}
         APP_SECRET: ${{ secrets.APP_SECRET }}
         FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
+        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+        MODEL_ID: ${{ vars.MODEL_ID }}
       
