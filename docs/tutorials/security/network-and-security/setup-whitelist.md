@@ -57,7 +57,7 @@ Ensure the following prerequisites are met before proceeding:
        </tr>
        <tr>
          <td><p>IP Address (CIDR)</p></td>
-         <td><p>The IP addresses or CIDR block that you want to add to the whitelist. Up to 20 CIDR blocks are allowed. Example value: 192.168.1.1/20.</p></td>
+         <td><p>The IP addresses or CIDR block that you want to add to the whitelist. Up to 100 CIDR blocks are allowed. Example value: 192.168.1.1/20.</p></td>
        </tr>
        <tr>
          <td><p>Description</p></td>
