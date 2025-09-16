@@ -131,23 +131,23 @@ const config = {
         receiveId: 'oc_0e36909edb9247c7b6ecb437e99f1d68'
       }
     ],
-    [
-      './plugins/i18n-translator',
-      {
-        glossaries: {
-          'ja-JP': [
-            { source: 'Organization Owner', target: '組織オーナー' },
-            { source: 'API keys', target: 'APIキー' }
-          ]
-        },
-        untranslatables: [
-          'Zilliz Cloud',
-          'RESTful API',
-          'V2',
-          ' | Cloud'
-        ]
-      }
-    ],
+    // [
+    //   './plugins/i18n-translator',
+    //   {
+    //     glossaries: {
+    //       'ja-JP': [
+    //         { source: 'Organization Owner', target: '組織オーナー' },
+    //         { source: 'API keys', target: 'APIキー' }
+    //       ]
+    //     },
+    //     untranslatables: [
+    //       'Zilliz Cloud',
+    //       'RESTful API',
+    //       'V2',
+    //       ' | Cloud'
+    //     ]
+    //   }
+    // ],
   ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */
