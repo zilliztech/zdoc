@@ -84,6 +84,9 @@ export default class Restorer {
             bodyMarkdown = bodyMarkdown.replace(placeholder, this.slugs[placeholder]);
         }
 
+        // Apply post-translation cleanup for formatting issues
+        bodyMarkdown = this.cleanupFormatting(bodyMarkdown);
+
         return frontmatterMarkdown + bodyMarkdown;
     }
     
@@ -129,10 +132,28 @@ export default class Restorer {
             frontmatterObject.description = translatedFirstParagraph + descriptionSuffix;
         }
         
-        // Rule 3: If sidebar_label is same as source title, use translated title
+        // Rule 3: If sidebar_label is same as source title (ignoring common suffixes), use translated title
         if (this.frontmatter.sidebar_label && this.frontmatter.title) {
-            if (this.frontmatter.sidebar_label === this.frontmatter.title) {
-                frontmatterObject.sidebar_label = frontmatterObject.title;
+            // Helper function to normalize title by removing common suffixes
+            const normalizeTitle = (title) => {
+                if (!title) return title;
+                // Remove common suffixes like " | Cloud", " | BYOC" and quotes
+                return title.replace(/^["']|["']$/g, '').replace(/\s+\|\s*(Cloud|BYOC)$/, '').trim();
+            };
+
+            const normalizedTitle = normalizeTitle(this.frontmatter.title);
+            const normalizedSidebarLabel = normalizeTitle(this.frontmatter.sidebar_label);
+
+            if (normalizedSidebarLabel === normalizedTitle) {
+                // Use translated title but remove the suffix if original sidebar_label didn't have it
+                const originalSidebarHadSuffix = this.frontmatter.sidebar_label && this.frontmatter.sidebar_label.match(/\s+\|\s*(Cloud|BYOC)$/);
+                if (originalSidebarHadSuffix) {
+                    frontmatterObject.sidebar_label = frontmatterObject.title;
+                } else {
+                    // Remove suffix from translated title for sidebar_label
+                    const translatedTitleWithoutSuffix = frontmatterObject.title.replace(/\s+\|\s*(Cloud|BYOC)$/, '').trim();
+                    frontmatterObject.sidebar_label = translatedTitleWithoutSuffix;
+                }
             }
         }
     }
@@ -150,15 +171,41 @@ export default class Restorer {
     
     extractFirstParagraphFromTranslatedBody(translationMap) {
         // Find the first paragraph (non-heading text block)
-        for (const [, translatedText] of translationMap) {
+        for (const [placeholder, translatedText] of translationMap) {
             const trimmed = translatedText.trim();
-            // Skip headings, empty lines, and very short text
-            if (!trimmed.startsWith('#') && !trimmed.startsWith('##') && trimmed.length > 10 && !trimmed.includes('<')) {
-                // Clean up markdown and return first sentence or reasonable length
-                const cleaned = trimmed.replace(/\*\*/g, '').replace(/\*/g, '');
-                // Return first sentence or truncate at reasonable length
-                const firstSentence = cleaned.split('.')[0];
-                return firstSentence.length > 200 ? firstSentence.substring(0, 200) + '...' : firstSentence + '.';
+            // Skip headings, empty lines, very short text, and HTML-like content
+            if (!trimmed.startsWith('#') &&
+                !trimmed.startsWith('##') &&
+                !trimmed.startsWith('###') &&
+                !trimmed.startsWith('####') &&
+                trimmed.length > 20 &&
+                !trimmed.includes('<') &&
+                !trimmed.includes('import') &&
+                !trimmed.startsWith('```') &&
+                placeholder.startsWith('%%TEXT')) {
+
+                // This should be the first actual paragraph content
+                // Clean up markdown formatting but preserve meaning
+                let cleaned = trimmed
+                    .replace(/\*\*/g, '') // Remove **bold**
+                    .replace(/\*/g, '') // Remove *italic*
+                    .replace(/`([^`]+)`/g, '$1') // Remove `code`
+                    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1'); // Remove [text](url) links, keep just text
+
+                // Return first sentence or truncate at reasonable length for description
+                // Handle both English and Japanese periods
+                const firstSentence = cleaned.split(/[.。]/)[0];
+                if (firstSentence.length > 0) {
+                    let result = firstSentence.length > 200 ? firstSentence.substring(0, 200) + '...' : firstSentence;
+
+                    // Add appropriate punctuation only if not already present
+                    const lastChar = result.trim().slice(-1);
+                    if (!lastChar.match(/[.。!?？!]/)) {
+                        result += '.';
+                    }
+
+                    return result;
+                }
             }
         }
         return null;
@@ -172,6 +219,56 @@ export default class Restorer {
         return '';
     }
     
+    cleanupFormatting(markdown) {
+        let cleaned = markdown;
+
+        // Fix 1: Remove backslash escaping from underscores in image alt text
+        // Replace escaped underscores in image references: ![](image\_name.png) -> ![](image_name.png)
+        cleaned = cleaned.replace(/!\[([^\]]*)\]\(([^)]+)\)/g, (_match, altText, imageUrl) => {
+            // Remove backslash escaping from underscores in both alt text and image URL
+            const cleanAltText = altText.replace(/\\_/g, '_');
+            const cleanImageUrl = imageUrl.replace(/\\_/g, '_');
+            return `![${cleanAltText}](${cleanImageUrl})`;
+        });
+
+        // Fix 2: Fix table formatting while preserving original indentation
+        cleaned = cleaned.replace(/(\s*)(<table\b[^>]*>[\s\S]*?<\/table>)/gi, (match, leadingWhitespace, tableContent) => {
+            return '\n' + this.formatTableWithIndentation(leadingWhitespace + tableContent);
+        });
+
+        // Fix 3: Clean up excessive empty lines that might result from table formatting
+        cleaned = cleaned.replace(/\n\s*\n\s*\n\s*\n/g, '\n\n');
+
+        return cleaned;
+    }
+
+    formatTableWithIndentation(tableHtml) {
+        // Extract the base indentation (indentation of the <table> tag)
+        const tableStartMatch = tableHtml.match(/^(\s*)<table\b/);
+        const baseIndentation = tableStartMatch ? tableStartMatch[1] : '';
+
+        // Remove all existing indentation and line breaks within the table
+        let normalizedTable = tableHtml
+            .replace(/^\s+/, '') // Remove leading whitespace from the entire table
+            .replace(/\s+/g, ' ') // Replace all whitespace sequences with single spaces
+            .replace(/>\s*</g, '><') // Remove spaces between tags
+            .trim();
+
+        // Rebuild the table with proper structure while preserving base indentation
+        const formattedTable = normalizedTable
+            .replace(/<table([^>]*)>/gi, `${baseIndentation}<table$1>`)
+            .replace(/<\/table>/gi, `${baseIndentation}</table>`)
+            .replace(/<tr([^>]*)>/gi, `\n${baseIndentation}  <tr$1>`)
+            .replace(/<\/tr>/gi, `\n${baseIndentation}  </tr>`)
+            .replace(/<th([^>]*)>/gi, `\n${baseIndentation}    <th$1>`)
+            .replace(/<\/th>/gi, `</th>`)
+            .replace(/<td([^>]*)>/gi, `\n${baseIndentation}    <td$1>`)
+            .replace(/<\/td>/gi, `</td>`)
+            .replace(/\n\s*\n/g, '\n'); // Clean up excessive blank lines
+
+        return formattedTable;
+    }
+
     async rewriteComplexBlock(template, restoredBlock) {
         try {
             // Reconstruct the original source text from template for LLM reference and cache key
@@ -180,7 +277,7 @@ export default class Restorer {
                 const placeholderRegex = new RegExp(text.placeholder.replace(/[-\/\\^$*+?.()|[\]{}]/g, '\\$&'), 'g');
                 originalSourceText = originalSourceText.replace(placeholderRegex, text.original);
             }
-            
+
             // Check cache first (unless force rewriting is enabled)
             if (!this.forceRewriting && this.rewriteCache) {
                 const cached = await this.rewriteCache.get(template.template, restoredBlock, originalSourceText, this.targetLang);
@@ -197,16 +294,16 @@ export default class Restorer {
                     }
                 }
             }
-            
+
             const rewritten = await this.translator.rewriteComplexBlock(
-                template.template, 
-                restoredBlock, 
+                template.template,
+                restoredBlock,
                 originalSourceText,
-                this.sourceLang, 
+                this.sourceLang,
                 this.targetLang,
                 template.specialTerms || []
             );
-            
+
             // Cache the result
             if (this.rewriteCache) {
                 await this.rewriteCache.set(template.template, restoredBlock, originalSourceText, this.targetLang, rewritten);
@@ -214,7 +311,7 @@ export default class Restorer {
                     console.log('💾 Rewrite cache entry stored');
                 }
             }
-            
+
             return rewritten;
         } catch (error) {
             console.warn('Error rewriting complex block, using original:', error.message);

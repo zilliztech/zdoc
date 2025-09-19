@@ -69,15 +69,10 @@ function getAvailableVersions(siteConfig) {
     }
 }
 
-// Configure the rate limiter for OpenRouter's free tier.
-// 20 requests per minute = 1 request every 3 seconds.
-const limiter = new Bottleneck({
-  minTime: 3000 // 1 request per 3000ms (3 seconds)
-});
 
 
 export default function i18nTranslator(context, options) {
-  const { glossaries = {}, untranslatables = [] } = options;
+  const { glossaries = {}, untranslatables = [], modelConfig = {}, throttleConfig = {} } = options;
   
   return {
     name: 'i18n-translator',
@@ -130,7 +125,9 @@ export default function i18nTranslator(context, options) {
                 await translateSingleFile(opts.source, detectedVersion, versions, versionDirMap, {
                     ...opts,
                     glossaries,
-                    untranslatables
+                    untranslatables,
+                    modelConfig,
+                    throttleConfig
                 }, context);
             } else if (opts.versionFolder) {
                 // Batch translation mode
@@ -142,7 +139,9 @@ export default function i18nTranslator(context, options) {
                 await translateVersionFolder(opts.versionFolder, versions, versionDirMap, {
                     ...opts,
                     glossaries,
-                    untranslatables
+                    untranslatables,
+                    modelConfig,
+                    throttleConfig
                 }, context);
             }
         });
@@ -167,7 +166,10 @@ async function translateSingleFile(sourceFile, version, versions, versionDirMap,
         fs.writeFileSync(`${sourceFile}.template.md`, templateContent);
     }
 
-    const translator = new Translator();
+    const translator = new Translator({
+        modelConfig: opts.modelConfig || {},
+        throttleConfig: opts.throttleConfig || {}
+    });
 
     const cachedItems = [];
     const itemsToTranslate = [];
@@ -183,11 +185,9 @@ async function translateSingleFile(sourceFile, version, versions, versionDirMap,
 
     console.log(`Found ${extractor.translatables.length} items: ${cachedItems.length} from cache, ${itemsToTranslate.length} to translate.`);
 
-    const wrappedTranslate = limiter.wrap(translator.translate.bind(translator));
-
     let completedItems = 0;
     const translationPromises = itemsToTranslate.map(async item => {
-        const translatedText = await wrappedTranslate(item.text, opts.sourceLang, opts.targetLang, item.specialTerms || []);
+        const translatedText = await translator.translate(item.text, opts.sourceLang, opts.targetLang, item.specialTerms || []);
         completedItems++;
         const percentage = Math.round((completedItems / itemsToTranslate.length) * 100);
         if (itemsToTranslate.length > 0) {

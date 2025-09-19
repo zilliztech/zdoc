@@ -42,12 +42,41 @@ export default class Extractor {
             this.frontmatter = yaml.load(yamlContent);
             content = content.substring(frontmatterMatch[0].length);
             
-            // Only translate sidebar_label if it's different from title
+            // Add title to translatables
+            if (this.frontmatter.title) {
+                // Remove ALL quotation marks before translation (double quotes, single quotes, Japanese quotes, etc.)
+                const cleanTitle = this.frontmatter.title.replace(/^["\'"'"'"']|["\'"'"'"']$/g, '');
+                this.translatables.push({
+                    text: cleanTitle,
+                    isFrontmatter: true,
+                    key: 'title',
+                    isTitle: true,
+                    specialTerms: [{ type: 'title', isTitle: true }] // Add isTitle flag to specialTerms
+                });
+            }
+
+            // Only translate sidebar_label if it's different from title (ignoring common suffixes)
             if (this.frontmatter.sidebar_label) {
-                if (this.frontmatter.sidebar_label !== this.frontmatter.title) {
+                // Helper function to normalize title by removing common suffixes
+                const normalizeTitle = (title) => {
+                    if (!title) return title;
+                    // Remove common suffixes like " | Cloud", " | BYOC"
+                    return title.replace(/\s+\|\s*(Cloud|BYOC)$/, '').trim();
+                };
+
+                const normalizedTitle = normalizeTitle(this.frontmatter.title);
+                const normalizedSidebarLabel = normalizeTitle(this.frontmatter.sidebar_label);
+
+                if (normalizedSidebarLabel !== normalizedTitle) {
                     // Remove ALL quotation marks before translation (double quotes, single quotes, Japanese quotes, etc.)
                     const cleanSidebarLabel = this.frontmatter.sidebar_label.replace(/^["\'"'"'"']|["\'"'"'"']$/g, '');
-                    this.translatables.push({ text: cleanSidebarLabel, isFrontmatter: true, key: 'sidebar_label' });
+                    this.translatables.push({
+                        text: cleanSidebarLabel,
+                        isFrontmatter: true,
+                        key: 'sidebar_label',
+                        isTitle: true,
+                        specialTerms: [{ type: 'title', isTitle: true }] // Add isTitle flag to specialTerms
+                    });
                 }
             }
         }
@@ -74,9 +103,45 @@ export default class Extractor {
         root.children.forEach((node) => {
             const blockRoot = { type: 'root', children: [JSON.parse(JSON.stringify(node))] };
             const texts = [];
-            
+
+            // Check if this is a heading block
+            const isHeading = node.type === 'heading';
+
             if (node.type !== 'code') { // Don't extract text from code blocks
                 visit(blockRoot, (child) => {
+                    // Handle JSX component attributes (like Admonition titles)
+                    if (child.type === 'mdxJsxFlowElement' && child.name === 'Admonition') {
+                        // Extract title attribute from Admonition component
+                        const titleAttr = child.attributes?.find(attr => attr.name === 'title');
+                        if (titleAttr && titleAttr.value) {
+                            const titleValue = titleAttr.value;
+                            const textProcessing = this.processText(titleValue);
+                            const placeholder = `%%TEXT${textCounter++}%%`;
+
+                            texts.push({
+                                placeholder,
+                                original: titleValue,
+                                isSpecial: textProcessing.specialTerms.length > 0,
+                                specialTerms: textProcessing.specialTerms
+                            });
+
+                            // Add isTitle flag to specialTerms for translator
+                            const titleSpecialTerms = [...textProcessing.specialTerms];
+                            titleSpecialTerms.push({ type: 'title', isTitle: true });
+
+                            this.translatables.push({
+                                text: titleValue,
+                                isBody: true,
+                                isTitle: true,
+                                placeholder,
+                                specialTerms: titleSpecialTerms
+                            });
+
+                            // Replace the title attribute value with placeholder
+                            titleAttr.value = placeholder;
+                        }
+                    }
+
                     if (child.type === 'text') {
                         const originalValue = child.value;
                         const slugPlaceholderRegex = /%%SLUG\d+%%/g;
@@ -88,40 +153,54 @@ export default class Extractor {
                             if (textPart) {
                                 const textProcessing = this.processText(textPart);
                                 const placeholder = `%%TEXT${textCounter++}%%`;
-                                
+
                                 texts.push({
                                     placeholder,
                                     original: textPart,
                                     isSpecial: textProcessing.specialTerms.length > 0,
                                     specialTerms: textProcessing.specialTerms
                                 });
-                                
+
+                                // Add isTitle flag to specialTerms for translator
+                                const titleSpecialTerms = [...textProcessing.specialTerms];
+                                if (isHeading) {
+                                    titleSpecialTerms.push({ type: 'title', isTitle: true });
+                                }
+
                                 this.translatables.push({
                                     text: textPart,
                                     isBody: true,
+                                    isTitle: isHeading, // Mark heading text as titles
                                     placeholder,
-                                    specialTerms: textProcessing.specialTerms
+                                    specialTerms: titleSpecialTerms
                                 });
-                                
+
                                 child.value = originalValue.replace(textPart, placeholder);
                             }
                             // If no text part, do nothing, leave child.value as is (e.g. just a slug placeholder).
                         } else {
                             const textProcessing = this.processText(child.value);
-                        
+
                             // Always add to translatables for translation
                             const placeholder = `%%TEXT${textCounter++}%%`;
                             texts.push({
-                                placeholder, 
+                                placeholder,
                                 original: child.value,
                                 isSpecial: textProcessing.specialTerms.length > 0,
                                 specialTerms: textProcessing.specialTerms
                             });
+                            // Add isTitle flag to specialTerms for translator
+                            const titleSpecialTerms = [...textProcessing.specialTerms];
+                            if (isHeading) {
+                                titleSpecialTerms.push({ type: 'title', isTitle: true });
+                            }
+
                             this.translatables.push({
-                                text: child.value, 
-                                isBody: true, 
+                                text: child.value,
+                                isBody: true,
+                                isTitle: isHeading, // Mark heading text as titles
                                 placeholder,
-                                specialTerms: textProcessing.specialTerms
+                                specialTerms: titleSpecialTerms
                             });
                             child.value = placeholder;
                         }

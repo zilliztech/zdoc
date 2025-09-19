@@ -3,6 +3,7 @@ import remarkMath from 'remark-math';
 import rehypeKatex from 'rehype-katex';
 import larkDocsConfig from './config/lark-docs.config';
 import { tutorialsItemsGenerator, ReferenceItemsGenerator } from './config/sidebar-generators';
+import i18nTranslatorConfig from './config/i18n-translator.config';
 
 import 'dotenv/config';
 
@@ -133,20 +134,7 @@ const config = {
     ],
     [
       './plugins/i18n-translator',
-      {
-        glossaries: {
-          'ja-JP': [
-            { source: 'Organization Owner', target: '組織オーナー' },
-            { source: 'API keys', target: 'APIキー' }
-          ]
-        },
-        untranslatables: [
-          'Zilliz Cloud',
-          'RESTful API',
-          'V2',
-          ' | Cloud'
-        ]
-      }
+      i18nTranslatorConfig
     ],
   ],
   themeConfig:
