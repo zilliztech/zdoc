@@ -143,12 +143,19 @@ Translated Text:`;
 
                 // Check if it's a rate limit error (429)
                 if (error.status === 429 && error.headers) {
-                    const resetTime = error.headers['x-ratelimit-reset'];
-                    const remaining = error.headers['x-ratelimit-remaining'];
+                    const resetTime = error.headers.get ? error.headers.get('x-ratelimit-reset') : error.headers['x-ratelimit-reset'];
+                    const remaining = error.headers.get ? error.headers.get('x-ratelimit-remaining') : error.headers['x-ratelimit-remaining'];
 
                     if (remaining === '0' && resetTime) {
-                        const resetTimestamp = parseInt(resetTime);
+                        // Handle both millisecond and second timestamps
+                        let resetTimestamp = parseInt(resetTime);
                         const currentTime = Date.now();
+
+                        // If reset timestamp is in seconds (Unix timestamp), convert to milliseconds
+                        if (resetTimestamp < 1000000000000) {
+                            resetTimestamp *= 1000;
+                        }
+
                         const waitTime = resetTimestamp - currentTime;
 
                         if (waitTime > 0) {
