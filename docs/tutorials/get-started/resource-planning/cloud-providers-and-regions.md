@@ -14,10 +14,10 @@ keywords:
   - cloud
   - providers
   - regions
+  - DiskANN
+  - Sparse vector
   - Vector Dimension
   - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
 
 ---
 
@@ -208,6 +208,14 @@ Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
    <tr>
      <td><p>Germany West Central</p></td>
      <td><p>Frankfurt, Germany</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
+   </tr>
+   <tr>
+     <td><p>North Europe</p></td>
+     <td><p>Ireland</p></td>
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>
