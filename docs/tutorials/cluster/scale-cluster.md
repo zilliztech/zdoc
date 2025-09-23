@@ -14,10 +14,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 
@@ -132,7 +132,7 @@ When setting up dynamic scaling, you can configure the following bounds:
 <Admonition type="info" icon="📘" title="Notes">
 
 <ul>
-<li><p>Selecting a minimum or maximum query CU below the current value triggers an immediate scale-down.</p></li>
+<li><p>Selecting a maximum query CU below the current value triggers an immediate scale-down.</p></li>
 <li><p>Selecting a minimum query CU above the current value triggers an immediate scale-up.</p></li>
 </ul>
 
@@ -142,13 +142,13 @@ When setting up dynamic scaling, you can configure the following bounds:
 
 - Scale Up: Triggered when CU capacity exceeds 80% for 10 minutes. Or when CU capacity reaches 100%, a scale up will be triggered immediately.
 
-- Scale Down: Triggered when CU capacity stays below 50% for 30 minutes.
+- Scale Down: Triggered when CU capacity stays below 60% for 30 minutes.
 
 - A cooldown period of 10 minutes applies between scale-up events, and 30 minutes between scale-down events. Scaling down will execute on a size-by-size basis until the target metric value has been achieved.
 
 ### Scaling size calculation{#scaling-size-calculation}
 
-The following formula explains how Zilliz Cloud calculates the target number of query CU for a dynamic scaling event.
+The following formula explains how Zilliz Cloud calculates the target number of query CU for a dynamic scaling event. The dynamic scaling formula aims to maintain your CU capacity at a target value of 70%.
 
 ```plaintext
 Target Query CU Number = Current Query CU Number × (Current Metric Value / Target Metric Value) 
@@ -196,6 +196,12 @@ This value is then rounded up to the next available CU number, resulting in a ne
 The following demo shows how to configure dynamic auto-scaling on the Zilliz Cloud web console. 
 
 <Supademo id="cmd2r7eqb34nbc4kj3wly357s?utm_source=link" title=""  />
+
+## View scaling progress{#view-scaling-progress}
+
+Once a manual scaling request is sent or a dynamic scaling event is triggered, a job record will be generated. You can check the progress on the [Jobs](./job-center) page.
+
+When a scaling job is in progress, you cluster status will change to "Modifying". Once the scaling job is successful, the cluster status will change to "Running".
 
 ## FAQ{#faq}
 
