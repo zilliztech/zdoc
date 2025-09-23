@@ -14,10 +14,10 @@ keywords:
   - cloud
   - marketplace
   - aws
+  - dimension reduction
   - hnsw algorithm
   - vector similarity search
   - approximate nearest neighbor search
-  - DiskANN
 
 ---
 
@@ -62,7 +62,7 @@ Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribin
 
     If you have already used Zilliz Cloud, click **View purchase options**.
 
-    If you have not used Zilliz Cloud before, you can click **Try for free**, which is a 30-day free trial offered by AWS. Once the free trial ends, you need to [upgrade the subscription](./subscribe-on-aws-marketplace#upgrade-subscription-from-free-trial) to continue using Zilliz Cloud.
+    If you have not used Zilliz Cloud before, you can click **Try for free**, which is a 30-day free trial offered by AWS. Once the free trial ends, you need to [upgrade the subscription](./subscribe-on-aws-marketplace#upgrade-to-paid-subscription-from-free-trial) to continue using Zilliz Cloud.
 
     ![view_purchase_options](/img/view_purchase_options.png)
 
@@ -94,9 +94,13 @@ Visit [AWS Marketplace](https://aws.amazon.com/marketplace) and start subscribin
 
     ![aws-marketplace-success](/img/aws-marketplace-success.png)
 
-## Upgrade subscription from free trial{#upgrade-subscription-from-free-trial}
+## Upgrade to paid subscription from free trial{#upgrade-to-paid-subscription-from-free-trial}
 
-Once your free trial ends, you need to upgrade the subscription to continue using Zilliz Cloud. To upgrade, simply repeat the [subscription process](./subscribe-on-aws-marketplace#subscribe-on-aws-marketplace) again:
+When you start a free trial of Zilliz Cloud on AWS Marketplace, you get the same features as the regular Zilliz Cloud free trial. For details, see [Try Zilliz Cloud For Free](./free-trials#free-trial). 
+
+During the free trial, a `Free Trial` tag will appear next to AWS Marketplace Subscription on the **Billing Overview** page.
+
+For more advanced features, you can upgrade to a paid AWS subscription anytime. To upgrade, simply follow the normal subscription process explained in the previous section. You can click here for a [demo](./subscribe-on-aws-marketplace#subscribe-on-aws-marketplace).
 
 1. Navigate to the [Zilliz Cloud page](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio?sr=0-1&ref_=beagle&applicationId=AWSMPContessa) on AWS Marketplace.
 
