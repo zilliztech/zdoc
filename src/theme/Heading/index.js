@@ -163,7 +163,7 @@ const OpenInButtonLink = ({
   }
 } 
 
-function Banner({ message, backgroundColor = '#f0f0f0', textColor = '#333', onClose }) {
+const Banner = ({ message, backgroundColor = '#f0f0f0', textColor = '#333', onClose }) => {
   const [isVisible, setIsVisible] = React.useState(true);
 
   const handleClose = () => {
@@ -197,7 +197,7 @@ function Banner({ message, backgroundColor = '#f0f0f0', textColor = '#333', onCl
 export default function HeadingWrapper(props) {
   try {
     const { frontMatter, metadata } = useDoc();
-    const { beta, notebook, tags, slug } = frontMatter;
+    const { beta, notebook, tags, slug, added_since, last_modified, deprecate_since } = frontMatter;
     var tag = metadata.title.endsWith('BYOC') ? 'BYOC' : beta;
     const { siteConfig } = useDocusaurusContext();
 
@@ -239,6 +239,103 @@ export default function HeadingWrapper(props) {
 
         { tags?.length > 0 && <span style={{ fontWeight: '400', color: 'rgb(18, 17, 66)'  }}>{tags[0]}</span> }
         <Heading {...props} />
+
+        {
+          props.as === 'h1' && (added_since || last_modified || deprecate_since) && (
+            <div style={{
+              display: 'flex',
+              gap: '1rem',
+              marginBottom: '1.5rem',
+              padding: '0.75rem 0',
+              borderTop: '1px solid #e9ecef',
+              borderBottom: '1px solid #e9ecef'
+            }}>
+              { added_since && (
+                <span style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  fontSize: '0.875rem',
+                  color: '#495057'
+                }}>
+                  <span style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.25rem',
+                    padding: '0.25rem 0.5rem',
+                    backgroundColor: '#e7f3ff',
+                    borderRadius: '12px',
+                    fontSize: '0.75rem',
+                    color: '#0066cc'
+                  }}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <line x1="12" y1="8" x2="12" y2="16"></line>
+                      <line x1="8" y1="12" x2="16" y2="12"></line>
+                    </svg>
+                    Added
+                  </span>
+                  <b>{added_since}</b>
+                </span>
+              ) }
+              { last_modified && (
+                <span style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  fontSize: '0.875rem',
+                  color: '#495057'
+                }}>
+                  <span style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.25rem',
+                    padding: '0.25rem 0.5rem',
+                    backgroundColor: '#f0f0f0',
+                    borderRadius: '12px',
+                    fontSize: '0.75rem',
+                    color: '#666666'
+                  }}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <circle cx="12" cy="12" r="10"></circle>
+                      <polyline points="12,6 12,12 16,14"></polyline>
+                    </svg>
+                    Modified
+                  </span>
+                  <b>{last_modified}</b>
+                </span>
+              ) }
+              { deprecate_since && (
+                <span style={{
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  fontSize: '0.875rem',
+                  color: '#dc3545'
+                }}>
+                  <span style={{
+                    display: 'flex',
+                    alignItems: 'center',
+                    gap: '0.25rem',
+                    padding: '0.25rem 0.5rem',
+                    backgroundColor: '#ffe6e6',
+                    borderRadius: '12px',
+                    fontSize: '0.75rem',
+                    color: '#dc3545'
+                  }}>
+                    <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                      <path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"></path>
+                      <line x1="12" y1="9" x2="12" y2="13"></line>
+                      <line x1="12" y1="17" x2="12.01" y2="17"></line>
+                    </svg>
+                    Deprecated
+                  </span>
+                  <b>{deprecate_since}</b>
+                </span>
+              ) }
+            </div>
+          )
+        }
   
         {
           props.as === 'h1' && notebook && (

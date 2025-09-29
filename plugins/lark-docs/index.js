@@ -195,6 +195,9 @@ module.exports = function (context, options) {
                                 const page_slug = source.slug
                                 const page_beta = meta['beta']
                                 const notebook = meta['notebook']
+                                const addedSince = meta['addSince']
+                                const lastModified = meta['lastModified']
+                                const deprecateSince = meta['deprecateSince']
                                 const labels = meta['labels']
                                 const keywords = meta['keywords']
                                 const parent = Object.keys(source).includes('parent_node_token') ? source.parent_node_token : source.parent_token
@@ -220,13 +223,16 @@ module.exports = function (context, options) {
                                         }
                                     })
                                 }
-                                
+
                                 const req = {
                                     path: file_path.split('/').slice(0, -1).join('/'),
                                     page_title: opts.docTitle,
                                     page_slug: page_slug,
                                     page_beta: page_beta ? page_beta : false,
                                     notebook: notebook ? notebook : false,
+                                    addedSince: addedSince ? addedSince : false,
+                                    lastModified: lastModified ? lastModified : false,
+                                    deprecateSince: deprecateSince ? deprecateSince : false,
                                     page_type: source_type,
                                     page_token: token,
                                     sidebar_position: sidebarPos,
