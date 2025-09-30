@@ -75,6 +75,9 @@ class larkDocWriter {
                         const slug = child.slug
                         const beta = meta['beta']
                         const notebook = meta['notebook']
+                        const addedSince = meta['addSince']
+                        const lastModified = meta['lastModified']
+                        const deprecateSince = meta['deprecateSince']
                         const labels = meta['labels']
                         const keywords = meta['keywords']
                         console.log(`${current_path}/${slug}/${slug}.md`)
@@ -89,6 +92,9 @@ class larkDocWriter {
                             page_slug: slug,
                             page_beta: beta,
                             notebook: notebook,
+                            addedSince: addedSince,
+                            lastModified: lastModified,
+                            deprecateSince: deprecateSince,
                             page_type: type,
                             page_token: child.node_token,
                             sidebar_position: index+1,
@@ -118,6 +124,9 @@ class larkDocWriter {
                                 const slug = child.slug
                                 const beta = meta['beta']
                                 const notebook = meta['notebook']
+                                const addedSince = meta['addSince']
+                                const lastModified = meta['lastModified']
+                                const deprecateSince = meta['deprecateSince']
                                 const labels = meta['labels']
                                 const keywords = meta['keywords']
                                 console.log(`${current_path}/${slug}.md`)
@@ -127,6 +136,9 @@ class larkDocWriter {
                                     page_slug: child.slug,
                                     page_beta: beta,
                                     notebook: notebook,
+                                    addedSince: addedSince,
+                                    lastModified: lastModified,
+                                    deprecateSince: deprecateSince,
                                     page_type: type,
                                     page_token: token,
                                     sidebar_position: index+1,
@@ -148,6 +160,9 @@ class larkDocWriter {
         page_slug,
         page_beta,
         notebook,
+        addedSince,
+        lastModified,
+        deprecateSince,
         page_type,
         page_token,
         sidebar_position,
@@ -185,6 +200,9 @@ class larkDocWriter {
                 slug: page_slug,
                 beta: page_beta,
                 notebook: notebook,
+                addedSince: addedSince,
+                lastModified: lastModified,
+                deprecateSince: deprecateSince,
                 path: path, 
                 type: page_type,
                 token: page_token,
@@ -453,7 +471,7 @@ class larkDocWriter {
         return description
     }
 
-    async __write_page({title, suffix, slug, beta, notebook, path, type, token, sidebar_position, sidebar_label, keywords, doc_card_list}) {
+    async __write_page({title, suffix, slug, beta, notebook, addedSince, lastModified, deprecateSince, path, type, token, sidebar_position, sidebar_label, keywords, doc_card_list}) {
         let markdown = await this.__markdown()
         markdown = this.__filter_content(markdown, this.targets)
         markdown = markdown.replace(/(\s*\n){3,}/g, '\n\n').replace(/(<br\/>){2,}/, "<br/>").replace(/<br>/g, '<br/>');
@@ -519,6 +537,12 @@ class larkDocWriter {
         }
 
         if (path) {
+            front_matter = front_matter.split('\n')
+            front_matter.splice(5, 0, `added_since: ${addedSince ? addedSince : 'FALSE'}`)
+            front_matter.splice(6, 0, `last_modified: ${lastModified ? lastModified : 'FALSE'}`)
+            front_matter.splice(7, 0, `deprecate_since: ${deprecateSince ? deprecateSince : 'FALSE'}`)
+            front_matter = front_matter.join('\n')
+
             fs.writeFileSync(file_path, front_matter + '\n\n' + imports + '\n\n' + markdown)
         } else {
             return {
