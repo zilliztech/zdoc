@@ -10,7 +10,20 @@ export default {
     'Zilliz Cloud',
     'RESTful API',
     'V2',
-    ' | Cloud'
+    ' | Cloud',
+    'collection',
+    'schema',
+    'partition',
+    'replica',
+    'shard',
+    'mmap',
+    'analyzer',
+    'full text search',
+    'funciton',
+    'entity',
+    'dynamic field',
+    'load',
+    'release',
   ],
 
   // Example configurations for different providers:
