@@ -358,3 +358,41 @@ html.docs-doc-id-tutorials\/home .pagination-nav {
 .menu__list-item-collapsible:not(:has(button)) {
   width: 100% !important ;
 }
+
+/* Smooth scrolling for sidebar */
+.theme-doc-sidebar-container {
+  scroll-behavior: smooth !important;
+}
+
+/* Ensure the sidebar menu list allows proper scrolling */
+.theme-doc-sidebar-container .menu__list {
+  scroll-behavior: smooth !important;
+  overflow-y: auto !important;
+  max-height: 100vh !important;
+  padding-right: 8px; /* Add some padding for scroll bar */
+}
+
+/* Ensure the sidebar wrapper allows proper scrolling */
+div[class*="DocSidebarWrapper"] {
+  height: 100% !important;
+  overflow-y: auto !important;
+}
+
+/* Add some padding to ensure the active item isn't at the very edge */
+.menu__link--active {
+  scroll-margin: 50px 0;
+  position: relative;
+}
+
+/* Add a subtle highlight to make the active item more visible */
+.menu__link--active::before {
+  content: '';
+  position: absolute;
+  left: -12px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 4px;
+  height: 20px;
+  background-color: var(--ifm-color-primary);
+  border-radius: 2px;
+}
