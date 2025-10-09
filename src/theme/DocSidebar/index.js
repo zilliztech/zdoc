@@ -6,10 +6,17 @@ export default function DocSidebarWrapper(props) {
   const location = useLocation();
   const sidebarRef = useRef(null);
   const scrollTimeoutRef = useRef(null);
+  const isUserInteractingRef = useRef(false);
+  const lastPathnameRef = useRef(null);
 
   useEffect(() => {
     // Function to scroll the active item into the center of the sidebar
-    const scrollActiveItemIntoView = () => {
+    const scrollActiveItemIntoView = (forceScroll = false) => {
+      // Skip auto-scroll if user is currently interacting and it's not forced
+      if (!forceScroll && isUserInteractingRef.current) {
+        return;
+      }
+
       // Clear any existing timeout
       if (scrollTimeoutRef.current) {
         clearTimeout(scrollTimeoutRef.current);
@@ -63,11 +70,20 @@ export default function DocSidebarWrapper(props) {
       }, 300); // Increased delay for better reliability
     };
 
-    // Initial scroll when component mounts or location changes
-    scrollActiveItemIntoView();
+    // Initial scroll only when component mounts (not on route changes)
+    const isInitialMount = !lastPathnameRef.current;
+    if (isInitialMount) {
+      scrollActiveItemIntoView(true);
+    }
+    lastPathnameRef.current = location.pathname;
 
     // Set up a more targeted observer for sidebar content changes
     const observer = new MutationObserver((mutations) => {
+      // Skip if user is currently interacting
+      if (isUserInteractingRef.current) {
+        return;
+      }
+
       // Only react to relevant changes in the sidebar
       const hasRelevantChanges = mutations.some(mutation => {
         const target = mutation.target;
@@ -98,8 +114,29 @@ export default function DocSidebarWrapper(props) {
     setTimeout(setupObserver, 100);
 
     // Listen for window resize events
-    const handleResize = () => scrollActiveItemIntoView();
+    const handleResize = () => {
+      if (!isUserInteractingRef.current) {
+        scrollActiveItemIntoView();
+      }
+    };
     window.addEventListener('resize', handleResize);
+
+    // Set up user interaction detection
+    const handleUserInteractionStart = () => {
+      isUserInteractingRef.current = true;
+      // Reset after a short delay to allow normal behavior
+      setTimeout(() => {
+        isUserInteractingRef.current = false;
+      }, 1000);
+    };
+
+    // Add event listeners for user interactions
+    const sidebarElement = sidebarRef.current || document.querySelector('.theme-doc-sidebar-container');
+    if (sidebarElement) {
+      sidebarElement.addEventListener('mousedown', handleUserInteractionStart);
+      sidebarElement.addEventListener('wheel', handleUserInteractionStart);
+      sidebarElement.addEventListener('touchstart', handleUserInteractionStart);
+    }
 
     return () => {
       if (scrollTimeoutRef.current) {
@@ -107,6 +144,13 @@ export default function DocSidebarWrapper(props) {
       }
       observer.disconnect();
       window.removeEventListener('resize', handleResize);
+
+      // Clean up user interaction listeners
+      if (sidebarElement) {
+        sidebarElement.removeEventListener('mousedown', handleUserInteractionStart);
+        sidebarElement.removeEventListener('wheel', handleUserInteractionStart);
+        sidebarElement.removeEventListener('touchstart', handleUserInteractionStart);
+      }
     };
   }, [location.pathname]); // Re-run when the route changes
 
