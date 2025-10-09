@@ -754,7 +754,7 @@ class larkDocWriter {
             return content;
         }
 
-        const KNOWN_HTML_TAGS = new Set(['p', 'strong', 'ul', 'li', 'table', 'tr', 'td', 'th', 'a', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'em', 'i', 'b', 'br', 'hr', 'code']);
+        const KNOWN_HTML_TAGS = new Set(['p', 'strong', 'ul', 'li', 'table', 'tr', 'td', 'th', 'a', 'div', 'span', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'em', 'i', 'b', 'br', 'hr', 'code', 'details', 'summary', 'sub', 'sup']);
 
         // Find all tag-like elements and pair them, escape unpaired ones
         // Modified regex to also match self-closing tags
