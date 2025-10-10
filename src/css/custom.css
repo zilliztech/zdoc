@@ -350,8 +350,8 @@ html.docs-doc-id-tutorials\/home .pagination-nav {
   display: none !important;
 }
 
-/* Hide katex-html */
-.katex-html {
+/* Hide katex-mathml (fallback for browsers that can't render KaTeX HTML) */
+.katex-mathml {
   display: none !important;
 }
 
