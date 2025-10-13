@@ -60,7 +60,7 @@ This guide explains how to **manually create backups**. To automate backup creat
 
 ## Create cluster backup{#create-cluster-backup}
 
-You can create a backup of an entire cluster and later restore either the whole cluster or selected collections. If you need to copy your backup file to other cloud regions for disaster recover, you can configure the copy policies while creating a backup. For details, refer to [Copy To Other Regions](./backup-to-other-regions).
+You can create a backup of an entire cluster and later restore either the whole cluster or selected collections. 
 
 ### Via web console{#via-web-console}
 
@@ -97,7 +97,7 @@ The following is an example output. A backup job is generated and you can check 
 
 ## Create collection backup{#create-collection-backup}
 
-To back up a specific collection or a subset of collections in a cluster, create a collection-level backup. If you need to copy your backup file to other cloud regions for disaster recover, you can configure the copy policies while creating a backup. For details, refer to [Copy To Other Regions](./backup-to-other-regions).
+To back up a specific collection or a subset of collections in a cluster, create a collection-level backup. 
 
 ### Via web console{#via-web-console}
 

@@ -48,8 +48,6 @@ Rerankers have now been integrated into the Search Pipeline, offering an optiona
 
 - zilliz/bge-reranker-base
 
-[Discover more about the capabilities and advantages of rerankers](./undefined).
-
 ### API for Metrics Monitoring{#api-for-metrics-monitoring}
 
 From this release, Zilliz Cloud provides an API dedicated to metrics monitoring. This newly introduced API grants access to a comprehensive suite of over 30 metrics, offering a holistic view of various aspects critical to your system's performance and efficiency.

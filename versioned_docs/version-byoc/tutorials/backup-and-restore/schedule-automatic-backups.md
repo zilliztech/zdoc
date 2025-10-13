@@ -59,8 +59,6 @@ This guide walks you through how to schedule automatic backups on Zilliz Cloud. 
 
 Automatic backup settings are cluster-specific and **disabled by default**. Because backups incur storage costs, you can control when and how Zilliz Cloud creates them. Once automatic backup is enabled, Zilliz Cloud generates an initial backup immediately, followed by recurring backups based on your specified schedule.
 
-If you need to copy your backup file to other cloud regions for disaster recover, you can configure the copy policies while enabling automatic bakcup. For details, refer to [Copy To Other Regions](./backup-to-other-regions).
-
 ### Via web console{#via-web-console}
 
 When you enable automatic backup on the web console, Zilliz Cloud is configured to the followings by default:
