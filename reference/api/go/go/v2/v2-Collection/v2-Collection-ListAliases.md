@@ -3,6 +3,9 @@ title: "ListAliases() | Go | v2"
 slug: /go/v2-Collection-ListAliases
 sidebar_label: "ListAliases()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method lists all existing aliases associated with the specified collection. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) ListAliases(ctx context.Context, option ListAliasesOption, call
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>ListAliasesOption</code></p></td>
+     <td><p><a href="./v2-Collection-ListAliases#listaliasesoption"><code>ListAliasesOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>

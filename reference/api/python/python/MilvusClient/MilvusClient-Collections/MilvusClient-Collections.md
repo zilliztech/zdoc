@@ -3,16 +3,19 @@ title: "Collections | Python | MilvusClient"
 slug: /python/MilvusClient-Collections
 beta: false
 notebook: false
+added_since: undefined
+last_modified: v2.5.x
+deprecate_since: false
 description: "Methods for you to manage collections. | Python | MilvusClient"
 type: folder
 token: M6KJfLu4ylTkNsd9DUVcQHmfnqe
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud

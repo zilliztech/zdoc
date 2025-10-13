@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "loadCollectionSync() | Node.js"
 slug: /node/node/Management-loadCollectionSync
 sidebar_label: "loadCollectionSync()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation loads the data of a specific collection into memory. This is the synchronous function that helps to ensure that the specified collection has been loaded. | Node.js"
 type: docx
 token: XXUAdI8T2oOmw2x7iITc8vJgnjm
 sidebar_position: 15
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollectionSync()
   - nodejs25
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -59,7 +62,7 @@ milvusClient.loadCollectionSync({
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of a collection.
 
@@ -71,7 +74,7 @@ milvusClient.loadCollectionSync({
 
     The number of replicas of the collection to load.
 
-- **resource_groups** (*string[]*) -
+- **resource_groups** (*string&#91;&#93;*) -
 
     The number of resource groups in the collection to load.
 
@@ -81,7 +84,7 @@ milvusClient.loadCollectionSync({
 
     Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS** *Promise\&lt;ResStatus&gt;*
 
 This method returns a promise that resolves to a **ResStatus** object.
 

@@ -3,6 +3,9 @@ title: "Search() | Go | v1"
 slug: /go/v1-Collection-Search
 sidebar_label: "Search()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method conducts a similarity search. | Go | v1"
 type: origin
@@ -44,7 +47,7 @@ func (c *GrpcClient) Search(ctx context.Context, collName string, partitions []s
    <tr>
      <td><p><code>partitions</code></p></td>
      <td><p>List of partition names. </p><p>If left empty, all partitions are involved in this operation. Otherwise, only the specified partitions are involved.</p></td>
-     <td><p><code>[]string</code></p></td>
+     <td><p><code>&#91;&#93;string</code></p></td>
    </tr>
    <tr>
      <td><p><code>expr</code></p></td>
@@ -54,12 +57,12 @@ func (c *GrpcClient) Search(ctx context.Context, collName string, partitions []s
    <tr>
      <td><p><code>outputFields</code></p></td>
      <td><p>List of field names to include in the return.</p></td>
-     <td><p><code>[]string</code></p></td>
+     <td><p><code>&#91;&#93;string</code></p></td>
    </tr>
    <tr>
      <td><p><code>vectors</code></p></td>
      <td><p>Query vectors.</p></td>
-     <td><p><code>[]entity.Vector</code></p></td>
+     <td><p><code>&#91;&#93;&#91;entity.Vector</code>](./v1-Collection-Search#entityvector)</p></td>
    </tr>
    <tr>
      <td><p><code>vectorField</code></p></td>
@@ -69,7 +72,7 @@ func (c *GrpcClient) Search(ctx context.Context, collName string, partitions []s
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Metric type for this operation.</p><p>A metric type defines how Milvus measures similarity between the query vectors and vectors in the collection. For details, refer to <a href="https://milvus.io/docs/metric.md?tab=floating">Similarity Metrics</a>.</p></td>
-     <td><p><code>entity.MetricType</code></p></td>
+     <td><p><a href="./v1-Collection-Search#entitymetrictype"><code>entity.MetricType</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>topK</code></p></td>
@@ -79,12 +82,12 @@ func (c *GrpcClient) Search(ctx context.Context, collName string, partitions []s
    <tr>
      <td><p><code>sp</code></p></td>
      <td><p>Search parameters.</p></td>
-     <td><p><code>entity.SearchParam</code></p></td>
+     <td><p><a href="./v1-Collection-Search#entitysearchparam"><code>entity.SearchParam</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>opts</code></p></td>
      <td><p>Extra search options.</p></td>
-     <td><p><code>...client.SearchQueryOptionFunc</code></p></td>
+     <td><p><code>...&#91;client.SearchQueryOptionFunc</code>](./v1-Collection-Search#clientsearchqueryoptionfunc)</p></td>
    </tr>
 </table>
 
@@ -113,7 +116,7 @@ type Vector interface {
    </tr>
    <tr>
      <td><p><code>Serialize()</code></p></td>
-     <td><p><code>[]byte</code></p></td>
+     <td><p><code>&#91;&#93;byte</code></p></td>
      <td><p>Return the serialized representation of the vector.</p></td>
    </tr>
    <tr>
@@ -152,7 +155,7 @@ This interface type defines a set of method signatures as follows.
    </tr>
    <tr>
      <td><p><code>Params()</code></p></td>
-     <td><p><code>map[string]interface{}</code></p></td>
+     <td><p><code>map&#91;string&#93;interface&#123;&#125;</code></p></td>
      <td><p>Return the specified search settings.</p></td>
    </tr>
    <tr>

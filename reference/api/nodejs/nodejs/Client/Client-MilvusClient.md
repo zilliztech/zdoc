@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "MilvusClient | Node.js"
 slug: /node/node/Client-MilvusClient
 sidebar_label: "MilvusClient"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "A MilvusClient instance represents a Node.js client that connects to a specific Zilliz Cloud cluster. | Node.js"
 type: docx
 token: SiL3ds1HPo2bOxx4iWwcxgg8nvd
 sidebar_position: 2
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClient
   - nodejs25
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -48,7 +51,7 @@ new MilvusClient(config: ClientConfig)
 
 - **configOrAddress** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The address of the Zilliz Cloud cluster. For example:
 
@@ -60,7 +63,7 @@ new MilvusClient(config: ClientConfig)
 
     - **address** (*string*) -
 
-        **[REQUIRED]**
+        **&#91;REQUIRED&#93;**
 
         The cluster endpoint. For example:
 

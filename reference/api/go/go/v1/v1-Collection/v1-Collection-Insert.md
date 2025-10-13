@@ -3,6 +3,9 @@ title: "Insert() | Go | v1"
 slug: /go/v1-Collection-Insert
 sidebar_label: "Insert()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method inserts entities organized in columns into the specified collection. | Go | v1"
 type: origin
@@ -49,7 +52,7 @@ func (c *GrpcClient) Insert(ctx context.Context, collName string, partitionName 
    <tr>
      <td><p><code>columns</code></p></td>
      <td><p>Data to insert into the specified collection.</p><p>You should include the data for all the fields defined in the collection schema.</p></td>
-     <td><p><code>...entity.Column</code></p></td>
+     <td><p><code>...&#91;entity.Column</code>](./v1-Collection-Insert#entitycolumn)</p></td>
    </tr>
 </table>
 
@@ -85,7 +88,7 @@ type Column interface {
    </tr>
    <tr>
      <td><p><code>Type()</code></p></td>
-     <td><p><code>entity.FieldType</code></p></td>
+     <td><p><a href="./v1-Collection-CreateCollection#entityfieldtype"><code>entity.FieldType</code></a></p></td>
      <td><p>Return the column data type.</p></td>
    </tr>
    <tr>
@@ -99,13 +102,13 @@ type Column interface {
      <td><p>Return a column that contains the specified rows from the column.</p></td>
    </tr>
    <tr>
-     <td><p><code>AppendValue(interface{})</code></p></td>
+     <td><p><code>AppendValue(interface&#123;&#125;)</code></p></td>
      <td><p><code>error</code></p></td>
      <td><p>Append values to the column.</p></td>
    </tr>
    <tr>
      <td><p><code>Get(int)</code></p></td>
-     <td><p><code>interface{}, error</code></p></td>
+     <td><p><code>interface&#123;&#125;, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
    <tr>
@@ -134,7 +137,7 @@ For details on the struct types that implement the above method signatures, refe
 
 ## Return{#return}
 
-`entity.Column`
+[`entity.Column`](./v1-Collection-Insert#entitycolumn)
 
 ## Errors{#errors}
 

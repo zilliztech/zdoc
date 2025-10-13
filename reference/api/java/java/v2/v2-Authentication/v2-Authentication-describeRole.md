@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "describeRole() | Java | v2"
 slug: /java/java/v2-Authentication-describeRole
 sidebar_label: "describeRole()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation describes a specific role. | Java | v2"
 type: docx
 token: Fs7qdzeHZo305txlj45cgqoVnUf
 sidebar_position: 5
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
   - javaV225
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

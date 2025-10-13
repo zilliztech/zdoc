@@ -3,6 +3,9 @@ title: "createCollection() | Java | v1"
 slug: /java/v1-HighlevelAPI-createCollection
 sidebar_label: "createCollection()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A MilvusClient interface. This method creates a collection with simple parameters. | Java | v1"
 type: origin

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "listDatabases() | Java | v2"
 slug: /java/java/v2-Database-listDatabases
 sidebar_label: "listDatabases()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists all the database names. | Java | v2"
 type: docx
 token: IHoodknUJohFAbxMFg3c0q8un6f
 sidebar_position: 6
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
   - javaV225
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

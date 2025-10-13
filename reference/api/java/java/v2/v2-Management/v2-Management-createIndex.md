@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "createIndex() | Java | v2"
 slug: /java/java/v2-Management-createIndex
 sidebar_label: "createIndex()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation creates an index for a specific collection. | Java | v2"
 type: docx
 token: OCjUdfc6eo0VihxNUGmcqb7FnTh
 sidebar_position: 2
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
   - javaV225
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -54,7 +57,7 @@ createIndex(CreateIndexReq.builder()
 
     The name of an existing collection.
 
-- `indexParams(List<IndexParam> indexParams)`
+- `indexParams(List<[IndexParam](./v2-Management-IndexParam)> indexParams)`
 
     A list of **IndexParam** objects.
 

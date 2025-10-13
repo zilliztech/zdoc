@@ -3,6 +3,9 @@ title: "Constant | Java | v1"
 slug: /java/v1-Misc-Constant
 sidebar_label: "Constant"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Predefined constant values for quick input for interfaces. | Java | v1"
 type: origin

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "alterDatabaseProperties() | Java | v2"
 slug: /java/java/v2-Database-alterDatabaseProperties
 sidebar_label: "alterDatabaseProperties()"
 beta: false
+added_since: v2.4.x
+last_modified: v2.4.x
+deprecate_since: false
 notebook: false
 description: "This operation alters a database's properties. | Java | v2"
 type: docx
 token: PBYIdLALvoHd0pxwI8Ec4JsTnBX
 sidebar_position: 1
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - alterDatabaseProperties()
   - javaV225
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

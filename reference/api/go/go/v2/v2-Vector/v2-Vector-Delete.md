@@ -3,6 +3,9 @@ title: "Delete() | Go | v2"
 slug: /go/v2-Vector-Delete
 sidebar_label: "Delete()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method deletes data from a specific collection. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) Delete(ctx context.Context, option DeleteOption, callOptions ..
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DeleteOption</code></p></td>
+     <td><p><a href="./v2-Vector-Delete#deleteoption"><code>DeleteOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>

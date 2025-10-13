@@ -3,6 +3,9 @@ title: "Data Import | Go | v2"
 slug: /go/v2-DataImport
 sidebar_label: "Data Import"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In this chapter, you will find packages and functions related to the import of large-volume data into a collection. | Go | v2"
 type: origin

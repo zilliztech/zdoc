@@ -3,6 +3,9 @@ title: "DeleteByPks() | Go | v1"
 slug: /go/v1-Collection-DeleteByPks
 sidebar_label: "DeleteByPks()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method deletes the specified entities from a collection. | Go | v1"
 type: origin
@@ -49,7 +52,7 @@ func (c *GrpcClient) DeleteByPks(ctx context.Context, collName string, partition
    <tr>
      <td><p><code>ids</code></p></td>
      <td><p>IDs of the entities to delete.</p></td>
-     <td><p><code>entity.Column</code></p></td>
+     <td><p><a href="./v1-Collection-Columns"><code>entity.Column</code></a></p></td>
    </tr>
 </table>
 

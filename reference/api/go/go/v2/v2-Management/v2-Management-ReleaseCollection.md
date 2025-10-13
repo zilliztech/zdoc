@@ -3,6 +3,9 @@ title: "ReleaseCollection() | Go | v2"
 slug: /go/v2-Management-ReleaseCollection
 sidebar_label: "ReleaseCollection()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method releases the specified collection. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) LoadCollection(ctx context.Context, option LoadCollectionOption
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>ReleaseCollectionOption</code></p></td>
+     <td><p><a href="./v2-Management-ReleaseCollection#releasecollectionoption"><code>ReleaseCollectionOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -77,7 +80,7 @@ func NewReleaseCollectionOption(collectionName string) *releaseCollectionOption
 
 ## Return{#return}
 
-`LoadTask`
+[`LoadTask`](./v2-Management-LoadCollection#loadtask)
 
 ## Example{#example}
 

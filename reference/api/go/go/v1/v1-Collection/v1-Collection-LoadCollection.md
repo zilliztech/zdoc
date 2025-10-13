@@ -3,6 +3,9 @@ title: "LoadCollection() | Go | v1"
 slug: /go/v1-Collection-LoadCollection
 sidebar_label: "LoadCollection()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method loads the specified collection to memory (for search and query). | Go | v1"
 type: origin
@@ -49,7 +52,7 @@ func (c *GrpcClient) LoadCollection(ctx context.Context, collName string, async 
    <tr>
      <td><p><code>opts</code></p></td>
      <td><p>Extra settings for this request.</p></td>
-     <td><p><code>client.LoadCollectionOption</code></p></td>
+     <td><p><a href="./v1-Collection-LoadCollection#clientloadcollectionoption"><code>client.LoadCollectionOption</code></a></p></td>
    </tr>
 </table>
 
@@ -67,7 +70,7 @@ You can add extra settings to the `LoadCollection()` request using the following
      <td><p>Number of replicas to create upon the load of the collection.</p></td>
    </tr>
    <tr>
-     <td><p><code>WithResourceGroups(rgs []string)</code></p></td>
+     <td><p><code>WithResourceGroups(rgs &#91;&#93;string)</code></p></td>
      <td><p>A list of specific resource groups used to load the replicas.</p></td>
    </tr>
 </table>

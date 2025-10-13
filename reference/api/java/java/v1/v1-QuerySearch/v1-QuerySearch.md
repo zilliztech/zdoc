@@ -3,6 +3,9 @@ title: "Query/Search | Java | v1"
 slug: /java/v1-QuerySearch
 sidebar_label: "Query/Search"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "(placeholder) | Java | v1"
 type: origin

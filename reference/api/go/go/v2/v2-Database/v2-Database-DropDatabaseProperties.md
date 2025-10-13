@@ -3,6 +3,9 @@ title: "DropDatabaseProperties() | Go | v2"
 slug: /go/v2-Database-DropDatabaseProperties
 sidebar_label: "DropDatabaseProperties()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method resets the specified property of a database to its default value. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) DropDatabaseProperties(ctx context.Context, option DropDatabase
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DropDatabasePropertiesOption</code></p></td>
+     <td><p><a href="./v2-Database-DropDatabaseProperties#dropdatabasepropertiesoption"><code>DropDatabasePropertiesOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>

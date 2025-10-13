@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "get() | Java | v2"
 slug: /java/java/v2-Vector-get
 sidebar_label: "get()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation gets specific entities by their IDs. | Java | v2"
 type: docx
 token: UcacdecoZoAyxsxJzOGcTqWzn7d
 sidebar_position: 2
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - get()
   - javaV225
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -78,11 +81,11 @@ A **GetResp** object representing one or more queried entities.
 
 **PARAMETERS:**
 
-- **getResults** (*List\<QueryResp.QueryResult\>*)
+- **getResults** (*List\&lt;QueryResp.QueryResult\&gt;*)
 
     A list of **QueryResp.QueryResult** objects.
 
-- **fields** (*Map\<String,Object\>*)
+- **fields** (*Map\&lt;String,Object\&gt;*)
 
     A map that contains key-value pairs of field names and their values.
 

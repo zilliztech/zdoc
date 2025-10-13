@@ -3,16 +3,19 @@ title: "db | Python | ORM"
 slug: /python/ORM-db
 beta: NEAR DEPRECATE
 notebook: false
+added_since: undefined
+last_modified: false
+deprecate_since: false
 description: "Functions related to manipulating Milvus databases. | Python | ORM"
 type: folder
 token: E2Zlf8PdXlx097dT2sNchgqpnbF
 sidebar_position: 4
 sidebar_label: "db"
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud

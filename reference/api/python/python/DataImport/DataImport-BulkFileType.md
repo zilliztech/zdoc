@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "BulkFileType | Python"
 slug: /python/python/DataImport-BulkFileType
 sidebar_label: "BulkFileType"
 beta: false
+added_since: Inherit
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This is an enumeration that provides the following constants. | Python"
 type: docx
 token: NV3Ud1M9iojhaSxZY4ec8RjgnlP
 sidebar_position: 1
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - BulkFileType
   - pymilvus25
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

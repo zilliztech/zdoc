@@ -3,6 +3,9 @@ title: "get() | Java | v1"
 slug: /java/v1-HighlevelAPI-get
 sidebar_label: "get()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The MilvusClient interface. This method gets entity(s) based on the primary field ids. Note that the order of the returned entities can not be guaranteed. | Java | v1"
 type: origin
@@ -46,7 +49,7 @@ Methods of `GetIdsParam.Builder`:
         <td><p>collectionName: The name of the collection to insert data into.</p></td>
     </tr>
     <tr>
-        <td><p>withPrimaryIds(List\<T> primaryIds)</p></td>
+        <td><p>withPrimaryIds(List&lt;T&gt; primaryIds)</p></td>
         <td><p>Specifies id fields. ID cannot be empty or null.<br/>Note only support the value of primary key.</p></td>
         <td><p>primaryIds: a list of primary field key objects.</p></td>
     </tr>
@@ -56,7 +59,7 @@ Methods of `GetIdsParam.Builder`:
         <td><p>primaryId: The id of primary field key.</p></td>
     </tr>
     <tr>
-        <td><p>withOutputFields(List\<String> outputFields)</p></td>
+        <td><p>withOutputFields(List&lt;String&gt; outputFields)</p></td>
         <td><p>Specifies output fields (Optional).</p></td>
         <td><p>outputFields: A list of output field you need.</p></td>
     </tr>

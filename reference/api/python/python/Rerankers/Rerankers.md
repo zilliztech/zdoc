@@ -3,16 +3,19 @@ title: "Rerankers | Python"
 slug: /python/Rerankers
 beta: false
 notebook: false
+added_since: undefined
+last_modified: false
+deprecate_since: false
 description: "Reranking models for a sophisticated evaluation and refinement on retrieved results. | Python"
 type: folder
 token: Ph7xfldrplFoihdiSAkciCuenyh
-sidebar_position: 5
+sidebar_position: 6
 sidebar_label: "Rerankers"
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud

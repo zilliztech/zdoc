@@ -3,6 +3,9 @@ title: "DescribeCollection() | Go | v1"
 slug: /go/v1-Collection-DescribeCollection
 sidebar_label: "DescribeCollection()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method returns the details of a specific collection. | Go | v1"
 type: origin

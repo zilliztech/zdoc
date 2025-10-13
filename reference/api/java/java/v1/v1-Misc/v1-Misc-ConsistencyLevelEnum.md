@@ -3,6 +3,9 @@ title: "ConsistencyLevelEnum | Java | v1"
 slug: /java/v1-Misc-ConsistencyLevelEnum
 sidebar_label: "ConsistencyLevelEnum"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The enumeration for consistency level during a search/query. | Java | v1"
 type: origin

@@ -3,16 +3,19 @@ title: "Client | Node.js"
 slug: /node/Client
 beta: false
 notebook: false
+added_since: undefined
+last_modified: false
+deprecate_since: false
 description: "Classes and methods for you to manage the MilvusClient instances. | Node.js"
 type: folder
 token: YIWifhm0HlwT5ldC40fc8tAOnXd
 sidebar_position: 7
 sidebar_label: "Client"
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "bulk_import() | Python"
 slug: /python/python/BulkImport-bulk_import
 sidebar_label: "bulk_import()"
 beta: false
+added_since: Inherit
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read Prepare Data Import. | Python"
 type: docx
 token: RFSCdiUYGouQrtx8c1RczPVvnmf
 sidebar_position: 1
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - bulk_import()
   - pymilvus25
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -53,7 +56,7 @@ bulk_import(
 
 - **url** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The endpoint URL of your Zilliz Cloud cluster. 
 
@@ -68,13 +71,13 @@ bulk_import(
 
 - **api_key** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     A valid Zilliz Cloud API key with sufficient permissions to manipulate the cluster.
 
 - **object_url** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The URL of your data files in one of your block storage buckets. The following are some examples of some renowned block storage services:
 
@@ -88,19 +91,19 @@ bulk_import(
 
 - **access_key** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The access key that is used to authenticate access to your data files.
 
 - **secret_key** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The secret key that is used to authenticate access to your data files.
 
 - **cluster_id** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The instance ID of the target cluster of this operation.
 

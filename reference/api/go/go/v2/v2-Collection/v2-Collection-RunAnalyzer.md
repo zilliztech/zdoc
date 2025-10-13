@@ -3,6 +3,9 @@ title: "RunAnalyzer() | Go | v2"
 slug: /go/v2-Collection-RunAnalyzer
 sidebar_label: "RunAnalyzer()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: v2.6.x
+deprecate_since: FALSE
 notebook: FALSE
 description: "This operation processes the input data and generates tokenized output. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) RunAnalyzer(ctx context.Context, option RunAnalyzerOption, call
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>RunAnalyzerOption</code></p></td>
+     <td><p><a href="./v2-Collection-RunAnalyzer#runanalyzeroption"><code>RunAnalyzerOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -65,7 +68,7 @@ func NewRunAnalyzerOption(text []string) *runAnalyzerOption
    <tr>
      <td><p><code>text</code></p></td>
      <td><p>The input text or a list of texts to be analyzed.</p></td>
-     <td><p><code>[]string</code></p></td>
+     <td><p><code>&#91;&#93;string</code></p></td>
    </tr>
 </table>
 
@@ -121,7 +124,7 @@ func (opt *runAnalyzerOption) WithAnalyzerParams(params map[string]any) *runAnal
    <tr>
      <td><p><code>params</code></p></td>
      <td><p>The analyzer parameter settings.</p></td>
-     <td><p><code>map[string]any</code></p></td>
+     <td><p><code>map&#91;string&#93;any</code></p></td>
    </tr>
 </table>
 
@@ -223,7 +226,7 @@ type Token struct {
 
 ## Return{#return}
 
-`*entity.AnalyzerResult`
+`*[entity](./v2-Collection-RunAnalyzer#entityanalyzerresult)[.](./v2-Collection-RunAnalyzer#entityanalyzerresult)[AnalyzerResult`](./v2-Collection-RunAnalyzer#entityanalyzerresult)
 
 ## Example{#example}
 

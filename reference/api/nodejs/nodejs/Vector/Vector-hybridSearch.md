@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "hybridSearch() | Node.js"
 slug: /node/node/Vector-hybridSearch
 sidebar_label: "hybridSearch()"
 beta: false
+added_since: v2.4.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation conducts a hybrid search with an optional scalar filtering expression. | Node.js"
 type: docx
 token: F3vqdLZS2ohhOAxQNNxciiirn4f
 sidebar_position: 3
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
   - nodejs25
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -66,7 +69,7 @@ milvusClient.hybridSearch({
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the collection to search
 
@@ -74,23 +77,23 @@ milvusClient.hybridSearch({
 
     The consistency level of the target collection. The value defaults to **Bounded** (**1**) with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
 
-- **data** (*HybridSearchSingleReq[]*) -
+- **data** (*HybridSearchSingleReq&#91;&#93;*) -
 
     A list of search requests in the form of the **HybridSearchSingleReq** object.
 
-    - **data** (*VectorTypes[]* | *VectorTypes*) -
+    - **data** (*VectorTypes&#91;&#93;* | *VectorTypes*) -
 
-        **[REQUIRED]**
+        **&#91;REQUIRED&#93;**
 
         The query vectors. The following vector types are supported:
 
-        - **FloatVector** (number[])
+        - **FloatVector** (number&#91;&#93;)
 
-        - **Float16Vector** (*number*[] | *Uint8Array*)
+        - **Float16Vector** (*number*&#91;&#93; | *Uint8Array*)
 
-        - **BinaryVector** (*number*[])
+        - **BinaryVector** (*number*&#91;&#93;)
 
-        - **BFloat16Vector** (*number*[] | *Uint8Array*)
+        - **BFloat16Vector** (*number*&#91;&#93; | *Uint8Array*)
 
         - **SparseFloatVector** (*SparseVectorArray* | *SparseVectorDic* | *SparseVectorCSR* | *SparseVectorCOO*)
 
@@ -148,13 +151,13 @@ milvusClient.hybridSearch({
 
     The sum of this value and `limit` should be less than 16,384. 
 
-- **output_fields** (*string[]*) -
+- **output_fields** (*string&#91;&#93;*) -
 
     A list of field names to include in each entity in return.
 
     The value defaults to **None**. If left unspecified, only the primary field is included.
 
-- **partition_names** (*string[]*) -
+- **partition_names** (*string&#91;&#93;*) -
 
     A list of the names of the partitions to search.
 
@@ -180,13 +183,13 @@ milvusClient.hybridSearch({
 
         - When using the RRFRanker strategy, you need to input the parameter value `k` into the RRFRanker. The default value of `k` is 60. This parameter helps to determine how the ranks are combined from different ANN searches, aiming to balance and blend the importance across all searches.
 
-        - When using the WeightedRanker strategy, you need to input weight values into the `WeightedRanker` function. The number of basic ANN searches in a Hybrid Search corresponds to the number of values that need to be inputted. The input values should be in the range [0,1], with values closer to 1 indicating greater importance.
+        - When using the WeightedRanker strategy, you need to input weight values into the `WeightedRanker` function. The number of basic ANN searches in a Hybrid Search corresponds to the number of values that need to be inputted. The input values should be in the range &#91;0,1&#93;, with values closer to 1 indicating greater importance.
 
 - **timeout** (*number*) -
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<SearchResults>*
+**RETURNS** *Promise\&lt;SearchResults&gt;*
 
 This method returns a promise that resolves to a **SearchResults** object.
 
@@ -214,7 +217,7 @@ This method returns a promise that resolves to a **SearchResults** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-- **results** (*list[object]*) -
+- **results** (*list&#91;object&#93;*) -
 
     Each result object has the following keys:
 
@@ -228,7 +231,7 @@ This method returns a promise that resolves to a **SearchResults** object.
 
     - Plus output fields and their values.
 
-- **recalls** (*list[number]*) -
+- **recalls** (*list&#91;number&#93;*) -
 
     Each number indicates the recall rate of a search against a query vector.
 

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "getCompactionState() | Node.js"
 slug: /node/node/Collections-getCompactionState
 sidebar_label: "getCompactionState()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists the statistics collected on a specific collection. | Node.js"
 type: docx
 token: CRFLdvgkhoeRikxMcMAcJk3qnIc
 sidebar_position: 14
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - getCompactionState()
   - nodejs25
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -51,9 +54,9 @@ milvusClient.getCompactionState({
 
 - **compactionID** (*string | number*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
-    The ID of a compaction job that is returned by a call to `compact()`.
+    The ID of a compaction job that is returned by a call to [`compact()`](./Collections-compact).
 
 - **timeout** (*number*) -
 
@@ -61,7 +64,7 @@ milvusClient.getCompactionState({
 
     Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
 
-**RETURNS** *Promise\<GetCompactionStateResponse>*
+**RETURNS** *Promise\&lt;GetCompactionStateResponse&gt;*
 
 This method returns a promise that resolves to a **GetCompactionStateResponse** object.
 

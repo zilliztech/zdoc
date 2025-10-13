@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listPrivilegeGroups() | Node.js"
 slug: /node/node/Authentication-listPrivilegeGroups
 sidebar_label: "listPrivilegeGroups()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists all privilege groups. | Node.js"
 type: docx
 token: HGpSdc7AOo7AV3xKCmOcWaIEnrd
 sidebar_position: 17
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - listPrivilegeGroups()
   - nodejs25
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -54,7 +57,7 @@ listPrivilegeGroups(data?): Promise<ListPrivilegeGroupsResponse>
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ListPrivilegeGroupsResponse>*
+**RETURNS** *Promise\&lt;ListPrivilegeGroupsResponse&gt;*
 
 This method returns a promise that resolves to a **ListPrivilegeGroupsResponse** object.
 
@@ -77,7 +80,7 @@ This method returns a promise that resolves to a **ListPrivilegeGroupsResponse**
 
 **PARAMETERS:**
 
-- **privilege_groups** (*PrivelegeGroup[]*) -
+- **privilege_groups** (*PrivelegeGroup&#91;&#93;*) -
 
     A list of all privilege groups in the form of a **PrivelegeGroup** object.
 
@@ -85,7 +88,7 @@ This method returns a promise that resolves to a **ListPrivilegeGroupsResponse**
 
         The name of a privilege group.
 
-    - **privileges** (*PrivilegeEntity[]*) -
+    - **privileges** (*PrivilegeEntity&#91;&#93;*) -
 
         A list of privileges.
 

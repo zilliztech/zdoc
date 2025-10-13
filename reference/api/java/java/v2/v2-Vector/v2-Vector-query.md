@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "query() | Java | v2"
 slug: /java/java/v2-Vector-query
 sidebar_label: "query()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation conducts a scalar filtering with a specified boolean expression. | Java | v2"
 type: docx
 token: OnIpdTTSOoV06KxhhAkcFQCKnWd
 sidebar_position: 5
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - javaV225
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -85,7 +88,7 @@ query(QueryReq.builder()
 
     You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
 
-- `consistencyLevel(ConsistencyLevel consistencyLevel)`
+- `consistencyLevel([ConsistencyLevel](./v2-Collections-ConsistencyLevel) consistencyLevel)`
 
     The consistency level of the target collection.
 
@@ -125,7 +128,7 @@ A **QueryResp object representing specific query results with the specified outp
 
 **PARAMETERS:**
 
-- queryResults(List\<QueryResp.QueryResult\>)
+- queryResults(List\&lt;QueryResp.QueryResult\&gt;)
 
 A list of QueryResult objects with each QueryResult representing a queried entity.
 

@@ -3,6 +3,9 @@ title: "LoadCollection() | Go | v2"
 slug: /go/v2-Management-LoadCollection
 sidebar_label: "LoadCollection()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method loads the specified collection. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) LoadCollection(ctx context.Context, option LoadCollectionOption
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>LoadCollectionOption</code></p></td>
+     <td><p><a href="./v2-Management-LoadCollection#loadcollectionoption"><code>LoadCollectionOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -89,7 +92,7 @@ func (t *LoadTask) Await(ctx context.Context) error
 
 ## Return{#return}
 
-`LoadTask`
+[`LoadTask`](./v2-Management-LoadCollection#loadtask)
 
 ## Example{#example}
 

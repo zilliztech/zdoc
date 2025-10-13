@@ -3,6 +3,9 @@ title: "R<T> | Java | v1"
 slug: /java/v1-Misc-RT
 sidebar_label: "R<T>"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A template class to hold the status code, error message, and the response returned by each client interface. | Java | v1"
 type: origin
@@ -15,7 +18,7 @@ displayed_sidebar: javaSidebar
 import Admonition from '@theme/Admonition';
 
 
-# R\<T>
+# R&lt;T&gt;
 
 A template class to hold the status code, error message, and the response returned by each client interface.
 
@@ -26,7 +29,7 @@ public class R<T>
 
 #### R.Status{#rstatus}
 
-R.Status is an enumeration of the status codes. Each R\<T> object holds an integer value that can be mapped to the R.Status.
+R.Status is an enumeration of the status codes. Each R&lt;T&gt; object holds an integer value that can be mapped to the R.Status.
 
 Note: Not all status codes are used, some of them are reserved.
 

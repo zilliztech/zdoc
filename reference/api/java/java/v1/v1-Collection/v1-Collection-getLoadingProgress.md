@@ -3,6 +3,9 @@ title: "getLoadingProgress() | Java | v1"
 slug: /java/v1-Collection-getLoadingProgress
 sidebar_label: "getLoadingProgress()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A MilvusClient interface. This method gets loading collection progress. | Java | v1"
 type: origin
@@ -51,7 +54,7 @@ Methods of `GetLoadingProgressParam.Builder`:
         <td><p>databaseName: The database name.</p></td>
     </tr>
     <tr>
-        <td><p>withPartitionNames(List\<String> partitionNames)</p></td>
+        <td><p>withPartitionNames(List&lt;String&gt; partitionNames)</p></td>
         <td><p>Sets partition names list to specify query scope(optional).</p></td>
         <td><p>partitionNames: <br/>The name list of partitions to be loaded.</p></td>
     </tr>

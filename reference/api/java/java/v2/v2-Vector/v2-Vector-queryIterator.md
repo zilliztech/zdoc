@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "queryIterator() | Java | v2"
 slug: /java/java/v2-Vector-queryIterator
 sidebar_label: "queryIterator()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This method returns a query iterator to iterate data. | Java | v2"
 type: docx
 token: ByLVdf2nRocLcxxwH3Gc9CyFnbb
 sidebar_position: 6
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - queryIterator()
   - javaV225
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -74,7 +77,7 @@ queryIterator(QueryIteratorReq.builder()
 
 A value to define the number of entities returned per batch.
 
-- `consistencyLevel(ConsistencyLevel consistencyLevel)`
+- `consistencyLevel([ConsistencyLevel](./v2-Collections-ConsistencyLevel) consistencyLevel)`
 
     The consistency level of the target collection.
 
@@ -114,7 +117,7 @@ A *QueryIterator* object to iterate data.
 
 **METHODS:**
 
-- List\<QueryResultsWrapper.RowRecord> next()
+- List&lt;QueryResultsWrapper.RowRecord&gt; next()
 
 Return a batch of results.
 

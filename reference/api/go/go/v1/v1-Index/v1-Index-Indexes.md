@@ -3,6 +3,9 @@ title: "Indexes | Go | v1"
 slug: /go/v1-Index-Indexes
 sidebar_label: "Indexes"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The struct types on this page implement the method signatures of the `entity.Index` interface. | Go | v1"
 type: origin
@@ -21,7 +24,7 @@ The struct types on this page implement the method signatures of the `entity.Ind
 
 ## entity.GenericIndex{#entitygenericindex}
 
-This struct type applies to general purposes without any constraint on the index type. You can use `entity.NewGenericIndex()` to create one for the `client.CreateIndex()` request as follows:
+This struct type applies to general purposes without any constraint on the index type. You can use `entity.NewGenericIndex()` to create one for the [`client.CreateIndex()`](./v1-Index-CreateIndex) request as follows:
 
 ```go
 index := entity.NewGenericIndex(name string, it entity.IndexType, params map[string]string)
@@ -41,18 +44,18 @@ index := entity.NewGenericIndex(name string, it entity.IndexType, params map[str
    <tr>
      <td><p><code>it</code></p></td>
      <td><p>Type of the index.</p></td>
-     <td><p><code>entity.IndexType</code></p></td>
+     <td><p><a href="./v1-Index-Indexes#entityindextype"><code>entity.IndexType</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>params</code></p></td>
      <td><p>Index parameters corresponding to the specified index type.</p></td>
-     <td><p><code>map[string]string</code></p></td>
+     <td><p><code>map&#91;string&#93;string</code></p></td>
    </tr>
 </table>
 
 ## entity.IndexAUTOINDEX{#entityindexautoindex}
 
-This struct type creates an AUTOINDEX for the specified field. You can use `entity.NewIndexAUTOINDEX()` to create one for the `client.CreateIndex()` request as follows:
+This struct type creates an AUTOINDEX for the specified field. You can use `entity.NewIndexAUTOINDEX()` to create one for the [`client.CreateIndex()`](./v1-Index-CreateIndex) request as follows:
 
 ```go
 index := entity.NewIndexAUTOINDEX(metricType MetricType)
@@ -67,13 +70,13 @@ index := entity.NewIndexAUTOINDEX(metricType MetricType)
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Metric type for Milvus to follow when it measures similarities between vector embeddings.</p></td>
-     <td><p><code>entity.MetricType</code></p></td>
+     <td><p><a href="./v1-Collection-Search#entitymetrictype"><code>entity.MetricType</code></a></p></td>
    </tr>
 </table>
 
 ## entity.IndexBinFlat{#entityindexbinflat}
 
-This struct type creates a BIN_FLAT index for the specified field. You can use `entity.NewIndexBinFlat()` to create one for the `client.CreateIndex()` request as follows:
+This struct type creates a BIN_FLAT index for the specified field. You can use `entity.NewIndexBinFlat()` to create one for the [`client.CreateIndex()`](./v1-Index-CreateIndex) request as follows:
 
 ```go
 index := entity.NewIndexBinFlat(metricType MetricType, nlist int)
@@ -89,20 +92,20 @@ index := entity.NewIndexBinFlat(metricType MetricType, nlist int)
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Metric type for Milvus to follow when it measures similarities between vector embeddings.</p></td>
-     <td><p><code>entity.MetricType</code></p></td>
+     <td><p><a href="./v1-Collection-Search#entitymetrictype"><code>entity.MetricType</code></a></p></td>
      <td><p>N/A</p></td>
    </tr>
    <tr>
      <td><p><code>nlist</code></p></td>
      <td><p>Number of cluster units.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 65536]</code></p></td>
+     <td><p><code>&#91;1, 65536&#93;</code></p></td>
    </tr>
 </table>
 
 ## entity.IndexBinIvfFlat{#entityindexbinivfflat}
 
-This struct type creates a BIN_IVF_FLAT index for the specified field. You can use `entity.NewIndexBinIvfFlat()` to create one for the `client.CreateIndex()` request as follows:
+This struct type creates a BIN_IVF_FLAT index for the specified field. You can use `entity.NewIndexBinIvfFlat()` to create one for the [`client.CreateIndex()`](./v1-Index-CreateIndex) request as follows:
 
 ```go
 index := entity.NewIndexBinIvfFlat(metricType MetricType, nlist int)
@@ -118,20 +121,20 @@ index := entity.NewIndexBinIvfFlat(metricType MetricType, nlist int)
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Metric type for Milvus to follow when it measures similarities between vector embeddings.</p></td>
-     <td><p><code>entity.MetricType</code></p></td>
+     <td><p><a href="./v1-Collection-Search#entitymetrictype"><code>entity.MetricType</code></a></p></td>
      <td><p>N/A</p></td>
    </tr>
    <tr>
      <td><p><code>nlist</code></p></td>
      <td><p>Number of cluster units.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 65536]</code></p></td>
+     <td><p><code>&#91;1, 65536&#93;</code></p></td>
    </tr>
 </table>
 
 ## entity.IndexDISKANN{#entityindexdiskann}
 
-This struct type creates a DiskANN index for the specified field. You can use `entity.NewIndexDISKANN()` to create one for the `client.CreateIndex()` request as follows:
+This struct type creates a DiskANN index for the specified field. You can use `entity.NewIndexDISKANN()` to create one for the [`client.CreateIndex()`](./v1-Index-CreateIndex) request as follows:
 
 ```go
 index := entity.NewIndexDISKANN(metricType MetricType)
@@ -146,13 +149,13 @@ index := entity.NewIndexDISKANN(metricType MetricType)
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Metric type for Milvus to follow when it measures similarities between vector embeddings.</p></td>
-     <td><p><code>entity.MetricType</code></p></td>
+     <td><p><a href="./v1-Collection-Search#entitymetrictype"><code>entity.MetricType</code></a></p></td>
    </tr>
 </table>
 
 ## entity.IndexFlat{#entityindexflat}
 
-This struct type creates a FLAT index for the specified field. You can use `entity.NewIndexIvfFlat()` to create one for the `client.CreateIndex()` request as follows:
+This struct type creates a FLAT index for the specified field. You can use `entity.NewIndexIvfFlat()` to create one for the [`client.CreateIndex()`](./v1-Index-CreateIndex) request as follows:
 
 ```go
 index := entity.NewIndexFlat(metricType MetricType)
@@ -167,13 +170,13 @@ index := entity.NewIndexFlat(metricType MetricType)
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Metric type for Milvus to follow when it measures similarities between vector embeddings.</p></td>
-     <td><p><code>entity.MetricType</code></p></td>
+     <td><p><a href="./v1-Collection-Search#entitymetrictype"><code>entity.MetricType</code></a></p></td>
    </tr>
 </table>
 
 ## entity.IndexGPUBruteForce{#entityindexgpubruteforce}
 
-This struct type creates a GPU_BRUTE_FORCE index for the specified field. You can use `entity.NewIndexGPUBruteForce()` to create one for the `client.CreateIndex()` request as follows:
+This struct type creates a GPU_BRUTE_FORCE index for the specified field. You can use `entity.NewIndexGPUBruteForce()` to create one for the [`client.CreateIndex()`](./v1-Index-CreateIndex) request as follows:
 
 ```go
 index := entity.NewIndexGPUBruteForce(metricType MetricType)
@@ -188,13 +191,13 @@ index := entity.NewIndexGPUBruteForce(metricType MetricType)
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Metric type for Milvus to follow when it measures similarities between vector embeddings.</p></td>
-     <td><p><code>entity.MetricType</code></p></td>
+     <td><p><a href="./v1-Collection-Search#entitymetrictype"><code>entity.MetricType</code></a></p></td>
    </tr>
 </table>
 
 ## entity.IndexGPUCagra{#entityindexgpucagra}
 
-This struct type creates a GPU_CAGRA index for the specified field. You can use `entity.NewIndexGPUCagra()` to create one for the `client.CreateIndex()` request as follows:
+This struct type creates a GPU_CAGRA index for the specified field. You can use `entity.NewIndexGPUCagra()` to create one for the [`client.CreateIndex()`](./v1-Index-CreateIndex) request as follows:
 
 ```go
 index := entity.NewIndexBinIvfFlat(metricType MetricType, intermediateGraphDegree, graphDegree int)
@@ -210,7 +213,7 @@ index := entity.NewIndexBinIvfFlat(metricType MetricType, intermediateGraphDegre
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Metric type for Milvus to follow when it measures similarities between vector embeddings.</p></td>
-     <td><p><code>entity.MetricType</code></p></td>
+     <td><p><a href="./v1-Collection-Search#entitymetrictype"><code>entity.MetricType</code></a></p></td>
      <td><p>N/A</p></td>
    </tr>
    <tr>
@@ -229,7 +232,7 @@ index := entity.NewIndexBinIvfFlat(metricType MetricType, intermediateGraphDegre
 
 ## entity.IndexGPUIvfFlat{#entityindexgpuivfflat}
 
-This struct type creates a GPU_IVF_FLAT index for the specified field. You can use `entity.NewIndexGPUIvfFlat()` to create one for the `client.CreateIndex()` request as follows:
+This struct type creates a GPU_IVF_FLAT index for the specified field. You can use `entity.NewIndexGPUIvfFlat()` to create one for the [`client.CreateIndex()`](./v1-Index-CreateIndex) request as follows:
 
 ```go
 index := entity.NewIndexGPUIvfFlat(metricType MetricType, nlist int)
@@ -245,20 +248,20 @@ index := entity.NewIndexGPUIvfFlat(metricType MetricType, nlist int)
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Metric type for Milvus to follow when it measures similarities between vector embeddings.</p></td>
-     <td><p><code>entity.MetricType</code></p></td>
+     <td><p><a href="./v1-Collection-Search#entitymetrictype"><code>entity.MetricType</code></a></p></td>
      <td><p>N/A</p></td>
    </tr>
    <tr>
      <td><p><code>nlist</code></p></td>
      <td><p>Number of cluster units.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 65536]</code></p></td>
+     <td><p><code>&#91;1, 65536&#93;</code></p></td>
    </tr>
 </table>
 
 ## entity.IndexGPUIvfPQ{#entityindexgpuivfpq}
 
-This struct type creates a GPU_IVF_PQ index for the specified field. You can use `entity.NewIndexGPUIvfPQ()` to create one for the `client.CreateIndex()` request as follows:
+This struct type creates a GPU_IVF_PQ index for the specified field. You can use `entity.NewIndexGPUIvfPQ()` to create one for the [`client.CreateIndex()`](./v1-Index-CreateIndex) request as follows:
 
 ```go
 index := entity.NewIndexGPUIvfPQ(metricType MetricType, nlist int, m int, nbits int)
@@ -274,14 +277,14 @@ index := entity.NewIndexGPUIvfPQ(metricType MetricType, nlist int, m int, nbits 
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Metric type for Milvus to follow when it measures similarities between vector embeddings.</p></td>
-     <td><p><code>entity.MetricType</code></p></td>
+     <td><p><a href="./v1-Collection-Search#entitymetrictype"><code>entity.MetricType</code></a></p></td>
      <td><p>N/A</p></td>
    </tr>
    <tr>
      <td><p><code>nlist</code></p></td>
      <td><p>Number of cluster units.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 65536]</code></p></td>
+     <td><p><code>&#91;1, 65536&#93;</code></p></td>
    </tr>
    <tr>
      <td><p><code>m</code></p></td>
@@ -293,13 +296,13 @@ index := entity.NewIndexGPUIvfPQ(metricType MetricType, nlist int, m int, nbits 
      <td><p><code>nbits</code></p></td>
      <td><p>Number of bits in which each low-dimensional vector is stored.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 16]</code></p></td>
+     <td><p><code>&#91;1, 16&#93;</code></p></td>
    </tr>
 </table>
 
 ## entity.IndexHNSW{#entityindexhnsw}
 
-This struct type creates an HNSW index for the specified field. You can use `entity.NewIndexHNSW()` to create one for the `client.CreateIndex()` request as follows:
+This struct type creates an HNSW index for the specified field. You can use `entity.NewIndexHNSW()` to create one for the [`client.CreateIndex()`](./v1-Index-CreateIndex) request as follows:
 
 ```go
 index := entity.NewIndexHNSW(metricType MetricType, M int, efConstruction int)
@@ -315,26 +318,26 @@ index := entity.NewIndexHNSW(metricType MetricType, M int, efConstruction int)
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Metric type for Milvus to follow when it measures similarities between vector embeddings.</p></td>
-     <td><p><code>entity.MetricType</code></p></td>
+     <td><p><a href="./v1-Collection-Search#entitymetrictype"><code>entity.MetricType</code></a></p></td>
      <td><p>N/A</p></td>
    </tr>
    <tr>
      <td><p><code>M</code></p></td>
      <td><p>Maximum number of outgoing connections in the graph. Higher M leads to higher accuracy/run_time at fixed ef/efConstruction.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[2, 2048]</code></p></td>
+     <td><p><code>&#91;2, 2048&#93;</code></p></td>
    </tr>
    <tr>
      <td><p><code>efConstruction</code></p></td>
      <td><p>Index search speed/build speed tradeoff. Increasing this parameter may enhance index quality, but it also tends to lengthen the indexing time.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, int_max]</code></p></td>
+     <td><p><code>&#91;1, int_max&#93;</code></p></td>
    </tr>
 </table>
 
 ## entity.IndexIvfFlat{#entityindexivfflat}
 
-This struct type creates an IVF_FLAT index for the specified field. You can use `entity.NewIndexIvfFlat()` to create one for the `client.CreateIndex()` request as follows:
+This struct type creates an IVF_FLAT index for the specified field. You can use `entity.NewIndexIvfFlat()` to create one for the [`client.CreateIndex()`](./v1-Index-CreateIndex) request as follows:
 
 ```go
 index := entity.NewIndexIvfFlat(metricType MetricType, nlist int)
@@ -350,18 +353,18 @@ index := entity.NewIndexIvfFlat(metricType MetricType, nlist int)
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Metric type for Milvus to follow when it measures similarities between vector embeddings.</p></td>
-     <td><p><code>entity.MetricType</code></p></td>
+     <td><p><a href="./v1-Collection-Search#entitymetrictype"><code>entity.MetricType</code></a></p></td>
      <td><p>N/A</p></td>
    </tr>
    <tr>
      <td><p><code>nlist</code></p></td>
      <td><p>Number of cluster units.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 65536]</code></p></td>
+     <td><p><code>&#91;1, 65536&#93;</code></p></td>
    </tr>
 </table>
 
-In addition to the methods defined in the `entity.Index` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Index`](./v1-Index-CreateIndex) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -378,7 +381,7 @@ In addition to the methods defined in the `entity.Index` interface, this struct 
 
 ## entity.IndexIvfPQ{#entityindexivfpq}
 
-This struct type creates an IVF_PQ index for the specified field. You can use `entity.NewIndexGPUIvfPQ()` to create one for the `client.CreateIndex()` request as follows:
+This struct type creates an IVF_PQ index for the specified field. You can use `entity.NewIndexGPUIvfPQ()` to create one for the [`client.CreateIndex()`](./v1-Index-CreateIndex) request as follows:
 
 ```go
 index := entity.NewIndexIvfPQ(metricType MetricType, nlist int, m int, nbits int)
@@ -394,14 +397,14 @@ index := entity.NewIndexIvfPQ(metricType MetricType, nlist int, m int, nbits int
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Metric type for Milvus to follow when it measures similarities between vector embeddings.</p></td>
-     <td><p><code>entity.MetricType</code></p></td>
+     <td><p><a href="./v1-Collection-Search#entitymetrictype"><code>entity.MetricType</code></a></p></td>
      <td><p>N/A</p></td>
    </tr>
    <tr>
      <td><p><code>nlist</code></p></td>
      <td><p>Number of cluster units.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 65536]</code></p></td>
+     <td><p><code>&#91;1, 65536&#93;</code></p></td>
    </tr>
    <tr>
      <td><p><code>m</code></p></td>
@@ -413,13 +416,13 @@ index := entity.NewIndexIvfPQ(metricType MetricType, nlist int, m int, nbits int
      <td><p><code>nbits</code></p></td>
      <td><p>Number of bits in which each low-dimensional vector is stored.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 16]</code></p></td>
+     <td><p><code>&#91;1, 16&#93;</code></p></td>
    </tr>
 </table>
 
 ## entity.IndexIvfSQ8{#entityindexivfsq8}
 
-This struct type creates an IVF_SQ8 index for the specified field. You can use `entity.NewIndexIvfSQ8()` to create one for the `client.CreateIndex()` request as follows:
+This struct type creates an IVF_SQ8 index for the specified field. You can use `entity.NewIndexIvfSQ8()` to create one for the [`client.CreateIndex()`](./v1-Index-CreateIndex) request as follows:
 
 ```go
 index := entity.NewIndexIvfSQ8(metricType MetricType, nlist int)
@@ -435,20 +438,20 @@ index := entity.NewIndexIvfSQ8(metricType MetricType, nlist int)
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Metric type for Milvus to follow when it measures similarities between vector embeddings.</p></td>
-     <td><p><code>entity.MetricType</code></p></td>
+     <td><p><a href="./v1-Collection-Search#entitymetrictype"><code>entity.MetricType</code></a></p></td>
      <td><p>N/A</p></td>
    </tr>
    <tr>
      <td><p><code>nlist</code></p></td>
      <td><p>Number of cluster units.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 65536]</code></p></td>
+     <td><p><code>&#91;1, 65536&#93;</code></p></td>
    </tr>
 </table>
 
 ## entity.IndexSCANN{#entityindexscann}
 
-This struct type creates a SCANN index for the specified field. You can use `entity.NewIndexSCANN()` to create one for the `client.CreateIndex()` request as follows:
+This struct type creates a SCANN index for the specified field. You can use `entity.NewIndexSCANN()` to create one for the [`client.CreateIndex()`](./v1-Index-CreateIndex) request as follows:
 
 ```go
 index := entity.NewIndexSCANN(metricType MetricType, nlist int, with_raw_data bool)
@@ -464,14 +467,14 @@ index := entity.NewIndexSCANN(metricType MetricType, nlist int, with_raw_data bo
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Metric type for Milvus to follow when it measures similarities between vector embeddings.</p></td>
-     <td><p><code>entity.MetricType</code></p></td>
+     <td><p><a href="./v1-Collection-Search#entitymetrictype"><code>entity.MetricType</code></a></p></td>
      <td><p>N/A</p></td>
    </tr>
    <tr>
      <td><p><code>nlist</code></p></td>
      <td><p>Number of cluster units.</p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 65536]</code></p></td>
+     <td><p><code>&#91;1, 65536&#93;</code></p></td>
    </tr>
    <tr>
      <td><p><code>with_raw_data</code></p></td>
@@ -483,7 +486,7 @@ index := entity.NewIndexSCANN(metricType MetricType, nlist int, with_raw_data bo
 
 ## entity.IndexSparseInverted{#entityindexsparseinverted}
 
-This struct type creates a SPARSE_INVERTED_INDEX index for the specified field. You can use `entity.NewIndexSparseInverted()` to create one for the `client.CreateIndex()` request as follows:
+This struct type creates a SPARSE_INVERTED_INDEX index for the specified field. You can use `entity.NewIndexSparseInverted()` to create one for the [`client.CreateIndex()`](./v1-Index-CreateIndex) request as follows:
 
 ```go
 index := entity.NewIndexSparseInverted(metricType MetricType, dropRatio float64)
@@ -499,20 +502,20 @@ index := entity.NewIndexSparseInverted(metricType MetricType, dropRatio float64)
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Metric type for Milvus to follow when it measures similarities between vector embeddings.</p></td>
-     <td><p><code>entity.MetricType</code></p></td>
+     <td><p><a href="./v1-Collection-Search#entitymetrictype"><code>entity.MetricType</code></a></p></td>
      <td><p>N/A</p></td>
    </tr>
    <tr>
      <td><p><code>dropRatio</code></p></td>
      <td><p>Proportion of small vector values that are excluded during the indexing process. This option allows fine-tuning of the indexing process, making a trade-off between efficiency and accuracy by disregarding small values when building the index.</p></td>
      <td><p><code>float64</code></p></td>
-     <td><p><code>[0, 1]</code></p></td>
+     <td><p><code>&#91;0, 1&#93;</code></p></td>
    </tr>
 </table>
 
 ## entity.IndexSparseWAND{#entityindexsparsewand}
 
-This struct type creates a SPARSE_WAND index for the specified field. You can use `entity.NewIndexSparseWAND()` to create one for the `client.CreateIndex()` request as follows:
+This struct type creates a SPARSE_WAND index for the specified field. You can use `entity.NewIndexSparseWAND()` to create one for the [`client.CreateIndex()`](./v1-Index-CreateIndex) request as follows:
 
 ```go
 index := entity.NewIndexSparseWAND(metricType MetricType, dropRatio float64)
@@ -528,14 +531,14 @@ index := entity.NewIndexSparseWAND(metricType MetricType, dropRatio float64)
    <tr>
      <td><p><code>metricType</code></p></td>
      <td><p>Metric type for Milvus to follow when it measures similarities between vector embeddings.</p></td>
-     <td><p><code>entity.MetricType</code></p></td>
+     <td><p><a href="./v1-Collection-Search#entitymetrictype"><code>entity.MetricType</code></a></p></td>
      <td><p>N/A</p></td>
    </tr>
    <tr>
      <td><p><code>dropRatio</code></p></td>
      <td><p>Proportion of small vector values that are excluded during the indexing process. This option allows fine-tuning of the indexing process, making a trade-off between efficiency and accuracy by disregarding small values when building the index.</p></td>
      <td><p><code>float64</code></p></td>
-     <td><p><code>[0, 1]</code></p></td>
+     <td><p><code>&#91;0, 1&#93;</code></p></td>
    </tr>
 </table>
 

@@ -3,6 +3,9 @@ title: "ListCollections() | Go | v1"
 slug: /go/v1-Collection-ListCollections
 sidebar_label: "ListCollections()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method lists collections within the connected database. | Go | v1"
 type: origin
@@ -39,7 +42,7 @@ func (c *GrpcClient) ListCollections(ctx context.Context, opts ...ListCollection
    <tr>
      <td><p>opts</p></td>
      <td><p>Extra settings for this request.</p></td>
-     <td><p><code>client.ListCollectionOption</code></p></td>
+     <td><p><a href="./v1-Collection-ListCollections#clientlistcollectionoption"><code>client.ListCollectionOption</code></a></p></td>
    </tr>
 </table>
 

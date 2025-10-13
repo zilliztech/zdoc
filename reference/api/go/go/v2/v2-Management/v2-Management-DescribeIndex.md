@@ -3,6 +3,9 @@ title: "DescribeIndex() | Go | v2"
 slug: /go/v2-Management-DescribeIndex
 sidebar_label: "DescribeIndex()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method describes the specified index by providing its detailed information. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) DescribeIndex(ctx context.Context, opt DescribeIndexOption, cal
    <tr>
      <td><p><code>opt</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DescribeIndexOption</code></p></td>
+     <td><p><a href="./v2-Management-DescribeIndex#describeindexoption"><code>DescribeIndexOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>

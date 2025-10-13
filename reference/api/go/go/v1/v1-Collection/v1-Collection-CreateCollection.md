@@ -3,6 +3,9 @@ title: "CreateCollection() | Go | v1"
 slug: /go/v1-Collection-CreateCollection
 sidebar_label: "CreateCollection()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method creates a collection with the specified schema. | Go | v1"
 type: origin
@@ -39,7 +42,7 @@ func (c *GrpcClient) CreateCollection(ctx context.Context, collSchema *entity.Sc
    <tr>
      <td><p><code>collSchema</code></p></td>
      <td><p>Schema of the collection to create.</p></td>
-     <td><p><code>*entity.Schema</code></p></td>
+     <td><p><code>*&#91;entity.Schema</code>](./v1-Collection-CreateCollection#entityschema)</p></td>
    </tr>
    <tr>
      <td><p><code>shardNum</code></p></td>
@@ -49,7 +52,7 @@ func (c *GrpcClient) CreateCollection(ctx context.Context, collSchema *entity.Sc
    <tr>
      <td><p><code>opts</code></p></td>
      <td><p>Extra options for the current request.</p><p>This parameter is optional. You can add multiple <code>CreateCollectionOption</code> in the request.</p></td>
-     <td><p><code>...entity.CreateCollectionOption</code></p></td>
+     <td><p><code>...&#91;entity.CreateCollectionOption</code>](./v1-Collection-CreateCollection#entitycreatecollectionoption)</p></td>
    </tr>
 </table>
 
@@ -86,12 +89,12 @@ schema := entity.NewSchema().
      <td><p>Whether the primary field is automatically generated upon data insertions.</p></td>
    </tr>
    <tr>
-     <td><p><code>WithField(f *entity.Field)</code></p></td>
+     <td><p><code>WithField(f *&#91;entity.Field&#93;(./v1-Collection-CreateCollection#entityfield))</code></p></td>
      <td><p>A field in the collection to create.</p><p>Call the method multiple types to add more fields.</p></td>
    </tr>
    <tr>
      <td><p><code>WithDynamicFieldEnabled(dynamicEnabled bool)</code></p></td>
-     <td><p>Whether to enable the dynamic field for non-schema-defined fields.</p><p>Once enabled, non-schema-defined fields and their values are saved in the reserved JSON field named <strong>$meta</strong>.</p><p>As an alternative, you can use <code>entity.WithEnableDynamicSchema()</code> to create an <code>entity.CreateCollectionOption</code> instead.</p><p>If you assign different values to this method and <code>entity.WithEnableDynamicSchema()</code>, the one set to <code>true</code> takes precedence.</p></td>
+     <td><p>Whether to enable the dynamic field for non-schema-defined fields.</p><p>Once enabled, non-schema-defined fields and their values are saved in the reserved JSON field named <strong>&#36;meta</strong>.</p><p>As an alternative, you can use <code>entity.WithEnableDynamicSchema()</code> to create an <code>entity.CreateCollectionOption</code> instead.</p><p>If you assign different values to this method and <code>entity.WithEnableDynamicSchema()</code>, the one set to <code>true</code> takes precedence.</p></td>
    </tr>
 </table>
 
@@ -136,7 +139,7 @@ field := entity.NewField().
      <td><p>Whether the primary field value is automatically generated upon data insertions.</p><p>If this value is different from the one specified in <code>entity.Schema</code>, this value takes precedence.</p></td>
    </tr>
    <tr>
-     <td><p><code>WithDataType(dataType entity.FieldType)</code></p></td>
+     <td><p><code>WithDataType(dataType &#91;entity.FieldType&#93;(./v1-Collection-CreateCollection#entityfieldtype))</code></p></td>
      <td><p>The data type of the field.</p></td>
    </tr>
    <tr>
@@ -152,7 +155,7 @@ field := entity.NewField().
      <td><p>The maximum number of elements of an ARRAY field.</p><p>This only applies when you set <code>dataType</code> to <code>FieldTypeArray</code> in <code>WithDataType()</code>.</p></td>
    </tr>
    <tr>
-     <td><p><code>WithElementType(eleType entity.FieldType)</code></p></td>
+     <td><p><code>WithElementType(eleType &#91;entity.FieldType&#93;(./v1-Collection-CreateCollection#entityfieldtype))</code></p></td>
      <td><p>The maximum number of elements of an ARRAY field.</p><p>This only applies when you set <code>dataType</code> to <code>FieldTypeArray</code> in <code>WithDataType()</code>.</p></td>
    </tr>
    <tr>
@@ -229,7 +232,7 @@ You can add extra collection settings to the `CreateCollection()` request using 
    </tr>
    <tr>
      <td><p><code>WithEnableDynamicSchema(enable bool)</code></p></td>
-     <td><p>Whether to enable the dynamic field for non-schema-defined fields.</p><p>Once enabled, non-schema-defined fields and their values are saved in the reserved JSON field named <strong>$meta</strong>.</p><p>As an alternative, you can append <code>WithDynamicFieldEnable(true)</code> to the <code>entity.NewSchema()</code> request instead.</p><p>If you assign different values to this method and <code>entity.WithDynamicFieldEnable()</code>, the one set to <code>true</code> takes precedence.</p></td>
+     <td><p>Whether to enable the dynamic field for non-schema-defined fields.</p><p>Once enabled, non-schema-defined fields and their values are saved in the reserved JSON field named <strong>&#36;meta</strong>.</p><p>As an alternative, you can append <code>WithDynamicFieldEnable(true)</code> to the <code>entity.NewSchema()</code> request instead.</p><p>If you assign different values to this method and <code>entity.WithDynamicFieldEnable()</code>, the one set to <code>true</code> takes precedence.</p></td>
    </tr>
    <tr>
      <td><p><code>WithPartitionNum(partitionNums int64)</code></p></td>

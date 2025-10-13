@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "describeUser() | Java | v2"
 slug: /java/java/v2-Authentication-describeUser
 sidebar_label: "describeUser()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation describes a specific user. | Java | v2"
 type: docx
 token: YLQJdvVA8odibAx7mQscYwMVn8g
 sidebar_position: 6
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describeUser()
   - javaV225
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -63,7 +66,7 @@ A **DescribeUserResp** object containing the details of the user.
 
 **PARAMETERS:**
 
-- **roles** (*List\<String\>*) -
+- **roles** (*List\&lt;String\&gt;*) -
 
     A list of role names associated with the user.
 

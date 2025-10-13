@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "createAlias() | Node.js"
 slug: /node/node/Collections-createAlias
 sidebar_label: "createAlias()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation creates an alias for an existing collection. | Node.js"
 type: docx
 token: MPuIdwujBoXM6rx7Okfc3lhZnUd
 sidebar_position: 5
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - createAlias()
   - nodejs25
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -53,7 +56,7 @@ milvusClient.createAlias({
 
 - **alias** (*str*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The alias of the collection. Before this operation, ensure that the alias does not already exist. If it does, exceptions will occur.
 
@@ -64,13 +67,13 @@ milvusClient.createAlias({
     <p>Below is an example of reassigning the alias of one collection to another:</p>
     <p>Suppose there are two collections: <code>collection_1</code> and <code>collection_2</code>. There is also a collection alias named <code>bob</code>, which was originally assigned to <code>collection_1</code>:</p>
     <ul>
-    <li><p><code>collection_1</code>'s alias = ["bob"]</p></li>
-    <li><p><code>collection_2</code>'s alias = []</p></li>
+    <li><p><code>collection_1</code>'s alias = &#91;"bob"&#93;</p></li>
+    <li><p><code>collection_2</code>'s alias = &#91;&#93;</p></li>
     </ul>
     <p>After calling <code>alter_alias("collection_2", "bob")</code>:</p>
     <ul>
-    <li><p><code>collection_1</code>'s alias = []</p></li>
-    <li><p><code>collection_2</code>'s alias = ["bob"]</p></li>
+    <li><p><code>collection_1</code>'s alias = &#91;&#93;</p></li>
+    <li><p><code>collection_2</code>'s alias = &#91;"bob"&#93;</p></li>
     </ul>
 
     </Admonition>
@@ -81,7 +84,7 @@ milvusClient.createAlias({
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the collection to create an alias for.
 
@@ -89,7 +92,7 @@ milvusClient.createAlias({
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS** *Promise\&lt;ResStatus&gt;*
 
 This method returns a promise that resolves to a **ResStatus** object.
 

@@ -3,6 +3,9 @@ title: "UseDatabase() | Go | v2"
 slug: /go/v2-Database-UseDatabase
 sidebar_label: "UseDatabase()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method disconnects the currently connected database and connects to the specified one. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) UseDatabase(ctx context.Context, option UseDatabaseOption) erro
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>UseDatabaseOption</code></p></td>
+     <td><p><a href="./v2-Database-UseDatabase#usedatabaseoption"><code>UseDatabaseOption</code></a></p></td>
    </tr>
 </table>
 

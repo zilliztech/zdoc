@@ -3,6 +3,9 @@ title: "flush() | Java | v1"
 slug: /java/v1-Collection-flush
 sidebar_label: "flush()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A MilvusClient interface. This method triggers a flush action in which all growing segments in the specified collection are marked as sealed and then flushed to storage. | Java | v1"
 type: origin
@@ -47,7 +50,7 @@ Methods of `FlushParam.Builder`:
         <th><p>Parameters</p></th>
     </tr>
     <tr>
-        <td><p>withCollectionNames(List\<String> collectionNames)</p></td>
+        <td><p>withCollectionNames(List&lt;String&gt; collectionNames)</p></td>
         <td><p>Sets a list of collections to be flushed.</p></td>
         <td><p>collectionNames: a list of the names of the collections to be flushed.</p></td>
     </tr>

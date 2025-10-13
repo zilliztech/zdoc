@@ -3,6 +3,9 @@ title: "CreateAlias() | Go | v2"
 slug: /go/v2-Collection-CreateAlias
 sidebar_label: "CreateAlias()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method creates an alias and associates it with the specified collection. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) CreateAlias(ctx context.Context, option CreateAliasOption, call
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>CreateAliasOption</code></p></td>
+     <td><p><a href="./v2-Collection-CreateAlias#createaliasoption"><code>CreateAliasOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>

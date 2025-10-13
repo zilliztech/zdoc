@@ -3,6 +3,9 @@ title: "InsertRows() | Go | v1"
 slug: /go/v1-Collection-InsertRows
 sidebar_label: "InsertRows()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method inserts entities organized in rows into the specified collection. | Go | v1"
 type: origin
@@ -49,13 +52,13 @@ func (c *GrpcClient) InsertRows(ctx context.Context, collName string, partitionN
    <tr>
      <td><p><code>rows</code></p></td>
      <td><p>Data to insert into the specified collection.</p><p>You should include the data for all the fields defined in the collection schema.</p></td>
-     <td><p><code>[]interface{}</code></p></td>
+     <td><p><code>&#91;&#93;interface&#123;&#125;</code></p></td>
    </tr>
 </table>
 
 ## Return{#return}
 
-`entity.Column`
+[`entity.Column`](./v1-Collection-Insert#entitycolumn)
 
 ## Errors{#errors}
 

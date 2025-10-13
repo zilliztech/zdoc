@@ -3,6 +3,9 @@ title: "CreatePartition() | Go | v1"
 slug: /go/v1-Partition-CreatePartition
 sidebar_label: "CreatePartition()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method creates a partition in a specific collection. | Go | v1"
 type: origin

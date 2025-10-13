@@ -3,6 +3,9 @@ title: "getVersion() | Java | v1"
 slug: /java/v1-System-getVersion
 sidebar_label: "getVersion()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "MilvusClient interface. This method gets the milvus kernel version. | Java | v1"
 type: origin

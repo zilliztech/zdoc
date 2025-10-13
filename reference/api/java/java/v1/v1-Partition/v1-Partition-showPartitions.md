@@ -3,6 +3,9 @@ title: "showPartitions() | Java | v1"
 slug: /java/v1-Partition-showPartitions
 sidebar_label: "showPartitions()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "MilvusClient interface. This method shows all partitions in the specified collection. | Java | v1"
 type: origin
@@ -51,7 +54,7 @@ Methods of `ShowPartitionsParam.Builder`:
         <td><p>databaseName: The database name.</p></td>
     </tr>
     <tr>
-        <td><p>withPartitionNames(List\<String> partitionNames)</p></td>
+        <td><p>withPartitionNames(List&lt;String&gt; partitionNames)</p></td>
         <td><p>Set the partition names list. Partition names list cannot be null or empty.</p></td>
         <td><p>partitionNames: The name list of partitions to show.</p></td>
     </tr>
@@ -103,7 +106,7 @@ Methods of `ShowPartitionsResponse`:
      <td><p>getPartitionsInfo()</p></td>
      <td><p>Return a list of PartitionInfo.</p></td>
      <td><p>N/A</p></td>
-     <td><p>List\<PartitionInfo></p></td>
+     <td><p>List&lt;PartitionInfo&gt;</p></td>
    </tr>
    <tr>
      <td><p>getPartitionInfoByName(String partitionName)</p></td>

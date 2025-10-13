@@ -3,6 +3,9 @@ title: "ListPrivilegeGroups() | Go | v2"
 slug: /go/v2-Authentication-ListPrivilegeGroups
 sidebar_label: "ListPrivilegeGroups()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method returns a list of existing privilege groups. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) ListPrivilegeGroups(ctx context.Context, option ListPrivilegeGr
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>ListPrivilegeGroupsOption</code></p></td>
+     <td><p><a href="./v2-Authentication-ListPrivilegeGroups#listprivilegegroupsoption"><code>ListPrivilegeGroupsOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>

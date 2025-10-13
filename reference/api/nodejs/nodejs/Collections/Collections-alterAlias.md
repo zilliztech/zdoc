@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "alterAlias() | Node.js"
 slug: /node/node/Collections-alterAlias
 sidebar_label: "alterAlias()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation reassigns the alias of one collection to another. | Node.js"
 type: docx
 token: DXTLdtFCso7fo6xJHShc7XLpngh
 sidebar_position: 1
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - alterAlias()
   - nodejs25
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -53,7 +56,7 @@ milvusClient.alterAlias({
 
 - **alias** (*str*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The alias of the collection. Note that the alias should exist beforehand.
 
@@ -64,13 +67,13 @@ milvusClient.alterAlias({
     <p>Below is an example of reassigning the alias of one collection to another:</p>
     <p>Suppose there are two collections: <code>collection_1</code> and <code>collection_2</code>. There is also a collection alias named <code>bob</code>, which was originally assigned to <code>collection_1</code>:</p>
     <ul>
-    <li><p><code>collection_1</code>'s alias = ["bob"]</p></li>
-    <li><p><code>collection_2</code>'s alias = []</p></li>
+    <li><p><code>collection_1</code>'s alias = &#91;"bob"&#93;</p></li>
+    <li><p><code>collection_2</code>'s alias = &#91;&#93;</p></li>
     </ul>
     <p>After calling <code>alter_alias("collection_2", "bob")</code>:</p>
     <ul>
-    <li><p><code>collection_1</code>'s alias = []</p></li>
-    <li><p><code>collection_2</code>'s alias = ["bob"]</p></li>
+    <li><p><code>collection_1</code>'s alias = &#91;&#93;</p></li>
+    <li><p><code>collection_2</code>'s alias = &#91;"bob"&#93;</p></li>
     </ul>
 
     </Admonition>
@@ -81,7 +84,7 @@ milvusClient.alterAlias({
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the target collection to reassign an alias to.
 
@@ -91,7 +94,7 @@ milvusClient.alterAlias({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS** *Promise\&lt;ResStatus&gt;*
 
 This method returns a promise that resolves to a **ResStatus** object.
 

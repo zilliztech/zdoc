@@ -3,6 +3,9 @@ title: "Collection | Go | v1"
 slug: /go/v1-Collection
 sidebar_label: "Collection"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Methods related to collection management and data operations. | Go | v1"
 type: origin

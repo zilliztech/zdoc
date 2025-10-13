@@ -3,6 +3,9 @@ title: "ListUsers() | Go | v2"
 slug: /go/v2-Authentication-ListUsers
 sidebar_label: "ListUsers()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method returns a list of existing users. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) ListUsers(ctx context.Context, opt ListUserOption, callOpts ...
    <tr>
      <td><p><code>opt</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>ListUserOption</code></p></td>
+     <td><p><a href="./v2-Authentication-ListUsers#listuseroption"><code>ListUserOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>

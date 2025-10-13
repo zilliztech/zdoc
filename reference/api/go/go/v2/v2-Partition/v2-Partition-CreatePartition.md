@@ -3,6 +3,9 @@ title: "CreatePartition() | Go | v2"
 slug: /go/v2-Partition-CreatePartition
 sidebar_label: "CreatePartition()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method creates a partition in a collection. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) CreatePartition(ctx context.Context, opt CreatePartitionOption,
    <tr>
      <td><p><code>opt</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>CreateAliasOption</code></p></td>
+     <td><p><a href="./v2-Partition-CreatePartition#createpartitionoption"><code>CreateAliasOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>

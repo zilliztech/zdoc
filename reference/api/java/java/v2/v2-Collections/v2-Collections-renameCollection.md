@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "renameCollection() | Java | v2"
 slug: /java/java/v2-Collections-renameCollection
 sidebar_label: "renameCollection()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation renames an existing collection. | Java | v2"
 type: docx
 token: CtTvdQVMoo2ec5xbWTPcSzjNnQc
 sidebar_position: 21
 keywords: 
-  - IVF
-  - knn
   - Image Search
   - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - renameCollection()
   - javaV225
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -3,6 +3,9 @@ title: "dropAlias() | Java | v1"
 slug: /java/v1-Alias-dropAlias
 sidebar_label: "dropAlias()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A MilvusClient interface. This method drops an alias for the specified collection. | Java | v1"
 type: origin

@@ -3,6 +3,9 @@ title: "Close() | Go | v1"
 slug: /go/v1-Connections-Close
 sidebar_label: "Close()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method closes the connection to Milvus. | Go | v1"
 type: origin

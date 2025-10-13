@@ -3,6 +3,9 @@ title: "alterCollection() | Java | v1"
 slug: /java/v1-Collection-alterCollection
 sidebar_label: "alterCollection()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Alter collection properties. Currently, it supports modifying the time to live (TTL) of a collection's data and enabling MMap of a collection. | Java | v1"
 type: origin

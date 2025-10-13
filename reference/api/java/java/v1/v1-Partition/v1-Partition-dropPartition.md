@@ -3,6 +3,9 @@ title: "dropPartition() | Java | v1"
 slug: /java/v1-Partition-dropPartition
 sidebar_label: "dropPartition()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "MilvusClient interface. This method drops a partition. Note that this method drops all data in this partition and the default partition cannot be dropped. | Java | v1"
 type: origin

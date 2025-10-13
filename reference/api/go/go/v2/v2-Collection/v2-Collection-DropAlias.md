@@ -3,6 +3,9 @@ title: "DropAlias() | Go | v2"
 slug: /go/v2-Collection-DropAlias
 sidebar_label: "DropAlias()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method drops an alias. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) DropAlias(ctx context.Context, option DropAliasOption, callOpti
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DropAliasOption</code></p></td>
+     <td><p><a href="./v2-Collection-DropAlias#dropaliasoption"><code>DropAliasOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>

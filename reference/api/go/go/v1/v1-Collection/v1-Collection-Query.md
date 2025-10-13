@@ -3,6 +3,9 @@ title: "Query() | Go | v1"
 slug: /go/v1-Collection-Query
 sidebar_label: "Query()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method conducts metadata filtering within a collection. | Go | v1"
 type: origin
@@ -42,7 +45,7 @@ func (c *GrpcClient) Query(ctx context.Context, collectionName string, partition
    <tr>
      <td><p><code>partitionNames</code></p></td>
      <td><p>List of partition names. </p><p>If left empty, all partitions are involved in this operation. Otherwise, only the specified partitions are involved.</p></td>
-     <td><p><code>[]string</code></p></td>
+     <td><p><code>&#91;&#93;string</code></p></td>
    </tr>
    <tr>
      <td><p><code>expr</code></p></td>
@@ -52,18 +55,18 @@ func (c *GrpcClient) Query(ctx context.Context, collectionName string, partition
    <tr>
      <td><p><code>outputFields</code></p></td>
      <td><p>List of field names to include in the return.</p></td>
-     <td><p><code>[]string</code></p></td>
+     <td><p><code>&#91;&#93;string</code></p></td>
    </tr>
    <tr>
      <td><p><code>opts</code></p></td>
      <td><p>Extra query options.</p><p>You can add multiple <code>client.SearchQueryOptionFunc</code> instances.</p></td>
-     <td><p><code>...client.SearchQueryOptionFunc</code></p></td>
+     <td><p><code>...&#91;client.SearchQueryOptionFunc</code>](./v1-Collection-Search#clientsearchqueryoptionfunc)</p></td>
    </tr>
 </table>
 
 ## Return{#return}
 
-A `client.ResultSet`, which is a slice of `entity.Column`. 
+A `client.ResultSet`, which is a slice of [`entity.Column`](./v1-Collection-Insert#entitycolumn). 
 
 ### client.ResultSet{#clientresultset}
 

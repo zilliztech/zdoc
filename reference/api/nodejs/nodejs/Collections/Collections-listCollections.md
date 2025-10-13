@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listCollections() | Node.js"
 slug: /node/node/Collections-listCollections
 sidebar_label: "listCollections()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists all existing collections. | Node.js"
 type: docx
 token: Djg7dlb5NoINz9xOAs1cyY67nsh
 sidebar_position: 18
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - listCollections()
   - nodejs25
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -52,7 +55,7 @@ listCollections({
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of an existing collection.
 
@@ -66,7 +69,7 @@ listCollections({
 
     Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
 
-**RETURNS** *Promise\<ShowCollectionsResponse>*
+**RETURNS** *Promise\&lt;ShowCollectionsResponse&gt;*
 
 This method returns a promise that resolves to a **ShowCollectionsResponse** object.
 
@@ -81,11 +84,11 @@ This method returns a promise that resolves to a **ShowCollectionsResponse** obj
 
 **PARAMETERS:**
 
-- **created_timestamps** (*string* | *list[string]*) -
+- **created_timestamps** (*string* | *list&#91;string&#93;*) -
 
     The timestamps indicating the creation time of the collections.
 
-- **created_utc_timestamps** (*string* | *list[string]*) -
+- **created_utc_timestamps** (*string* | *list&#91;string&#93;*) -
 
     The timestamps in UTC indicating the creation time of the collections.
 

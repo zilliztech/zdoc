@@ -3,6 +3,9 @@ title: "Get() | Go | v1"
 slug: /go/v1-Collection-Get
 sidebar_label: "Get()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method gets entities by their IDs. | Go | v1"
 type: origin
@@ -42,12 +45,12 @@ func (c *GrpcClient) Get(ctx context.Context, collectionName string, ids entity.
    <tr>
      <td><p><code>ids</code></p></td>
      <td><p>Boolean expression for metadata filtering.</p><p>For details, refer to <a href="https://milvus.io/docs/boolean.md">Scalar Filtering Rules</a>.</p></td>
-     <td><p><code>entity.Column</code></p></td>
+     <td><p><a href="./v1-Collection-Insert#entitycolumn"><code>entity.Column</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>opts</code></p></td>
      <td><p>Extra query options.</p><p>You can add multiple <code>client.GetOption</code> instances.</p></td>
-     <td><p><code>...client.GetOption</code></p></td>
+     <td><p><code>...&#91;client.GetOption</code>](./v1-Collection-Get#clientgetoption)</p></td>
    </tr>
 </table>
 
@@ -70,7 +73,7 @@ You can add extra settings to the `Get()` request using the following methods.
    </tr>
 </table>
 
-A `client.ResultSet`, which is a slice of `entity.Column`. 
+A `client.ResultSet`, which is a slice of [`entity.Column`](./v1-Collection-Insert#entitycolumn). 
 
 ### client.ResultSet{#clientresultset}
 

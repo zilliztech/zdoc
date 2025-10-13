@@ -3,6 +3,9 @@ title: "GrantV2() | Go | v2"
 slug: /go/v2-Authentication-GrantV2
 sidebar_label: "GrantV2()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method grants a privilege or a privilege group to a role. In Milvus, you can allocate multiple privileges or privilege groups to a role and grant the role to a user so that the user gains the privileges allocated to the role. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) GrantV2(ctx context.Context, option GrantV2Option, callOptions 
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>GrantV2Option</code></p></td>
+     <td><p><a href="./v2-Authentication-GrantV2#newgrantv2option"><code>GrantV2Option</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>

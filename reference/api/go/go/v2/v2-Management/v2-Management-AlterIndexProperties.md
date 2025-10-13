@@ -3,6 +3,9 @@ title: "AlterIndexProperties() | Go | v2"
 slug: /go/v2-Management-AlterIndexProperties
 sidebar_label: "AlterIndexProperties()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This operation changes the values of the specified index properties. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) AlterIndexProperties(ctx context.Context, opt AlterIndexPropert
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>AlterIndexPropertiesOption</code></p></td>
+     <td><p><a href="./v2-Management-AlterIndexProperties#alterindexpropertiesoption"><code>AlterIndexPropertiesOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>

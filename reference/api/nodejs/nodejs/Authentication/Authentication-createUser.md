@@ -1,9 +1,11 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "createUser() | Node.js"
 slug: /node/node/Authentication-createUser
 sidebar_label: "createUser()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation creates a user. | Node.js"
 type: docx
@@ -19,12 +21,13 @@ keywords:
   - cloud
   - createUser()
   - nodejs25
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -52,13 +55,13 @@ milvusClient.createUser({
 
 - **username** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the user to create.
 
 - **password** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The password of the user to create.
 
@@ -68,7 +71,7 @@ milvusClient.createUser({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS** *Promise\&lt;ResStatus&gt;*
 
 This method returns a promise that resolves to a **ResStatus** object.
 

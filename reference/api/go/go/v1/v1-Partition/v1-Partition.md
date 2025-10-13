@@ -3,6 +3,9 @@ title: "Partition | Go | v1"
 slug: /go/v1-Partition
 sidebar_label: "Partition"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Methods related to partitions within specific collections. | Go | v1"
 type: origin

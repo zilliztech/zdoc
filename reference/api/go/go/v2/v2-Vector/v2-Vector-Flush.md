@@ -3,6 +3,9 @@ title: "Flush() | Go | v2"
 slug: /go/v2-Vector-Flush
 sidebar_label: "Flush()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method flushes data into storage. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) Flush(ctx context.Context, option FlushOption, callOptions ...g
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>FlushOption</code></p></td>
+     <td><p><a href="./v2-Vector-Flush#flushoption"><code>FlushOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -108,12 +111,12 @@ This method does not take any input parameters. The following table lists the va
    <tr>
      <td><p><code>segIDs</code></p></td>
      <td><p>List of segment IDs.</p></td>
-     <td><p><code>[]int64</code></p></td>
+     <td><p><code>&#91;&#93;int64</code></p></td>
    </tr>
    <tr>
      <td><p><code>flushSegIDs</code></p></td>
      <td><p>List of flush segment IDs.</p></td>
-     <td><p><code>[]int64</code></p></td>
+     <td><p><code>&#91;&#93;int64</code></p></td>
    </tr>
    <tr>
      <td><p><code>flushTs</code></p></td>
@@ -123,7 +126,7 @@ This method does not take any input parameters. The following table lists the va
    <tr>
      <td><p><code>channelCheckpoints</code></p></td>
      <td><p>Channel check points</p></td>
-     <td><p><code>map[string]*msgpb.MsgPosition</code></p></td>
+     <td><p><code>map&#91;string&#93;*msgpb.MsgPosition</code></p></td>
    </tr>
 </table>
 

@@ -3,6 +3,9 @@ title: "GetPartitionStats() | Go | v2"
 slug: /go/v2-Partition-GetPartitionStats
 sidebar_label: "GetPartitionStats()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method collects the statistics on the specified partition. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) GetPartitionStats(ctx context.Context, opt GetPartitionStatsOpt
    <tr>
      <td><p><code>opt</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>GetPartitionStatsOption</code></p></td>
+     <td><p><a href="./v2-Partition-GetPartitionStats#getpartitionstatsoption"><code>GetPartitionStatsOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>

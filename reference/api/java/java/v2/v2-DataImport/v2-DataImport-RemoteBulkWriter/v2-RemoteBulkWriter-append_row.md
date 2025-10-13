@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "append_row() | Java | v2"
 slug: /java/java/v2-RemoteBulkWriter-append_row
 sidebar_label: "append_row()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation appends records to the writer. | Java | v2"
 type: docx
 token: L115dnbLyoXAVSxkUKxcuK4gncf
 sidebar_position: 1
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
   - append_row()
   - javaV225
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

@@ -3,6 +3,9 @@ title: "DropCollection() | Go | v2"
 slug: /go/v2-Collection-DropCollection
 sidebar_label: "DropCollection()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method drops a collection. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) DropCollection(ctx context.Context, option DropCollectionOption
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DropCollectionOption</code></p></td>
+     <td><p><a href="./v2-Collection-DropCollection#dropcollectionoption"><code>DropCollectionOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>

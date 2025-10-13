@@ -3,6 +3,9 @@ title: "DescribeIndex() | Go | v1"
 slug: /go/v1-Index-DescribeIndex
 sidebar_label: "DescribeIndex()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method returns the index details. | Go | v1"
 type: origin
@@ -49,13 +52,13 @@ func (c *GrpcClient) DescribeIndex(ctx context.Context, collName string, fieldNa
    <tr>
      <td><p><code>opts</code></p></td>
      <td><p>Extra index settings</p><p>You can include multiple <code>entity.IndexOption</code> in this request.</p></td>
-     <td><p><code>client.IndexOption</code></p></td>
+     <td><p><a href="./v1-Index-CreateIndex#clientindexoption"><code>client.IndexOption</code></a></p></td>
    </tr>
 </table>
 
 ## Return{#return}
 
-A list of `entity.Index` or an error.
+A list of [`entity.Index`](http://entity.Index) or an error.
 
 ## Errors{#errors}
 

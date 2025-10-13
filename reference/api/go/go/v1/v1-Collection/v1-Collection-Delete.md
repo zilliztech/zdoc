@@ -3,6 +3,9 @@ title: "Delete() | Go | v1"
 slug: /go/v1-Collection-Delete
 sidebar_label: "Delete()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method deletes the entities that match the specified filtering conditions from a collection. | Go | v1"
 type: origin

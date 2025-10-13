@@ -3,16 +3,19 @@ title: "Collections | Java | v2"
 slug: /java/v2-Collections
 beta: false
 notebook: false
+added_since: undefined
+last_modified: false
+deprecate_since: false
 description: "Methods for you to manage collections. | Java | v2"
 type: folder
 token: Sx9jfHZP8lqVhXd9UuMcERemnjd
 sidebar_position: 2
 sidebar_label: "Collections"
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud

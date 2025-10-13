@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "append_row() | Java | v2"
 slug: /java/java/v2-LocalBulkWriter-append_row
 sidebar_label: "append_row()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation appends records to the writer. | Java | v2"
 type: docx
 token: HofVdjV0koj42QxX0iHcQb05nab
 sidebar_position: 1
 keywords: 
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - IVF
-  - knn
-  - Image Search
-  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - append_row()
   - javaV225
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

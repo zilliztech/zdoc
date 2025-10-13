@@ -3,6 +3,9 @@ title: "LocalBulkWriter | Java | v1"
 slug: /java/v1-BulkWriter-LocalBulkWriter
 sidebar_label: "LocalBulkWriter"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A LocalBulkWriter instance rewrites your raw data locally in a format that Milvus understands. | Java | v1"
 type: origin
@@ -34,7 +37,7 @@ Methods of `LocalBulkWriter`:
     <tr>
         <td><p>appendRow(JsonObject rowData)</p></td>
         <td><p>Append a row into buffer. Once the buffer size exceeds a threshold, the writer will persist the buffer to data file.</p></td>
-        <td><p>rowData: A gson.JsonObject to store the data of a row.<br/>For each field:<br/>- If dataType is Bool/Int8/Int16/Int32/Int64/Float/Double/Varchar, use JsonObject.addProperty(key, value) to input;<br/>- If dataType is FloatVector, use JsonObject.add(key, gson.toJsonTree(List[Float]) to input;<br/>- If dataType is BinaryVector/Float16Vector/BFloat16Vector, use JsonObject.add(key, gson.toJsonTree(byte[])) to input;<br/>- If dataType is SparseFloatVector, use JsonObject.add(key, gson.toJsonTree(SortedMap[Long, Float])) to input;<br/>- If dataType is Array, use JsonObject.add(key, gson.toJsonTree(List of Boolean/Integer/Short/Long/Float/Double/String)) to input;<br/>- If dataType is JSON, use JsonObject.add(key, JsonElement) to input;</p></td>
+        <td><p>rowData: A gson.JsonObject to store the data of a row.<br/>For each field:<br/>- If dataType is Bool/Int8/Int16/Int32/Int64/Float/Double/Varchar, use JsonObject.addProperty(key, value) to input;<br/>- If dataType is FloatVector, use JsonObject.add(key, gson.toJsonTree(List&#91;Float&#93;) to input;<br/>- If dataType is BinaryVector/Float16Vector/BFloat16Vector, use JsonObject.add(key, gson.toJsonTree(byte&#91;&#93;)) to input;<br/>- If dataType is SparseFloatVector, use JsonObject.add(key, gson.toJsonTree(SortedMap&#91;Long, Float&#93;)) to input;<br/>- If dataType is Array, use JsonObject.add(key, gson.toJsonTree(List of Boolean/Integer/Short/Long/Float/Double/String)) to input;<br/>- If dataType is JSON, use JsonObject.add(key, JsonElement) to input;</p></td>
     </tr>
     <tr>
         <td><p>commit(boolean async)</p></td>
@@ -43,7 +46,7 @@ Methods of `LocalBulkWriter`:
     </tr>
     <tr>
         <td><p>getBatchFiles()</p></td>
-        <td><p>Returns a List\<List\<String>gt; of the persisted data files. Each List\<String> is a batch files that can be input as a job for the bulkinsert interface.</p></td>
+        <td><p>Returns a List&lt;List&lt;String&gt;&gt; of the persisted data files. Each List&lt;String&gt; is a batch files that can be input as a job for the bulkinsert interface.</p></td>
         <td><p>N/A</p></td>
     </tr>
 </table>

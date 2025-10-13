@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "SearchIteratorV2() | Java | v2"
 slug: /java/java/v2-Vector-SearchIteratorV2
 sidebar_label: "SearchIteratorV2()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation creates an iterator for you to iterate over the search results. It is useful, especially when the search result contains a large volume of data. | Java | v2"
 type: docx
 token: JxXHdFBRhoDT8MxlTvEc42IsnEh
 sidebar_position: 11
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - SearchIteratorV2()
   - javaV225
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -114,27 +117,27 @@ searchIteratorV2(SearchIteratorReqV2.builder()
        </tr>
        <tr>
          <td><p>FloatVec</p></td>
-         <td><p>FloatVec(List\<Float> data)</p><p>FloatVec(float[] data)</p></td>
+         <td><p>FloatVec(List&lt;Float&gt; data)</p><p>FloatVec(float&#91;&#93; data)</p></td>
          <td><p>For DataType.FloatVector type field.</p></td>
        </tr>
        <tr>
          <td><p>BinaryVec</p></td>
-         <td><p>BinaryVec(ByteBuffer data)</p><p>BinaryVec(byte[] data)</p></td>
+         <td><p>BinaryVec(ByteBuffer data)</p><p>BinaryVec(byte&#91;&#93; data)</p></td>
          <td><p>For DataType.BinaryVector type field.</p></td>
        </tr>
        <tr>
          <td><p>Float16Vec</p></td>
-         <td><p>Float16Vec(ByteBuffer data)</p><p>Float16Vec(byte[] data)</p><p>Float16Vec(List\<Float> data)</p></td>
+         <td><p>Float16Vec(ByteBuffer data)</p><p>Float16Vec(byte&#91;&#93; data)</p><p>Float16Vec(List&lt;Float&gt; data)</p></td>
          <td><p>For DataType.Float16Vector type field.</p></td>
        </tr>
        <tr>
          <td><p>BFloat16Vec</p></td>
-         <td><p>BFloat16Vec(ByteBuffer data)</p><p>BFloat16Vec(byte[] data)</p><p>BFloat16Vec(List\<Float> data)</p></td>
+         <td><p>BFloat16Vec(ByteBuffer data)</p><p>BFloat16Vec(byte&#91;&#93; data)</p><p>BFloat16Vec(List&lt;Float&gt; data)</p></td>
          <td><p>For DataType.BFloat16Vector type field.</p></td>
        </tr>
        <tr>
          <td><p>SparseFloatVec</p></td>
-         <td><p>SparseFloatVec(SortedMap\<Long, Float> data)</p></td>
+         <td><p>SparseFloatVec(SortedMap&lt;Long, Float&gt; data)</p></td>
          <td><p>For DataType.SparseFloatVector type field.</p></td>
        </tr>
     </table>
@@ -147,7 +150,7 @@ How many digits are reserved after the decimal point.
 
 A JSON format string for extra serach parameters.
 
-- `consistencyLevel(ConsistencyLevel consistencyLevel)`
+- `consistencyLevel([ConsistencyLevel](./v2-Collections-ConsistencyLevel) consistencyLevel)`
 
     The consistency level of the target collection.
 

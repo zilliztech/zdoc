@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "search_iterator() | Python | ORM"
 slug: /python/python/Collection-search_iterator
 sidebar_label: "search_iterator()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation returns a Python iterator for you to iterate over the search results. It is useful especially when the search result contains a large volume of data. | Python | ORM"
 type: docx
 token: HrnndnWtKoPuenxvsXBchF1wnnh
 sidebar_position: 26
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - search_iterator()
   - pymilvus25
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -53,9 +56,9 @@ search_iterator(
 
 **PARAMETERS:**
 
-- **data** (*list[list[float]]*) - 
+- **data** (*list&#91;list&#91;float&#93;&#93;*) - 
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     A list of vector embeddings.
 
@@ -63,13 +66,13 @@ search_iterator(
 
 - **anns_field** (str) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the vector field in the current collection.
 
 - **param** (dict) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The parameter settings specific to this operation.
 

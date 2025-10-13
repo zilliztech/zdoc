@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "getFlushState() | Node.js"
 slug: /node/node/Management-getFlushState
 sidebar_label: "getFlushState()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation returns the flush status of a specific segment. | Node.js"
 type: docx
 token: X8qWdMHg5oQQK6xZdBYcGNOnn3c
 sidebar_position: 8
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - getFlushState()
   - nodejs25
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -55,9 +58,9 @@ milvusClient.getFlushState({
 
 **PARAMETERS:**
 
-- **segment_ids** (*number[]*) -
+- **segment_ids** (*number&#91;&#93;*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     A list of the target segment IDs.
 
@@ -67,7 +70,7 @@ milvusClient.getFlushState({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<GetFlushStateResponse>*
+**RETURNS** *Promise\&lt;GetFlushStateResponse&gt;*
 
 This method returns a promise that resolves to a **GetFlushStateResponse** object.
 

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "describeCollection() | Java | v2"
 slug: /java/java/v2-Collections-describeCollection
 sidebar_label: "describeCollection()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation lists detailed information about a specific collection. | Java | v2"
 type: docx
 token: Lc03dk5YVo8Ilvx4XINcv5KBn9e
 sidebar_position: 12
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
   - javaV225
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -77,11 +80,11 @@ A **DescribeCollectionResp** object that contains detailed information about the
 
     The number of partitions in the current collection.
 
-- **fieldNames** (*List\<String\>*)
+- **fieldNames** (*List\&lt;String\&gt;*)
 
     A list of fields in the current collection.
 
-- **vectorFieldName** (*List\<String\>*)
+- **vectorFieldName** (*List\&lt;String\&gt;*)
 
     The name of the vector field.
 
@@ -91,7 +94,7 @@ A **DescribeCollectionResp** object that contains detailed information about the
 
 - **enableDynamicField** (*Boolean*)
 
-    Whether to use the reserved JSON field **$meta** to save non-schema-defined fields and their values as key-value pairs.
+    Whether to use the reserved JSON field **&#36;meta** to save non-schema-defined fields and their values as key-value pairs.
 
 - **autoID** (*Boolean*)
 

@@ -3,6 +3,9 @@ title: "DropCollection() | Go | v1"
 slug: /go/v1-Collection-DropCollection
 sidebar_label: "DropCollection()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method drops the specified collection and the entities within. | Go | v1"
 type: origin

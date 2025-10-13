@@ -3,6 +3,9 @@ title: "loadCollection() | Java | v1"
 slug: /java/v1-Collection-loadCollection
 sidebar_label: "loadCollection()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A MilvusClient interface. This method loads the specified collection and all the data within to memory for search or query. | Java | v1"
 type: origin

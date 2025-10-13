@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "alterCollectionProperties() | Node.js"
 slug: /node/node/Collections-alterCollectionProperties
 sidebar_label: "alterCollectionProperties()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation modifies the properties of a specified collection. | Node.js"
 type: docx
 token: EHPGdbCP5o7UzCxlDnRc6y5Pn1c
 sidebar_position: 3
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionProperties()
   - nodejs25
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -57,13 +60,13 @@ milvusClient.alterCollectionProperties({
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the target collection to reassign an alias to.
 
 - **properties** (*Properties*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The properties to change and their expected values in a TypeScript **Record**. Possible values are as follows:
 
@@ -81,7 +84,7 @@ milvusClient.alterCollectionProperties({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS** *Promise\&lt;ResStatus&gt;*
 
 This method returns a promise that resolves to a **ResStatus** object.
 

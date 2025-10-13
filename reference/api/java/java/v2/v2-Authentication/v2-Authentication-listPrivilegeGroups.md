@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "listPrivilegeGroups() | Java | v2"
 slug: /java/java/v2-Authentication-listPrivilegeGroups
 sidebar_label: "listPrivilegeGroups()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists all privilege groups. | Java | v2"
 type: docx
 token: TGsXduN5OoAjVyxZTvRc8HR2nse
 sidebar_position: 13
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
   - listPrivilegeGroups()
   - javaV225
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -54,7 +57,7 @@ listPrivilegeGroups(ListPrivilegeGroupsReq.builder()
 
 A **ListPrivilegeGroupsResp** object contains the following fields:
 
-- **privilegeGroups** (*List\<PrivilegeGroup>*) -
+- **privilegeGroups** (*List&lt;PrivilegeGroup&gt;*) -
 
     A list of privilege groups, each of which is a **PrivilegeGroup** object.
 
@@ -62,7 +65,7 @@ A **ListPrivilegeGroupsResp** object contains the following fields:
 
         The name of the current privilege group.
 
-    - **privileges** (List\<String>) - 
+    - **privileges** (List&lt;String&gt;) - 
 
         The privileges added into the current privilege group.
 

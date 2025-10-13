@@ -3,6 +3,9 @@ title: "Index | Go | v1"
 slug: /go/v1-Index
 sidebar_label: "Index"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Methods related to building indexes for your collections. | Go | v1"
 type: origin

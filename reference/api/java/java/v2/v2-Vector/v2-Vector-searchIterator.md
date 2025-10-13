@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "searchIterator() | Java | v2"
 slug: /java/java/v2-Vector-searchIterator
 sidebar_label: "searchIterator()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This method returns a search iterator to iterate search results. | Java | v2"
 type: docx
 token: M4IqdsRCNotiM4xdOA0cWSnUngb
 sidebar_position: 8
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - searchIterator()
   - javaV225
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -103,27 +106,27 @@ searchIterator(SearchIteratorReq.builder()
        </tr>
        <tr>
          <td><p>FloatVec</p></td>
-         <td><p>FloatVec(List\<Float> data)</p><p>FloatVec(float[] data)</p></td>
+         <td><p>FloatVec(List&lt;Float&gt; data)</p><p>FloatVec(float&#91;&#93; data)</p></td>
          <td><p>For DataType.FloatVector type field.</p></td>
        </tr>
        <tr>
          <td><p>BinaryVec</p></td>
-         <td><p>BinaryVec(ByteBuffer data)</p><p>BinaryVec(byte[] data)</p></td>
+         <td><p>BinaryVec(ByteBuffer data)</p><p>BinaryVec(byte&#91;&#93; data)</p></td>
          <td><p>For DataType.BinaryVector type field.</p></td>
        </tr>
        <tr>
          <td><p>Float16Vec</p></td>
-         <td><p>Float16Vec(ByteBuffer data)</p><p>Float16Vec(byte[] data)</p><p>Float16Vec(List\<Float> data)</p></td>
+         <td><p>Float16Vec(ByteBuffer data)</p><p>Float16Vec(byte&#91;&#93; data)</p><p>Float16Vec(List&lt;Float&gt; data)</p></td>
          <td><p>For DataType.Float16Vector type field.</p></td>
        </tr>
        <tr>
          <td><p>BFloat16Vec</p></td>
-         <td><p>BFloat16Vec(ByteBuffer data)</p><p>BFloat16Vec(byte[] data)</p><p>BFloat16Vec(List\<Float> data)</p></td>
+         <td><p>BFloat16Vec(ByteBuffer data)</p><p>BFloat16Vec(byte&#91;&#93; data)</p><p>BFloat16Vec(List&lt;Float&gt; data)</p></td>
          <td><p>For DataType.BFloat16Vector type field.</p></td>
        </tr>
        <tr>
          <td><p>SparseFloatVec</p></td>
-         <td><p>SparseFloatVec(SortedMap\<Long, Float> data)</p></td>
+         <td><p>SparseFloatVec(SortedMap&lt;Long, Float&gt; data)</p></td>
          <td><p>For DataType.SparseFloatVector type field.</p></td>
        </tr>
     </table>
@@ -136,7 +139,7 @@ searchIterator(SearchIteratorReq.builder()
 
     The topk value.
 
-- `consistencyLevel(ConsistencyLevel consistencyLevel)`
+- `consistencyLevel([ConsistencyLevel](./v2-Collections-ConsistencyLevel) consistencyLevel)`
 
     The consistency level of the target collection.
 

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "FieldSchema | Java | v2"
 slug: /java/java/v2-Collections-FieldSchema
 sidebar_label: "FieldSchema"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "A FieldSchema instance defines the data type and related attributes of a specific field in a collection. | Java | v2"
 type: docx
 token: WeXmdv8bioJ7AEx9sEtct6kgnUd
 sidebar_position: 16
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - FieldSchema
   - javaV225
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -66,7 +69,7 @@ CreateCollectionReq.FieldSchema.builder()
 
     The description of the field.
 
-- `dataType(DataType dataType)`
+- `dataType([DataType](./v2-Collections-DataType) dataType)`
 
     The data type of the field.
 

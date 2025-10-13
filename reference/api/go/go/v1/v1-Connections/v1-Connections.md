@@ -3,6 +3,9 @@ title: "Connections | Go | v1"
 slug: /go/v1-Connections
 sidebar_label: "Connections"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Methods related to connections to your deployment. | Go | v1"
 type: origin

@@ -3,6 +3,9 @@ title: "Columns | Go | v1"
 slug: /go/v1-Collection-Columns
 sidebar_label: "Columns"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The struct types on this page implement the method signatures of the `entity.Column` interface. | Go | v1"
 type: origin
@@ -17,7 +20,7 @@ import Admonition from '@theme/Admonition';
 
 # Columns
 
-The struct types on this page implement the method signatures of the `entity.Column` interface.
+The struct types on this page implement the method signatures of the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface.
 
 ## entity.ColumnBool{#entitycolumnbool}
 
@@ -31,7 +34,7 @@ columnBool := entity.NewColumnBool(name string, values []bool)
 columnBool.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -41,7 +44,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[]bool</code></p></td>
+     <td><p><code>&#91;&#93;bool</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -71,7 +74,7 @@ columnBoolArray := entity.NewColumnBoolArray(name string, values [][]bool)
 columnBoolArray.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -81,12 +84,12 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]bool</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;bool</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
      <td><p><code>ValueByIdx(idx int)</code></p></td>
-     <td><p><code>[]bool, error</code></p></td>
+     <td><p><code>&#91;&#93;bool, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
 </table>
@@ -113,7 +116,7 @@ columnDouble := entity.NewColumnDouble(name string, values []float64)
 columnDouble.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -123,7 +126,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[]float64</code></p></td>
+     <td><p><code>&#91;&#93;float64</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -153,7 +156,7 @@ columnDoubleArray := entity.NewColumnDoubleArray(name string, values [][]float64
 columnDoubleArray.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -163,12 +166,12 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]float64</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;float64</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
      <td><p><code>ValueByIdx(idx int)</code></p></td>
-     <td><p><code>[]float64, error</code></p></td>
+     <td><p><code>&#91;&#93;float64, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
 </table>
@@ -195,7 +198,7 @@ columnFloat := entity.NewColumnFloat(name string, values []float32)
 columnFloat.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -205,7 +208,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[]float32</code></p></td>
+     <td><p><code>&#91;&#93;float32</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -235,7 +238,7 @@ columnFloatArray := entity.NewColumnFloatArray(name string, values [][]float32)
 columnFloatArray.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -245,12 +248,12 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]float32</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;float32</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
      <td><p><code>ValueByIdx(idx int)</code></p></td>
-     <td><p><code>[]float32, error</code></p></td>
+     <td><p><code>&#91;&#93;float32, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
 </table>
@@ -277,7 +280,7 @@ columnInt8 := entity.NewColumnInt8(name string, values []int8)
 columnInt8.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -287,7 +290,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[]int8</code></p></td>
+     <td><p><code>&#91;&#93;int8</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -317,7 +320,7 @@ columnInt8Array := entity.NewColumnInt8Array(name string, values [][]int8)
 columnInt8Array.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -327,12 +330,12 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]int8</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;int8</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
      <td><p><code>ValueByIdx(idx int)</code></p></td>
-     <td><p><code>[]int8, error</code></p></td>
+     <td><p><code>&#91;&#93;int8, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
 </table>
@@ -359,7 +362,7 @@ columnInt16 := entity.NewColumnInt16(name string, values []int16)
 columnInt16.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -369,7 +372,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[]int16</code></p></td>
+     <td><p><code>&#91;&#93;int16</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -399,7 +402,7 @@ columnInt16Array := entity.NewColumnInt16Array(name string, values [][]int16)
 columnInt16Array.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -409,12 +412,12 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]int16</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;int16</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
      <td><p><code>ValueByIdx(idx int)</code></p></td>
-     <td><p><code>[]int16, error</code></p></td>
+     <td><p><code>&#91;&#93;int16, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
 </table>
@@ -441,7 +444,7 @@ columnInt32 := entity.NewColumnInt32(name string, values []int32)
 columnInt32.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -451,7 +454,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[]int32</code></p></td>
+     <td><p><code>&#91;&#93;int32</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -481,7 +484,7 @@ columnInt32Array := entity.NewColumnInt32Array(name string, values [][]int32)
 columnInt32Array.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -491,12 +494,12 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]int32</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;int32</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
      <td><p><code>ValueByIdx(idx int)</code></p></td>
-     <td><p><code>[]int32, error</code></p></td>
+     <td><p><code>&#91;&#93;int32, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
 </table>
@@ -523,7 +526,7 @@ columnInt64 := entity.NewColumnInt64(name string, values []int64)
 columnInt64.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -533,7 +536,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[]int64</code></p></td>
+     <td><p><code>&#91;&#93;int64</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -563,7 +566,7 @@ columnInt64Array := entity.NewColumnInt64Array(name string, values [][]int64)
 columnInt64Array.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -573,12 +576,12 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]int64</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;int64</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
      <td><p><code>ValueByIdx(idx int)</code></p></td>
-     <td><p><code>[]int64, error</code></p></td>
+     <td><p><code>&#91;&#93;int64, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
 </table>
@@ -605,7 +608,7 @@ columnJSONBytes := entity.NewColumnJSONBytes(name string, values [][]byte)
 columnJSONBytes.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -615,12 +618,12 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]byte</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;byte</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
      <td><p><code>ValueByIdx(idx int)</code></p></td>
-     <td><p><code>[]byte, error</code></p></td>
+     <td><p><code>&#91;&#93;byte, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
    <tr>
@@ -650,7 +653,7 @@ columnVarChar := entity.NewColumnVarChar(name string, values []string)
 columnVarChar.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -660,7 +663,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[]string</code></p></td>
+     <td><p><code>&#91;&#93;string</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -690,7 +693,7 @@ columnVarCharArray := entity.NewColumnVarCharArray(name string, values [][]strin
 columnVarCharArray.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -700,12 +703,12 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]string</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;string</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
      <td><p><code>ValueByIdx(idx int)</code></p></td>
-     <td><p><code>[]string, error</code></p></td>
+     <td><p><code>&#91;&#93;string, error</code></p></td>
      <td><p>Return the value at the specified ID in the column or an error.</p></td>
    </tr>
 </table>
@@ -732,7 +735,7 @@ columnBFloat16Vector := entity.NewColumnBFloat16Vector(name string, dim int, val
 columnBFloat16Vector.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -742,7 +745,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]byte</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;byte</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -774,7 +777,7 @@ columnBinaryVector := entity.NewColumnBinaryVector(name string, dim int, values 
 columnBinaryVector.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -784,7 +787,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]byte</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;byte</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -816,7 +819,7 @@ columnFloat16Vector := entity.NewColumnFloat16Vector(name string, dim int, value
 columnFloat16Vector.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -826,7 +829,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]byte</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;byte</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -858,7 +861,7 @@ columnFloatVector := entity.NewColumnFloatVector(name string, dim int, values []
 columnFloatVector.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -868,7 +871,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[][]byte</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;byte</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -900,7 +903,7 @@ columnSparseFloatVector := entity.NewColumnFloatVector(name string, values []Spa
 columnSparseFloatVector.AppendValue(i interface{})
 ```
 
-In addition to the methods defined in the `entity.Column` interface, this struct type also defines the following methods.
+In addition to the methods defined in the [`entity.Column`](./v1-Collection-Insert#entitycolumn) interface, this struct type also defines the following methods.
 
 <table>
    <tr>
@@ -910,7 +913,7 @@ In addition to the methods defined in the `entity.Column` interface, this struct
    </tr>
    <tr>
      <td><p><code>Data()</code></p></td>
-     <td><p><code>[]entity.SparseEmbedding</code></p></td>
+     <td><p><code>&#91;&#93;entity.SparseEmbedding</code></p></td>
      <td><p>Return all data in the column.</p></td>
    </tr>
    <tr>
@@ -967,12 +970,12 @@ type SparseEmbedding interface {
    </tr>
    <tr>
      <td><p><code>Serialize()</code></p></td>
-     <td><p><code>[]byte</code></p></td>
+     <td><p><code>&#91;&#93;byte</code></p></td>
      <td><p>Return the serialized sparse vector embedding.</p></td>
    </tr>
    <tr>
      <td><p><code>FieldType()</code></p></td>
-     <td><p><code>entity.FieldType</code></p></td>
+     <td><p><a href="./v1-Collection-CreateCollection#entityfieldtype"><code>entity.FieldType</code></a></p></td>
      <td><p>Return the field type of the sparse vector embedding.</p></td>
    </tr>
 </table>

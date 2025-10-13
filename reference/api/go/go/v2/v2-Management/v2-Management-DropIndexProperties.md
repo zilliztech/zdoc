@@ -3,6 +3,9 @@ title: "DropIndexProperties() | Go | v2"
 slug: /go/v2-Management-DropIndexProperties
 sidebar_label: "DropIndexProperties()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This operation drops the settings of the specified index properties. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) DropIndexProperties(ctx context.Context, opt DropIndexPropertie
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DropIndexPropertiesOption</code></p></td>
+     <td><p><a href="./v2-Management-DropIndexProperties#dropindexpropertiesoption"><code>DropIndexPropertiesOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>

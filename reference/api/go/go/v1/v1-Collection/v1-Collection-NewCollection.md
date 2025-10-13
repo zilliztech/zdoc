@@ -3,6 +3,9 @@ title: "NewCollection() | Go | v1"
 slug: /go/v1-Collection-NewCollection
 sidebar_label: "NewCollection()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method creates a collection in a Zilliz Cloud cluster. | Go | v1"
 type: origin
@@ -49,7 +52,7 @@ func (c *GrpcClient) NewCollection(ctx context.Context, collName string, dimensi
    <tr>
      <td><p><code>opts</code></p></td>
      <td><p>Extra options for the current request.</p><p>This parameter is optional. You can add multiple <code>CreateCollectionOption</code> in the request.</p></td>
-     <td><p><code>...entity.CreateCollectionOption</code></p></td>
+     <td><p><code>...&#91;entity.CreateCollectionOption</code>](./v1-Collection-NewCollection#entitycreatecollectionoption)</p></td>
    </tr>
 </table>
 
@@ -67,7 +70,7 @@ You can add extra collection settings to the `NewCollection()` request using the
      <td><p>Whether allows Zilliz Cloud to automatically generate IDs upon data insertions.</p></td>
    </tr>
    <tr>
-     <td><p><code>WithMetricsType(mt entity.MetricType)</code></p></td>
+     <td><p><code>WithMetricsType(mt &#91;entity.MetricType&#93;(./v1-Collection-Search#entitymetrictype))</code></p></td>
      <td><p>Metric type for Zilliz Cloud to measure similarity between vector embeddings.</p></td>
    </tr>
    <tr>
@@ -75,7 +78,7 @@ You can add extra collection settings to the `NewCollection()` request using the
      <td><p>Custom name of the primary field.</p><p>If not specified, the default value <code>id</code> applies.</p></td>
    </tr>
    <tr>
-     <td><p><code>WithPKFieldType(tp entity.FieldType)</code></p></td>
+     <td><p><code>WithPKFieldType(tp &#91;entity.FieldType&#93;(./v1-Collection-CreateCollection#entityfieldtype))</code></p></td>
      <td><p>Data type of the primary field.</p><p>If not specified, the default value entity <code>5</code> applies, indicating that the values in the primary field are of the <code>int64</code> type.</p></td>
    </tr>
    <tr>

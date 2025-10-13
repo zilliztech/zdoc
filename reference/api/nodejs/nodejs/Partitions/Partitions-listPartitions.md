@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listPartitions() | Node.js"
 slug: /node/node/Partitions-listPartitions
 sidebar_label: "listPartitions()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists the partitions in a specified collection. | Node.js"
 type: docx
 token: JNPwdFI1zoleD7x9LRIc0eqcnof
 sidebar_position: 5
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - listPartitions()
   - nodejs25
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -56,7 +59,7 @@ milvusClient.listPartitions({
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of an existing collection.
 
@@ -64,7 +67,7 @@ milvusClient.listPartitions({
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ShowPartitionsResponse>*
+**RETURNS** *Promise\&lt;ShowPartitionsResponse&gt;*
 
 This method returns a promise that resolves to a **ShowPartitionsResponse** object.
 
@@ -80,19 +83,19 @@ This method returns a promise that resolves to a **ShowPartitionsResponse** obje
 
 **PARAMETERS:**
 
-- **created_timestamps** (*string* | *list[string]*) -
+- **created_timestamps** (*string* | *list&#91;string&#93;*) -
 
     The timestamp indicating the creation time of the partition.
 
-- **created_utc_timestamps** (*string* | *list[string]*) -
+- **created_utc_timestamps** (*string* | *list&#91;string&#93;*) -
 
     The timestamp in UTC indicating the creation time of the partition.
 
-- **partitionIDs** (*number* | *list[number]*) -
+- **partitionIDs** (*number* | *list&#91;number&#93;*) -
 
     A list of the IDs of the partitions.
 
-- **partition_names** (*string* | *list[string]*) -
+- **partition_names** (*string* | *list&#91;string&#93;*) -
 
     A list of the names of the partitions.
 

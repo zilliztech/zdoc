@@ -3,6 +3,9 @@ title: "CreateRole() | Go | v2"
 slug: /go/v2-Authentication-CreateRole
 sidebar_label: "CreateRole()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method creates a role. In Milvus, you can allocate multiple privileges or privilege groups to a role and grant the role to a user so that the user gains the privileges allocated to the role. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) CreateRole(ctx context.Context, opt CreateRoleOption, callOpts 
    <tr>
      <td><p><code>opt</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>CreateRoleOption</code></p></td>
+     <td><p><a href="./v2-Authentication-CreateRole#createroleoption"><code>CreateRoleOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>

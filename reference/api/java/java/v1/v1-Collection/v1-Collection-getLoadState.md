@@ -3,6 +3,9 @@ title: "getLoadState() | Java | v1"
 slug: /java/v1-Collection-getLoadState
 sidebar_label: "getLoadState()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A MilvusClient interface. This method gets the state of loading collection progress. | Java | v1"
 type: origin
@@ -51,7 +54,7 @@ Methods of `GetLoadStateParam.Builder`:
         <td><p>databaseName: The database name.</p></td>
     </tr>
     <tr>
-        <td><p>withPartitionNames(List\<String> partitionNames)</p></td>
+        <td><p>withPartitionNames(List&lt;String&gt; partitionNames)</p></td>
         <td><p>Sets partition names list to specify query scope (Optional).</p></td>
         <td><p>partitionNames: <br/>A name list of partition to get state.</p></td>
     </tr>

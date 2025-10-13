@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "getLoadState() | Node.js"
 slug: /node/node/Management-getLoadState
 sidebar_label: "getLoadState()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation displays whether a specified collection or partition is loaded or not. | Node.js"
 type: docx
 token: J17ZdPNwqo4nt3x5b8pc0H5Nnph
 sidebar_position: 12
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
   - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadState()
   - nodejs25
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -57,11 +60,11 @@ milvusClient.getLoadState({
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of a collection.
 
-- **partition_names** (*string[]*) -
+- **partition_names** (*string&#91;&#93;*) -
 
     The names of one or more partitions.
 
@@ -69,7 +72,7 @@ milvusClient.getLoadState({
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response returns or error occurs.
 
-**RETURNS** *Promise\<GetLoadStateResponse>*
+**RETURNS** *Promise\&lt;GetLoadStateResponse&gt;*
 
 This method returns a promise that resolves to a **GetLoadStateResponse** object.
 

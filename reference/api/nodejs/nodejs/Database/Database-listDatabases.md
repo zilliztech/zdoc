@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listDatabases() | Node.js"
 slug: /node/node/Database-listDatabases
 sidebar_label: "listDatabases()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation lists all existing databases. | Node.js"
 type: docx
 token: Kp9Dd2dIgoxyDixuqtqctPZXnFb
 sidebar_position: 5
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
   - nodejs25
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -54,7 +57,7 @@ milvusClient.listDatabases({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise |\<ListDatabaseResponse>*
+**RETURNS** *Promise |&lt;ListDatabaseResponse&gt;*
 
 This method returns a promise that resolves to a **ListDatabaseResponse** object.
 
@@ -71,7 +74,7 @@ This method returns a promise that resolves to a **ListDatabaseResponse** object
 
 **PARAMETERS:**
 
-- **db_names** (*string[]*) -
+- **db_names** (*string&#91;&#93;*) -
 
     A list of database names.
 

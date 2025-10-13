@@ -3,6 +3,9 @@ title: "search() | Java | v1"
 slug: /java/v1-HighlevelAPI-search
 sidebar_label: "search()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The MilvusClient interface. This method conducts an approximate nearest neighbor (ANN) search on a vector field and pairs up with a Boolean expression to conduct filtering on scalar fields before searching. | Java | v1"
 type: origin
@@ -46,7 +49,7 @@ Methods of `SearchSimpleParam.Builder`:
         <td><p>collectionName: target collection name</p></td>
     </tr>
     <tr>
-        <td><p>withOutFields(List\<String> outFields)</p></td>
+        <td><p>withOutFields(List&lt;String&gt; outFields)</p></td>
         <td><p>Specifies output scalar fields (Optional).</p></td>
         <td><p><br/>outFields: The name list of fields to be outputed</p></td>
     </tr>
@@ -56,9 +59,9 @@ Methods of `SearchSimpleParam.Builder`:
         <td><p>filter: The expression to filter scalar fields</p></td>
     </tr>
     <tr>
-        <td><p>withVectors(List\<?> vectors)</p></td>
+        <td><p>withVectors(List&lt;?&gt; vectors)</p></td>
         <td><p>Set the target vector. Up to 16384 vectors allowed.</p></td>
-        <td><p>vectors: <br/>- If target field type is float vector, List\< List\<Float>gt; is required;<br/>- If target field type is binary vector, List\<ByteBuffer> is required;</p></td>
+        <td><p>vectors: <br/>- If target field type is float vector, List&lt; List&lt;Float&gt;&gt; is required;<br/>- If target field type is binary vector, List&lt;ByteBuffer&gt; is required;</p></td>
     </tr>
     <tr>
         <td><p>withOffset(Long offset)</p></td>

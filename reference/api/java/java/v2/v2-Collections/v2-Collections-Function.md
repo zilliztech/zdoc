@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "Function | Java | v2"
 slug: /java/java/v2-Collections-Function
 sidebar_label: "Function"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "A `Function` instance for generating vector embeddings from user-provided raw data in Milvus. | Java | v2"
 type: docx
 token: A3YrdnTYXobm34x2qKWcpkrZnN9
 sidebar_position: 26
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - Function
   - javaV225
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

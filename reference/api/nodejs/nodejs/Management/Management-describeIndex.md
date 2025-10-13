@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "describeIndex() | Node.js"
 slug: /node/node/Management-describeIndex
 sidebar_label: "describeIndex()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation describes a specific index. | Node.js"
 type: docx
 token: PePIdiq9po6cplxAoF6ca5C2ntb
 sidebar_position: 3
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
   - nodejs25
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -58,7 +61,7 @@ describeIndex(data): Promise<DescribeIndexResponse>
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of an existing collection.
 
@@ -74,7 +77,7 @@ describeIndex(data): Promise<DescribeIndexResponse>
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<DescribeIndexResponse>*
+**RETURNS** *Promise\&lt;DescribeIndexResponse&gt;*
 
 This method returns a promise that resolves to a **DescribeIndexResponse** object.
 
@@ -87,7 +90,7 @@ This method returns a promise that resolves to a **DescribeIndexResponse** objec
 
 **PARAMETERS:**
 
-- **index_descriptions** (*IndexDescription[]*) -
+- **index_descriptions** (*IndexDescription&#91;&#93;*) -
 
     - **field_name** (*string*) -
 

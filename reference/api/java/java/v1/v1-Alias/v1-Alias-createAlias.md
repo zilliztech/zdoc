@@ -3,6 +3,9 @@ title: "createAlias() | Java | v1"
 slug: /java/v1-Alias-createAlias
 sidebar_label: "createAlias()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A MilvusClient interface. This method creates an alias for a collection. Alias cannot be duplicated. The same alias cannot be assigned to different collections. Instead, you can specify multiple aliases for each collection. | Java | v1"
 type: origin

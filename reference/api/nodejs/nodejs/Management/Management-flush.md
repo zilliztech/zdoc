@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "flush() | Node.js"
 slug: /node/node/Management-flush
 sidebar_label: "flush()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation manually seals a segment and persists the data on disk. It is recommended that this operation be called after all the data has been inserted into a collection. | Node.js"
 type: docx
 token: E2XJd4ZHvoc7QlxyrEJcrOJOn9f
 sidebar_position: 6
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - nodejs25
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -60,9 +63,9 @@ milvusClient.flush({
 
     The name of the target database to which the target collections belong.
 
-- **collection_names** (*string[]*) -
+- **collection_names** (*string&#91;&#93;*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     A list of the target collection names.
 
@@ -72,7 +75,7 @@ milvusClient.flush({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<FlushResult>*
+**RETURNS** *Promise\&lt;FlushResult&gt;*
 
 This method returns a promise that resolves to a **FlushResult** object.
 

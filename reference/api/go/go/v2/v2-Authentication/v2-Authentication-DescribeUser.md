@@ -3,6 +3,9 @@ title: "DescribeUser() | Go | v2"
 slug: /go/v2-Authentication-DescribeUser
 sidebar_label: "DescribeUser()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method returns the detailed information about the specified user. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) DescribeUser(ctx context.Context, opt DescribeUserOption, callO
    <tr>
      <td><p><code>opt</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DescribeUserOption</code></p></td>
+     <td><p><a href="./v2-Authentication-DescribeUser#describeuseroption"><code>DescribeUserOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -92,7 +95,7 @@ type User struct {
 
 ## Return{#return}
 
-`*entity.User`
+`*[entity.User`](./v2-Authentication-DescribeUser#entityuser)
 
 ## Example{#example}
 

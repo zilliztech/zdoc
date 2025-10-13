@@ -3,6 +3,9 @@ title: "ListCollections() | Go | v2"
 slug: /go/v2-Collection-ListCollections
 sidebar_label: "ListCollections()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method lists all existing collections. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) ListCollections(ctx context.Context, option ListCollectionOptio
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>ListAliasesOption</code></p></td>
+     <td><p><a href="./v2-Collection-ListCollections#listcollectionoption"><code>ListAliasesOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>

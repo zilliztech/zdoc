@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "listCollections() | Java | v2"
 slug: /java/java/v2-Collections-listCollections
 sidebar_label: "listCollections()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists all existing collections. | Java | v2"
 type: docx
 token: WxhmdPZydowLVLxR2LacSrUNnme
 sidebar_position: 20
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - listCollections()
   - javaV225
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -54,7 +57,7 @@ A **ListCollectionsResp** object containing a list of collection names. If there
 
 **PARAMETERS:**
 
-- **collectionNames** (*List\<String\>*)
+- **collectionNames** (*List\&lt;String\&gt;*)
 
     A list of strings containing the names of all existing collections.
 

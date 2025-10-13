@@ -3,6 +3,9 @@ title: "releasePartitions() | Java | v1"
 slug: /java/v1-Partition-releasePartitions
 sidebar_label: "releasePartitions()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "MilvusClient interface. This method releases partitions' data from memory. | Java | v1"
 type: origin
@@ -51,7 +54,7 @@ Methods of `ReleasePartitionsParam.Builder`:
         <td><p>databaseName: The database name.</p></td>
     </tr>
     <tr>
-        <td><p>withPartitionNames(List\<String> partitionNames)</p></td>
+        <td><p>withPartitionNames(List&lt;String&gt; partitionNames)</p></td>
         <td><p>Set the partition names list. Partition names list cannot be null or empty.</p></td>
         <td><p>partitionNames: The name list of partitions to be released.</p></td>
     </tr>

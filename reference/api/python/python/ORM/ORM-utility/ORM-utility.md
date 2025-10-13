@@ -3,16 +3,19 @@ title: "utility | Python | ORM"
 slug: /python/ORM-utility
 beta: NEAR DEPRECATE
 notebook: false
+added_since: undefined
+last_modified: false
+deprecate_since: false
 description: "Available Milvus utility functions. | Python | ORM"
 type: folder
 token: BvYKfbpMUlczBxdyBvEc5Gb3nfb
 sidebar_position: 8
 sidebar_label: "utility"
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud

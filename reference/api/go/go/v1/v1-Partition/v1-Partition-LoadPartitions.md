@@ -3,6 +3,9 @@ title: "LoadPartitions() | Go | v1"
 slug: /go/v1-Partition-LoadPartitions
 sidebar_label: "LoadPartitions()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method loads the data of specific partitions into memory. | Go | v1"
 type: origin

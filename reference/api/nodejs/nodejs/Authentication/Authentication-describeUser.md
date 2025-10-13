@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "describeUser() | Node.js"
 slug: /node/node/Authentication-describeUser
 sidebar_label: "describeUser()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This is a method template. | Node.js"
 type: docx
 token: Da9KdvvWroKX9cxOwsmcLRBxnVb
 sidebar_position: 8
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - describeUser()
   - nodejs25
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -52,7 +55,7 @@ milvusClient.describeUser({
 
 - **username** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the user to describe.
 
@@ -66,7 +69,7 @@ milvusClient.describeUser({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<SelectUserResponse>*
+**RETURNS** *Promise\&lt;SelectUserResponse&gt;*
 
 This method returns a promise that resolves to a **SelectUserResponse** object.
 
@@ -83,7 +86,7 @@ This method returns a promise that resolves to a **SelectUserResponse** object.
 
     A **UserResult** type.
 
-    - **roles** (*RoleEntity[]*) -
+    - **roles** (*RoleEntity&#91;&#93;*) -
 
         - **name** (*string*) - 
 

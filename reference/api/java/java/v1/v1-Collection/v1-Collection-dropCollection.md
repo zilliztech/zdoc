@@ -3,6 +3,9 @@ title: "dropCollection() | Java | v1"
 slug: /java/v1-Collection-dropCollection
 sidebar_label: "dropCollection()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A MilvusClient interface. This method drops a specified collection. | Java | v1"
 type: origin

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "JinaEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-JinaEmbeddingFunction
 sidebar_label: "JinaEmbeddingFunction"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "JinaEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using Jina AI embedding models to support embedding retrieval in Milvus. | Python"
 type: docx
 token: U7NJd5eKAo0c1TxYZndcgPj2nlc
 sidebar_position: 3
 keywords: 
+  - milvus
+  - Zilliz
   - milvus vector database
   - milvus db
-  - milvus vector db
-  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud
   - JinaEmbeddingFunction
   - pymilvus25
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

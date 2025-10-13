@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listGrant() | Node.js"
 slug: /node/node/Authentication-listGrant
 sidebar_label: "listGrant()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists the privileges granted to the specified role. | Node.js"
 type: docx
 token: HSIDdxQGEoPdyaxkMDjcAWGQnpd
 sidebar_position: 15
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - listGrant()
   - nodejs25
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -68,7 +71,7 @@ listGrant(data): Promise<SelectGrantResponse>
 
     The timeout duration of this operation.
 
-*Returns Promise\<SelectGrantResponse>*
+*Returns Promise\&lt;SelectGrantResponse&gt;*
 
 This method returns a promise that resolves to a **SelectGrantResponse** object.
 
@@ -88,7 +91,7 @@ This method returns a promise that resolves to a **SelectGrantResponse** object.
 
 **PARAMETERS:**
 
-- **entities** (*GrantEntity[]*) -
+- **entities** (*GrantEntity&#91;&#93;*) -
 
     A list of grant entities, each of which is shaped as follows:
 

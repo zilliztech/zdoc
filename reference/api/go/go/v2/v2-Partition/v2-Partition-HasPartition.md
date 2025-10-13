@@ -3,6 +3,9 @@ title: "HasPartition() | Go | v2"
 slug: /go/v2-Partition-HasPartition
 sidebar_label: "HasPartition()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method checks whether the specified partition exists. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) HasPartition(ctx context.Context, opt HasPartitionOption, callO
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>HasPartitionOption</code></p></td>
+     <td><p><a href="./v2-Partition-HasPartition#haspartitionoption"><code>HasPartitionOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>

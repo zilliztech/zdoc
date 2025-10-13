@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "query() | Node.js"
 slug: /node/node/Vector-query
 sidebar_label: "query()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation conducts a scalar filtering with a specified boolean expression. | Node.js"
 type: docx
 token: AJ96d6Aguos3FAxWMDxcjzqpnSg
 sidebar_position: 5
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - nodejs25
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -63,7 +66,7 @@ query(data): Promise<ResStatus>
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of an existing collection.
 
@@ -73,7 +76,7 @@ query(data): Promise<ResStatus>
 
     You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
 
-- **output_fields** (*string[]*) -
+- **output_fields** (*string&#91;&#93;*) -
 
     A list of field names to include in each entity in return.
 
@@ -113,11 +116,11 @@ query(data): Promise<ResStatus>
 
     The sum of this value and `offset` should be less than 16,384. 
 
-- **partition_names** (*string[]*) -
+- **partition_names** (*string&#91;&#93;*) -
 
     The name of the partitions to query.
 
-**RETURNS** *Promise\<QueryResults>*
+**RETURNS** *Promise\&lt;QueryResults&gt;*
 
 This method returns a promise that resolves to a **QueryResults** object.
 

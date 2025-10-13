@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "insert() | Java | v2"
 slug: /java/java/v2-Vector-insert
 sidebar_label: "insert()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation inserts data into a specific collection. | Java | v2"
 type: docx
 token: P0XRd2Mgfo1uG6xk47icWRd4n6b
 sidebar_position: 4
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
   - javaV225
+  - knn algorithm
+  - HNSW
   - What is unstructured data
   - Vector embeddings
-  - Vector store
-  - open source vector database
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

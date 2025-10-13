@@ -3,6 +3,9 @@ title: "selectRole() | Java | v1"
 slug: /java/v1-RBAC-selectRole
 sidebar_label: "selectRole()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "MilvusClient interface. This method gets all users' information about a role. | Java | v1"
 type: origin

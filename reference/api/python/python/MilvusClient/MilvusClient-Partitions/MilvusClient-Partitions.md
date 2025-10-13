@@ -3,16 +3,19 @@ title: "Partitions | Python | MilvusClient"
 slug: /python/MilvusClient-Partitions
 beta: false
 notebook: false
+added_since: undefined
+last_modified: false
+deprecate_since: false
 description: "Methods related to the manipulation of the partitions in a collection. | Python | MilvusClient"
 type: folder
 token: YpEjf83y1lvvzxd31BqcvQmknEd
 sidebar_position: 6
 sidebar_label: "Partitions"
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud

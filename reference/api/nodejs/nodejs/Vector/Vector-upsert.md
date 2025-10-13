@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "upsert() | Node.js"
 slug: /node/node/Vector-upsert
 sidebar_label: "upsert()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation inserts or updates data in a specific collection. | Node.js"
 type: docx
 token: MErAdudCloVawFxpxoWcgqZonLc
 sidebar_position: 8
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - nodejs25
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -59,11 +62,11 @@ milvusClient.upsert({
 
 - **collection_name** (*str*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of an existing collection.
 
-- **data** (*RowData[]*) -
+- **data** (*RowData&#91;&#93;*) -
 
     The data to insert into the current collection.
 
@@ -121,7 +124,7 @@ milvusClient.upsert({
 
     If specified, the data is to be inserted into the specified partition.
 
-**RETURNS** *Promise\<MutationResult>*
+**RETURNS** *Promise\&lt;MutationResult&gt;*
 
 This method returns a promise that resolves to a **MutationResult** object.
 
@@ -141,11 +144,11 @@ This method returns a promise that resolves to a **MutationResult** object.
 
 **PARAMETERS:**
 
-- **IDs** (*list[string]* | *list[number]*) -
+- **IDs** (*list&#91;string&#93;* | *list&#91;number&#93;*) -
 
     A list of the IDs of the upserted entities.
 
-- **acknowledged** (*list[string]* | *list[number]*) -
+- **acknowledged** (*list&#91;string&#93;* | *list&#91;number&#93;*) -
 
     A boolean value indicating whether the upsert operation of the entity is successful.
 
@@ -153,7 +156,7 @@ This method returns a promise that resolves to a **MutationResult** object.
 
     The deleted entities
 
-- **err_index** (*list[number]*) -
+- **err_index** (*list&#91;number&#93;*) -
 
     The number of entities involved in the upsert operation that fails to be indexed.
 
@@ -161,7 +164,7 @@ This method returns a promise that resolves to a **MutationResult** object.
 
     The new entities that are inserted.
 
-- **succ_index** (*list[number]*) -
+- **succ_index** (*list&#91;number&#93;*) -
 
     The number of entities involved in the upsert operation that have been successfully indexed.
 

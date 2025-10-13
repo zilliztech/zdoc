@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "run_analyzer() | Python | MilvusClient"
 slug: /python/python/CollectionSchema-run_analyzer
 sidebar_label: "run_analyzer()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation processes the input data and generates tokenized output. | Python | MilvusClient"
 type: docx
 token: TWzjdJ61ho613AxKSd7clQt9nrg
 sidebar_position: 6
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - run_analyzer()
   - pymilvus25
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -48,11 +51,11 @@ run_analyzer(
 
 **PARAMETERS:**
 
-- `texts` (*Union[str, List[str]]*) -
+- `texts` (*Union&#91;str, List&#91;str&#93;&#93;*) -
 
     The input text or a list of texts to be analyzed.
 
-- `analyzer_params` (*Union[str, Dict, None]*) -
+- `analyzer_params` (*Union&#91;str, Dict, None&#93;*) -
 
     The parameters for the analyzer. If set to `None`, defaults to an empty dictionary.
 
@@ -70,7 +73,7 @@ run_analyzer(
 
 **RETURN TYPE:**
 
-*List[str], List[List[str]]*
+*List&#91;str&#93;, List&#91;List&#91;str&#93;&#93;*
 
 **RETURNS:**
 

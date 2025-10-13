@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "describeCollection() | Node.js"
 slug: /node/node/Collections-describeCollection
 sidebar_label: "describeCollection()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists detailed information about a specific collection. | Node.js"
 type: docx
 token: TjqHdZqO1oSwwYxuny2cchWzn6S
 sidebar_position: 9
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
   - nodejs25
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -55,7 +58,7 @@ milvusClient.describeCollection({
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of an existing collection.
 
@@ -65,7 +68,7 @@ milvusClient.describeCollection({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**Returns Promise\<DescribeCollectionResponse>*
+**Returns Promise\&lt;DescribeCollectionResponse&gt;*
 
 This method returns a promise that resolves to a **DescribeCollectionResponse** object.
 
@@ -135,9 +138,9 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
 
     - **enable_dynamic_field** (*boolean*) -
 
-        Whether the reserved JSON field **$meta** is used to store non-schema-defined fields in key-value pairs.
+        Whether the reserved JSON field **&#36;meta** is used to store non-schema-defined fields in key-value pairs.
 
-    - **fields** (*FieldSchema[]*) -
+    - **fields** (*FieldSchema&#91;&#93;*) -
 
         A list of schema-defined fields. 
 

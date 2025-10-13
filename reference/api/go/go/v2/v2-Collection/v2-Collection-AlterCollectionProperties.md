@@ -3,6 +3,9 @@ title: "AlterCollectionProperties() | Go | v2"
 slug: /go/v2-Collection-AlterCollectionProperties
 sidebar_label: "AlterCollectionProperties()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method changes the specified properties of a collection. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) AlterCollectionProperties(ctx context.Context, option AlterColl
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>AlterCollectionFieldPropertiesOption</code></p></td>
+     <td><p><a href="./v2-Collection-AlterCollectionProperties#altercollectionpropertiesoption"><code>AlterCollectionFieldPropertiesOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>

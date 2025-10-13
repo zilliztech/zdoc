@@ -3,6 +3,9 @@ title: "query() | Java | v1"
 slug: /java/v1-HighlevelAPI-query
 sidebar_label: "query()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The MilvusClient interface. This method queries entity(s) based on scalar field(s) filtered by boolean expression. Note that the order of the returned entities can not be guaranteed. | Java | v1"
 type: origin
@@ -46,7 +49,7 @@ Methods of `QuerySimpleParam.Builder`:
         <td><p>collectionName: The target collection name.</p></td>
     </tr>
     <tr>
-        <td><p>withOutputFields(List\<String> outputFields)</p></td>
+        <td><p>withOutputFields(List&lt;String&gt; outputFields)</p></td>
         <td><p>Specifies output scalar fields (Optional).<br/>If output fields are specified, the QueryResults returned by query() will contains the values of these fields.</p></td>
         <td><p><br/>outputFields: The name list of fields to be outputed.</p></td>
     </tr>

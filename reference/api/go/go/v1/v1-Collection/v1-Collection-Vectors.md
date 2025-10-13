@@ -3,6 +3,9 @@ title: "Vectors | Go | v1"
 slug: /go/v1-Collection-Vectors
 sidebar_label: "Vectors"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The types on this page implemented the method signatures of the entity.Vector interface. | Go | v1"
 type: origin
@@ -165,12 +168,12 @@ type SparseEmbedding interface {
    </tr>
    <tr>
      <td><p><code>Serialize()</code></p></td>
-     <td><p><code>[]byte</code></p></td>
+     <td><p><code>&#91;&#93;byte</code></p></td>
      <td><p>Return the serialized representation of the vector.</p></td>
    </tr>
    <tr>
      <td><p><code>FieldType()</code></p></td>
-     <td><p><code>entity.FieldType</code></p></td>
+     <td><p><a href="./v1-Collection-CreateCollection#entityfieldtype"><code>entity.FieldType</code></a></p></td>
      <td><p>Return the field type of the vector.</p></td>
    </tr>
 </table>

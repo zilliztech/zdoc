@@ -3,6 +3,9 @@ title: "DescribeAlias() | Go | v2"
 slug: /go/v2-Collection-DescribeAlias
 sidebar_label: "DescribeAlias()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method describes an alias by providing detailed information about its associated collection. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) DescribeAlias(ctx context.Context, option DescribeAliasOption, 
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DescribeAliasOption</code></p></td>
+     <td><p><a href="./v2-Collection-DescribeAlias#describealiasoption"><code>DescribeAliasOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>

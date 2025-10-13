@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "verify() | Python | MilvusClient"
 slug: /python/python/Function-verify
 sidebar_label: "verify()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation validates the input and output fields of a function defined in the CollectionSchema. | Python | MilvusClient"
 type: docx
 token: YXogdv0Dpovi2Pxbyh2cdA4nnbe
 sidebar_position: 5
 keywords: 
+  - llm eval
+  - Sparse vs Dense
   - Dense vector
   - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - verify()
   - pymilvus25
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';

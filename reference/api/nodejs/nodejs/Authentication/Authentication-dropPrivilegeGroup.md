@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "dropPrivilegeGroup() | Node.js"
 slug: /node/node/Authentication-dropPrivilegeGroup
 sidebar_label: "dropPrivilegeGroup()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation adds a user to a specific role. | Node.js"
 type: docx
 token: I63tdWAY2ok8V1xrK4tcrkwjncd
 sidebar_position: 10
 keywords: 
-  - Vector embeddings
   - Vector store
   - open source vector database
   - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - dropPrivilegeGroup()
   - nodejs25
+  - managed milvus
+  - Serverless vector database
   - milvus open source
   - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -54,7 +57,7 @@ milvusClient.dropPrivilegeGroup({
 
     Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<ResStatus>*
+**RETURNS** *Promise\&lt;ResStatus&gt;*
 
 This method returns a list of promises, each of which resolves to a **ResStatus** object.
 

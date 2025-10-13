@@ -3,6 +3,9 @@ title: "selectGrantForRole() | Java | v1"
 slug: /java/v1-RBAC-selectGrantForRole
 sidebar_label: "selectGrantForRole()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "MilvusClient interface. This method lists grant info for the role and the specific object. | Java | v1"
 type: origin

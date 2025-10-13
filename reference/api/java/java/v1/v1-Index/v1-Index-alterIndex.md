@@ -3,6 +3,9 @@ title: "alterIndex() | Java | v1"
 slug: /java/v1-Index-alterIndex
 sidebar_label: "alterIndex()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "MilvusClient interface. This method alters an index with key-value properties. | Java | v1"
 type: origin

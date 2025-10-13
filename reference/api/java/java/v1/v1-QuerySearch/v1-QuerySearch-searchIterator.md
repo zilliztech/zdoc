@@ -3,6 +3,9 @@ title: "searchIterator() | Java | v1"
 slug: /java/v1-QuerySearch-searchIterator
 sidebar_label: "searchIterator()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "MilvusClient interface. This method returns a Python iterator for you to iterate over the search results. It is useful especially when the search result contains a large volume of data. | Java | v1"
 type: origin
@@ -56,7 +59,7 @@ Methods of `SearchIteratorParam.Builder`:
         <td><p>consistencyLevel: The consistency level used in the search.</p></td>
     </tr>
     <tr>
-        <td><p>withPartitionNames(List\<String> partitionNames)</p></td>
+        <td><p>withPartitionNames(List&lt;String&gt; partitionNames)</p></td>
         <td><p>Sets partition names list to specify search scope (Optional).</p></td>
         <td><p>partitionNames: The name list of partitions to be searched.</p></td>
     </tr>
@@ -66,7 +69,7 @@ Methods of `SearchIteratorParam.Builder`:
         <td><p>partitionName: A partition name to be searched.</p></td>
     </tr>
     <tr>
-        <td><p>withOutFields(List\<String> outFields)</p></td>
+        <td><p>withOutFields(List&lt;String&gt; outFields)</p></td>
         <td><p>Specifies output scalar fields (Optional).</p></td>
         <td><p><br/>outFields: The name list of fields to be outputed.</p></td>
     </tr>
@@ -92,42 +95,42 @@ Methods of `SearchIteratorParam.Builder`:
     </tr>
     <tr>
         <td><p>withTopK(Integer topK)</p></td>
-        <td><p>Set topK value of ANN search.<br/>Avaiable range: [1, 16384]</p></td>
+        <td><p>Set topK value of ANN search.<br/>Avaiable range: &#91;1, 16384&#93;</p></td>
         <td><p>topK: The topk value.</p></td>
     </tr>
     <tr>
-        <td><p>withVectors(List\<?> vectors)</p></td>
+        <td><p>withVectors(List&lt;?&gt; vectors)</p></td>
         <td><p>Set the target vectors. Up to 16384 vectors allowed.<br/>Note: this method works for FloatVector/BinaryVector/SparseFloatVector, but it doesn't work for Float16Vector/BFloat16Vector.<br/>It is recommended to use withFloatVectors/withBinaryVectors/withFloat16Vectors/withBFloat16Vectors/withSparseFloatVectors to input vectors expilicitly.</p></td>
-        <td><p>vectors: <br/>- If target field type is FloatVector, List\< List\<Float>gt; is required.<br/>- If target field type is BinaryVector, List\<ByteBuffer> is required.<br/>- If target field type is SparseFloatVector, List\<SortedMap[Long, Float]> is required.</p></td>
+        <td><p>vectors: <br/>- If target field type is FloatVector, List&lt; List&lt;Float&gt;&gt; is required.<br/>- If target field type is BinaryVector, List&lt;ByteBuffer&gt; is required.<br/>- If target field type is SparseFloatVector, List&lt;SortedMap&#91;Long, Float&#93;&gt; is required.</p></td>
     </tr>
     <tr>
-        <td><p>withFloatVectors(List\<List\<Float>gt; vectors)</p></td>
+        <td><p>withFloatVectors(List&lt;List&lt;Float&gt;&gt; vectors)</p></td>
         <td><p>Set the target vectors to search FloatVector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
-        <td><p>withBinaryVectors(List\<ByteBuffer> vectors)</p></td>
+        <td><p>withBinaryVectors(List&lt;ByteBuffer&gt; vectors)</p></td>
         <td><p>Set the target vectors to search BinaryVector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
-        <td><p>withFloat16Vectors(List\<ByteBuffer> vectors)</p></td>
+        <td><p>withFloat16Vectors(List&lt;ByteBuffer&gt; vectors)</p></td>
         <td><p>Set the target vectors to search Float16Vector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
-        <td><p>withBFloat16Vectors(List\<List\<Float>gt; vectors)</p></td>
+        <td><p>withBFloat16Vectors(List&lt;List&lt;Float&gt;&gt; vectors)</p></td>
         <td><p>Set the target vectors to search BFloat16Vector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
-        <td><p>withSparseFloatVectors(List\<SortedMap\<Long, Float>gt; vectors)</p></td>
+        <td><p>withSparseFloatVectors(List&lt;SortedMap&lt;Long, Float&gt;&gt; vectors)</p></td>
         <td><p>Set the target vectors to search SparseFloatVector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
         <td><p>withRoundDecimal(Integer decimal)</p></td>
-        <td><p>Specifies the decimal place for returned distance.<br/>Avaiable range: [-1, 6]<br/>Default value is -1, return all digits.</p></td>
+        <td><p>Specifies the decimal place for returned distance.<br/>Avaiable range: &#91;-1, 6&#93;<br/>Default value is -1, return all digits.</p></td>
         <td><p>decimal: How many digits are reserved after the decimal point.</p></td>
     </tr>
     <tr>
@@ -181,7 +184,7 @@ Methods of `SearchIterator`:
      <td><p>next()</p></td>
      <td><p>Return a batch of results.</p></td>
      <td><p>N/A</p></td>
-     <td><p>List\<QueryResultsWrapper.RowRecord></p></td>
+     <td><p>List&lt;QueryResultsWrapper.RowRecord&gt;</p></td>
    </tr>
    <tr>
      <td><p>close()</p></td>

@@ -3,6 +3,9 @@ title: "Insert() | Go | v2"
 slug: /go/v2-Vector-Insert
 sidebar_label: "Insert()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: v2.6.x
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method inserts data into a specific collection. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) Insert(ctx context.Context, option InsertOption, callOptions ..
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>InsertOption</code></p></td>
+     <td><p><a href="./v2-Vector-Insert#insertoption"><code>InsertOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -52,7 +55,7 @@ func (c *Client) Insert(ctx context.Context, option InsertOption, callOptions ..
 
 This is an interface type. The `columnBasedDataOption` and `rowBasedDataOption` struct types implement this interface type. 
 
-You can use the `NewColumnBasedInsertOption()` or `NewRowBasedInsertOption()` function to get the concrete implementation.
+You can use the [`NewColumnBasedInsertOption()`](./v2-Vector-Insert#newcolumnbasedinsertoption) or [`NewRowBasedInsertOption()`](./v2-Vector-Insert#newrowbasedinsertoption) function to get the concrete implementation.
 
 ### NewRowBasedInsertOption{#newrowbasedinsertoption}
 
@@ -102,7 +105,7 @@ func NewColumnBasedInsertOption(collName string, columns ...column.Column) *colu
    <tr>
      <td><p><code>columns</code></p></td>
      <td><p>Data organized in columns.</p></td>
-     <td><p><code>...column.Column</code></p></td>
+     <td><p><code>...&#91;column.Column</code>](./v2-Vector-Insert#columncolumn)</p></td>
    </tr>
 </table>
 
@@ -149,7 +152,7 @@ func (opt *columnBasedDataOption) WithColumns(columns ...column.Column) *columnB
    <tr>
      <td><p><code>columns</code></p></td>
      <td><p>Data in the column.</p></td>
-     <td><p><code>column.Column</code></p></td>
+     <td><p><a href="./v2-Vector-Insert#columncolumn"><code>column.Column</code></a></p></td>
    </tr>
 </table>
 
@@ -175,7 +178,7 @@ func (opt *columnBasedDataOption) WithBoolColumn(colName string, data []bool) *c
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data in the column.</p></td>
-     <td><p><code>[]bool</code></p></td>
+     <td><p><code>&#91;&#93;bool</code></p></td>
    </tr>
 </table>
 
@@ -201,7 +204,7 @@ func (opt *columnBasedDataOption) WithInt8Column(colName string, data []int8) *c
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data in the column.</p></td>
-     <td><p><code>[]int8</code></p></td>
+     <td><p><code>&#91;&#93;int8</code></p></td>
    </tr>
 </table>
 
@@ -227,7 +230,7 @@ func (opt *columnBasedDataOption) WithInt16Column(colName string, data []int16) 
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data in the column.</p></td>
-     <td><p><code>[]int16</code></p></td>
+     <td><p><code>&#91;&#93;int16</code></p></td>
    </tr>
 </table>
 
@@ -253,7 +256,7 @@ func (opt *columnBasedDataOption) WithInt32Column(colName string, data []int32) 
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data in the column.</p></td>
-     <td><p><code>[]int32</code></p></td>
+     <td><p><code>&#91;&#93;int32</code></p></td>
    </tr>
 </table>
 
@@ -279,7 +282,7 @@ func (opt *columnBasedDataOption) WithInt64Column(colName string, data []int64) 
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data in the column.</p></td>
-     <td><p><code>[]int64</code></p></td>
+     <td><p><code>&#91;&#93;int64</code></p></td>
    </tr>
 </table>
 
@@ -305,7 +308,7 @@ func (opt *columnBasedDataOption) WithVarcharColumn(colName string, data []strin
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data in the column.</p></td>
-     <td><p><code>[]string</code></p></td>
+     <td><p><code>&#91;&#93;string</code></p></td>
    </tr>
 </table>
 
@@ -336,7 +339,7 @@ func (opt *columnBasedDataOption) WithFloatVectorColumn(colName string, dim int,
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data in the column.</p></td>
-     <td><p><code>[][]float32</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;float32</code></p></td>
    </tr>
 </table>
 
@@ -367,7 +370,7 @@ func (opt *columnBasedDataOption) WithFloat16VectorColumn(colName string, dim in
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data in the column.</p></td>
-     <td><p><code>[][]float32</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;float32</code></p></td>
    </tr>
 </table>
 
@@ -398,7 +401,7 @@ func (opt *columnBasedDataOption) WithBFloat16VectorColumn(colName string, dim i
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data in the column.</p></td>
-     <td><p><code>[][]float32</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;float32</code></p></td>
    </tr>
 </table>
 
@@ -429,7 +432,7 @@ func (opt *columnBasedDataOption) WithBinaryVectorColumn(colName string, dim int
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data in the column.</p></td>
-     <td><p><code>[][]byte</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;byte</code></p></td>
    </tr>
 </table>
 
@@ -535,7 +538,7 @@ func NewColumnBFloat16Vector(fieldName string, dim int, data [][]byte) *ColumnBF
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]byte</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;byte</code></p></td>
    </tr>
 </table>
 
@@ -566,7 +569,7 @@ func NewColumnBFloat16VectorFromFp32Vector(fieldName string, dim int, data [][]f
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]float32</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;float32</code></p></td>
    </tr>
 </table>
 
@@ -601,7 +604,7 @@ func NewColumnBinaryVector(fieldName string, dim int, data [][]byte) *ColumnBina
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]byte</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;byte</code></p></td>
    </tr>
 </table>
 
@@ -631,7 +634,7 @@ func NewColumnBool(name string, values []bool) *ColumnBool
    <tr>
      <td><p><code>values</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[]bool</code></p></td>
+     <td><p><code>&#91;&#93;bool</code></p></td>
    </tr>
 </table>
 
@@ -661,7 +664,7 @@ func NewColumnBoolArray(fieldName string, data [][]bool) *ColumnBoolArray
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]bool</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;bool</code></p></td>
    </tr>
 </table>
 
@@ -691,7 +694,7 @@ func NewColumnDouble(name string, values []float64) *ColumnDouble
    <tr>
      <td><p><code>values</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[]float64</code></p></td>
+     <td><p><code>&#91;&#93;float64</code></p></td>
    </tr>
 </table>
 
@@ -721,7 +724,7 @@ func NewColumnDoubleArray(fieldName string, data [][]float64) *ColumnDoubleArray
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]float64</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;float64</code></p></td>
    </tr>
 </table>
 
@@ -746,7 +749,7 @@ func NewColumnDynamic(column *ColumnJSONBytes, outputField string) *ColumnDynami
    <tr>
      <td><p><code>column</code></p></td>
      <td><p>A column of the JSON type.</p></td>
-     <td><p><code>*column.ColumnJSONBytes</code></p></td>
+     <td><p><code>*&#91;column.ColumnJSONBytes</code>](./v2-Vector-Insert#columncolumnjsonbytes)</p></td>
    </tr>
    <tr>
      <td><p><code>outputField</code></p></td>
@@ -781,7 +784,7 @@ func NewColumnFloat(name string, values []float32) *ColumnFloat
    <tr>
      <td><p><code>values</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[]float32</code></p></td>
+     <td><p><code>&#91;&#93;float32</code></p></td>
    </tr>
 </table>
 
@@ -816,7 +819,7 @@ func NewColumnFloat16Vector(fieldName string, dim int, data [][]byte) *ColumnFlo
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]byte</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;byte</code></p></td>
    </tr>
 </table>
 
@@ -847,7 +850,7 @@ func NewColumnFloat16VectorFromFp32Vector(fieldName string, dim int, data [][]fl
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]float32</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;float32</code></p></td>
    </tr>
 </table>
 
@@ -877,7 +880,7 @@ func NewColumnFloatArray(fieldName string, data [][]float32) *ColumnFloatArray
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]float32</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;float32</code></p></td>
    </tr>
 </table>
 
@@ -912,7 +915,7 @@ func NewColumnFloatVector(fieldName string, dim int, data [][]float32) *ColumnFl
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]float32</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;float32</code></p></td>
    </tr>
 </table>
 
@@ -942,7 +945,7 @@ func NewColumnInt16(name string, values []int16) *ColumnInt16
    <tr>
      <td><p><code>values</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[]int16</code></p></td>
+     <td><p><code>&#91;&#93;int16</code></p></td>
    </tr>
 </table>
 
@@ -972,7 +975,7 @@ func NewColumnInt16Array(fieldName string, data [][]int16) *ColumnInt16Array
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]int16</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;int16</code></p></td>
    </tr>
 </table>
 
@@ -1002,7 +1005,7 @@ func NewColumnInt32(name string, values []int32) *ColumnInt32
    <tr>
      <td><p><code>values</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[]int32</code></p></td>
+     <td><p><code>&#91;&#93;int32</code></p></td>
    </tr>
 </table>
 
@@ -1032,7 +1035,7 @@ func NewColumnInt32Array(fieldName string, data [][]int32) *ColumnInt32Array
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]int32</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;int32</code></p></td>
    </tr>
 </table>
 
@@ -1062,7 +1065,7 @@ func NewColumnInt64(name string, values []int16) *ColumnInt64
    <tr>
      <td><p><code>values</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[]int64</code></p></td>
+     <td><p><code>&#91;&#93;int64</code></p></td>
    </tr>
 </table>
 
@@ -1092,7 +1095,7 @@ func NewColumnInt64Array(fieldName string, data [][]int64) *ColumnInt64Array
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]int64</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;int64</code></p></td>
    </tr>
 </table>
 
@@ -1122,7 +1125,7 @@ func NewColumnInt8(name string, values []int8) *ColumnInt8
    <tr>
      <td><p><code>values</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[]int8</code></p></td>
+     <td><p><code>&#91;&#93;int8</code></p></td>
    </tr>
 </table>
 
@@ -1152,7 +1155,7 @@ func NewColumnInt8Array(fieldName string, data [][]int8) *ColumnInt8Array
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]int8</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;int8</code></p></td>
    </tr>
 </table>
 
@@ -1182,7 +1185,7 @@ func NewColumnJSONBytes(name string, values [][]byte) *ColumnJSONBytes
    <tr>
      <td><p><code>values</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]byte</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;byte</code></p></td>
    </tr>
 </table>
 
@@ -1212,7 +1215,7 @@ func NewColumnSparseVectors(name string, values []entity.SparseEmbedding) *Colum
    <tr>
      <td><p><code>values</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[]entity.SparseEmbedding</code></p></td>
+     <td><p><code>&#91;&#93;&#91;entity.SparseEmbedding</code>](./v2-Vector-Insert)</p></td>
    </tr>
 </table>
 
@@ -1242,7 +1245,7 @@ func NewColumnVarChar(name string, values []string) *ColumnVarChar
    <tr>
      <td><p><code>values</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[]string</code></p></td>
+     <td><p><code>&#91;&#93;string</code></p></td>
    </tr>
 </table>
 
@@ -1272,7 +1275,7 @@ func NewColumnVarCharArray(fieldName string, data [][]string) *ColumnVarCharArra
    <tr>
      <td><p><code>data</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[][]string</code></p></td>
+     <td><p><code>&#91;&#93;&#91;&#93;string</code></p></td>
    </tr>
 </table>
 
@@ -1335,12 +1338,12 @@ func (c NullableColumnCreator[col, T]) New(name string, values []T, validData []
    <tr>
      <td><p><code>values</code></p></td>
      <td><p>Data in this nullable field</p></td>
-     <td><p><code>[]T</code></p></td>
+     <td><p><code>&#91;&#93;T</code></p></td>
    </tr>
    <tr>
      <td><p><code>validData</code></p></td>
      <td><p>Valid data</p></td>
-     <td><p><code>[]bool</code></p></td>
+     <td><p><code>&#91;&#93;bool</code></p></td>
    </tr>
 </table>
 
@@ -1365,12 +1368,12 @@ func NewSliceSparseEmbedding(positions []uint32, values []float32) (SparseEmbedd
    <tr>
      <td><p><code>positions</code></p></td>
      <td><p>Position indexes of the elements in the <code>values</code>.</p></td>
-     <td><p><code>[]uint32</code></p></td>
+     <td><p><code>&#91;&#93;uint32</code></p></td>
    </tr>
    <tr>
      <td><p><code>values</code></p></td>
      <td><p>Vector embeddings in a list of float32 numbers.</p></td>
-     <td><p><code>[]float32</code></p></td>
+     <td><p><code>&#91;&#93;float32</code></p></td>
    </tr>
 </table>
 

@@ -3,6 +3,9 @@ title: "CreateIndex() | Go | v1"
 slug: /go/v1-Index-CreateIndex
 sidebar_label: "CreateIndex()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method creates an index for a specific field in a collection. | Go | v1"
 type: origin
@@ -47,7 +50,7 @@ func (c *GrpcClient) CreateIndex(ctx context.Context, collName string, fieldName
    <tr>
      <td><p><code>idx</code></p></td>
      <td><p>Index settings.</p></td>
-     <td><p><code>entity.Index</code></p></td>
+     <td><p><a href="./v1-Index-CreateIndex#entityindex"><code>entity.Index</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>async</code></p></td>
@@ -57,7 +60,7 @@ func (c *GrpcClient) CreateIndex(ctx context.Context, collName string, fieldName
    <tr>
      <td><p><code>opts</code></p></td>
      <td><p>Extra index settings</p><p>You can include multiple <code>entity.IndexOption</code> in this request.</p></td>
-     <td><p><code>client.IndexOption</code></p></td>
+     <td><p><a href="./v1-Index-CreateIndex#clientindexoption"><code>client.IndexOption</code></a></p></td>
    </tr>
 </table>
 
@@ -91,7 +94,7 @@ type Index interface {
    </tr>
    <tr>
      <td><p><code>Params()</code></p></td>
-     <td><p><code>map[string]string</code></p></td>
+     <td><p><code>map&#91;string&#93;string</code></p></td>
      <td><p>Return the index parameters.</p></td>
    </tr>
 </table>

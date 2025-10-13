@@ -3,6 +3,9 @@ title: "delete() | Java | v1"
 slug: /java/v1-Collection-delete
 sidebar_label: "delete()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A MilvusClient interface. This method deletes entity(s) based on the primary key filtered by boolean expression. | Java | v1"
 type: origin

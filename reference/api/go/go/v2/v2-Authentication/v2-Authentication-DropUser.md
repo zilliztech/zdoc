@@ -3,6 +3,9 @@ title: "DropUser() | Go | v2"
 slug: /go/v2-Authentication-DropUser
 sidebar_label: "DropUser()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method drops a user. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) DropUser(ctx context.Context, opt DropUserOption, callOpts ...g
    <tr>
      <td><p><code>opt</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DropUserOption</code></p></td>
+     <td><p><a href="./v2-Authentication-DropUser#dropuseroption"><code>DropUserOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>

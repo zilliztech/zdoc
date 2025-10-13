@@ -3,6 +3,9 @@ title: "CreateUser() | Go | v2"
 slug: /go/v2-Authentication-CreateUser
 sidebar_label: "CreateUser()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method creates a user. In Milvus, you can allocate multiple privileges or privilege groups to a role and grant the role to a user so that the user gains the privileges allocated to the role. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) CreateUser(ctx context.Context, opt CreateUserOption, callOpts 
    <tr>
      <td><p><code>opt</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>CreateUserOption</code></p></td>
+     <td><p><a href="./v2-Authentication-CreateUser#createuseroption"><code>CreateUserOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>

@@ -3,6 +3,9 @@ title: "query() | Java | v1"
 slug: /java/v1-QuerySearch-query
 sidebar_label: "query()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The MilvusClient interface. This method queries entity(s) based on scalar field(s) filtered by boolean expression. Note that the order of the returned entities cannot be guaranteed. | Java | v1"
 type: origin
@@ -56,7 +59,7 @@ Methods of `QueryParam.Builder`:
         <td><p>consistencyLevel: The consistency level used in the query.</p></td>
     </tr>
     <tr>
-        <td><p>withPartitionNames(List\<String> partitionNames)</p></td>
+        <td><p>withPartitionNames(List&lt;String&gt; partitionNames)</p></td>
         <td><p>Sets partition names list to specify query scope (Optional).</p></td>
         <td><p>partitionNames: The name list of partitions to be queried.</p></td>
     </tr>
@@ -66,7 +69,7 @@ Methods of `QueryParam.Builder`:
         <td><p>partitionName: A partition name to be queried.</p></td>
     </tr>
     <tr>
-        <td><p>withOutFields(List\<String> outFields)</p></td>
+        <td><p>withOutFields(List&lt;String&gt; outFields)</p></td>
         <td><p>Specifies output scalar fields (Optional).<br/>If output fields are specified, the QueryResults returned by query() will contains the values of these fields.</p></td>
         <td><p><br/>outFields: The name list of fields to be outputed.</p></td>
     </tr>
@@ -150,7 +153,7 @@ Methods of `QueryResultsWrapper`:
      <td><p>getRowRecords()</p></td>
      <td><p>Gets row records list from the query result.</p></td>
      <td><p>N/A</p></td>
-     <td><p>List\<QueryResultsWrapper.RowRecord></p></td>
+     <td><p>List&lt;QueryResultsWrapper.RowRecord&gt;</p></td>
    </tr>
 </table>
 
@@ -194,7 +197,7 @@ Methods of `FieldDataWrapper`:
    <tr>
      <td><p>getFieldData()</p></td>
      <td><p>Returns the field data according to field type.</p></td>
-     <td><ul><li><p>Return List\<List\<Float>gt; for FloatVector field.</p></li><li><p>Return List\<ByteBuffer> for BinaryVector/Float16Vector/BFloatVector field.</p></li><li><p>Return List\<SortedMap\<Long, Float>gt; for SparseFloatVector field.</p></li><li><p>Return List\<Long> for Int64 field.</p></li><li><p>Return List\<Integer> for Int32/Int16/Int8 field.</p></li><li><p>Return List\<Boolean> for Bool field.</p></li><li><p>Return List\<Float> for Float field.</p></li><li><p>Return List\<Double> for Double field.</p></li><li><p>Return List\<String> for Varchar field.</p></li><li><p>Return List\<ByteString> for JSON field.</p></li></ul></td>
+     <td><ul><li><p>Return List&lt;List&lt;Float&gt;&gt; for FloatVector field.</p></li><li><p>Return List&lt;ByteBuffer&gt; for BinaryVector/Float16Vector/BFloatVector field.</p></li><li><p>Return List&lt;SortedMap&lt;Long, Float&gt;&gt; for SparseFloatVector field.</p></li><li><p>Return List&lt;Long&gt; for Int64 field.</p></li><li><p>Return List&lt;Integer&gt; for Int32/Int16/Int8 field.</p></li><li><p>Return List&lt;Boolean&gt; for Bool field.</p></li><li><p>Return List&lt;Float&gt; for Float field.</p></li><li><p>Return List&lt;Double&gt; for Double field.</p></li><li><p>Return List&lt;String&gt; for Varchar field.</p></li><li><p>Return List&lt;ByteString&gt; for JSON field.</p></li></ul></td>
    </tr>
 </table>
 

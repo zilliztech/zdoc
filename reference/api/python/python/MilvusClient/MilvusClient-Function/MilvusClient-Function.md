@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "Function | Python | MilvusClient"
 slug: /python/python/MilvusClient-Function
 sidebar_label: "Function"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "A `Function` instance for generating vector embeddings from user-provided raw data in Milvus. | Python | MilvusClient"
 type: docx
 token: Xcl2dbLC6osEskxx87Wc1Q3rn4f
 sidebar_position: 3
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - Function
   - pymilvus25
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -56,33 +59,33 @@ Function(
 
 - `name` (*str*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the function. This identifier is used to reference the function within queries and collections.
 
 - `function_type` (*FunctionType*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The type of function for processing raw data. Possible values:
 
     - `FunctionType.BM25`: Uses the BM25 algorithm for generating sparse embeddings from a `VARCHAR` field.
 
-- `input_field_names` (*Union[str, List[str]]*) -
+- `input_field_names` (*Union&#91;str, List&#91;str&#93;&#93;*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the field containing the raw data that requires conversion to vector representation. For functions using `FunctionType.BM25`, this parameter accepts only one field name.
 
-- `output_field_names` (*Union[str, List[str]]*) -
+- `output_field_names` (*Union&#91;str, List&#91;str&#93;&#93;*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the field where the generated embeddings will be stored. This should correspond to a vector field defined in the collection schema. For functions using `FunctionType.BM25`, this parameter accepts only one field name.
 
 - `description` (*str*) -
 
-    **[OPTIONAL]**
+    **&#91;OPTIONAL&#93;**
 
     A brief description of the function's purpose. This can be useful for documentation or clarity in larger projects and defaults to an empty string.
 

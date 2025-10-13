@@ -3,6 +3,9 @@ title: "SearchParams | Go | v1"
 slug: /go/v1-Collection-SearchParams
 sidebar_label: "SearchParams"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The types on this page implemented the method signatures of the entity.SearchParam interface. | Go | v1"
 type: origin
@@ -39,7 +42,7 @@ searchParams := entity.NewIndexAUTOINDEXSearchParam(level int)
    <tr>
      <td><p><code>level</code></p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 5]</code></p></td>
+     <td><p><code>&#91;1, 5&#93;</code></p></td>
      <td><p>The precision level of the search.</p><p>Increasing the <code>level</code> parameter will result in a higher recall rate, but may also lead to degraded search performance. The value defaults to <code>1</code> and ranges from <code>1</code> to <code>5</code>. The default value results in a recall rate of 90%, which is typically sufficient for most use cases. However, if you require a higher recall rate, increase this value.</p></td>
    </tr>
 </table>
@@ -65,7 +68,7 @@ searchParams := entity.NewIndexBinFlatSearchParam(nprobe int)
    <tr>
      <td><p><code>nprobe</code></p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, nlist]</code></p></td>
+     <td><p><code>&#91;1, nlist&#93;</code></p></td>
      <td><p>Number of units to query</p></td>
      <td><p><code>8</code></p></td>
    </tr>
@@ -91,7 +94,7 @@ searchParams := entity.NewIndexDISKANNSearchParam(search_list int)
    <tr>
      <td><p><code>search_list</code></p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[topk, int32_max]</code></p></td>
+     <td><p><code>&#91;topk, int32_max&#93;</code></p></td>
      <td><p>Size of the candidate list, a larger size offers a higher recall rate with degraded performance.</p></td>
    </tr>
 </table>
@@ -190,7 +193,7 @@ searchParams := entity.NewIndexGPUIvfFlatSearchParam(nprobe int)
    <tr>
      <td><p><code>nprobe</code></p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 65535]</code></p></td>
+     <td><p><code>&#91;1, 65535&#93;</code></p></td>
      <td><p>Number of cluster units</p></td>
      <td><p><code>128</code></p></td>
    </tr>
@@ -217,7 +220,7 @@ searchParams := entity.NewIndexGPUIvfPQSearchParam(nprobe int)
    <tr>
      <td><p><code>nprobe</code></p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, 65535]</code></p></td>
+     <td><p><code>&#91;1, 65535&#93;</code></p></td>
      <td><p>Number of cluster units</p></td>
      <td><p><code>128</code></p></td>
    </tr>
@@ -243,7 +246,7 @@ searchParams := entity.NewIndexHNSWSearchParam(ef int)
    <tr>
      <td><p><code>ef</code></p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[top_k, int_max]</code></p></td>
+     <td><p><code>&#91;top_k, int_max&#93;</code></p></td>
      <td><p>Parameter controlling query time/accuracy trade-off. Higher <code>ef</code> leads to more accurate but slower search.</p></td>
    </tr>
 </table>
@@ -269,7 +272,7 @@ searchParams := entity.NewIndexIvfFlatSearchParam(nprobe int)
    <tr>
      <td><p><code>nprobe</code></p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, nlist]</code></p></td>
+     <td><p><code>&#91;1, nlist&#93;</code></p></td>
      <td><p>Number of units to query</p></td>
      <td><p><code>8</code></p></td>
    </tr>
@@ -296,7 +299,7 @@ searchParams := entity.NewIndexIvfPQSearchParam(nprobe int)
    <tr>
      <td><p><code>nprobe</code></p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, nlist]</code></p></td>
+     <td><p><code>&#91;1, nlist&#93;</code></p></td>
      <td><p>Number of units to query</p></td>
      <td><p><code>8</code></p></td>
    </tr>
@@ -323,7 +326,7 @@ searchParams := entity.NewIndexIvfSQ8SearchParam(nprobe int)
    <tr>
      <td><p><code>nprobe</code></p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, nlist]</code></p></td>
+     <td><p><code>&#91;1, nlist&#93;</code></p></td>
      <td><p>Number of units to query</p></td>
      <td><p><code>8</code></p></td>
    </tr>
@@ -349,13 +352,13 @@ searchParams := entity.NewIndexSCANNSearchParam(nprobe int, reorder_k int)
    <tr>
      <td><p><code>nprobe</code></p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[1, nlist]</code></p></td>
+     <td><p><code>&#91;1, nlist&#93;</code></p></td>
      <td><p>Number of units to query</p></td>
    </tr>
    <tr>
      <td><p><code>reorder_k</code></p></td>
      <td><p><code>int</code></p></td>
-     <td><p><code>[ topK, ∞]</code></p></td>
+     <td><p><code>&#91; topK, ∞&#93;</code></p></td>
      <td><p>Number of candidate units to query</p></td>
    </tr>
 </table>
@@ -380,7 +383,7 @@ searchParams := entity.NewIndexSparseInvertedSearchParam(dropRatio int)
    <tr>
      <td><p><code>dropRatio</code></p></td>
      <td><p><code>float64</code></p></td>
-     <td><p><code>[0, 1]</code></p></td>
+     <td><p><code>&#91;0, 1&#93;</code></p></td>
      <td><p>The proportion of small vector values that are excluded during the search process. This option allows fine-tuning of the search process by specifying the ratio of the smallest values in the query vector to ignore. It helps balance search precision and performance. The smaller the value set for <code>dropRaio</code>, the less these small values contribute to the final score. By ignoring some small values, search performance can be improved with minimal impact on accuracy.</p></td>
    </tr>
 </table>
@@ -405,7 +408,7 @@ searchParams := entity.NewIndexSparseWANDSearchParam(dropRatio int)
    <tr>
      <td><p><code>dropRatio</code></p></td>
      <td><p><code>float64</code></p></td>
-     <td><p><code>[0, 1]</code></p></td>
+     <td><p><code>&#91;0, 1&#93;</code></p></td>
      <td><p>The proportion of small vector values that are excluded during the search process. This option allows fine-tuning of the search process by specifying the ratio of the smallest values in the query vector to ignore. It helps balance search precision and performance. The smaller the value set for <code>dropRaio</code>, the less these small values contribute to the final score. By ignoring some small values, search performance can be improved with minimal impact on accuracy.</p></td>
    </tr>
 </table>

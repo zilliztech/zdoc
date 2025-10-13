@@ -3,6 +3,9 @@ title: "NewClient() | Go | v1"
 slug: /go/v1-Connections-NewClient
 sidebar_label: "NewClient()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method creates a Milvus client that connects to a specific Milvus deployment. | Go | v1"
 type: origin

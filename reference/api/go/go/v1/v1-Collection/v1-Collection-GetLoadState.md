@@ -3,6 +3,9 @@ title: "GetLoadState() | Go | v1"
 slug: /go/v1-Collection-GetLoadState
 sidebar_label: "GetLoadState()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method displays the load status of a specific collection or its partitions. | Go | v1"
 type: origin
@@ -42,7 +45,7 @@ func (c *GrpcClient) GetLoadState(ctx context.Context, collName string, partitio
    <tr>
      <td><p><code>partitionNames</code></p></td>
      <td><p>List of partition names. </p><p>If left empty, all partitions are involved in this operation. Otherwise, only the specified partitions are involved.</p></td>
-     <td><p><code>[]string</code></p></td>
+     <td><p><code>&#91;&#93;string</code></p></td>
    </tr>
 </table>
 

@@ -3,6 +3,9 @@ title: "queryAsync() | Java | v1"
 slug: /java/v1-QuerySearch-queryAsync
 sidebar_label: "queryAsync()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The MilvusClient interface. This method queries entity(s) asynchronously based on scalar field(s) filtered by boolean expression. Note that the order of the returned entities cannot be guaranteed. | Java | v1"
 type: origin

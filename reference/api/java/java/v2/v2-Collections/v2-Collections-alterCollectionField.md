@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "alterCollectionField() | Java | v2"
 slug: /java/java/v2-Collections-alterCollectionField
 sidebar_label: "alterCollectionField()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation modifies the properties of a specified collection field. | Java | v2"
 type: docx
 token: OtrZdy7OtoC9N9xb8TjcCtM7nfc
 sidebar_position: 2
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionField()
   - javaV225
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -58,25 +61,25 @@ alterCollectionField(AlterCollectionFieldReq.builder()
 
 - `collectionName(String collectionName)`
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the target collection.
 
 - `fieldName(String fieldName)`
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of the target field.
 
 - `properties(Map<String, String> properties)`
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The properties to modify and their expected values. Note that the property values should be strings. Available database properties are as follows:
 
     - **max_length** -
 
-        The maximum byte length for strings allowed to be inserted. Note that multibyte characters (e.g., Unicode characters) may occupy more than one byte each, so ensure the byte length of inserted strings does not exceed the specified limit. Value range: [1, 65,535].
+        The maximum byte length for strings allowed to be inserted. Note that multibyte characters (e.g., Unicode characters) may occupy more than one byte each, so ensure the byte length of inserted strings does not exceed the specified limit. Value range: &#91;1, 65,535&#93;.
 
         This is mandatory for a varchar field.
 

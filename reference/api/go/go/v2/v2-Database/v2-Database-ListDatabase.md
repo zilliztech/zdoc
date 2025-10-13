@@ -3,6 +3,9 @@ title: "ListDatabase() | Go | v2"
 slug: /go/v2-Database-ListDatabase
 sidebar_label: "ListDatabase()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method returns a list of database names. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) ListDatabase(ctx context.Context, option ListDatabaseOption, ca
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>ListDatabaseOption</code></p></td>
+     <td><p><a href="./v2-Database-ListDatabase#listdatabaseoption"><code>ListDatabaseOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>

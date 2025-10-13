@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "mkts_from_unixtime() | Python | ORM"
 slug: /python/python/utility-mkts_from_unixtime
 sidebar_label: "mkts_from_unixtime()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation converts a hybrid timestamp from a UNIX epoch timestamp. | Python | ORM"
 type: docx
 token: ZdKEd2ua6o9AHHxKq25ctNSdncb
 sidebar_position: 36
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_unixtime()
   - pymilvus25
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -59,7 +62,7 @@ utility.mkts_from_unixtime(
 
 - **epoch** (*float*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     A UNIX epoch timestamp.
 
@@ -68,9 +71,9 @@ utility.mkts_from_unixtime(
 - **milliseconds** (*float*) -
 An incremental time interval in milliseconds.
 
-- **delta** (*Optional[timedelta]*) -
+- **delta** (*Optional&#91;timedelta&#93;*) -
 
-    A **datetime.timedelta** object that represents the duration expressing the difference between two `date`, `time`, or `datetime` instances to microsecond resolution.
+    A **datetime.timedelta** object that represents the duration expressing the difference between two [`date`](https://docs.python.org/3/library/datetime.html#datetime.date), [`time`](https://docs.python.org/3/library/datetime.html#datetime.time), or [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) instances to microsecond resolution.
 
 **RETURN TYPE:**
 

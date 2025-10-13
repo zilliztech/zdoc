@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "hybrid_search() | Python | MilvusClient"
 slug: /python/python/Vector-hybrid_search
 sidebar_label: "hybrid_search()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation performs multi-vector search on a collection and returns search results after reranking. | Python | MilvusClient"
 type: docx
 token: NEyWdddQ8oKCw4xQTFPcvDTLn3f
 sidebar_position: 9
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - hybrid_search()
   - pymilvus25
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -55,7 +58,7 @@ hybrid_search(
 
     The name of the collection to create.
 
-- **reqs** (*List[AnnSearchRequest]*) -
+- **reqs** (*List&#91;AnnSearchRequest&#93;*) -
 
     A list of search requests, where each request is an **ANNSearchRequest** object. Each request corresponds to a different vector field and a different set of search parameters.
 
@@ -100,13 +103,13 @@ hybrid_search(
 
     The sum of this value and `offset` in **param** should be less than 16,384.
 
-- **partition_names** (*List[str]*) -
+- **partition_names** (*List&#91;str&#93;*) -
 
     A list of partition names.
 
     The value defaults to **None**. If specified, only the specified partitions are involved in queries.
 
-- **output_fields** (*List[str]*) -
+- **output_fields** (*List&#91;str&#93;*) -
 
     A list of field names to include in each entity in return.
 
@@ -168,11 +171,11 @@ A **SearchResult** object that contains a list of **Hits** objects.
 
     - A **Hits** object has the following fields:
 
-        - **ids** (*list[int]* | *list[str]*)
+        - **ids** (*list&#91;int&#93;* | *list&#91;str&#93;*)
 
             A list containing the IDs of the hit entities.
 
-        - **distances** (list[float]) 
+        - **distances** (list&#91;float&#93;) 
 
             A list of distances from the hit entities' vector fields to the query vector.
 
@@ -190,7 +193,7 @@ A **SearchResult** object that contains a list of **Hits** objects.
 
             An alias to **distance**.
 
-        - **vector** (*list[float]*)   
+        - **vector** (*list&#91;float&#93;*)   
 
             The vector field of a hit entity.
 

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "LocalBulkWriter | Java | v2"
 slug: /java/java/v2-DataImport-LocalBulkWriter
 sidebar_label: "LocalBulkWriter"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "A LocalBulkWriter instance rewrites your raw data locally in a format that Milvus understands. | Java | v2"
 type: docx
 token: G7F9dQ8DwoZsaVxExdnc7K6an3g
 sidebar_position: 5
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
   - LocalBulkWriter
   - javaV225
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';

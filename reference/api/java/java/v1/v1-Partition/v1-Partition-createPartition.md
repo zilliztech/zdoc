@@ -3,6 +3,9 @@ title: "createPartition() | Java | v1"
 slug: /java/v1-Partition-createPartition
 sidebar_label: "createPartition()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "MilvusClient interface. This method creates a partition in the specified collection. | Java | v1"
 type: origin

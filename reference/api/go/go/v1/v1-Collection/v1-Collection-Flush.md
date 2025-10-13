@@ -3,6 +3,9 @@ title: "Flush() | Go | v1"
 slug: /go/v1-Collection-Flush
 sidebar_label: "Flush()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method synchronously stores entities from memory to storage and returns when the operations on every segments are complete. | Go | v1"
 type: origin

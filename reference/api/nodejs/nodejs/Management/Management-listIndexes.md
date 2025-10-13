@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listIndexes() | Node.js"
 slug: /node/node/Management-listIndexes
 sidebar_label: "listIndexes()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists the indexes of a specific collection | Node.js"
 type: docx
 token: N1fldMqhtoWBJPxh8VccivqxnZd
 sidebar_position: 13
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - listIndexes()
   - nodejs25
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -58,7 +61,7 @@ milvusClient.listIndexes({
 
 - **collection_name** (*string*) -
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The name of an existing collection.
 
@@ -74,7 +77,7 @@ milvusClient.listIndexes({
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-**RETURNS** *Promise\<DescribeIndexResponse>*
+**RETURNS** *Promise\&lt;DescribeIndexResponse&gt;*
 
 This method returns a promise that resolves to a **DescribeIndexResponse** object.
 
@@ -87,7 +90,7 @@ This method returns a promise that resolves to a **DescribeIndexResponse** objec
 
 **PARAMETERS:**
 
-- **indexes** (*string[]*) -
+- **indexes** (*string&#91;&#93;*) -
 
     A list of index names.
 

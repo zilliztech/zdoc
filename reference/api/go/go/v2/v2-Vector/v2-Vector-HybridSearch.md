@@ -3,6 +3,9 @@ title: "HybridSearch() | Go | v2"
 slug: /go/v2-Vector-HybridSearch
 sidebar_label: "HybridSearch()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method performs a vector search. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func (c *Client) HybridSearch(ctx context.Context, option HybridSearchOption, ca
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>HybridSearchOption</code></p></td>
+     <td><p><a href="./v2-Vector-HybridSearch#hybridsearchoption"><code>HybridSearchOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -81,13 +84,13 @@ func NewHybridSearchOption(collectionName string, limit int, annRequests ...*Ann
    <tr>
      <td><p><code>annRequests</code></p></td>
      <td><p>One or multiple search requests.</p></td>
-     <td><p><code>...*AnnRequest</code></p></td>
+     <td><p><code>...*&#91;AnnRequest</code>](./v2-Vector-HybridSearch#annrequest)</p></td>
    </tr>
 </table>
 
 ## AnnRequest{#annrequest}
 
-This is a struct type. The `index.CustomAnnParam` struct type implements this interface. You can use the `NewAnnRequest` method to create a search request.
+This is a struct type. The [`index.CustomAnnParam`](./v2-Vector-HybridSearch#indexcustomannparam) struct type implements this interface. You can use the `NewAnnRequest` method to create a search request.
 
 ### NewAnnRequest{#newannrequest}
 
@@ -116,7 +119,7 @@ func NewAnnRequest(annField string, limit int, vectors ...entity.Vector) *annReq
    <tr>
      <td><p><code>vectors</code></p></td>
      <td><p>Query vectors</p></td>
-     <td><p><code>[]entity.Vector</code></p></td>
+     <td><p><code>&#91;&#93;&#91;entity.Vector</code>](./v2-Vector-Search#entityvector)</p></td>
    </tr>
 </table>
 
@@ -180,7 +183,7 @@ func (r *AnnRequest) WithAnnParam(ap index.AnnParam) *AnnRequest
    <tr>
      <td><p><code>ap</code></p></td>
      <td><p>The index-specific search parameter settings.</p></td>
-     <td><p><code>index.AnnParam</code></p></td>
+     <td><p><a href="./v2-Vector-HybridSearch#indexannparam"><code>index.AnnParam</code></a></p></td>
    </tr>
 </table>
 
@@ -487,7 +490,7 @@ This method has no mandatory parameters.
 
 ## index.CustomAnnParam{#indexcustomannparam}
 
-This is a struct type that implements the `AnnRequest` interface. You can use `NewCustomAnnParam()` to get its concrete implementation.
+This is a struct type that implements the [`AnnRequest`](./v2-Vector-HybridSearch#annrequest) interface. You can use `NewCustomAnnParam()` to get its concrete implementation.
 
 ### NewCustomAnnParam{#newcustomannparam}
 

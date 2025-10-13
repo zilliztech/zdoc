@@ -1,19 +1,21 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "reset_password() | Python | ORM"
 slug: /python/python/utility-reset_password
 sidebar_label: "reset_password()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation resets the password for a specific user. | Python | ORM"
 type: docx
 token: K1Npdj5Ddod6UWxRN2ecf6K4nxf
 sidebar_position: 38
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
@@ -25,6 +27,7 @@ keywords:
   - information retrieval
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -56,13 +59,13 @@ reset_password(
 
 - **user** (*str*) - 
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The specific user whose password is to be reset.
 
 - **old_password** (*str*) - 
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The original password for the specified user.
 
@@ -70,7 +73,7 @@ reset_password(
 
 - **new_password** (*str*) - 
 
-    **[REQUIRED]**
+    **&#91;REQUIRED&#93;**
 
     The new password for the specified user. 
 

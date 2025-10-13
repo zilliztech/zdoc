@@ -3,6 +3,9 @@ title: "describeIndex() | Java | v1"
 slug: /java/v1-Index-describeIndex
 sidebar_label: "describeIndex()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "MilvusClient interface. This method shows the information of the specified index. | Java | v1"
 type: origin
@@ -103,7 +106,7 @@ Methods of `DescIndexResponseWrapper`:
      <td><p>getIndexDescriptions()</p></td>
      <td><p>Get a list of all index descriptions. (Currently only return one index information)</p></td>
      <td><p>N/A</p></td>
-     <td><p>List\<IndexDesc></p></td>
+     <td><p>List&lt;IndexDesc&gt;</p></td>
    </tr>
    <tr>
      <td><p>getIndexDescByFieldName(String fieldName)</p></td>

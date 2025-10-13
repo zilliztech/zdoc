@@ -3,6 +3,9 @@ title: "MilvusClientV1Pool | Java | v1"
 slug: /java/v1-Connections-MilvusClientV1Pool
 sidebar_label: "MilvusClientV1Pool"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A MilvusClientV1Pool instance is a connection pool for MilvusClient objects. The number of MilvusClient objects automatically increases or decreases to avoid frequent opening and closing connections, improving your application's performance. | Java | v1"
 type: origin

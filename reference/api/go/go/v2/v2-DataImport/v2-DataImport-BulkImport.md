@@ -3,6 +3,9 @@ title: "BulkImport() | Go | v2"
 slug: /go/v2-DataImport-BulkImport
 sidebar_label: "BulkImport()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read Prepare Data Import. | Go | v2"
 type: origin
@@ -39,7 +42,7 @@ func BulkImport(ctx context.Context, option *BulkImportOption) (*BulkImportRespo
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>BulkImportOption</code></p></td>
+     <td><p><a href="./v2-DataImport-BulkImport#bulkimportoption"><code>BulkImportOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -68,7 +71,7 @@ func NewCloudBulkImportOption(uri string, collectionName string, apiKey string, 
    </tr>
    <tr>
      <td><p><code>uri</code></p></td>
-     <td><p>The endpoint URL of the Zilliz Cloud Data Plane, which should be one of the follows:</p><ul><li><p><code>https://api.cloud.zilliz.com</code></p></li><li><p><code>https://api.cloud.zilliz.com.cn</code></p></li></ul></td>
+     <td><p>The endpoint URL of the Zilliz Cloud Data Plane, which should be one of the follows:</p><ul><li><p><code><i>http</i>s://api.cloud.zilliz.com</code></p></li><li><p><code>https://api.cloud.zilliz.com.cn</code></p></li></ul></td>
      <td><p><code>string</code></p></td>
    </tr>
    <tr>
@@ -199,7 +202,7 @@ type BulkImportResponse struct {
 
 ## Return{#return}
 
-`*BulkImportResponse`
+`*[BulkImportResponse`](./v2-DataImport-BulkImport#bulkimportresponse)
 
 ## Example{#example}
 

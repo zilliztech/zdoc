@@ -3,6 +3,9 @@ title: "hybridSearch() | Java | v1"
 slug: /java/v1-QuerySearch-hybridSearch
 sidebar_label: "hybridSearch()"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The MilvusClient interface. This method conducts an approximate nearest neighbor (ANN) search on multiple vector fields and returns search results after reranking. | Java | v1"
 type: origin
@@ -56,7 +59,7 @@ Methods of `HybridSearchParam.Builder`:
         <td><p>consistencyLevel: The consistency level used in the search.</p></td>
     </tr>
     <tr>
-        <td><p>withPartitionNames(List\<String> partitionNames)</p></td>
+        <td><p>withPartitionNames(List&lt;String&gt; partitionNames)</p></td>
         <td><p>Sets partition names list to specify search scope (Optional).</p></td>
         <td><p>partitionNames: The name list of partitions to be searched.</p></td>
     </tr>
@@ -66,7 +69,7 @@ Methods of `HybridSearchParam.Builder`:
         <td><p>partitionName: A partition name to be searched.</p></td>
     </tr>
     <tr>
-        <td><p>withOutFields(List\<String> outFields)</p></td>
+        <td><p>withOutFields(List&lt;String&gt; outFields)</p></td>
         <td><p>Specifies output scalar fields (Optional).</p></td>
         <td><p><br/>outFields: The name list of fields to be outputed.</p></td>
     </tr>
@@ -77,12 +80,12 @@ Methods of `HybridSearchParam.Builder`:
     </tr>
     <tr>
         <td><p>withTopK(Integer topK)</p></td>
-        <td><p>Set topK value of ANN search.<br/>Avaiable range: [1, 16384]</p></td>
+        <td><p>Set topK value of ANN search.<br/>Avaiable range: &#91;1, 16384&#93;</p></td>
         <td><p>topK: The topk value.</p></td>
     </tr>
     <tr>
         <td><p>withRoundDecimal(Integer decimal)</p></td>
-        <td><p>Specifies the decimal place for returned distance.<br/>Avaiable range: [-1, 6]<br/>Default value is -1, return all digits.</p></td>
+        <td><p>Specifies the decimal place for returned distance.<br/>Avaiable range: &#91;-1, 6&#93;<br/>Default value is -1, return all digits.</p></td>
         <td><p>decimal: How many digits reserved after the decimal point.</p></td>
     </tr>
     <tr>
@@ -142,7 +145,7 @@ Methods of `AnnSearchParam.Builder`:
     </tr>
     <tr>
         <td><p>withTopK(Integer topK)</p></td>
-        <td><p>Set topK value of ANN search.<br/>Avaiable range: [1, 16384]</p></td>
+        <td><p>Set topK value of ANN search.<br/>Avaiable range: &#91;1, 16384&#93;</p></td>
         <td><p>topK: The topk value.</p></td>
     </tr>
     <tr>
@@ -151,27 +154,27 @@ Methods of `AnnSearchParam.Builder`:
         <td><p>params: A JSON format string for extra parameters.</p></td>
     </tr>
     <tr>
-        <td><p>withFloatVectors(List\<List\<Float>gt; vectors)</p></td>
+        <td><p>withFloatVectors(List&lt;List&lt;Float&gt;&gt; vectors)</p></td>
         <td><p>Set the target vectors to search FloatVector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
-        <td><p>withBinaryVectors(List\<ByteBuffer> vectors)</p></td>
+        <td><p>withBinaryVectors(List&lt;ByteBuffer&gt; vectors)</p></td>
         <td><p>Set the target vectors to search BinaryVector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
-        <td><p>withFloat16Vectors(List\<ByteBuffer> vectors)</p></td>
+        <td><p>withFloat16Vectors(List&lt;ByteBuffer&gt; vectors)</p></td>
         <td><p>Set the target vectors to search Float16Vector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
-        <td><p>withBFloat16Vectors(List\<List\<Float>gt; vectors)</p></td>
+        <td><p>withBFloat16Vectors(List&lt;List&lt;Float&gt;&gt; vectors)</p></td>
         <td><p>Set the target vectors to search BFloat16Vector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
     <tr>
-        <td><p>withSparseFloatVectors(List\<SortedMap\<Long, Float>gt; vectors)</p></td>
+        <td><p>withSparseFloatVectors(List&lt;SortedMap&lt;Long, Float&gt;&gt; vectors)</p></td>
         <td><p>Set the target vectors to search SparseFloatVector field. Up to 16384 vectors allowed.<br/>Note: this method will reset the target vectors of SearchParam. To input vectors, call it only once.</p></td>
         <td><p>vectors: The target vectors</p></td>
     </tr>
@@ -233,8 +236,8 @@ Methods of `WeightedRanker.Builder`:
         <th><p>Parameters</p></th>
     </tr>
     <tr>
-        <td><p>withWeights(List\<Float> weights)</p></td>
-        <td><p>Assign weights for each AnnSearchParam. The length of weights must be equal to number of AnnSearchParam.<br/>You can assign any float value for weight, the sum of weight values can exceed 1.<br/>The distance/similarity values of each field will be mapped into a range of [0,1],<br/>and score = sum(weights[i] * distance_i_in_[0,1]).</p></td>
+        <td><p>withWeights(List&lt;Float&gt; weights)</p></td>
+        <td><p>Assign weights for each AnnSearchParam. The length of weights must be equal to number of AnnSearchParam.<br/>You can assign any float value for weight, the sum of weight values can exceed 1.<br/>The distance/similarity values of each field will be mapped into a range of &#91;0,1&#93;,<br/>and score = sum(weights&#91;i&#93; * distance_i_in_&#91;0,1&#93;).</p></td>
         <td><p>weights: The weight values.</p></td>
     </tr>
     <tr>
