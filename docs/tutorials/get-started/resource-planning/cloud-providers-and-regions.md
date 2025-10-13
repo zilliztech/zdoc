@@ -3,21 +3,24 @@ title: "Cloud Providers & Regions | Cloud"
 slug: /cloud-providers-and-regions
 sidebar_label: "Cloud Providers & Regions"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud is a cloud-based service that offers vector database clusters on public clouds. With our service, you can easily create and manage your own vector database clusters on the public cloud platform of your choice. | Cloud"
 type: origin
 token: CPLrwghdWiSvGBkdeEecGjgLnSb
-sidebar_position: 0
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - providers
   - regions
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 
@@ -32,7 +35,7 @@ Zilliz Cloud provides clusters across various regions on Amazon Web Services (AW
 
 ## AWS{#aws}
 
-Zilliz Cloud supports deploying dedicated clusters on AWS.
+Zilliz Cloud supports deploying free, serverless, and dedicated clusters on AWS.
 
 <table>
    <tr>
@@ -109,7 +112,7 @@ Zilliz Cloud supports deploying dedicated clusters on AWS.
    </tr>
 </table>
 
-For more information on cluster types, see Select Cluster Plans.
+For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
 
 ## GCP{#gcp}
 
@@ -166,7 +169,7 @@ Free, serverless, and dedicated clusters can be deployed on GCP.
    </tr>
 </table>
 
-For more information on cluster types, see Select Cluster Plans.
+For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
 
 ## Microsoft Azure{#microsoft-azure}
 
@@ -214,6 +217,14 @@ Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
      <td><p>Yes</p></td>
    </tr>
    <tr>
+     <td><p>North Europe</p></td>
+     <td><p>Ireland</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
+     <td><p>Yes</p></td>
+     <td><p>Yes</p></td>
+   </tr>
+   <tr>
      <td><p>Central India</p></td>
      <td><p>Pune, India</p></td>
      <td><p>No</p></td>
@@ -223,11 +234,11 @@ Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
    </tr>
 </table>
 
-For more information on cluster plans, see Select the Right Cluster Plan.
+For more information on cluster plans, see [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
 
 ## Related topics{#related-topics}
 
-- Select the Right Cluster Plan
+- [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans)
 
-- Select the Right CU
+- [Select the Right CU](./cu-types-explained)
 

@@ -3,6 +3,9 @@ title: "Manage Partitions | Cloud"
 slug: /manage-partitions
 sidebar_label: "Manage Partitions"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A partition is a subset of a collection. Each partition shares the same data structure with its parent collection but contains only a subset of the data in the collection. This page helps you understand how to manage partitions. | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

@@ -3,6 +3,9 @@ title: "Drop Collection | Cloud"
 slug: /drop-collection
 sidebar_label: "Drop Collection"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "You can drop a collection if it is no longer needed. | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 

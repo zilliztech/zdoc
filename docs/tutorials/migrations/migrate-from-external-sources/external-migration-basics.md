@@ -3,6 +3,9 @@ title: "External Migration Basics | Cloud"
 slug: /external-migration-basics
 sidebar_label: "External Migration Basics"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "External migration simplifies the process of moving your vector databases and search systems to Zilliz Cloud. Whether you're migrating from vector databases like Pinecone and Qdrant, or from search engines with vector capabilities like Elasticsearch and OpenSearch, Zilliz Cloud provides migration tools to ensure data integrity while minimizing migration complexity. | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - external
   - data source
   - basics
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 
@@ -85,47 +88,41 @@ Our migration tools provide extensive configuration options to ensure your data 
      <th><p>Description</p></th>
    </tr>
    <tr>
-     <td><p><strong>Schema control</strong></p></td>
+     <td rowspan="4"><p><strong>Schema control</strong></p></td>
      <td><p>Field name customization</p></td>
      <td><p>Rename fields during migration to match your preferred naming style</p></td>
    </tr>
    <tr>
-     <td></td>
      <td><p>Dynamic to fixed fields</p></td>
      <td><p>Convert flexible metadata into fixed, structured fields for better performance</p></td>
    </tr>
    <tr>
-     <td></td>
      <td><p>Additional fields</p></td>
      <td><p>Add new fields beyond source data to accommodate evolving requirements</p></td>
    </tr>
    <tr>
-     <td></td>
      <td><p>Data type mapping</p></td>
      <td><p>Zilliz Cloud detects and maps field types automatically, with option to adjust manually</p></td>
    </tr>
    <tr>
-     <td><p><strong>Collection setup</strong></p></td>
+     <td rowspan="3"><p><strong>Collection setup</strong></p></td>
      <td><p>Smart naming</p></td>
      <td><p>By default, Zilliz Cloud retains the source table name for the target collection; if a duplicate name is detected, the system issues an error alert so the user can rename it. For naming‐rule conflicts, such as when a source table name contains a hyphen (<code>-</code>), Zilliz Cloud will either automatically convert the hyphen (<code>-</code>) to an underscore (<code>_</code>) or raise an error prompting the user to adjust, depending on the data source</p></td>
    </tr>
    <tr>
-     <td></td>
      <td><p>Shard configuration</p></td>
      <td><p>Set up data distribution to match how you plan to query your data</p></td>
    </tr>
    <tr>
-     <td></td>
      <td><p>Partition strategies</p></td>
      <td><p>Organize data using either automatic partitioning or custom groupings</p></td>
    </tr>
    <tr>
-     <td><p><strong>Data integrity</strong></p></td>
+     <td rowspan="2"><p><strong>Data integrity</strong></p></td>
      <td><p>Primary key handling</p></td>
      <td><p>Create, keep, or modify unique identifiers for your records</p></td>
    </tr>
    <tr>
-     <td></td>
      <td><p>Field attributes</p></td>
      <td><p>Set whether fields can contain null values and define default values</p></td>
    </tr>
@@ -144,7 +141,7 @@ The migration follows a three-phase approach designed to ensure data integrity a
 
 ### Phase 1: Connect & configure{#phase-1-connect-and-configure}
 
-1. **Establish connection**: Provide authentication credentials (API keys, connection strings) to access your source system
+1. **Establish connection**: Provide authentication credentials (API keys, connection strings) to access your source system and test connection
 
 1. **Select source data**: Choose specific indexes, collections, or tables to migrate
 
@@ -170,7 +167,7 @@ For optimal performance, configure shards based on your data volume:
 
 - **Small datasets** (≤100M rows): Single shard typically sufficient
 
-- **Large datasets** (>1B rows): [Contact support](https://zilliz.com/contact-sales) for optimal shard configuration
+- **Large datasets** (&gt;1B rows): [Contact support](https://zilliz.com/contact-sales) for optimal shard configuration
 
 ### Phase 3: Migrate & verify{#phase-3-migrate-and-verify}
 

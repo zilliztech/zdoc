@@ -3,6 +3,9 @@ title: "Filtering Explained | BYOC"
 slug: /filtering-overview
 sidebar_label: "Filtering Explained"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides powerful filtering capabilities that enable precise querying of your data. Filter expressions allow you to target specific scalar fields and refine search results with different conditions. This guide explains how to use filter expressions in Zilliz Cloud clusters, with examples focused on query operations. You can also apply these filters in search and delete requests. | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - Managed vector database
-  - Pinecone vector database
   - Audio search
   - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 
@@ -35,7 +38,7 @@ Zilliz Cloud provides powerful filtering capabilities that enable precise queryi
 
 Zilliz Cloud supports several basic operators for filtering data:
 
-- **Comparison Operators**: `==`, `!=`, `>`, `\<`, `>=`, and `<=` allow filtering based on numeric or text fields.
+- **Comparison Operators**: `==`, `!=`, `>`, `<`, `>=`, and `<=` allow filtering based on numeric or text fields.
 
 - **Range Filters**: `IN` and `LIKE` help match specific value ranges or sets.
 
@@ -102,21 +105,21 @@ Zilliz Cloud provides advanced filtering operators for specific data types, such
 
 Zilliz Cloud offers advanced operators for querying JSON fields, enabling precise filtering within complex JSON structures:
 
-`JSON_CONTAINS(identifier, jsonExpr)`: Checks if a JSON expression exists in the field.
+**JSON_CONTAINS(identifier, jsonExpr)**: Checks if a JSON expression exists in the field.
 
 ```python
 # JSON data: {"tags": ["electronics", "sale", "new"]}
 filter='json_contains(tags, "sale")'
 ```
 
-`JSON_CONTAINS_ALL(identifier, jsonExpr)`: Ensures all elements of the JSON expression are present.
+**JSON_CONTAINS_ALL(identifier, jsonExpr)**: Ensures all elements of the JSON expression are present.
 
 ```python
 # JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
 filter='json_contains_all(tags, ["electronics", "sale", "new"])'
 ```
 
-`JSON_CONTAINS_ANY(identifier, jsonExpr)`: Filters for entities where at least one element exists in the JSON expression.
+**JSON_CONTAINS_ANY(identifier, jsonExpr)**: Filters for entities where at least one element exists in the JSON expression.
 
 ```python
 # JSON data: {"tags": ["electronics", "sale", "new"]}
@@ -129,25 +132,25 @@ For more details on JSON operators, refer to [JSON Operators](./json-filtering-o
 
 Zilliz Cloud provides advanced filtering operators for array fields, such as `ARRAY_CONTAINS`, `ARRAY_CONTAINS_ALL`, `ARRAY_CONTAINS_ANY`, and `ARRAY_LENGTH`, which allow fine-grained control over array data:
 
-`ARRAY_CONTAINS`: Filters entities containing a specific element.
+**ARRAY_CONTAINS**: Filters entities containing a specific element.
 
 ```python
 filter="ARRAY_CONTAINS(history_temperatures, 23)"
 ```
 
-`ARRAY_CONTAINS_ALL`: Filters entities where all elements in a list are present.
+**ARRAY_CONTAINS_ALL**: Filters entities where all elements in a list are present.
 
 ```python
 filter="ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])"
 ```
 
-`ARRAY_CONTAINS_ANY`: Filters entities containing any element from the list.
+**ARRAY_CONTAINS_ANY**: Filters entities containing any element from the list.
 
 ```python
 filter="ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])"
 ```
 
-`ARRAY_LENGTH`: Filters based on the length of the array.
+**ARRAY_LENGTH**: Filters based on the length of the array.
 
 ```python
 filter="ARRAY_LENGTH(history_temperatures) < 10"

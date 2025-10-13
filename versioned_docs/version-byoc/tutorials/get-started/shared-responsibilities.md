@@ -3,6 +3,9 @@ title: "Shared Responsibilities | BYOC"
 slug: /shared-responsibilities
 sidebar_label: "Shared Responsibilities"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This page outlines the responsibilities of Zilliz Cloud and BYOC users to clarify the division of tasks related to cloud management, upgrades, security, access control, service availability, and technical support, ensuring smooth collaboration while maintaining a secure and efficient operation environment. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - milvus
   - vector database
   - shared responsibilities
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

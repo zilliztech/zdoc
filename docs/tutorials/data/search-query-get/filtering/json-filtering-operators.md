@@ -3,6 +3,9 @@ title: "JSON Operators | Cloud"
 slug: /json-filtering-operators
 sidebar_label: "JSON Operators"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud supports advanced operators for querying and filtering JSON fields, making them perfect for managing complex, structured data. These operators enable highly effective querying of JSON documents, allowing you to retrieve entities based on specific elements, values, or conditions within the JSON fields. This section will guide you through using JSON-specific operators in Zilliz Cloud, providing practical examples to illustrate their functionality. | Cloud"
 type: origin
@@ -18,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - json operators
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 
@@ -42,11 +45,11 @@ Zilliz Cloud supports advanced operators for querying and filtering JSON fields,
 
 Zilliz Cloud provides several powerful JSON operators that help filter and query JSON data, and these operators are:
 
-- `JSON_CONTAINS(identifier, expr)`: Filters entities where the specified JSON expression is found within the field.
+- [`JSON_CONTAINS(identifier, expr)`](./json-filtering-operators#jsoncontains): Filters entities where the specified JSON expression is found within the field.
 
-- `JSON_CONTAINS_ALL(identifier, expr)`: Ensures that all elements of the specified JSON expression are present in the field.
+- [`JSON_CONTAINS_ALL(identifier, expr)`](./json-filtering-operators#jsoncontainsall): Ensures that all elements of the specified JSON expression are present in the field.
 
-- `JSON_CONTAINS_ANY(identifier, expr)`: Filters entities where at least one member of the JSON expression exists within the field.
+- [`JSON_CONTAINS_ANY(identifier, expr)`](./json-filtering-operators#jsoncontainsany): Filters entities where at least one member of the JSON expression exists within the field.
 
 Let’s explore these operators with examples to see how they can be applied in real-world scenarios.
 

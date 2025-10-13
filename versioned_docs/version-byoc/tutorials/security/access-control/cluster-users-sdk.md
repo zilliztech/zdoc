@@ -3,6 +3,9 @@ title: "Manage Cluster User (SDK) | BYOC"
 slug: /cluster-users-sdk
 sidebar_label: "Manage Cluster User (SDK)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, you can create cluster users and assign them cluster roles to define the privileges, achieving data security. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - access control
   - rbac
   - users
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

@@ -3,20 +3,23 @@ title: "Release Notes (Jun 9, 2025) | Cloud"
 slug: /release-notes-2170
 sidebar_label: "Release Notes (Jun 9, 2025)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This release delivers a more refined and intuitive user experience across multiple features of Zilliz Cloud. From a redesigned migration console to policy-based alerting and improved mmap controls, we've focused on making your workflows faster, more flexible, and easier to manage. New AI assistant capabilities and support for BYOC on GCP further extend the platform's power and usability, whether you're managing infrastructure, monitoring environments, or seeking support. | Cloud"
 type: origin
 token: DF8HwUTD6iScNQkVzs8cZTr8n8b
-sidebar_position: 2
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
+  - Zilliz database
   - Unstructured Data
   - vector database
   - IVF
-  - knn
 
 ---
 

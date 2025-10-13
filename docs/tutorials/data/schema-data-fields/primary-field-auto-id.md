@@ -3,6 +3,9 @@ title: "Primary Field & AutoID | Cloud"
 slug: /primary-field-auto-id
 sidebar_label: "Primary Field & AutoID"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The primary field uniquely identifies an entity. This page introduces how to add the primary field of two different data types and how to enable Zilliz Cloud to automatically allocate primary field values. | Cloud"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

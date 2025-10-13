@@ -3,6 +3,9 @@ title: "Data Security | Cloud"
 slug: /data-security
 sidebar_label: "Data Security"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Data security is integral to Zilliz Cloud. This document summarizes key measures and policies that Zilliz Cloud implements to safeguard your data comprehensively. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data
   - security
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 
@@ -92,7 +95,7 @@ For details, refer to [Set up Whitelist](./setup-whitelist) and [Set up a Privat
 
 ### At Rest{#at-rest}
 
-- The stored data on Disk/Object Storage is encrypted using the AES-256 (256-bit Advanced Encryption Standard ) encryption algorithm
+- The stored data on Disk/Object Storage is encrypted using the AES-256 (256-bit Advanced Encryption Standard ) encryption algorithm.
 
 ## Audit Logging and Monitoring{#audit-logging-and-monitoring}
 

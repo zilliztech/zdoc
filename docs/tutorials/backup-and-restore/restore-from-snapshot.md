@@ -3,21 +3,24 @@ title: "Restore from Backup Files | Cloud"
 slug: /restore-from-snapshot
 sidebar_label: "Restore from Backup Files"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The restore feature in Zilliz Cloud lets you recover data from backup files in cases of accidental loss, corruption, or system failure—ensuring business continuity. It is a reliable way to recover from incidents, revert unintended changes, or clone a cluster for testing with minimal disruption. | Cloud"
 type: origin
 token: Dd6jwYIGiiz6HWkEPJqcpMA3n6g
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - backup
   - restore
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

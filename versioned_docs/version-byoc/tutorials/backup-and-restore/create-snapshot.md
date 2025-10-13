@@ -3,6 +3,9 @@ title: "Create Backup | BYOC"
 slug: /create-snapshot
 sidebar_label: "Create Backup"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, a backup is a copy of the data that allows you to restore the entire cluster or specific collections in the event of data loss or system failure. | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 
@@ -27,9 +30,7 @@ import Supademo from '@site/src/components/Supademo';
 
 # Create Backup
 
-In Zilliz Cloud, a backup is a copy of the data that allows you to restore the entire cluster or specific collections in the event of data loss or system failure. 
-
-Backup creation incurs additional [charges](/docs/understand-cost#backup-cost), with pricing based on the cloud region where the backup is stored. All backup files are stored in the same cloud region as the source cluster. For example, a cluster in `AWS us-west-2` will have its backups stored in `AWS us-west-2`.
+In Zilliz Cloud, a backup is a copy of the data that allows you to restore the entire cluster or specific collections in the event of data loss or system failure.
 
 This guide explains how to **manually create backups**. To automate backup creation, see [Schedule Automatic Backups](./schedule-automatic-backups).
 
@@ -42,6 +43,8 @@ This guide explains how to **manually create backups**. To automate backup creat
     - Collection TTL settings
 
     - Password for the default user `db_admin` (a new password is generated during [restore](./restore-from-snapshot))
+
+    - Cluster dynamic and scheduled scaling settings
 
 - **Cluster shard settings**: Backed up but may be adjusted during restore if the cluster CU size is reduced, due to shard-per-CU limits. See [Zilliz Cloud Limits](./limits#shards) for details.
 
@@ -57,7 +60,7 @@ This guide explains how to **manually create backups**. To automate backup creat
 
 ## Create cluster backup{#create-cluster-backup}
 
-You can create a backup of an entire cluster and later restore either the whole cluster or selected collections.
+You can create a backup of an entire cluster and later restore either the whole cluster or selected collections. If you need to copy your backup file to other cloud regions for disaster recover, you can configure the copy policies while creating a backup. For details, refer to [Copy To Other Regions](./backup-to-other-regions).
 
 ### Via web console{#via-web-console}
 
@@ -94,7 +97,7 @@ The following is an example output. A backup job is generated and you can check 
 
 ## Create collection backup{#create-collection-backup}
 
-To back up a specific collection or a subset of collections in a cluster, create a collection-level backup.
+To back up a specific collection or a subset of collections in a cluster, create a collection-level backup. If you need to copy your backup file to other cloud regions for disaster recover, you can configure the copy policies while creating a backup. For details, refer to [Copy To Other Regions](./backup-to-other-regions).
 
 ### Via web console{#via-web-console}
 
@@ -139,9 +142,11 @@ The following is an example output. A backup job is generated and you can check 
 ## FAQs{#faqs}
 
 **How long does a backup job take?**
+
 Backup duration depends on the size of your data. As a reference, backing up 700 MB typically takes about 1 second. If your cluster contains more than 1,000 collections, the process may take slightly longer.
 
 **Can I perform DDL (Data Definition Language) operations during a backup?**
+
 It is recommended to avoid major DDL (Data Definition Language) operations—such as creating or dropping collections—while a backup is in progress, as they may interfere with the process or lead to inconsistent results.
 
 **Will backup files be deleted if the original cluster is dropped?**

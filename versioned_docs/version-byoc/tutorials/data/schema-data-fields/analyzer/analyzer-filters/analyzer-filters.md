@@ -3,6 +3,9 @@ title: "Filter Reference | BYOC"
 slug: /analyzer-filters
 sidebar_label: "Filter"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This section provides a detailed reference for filters in analyzers. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

@@ -3,6 +3,9 @@ title: "Manage Cluster Roles (SDK) | BYOC"
 slug: /cluster-roles-sdk
 sidebar_label: "Manage Cluster Roles (SDK)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A cluster role defines the privileges that a user has within the cluster. More specifically, the cluster role controls a cluster user's privileges on the cluster, database, and collection level. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

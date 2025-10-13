@@ -3,6 +3,9 @@ title: "Metric Types | Cloud"
 slug: /search-metrics-explained
 sidebar_label: "Metric Types"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Similarity metrics are used to measure similarities among vectors. Choosing an appropriate distance metric helps improve classification and clustering performance significantly. | Cloud"
 type: origin
@@ -20,10 +23,10 @@ keywords:
   - IP
   - COSINE
   - Jaccard
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 
@@ -64,6 +67,12 @@ The table below summarizes the mapping between different field types and their c
      <td><p><code>COSINE</code></p></td>
    </tr>
    <tr>
+     <td><p><code>INT8_VECTOR</code></p></td>
+     <td><p>2-32,768</p></td>
+     <td><p><code>COSINE</code>, <code>L2</code>, <code>IP</code></p></td>
+     <td><p><code>COSINE</code></p></td>
+   </tr>
+   <tr>
      <td><p><code>SPARSE\_FLOAT\_VECTOR</code></p></td>
      <td><p>No need to specify the dimension.</p></td>
      <td><p><code>IP</code>, <code>BM25</code> (used only for full text search)</p></td>
@@ -72,7 +81,7 @@ The table below summarizes the mapping between different field types and their c
    <tr>
      <td><p><code>BINARY_VECTOR</code></p></td>
      <td><p>8-32,768*8</p></td>
-     <td><p><code>HAMMING</code>, <code>JACCARD</code>,</p></td>
+     <td><p><code>HAMMING</code>, <code>JACCARD</code>, <code>MHJACCARD</code></p></td>
      <td><p><code>HAMMING</code></p></td>
    </tr>
 </table>
@@ -97,27 +106,32 @@ The table below summarizes the characteristics of the similarity distance values
    <tr>
      <td><p><code>L2</code></p></td>
      <td><p>A smaller value indicates a greater similarity.</p></td>
-     <td><p>[0, ∞)</p></td>
+     <td><p>&#91;0, ∞)</p></td>
    </tr>
    <tr>
      <td><p><code>IP</code></p></td>
      <td><p>A greater value indicates a greater similarity.</p></td>
-     <td><p>[-1, 1]</p></td>
+     <td><p>&#91;-1, 1&#93;</p></td>
    </tr>
    <tr>
      <td><p><code>COSINE</code></p></td>
      <td><p>A greater value indicates a greater similarity.</p></td>
-     <td><p>[-1, 1]</p></td>
+     <td><p>&#91;-1, 1&#93;</p></td>
    </tr>
    <tr>
      <td><p><code>JACCARD</code></p></td>
      <td><p>A smaller value indicates a greater similarity.</p></td>
-     <td><p>[0, 1]</p></td>
+     <td><p>&#91;0, 1&#93;</p></td>
+   </tr>
+   <tr>
+     <td><p><code>MHJACCARD</code></p></td>
+     <td><p>Estimates Jaccard similarity from MinHash signature bits; smaller distance = more similar</p></td>
+     <td><p>&#91;0, 1&#93;</p></td>
    </tr>
    <tr>
      <td><p><code>HAMMING</code></p></td>
      <td><p>A smaller value indicates a greater similarity.</p></td>
-     <td><p>[0, dim(vector)]</p></td>
+     <td><p>&#91;0, dim(vector)&#93;</p></td>
    </tr>
    <tr>
      <td><p><code>BM25</code></p></td>
@@ -168,13 +182,13 @@ The correlation between the two embeddings is as follows:
 
 ## Cosine similarity{#cosine-similarity}
 
-Cosine similarity uses the cosine of the angle between two sets of vectors to measure how similar they are. You can think of the two sets of vectors as line segments starting from the same point, such as [0,0,...], but pointing in different directions.
+Cosine similarity uses the cosine of the angle between two sets of vectors to measure how similar they are. You can think of the two sets of vectors as line segments starting from the same point, such as &#91;0,0,...&#93;, but pointing in different directions.
 
 To calculate the cosine similarity between two sets of vectors **A = (a<sub>0</sub>, a<sub>1</sub>,..., a<sub>n-1</sub>)** and **B = (b<sub>0</sub>, b<sub>1</sub>,..., b<sub>n-1</sub>)**, use the following formula:
 
 ![R1iNbuEDDoz8RdxtA4RcM706nMc](/img/R1iNbuEDDoz8RdxtA4RcM706nMc.png)
 
-The cosine similarity is always in the interval **[-1, 1]**. For example, two proportional vectors have a cosine similarity of **1**, two orthogonal vectors have a similarity of **0**, and two opposite vectors have a similarity of **-1**. The larger the cosine, the smaller the angle between the two vectors, indicating that these two vectors are more similar to each other.
+The cosine similarity is always in the interval **&#91;-1, 1&#93;**. For example, two proportional vectors have a cosine similarity of **1**, two orthogonal vectors have a similarity of **0**, and two opposite vectors have a similarity of **-1**. The larger the cosine, the smaller the angle between the two vectors, indicating that these two vectors are more similar to each other.
 
 By subtracting their cosine similarity from 1, you can get the cosine distance between two vectors.
 
@@ -187,6 +201,32 @@ JACCARD distance coefficient measures the similarity between two sample sets and
 JACCARD distance measures the dissimilarity between data sets and is obtained by subtracting the JACCARD similarity coefficient from 1. For binary variables, JACCARD distance is equivalent to the Tanimoto coefficient.
 
 ![Kj2kbpNmHoTUUixjDC1ccTntnnV](/img/Kj2kbpNmHoTUUixjDC1ccTntnnV.png)
+
+## MHJACCARD{#mhjaccard}
+
+**MinHash Jaccard** (`MHJACCARD`) is a metric type used for efficient, approximate similarity search over large sets—such as document word sets, user tag sets, or genomic k-mer sets. Instead of comparing raw sets directly, MHJACCARD compares **MinHash signatures**, which are compact representations designed to estimate Jaccard similarity efficiently.
+
+This approach is significantly faster than computing exact Jaccard similarity and is especially useful in large-scale or high-dimensional scenarios.
+
+**Applicable vector type**
+
+- `BINARY_VECTOR`, where each vector stores a MinHash signature. Each element corresponds to the minimum hash value under one of the independent hash functions applied to the original set.
+
+**Distance definition**
+
+MHJACCARD measures how many positions in two MinHash signatures match. The higher the match ratio, the more similar the underlying sets are.
+
+Milvus reports:
+
+- **Distance = 1 - estimated similarity (match ratio)**
+
+The distance value ranges from 0 to 1:
+
+- **0** means the MinHash signatures are identical (estimated Jaccard similarity = 1)
+
+- **1** means no matches at any position (estimated Jaccard similarity = 0)
+
+For information on technical details, refer to [MINHASH_LSH](./minhash-lsh).
 
 ## HAMMING distance{#hamming-distance}
 
@@ -209,7 +249,7 @@ BM25 is a widely used text relevance measurement method, specifically designed f
 The BM25 scoring is calculated as follows:
 
 $$
-score(D, Q)=\sum_{i=1}^{n}IDF(q_i)\cdot {{TF(q_i,D)\cdot(k_1+1)}\over{TF(q_i, D)+k_1\cdot(1-b+b\cdot {{|D|}\over{avgdl}})}}
+score(D, Q)=\sum_{i=1}^{n}IDF(q_i)\cdot {{TF(q_i,D)\cdot(k_1+1)}\over{TF(q_i, D)+k_1\cdot(1-b+b\cdot {{|D|}\over{avgdl}&#125;)&#125;&#125;
 $$
 
 Parameter description:
@@ -232,7 +272,7 @@ Parameter description:
 
 - $avgdl$: Average length of all documents in the corpus.
 
-- $k_1$: Controls the influence of term frequency on the score. Higher values increase the importance of term frequency. The typical range is [1.2, 2.0], while Zilliz Cloud allows a range of [0, 3].
+- $k_1$: Controls the influence of term frequency on the score. Higher values increase the importance of term frequency. The typical range is &#91;1.2, 2.0&#93;, while Zilliz Cloud allows a range of &#91;0, 3&#93;.
 
 - $b$: Controls the degree of length normalization, ranging from 0 to 1. When the value is 0, no normalization is applied; when the value is 1, full normalization is applied.
 

@@ -3,6 +3,9 @@ title: "Drop Collection | BYOC"
 slug: /drop-collection
 sidebar_label: "Drop Collection"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "You can drop a collection if it is no longer needed. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
 
 ---
 

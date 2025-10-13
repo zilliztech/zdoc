@@ -3,6 +3,9 @@ title: "Set Collection TTL | Cloud"
 slug: /set-collection-ttl
 sidebar_label: "Set Collection TTL"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Once data is inserted into a collection, it remains there by default. However, in some scenarios, you may want to remove or clean up data after a certain period. In such cases, you can configure the collection’s Time-to-Live (TTL) property so that Zilliz Cloud automatically deletes the data once the TTL expires. | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - collection ttl
   - time-to-live
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

@@ -3,6 +3,9 @@ title: "Convert Your Data | BYOC"
 slug: /prepare-data-import
 sidebar_label: "Convert Your Data"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "You need to prepare your data before importing it and ensure that it meets the source data requirements. This chapter provides source data requirements and an easy-to-use tool to aid in data preparations. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

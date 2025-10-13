@@ -3,20 +3,23 @@ title: "Feature Availability | Cloud"
 slug: /feature-availability
 sidebar_label: "Feature Availability"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Last updated Jul 14, 2025 | Cloud"
+description: "Last updated Oct 13, 2025 | Cloud"
 type: origin
 token: HpbSwzS6kiW9gikHpQ0cUZLWnlc
-sidebar_position: 16
+sidebar_position: 15
 keywords: 
   - zilliz
   - vector database
   - cloud
   - feature availability
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 
@@ -25,7 +28,7 @@ import Admonition from '@theme/Admonition';
 
 # Feature Availability
 
-*Last updated: Jul 14, 2025*
+*Last updated: Oct 13, 2025*
 
 The **availability phase** of a feature indicates its maturity, stability, and recommended usage in Zilliz Cloud. Below is an overview of the feature lifecycle stages and what they mean for you as a user.
 
@@ -77,19 +80,13 @@ The availability phase of each feature is indicated in the Zilliz Cloud document
 
 ### Private Preview{#private-preview}
 
-- [Migration via stage](./via-stage)
+- [Stage](./manage-stages)
 
 - [Extract, Transform & Load (ETL)](/reference/restful/merge-data-v2)
 
 - [Zero downtime migration](./zero-downtime-migration)
 
-- [Audit logging](./audit-logs)
-
 - [Export backup files](./export-backup-files)
-
-- [Integration with Amazon S3](./integrate-with-aws-s3)
-
-- [Integration with Azure Blob Storage](./integrate-with-azure-blob-storage)
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -101,25 +98,37 @@ The availability phase of each feature is indicated in the Zilliz Cloud document
 
 - [JSON index](./use-json-fields)
 
+- [JSON shredding](./json-shredding)
+
+- [Add fields to an existing collection](./add-fields-to-an-existing-collection)
+
+- [Boost ranker](./boost-ranker)
+
+- [Decay ranker](./decay-ranker-oveview)
+
+- [INT8_VECTOR data type](./use-dense-vector)
+
+- [Ngram index](./ngram-index-type)
+
+- [MINHASH_LSH index](./minhash-lsh)
+
+- [Multi-language analyzer](./multi-language-analyzers)
+
+- [Tiered-storage cluster type](./cu-types-explained)
+
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>Contact <a href="http://support.zilliz.com">Zilliz Support</a> to upgrade your cluster Milvus version to access these features.</p>
-
-</Admonition>
-
-### On-request GA features{#on-request-ga-features}
-
-- [Single sign-on (SSO)](./single-sign-on)
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>Contact <a href="https://zilliz.com/contact-sales">sales</a> to enable this feature.</p>
+<p>Upgrade your cluster Milvus version to access these features.</p>
 
 </Admonition>
 
 ### Deprecation notice{#deprecation-notice}
 
-- [Pipelines](./pipelines)
+- [Import Data from NumPy Files](./data-import-numpy)
 
 - [RESTful APIs (V1)](/reference/restful/v1)
+
+### Deprecated{#deprecated}
+
+- Pipelines
 

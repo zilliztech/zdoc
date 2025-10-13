@@ -3,6 +3,9 @@ title: "Access Control | BYOC"
 slug: /access-control
 sidebar_label: "Access Control"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Learn more about how Zilliz Cloud implements RBAC for more efficient access control and how to manage cluster users and roles, privileges. | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

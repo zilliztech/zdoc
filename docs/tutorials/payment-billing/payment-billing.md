@@ -3,6 +3,9 @@ title: "Payment & Billing | Cloud"
 slug: /payment-billing
 sidebar_label: "Payment & Billing"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide details the available ways for you to subscribe to our services on Zilliz Cloud with relevant notes on invoice management | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - private link
   - payment
   - billing
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 
@@ -88,13 +91,13 @@ If multiple payment methods are in use, their priority is as follows:
 
 1. Credit card / AWS Marketplace subscription / GCP Marketplace subscription / Azure Marketplace subscription.
 
-**Example:** For a &#36;500 unpaid bill, with &#36;100 in credits and &#36;200 in Advance Pay funds available, plus a linked credit card:
+**Example:** For a $500 unpaid bill, with $100 in credits and $200 in Advance Pay funds available, plus a linked credit card:
 
-- The &#36;100 credits are used first, reducing the bill to &#36;400.
+- The $100 credits are used first, reducing the bill to $400.
 
-- Then, the &#36;200 Advance Pay funds are applied, bringing the balance down to &#36;200.
+- Then, the $200 Advance Pay funds are applied, bringing the balance down to $200.
 
-- Finally, the remaining &#36;200 is charged to the linked credit card.
+- Finally, the remaining $200 is charged to the linked credit card.
 
 ### Switching payment methods{#switching-payment-methods}
 
@@ -126,7 +129,7 @@ You can subscribe to Zilliz Cloud services on [AWS](./subscribe-on-aws-marketpla
 
 The pricing varies across cloud providers, regions, and cluster plans. Refer to [Zilliz Cloud Pricing](https://zilliz.com/pricing) for more information.
 
-Using the pricing information, if you have deployed a Zilliz Cloud cluster in the **Standard Plan** with one performance-optimized CU in AWS-us-east-1 (Virginia), you will be charged via your Marketplace subscription  &#36;0.159/hour.
+Using the pricing information, if you have deployed a Zilliz Cloud cluster in the **Standard Plan** with one performance-optimized CU in AWS-us-east-1 (Virginia), you will be charged via your Marketplace subscription  $0.159/hour.
 
 ## Related topics{#related-topics}
 

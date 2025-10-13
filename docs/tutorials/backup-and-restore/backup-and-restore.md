@@ -3,6 +3,9 @@ title: "Backup & Restore | Cloud"
 slug: /backup-and-restore
 sidebar_label: "Backup & Restore"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Data backup and restore for your data stored in Zilliz Cloud clusters. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

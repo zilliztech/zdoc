@@ -3,6 +3,9 @@ title: "Manage Organization Users | Cloud"
 slug: /organization-users
 sidebar_label: "Organization Users"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, an organization typically represents a company. You can invite employees to your organization and assign them roles based on their job functions. These roles determine the user's access to specific resources and the operations they can perform. For example, developers generally require access to data but do not need billing privileges. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 
@@ -93,7 +96,7 @@ Zilliz Cloud provides three organization roles. These roles cannot be modified o
 
 Note that if you are an **Organization Member** or an **Organization Billing Admin**, you can only grant invitees the role of **Organization Member**.
 
-The invitees will receive an invitation via email, which must be accepted within 48 hours to join the organization. 
+The invitees will receive an invitation via email, which must be accepted within 48 hours to join the organization. Alternatively, you can also copy the invitation link from the web console and share it with the invitees.
 
 <Admonition type="info" icon="📘" title="Notes">
 

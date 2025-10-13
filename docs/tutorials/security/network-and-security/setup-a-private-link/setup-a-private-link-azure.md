@@ -3,6 +3,9 @@ title: "Set up a Private Link (Azure) | Cloud"
 slug: /setup-a-private-link-azure
 sidebar_label: "Set up a Private Link (Azure)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide demonstrates the procedure for setting up a private link from a Zilliz Cloud cluster to your service hosted in different Microsoft Azure VPCs. | Cloud"
 type: origin
@@ -19,10 +22,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 
@@ -49,27 +52,31 @@ Make sure the following condition is met:
 
 - A Dedicated (Enterprise) cluster has been created. For information on how to create a cluster, see [Create Cluster](./create-cluster).
 
+- Note that the private endpoint created in this guide is accessible globally. Your service in a region different from the target Zilliz Cloud cluster can still connect to the cluster.
+
 ## Create private endpoint{#create-private-endpoint}
 
-Zilliz Cloud offers you an intuitive web console to add a private endpoint. Navigate to your target project and click **Network > Private Endpoint** in the left navigation. Click **+ Private Endpoint**.
+Zilliz Cloud offers you an intuitive web console to add a private endpoint. Navigate to your target project and click **Network &gt; Private Endpoint** in the left navigation. Click **+ Private Endpoint**.
 
-![setup_private_link_aws_01](/img/setup_private_link_aws_01.png)
+![PYylbfopjoFkiZxFlbucIFHkn8g](/img/PYylbfopjoFkiZxFlbucIFHkn8g.png)
 
-### Select a cloud provider and region{#select-a-cloud-provider-and-region}
+### Step 1: Select a cloud provider and region{#step-1-select-a-cloud-provider-and-region}
 
 To create a private endpoint for a cluster deployed in an Azure region, select **Azure** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. Click **Next**. 
 
 For more information on available cloud providers and regions, see [Cloud Providers & Regions](./cloud-providers-and-regions). 
 
-![setup_private_link_window_azure](/img/setup_private_link_window_azure.png)
+![CguAbg90loxAJ4x0cl6c58rqnvO](/img/CguAbg90loxAJ4x0cl6c58rqnvO.png)
 
-### Establish and endpoint service{#establish-and-endpoint-service}
+### Step 2: Establish an endpoint service{#step-2-establish-an-endpoint-service}
 
-![establish_endpoint_service_azure](/img/establish_endpoint_service_azure.png)
+![Z54SboHLyoKB1QxAG4Dcw7bEnOh](/img/Z54SboHLyoKB1QxAG4Dcw7bEnOh.png)
 
-Enter the subcription ID copied from the [Microsoft Azure Subscription page](https://portal.azure.com/#view/Microsoft_Azure_Billing/SubscriptionsBladeV1). Below is an example
+Enter the subscription ID copied from the [Microsoft Azure Subscription page](https://portal.azure.com/#view/Microsoft_Azure_Billing/SubscriptionsBladeV1). Below is an example.
 
-### Create an endpoint{#create-an-endpoint}
+![KmCYbkbpDoJHAkxDzN9cV1LOnng](/img/KmCYbkbpDoJHAkxDzN9cV1LOnng.png)
+
+### Step 3: Create an endpoint{#step-3-create-an-endpoint}
 
 You need to complete this step on your cloud provider console.
 
@@ -81,7 +88,7 @@ You need to complete this step on your cloud provider console.
 
     ![ECcPbN4Kaog5bdxyed3cyP3HnHe](/img/ECcPbN4Kaog5bdxyed3cyP3HnHe.png)
 
-1. Click **Next: Resource >** and choose **Connect to an Azure resource by resource ID or alias**. Then paste the one copied from the Zilliz Cloud console into **Resource ID or alias**.
+1. Click **Next: Resource &gt;** and choose **Connect to an Azure resource by resource ID or alias**. Then paste the one copied from the Zilliz Cloud console into **Resource ID or alias**.
 
     ![TDJVb0pkWoxVPIxCThvct9Hpnae](/img/TDJVb0pkWoxVPIxCThvct9Hpnae.png)
 
@@ -109,7 +116,7 @@ You need to complete this step on your cloud provider console.
 
     For example, the value of the key `name` is `zilliz`, and the value of the key `properties.resourceGuid` is `d73e9b55-7b9c-4f8d-8f0a-40e737f1ccbf`. Your Private Endpoint ID should be `zilliz.d73e9b55-7b9c-4f8d-8f0a-40e737f1ccbf`.
 
-### Authorize your endpoint{#authorize-your-endpoint}
+### Step 4: Authorize your endpoint{#step-4-authorize-your-endpoint}
 
 Paste the endpoint ID you obtained from the Azure console into the **Endpoint ID** box on Zilliz Cloud. Click **Create**.
 
@@ -123,9 +130,9 @@ When the private link is ready, you can view it on the **Private Link** page on 
 
 Before you can access your cluster via the private link allocated by Zilliz Cloud, it is necessary to set up DNS.
 
-### Create a Private DNS Zone on the Azure portal{#create-a-private-dns-zone-on-the-azure-portal}
+### Step 1: Create a Private DNS Zone on the Azure portal{#step-1-create-a-private-dns-zone-on-the-azure-portal}
 
-1. On the **Overview** page of the created Private Endpoint, choose **Settings** > **DNS configuration**, and copy the **IP address** of the network interface created along with the Private Endpoint.
+1. On the **Overview** page of the created Private Endpoint, choose **Settings** &gt; **DNS configuration**, and copy the **IP address** of the network interface created along with the Private Endpoint.
 
     ![GC9jbsUp2oXgCZxkojbcrmJanJb](/img/GC9jbsUp2oXgCZxkojbcrmJanJb.png)
 
@@ -133,7 +140,7 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
 
 1. Go to [Create a Private DNS zone](https://portal.azure.com/#view/HubsExtension/BrowseResource/resourceType/Microsoft.Network%2FprivateDnsZones), and click **+ Create** to start the process.
 
-1. In the **Basics** tab, select the subscription and resource group used above, and paste the Private Link URI copied from the Zilliz Cloud console in **Instance details** > **Name**. Then click **Review create**.
+1. In the **Basics** tab, select the subscription and resource group used above, and paste the Private Link URI copied from the Zilliz Cloud console in **Instance details** &gt; **Name**. Then click **Review create**.
 
     ![QweWbLRSioY9Cix8nMUc0Q75n1e](/img/QweWbLRSioY9Cix8nMUc0Q75n1e.png)
 
@@ -149,9 +156,9 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
 
     ![M401b0RiNoauaHxbBH6crLXlnXc](/img/M401b0RiNoauaHxbBH6crLXlnXc.png)
 
-### Link the Private DNS Zone to your virtual network.{#link-the-private-dns-zone-to-your-virtual-network}
+### Step 2: Link the Private DNS Zone to your virtual network.{#step-2-link-the-private-dns-zone-to-your-virtual-network}
 
-1. On the Overview page of the created Private DNS Zone, choose **Settings** > **DNS Management** in the left navigation pane.
+1. On the Overview page of the created Private DNS Zone, choose **Settings** &gt; **DNS Management** in the left navigation pane.
 
 1. Click **+ Add**. In the **Add virtual network link** dialog box, enter a **Link name**, and select **Subscription** and **Virtual network** you have used above. In the **Configuration** section, select **Enable auto registration** also.
 
@@ -204,3 +211,8 @@ To disable public endpoints:
 
 ![disable_public_endpoint](/img/disable_public_endpoint.png)
 
+## FAQ{#faq}
+
+### Can I create a private endpoint for an existing cluster?{#can-i-create-a-private-endpoint-for-an-existing-cluster}
+
+Yes. When you create a private endpoint, it will take effect on all existing and future Dedicated (Enterprise) clusters that reside in the same region and project. All you need to do is to add different DNS records for different clusters.

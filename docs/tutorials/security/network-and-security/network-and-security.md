@@ -3,6 +3,9 @@ title: "Network & Security | Cloud"
 slug: /network-and-security
 sidebar_label: "Network Access"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Learn more about how to set up whitelist and private links to secure the access to your data on Zilliz Cloud. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

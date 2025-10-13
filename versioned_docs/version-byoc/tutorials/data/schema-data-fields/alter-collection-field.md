@@ -3,11 +3,14 @@ title: "Alter Collection Field | BYOC"
 slug: /alter-collection-field
 sidebar_label: "Alter Collection Field"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "You can alter the properties of a collection field to change column constraints or enforce stricter data integrity rules. | BYOC"
 type: origin
 token: PLjFwlcT8ilFBakYXyfcg6S2n7d
-sidebar_position: 13
+sidebar_position: 16
 keywords: 
   - zilliz
   - vector database
@@ -16,10 +19,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - Unstructured Data
-  - vector database
   - IVF
   - knn
+  - Image Search
+  - LLMs
 
 ---
 
@@ -46,7 +49,7 @@ A VarChar field has a property named `max_length`, which constrains the maximum 
 
 The following example assumes the collection has a VarChar field named `varchar` and sets its `max_length` property.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -89,9 +92,7 @@ client.alterCollectionField(AlterCollectionFieldReq.builder()
 ```
 
 </TabItem>
-</Tabs>
 
-<Tabs groupId="code" defaultValue='javascript' values={[{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='javascript'>
 
 ```javascript

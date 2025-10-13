@@ -3,6 +3,9 @@ title: "Configure a Customer-Managed VPC on GCP | BYOC"
 slug: /configure-vpc-gcp
 sidebar_label: "Configure a Customer-Managed VPC on GCP"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The Zilliz Cloud Bring-Your-Own-Cloud (BYOC) solution enables you to set up a project within your own Virtual Private Cloud (VPC). With a Zilliz Cloud project running in a customer-managed VPC, you gain greater control over your network configurations, allowing you to meet specific cloud security and governance standards required by your organization. | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 
@@ -44,6 +47,20 @@ This page enumerates the minimum requirements for hosting a Zilliz Cloud BYOC pr
 ## VPC requirements{#vpc-requirements}
 
 Your VPC must meet the requirements enumerated in this section to host a Zilliz Cloud project. If you prefer to use an existing VPC for your BYOC project, ensure that your VPC meets these requirements. 
+
+**Requirements**
+
+- [VPC regions](./configure-vpc-gcp#vpc-regions)
+
+- [VPC IP address ranges](./configure-vpc-gcp#vpc-ip-address-ranges)
+
+- [Subnets](./configure-vpc-gcp#subnets)
+
+- [Cloud Router and NAT](./configure-vpc-gcp#cloud-router-and-nat)
+
+- [Firewall Rules](./configure-vpc-gcp#firewall-rules)
+
+- [Private Service Connect (PSC)](./configure-vpc-gcp#private-service-connect-psc-endpoint)
 
 ### VPC regions{#vpc-regions}
 
@@ -112,11 +129,11 @@ The steps to create a VPC network and add the primary subnet are as follows:
 
 1. Set the primary IPv4 range for the primary subnet.
 
-    In this demo, you can set it to `10.7.0.0/18` or use the planned network segment.
+    In this demo, you can set it to `10.7.0.0/18` or use the planned network segment. You are advised to remember the name and IPv4 range for further reference.
 
 1. Set the name and IPv4 address range of the secondary IPv4 range for container pods.
 
-    In this demo, you can set the name to `pod-subnet` and range to `10.7.64.0/18`, or follow your naming conventions and networking plan.
+    In this demo, you can set the name to `pod-subnet` and range to `10.7.64.0/18`, or follow your naming conventions and networking plan. You are advised to remember the name and IPv4 range for further reference.
 
 1. Click **Add a Secondary IPv4 range** to add a secondary IPv4 range for services, and set its name and range.
 
@@ -266,7 +283,7 @@ The steps to add these firewall rules are as follows:
            </tr>
            <tr>
              <td><p><strong>Source IPv4 ranges</strong></p></td>
-             <td><p><a href="./configure-vpc-gcp#step-1-create-a-vpc-network-and-add-the-primary-subnet">IPv4 address range of the primary subnet</a></p></td>
+             <td><p><code>10.7.0.0/18</code> (or use your planned one by referring to step 5 in <a href="./configure-vpc-gcp#step-1-create-a-vpc-network-and-add-the-primary-subnet">this section</a>.)</p></td>
            </tr>
            <tr>
              <td><p><strong>Protocols and ports</strong></p></td>

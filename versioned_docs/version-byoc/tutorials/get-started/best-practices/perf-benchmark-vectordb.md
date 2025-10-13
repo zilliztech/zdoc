@@ -3,6 +3,9 @@ title: "Performance Benchmarking with VectorDBBench | BYOC"
 slug: /perf-benchmark-vectordb
 sidebar_label: "Use VectorDBBench"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "VectorDBBench is an open-source benchmarking tool designed specifically for vector databases. | BYOC"
 type: origin
@@ -15,15 +18,17 @@ keywords:
   - milvus
   - performance
   - benchmark
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 
 import Admonition from '@theme/Admonition';
 
+
+import Grid from '@site/src/components/Grid';
 
 # Performance Benchmarking with VectorDBBench
 
@@ -138,7 +143,7 @@ Below is an example output. You will obtain a local URL in the output. Use it to
 
 On the homepage, you can see some pre-defined testing datasets provided by VectorDBBench and use them for a quick performance benchmarking.
 
-Scroll down the webpage to the bottom and click **Run Your Test >** to configure your own benchmarking test.
+Scroll down the webpage to the bottom and click **Run Your Test &gt;** to configure your own benchmarking test.
 
 ![AATGbLxqwo32yexKYzPcdYVTnph](/img/AATGbLxqwo32yexKYzPcdYVTnph.png)
 
@@ -156,6 +161,22 @@ Optionally, you can set up the **DB Filter** and **Case Filter** in the left nav
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The databases are named in the format of [database<em>name]-[db</em>label]. </p>
+<p>The databases are named in the format of &#91;database<em>name&#93;-&#91;db</em>label&#93;. </p>
 
 </Admonition>
+
+<Grid columnSize="2" widthRatios="53,46">
+
+    <div>
+
+        ![ZBqQb11SEoYbYyxxtAYcKzv9nSc](/img/ZBqQb11SEoYbYyxxtAYcKzv9nSc.png)
+
+    </div>
+
+    <div>
+
+        ![Wg3eb5C1AoEcRUxqO0Vcc4hSntd](/img/Wg3eb5C1AoEcRUxqO0Vcc4hSntd.png)
+
+    </div>
+
+</Grid>

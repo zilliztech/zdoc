@@ -3,6 +3,9 @@ title: "String Field | BYOC"
 slug: /use-string-field
 sidebar_label: "String Field"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud clusters, `VARCHAR` is the data type used for storing string data. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

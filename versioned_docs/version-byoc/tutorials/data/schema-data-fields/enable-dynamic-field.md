@@ -3,11 +3,14 @@ title: "Dynamic Field | BYOC"
 slug: /enable-dynamic-field
 sidebar_label: "Dynamic Field"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud allows you to insert entities with flexible, evolving structures through a special feature called the dynamic field. This field is implemented as a hidden JSON field named `$meta`, which automatically stores any fields in your data that are not explicitly defined in the collection schema. | BYOC"
+description: "Zilliz Cloud allows you to insert entities with flexible, evolving structures through a special feature called the dynamic field. This field is implemented as a hidden JSON field named `#meta`, which automatically stores any fields in your data that are not explicitly defined in the collection schema. | BYOC"
 type: origin
 token: OVxRwZWxNi4pYrkdKxCcOuY2nf1
-sidebar_position: 10
+sidebar_position: 13
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +18,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 
@@ -28,15 +31,15 @@ import TabItem from '@theme/TabItem';
 
 # Dynamic Field
 
-Zilliz Cloud allows you to insert entities with flexible, evolving structures through a special feature called the **dynamic field**. This field is implemented as a hidden JSON field named `$meta`, which automatically stores any fields in your data that are **not explicitly defined** in the collection schema.
+Zilliz Cloud allows you to insert entities with flexible, evolving structures through a special feature called the **dynamic field**. This field is implemented as a hidden JSON field named `#meta`, which automatically stores any fields in your data that are **not explicitly defined** in the collection schema.
 
 ## How it works{#how-it-works}
 
-When the dynamic field is enabled, Zilliz Cloud adds a hidden `$meta` field to each entity. This field is of JSON type, which means it can store any JSON-compatible data structure and can be indexed using JSON path syntax.
+When the dynamic field is enabled, Zilliz Cloud adds a hidden `#meta` field to each entity. This field is of JSON type, which means it can store any JSON-compatible data structure and can be indexed using JSON path syntax.
 
 During data insertion, any field not declared in the schema is automatically stored as a key-value pair inside this dynamic field.
 
-You don't need to manage `$meta` manually—Zilliz Cloud handles it transparently.
+You don't need to manage `#meta` manually—Zilliz Cloud handles it transparently.
 
 For example, if your collection schema defines only `id` and `vector`, and you insert the following entity:
 
@@ -76,7 +79,7 @@ Common use cases include:
 
 ## Supported data types{#supported-data-types}
 
-The dynamic field supports all scalar data types provided by Zilliz Cloud, including both simple and complex values. These data types apply to the **values of keys stored in `$meta`.
+The dynamic field supports all scalar data types provided by Zilliz Cloud, including both simple and complex values. These data types apply to the **values of keys stored in &#36;meta**.
 
 **Supported types include:**
 
@@ -107,7 +110,7 @@ The dynamic field supports all scalar data types provided by Zilliz Cloud, inclu
 }
 ```
 
-Each of the above keys and values would be stored inside the `$meta` field.
+Each of the above keys and values would be stored inside the `#meta` field.
 
 ## Enable dynamic field{#enable-dynamic-field}
 
@@ -295,7 +298,7 @@ curl --request POST \
 
 ## Insert entities to the collection{#insert-entities-to-the-collection}
 
-The dynamic field allows you to insert extra fields not defined in the schema. These fields will be stored automatically in `$meta`.
+The dynamic field allows you to insert extra fields not defined in the schema. These fields will be stored automatically in `#meta`.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -399,7 +402,7 @@ _, err = client.Insert(ctx, milvusclient.NewColumnBasedInsertOption("my_collecti
                 value: 42.5,
             },
             string_price: '99.99',
-        }`),
+        &#125;`),
     }),
 ))
 if err != nil {
@@ -464,7 +467,7 @@ To create a JSON path index, specify:
 
     - This type must match the actual data type of the field being indexed.
 
-    - For a complete list, refer to [Supported JSON cast types](./use-json-fields#supported-json-cast-types).
+    - For a complete list, refer to [Supported JSON cast types](./use-json-fields).
 
 ### Use JSON path to index dynamic field keys{#use-json-path-to-index-dynamic-field-keys}
 
@@ -653,9 +656,9 @@ jsonIndex1 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", "overview")
     .WithIndexName("overview_index")
 jsonIndex2 := index.NewJSONPathIndex(index.AUTOINDEX, "double", "words")
     .WithIndexName("words_index")
-jsonIndex3 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", `dynamic_json['varchar']`)
+jsonIndex3 := index.NewJSONPathIndex(index.AUTOINDEX, "varchar", `dynamic_json&#91;'varchar'&#93;`)
     .WithIndexName("json_varchar_index")
-jsonIndex4 := index.NewJSONPathIndex(index.AUTOINDEX, "double", `dynamic_json['nested']['value']`)
+jsonIndex4 := index.NewJSONPathIndex(index.AUTOINDEX, "double", `dynamic_json&#91;'nested'&#93;&#91;'value'&#93;`)
     .WithIndexName("json_nested_index")
 
 indexOpt1 := milvusclient.NewCreateIndexOption("my_collection", "overview", jsonIndex1)
@@ -778,7 +781,7 @@ indexParams.push({
 <TabItem value='go'>
 
 ```go
-jsonIndex5 := index.NewJSONPathIndex(index.AUTOINDEX, "double", `dynamic_json['string_price']`)
+jsonIndex5 := index.NewJSONPathIndex(index.AUTOINDEX, "double", `dynamic_json&#91;'string_price'&#93;`)
     .WithIndexName("json_string_price_index")
 indexOpt5 := milvusclient.NewCreateIndexOption("my_collection", "dynamic_json", jsonIndex5)
 ```
@@ -811,7 +814,7 @@ export stringPriceIndex='{
 
 <ul>
 <li><p>If type conversion fails (e.g. value <code>"not_a_number"</code> cannot be converted to a number), the value is skipped and unindexed.</p></li>
-<li><p>For details on cast function parameters, refer to <a href="./use-json-fields#use-json-cast-functions-for-type-conversion">JSON Field</a>.</p></li>
+<li><p>For details on cast function parameters, refer to <a href="./use-json-fields">JSON Field</a>.</p></li>
 </ul>
 
 </Admonition>

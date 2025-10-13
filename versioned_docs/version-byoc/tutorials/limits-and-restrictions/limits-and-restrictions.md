@@ -3,6 +3,9 @@ title: "Limits & Restrictions | BYOC"
 slug: /limits-and-restrictions
 sidebar_label: "Limits & Restrictions"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Learn about the limits and restrictions you should know about your operations on Zilliz Cloud. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

@@ -3,6 +3,9 @@ title: "Consistency Level | Cloud"
 slug: /consistency-level
 sidebar_label: "Consistency Level"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "As a distributed vector database, Zilliz Cloud offers multiple levels of consistency to ensure that each node or replica can access the same data during read and write operations. Currently, the supported levels of consistency include Strong, Bounded, Eventually, and Session, with Bounded being the default level of consistency used. | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
@@ -74,7 +77,7 @@ You can set different consistency levels when you create a collection as well as
 
 ### Set Consistency Level upon Creating Collection{#set-consistency-level-upon-creating-collection}
 
-When creating a collection, you can set the consistency level for the searches and queries within the collection. The following code example sets the consistency level to **Strong**.
+When creating a collection, you can set the consistency level for the searches and queries within the collection. The following code example sets the consistency level to **Bounded**.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>

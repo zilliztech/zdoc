@@ -3,6 +3,9 @@ title: "Permissions in Roles | BYOC"
 slug: /permissions-in-roles
 sidebar_label: "Permissions in Roles"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This page lists all IAM permissions that Zilliz Cloud requires to perform operations on your behalf. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

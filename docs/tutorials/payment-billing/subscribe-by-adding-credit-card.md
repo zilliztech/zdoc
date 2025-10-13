@@ -3,21 +3,24 @@ title: "Subscribe by Adding Credit Card | Cloud"
 slug: /subscribe-by-adding-credit-card
 sidebar_label: "Credit Card"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide provides comprehensive instructions on how to add a payment credit card for your organization on Zilliz Cloud. | Cloud"
 type: origin
 token: TVnkwXupUiX3zDkzYPWcxKP3nvg
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - cloud
   - credit card
   - subscribe
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

@@ -3,6 +3,9 @@ title: "Insert Entities | Cloud"
 slug: /insert-entities
 sidebar_label: "Insert Entities"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Entities in a collection are data records that share the same set of fields. Field values in every data record form an entity. This page introduces how to insert entities into a collection. | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - data
   - insert
   - insert entities
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 
@@ -45,7 +48,7 @@ In Zilliz Cloud clusters, an **Entity** refers to data records in a **Collection
 
 When inserting an Entity into a Collection, the Entity to be inserted can only be successfully added if it contains all the fields defined in the Schema. The inserted Entity will enter a Partition named **_default** in the order of insertion. Provided that a certain Partition exists, you can also insert Entities into that Partition by specifying the Partition name in the insertion request.
 
-Zilliz Cloud also supports dynamic fields to maintain the scalability of the Collection. When the dynamic field is enabled, you can insert fields that are not defined in the Schema into the Collection. These fields and values will be stored as key-value pairs in a reserved field named **\$meta**. For more information about dynamic fields, please refer to Dynamic Field.
+Zilliz Cloud also supports dynamic fields to maintain the scalability of the Collection. When the dynamic field is enabled, you can insert fields that are not defined in the Schema into the Collection. These fields and values will be stored as key-value pairs in a reserved field named **&#36;meta**. For more information about dynamic fields, please refer to Dynamic Field.
 
 ## Insert Entities into a Collection{#insert-entities-into-a-collection}
 
@@ -470,4 +473,3 @@ curl --request POST \
 
 </TabItem>
 </Tabs>
-

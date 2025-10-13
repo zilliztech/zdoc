@@ -3,6 +3,9 @@ title: "Deploy BYOC on GCP | BYOC"
 slug: /deploy-byoc-gcp
 sidebar_label: "Deploy BYOC on GCP"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This page describes how to manually create a fully managed Bring-Your-Own-Cloud (BYOC) data plane in your Google Cloud Platform (GCP) Virtual Private Cloud (VPC) using the Zilliz Cloud console and custom GCP configurations. | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 
@@ -58,7 +61,7 @@ Within your BYOC organization, click the **Create Project and Deploy Data Plane*
 
 In this step, you need to set the Zilliz BYOC project name, determine the cloud providers and regions, and the initial project size of your deployment.
 
-![S3a5behpSoDdj5xrphzcjoYdnEe](/img/S3a5behpSoDdj5xrphzcjoYdnEe.png)
+![A8VVbPbJgobXzzxEdumcpxJ4nMg](/img/A8VVbPbJgobXzzxEdumcpxJ4nMg.png)
 
 1. Set **Zilliz BYOC Project Name**.
 
@@ -78,15 +81,15 @@ In this step, you need to set the Zilliz BYOC project name, determine the cloud 
 
     1. Configure **Initial Project Size**. 
 
-        In a BYOC project, the search service, other database components, and core support services use different Google Compute Engine (GCE) instances. You can set instance types for these services and components. 
+        In a BYOC project, the query node, index services, Milvus components, and dependencies use different Google Compute Engine (GCE) instances. You can set instance types for these services and components. 
 
         If **Auto-scaling** is disabled, simply specify the number of GCE instances required for each project component in the corresponding **Count** field.
 
-        ![SKYfbLW76oEudZxyng2cT2Xmnsh](/img/SKYfbLW76oEudZxyng2cT2Xmnsh.png)
+        ![CxACbbwtYo2dMNxG33qcMIyinBe](/img/CxACbbwtYo2dMNxG33qcMIyinBe.png)
 
         Once **Auto-scaling** is enabled, you need to specify a range for Zilliz Cloud to automatically scale the number of GCE instances based on actual project workloads by setting the corresponding **Min** and **Max** fields.
 
-        ![GjUvb2NGwoenR7xqxvSccaMdnMc](/img/GjUvb2NGwoenR7xqxvSccaMdnMc.png)
+        ![QzCHbFIFRoyCUex6u8vcoEZMn6f](/img/QzCHbFIFRoyCUex6u8vcoEZMn6f.png)
 
         To facilitate resource settings, there are four predefined project size options. The following table shows the mapping between these project size options and the number of clusters that can be created in the project, as well as the number of entities these clusters can contain.
 
@@ -186,7 +189,7 @@ In **Network Settings**, create a VPC and several types of resources, such as su
 
 After you create a project, you can view its status on the project page.
 
-![DS61bOBm9oC0b1xdLT9cuEUsnmh](/img/DS61bOBm9oC0b1xdLT9cuEUsnmh.png)
+![BE13bnOpGo9ZAVxTx3acX2J8nEe](/img/BE13bnOpGo9ZAVxTx3acX2J8nEe.png)
 
 ## Suspend & Resume{#suspend-and-resume}
 

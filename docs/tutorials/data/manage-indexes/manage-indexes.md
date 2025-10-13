@@ -3,6 +3,9 @@ title: "Manage Indexes | Cloud"
 slug: /manage-indexes
 sidebar_label: "Manage Indexes"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Learn how to manipulate indexes on vector and scalar fields via SDKs. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - index
   - manage
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 
@@ -34,7 +37,7 @@ Learn how to manipulate indexes on vector and scalar fields via SDKs.
 <ul>
 <li><p>On the console.</p></li>
 <li><p><a href="/reference/create-collection">Using RESTful API</a>.</p></li>
-<li><p><a href="./quick-setup-collections">Quick setup mode via applicable SDKs</a>.</p></li>
+<li><p><a href="./undefined">Quick setup mode via applicable SDKs</a>.</p></li>
 <li><p><a href="./manage-collections-sdks">Customized setup mode via applicable SDKs with index parameters specified.</a></p></li>
 </ul>
 <p>You can also create a collection that is not loaded automatically and start managing indexes on your own.</p>

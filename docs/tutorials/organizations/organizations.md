@@ -3,6 +3,9 @@ title: "Organizations | Cloud"
 slug: /organizations
 sidebar_label: "Organizations"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The chapter focuses on organization operations and related settings. | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

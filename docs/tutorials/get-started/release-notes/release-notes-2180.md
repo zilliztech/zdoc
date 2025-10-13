@@ -3,20 +3,23 @@ title: "Release Notes (July 15, 2025) | Cloud"
 slug: /release-notes-2180
 sidebar_label: "Release Notes (July 15, 2025)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In this release, Zilliz Cloud introduces several powerful enhancements aimed at improving operational efficiency, flexibility, and user experience. These include support for cluster-level scheduled auto-scaling, schema evolution via the new Merge Data API, the introduction of stage — a cloud-native data layer for streamlined data ingestion, partial restore from cluster-level backups with cross-database selection, and UI support for JSON Path indexes. Together, these features enable users to manage complex workloads more effectively, reduce maintenance overhead, and speed up development cycles in the GenAI era. | Cloud"
 type: origin
 token: WBONwyqFAi02DTkCG41c93wCn6e
-sidebar_position: 1
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 
@@ -81,7 +84,7 @@ Zilliz Cloud now supports **scheduled scaling** at the **cluster level**, giving
 
 - **Proactive Auditing:** We provide a transparent email noticing system and audit trail, which gives you peace of mind for resource delivery and cost.
 
-For details, refer to [Cluster Auto-scaling](./scale-cluster#auto-scaling).
+For details, refer to [Cluster Auto-scaling](./scale-cluster).
 
 ## Partial Restore from Cluster-level Backups with Cross-Database Selection{#partial-restore-from-cluster-level-backups-with-cross-database-selection}
 
@@ -97,7 +100,7 @@ Zilliz Cloud now supports creating JSON Path indexes directly from the web conso
 
 ![PDbobfoUDolZd4xKR8kcDXqIn0f](/img/PDbobfoUDolZd4xKR8kcDXqIn0f.png)
 
-For details on JSON path indexes, refer to [Index Values Inside a JSON Field](./use-json-fields#index-values-inside-the-json-field) and [Index Keys in the Dynamic Field](./enable-dynamic-field#index-keys-in-the-dynamic-field).
+For details on JSON path indexes, refer to [Index Values Inside a JSON Field](./use-json-fields) and [Index Keys in the Dynamic Field](./enable-dynamic-field#index-keys-in-the-dynamic-field).
 
 ## BYOC Project Instance Quota Settings Now Available{#byoc-project-instance-quota-settings-now-available}
 

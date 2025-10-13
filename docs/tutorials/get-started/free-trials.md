@@ -3,6 +3,9 @@ title: "Try Zilliz Cloud For Free | Cloud"
 slug: /free-trials
 sidebar_label: "Try Zilliz Cloud For Free"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud offers both free plan and free trial to help you evaluate or test the powerful vector database features and estimate costs of using Zilliz Cloud. To start, simply register an account on Zilliz Cloud. No payment information is required. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - free trial
   - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 
@@ -46,7 +49,7 @@ Zilliz Cloud offers free trial for three [subscription plans](./select-zilliz-cl
 
 ### Use free trial{#use-free-trial}
 
-When you sign up for Zilliz Cloud with a work email, your organization will receive **$100** in free credits added to your billing account. These credits expire after **30 days** and can be used to explore the Serverless and Dedicated plans. Once the credits are used up or expire, the free trial ends.
+When you sign up for Zilliz Cloud with a work email, your organization will receive **&#36;100** in free credits added to your billing account. These credits expire after **30 days** and can be used to explore the Serverless and Dedicated plans. Once the credits are used up or expire, the free trial ends.
 
 After the trial, your organization will be frozen. During this time, your Serverless and Dedicated clusters will be moved to the [recycle bin](./use-recycle-bin), and you won't have access to features exclusive to these clusters (e.g., Backup and restore, alerts, etc.).
 
@@ -54,7 +57,7 @@ To unfreeze your organization, simply [add a payment method](./payment-billing).
 
 ### Earn credits and extend credit expiration{#earn-credits-and-extend-credit-expiration}
 
-When you register with a work email, you’ll receive &#36;100 in free credits. You can earn an extra &#36;100 by [adding a payment method](./payment-billing) on Zilliz Cloud. Plus, adding a payment method extends the credit expiration to **1 year**.
+When you register with a work email, you’ll receive $100 in free credits. You can earn an extra $100 by [adding a payment method](./payment-billing) on Zilliz Cloud. Plus, adding a payment method extends the credit expiration to **1 year**.
 
 If you need additional credits or want to extend your trial period, please [contact sales](https://zilliz.com/contact-sales).
 

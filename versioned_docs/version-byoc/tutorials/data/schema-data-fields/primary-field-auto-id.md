@@ -3,6 +3,9 @@ title: "Primary Field & AutoID | BYOC"
 slug: /primary-field-auto-id
 sidebar_label: "Primary Field & AutoID"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The primary field uniquely identifies an entity. This page introduces how to add the primary field of two different data types and how to enable Zilliz Cloud to automatically allocate primary field values. | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 

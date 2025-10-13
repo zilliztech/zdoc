@@ -3,6 +3,9 @@ title: "API Availability | BYOC"
 slug: /api-comparison
 sidebar_label: "API Availability"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud operates slightly differently from Milvus in order to provide a better user experience. This article aims to clarify the differences between the two platforms in terms of APIs. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

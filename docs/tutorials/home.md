@@ -3,6 +3,9 @@ title: "Home | Cloud"
 slug: /home
 sidebar_label: "Home"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This is the home page for the Zilliz Cloud Developer Hub. | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - developer hub
   - home page
   - home
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 hide_title: true
 hide_table_of_contents: true
@@ -49,7 +52,7 @@ import Banner from '@site/src/components/Banner';
 
 <Hero>
 
-# Welcome to Zilliz Cloud Docs!{#welcome-to-zilliz-cloud-docs}
+# Welcome to Zilliz Cloud Docs{#welcome-to-zilliz-cloud-docs}
 
 Zilliz Cloud provides a fully managed Milvus service, simplifying the deployment and scaling of vector search applications with security in mind, eliminating the need to construct and maintain complex infrastructure. [Learn more](./get-started).
 

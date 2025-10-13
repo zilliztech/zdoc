@@ -3,6 +3,9 @@ title: "Standard Analyzer | Cloud"
 slug: /standard-analyzer
 sidebar_label: "Standard Analyzer"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The `standard` analyzer is the default analyzer in Zilliz Cloud, which is automatically applied to text fields if no analyzer is specified. It uses grammar-based tokenization, making it effective for most languages. | Cloud"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - standard-analyzer
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 
@@ -34,7 +37,7 @@ The `standard` analyzer is the default analyzer in Zilliz Cloud, which is automa
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The <code>standard</code> analyzer is suitable for languages that rely on separators (such as spaces, punctuation) for word boundaries. However, languages like Chinese, Japanese, and Korean require dictionary-based tokenizations. In such cases, using a language-specific analyzer like <a href="./chinese-analyzer"><code>chinese</code></a> or custom analyzers with specialized tokenizers (such as <a href="./undefined"><code>lindera</code></a>, <a href="./undefined"><code>icu</code></a>) and filters is highly recommended to ensure accurate tokenization and better search results.</p>
+<p>The <code>standard</code> analyzer is suitable for languages that rely on separators (such as spaces, punctuation) for word boundaries. However, languages like Chinese, Japanese, and Korean require dictionary-based tokenizations. In such cases, using a language-specific analyzer like <a href="./chinese-analyzer"><code>chinese</code></a> or custom analyzers with specialized tokenizers (such as <a href="./lindera-tokenizer"><code>lindera</code></a>, <a href="./icu-tokenizer"><code>icu</code></a>) and filters is highly recommended to ensure accurate tokenization and better search results.</p>
 
 </Admonition>
 
@@ -42,7 +45,7 @@ The `standard` analyzer is the default analyzer in Zilliz Cloud, which is automa
 
 The `standard` analyzer consists of:
 
-- **Tokenizer**: Uses the `standard` tokenizer to split text into discrete word units based on grammar rules. For more information, refer to [Standard](./standard-tokenizer).
+- **Tokenizer**: Uses the `standard` tokenizer to split text into discrete word units based on grammar rules. For more information, refer to [Standard Tokenizer](./standard-tokenizer).
 
 - **Filter**: Uses the `lowercase` filter to convert all tokens to lowercase, enabling case-insensitive searches. For more information, refer to [Lowercase](./lowercase-filter).
 
@@ -167,7 +170,7 @@ The `standard` analyzer accepts the following optional parameters:
    </tr>
    <tr>
      <td><p><code>stop_words</code></p></td>
-     <td><p>An array containing a list of stop words, which will be removed from tokenization. Defaults to <code>_english_</code>, a built-in set of common English stop words.</p></td>
+     <td><p>An array containing a list of stop words, which will be removed from tokenization.</p></td>
    </tr>
 </table>
 

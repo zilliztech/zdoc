@@ -3,6 +3,9 @@ title: "Manage Project Alerts | Cloud"
 slug: /manage-project-alerts
 sidebar_label: "Manage Project Alerts"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Project alerts enable proactive monitoring of your Zilliz Cloud clusters by sending notifications when specified conditions are met. You can configure project alerts to monitor cluster metrics such as CU capacity, query performance, ensuring you're immediately notified of potential issues that require attention. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

@@ -3,6 +3,9 @@ title: "Cnalphanumonly | Cloud"
 slug: /cnalphanumonly-filter
 sidebar_label: "Cnalphanumonly"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The `cnalphanumonly` filter removes tokens that contain any characters other than Chinese characters, English letters, or digits. | Cloud"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - cnalphanumonly
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 
@@ -41,7 +44,7 @@ The `cnalphanumonly` filter is built into Zilliz Cloud. To use it, simply specif
 
 ```python
 analyzer_params = {
-    "tokenizer": "standard",
+    "tokenizer": "jieba",
     "filter": ["cnalphanumonly"],
 }
 ```
@@ -52,7 +55,7 @@ analyzer_params = {
 
 ```java
 Map<String, Object> analyzerParams = new HashMap<>();
-analyzerParams.put("tokenizer", "standard");
+analyzerParams.put("tokenizer", "jieba");
 analyzerParams.put("filter", Collections.singletonList("cnalphanumonly"));
 ```
 
@@ -62,7 +65,7 @@ analyzerParams.put("filter", Collections.singletonList("cnalphanumonly"));
 
 ```javascript
 const analyzer_params = {
-    "tokenizer": "standard",
+    "tokenizer": "jieba",
     "filter": ["cnalphanumonly"],
 };
 ```
@@ -72,7 +75,7 @@ const analyzer_params = {
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"cnalphanumonly"}}
+analyzerParams = map[string]any{"tokenizer": "jieba", "filter": []any{"cnalphanumonly"}}
 ```
 
 </TabItem>
@@ -82,7 +85,7 @@ analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"cnalph
 ```bash
 # restful
 analyzerParams='{
-  "tokenizer": "standard",
+  "tokenizer": "jieba",
   "filter": [
     "cnalphanumonly"
   ]
@@ -98,6 +101,8 @@ After defining `analyzer_params`, you can apply them to a `VARCHAR` field when d
 
 ## Examples{#examples}
 
+Before applying the analyzer configuration to your collection schema, verify its behavior using the `run_analyzer` method.
+
 ### Analyzer configuration{#analyzer-configuration}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
@@ -105,7 +110,7 @@ After defining `analyzer_params`, you can apply them to a `VARCHAR` field when d
 
 ```python
 analyzer_params = {
-    "tokenizer": "standard",
+    "tokenizer": "jieba",
     "filter": ["cnalphanumonly"],
 }
 ```
@@ -116,7 +121,7 @@ analyzer_params = {
 
 ```java
 Map<String, Object> analyzerParams = new HashMap<>();
-analyzerParams.put("tokenizer", "standard");
+analyzerParams.put("tokenizer", "jieba");
 analyzerParams.put("filter", Collections.singletonList("cnalphanumonly"));
 ```
 
@@ -133,7 +138,105 @@ analyzerParams.put("filter", Collections.singletonList("cnalphanumonly"));
 <TabItem value='go'>
 
 ```go
-analyzerParams = map[string]any{"tokenizer": "standard", "filter": []any{"cnalphanumonly"}}
+analyzerParams = map[string]any{"tokenizer": "jieba", "filter": []any{"cnalphanumonly"}}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>
+
+### Verification using `run_analyzer`{#verification-using-runanalyzer}
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import (
+    MilvusClient,
+)
+
+client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+
+# Sample text to analyze
+sample_text = "Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。"
+
+# Run the jieba tokenizer with the defined configuration
+result = client.run_analyzer(sample_text, analyzer_params)
+print("Analyzer output:", result)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.RunAnalyzerReq;
+import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+
+ConnectConfig config = ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .build();
+MilvusClientV2 client = new MilvusClientV2(config);
+
+List<String> texts = new ArrayList<>();
+texts.add("Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。");
+
+RunAnalyzerResp resp = client.runAnalyzer(RunAnalyzerReq.builder()
+        .texts(texts)
+        .analyzerParams(analyzerParams)
+        .build());
+List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// javascript
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "encoding/json"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+bs, _ := json.Marshal(analyzerParams)
+texts := []string{"Milvus 是 LF AI & Data Foundation 下的一个开源项目，以 Apache 2.0 许可发布。"}
+option := milvusclient.NewRunAnalyzerOption(texts).
+    WithAnalyzerParams(string(bs))
+
+result, err := client.RunAnalyzer(ctx, option)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>

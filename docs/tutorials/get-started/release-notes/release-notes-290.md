@@ -3,20 +3,23 @@ title: "Release Notes (June 18, 2024) | Cloud"
 slug: /release-notes-290
 sidebar_label: "Release Notes (June 18, 2024)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In this release, Zilliz Cloud has unveiled an array of new features backed by Milvus 2.4, including sparse vector support, enhanced multi-vector and hybrid search, an inverted index and fuzzy matching for faster queries, and grouping search for document-level recall. It also introduces Float16 and BFloat16 data types for improved search efficiency. In addition, the Pipelines feature now tracks token usage stats with every data ingestion and search request, streamlining performance monitoring. You can find detailed stats on the invoice page. | Cloud"
 type: origin
 token: GanXwLnJkiymKVkNPhecdi9MnGf
-sidebar_position: 11
+sidebar_position: 13
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 
@@ -71,7 +74,7 @@ In previous releases of Milvus, memory-based binary search indexes and Marisa Tr
 
 This release also supports fuzzy matches in scalar filtering using prefixes, infixes, and suffixes.
 
-For details, check out the [Binary Vector](./use-binary-vector), [Index Scalar Fields](./index-scalar-fields), and [Use the ](./basic-filtering-operators#example-2-using-like-for-pattern-matching)`like`[ Operator](./basic-filtering-operators#example-2-using-like-for-pattern-matching) guides as well as the example code in [inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py) and [fuzzy_match.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/fuzzy_match.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials and use AUTOINDEX instead.*
+For details, check out the [Binary Vector](./use-binary-vector), [Index Scalar Fields](./index-scalar-fields), and [Use the ](./basic-filtering-operators#example-2-using-like-for-pattern-matching)[`like`](./basic-filtering-operators#example-2-using-like-for-pattern-matching)[ Operator](./basic-filtering-operators#example-2-using-like-for-pattern-matching) guides as well as the example code in [inverted_index_example.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/inverted_index_example.py) and [fuzzy_match.py](https://github.com/milvus-io/pymilvus/blob/2.4/examples/fuzzy_match.py). *Be sure to update the connection details in the example code with your Zilliz Cloud cluster credentials and use AUTOINDEX instead.*
 
 ### Grouping Search{#grouping-search}
 
@@ -94,8 +97,6 @@ MilvusClient is an easy-to-use alternative to the ORM module. It adopts a purely
 Zilliz Cloud now monitors token usage for your pipeline requests, with details available on the invoice page and within each API response. However, you will not be charged until this feature is generally available.
 
 The image embedding model has been upgraded to `clip-vit-base-patch32` from the previous `clip-vit-base-patch16` to fulfill a wider range of requirements. Additionally, support for multilingual text embeddings is scheduled for implementation shortly.
-
-For details, check out [Pipelines Pricing](./understand-pipelines-billing).
 
 ### Enhancements{#enhancements}
 

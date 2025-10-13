@@ -3,6 +3,9 @@ title: "Limits & Restrictions | Cloud"
 slug: /limits-and-restrictions
 sidebar_label: "Limits & Restrictions"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Learn about the limits and restrictions you should know about your operations on Zilliz Cloud. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

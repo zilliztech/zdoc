@@ -3,6 +3,9 @@ title: "Built-in Analyzer Reference | Cloud"
 slug: /built-in-analyzer
 sidebar_label: "Built-in Analyzer"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This section provides detailed information about built-in analyzers. | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in analyzer
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

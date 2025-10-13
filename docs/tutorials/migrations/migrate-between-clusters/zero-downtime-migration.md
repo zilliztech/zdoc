@@ -3,6 +3,9 @@ title: "Zero Downtime Migration | Cloud"
 slug: /zero-downtime-migration
 sidebar_label: "Zero Downtime Migration"
 beta: PRIVATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zero Downtime Migration allows database services to remain operational throughout the migration, providing uninterrupted access to the database. It consists of these stages | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - zero downtime
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

@@ -90,7 +90,7 @@ The image ingestion and search pipelines support the following embedding models:
 
 ### How is Zilliz Cloud Pipelines charged?{#how-is-zilliz-cloud-pipelines-charged}
 
-Currently, Zilliz Cloud Pipelines offer free quotas. Your initial spend of &#36;20 is complimentary. For more details, please refer to [Pricing](https://zilliz.com/pricing).
+Currently, Zilliz Cloud Pipelines offer free quotas. Your initial spend of $20 is complimentary. For more details, please refer to [Pricing](https://zilliz.com/pricing).
 
 ### Can I use Zilliz Cloud Pipelines standalone?{#can-i-use-zilliz-cloud-pipelines-standalone}
 

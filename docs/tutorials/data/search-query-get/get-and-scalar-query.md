@@ -3,6 +3,9 @@ title: "Query | Cloud"
 slug: /get-and-scalar-query
 sidebar_label: "Query"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In addition to ANN searches, Zilliz Cloud also supports metadata filtering through queries. This page introduces how to use Query, Get, and QueryIterators to perform metadata filtering. | Cloud"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 
@@ -79,7 +82,7 @@ For more on metadata filtering, refer to [Filtering](./filtering)[Filtering Expl
 
 ## Use Get{#use-get}
 
-When you need to find entities by their primary keys, you can use the **Get** method. The following code examples assume that there are three fields named `id`, `vector`, and `color` in your collection and return the entities with primary keys `1`, `2`, and `3`.
+When you need to find entities by their primary keys, you can use the **Get** method. The following code examples assume that there are three fields named `id`, `vector`, and `color` in your collection.
 
 ```python
 [

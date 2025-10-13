@@ -3,6 +3,9 @@ title: "AUTOINDEX Explained | Cloud"
 slug: /autoindex-explained
 sidebar_label: "AUTOINDEX Explained"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud offers Performance-optimized and Capacity-optimized clusters. Because of their different purposes, building indexes on these clusters requires different approaches. To save users the trouble of tuning and tweaking index parameters, AUTOINDEX comes into play. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - autoindex
   - milvus
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 
@@ -62,7 +65,7 @@ Choosing query parameters requires a lot of domain-specific knowledge, which gre
 
 The process of building an index involves sorting out the entities in a collection in a specific order so that results can be retrieved more quickly.
 
-Indexing a floating vector on Zilliz Cloud is not an obstacle. Simply set the index type to `AUTOINDEX` and choose the metric type for Zilliz Cloud to determine the most suitable configurations for the index-building and search processes. The metric type determines how the distances between vectors are measured and is the only thing you need to consider.
+Indexing a floating vector on Zilliz Cloud is not an obstacle. Simply set the index type to **AUTOINDEX** and choose the metric type for Zilliz Cloud to determine the most suitable configurations for the index-building and search processes. The metric type determines how the distances between vectors are measured and is the only thing you need to consider.
 
 The differences between the index-building settings on Milvus and Zilliz Cloud are shown below:
 

@@ -3,6 +3,9 @@ title: "API Keys | Cloud"
 slug: /manage-api-keys
 sidebar_label: "API Keys"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "API keys are used to authenticate users or applications making API or SDK calls to access Zilliz Cloud control plane and data plane resources. An API key is an alphanumeric string with its own properties, such as a name and an ID. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cluster credentials
   - api key
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

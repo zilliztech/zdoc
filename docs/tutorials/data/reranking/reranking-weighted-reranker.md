@@ -3,6 +3,9 @@ title: "Weighted Ranker | Cloud"
 slug: /reranking-weighted-reranker
 sidebar_label: "Weighted Ranker"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Weighted Ranker intelligently combines and prioritizes results from multiple search paths by assigning different importance weights to each. Similar to how a skilled chef balances multiple ingredients to create the perfect dish, Weighted Ranker balances different search results to deliver the most relevant combined outcomes. This approach is ideal when searching across multiple vector fields or modalities where certain fields should contribute more significantly to the final ranking than others. | Cloud"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - search result reranking
   - result reranking
   - weighted reranker
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 
@@ -67,9 +70,9 @@ The main workflow of the WeightedRanker strategy is as follows:
 
 1. **Collect Search Scores**: Gather the results and scores from each path of vector search (score_1, score_2).
 
-1. **Score Normalization**: Each search may use different similarity metrics, resulting in varied score distributions. For instance, using Inner Product (IP) as a similarity type could result in scores ranging from [−∞,+∞], while using Euclidean distance (L2) results in scores ranging from [0,+∞]. Because the score ranges from different searches vary and cannot be directly compared, it is necessary to normalize the scores from each path of search. Typically, `arctan` function is applied to transform the scores into a range between [0, 1] (score_1_normalized, score_2_normalized). Scores closer to 1 indicate higher similarity.
+1. **Score Normalization**: Each search may use different similarity metrics, resulting in varied score distributions. For instance, using Inner Product (IP) as a similarity type could result in scores ranging from &#91;−∞,+∞&#93;, while using Euclidean distance (L2) results in scores ranging from &#91;0,+∞&#93;. Because the score ranges from different searches vary and cannot be directly compared, it is necessary to normalize the scores from each path of search. Typically, `arctan` function is applied to transform the scores into a range between &#91;0, 1&#93; (score_1_normalized, score_2_normalized). Scores closer to 1 indicate higher similarity.
 
-1. **Assign Weights**: Based on the importance assigned to different vector fields, weights (**wi**) are allocated to the normalized scores (score_1_normalized, score_2_normalized). The weights of each path should range between [0,1]. The resulting weighted scores are score_1_weighted and score_2_weighted.
+1. **Assign Weights**: Based on the importance assigned to different vector fields, weights (**wi**) are allocated to the normalized scores (score_1_normalized, score_2_normalized). The weights of each path should range between &#91;0,1&#93;. The resulting weighted scores are score_1_weighted and score_2_weighted.
 
 1. **Merge Scores**: The weighted scores (score_1_weighted, score_2_weighted) are ranked from highest to lowest to produce a final set of scores (score_final).
 
@@ -81,153 +84,153 @@ This example demonstrates a multimodal Hybrid Search (topK=5) involving images a
 
 - Results of ANN search on images （topK=5)：
 
-<table>
-   <tr>
-     <th><p><strong>ID</strong></p></th>
-     <th><p><strong>Score (image)</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>101</p></td>
-     <td><p>0.92</p></td>
-   </tr>
-   <tr>
-     <td><p>203</p></td>
-     <td><p>0.88</p></td>
-   </tr>
-   <tr>
-     <td><p>150</p></td>
-     <td><p>0.85</p></td>
-   </tr>
-   <tr>
-     <td><p>198</p></td>
-     <td><p>0.83</p></td>
-   </tr>
-   <tr>
-     <td><p>175</p></td>
-     <td><p>0.8</p></td>
-   </tr>
-</table>
+    <table>
+       <tr>
+         <th><p><strong>ID</strong></p></th>
+         <th><p><strong>Score (image)</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>101</p></td>
+         <td><p>0.92</p></td>
+       </tr>
+       <tr>
+         <td><p>203</p></td>
+         <td><p>0.88</p></td>
+       </tr>
+       <tr>
+         <td><p>150</p></td>
+         <td><p>0.85</p></td>
+       </tr>
+       <tr>
+         <td><p>198</p></td>
+         <td><p>0.83</p></td>
+       </tr>
+       <tr>
+         <td><p>175</p></td>
+         <td><p>0.8</p></td>
+       </tr>
+    </table>
 
 - Results of ANN search on texts （topK=5)：
 
-<table>
-   <tr>
-     <th><p><strong>ID</strong></p></th>
-     <th><p><strong>Score (text)</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>198</p></td>
-     <td><p>0.91</p></td>
-   </tr>
-   <tr>
-     <td><p>101</p></td>
-     <td><p>0.87</p></td>
-   </tr>
-   <tr>
-     <td><p>110</p></td>
-     <td><p>0.85</p></td>
-   </tr>
-   <tr>
-     <td><p>175</p></td>
-     <td><p>0.82</p></td>
-   </tr>
-   <tr>
-     <td><p>250</p></td>
-     <td><p>0.78</p></td>
-   </tr>
-</table>
+    <table>
+       <tr>
+         <th><p><strong>ID</strong></p></th>
+         <th><p><strong>Score (text)</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>198</p></td>
+         <td><p>0.91</p></td>
+       </tr>
+       <tr>
+         <td><p>101</p></td>
+         <td><p>0.87</p></td>
+       </tr>
+       <tr>
+         <td><p>110</p></td>
+         <td><p>0.85</p></td>
+       </tr>
+       <tr>
+         <td><p>175</p></td>
+         <td><p>0.82</p></td>
+       </tr>
+       <tr>
+         <td><p>250</p></td>
+         <td><p>0.78</p></td>
+       </tr>
+    </table>
 
 - Use WeightedRanker assign weights to image and text search results. Suppose the weight for the image ANN search is 0.6 and the weight for the text search is 0.4.
 
-<table>
-   <tr>
-     <th><p><strong>ID</strong></p></th>
-     <th><p><strong>Score (image)</strong></p></th>
-     <th><p><strong>Score (text)</strong></p></th>
-     <th><p><strong>Weighted Score</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>101</p></td>
-     <td><p>0.92</p></td>
-     <td><p>0.87</p></td>
-     <td><p>0.6×0.92+0.4×0.87=0.90</p></td>
-   </tr>
-   <tr>
-     <td><p>203</p></td>
-     <td><p>0.88</p></td>
-     <td><p>N/A</p></td>
-     <td><p>0.6×0.88+0.4×0=0.528</p></td>
-   </tr>
-   <tr>
-     <td><p>150</p></td>
-     <td><p>0.85</p></td>
-     <td><p>N/A</p></td>
-     <td><p>0.6×0.85+0.4×0=0.51</p></td>
-   </tr>
-   <tr>
-     <td><p>198</p></td>
-     <td><p>0.83</p></td>
-     <td><p>0.91</p></td>
-     <td><p>0.6×0.83+0.4×0.91=0.86</p></td>
-   </tr>
-   <tr>
-     <td><p>175</p></td>
-     <td><p>0.80</p></td>
-     <td><p>0.82</p></td>
-     <td><p>0.6×0.80+0.4×0.82=0.81</p></td>
-   </tr>
-   <tr>
-     <td><p>110</p></td>
-     <td><p>Not in Image</p></td>
-     <td><p>0.85</p></td>
-     <td><p>0.6×0+0.4×0.85=0.34</p></td>
-   </tr>
-   <tr>
-     <td><p>250</p></td>
-     <td><p>Not in Image</p></td>
-     <td><p>0.78</p></td>
-     <td><p>0.6×0+0.4×0.78=0.312</p></td>
-   </tr>
-</table>
+    <table>
+       <tr>
+         <th><p><strong>ID</strong></p></th>
+         <th><p><strong>Score (image)</strong></p></th>
+         <th><p><strong>Score (text)</strong></p></th>
+         <th><p><strong>Weighted Score</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>101</p></td>
+         <td><p>0.92</p></td>
+         <td><p>0.87</p></td>
+         <td><p>0.6×0.92+0.4×0.87=0.90</p></td>
+       </tr>
+       <tr>
+         <td><p>203</p></td>
+         <td><p>0.88</p></td>
+         <td><p>N/A</p></td>
+         <td><p>0.6×0.88+0.4×0=0.528</p></td>
+       </tr>
+       <tr>
+         <td><p>150</p></td>
+         <td><p>0.85</p></td>
+         <td><p>N/A</p></td>
+         <td><p>0.6×0.85+0.4×0=0.51</p></td>
+       </tr>
+       <tr>
+         <td><p>198</p></td>
+         <td><p>0.83</p></td>
+         <td><p>0.91</p></td>
+         <td><p>0.6×0.83+0.4×0.91=0.86</p></td>
+       </tr>
+       <tr>
+         <td><p>175</p></td>
+         <td><p>0.80</p></td>
+         <td><p>0.82</p></td>
+         <td><p>0.6×0.80+0.4×0.82=0.81</p></td>
+       </tr>
+       <tr>
+         <td><p>110</p></td>
+         <td><p>Not in Image</p></td>
+         <td><p>0.85</p></td>
+         <td><p>0.6×0+0.4×0.85=0.34</p></td>
+       </tr>
+       <tr>
+         <td><p>250</p></td>
+         <td><p>Not in Image</p></td>
+         <td><p>0.78</p></td>
+         <td><p>0.6×0+0.4×0.78=0.312</p></td>
+       </tr>
+    </table>
 
 - The final results after reranking（topK=5)：
 
-<table>
-   <tr>
-     <th><p><strong>Rank</strong></p></th>
-     <th><p><strong>ID</strong></p></th>
-     <th><p><strong>Final Score</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>1</p></td>
-     <td><p>101</p></td>
-     <td><p>0.90</p></td>
-   </tr>
-   <tr>
-     <td><p>2</p></td>
-     <td><p>198</p></td>
-     <td><p>0.86</p></td>
-   </tr>
-   <tr>
-     <td><p>3</p></td>
-     <td><p>175</p></td>
-     <td><p>0.81</p></td>
-   </tr>
-   <tr>
-     <td><p>4</p></td>
-     <td><p>203</p></td>
-     <td><p>0.528</p></td>
-   </tr>
-   <tr>
-     <td><p>5</p></td>
-     <td><p>150</p></td>
-     <td><p>0.51</p></td>
-   </tr>
-</table>
+    <table>
+       <tr>
+         <th><p><strong>Rank</strong></p></th>
+         <th><p><strong>ID</strong></p></th>
+         <th><p><strong>Final Score</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>1</p></td>
+         <td><p>101</p></td>
+         <td><p>0.90</p></td>
+       </tr>
+       <tr>
+         <td><p>2</p></td>
+         <td><p>198</p></td>
+         <td><p>0.86</p></td>
+       </tr>
+       <tr>
+         <td><p>3</p></td>
+         <td><p>175</p></td>
+         <td><p>0.81</p></td>
+       </tr>
+       <tr>
+         <td><p>4</p></td>
+         <td><p>203</p></td>
+         <td><p>0.528</p></td>
+       </tr>
+       <tr>
+         <td><p>5</p></td>
+         <td><p>150</p></td>
+         <td><p>0.51</p></td>
+       </tr>
+    </table>
 
 ## Usage of Weighted Ranker{#usage-of-weighted-ranker}
 
-When using the WeightedRanker strategy, it is necessary to input weight values. The number of weight values to input should correspond to the number of basic ANN search requests in the Hybrid Search. The input weight values should fall in the range of [0,1], with values closer to 1 indicating greater importance.
+When using the WeightedRanker strategy, it is necessary to input weight values. The number of weight values to input should correspond to the number of basic ANN search requests in the Hybrid Search. The input weight values should fall in the range of &#91;0,1&#93;, with values closer to 1 indicating greater importance.
 
 ### Create a Weighted Ranker{#create-a-weighted-ranker}
 

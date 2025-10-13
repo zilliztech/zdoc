@@ -3,6 +3,9 @@ title: "Set up Whitelist | Cloud"
 slug: /setup-whitelist
 sidebar_label: "Set up Whitelist"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Whitelisting on Zilliz Cloud serves as a robust security layer at the project level, extending its benefits to every cluster within a specified project. By implementing a whitelist, you effectively narrow down access to your project’s clusters to a select group of IP addresses, substantially mitigating the risk of malicious attacks. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - whitelist
   - setup
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 
@@ -42,7 +45,7 @@ Ensure the following prerequisites are met before proceeding:
 
 1. Navigate to the specific organization and project where the whitelist is to be configured.
 
-1. In the left-side navigation pane, choose **Network** >  **IP Address**.
+1. In the left-side navigation pane, choose **Network** &gt;  **IP Address**.
 
 1. Click **Add IP Address**.
 
@@ -57,7 +60,7 @@ Ensure the following prerequisites are met before proceeding:
        </tr>
        <tr>
          <td><p>IP Address (CIDR)</p></td>
-         <td><p>The IP addresses or CIDR block that you want to add to the whitelist. Up to 20 CIDR blocks are allowed. Example value: 192.168.1.1/20.</p></td>
+         <td><p>The IP addresses or CIDR block that you want to add to the whitelist. Up to 100 CIDR blocks are allowed. Example value: 192.168.1.1/20.</p></td>
        </tr>
        <tr>
          <td><p>Description</p></td>

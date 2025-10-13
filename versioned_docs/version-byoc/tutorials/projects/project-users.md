@@ -3,6 +3,9 @@ title: "Manage Project Users | BYOC"
 slug: /project-users
 sidebar_label: "Project Users"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, you can invite users to projects and assign them roles based on their job functions. These roles determine the user's access to projects and the operations they can perform. | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 
@@ -58,7 +61,7 @@ Zilliz Cloud provides three project roles. These roles cannot be modified or del
        </tr>
     </table>
 
-- **Project Read-Writ**e: A Project Read-Write role has the privileges to view a project and manage its resources (clusters, databases, collections).
+- **Project Read-Write**: A Project Read-Write role has the privileges to view a project and manage its resources (clusters, databases, collections).
 
     The following table lists the corresponding UI and API privileges of each project role.
 
@@ -92,7 +95,7 @@ Zilliz Cloud provides three project roles. These roles cannot be modified or del
        </tr>
     </table>
 
-The invitees will receive an invitation via email, which must be accepted within 48 hours to join the project. 
+The invitees will receive an invitation via email, which must be accepted within 48 hours to join the project. Alternatively, you can also copy the invitation link from the web console and share it with the invitees.
 
 Once the user joins the project, this user automatically becomes an Organization Member in the organization to which the project belongs.
 
@@ -102,7 +105,7 @@ Once the user joins the project, this user automatically becomes an Organization
 
 </Admonition>
 
-![byoc-invite-user-to-project](/img/byoc-invite-user-to-project.png)
+![invite-user-to-project](/img/invite-user-to-project.png)
 
 ## Revoke or resend an invitation{#revoke-or-resend-an-invitation}
 

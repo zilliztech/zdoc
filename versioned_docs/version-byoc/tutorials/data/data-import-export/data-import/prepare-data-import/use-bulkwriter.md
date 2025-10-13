@@ -3,6 +3,9 @@ title: "Use BulkWriter | BYOC"
 slug: /use-bulkwriter
 sidebar_label: "Use BulkWriter"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "If your data format does not meet the requirements, you can use BulkWriter, a data processing tool in pymilvus and Milvus' Java SDK, to prepare your data. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 
@@ -261,8 +264,8 @@ There are two types of **BulkWriter**s available.
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Only JSON files generated using <strong>LocalBulkWriter</strong> can be directly imported into Zilliz Cloud. </p>
-    <p>For files of other types, upload them to one of your buckets in the same cloud region as that of your target cluster before the import.</p>
+    <p>The JSON files and Parquet files generated using <strong>LocalBulkWriter</strong> can be directly imported into Zilliz Cloud on the Zilliz Cloud console.</p>
+    <p>For files of other types, upload them to one of your buckets before importing. It is recommended that you upload the files to a bucket in the same cloud region as your target cluster.</p>
 
     </Admonition>
 
@@ -857,15 +860,15 @@ Possible folder structures are as follows:
        </tr>
        <tr>
          <td><p><strong>JSON</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</code></p></td>
+         <td><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</em></p><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</em></p></td>
        </tr>
        <tr>
          <td><p><strong>Parquet</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet</code></p></td>
+         <td><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</em></p><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet</em></p></td>
        </tr>
        <tr>
          <td><p><strong>NumPy</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy</code></p></td>
+         <td><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</em></p><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</em>.npy*</p></td>
        </tr>
     </table>
 
@@ -910,15 +913,15 @@ Possible folder structures are as follows:
        </tr>
        <tr>
          <td><p><strong>JSON</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p></td>
+         <td><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</em></p></td>
        </tr>
        <tr>
          <td><p><strong>Parquet</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p></td>
+         <td><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</em></p></td>
        </tr>
        <tr>
          <td><p><strong>NumPy</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy</code></p></td>
+         <td><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</em></p><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</em>.npy*</p></td>
        </tr>
     </table>
 

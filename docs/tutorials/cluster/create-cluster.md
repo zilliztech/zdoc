@@ -3,6 +3,9 @@ title: "Create Cluster | Cloud"
 slug: /create-cluster
 sidebar_label: "Create Cluster"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides various cluster plan tiers to accommodate the distinct business needs of users. For guidance on selecting an appropriate cluster type, consult Free Trials](./free-trials) and [Understand Cluster ](./select-zilliz-cloud-service-plans)[Plans. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 
@@ -227,15 +230,19 @@ In the command above,
 
     - **Cloud Provider Settings**: Choose the cloud service provider and the specific region where your cluster will be deployed. For more information, see [Cloud Providers & Regions](./cloud-providers-and-regions).
 
-    - **CU Settings**:
+    &lt;/include&gt;
 
-        - **CU Type**: Select a CU Type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right CU](./cu-types-explained).
+    - **Cluster Settings**:
 
-        - **CU Size**: Select the total size of the cluster in terms of CUs.
+        - **Cluster Type**: Select a cluster type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right CU](./cu-types-explained). To select a Tiered-storage cluster, your cluster must have at least 8 query CUs.
 
-    - **Cloud Backup**: Decide whether to enable automatic cloud backup for safeguarding the data stored within your cluster, ensuring data persistence and recovery capabilities in case of failures.
+        - **Query CU**: Select the number of query CUs of the cluster.
 
-1. Click **Create Cluster**. You'll be redirected to a dialog showcasing the public endpoint and token for your cluster access. Keep these details safe.
+    - **Automatic Backup**: Decide whether to enable automatic cloud backup for safeguarding the data stored within your cluster, ensuring data persistence and recovery capabilities in case of failures.
+
+1. Click **Create Cluster**.
+
+    You'll be redirected to a dialog showcasing the public endpoint and token for your cluster access. Keep these details safe.
 
 </TabItem>
 
@@ -243,7 +250,7 @@ In the command above,
 
 Your request should resemble the following example, where  `{API_KEY}` is your API key used for authentication.
 
-The following `POST` request takes a request body and creates a dedicated cluster named `cluster-02` with one Performance-optimized [CU](./cu-types-explained).
+The following `POST` request takes a request body and creates a dedicated Performance-optimized  cluster named `cluster-02` with one query [CU](./cu-types-explained).
 
 ```bash
 curl --request POST \
@@ -283,9 +290,9 @@ In the command above,
 
 - `plan`: The plan tier of the Zilliz Cloud service you subscribe to. Valid values: **Standard** and **Enterprise**.
 
-- `cuType`: The type of the CU used for the cluster. Valid values: **Performance-optimized and **Capacity-optimized**.
+- `cuType`: The type of the cluster. Valid values: Performance-optimized, Capacity-optimized, and Tiered-storage.
 
-- `cuSize`: The size of the CU used for the cluster. Value range: 1 to 256. By calling `Create Cluster`, you can create a cluster with up to 32 CUs. To create a cluster with more than 32 CUs, [contact us](https://zilliz.com/contact-sales).
+- `cuSize`: The number of query CUs used for the cluster. Value range: 1 to 256.
 
 </TabItem>
 
@@ -293,4 +300,4 @@ In the command above,
 
 ## Verification{#verification}
 
-After you create the cluster, you can check its status on the cluster list page. A cluster in the **Running** state indicates successful creation.
+After you create the cluster, you can check its status on the cluster list page. A cluster in the **Running** state indicates successfu.

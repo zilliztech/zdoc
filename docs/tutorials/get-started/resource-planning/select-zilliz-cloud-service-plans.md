@@ -3,6 +3,9 @@ title: "Detailed Plan Comparison | Cloud"
 slug: /select-zilliz-cloud-service-plans
 sidebar_label: "Plan Comparison"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides a range of cluster plans to suit diverse requirements. Whether you're new to vector databases or require robust solutions for enterprise-level tasks, making the right choice ensures optimal performance, scalability, and cost-efficiency. This guide will help you make an informed decision. | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster plan
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
@@ -72,27 +75,27 @@ The following table compares the plans, detailing the specific features availabl
    </tr>
    <tr>
      <td><p><strong>Cloud provider & region</strong></p></td>
-     <td><p>GCP Exclusive</p></td>
-     <td><p>GCP Exclusive</p></td>
+     <td><p>AWS, GCP</p></td>
+     <td><p>AWS, GCP</p></td>
      <td><p>AWS, GCP, Azure</p><p>For details, refer to <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></td>
      <td><p>AWS, GCP, Azure</p><p>For details, refer to <a href="./cloud-providers-and-regions">Cloud Providers & Regions</a>.</p></td>
      <td><p>User's VPC</p></td>
    </tr>
    <tr>
-     <td><p><strong>CU size options</strong></p></td>
-     <td><p>Single CU</p></td>
+     <td><p><strong>Query CU number</strong> </p></td>
+     <td><p>Single query CU</p></td>
      <td><p>Auto-scale</p></td>
-     <td><ul><li><p>Up to 32 CUs. (You can directly create cluster of 32 CUs or less on the web UI. For larger CU sizes, please <a href="https://zilliz.com/contact-sales">contact sales</a>.</p></li><li><p>Increments: 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32.</p></li></ul></td>
-     <td><ul><li><p>Up to 256 CUs.(You can directly create cluster of 256 CUs or less on the web UI. For larger CU sizes, please <a href="https://zilliz.com/contact-sales">contact sales</a>.</p></li><li><p>Increments: 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32,…,64, 72, 80, 88,…,256 <em>(Notes: When CU size is greater than 8, the increment increase becomes 4 CUs. When CU size is greater than 64, the increment increase becomes 8CUs)</em></p></li></ul></td>
+     <td><ul><li><p>Up to 32 query CUs. (You can directly create cluster of 32 query CUs or less on the web UI. For larger query CUs, please <a href="https://zilliz.com/contact-sales">contact sales</a>.</p></li><li><p>Increments: 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32.</p></li></ul></td>
+     <td><ul><li><p>Up to 256 query CUs.(You can directly create cluster of 256 query CUs or less on the web UI. For larger query CUs, please <a href="https://zilliz.com/contact-sales">contact sales</a>.</p></li><li><p>Increments: 1, 2, 4, 6, 8, 12, 16, 20, 24, 28, 32,…,64, 72, 80, 88,…,256 <em>(Notes: When query CU is greater than 8, the increment increase becomes 4 CUs. When query CU is greater than 64, the increment increase becomes 8 CUs)</em></p></li></ul></td>
      <td><p>Customizable</p></td>
    </tr>
    <tr>
-     <td><p><strong>CU type options</strong></p></td>
+     <td><p><strong>Cluster type options</strong></p></td>
      <td><p>N/A</p></td>
      <td><p>N/A</p></td>
-     <td><p>3 Options:</p><ul><li><p>Performance-optimized CU, or</p></li><li><p>Capacity-optimized CU</p></li><li><p>Extended-capacity CU</p></li></ul></td>
-     <td><p>3 Options:</p><ul><li><p>Performance-optimized CU, or</p></li><li><p>Capacity-optimized CU</p></li><li><p>Extended-capacity CU</p></li></ul></td>
-     <td><p>2 Options</p><ul><li><p>Performance-optimized CU, or</p></li><li><p>Capacity-optimized CU</p></li></ul></td>
+     <td><p>3 Options:</p><ul><li><p>Performance-optimized CU</p></li><li><p>Capacity-optimized CU</p></li><li><p>Tiered-storage CU</p></li></ul></td>
+     <td><p>3 Options:</p><ul><li><p>Performance-optimized CU</p></li><li><p>Capacity-optimized CU</p></li><li><p>Tiered-storage CU</p></li></ul></td>
+     <td><p>2 Options</p><ul><li><p>Performance-optimized CU</p></li><li><p>Capacity-optimized CU</p></li></ul></td>
    </tr>
    <tr>
      <td><p><strong>Max. projects</strong></p></td>
@@ -144,7 +147,7 @@ The following table compares the plans, detailing the specific features availabl
    </tr>
    <tr>
      <td><p><strong>Migration</strong></p></td>
-     <td><p>Not Available</p></td>
+     <td><p>Available</p></td>
      <td><p>Available</p></td>
      <td><p>Available</p></td>
      <td><p>Available</p></td>

@@ -3,6 +3,9 @@ title: "Manage Collections (Console) | BYOC"
 slug: /manage-collections-console
 sidebar_label: "Manage Collections (Console)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A collection is a two-dimensional table used to store vector embeddings and metadata. All entities in a collection share the same schema. You can create multiple collections for data management or multi-tenancy purposes. | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - manage
   - console
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 
@@ -48,7 +51,9 @@ The Zilliz Cloud console provides 3 ways to create a collection, each designed f
 
 - **Create sample collection:** Quickly set up a collection with a predefined schema and sample dataset. Recommended for new users exploring Zilliz Cloud.
 
-- **Clone existing collection:** Duplicate an existing collection within the same database. Useful in environment duplication scenarios where you need to copy both schema and data from a testing collection to a production collection. Alternatively, you can also use cloning to modify the shard settings of a created collection.
+- **Clone an existing collection with data:** Duplicate an existing collection within the same database. Useful in environment duplication scenarios where you need to copy both schema and data from a testing collection to a production collection.
+
+- **Create from an existing schema**: Quickly create a new collection using the schema of an existing one, with the option to edit before finalizing.
 
 The following demo shows you where to find the features on the web UI.
 
@@ -72,7 +77,7 @@ A schema defines the data structure of your collection and must include:
 
 - 1 primary key (PK) field
 
-- At least 1 vector field. You can include up to four vector fields by default. To include up to 10, [contact us](https://zilliz.com/contact-sales).
+- At least 1 vector field. For limits on the number of vector fields allowed in a collection, see [Zilliz Cloud Limits](./limits#fields).
 
 - (Optional) Scalar fields for metadata
 
@@ -90,7 +95,9 @@ A schema defines the data structure of your collection and must include:
 
 An index is a data structure that organizes data to accelerate searches and queries. Zilliz Cloud supports two types of indexes:
 
-- **Vector index**: Automatically created using [AUTOINDEX](./autoindex-explained) to accelerate vector searches. If you have multiple vector fields in the schema, you can create a separate index for each vector field. In addition, you can also edit the metric type used to calculate the distance between vectors.
+- **Vector index**: Automatically created using [AUTOINDEX](./autoindex-explained) to accelerate vector searches. If you have multiple vector fields in the schema, you can create a separate index for each vector field. In addition, you can also edit the [metric type](./search-metrics-explained) used to calculate the distance between vectors and the index build level that controls the underlying quantization strategy for tradeoffs between index cost, performance and capacity. 
+
+    <Supademo id="cmgk9ynaq290okrn90l496fq7?utm_source=link" title=""  />
 
 - **Scalar index**: By default, Zilliz Cloud does not automatically create indexes for scalar fields. However, you can manually create indexes on scalar fields that are commonly used for filtering to accelerate searches and queries.
 
@@ -133,7 +140,7 @@ Memory mapping (mmap) is a memory usage optimization that enables direct access 
 
 For details about the cluster-level default mmap settings, see [Use mmap](./use-mmap#global-mmap-strategy).
 
-During collection creation, you can optionally configure mmap settings at the **collection** or **field** level, depending on your use case. Settings at lower levels take precedence over higher levels: **Field > Collection > Cluster.** 
+During collection creation, you can optionally configure mmap settings at the **collection** or **field** level, depending on your use case. Settings at lower levels take precedence over higher levels: **Field &gt; Collection &gt; Cluster.** 
 
 - **Collection-level mmap:** Enable mmap for raw data across the entire collection. This setting can be modified later, but requires releasing the collection first.
 
@@ -187,9 +194,13 @@ Zilliz Cloud supports the following management operations on created collections
 
     - You can edit the `max_capacity` value of an existing [ARRAY field](./use-array-fields) as well as the `max_length`value if the ARRAY type is VARCHAR.
 
+    - You can add new scalar fields to an existing schema.
+
     - To change **shard** settings, use the [Clone collection](./manage-collections-console#create-collection) feature instead.
 
     - To modify **TTL**, **mmap**, or **partition key** settings, use the SDKs instead. For details, see [Modify Collection](./modify-collections).
+
+    - If you have not enabled dynamic field when creating a collection, you can later enable it by using the SDK. For details, see [Modify Collection](./modify-collections#example-4-enable-dynamic-field).
 
     Other collection schema settings are not editable. To apply changes, create a new collection with the desired configuration and import the data into it.
 
@@ -202,6 +213,8 @@ Zilliz Cloud supports the following management operations on created collections
     - **Create partition:** You can create a maximum of 1,024 partitions in each collection. For details, see [Zilliz Cloud Limits](./limits#collections).
 
     - **Drop partition:** The default partition cannot be dropped and dropping a partition irreversibly deletes all data within it. You must release a collection first before dropping any partitions in it.
+
+- **View collection alias**: You can view the aliases of all collections in a cluster on the collection list page.
 
 - **Drop collection:** To reduce resource overhead, you can drop collections that are no longer needed. Dropping a collection irreversibly deletes all data within it.
 

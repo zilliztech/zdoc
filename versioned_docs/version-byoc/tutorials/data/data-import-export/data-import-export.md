@@ -3,6 +3,9 @@ title: "Import & Export | BYOC"
 slug: /data-import-export
 sidebar_label: "Import & Export"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This chapter covers the common procedures for you to import data into and export data from Zilliz Cloud clusters. | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - data import
   - export
   - milvus
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

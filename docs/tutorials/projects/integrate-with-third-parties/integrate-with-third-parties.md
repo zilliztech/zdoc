@@ -3,6 +3,9 @@ title: "Integrate with Third Parties | Cloud"
 slug: /integrate-with-third-parties
 sidebar_label: "Integrate with Third Parties"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Learn how to integrate your Zilliz Cloud project with third-party services. | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

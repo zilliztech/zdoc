@@ -3,6 +3,9 @@ title: "Email Accounts | BYOC"
 slug: /email-accounts
 sidebar_label: "Email Accounts"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Once you have registered an account with Zilliz Cloud, you can manage your account information, switch your login method, and unlink from your Google or GitHub account. | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 
@@ -63,7 +66,7 @@ Your password must be at least 8 characters long and include at least 3 of the f
 
 - Numbers (0–9)
 
-- Special characters (e.g., !@#&#36;%^&*)
+- Special characters (e.g., !@#$%^&*)
 
 ## Enable and disable MFA{#enable-and-disable-mfa}
 

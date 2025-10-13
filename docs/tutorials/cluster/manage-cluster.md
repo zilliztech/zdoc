@@ -3,6 +3,9 @@ title: "Manage Cluster | Cloud"
 slug: /manage-cluster
 sidebar_label: "Manage Cluster"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 
@@ -51,7 +54,7 @@ You can suspend a Dedicated cluster via the web console or programmatically.
 
 Navigate to the **Cluster Details** page of your target cluster and then follow the instructions below to suspend your Dedicated cluster.
 
-<Supademo id="cm9tqgxt30snl11m7twwj7xia" title="Zilliz Cloud - Suspend Cluster Demo" />
+<Supademo id="cm9tqgxt30snl11m7twwj7xia" title=""  />
 
 </TabItem>
 
@@ -89,9 +92,13 @@ For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster-v2).
 
 </Tabs>
 
+Once the suspend operation is successful, a job record will be generated. You can check the progress on the [Jobs](./job-center) page.
+
 ## Resume cluster{#resume-cluster}
 
-Free and Serverless clusters are automatically suspended after 7 days of inactivity and can be resumed anytime.
+Free clusters are automatically suspended after 7 days of inactivity and can be resumed anytime.
+
+Serverless clusters do not support suspend and resume operations.
 
 Suspended Dedicated clusters can also be resumed manually when needed.
 
@@ -105,7 +112,7 @@ You can resume a cluster via the web console or programmatically.
 
 Navigate to the **Cluster Details** page of your target cluster and then follow the instruction below to resume your cluster.
 
-<Supademo id="cm9tr2hze0t1j11m7ijth1pr5" title="Zilliz Cloud - Resume Cluster Demo" />
+<Supademo id="cm9tr2hze0t1j11m7ijth1pr5" title=""  />
 
 </TabItem>
 
@@ -143,6 +150,8 @@ For details, refer to [Resume Cluster](/reference/restful/resume-cluster-v2).
 
 </Tabs>
 
+Once the resume operation is successful, a job record will be generated. You can check the progress on the [Jobs](./job-center) page.
+
 ## Upgrade plan{#upgrade-plan}
 
 To use more advanced features, it is recommended to upgrade your cluster plan. 
@@ -172,7 +181,7 @@ To use more advanced features, it is recommended to upgrade your cluster plan.
 
 The following demo illustrates how to upgrade a cluster plan, using the Free to Dedicated (Enterprise) upgrade as an example.
 
-<Supademo id="cm9tscqvw0urd11m76ey8cx2p" title=""  />
+<Supademo id="cmfnfgviq0il71d3n2up3lci1?utm_source=link" title=""  />
 
 ## Upgrade cluster for preview features{#upgrade-cluster-for-preview-features}
 
@@ -190,7 +199,7 @@ When a cluster is no longer needed, you can drop it. You can drop a cluster via 
 
 Navigate to the **Cluster Details** page of your target cluster and then follow the instruction below to drop your cluster.
 
-<Supademo id="cm9trwi5n0txr11m7otr902sk" title="Zilliz Cloud - Drop Cluster Demo" />
+<Supademo id="cm9trwi5n0txr11m7otr902sk" title=""  />
 
 </TabItem>
 

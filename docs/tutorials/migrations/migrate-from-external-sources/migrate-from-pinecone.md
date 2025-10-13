@@ -3,6 +3,9 @@ title: "Migrate from Pinecone to Zilliz Cloud | Cloud"
 slug: /migrate-from-pinecone
 sidebar_label: "Pinecone"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This topic describes how Zilliz Cloud handles data type mapping, field conversion, namespace processing, and collection naming rules when migrating from Pinecone. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - pinecone
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 
@@ -156,7 +159,7 @@ When converting metadata to fixed fields:
    </tr>
    <tr>
      <td><p>List of strings</p></td>
-     <td><p>ARRAY\<VARCHAR></p></td>
+     <td><p>ARRAY&lt;VARCHAR&gt;</p></td>
      <td><p>Nested arrays supported</p></td>
    </tr>
 </table>

@@ -3,6 +3,9 @@ title: "Manage Cluster Roles (SDK) | Cloud"
 slug: /cluster-roles-sdk
 sidebar_label: "Manage Cluster Roles (SDK)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A cluster role defines the privileges that a user has within the cluster. More specifically, the cluster role controls a cluster user's privileges on the cluster, database, and collection level. | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

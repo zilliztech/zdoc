@@ -3,6 +3,9 @@ title: "Register with Zilliz Cloud | Cloud"
 slug: /register-with-zilliz-cloud
 sidebar_label: "Register with Zilliz Cloud"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide provides comprehensive instructions on how to create an account for accessing Zilliz Cloud services. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - register
   - cloud
   - milvus
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 
@@ -62,7 +65,7 @@ Follow the steps below to create a Zilliz Cloud account using your work email an
 
     - Numbers (0–9)
 
-    - Special characters (e.g., !@#&#36;%^&*)
+    - Special characters (e.g., !@#$%^&*)
 
 1. Check the box next to **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)**.
 
@@ -134,3 +137,7 @@ To link your GitHub account with us, follow the steps below.
 
 Always use the same method you chose for registration when logging in to your Zilliz Cloud account.
 
+## FAQ{#faq}
+
+**Why did my registration fail?**
+You may have already registered an account with this email address. Please try logging in directly. If the issue persists, please [create a support ticket](http://support.zilliz.com).

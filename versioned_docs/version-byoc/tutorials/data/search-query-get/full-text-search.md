@@ -3,6 +3,9 @@ title: "Full Text Search | BYOC"
 slug: /full-text-search
 sidebar_label: "Full Text Search"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Full text search is a feature that retrieves documents containing specific terms or phrases in text datasets, then ranking the results based on relevance. This feature overcomes semantic search limitations, which might overlook precise terms, ensuring you receive the most accurate and contextually relevant results. Additionally, it simplifies vector searches by accepting raw text input, automatically converting your text data into sparse embeddings without the need to manually generate vector embeddings. | BYOC"
 type: origin
@@ -19,10 +22,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 
@@ -243,7 +246,7 @@ In this configuration,
 
 - `id`: serves as the primary key and is automatically generated with `auto_id=True`.
 
-- `text`: stores your raw text data for full text search operations. The data type must be `VARCHAR`, as `VARCHAR` is Zilliz Cloud string data type for text storage. Set `enable_analyzer=True` to allow Zilliz Cloud to tokenize the text. By default, Zilliz Cloud uses the `standard`[ analyzer](./standard-analyzer) for text analysis. To configure a different analyzer, refer to [Analyzer Overview](./analyzer-overview).
+- `text`: stores your raw text data for full text search operations. The data type must be `VARCHAR`, as `VARCHAR` is Zilliz Cloud string data type for text storage. Set `enable_analyzer=True` to allow Zilliz Cloud to tokenize the text. By default, Zilliz Cloud uses the [`standard`](./standard-analyzer)[ analyzer](./standard-analyzer) for text analysis. To configure a different analyzer, refer to [Analyzer Overview](./analyzer-overview).
 
 - `sparse`: a vector field reserved to store internally generated sparse embeddings for full text search operations. The data type must be `SPARSE_FLOAT_VECTOR`.
 
@@ -409,9 +412,9 @@ index_params.add_index(
 import io.milvus.v2.common.IndexParam;
 
 Map<String,Object> params = new HashMap<>();
-fvParams.put("inverted_index_algo", "DAAT_MAXSCORE");
-fvParams.put("bm25_k1", 1.2);
-fvParams.put("bm25_b", 0.75);
+params.put("inverted_index_algo", "DAAT_MAXSCORE");
+params.put("bm25_k1", 1.2);
+params.put("bm25_b", 0.75);
 
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
@@ -502,7 +505,7 @@ export indexParams='[
    </tr>
    <tr>
      <td><p><code>params.bm25_k1</code></p></td>
-     <td><p>Controls the term frequency saturation. Higher values increase the importance of term frequencies in document ranking. Value range: [1.2, 2.0].</p></td>
+     <td><p>Controls the term frequency saturation. Higher values increase the importance of term frequencies in document ranking. Value range: &#91;1.2, 2.0&#93;.</p></td>
    </tr>
    <tr>
      <td><p><code>params.bm25_b</code></p></td>
@@ -800,11 +803,11 @@ curl --request POST \
    </tr>
    <tr>
      <td><p><code>params.level</code></p></td>
-     <td><p>Controls the search precision with simplified search optimization. For details, refer to <a href="./single-vector-search">Use Level</a>.</p></td>
+     <td><p>Controls the search precision with simplified search optimization. For details, refer to <a href="./tune-recall-rate">Tune Recall Rate</a>.</p></td>
    </tr>
    <tr>
      <td><p><code>data</code></p></td>
-     <td><p>Raw query text in natural language. Milvus automatically converts your text query into sparse vectors using the BM25 function - do not provide pre-computed vectors.</p></td>
+     <td><p>Raw query text in natural language. Zilliz Cloud automatically converts your text query into sparse vectors using the BM25 function - do not provide pre-computed vectors.</p></td>
    </tr>
    <tr>
      <td><p><code>anns_field</code></p></td>

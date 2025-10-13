@@ -3,6 +3,9 @@ title: "Export Data Using Iterators | BYOC"
 slug: /export-data-iterators
 sidebar_label: "Using Iterators"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide provides an example of how to export data from a Zilliz Cloud collection. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

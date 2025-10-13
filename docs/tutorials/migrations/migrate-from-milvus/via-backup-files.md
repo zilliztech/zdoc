@@ -3,8 +3,11 @@ title: "Migrate from Milvus to Zilliz Cloud Via Backup Files | Cloud"
 slug: /via-backup-files
 sidebar_label: "Via Backup Files"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud offers Milvus as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. To enable smooth migration, you can migrate data from Milvus to Zilliz Cloud in these ways - connecting to source Milvus via database endpoint or uploading backup files directly. | Cloud"
+description: "Zilliz Cloud offers Milvus as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. This topic describes how to migrate from Milvus by uploading backup files directly. | Cloud"
 type: origin
 token: IO4fwm5fJiroaoktKeIcbdkDnRb
 sidebar_position: 2
@@ -15,10 +18,10 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 
@@ -29,9 +32,7 @@ import Supademo from '@site/src/components/Supademo';
 
 # Migrate from Milvus to Zilliz Cloud Via Backup Files
 
-Zilliz Cloud offers Milvus as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. To enable smooth migration, you can migrate data from Milvus to Zilliz Cloud in these ways - connecting to source Milvus via database endpoint or uploading backup files directly.
-
-This topic describes how to migrate from Milvus by uploading backup files directly. For information on how to migrate data via database endpoint, refer to [Via Endpoint](./via-endpoint).
+Zilliz Cloud offers Milvus as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. This topic describes how to migrate from Milvus by uploading backup files directly.
 
 ## Before you start{#before-you-start}
 
@@ -41,9 +42,9 @@ Make sure the following prerequisites are met:
 
     - **From Local File**: Prepare local backup files in advance. For information on how to prepare backup files, refer to [Prepare backup files for migration](./via-backup-files#prepare-backup-files-for-migration).
 
-    - **From Object Storage**: The public URL and access credentials for the Milvus object storage. You can choose long-term or temporary credentials.
+    - **From Object Storage**: The public URL and access credentials for the Milvus object storage. You can choose long-term or temporary credentials. For detailed examples of an object storage URL, see [FAQ](./via-backup-files#faq).
 
-- You have been granted the **Organization Owner** or **Project Admin** role. If you do not have the necessary permissions, contact your Zilliz Cloud administrator.
+- You have been granted the **Organization Owner** or **Project Admin** role. If you do not have the necessary permissions, contact your Zilliz Cloud Organization Owner.
 
 - Make sure the CU size of the target cluster can accommodate your source data. To estimate the required CU size, use the [calculator](https://zilliz.com/pricing?_gl=1*qro801*_ga*MzkzNTY1NDM0LjE3Mjk1MDExNzQ.*_ga_Q1F8R2NWDP*MTc0NTQ4MzY1Ni4zMDEuMS4xNzQ1NDg0MTEzLjAuMC4w*_ga_KKMVYG8YF2*MTc0NTQ4MzY1Ni4yNTIuMS4xNzQ1NDg0MTEzLjAuMC4w#calculator).
 
@@ -70,19 +71,26 @@ To prepare migration data for Milvus 2.x,
 
     In normal cases, you do not need to customize this file. But before going on, check whether the following configuration items are correct:
 
-    - `milvus.address`
-
-    - `mivlus.port`
-
-    - `minio.address`
-
-    - `minio.port`
-
-    - `minio.bucketName`
-
-    - `minio.backupBucketName`
-
-    - `rootPath`
+    ```yaml
+    ...
+    # milvus proxy address, compatible to milvus.yaml
+    milvus:
+      address: localhost
+      port: 19530
+      ...
+      
+    # Related configuration of minio, which is responsible for data persistence for Milvus.
+    minio:
+      # Milvus storage configs, make them the same with milvus config
+      storageType: "minio" # support storage type: local, minio, s3, aws, gcp, ali(aliyun), azure, tc(tencent), gcpnative
+      # You can use "gcpnative" for the Google Cloud Platform provider. Uses service account credentials for authentication.
+      address: localhost # Address of MinIO/S3
+      port: 9000   # Port of MinIO/S3
+      bucketName: "a-bucket" # Milvus Bucket name in MinIO/S3, make it the same as your milvus instance
+      backupBucketName: "a-bucket" # Bucket name to store backup data. Backup data will store to backupBucketName/backupRootPath
+      rootPath: "files" # Milvus storage root path in MinIO/S3, make it the same as your milvus instance
+      ...
+    ```
 
     <Admonition type="info" icon="📘" title="Notes">
 
@@ -134,17 +142,23 @@ With backup files ready, you can migrate the data from local files directly or f
 
 <Supademo id="cmbhd2wj85jktsn1rnjmi4t5o" title="Zilliz Cloud - Migrate from Milvus via Backup File Demo" />
 
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>During migration, the selected target database must contain data and cannot be empty.</p>
+
+</Admonition>
+
 ## Monitor the migration process{#monitor-the-migration-process}
 
 Once you click **Migrate**, a migration job will be generated. You can check the migration progress on the [Jobs](./job-center) page. When the job status switches from **In Progress** to **Successful**, the migration is complete.
+
+<Supademo id="cme9my2nn4b64h3pyiyvsakqb" title="Zilliz Cloud - Monitor the Migration Process" />
 
 <Admonition type="info" icon="📘" title="Notes">
 
 <p>After migration, verify that the number of collections and entities in the target cluster matches the data source. If discrepancies are found, delete the collections with missing entities and re-migrate them.</p>
 
 </Admonition>
-
-![verify_collection](/img/verify_collection.png)
 
 ## Post-migration{#post-migration}
 
@@ -162,3 +176,41 @@ If the migration process encounters any issues, you can take the following steps
 
 1. Click **View Details** in the **Actions** column to access the error log.
 
+## FAQ{#faq}
+
+1. **What format of URL should I follow when migrating from a backup file stored in an object storage bucket?**
+
+    The following table provides an example of the URLs of different object storage services. Note that when migrating from a backup file, you can only choose a backup folder.
+
+    <table>
+       <tr>
+         <th colspan="2"><p><strong>Cloud Object Storage</strong></p></th>
+         <th><p><strong>URL Format</strong></p></th>
+       </tr>
+       <tr>
+         <td rowspan="3"><p><strong>Amazon S3</strong></p></td>
+         <td><p>AWS Object URL, virtual-hosted–style</p></td>
+         <td><p><i>http</i>s://&lt;bucket_name&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;folder_name&gt;/</p></td>
+       </tr>
+       <tr>
+         <td><p>AWS Object URL, path-style</p></td>
+         <td><p><i>http</i>s://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></td>
+       </tr>
+       <tr>
+         <td><p>Amazon S3 URI</p></td>
+         <td><p>s3://&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></td>
+       </tr>
+       <tr>
+         <td rowspan="2"><p><strong>Google Cloud Storage</strong></p></td>
+         <td><p>GSC public URL</p></td>
+         <td><p><i>http</i>s://storage.cloud.google.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></td>
+       </tr>
+       <tr>
+         <td><p>GSC gsutil URI</p></td>
+         <td><p>gs://&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></td>
+       </tr>
+       <tr>
+         <td colspan="2"><p><strong>Azure Blob Storage</strong></p></td>
+         <td><p><i>http</i>s://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;folder&gt;/</p></td>
+       </tr>
+    </table>

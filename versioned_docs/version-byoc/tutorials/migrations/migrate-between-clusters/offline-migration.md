@@ -3,6 +3,9 @@ title: "Offline Migration | BYOC"
 slug: /offline-migration
 sidebar_label: "Offline Migration"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Offline Migration transfers all existing data from a source Zilliz Cloud cluster to a target Zilliz Cloud cluster. This method supports migrations both within the same organization and across different organizations. It is ideal for scenarios where temporary write interruptions are acceptable, such as during planned maintenance or smaller-scale database transitions. | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

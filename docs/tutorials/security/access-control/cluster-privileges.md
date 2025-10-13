@@ -3,6 +3,9 @@ title: "Privileges & Privilege Groups | Cloud"
 slug: /cluster-privileges
 sidebar_label: "Privileges & Privilege Groups"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A privilege refers to the permission of specific operations on certain Zilliz Cloud resources such as clusters, databases, and collections. Privileges are assigned to roles, which are then granted to users, defining the operations users can perform on the resources. An example of a privilege could be the permission to insert data into a collection named `collection01`. | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 
@@ -88,7 +91,7 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
    <tr>
      <td><p>GetFlushState</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
      <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
@@ -166,7 +169,7 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
    <tr>
      <td><p>Load</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
@@ -209,7 +212,7 @@ The table below lists the specific privileges included in the three built-in pri
    <tr>
      <td><p>Compaction</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
@@ -221,13 +224,13 @@ The table below lists the specific privileges included in the three built-in pri
    <tr>
      <td><p>CreateAlias</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>DropAlias</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
 </table>
@@ -263,27 +266,27 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
    <tr>
      <td><p>CreateCollection</p></td>
-     <td><p>✔️</p></td>
      <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>DropCollection</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>AlterDatabase</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
 </table>
 
 #### Cluster level privilege groups{#cluster-level-privilege-groups}
 
-- **ClusterReadOnly (Cluster_RO)**: includes privileges to read instnace data
+- **ClusterReadOnly (Cluster_RO)**: includes privileges to read instance data
 
 - **ClusterReadWrite (Cluster_RW)**: includes privileges to read and write instance data
 
@@ -307,7 +310,7 @@ The table below lists the specific privileges included in the three built-in pri
    <tr>
      <td><p>RenameCollection</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
@@ -330,8 +333,8 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
    <tr>
      <td><p>SelectOwnership</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
@@ -342,105 +345,105 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
    <tr>
      <td><p>SelectUser</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>BackupRBAC</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>RestoreRBAC</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>CreateResourceGroup</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>DropResourceGroup</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>UpdateResourceGroups</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>DescribeResourceGroup</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>ListResourceGroups</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>TransferNode</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>TransferReplica</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>CreateDatabase</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>DropDatabase</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>FlushAll</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>CreatePrivilegeGroup</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>DropPrivilegeGroup</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>ListPrivilegeGroups</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>OperatePrivilegeGroup</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
 </table>
 
@@ -454,7 +457,7 @@ If the built-in privileges do not meet your needs, you can create custom privile
 
 </Admonition>
 
-#### Create a  custom privilege group{#create-a-custom-privilege-group}
+#### Create a custom privilege group{#create-a-custom-privilege-group}
 
 The following example demonstrates how to create a privilege group named `privilege_group_1`.
 

@@ -3,11 +3,14 @@ title: "Delete Entities | BYOC"
 slug: /delete-entities
 sidebar_label: "Delete Entities"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "You can delete the entities that are no longer needed by filtering conditions or their primary keys. | BYOC"
 type: origin
 token: RhKcwNACpi3WihkTzo8cr4BCnee
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
@@ -16,10 +19,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 
@@ -75,7 +78,7 @@ ilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
 
 DeleteResp deleteResp = client.delete(DeleteReq.builder()
         .collectionName("quick_setup")
-        .filter("color in ['red_7025', 'purple_4976]")
+        .filter("color in ['red_7025', 'purple_4976']")
         .build());
 
 ```

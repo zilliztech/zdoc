@@ -3,6 +3,9 @@ title: "String Field | Cloud"
 slug: /use-string-field
 sidebar_label: "String Field"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud clusters, `VARCHAR` is the data type used for storing string data. | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

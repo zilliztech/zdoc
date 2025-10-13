@@ -3,6 +3,9 @@ title: "Backup & Restore | BYOC"
 slug: /backup-and-restore
 sidebar_label: "Backup & Restore"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Data backup and restore for your data stored in Zilliz Cloud clusters. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

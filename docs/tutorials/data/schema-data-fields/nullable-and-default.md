@@ -3,11 +3,14 @@ title: "Nullable & Default | Cloud"
 slug: /nullable-and-default
 sidebar_label: "Nullable & Default"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud allows you to set the `nullable` attribute and default values for scalar fields, except the primary field. For fields marked as `nullable=True`, you can skip the field when inserting data, or set it directly to a null value, and the system will treat it as null without causing an error. When a field has a default value, the system will automatically apply this value if no data is specified for the field during insertion. | Cloud"
 type: origin
 token: DjROwgK6ziCf7Rkoji6ccyEUnsg
-sidebar_position: 11
+sidebar_position: 14
 keywords: 
   - zilliz
   - vector database
@@ -16,10 +19,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

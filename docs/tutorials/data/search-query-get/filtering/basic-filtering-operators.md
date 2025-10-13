@@ -3,6 +3,9 @@ title: "Basic Operators | Cloud"
 slug: /basic-filtering-operators
 sidebar_label: "Basic Operators"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides a rich set of basic operators to help you filter and query data efficiently. These operators allow you to refine your search conditions based on scalar fields, numeric calculations, logical conditions, and more. Understanding how to use these operators is crucial for building precise queries and maximizing the efficiency of your searches. | Cloud"
 type: origin
@@ -18,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 
@@ -121,6 +124,12 @@ This is useful when you want to check for membership in a list of values.
 ### Example 2: Using `LIKE` for Pattern Matching{#example-2-using-like-for-pattern-matching}
 
 The `LIKE` operator is used for pattern matching in string fields. It can match substrings in different positions within the text: as a **prefix**, **infix**, or **suffix**. The `LIKE` operator uses the `%` symbol as a wildcard, which can match any number of characters (including zero).
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>In most cases, <strong>infix</strong> or <strong>suffix</strong> matching is significantly slower than prefix matching. Use them with caution if performance is critical.</p>
+
+</Admonition>
 
 ### Prefix Match (Starts With){#prefix-match-starts-with}
 
@@ -274,7 +283,7 @@ Zilliz Cloud allows filtering on JSON fields that contain null values. A JSON fi
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>If some elements within a JSON object are null (e.g. individual keys), the field is still considered non-null. For example, <code>\{"metadata": \{"category": None, "price": 99.99}}</code> is not treated as null, even though the <code>category</code> key is null.</p>
+<p>If some elements within a JSON object are null (e.g. individual keys), the field is still considered non-null. For example, <code>\&#123;"metadata": \&#123;"category": None, "price": 99.99&#125;&#125;</code> is not treated as null, even though the <code>category</code> key is null.</p>
 
 </Admonition>
 
@@ -304,7 +313,7 @@ data = [
 ]
 ```
 
-**Example 1: Retrieve entities where `metadata` is null**
+**Example 1: Retrieve entities where metadata is null**
 
 To find entities where the `metadata` field is either missing or explicitly set to None:
 
@@ -318,7 +327,7 @@ filter = 'metadata IS NULL'
 # ]
 ```
 
-**Example 2: Retrieve entities where `metadata` is not null**
+**Example 2: Retrieve entities where metadata is not null**
 
 To find entities where the `metadata` field is not null:
 
@@ -370,7 +379,7 @@ data = [
 ]
 ```
 
-**Example 1: Retrieve entities where `tags` is null**
+**Example 1: Retrieve entities where tags is null**
 
 To retrieve entities where the `tags` field is either missing or explicitly set to `None`:
 
@@ -384,7 +393,7 @@ filter = 'tags IS NULL'
 # ]
 ```
 
-**Example 2: Retrieve entities where `tags` is not null**
+**Example 2: Retrieve entities where tags is not null**
 
 To retrieve entities where the `tags` field is not null:
 
@@ -417,3 +426,10 @@ filter = 'history_temperatures[0] > 30'
 ## Conclusion{#conclusion}
 
 Zilliz Cloud offers a range of basic operators that give you flexibility in filtering and querying your data. By combining comparison, range, arithmetic, and logical operators, you can create powerful filter expressions to narrow down your search results and retrieve the data you need efficiently.
+
+## FAQ{#faq}
+
+**Is there a limit to the length of the match value list in filter conditions (e.g., filter='color in &#91;"red", "green", "blue"&#93;')? What should I do if the list is too long?**
+
+Zilliz Cloud does not impose a length limit on the match value list in filter conditions. However, an excessively long list can significantly impact query performance.
+If your filter condition includes a long list of match values or a complex expression with many elements, we recommend using [Filter Templating](./filtering-templating) to improve query performance.

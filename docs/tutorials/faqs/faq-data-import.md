@@ -19,7 +19,7 @@ This topic lists the possible issues that you may encounter while you import dat
 
 - [Can I use short-term credentials when importing data from an object storage service?](#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service)
 - [Can I bulk insert data into the Zilliz Cloud vector databases?](#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases)
-- [What can I do if I receive `ECONNRESET` errors when importing data to or querying Zilliz Cloud clusters with Node.js SDK?](#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk)
+- [What can I do if I receive ECONNRESET errors when importing data to or querying Zilliz Cloud clusters with Node.js SDK?](#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk)
 
 ## FAQs
 
@@ -50,7 +50,7 @@ Yes. Based on your data security requirements, you can use session tokens when i
 
 Yes. Please refer to [Data Import](./data-import) for more information.
 
-### What can I do if I receive `ECONNRESET` errors when importing data to or querying Zilliz Cloud clusters with Node.js SDK?{#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk}
+### What can I do if I receive ECONNRESET errors when importing data to or querying Zilliz Cloud clusters with Node.js SDK?{#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk}
 
 To solve this problem, please follow the steps below.
 

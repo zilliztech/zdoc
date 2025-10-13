@@ -3,6 +3,9 @@ title: "Search Iterator | BYOC"
 slug: /with-iterators
 sidebar_label: "Search Iterator"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The ANN Search has a maximum limit on the number of entities that can be recalled in a single query, and simply using basic ANN Search may not meet the demands of large-scale retrieval. For ANN Search requests where topK exceeds 16,384, it is advisable to consider using the SearchIterator. This section will introduce how to use the SearchIterator and related considerations. | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 
@@ -50,9 +53,9 @@ The following code snippet demonstrates how to create a SearchIterator.
 <TabItem value='python'>
 
 ```python
-from pymilvus import connections, Collection
+from pymilvus import MilvusClient
 
-connections.connect(
+client = MilvusClient(
     uri="YOUR_CLUSTER_ENDPOINT",
     token="YOUR_CLUSTER_TOKEN"
 )
@@ -61,12 +64,11 @@ connections.connect(
 query_vectors = [
     [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]]
 
-collection = Collection("iterator_collection")
-
-iterator = collection.search_iterator(
+iterator = client.search_iterator(
+    collection_name="iterator_collection"
     data=query_vectors,
     anns_field="vector",
-    param={"metric_type": "L2", "params": {"nprobe": 16}},
+    search_param={"metric_type": "L2", "params": {"nprobe": 16}},
     # highlight-next-line
     batch_size=50,
     output_fields=["color"],
@@ -110,7 +112,38 @@ SearchIterator searchIterator = client.searchIterator(SearchIteratorReq.builder(
 <TabItem value='go'>
 
 ```go
-// go
+import (
+    "context"
+    "errors"
+    "fmt"
+    "io"
+    "log"
+    "strings"
+    "time"
+
+    "golang.org/x/exp/rand"
+
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/index"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+c, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+
+vec := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
+iter, err := c.SearchIterator(ctx, milvusclient.NewSearchIteratorOption(collectionName, entity.FloatVector(vec)).
+    WithANNSField("vector").
+    WithAnnParam(index.NewIvfAnnParam(16)).
+    WithBatchSize(50).
+    WithOutputFields("color").
+    WithIteratorLimit(20000))
+if err != nil {
+    // handle error
+}
+
 ```
 
 </TabItem>
@@ -163,8 +196,6 @@ Once the SearchIterator is ready, you can call its next() method to get the sear
 <TabItem value='python'>
 
 ```python
-results = []
-
 while True:
     # highlight-next-line
     result = iterator.next()
@@ -173,8 +204,8 @@ while True:
         iterator.close()
         break
     
-    for hit in result:
-        results.append(hit.to_dict())
+    for res in result:
+        print(res)
 ```
 
 </TabItem>
@@ -202,7 +233,17 @@ while (true) {
 <TabItem value='go'>
 
 ```go
-// go
+for {
+    rs, err := iter.Next(ctx)
+    // end of iterator
+    if errors.Is(err, io.EOF) {
+        break
+    }
+    if err != nil {
+        // handler error
+    }
+    fmt.Println(rs)
+}
 ```
 
 </TabItem>

@@ -3,20 +3,23 @@ title: "Release Notes (Dec 11, 2023) | Cloud"
 slug: /release-notes-240
 sidebar_label: "Release Notes (Dec 11, 2023)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Now Zilliz Cloud services are available on Azure, starting with the East US region. Additionally, we introduce Zilliz Cloud Pipelines (Beta) which transforms unstructured data into vector embeddings for ingestion and retrieval. The release also brings improved RBAC and credential management within Clusters, with three predefined roles (admin, read-write, read-only) for user administration. Other updates include enhanced error message content and stability improvements for more reliable service. | Cloud"
 type: origin
 token: A5lpwIZcZiTLqakdt6rcCmPcnEe
-sidebar_position: 16
+sidebar_position: 18
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 
@@ -46,8 +49,6 @@ Zilliz Cloud Pipelines consists of three specific pipelines: Ingestion, Search, 
 - **Search pipelines** facilitate semantic search by converting a query string into vector embeddings and sending them into Zilliz Cloud for retrieving the top-K most similar vectors.
 
 - **Deletion Pipeline** allows you to remove all chunks in a specified document from a Zilliz Cloud collection, offering you full control over your own data and releasing the storage capacity of your Zilliz collections.
-
-To learn more information, please refer to this [documentation](./pipelines).
 
 ## RBAC and Credential Management in Your Clusters{#rbac-and-credential-management-in-your-clusters}
 

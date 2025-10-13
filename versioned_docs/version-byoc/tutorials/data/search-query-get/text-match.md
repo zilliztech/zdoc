@@ -3,6 +3,9 @@ title: "Text Match | BYOC"
 slug: /text-match
 sidebar_label: "Text Match"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Text match in Zilliz Cloud enables precise document retrieval based on specific terms. This feature is primarily used for filtered search to satisfy specific conditions and can incorporate scalar filtering to refine query results, allowing similarity searches within vectors that meet scalar criteria. | BYOC"
 type: origin
@@ -18,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - text-match
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 
@@ -55,7 +58,7 @@ When a user performs a text match, the inverted index is used to quickly retriev
 
 ## Enable text match{#enable-text-match}
 
-Text match works on the `VARCHAR` field type, which is essentially the string data type in Zilliz Cloud. To enable text match, set both `enable_analyzer` and `enable_match` to `True` and then optionally configure an [analyzer](./analyzer-overview) for text analysis when defining your collection schema.
+Text match works on the [`VARCHAR`](./use-string-field) field type, which is essentially the string data type in Zilliz Cloud. To enable text match, set both `enable_analyzer` and `enable_match` to `True` and then optionally configure an [analyzer](./analyzer-overview) for text analysis when defining your collection schema.
 
 ### Set `enable_analyzer` and `enable_match`{#set-enableanalyzer-and-enablematch}
 
@@ -696,9 +699,9 @@ curl --request POST \
 
 - Escape rules in `filter` expressions:
 
-    - Characters enclosed in double quotes or single quotes within expressions are interpreted as string constants. If the string constant includes escape characters, the escape characters must be represented with escape sequence. For example, use `\` to represent `\`, `\t` to represent a tab `\t`, and `\n` to represent a newline.
+    - Characters enclosed in double quotes or single quotes within expressions are interpreted as string constants. If the string constant includes escape characters, the escape characters must be represented with escape sequence. For example, use `\\` to represent `\`, `\\t` to represent a tab `\t`, and `\\n` to represent a newline.
 
-    - If a string constant is enclosed by single quotes, a single quote within the constant should be represented as `\'` while a double quote can be represented as either `"` or `\"`. Example: `'It\'s milvus'`.
+    - If a string constant is enclosed by single quotes, a single quote within the constant should be represented as `\\'` while a double quote can be represented as either `"` or `\\"`. Example: `'It\\'s milvus'`.
 
-    - If a string constant is enclosed by double quotes, a double quote within the constant should be represented as `\"` while a single quote can be represented as either `'` or `\'`. Example: `"He said \"Hi\""`.
+    - If a string constant is enclosed by double quotes, a double quote within the constant should be represented as `\\"` while a single quote can be represented as either `'` or `\\'`. Example: `"He said \\"Hi\\""`.
 

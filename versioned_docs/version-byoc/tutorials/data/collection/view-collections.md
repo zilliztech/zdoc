@@ -3,6 +3,9 @@ title: "View Collections | BYOC"
 slug: /view-collections
 sidebar_label: "View Collections"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "You can obtain the name list of all the collections in the currently connected database, and check the details of a specific collection. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

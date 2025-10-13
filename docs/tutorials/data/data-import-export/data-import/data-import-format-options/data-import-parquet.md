@@ -3,6 +3,9 @@ title: "Import from a Parquet File | Cloud"
 slug: /data-import-parquet
 sidebar_label: "Parquet (Recommended)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Apache Parquet is an open-source, column-oriented data file format designed for efficient data storage and retrieval. It offers high-performance compression and encoding schemes to manage complex data in bulk and is supported in various programming languages and analytics tools tools. | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 
@@ -43,7 +46,7 @@ You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your r
 <ul>
 <li><strong>Whether to enable dynamic fields</strong></li>
 </ul>
-<p>When the target collection enables dynamic fields, if you need to store fields that are not included in the pre-defined schema, you can specify the <strong>$meta</strong> column during the write operation and provide the corresponding key-value data.</p>
+<p>When the target collection enables dynamic fields, if you need to store fields that are not included in the pre-defined schema, you can specify the <strong>&#36;meta</strong> column during the write operation and provide the corresponding key-value data.</p>
 <ul>
 <li><strong>Case-sensitive</strong></li>
 </ul>
@@ -172,24 +175,35 @@ Zilliz Cloud supports data import from your cloud storage. The table below lists
 
 ## Limits{#limits}
 
-There are some limits you need to observe when you import data in the Parquet format from your cloud storage.
+There are some limits you need to observe when you import data in a local Parquet file or Parquet files from your cloud storage. 
 
 <table>
    <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>Import Method</strong></p></th>
+     <th><p><strong>Cluster Plan</strong></p></th>
+     <th><p><strong>Max Files per Import</strong></p></th>
+     <th><p><strong>Max File Size</strong></p></th>
+     <th><p><strong>Max Total Import Size</strong></p></th>
    </tr>
    <tr>
-     <td><p><strong>Multiple files per import</strong></p></td>
-     <td><p>Yes.</p><p>Each import allows up to 100,000 files.</p></td>
+     <td><p>From local file</p></td>
+     <td><p>All Plans</p></td>
+     <td><p>1 File</p></td>
+     <td><p>1 GB</p></td>
+     <td><p>1 GB</p></td>
    </tr>
    <tr>
-     <td><p><strong>Maximum file size per import</strong></p></td>
-     <td><p>Free cluster: 512 MB in total</p><p>Serverless &amp; Dedicated cluster</p><ul><li><p>Individual file size: 10 GB</p></li><li><p>Total file size: 1 TB</p></li></ul></td>
+     <td rowspan="2"><p>From object storage</p></td>
+     <td><p>Free</p></td>
+     <td><p>1,000 Files</p></td>
+     <td><p>1 GB</p></td>
+     <td><p>1 GB</p></td>
    </tr>
    <tr>
-     <td><p><strong>Applicable data file locations</strong></p></td>
-     <td><p>Remote files only</p></td>
+     <td><p>Serverless &amp; Dedicated</p></td>
+     <td><p>1,000 Files</p></td>
+     <td><p>10 GB</p></td>
+     <td><p>1 TB</p></td>
    </tr>
 </table>
 

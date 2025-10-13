@@ -3,6 +3,9 @@ title: "Filter Reference | Cloud"
 slug: /analyzer-filters
 sidebar_label: "Filter"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This section provides a detailed reference for filters in analyzers. | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

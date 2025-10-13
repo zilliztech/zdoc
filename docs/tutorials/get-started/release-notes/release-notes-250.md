@@ -3,20 +3,23 @@ title: "Release Notes (Jan 18, 2024) | Cloud"
 slug: /release-notes-250
 sidebar_label: "Release Notes (Jan 18, 2024)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud have optimized the user experience for data import features, refined API keys with hierarchical permissions, and enhanced the metrics and alerts mechanism. | Cloud"
 type: origin
 token: VbjiwU5RYi4bWdkC48Jceltnnpd
-sidebar_position: 15
+sidebar_position: 17
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

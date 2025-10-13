@@ -3,6 +3,9 @@ title: "Database | BYOC"
 slug: /database
 sidebar_label: "Database"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud introduces a database layer in between the clusters and collections, providing a more efficient way to manage and organize your data while supporting multi-tenancy. | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 
@@ -345,6 +348,11 @@ The following table lists possible database properties.
      <td><p><code>database.force.deny.reading</code></p></td>
      <td><p>boolean</p></td>
      <td><p>Whether to force the specified database to deny reading operations.</p></td>
+   </tr>
+   <tr>
+     <td></td>
+     <td><p>string</p></td>
+     <td></td>
    </tr>
 </table>
 

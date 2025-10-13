@@ -3,6 +3,9 @@ title: "Required Permissions | BYOC"
 slug: /required-permissions-gcp
 sidebar_label: "Required Permissions"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This page lists the IAM policies required during the deployment of Zilliz BYOC data plane on your VPC network. | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
+  - milvus vector db
+  - Zilliz Cloud
   - what is milvus
   - milvus database
-  - milvus lite
-  - milvus benchmark
 
 ---
 

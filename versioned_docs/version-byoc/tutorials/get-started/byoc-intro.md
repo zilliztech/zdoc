@@ -3,6 +3,9 @@ title: "BYOC Overview | BYOC"
 slug: /byoc-intro
 sidebar_label: "BYOC Overview"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Bring Your Own Cloud (BYOC) is a deployment option for organizations to host applications and data in their own cloud accounts instead of using Zilliz Cloud's infrastructure. This solution is ideal for organizations with specific security requirements or regulatory compliance needs that require maintaining full data control sovereignty. | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - byoc
   - milvus
   - vector database
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 
@@ -133,4 +136,3 @@ Zilliz BYOC charges for the services you use in a BYOC project through resource 
 
 ![TudFwgMGthlQmvbeH9qcXx0jnzn](/img/TudFwgMGthlQmvbeH9qcXx0jnzn.png)
 
-For details on how to estimate the cost of a BYOC project, refer to Estimate Cost (BYOC).

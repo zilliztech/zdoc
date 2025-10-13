@@ -3,6 +3,9 @@ title: "Set up a PrivateLink (AWS) | Cloud"
 slug: /setup-a-private-link-aws
 sidebar_label: "Set up a PrivateLink (AWS)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide demonstrates the procedure for setting up a private link from a Zilliz Cloud cluster to your service hosted in different AWS VPCs. | Cloud"
 type: origin
@@ -19,10 +22,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 
@@ -49,11 +52,13 @@ Ensure that:
 
 - A Dedicated (Enterprise) cluster has been created. For information on how to create a cluster, see [Create Cluster](./create-cluster).
 
+- If your service and Zilliz Cloud cluster are in different regions and the service needs to access the cluster through AWS PrivateLink, [submit a ticket](https://support.zilliz.com/hc/en-us/requests/new), and we will handle your request.
+
 ## Create private endpoint{#create-private-endpoint}
 
-Zilliz Cloud offers you an intuitive web console to add a private endpoint. Navigate to your target project and click **Network > Private Endpoint** in the left navigation. Click **+ Private Endpoint**.
+Zilliz Cloud offers you an intuitive web console to add a private endpoint. Navigate to your target project and click **Network &gt; Private Endpoint** in the left navigation. Click **+ Private Endpoint**.
 
-![setup_private_link_aws_01](/img/setup_private_link_aws_01.png)
+![I02ibsAgioWpuLxwzHDcp1c2nge](/img/I02ibsAgioWpuLxwzHDcp1c2nge.png)
 
 ### Select a cloud provider and region{#select-a-cloud-provider-and-region}
 
@@ -61,7 +66,7 @@ To create a private endpoint for a cluster deployed in an AWS region, select **A
 
 For more information on available cloud providers and regions, see [Cloud Providers & Regions](./cloud-providers-and-regions). 
 
-![setup_private_link_window](/img/setup_private_link_window.png)
+![NxuFbXh41oA53VxB4sPcfR9snVg](/img/NxuFbXh41oA53VxB4sPcfR9snVg.png)
 
 ### Create an Endpoint{#create-an-endpoint}
 
@@ -69,7 +74,9 @@ You need to complete this step on your cloud provider console using either the U
 
 - **Via UI console**
 
-    1. Switch to the **Via UI Console** tab.
+    ![AJlTbcoxNoXKBIxAxz6cYrkBnrc](/img/AJlTbcoxNoXKBIxAxz6cYrkBnrc.png)
+
+    1. Switch to the **Via UI Console** tab, and copy the **Service Name**.
 
     1. Navigate to the AWS console page. On the AWS console, check if the cloud region corresponds to the cloud region you selected in [Step 1](./setup-a-private-link-aws#select-a-cloud-provider-and-region). Click **Endpoints** in the left navigation. Click **Create Endpoint**.
 
@@ -78,8 +85,6 @@ You need to complete this step on your cloud provider console using either the U
     1. On the **Create Endpoint** page, select **Endpoint services that use NLBs and GWLBs** as the endpoint **Type**.
 
         ![create_endpoint_type_gcp](/img/create_endpoint_type_gcp.png)
-
-    1. Switch back to the Zilliz Cloud console, copy the Service Name.
 
     1. Switch to the AWS console. In **Service Settings**, paste the **Service Name** you copied from the Zilliz Cloud web console into the **Service Name** field. Then click **Verify service**.
 
@@ -91,7 +96,7 @@ You need to complete this step on your cloud provider console using either the U
 
 - **Via CLI**
 
-    ![setup_private_link_aws_via_CLI](/img/setup_private_link_aws_via_CLI.png)
+    ![TzQdb9ReToZlkTxGRVZcCdUbnOe](/img/TzQdb9ReToZlkTxGRVZcCdUbnOe.png)
 
     1. Switch to the **Via CLI** tab.
 
@@ -107,9 +112,9 @@ You need to complete this step on your cloud provider console using either the U
 
         To create a subnet, see [Create a Subnet in Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-subnets.html#create-subnets).
 
-    1. Click **Copy and Go**.
+    1. Click the copy icon in the code block and go to the AWS console.
 
-        You will be redirected to your cloud provider console. In the top navigation, launch the AWS CloudShell. Run the CLI command you just copied from Zilliz Cloud in the CloudShell.
+        In the top navigation, launch AWS CloudShell. Run the CLI command you just copied from Zilliz Cloud in the CloudShell.
 
         ![setup_private_link_aws_cloud_shell](/img/setup_private_link_aws_cloud_shell.png)
 
@@ -230,7 +235,7 @@ To disable public endpoints:
 
 ![disable_public_endpoint](/img/disable_public_endpoint.png)
 
-## Troubleshooting{#troubleshooting}
+## FAQ{#faq}
 
 ### Why does it always report a timeout when connecting to the private link on AWS?{#why-does-it-always-report-a-timeout-when-connecting-to-the-private-link-on-aws}
 
@@ -269,4 +274,8 @@ A timeout usually occurs for the following reasons:
     <p>Two security groups must be configured: one for the EC2 instance, which must allow traffic on the port associated with your private link, and another for the VPC endpoint, which must permit traffic from the IP address of the EC2 instance and target the specified port number.</p>
 
     </Admonition>
+
+### Can I create a private endpoint for an existing cluster?{#can-i-create-a-private-endpoint-for-an-existing-cluster}
+
+Yes. When you create a private endpoint, it will take effect on all existing and future Dedicated (Enterprise) clusters that reside in the same region and project. All you need to do is to add different DNS records for different clusters.
 

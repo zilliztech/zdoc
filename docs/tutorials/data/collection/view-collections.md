@@ -3,6 +3,9 @@ title: "View Collections | Cloud"
 slug: /view-collections
 sidebar_label: "View Collections"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "You can obtain the name list of all the collections in the currently connected database, and check the details of a specific collection. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

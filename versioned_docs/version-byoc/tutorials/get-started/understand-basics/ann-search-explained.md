@@ -3,6 +3,9 @@ title: "ANN Search Explained | BYOC"
 slug: /ann-search-explained
 sidebar_label: "ANN Search Explained"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A k-nearest neighbor (kNN) search finds the k-nearest vectors to a query vector. Specifically, it compares a query vector to every vector in a vector space until k exact matches appear. Although kNN searches guarantee perfect accuracy, they are time-consuming, especially for large datasets comprising high-dimensional vectors. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 
@@ -66,7 +69,7 @@ Unlike HNSW that builds a hierarchical graph for layered searches, Vamana’s in
 
 1. Perform Approximate Nearest Neighbor Search with the initialized random neighbor graph and search starting point from step 2. Use all points on the search path as candidate neighbor sets and apply the edge trimming strategy with alpha = 1 to reduce the search radius.
 
-1. Repeat step 3 with adjusted alpha > 1 (1.2 recommended in the paper) to improve graph quality and recall rate.
+1. Repeat step 3 with adjusted alpha &gt; 1 (1.2 recommended in the paper) to improve graph quality and recall rate.
 
 Once the index is ready, the search goes as follows:
 

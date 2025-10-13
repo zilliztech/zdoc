@@ -3,6 +3,9 @@ title: "Manage Aliases | BYOC"
 slug: /manage-aliases
 sidebar_label: "Manage Aliases"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, an alias is a secondary, mutable name for a collection. Using aliases provides a layer of abstraction that allows you to dynamically switch between collections without modifying your application code. This is particularly useful in production environments for seamless data updates, A/B testing, and other operational tasks. | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 
@@ -36,11 +39,11 @@ This page demonstrates how to create, list, reassign, and drop collection aliase
 
 The primary benefit of using an alias is to decouple your client application from a specific, physical collection name.
 
-Imagine you have a live application that queries a collection named `prod_data`. When you need to update the underlying data, you can perform the update without any service interruption. The workflow would be:
+Imagine you have a live application that queries a collection with an alias named `prod_data`. When you need to update the underlying data, you can perform the update without any service interruption. The workflow would be:
 
 1. **Create a New Collection**: Create a new collection, for instance, `prod_data_v2`.
 
-1. **Prepare Data**: Load and index the new data in `prod_data_v2`.
+1. **Prepare Data**: Index and load the new data in `prod_data_v2`.
 
 1. **Switch the Alias**: Once the new collection is ready for service, atomically reassign the alias `prod_data` from the old collection to `prod_data_v2`.
 

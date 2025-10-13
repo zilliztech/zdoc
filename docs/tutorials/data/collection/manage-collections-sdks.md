@@ -3,6 +3,9 @@ title: "Create Collection | Cloud"
 slug: /manage-collections-sdks
 sidebar_label: "Create Collection"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "You can create a collection by defining its schema, index parameters, metric type, and whether to load it upon creation. This page introduces how to create a collection from scratch. | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 
@@ -971,6 +974,6 @@ For more on consistency levels, see [Consistency Level](./consistency-level).
 
 ### Enable Dynamic Field{#enable-dynamic-field}
 
-The dynamic field in a collection is a reserved JavaScript Object Notation (JSON) field named **\$meta**. Once you have enabled this field, Zilliz Cloud saves all non-schema-defined fields carried in each entity and their values as key-value pairs in the reserved field.
+The dynamic field in a collection is a reserved JavaScript Object Notation (JSON) field named **\&#36;meta**. Once you have enabled this field, Zilliz Cloud saves all non-schema-defined fields carried in each entity and their values as key-value pairs in the reserved field.
 
 For details on how to use the dynamic field, refer to [Dynamic Field](./enable-dynamic-field).

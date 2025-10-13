@@ -3,20 +3,23 @@ title: "Release Notes (Oct 17, 2023) | Cloud"
 slug: /release-notes-230
 sidebar_label: "Release Notes (Oct 17, 2023)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "We're pleased to announce the launch of our AWS Frankfurt region in the EU. Accompanying this expansion, we introduce beta features Range Search, Upsert, and Cosine Metric Type, enhancing search capabilities and data management efficiency. Additional functionalities include API Key Access, Retrieve Raw Vectors, JSONCONTAINS Filter, and Entity Count. Noteworthy improvements in RBAC, billing, pricing calculation, account management, and service stability have also been implemented for an enhanced user experience. | Cloud"
 type: origin
 token: MocQwCCItiHYEbkkJtOcROPTnod
-sidebar_position: 17
+sidebar_position: 19
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
+  - Vector store
+  - open source vector database
+  - Vector index
   - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
 
 ---
 

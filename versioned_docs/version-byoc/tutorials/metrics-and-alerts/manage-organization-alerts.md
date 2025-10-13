@@ -3,6 +3,9 @@ title: "Manage Organization Alerts | BYOC"
 slug: /manage-organization-alerts
 sidebar_label: "Manage Organization Alerts"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Organization alerts monitor billing and account-related metrics across your entire Zilliz Cloud organization. Unlike project alerts that focus on cluster performance, organization alerts help you track credit balances, payment methods, and usage patterns to ensure uninterrupted service and prevent unexpected billing issues. Stay informed about account health and avoid service disruptions by receiving timely notifications about credit depletion, payment failures, and usage thresholds. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 
@@ -114,6 +117,8 @@ Create similar alerts with different notification settings or threshold modifica
 Set organization-wide default notification settings that automatically apply to new alerts, ensuring consistent billing notification practices across your organization.
 
 <Supademo id="cmb67pjbs3g31ppkpfd4l8mcv" title="Configure Alert Receiver Settings"/>
+
+## FAQ{#faq}
 
 ### How often will I receive alert notifications when an alert is triggered?{#how-often-will-i-receive-alert-notifications-when-an-alert-is-triggered}
 

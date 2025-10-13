@@ -3,6 +3,9 @@ title: "Range Search | Cloud"
 slug: /range-search
 sidebar_label: "Range Search"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A range search improves search result relevancy by restricting the distance or score of the returned entities within a specific range. This page helps you understand what range search is and the procedures to conduct a range search. | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - data
   - range search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

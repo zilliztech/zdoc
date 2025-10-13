@@ -3,6 +3,9 @@ title: "Implement Multi-tenancy | BYOC"
 slug: /multi-tenancy
 sidebar_label: "Implement Multi-tenancy"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, multi-tenancy means multiple customers or teams—referred to as tenants— share the same cluster while maintaining isolated data environments. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - multi-tenancy
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 
@@ -40,7 +43,7 @@ With database-level multi-tenancy, each tenant receives a corresponding [databas
 
 ![NVV9w0w49hZJ61bNzG4cdi9gn6C](/img/NVV9w0w49hZJ61bNzG4cdi9gn6C.png)
 
-- **Scalability**: The database-level multi-tenancy strategy  supports a maximum of  tenants .
+- **Scalability**: The database-level multi-tenancy strategy is only available on Zilliz Cloud’s Dedicated cluster plans and supports a maximum of 1,024 tenants .
 
 - **Data isolation**: The data in each database is fully separated, offering enterprise-grade data isolation ideal for regulated environments or customers with strict compliance needs.
 
@@ -54,7 +57,7 @@ With collection-level multi-tenancy, each tenant is assigned a [collection](./ma
 
 ![SNxNwi64ChMFdubYKmrcGOH5ncg](/img/SNxNwi64ChMFdubYKmrcGOH5ncg.png)
 
-- **Scalability**: Since a cluster can hold up to  collections , this strategy can accommodate the same number of tenants within the cluster.
+- **Scalability**: Since a cluster can hold up to 16,384 collections , this strategy can accommodate the same number of tenants within the cluster.
 
 - **Data isolation**: Collections are physically isolated from one another. This strategy provides strong data isolation.
 
@@ -103,6 +106,13 @@ The table below offers a comprehensive comparison between the four levels of mul
      <th><p><strong>Partition key-level</strong></p></th>
    </tr>
    <tr>
+     <td><p><strong>Plan availability</strong></p></td>
+     <td><p>Dedicated plans only</p></td>
+     <td><p>All plans</p></td>
+     <td><p>All plans</p></td>
+     <td><p>All plans</p></td>
+   </tr>
+   <tr>
      <td><p><strong>Data Isolation</strong></p></td>
      <td><p>Physical</p></td>
      <td><p>Physical</p></td>
@@ -111,9 +121,9 @@ The table below offers a comprehensive comparison between the four levels of mul
    </tr>
    <tr>
      <td><p><strong>Max. number of tenants</strong></p></td>
-     <td></td>
-     <td></td>
-     <td></td>
+     <td><p>1024</p></td>
+     <td><p>Up to 16,384 depending on the cluster plan. </p><p>See <a href="./limits#collections">Zilliz Cloud Limits</a></p></td>
+     <td><p>Up to 1,024 per collection depending on the cluster plan. </p><p>See <a href="./limits">Zilliz Cloud Limits</a></p></td>
      <td><p>Millions</p></td>
    </tr>
    <tr>
@@ -149,21 +159,21 @@ The table below offers a comprehensive comparison between the four levels of mul
      <td><p>Yes</p></td>
      <td><p>Yes</p></td>
      <td><p>Yes</p></td>
-     <td><p>No</p><p>Currently, not supported for the partition key-level strategy.</p></td>
+     <td><p>No</p><p>Currently, not supported for the partition key-level strategy. But if you have massive tenants and require effective handling of hot and cold data, please <a href="https://zilliz.com/contact-sales">contact us</a>.</p></td>
    </tr>
 </table>
 
 There are several factors to consider when you choose the multi-tenancy strategy in Zilliz Cloud.
 
-1. **Scalability:** Partition Key > Partition > Collection > Database
+1. **Scalability:** Partition Key &gt; Partition &gt; Collection &gt; Database
 
     If you expect to support a very large number of tenants (millions or more), use the partition key-level strategy.
 
-1. **Strong data isolation requirements**: Database = Collection > Partition > Partition Key
+1. **Strong data isolation requirements**: Database = Collection &gt; Partition &gt; Partition Key
 
     Choose database, collection, or partition-level strategies if you have strict physical data isolation requirements. 
 
-1. **Flexible data schema for each tenant's data:** Database > Collection > Partition = Partition Key
+1. **Flexible data schema for each tenant's data:** Database &gt; Collection &gt; Partition = Partition Key
 
     Database-level and collection-level strategies provide full flexibility in data schemas. If your tenants' data structures are different, choose database-level or collection-level multi-tenancy.
 
@@ -171,7 +181,7 @@ There are several factors to consider when you choose the multi-tenancy strategy
 
     1. **Performance:** Search performance is determined by various factors, including indexes, search parameters, and machine configurations. Zilliz Cloud also support performance-tuning. It is recommended to test the actual performance before you select a multi-tenancy strategy.
 
-    1. **Effective handling of hot and cold data**: Currently, the database-level, collection-level, and partition-level strategies all support hot and cold data handling. 
+    1. **Effective handling of hot and cold data**: Currently, the database-level, collection-level, and partition-level strategies all support hot and cold data handling. For those who want to choose the partition key-level strategy but require hot and cold data handling, please [contact us](https://zilliz.com/contact-sales).
 
     1. **Cross-tenant searches**: Only the partition-level and partition-key-level strategies support cross-tenant queries.
 

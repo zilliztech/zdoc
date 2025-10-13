@@ -3,6 +3,9 @@ title: "Schedule Automatic Backups | BYOC"
 slug: /schedule-automatic-backups
 sidebar_label: "Schedule Automatic Backups"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud allows you to enable automatic backups for your clusters, helping ensure data recovery in case of unexpected issues. Automatic backups apply to the entire cluster—backing up individual collections automatically is not supported. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 
@@ -29,8 +32,6 @@ import Supademo from '@site/src/components/Supademo';
 # Schedule Automatic Backups
 
 Zilliz Cloud allows you to enable **automatic backups** for your clusters, helping ensure data recovery in case of unexpected issues. Automatic backups apply to the **entire cluster**—backing up individual collections automatically is not supported.
-
-Backup creation incurs additional [charges](/docs/understand-cost#backup-cost), with pricing based on the cloud region where the backup is stored. All backup files are stored in the same cloud region as the source cluster. For example, a cluster in `AWS us-west-2` will have its backups stored in `AWS us-west-2`.
 
 This guide walks you through how to schedule automatic backups on Zilliz Cloud. To create on-demand backups, see [Create Backup](./create-snapshot).
 
@@ -44,6 +45,8 @@ This guide walks you through how to schedule automatic backups on Zilliz Cloud. 
 
     - Password for the default user `db_admin` (a new password is generated during [restore](./restore-from-snapshot))
 
+    - Cluster dynamic and scheduled scaling settings
+
 - **Cluster shard settings**: Backed up but may be adjusted during restore if the cluster CU size is reduced, due to shard-per-CU limits. See [Zilliz Cloud Limits](./limits#shards) for details.
 
 - **Backup job restrictions**:
@@ -55,6 +58,8 @@ This guide walks you through how to schedule automatic backups on Zilliz Cloud. 
 ## Enable automatic backup{#enable-automatic-backup}
 
 Automatic backup settings are cluster-specific and **disabled by default**. Because backups incur storage costs, you can control when and how Zilliz Cloud creates them. Once automatic backup is enabled, Zilliz Cloud generates an initial backup immediately, followed by recurring backups based on your specified schedule.
+
+If you need to copy your backup file to other cloud regions for disaster recover, you can configure the copy policies while enabling automatic bakcup. For details, refer to [Copy To Other Regions](./backup-to-other-regions).
 
 ### Via web console{#via-web-console}
 
@@ -70,7 +75,7 @@ You can adjust these settings to fit your needs.
 
 The following demo shows how to enable and configure automatic backups:
 
-<Supademo id="cmcsqvpfk0gns9st8bd3faaje" title=""  />
+<Supademo id="cmcsqvpfk0gns9st8bd3faaje?utm_source=link" title=""  />
 
 ### Via RESTful API{#via-restful-api}
 
@@ -109,7 +114,7 @@ When automatic backup is enabled, you can check its schedule.
 
 The following demo shows how to check automatic backup schedule on the Zilliz Cloud web console.
 
-<Supademo id="cmcsr43kx02umxk0ih3i31jaq" title=""  />
+<Supademo id="cmcsr43kx02umxk0ih3i31jaq?utm_source=link" title=""  />
 
 ### Via RESTful API{#via-restful-api}
 
@@ -145,7 +150,7 @@ You can also disable automatic backup for a cluster.
 
 The following demo shows how to check automatic backup schedule on the Zilliz Cloud web console.
 
-<Supademo id="cmcsr7chx0gu29st8s0obm37l" title=""  />
+<Supademo id="cmcsr7chx0gu29st8s0obm37l?utm_source=link" title=""  />
 
 ### Via RESTful API{#via-restful-api}
 

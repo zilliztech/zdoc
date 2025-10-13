@@ -3,8 +3,11 @@ title: "Migrate from Milvus to Zilliz Cloud Via Endpoint | Cloud"
 slug: /via-endpoint
 sidebar_label: "Via Endpoint"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud offers Milvus as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. To enable smooth migration, you can migrate data from Milvus to Zilliz Cloud in these ways - connecting to source Milvus via database endpoint or uploading backup files directly. | Cloud"
+description: "Zilliz Cloud offers Milvus as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. This topic describes how to migrate from Milvus via the database endpoint. | Cloud"
 type: origin
 token: PlX3wo82Di6oWVkg2ercRWCUnvV
 sidebar_position: 1
@@ -15,10 +18,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 
@@ -29,9 +32,7 @@ import Supademo from '@site/src/components/Supademo';
 
 # Migrate from Milvus to Zilliz Cloud Via Endpoint
 
-Zilliz Cloud offers [Milvus](https://milvus.io/) as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. To enable smooth migration, you can migrate data from Milvus to Zilliz Cloud in these ways - connecting to source Milvus via database endpoint or uploading backup files directly.
-
-This topic describes how to migrate from Milvus via the database endpoint. For information on how to upload backup files, refer to [Via Backup Files](./via-backup-files).
+Zilliz Cloud offers [Milvus](https://milvus.io/) as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. This topic describes how to migrate from Milvus via the database endpoint. 
 
 ## Prerequisites{#prerequisites}
 

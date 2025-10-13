@@ -3,6 +3,9 @@ title: "Manage Organization Settings | Cloud"
 slug: /organization-settings
 sidebar_label: "Organization Settings"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "If you are an Organization Owner, you have the privileges to manage the organization settings. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 
@@ -32,7 +35,7 @@ This guide will walk you through the steps of managing organization settings.
 
 ## View organizations{#view-organizations}
 
-Once you sign up for Zilliz Cloud, a default organization will be created for you. While you cannot create new organizations, you can join other use's organizations by invitation. 
+Once you sign up for Zilliz Cloud, a default organization will be created for you. While you cannot create new organizations, you can join other user's organizations by invitation. 
 
 After logging into the [Zilliz Cloud console](https://cloud.zilliz.com/login), you'll land on the page listing the organizations you're part of. You can check out and enter these organizations.
 

@@ -3,20 +3,23 @@ title: "Release Notes (Oct 14, 2024) | Cloud"
 slug: /release-notes-2102
 sidebar_label: "Release Notes (Oct 14, 2024)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This release of Zilliz Cloud introduces several key updates the Notebook Gallery, which provides examples on advanced features like RAG, embeddings, and multi-modal search; an Improved Capacity of Performance-optimized CU, now increased by 50%, accommodating up to 1.5 million 768-dim vectors per CU and potentially reducing costs by 30% for large data volumes; and Multi-replica Availability, enhancing query performance and reliability by distributing workloads and replicas across Availability Zones (AZs). Additionally, Zilliz Cloud now supports the AWS Tokyo Region for improved performance in the Asia-Pacific area, Prometheus Integration for real-time monitoring and troubleshooting, and a revamped Authentication and Login System with Auth0, offering multiple login methods including SSO. Lastly, users can evaluate Zilliz products through the AWS Marketplace Free Trial, providing risk-free access to core features for performance and scalability testing. | Cloud"
 type: origin
 token: PyrrwqrGbirtGTkh4oacaov7nHh
-sidebar_position: 8
+sidebar_position: 10
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

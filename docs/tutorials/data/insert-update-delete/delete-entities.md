@@ -3,11 +3,14 @@ title: "Delete Entities | Cloud"
 slug: /delete-entities
 sidebar_label: "Delete Entities"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "You can delete the entities that are no longer needed by filtering conditions or their primary keys. | Cloud"
 type: origin
 token: RhKcwNACpi3WihkTzo8cr4BCnee
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
@@ -16,10 +19,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 
@@ -75,7 +78,7 @@ ilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
 
 DeleteResp deleteResp = client.delete(DeleteReq.builder()
         .collectionName("quick_setup")
-        .filter("color in ['red_7025', 'purple_4976]")
+        .filter("color in ['red_7025', 'purple_4976']")
         .build());
 
 ```

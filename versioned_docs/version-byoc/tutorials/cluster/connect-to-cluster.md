@@ -3,6 +3,9 @@ title: "Connect to Cluster | BYOC"
 slug: /connect-to-cluster
 sidebar_label: "Connect to Cluster"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This article offers a systematic guide on connecting to a cluster. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

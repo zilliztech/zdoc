@@ -3,6 +3,9 @@ title: "Migrate from Elasticsearch to Zilliz Cloud | Cloud"
 slug: /migrate-from-elasticsearch
 sidebar_label: "Elasticsearch"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This topic describes how Zilliz Cloud handles data type mapping, collection naming rules, and considerations when migrating from Elasticsearch. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - elasticsearch
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

@@ -3,6 +3,9 @@ title: "Grouping Search | Cloud"
 slug: /grouping-search
 sidebar_label: "Grouping Search"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A grouping search allows Zilliz Cloud to group the search results by the values in a specified field to aggregate data at a higher level. For example, you can use a basic ANN search to find books similar to the one at hand, but you can use a grouping search to find the book categories that may involve the topics discussed in that book. This topic describes how to use Grouping Search along with key considerations. | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - data
   - grouping search
   - group
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

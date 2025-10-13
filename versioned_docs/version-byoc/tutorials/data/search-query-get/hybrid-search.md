@@ -3,6 +3,9 @@ title: "Multi-Vector Hybrid Search | BYOC"
 slug: /hybrid-search
 sidebar_label: "Hybrid Search"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In many applications, an object can be searched by a rich set of information such as title and description, or with multiple modalities such as text, images, and audio. For example, a tweet with a piece of text and an image shall be searched if either the text or the image matches the semantic of the search query. Hybrid search enhances search experience by combining searches across these diverse fields. Zilliz Cloud supports this by allowing search on multiple vector fields, conducting several Approximate Nearest Neighbor (ANN) searches simultaneously. Multi-vector hybrid search is particularly useful if you want to search both text and images, multiple text fields that describe the same object, or dense and sparse vectors to improve search quality. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - data
   - hybrid search
   - combine sparse and dense vectors
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 
@@ -57,7 +60,7 @@ The process of creating a collection involves three key steps: defining the coll
 
 ### Define schema{#define-schema}
 
-For multi-vector hybrid search, we should define multiple vector fields within a collection schema. By default, each collection can accommodate up to 4 vector fields. However, if necessary, you can [contact us](https://zilliz.com/contact-sales) to include up to 10 vector fields in your collections.
+For multi-vector hybrid search, we should define multiple vector fields within a collection schema. For details about the limits on the number of vector fields allowed in a collection, see [Zilliz Cloud Limits](./limits#fields). 
 
 This example incorporates the following fields into the schema:
 
@@ -336,6 +339,14 @@ export schema='{
 </Tabs>
 
 ### Create index{#create-index}
+
+After defining the collection schema, the next step is to configure the vector indexes and specify the similarity metrics. In the given example:
+
+- `text_dense_index`: an index of type `AUTOINDEX` with `IP` metric type is created for the text dense vector field.
+
+- `text_sparse_index`: an index of type`SPARSE_INVERTED_INDEX`with `BM25` metric type is used for the text sparse vector field.
+
+- `image_dense_index`: an index of type `AUTOINDEX` with `IP` metric type is created for the image dense vector field.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -716,11 +727,11 @@ curl --request POST \
 
 ## Perform Hybrid Search{#perform-hybrid-search}
 
-### Create multiple AnnSearchRequest instances{#create-multiple-annsearchrequest-instances}
+### Step 1: Create multiple AnnSearchRequest instances{#step-1-create-multiple-annsearchrequest-instances}
 
 Hybrid Search is implemented by creating multiple `AnnSearchRequest` in the `hybrid_search()` function, where each `AnnSearchRequest` represents a basic ANN search request for a specific vector field. Therefore, before conducting a Hybrid Search, it is necessary to create an `AnnSearchRequest` for each vector field.
 
-In addition, by configuring the `expr` parameter in an `AnnSearchRequest`, you can set the filtering conditions for your hybrid search. Please refer to [Filtered Search](./filtered-search) and [Filtering](./filtering).
+In addition, by configuring the `expr` parameter in an `AnnSearchRequest`, you can set the filtering conditions for your hybrid search. Please refer to [Filtered Search](./filtered-search) and [Filtering Explained](./filtering-overview).
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -900,15 +911,9 @@ export req='[
 
 Given that the parameter `limit` is set to 2, each `AnnSearchRequest` returns 2 search results. In this example, 3 `AnnSearchRequest` instances are created, resulting in a total of 6 search results.
 
-### Configure a reranking strategy{#configure-a-reranking-strategy}
+### Step 2: Configure a reranking strategy{#step-2-configure-a-reranking-strategy}
 
-To merge and rerank the sets of ANN search results, selecting an appropriate reranking strategy is essential. Zilliz Cloud offers two types of reranking strategies: 
-
-- **WeightedRanker**: Use this strategy if the results need to emphasize a particular vector field. WeightedRanker allows you to assign greater weight to certain vector fields, highlighting them more prominently.
-
-- **RRFRanker (Reciprocal Rank Fusion Ranker)**: Choose this strategy when no specific emphasis is required. RRFRanker effectively balances the importance of each vector field.
-
-For more details on these reranking mechanisms, please refer to [Reranking](./reranking). 
+To merge and rerank the sets of ANN search results, selecting an appropriate reranking strategy is essential. Zilliz Cloud offers several types of reranking strategies. For more details on these reranking mechanisms, please refer to [Reranking](./reranking). 
 
 In this example, since there is no particular emphasis on specific search queries, we will proceed with the RRFRanker strategy.
 
@@ -964,7 +969,7 @@ export rerank='{
 </TabItem>
 </Tabs>
 
-### Perform a Hybrid Search{#perform-a-hybrid-search}
+### Step 3: Perform a Hybrid Search{#step-3-perform-a-hybrid-search}
 
 Before initiating a Hybrid Search, ensure that the collection is loaded. If any vector fields within the collection lack an index or are not loaded into memory, an error will occur upon executing the Hybrid Search method.
 
@@ -1079,3 +1084,4 @@ The following is the output:
 ```
 
 With the `limit=2` parameter specified for the Hybrid Search, Zilliz Cloud will rerank the six results obtained from the three searches. Ultimately, they will return only the top two most similar results.
+

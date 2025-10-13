@@ -3,6 +3,9 @@ title: "Range Search | BYOC"
 slug: /range-search
 sidebar_label: "Range Search"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A range search improves search result relevancy by restricting the distance or score of the returned entities within a specific range. This page helps you understand what range search is and the procedures to conduct a range search. | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - data
   - range search
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

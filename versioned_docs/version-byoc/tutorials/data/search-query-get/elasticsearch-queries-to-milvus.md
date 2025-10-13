@@ -3,6 +3,9 @@ title: "Elasticsearch Queries to Milvus | BYOC"
 slug: /elasticsearch-queries-to-milvus
 sidebar_label: "Elasticsearch Queries to Milvus"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Elasticsearch, built on Apache Lucene, is a leading open-source search engine. However, it faces challenges in modern AI applications, including high update costs, poor real-time performance, inefficient shard management, a non-cloud-native design, and excessive resource demands. As a cloud-native vector database, Milvus overcomes these issues with decoupled storage and computing, efficient indexing for high-dimensional data, and seamless integration with modern infrastructures. It offers superior performance and scalability for AI workloads. | BYOC"
 type: origin
@@ -19,10 +22,10 @@ keywords:
   - filtering
   - elasticsearch queries
   - query mapping
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 
@@ -218,7 +221,7 @@ res = client.query(
 )
 ```
 
-You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html). For details on the `like` operator in Milvus, refer to [Using ](./basic-filtering-operators#example-2-using-like-for-pattern-matching)`LIKE`[ for Pattern Matching](./basic-filtering-operators#example-2-using-like-for-pattern-matching).
+You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html). For details on the `like` operator in Milvus, refer to [Using ](./basic-filtering-operators#example-2-using-like-for-pattern-matching)[`LIKE`](./basic-filtering-operators#example-2-using-like-for-pattern-matching)[ for Pattern Matching](./basic-filtering-operators#example-2-using-like-for-pattern-matching).
 
 ### Range query{#range-query}
 
@@ -510,7 +513,7 @@ search_params_dense = {
     "anns_field": "vector",
     "param": {
         "metric_type": "IP",
-        "params": {"nprobe": 10}, 
+        
     },
     "limit": 100
 }
@@ -538,7 +541,7 @@ res = client.hybrid_search(
 
 This example demonstrates a hybrid search in Milvus that combines:
 
-1. **Dense vector search**: Using the inner product (IP) metric with `nprobe` set to 10 for approximate nearest neighbor (ANN) search on the `vector` field.
+1. **Dense vector search**: Using the inner product (IP) metric for approximate nearest neighbor (ANN) search on the `vector` field.
 
 1. **Sparse vector search**: Using the BM25 similarity metric with a `drop_ratio_search` parameter of 0.2 on the `text_sparse` field.
 

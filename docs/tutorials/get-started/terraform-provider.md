@@ -3,21 +3,24 @@ title: "Terraform Provider | Cloud"
 slug: /terraform-provider
 sidebar_label: "Terraform Provider"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz offers a fully managed Milvus service, streamlining the deployment and scaling of vector search applications with security in mind, and eliminating the need to build and maintain complex infrastructure, including both the cloud infrastructure Zilliz provides and your own. | Cloud"
 type: origin
 token: BX6iwjUzLi7udfksJoxc7jK1nsW
-sidebar_position: 15
+sidebar_position: 14
 keywords: 
   - zilliz
   - vector database
   - cloud
   - terraform provider
   - terraform
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 
@@ -72,11 +75,15 @@ In Zilliz Cloud, a [database](/docs/database) serves as a logical unit for organ
 
 - [Databases (Data Source)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/data-sources/databases)
 
-### Collection{#collection}
+### Collection & Aliases{#collection-and-aliases}
 
 A [collection](/docs/manage-collections) is a two-dimensional table with fixed columns and variant rows. Each column represents a field, and each row represents an entity. For details about how to manage collections using Zilliz Cloud Terraform Provider, refer to the following resources and data sources below:
 
+- [Aliases (Resource)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/resources/alias)
+
 - [Collection (Resource)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/resources/collection)
+
+- [Aliases (Data Source)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/data-sources/aliases)
 
 - [Collections (Data Source)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/data-sources/collections)
 

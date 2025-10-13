@@ -3,6 +3,9 @@ title: "Manage Cluster Users (Console) | BYOC"
 slug: /cluster-users
 sidebar_label: "Manage Cluster Users (Console)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, you can create cluster users and assign them cluster roles to define the privileges, achieving data security. | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - rbac
   - users
   - overview
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

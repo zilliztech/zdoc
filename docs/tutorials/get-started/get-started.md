@@ -3,6 +3,9 @@ title: "Get Started with Zilliz Cloud | Cloud"
 slug: /get-started
 sidebar_label: "Get Started"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This chapter provides materials for you to get started with Zilliz Cloud. | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

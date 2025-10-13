@@ -3,6 +3,9 @@ title: "Import Data (Console) | Cloud"
 slug: /import-data-on-web-ui
 sidebar_label: "Console"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This page introduces how to import the prepared data on the Zilliz Cloud console. | Cloud"
 type: origin
@@ -14,15 +17,17 @@ keywords:
   - cloud
   - data import
   - console
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 
 import Admonition from '@theme/Admonition';
 
+
+import Supademo from '@site/src/components/Supademo';
 
 # Import Data (Console)
 
@@ -36,16 +41,18 @@ Once data files are ready, you can import them directly from your local drive or
 
 <ul>
 <li><p>You can have up to 10,000 running or pending import jobs in a collection.</p></li>
-<li><p>The web console supports uploading a local JSON file of up to 1 GB. For larger files, it is recommended to <a href="./import-data-on-web-ui#remote-files-from-an-object-storage-bucket">upload from an object storage</a> instead. If you have any difficulties with data import, please <a href="https://support.zilliz.com/hc/en-us">create a support ticket</a>.</p></li>
+<li><p>The web console supports uploading a local JSON or Parquet file of up to 1 GB. For larger files, it is recommended to <a href="./import-data-on-web-ui#remote-files-from-an-object-storage-bucket">upload from an object storage</a> instead. If you have any difficulties with data import, please <a href="https://support.zilliz.com/hc/en-us">create a support ticket</a>.</p></li>
 </ul>
 
 </Admonition>
 
-### Local JSON file{#local-json-file}
+### Local file{#local-file}
 
-To import data, you can drag and drop a local file into the upload area and click **Import**.
+Zilliz Cloud supports importing data from a local JSON or Parquet file. If your data is prepared in the NumPy format, please import from an [object storage bucket](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket).
 
-![data-import-on-console](/img/data-import-on-console.png)
+To import data from a local file, you can drag or drop a file into the upload area and click **Import**.
+
+<Supademo id="cme7x3fgv388ch3pyymi6ek0q?utm_source=link" title=""  />
 
 ### Remote files from an object storage bucket{#remote-files-from-an-object-storage-bucket}
 
@@ -53,7 +60,7 @@ To import remote files, you must first upload them to a remote bucket. You can e
 
 Once you have uploaded the prepared files to a remote bucket, select the object storage service and fill in the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket. 
 
-Based on your data security requirements, you can use either long-term credentials or session tokens during data import. 
+Based on your data security requirements, you can use either long-term credentials or short-term tokens during data import. 
 
 For more information about obtaining credentials, refer to:
 
@@ -63,7 +70,7 @@ For more information about obtaining credentials, refer to:
 
 - Azure Blob Storage: [View account access keys](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys)
 
-For more information about using session tokens, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
+For more information about using short-term tokens, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -71,9 +78,9 @@ For more information about using session tokens, refer to [this FAQ](/docs/faq-d
 
 </Admonition>
 
-![data-import-on-console-remote](/img/data-import-on-console-remote.png)
+<Supademo id="cme7xfbw40096xf0irz21196r?utm_source=link" title=""  />
 
-## Verify resultes{#verify-resultes}
+## Verify results{#verify-results}
 
 You can view the progress and status of the import job on the [Jobs](./job-center) page.
 

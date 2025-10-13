@@ -3,6 +3,9 @@ title: "Manage Replica | BYOC"
 slug: /manage-replica
 sidebar_label: "Manage Replica"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud supports cluster-level replication. Each replica is an exact copy of the resources and data in a cluster. Using replicas can increase query throughput and availability. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 
@@ -65,6 +68,17 @@ You can adjust the number of replicas for an existing Dedicated cluster either m
 The following demo shows how to configure replicas on the Zilliz Cloud web console.
 
 <Supademo id="cmd2rwczv35ktc4kjyxwa5xwr" title=""  />
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>When clicking <strong>Save</strong> in the <strong>Scale Cluster Replicas</strong> dialog box, you will be prompted to check the resource quota for your project. If the resources are sufficient, the dialog box will disappear after the check is complete, otherwise, you can </p>
+<ul>
+<li><p>Click <strong>Go To Project Resource Settings</strong> to edit resource settings for the project, or</p></li>
+<li><p>Click <strong>Back to Last Step</strong> to change your cluster settings.</p></li>
+</ul>
+<p>During the process, some additional resources will be required for rolling; these resources will be released after use.</p>
+
+</Admonition>
 
 ### Via RESTful API{#via-restful-api}
 

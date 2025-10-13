@@ -3,6 +3,9 @@ title: "Projects | BYOC"
 slug: /projects
 sidebar_label: "Projects"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The chapter focuses on project operations and related settings. | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

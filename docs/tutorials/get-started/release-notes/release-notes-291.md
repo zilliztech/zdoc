@@ -3,20 +3,23 @@ title: "Release Notes (July 23, 2024) | Cloud"
 slug: /release-notes-291
 sidebar_label: "Release Notes (July 23, 2024)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In this update, Zilliz Cloud now supports Milvus' new RESTful API v2, providing a consistent interface and expanded functionalities. A new documentation chatbot enhances user support. The Job Center introduces an intuitive interface for managing and tracking tasks such as backup, restore, migration, import, and clone collection. Auto-scaling for dedicated clusters, available in private preview, dynamically adjusts capacity based on demand, triggered by the Compute Unit (CU) Capacity Threshold. Other enhancements include more cluster monitoring metrics, a revamped cluster management interface, and improved user email templates. | Cloud"
 type: origin
 token: RlhDw3Fr9iCpWSkylfAcyes1nLh
-sidebar_position: 10
+sidebar_position: 12
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 
@@ -57,7 +60,7 @@ Zilliz Cloud now offers an intuitive Jobs page, integrating all historical and a
 
 See [Manage Project Jobs](./job-center) for details.
 
-### Auto-scaling for Dedicated Clusters [Private Preview]{#auto-scaling-for-dedicated-clusters-private-preview}
+### Auto-scaling for Dedicated Clusters &#91;Private Preview&#93;{#auto-scaling-for-dedicated-clusters-private-preview}
 
 Zilliz Cloud introduces auto-scaling, a feature that dynamically adjusts the cluster's capacity based on demand. Auto-scaling is primarily triggered by the CU (Compute Unit) Capacity Threshold. Zilliz Cloud monitors the cluster's CU capacity every minute, and if it exceeds 70% (the default threshold) for two consecutive minutes, the system automatically initiates a scaling process. Users can set a maximum CU size for automatic scaling, though downward auto-scaling is currently not supported.
 
@@ -65,11 +68,11 @@ Auto-scaling is currently in private preview and available only for Dedicated (E
 
 ### Pipelines{#pipelines}
 
-- Pipelines now support searching images by text with the new SEARCH_IMAGE_BY_TEXT function. This feature enables users to retrieve relevant image data from the database by inputting a text query. The search functionality supports multiple languages and utilizes the CLIP vit base patch32 multimodal model for text and image encoding. For details, refer to [Image Data](./pipelines-image-data).
+- Pipelines now support searching images by text with the new SEARCH_IMAGE_BY_TEXT function. This feature enables users to retrieve relevant image data from the database by inputting a text query. The search functionality supports multiple languages and utilizes the CLIP vit base patch32 multimodal model for text and image encoding.
 
-- Users can now obtain pipeline usage information in pipeline details using both the RestFul API and the UI console. This enhancement provides users with a comprehensive view of pipeline usage for better monitoring and analysis. For details, refer to [Estimate Pipeline Usage](./estimate-pipelines-usage).
+- Users can now obtain pipeline usage information in pipeline details using both the RestFul API and the UI console. This enhancement provides users with a comprehensive view of pipeline usage for better monitoring and analysis.
 
-- The limit on the maximum number of each type of pipelines in each project has been increased. Users can now create up to 100 pipelines of every kind in a single project, compared to the previous limit of 10. This change allows for more flexibility and scalability in managing pipelines within projects. For details on all pipeline limits, refer to [Zilliz Cloud Limits on Pipelines](./estimate-pipelines-usage).
+- The limit on the maximum number of each type of pipelines in each project has been increased. Users can now create up to 100 pipelines of every kind in a single project, compared to the previous limit of 10. This change allows for more flexibility and scalability in managing pipelines within projects.
 
 ### Enhancements{#enhancements}
 

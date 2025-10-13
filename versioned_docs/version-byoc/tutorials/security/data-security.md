@@ -3,6 +3,9 @@ title: "Data Security | BYOC"
 slug: /data-security
 sidebar_label: "Data Security"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Data security is integral to Zilliz Cloud. This document summarizes key measures and policies that Zilliz Cloud implements to safeguard your data comprehensively. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data
   - security
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 
@@ -94,7 +97,7 @@ Zilliz Cloud secures your network interactions through:
 
 ### At Rest{#at-rest}
 
-- The stored data on Disk/Object Storage is encrypted using the AES-256 (256-bit Advanced Encryption Standard ) encryption algorithm
+- The stored data on Disk/Object Storage is encrypted using the AES-256 (256-bit Advanced Encryption Standard ) encryption algorithm.
 
 ## Audit Logging and Monitoring{#audit-logging-and-monitoring}
 

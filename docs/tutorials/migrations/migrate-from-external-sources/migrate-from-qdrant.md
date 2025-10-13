@@ -3,6 +3,9 @@ title: "Migrate from Qdrant to Zilliz Cloud | Cloud"
 slug: /migrate-from-qdrant
 sidebar_label: "Qdrant"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This topic describes how Zilliz Cloud handles data type mapping, payload field conversion, and collection naming rules when migrating from Qdrant. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - qdrant
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 
@@ -178,38 +181,38 @@ Array types are not detected in existing payload data and cannot be converted fr
      <th><p>Available for Manual Addition</p></th>
    </tr>
    <tr>
-     <td><p>Array\<Integer></p></td>
-     <td><p>ARRAY\<INT64></p></td>
+     <td><p>Array&lt;Integer&gt;</p></td>
+     <td><p>ARRAY&lt;INT64&gt;</p></td>
      <td><p>✅ Can be added as new field</p></td>
    </tr>
    <tr>
-     <td><p>Array\<Float></p></td>
-     <td><p>ARRAY\<DOUBLE></p></td>
+     <td><p>Array&lt;Float&gt;</p></td>
+     <td><p>ARRAY&lt;DOUBLE&gt;</p></td>
      <td><p>✅ Can be added as new field</p></td>
    </tr>
    <tr>
-     <td><p>Array\<Bool></p></td>
-     <td><p>ARRAY\<BOOL></p></td>
+     <td><p>Array&lt;Bool&gt;</p></td>
+     <td><p>ARRAY&lt;BOOL&gt;</p></td>
      <td><p>✅ Can be added as new field</p></td>
    </tr>
    <tr>
-     <td><p>Array\<Keyword></p></td>
-     <td><p>ARRAY\<VARCHAR></p></td>
+     <td><p>Array&lt;Keyword&gt;</p></td>
+     <td><p>ARRAY&lt;VARCHAR&gt;</p></td>
      <td><p>✅ Can be added as new field</p></td>
    </tr>
    <tr>
-     <td><p>Array\<Geo></p></td>
+     <td><p>Array&lt;Geo&gt;</p></td>
      <td><p>Not supported</p></td>
      <td><p>❌ Not available</p></td>
    </tr>
    <tr>
-     <td><p>Array\<Datetime></p></td>
-     <td><p>ARRAY\<VARCHAR></p></td>
+     <td><p>Array&lt;Datetime&gt;</p></td>
+     <td><p>ARRAY&lt;VARCHAR&gt;</p></td>
      <td><p>✅ Can be added as new field</p></td>
    </tr>
    <tr>
-     <td><p>Array\<UUID></p></td>
-     <td><p>ARRAY\<VARCHAR></p></td>
+     <td><p>Array&lt;UUID&gt;</p></td>
+     <td><p>ARRAY&lt;VARCHAR&gt;</p></td>
      <td><p>✅ Can be added as new field</p></td>
    </tr>
 </table>

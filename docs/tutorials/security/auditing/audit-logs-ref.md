@@ -1,8 +1,11 @@
 ---
-title: "Audit Log Reference | Cloud"
+title: "VectorDB Audit Logs Reference | Cloud"
 slug: /audit-logs-ref
-sidebar_label: "Audit Log Reference"
-beta: PRIVATE
+sidebar_label: "VectorDB Audit Logs Reference"
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "On Zilliz Cloud, audit logs have the following syntax | Cloud"
 type: origin
@@ -14,17 +17,17 @@ keywords:
   - cloud
   - auditing
   - log
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Audit Log Reference
+# VectorDB Audit Logs Reference
 
 On Zilliz Cloud, audit logs have the following syntax:
 

@@ -3,6 +3,9 @@ title: "ARRAY Operators | BYOC"
 slug: /array-filtering-operators
 sidebar_label: "ARRAY Operators"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides powerful operators to query array fields, allowing you to filter and retrieve entities based on the contents of arrays. | BYOC"
 type: origin
@@ -18,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - array operators
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 
@@ -42,13 +45,13 @@ Zilliz Cloud provides powerful operators to query array fields, allowing you to 
 
 The ARRAY operators allow for fine-grained querying of array fields in Zilliz Cloud clusters. These operators are:
 
-- `ARRAY_CONTAINS(identifier, expr)`: checks if a specific element exists in an array field.
+- [`ARRAY_CONTAINS(identifier, expr)`](./array-filtering-operators#arraycontains): checks if a specific element exists in an array field.
 
-- `ARRAY_CONTAINS_ALL(identifier, expr)`: ensures that all elements of the specified list are present in the array field.
+- [`ARRAY_CONTAINS_ALL(identifier, expr)`](./array-filtering-operators#arraycontainsall): ensures that all elements of the specified list are present in the array field.
 
-- `ARRAY_CONTAINS_ANY(identifier, expr)`: checks if any of the elements from the specified list are present in the array field.
+- [`ARRAY_CONTAINS_ANY(identifier, expr)`](./array-filtering-operators#arraycontainsany): checks if any of the elements from the specified list are present in the array field.
 
-- `ARRAY_LENGTH(identifier, expr)`: allows you to filter entities based on the number of elements in an array field.
+- [`ARRAY_LENGTH(identifier, expr)`](./array-filtering-operators#arraylength): allows you to filter entities based on the number of elements in an array field.
 
 ## ARRAY_CONTAINS{#arraycontains}
 

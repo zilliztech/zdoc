@@ -3,6 +3,9 @@ title: "Database | Cloud"
 slug: /database
 sidebar_label: "Database"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud introduces a database layer in between the clusters and collections, providing a more efficient way to manage and organize your data while supporting multi-tenancy. | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 
@@ -345,6 +348,11 @@ The following table lists possible database properties.
      <td><p><code>database.force.deny.reading</code></p></td>
      <td><p>boolean</p></td>
      <td><p>Whether to force the specified database to deny reading operations.</p></td>
+   </tr>
+   <tr>
+     <td></td>
+     <td><p>string</p></td>
+     <td></td>
    </tr>
 </table>
 

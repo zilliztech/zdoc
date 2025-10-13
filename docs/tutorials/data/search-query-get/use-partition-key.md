@@ -3,6 +3,9 @@ title: "Use Partition Key | Cloud"
 slug: /use-partition-key
 sidebar_label: "Use Partition Key"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The Partition Key is a search optimization solution based on partitions. By designating a specific scalar field as the Partition Key and specifying filtering conditions based on the Partition Key during the search, the search scope can be narrowed down to several partitions, thereby improving search efficiency. This article will introduce how to use the Partition Key and related considerations. | Cloud"
 type: origin
@@ -416,13 +419,6 @@ In the multi-tenancy scenario, you can designate the scalar field related to ten
 As shown in the above figure, Zilliz Cloud groups entities based on the Partition Key value and creates a separate index for each of these groups. Upon receiving a search request, Zilliz Cloud locates the index based on the Partition Key value specified in the filtering condition and restricts the search scope within the entities included in the index, thus avoiding scanning irrelevant entities during the search and greatly enhancing the search performance.
 
 Once you have enabled Partition Key Isolation, you must include only one specific value in the Partition-key-based filter so that Zilliz Cloud can restrict the search scope within the entities included in the index that match.
-
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>This feature is available for clusters compatible with Milvus v2.4.x and using Performance-optimized CUs.
-For clusters of other CU types and all subscription plans, ensure their compatibility with Milvus v2.5.x before using this feature.</p>
-
-</Admonition>
 
 ### Enable Partition Key Isolation{#enable-partition-key-isolation}
 

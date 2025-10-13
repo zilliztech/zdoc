@@ -3,11 +3,14 @@ title: "MCP Server | Cloud"
 slug: /zilliz-mcp-server
 sidebar_label: "MCP Server"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides an MCP server](https//github.com/zilliztech/zilliz-mcp-server/tree/master) that enables AI agents to interact with Zilliz Cloud seamlessly through the standardized [Model Context Protocol (MCP). This page guides you through setting up the Zilliz MCP Server locally and using it with your preferred AI agents. | Cloud"
 type: origin
 token: WRFqwygyNiZ0YJkmsfwcGEsSn4d
-sidebar_position: 14
+sidebar_position: 13
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +18,10 @@ keywords:
   - mcp
   - milvus
   - mcp server
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 
@@ -124,7 +127,7 @@ If you prefer to share Zilliz MCP Server among multiple AI agents running on dif
     MCP_SERVER_HOST=localhost
     ```
 
-    Zilliz MCP Server starts at `localhost:8000` by default. You can change this by setting `MCP_SERVER_HOST` and `MCP_SERVER_PORT` to proper values.
+    Zilliz MCP Server starts at `localhost*:*8000` by default. You can change this by setting `MCP_SERVER_HOST` and `MCP_SERVER_PORT` to proper values.
 
 1. Start Zilliz MCP Server.
 
@@ -134,7 +137,7 @@ If you prefer to share Zilliz MCP Server among multiple AI agents running on dif
 
 1. Prepare the server configuration.
 
-    Zilliz MCP Server starts at `localhost:8000` by default. If you have modified the server settings in the **.env** file above, update the URL in the following configuration with the correct one.
+    Zilliz MCP Server starts at `localhost*:*8000` by default. If you have modified the server settings in the **.env** file above, update the URL in the following configuration with the correct one.
 
     ```json
     {
@@ -152,7 +155,7 @@ If you prefer to share Zilliz MCP Server among multiple AI agents running on dif
 
 MCP is an open protocol that standardizes how applications provide context to LLMs. Lots of AI-driven applications support it. In this step, you will learn how to add the configuration to Cursor, an AI code editor.
 
-1. Start Cursor and choose **Cursor** > **Settings** > **Cursor Settings** in the top menu bar.
+1. Start Cursor and choose **Cursor** &gt; **Settings** &gt; **Cursor Settings** in the top menu bar.
 
 1. Choose **Tools & Integrations** from the left navigation pane.
 

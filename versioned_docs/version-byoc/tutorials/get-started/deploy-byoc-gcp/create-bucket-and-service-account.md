@@ -3,6 +3,9 @@ title: "Create Cloud Storage Bucket and Service Account | BYOC"
 slug: /create-bucket-and-service-account
 sidebar_label: "Create Cloud Storage Bucket and Service Account"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This page describes the procedure for creating and configuring the root storage for your Bring-Your-Own-Cloud (BYOC) project with proper permissions. | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - hybrid vector search
   - Video deduplication
   - Video similarity search
   - Vector retrieval
+  - Audio similarity search
 
 ---
 
