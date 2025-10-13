@@ -3,6 +3,9 @@ title: "Prometheusと統合する | Cloud"
 slug: /prometheus-monitoring
 sidebar_label: "Prometheusと統合する"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Prometheusは、指定された間隔で設定されたターゲットからメトリックを収集し、ルール式を評価し、結果を表示し、特定の条件に基づいてアラートをトリガーできる監視システムです。 | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

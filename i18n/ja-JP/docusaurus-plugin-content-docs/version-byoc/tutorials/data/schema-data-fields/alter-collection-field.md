@@ -3,6 +3,9 @@ title: "コレクションフィールドを変更する | BYOC"
 slug: /alter-collection-field
 sidebar_label: "コレクションフィールドを変更する"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "コレクションフィールドのプロパティを変更して、列の制約を変更したり、より厳格なデータ整合性ルールを適用したりできます。 | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

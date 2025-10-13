@@ -3,6 +3,9 @@ title: "ダイナミックフィールド | BYOC"
 slug: /enable-dynamic-field
 sidebar_label: "ダイナミックフィールド"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "コレクションのスキーマで定義されたすべてのフィールドは、挿入するエンティティに含める必要があります。一部のフィールドをオプションにしたい場合は、動的フィールドを有効にすることを検討してください。このトピックでは、動的フィールドを有効にして使用する方法について説明します。 | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 
@@ -34,7 +37,7 @@ import TabItem from '@theme/TabItem';
 
 では、コレクション内の各フィールドの名前とデータ型を設定することで、コレクションスキーマを作成できます。スキーマにフィールドを追加する場合は、挿入するエンティティにこのフィールドが含まれていることを確認してください。一部のフィールドをオプションにしたい場合は、動的フィールドを有効にすることもできます。
 
-動的フィールドは`$meta`という名前の予約フィールドで、Java Script Object Notation(JSON)タイプです。スキーマで定義されていないエンティティのフィールドは、この予約JSONフィールドにキーと値のペアとして保存されます。
+動的フィールドは`#meta`という名前の予約フィールドで、Java Script Object Notation(JSON)タイプです。スキーマで定義されていないエンティティのフィールドは、この予約JSONフィールドにキーと値のペアとして保存されます。
 
 動的フィールドが有効になっているコレクションでは、スキーマで明示的に定義されたフィールドと同様に、動的フィールドのキーをスカラーフィルターに使用できます。
 

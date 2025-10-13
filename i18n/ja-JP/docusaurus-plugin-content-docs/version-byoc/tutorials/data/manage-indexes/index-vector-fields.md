@@ -3,6 +3,9 @@ title: "インデックスベクトルフィールド | BYOC"
 slug: /index-vector-fields
 sidebar_label: "インデックスベクトルフィールド"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このガイドでは、コレクション内のベクトルフィールドのインデックスを作成および管理する基本的な操作について説明します。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - vector field
   - index
+  - how does milvus work
   - Zilliz vector database
   - Zilliz database
   - Unstructured Data
-  - vector database
 
 ---
 

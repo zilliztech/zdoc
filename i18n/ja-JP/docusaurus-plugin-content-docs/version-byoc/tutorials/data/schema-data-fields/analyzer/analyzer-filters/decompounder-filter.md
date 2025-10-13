@@ -3,6 +3,9 @@ title: "デコンパウンダー | BYOC"
 slug: /decompounder-filter
 sidebar_label: "デコンパウンダー"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "デコンパウンダーフィルター（decompounder）は、指定された辞書に基づいて複合語を個々のコンポーネントに分割し、複合語の一部を検索しやすくします。このフィルターは、ドイツ語など、複合語を頻繁に使用する言語に特に役立ちます。 | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - decompounder
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

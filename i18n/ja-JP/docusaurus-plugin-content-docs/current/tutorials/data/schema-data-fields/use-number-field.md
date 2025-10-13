@@ -3,6 +3,9 @@ title: "数字フィールド | Cloud"
 slug: /use-number-field
 sidebar_label: "数字フィールド"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "数値フィールドは、数値を格納するスカラーフィールドです。これらの値は、整数(整数)または10進数(浮動小数点数)である場合があります。通常、量、測定値、または数学的に処理する必要があるデータを表すために使用されます。 | Cloud"
 type: origin
@@ -18,10 +21,10 @@ keywords:
   - int
   - integer
   - float
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

@@ -3,6 +3,9 @@ title: "スキーマデザインハンズオン | BYOC"
 slug: /schema-design-hands-on
 sidebar_label: "スキーマデザインハンズオン"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "情報検索(IR)システムは、検索エンジンとしても知られており、検索拡張生成(RAG)、画像検索、製品推薦などのさまざまなAIアプリケーションに不可欠です。IRシステムを開発する最初のステップは、ビジネス要件を分析し、情報をどのように整理するかを決定し、データを意味的に検索可能にするためにインデックス化するデータモデルの設計です。 | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 
@@ -99,7 +102,7 @@ Zilliz Cloudは、コレクションスキーマを介してデータモデル�
 
 まず、Milvusクライアントインスタンスを作成します。これを使用して、Zilliz Cloudクラスタに接続し、コレクションとデータを管理できます。
 
-スキーマを設定するには、`create_schema()`を使用してスキーマオブジェクトを作成し、`add_field()`を使用してスキーマにフィールドを追加します。
+スキーマを設定するには、[`create_schema()`](https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/Collections/create_schema.md)を使用してスキーマオブジェクトを作成し、[`add_field()`](https://milvus.io/api-reference/pymilvus/v2.4.x/MilvusClient/CollectionSchema/add_field.md)を使用してスキーマにフィールドを追加します。
 
 ```python
 from pymilvus import MilvusClient, DataType
@@ -162,13 +165,13 @@ index_params.add_index(
 )
 ```
 
-インデックスパラメータが設定され、適用されると、Zilliz Cloudクラスターはベクトルおよびスカラーデータの複雑なクエリを処理するために最適化されます。このインデックス化により、コレクション内の類似検索のパフォーマンスと精度が向上し、画像ベクトルとサマリーベクトルに基づく記事の効率的な検索が可能になります。指定されたベクトルフィールドとスカラーフィールドの両方に`AUTOINDEX`を活用することで、Zilliz Cloudは迅速に最も関連性の高い結果を特定して返すことができ、全体的なユーザーエクスペリエンスとデータ検索過程の効果が大幅に向上します。
+インデックスパラメータが設定され、適用されると、Zilliz Cloudクラスターはベクトルおよびスカラーデータの複雑なクエリを処理するために最適化されます。このインデックス化により、コレクション内の類似検索のパフォーマンスと精度が向上し、画像ベクトルとサマリーベクトルに基づく記事の効率的な検索が可能になります。指定されたベクトルフィールドとスカラーフィールドの両方に[`AUTOINDEX`](null)を活用することで、Zilliz Cloudは迅速に最も関連性の高い結果を特定して返すことができ、全体的なユーザーエクスペリエンスとデータ検索過程の効果が大幅に向上します。
 
 Zilliz Cloudは唯一のインデックスタイプとしてAUTOINDEXをサポートしていますが、複数のメトリックタイプを提供しています。詳細については、「[AUTOINDEXの説明](./autoindex-explained)」と「[メトリックの種類](./search-metrics-explained)」.を参照してください。
 
 ### コレクションを作成{#create-collection}
 
-スキーマとインデックスが定義されたら、これらのパラメータを使用して「コレクション」を作成します。Zilliz Cloudクラスタ\</include>へのコレクションは、リレーショナルDBへのテーブルのようなものです。
+スキーマとインデックスが定義されたら、これらのパラメータを使用して「コレクション」を作成します。Zilliz Cloudクラスタ&lt;/include&gt;へのコレクションは、リレーショナルDBへのテーブルのようなものです。
 
 ```python
 client.create_collection(

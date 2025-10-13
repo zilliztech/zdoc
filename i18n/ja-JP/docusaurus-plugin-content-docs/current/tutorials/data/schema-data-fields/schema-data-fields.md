@@ -3,6 +3,9 @@ title: "スキーマとデータフィールド | Cloud"
 slug: /schema-data-fields
 sidebar_label: "スキーマとデータフィールド"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "スキーマは、コレクションのデータ構造を定義し、コレクションフィールドの名前、順序、データ型、および関連する属性を決定します。この章では、主にスキーマと関連する概念について説明します。 | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

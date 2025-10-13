@@ -3,6 +3,9 @@ title: "インポートとエクスポート | BYOC"
 slug: /data-import-export
 sidebar_label: "インポートとエクスポート"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "この章では、Zilliz Cloudクラスターにデータをインポートしたり、データをエクスポートするための一般的な手順について説明します。 | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - data import
   - export
   - milvus
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

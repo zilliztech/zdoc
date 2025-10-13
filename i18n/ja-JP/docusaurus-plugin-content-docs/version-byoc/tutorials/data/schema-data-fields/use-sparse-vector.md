@@ -3,6 +3,9 @@ title: "疎ベクトル | BYOC"
 slug: /use-sparse-vector
 sidebar_label: "疎ベクトル"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "疎ベクトルは、情報検索や自然言語処理におけるデータ表現の重要な方法です。密ベクトルは、優れた意味理解能力のために人気がありますが、疎ベクトルは、キーワードやフレーズの正確なマッチングが必要なアプリケーションにおいて、より正確な結果を提供することがよくあります。 | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

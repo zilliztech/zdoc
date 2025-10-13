@@ -3,6 +3,9 @@ title: "APIとSDK | BYOC"
 slug: /api-sdks
 sidebar_label: "APIとSDK"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "この章では、RESTful APIとSDKを使用またはインストールする手順と、それらのリファレンスドキュメントにアクセスできます。 | BYOC"
 type: origin
@@ -20,10 +23,10 @@ keywords:
   - go
   - node
   - nodejs
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

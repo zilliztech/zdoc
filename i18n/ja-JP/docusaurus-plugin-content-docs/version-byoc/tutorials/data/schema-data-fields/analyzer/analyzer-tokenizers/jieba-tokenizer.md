@@ -3,6 +3,9 @@ title: "ジエバ | BYOC"
 slug: /jieba-tokenizer
 sidebar_label: "ジエバ"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "ジエバトークナイザ（`jieba`）は、中国語のテキストを構成語に分解して処理します。 | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - jieba-tokenizer
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

@@ -3,6 +3,9 @@ title: "Azure Marketplaceで購読する | Cloud"
 slug: /subscribe-on-azure-marketplace
 sidebar_label: "Azure Marketplace"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このガイドでは、サブスクリプションの過程を順を追って説明し、Azure Marketplace上のZilliz Cloudの価格条件について概説します。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - azure
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 
@@ -48,11 +51,11 @@ import Admonition from '@theme/Admonition';
 
     ![search_for_zilliz_on_azure](/img/search_for_zilliz_on_azure.png)
 
-1. [**Zilliz Cloud**]をクリックします。
+1. &#91;**Zilliz Cloud**&#93;をクリックします。
 
     サービスと価格について理解してください。
 
-1. [**プラン+価格**]タブに切り替えます。[**今すぐ入手**]をクリックします。
+1. &#91;**プラン+価格**&#93;タブに切り替えます。&#91;**今すぐ入手**&#93;をクリックします。
 
     ![get_it_now_on_azure](/img/get_it_now_on_azure.png)
 
@@ -64,7 +67,7 @@ import Admonition from '@theme/Admonition';
 
     1. 適切なサブスクリ**プションとリソースグループ**を選択して、プロジェクトの詳細を設定します。リソースグループがない場合は、作成してください。**サブスクリプション**と**リソースグループ**の詳細については、Azuresの[SaaS購入体験](https://learn.microsoft.com/en-us/marketplace/purchase-saas-offer-in-azure-portal#the-saas-purchase-experience)を参照してください。
 
-    1. [**SaaS詳細**]を設定します。
+    1. &#91;**SaaS詳細**&#93;を設定します。
 
         1. 後で簡単に識別できるように、サブスクリプションに名前を付けてください。
 
@@ -78,11 +81,11 @@ import Admonition from '@theme/Admonition';
 
         </Admonition>
 
-    1. サブスクリプションの詳細を確認し、[**レビュー+購読**]をクリックします。
+    1. サブスクリプションの詳細を確認し、&#91;**レビュー+購読**&#93;をクリックします。
 
     ![configure_subscription_on_azure](/img/configure_subscription_on_azure.png)
 
-1. 次のページで、[**今すぐアカウント**を構成]をクリックして、Azure MarketplaceサブスクリプションをZilliz Cloudにリンクします。
+1. 次のページで、&#91;**今すぐアカウント**を構成&#93;をクリックして、Azure MarketplaceサブスクリプションをZilliz Cloudにリンクします。
 
     ![configure_account_azure](/img/configure_account_azure.png)
 
@@ -108,7 +111,7 @@ Azure Marketplaceから正常にサブスクライブした後は、必要に応
 
 詳細については、「[Azureサブスクリプションおよび/またはリソースグループの変更](https://learn.microsoft.com/ja-jp/marketplace/saas-subscription-lifecycle-management#change-azure-subscription-andor-resource-group)」を参照してください。
 
-更新内容は、[**支払方法**]セクションの[**請求概要**]ページで確認できます。[サブスクリプションID]をクリックし、サブスクリプション**購入者PUID**が新しいMarketplaceアカウントに更新されているかどうかを確認します。
+更新内容は、&#91;**支払方法**&#93;セクションの&#91;**請求概要**&#93;ページで確認できます。&#91;サブスクリプションID&#93;をクリックし、サブスクリプション**購入者PUID**が新しいMarketplaceアカウントに更新されているかどうかを確認します。
 
 ![view-azure-subscription-id](/img/view-azure-subscription-id.png)
 
@@ -126,17 +129,17 @@ Azure Marketplaceから正常にサブスクライブした後は、必要に応
 
 1. 「[クレジットカードを追加して購読する](./subscribe-by-adding-credit-card)」の手順に従って、支払いクレジットカードを追加します。
 
-1. [**支払方法**]セクションの[**請求概要**]ページで更新を確認します。
+1. &#91;**支払方法**&#93;セクションの&#91;**請求概要**&#93;ページで更新を確認します。
 
 ## Azure Marketplaceのサブスクリプションをキャンセルする{#cancel-azure-marketplace-subscription}
 
 1. Azure Marketplaceのホームページを開きます。
 
-1. [**すべてのリソース**]をクリックするか、[**リソース/最近**]タブでサブスクリプションを見つけます。
+1. &#91;**すべてのリソース**&#93;をクリックするか、&#91;**リソース/最近**&#93;タブでサブスクリプションを見つけます。
 
     ![azure_all_resources](/img/azure_all_resources.png)
 
-1. キャンセルしたいサブスクリプションに移動します。[**サブスクリプションのキャンセル**]をクリックします。Azure Marketplaceが処理を完了するまで数分間お待ちください。
+1. キャンセルしたいサブスクリプションに移動します。&#91;**サブスクリプションのキャンセル**&#93;をクリックします。Azure Marketplaceが処理を完了するまで数分間お待ちください。
 
     ![cancel_azure_subscription](/img/cancel_azure_subscription.png)
 

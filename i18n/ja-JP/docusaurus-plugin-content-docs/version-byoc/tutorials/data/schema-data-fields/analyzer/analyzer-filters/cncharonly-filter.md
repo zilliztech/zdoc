@@ -3,6 +3,9 @@ title: "Cncharonlyフィルター | BYOC"
 slug: /cncharonly-filter
 sidebar_label: "Cncharonlyフィルター"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "`cncharonly`フィルターは、中国語以外の文字を含むトークンを削除します。このフィルターは、他の文字、数字、または記号を含むトークンを除外して、中国語のテキストだけに焦点を当てたい場合に便利です。 | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - cncharonly
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

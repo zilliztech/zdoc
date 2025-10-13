@@ -3,6 +3,9 @@ title: "AUTOINDEXの説明 | BYOC"
 slug: /autoindex-explained
 sidebar_label: "AUTOINDEXの説明"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、Performance-optimizedと容量に最適化されたクラスターを提供しています。これらのクラスターにインデックスを構築するためには、異なる目的があるため、異なるアプローチが必要です。ユーザーがインデックスパラメータの調整や微調整の手間を省くために、AUTOINDEXが役立ちます。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - autoindex
   - milvus
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 
@@ -62,7 +65,7 @@ Zilliz Cloudは、Performance-optimizedと容量に最適化されたクラス�
 
 インデックスを作成する過程では、結果をより迅速に取得できるように、コレクション内のエンティティを特定の順序でソートします。
 
-Zilliz Cloud上でフローティングベクトルをインデックス化することは障害ではありません。インデックスタイプを`AUTOINDEX`に設定し、Zilliz Cloudのメトリックタイプを選択して、インデックス構築と検索プロセスに最適な構成を決定するだけです。メトリックタイプは、ベクトル間の距離の測定方法を決定し、考慮する必要がある唯一のものです。
+Zilliz Cloud上でフローティングベクトルをインデックス化することは障害ではありません。インデックスタイプを**AUTOINDEX**に設定し、Zilliz Cloudのメトリックタイプを選択して、インデックス構築と検索プロセスに最適な構成を決定するだけです。メトリックタイプは、ベクトル間の距離の測定方法を決定し、考慮する必要がある唯一のものです。
 
 MilvusとZilliz Cloudのインデックス構築設定の違いを以下に示します。
 

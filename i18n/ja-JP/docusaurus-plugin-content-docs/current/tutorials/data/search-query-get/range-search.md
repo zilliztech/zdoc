@@ -3,6 +3,9 @@ title: "レンジ検索 | Cloud"
 slug: /range-search
 sidebar_label: "レンジ検索"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "範囲検索は、特定の範囲内で返されるエンティティの距離またはスコアを制限することにより、検索結果の関連性を向上させます。このページでは、範囲検索と範囲検索を実行する手順を理解するのに役立ちます。 | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - data
   - range search
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

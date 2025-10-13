@@ -3,6 +3,9 @@ title: "サードパーティーとの統合 | BYOC"
 slug: /integrate-with-third-parties
 sidebar_label: "サードパーティーとの統合"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "(placeholder) | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - Annoy vector search
-  - milvus
   - Zilliz
   - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

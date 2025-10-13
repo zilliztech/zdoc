@@ -3,6 +3,9 @@ title: "クラスタに接続 | Cloud"
 slug: /connect-to-cluster
 sidebar_label: "クラスタに接続"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "この記事では、クラスターへの接続に関する体系的なガイドを提供しています。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - connect
+  - Audio search
   - what is semantic search
   - Embedding model
   - image similarity search
-  - Context Window
 
 ---
 

@@ -3,6 +3,9 @@ title: "APIとSDK | Cloud"
 slug: /api-sdks
 sidebar_label: "APIとSDK"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "この章では、RESTful APIとSDKを使用またはインストールする手順と、それらのリファレンスドキュメントにアクセスできます。 | Cloud"
 type: origin
@@ -20,10 +23,10 @@ keywords:
   - go
   - node
   - nodejs
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

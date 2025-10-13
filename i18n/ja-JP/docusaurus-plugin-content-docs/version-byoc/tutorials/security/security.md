@@ -3,6 +3,9 @@ title: "セキュリティ | BYOC"
 slug: /security
 sidebar_label: "セキュリティ"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "この章では、認証、役割ベースのアクセス制御（RBAC）、プライベートエンドポイント、ホワイトリストなどのセキュリティ関連の対策に焦点を当てています。 | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 

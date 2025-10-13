@@ -3,6 +3,9 @@ title: "基本を理解する | Cloud"
 slug: /understand-basics
 sidebar_label: "基本を理解する"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudの使い方を議論する際に使用する一般的な用語についての説明。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - basics
   - milvus
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

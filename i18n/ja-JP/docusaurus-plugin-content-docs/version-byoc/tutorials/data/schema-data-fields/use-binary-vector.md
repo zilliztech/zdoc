@@ -3,6 +3,9 @@ title: "バイナリベクトル | BYOC"
 slug: /use-binary-vector
 sidebar_label: "バイナリベクトル"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "バイナリベクトルは、従来の高次元浮動小数点ベクトルを0と1のみを含むバイナリベクトルに変換する特別な形式のデータ表現です。この変換により、ベクトルの体格が圧縮されるだけでなく、意味情報を保持しながらストレージおよび計算コストが削減されます。非重要な特徴の精度が必要でない場合、バイナリベクトルは、元の浮動小数点ベクトルのほとんどの整合性と有用性を効果的に維持できます。 | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

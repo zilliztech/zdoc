@@ -3,6 +3,9 @@ title: "密集ベクトル | BYOC"
 slug: /use-dense-vector
 sidebar_label: "密集ベクトル"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "密集ベクトルは、機械学習やデータ分析で広く使用されている数値データ表現です。実数の配列で構成され、ほとんどまたはすべての要素が非ゼロです。疎ベクトルと比較して、密集ベクトルは、各次元が意味のある値を保持するため、同じ次元レベルでより多くの情報を含んでいます。この表現により、複雑なパターンや関係を効果的に捉えることができ、データを高次元空間で分析および過程化することが容易になります。密集ベクトルには通常、特定のアプリケーションや要件に応じて、数十から数百、さらには数千の固定された次元があります。 | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

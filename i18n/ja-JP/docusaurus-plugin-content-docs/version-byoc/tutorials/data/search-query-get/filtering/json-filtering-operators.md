@@ -3,6 +3,9 @@ title: "JSON演算子 | BYOC"
 slug: /json-filtering-operators
 sidebar_label: "JSON演算子"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、JSONフィールドをクエリおよびフィルタリングするための高度な演算子をサポートしており、複雑な構造化データを管理するのに最適です。これらの演算子により、JSONドキュメントの非常に効果的なクエリが可能になり、JSONフィールド内の特定の要素、値、または条件に基づいてエンティティを取得できます。このセクションでは、Zilliz CloudでJSON固有の演算子を使用する方法を説明し、その機能を説明する実用的な例を提供します。 | BYOC"
 type: origin
@@ -18,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - json operators
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 
@@ -42,11 +45,11 @@ Zilliz Cloudは、JSONフィールドをクエリおよびフィルタリング�
 
 Zilliz Cloudには、JSONデータをフィルタリングしてクエリするための強力なJSON演算子がいくつか用意されています。これらの演算子は以下の通りです:
 
-- `JSON_CONTAINS(identifier, expr)`:指定されたJSON式がフィールド内にあるエンティティをフィルターします。
+- [`JSON_CONTAINS(](./json-filtering-operators#jsoncontains)[identifier](./json-filtering-operators#jsoncontains)[, expr)`](./json-filtering-operators#jsoncontains):指定されたJSON式がフィールド内にあるエンティティをフィルターします。
 
-- `JSON_CONTAINS_ALL(identifier, expr)`:指定されたJSON式のすべての要素がフィールドに存在することを確認します。
+- [`JSON_CONTAINS_ALL(identifier, expr)`](./json-filtering-operators#jsoncontainsall):指定されたJSON式のすべての要素がフィールドに存在することを確認します。
 
-- `JSON_CONTAINS_ANY(identifier, expr)`:フィールド内に少なくとも1つのJSON式のメンバーが存在するエンティティをフィルタリングします。
+- [`JSON_CONTAINS_ANY(identifier, expr)`](./json-filtering-operators#jsoncontainsany):フィールド内に少なくとも1つのJSON式のメンバーが存在するエンティティをフィルタリングします。
 
 これらの演算子を例を使って探索し、現実世界のシナリオでどのように適用できるかを見てみましょう。
 

@@ -3,6 +3,9 @@ title: "フィルタリファレンス | Cloud"
 slug: /analyzer-filters
 sidebar_label: "フィルタリファレンス"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このセクションでは、アナライザのフィルタの詳細なリファレンスを提供します。 | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

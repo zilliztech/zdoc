@@ -3,6 +3,9 @@ title: "始める | BYOC"
 slug: /get-started
 sidebar_label: "始める"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud上でアプリを構築するための包括的なクイックスタートガイドと関連トピック。 | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

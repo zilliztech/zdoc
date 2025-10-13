@@ -3,6 +3,9 @@ title: "AWSでBYOC-Iをデプロイする | BYOC"
 slug: /deploy-byoc-i-aws
 sidebar_label: "AWSでBYOC-Iをデプロイする"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このページでは、AWS Virtual Private Cloud(VPC)でBYOCエージェントを使用してBring-Your-Own-Cloud(BYOC)データプレーンを作成する方法について説明します。 | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 
@@ -57,7 +60,7 @@ import Admonition from '@theme/Admonition';
 
 ### ステップ2:プロジェクトを作成する{#step-2-create-a-project}
 
-BYOC-I組織内で、[**プロジェクトの作成とデータプレーンのデプロイ**]ボタンをクリックしてデプロイを開始します。
+BYOC-I組織内で、&#91;**プロジェクトの作成とデータプレーンのデプロイ**&#93;ボタンをクリックしてデプロイを開始します。
 
 ![TzN1b6TOSoGfJ9xrQV8c6rqznNf](/img/TzN1b6TOSoGfJ9xrQV8c6rqznNf.png)
 

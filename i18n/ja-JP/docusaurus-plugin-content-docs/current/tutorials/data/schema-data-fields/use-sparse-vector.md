@@ -3,6 +3,9 @@ title: "疎ベクトル | Cloud"
 slug: /use-sparse-vector
 sidebar_label: "疎ベクトル"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "疎ベクトルは、情報検索や自然言語処理におけるデータ表現の重要な方法です。密ベクトルは、優れた意味理解能力のために人気がありますが、疎ベクトルは、キーワードやフレーズの正確なマッチングが必要なアプリケーションにおいて、より正確な結果を提供することがよくあります。 | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

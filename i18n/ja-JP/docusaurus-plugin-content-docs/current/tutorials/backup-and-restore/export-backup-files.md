@@ -3,6 +3,9 @@ title: "バックアップファイルのエクスポート | Cloud"
 slug: /export-backup-files
 sidebar_label: "バックアップファイルのエクスポート"
 beta: PRIVATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudコンソールを使用して、バックアップファイルをオブジェクトストレージにエクスポートできます。 | Cloud"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - integrate
   - object
   - storage
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 
@@ -51,17 +54,17 @@ Zilliz Cloudからバックアップファイルをエクスポートするに�
 
 1. Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. 左側のナビゲーションウィンドウで、[**バックアップ**]を選択します。
+1. 左側のナビゲーションウィンドウで、&#91;**バックアップ**&#93;を選択します。
 
-1. 表示されるページで、対象のバックアップファイルを探し、をクリックします**。。。**[**アクション**]列で、[**エクスポート**]を選択します。
+1. 表示されるページで、対象のバックアップファイルを探し、をクリックします**。。。**&#91;**アクション**&#93;列で、&#91;**エクスポート**&#93;を選択します。
 
     <Admonition type="info" icon="📘" title="ノート">
 
-    <p>エクスポートできるのは、[<strong>利用可能</strong>]ステータスのバックアップファイルのみです。</p>
+    <p>エクスポートできるのは、&#91;<strong>利用可能</strong>&#93;ステータスのバックアップファイルのみです。</p>
 
     </Admonition>
 
-1. [**バックアップファイルのエクスポート**]ダイアログボックスで、バックアップ設定を構成します。
+1. &#91;**バックアップファイルのエクスポート**&#93;ダイアログボックスで、バックアップ設定を構成します。
 
     - **Cloud Region of Cluster in Backup File**:バックアップファイルが作成されたクラウドリージョンを表示します。
 
@@ -71,7 +74,7 @@ Zilliz Cloudからバックアップファイルをエクスポートするに�
 
     - **ディレクトリ**:エクスポートしたバックアップファイルを保存するオブジェクトストレージバケットのディレクトリパスを入力します。
 
-1. [**エクスポート**]をクリックします。
+1. &#91;**エクスポート**&#93;をクリックします。
 
     ![export-backup-file](/img/export-backup-file.png)
 
@@ -108,9 +111,9 @@ curl --request POST \
 
 ## エクスポートの進捗を監視する{#monitor-export-progress}
 
-[**エクスポート**]をクリックすると、エクスポートジョブが自動的に生成されます。
+&#91;**エクスポート**&#93;をクリックすると、エクスポートジョブが自動的に生成されます。
 
-1. 左側のナビゲーションウィンドウの[[ジョブ](./job-center)]ページに移動します。
+1. 左側のナビゲーションウィンドウの[[ジョブ](./job-center)&#93;ページに移動します。
 
 1. ジョブの**ステータス**を監視する:
 
@@ -124,7 +127,7 @@ curl --request POST \
 
 ## エクスポートジョブをキャンセル{#cancel-export-job}
 
-ジョブが**IN PROGRESS**ステータスのままで続行しない場合は、[アクション]列の[**キャンセル**]をクリックしてジョブを**キャンセル**できます。
+ジョブが**IN PROGRESS**ステータスのままで続行しない場合は、&#91;アクション&#93;列の&#91;**キャンセル**&#93;をクリックしてジョブを**キャンセル**できます。
 
 <Admonition type="info" icon="📘" title="ノート">
 

@@ -3,6 +3,9 @@ title: "リリースノート（2024年3月13日） | Cloud"
 slug: /release-notes-260
 sidebar_label: "リリースノート（2024年3月13日）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは最新リリースで2つの主要な改良を導入しました。まず、Pipelinesは現在、6つの最新の(SOTA)埋め込みモデルをサポートしており、データ処理能力を拡張しています。もう1つの主要な改良は、Collection Playground機能が追加され、オンボーディング体験を簡素化することです。この機能を使用すると、Zilliz Cloudコンソールから基本的な作成、実行、更新、削除(CRUD)操作を簡単に実行でき、データインタラクションプロセスをより効率的に行うことができます。これらの新機能を今すぐ試して、より効率的かつ効果的なワークフローを楽しむことができます。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

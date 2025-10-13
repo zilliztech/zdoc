@@ -3,6 +3,9 @@ title: "クラウドプロバイダー&地域 | Cloud"
 slug: /cloud-providers-and-regions
 sidebar_label: "クラウドプロバイダー&地域"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、パブリッククラウド上でベクトルデータベースクラスタを提供するクラウドベースのサービスです。当社のサービスを使用すると、お好みのパブリッククラウドプラットフォーム上で独自のベクトルデータベースクラスタを簡単に作成および管理できます。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

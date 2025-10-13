@@ -3,6 +3,9 @@ title: "プロジェクト | Cloud"
 slug: /projects
 sidebar_label: "プロジェクト"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "この章では、プロジェクトの操作と関連する設定に焦点を当てています。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

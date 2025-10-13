@@ -3,6 +3,9 @@ title: "フルテキスト検索 | BYOC"
 slug: /full-text-search
 sidebar_label: "フルテキスト検索"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "フルテキスト検索は、テキストデータセット内の特定の用語やフレーズを含むドキュメントを取得し、関連性に基づいて結果をランク付けする機能です。この機能は、正確な用語を見落とす可能性がある意味検索の制限を克服し、最も正確で文脈に関連する結果を受け取ることを保証します。さらに、生のテキスト入力を受け入れることにより、ベクトル検索を簡素化し、手動でベクトル埋め込みを生成する必要なく、テキストデータを疎な埋め込みに自動的に変換します。 | BYOC"
 type: origin
@@ -19,10 +22,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

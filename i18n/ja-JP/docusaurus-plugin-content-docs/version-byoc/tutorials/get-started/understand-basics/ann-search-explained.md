@@ -3,6 +3,9 @@ title: "ANN検索の説明 | BYOC"
 slug: /ann-search-explained
 sidebar_label: "ANN検索の説明"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "k最近傍探索(kNN)は、クエリベクトルに最も近いk個のベクトルを見つけます。具体的には、クエリベクトルをベクトル空間内のすべてのベクトルと比較して、k個の完全一致が現れるまで行います。kNN探索は完全な精度を保証しますが、高次元ベクトルを含む大規模なデータセットにとっては時間がかかります。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 
@@ -66,7 +69,7 @@ HNSWとは異なり、Vamanaのインデックス作成過程は比較的シン�
 
 1. ステップ2から初期化されたランダム近隣グラフと探索開始点を使用して近似最近傍探索を実行します。探索経路上のすべての点を候補近隣集合として使用し、アルファ=1でエッジトリミング戦略を適用して探索半径を縮小します。
 
-1. ステップ3を調整したアルファ値>1（論文で推奨されている1.2）で繰り返し、グラフの品質と再現率を改善してください。
+1. ステップ3を調整したアルファ値&gt;1（論文で推奨されている1.2）で繰り返し、グラフの品質と再現率を改善してください。
 
 インデックスが準備できたら、検索は以下のように行われます:
 

@@ -3,6 +3,9 @@ title: "ベストプラクティス | BYOC"
 slug: /best-practices
 sidebar_label: "ベストプラクティス"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudを使用する際のベストプラクティスに関する記事を見つけることができます。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

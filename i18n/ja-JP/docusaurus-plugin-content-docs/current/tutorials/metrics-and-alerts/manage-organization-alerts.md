@@ -3,6 +3,9 @@ title: "組織のアラートを管理する | Cloud"
 slug: /manage-organization-alerts
 sidebar_label: "組織のアラートを管理する"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、リソースモニタリングのための2種類のアラートを提供しています。組織アラートは、の問題に対応し、プロジェクトアラートは特定のプロジェクトのクラスターの運用パフォーマンスに対応しています。クイックリファレンスについては、メトリクスとアラートのリファレンスを参照してください。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 
@@ -59,10 +62,10 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
    </tr>
    <tr>
      <td><p>残りのクレジット</p></td>
-     <td><p>&#36;</p></td>
+     <td><p>$</p></td>
      <td><p>無料クレジットの残高を追跡し、低くなったときにユーザーに警告してトップアップを促します。</p></td>
      <td><p>アカウントの機能を維持するためにクレジットをチャージしてください。</p></td>
-     <td><p>無料クレジットの残高が&#36;10を下回ると、トリガー<strong>警告</strong>が表示されます。</p></td>
+     <td><p>無料クレジットの残高が$10を下回ると、トリガー<strong>警告</strong>が表示されます。</p></td>
    </tr>
    <tr>
      <td><p>クレジットの有効期間</p></td>
@@ -73,17 +76,17 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
    </tr>
    <tr>
      <td><p>事前支払い残高</p></td>
-     <td><p>&#36;</p></td>
+     <td><p>$</p></td>
      <td><p>事前支払い残高を監視し、サービスの中断を防ぐために低くなったときにユーザーに警告します。</p></td>
      <td><p>サービスの中断を避けるために、前払い残高に資金を追加してください。</p></td>
-     <td><p>残高が&#36;100を下回ったときに<strong>CRITICAL</strong>アラートをトリガーします。</p></td>
+     <td><p>残高が$100を下回ったときに<strong>CRITICAL</strong>アラートをトリガーします。</p></td>
    </tr>
    <tr>
      <td><p>ご利用量</p></td>
-     <td><p>&#36;</p></td>
+     <td><p>$</p></td>
      <td><p>使用量を追跡し、設定された閾値を超えた場合にユーザーに通知して、監視と管理を提案します。</p></td>
      <td><p>予算制限内に収まるように使用状況を監視および管理します。</p></td>
-     <td><p>使用量が&#36;100を超えると、トリガー<strong>警告</strong>アラートが表示されます。</p></td>
+     <td><p>使用量が$100を超えると、トリガー<strong>警告</strong>アラートが表示されます。</p></td>
    </tr>
 </table>
 
@@ -97,7 +100,7 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 ## 組織のアラートを表示する{#view-organization-alerts}
 
-[**Organization Alert**]ページに移動して、のさまざまなアラートを表示します。
+&#91;**Organization Alert**&#93;ページに移動して、のさまざまなアラートを表示します。
 
 **アラートの構成要素**:
 
@@ -121,13 +124,13 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>アラートをすばやく有効または無効にするには、[アクション]列から[<strong>有効</strong>]または[<strong>無効</strong>]を選択し<strong>ま</strong>す。</p>
+<p>アラートをすばやく有効または無効にするには、&#91;アクション&#93;列から&#91;<strong>有効</strong>&#93;または&#91;<strong>無効</strong>&#93;を選択し<strong>ま</strong>す。</p>
 
 </Admonition>
 
 ## 組織のアラートを有効または無効にする{#enable-or-disable-an-organization-alert}
 
-組織のアラートをすばやく有効または無効にするには、[アクション]列から[**有効**]または[**無効**]を選択し**ま**す。
+組織のアラートをすばやく有効または無効にするには、&#91;アクション&#93;列から&#91;**有効**&#93;または&#91;**無効**&#93;を選択し**ま**す。
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -137,7 +140,7 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 ## アラート履歴を表示する{#view-alert-history}
 
-[**Alert History**]タブでトリガーされたアラートを表示します。アラートの対象、重要度レベル、時間範囲のフィルターがあります。
+&#91;**Alert History**&#93;タブでトリガーされたアラートを表示します。アラートの対象、重要度レベル、時間範囲のフィルターがあります。
 
 ## 関連するトピック{#related-topics}
 

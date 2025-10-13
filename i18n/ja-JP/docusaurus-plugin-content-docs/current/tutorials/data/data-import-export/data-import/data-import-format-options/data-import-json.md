@@ -3,6 +3,9 @@ title: "JSONファイルからインポートする | Cloud"
 slug: /data-import-json
 sidebar_label: "JSONファイルからインポートする"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "JSONは、機械が簡単に解析および生成できる軽量で人間が読めるデータ形式です。Language-independent、C系言語プログラマーにとって馴染みのある規約に従っているため、理想的なデータ交換形式です。 | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - milvus
   - format options
   - json
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
@@ -43,7 +46,7 @@ import Admonition from '@theme/Admonition';
 <ul>
 <li><strong>動的フィールドを有効にするかどうか</strong></li>
 </ul>
-<p>ターゲットコレクションで動的フィールドが有効になっている場合、定義済みスキーマに含まれていないフィールドを格納する必要がある場合は、書き込み操作中に<strong>$meta</strong>列を指定し、対応するキー値データを指定できます。</p>
+<p>ターゲットコレクションで動的フィールドが有効になっている場合、定義済みスキーマに含まれていないフィールドを格納する必要がある場合は、書き込み操作中に<strong>&#36;meta</strong>列を指定し、対応するキー値データを指定できます。</p>
 <ul>
 <li><strong>大文字と小文字を区別する</strong></li>
 </ul>
@@ -166,7 +169,7 @@ Zilliz Cloudは、クラウドストレージからのデータインポート�
    </tr>
    <tr>
      <td><p><strong>Azure Bolb</strong></p></td>
-     <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/</code></p><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</code></p></td>
+     <td><p><code><i>http</i>s://myaccount.blob.core.windows.net/bucket-name/json-folder/</code></p><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</code></p></td>
    </tr>
 </table>
 

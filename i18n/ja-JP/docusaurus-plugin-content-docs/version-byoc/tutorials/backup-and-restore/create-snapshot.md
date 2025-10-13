@@ -3,6 +3,9 @@ title: "バックアップを作成 | BYOC"
 slug: /create-snapshot
 sidebar_label: "バックアップを作成"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "バックアップは、Zilliz Cloud上の管理されたクラスタまたは特定のコレクションのポイントオブタイムコピーです。新しいクラスタやコレクションのベースラインとして、またはデータバックアップとして使用できます。 | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 
@@ -135,9 +138,9 @@ Zilliz Cloudがバックアップファイルを保存する期間は、**保存
 
 - [自動バックアップをスケジュールする](./schedule-automatic-backups)
 
-- [バックアップファイルを表示する](./manage-backup-files)
+- [バックアップファイルを表示する](./view-snapshot-details)
 
 - [バックアップファイルからの復元](./restore-from-snapshot)
 
-- [バックアップファイルを削除](./manage-backup-files#delete-backup-files)
+- [バックアップファイルを削除](./delete-snapshot)
 

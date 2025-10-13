@@ -3,6 +3,9 @@ title: "リコール率を調整 | Cloud"
 slug: /tune-recall-rate
 sidebar_label: "リコール率を調整"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、ユーザーが検索の再現率とパフォーマンスをバランスさせるための検索パラメータ`level`を導入しています。また、現在の検索の推定再現率をユーザーに提供するために、別の検索パラメータである`enablerecallestimation`も提供しています。これら2つのパラメータを組み合わせて、ベクトル検索の再現率を調整することができます。 | Cloud"
 type: origin
@@ -18,10 +21,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

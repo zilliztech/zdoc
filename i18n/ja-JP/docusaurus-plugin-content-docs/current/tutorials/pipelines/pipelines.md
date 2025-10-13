@@ -3,6 +3,9 @@ title: "パイプライン(Pipelines) | Cloud"
 slug: /pipelines
 sidebar_label: "パイプライン(Pipelines)"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "パイプラインは、非構造化データを検索可能なベクトルコレクションに変換し、データの埋め込み、取り込み、検索、削除をチェーン化します。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - pipelines
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

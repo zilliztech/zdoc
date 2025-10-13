@@ -3,6 +3,9 @@ title: "コレクションの変更 | BYOC"
 slug: /modify-collections
 sidebar_label: "コレクションの変更"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "コレクションの名前を変更したり、設定を変更することができます。このページでは、コレクションの変更方法について説明します。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 
@@ -270,7 +273,7 @@ curl --request POST \
    </tr>
    <tr>
      <td><p><code>mmap.enabled</code></p></td>
-     <td><p>メモリマッピング(Mmap)により、ディスク上の大きなファイルに直接メモリアクセスできるため、Zilliz Cloudはインデックスとデータをメモリとハードドライブの両方に保存できます。このアプローチにより、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張できます。</p><p>\<ターゲットを含める="zilliz"></p><p>Zilliz Cloudは、クラスタの<a href="./use-mmap#global-mmap-strategy">グローバルmmap設定</a>を実装しています。特定のフィールドまたはインデックスの設定を変更できます。</p><p>\</include></p><p>詳しくは<a href="./use-mmap">mmapを使</a>うを参照してください。</p></td>
+     <td><p>メモリマッピング(Mmap)により、ディスク上の大きなファイルに直接メモリアクセスできるため、Zilliz Cloudはインデックスとデータをメモリとハードドライブの両方に保存できます。このアプローチにより、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張できます。</p><p>&lt;ターゲットを含める="zilliz"&gt;</p><p>Zilliz Cloudは、クラスタの<a href="./use-mmap#global-mmap-strategy">グローバルmmap設定</a>を実装しています。特定のフィールドまたはインデックスの設定を変更できます。</p><p>&lt;/include&gt;</p><p>詳しくは<a href="./use-mmap">mmapを使</a>うを参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>partitionkey.isolation</code></p></td>

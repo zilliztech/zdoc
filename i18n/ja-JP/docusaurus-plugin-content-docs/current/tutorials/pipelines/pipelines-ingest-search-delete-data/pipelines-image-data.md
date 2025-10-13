@@ -3,6 +3,9 @@ title: "画像データ | Cloud"
 slug: /pipelines-image-data
 sidebar_label: "画像データ"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理するためのシンプルで直感的な方法を提供し、RESTful APIはWeb UIに比べてより柔軟性とカスタマイズ性を提供します。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - pipelines
   - image data
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 
@@ -59,7 +62,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
     ![create-pipeline](/img/create-pipeline.png)
 
-1. 作成するパイプラインの種類を選択します。[**+パイプライン**]ボタンをクリックします。**Ingestion Pipeline**列。
+1. 作成するパイプラインの種類を選択します。&#91;**+パイプライン**&#93;ボタンをクリックします。**Ingestion Pipeline**列。
 
     ![choose-pipeline](/img/choose-pipeline.png)
 
@@ -115,7 +118,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
         ![add-index-image-function](/img/add-index-image-function.png)
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. &#91;**追加**&#93;をクリックして関数を保存します。
 
 1. （オプション）テキストのメタデータを保持する必要がある場合は、別の**PRE**SERVE関数を追加してください。**PRE SERVE**関数は、データ取り込みとともにコレクションにスカラーフィールドを追加します。
 
@@ -125,7 +128,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
     </Admonition>
 
-    1. [**+Function**]をクリックします。
+    1. &#91;**+Function**&#93;をクリックします。
 
     1. 関数名を入力します。
 
@@ -143,9 +146,9 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
     ![add-preserve-function](/img/add-preserve-function.png)
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. &#91;**追加**&#93;をクリックして関数を保存します。
 
-1. [**Ingestion Pipelineを作成**]をクリックします。
+1. &#91;**Ingestion Pipelineを作成**&#93;をクリックします。
 
 1. 作成したばかりのIngestionパイプラインと互換性があるように自動構成された検索パイプラインと削除パイプラインの作成を続けます。
 
@@ -210,7 +213,7 @@ curl --request POST \
 
     - `action`:追加する関数の種類。現在利用可能なオプションには、`INDEX_DOC`、`INDEX_TEXT`、`INDEX_IMAGE`、`PRE`SERVEがあります。
 
-    - `埋め込み`:画像のベクトル埋め込みを生成するために使用される埋め込みモデルです。利用可能なオプションは以下の通りです。*（このパラメータは`INDEX`関数でのみ使用されます。）*
+    - `埋め込み`:画像のベクトル埋め込みを生成するために使用される埋め込みモデルです。利用可能なオプションは以下の通りです。*（このパラメータはINDEX関数でのみ使用されます。）*
 
         <table>
            <tr>
@@ -227,11 +230,11 @@ curl --request POST \
            </tr>
         </table>
 
-- `input tField`:`input`フィールドの名前です。値はカスタマイズできますが、output tFieldと同じにしてくださ`い`。*（このパラメータは`PRESERVE`関数でのみ使用されます。）*
+- `input tField`:`input`フィールドの名前です。値はカスタマイズできますが、output tFieldと同じにしてくださ`い`。*（このパラメータはPRESERVE関数でのみ使用されます。）*
 
-- `output`Field:コレクションスキーマで使用される出力フィールドの名前。現在、出力フィールドの名前は入力フィールドの名前と同じでなければなりません。*（このパラメータは`PRESERVE`関数でのみ使用されます。）*
+- `output`Field:コレクションスキーマで使用される出力フィールドの名前。現在、出力フィールドの名前は入力フィールドの名前と同じでなければなりません。*（このパラメータはPRESERVE関数でのみ使用されます。）*
 
-- `fieldType`:入力フィールドと出力フィールドのデータ型です。使用可能な値は、`Bool`、`Int 8`、`Int 16`、`Int 32`、`Int 64`、`Float`、`Double`、および`VarCharです`。*(このパラメータは`PRESERVE`関数でのみ使用されます。)*
+- `fieldType`:入力フィールドと出力フィールドのデータ型です。使用可能な値は、`Bool`、`Int 8`、`Int 16`、`Int 32`、`Int 64`、`Float`、`Double`、および`VarCharです`。*(このパラメータはPRESERVE関数でのみ使用されます。)*
 
     <Admonition type="info" icon="📘" title="ノート">
 
@@ -415,9 +418,9 @@ curl --request POST \
 
         ![add-search-image-function](/img/add-search-image-function.png)
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. &#91;**追加**&#93;をクリックして関数を保存します。
 
-1. [**検索パイプラインを作成**]をクリックします。
+1. &#91;**検索パイプラインを作成**&#93;をクリックします。
 
 </TabItem>
 
@@ -655,9 +658,9 @@ curl --request POST \
 
         ![add-search-image-by-text-function](/img/add-search-image-by-text-function.png)
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. &#91;**追加**&#93;をクリックして関数を保存します。
 
-1. [**検索パイプラインを作成**]をクリックします。
+1. &#91;**検索パイプラインを作成**&#93;をクリックします。
 
 </TabItem>
 
@@ -761,7 +764,7 @@ curl --request POST \
 
     ![run-pipeline](/img/run-pipeline.png)
 
-1. クエリテキストを入力します。[**実行**]をクリックします。
+1. クエリテキストを入力します。&#91;**実行**&#93;をクリックします。
 
 1. 結果を確認してください。
 
@@ -891,9 +894,9 @@ curl --request POST \
 
     1. 「**PURGE_IMAGE_INDEX**」または「**PURGE_BY_EXPRESSION**」を**関数タイプ**として選択します。**PURGE_IMAGE_INDEX**関数は指定されたimage_idを持つすべての画像を削除できますが、**PURGE_BY_EXPRESSION**関数は指定されたフィルタ式に一致するすべてのテキストエンティティを削除できます。
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. &#91;**追加**&#93;をクリックして関数を保存します。
 
-1. [**削除パイプラインを作成**]をクリックします。
+1. &#91;**削除パイプラインを作成**&#93;をクリックします。
 
 </TabItem>
 
@@ -985,7 +988,7 @@ curl --request POST \
 
     ![run-pipeline](/img/run-pipeline.png)
 
-1. フィルタ式を入力します。[**実行**]をクリックします。
+1. フィルタ式を入力します。&#91;**実行**&#93;をクリックします。
 
 1. 結果を確認してください。
 

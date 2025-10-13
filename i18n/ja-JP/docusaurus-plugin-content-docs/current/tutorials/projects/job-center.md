@@ -3,6 +3,9 @@ title: "プロジェクトの仕事を管理する | Cloud"
 slug: /job-center
 sidebar_label: "プロジェクトの仕事を管理する"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、同じプロジェクト内のすべての履歴および非同期データタスクを統合する直感的なジョブページを提供しています。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 
@@ -29,7 +32,7 @@ Zilliz Cloudは、同じプロジェクト内のすべての履歴および非�
 
 ## プロジェクトの仕事を見る{#view-project-jobs}
 
-プロジェクトを選択します。左ナビゲーションウィンドウで、[**ジョブ**]を選択します。表示されたページには、実行中または実行済みのすべての非同期ジョブのリストが表示されます。
+プロジェクトを選択します。左ナビゲーションウィンドウで、&#91;**ジョブ**&#93;を選択します。表示されたページには、実行中または実行済みのすべての非同期ジョブのリストが表示されます。
 
 次の求人情報が表示されます。
 
@@ -78,13 +81,13 @@ Zilliz Cloudは、同じプロジェクト内のすべての履歴および非�
 
 ## 仕事の詳細を見る{#view-project-jobs}
 
-ジョブの詳細を表示するには、をクリックします**。。。**[**アクション**]列で[**詳細表示**]を選択します。または、[Describe Job](/ja-JP/reference/restful/describe-job-v2)APIを使用してプログラムで詳細を取得することもできます。
+ジョブの詳細を表示するには、をクリックします**。。。**&#91;**アクション**&#93;列で&#91;**詳細表示**&#93;を選択します。または、[Describe Job](/ja-JP/reference/restful/describe-job-v2)APIを使用してプログラムで詳細を取得することもできます。
 
 ![view_job_details](/img/view_job_details.png)
 
 ## 仕事をキャンセル{#cancel-job}
 
-「**保留中**」または「**進行中**」のジョブをキャンセルできます**。。。**[**アクション**]列で[**キャンセル**]を選択します。
+「**保留中**」または「**進行中**」のジョブをキャンセルできます**。。。**&#91;**アクション**&#93;列で&#91;**キャンセル**&#93;を選択します。
 
 <Admonition type="info" icon="📘" title="ノート">
 

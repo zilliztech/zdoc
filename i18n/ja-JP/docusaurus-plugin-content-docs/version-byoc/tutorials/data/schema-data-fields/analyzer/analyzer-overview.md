@@ -3,6 +3,9 @@ title: "アナライザの概要 | BYOC"
 slug: /analyzer-overview
 sidebar_label: "アナライザの概要"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "テキスト処理において、アナライザーは生のテキストを構造化された検索可能な形式に変換する重要なコンポーネントです。各アナライザーは通常、トークナイザーとフィルターの2つのコア要素で構成されています。これらを組み合わせることで、入力テキストをトークンに変換し、これらのトークンを改良し、効率的なインデックス作成と検索に備えます。 | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
   - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

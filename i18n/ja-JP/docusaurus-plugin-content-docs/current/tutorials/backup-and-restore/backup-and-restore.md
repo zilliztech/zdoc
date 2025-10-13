@@ -3,6 +3,9 @@ title: "バックアップと復元 | Cloud"
 slug: /backup-and-restore
 sidebar_label: "バックアップと復元"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudクラスターに保存されたデータのバックアップと復元。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

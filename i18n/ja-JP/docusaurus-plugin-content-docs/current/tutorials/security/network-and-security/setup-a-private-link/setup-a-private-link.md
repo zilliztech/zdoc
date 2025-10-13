@@ -3,6 +3,9 @@ title: "プライベートエンドポイントを設定する | Cloud"
 slug: /setup-a-private-link
 sidebar_label: "プライベートエンドポイントを設定する"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、プライベートリンクを介してクラスタへのプライベートアクセスを提供します。これは、クラスタのトラフィックがインターネットを経由しないようにする場合に便利です。 | Cloud"
 type: origin
@@ -18,10 +21,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

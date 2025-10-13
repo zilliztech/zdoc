@@ -3,6 +3,9 @@ title: "クエリ | BYOC"
 slug: /get-and-scalar-query
 sidebar_label: "クエリ"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、ANN検索に加えて、クエリによるメタデータフィルタリングもサポートしています。このページでは、Query、Get、QueryIteratorsを使用してメタデータフィルタリングを実行する方法を紹介します。 | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

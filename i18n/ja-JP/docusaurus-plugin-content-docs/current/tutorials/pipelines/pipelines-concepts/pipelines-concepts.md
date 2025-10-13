@@ -3,6 +3,9 @@ title: "コンセプト | Cloud"
 slug: /pipelines-concepts
 sidebar_label: "コンセプト"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud Pipelinesの使用方法について議論する際に使用する関連概念についての説明。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - concepts
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

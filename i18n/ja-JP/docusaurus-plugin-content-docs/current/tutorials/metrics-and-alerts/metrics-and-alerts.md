@@ -3,6 +3,9 @@ title: "メトリクスとアラート | Cloud"
 slug: /metrics-and-alerts
 sidebar_label: "メトリクスとアラート"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、組織やクラスターで何が起こっているかを知るための便利なメトリックチャートとアラートを提供します。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

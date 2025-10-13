@@ -3,6 +3,9 @@ title: "イテレータを使用したデータのエクスポート | Cloud"
 slug: /export-data-iterators
 sidebar_label: "イテレータを使用したデータのエクスポート"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このガイドでは、Zilliz Cloudコレクションからデータをエクスポートする方法の例を提供します。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

@@ -3,6 +3,9 @@ title: "スキーマの説明 | Cloud"
 slug: /schema-explained
 sidebar_label: "スキーマの説明"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "スキーマはコレクションのデータ構造を定義します。コレクションを作成する前に、スキーマの設計を行う必要があります。このページでは、コレクションのスキーマを理解し、独自のスキーマの例を設計するのに役立ちます。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

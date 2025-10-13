@@ -3,6 +3,9 @@ title: "Datadogとの統合 | Cloud"
 slug: /integrate-with-datadog
 sidebar_label: "Datadogとの統合"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Datadogは、アプリケーションのパフォーマンス、インフラストラクチャ、ログ管理に関するリアルタイムの洞察を提供するクラウドモニタリングおよび分析プラットフォームです。Zilliz CloudとDatadogを統合することで、Zilliz Cloudクラスターに関するメトリックデータをDatadogダッシュボードに送信できます。 | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - third-party
   - services
   - datadog
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 
@@ -45,19 +48,19 @@ import Admonition from '@theme/Admonition';
 
 1. Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. プロジェクトページの左側のナビゲーションウィンドウで、[**統合**]をクリックします。
+1. プロジェクトページの左側のナビゲーションウィンドウで、&#91;**統合**&#93;をクリックします。
 
-1. [**Datadog**]セクションを見つけ、その横にある[**+構成**]をクリックします。
+1. &#91;**Datadog**&#93;セクションを見つけ、その横にある&#91;**+構成**&#93;をクリックします。
 
 1. 表示されるダイアログボックスで、Datadogをプロジェクトにリンクし、クラスタを割り当ててメトリックデータを収集します。
 
-    1. [**Datadog統合**の構成]ステップで、Datadogの設定を構成します。
+    1. &#91;**Datadog統合**の構成&#93;ステップで、Datadogの設定を構成します。
 
-        1. [**構成名**]に、統合の名前を入力します(例:`DG_configuration`)。
+        1. &#91;**構成名**&#93;に、統合の名前を入力します(例:`DG_configuration`)。
 
-        1. [**Datadog API Key**]にDatadog APIキーを入力します。
+        1. &#91;**Datadog API Key**&#93;にDatadog APIキーを入力します。
 
-        1. [**Datadogサイト**]で、Datadogサイトを選択します。Zilliz Cloudは、以下のDatadogサイトをサポートしています。
+        1. &#91;**Datadogサイト**&#93;で、Datadogサイトを選択します。Zilliz Cloudは、以下のDatadogサイトをサポートしています。
 
             <table>
                <tr>
@@ -68,31 +71,31 @@ import Admonition from '@theme/Admonition';
                </tr>
                <tr>
                  <td><p><code>US1</code></p></td>
-                 <td><p><code>https://app.datadoghq.com</code></p></td>
+                 <td><p><code><i>http</i>s://app.datadoghq.com</code></p></td>
                  <td><p><code>datadoghq.com</code></p></td>
                  <td><p>US</p></td>
                </tr>
                <tr>
                  <td><p><code>US3</code></p></td>
-                 <td><p><code>https://us3.datadoghq.com</code></p></td>
+                 <td><p><code><i>http</i>s://us3.datadoghq.com</code></p></td>
                  <td><p><code>us3.datadoghq.com</code></p></td>
                  <td><p>US</p></td>
                </tr>
                <tr>
                  <td><p><code>US5</code></p></td>
-                 <td><p><code>https://us5.datadoghq.com</code></p></td>
+                 <td><p><code><i>http</i>s://us5.datadoghq.com</code></p></td>
                  <td><p><code>us5.datadoghq.com</code></p></td>
                  <td><p>US</p></td>
                </tr>
                <tr>
                  <td><p><code>EU1</code></p></td>
-                 <td><p><code>https://app.datadoghq.eu</code></p></td>
+                 <td><p><code><i>http</i>s://app.datadoghq.eu</code></p></td>
                  <td><p><code>datadoghq.eu</code></p></td>
                  <td><p>EU（ドイツ）</p></td>
                </tr>
                <tr>
                  <td><p><code>AP1</code></p></td>
-                 <td><p><code>https://ap1.datadoghq.com</code></p></td>
+                 <td><p><code><i>http</i>s://ap1.datadoghq.com</code></p></td>
                  <td><p><code>ap1.datadoghq.com</code></p></td>
                  <td><p>日本</p></td>
                </tr>
@@ -100,9 +103,9 @@ import Admonition from '@theme/Admonition';
 
             Datadogサイトの詳細については、[Datadogサイトにアクセス](https://docs.datadoghq.com/getting_started/site/#access-the-datadog-site)するを参照してください。
 
-        1. [**Test Integration**]をクリックして、Zilliz CloudとDatadogの接続を確認します。テストが成功した場合は、クラスターの割り当てに進みます。
+        1. &#91;**Test Integration**&#93;をクリックして、Zilliz CloudとDatadogの接続を確認します。テストが成功した場合は、クラスターの割り当てに進みます。
 
-    1. [**Assign Configuration to Zilliz Cloud Cluster(s)**]ステップで、メトリックデータをDatadogにプッシュするクラスタを1つ以上選択します。
+    1. &#91;**Assign Configuration to Zilliz Cloud Cluster(s)**&#93;ステップで、メトリックデータをDatadogにプッシュするクラスタを1つ以上選択します。
 
         <Admonition type="info" icon="📘" title="ノート">
 
@@ -110,7 +113,7 @@ import Admonition from '@theme/Admonition';
 
         </Admonition>
 
-    1. [**作成**]をクリックします。
+    1. &#91;**作成**&#93;をクリックします。
 
 ![integrate-with-datadog-1](/img/integrate-with-datadog-1.png)
 
@@ -124,7 +127,7 @@ import Admonition from '@theme/Admonition';
 
 ## インテグレーションの管理{#manage-integrations}
 
-Datadogインテグレーションを管理するには、[**アクション**]列を使用します。
+Datadogインテグレーションを管理するには、&#91;**アクション**&#93;列を使用します。
 
 - **編集**:必要に応じて監視クラスタを更新するか、統合設定を変更します。
 

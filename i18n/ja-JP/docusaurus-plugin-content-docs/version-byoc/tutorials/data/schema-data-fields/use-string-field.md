@@ -3,6 +3,9 @@ title: "文字列フィールド | BYOC"
 slug: /use-string-field
 sidebar_label: "文字列フィールド"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudクラスターでは、文字列データを格納するために使用されるデータ型は`VARCHAR`です。`VARCHAR`フィールドを定義する場合、2つのパラメータが必須です | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

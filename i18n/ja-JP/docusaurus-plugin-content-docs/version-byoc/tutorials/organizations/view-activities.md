@@ -3,6 +3,9 @@ title: "アクティビティを見る | BYOC"
 slug: /view-activities
 sidebar_label: "アクティビティを見る"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudのアクティビティ機能は、のアクセスイベントなど、特定のZilliz Cloud組織に関連するイベントを包括的に表示します。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - activities
   - view
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 
@@ -30,7 +33,7 @@ Zilliz Cloudの**アクティビティ**機能は、のアクセスイベント�
 
 ## アクティビティを見る{#view-activities}
 
-組織ページで、左ナビゲーションウィンドウの[**アクティビティ**]をクリックします。ここでは、アクティビティの概要、各アクティビティが置かれた時間、および特定のアクティビティに関与したオペレーターのIDを閲覧できます。
+組織ページで、左ナビゲーションウィンドウの&#91;**アクティビティ**&#93;をクリックします。ここでは、アクティビティの概要、各アクティビティが置かれた時間、および特定のアクティビティに関与したオペレーターのIDを閲覧できます。
 
 ![view-activities-byoc](/img/view-activities-byoc.png)
 
@@ -40,7 +43,7 @@ Zilliz Cloudの**アクティビティ**機能は、のアクセスイベント�
 
 - **時間範囲でフィルター**
 
-    特定の期間内に発生したアクティビティを表示するには、開始時間と終了時間を選択します。希望の時間範囲を設定したら、[**適用**]をクリックして、この期間内のすべてのアクティビティを表示します。
+    特定の期間内に発生したアクティビティを表示するには、開始時間と終了時間を選択します。希望の時間範囲を設定したら、&#91;**適用**&#93;をクリックして、この期間内のすべてのアクティビティを表示します。
 
     <Admonition type="info" icon="📘" title="ノート">
 

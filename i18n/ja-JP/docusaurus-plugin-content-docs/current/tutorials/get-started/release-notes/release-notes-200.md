@@ -3,6 +3,9 @@ title: "リリースノート（2023年6月11日） | Cloud"
 slug: /release-notes-200
 sidebar_label: "リリースノート（2023年6月11日）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudのリリースは、ベクトルデータベース管理の新しい標準を設定します。初心者向けのユーザーエクスペリエンスを大幅に向上させ、より手頃で柔軟な価格オプションを提供し、スムーズなチームコラボレーションを可能にし、柔軟なスキーマ管理を提供します。このアップデートの主な機能には、サーバーレスクラスター、多様なティアプラン、組織とコラボレーションのサポート、RBACサポート、パーティションキー、ダイナミックスキーマ、JSONタイプのサポートが含まれます。この画期的なアップデートを今すぐお試しください! | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

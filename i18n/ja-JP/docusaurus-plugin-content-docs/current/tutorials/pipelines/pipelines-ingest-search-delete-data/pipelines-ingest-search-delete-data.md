@@ -3,6 +3,9 @@ title: "データの取り込み、検索、削除 | Cloud"
 slug: /pipelines-ingest-search-delete-data
 sidebar_label: "データの取り込み、検索、削除"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud Pipelinesを使用して、さまざまな形式の非構造化データ（画像、テキスト、ドキュメントなど）を取り込み、検索、削除する方法を学びましょう。現在、3つのデータ形式がサポートされています。 | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - ingest
   - search
   - delete
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

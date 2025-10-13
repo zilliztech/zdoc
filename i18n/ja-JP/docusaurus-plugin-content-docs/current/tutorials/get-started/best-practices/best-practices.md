@@ -3,6 +3,9 @@ title: "ベストプラクティス | Cloud"
 slug: /best-practices
 sidebar_label: "ベストプラクティス"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudを使用する際のベストプラクティスに関する記事を見つけることができます。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

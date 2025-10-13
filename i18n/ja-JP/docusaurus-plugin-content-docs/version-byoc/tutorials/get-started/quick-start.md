@@ -3,6 +3,9 @@ title: "クイックスタート | BYOC"
 slug: /quick-start
 sidebar_label: "クイックスタート"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このガイドでは、Zilliz Cloudクラスタを設定し、CRUD操作を数分で実行する方法について説明します。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 
@@ -248,7 +251,7 @@ curl --request POST \
 
 - プライマリフィールドは整数を受け入れ、自動的に増加しません。
 
-- スキーマ定義されていないフィールドとその値を格納するために、**$meta**という名前の予約済みJSONフィールドが使用されます。
+- スキーマ定義されていないフィールドとその値を格納するために、**&#36;meta**という名前の予約済みJSONフィールドが使用されます。
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -444,7 +447,7 @@ curl --request POST \
 
     - **ダイナミックフィールド**
 
-        予約済みのJSONフィールド**$meta**を使用して、スキーマ定義されていないフィールドとその値を保存するかどうか。
+        予約済みのJSONフィールド**&#36;meta**を使用して、スキーマ定義されていないフィールドとその値を保存するかどうか。
 
     スキーマの詳細については、[スキーマの説明](./schema-explained)を参照してください。
 
@@ -1375,7 +1378,7 @@ curl --request POST \
 
 - **スキーマ定義されていないフィールド**
 
-    フィルター式に動的フィールドを含めることもできます。次のコードスニペットでは、`color`はスキーマ定義されていないフィールドです。これらをマジック`$meta`フィールドのキーとして含めることができます(例:`$meta["color"]`)、またはスキーマ定義フィールドのように直接使用することができます(例:`color`)。
+    フィルター式に動的フィールドを含めることもできます。次のコードスニペットでは、`color`はスキーマ定義されていないフィールドです。これらをマジック`#meta`フィールドのキーとして含めることができます(例:`#meta["color"]`)、またはスキーマ定義フィールドのように直接使用することができます(例:`color`)。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>

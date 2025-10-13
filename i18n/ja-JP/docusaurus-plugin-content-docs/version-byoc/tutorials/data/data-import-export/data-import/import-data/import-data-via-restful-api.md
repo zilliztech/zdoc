@@ -3,6 +3,9 @@ title: "データのインポート(RESTful API) | BYOC"
 slug: /import-data-via-restful-api
 sidebar_label: "データのインポート(RESTful API)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このページでは、Zilliz Cloud RESTfulAPIを使用して、準備したデータをインポートする方法を紹介します。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

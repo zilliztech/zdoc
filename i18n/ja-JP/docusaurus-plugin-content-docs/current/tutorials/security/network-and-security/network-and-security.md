@@ -3,6 +3,9 @@ title: "ネットワークとセキュリティ | Cloud"
 slug: /network-and-security
 sidebar_label: "ネットワークとセキュリティ"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud上のデータへのアクセスを保護するために、ホワイトリストとプライベートリンクを設定する方法について詳しく学びましょう。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

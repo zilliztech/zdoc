@@ -3,6 +3,9 @@ title: "始める | Cloud"
 slug: /get-started
 sidebar_label: "始める"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud上でアプリを構築するための包括的なクイックスタートガイドと関連トピック。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

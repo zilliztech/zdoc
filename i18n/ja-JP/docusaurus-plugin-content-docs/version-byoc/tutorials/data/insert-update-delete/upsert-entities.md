@@ -3,6 +3,9 @@ title: "エンティティの更新と挿入 | BYOC"
 slug: /upsert-entities
 sidebar_label: "エンティティの更新と挿入"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Upsert操作は、データの更新と挿入のアクションを組み合わせたものです。Milvusは、主キーが存在するかどうかを確認することで、更新または挿入操作を実行するかどうかを決定します。このセクションでは、エンティティをUpsertする方法と、さまざまなシナリオでのUpsert操作の具体的な動作について紹介します。 | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - upsert
   - update
   - insert
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

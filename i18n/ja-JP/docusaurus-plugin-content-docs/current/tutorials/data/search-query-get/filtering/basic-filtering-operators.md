@@ -3,6 +3,9 @@ title: "基本演算子 | Cloud"
 slug: /basic-filtering-operators
 sidebar_label: "基本演算子"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、データを効率的にフィルタリングおよびクエリするための豊富な基本演算子セットを提供します。これらの演算子により、スカラーフィールド、数値計算、論理条件などに基づいて検索条件を絞り込むことができます。これらの演算子の使用方法を理解することは、正確なクエリを構築し、検索の効率を最大化するために重要です。 | Cloud"
 type: origin
@@ -18,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 
@@ -274,7 +277,7 @@ Zilliz Cloudnull値を含むJSONフィールドをフィルタリングするこ
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>JSONオブジェクト内のいくつかの要素がnullである場合（例えば、個別のキー）、そのフィールドはnullではないと見なされます。例えば、<code>\{"metadata":\{"category": None,"price": 99.99}}</code>は、<code>category</code>キーがnullであってもnullとして扱われません。</p>
+<p>JSONオブジェクト内のいくつかの要素がnullである場合（例えば、個別のキー）、そのフィールドはnullではないと見なされます。例えば、<code>\&#123;"metadata":\&#123;"category": None,"price": 99.99&#125;&#125;</code>は、<code>category</code>キーがnullであってもnullとして扱われません。</p>
 
 </Admonition>
 
@@ -370,7 +373,7 @@ data = [
 ]
 ```
 
-**例1:`tags`がnullのエンティティを取得する**
+**例1:tagsがnullのエンティティを取得する**
 
 `tags`フィールドが欠落しているか、明示的に`None`に設定されているエンティティを取得するには:
 
@@ -384,7 +387,7 @@ filter = 'tags IS NULL'
 # ]
 ```
 
-**例2:`tags`がnullでないエンティティを取得する**
+**例2:tagsがnullでないエンティティを取得する**
 
 `tags`フィールドがnullでないエンティティを取得するには:
 

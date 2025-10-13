@@ -3,6 +3,9 @@ title: "長さフィルター | Cloud"
 slug: /length-filter
 sidebar_label: "長さフィルター"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "長さフィルター（length）は、指定された`長さ` の要件を満たさないトークンを削除するため、テキスト処理中に保持されるトークンの長さを制御できます。 | Cloud"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

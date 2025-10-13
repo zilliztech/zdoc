@@ -3,6 +3,9 @@ title: "データセキュリティ | Cloud"
 slug: /data-security
 sidebar_label: "データセキュリティ"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "クラウドプラットフォームにおいて、データセキュリティは重要な要素であり、Zilliz Cloudも例外ではありません。Zilliz Cloudは、データを保護するために、承認と認証、ネットワークの分離、暗号化、バックアップと復元など、様々な側面で堅牢な対策を提供しています。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data
   - security
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

@@ -3,6 +3,9 @@ title: "クラスタユーザーの管理(SDK) | BYOC"
 slug: /cluster-users-sdk
 sidebar_label: "クラスタユーザーの管理(SDK)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudでは、クラスターユーザーを作成し、クラスターロールを割り当てて特権を定義し、データセキュリティを実現できます。 | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - access control
   - rbac
   - users
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

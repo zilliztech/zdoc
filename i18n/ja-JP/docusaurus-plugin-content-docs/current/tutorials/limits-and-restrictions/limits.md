@@ -3,6 +3,9 @@ title: "Zillizクラウドの制限 | Cloud"
 slug: /limits
 sidebar_label: "Zillizクラウドの制限"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このページでは、Zilliz Cloudプラットフォームの制限に関する情報を提供します。これらの制限に関連する問題を報告する必要がある場合は、リクエストを送信してください。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 
@@ -138,7 +141,7 @@ import Admonition from '@theme/Admonition';
        </tr>
        <tr>
          <td><p>専用(スタンダード)/専用(エンタープライズ)</p></td>
-         <td><p>総CUの体格\<32 0></p></td>
+         <td><p>総CUの体格&lt;32 0&gt;</p></td>
          <td><p>組織内のクラスターの最大数は、クラスターCUの合計金額によって異なります。組織内のすべての専用クラスターの累積CU数は320を超えてはいけません。</p></td>
        </tr>
     </table>
@@ -347,7 +350,7 @@ Zilliz Cloudは、コレクションの作成、読み込み、リリース、�
      <td><p>16メガバイト/秒</p></td>
    </tr>
    <tr>
-     <td><p>専用クラスタ[24 CU、64 CU]</p></td>
+     <td><p>専用クラスタ&#91;24 CU、64 CU&#93;</p></td>
      <td><p>24メガバイト/秒</p></td>
    </tr>
    <tr>
@@ -400,7 +403,7 @@ Zilliz Cloudは、コレクションの作成、読み込み、リリース、�
      <td><p>16メガバイト/秒</p></td>
    </tr>
    <tr>
-     <td><p>専用クラスタ[24 CU、64 CU]</p></td>
+     <td><p>専用クラスタ&#91;24 CU、64 CU&#93;</p></td>
      <td><p>24メガバイト/秒</p></td>
    </tr>
    <tr>

@@ -3,6 +3,9 @@ title: "監査ログの参照 | Cloud"
 slug: /audit-logs-ref
 sidebar_label: "監査ログの参照"
 beta: PRIVATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudでは、監査ログには以下の構文があります | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

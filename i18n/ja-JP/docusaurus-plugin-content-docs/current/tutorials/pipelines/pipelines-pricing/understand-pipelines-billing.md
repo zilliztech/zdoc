@@ -3,6 +3,9 @@ title: "パイプラインの価格 | Cloud"
 slug: /understand-pipelines-billing
 sidebar_label: "パイプラインの価格"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud Pipelinesは従量制の価格設定モデルを採用しています。具体的には、Ingestion PipelinesとSearch Pipelinesのモデルの実際の使用に対してのみ支払います。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - pipelines
   - pricing
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

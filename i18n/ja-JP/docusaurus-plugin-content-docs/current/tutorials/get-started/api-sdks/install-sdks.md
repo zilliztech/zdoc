@@ -3,6 +3,9 @@ title: "SDKのインストール | Cloud"
 slug: /install-sdks
 sidebar_label: "SDKのインストール"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Milvus SDKをシームレスにインストールする方法を発見し、Zilliz Cloudクラスターへの効率的な接続を可能にします。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

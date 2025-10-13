@@ -3,6 +3,9 @@ title: "スキーマの説明 | BYOC"
 slug: /schema-explained
 sidebar_label: "スキーマの説明"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "スキーマはコレクションのデータ構造を定義します。コレクションを作成する前に、スキーマの設計を行う必要があります。このページでは、コレクションのスキーマを理解し、独自のスキーマの例を設計するのに役立ちます。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

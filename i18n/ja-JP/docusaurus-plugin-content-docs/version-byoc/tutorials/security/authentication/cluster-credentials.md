@@ -3,6 +3,9 @@ title: "クラスタの認証情報 | BYOC"
 slug: /cluster-credentials
 sidebar_label: "クラスタの認証情報"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、クラスター資格情報またはAPIキーを使用してあなたのアイデンティティを認証します。このガイドでは、クラスター資格情報を使用した認証について説明します。 | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster credentials
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

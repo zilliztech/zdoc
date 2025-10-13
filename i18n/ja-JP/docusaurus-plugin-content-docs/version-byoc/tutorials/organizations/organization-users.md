@@ -3,6 +3,9 @@ title: "組織のユーザーを管理する | BYOC"
 slug: /organization-users
 sidebar_label: "組織のユーザーを管理する"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudでは、組織は通常、企業を表します。従業員を組織に招待し、彼らの職務に基づいて役割を割り当てることができます。これらの役割は、ユーザーが特定のリソースにアクセスし、実行できる操作を決定します。たとえば、開発者は一般的にデータへのアクセスが必要ですが、請求特権は必要ありません。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

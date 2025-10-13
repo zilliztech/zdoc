@@ -3,6 +3,9 @@ title: "MilvusからZilliz Cloudへの移行 | BYOC"
 slug: /migrate-from-milvus
 sidebar_label: "MilvusからZilliz Cloudへの移行"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Milvusは、スケーラブルな類似検索やAIアプリケーションに最適化されたオープンソースのベクトルデータベースです。高いパフォーマンスと使いやすさで知られており、大規模なベクトルデータの管理に広く使用されています。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - milvus
-  - Vector store
-  - open source vector database
   - Vector index
   - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

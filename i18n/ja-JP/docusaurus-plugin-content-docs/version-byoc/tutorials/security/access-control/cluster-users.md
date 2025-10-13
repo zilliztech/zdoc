@@ -3,6 +3,9 @@ title: "クラスタユーザの管理(コンソール) | BYOC"
 slug: /cluster-users
 sidebar_label: "クラスタユーザの管理(コンソール)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudでは、クラスターユーザーを作成し、クラスターロールを割り当てて特権を定義し、データセキュリティを実現できます。 | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - rbac
   - users
   - overview
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

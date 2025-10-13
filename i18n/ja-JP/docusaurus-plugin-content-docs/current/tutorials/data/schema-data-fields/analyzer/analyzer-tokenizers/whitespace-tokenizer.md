@@ -3,6 +3,9 @@ title: "ホワイトスペース | Cloud"
 slug: /whitespace-tokenizer
 sidebar_label: "ホワイトスペース"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "ホワイトスペーストークナイザ（`whitespace`）は、単語の間にスペースがあるときにテキストを用語に分割します。 | Cloud"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - whitespace-tokenizer
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

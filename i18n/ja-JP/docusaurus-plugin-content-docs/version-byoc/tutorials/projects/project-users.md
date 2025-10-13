@@ -3,6 +3,9 @@ title: "プロジェクトのユーザーを管理する | BYOC"
 slug: /project-users
 sidebar_label: "プロジェクトのユーザーを管理する"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudでは、ユーザーをプロジェクトに招待し、彼らの職務に基づいて役割を割り当てることができます。これらの役割は、ユーザーがプロジェクトにアクセスし、実行できる操作を決定します。 | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 
@@ -69,7 +72,7 @@ Zilliz Cloudには3つのプロジェクトロールがあります。これら�
          <th><p><strong>データプレーンのRESTful API（V 2）権限</strong></p></th>
        </tr>
        <tr>
-         <td><ul><li><p>プロジェクト内の<a href="./cluster">クラスター</a>と<a href="./pipelines">パイプライン</a>を表示し、作成および管理することはできません。</p></li><li><p>管理<a href="./collection">コレクション</a>&amp;<a href="./manage-indexes">インデックス</a></p></li><li><p>バックアップを<a href="./manage-backup-files">表示</a>しますが、バックアップファイルから作成または復元することはできません</p></li><li><p>プロジェクトの<a href="./job-center">ジョブ</a>を表示しますが、ジョブをキャンセルしたり、失敗したジョブを再試行することはできません</p></li></ul></td>
+         <td><ul><li><p>プロジェクト内の<a href="./cluster">クラスター</a>と<a href="./pipelines">パイプライン</a>を表示し、作成および管理することはできません。</p></li><li><p>管理<a href="./collection">コレクション</a>&amp;<a href="./manage-indexes">インデックス</a></p></li><li><p>バックアップを<a href="./view-snapshot-details">表示</a>しますが、バックアップファイルから作成または復元することはできません</p></li><li><p>プロジェクトの<a href="./job-center">ジョブ</a>を表示しますが、ジョブをキャンセルしたり、失敗したジョブを再試行することはできません</p></li></ul></td>
          <td><ul><li><p><a href="/ja-JP/reference/restful/cloud-meta-v2">すべてのクラウドメタ操作</a></p></li><li><p>クラスタ操作の一部</p><ul><li><p><a href="/ja-JP/reference/restful/list-projects-v2">リストプロジェクト</a></p></li><li><p><a href="/ja-JP/reference/restful/list-clusters-v2">リストクラスタ</a></p></li><li><p><a href="/ja-JP/reference/restful/describe-cluster-v2">クラスタの説明</a></p></li><li><p><a href="/ja-JP/reference/restful/query-cluster-metrics-v2">クエリクラスタのメトリクス</a></p></li><li><p><a href="./prometheus-monitoring">メトリックのエクスポート</a></p></li></ul></li><li><p><a href="/ja-JP/reference/restful/import-operations-v2">すべてのインポート操作</a></p></li><li><p>バックアップと復元の操作の一部</p><ul><li><p><a href="/ja-JP/reference/restful/list-backups-v2">リストバックアップ</a></p></li><li><p><a href="/ja-JP/reference/restful/describe-backup-v2">バックアップの説明</a></p></li><li><p><a href="/ja-JP/reference/restful/get-backup-policy-v2">バックアップポリシーを取得</a></p></li></ul></li><li><p><a href="/ja-JP/reference/restful/cloud-job-v2">クラウドジョブのすべての操作</a></p></li></ul></td>
          <td><ul><li><p><a href="/ja-JP/reference/restful/collection-operations-v2">すべての収集操作</a></p></li><li><p><a href="/ja-JP/reference/restful/index-operations-v2">すべてのインデックス操作</a></p></li><li><p><a href="/ja-JP/reference/restful/partition-operations-v2">すべてのパーティション操作</a></p></li><li><p><a href="/ja-JP/reference/restful/vector-operations-v2">すべてのベクトル演算</a></p></li><li><p><a href="/ja-JP/reference/restful/alias-operations-v2">すべてのエイリアス操作</a></p></li></ul></td>
        </tr>

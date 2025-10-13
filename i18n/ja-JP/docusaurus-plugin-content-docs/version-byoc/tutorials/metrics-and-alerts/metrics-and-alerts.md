@@ -3,6 +3,9 @@ title: "メトリクスとアラート | BYOC"
 slug: /metrics-and-alerts
 sidebar_label: "メトリクスとアラート"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、組織やクラスターで何が起こっているかを知るための便利なメトリックチャートとアラートを提供します。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

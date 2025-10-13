@@ -3,6 +3,9 @@ title: "インデックスの管理 | BYOC"
 slug: /manage-indexes
 sidebar_label: "インデックスの管理"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "SDKを使用してベクトルおよびスカラーフィールドのインデックスを操作する方法を学びます。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - index
   - manage
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

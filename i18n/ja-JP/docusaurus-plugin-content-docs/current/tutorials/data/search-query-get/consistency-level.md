@@ -3,6 +3,9 @@ title: "一貫性レベル | Cloud"
 slug: /consistency-level
 sidebar_label: "一貫性レベル"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "分散ベクトルデータベースとして、Zilliz Cloudは、各ノードまたはレプリカが読み取りおよび書き込み操作中に同じデータにアクセスできるように、複数の一貫性レベルを提供しています。現在、サポートされている一貫性レベルには、Strong、Bounded、Eventally、Sessionがあり、Boundedがデフォルトの一貫性レベルとして使用されています。 | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

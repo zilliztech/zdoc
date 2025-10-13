@@ -3,6 +3,9 @@ title: "コスト分析 | Cloud"
 slug: /analyze-cost
 sidebar_label: "コスト分析"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudの使用状況ページでは、可視化されたコスト分析ツールが提供されており、Zilliz Cloudの使用状況と経費を複数の次元から表示および追跡できます。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 
@@ -36,13 +39,13 @@ Zilliz Cloudの利用ページからコストを分析するには、**Organizat
 
 Zilliz Cloudでコストを分析する方法は2つあります。
 
-- [Web UI経由](./analyze-cost#via-web-ui):コストの傾向を視覚化する必要がある場合は、Web UIを使用することをお勧めします。Web UIの使用状況の詳細は、**小数点以下2桁**まで丸められています（例:&#36;60.0 0）。
+- [Web UI経由](./analyze-cost#via-web-ui):コストの傾向を視覚化する必要がある場合は、Web UIを使用することをお勧めします。Web UIの使用状況の詳細は、**小数点以下2桁**まで丸められています（例:$60.0 0）。
 
-- [RESTful API経由](./analyze-cost#via-restful-api):毎日の使用状況についてより詳細な情報が必要な場合は、RESTful APIを使用することをお勧めします。RESTful APIから得られる使用状況の詳細は、**小数点以下8桁**まで正確です（例:&#36;60.0 0 257846）。
+- [RESTful API経由](./analyze-cost#via-restful-api):毎日の使用状況についてより詳細な情報が必要な場合は、RESTful APIを使用することをお勧めします。RESTful APIから得られる使用状況の詳細は、**小数点以下8桁**まで正確です（例:$60.0 0 257846）。
 
 ### Web UIから{#via-web-ui}
 
-[**請求**]ページで、[**使用状況**]タブに切り替えます。さまざまな次元で使用状況とコストの傾向を監視できます。
+&#91;**請求**&#93;ページで、&#91;**使用状況**&#93;タブに切り替えます。さまざまな次元で使用状況とコストの傾向を監視できます。
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -92,7 +95,7 @@ Zilliz Cloudでコストを分析する方法は2つあります。
 
 ### RESTful APIを使用する{#via-restful-api}
 
-[毎日の使用を見るRESTful API](/reference/restful/query-daily-usage-v2)から得られる使用状況の詳細は、小数点以下8桁まで正確です。1日のコストがどのように蓄積され、小数点以下2桁に丸められるかを理解する必要がある場合は、RESTful APIを使用することをお勧めします。1日の使用量を合計すると、小数点以下8桁まで正確な総使用量が得られます。次に、この総使用量を小数点以下2桁に丸めます(例:&#36;60.5 6 724390は&#36;60.57に丸められます)。最終的な総使用量は、請求書に表示されている数字と一致する必要があります。
+[毎日の使用を見るRESTful API](/reference/restful/query-daily-usage-v2)から得られる使用状況の詳細は、小数点以下8桁まで正確です。1日のコストがどのように蓄積され、小数点以下2桁に丸められるかを理解する必要がある場合は、RESTful APIを使用することをお勧めします。1日の使用量を合計すると、小数点以下8桁まで正確な総使用量が得られます。次に、この総使用量を小数点以下2桁に丸めます(例:$60.5 6 724390は$60.57に丸められます)。最終的な総使用量は、請求書に表示されている数字と一致する必要があります。
 
 ## よくある質問(FAQ){#faq}
 
@@ -100,7 +103,7 @@ Zilliz Cloudでコストを分析する方法は2つあります。
 
     Zilliz Cloudは小数点以下8桁の精度で製品の価格を設定します。その結果、料金は小数点以下8桁で計算されます。請求過程で、これらの詳細な日次料金は合計され、小数点以下2桁に丸められます。
 
-    ウェブUIでは、表示される金額は小数点以下2桁に丸められます（例:&#36;60.0 0）。
+    ウェブUIでは、表示される金額は小数点以下2桁に丸められます（例:$60.0 0）。
 
     ![precision_usage](/img/precision_usage.png)
 

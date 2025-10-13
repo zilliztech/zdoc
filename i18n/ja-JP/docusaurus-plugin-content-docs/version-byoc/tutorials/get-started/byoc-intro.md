@@ -3,6 +3,9 @@ title: "BYOCの概要 | BYOC"
 slug: /byoc-intro
 sidebar_label: "BYOCの概要"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Bring Your Own Cloud (BYOC) は、Zilliz Cloud のインフラストラクチャを使用する代わりに、組織が独自のクラウドアカウントでアプリケーションやデータをホストするための展開オプションです。このソリューションは、特定のセキュリティ要件や規制遵守ニーズを持つ組織に最適であり、完全なデータ制御主権を維持する必要があります。 | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - byoc
   - milvus
   - vector database
+  - rag llm architecture
+  - private llms
   - nn search
   - llm eval
-  - Sparse vs Dense
-  - Dense vector
 
 ---
 

@@ -3,6 +3,9 @@ title: "適切なCUを選択 | Cloud"
 slug: /cu-types-explained
 sidebar_label: "適切なCUを選択"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudでクラスタを作成する際には、適切なコンピューティングユニット（CU）を選択することが重要なステップです。CUは、データの並列処理に使用されるコンピューティングリソースの基本単位であり、異なるCUタイプには、CPU、メモリ、ストレージのさまざまな組み合わせが含まれます。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cu
   - select
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 
@@ -47,21 +50,21 @@ Zilliz Cloudは、次のCUタイプを提供しています:**Performance-optimi
      <td><p>500~1500</p></td>
      <td><p>サブ10ミリ秒</p></td>
      <td><p>150万個の768暗ベクトル</p></td>
-     <td><p>&#36;65/月から。</p></td>
+     <td><p>$65/月から。</p></td>
    </tr>
    <tr>
      <td><p><strong>キャパシティ最適化</strong></p></td>
      <td><p>100~300</p></td>
      <td><p>十ミリ秒</p></td>
      <td><p>500万個の768-dimベクトル</p></td>
-     <td><p>&#36;20/月から。</p></td>
+     <td><p>$20/月から。</p></td>
    </tr>
    <tr>
      <td><p><strong>拡張キャパシティ</strong></p></td>
      <td><p>5~20</p></td>
      <td><p>百ミリ秒</p></td>
      <td><p>20百万の768暗いベクトル</p></td>
-     <td><p>&#36;10/月から。</p></td>
+     <td><p>$10/月から。</p></td>
    </tr>
 </table>
 

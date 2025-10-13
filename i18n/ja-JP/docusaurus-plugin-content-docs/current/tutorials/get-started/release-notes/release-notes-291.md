@@ -3,6 +3,9 @@ title: "リリースノート（2024年7月23日） | Cloud"
 slug: /release-notes-291
 sidebar_label: "リリースノート（2024年7月23日）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このアップデートでは、Zilliz CloudはMilvusの新しいRESTful API v 2をサポートし、一貫したインターフェースと拡張された機能を提供しています。新しいドキュメントチャットボットにより、ユーザーサポートが強化されています。ジョブセンターでは、バックアップ、復元、移行、インポート、クローン収集などのタスクを管理および追跡するための直感的なインターフェースが導入されています。プライベートプレビューで利用可能な専用クラスターの自動スケーリングは、Compute Unit(CU)Capacity Thresholdによってトリガーされ、需要に基づいて容量を動的に調整します。その他の改善点には、より多くのクラスターモニタリングメトリック、改良されたクラスター管理インターフェース、および改善されたユーザーメールテンプレートが含まれます。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 
@@ -57,7 +60,7 @@ Zilliz Cloudは、1つのプロジェクト内にすべての履歴データと�
 
 詳細は[プロジェクトの仕事を管理する](./job-center)を参照してください。
 
-### 専用クラスタの自動スケーリング[プライベートプレビュー]{#auto-scaling-for-dedicated-clusters-private-preview}
+### 専用クラスタの自動スケーリング&#91;プライベートプレビュー&#93;{#auto-scaling-for-dedicated-clusters-private-preview}
 
 Zilliz Cloudは、需要に基づいてクラスタの容量を動的に調整する機能であるオートスケーリングを導入しています。オートスケーリングは、主にCU(Compute Unit)容量閾値によってトリガーされます。Zilliz Cloudは、クラスタのCU容量を毎分監視し、2分間連続して70%(デフォルトの閾値)を超える場合、システムは自動的にスケーリング過程を開始します。ユーザーは、自動スケーリングの最大CU体格を設定できますが、下方自動スケーリングは現在サポートされていません。
 

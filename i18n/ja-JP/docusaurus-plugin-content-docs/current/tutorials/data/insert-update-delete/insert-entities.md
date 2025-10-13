@@ -3,6 +3,9 @@ title: "エンティティの挿入 | Cloud"
 slug: /insert-entities
 sidebar_label: "エンティティの挿入"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "コレクション内のエンティティは、同じフィールドセットを共有するデータレコードです。すべてのデータレコードのフィールド値がエンティティを形成します。このページでは、エンティティをコレクションに挿入する方法を紹介します。 | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - data
   - insert
   - insert entities
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 
@@ -37,7 +40,7 @@ Zilliz Cloudクラスターでは、**エンティティ**は同じ**スキー�
 
 コレクションにエンティティを挿入する場合、スキーマで定義されたすべてのフィールドが含まれている場合にのみ、挿入するエンティティを正常に追加できます。挿入されたエンティティは、挿入順に**_default**という名前のパーティションに入ります。特定のパーティションが存在する場合、挿入リクエストでパーティション名を指定することで、そのパーティションにエンティティを挿入することもできます。
 
-Zilliz Cloudは、コレクションのスケーラビリティを維持するために動的フィールドもサポートしています。動的フィールドが有効になっている場合、スキーマで定義されていないフィールドをコレクションに挿入できます。これらのフィールドと値は、**$meta**という予約フィールドにキーと値のペアとして保存されます。動的フィールドの詳細については、「[ダイナミックフィールド](./enable-dynamic-field)」を参照してください。
+Zilliz Cloudは、コレクションのスケーラビリティを維持するために動的フィールドもサポートしています。動的フィールドが有効になっている場合、スキーマで定義されていないフィールドをコレクションに挿入できます。これらのフィールドと値は、**&#36;meta**という予約フィールドにキーと値のペアとして保存されます。動的フィールドの詳細については、「[ダイナミックフィールド](./enable-dynamic-field)」を参照してください。
 
 ## コレクションへのエンティティの挿入{#insert-entities-into-a-collection}
 

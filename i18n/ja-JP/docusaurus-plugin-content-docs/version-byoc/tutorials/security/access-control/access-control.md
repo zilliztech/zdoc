@@ -3,6 +3,9 @@ title: "アクセス制御 | BYOC"
 slug: /access-control
 sidebar_label: "アクセス制御"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudがより効率的なアクセス制御のためにRBACを実装する方法や、クラスターのユーザーやロール、特権を管理する方法について詳しく学びましょう。 | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

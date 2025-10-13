@@ -3,6 +3,9 @@ title: "データセキュリティ | BYOC"
 slug: /data-security
 sidebar_label: "データセキュリティ"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "クラウドプラットフォームにおいて、データセキュリティは重要な要素であり、Zilliz Cloudも例外ではありません。Zilliz Cloudは、データを保護するために、承認と認証、ネットワークの分離、暗号化、バックアップと復元など、様々な側面で堅牢な対策を提供しています。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data
   - security
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

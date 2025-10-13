@@ -3,6 +3,9 @@ title: "インデックスの管理 | Cloud"
 slug: /manage-indexes
 sidebar_label: "インデックスの管理"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "SDKを使用してベクトルおよびスカラーフィールドのインデックスを操作する方法を学びます。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - index
   - manage
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

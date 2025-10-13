@@ -3,6 +3,9 @@ title: "インデックススカラーフィールド | Cloud"
 slug: /index-scalar-fields
 sidebar_label: "インデックススカラーフィールド"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudでは、従来のデータベースインデックスと同様に、特定の非ベクトルフィールド値によるメタフィルタリングを高速化するためにスカラーインデックスが使用されます。このガイドでは、整数、文字列などのフィールドのスカラーインデックスの作成と設定について説明します。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - Recommender systems
-  - information retrieval
   - dimension reduction
   - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

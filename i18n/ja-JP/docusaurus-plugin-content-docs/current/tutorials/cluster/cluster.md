@@ -3,6 +3,9 @@ title: "クラスタ | Cloud"
 slug: /cluster
 sidebar_label: "クラスタ"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudでクラスタを管理するために必要なすべての情報。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

@@ -19,7 +19,7 @@ sidebar_position: 4
 
 - [オブジェクトストレージサービスからデータをインポートする際にセッショントークンを使用できますか?](#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)
 - [Zilliz Cloudベクトルデータベースにデータを一括挿入できますか?](#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases)
-- [Node. js SDKを使用してZilliz Cloudクラスタにデータをインポートまたはクエリする際に`ECONNRESET`エラーが発生した場合、どうすればよいですか?](#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk)
+- [Node. js SDKを使用してZilliz Cloudクラスタにデータをインポートまたはクエリする際にECONNRESETエラーが発生した場合、どうすればよいですか?](#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk)
 
 ## FAQs
 
@@ -50,7 +50,7 @@ sidebar_position: 4
 
 はい。詳細については、「[データインポート](./data-import)」を参照してください。
 
-### Node. js SDKを使用してZilliz Cloudクラスタにデータをインポートまたはクエリする際に`ECONNRESET`エラーが発生した場合、どうすればよいですか?{#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk}
+### Node. js SDKを使用してZilliz Cloudクラスタにデータをインポートまたはクエリする際にECONNRESETエラーが発生した場合、どうすればよいですか?{#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk}
 
 この問題を解決するには、以下の手順に従ってください。
 

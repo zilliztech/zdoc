@@ -3,6 +3,9 @@ title: "自動バックアップをスケジュールする | Cloud"
 slug: /schedule-automatic-backups
 sidebar_label: "自動バックアップをスケジュールする"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudを使用すると、クラスターの自動バックアップを有効にして、予期せぬ事故が発生した場合にデータを確実に復元できます。定期的なバックアップにより、データの損失を防止し、特定の時点まで簡単に復元できるため、データをより細かく制御できます。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 
@@ -51,7 +54,7 @@ Zilliz Cloudを使用すると、クラスターの自動バックアップを�
 
 バックアップスケジュールを作成するには、次の手順に従います。
 
-1. クラスタの[**バックアップ**]タブに移動し、[**自動** **バックアップ**]をクリックします。
+1. クラスタの&#91;**バックアップ**&#93;タブに移動し、&#91;**自動** **バックアップ**&#93;をクリックします。
 
 1. 表示される**自動バックアップ設定**ダイアログボックスで、**自動バックアップを有効**にします。
 
@@ -115,15 +118,15 @@ curl --request POST \
 
 ## 自動的に作成されたバックアップファイルを削除する{#delete-automatically-created-backup-file}
 
-クラスタを削除すると、そのクラスタの自動作成されたバックアップファイルがすべて削除されます。また、自動作成されたバックアップファイルは、保存期間が終了すると削除されます。自動作成されたバックアップファイルを手動で削除する必要がある場合は、「[バックアップファイルを削除](./manage-backup-files)」を参照してください。
+クラスタを削除すると、そのクラスタの自動作成されたバックアップファイルがすべて削除されます。また、自動作成されたバックアップファイルは、保存期間が終了すると削除されます。自動作成されたバックアップファイルを手動で削除する必要がある場合は、「[バックアップファイルを削除](./delete-snapshot)」を参照してください。
 
 ## 関連するトピック{#related-topics}
 
 - [バックアップを作成](./create-snapshot)
 
-- [バックアップファイルを表示する](./manage-backup-files)
+- [バックアップファイルを表示する](./view-snapshot-details)
 
 - [バックアップファイルからの復元](./restore-from-snapshot)
 
-- [バックアップファイルを削除](./manage-backup-files)
+- [バックアップファイルを削除](./delete-snapshot)
 

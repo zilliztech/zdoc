@@ -3,6 +3,9 @@ title: "フィルタリング | BYOC"
 slug: /filtering
 sidebar_label: "フィルタリング"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "この章では、スカラーフィールドと適用可能なフィルタリング演算子でフィルタリングを実行する方法について説明します。 | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

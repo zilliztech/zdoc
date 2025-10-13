@@ -3,6 +3,9 @@ title: "インボイス | Cloud"
 slug: /view-invoice
 sidebar_label: "Invoices"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは組織レベルで請求を行います。請求書にアクセスするには、組織所有者または請求管理者の権限が必要です。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 
@@ -124,7 +127,7 @@ Zilliz Cloudには、Free、Serverless、Dedicatedの3つのクラスタータ�
 
 追加料金には以下が含まれます:
 
-- **バックアップコスト:**`Backup File Size x Backup Retention Periodとして計算され、「GB-month」で測定されます。これは、1か月間保持された1 GBのバックアップファイルの使用量を指します。バックアップは最低1日で請求されます。`これは、バックアップファイルが作成されたが1日だけ保持された場合でも、1日分の料金が請求されることを意味します。
+- **バックアップコスト:**`Backup File Size x Backup Retention Periodとして計算され、「GB-month」で測定されます。これは、1か月間保持された1 GBのバックアップファイルの使用量を指します。**バックアップは最低1日で請求されます。**これは、バックアップファイルが作成されたが1日だけ保持された場合でも、1日分の料金が請求されることを意味します。
 
 - **ストレージコスト:**現在の`ストレージサイズ×クラスタランタイム`として計算され、「GB-Hour」で測定されます。これは、1時間に保存された1 GBのデータの使用量を指します。**ストレージは、短いストレージ期間でも最低1時間で請求されます。**
 
@@ -301,7 +304,7 @@ curl --request GET \
 
     - **説明:**Zilliz Cloudは小数点以下8桁の精度で製品の価格を設定します。その結果、料金は小数点以下8桁で計算されます。請求過程では、これらの詳細な日次料金が合計され、小数点以下2桁に丸められます。
 
-        ウェブUIでは、表示される金額は小数点以下2桁に丸められます（例:&#36;60.0 0）。
+        ウェブUIでは、表示される金額は小数点以下2桁に丸められます（例:$60.0 0）。
 
         ![precision_invoice_cn](/img/precision_invoice_cn.png)
 
@@ -335,11 +338,11 @@ curl --request GET \
 
     - **例:**調整中に、Query Org Daily U sage APIを使用して、2024年8月1日から8月3日までの3日間の毎日の使用データを取得したとします。各日の使用量の精度は8桁です。
 
-        - 8月1日の合計:&#36;105.0 3 3 3 1200
+        - 8月1日の合計:$105.0 3 3 3 1200
 
-        - 8月2日の合計:&#36;92.0300 02 4 5
+        - 8月2日の合計:$92.0300 02 4 5
 
-        - 8月3日の合計:&#36;11 4.25300000
+        - 8月3日の合計:$11 4.25300000
 
         3つの日次合計を合計すると、31 1.316 3 1 4 45ドルの合計が得られ、3番目の小数点を考慮した後、31 1.32ドルに丸められます。この数字は、Web UIの請求書に表示される総使用量と一致する必要があります。
 

@@ -3,6 +3,9 @@ title: "組み込みアナライザのリファレンス | BYOC"
 slug: /built-in-analyzer
 sidebar_label: "組み込みアナライザのリファレンス"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このセクションでは、組み込みアナライザに関する詳細情報を提供します。 | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in analyzer
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

@@ -3,6 +3,9 @@ title: "リリースノート（2024年1月18日） | Cloud"
 slug: /release-notes-250
 sidebar_label: "リリースノート（2024年1月18日）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、データインポート機能のユーザーエクスペリエンスを最適化し、階層的な権限を持つAPIキーを改良し、メトリックとアラートのメカニズムを強化しました。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

@@ -3,6 +3,9 @@ title: "環境の分離 | Cloud"
 slug: /environment-isolation
 sidebar_label: "環境の分離"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "適切な環境の分離とアクセス制御は、エンタープライズアプリケーションの開発と展開において不可欠です。Zilliz Cloudは、組織、プロジェクト、クラスターの階層構造を通じて柔軟な分離を提供します。このガイドは、運用、セキュリティ、財務要件に基づいて最適な戦略を選択するのに役立ちます。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - multi-tenancy
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
 
 ---
 

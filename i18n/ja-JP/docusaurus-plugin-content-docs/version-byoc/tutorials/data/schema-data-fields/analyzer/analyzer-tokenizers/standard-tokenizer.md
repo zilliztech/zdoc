@@ -3,6 +3,9 @@ title: "標準トークナイザー | BYOC"
 slug: /standard-tokenizer
 sidebar_label: "標準トークナイザー"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudの標準トークナイザー（`standard`）Zilliz Cloudは、スペースと句読点に基づいてテキストを分割するため、ほとんどの言語に適しています。 | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - standard-tokenizer
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

@@ -3,6 +3,9 @@ title: "リリースノート（2025年4月24日） | Cloud"
 slug: /release-notes-2150
 sidebar_label: "リリースノート（2025年4月24日）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudのプライベートプレビューで、Zero-Downtime Migrationが利用可能になったことをお知らせできることを嬉しく思っています!クラスタをアップグレードする必要がある場合や、キャパシティ最適化されたコンピュートユニット(CU)から別のオプションに切り替える必要がある場合でも、サービスの中断なしにデータを簡単に移行できます。さらに、Zilliz BYOCは、BYOCプロジェクトのインスタンス設定を構成し、クラスタのAWS PrivateLinkを有効にするためのいくつかの改良を導入しました。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

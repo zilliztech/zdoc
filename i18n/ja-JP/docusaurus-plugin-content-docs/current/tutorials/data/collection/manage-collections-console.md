@@ -3,6 +3,9 @@ title: "コレクションの管理(コンソール) | Cloud"
 slug: /manage-collections-console
 sidebar_label: "コレクションの管理(コンソール)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このガイドでは、Zilliz Cloudでコレクションを作成および管理するためのステップバイステップの手順を説明します。ビジュアルインターフェイスを好むユーザーを対象としています。SDKに精通している場合は、S DKを使用してコレクションを作成および管理することもできます。詳細については、Collectionを参照してください。 | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 
@@ -46,7 +49,7 @@ Zilliz Cloudは、異なるニーズに対応する3つのコレクション作�
 
 ![create_custom_collection](/img/create_custom_collection.png)
 
-1. [**コレクションを作成**]ページで、コレクションのスキーマを定義し ます。
+1. &#91;**コレクションを作成**&#93;ページで、コレクションのスキーマを定義し ます。
 
     <table>
        <tr>
@@ -91,7 +94,7 @@ Zilliz Cloudは、異なるニーズに対応する3つのコレクション作�
        </tr>
     </table>
 
-1. (オプション)[**詳細設定**]では、動的フィールドとパーティションキーを詳細設定に使用します。
+1. (オプション)&#91;**詳細設定**&#93;では、動的フィールドとパーティションキーを詳細設定に使用します。
 
     - **動的フィールド**:定義済みのスキーマを超えた新しいフィールドの挿入を許可します。詳細については、「[スキーマの説明](./schema-explained)」を参照してください。
 
@@ -101,7 +104,7 @@ Zilliz Cloudは、異なるニーズに対応する3つのコレクション作�
 
 ### 方法2:サンプルデータを使用する{#create-sample-collection}
 
-[**Load Sample Data**]を選択し、プリセットコレクションを確認して作成を確認します。
+&#91;**Load Sample Data**&#93;を選択し、プリセットコレクションを確認して作成を確認します。
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -113,17 +116,17 @@ Zilliz Cloudは、異なるニーズに対応する3つのコレクション作�
 
 ### 方法3:既存のコレクションを複製する{#copy-collection}
 
-[アクション]メニューから[**クローンコレクション**]を**選択し**ます。
+&#91;アクション&#93;メニューから&#91;**クローンコレクション**&#93;を**選択し**ます。
 
 1. 新しいコレクションの名前と説明を入力します。
 
 1. クローンアクションのスコープを選択します。コレクションのスキーマと既存のデータの両方をクローンするか、現在のクラスターにデータがないコレクションスキーマのみをクローンすることができます。
 
-1. [**クローン**]をクリックします。
+1. &#91;**クローン**&#93;をクリックします。
 
     ![copy_collection](/img/copy_collection.png)
 
-1. [[ジョブ](./job-center)]ページでクローンの進行状況を確認できます。ジョブのステータスが**IN PROGRESS**から**SUCCESS FUL**に切り替わると、指定された属性を持つ新しいコレクションが現在のクラスタに作成されます。
+1. [[ジョブ](./job-center)&#93;ページでクローンの進行状況を確認できます。ジョブのステータスが**IN PROGRESS**から**SUCCESS FUL**に切り替わると、指定された属性を持つ新しいコレクションが現在のクラスタに作成されます。
 
     <Admonition type="info" icon="📘" title="ノート">
 
@@ -171,12 +174,12 @@ Zilliz Cloudでは、すべての検索およびクエリ操作はメモリ内�
    </tr>
    <tr>
      <td><p>フリークラスタ</p></td>
-     <td><p>5\</除外する></p></td>
+     <td><p>5&lt;/除外する&gt;</p></td>
      <td><p>最大5つのコレクションを作成できます。</p></td>
    </tr>
    <tr>
      <td><p>サーバーレスクラスター</p></td>
-     <td><p>100\</除外する></p></td>
+     <td><p>100&lt;/除外する&gt;</p></td>
      <td><p>最大100個のコレクションを作成できます。</p></td>
    </tr>
    <tr>

@@ -3,6 +3,9 @@ title: "グループ検索 | BYOC"
 slug: /grouping-search
 sidebar_label: "グループ検索"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "グルーピング検索により、Zilliz Cloudは、指定されたフィールドの値によって検索結果をグループ化して、より高いレベルでデータを集計することができます。たとえば、基本的なANN検索を使用して、手元の本に似た本を見つけることができますが、グルーピング検索を使用して、その本で議論されているトピックに関連する書籍カテゴリを見つけることができます。このトピックでは、グルーピング検索の使用方法と主要な考慮事項について説明します。 | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - data
   - grouping search
   - group
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

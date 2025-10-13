@@ -3,6 +3,9 @@ title: "フィルター検索 | BYOC"
 slug: /filtered-search
 sidebar_label: "フィルター検索"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "ANN検索は、指定されたベクトル埋め込みに最も似たベクトル埋め込みを見つけます。ただし、検索結果が常に正しいとは限りません。検索リクエストにフィルタリング条件を含めることで、Zilliz CloudがANN検索を実行する前にメタデータフィルタリングを実行し、指定されたフィルタリング条件に一致するエンティティのみに検索範囲を縮小できます。 | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 
@@ -190,7 +193,7 @@ func ExampleClient_Search_filter() {
                 "filtered_search_collection", // collectionName
                 3,             // limit
                 []entity.Vector{entity.FloatVector(queryVector)},
-        ).WithFilter(`color like "red%" and likes > 50`).WithOutputFields("color", "likes"))
+        ).WithFilter(`color like "red%" and likes &gt; 50`).WithOutputFields("color", "likes"))
         if err != nil {
                 log.Fatal("failed to perform basic ANN search collection: ", err.Error())
         }
@@ -399,7 +402,7 @@ func ExampleClient_Search_filter() {
                 "filtered_search_collection", // collectionName
                 3,             // limit
                 []entity.Vector{entity.FloatVector(queryVector)},
-        ).WithFilter(`color like "red%" and likes > 50`).WithHints("iterative_filter").WithOutputFields("color", "likes"))
+        ).WithFilter(`color like "red%" and likes &gt; 50`).WithHints("iterative_filter").WithOutputFields("color", "likes"))
         if err != nil {
                 log.Fatal("failed to perform basic ANN search collection: ", err.Error())
         }

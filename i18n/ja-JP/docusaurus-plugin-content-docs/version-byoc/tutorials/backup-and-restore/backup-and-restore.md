@@ -3,6 +3,9 @@ title: "バックアップと復元 | BYOC"
 slug: /backup-and-restore
 sidebar_label: "バックアップと復元"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudクラスターに保存されたデータのバックアップと復元。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

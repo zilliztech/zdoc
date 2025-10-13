@@ -3,6 +3,9 @@ title: "セキュリティ | Cloud"
 slug: /security
 sidebar_label: "セキュリティ"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "この章では、認証、役割ベースのアクセス制御（RBAC）、プライベートエンドポイント、ホワイトリストなどのセキュリティ関連の対策に焦点を当てています。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

@@ -3,6 +3,9 @@ title: "見積もりコスト | Cloud"
 slug: /understand-cost
 sidebar_label: "見積もりコスト"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このページでは、Zilliz Cloudの利用コストを見積もるためのガイドラインを提供しています。正確な見積もりを得るためには、無料トライアルを利用することをお勧めします。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cost
   - understand
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 
@@ -62,19 +65,19 @@ CU Cost = CU Unit Price x CU Number x Cluster Runtime
 
 - **クラスター** **ランタイム:**720時間(1か月)。
 
-プラン、クラウドプロバイダーと地域、およびCUタイプ情報を使用すると、[価格ページ](https://zilliz.com/jp/pricing)でCUユニット価格が&#36;0.248/時間であることがわかります。
+プラン、クラウドプロバイダーと地域、およびCUタイプ情報を使用すると、[価格ページ](https://zilliz.com/jp/pricing)でCUユニット価格が$0.248/時間であることがわかります。
 
 ![find-cu-unit-price](/img/find-cu-unit-price.png)
 
 CU体格とレプリカ数の情報によると、CU数は8 CU x 2 Replica=16であることがわかります。
 
-例の専用クラスターの合計CUコストは、&#36;0.2 4 8 x 16 x 720=&#36;2856.96です。
+例の専用クラスターの合計CUコストは、$0.2 4 8 x 16 x 720=$2856.96です。
 
 ## サーバーレスクラスタ{#serverless-clusters}
 
 サーバーレスクラスターは従量課金モデルで動作するため、高い弾力性を持つワークロードに最適です。
 
-サーバーレスクラスターの総コストには、**書き込みコスト**、**読み取りコスト**、および**ストレージコスト**が含まれます。サーバーレスクラスターのストレージ単価は月額&#36;0.300/GBで、ストレージコストは通常、合計の約2%を占めます。正確なコスト見積もりには、[計算機](https://zilliz.com/jp/pricing#calculator)を使用してください。
+サーバーレスクラスターの総コストには、**書き込みコスト**、**読み取りコスト**、および**ストレージコスト**が含まれます。サーバーレスクラスターのストレージ単価は月額$0.300/GBで、ストレージコストは通常、合計の約2%を占めます。正確なコスト見積もりには、[計算機](https://zilliz.com/jp/pricing#calculator)を使用してください。
 
 ### 書き込みコスト{#write-cost}
 
@@ -105,22 +108,22 @@ Write Cost = vCU Unit Price x Write vCU Usage
    <tr>
      <td><p>100万個の128次元ベクトル</p></td>
      <td><p>0.125</p></td>
-     <td><p>&#36;0.5</p></td>
+     <td><p>$0.5</p></td>
    </tr>
    <tr>
      <td><p>1,000,000個の768-dimベクトル</p></td>
      <td><p>0.75</p></td>
-     <td><p>&#36;3</p></td>
+     <td><p>$3</p></td>
    </tr>
    <tr>
      <td><p>1,000,000の1536暗いベクトル</p></td>
      <td><p>1.5</p></td>
-     <td><p>&#36;6</p></td>
+     <td><p>$6</p></td>
    </tr>
    <tr>
      <td><p>1百万の2560暗いベクトル</p></td>
      <td><p>2.5</p></td>
-     <td><p>&#36;10</p></td>
+     <td><p>$10</p></td>
    </tr>
 </table>
 
@@ -157,7 +160,7 @@ Serverlessクラスタに3 GB（3,145,728 KB）のエンティティを挿入し
 
 - 総vCU使用量は1,000+78,643=178,643 vCUです。
 
-- 総書き込みコスト=0.1786 4 3 x 4=&#36;0.7 2
+- 総書き込みコスト=0.1786 4 3 x 4=$0.7 2
 
 ### 読み取りコスト{#read-cost}
 
@@ -175,10 +178,10 @@ Read Cost = vCU Unit Price x Read vCU Usage
 
     <Admonition type="info" icon="📘" title="ノート">
 
-    <ol>
+    &lt;ol&gt;
     <li><p>vCUの使用量は、スキャンされたデータ体格に比例して増加しません。</p></li>
     <li><p>各読み取り操作には最低6つのvCUが必要です。</p></li>
-    </ol>
+    &lt;/ol&gt;
 
     </Admonition>
 
@@ -195,47 +198,47 @@ Read Cost = vCU Unit Price x Read vCU Usage
    <tr>
      <td><p>100万個の128次元ベクトル</p></td>
      <td><p>5</p></td>
-     <td><p>&#36;20</p></td>
+     <td><p>$20</p></td>
    </tr>
    <tr>
      <td><p>1,000,000個の768-dimベクトル</p></td>
      <td><p>15</p></td>
-     <td><p>&#36;60</p></td>
+     <td><p>$60</p></td>
    </tr>
    <tr>
      <td><p>500万個の768-dimベクトル</p></td>
      <td><p>35</p></td>
-     <td><p>&#36;140</p></td>
+     <td><p>$140</p></td>
    </tr>
    <tr>
      <td><p>10,000,000個の768-dimベクトル</p></td>
      <td><p>55</p></td>
-     <td><p>&#36;220</p></td>
+     <td><p>$220</p></td>
    </tr>
    <tr>
      <td><p>1,000,000の1536暗いベクトル</p></td>
      <td><p>25</p></td>
-     <td><p>&#36;100</p></td>
+     <td><p>$100</p></td>
    </tr>
    <tr>
      <td><p>10,000,000個の1536-dimベクトル</p></td>
      <td><p>75</p></td>
-     <td><p>&#36;300</p></td>
+     <td><p>$300</p></td>
    </tr>
    <tr>
      <td><p>100百万の1536-dimベクトル</p></td>
      <td><p>290</p></td>
-     <td><p>&#36;1160</p></td>
+     <td><p>$1160</p></td>
    </tr>
    <tr>
      <td><p>10十億1536暗ベクトル</p></td>
      <td><p>1,495</p></td>
-     <td><p>&#36;5980</p></td>
+     <td><p>$5980</p></td>
    </tr>
    <tr>
      <td><p>1百万の2560暗いベクトル</p></td>
      <td><p>30</p></td>
-     <td><p>&#36;120</p></td>
+     <td><p>$120</p></td>
    </tr>
 </table>
 
@@ -273,7 +276,7 @@ Backup Cost = Backup Unit Price x Backup File Size x Backup Rentention Period
 
 #### 例{#example}
 
-例えば、AWSがホストするクラスタを使用した場合、Zilliz Cloudに45日間（1.5ヶ月間）保存した20 GBのバックアップには、**$0.0 25 x 20 x 1.5=$0.75**がかかります。
+例えば、AWSがホストするクラスタを使用した場合、Zilliz Cloudに45日間（1.5ヶ月間）保存した20 GBのバックアップには、**&#36;0.0 25 x 20 x 1.5=&#36;0.75**がかかります。
 
 ### パイプラインのコスト{#pipelines-cost}
 

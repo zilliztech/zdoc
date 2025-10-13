@@ -3,6 +3,9 @@ title: "プロジェクトのアラートを管理する | Cloud"
 slug: /manage-project-alerts
 sidebar_label: "プロジェクトのアラートを管理する"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、リソースモニタリングのための2種類のアラートを提供しています。組織アラートは、の問題に対応し、プロジェクトアラートは特定のプロジェクトのクラスターの運用パフォーマンスに対応しています。クイックリファレンスについては、メトリクスとアラートのリファレンスを参照してください。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 
@@ -94,7 +97,7 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 ## プロジェクトのアラートを表示する{#view-project-alerts}
 
-[**プロジェクトアラート**]ページに移動して、プロジェクトアラートを表示します。
+&#91;**プロジェクトアラート**&#93;ページに移動して、プロジェクトアラートを表示します。
 
 **アラートの構成要素**:
 
@@ -102,7 +105,7 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 - **ステータス**:アラートがアクティブ（**ON**）かどうかを示します。アラートが**ON**の場合、条件が満たされると指定された受信者に通知が届きます。
 
-- **条件**:アラートのトリガー条件。各プロジェクトのアラートターゲットに対して、トリガー条件には、アラートがトリガーされるために満たす必要がある閾値と期間値が含まれます。条件は、次の演算子のいずれかに設定できます:>、>=、\<、\<=、=。閾値は、クエリレイテンシ、クエリQPS、検索QPS、CU Capacity、CU Computationなどのメトリックの数値などの数値になります。期間は、閾値を超える必要がある時間を指定し、最小1分、最大30分に設定されます。
+- **条件**:アラートのトリガー条件。各プロジェクトのアラートターゲットに対して、トリガー条件には、アラートがトリガーされるために満たす必要がある閾値と期間値が含まれます。条件は、次の演算子のいずれかに設定できます:&gt;、&gt;=、\&lt;、\&lt;=、=。閾値は、クエリレイテンシ、クエリQPS、検索QPS、CU Capacity、CU Computationなどのメトリックの数値などの数値になります。期間は、閾値を超える必要がある時間を指定し、最小1分、最大30分に設定されます。
 
 - **深刻度レベル**:**WARNING**または**CRITICAL**に分類されます。
 
@@ -112,7 +115,7 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 ## プロジェクトのアラートを作成する{#create-a-project-alert}
 
-デフォルトのプロジェクトアラートに加えて、[**+アラート**]をクリックして、アラートの種類、重要度レベル、アラート条件、および通知受信者をカスタマイズしてアラートを作成できます。
+デフォルトのプロジェクトアラートに加えて、&#91;**+アラート**&#93;をクリックして、アラートの種類、重要度レベル、アラート条件、および通知受信者をカスタマイズしてアラートを作成できます。
 
 サポートされているカスタムアラートターゲットについては、[メトリクスとアラートのリファレンス](./metrics-alerts-reference)を参照してください。
 
@@ -126,13 +129,13 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>アラートをすばやく有効または無効にするには、[アクション]列から[<strong>有効</strong>]または[<strong>無効</strong>]を選択し<strong>ま</strong>す。</p>
+<p>アラートをすばやく有効または無効にするには、&#91;アクション&#93;列から&#91;<strong>有効</strong>&#93;または&#91;<strong>無効</strong>&#93;を選択し<strong>ま</strong>す。</p>
 
 </Admonition>
 
 ## プロジェクトのアラートを有効または無効にする{#enable-or-disable-a-project-alert}
 
-プロジェクトのアラートをすばやく有効または無効にするには、[アクション]列から[**有効**]または[**無効**]を選択し**ま**す。
+プロジェクトのアラートをすばやく有効または無効にするには、&#91;アクション&#93;列から&#91;**有効**&#93;または&#91;**無効**&#93;を選択し**ま**す。
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -152,15 +155,15 @@ Zilliz Cloudは、リソースモニタリングのための2種類のアラー�
 
 ## アラート履歴を表示する{#view-alert-history}
 
-[**Alert History**]タブでトリガーされたアラートを表示します。アラートの対象、重要度レベル、時間範囲のフィルターがあります。
+&#91;**Alert History**&#93;タブでトリガーされたアラートを表示します。アラートの対象、重要度レベル、時間範囲のフィルターがあります。
 
 ![view-project-alert-history](/img/view-project-alert-history.png)
 
 ## アラート受信の設定を行う{#configure-alert-receiver-settings}
 
-[Alert Receiver Settings(アラート受信者設定)]機能を使用すると、[プロジェクト管理者](./project-users)はアラートテンプレートを作成して管理できます。
+&#91;Alert Receiver Settings(アラート受信者設定)&#93;機能を使用すると、[プロジェクト管理者](./project-users)はアラートテンプレートを作成して管理できます。
 
-プロジェクトアラートの[**アラート設定**]ページで、アラート受信者の設定を構成します。
+プロジェクトアラートの&#91;**アラート設定**&#93;ページで、アラート受信者の設定を構成します。
 
 ![alert-receiver-settings](/img/alert-receiver-settings.png)
 

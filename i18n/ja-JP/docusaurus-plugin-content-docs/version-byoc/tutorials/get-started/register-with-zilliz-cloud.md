@@ -3,6 +3,9 @@ title: "Zilliz Cloudに登録する | BYOC"
 slug: /register-with-zilliz-cloud
 sidebar_label: "Zilliz Cloudに登録する"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このガイドでは、Zilliz Cloudサービスにアクセスするためのアカウントの作成方法について詳しく説明します。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - register
   - cloud
   - milvus
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 
@@ -50,15 +53,15 @@ Zilliz Cloudにアクセスして[サインアップし](https://cloud.zilliz.co
 
 以下の手順に従って、職場のメールアドレスとパスワードを使用してZilliz Cloudアカウントを作成してください。
 
-1. [仕事用メールアドレス]フィールドに**仕事用メール**アドレスを入力します。
+1. &#91;仕事用メールアドレス&#93;フィールドに**仕事用メール**アドレスを入力します。
 
-1. [パスワード]フィールドに**パスワード**を入力します。
+1. &#91;パスワード&#93;フィールドに**パスワード**を入力します。
 
     パスワードが128文字を超えず、少なくとも1つの大文字、1つの小文字、1つの数字、および1つの特殊文字を含むことを確認してください。
 
-1. [**I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)**]にチェックを入れてください。
+1. [**I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)**&#93;にチェックを入れてください。
 
-1. [**Continue**]をクリックします。入力されたメールアドレスに確認コードが送信されます。
+1. &#91;**Continue**&#93;をクリックします。入力されたメールアドレスに確認コードが送信されます。
 
 1. ダイアログボックスに受信した確認コードを入力し、**Verify**をクリックしてください。
 
@@ -76,7 +79,7 @@ GoogleアカウントとZilliz Cloudを連携するには、以下の手順に�
 
 1. Googleロゴボタンをクリックします。
 
-1. [**I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)**]にチェックを入れてください。
+1. [**I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)**&#93;にチェックを入れてください。
 
 1. Googleアカウントの[ログインページ](https://accounts.google.com/)にリダイレクトされます。Googleアカウントに関連付けられているメールアドレスまたは電話番号とパスワードを入力してください。
 
@@ -98,11 +101,11 @@ GitHubに登録する場合は、GitHubアカウントに公開メールアド�
 
 1. 左側のナビゲーションから「**メール**」をクリックします。
 
-1. [**メールアドレスを保持]プライベート**ボックスのチェックを外します。
+1. &#91;**メールアドレスを保持&#93;プライベート**ボックスのチェックを外します。
 
 1. 左側のナビゲーションから**公開プロフィール**をクリックし、公開メールのドロップダウンから、先ほど設定した**公開メール**アドレスを選択してください。
 
-1. [**プロファイルの更新**]をクリックして変更を保存します。
+1. &#91;**プロファイルの更新**&#93;をクリックして変更を保存します。
 
 #### 手続き{#procedures}
 
@@ -110,7 +113,7 @@ GitHubアカウントをリンクするには、以下の手順に従ってく�
 
 1. GitHubロゴボタンをクリックします。
 
-1. [**I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)**]にチェックを入れてください。
+1. [**I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)**&#93;にチェックを入れてください。
 
 1. あなたは[GitHubサインインページ](https://github.com/login)にリダイレクトされます。ユーザー名またはメールアドレスと、GitHubアカウントに関連付けられた対応するパスワードを入力してください。
 

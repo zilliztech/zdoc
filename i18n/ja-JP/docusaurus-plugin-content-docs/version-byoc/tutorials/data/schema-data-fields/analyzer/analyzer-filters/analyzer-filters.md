@@ -3,6 +3,9 @@ title: "フィルタリファレンス | BYOC"
 slug: /analyzer-filters
 sidebar_label: "フィルタリファレンス"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このセクションでは、アナライザのフィルタの詳細なリファレンスを提供します。 | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

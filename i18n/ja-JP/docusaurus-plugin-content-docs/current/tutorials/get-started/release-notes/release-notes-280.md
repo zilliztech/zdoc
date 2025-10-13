@@ -3,6 +3,9 @@ title: "リリースノート（2024年5月15日） | Cloud"
 slug: /release-notes-280
 sidebar_label: "リリースノート（2024年5月15日）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudのこのアップデートでは、BETAのServerlessプランが導入されました。これは、可変クエリボリュームを持つアプリケーション向けに設計されており、最小限の構成が必要で、滑らかなスケーラビリティを提供します。このプランは現在、GCP us-west 1(Oregon)で利用可能であり、BETA期間中に無料トライアルが含まれています。さらに、専用クラスターに対して新しいリージョンがサポートされています AzureのGermany West Central(Frankfurt)、GCPのヨーロッパ-west 3(Frankfurt)およびus-east-4(Virginia)。このリリースでは、モニタリングメトリクス、検索精度制御、およびジョブのインポートにいくつかの強化が導入されています。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

@@ -3,6 +3,9 @@ title: "コレクションの説明 | BYOC"
 slug: /manage-collections
 sidebar_label: "コレクションの説明"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudでは、複数のコレクションを作成してデータを管理し、データをエンティティとしてコレクションに挿入することができます。コレクションとエンティティは、リレーショナルデータベースのテーブルやレコードに似ています。このページでは、コレクションと関連する概念について学ぶことができます。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 
@@ -64,11 +67,11 @@ Zilliz Cloudでは、複数のコレクションを作成してデータを管�
 
 特定のフィールドにインデックスを作成すると、検索の効率が向上します。サービスが依存するすべてのフィールドにインデックスを作成することをお勧めします。その中でも、ベクトルフィールドのインデックスは必須です。
 
-\<ターゲットを含める="zilliz">
+&lt;ターゲットを含める="zilliz"&gt;
 
 Milvusとは異なり、Zilliz Cloud上のコレクション内のベクトルフィールドに適用可能なインデックスタイプはAUTOINDEXのみです。詳細については、[AUTOINDEXの説明](./autoindex-explained)を参照してください。
 
-\</include>
+&lt;/include&gt;
 
 ## エンティティ{#entity}
 
@@ -150,11 +153,11 @@ Zilliz Cloudに対して関数を設定することで、コレクション作�
 
 これらの一貫性レベルの詳細については、[一貫性レベル](./consistency-level)を参照してください。
 
-\<ターゲットを含める="zilliz">
+&lt;ターゲットを含める="zilliz"&gt;
 
 ## 限界{#limits}
 
 コレクションの制限と制限については、[Zillizクラウドの制限](./limits)を参照してください。
 
-\</include>
+&lt;/include&gt;
 

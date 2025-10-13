@@ -3,6 +3,9 @@ title: "PineconeからZilliz Cloudへの移行 | Cloud"
 slug: /migrate-from-pinecone
 sidebar_label: "Pineconeから"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Pineconeは類似検索を可能にするベクトルデータベースです。PineconeからZilliz Cloudにデータを移行することで、Zilliz Cloudの高性能な検索と分析を活用しながら、密なベクトルと疎なベクトルの両方を管理する機能を強化することができます。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - pinecone
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 
@@ -58,7 +61,7 @@ import Admonition from '@theme/Admonition';
 
 1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. ターゲットプロジェクトページに移動し、**移行**>**松ぼっくり**を選択してください。
+1. ターゲットプロジェクトページに移動し、**移行**&gt;**松ぼっくり**を選択してください。
 
 1. 「**データソースに接続**」ステップで、ターゲットのPineconeプロジェクトにアクセスするために使用できるAPIキーを入力します。次に、「**次**へ」をクリックします。
 
@@ -78,7 +81,7 @@ import Admonition from '@theme/Admonition';
 
 1. 「**スキーマ構成**」ステップでは、
 
-    1. [**スキーマプレビュー**]で、Pineconeインデックスと対応するZilliz Cloudコレクションのフィールドマッピングを確認します。
+    1. &#91;**スキーマプレビュー**&#93;で、Pineconeインデックスと対応するZilliz Cloudコレクションのフィールドマッピングを確認します。
 
         <Admonition type="info" icon="📘" title="ノート">
 
@@ -96,9 +99,9 @@ import Admonition from '@theme/Admonition';
 
         1. **パーティションキー**:デフォルトで有効になっています。有効にすると、Zilliz CloudはPinecone名前空間をパーティションキーにマップします。無効にすると、パーティションにマップされます。この機能を有効にしておくことをお勧めします。この状態では、名前空間はVARCHARデータ型を持つターゲットコレクションスキーマのスカラーフィールドとして表示されます。詳細については、「[パーティションキーを使う](./use-partition-key)」と「[パーティションの管理](./manage-partitions)」を参照してください。
 
-    1. [**ターゲットコレクション名**と**説明**]で、ターゲットコレクション名と説明をカスタマイズします。コレクション名は、各クラスターで一意である必要があります。名前が既存の名前と重複する場合は、コレクション名を変更します。
+    1. &#91;**ターゲットコレクション名**と**説明**&#93;で、ターゲットコレクション名と説明をカスタマイズします。コレクション名は、各クラスターで一意である必要があります。名前が既存の名前と重複する場合は、コレクション名を変更します。
 
-1. [**移行**]をクリックします。
+1. &#91;**移行**&#93;をクリックします。
 
 ## 移行過程を監視する{#monitor-the-migration-process}
 
@@ -116,7 +119,7 @@ import Admonition from '@theme/Admonition';
 
 移行過程で問題が発生した場合は、次の手順に従ってトラブルシューティングを行い、移行を再開できます。
 
-1. [[ジョブ](./job-center)]ページで、失敗した移行ジョブを特定してキャンセルします。
+1. [[ジョブ](./job-center)&#93;ページで、失敗した移行ジョブを特定してキャンセルします。
 
-1. [アクション]列の[**詳細**を**表示**]をクリックして、エラーログにアクセスします。
+1. &#91;アクション&#93;列の&#91;**詳細**を**表示**&#93;をクリックして、エラーログにアクセスします。
 

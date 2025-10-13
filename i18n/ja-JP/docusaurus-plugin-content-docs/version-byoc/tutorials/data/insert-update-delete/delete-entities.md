@@ -3,6 +3,9 @@ title: "エンティティの削除 | BYOC"
 slug: /delete-entities
 sidebar_label: "エンティティの削除"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "不要になったエンティティは、条件またはプライマリキーをフィルタリングして削除できます。 | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

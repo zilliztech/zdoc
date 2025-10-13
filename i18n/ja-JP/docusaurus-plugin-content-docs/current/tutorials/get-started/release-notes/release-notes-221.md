@@ -3,6 +3,9 @@ title: "リリースノート（2023年9月27日） | Cloud"
 slug: /release-notes-221
 sidebar_label: "リリースノート（2023年9月27日）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudのローンチを発表できることを嬉しく思います。このリリースでは、新しいCUサイズオプションによる柔軟性の向上、前払いのサポート、より多くのAWSリージョンなど、さまざまな強化と機能を導入しています。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

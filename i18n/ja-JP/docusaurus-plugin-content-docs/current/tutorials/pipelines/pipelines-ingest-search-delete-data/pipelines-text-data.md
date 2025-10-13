@@ -3,6 +3,9 @@ title: "テキストデータ | Cloud"
 slug: /pipelines-text-data
 sidebar_label: "テキストデータ"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理するためのシンプルで直感的な方法を提供し、RESTful APIはWeb UIに比べてより柔軟性とカスタマイズ性を提供します。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - pipelines
   - text data
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 
@@ -59,7 +62,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
     ![create-pipeline](/img/create-pipeline.png)
 
-1. 作成するパイプラインの種類を選択します。[**+パイプライン**]ボタンをクリックします。**Ingestion Pipeline**列。
+1. 作成するパイプラインの種類を選択します。&#91;**+パイプライン**&#93;ボタンをクリックします。**Ingestion Pipeline**列。
 
     ![choose-pipeline](/img/choose-pipeline.png)
 
@@ -135,7 +138,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
         ![add-index-text-function](/img/add-index-text-function.png)
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. &#91;**追加**&#93;をクリックして関数を保存します。
 
 1. （オプション）テキストのメタデータを保持する必要がある場合は、別の**PRE**SERVE関数を追加してください。**PRESERVE**関数は、データ取り込みとともにコレクションにスカラーフィールドを追加します。
 
@@ -145,7 +148,7 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
     </Admonition>
 
-    1. [**+Function**]をクリックします。
+    1. &#91;**+Function**&#93;をクリックします。
 
     1. 関数名を入力します。
 
@@ -163,9 +166,9 @@ Zilliz CloudのWeb UIは、パイプラインを作成、実行、管理する�
 
         ![add-preserve-function](/img/add-preserve-function.png)
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. &#91;**追加**&#93;をクリックして関数を保存します。
 
-1. [**Ingestion Pipelineを作成**]をクリックします。
+1. &#91;**Ingestion Pipelineを作成**&#93;をクリックします。
 
 1. 作成したばかりのIngestionパイプラインと互換性があるように自動構成された検索パイプラインと削除パイプラインの作成を続けます。
 
@@ -237,9 +240,9 @@ curl --request POST \
 
     - `action`:追加する関数の種類。現在利用可能なオプションには、`INDEX_DOC`、`INDEX_TEXT`、`INDEX_IMAGE`、`PRE`SERVEがあります。
 
-    - `language`:取り込むテキストの言語。使用可能な値は`ENGLISH`と`CHINESEです`。*(このパラメータは`INDEX_TEXT`と`INDEX_DOC_CHUNK`関数でのみ使用されます。)*
+    - `language`:取り込むテキストの言語。使用可能な値は`ENGLISH`と`CHINESEです`。*(このパラメータはINDEX_TEXTとINDEX_DOC_CHUNK関数でのみ使用されます。)*
 
-    - `埋め込み`:テキストのベクトル埋め込みを生成するために使用する埋め込みモデルです。利用可能なオプションは以下の通りです。*（このパラメータは`In dex`関数でのみ使用されます。）*
+    - `埋め込み`:テキストのベクトル埋め込みを生成するために使用する埋め込みモデルです。利用可能なオプションは以下の通りです。*（このパラメータはIn dex関数でのみ使用されます。）*
 
         <table>
            <tr>
@@ -276,11 +279,11 @@ curl --request POST \
            </tr>
         </table>
 
-- `input tField`:`input`フィールドの名前です。値はカスタマイズできますが、output tFieldと同じにしてくださ`い`。*（このパラメータは`PRESERVE`関数でのみ使用されます。）*
+- `input tField`:`input`フィールドの名前です。値はカスタマイズできますが、output tFieldと同じにしてくださ`い`。*（このパラメータはPRESERVE関数でのみ使用されます。）*
 
-- `output`Field:コレクションスキーマで使用される出力フィールドの名前。現在、出力フィールドの名前は入力フィールドの名前と同じでなければなりません。*（このパラメータは`PRESERVE`関数でのみ使用されます。）*
+- `output`Field:コレクションスキーマで使用される出力フィールドの名前。現在、出力フィールドの名前は入力フィールドの名前と同じでなければなりません。*（このパラメータはPRESERVE関数でのみ使用されます。）*
 
-- `fieldType`:入力フィールドと出力フィールドのデータ型です。使用可能な値は、`Bool`、`Int 8`、`Int 16`、`Int 32`、`Int 64`、`Float`、`Double`、および`VarCharです`。*(このパラメータは`PRESERVE`関数でのみ使用されます。)*
+- `fieldType`:入力フィールドと出力フィールドのデータ型です。使用可能な値は、`Bool`、`Int 8`、`Int 16`、`Int 32`、`Int 64`、`Float`、`Double`、および`VarCharです`。*(このパラメータはPRESERVE関数でのみ使用されます。)*
 
     <Admonition type="info" icon="📘" title="ノート">
 
@@ -359,7 +362,7 @@ curl --request POST \
 
     ![run-pipeline](/img/run-pipeline.png)
 
-1. text_listフィールドに取り込む必要のあるテキストまたは`テキストリスト`を入力します。PRESERVE関数を追加した場合は、定義済みの保存フィールドにも値を入力します。[**実行**]をクリックします。
+1. text_listフィールドに取り込む必要のあるテキストまたは`テキストリスト`を入力します。PRESERVE関数を追加した場合は、定義済みの保存フィールドにも値を入力します。&#91;**実行**&#93;をクリックします。
 
 1. 結果を確認してください。
 
@@ -462,7 +465,7 @@ curl --request POST \
 
     1. 「**Target Cluster**」と「**Target collection**」を選択します。**Target Cluster**は、**us-west 1 on Google Cloud Platform(GCP)**にデプロイされたクラスタである必要があります。また、**Target Collection**はIngestionパイプラインによって作成されている必要があります。そうでない場合、Searchパイプラインは互換性がありません。
 
-    1. [**SEARCH_TEXT**]を**関数タイプ**として選択します。**SEARCH_TEXT**関数は、クエリテキストをベクトル埋め込みに変換し、最も関連性の高いテキストエンティティを取得できます。
+    1. &#91;**SEARCH_TEXT**&#93;を**関数タイプ**として選択します。**SEARCH_TEXT**関数は、クエリテキストをベクトル埋め込みに変換し、最も関連性の高いテキストエンティティを取得できます。
 
     1. (オプション)[reranker](./reranker)を有効にすると、クエリとの関連性に基づいて検索結果をランク付けして検索品質を向上させることができます。ただし、rerankerを有効にすると、コストと検索レイテンシが高くなることに注意してください。デフォルトでは、この機能は無効になっています。有効にすると、再ランキングに使用するモデルサービスを選択できます。現在、**zilliz/bge-reranker-base**のみが利用可能です。
 
@@ -479,9 +482,9 @@ curl --request POST \
 
         ![add-search-text-function](/img/add-search-text-function.png)
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. &#91;**追加**&#93;をクリックして関数を保存します。
 
-1. [**検索パイプラインを作成**]をクリックします。
+1. &#91;**検索パイプラインを作成**&#93;をクリックします。
 
 </TabItem>
 
@@ -593,7 +596,7 @@ curl --request POST \
 
     ![run-pipeline](/img/run-pipeline.png)
 
-1. クエリテキストを入力します。[**実行**]をクリックします。
+1. クエリテキストを入力します。&#91;**実行**&#93;をクリックします。
 
 1. 結果を確認してください。
 
@@ -711,9 +714,9 @@ curl --request POST \
 
     1. 「**PURGE_TEXT_INDEX**」または「**PURGE_BY_EXPRESSION**」を**関数タイプ**として選択します。**PURGE_TEXT_INDEX**関数は、指定されたidを持つすべてのテキストエンティティを削除できます。**PURGE_BY_EXPRESSION**関数は、指定されたフィルタ式に一致するすべてのテキストエンティティを削除できます。
 
-    1. [**追加**]をクリックして関数を保存します。
+    1. &#91;**追加**&#93;をクリックして関数を保存します。
 
-1. [**削除パイプラインを作成**]をクリックします。
+1. &#91;**削除パイプラインを作成**&#93;をクリックします。
 
 </TabItem>
 
@@ -805,7 +808,7 @@ curl --request POST \
 
     ![run-pipeline](/img/run-pipeline.png)
 
-1. フィルタ式を入力します。[**実行**]をクリックします。
+1. フィルタ式を入力します。&#91;**実行**&#93;をクリックします。
 
 1. 結果を確認してください。
 

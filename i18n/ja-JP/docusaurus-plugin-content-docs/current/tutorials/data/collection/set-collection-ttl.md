@@ -3,6 +3,9 @@ title: "コレクションTTLを設定する | Cloud"
 slug: /set-collection-ttl
 sidebar_label: "コレクションTTLを設定する"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "データがコレクションに挿入されると、デフォルトでそこに残ります。ただし、一部のシナリオでは、一定期間後にデータを削除またはクリーンアップする必要がある場合があります。そのような場合、コレクションのTTLプロパティを構成して、TTLが期限切れになるとMilvusが自動的にデータを削除するようにすることができます。 | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - collection ttl
   - time-to-live
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

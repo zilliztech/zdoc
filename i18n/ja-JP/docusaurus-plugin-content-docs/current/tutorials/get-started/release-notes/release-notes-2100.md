@@ -3,6 +3,9 @@ title: "リリースノート（2024年9月4日） | Cloud"
 slug: /release-notes-2100
 sidebar_label: "リリースノート（2024年9月4日）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このリリースでは、Zilliz Cloud ServerlessのGAから始まり、自動スケーリングを提供し、最大50倍のコスト削減が可能になりました。Milvus 2.4機能がGAになり、スパースベクトル、マルチベクトルハイブリッド検索、ファジーマッチング付き逆インデックスなどの機能が導入されました。このリリースには、パブリックプレビューのマルチレプリカ機能も含まれており、複数の可用性ゾーン(AZ)のレプリカにワークロードを分散することで、クエリのスループットと可用性を向上させることができます。さらに、Zilliz Cloudの新しいMigration Serviceは、オープンソースのMilvus、pgvector、Elasticsearchからの移行をサポートし、Zilliz Cloud内での組織内および組織間のデータ移行を可能にします。バックアップ、リストア、移行、ジョブ管理のための拡張されたRESTful APIにより、ユーザーは自動化された運用ワークフローをその他の機能強化には、プロジェクトの読み取り専用ロールのサポート、クラスターとスナップショットの名前変更機能が含まれます。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

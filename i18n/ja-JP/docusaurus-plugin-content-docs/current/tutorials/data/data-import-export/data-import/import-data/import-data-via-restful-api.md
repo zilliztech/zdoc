@@ -3,6 +3,9 @@ title: "データのインポート(RESTful API) | Cloud"
 slug: /import-data-via-restful-api
 sidebar_label: "データのインポート(RESTful API)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このページでは、Zilliz Cloud RESTfulAPIを使用して、準備したデータをインポートする方法を紹介します。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

@@ -3,6 +3,9 @@ title: "パーティションキーを使う | Cloud"
 slug: /use-partition-key
 sidebar_label: "パーティションキーを使う"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "パーティションキーは、パーティションに基づく検索最適化ソリューションです。特定のスカラーフィールドをパーティションキーとして指定し、検索中にパーティションキーに基づくフィルタリング条件を指定することで、検索範囲を複数のパーティションに絞り込むことができ、検索効率を向上させることができます。この記事では、パーティションキーの使用方法と関連する考慮事項を紹介します。 | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 
@@ -304,7 +307,7 @@ export filter='partition_key in ["x", "y", "z"] && <other conditions>'
 </TabItem>
 </Tabs>
 
-\<ターゲットを含める="zilliz">
+&lt;ターゲットを含める="zilliz"&gt;
 
 ## パーティションキーの分離を使用する{#use-partition-key-isolation}
 
@@ -399,4 +402,4 @@ curl --request POST \
 
 「パーティションキーの分離」を有効にした後でも、「[パーティション番号を設定する](./use-partition-key#set-partition-numbers)」で説明されているように、パーティションキーとパーティション数を設定できます。パーティションキーベースのフィルタには、特定のパーティションキー値のみを含める必要があることに注意してください。
 
-\</include>
+&lt;/include&gt;

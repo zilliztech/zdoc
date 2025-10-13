@@ -3,6 +3,9 @@ title: "基本的なベクトル検索 | BYOC"
 slug: /single-vector-search
 sidebar_label: "基本的なベクトル検索"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "ベクトル埋め込みのソートされた順序を記録したインデックスファイルに基づいて、近似最近傍法(ANN)検索は、受信した検索リクエストで運ばれたクエリベクトルに基づいてベクトル埋め込みのサブセットを検索し、クエリベクトルをサブグループ内のものと比較して、最も類似した結果を返します。ANN検索では、Zilliz Cloudが効率的な検索体験を提供します。このページでは、基本的なANN検索の方法を学ぶことができます。 | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - data
   - vector search
   - ann
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 
@@ -287,27 +290,27 @@ Milvusは、クエリベクトルとの類似度スコアによって検索結�
    <tr>
      <td><p><code>L 2</code></p></td>
      <td><p>値が小さいほど類似度が高いことを示します。</p></td>
-     <td><p>[0, ∞)</p></td>
+     <td><p>&#91;0, ∞)</p></td>
    </tr>
    <tr>
      <td><p><code>IP</code></p></td>
      <td><p>値が大きいほど類似度が高いことを示します。</p></td>
-     <td><p>[-1, 1]</p></td>
+     <td><p>&#91;-1, 1&#93;</p></td>
    </tr>
    <tr>
      <td><p><code>コサイン</code></p></td>
      <td><p>値が大きいほど類似度が高いことを示します。</p></td>
-     <td><p>[-1, 1]</p></td>
+     <td><p>&#91;-1, 1&#93;</p></td>
    </tr>
    <tr>
      <td><p><code>ジャカード</code></p></td>
      <td><p>値が小さいほど類似度が高いことを示します。</p></td>
-     <td><p>[0, 1]</p></td>
+     <td><p>&#91;0, 1&#93;</p></td>
    </tr>
    <tr>
      <td><p><code>ハミング</code></p></td>
      <td><p>値が小さいほど類似度が高いことを示します。</p></td>
-     <td><p>[0, dim(ベクトル)]</p></td>
+     <td><p>&#91;0, dim(ベクトル)&#93;</p></td>
    </tr>
 </table>
 

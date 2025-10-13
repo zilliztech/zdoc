@@ -3,6 +3,9 @@ title: "Zilliz Cloudを無料で試す | Cloud"
 slug: /free-trials
 sidebar_label: "Zilliz Cloudを無料で試す"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、無料プランと無料トライアルの両方を提供しており、強力なベクトルデータベース機能を評価またはテストし、Zilliz Cloudの使用コストを見積もるのに役立ちます。開始するには、Zilliz Cloudにアカウントを登録するだけです。支払い情報は必要ありません。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - free trial
   - milvus
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 
@@ -54,7 +57,7 @@ Zilliz Cloudに仕事用のメールでサインアップし、アンケート�
 
 ### クレジットを獲得する{#earn-credits-and-extend-credit-expiration}
 
-登録すると、&#36;100の無料クレジットがもらえます。[マーケットプレイス](./subscribe-on-aws-marketplace)でZilliz Cloudに登録すると、さらに&#36;100を獲得できます。さらに、支払い方法を追加すると、クレジットの有効期限が**1年間**延長されます。
+登録すると、$100の無料クレジットがもらえます。[マーケットプレイス](./subscribe-on-aws-marketplace)でZilliz Cloudに登録すると、さらに$100を獲得できます。さらに、支払い方法を追加すると、クレジットの有効期限が**1年間**延長されます。
 
 追加のクレジットが必要な場合、または試用期間を延長したい場合は、[営業部までお問い合わせ](https://zilliz.com/contact-sales)ください。
 
@@ -62,7 +65,7 @@ Zilliz Cloudに仕事用のメールでサインアップし、アンケート�
 
 左側のナビゲーションペインの下部で、残りのクレジットと有効期限をすばやく確認できます。
 
-または、[請求の概要]ページの[**クレジット**]セクションに移動**しま**す。
+または、&#91;請求の概要&#93;ページの&#91;**クレジット**&#93;セクションに移動**しま**す。
 
 ![view-credit-balance](/img/view-credit-balance.png)
 

@@ -3,6 +3,9 @@ title: "Google Cloud Marketplaceに登録する | Cloud"
 slug: /subscribe-on-gcp-marketplace
 sidebar_label: "Google Cloud Marketplace"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このガイドでは、サブスクリプションの過程をステップバイステップで説明し、GCP Marketplace上のZilliz Cloudの価格条件について概説します。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - gcp
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 
@@ -50,17 +53,17 @@ import Admonition from '@theme/Admonition';
 
     ![search_for_zilliz_on_gcp](/img/search_for_zilliz_on_gcp.png)
 
-1. [**Zilliz Cloud**]をクリックします。
+1. &#91;**Zilliz Cloud**&#93;をクリックします。
 
     サービスと価格について理解してください。
 
-1. 登録するプロジェクトを選択し、[**登録**]をクリックします。
+1. 登録するプロジェクトを選択し、&#91;**登録**&#93;をクリックします。
 
     ![click_subscribe_on_gcp](/img/click_subscribe_on_gcp.png)
 
-1. [**New Zilliz Cloudサブスクリプション**]ページで、次の手順を実行します。
+1. &#91;**New Zilliz Cloudサブスクリプション**&#93;ページで、次の手順を実行します。
 
-    1. [**購入詳細**]セクションのドロップダウンから請求先アカウントを選択します。
+    1. &#91;**購入詳細**&#93;セクションのドロップダウンから請求先アカウントを選択します。
 
     1. 利用**規約**を確認し、同意します。
 
@@ -72,7 +75,7 @@ import Admonition from '@theme/Admonition';
 
     <Admonition type="info" icon="📘" title="ノート">
 
-    <p>登録手続きを完了できない場合は、GCP Marketplaceの[<strong><a href="https://console.cloud.google.com/marketplace/orders">ご注文</a></strong>]ページに移動して再試行できます。</p>
+    <p>登録手続きを完了できない場合は、GCP Marketplaceの&#91;<strong><a href="https://console.cloud.google.com/marketplace/orders">ご注文</a></strong>&#93;ページに移動して再試行できます。</p>
 
     </Admonition>
 
@@ -118,11 +121,11 @@ GCP Marketplaceから正常にサブスクリプションを申し込んだ後�
 
     <Admonition type="info" icon="📘" title="ノート">
 
-    <p>GCP Marketplaceのサブスクリプションを更新する場合、新しいサブスクリプションをZilliz Cloud組織にリンクするには、[プロバイダーで管理]ボタンをクリックする必要があります。</p>
+    <p>GCP Marketplaceのサブスクリプションを更新する場合、新しいサブスクリプションをZilliz Cloud組織にリンクするには、&#91;プロバイダーで管理&#93;ボタンをクリックする必要があります。</p>
 
     </Admonition>
 
-1. [**支払方法**]セクションの[**請求概要**]ページで更新を確認します。[サブスクリプションID]をクリックし、サブスクリプション**アカウントID**が新しいMarketplaceアカウントに更新されているかどうかを確認します。
+1. &#91;**支払方法**&#93;セクションの&#91;**請求概要**&#93;ページで更新を確認します。&#91;サブスクリプションID&#93;をクリックし、サブスクリプション**アカウントID**が新しいMarketplaceアカウントに更新されているかどうかを確認します。
 
     ![view-gcp-subscription-id](/img/view-gcp-subscription-id.png)
 
@@ -148,7 +151,7 @@ GCP Marketplaceから正常にサブスクリプションを申し込んだ後�
 
 1. 「[クレジットカードを追加して購読する](./subscribe-by-adding-credit-card)」の手順に従って、支払いクレジットカードを追加します。
 
-1. [**支払方法**]セクションの[**請求概要**]ページで更新を確認します。
+1. &#91;**支払方法**&#93;セクションの&#91;**請求概要**&#93;ページで更新を確認します。
 
 ## GCP Marketplaceのサブスクリプションをキャンセルする{#cancel-gcp-marketplace-subscription}
 

@@ -3,6 +3,9 @@ title: "リソースプランニング | Cloud"
 slug: /resource-planning
 sidebar_label: "リソースプランニング"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudにデータを移動する前のリソースプランニングに関するトピック。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

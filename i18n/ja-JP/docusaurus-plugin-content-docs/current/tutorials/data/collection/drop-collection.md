@@ -3,6 +3,9 @@ title: "コレクションを削除 | Cloud"
 slug: /drop-collection
 sidebar_label: "コレクションを削除"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "必要がなくなった場合は、コレクションを削除できます。 | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - manage
   - console
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

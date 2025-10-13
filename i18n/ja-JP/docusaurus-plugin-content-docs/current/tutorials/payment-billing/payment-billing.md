@@ -3,6 +3,9 @@ title: "支払いと請求 | Cloud"
 slug: /payment-billing
 sidebar_label: "支払いと請求"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このガイドでは、Zilliz Cloudでサービスを購読する方法と、請求書の管理に関する注意事項について詳しく説明しています。 | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - private link
   - payment
   - billing
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 
@@ -126,7 +129,7 @@ Zilliz Cloudサービスを[AWS](./subscribe-on-aws-marketplace)、[GPC](./subsc
 
 価格はクラウドプロバイダー、リージョン、クラスタープランによって異なります。詳細については、[Zilliz Cloud価格](https://zilliz.com/jp/pricing)を参照してください。
 
-価格情報を使用して、**スタンダードプラン**でZilliz Cloudクラスターをデプロイし、AWS-us-east-1(バージニア)に1つのperformance-optimizedCUを持っている場合、Marketplaceサブスクリプションを通じて1時間あたり&#36;0.159が請求されます。
+価格情報を使用して、**スタンダードプラン**でZilliz Cloudクラスターをデプロイし、AWS-us-east-1(バージニア)に1つのperformance-optimizedCUを持っている場合、Marketplaceサブスクリプションを通じて1時間あたり$0.159が請求されます。
 
 ## 関連するトピック{#related-topics}
 

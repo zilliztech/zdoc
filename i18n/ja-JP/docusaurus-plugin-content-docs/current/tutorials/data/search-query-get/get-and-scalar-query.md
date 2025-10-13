@@ -3,6 +3,9 @@ title: "クエリ | Cloud"
 slug: /get-and-scalar-query
 sidebar_label: "クエリ"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、ANN検索に加えて、クエリによるメタデータフィルタリングもサポートしています。このページでは、Query、Get、QueryIteratorsを使用してメタデータフィルタリングを実行する方法を紹介します。 | Cloud"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

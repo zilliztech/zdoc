@@ -3,6 +3,9 @@ title: "マイグレーション | BYOC"
 slug: /migrations
 sidebar_label: "マイグレーション"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、Milvus、Elasticsearch、pgvectorなどの外部ソースからの移行オプションを提供し、同じ組織内または異なる組織内でのクラスタ間の移行を可能にし、効率的なデータ統合と管理を可能にします。 | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

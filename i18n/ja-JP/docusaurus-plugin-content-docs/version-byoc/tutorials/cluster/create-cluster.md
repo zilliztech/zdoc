@@ -3,6 +3,9 @@ title: "クラスタ作成 | BYOC"
 slug: /create-cluster
 sidebar_label: "クラスタ作成"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このトピックでは、クラスターを作成する方法について説明します。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 
@@ -47,11 +50,11 @@ import TabItem from '@theme/TabItem';
 
 1. 希望の組織とプロジェクトを入力します。
 
-1. [**クラスタを作成**]をクリックします。
+1. &#91;**クラスタを作成**&#93;をクリックします。
 
     ![create-cluster-byoc](/img/create-cluster-byoc.png)
 
-1. [**新しいクラスターを作成**]ページで、**Standard**または**Enterprise**プランを選択し、関連するパラメータを入力します。
+1. &#91;**新しいクラスターを作成**&#93;ページで、**Standard**または**Enterprise**プランを選択し、関連するパラメータを入力します。
 
     ![cluster-cluster-byoc](/img/cluster-cluster-byoc.png)
 
@@ -83,7 +86,7 @@ import TabItem from '@theme/TabItem';
 
     - **クラウドバックアップ**:クラスタ内に保存されているデータを保護し、障害が発生した場合にデータの永続性と回復機能を確保するために、自動クラウドバックアップを有効にするかどうかを決定します。
 
-1. [**クラスタを作成**]をクリックします。クラスタアクセスのパブリックエンドポイントとトークンを表示するダイアログにリダイレクトされます。これらの詳細は安全に保管してください。
+1. &#91;**クラスタを作成**&#93;をクリックします。クラスタアクセスのパブリックエンドポイントとトークンを表示するダイアログにリダイレクトされます。これらの詳細は安全に保管してください。
 
 </TabItem>
 

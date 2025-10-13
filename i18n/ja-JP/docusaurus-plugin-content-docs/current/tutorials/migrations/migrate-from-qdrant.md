@@ -3,6 +3,9 @@ title: "QdrantからZilliz Cloudへの移行 | Cloud"
 slug: /migrate-from-qdrant
 sidebar_label: "Qdrantから"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Qdrantは、類似検索機能を提供するベクトルデータベースです。QdrantからZilliz Cloudにデータを移行することで、Qdrantがサポートするマルチベクトル構造との互換性を維持しながら、Zilliz Cloudの高度な検索と分析機能を活用することができます。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - qdrant
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 
@@ -58,9 +61,9 @@ import Admonition from '@theme/Admonition';
 
 1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. ターゲットプロジェクトページに移動し、**移行**>**Qdrant**を選択してください。
+1. ターゲットプロジェクトページに移動し、**移行**&gt;**Qdrant**を選択してください。
 
-1. [**データソースに接続**]ステップで、ターゲットQdrantクラスターにアクセスするための資格情報として使用できる**クラスターエンドポイント**と**APIキー**を入力します。次に、[**次**へ]をクリックします。
+1. &#91;**データソースに接続**&#93;ステップで、ターゲットQdrantクラスターにアクセスするための資格情報として使用できる**クラスターエンドポイント**と**APIキー**を入力します。次に、&#91;**次**へ&#93;をクリックします。
 
     <Admonition type="info" icon="📘" title="ノート">
 
@@ -78,7 +81,7 @@ import Admonition from '@theme/Admonition';
 
 1. 「**スキーマ構成**」ステップでは、
 
-    1. [**スキーマプレビュー**]で、Qdrantコレクションと対応するZilliz Cloudコレクションのフィールドマッピングを確認します。
+    1. &#91;**スキーマプレビュー**&#93;で、Qdrantコレクションと対応するZilliz Cloudコレクションのフィールドマッピングを確認します。
 
         <Admonition type="info" icon="📘" title="ノート">
 
@@ -95,9 +98,9 @@ import Admonition from '@theme/Admonition';
 
         1. **パーティションキー**:デフォルトで無効になっており、変更できません。これは、Qdrantからのペイロードが動的フィールドにJSONとして保存され、パーティションキーとして機能しないためです。Zilliz Cloudでは、スキーマで明示的に定義されたスカラーフィールドのみがパーティションキーとして使用できます。
 
-    1. [**ターゲットコレクション名**と**説明**]で、ターゲットコレクション名と説明をカスタマイズします。コレクション名は、各クラスターで一意である必要があります。名前が既存の名前と重複する場合は、コレクション名を変更します。
+    1. &#91;**ターゲットコレクション名**と**説明**&#93;で、ターゲットコレクション名と説明をカスタマイズします。コレクション名は、各クラスターで一意である必要があります。名前が既存の名前と重複する場合は、コレクション名を変更します。
 
-1. [**移行**]をクリックします。
+1. &#91;**移行**&#93;をクリックします。
 
 ## 移行過程を監視する{#monitor-the-migration-process}
 
@@ -115,7 +118,7 @@ import Admonition from '@theme/Admonition';
 
 移行過程で問題が発生した場合は、次の手順に従ってトラブルシューティングを行い、移行を再開できます。
 
-1. [[ジョブ](./job-center)]ページで、失敗した移行ジョブを特定してキャンセルします。
+1. [[ジョブ](./job-center)&#93;ページで、失敗した移行ジョブを特定してキャンセルします。
 
-1. [アクション]列の[**詳細**を**表示**]をクリックして、エラーログにアクセスします。
+1. &#91;アクション&#93;列の&#91;**詳細**を**表示**&#93;をクリックして、エラーログにアクセスします。
 

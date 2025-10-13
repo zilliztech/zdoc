@@ -3,6 +3,9 @@ title: "アクセス制御 | Cloud"
 slug: /access-control
 sidebar_label: "アクセス制御"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudがより効率的なアクセス制御のためにRBACを実装する方法や、クラスターのユーザーやロール、特権を管理する方法について詳しく学びましょう。 | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

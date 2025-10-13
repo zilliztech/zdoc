@@ -3,6 +3,9 @@ title: "Cnalphanumonlyフィルター | BYOC"
 slug: /cnalphanumonly-filter
 sidebar_label: "Cnalphanumonlyフィルター"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "`cnalphanumonly`フィルターは、漢字、英字、数字以外の文字を含むトークンを削除します。 | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - cnalphanumonly
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

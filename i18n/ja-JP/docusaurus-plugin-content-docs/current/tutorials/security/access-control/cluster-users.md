@@ -3,6 +3,9 @@ title: "クラスタユーザの管理(コンソール) | Cloud"
 slug: /cluster-users
 sidebar_label: "クラスタユーザの管理(コンソール)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudでは、クラスターユーザーを作成し、クラスターロールを割り当てて特権を定義し、データセキュリティを実現できます。 | Cloud"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - rbac
   - users
   - overview
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

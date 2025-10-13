@@ -3,6 +3,9 @@ title: "Alphanumonlyフィルター | Cloud"
 slug: /alphanumonly-filter
 sidebar_label: "Alphanumonlyフィルター"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "アルファヌモンリーフィルター（Alphanumonly）は、非ASCII文字を含むトークンを削除し、英数字の用語のみを保持します。このフィルターは、特殊文字や記号を除いて、基本的な文字と数字のみが関連するテキストを処理するのに役立ちます。 | Cloud"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - alphanumonly
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

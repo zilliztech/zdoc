@@ -3,6 +3,9 @@ title: "監査する | BYOC"
 slug: /auditing
 sidebar_label: "監査する"
 beta: PRIVATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudクラスターの監査を構成する方法を学びましょう。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

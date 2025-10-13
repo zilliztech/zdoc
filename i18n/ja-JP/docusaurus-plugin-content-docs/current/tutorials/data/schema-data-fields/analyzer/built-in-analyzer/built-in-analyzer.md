@@ -3,6 +3,9 @@ title: "組み込みアナライザのリファレンス | Cloud"
 slug: /built-in-analyzer
 sidebar_label: "組み込みアナライザのリファレンス"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このセクションでは、組み込みアナライザに関する詳細情報を提供します。 | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in analyzer
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

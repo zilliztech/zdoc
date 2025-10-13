@@ -3,6 +3,9 @@ title: "フィルタリング | Cloud"
 slug: /filtering
 sidebar_label: "フィルタリング"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "この章では、スカラーフィールドと適用可能なフィルタリング演算子でフィルタリングを実行する方法について説明します。 | Cloud"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

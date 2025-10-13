@@ -3,6 +3,9 @@ title: "リリースノート（2023年12月11日） | Cloud"
 slug: /release-notes-240
 sidebar_label: "リリースノート（2023年12月11日）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "現在、Zilliz CloudサービスはAzureで利用可能であり、米国東部地域から開始されています。さらに、Zilliz Cloud Pipelines(ベータ版)を導入し、非構造化データをベクトル埋め込みに変換して取り込み、取得します。このリリースでは、クラスター内のRBACおよび資格情報管理が改善され、ユーザー管理のための3つの事前定義された役割(管理者、読み書き、読み取り専用)が提供されます。その他の更新には、エラーメッセージのコンテンツの強化と安定性の向上が含まれ、より信頼性の高いサービスが提供されます。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

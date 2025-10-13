@@ -3,6 +3,9 @@ title: "データ | BYOC"
 slug: /data
 sidebar_label: "データ"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "この章では、データ操作に焦点を当てる。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

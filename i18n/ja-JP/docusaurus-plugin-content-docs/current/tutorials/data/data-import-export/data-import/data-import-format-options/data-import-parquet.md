@@ -3,6 +3,9 @@ title: "Parquetファイルからインポート | Cloud"
 slug: /data-import-parquet
 sidebar_label: "Parquetファイルからインポート"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Apache Parquetは、効率的なデータストレージと検索のために設計されたオープンソースの列指向データファイル形式です。複雑なデータを大量に管理するための高性能な圧縮およびエンコーディングスキームを提供し、さまざまなプログラミング言語や分析ツールでサポートされています。 | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 
@@ -43,7 +46,7 @@ import Admonition from '@theme/Admonition';
 <ul>
 <li><strong>動的フィールドを有効にするかどうか</strong></li>
 </ul>
-<p>ターゲットコレクションで動的フィールドが有効になっている場合、定義済みスキーマに含まれていないフィールドを格納する必要がある場合は、書き込み操作中に<strong>$meta</strong>列を指定し、対応するキー値データを指定できます。</p>
+<p>ターゲットコレクションで動的フィールドが有効になっている場合、定義済みスキーマに含まれていないフィールドを格納する必要がある場合は、書き込み操作中に<strong>&#36;meta</strong>列を指定し、対応するキー値データを指定できます。</p>
 <ul>
 <li><strong>大文字と小文字を区別する</strong></li>
 </ul>
@@ -166,7 +169,7 @@ Zilliz Cloudは、クラウドストレージからのデータインポート�
    </tr>
    <tr>
      <td><p><strong>Azure Bolb</strong></p></td>
-     <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/</code></p><p><code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/data.parquet</code></p></td>
+     <td><p><code><i>http</i>s://myaccount.blob.core.windows.net/bucket-name/parquet-folder/</code></p><p><code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/data.parquet</code></p></td>
    </tr>
 </table>
 

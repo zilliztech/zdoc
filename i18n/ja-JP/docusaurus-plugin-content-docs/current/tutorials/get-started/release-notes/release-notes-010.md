@@ -3,6 +3,9 @@ title: "リリースノート（2023年1月10日） | Cloud"
 slug: /release-notes-010
 sidebar_label: "リリースノート（2023年1月10日）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudの大幅なアップデートの一般提供を発表できることを嬉しく思います。このリリースには、データプレビュー機能と、コンソール上のコレクションに簡単にインポートできるデモデータセットが追加されています。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

@@ -3,6 +3,9 @@ title: "Zilliz CloudのIPアドレス | Cloud"
 slug: /zilliz-cloud-ips
 sidebar_label: "Zilliz CloudのIPアドレス"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、データソースからデータを取得し、固定IPアドレスのセットを使用してターゲットクラスタに送信します。Zilliz Cloudがこれを行うためには、ファイアウォールにこれらのIPアドレスを安全にリストする必要があります。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - ips
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

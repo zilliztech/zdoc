@@ -3,6 +3,9 @@ title: "エンティティの削除 | Cloud"
 slug: /delete-entities
 sidebar_label: "エンティティの削除"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "不要になったエンティティは、条件またはプライマリキーをフィルタリングして削除できます。 | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

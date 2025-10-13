@@ -3,6 +3,9 @@ title: "メトリクスとアラートのリファレンス | BYOC"
 slug: /metrics-alerts-reference
 sidebar_label: "メトリクスとアラートのリファレンス"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このリファレンスでは、Zilliz Cloudクラスターの監視メトリクスの説明、および組織およびプロジェクトレベルで設定できるアラートターゲットについて説明しています。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 
@@ -105,13 +108,13 @@ Zilliz Cloudコンソールの**メトリクス**タブには、さまざまな�
      <td><p>CUコンピュテーション</p></td>
      <td><p>%</p></td>
      <td><p>CUの総計算能力に対する利用された計算能力の尺度。</p><p>このメトリックは、<strong>専用</strong>クラスターまたは<strong>BYOC</strong>クラスターでのみ使用できます。</p></td>
-     <td><p><strong>70%-80%</strong>:サービスの状態を確認し、<a href="./manage-cluster">スケールアップ</a>の準備をしてください。</p><p><strong>>90%</strong>:サービスの中断を避けるためにすぐに<a href="./manage-cluster">スケールアップ</a>してください。</p></td>
+     <td><p><strong>70%-80%</strong>:サービスの状態を確認し、<a href="./manage-cluster">スケールアップ</a>の準備をしてください。</p><p><strong>&gt;90%</strong>:サービスの中断を避けるためにすぐに<a href="./manage-cluster">スケールアップ</a>してください。</p></td>
    </tr>
    <tr>
      <td><p>CUの容量</p></td>
      <td><p>%</p></td>
      <td><p>CUの総容量に対する使用済み容量の尺度。</p><p>このメトリックは、<strong>Free</strong>、<strong>Dedicated</strong>、または<strong>BYOC</strong>クラスターで使用できます。クラスタープランの階層の詳細については、「<a href="./select-zilliz-cloud-service-plans">詳細なプラン比較</a>」を参照してください。</p></td>
-     <td><p><strong>70%-80%</strong>:サービスの状態を確認し、スケールアップの準備をしてください。</p><p><strong>>90%</strong>:サービスの中断を避けるためにすぐに<a href="./manage-cluster">スケールアップ</a>してください。</p><p><strong>100%</strong>: CU容量が100%になると、クラスタにデータを書き込むことができなくなります。サービスの中断を避けるために、すぐに<a href="./manage-cluster">スケールアップ</a>してください。</p></td>
+     <td><p><strong>70%-80%</strong>:サービスの状態を確認し、スケールアップの準備をしてください。</p><p><strong>&gt;90%</strong>:サービスの中断を避けるためにすぐに<a href="./manage-cluster">スケールアップ</a>してください。</p><p><strong>100%</strong>: CU容量が100%になると、クラスタにデータを書き込むことができなくなります。サービスの中断を避けるために、すぐに<a href="./manage-cluster">スケールアップ</a>してください。</p></td>
    </tr>
    <tr>
      <td><p>ストレージ</p></td>
@@ -207,13 +210,13 @@ Zilliz Cloudコンソールの**メトリクス**タブには、さまざまな�
 
 ## 組織のアラート{#organization-alerts}
 
-組織のアラートによって、請求に関連する\</include>ライセンスに関連する問題、例えば期限切れのクレジットカード、無料クレジットのステータス、前払いの残高アラート、使用コストに関する通知ライセンスコアと有効期間などが通知されます。
+組織のアラートによって、請求に関連する&lt;/include&gt;ライセンスに関連する問題、例えば期限切れのクレジットカード、無料クレジットのステータス、前払いの残高アラート、使用コストに関する通知ライセンスコアと有効期間などが通知されます。
 
 ## プロジェクトのアラート{#project-alerts}
 
 プロジェクトアラートは、CUの使用状況、QPSのしきい値、レイテンシの問題、リクエストの異常など、クラスターの運用面に焦点を当て、最適なクラスターパフォーマンスを維持します。
 
-各プロジェクトのアラートターゲットについて、トリガー条件には、アラートがトリガーされるために満たす必要がある閾値と期間値が含まれます。条件は、次の演算子のいずれかに設定できます:>、>=、\<、\<=、=。閾値は、クエリレイテンシ、クエリQPS、検索QPS、CU容量、CU計算などのメトリックの数値などの数値である場合があります。期間は、閾値を超える必要がある期間を指定し、最小1分、最大30分に設定されます。
+各プロジェクトのアラートターゲットについて、トリガー条件には、アラートがトリガーされるために満たす必要がある閾値と期間値が含まれます。条件は、次の演算子のいずれかに設定できます:&gt;、&gt;=、\&lt;、\&lt;=、=。閾値は、クエリレイテンシ、クエリQPS、検索QPS、CU容量、CU計算などのメトリックの数値などの数値である場合があります。期間は、閾値を超える必要がある期間を指定し、最小1分、最大30分に設定されます。
 
 ### デフォルトのアラートターゲット{#default-alert-targets}
 

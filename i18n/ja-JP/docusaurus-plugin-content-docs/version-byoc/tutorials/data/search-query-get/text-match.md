@@ -3,6 +3,9 @@ title: "テキスト一致 | BYOC"
 slug: /text-match
 sidebar_label: "テキスト一致"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz CloudのText Matchは、特定の用語に基づく正確なドキュメント検索を可能にします。この機能は、特定の条件を満たすために主にフィルタリングされた検索に使用され、スカラーフィルタリングを組み込んでクエリ結果を絞り込むことができ、スカラー基準を満たすベクトル内の類似検索を可能にします。 | BYOC"
 type: origin
@@ -18,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - text-match
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
@@ -53,7 +56,7 @@ Zilliz Cloudは、[Tantivy](https://github.com/quickwit-oss/tantivy)を統合し
 
 ## テキストマッチを有効にする{#enable-text-match}
 
-テキストマッチは、`VARCHAR`フィールドタイプで動作します。これは、Zilliz Cloudの文字列データ型です。テキストマッチを有効にするには、`enable_analysis`と`enable_match`の両方を`True`に設定し、コレクションスキーマを定義する際にテキスト分析用の[アナライザ](./analyzer)をオプションで設定します。
+テキストマッチは、[`VARCHAR`](./use-string-field)フィールドタイプで動作します。これは、Zilliz Cloudの文字列データ型です。テキストマッチを有効にするには、`enable_analysis`と`enable_match`の両方を`True`に設定し、コレクションスキーマを定義する際にテキスト分析用の[アナライザ](./analyzer)をオプションで設定します。
 
 ### Enable_Analyzer`とEnable_Match`を`設定`{#set-enableanalyzer-and-enablematch}
 
@@ -567,9 +570,9 @@ curl --request POST \
 
 - フィルタ式のエスケープ`ルール`:
 
-    - 式内で二重引用符または一重引用符で囲まれた文字は、文字列定数として解釈されます。文字列定数にエスケープ文字が含まれる場合、エスケープ文字はエスケープシーケンスで表現する必要があります。例えば、`\`を使用して`\`を表し、`\t`を使用してタブ`\t`を表し、`\n`を使用して改行を表します。
+    - 式内で二重引用符または一重引用符で囲まれた文字は、文字列定数として解釈されます。文字列定数にエスケープ文字が含まれる場合、エスケープ文字はエスケープシーケンスで表現する必要があります。例えば、`\\`を使用して`\`を表し、`\\t`を使用してタブ`\t`を表し、`\\n`を使用して改行を表します。
 
-    - 文字列定数がシングルクォートで囲まれている場合、定数内のシングルクォートは`\'`として表され、ダブルクォートは`"`または`\"`として表すことができます。例:`'It\'s milvus'`。
+    - 文字列定数がシングルクォートで囲まれている場合、定数内のシングルクォートは`\\'`として表され、ダブルクォートは`"`または`\\"`として表すことができます。例:`'It\\'s milvus'`。
 
-    - 文字列定数が二重引用符で囲まれている場合、定数内の二重引用符は`\"`として表され、単一引用符は`'`または`\'`として表すことができます。例:`"He said\"Hi\""`。
+    - 文字列定数が二重引用符で囲まれている場合、定数内の二重引用符は`\\"`として表され、単一引用符は`'`または`\\'`として表すことができます。例:`"He said\\"Hi\\""`。
 

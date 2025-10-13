@@ -3,6 +3,9 @@ title: "イテレータを使用したデータのエクスポート | BYOC"
 slug: /export-data-iterators
 sidebar_label: "イテレータを使用したデータのエクスポート"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このガイドでは、Zilliz Cloudコレクションからデータをエクスポートする方法の例を提供します。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

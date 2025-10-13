@@ -3,6 +3,9 @@ title: "リリースノート（2025年1月27日） | Cloud"
 slug: /release-notes-2130
 sidebar_label: "リリースノート（2025年1月27日）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは現在、Public PreviewでMilvus 2.5をサポートし、セマンティック検索を補完するフルテキスト検索を導入しています。BM 25メトリックとスパースベクトルを使用して効率的なストレージと取得を行うことで、この機能により、ユーザーは変換なしでテキストを直接クエリできます。このアップデートにより、BYOCデプロイメントがPrivate Linkで強化され、セキュリティが向上し、コンプライアンスが容易になり、ネットワーク構成が簡素化されました。さらに、AWS CloudFormationを介した自動デプロイメントがサポートされ、大規模な小さなファイルのインポートの処理が最適化され、より高速なデータ取り込みが可能になりました。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

@@ -3,6 +3,9 @@ title: "Zillizクラウドの制限 | BYOC"
 slug: /limits
 sidebar_label: "Zillizクラウドの制限"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このページでは、Zilliz Cloudプラットフォームの制限に関する情報を提供します。Zillizが提供するOPSシステムを使用して、このページに記載されているほとんどの設定を調整できます。さらにヘルプが必要な場合は、引き続きお問い合わせください。 | BYOC"
 type: origin
@@ -146,7 +149,7 @@ Zilliz Cloudは、コレクションの作成、読み込み、リリース、�
      <td><p>16メガバイト/秒</p></td>
    </tr>
    <tr>
-     <td><p>専用クラスタ[24 CU、64 CU]</p></td>
+     <td><p>専用クラスタ&#91;24 CU、64 CU&#93;</p></td>
      <td><p>24メガバイト/秒</p></td>
    </tr>
    <tr>
@@ -191,7 +194,7 @@ Zilliz Cloudは、コレクションの作成、読み込み、リリース、�
      <td><p>16メガバイト/秒</p></td>
    </tr>
    <tr>
-     <td><p>専用クラスタ[24 CU、64 CU]</p></td>
+     <td><p>専用クラスタ&#91;24 CU、64 CU&#93;</p></td>
      <td><p>24メガバイト/秒</p></td>
    </tr>
    <tr>

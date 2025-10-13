@@ -3,6 +3,9 @@ title: "ストップフィルター | Cloud"
 slug: /stop-filter
 sidebar_label: "ストップフィルター"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "ストップフィルター（stop）は、トークン化されたテキストから指定された`ストップ`ワードを削除し、一般的で意味のない単語を取り除くのに役立ちます。ストップワードのリストは、`stopwords`パラメータを使用して設定できます。 | Cloud"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - stop
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

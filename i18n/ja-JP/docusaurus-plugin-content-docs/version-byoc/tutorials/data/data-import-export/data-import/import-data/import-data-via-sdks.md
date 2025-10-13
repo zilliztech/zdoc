@@ -3,6 +3,9 @@ title: "データのインポート(SDK) | BYOC"
 slug: /import-data-via-sdks
 sidebar_label: "データのインポート(SDK)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このガイドでは、バルクライターおよびバルクインポートAPIを使用して、S DKを使用してデータをコレクションにインポートする方法について説明します。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

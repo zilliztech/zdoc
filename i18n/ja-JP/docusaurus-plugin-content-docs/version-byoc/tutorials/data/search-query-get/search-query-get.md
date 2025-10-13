@@ -3,6 +3,9 @@ title: "検索&ランク | BYOC"
 slug: /search-query-get
 sidebar_label: "検索&ランク"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudはベクトルベースの類似検索を実装し、検索効率とパフォーマンスを向上させるための複数の最適化を提供します。この章では、Zilliz Cloudで利用可能なさまざまなベクトル検索方法の原則とチュートリアルを学びます。 | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - data
   - DML
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

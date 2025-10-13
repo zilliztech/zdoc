@@ -3,6 +3,9 @@ title: "ステマー | BYOC"
 slug: /stemmer-filter
 sidebar_label: "ステマー"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "ステマーフィルター（`stemmer`）は、単語を基本形またはルート形に縮小します(ステミングとして知られています)。これにより、異なるイントネーション間で類似した意味を持つ単語をより簡単に一致させることができます。ステマーフィルターは複数の言語をサポートしており、さまざまな言語的文脈で効果的な検索と索引付けが可能です。 | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - stemmer
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

@@ -3,6 +3,9 @@ title: "リリースノート（2025年3月27日） | Cloud"
 slug: /release-notes-2140
 sidebar_label: "リリースノート（2025年3月27日）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このリリースでは、PRIVATE PREVIEWに2つの新機能が導入されました。新しいBYOC展開オプションであるBYOC-Iと、データプレーン監査ログ機能です。前者は、クロスアカウントIAM認可なしで完全なデータ主権を確保するために設計されています。一方、後者は、データプレーンで実行されたアクションの詳細なログを提供することにより、データセキュリティを強化することを目的としています。これらの機能を導入するだけでなく、Zilliz Cloudはクレジット戦略も改訂しました。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

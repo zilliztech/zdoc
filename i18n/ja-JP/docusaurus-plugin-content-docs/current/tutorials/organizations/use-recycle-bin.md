@@ -3,6 +3,9 @@ title: "使用ごみ箱 | Cloud"
 slug: /use-recycle-bin
 sidebar_label: "使用ごみ箱"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudのごみ箱機能は、意図的にまたはトライアルの期限切れやサービスの停止の結果として削除されたすべてのサーバーレスおよび専用クラスターの記録を保持することにより、データを保護します。気が変わった場合や誤ってクラスターを削除した場合、ごみ箱はクラスターの復元のための30日間の猶予期間を提供します。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 
@@ -39,7 +42,7 @@ Zilliz Cloudのごみ箱機能は、意図的にまたはトライアルの期�
 
 1. 左側のナビゲーションメニューまたは上部のナビゲーションアイコンから**ごみ箱**にアクセスします。
 
-1. [**アクション**]ドロップダウンから[**クラスタの復元**]を選択します。
+1. &#91;**アクション**&#93;ドロップダウンから&#91;**クラスタの復元**&#93;を選択します。
 
 1. 復元されたクラスタを構成します。
 
@@ -53,7 +56,7 @@ Zilliz Cloudのごみ箱機能は、意図的にまたはトライアルの期�
 
     </Admonition>
 
-1. [**リストア**]をクリックします。Zilliz Cloudは、指定された属性を持つクラスタの作成を開始し、作成したクラスタにデータをリストアします。
+1. &#91;**リストア**&#93;をクリックします。Zilliz Cloudは、指定された属性を持つクラスタの作成を開始し、作成したクラスタにデータをリストアします。
 
 1. 新しいリストアジョブが生成されます。[ジョブ](./job-center)ページでクラスタのリストアの進捗状況を確認できます。ジョブのステータスが**IN PROGRESS**から**SUCCESS FUL**に切り替わると、リストアが完了します。
 

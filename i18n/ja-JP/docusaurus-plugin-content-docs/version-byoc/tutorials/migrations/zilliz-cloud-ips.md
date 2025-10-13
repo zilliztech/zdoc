@@ -3,6 +3,9 @@ title: "Zilliz CloudのIPアドレス | BYOC"
 slug: /zilliz-cloud-ips
 sidebar_label: "Zilliz CloudのIPアドレス"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、データソースからデータを取得し、固定IPアドレスのセットを使用してターゲットクラスタに送信します。Zilliz Cloudがこれを行うためには、ファイアウォールにこれらのIPアドレスを安全にリストする必要があります。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - ips
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

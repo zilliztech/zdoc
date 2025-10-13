@@ -3,6 +3,9 @@ title: "サードパーティーとの統合 | Cloud"
 slug: /integrate-with-third-parties
 sidebar_label: "サードパーティーとの統合"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "(placeholder) | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

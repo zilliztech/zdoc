@@ -3,6 +3,9 @@ title: "組織 | BYOC"
 slug: /organizations
 sidebar_label: "組織"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "この章では、組織の運営と関連する設定に焦点を当てています。 | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

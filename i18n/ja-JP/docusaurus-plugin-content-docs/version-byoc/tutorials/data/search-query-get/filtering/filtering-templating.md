@@ -3,6 +3,9 @@ title: "フィルターテンプレート | BYOC"
 slug: /filtering-templating
 sidebar_label: "フィルターテンプレート"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudにおいて、特にC JK文字のような非ASCII文字を含む多数の要素を持つ複雑なフィルタ式は、クエリのパフォーマンスに大きな影響を与える可能性があります。これを解決するために、Zilliz Cloudは、複雑な式の解析にかかる時間を短縮するために設計されたフィルタ式テンプレートメカニズムを導入しています。このページでは、検索、クエリ、削除操作でフィルタ式テンプレートを使用する方法について説明します。 | BYOC"
 type: origin
@@ -18,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - filtering templating
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

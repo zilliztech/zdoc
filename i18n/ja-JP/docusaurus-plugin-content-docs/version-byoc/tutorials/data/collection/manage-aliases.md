@@ -3,6 +3,9 @@ title: "エイリアスの管理 | BYOC"
 slug: /manage-aliases
 sidebar_label: "エイリアスの管理"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudはエイリアス管理機能を提供します。このページでは、エイリアスの作成、一覧表示、変更、削除の手順を示します。 | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

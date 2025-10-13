@@ -3,6 +3,9 @@ title: "パーティションの管理 | BYOC"
 slug: /manage-partitions
 sidebar_label: "パーティションの管理"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "パーティションはコレクションのサブセットです。各パーティションは親コレクションと同じデータ構造を共有しますが、コレクション内のデータのサブセットのみを含みます。このページでは、パーティションの管理方法を理解するのに役立ちます。 | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

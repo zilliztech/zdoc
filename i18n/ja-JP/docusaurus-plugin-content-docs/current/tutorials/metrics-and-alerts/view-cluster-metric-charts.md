@@ -3,6 +3,9 @@ title: "クラスタのメトリックチャートを表示する | Cloud"
 slug: /view-cluster-metric-charts
 sidebar_label: "クラスタのメトリックチャートを表示する"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、クラスタ固有のメトリクスを観察するためのダッシュボードを提供しています。この機能にアクセスするには、クラスタ内のメトリクスタブに移動してください。 | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 
@@ -45,7 +48,7 @@ Zilliz Cloudのメトリックチャートは、リソース使用量、1秒あ�
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>右側の[<strong>アラート設定</strong>の表示]をクリックすると、<strong>アラート設定</strong>ページにリダイレクトされ、アラートを管理するためのショートカットが表示されます。</p>
+<p>右側の&#91;<strong>アラート設定</strong>の表示&#93;をクリックすると、<strong>アラート設定</strong>ページにリダイレクトされ、アラートを管理するためのショートカットが表示されます。</p>
 
 </Admonition>
 
@@ -53,7 +56,7 @@ Zilliz Cloudのメトリックチャートは、リソース使用量、1秒あ�
 
 ## カーブウィンドウの体格を変更{#modify-curve-window-size}
 
-[**メトリック**]タブでは、2種類のウィンドウサイズを使用できます。
+&#91;**メトリック**&#93;タブでは、2種類のウィンドウサイズを使用できます。
 
 - **相対範囲**:現在時刻に対して事前に定義された時間帯のセットから選択してください。相対時間範囲を使用すると、特定の開始時間と終了時間を入力する必要なく、定期的かつ便利な方法でメトリックをチェックできます。選択肢には以下が含まれます:
 
@@ -85,7 +88,7 @@ Zilliz Cloudは、さまざまな側面からクラスターのパフォーマ�
 
 ### パフォーマンス{#performance}
 
-パフォーマンスのメトリックチャートを表示するには、[**メトリック**]タブを選択し、[**パフォーマンス**]領域を参照してください。これらのチャートには、QPS、VPS、レイテンシ、リクエストなどのクラスターパフォーマンスのスナップショットが表示されます。利用可能なメトリックの概要については、「[メトリクスとアラートのリファレンス](./metrics-alerts-reference)」を参照してください。
+パフォーマンスのメトリックチャートを表示するには、&#91;**メトリック**&#93;タブを選択し、&#91;**パフォーマンス**&#93;領域を参照してください。これらのチャートには、QPS、VPS、レイテンシ、リクエストなどのクラスターパフォーマンスのスナップショットが表示されます。利用可能なメトリックの概要については、「[メトリクスとアラートのリファレンス](./metrics-alerts-reference)」を参照してください。
 
 ### データ{#data}
 

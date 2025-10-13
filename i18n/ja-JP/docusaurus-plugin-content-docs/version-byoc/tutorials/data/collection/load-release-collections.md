@@ -3,6 +3,9 @@ title: "ロード&リリース | BYOC"
 slug: /load-release-collections
 sidebar_label: "ロード&リリース"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "コレクションのロードは、コレクション内の類似検索やクエリを実行するための前提条件です。このページでは、コレクションのロードとリリースの手順に焦点を当てています。 | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - load
   - release
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
 
 ---
 
@@ -325,7 +328,7 @@ if err != nil {
 
 特定のフィールドをロードすることを選択した場合、`load_fields`に含まれるフィールドのみが検索やクエリのフィルタや出力フィールドとして使用できることに注意してください。`load_fields`には常にプライマリフィールドと少なくとも1つのベクトルフィールドの名前を含める必要があります。
 
-また、`skip_load_dynamic_field`を使用して、動的フィールドをロードするかどうかを決定することもできます。動的フィールドは**$meta**という名前の予約済みJSONフィールドで、スキーマ定義されていないすべてのフィールドとその値をキーと値のペアで保存します。動的フィールドをロードすると、フィールド内のすべてのキーがロードされ、フィルタリングと出力に使用できます。動的フィールド内のすべてのキーがメタデータのフィルタリングと出力に関与していない場合は、`skip_load_dynamic_field`を`True`に設定します。
+また、`skip_load_dynamic_field`を使用して、動的フィールドをロードするかどうかを決定することもできます。動的フィールドは**&#36;meta**という名前の予約済みJSONフィールドで、スキーマ定義されていないすべてのフィールドとその値をキーと値のペアで保存します。動的フィールドをロードすると、フィールド内のすべてのキーがロードされ、フィルタリングと出力に使用できます。動的フィールド内のすべてのキーがメタデータのフィルタリングと出力に関与していない場合は、`skip_load_dynamic_field`を`True`に設定します。
 
 コレクションの読み込み後にさらに多くのフィールドを読み込むには、インデックスの変更によってエラーが発生する可能性があるため、最初にコレクションを解放する必要があります。
 

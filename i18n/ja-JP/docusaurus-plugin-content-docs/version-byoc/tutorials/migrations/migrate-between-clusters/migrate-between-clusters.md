@@ -3,6 +3,9 @@ title: "クラスタ間の移行 | BYOC"
 slug: /migrate-between-clusters
 sidebar_label: "クラスタ間の移行"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "クロスクラスターマイグレーションを使用すると、同じ組織内にあるか、異なる組織間にあるかにかかわらず、Zilliz Cloudクラスター間でデータを転送できます。主なユースケースは次のとおりです。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

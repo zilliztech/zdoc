@@ -3,6 +3,9 @@ title: "Prometheusと統合する | BYOC"
 slug: /prometheus-monitoring
 sidebar_label: "Prometheusと統合する"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Prometheusは、指定された間隔で設定されたターゲットからメトリックを収集し、ルール式を評価し、結果を表示し、特定の条件に基づいてアラートをトリガーできる監視システムです。 | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

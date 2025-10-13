@@ -3,6 +3,9 @@ title: "特権について | BYOC"
 slug: /cluster-privileges
 sidebar_label: "特権について"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "特権とは、クラスター、データベース、コレクションなどの特定のZilliz Cloudリソースに対する特定の操作の許可を指します。特権は役割に割り当てられ、ユーザーに付与され、ユーザーがリソースで実行できる操作を定義します。特権の例としては、`collection01`という名前のコレクションにデータを挿入する許可があります。 | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

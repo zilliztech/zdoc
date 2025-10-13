@@ -3,6 +3,9 @@ title: "リリースノート（2024年12月26日） | Cloud"
 slug: /release-notes-2120
 sidebar_label: "リリースノート（2024年12月26日）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このリリースにより、Zilliz CloudはBYOCソリューション全体でセキュリティ、パフォーマンス、使いやすさを向上させるための重要な強化を導入しています。グローバルmmap戦略が実装され、フィールドレベルとインデックスレベルの両方でカスタマイズ可能な構成が提供され、検索パフォーマンスを維持しながら収集容量を増やすことができます。MilvusをベースにしたZilliz Cloudは、クラスタ内でのデータベース作成をサポートし、コレクションレベルのロールベースアクセス制御(RBAC)を提供して、より良いデータ管理とマルチテナントを実現しています。さらに、検索精度設定が改良され、これらはリコール率推定機能と組み合わせて、検索精度とパフォーマンスを効果的に最適化するのに役立ちます。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 
@@ -71,7 +74,7 @@ Zilliz Cloudには、クラスターとコレクションの間に配置され�
 
 ## 高いリコール検索{#high-recall-search}
 
-Zilliz Cloudは、検索精度を制御してベクトル検索を最適化するための`level`という検索パラメータを導入しています。このパラメータの範囲は**1から10**で、デフォルトは**1**です。パラメータを調整することで、ユーザーは検索の再現性とパフォーマンスのバランスを取ることができます
+Zilliz Cloudは、検索精度を制御してベクトル検索を最適化するための**level**という検索パラメータを導入しています。このパラメータの範囲は**1から10**で、デフォルトは**1**です。パラメータを調整することで、ユーザーは検索の再現性とパフォーマンスのバランスを取ることができます
 
 - **デフォルト値(leve=1)**:最適な検索パフォーマンスを維持しながら、典型的なケースでは90%以上のリコールを提供します。
 

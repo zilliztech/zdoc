@@ -3,6 +3,9 @@ title: "リリースノート（2023年3月6日） | Cloud"
 slug: /release-notes-100
 sidebar_label: "リリースノート（2023年3月6日）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "私たちは、Zilliz Cloudの重要なアップデートの一般提供を発表できることを喜んでいます。このリリースにより、ベクトルデータベースサービスの使いやすさ、セキュリティ、パフォーマンス、および機能の標準が新たな段階に引き上げられ、誰でも利用できる最新のベクトルデータベース体験が提供されます。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 
@@ -41,7 +44,7 @@ import Admonition from '@theme/Admonition';
 
     詳細については、[ホワイトペーパー](https://zilliz.com/resources/milvus-performance-benchmark)をご覧ください。
 
-- トップ>Zilliz Cloud on GCP
+- トップ&gt;Zilliz Cloud on GCP
 
     Zilliz CloudがGoogle Cloud Platform（GCP）で利用可能になったことをお知らせいたします。Zilliz Cloudは、スタートアップから大企業まで、さまざまなユーザーの多様な要件を満たし、最高の体験を提供します。GCP上でマネージドベクターデータベースインスタンスをわずか数クリックでデプロイできます。
 

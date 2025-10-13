@@ -3,6 +3,9 @@ title: "データ | Cloud"
 slug: /data
 sidebar_label: "データ"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "この章では、データ操作に焦点を当てる。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - DiskANN
   - Sparse vector
   - Vector Dimension
   - ANN Search
+  - What are vector embeddings
 
 ---
 

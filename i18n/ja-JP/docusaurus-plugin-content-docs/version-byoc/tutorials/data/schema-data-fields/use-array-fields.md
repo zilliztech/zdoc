@@ -3,6 +3,9 @@ title: "配列フィールド | BYOC"
 slug: /use-array-fields
 sidebar_label: "配列フィールド"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "ARRAYフィールドは、同じデータ型の要素の順序付きセットを格納します。以下は、ARRAYフィールドがデータを格納する方法の例です。 | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - schema
   - array field
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

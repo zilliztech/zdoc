@@ -3,6 +3,9 @@ title: "AWS Marketplaceで購読する | Cloud"
 slug: /subscribe-on-aws-marketplace
 sidebar_label: "AWS Marketplace"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このガイドでは、サブスクリプションの過程をステップバイステップで説明し、AWS Marketplace上のZilliz Cloudの価格条件を概説します。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - aws
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 
@@ -52,7 +55,7 @@ import Admonition from '@theme/Admonition';
 
     ![search_for_zilliz_on_aws](/img/search_for_zilliz_on_aws.png)
 
-1. [**Zilliz Cloud**]をクリックします。
+1. &#91;**Zilliz Cloud**&#93;をクリックします。
 
     サービスと価格について理解してください。
 
@@ -62,7 +65,7 @@ import Admonition from '@theme/Admonition';
 
     ![view_purchase_options](/img/view_purchase_options.png)
 
-1. ページを下にスクロールし、[**購読**]をクリックします。
+1. ページを下にスクロールし、&#91;**購読**&#93;をクリックします。
 
     ![aws_flash_message](/img/aws_flash_message.png)
 
@@ -86,7 +89,7 @@ import Admonition from '@theme/Admonition';
 
     1. 完全な承認。
 
-1. [**請求**]に移動して、AWSMarketplaceサブスクリプションが支払い方法として設定されていることを確認します。
+1. &#91;**請求**&#93;に移動して、AWSMarketplaceサブスクリプションが支払い方法として設定されていることを確認します。
 
     ![aws-marketplace-success](/img/aws-marketplace-success.png)
 
@@ -96,11 +99,11 @@ import Admonition from '@theme/Admonition';
 
 1. AWS Marketplaceの[Zilliz Cloudページ](https://aws.amazon.com/marketplace/pp/prodview-iqbidum7feuio?sr=0-1&ref_=beagle&applicationId=AWSMPContessa)に移動してください。
 
-1. [**購入オプションを表示**]をクリックします。
+1. &#91;**購入オプションを表示**&#93;をクリックします。
 
-1. ページを下にスクロールし、[**購読**]をクリックします。
+1. ページを下にスクロールし、&#91;**購読**&#93;をクリックします。
 
-1. プロンプトで[**アカウントを設定]を**クリックします。
+1. プロンプトで&#91;**アカウントを設定&#93;を**クリックします。
 
 1. Zilliz Cloudアカウントにログインし、AWS MarketplaceサブスクリプションをZilliz Cloud組織にリンクしてください。
 
@@ -132,11 +135,11 @@ AWS Marketplaceから正常にサブスクライブした後は、必要に応�
 
     <Admonition type="info" icon="📘" title="ノート">
 
-    <p>AWS Marketplaceのサブスクリプションを更新する場合は、[<strong>アカウントを設定</strong>]ボタンをクリックして、新しいサブスクリプションをZilliz Cloud組織にリンクする必要があります。</p>
+    <p>AWS Marketplaceのサブスクリプションを更新する場合は、&#91;<strong>アカウントを設定</strong>&#93;ボタンをクリックして、新しいサブスクリプションをZilliz Cloud組織にリンクする必要があります。</p>
 
     </Admonition>
 
-1. [**支払方法**]セクションの[**請求概要**]ページで更新を確認します。[サブスクリプションID]をクリックし、サブスクリプション**アカウントID**が新しいMarketplaceアカウントに更新されたかどうかを確認します。
+1. &#91;**支払方法**&#93;セクションの&#91;**請求概要**&#93;ページで更新を確認します。&#91;サブスクリプションID&#93;をクリックし、サブスクリプション**アカウントID**が新しいMarketplaceアカウントに更新されたかどうかを確認します。
 
     ![view-aws-subscription-id](/img/view-aws-subscription-id.png)
 
@@ -162,7 +165,7 @@ AWS Marketplaceから正常にサブスクライブした後は、必要に応�
 
 1. 「[支払い方法の](./subscribe-by-adding-credit-card)[追加](./subscribe-by-adding-credit-card)」の手順に従って、支払いクレジットカードを追加します。
 
-1. [**支払方法**]セクションの[**請求概要**]ページで更新を確認します。
+1. &#91;**支払方法**&#93;セクションの&#91;**請求概要**&#93;ページで更新を確認します。
 
 ## AWS Marketplaceのサブスクリプションをキャンセルする{#cancel-aws-marketplace-subscription}
 

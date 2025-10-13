@@ -3,6 +3,9 @@ title: "データのインポート | Cloud"
 slug: /import-data
 sidebar_label: "データのインポート"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "「データを変換する」の手順に従ってデータを準備したら、Zilliz Cloudコンソール、RESTful API、またはSDKからデータのインポートを開始できます。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

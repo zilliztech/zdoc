@@ -3,6 +3,9 @@ title: "データのインポート(コンソール) | Cloud"
 slug: /import-data-on-web-ui
 sidebar_label: "データのインポート(コンソール)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このページでは、準備したデータをZilliz Cloudコンソールにインポートする方法を紹介します。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data import
   - console
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 
@@ -55,7 +58,7 @@ import Admonition from '@theme/Admonition';
 
 ### ローカルJSONファイル{#local-json-file}
 
-データをインポートするには、ローカルファイルをアップロードエリアにドラッグアンドドロップして、[**インポート**]をクリックします。
+データをインポートするには、ローカルファイルをアップロードエリアにドラッグアンドドロップして、&#91;**インポート**&#93;をクリックします。
 
 ![data-import-on-console](/img/data-import-on-console.png)
 

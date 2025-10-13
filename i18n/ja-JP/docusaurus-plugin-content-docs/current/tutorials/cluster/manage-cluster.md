@@ -3,6 +3,9 @@ title: "クラスタ管理 | Cloud"
 slug: /manage-cluster
 sidebar_label: "クラスタ管理"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このガイドでは、Zilliz Cloudコンソールを最大限に活用して目標を達成するためのクラスタのライフサイクルについて説明します。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 
@@ -33,7 +36,7 @@ import Supademo from '@site/src/components/Supademo';
 
 ## クラスタ名の変更{#rename-cluster}
 
-ターゲットクラスタの[**クラスタの詳細**]ページに移動し、以下の手順に従ってクラスタ名を変更します。
+ターゲットクラスタの&#91;**クラスタの詳細**&#93;ページに移動し、以下の手順に従ってクラスタ名を変更します。
 
 <Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title="Zilliz Cloud - Rename Cluster Demo" />
 
@@ -49,7 +52,7 @@ import Supademo from '@site/src/components/Supademo';
 
 <TabItem value="Cloud Console">
 
-ターゲットクラスタの[**クラスタの詳細**]ページに移動し、以下の手順に従って専用クラスタをサスペンドします。
+ターゲットクラスタの&#91;**クラスタの詳細**&#93;ページに移動し、以下の手順に従って専用クラスタをサスペンドします。
 
 <Supademo id="cm9tqgxt30snl11m7twwj7xia" title="Zilliz Cloud - Suspend Cluster Demo" />
 
@@ -103,7 +106,7 @@ Webコンソールまたはプログラムからクラスタを再開できま�
 
 <TabItem value="Cloud Console">
 
-ターゲットクラスタの[**クラスタの詳細**]ページに移動し、以下の手順に従ってクラスタを再開します。
+ターゲットクラスタの&#91;**クラスタの詳細**&#93;ページに移動し、以下の手順に従ってクラスタを再開します。
 
 <Supademo id="cm9tr2hze0t1j11m7ijth1pr5" title="Zilliz Cloud - Resume Cluster Demo" />
 
@@ -202,7 +205,7 @@ curl --request POST \
 
 <TabItem value="Cloud Console">
 
-ターゲットクラスタの[**クラスタの詳細**]ページに移動し、以下の手順に従ってクラスタを削除します。
+ターゲットクラスタの&#91;**クラスタの詳細**&#93;ページに移動し、以下の手順に従ってクラスタを削除します。
 
 <Supademo id="cm9trwi5n0txr11m7otr902sk" title="Zilliz Cloud - Drop Cluster Demo" />
 

@@ -3,6 +3,9 @@ title: "アレイ演算子 | BYOC"
 slug: /array-filtering-operators
 sidebar_label: "アレイ演算子"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、配列フィールドをクエリするための強力な演算子を提供し、配列の内容に基づいてエンティティをフィルタリングして取得することができます。 | BYOC"
 type: origin
@@ -18,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - array operators
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 
@@ -42,13 +45,13 @@ Zilliz Cloudは、配列フィールドをクエリするための強力な演�
 
 ARRAY演算子を使用すると、Zilliz Cloudクラスター内の配列フィールドを細かくクエリできます。これらの演算子は次のとおりです:
 
-- `ARRAY_CONTAINS(identifier, expr)`:配列フィールドに特定の要素が存在するかどうかをチェックします。
+- [`ARRAY_CONTAINS(identifier, expr)`](./array-filtering-operators#arraycontains):配列フィールドに特定の要素が存在するかどうかをチェックします。
 
-- `ARRAY_CONTAINS_ALL(identifier, expr)`:指定されたリストのすべての要素が配列フィールドに存在することを保証します。
+- [`ARRAY_CONTAINS_ALL(identifier, expr)`](./array-filtering-operators#arraycontains):指定されたリストのすべての要素が配列フィールドに存在することを保証します。
 
-- `ARRAY_CONTAINS_ANY(identifier, expr)`:指定されたリストの要素のいずれかが配列フィールドに存在するかどうかをチェックします。
+- [`ARRAY_CONTAINS_ANY(identifier, expr)`](./array-filtering-operators#arraycontainsany):指定されたリストの要素のいずれかが配列フィールドに存在するかどうかをチェックします。
 
-- `ARRAY_LENGTH(identifier, expr)`:配列フィールドの要素数に基づいてエンティティをフィルタリングできます。
+- [`ARRAY_LENGTH(identifier, expr)`](./array-filtering-operators#arraylength):配列フィールドの要素数に基づいてエンティティをフィルタリングできます。
 
 ## 配列を含む{#arraycontains}
 

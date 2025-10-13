@@ -3,6 +3,9 @@ title: "パイプライン利用予測 | Cloud"
 slug: /estimate-pipelines-usage
 sidebar_label: "パイプライン利用予測"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "パイプラインの実行コストはトークンによって測定されます。トークンを基本単位として使用する大規模言語モデル(LLM)と同様に、パイプラインはテキストを解析して一連のトークンとして埋め込むことによって、ドキュメントや検索クエリを過程化します。パイプラインの実行コストを理解するには、ファイルまたはテキスト文字列のトークンをカウントするために、当社の推定パイプライン使用量ツールを使用できます。 | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - pipelines
   - pricing
   - usage
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 
@@ -88,7 +91,7 @@ Ingestion Pipelineは、ファイルをトークンに解析し、トークン�
 
 1. ファイルの推定トークン数を確認してください。
 
-1. [**リセット**]をクリックして、別のローカルファイルをアップロードします。
+1. &#91;**リセット**&#93;をクリックして、別のローカルファイルをアップロードします。
 
 ## 関連するトピック{#related-topics}
 

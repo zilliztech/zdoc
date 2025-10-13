@@ -3,6 +3,9 @@ title: "リリースノート（2022年11月18日） | Cloud"
 slug: /release-notes-008
 sidebar_label: "リリースノート（2022年11月18日）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "私たちは、招待状が必要なく一般に公開されたZilliz Cloudの大規模なアップデートの一般提供を発表できることを嬉しく思っています。このリリースでは、キャパシティ最適化されたコンピュートユニット(CU)が導入され、データベースあたり最大32 CUを使用してパフォーマンスを向上させることができます。また、ローカルファイルやAWS S 3バケットからのデータインポートが可能になり、自動インデックス化による過程の簡素化、QPSおよびクエリレイテンシのリソースモニタリングが追加されました。さらに、データベースの作成速度が5倍向上し、ユーザーインターフェースが優れたエクスペリエンスに最適化されました。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

@@ -3,6 +3,9 @@ title: "コレクションを削除 | BYOC"
 slug: /drop-collection
 sidebar_label: "コレクションを削除"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "必要がなくなった場合は、コレクションを削除できます。 | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - manage
   - console
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

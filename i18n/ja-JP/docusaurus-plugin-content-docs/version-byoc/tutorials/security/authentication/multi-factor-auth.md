@@ -3,6 +3,9 @@ title: "MFA | BYOC"
 slug: /multi-factor-auth
 sidebar_label: "MFA"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "認証は、ログイン過程で自分の身元を確認するためのゲートウェイとして機能します。Zilliz Cloudは、パスワード以外の追加の検証が必要な高度なログイン方法であるマルチファクタ認証(MFA)を提供することで、このセキュリティを強化しています。MFAは、不正アクセスに対する効果的な対策であり、すべてのユーザーに推奨されています。現在、Webコンソールで作業用メールとパスワード管理可能なMFAに登録したユーザーのみが対象です。MFAを有効にすると、追加のセキュリティのために、各ログイン試行時にパスワードとメール検証コードの両方を入力する必要があります。 | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 
@@ -31,7 +34,7 @@ import Admonition from '@theme/Admonition';
 
 1. あなたの**プロフィール**に行き、**アカウント設定**を選択してください。
 
-1. [多要素認証]トグルをオンにします。
+1. &#91;多要素認証&#93;トグルをオンにします。
 
 1. ダイアログボックスで、アカウントのパスワードを入力して確認してください。
 
@@ -52,9 +55,9 @@ import Admonition from '@theme/Admonition';
 
 1. あなたの**プロフィール**に行き、**アカウント設定**を選択してください。
 
-1. [多要素認証]トグルをオフにします。
+1. &#91;多要素認証&#93;トグルをオフにします。
 
-1. ダイアログボックスで、[**無効**にする]をクリックしてアクションを確認します。
+1. ダイアログボックスで、&#91;**無効**にする&#93;をクリックしてアクションを確認します。
 
 1. メールアドレスに送信された認証コードを入力して、本人確認を行います。**無効**にするをクリックします。
 

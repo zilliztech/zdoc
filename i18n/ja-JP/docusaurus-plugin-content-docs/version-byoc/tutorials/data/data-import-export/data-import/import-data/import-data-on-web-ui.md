@@ -3,6 +3,9 @@ title: "データのインポート(コンソール) | BYOC"
 slug: /import-data-on-web-ui
 sidebar_label: "データのインポート(コンソール)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このページでは、準備したデータをZilliz Cloudコンソールにインポートする方法を紹介します。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data import
   - console
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

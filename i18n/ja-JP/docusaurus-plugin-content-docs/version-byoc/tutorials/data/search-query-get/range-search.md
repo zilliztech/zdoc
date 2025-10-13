@@ -3,6 +3,9 @@ title: "レンジ検索 | BYOC"
 slug: /range-search
 sidebar_label: "レンジ検索"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "範囲検索は、特定の範囲内で返されるエンティティの距離またはスコアを制限することにより、検索結果の関連性を向上させます。このページでは、範囲検索と範囲検索を実行する手順を理解するのに役立ちます。 | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - data
   - range search
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

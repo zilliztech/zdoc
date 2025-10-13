@@ -3,6 +3,9 @@ title: "認証プロセス | Cloud"
 slug: /authentication
 sidebar_label: "認証プロセス"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "メールアカウント、APIキー、クラスター資格情報、および多要素認証(MFA)対策の管理について詳しく学びましょう。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

@@ -3,6 +3,9 @@ title: "ホーム | Cloud"
 slug: /home
 sidebar_label: "ホーム"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud Developer Hubのホームページです。 | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - developer hub
   - home page
   - home
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 hide_title: true
 hide_table_of_contents: true

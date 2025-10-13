@@ -3,6 +3,9 @@ title: "スケールクラスタ | BYOC"
 slug: /scale-cluster
 sidebar_label: "スケールクラスタ"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "データが増えるにつれて、データの書き込みに影響を与える制約に直面する可能性があります。たとえば、読み取り操作は機能し続けますが、クラスタが最大容量に達すると、新しいデータの挿入または挿入が失敗する可能性があります。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 
@@ -46,7 +49,7 @@ Zilliz CloudのWebコンソールを使用するか、APIリクエストを行�
 
 ![manual-scale-entry](/img/manual-scale-entry.png)
 
-[クラスタのスケール]ダイアログボックスでは、元のクラスタと同じクラウドリージョン内の同じタイプのクラスタに割り当てられた体格をスケールアップできます。
+&#91;クラスタのスケール&#93;ダイアログボックスでは、元のクラスタと同じクラウドリージョン内の同じタイプのクラスタに割り当てられた体格をスケールアップできます。
 
 - Dedicated(Standard)クラスターの場合、体格を最大32 CUまで拡張できます。
 

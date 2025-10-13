@@ -3,6 +3,9 @@ title: "詳細なプラン比較 | Cloud"
 slug: /select-zilliz-cloud-service-plans
 sidebar_label: "詳細なプラン比較"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、多様な要件に合わせたクラスタープランを提供しています。ベクトルデータベースが初めての方でも、エンタープライズレベルのタスクに堅牢なソリューションが必要な方でも、適切な選択をすることで最適なパフォーマンス、スケーラビリティ、コスト効率が確保されます。このガイドは、情報に基づいた決定をするのに役立ちます。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster plan
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
   - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

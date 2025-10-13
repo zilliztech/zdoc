@@ -3,6 +3,9 @@ title: "NumPyファイルからインポート | BYOC"
 slug: /data-import-numpy
 sidebar_label: "NumPyファイルからインポート"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "NPY形式は、NumPyの標準バイナリ形式](https//numpy.org/devdocs/reference/generated/numpy.lib.format.html)であり、形状とdtype情報を含む単一の配列を保存し、異なるマシンで正しく再構築できるようにします。生データをParquetファイルに準備するには、[BulkWriterツールを使用することをお勧めします。次の図は、生データを`. npy`ファイルのセットにマップする方法を示しています。 | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 
@@ -41,7 +44,7 @@ NPY形式は、[NumPyの標準バイナリ形式](https://numpy.org/devdocs/refe
 <ul>
 <li><strong>動的フィールドを有効にするかどうか</strong></li>
 </ul>
-<p>ターゲットコレクションで動的フィールドが有効になっている場合、定義済みスキーマに含まれていないフィールドを格納する必要がある場合は、書き込み操作中に<strong>$meta</strong>列を指定し、対応するキー値データを指定できます。</p>
+<p>ターゲットコレクションで動的フィールドが有効になっている場合、定義済みスキーマに含まれていないフィールドを格納する必要がある場合は、書き込み操作中に<strong>&#36;meta</strong>列を指定し、対応するキー値データを指定できます。</p>
 <ul>
 <li><strong>大文字と小文字を区別する</strong></li>
 </ul>
@@ -150,7 +153,7 @@ Zilliz Cloudは、クラウドストレージからのデータインポート�
    </tr>
    <tr>
      <td><p><strong>Azure Bolb</strong></p></td>
-     <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/numpy-folder/</code></p></td>
+     <td><p><code><i>http</i>s://myaccount.blob.core.windows.net/bucket-name/numpy-folder/</code></p></td>
    </tr>
 </table>
 

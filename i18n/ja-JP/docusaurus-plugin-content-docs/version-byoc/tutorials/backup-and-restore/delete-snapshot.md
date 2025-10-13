@@ -3,6 +3,9 @@ title: "バックアップファイルを削除 | BYOC"
 slug: /delete-snapshot
 sidebar_label: "バックアップファイルを削除"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、手動または自動でバックアップを作成することができます。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - backup
   - delete
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 
@@ -83,7 +86,7 @@ curl --request DELETE \
 
 - [自動バックアップをスケジュールする](./schedule-automatic-backups)
 
-- [バックアップファイルを表示する](./manage-backup-files)
+- [バックアップファイルを表示する](./view-snapshot-details)
 
 - [バックアップファイルからの復元](./restore-from-snapshot)
 

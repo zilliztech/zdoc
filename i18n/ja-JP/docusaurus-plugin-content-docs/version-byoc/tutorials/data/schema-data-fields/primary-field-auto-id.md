@@ -3,6 +3,9 @@ title: "プライマリフィールドとAutoID | BYOC"
 slug: /primary-field-auto-id
 sidebar_label: "プライマリフィールドとAutoID"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "プライマリフィールドはエンティティを一意に識別します。このページでは、2つの異なるデータ型のプライマリフィールドを追加する方法と、Zilliz Cloudを有効にしてプライマリフィールドの値を自動的に割り当てる方法を紹介します。 | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

@@ -3,6 +3,9 @@ title: "挿入と削除 | Cloud"
 slug: /insert-update-delete
 sidebar_label: "挿入と削除"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "この章では、挿入、挿入、削除の操作に焦点を当てています。 | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

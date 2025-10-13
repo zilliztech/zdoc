@@ -3,6 +3,9 @@ title: "パイプラインを使用したRAGアプリケーションの構築 | 
 slug: /building-a-rag-app-with-pipelines
 sidebar_label: "パイプラインを使用したRAGアプリケーションの構築"
 beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud Pipelinesは、ドキュメント、テキスト、画像などの非構造化データを検索可能なベクトルコレクションに変換するための堅牢なソリューションです。このガイドでは、3つの主要なPipelinesタイプの詳細な説明と、Pipelinesを使用したRAGアプリケーションの構築例を提供します。 | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - pipelines
   - RAG
   - application
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

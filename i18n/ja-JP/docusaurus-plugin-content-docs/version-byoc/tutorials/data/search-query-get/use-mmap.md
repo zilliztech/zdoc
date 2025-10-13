@@ -3,6 +3,9 @@ title: "mmapを使う | BYOC"
 slug: /use-mmap
 sidebar_label: "mmapを使う"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "メモリマッピング(Mmap)により、ディスク上の大きなファイルに直接メモリアクセスできるため、Zilliz Cloudはインデックスとデータをメモリとハードドライブの両方に保存できます。このアプローチにより、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張できます。このページでは、Zilliz Cloudがmmapを使用して高速かつ効率的なデータストレージと取得を可能にする方法を理解するのに役立ちます。 | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 
@@ -57,7 +60,7 @@ Zilliz Cloudクラスターはメモリを大量に消費するデータベー�
    <tr>
      <th rowspan="2"><p>Mmapターゲット</p></th>
      <th colspan="3"><p>専用クラスター</p></th>
-     <th rowspan="2"><p>フリークラスタと\</br> </p><p>サーバーレスクラスタ</p></th>
+     <th rowspan="2"><p>フリークラスタと&lt;/br&gt; </p><p>サーバーレスクラスタ</p></th>
    </tr>
    <tr>
      <td><p>Performance-optimized</p></td>

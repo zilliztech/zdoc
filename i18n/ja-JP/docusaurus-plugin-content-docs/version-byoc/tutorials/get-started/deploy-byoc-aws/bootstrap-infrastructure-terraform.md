@@ -3,6 +3,9 @@ title: "Terraformを使用してZilliz BYOCを配置する | BYOC"
 slug: /bootstrap-infrastructure-terraform
 sidebar_label: "Terraformを使用して"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zillizは、Zilliz Cloud TerraformプロバイダとAmazon Web Service（AWS）上のすべての必要なインフラストラクチャをブートストラップする方法についてのガイダンスを提供しています。 | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - terraform
   - milvus
   - vector database
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

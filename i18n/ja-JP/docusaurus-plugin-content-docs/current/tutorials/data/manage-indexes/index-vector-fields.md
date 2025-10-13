@@ -3,6 +3,9 @@ title: "インデックスベクトルフィールド | Cloud"
 slug: /index-vector-fields
 sidebar_label: "インデックスベクトルフィールド"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このガイドでは、コレクション内のベクトルフィールドのインデックスを作成および管理する基本的な操作について説明します。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

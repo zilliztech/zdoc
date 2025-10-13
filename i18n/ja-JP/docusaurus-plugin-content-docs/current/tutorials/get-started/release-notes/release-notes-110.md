@@ -3,6 +3,9 @@ title: "リリースノート（2023年4月6日） | Cloud"
 slug: /release-notes-110
 sidebar_label: "リリースノート（2023年4月6日）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "私たちは、最新のZilliz Cloudアップデートを発表できることを大変嬉しく思っています。このアップデートには、コスト見積もりのための価格計算ツール、強化されたデータセキュリティのためのデータバックアップと復元過程、グローバルユーザー向けのカスタマイズ可能なタイムゾーン設定、より良い組織化のためのコレクション名変更ツール、制限のない使用のためのストレージクォータの削除、非アクティブなデータベースのクレジット保全の改善が含まれています。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

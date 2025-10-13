@@ -3,6 +3,9 @@ title: "リコール率を調整 | BYOC"
 slug: /tune-recall-rate
 sidebar_label: "リコール率を調整"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、ユーザーが検索の再現率とパフォーマンスをバランスさせるための検索パラメータ`level`を導入しています。また、現在の検索の推定再現率をユーザーに提供するために、別の検索パラメータである`enablerecallestimation`も提供しています。これら2つのパラメータを組み合わせて、ベクトル検索の再現率を調整することができます。 | BYOC"
 type: origin
@@ -18,10 +21,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

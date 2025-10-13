@@ -3,6 +3,9 @@ title: "監査ログの参照 | BYOC"
 slug: /audit-logs-ref
 sidebar_label: "監査ログの参照"
 beta: PRIVATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudでは、監査ログには以下の構文があります | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

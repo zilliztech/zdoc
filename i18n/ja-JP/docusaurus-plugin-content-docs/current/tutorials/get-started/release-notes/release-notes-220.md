@@ -3,6 +3,9 @@ title: "リリースノート（2023年9月13日） | Cloud"
 slug: /release-notes-220
 sidebar_label: "リリースノート（2023年9月13日）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudのリリースを発表できることを嬉しく思います。Zilliz Cloudクラスター間およびElastic Searchからのデータ移行、新しいチケットシステムの稼働、および強化されたデータインポート機能を含む、ユーザーエクスペリエンスを向上させるために設計された新機能のスイートを誇っています。 | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

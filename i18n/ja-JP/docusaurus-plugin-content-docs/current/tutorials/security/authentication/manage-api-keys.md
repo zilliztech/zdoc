@@ -3,6 +3,9 @@ title: "APIキー | Cloud"
 slug: /manage-api-keys
 sidebar_label: "APIキー"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "APIキーは、Zilliz CloudのコントロールプレーンおよびデータプレーンリソースにアクセスするためにAPIまたはSDK呼び出しを行うユーザーまたはアプリケーションを認証するために使用されます。APIキーは、名前やIDなどの独自のプロパティを持つ英数字の文字列です。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cluster credentials
   - api key
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 
@@ -245,7 +248,7 @@ Zilliz Cloudが各組織のユーザーに対して自動的に生成する個�
 
     - **APIキー名**:名前は64文字を超えてはいけません。
 
-    - **APIキーのアクセス**:適切な組織とプロジェクトの役割を割り当てることで、現在のカスタマイズされたAPIキーのアクセス範囲を定義します。より詳細なアクセス制御を行うには、[**特定のクラスターへのアクセスを制限する**]をオンにして、キーがアクセス可能なクラスターを制限できます。
+    - **APIキーのアクセス**:適切な組織とプロジェクトの役割を割り当てることで、現在のカスタマイズされたAPIキーのアクセス範囲を定義します。より詳細なアクセス制御を行うには、&#91;**特定のクラスターへのアクセスを制限する**&#93;をオンにして、キーがアクセス可能なクラスターを制限できます。
 
         <Admonition type="info" icon="📘" title="ノート">
 
@@ -283,7 +286,7 @@ Zilliz Cloudが各組織のユーザーに対して自動的に生成する個�
 
     - **APIキー名**:名前は64文字を超えてはいけません。
 
-    - **APIキーのアクセス**:適切な組織とプロジェクトの役割を割り当てることで、現在のカスタマイズされたAPIキーのアクセス範囲を定義します。より詳細なアクセス制御を行うには、[**特定のクラスターへのアクセスを制限する**]をオンにして、キーがアクセス可能なクラスターを制限できます。
+    - **APIキーのアクセス**:適切な組織とプロジェクトの役割を割り当てることで、現在のカスタマイズされたAPIキーのアクセス範囲を定義します。より詳細なアクセス制御を行うには、&#91;**特定のクラスターへのアクセスを制限する**&#93;をオンにして、キーがアクセス可能なクラスターを制限できます。
 
         <Admonition type="info" icon="📘" title="ノート">
 

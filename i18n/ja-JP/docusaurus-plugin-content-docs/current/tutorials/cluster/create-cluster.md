@@ -3,6 +3,9 @@ title: "クラスタ作成 | Cloud"
 slug: /create-cluster
 sidebar_label: "クラスタ作成"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、ユーザーのビジネスニーズに対応するために、さまざまなクラスタープランレベルを提供しています。適切なクラスタータイプの選択に関するガイダンスについては、クイックスタート](./quick-start)と[詳細なプラン比較を参照してください。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 
@@ -49,11 +52,11 @@ Zilliz Cloudは、ユーザーのビジネスニーズに対応するために�
 
 1. 適切な組織とプロジェクトを選択します。
 
-1. [**無料クラスタを作成**]をクリックします。
+1. &#91;**無料クラスタを作成**&#93;をクリックします。
 
     ![create_cluster_01](/img/create_cluster_01.png)
 
-1. [**新しいクラスタを作成**]セクションで、[**無料**プラン]を選択し、必要なパラメータを入力します。
+1. &#91;**新しいクラスタを作成**&#93;セクションで、&#91;**無料**プラン&#93;を選択し、必要なパラメータを入力します。
 
     <Admonition type="info" icon="📘" title="ノート">
 
@@ -78,7 +81,7 @@ Zilliz Cloudは、ユーザーのビジネスニーズに対応するために�
 
     ![create_cluster_02](/img/create_cluster_02.png)
 
-1. [**作成**]をクリックします。**クラスター詳細**ページにリダイレクトされ、クラスターのパブリックエンドポイントとAPIキーが表示されます。これらの詳細を記録して、今後のアクセスに備えます。
+1. &#91;**作成**&#93;をクリックします。**クラスター詳細**ページにリダイレクトされ、クラスターのパブリックエンドポイントとAPIキーが表示されます。これらの詳細を記録して、今後のアクセスに備えます。
 
 </TabItem>
 
@@ -135,11 +138,11 @@ curl --request POST \
 
 1. 適切な組織とプロジェクトを選択します。
 
-1. [**+クラスタ**]をクリックします。
+1. &#91;**+クラスタ**&#93;をクリックします。
 
     ![create_serverless_dedicated_cluster_01](/img/create_serverless_dedicated_cluster_01.png)
 
-1. [**新しいクラスタを作成**]セクションで、[**サーバーレス**]プランを選択し、必要なパラメータを入力します。
+1. &#91;**新しいクラスタを作成**&#93;セクションで、&#91;**サーバーレス**&#93;プランを選択し、必要なパラメータを入力します。
 
     <table>
        <tr>
@@ -158,7 +161,7 @@ curl --request POST \
 
     ![create_serverless_cluster_form](/img/create_serverless_cluster_form.png)
 
-1. [**作成**]をクリックします。**クラスター詳細**ページにリダイレクトされ、クラスターのパブリックエンドポイントとAPIキーが表示されます。これらの詳細を記録して、今後のアクセスに備えます。
+1. &#91;**作成**&#93;をクリックします。**クラスター詳細**ページにリダイレクトされ、クラスターのパブリックエンドポイントとAPIキーが表示されます。これらの詳細を記録して、今後のアクセスに備えます。
 
 </TabItem>
 
@@ -215,11 +218,11 @@ curl --request POST \
 
 1. 希望の組織とプロジェクトを入力します。
 
-1. [**+クラスタ**]をクリックします。
+1. &#91;**+クラスタ**&#93;をクリックします。
 
     ![create_serverless_dedicated_cluster_01](/img/create_serverless_dedicated_cluster_01.png)
 
-1. [**新しいクラスターを作成**]ページで、関連するパラメータを入力します。
+1. &#91;**新しいクラスターを作成**&#93;ページで、関連するパラメータを入力します。
 
     ![create-dedicated_cluster](/img/create-dedicated_cluster.png)
 
@@ -235,7 +238,7 @@ curl --request POST \
 
     - **クラウドバックアップ**:クラスタ内に保存されているデータを保護し、障害が発生した場合にデータの永続性と回復機能を確保するために、自動クラウドバックアップを有効にするかどうかを決定します。
 
-1. [**クラスタを作成**]をクリックします。クラスタアクセスのパブリックエンドポイントとトークンを表示するダイアログにリダイレクトされます。これらの詳細は安全に保管してください。
+1. &#91;**クラスタを作成**&#93;をクリックします。クラスタアクセスのパブリックエンドポイントとトークンを表示するダイアログにリダイレクトされます。これらの詳細は安全に保管してください。
 
 </TabItem>
 

@@ -3,6 +3,9 @@ title: "監査する | Cloud"
 slug: /auditing
 sidebar_label: "監査する"
 beta: PRIVATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudクラスターの監査を構成する方法を学びましょう。 | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

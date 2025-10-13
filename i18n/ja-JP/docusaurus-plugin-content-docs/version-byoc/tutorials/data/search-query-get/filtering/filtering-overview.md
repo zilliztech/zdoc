@@ -3,6 +3,9 @@ title: "フィルタリングの説明 | BYOC"
 slug: /filtering-overview
 sidebar_label: "フィルタリングの説明"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudは、データの正確なクエリを可能にする強力なフィルタリング機能を提供します。フィルター式を使用すると、特定のスカラーフィールドをターゲットにし、さまざまな条件で検索結果を絞り込むことができます。このガイドでは、Zilliz Cloudクラスターでフィルター式を使用する方法について説明し、クエリ操作に焦点を当てた例を示します。これらのフィルターを検索および削除リクエストにも適用できます。 | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 
@@ -35,7 +38,7 @@ Zilliz Cloudは、データの正確なクエリを可能にする強力なフ�
 
 Zilliz Cloudは、データをフィルタリングするためのいくつかの基本的な演算子をサポートしています。
 
-- **比較演算子**:`==`、`!=`、`>`、`\<`、`>=`、および`<=`は、数値フィールドまたはテキストフィールドに基づくフィルタリングを可能にします。
+- **比較演算子**:`==`、`!=`、`>`、`<`、`>=`、および`<=`は、数値フィールドまたはテキストフィールドに基づくフィルタリングを可能にします。
 
 - **範囲フィルター**:`IN`と`LIKE`は、特定の値範囲またはセットを一致させるのに役立ちます。
 
@@ -100,21 +103,21 @@ Zilliz Cloudは、JSON、ARRAY、VARCHARフィールドなどの特定のデー�
 
 Zilliz Cloudは、JSONフィールドをクエリするための高度な演算子を提供し、複雑なJSON構造内で正確なフィルタリングを可能にします。
 
-`JSON_CONTAINS（識別子、jsonExpr）`:フィールドにJSON式が存在するかどうかをチェックします。
+**JSON_CONTAINS（識別子、jsonExpr）**:フィールドにJSON式が存在するかどうかをチェックします。
 
 ```python
 # JSON data: {"tags": ["electronics", "sale", "new"]}
 filter='json_contains(tags, "sale")'
 ```
 
-`JSON_CONTAINS_ALL(identifier, jsonExpr)`:JSON式のすべての要素が存在することを保証します。
+**JSON_CONTAINS_ALL(identifier, jsonExpr)**:JSON式のすべての要素が存在することを保証します。
 
 ```python
 # JSON data: {"tags": ["electronics", "sale", "new", "discount"]}
 filter='json_contains_all(tags, ["electronics", "sale", "new"])'
 ```
 
-`JSON_CONTAINS_ANY(identifier, jsonExpr)`:JSON式内に少なくとも1つの要素が存在するエンティティをフィルタリングします。
+**JSON_CONTAINS_ANY(identifier, jsonExpr)**:JSON式内に少なくとも1つの要素が存在するエンティティをフィルタリングします。
 
 ```python
 # JSON data: {"tags": ["electronics", "sale", "new"]}
@@ -127,25 +130,25 @@ JSON演算子の詳細については、「[JSON演算子](./json-filtering-oper
 
 Zilliz Cloudは、配列フィールドに対して高度なフィルタリング演算子を提供します。`ARRAY_CONTAINS`、`ARRAY_CONTAINS_ALL`、`ARRAY_CONTAINS_ANY`、`ARRAY_LENGTH`など、配列データを細かく制御できます。
 
-`ARRAY_CONTAINS`:特定の要素を含む図形をフィルタリングします。
+**ARRAY_CONTAINS**:特定の要素を含む図形をフィルタリングします。
 
 ```python
 filter="ARRAY_CONTAINS(history_temperatures, 23)"
 ```
 
-`ARRAY_CONTAINS_ALL`:リスト内のすべての要素が存在するエンティティをフィルタリングします。
+**ARRAY_CONTAINS_ALL**:リスト内のすべての要素が存在するエンティティをフィルタリングします。
 
 ```python
 filter="ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])"
 ```
 
-`ARRAY_CONTAINS_ANY`:リストから任意の要素を含むエンティティをフィルタリングします。
+**ARRAY_CONTAINS_ANY**:リストから任意の要素を含むエンティティをフィルタリングします。
 
 ```python
 filter="ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])"
 ```
 
-`ARRAY_LENGTH`:配列の長さに基づいてフィルタリングします。
+**ARRAY_LENGTH**:配列の長さに基づいてフィルタリングします。
 
 ```python
 filter="ARRAY_LENGTH(history_temperatures) < 10"
