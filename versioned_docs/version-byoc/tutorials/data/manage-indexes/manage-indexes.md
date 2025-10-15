@@ -37,7 +37,7 @@ Learn how to manipulate indexes on vector and scalar fields via SDKs.
 <ul>
 <li><p>On the console.</p></li>
 <li><p><a href="/reference/create-collection">Using RESTful API</a>.</p></li>
-<li><p><a href="./undefined">Quick setup mode via applicable SDKs</a>.</p></li>
+<li><p>Quick setup mode via applicable SDKs.</p></li>
 <li><p><a href="./manage-collections-sdks">Customized setup mode via applicable SDKs with index parameters specified.</a></p></li>
 </ul>
 <p>You can also create a collection that is not loaded automatically and start managing indexes on your own.</p>
