@@ -19,10 +19,10 @@ keywords:
   - data
   - hybrid search
   - combine sparse and dense vectors
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 
@@ -597,7 +597,7 @@ data=[
         "text": "Red cotton t-shirt with round neck",
         "text_dense": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, ...],
         "image_dense": [0.6366019600530924, -0.09323198122475052, ...]
-    }，
+    },
     {
         "id": 1,
         "text": "Wireless noise-cancelling over-ear headphones",
@@ -931,10 +931,9 @@ ranker = RRFRanker(100)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.ranker.BaseRanker;
 import io.milvus.v2.service.vector.request.ranker.RRFRanker;
 
-BaseRanker reranker = new RRFRanker(100);
+RRFRanker reranker = RRFRanker.builder().k(100).build();
 ```
 
 </TabItem>
