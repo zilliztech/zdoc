@@ -264,10 +264,6 @@ li.theme-doc-sidebar-item-category-level-4 a.menu__link.menu__link--sublist {
   color: rgb(107, 114, 128) !important;
 }
 
-li.theme-doc-sidebar-item-category-level-1 > ul.menu__list {
-  padding-left: 0 !important;
-}
-
 div.footer__bottom.text--center {
   display: none;
 }
@@ -367,9 +363,6 @@ html.docs-doc-id-tutorials\/home .pagination-nav {
 /* Ensure the sidebar menu list allows proper scrolling */
 .theme-doc-sidebar-container .menu__list {
   scroll-behavior: smooth !important;
-  overflow-y: auto !important;
-  max-height: 100vh !important;
-  padding-right: 8px; /* Add some padding for scroll bar */
 }
 
 /* Ensure the sidebar wrapper allows proper scrolling */
