@@ -139,7 +139,8 @@ export const isControlPlane = (endpoint) => {
         endpoint.includes('job') ||
         endpoint.includes('alert') ||
         endpoint.includes('etl') ||
-        endpoint.includes('stage')
+        endpoint.includes('stage') ||
+        endpoint.includes('project')
 }
 
 export const isBeta = (endpoint) => {

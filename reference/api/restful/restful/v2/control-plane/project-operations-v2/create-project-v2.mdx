@@ -1,0 +1,29 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_positition: 43
+slug: /restful/create-project-v2
+beta: FALSE
+title: "Create Project (V2) | RESTful"
+description: "This operation creates a new project with a specified name and subscription plan. | RESTful"
+hide_table_of_contents: true
+sidebar_label: "Create Project (V2)"
+sidebar_custom_props: { badges: ['post']}
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "Create Project (V2)"
+  - "post"
+  - RESTful
+  - API
+---
+
+# Create Project (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="en-US" />
+
+export const specs = {"summary":"Create Project","deprecated":false,"description":"This operation creates a new project with a specified name and subscription plan.","x-i18n":{"zh-CN":{"summary":"创建项目","description":"本接口可创建新项目并指定名称和订阅计划。"}},"tags":["Project Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"}}}],"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"projectName":{"type":"string","description":"The name of the project to create.","x-i18n":{"zh-CN":{"description":"待创建项目的名称。"}}},"plan":{"type":"string","description":"The subscription plan of the project. The possible values are `Standard` and `Enterprise`.","x-i18n":{"zh-CN":{"description":"项目的订阅计划。当前仅支持 `Enterprise` 一种。"}},"default":"Standard"}}},"example":{"projectName":"My Project","plan":"Enterprise"}}}},"responses":{"200":{"description":"None","content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","description":"A success response","x-i18n":{"zh-CN":{"description":"成功响应。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}},"type":"integer","example":0},"data":{"type":"object","properties":{"projectId":{"type":"string","description":"ID of the created project."}},"description":"Response payload which contains the ID of the created project.","x-i18n":{"zh-CN":{"description":"响应载荷，包含创建的项目 ID。"}}}}},{"x-tab-label":"failure","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{"projectId":"proj-x"}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}}}
+export const endpoint = "/v2/projects"
+export const method = "post"

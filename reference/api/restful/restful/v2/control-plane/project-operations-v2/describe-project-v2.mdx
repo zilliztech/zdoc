@@ -1,0 +1,29 @@
+---
+displayed_sidebar: restfulSidebar
+sidebar_positition: 44
+slug: /restful/describe-project-v2
+beta: FALSE
+title: "Describe Project (V2) | RESTful"
+description: "This operation returns the details of a specified project. | RESTful"
+hide_table_of_contents: true
+sidebar_label: "Describe Project (V2)"
+sidebar_custom_props: { badges: ['get']}
+keywords: 
+  - zilliz cloud
+  - zilliz
+  - cloud
+  - "Describe Project (V2)"
+  - "get"
+  - RESTful
+  - API
+---
+
+# Describe Project (V2)
+
+import RestSpecs from '@site/src/components/RestSpecs';
+
+<RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="en-US" />
+
+export const specs = {"summary":"Describe Project","deprecated":false,"description":"This operation returns the details of a specified project.","x-i18n":{"zh-CN":{"summary":"查看项目详情","description":"本接口可查看指定项目的详细信息。"}},"tags":["Project Operations (V2)"],"parameters":[{"name":"Authorization","in":"header","description":"The authentication token should be <include target=\"zilliz\">an API key with appropriate privileges or </include>a pair of colon-joined username and password, like `username:password`.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为<include target=\"zilliz\">具备适当权限的 API 密钥或</include>用冒号分隔的用户名和密码，如 `username:password`。"}}},{"name":"projectId","in":"path","description":"The ID of the project to describe.","required":true,"example":"proj-xx","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"待查看项目的 ID。"}}}],"responses":{"200":{"description":"Return the details of a specified project.","x-i18n":{"zh-CN":{"description":"返回指定项目的详细信息。"}},"content":{"application/json":{"schema":{"oneOf":[{"x-tab-label":"success","description":"A success response","x-i18n":{"zh-CN":{"description":"成功响应。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}},"type":"integer","example":0},"data":{"type":"object","properties":{"projectId":{"type":"string","description":"ID of the project.","x-i18n":{"zh-CN":{"description":"项目 ID。"}}},"projectName":{"type":"string","description":"Name of the project.","x-i18n":{"zh-CN":{"description":"项目名称。"}}},"instanceCount":{"type":"integer","description":"Number of clusters in the project.","x-i18n":{"zh-CN":{"description":"项目中集群数量。"}}},"createTime":{"type":"string","description":"Time at which the project is created.","x-i18n":{"zh-CN":{"description":"项目创建时间。"}}},"plan":{"type":"string","description":"The subscription plan of the current project. The possible values are `Standard` and `Enterprise`.","x-i18n":{"zh-CN":{"description":"当前项目的订阅计划。当前仅支持 `Enterprise` 一种。"}}}},"description":"Response payload which contains the details of the specified project.","x-i18n":{"zh-CN":{"description":"响应载荷，包含指定项目的详细信息。"}}}}},{"x-tab-label":"failure","description":"A failure response.","x-i18n":{"zh-CN":{"description":"失败响应。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{"projectId":"proj-x","projectName":"My Project","instanceCount":2,"createTime":"2023-08-16T07:34:06Z","plan":"Enterprise"}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":1800,"message":"User hasn't authenticated"}}}}}}}}
+export const endpoint = "/v2/projects/{projectId}"
+export const method = "get"

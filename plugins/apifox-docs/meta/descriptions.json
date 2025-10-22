@@ -138,5 +138,9 @@
     {
         "name": "stage-v2",
         "description": "This set of APIs provides a way to manage stages."
+    },
+    {
+        "name": "project-operations-v2",
+        "description": "This set of APIs provides a way to manage projects."
     }
 ]

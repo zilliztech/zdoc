@@ -20,6 +20,9 @@ export default function RestHeader (props) {
         case "DELETE":
             color = "#b91926";
             break;
+        case "PATCH":
+            color = "#ff9900";
+            break;
         default:
             color = "#000000";
     }
