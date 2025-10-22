@@ -5,8 +5,9 @@ metadata:
 spec:
   enableServiceLinks: false
   nodeSelector:
-    node-role/milvus: "ci"
     node-role/jenkins-job: "true"
+    kubernetes.io/arch: 'amd64'
+    jenkins-milvus-ci: 'true'
   containers:
   - name: main
     image: harbor-us-vdc.zilliz.cc/devops/krte:20211213-dcc15e9
