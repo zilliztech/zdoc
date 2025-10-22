@@ -19812,9 +19812,19 @@
 																}
 															}
 														},
-														"description": "List of projects in detail."
+														"description": "List of projects in detail.",
+														"x-i18n": {
+															"zh-CN": {
+																"description": "项目详情列表。"
+															}
+														}
 													},
-													"description": "Response payload, which is a list of projects in detail."
+													"description": "Response payload, which is a list of projects in detail.",
+													"x-i18n": {
+														"zh-CN": {
+															"description": "响应负载，是一个项目详情列表。"
+														}
+													}
 												}
 											}
 										},
@@ -20267,6 +20277,12 @@
 				"summary": "Upgrade Project",
 				"deprecated": false,
 				"description": "This operation updates subscription plan of a specified project.",
+				"x-i18n": {
+					"zh-CN": {
+						"summary": "升级项目",
+						"description": "本接口可更新指定项目的订阅计划。"
+					}
+				},
 				"tags": [
 					"Project Operations (V2)"
 				],
