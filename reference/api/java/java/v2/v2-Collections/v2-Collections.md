@@ -3,7 +3,7 @@ title: "Collections | Java | v2"
 slug: /java/v2-Collections
 beta: false
 notebook: false
-added_since: undefined
+added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 description: "Methods for you to manage collections. | Java | v2"
@@ -12,10 +12,10 @@ token: Sx9jfHZP8lqVhXd9UuMcERemnjd
 sidebar_position: 2
 sidebar_label: "Collections"
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud

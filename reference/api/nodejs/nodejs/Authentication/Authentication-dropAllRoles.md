@@ -12,19 +12,19 @@ type: docx
 token: E5rYdw3EWo2WKZxEyGac049an3e
 sidebar_position: 9
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - dropAllRoles()
   - nodejs25
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

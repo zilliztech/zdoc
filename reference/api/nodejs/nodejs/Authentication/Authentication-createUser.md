@@ -12,19 +12,19 @@ type: docx
 token: JNZxdKEX3ohBl2xud7Wckhq7nVh
 sidebar_position: 5
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - createUser()
   - nodejs25
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

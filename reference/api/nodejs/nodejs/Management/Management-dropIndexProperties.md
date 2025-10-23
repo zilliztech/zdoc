@@ -12,19 +12,19 @@ type: docx
 token: Acvxd7t9poXj6nxb0vMco0wsngh
 sidebar_position: 5
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndexProperties()
   - nodejs25
-  - Faiss vector database
   - Chroma vector database
   - nlp search
   - hallucinations llm
+  - Multimodal search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: OtrZdy7OtoC9N9xb8TjcCtM7nfc
 sidebar_position: 2
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionField()
   - javaV225
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

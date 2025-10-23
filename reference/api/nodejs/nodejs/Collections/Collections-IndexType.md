@@ -12,19 +12,19 @@ type: docx
 token: Of5xdscL1o5Svzxy8yOckqaMnzg
 sidebar_position: 16
 keywords: 
-  - what is semantic search
-  - Embedding model
   - image similarity search
   - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - IndexType
   - nodejs25
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

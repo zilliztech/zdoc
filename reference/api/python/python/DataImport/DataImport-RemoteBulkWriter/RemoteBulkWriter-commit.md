@@ -12,19 +12,19 @@ type: docx
 token: VccVd4MTgoPzCixDVtgcEoKWnPf
 sidebar_position: 3
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - commit()
   - pymilvus25
+  - Zilliz vector database
   - Zilliz database
   - Unstructured Data
   - vector database
-  - IVF
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

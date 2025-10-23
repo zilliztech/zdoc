@@ -12,19 +12,19 @@ type: docx
 token: XIIyd3bMzoAVx3xVsoLcnQ2pnKh
 sidebar_position: 14
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - listRoles()
   - javaV225
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

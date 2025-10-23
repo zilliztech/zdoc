@@ -12,19 +12,19 @@ type: docx
 token: BCGKdCttdotF32xUJTec8UFlndg
 sidebar_position: 26
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - updateUser()
   - nodejs25
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

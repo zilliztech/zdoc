@@ -3,7 +3,7 @@ title: "Management | Python | MilvusClient"
 slug: /python/MilvusClient-Management
 beta: false
 notebook: false
-added_since: undefined
+added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
 description: "Methods for you to index, load, and release a collection. | Python | MilvusClient"
@@ -12,10 +12,10 @@ token: MvvMf16FLlVOmtdgx5UcZ8qtnyd
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud

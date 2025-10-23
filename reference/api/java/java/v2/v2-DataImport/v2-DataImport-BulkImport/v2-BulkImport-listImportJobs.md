@@ -12,19 +12,19 @@ type: docx
 token: CN9sdiCicoERZpx9GhmcLa4Wn7g
 sidebar_position: 4
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - listImportJobs()
   - javaV225
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

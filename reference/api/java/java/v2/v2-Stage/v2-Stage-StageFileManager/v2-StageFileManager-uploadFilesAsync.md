@@ -12,19 +12,19 @@ type: docx
 token: GE25dbBmMoU8glxCWbJckYObnN1
 sidebar_position: 2
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - uploadFilesAsync
   - javaV225
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: HPumdTuktozoJAxYrqQcRciSnsb
 sidebar_position: 6
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
   - nodejs25
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

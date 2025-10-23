@@ -12,19 +12,19 @@ type: docx
 token: MfR8dw5TioPvw3xvrstcgYixnUb
 sidebar_position: 43
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - wait_for_index_building_complete()
   - pymilvus25
+  - how does milvus work
+  - Zilliz vector database
   - Zilliz database
   - Unstructured Data
-  - vector database
-  - IVF
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

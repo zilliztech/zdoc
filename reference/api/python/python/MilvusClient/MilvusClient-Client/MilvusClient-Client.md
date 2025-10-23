@@ -3,7 +3,7 @@ title: "Client | Python | MilvusClient"
 slug: /python/MilvusClient-Client
 beta: false
 notebook: false
-added_since: undefined
+added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 description: "Classes and methods for you to manage the MilvusClient instances. | Python | MilvusClient"
@@ -12,10 +12,10 @@ token: ZEQZf4BtildBijdf1T6cdDnmnZb
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud

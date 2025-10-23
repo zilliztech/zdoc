@@ -12,19 +12,19 @@ type: docx
 token: X8qWdMHg5oQQK6xZdBYcGNOnn3c
 sidebar_position: 8
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - getFlushState()
   - nodejs25
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

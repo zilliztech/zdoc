@@ -12,19 +12,19 @@ type: docx
 token: LwqSdN6s5oZBhAxzQsxcnXswnah
 sidebar_position: 4
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabase()
   - javaV225
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: KIYUdM0oVo0dQmxTgS2c8Mxxn4v
 sidebar_position: 11
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - MetricType
   - javaV225
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

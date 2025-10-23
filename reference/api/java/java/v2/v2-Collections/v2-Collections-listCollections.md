@@ -12,19 +12,19 @@ type: docx
 token: WxhmdPZydowLVLxR2LacSrUNnme
 sidebar_position: 20
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - listCollections()
   - javaV225
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

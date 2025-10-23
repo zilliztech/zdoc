@@ -12,19 +12,19 @@ type: docx
 token: DCK5d56UZop0kGxpQu8cLqlvndg
 sidebar_position: 4
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - compact()
   - nodejs25
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

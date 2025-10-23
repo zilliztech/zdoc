@@ -12,19 +12,19 @@ type: docx
 token: B3n3db0idoia02xXxJfcONK8nRh
 sidebar_position: 3
 keywords: 
-  - AI Agent
   - semantic search
   - Anomaly Detection
   - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - create_index()
   - pymilvus25
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

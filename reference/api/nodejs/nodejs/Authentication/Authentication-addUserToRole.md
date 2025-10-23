@@ -12,19 +12,19 @@ type: docx
 token: Qc72dTKgroNdHjxIG2xcwNdmnHb
 sidebar_position: 2
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - addUserToRole()
   - nodejs25
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

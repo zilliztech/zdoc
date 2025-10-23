@@ -3,7 +3,7 @@ title: "Partitions | Python | MilvusClient"
 slug: /python/MilvusClient-Partitions
 beta: false
 notebook: false
-added_since: undefined
+added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 description: "Methods related to the manipulation of the partitions in a collection. | Python | MilvusClient"
@@ -12,10 +12,10 @@ token: YpEjf83y1lvvzxd31BqcvQmknEd
 sidebar_position: 6
 sidebar_label: "Partitions"
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud

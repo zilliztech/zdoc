@@ -3,7 +3,7 @@ title: "Data Import | Java | v2"
 slug: /java/v2-DataImport
 beta: false
 notebook: false
-added_since: undefined
+added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 description: "Classes and methods related to BulkWriter and BulkImport, facilitating importing data to your collections. | Java | v2"
@@ -12,10 +12,10 @@ token: AtkCfVN4Ll6GqMdVJfxcybHanDf
 sidebar_position: 3
 sidebar_label: "Data Import"
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud

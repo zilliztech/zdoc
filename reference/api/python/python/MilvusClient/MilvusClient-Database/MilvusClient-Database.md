@@ -3,7 +3,7 @@ title: "Database | Python | MilvusClient"
 slug: /python/MilvusClient-Database
 beta: false
 notebook: false
-added_since: undefined
+added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 description: "Methods for you to manage databases. | Python | MilvusClient"
@@ -12,10 +12,10 @@ token: CcDcf33k1lcbiZdS6GFc4L9anub
 sidebar_position: 8
 sidebar_label: "Database"
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud

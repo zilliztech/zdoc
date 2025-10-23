@@ -21,10 +21,10 @@ keywords:
   - cloud
   - has_collection()
   - pymilvus25
+  - sentence transformers
   - Recommender systems
   - information retrieval
   - dimension reduction
-  - hnsw algorithm
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

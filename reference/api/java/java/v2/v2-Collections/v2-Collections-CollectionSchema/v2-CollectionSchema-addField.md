@@ -12,10 +12,10 @@ type: docx
 token: HWEDdIvrxo3gskxlyKkcDdzVncd
 sidebar_position: 1
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud

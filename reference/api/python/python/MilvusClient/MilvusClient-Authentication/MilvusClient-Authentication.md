@@ -3,7 +3,7 @@ title: "Authentication | Python | MilvusClient"
 slug: /python/MilvusClient-Authentication
 beta: false
 notebook: false
-added_since: undefined
+added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 description: "Methods related to implement role-based access control to your resources. | Python | MilvusClient"
@@ -12,10 +12,10 @@ token: W9SBfQfXUlZAXDdK6nTcop4rnFd
 sidebar_position: 1
 sidebar_label: "Authentication"
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud

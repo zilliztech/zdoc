@@ -12,19 +12,19 @@ type: docx
 token: Cde1dlUbDosa86xjuShcoKgQnvg
 sidebar_position: 3
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - listStages()
   - javaV225
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

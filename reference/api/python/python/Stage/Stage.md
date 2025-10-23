@@ -3,7 +3,7 @@ title: "Stage | Python"
 slug: /python/Stage
 beta: false
 notebook: false
-added_since: undefined
+added_since: v2.5.x
 last_modified: false
 deprecate_since: false
 description: "Classes and methods related to Zilliz Cloud's Stage service. | Python"
@@ -12,10 +12,10 @@ token: UJtvfGYb4lKoF1dy7iicFwcAnWr
 sidebar_position: 5
 sidebar_label: "Stage"
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud

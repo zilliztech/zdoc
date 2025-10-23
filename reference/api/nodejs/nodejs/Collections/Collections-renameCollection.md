@@ -12,19 +12,19 @@ type: docx
 token: LSwVdMg4SorzZ5xSHHVcQeVDnfh
 sidebar_position: 19
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - renameCollection()
   - nodejs25
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

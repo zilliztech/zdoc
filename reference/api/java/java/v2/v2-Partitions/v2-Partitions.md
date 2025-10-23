@@ -3,7 +3,7 @@ title: "Partitions | Java | v2"
 slug: /java/v2-Partitions
 beta: false
 notebook: false
-added_since: undefined
+added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 description: "Methods related to the manipulation of the partitions in a collection. | Java | v2"
@@ -12,10 +12,10 @@ token: YkL6fqkaNlgeWXdNaWLcltkZnRc
 sidebar_position: 10
 sidebar_label: "Partitions"
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud

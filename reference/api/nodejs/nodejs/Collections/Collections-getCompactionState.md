@@ -12,19 +12,19 @@ type: docx
 token: CRFLdvgkhoeRikxMcMAcJk3qnIc
 sidebar_position: 14
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - getCompactionState()
   - nodejs25
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

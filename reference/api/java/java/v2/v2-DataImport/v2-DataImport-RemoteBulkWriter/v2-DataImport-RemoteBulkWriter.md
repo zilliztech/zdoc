@@ -12,19 +12,19 @@ type: docx
 token: XAIndF6XWoQzvRxDvpLcgEE1nEb
 sidebar_position: 5
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - RemoteBulkWriter
   - javaV225
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

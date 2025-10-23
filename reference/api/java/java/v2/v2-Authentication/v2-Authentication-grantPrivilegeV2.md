@@ -12,19 +12,19 @@ type: docx
 token: MFv3drbbXouqVxxE1OicBBl5ndf
 sidebar_position: 11
 keywords: 
+  - Dense embedding
+  - Faiss vector database
   - Chroma vector database
   - nlp search
-  - hallucinations llm
-  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - grantPrivilegeV2()
   - javaV225
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: K1Npdj5Ddod6UWxRN2ecf6K4nxf
 sidebar_position: 38
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - reset_password()
   - pymilvus25
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

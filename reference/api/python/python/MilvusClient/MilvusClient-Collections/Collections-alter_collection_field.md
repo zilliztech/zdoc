@@ -12,19 +12,19 @@ type: docx
 token: G2jjdHvbBoko6BxBZj7csemWnFc
 sidebar_position: 2
 keywords: 
+  - managed milvus
   - Serverless vector database
   - milvus open source
   - how does milvus work
-  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - alter_collection_field()
   - pymilvus25
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar
@@ -63,18 +63,6 @@ alter_collection_field(
 - **field_params** (*dict*) -
 
     The field parameters to change. The properties not mentioned remain unchanged. Possible parameters vary with the field type. 
-
-    - **max_length** (*int*) -
-
-        The maximum byte length for strings allowed to be inserted. Note that multibyte characters (e.g., Unicode characters) may occupy more than one byte each, so ensure the byte length of inserted strings does not exceed the specified limit. Value range: &#91;1, 65,535&#93;.
-
-        This is mandatory for a **DataType.VARCHAR** field.
-
-    - **max_capacity** (*int*) -
-
-        The number of elements in an Array field value.
-
-        This is mandatory for a **DataType.ARRAY** field.
 
     - **mmap_enabled** (*bool*) -
 

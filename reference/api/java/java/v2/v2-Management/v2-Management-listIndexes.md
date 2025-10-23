@@ -12,19 +12,19 @@ type: docx
 token: OyWwdNBG1o2pTQxNDD1cLHcTnwc
 sidebar_position: 9
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - listIndexes()
   - javaV225
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

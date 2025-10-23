@@ -12,19 +12,19 @@ type: docx
 token: HwoNd8f9Toy4n9xOn0QcJPcgnhX
 sidebar_position: 10
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - runAnalyzer()
   - javaV225
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

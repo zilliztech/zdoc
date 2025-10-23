@@ -12,19 +12,19 @@ type: docx
 token: Sh7HdgJOIoJipXx5AoNcicjMnyd
 sidebar_position: 5
 keywords: 
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
   - create_partition()
   - pymilvus25
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

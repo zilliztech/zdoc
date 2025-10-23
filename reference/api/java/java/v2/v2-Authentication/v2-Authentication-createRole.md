@@ -12,19 +12,19 @@ type: docx
 token: V0xwdLOrhog7OBxTX76cQGQknSb
 sidebar_position: 3
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - createRole()
   - javaV225
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

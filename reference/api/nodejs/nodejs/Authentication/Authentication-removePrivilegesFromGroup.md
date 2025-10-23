@@ -12,19 +12,19 @@ type: docx
 token: EeAfdukBNoIIgCxX248c6VULnOb
 sidebar_position: 20
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - removePrivilegesFromGroup()
   - nodejs25
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

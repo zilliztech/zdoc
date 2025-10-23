@@ -12,19 +12,19 @@ type: docx
 token: EVKhdy0vwoSLSux2RW2c660unjh
 sidebar_position: 2
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - FieldSchema
   - pymilvus25
+  - Question answering system
+  - llm-as-a-judge
   - hybrid vector search
   - Video deduplication
-  - Video similarity search
-  - Vector retrieval
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

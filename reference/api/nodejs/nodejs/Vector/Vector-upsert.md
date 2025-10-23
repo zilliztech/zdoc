@@ -12,19 +12,19 @@ type: docx
 token: MErAdudCloVawFxpxoWcgqZonLc
 sidebar_position: 8
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - nodejs25
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

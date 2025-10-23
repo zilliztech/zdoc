@@ -12,19 +12,19 @@ type: docx
 token: QHyGdm4FyoFwCzxDgUUc9yQrnPf
 sidebar_position: 4
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - StageManager
   - javaV225
-  - Question answering system
-  - llm-as-a-judge
   - hybrid vector search
   - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

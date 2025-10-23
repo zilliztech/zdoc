@@ -12,19 +12,19 @@ type: docx
 token: Efi4dCKhFoYpEZxRfWRcvFEXnBg
 sidebar_position: 1
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - createStage()
   - javaV225
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

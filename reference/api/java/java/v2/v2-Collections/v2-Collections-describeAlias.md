@@ -12,19 +12,19 @@ type: docx
 token: B57cdiaEkotJQnxl7I9cJqotnPb
 sidebar_position: 11
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - describeAlias()
   - javaV225
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

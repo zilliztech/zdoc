@@ -12,19 +12,19 @@ type: docx
 token: QasfdVW4voAzfwxfSc1civsHnVf
 sidebar_position: 1
 keywords: 
-  - Managed vector database
   - Pinecone vector database
   - Audio search
   - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - alterAlias()
   - javaV225
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

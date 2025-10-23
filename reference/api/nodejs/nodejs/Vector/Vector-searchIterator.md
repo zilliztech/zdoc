@@ -12,19 +12,19 @@ type: docx
 token: KQAidyvxhoVaALxLratcCjMuniU
 sidebar_position: 9
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - searchIterator()
   - nodejs25
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

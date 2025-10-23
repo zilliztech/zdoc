@@ -3,7 +3,7 @@ title: "Vector | Python | MilvusClient"
 slug: /python/MilvusClient-Vector
 beta: false
 notebook: false
-added_since: undefined
+added_since: v2.3.x
 last_modified: v2.5.x
 deprecate_since: false
 description: "Methods related to CRUD operations within a collection. | Python | MilvusClient"
@@ -12,10 +12,10 @@ token: BCcWfIoxvlY1oOdsLcXcqTtcnMf
 sidebar_position: 7
 sidebar_label: "Vector"
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud

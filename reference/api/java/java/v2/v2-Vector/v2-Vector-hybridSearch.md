@@ -12,19 +12,19 @@ type: docx
 token: LTymdLBGUobp1fx7DOFczF46n7g
 sidebar_position: 3
 keywords: 
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
   - javaV225
-  - LLMs
   - Machine Learning
   - RAG
   - NLP
+  - Neural Network
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -3,7 +3,7 @@ title: "Partitions | Node.js"
 slug: /node/Partitions
 beta: false
 notebook: false
-added_since: undefined
+added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 description: "Methods related to the manipulation of the partitions in a collection. | Node.js"
@@ -12,10 +12,10 @@ token: JfB5fh16rl1R1qdNVgec1Kdongc
 sidebar_position: 8
 sidebar_label: "Partitions"
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud

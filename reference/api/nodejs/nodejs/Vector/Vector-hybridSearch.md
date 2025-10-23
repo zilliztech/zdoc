@@ -12,19 +12,19 @@ type: docx
 token: F3vqdLZS2ohhOAxQNNxciiirn4f
 sidebar_position: 3
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
   - nodejs25
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: JBBldcrAHoYZ2mxMGeocZHMAnze
 sidebar_position: 3
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
   - javaV225
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

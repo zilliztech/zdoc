@@ -12,19 +12,19 @@ type: docx
 token: JTdSdyToooA6Srx2HolcmTPunoe
 sidebar_position: 2
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - dropPartition()
   - javaV225
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

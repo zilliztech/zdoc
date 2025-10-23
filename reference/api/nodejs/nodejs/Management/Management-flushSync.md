@@ -12,19 +12,19 @@ type: docx
 token: QsTwdUbgyoZPV1xzCBxchX8Fnid
 sidebar_position: 7
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
   - flushSync()
   - nodejs25
+  - sentence transformers
   - Recommender systems
   - information retrieval
   - dimension reduction
-  - hnsw algorithm
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

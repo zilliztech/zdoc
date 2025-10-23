@@ -12,19 +12,19 @@ type: docx
 token: XmyMdqvDLosr6oxzvhWcw8H2ntg
 sidebar_position: 21
 keywords: 
+  - AI Hallucination
+  - AI Agent
   - semantic search
   - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - removeUserFromRole()
   - nodejs25
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

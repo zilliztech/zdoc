@@ -12,19 +12,19 @@ type: docx
 token: Z467dWnBYoGmDhxbJMocAGoHnle
 sidebar_position: 27
 keywords: 
-  - semantic search
   - Anomaly Detection
   - sentence transformers
   - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - FunctionType
   - javaV225
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

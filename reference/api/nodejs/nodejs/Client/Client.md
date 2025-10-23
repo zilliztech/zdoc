@@ -3,7 +3,7 @@ title: "Client | Node.js"
 slug: /node/Client
 beta: false
 notebook: false
-added_since: undefined
+added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 description: "Classes and methods for you to manage the MilvusClient instances. | Node.js"
@@ -12,10 +12,10 @@ token: YIWifhm0HlwT5ldC40fc8tAOnXd
 sidebar_position: 7
 sidebar_label: "Client"
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud

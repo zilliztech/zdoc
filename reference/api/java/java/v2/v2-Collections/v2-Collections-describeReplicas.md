@@ -12,19 +12,19 @@ type: docx
 token: WRSYdEZwroNY1Txpk2DcI1sSnVg
 sidebar_position: 24
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - describeReplicas()
   - javaV225
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: Ja99dnnaOoncwbx2zIPc4PjunXx
 sidebar_position: 3
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabase()
   - nodejs25
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

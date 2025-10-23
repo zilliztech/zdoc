@@ -12,19 +12,19 @@ type: docx
 token: OnIpdTTSOoV06KxhhAkcFQCKnWd
 sidebar_position: 5
 keywords: 
-  - nlp search
-  - hallucinations llm
   - Multimodal search
   - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - javaV225
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -3,7 +3,7 @@ title: "Management | Java | v2"
 slug: /java/v2-Management
 beta: false
 notebook: false
-added_since: undefined
+added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 description: "Methods for you to index, load, and release a collection. | Java | v2"
@@ -12,10 +12,10 @@ token: MTBuf5wQ7lardCddEtCc4R2uncb
 sidebar_position: 4
 sidebar_label: "Management"
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud

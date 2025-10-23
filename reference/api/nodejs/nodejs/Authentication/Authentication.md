@@ -3,7 +3,7 @@ title: "Authentication | Node.js"
 slug: /node/Authentication
 beta: false
 notebook: false
-added_since: undefined
+added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 description: "Methods related to implement role-based access control to your resources. | Node.js"
@@ -12,10 +12,10 @@ token: H1JWfZh74lkVhgdfGiKcQfsinPg
 sidebar_position: 6
 sidebar_label: "Authentication"
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud

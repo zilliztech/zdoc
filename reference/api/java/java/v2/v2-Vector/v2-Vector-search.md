@@ -12,19 +12,19 @@ type: docx
 token: W1mxdmaelo4co4x0ruwcTWQrn5b
 sidebar_position: 7
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - javaV225
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

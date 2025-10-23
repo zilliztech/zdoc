@@ -12,19 +12,19 @@ type: docx
 token: FhbbdNrlNouBXJxHIdKctXVKnmf
 sidebar_position: 15
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - hasCollection()
   - nodejs25
+  - how do vector databases work
+  - vector db comparison
   - openai vector db
   - natural language processing database
-  - cheap vector database
-  - Managed vector database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

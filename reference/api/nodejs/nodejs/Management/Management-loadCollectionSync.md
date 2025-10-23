@@ -12,19 +12,19 @@ type: docx
 token: XXUAdI8T2oOmw2x7iITc8vJgnjm
 sidebar_position: 15
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollectionSync()
   - nodejs25
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

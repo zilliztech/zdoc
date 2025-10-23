@@ -3,7 +3,7 @@ title: "utility | Python | ORM"
 slug: /python/ORM-utility
 beta: NEAR DEPRECATE
 notebook: false
-added_since: undefined
+added_since: Inherit
 last_modified: false
 deprecate_since: false
 description: "Available Milvus utility functions. | Python | ORM"
@@ -12,10 +12,10 @@ token: BvYKfbpMUlczBxdyBvEc5Gb3nfb
 sidebar_position: 8
 sidebar_label: "utility"
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud

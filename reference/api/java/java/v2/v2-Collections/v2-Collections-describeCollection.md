@@ -12,19 +12,19 @@ type: docx
 token: Lc03dk5YVo8Ilvx4XINcv5KBn9e
 sidebar_position: 12
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
   - javaV225
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

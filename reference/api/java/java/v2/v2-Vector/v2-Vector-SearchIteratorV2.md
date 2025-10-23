@@ -12,19 +12,19 @@ type: docx
 token: JxXHdFBRhoDT8MxlTvEc42IsnEh
 sidebar_position: 11
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
   - SearchIteratorV2()
   - javaV225
-  - AI Hallucination
-  - AI Agent
-  - semantic search
   - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

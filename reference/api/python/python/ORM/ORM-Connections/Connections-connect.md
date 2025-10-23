@@ -12,19 +12,19 @@ type: docx
 token: KzCXdTVVSoOmkbxuFjsccDlXnff
 sidebar_position: 2
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - connect()
   - pymilvus25
-  - Agentic RAG
   - rag llm architecture
   - private llms
   - nn search
+  - llm eval
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

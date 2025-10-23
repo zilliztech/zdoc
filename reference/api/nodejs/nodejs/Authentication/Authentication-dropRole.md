@@ -12,19 +12,19 @@ type: docx
 token: AnkUdEHXmob3Vwx9GIWcDOQanng
 sidebar_position: 11
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - dropRole()
   - nodejs25
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

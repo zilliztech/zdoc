@@ -12,19 +12,19 @@ type: docx
 token: TGsXduN5OoAjVyxZTvRc8HR2nse
 sidebar_position: 13
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - listPrivilegeGroups()
   - javaV225
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

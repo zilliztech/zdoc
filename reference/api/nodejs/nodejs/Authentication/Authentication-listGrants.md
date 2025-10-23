@@ -12,19 +12,19 @@ type: docx
 token: CJ9DdmU1ooquOnxcK5AciA3sn3g
 sidebar_position: 16
 keywords: 
-  - Chroma vs Milvus
   - Annoy vector search
   - milvus
   - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - listGrants()
   - nodejs25
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

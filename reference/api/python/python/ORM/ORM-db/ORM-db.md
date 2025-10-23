@@ -3,7 +3,7 @@ title: "db | Python | ORM"
 slug: /python/ORM-db
 beta: NEAR DEPRECATE
 notebook: false
-added_since: undefined
+added_since: Inherit
 last_modified: false
 deprecate_since: false
 description: "Functions related to manipulating Milvus databases. | Python | ORM"
@@ -12,10 +12,10 @@ token: E2Zlf8PdXlx097dT2sNchgqpnbF
 sidebar_position: 4
 sidebar_label: "db"
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud

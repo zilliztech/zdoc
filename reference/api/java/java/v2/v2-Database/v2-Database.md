@@ -3,7 +3,7 @@ title: "Database | Java | v2"
 slug: /java/v2-Database
 beta: false
 notebook: false
-added_since: undefined
+added_since: v2.4.x
 last_modified: false
 deprecate_since: false
 description: "Methods related to database operations. | Java | v2"
@@ -12,10 +12,10 @@ token: Ja2Wf1J9glm6oCdCxfDc9BzPnoc
 sidebar_position: 9
 sidebar_label: "Database"
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud

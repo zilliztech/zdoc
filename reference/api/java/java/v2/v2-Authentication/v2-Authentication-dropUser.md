@@ -12,19 +12,19 @@ type: docx
 token: RFv2dtZ1qoP9XQxJEGqcgLGUnhc
 sidebar_position: 9
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - dropUser()
   - javaV225
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

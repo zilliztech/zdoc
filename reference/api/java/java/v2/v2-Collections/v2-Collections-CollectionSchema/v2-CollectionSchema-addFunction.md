@@ -12,19 +12,19 @@ type: docx
 token: WI76dwejQosQWcxuhkccHOl7nXf
 sidebar_position: 4
 keywords: 
-  - milvus vector database
-  - milvus db
   - milvus vector db
   - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - addFunction()
   - javaV225
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

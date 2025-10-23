@@ -3,7 +3,7 @@ title: "Vector | Java | v2"
 slug: /java/v2-Vector
 beta: false
 notebook: false
-added_since: undefined
+added_since: v2.3.x
 last_modified: false
 deprecate_since: false
 description: "Methods related to CRUD operations within a collection. | Java | v2"
@@ -12,10 +12,10 @@ token: YBQDf0VrtlUZx3dVkdKckKT5ngh
 sidebar_position: 7
 sidebar_label: "Vector"
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud

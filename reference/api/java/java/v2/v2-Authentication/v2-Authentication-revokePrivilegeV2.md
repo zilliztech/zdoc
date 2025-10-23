@@ -12,19 +12,19 @@ type: docx
 token: FZN8dtlIRoMSGBxF7b1cWX48n0b
 sidebar_position: 18
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - revokePrivilegeV2()
   - javaV225
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

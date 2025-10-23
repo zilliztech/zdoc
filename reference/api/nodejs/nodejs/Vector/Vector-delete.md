@@ -12,19 +12,19 @@ type: docx
 token: PNtoddjsMoYuqcxCWK4c3IWKnde
 sidebar_position: 1
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - nodejs25
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: PV1PdliWZooAB8xAE5scZO2Nn6K
 sidebar_position: 3
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - list_database()
   - pymilvus25
-  - nearest neighbor search
-  - Agentic RAG
   - rag llm architecture
   - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: VNATdAYSkojgVsx5MJKcPPmMnl7
 sidebar_position: 7
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - nodejs25
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
