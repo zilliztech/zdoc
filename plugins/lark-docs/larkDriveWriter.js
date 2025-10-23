@@ -70,7 +70,7 @@ class larkDriveWriter extends larkDocWriter {
                             const slug = source.slug instanceof Array? source.slug[0].text : source.slug
                             const description = meta.description
                             const tag = meta['tag'] ? meta['tag'] : 'false'
-                            const addedSince = meta['addSince'] ? meta['addedSince'] : 'false'
+                            const addedSince = meta['addSince'] ? meta['addSince'] : 'false'
                             const lastModified = meta['lastModified'] ? meta['lastModified'] : 'false'
                             const deprecateSince = meta['deprecateSince'] ? meta['deprecateSince'] : 'false'
 
