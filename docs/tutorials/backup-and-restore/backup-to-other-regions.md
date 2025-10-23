@@ -109,9 +109,9 @@ Suppose your cluster is deployed in **GCP us-west1 (Oregon)** and you need to co
 
 The following is the cost calculation:
 
-- **Storage cost:** `20 GB × #0.02/GB per month × 1 month × 2 copies = #0.80`
+- **Storage cost:** `20 GB × $0.02/GB per month × 1 month × 2 copies = $0.80`
 
-- **Data transfer cost:** `(20 GB × #0.02/GB) + (20 GB × #0.08/GB) = #2.00`
+- **Data transfer cost:** `(20 GB × $0.02/GB) + (20 GB × $0.08/GB) = $2.00`
 
-- **Total cost:** `#0.80 (storage) + #2.00 (data transfer) = #2.80`
+- **Total cost:** `$0.80 (storage) + $2.00 (data transfer) = $2.80`
 

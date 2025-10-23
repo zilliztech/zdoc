@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 
@@ -54,9 +54,9 @@ import Grid from '@site/src/components/Grid';
 
         - **INT8 vector support** — Store quantized vectors for lightweight deep learning inference. For details, refer to [Dense Vector](./use-dense-vector).
 
-        - **MINHASH_LSH index** — Perform efficient large-scale deduplication and similarity checks powered by MinHash and Locality-Sensitive Hashing. This feature is available in **Private Preview**, and you [can contact us](https://support.zilliz.com/hc/en-us) if you are interested. For details, refer to MINHASH_LSH.
+        - **MINHASH_LSH index** — Perform efficient large-scale deduplication and similarity checks powered by MinHash and Locality-Sensitive Hashing. This feature is available in **Private Preview**, and you [can contact us](https://support.zilliz.com/hc/en-us) if you are interested. For details, refer to [MINHASH_LSH](./minhash-lsh).
 
-        - **Partial upserts** — Update specific fields without rewriting entire records. For details, refer to [Upsert Entities](./upsert-entities#upsert-in-merge-mode).
+        - **Partial upserts** — Update specific fields without rewriting entire records. For details, refer to [Upsert Entities](./upsert-entities#upsert-in-merge-mode-or-public).
 
         To enable **Public Preview**, you can upgrade your cluster to Milvus v2.6.x on the **Cluster Overview** page in the Zilliz Cloud console by selecting **Try Preview Features**. After upgrading, Milvus v2.5.x features remain available.
 

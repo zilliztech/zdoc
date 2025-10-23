@@ -80,7 +80,7 @@ With the cloud provider and region, and the cluster type information, you can fi
 
 Due to the [billing rule](./storage-cost#billing-rules), any partial hour is rounded up to a full hour. The storage duration, 29 days, 23 hours, and 30 minutes, will be rounded up to 30 days, which is equivalent to 1 month.
 
-The total data storage cost is `#0.025 x 500 × 1 = #12.50`.
+The total data storage cost is `$0.025 x 500 × 1 = $12.50`.
 
 ### Example 2: Backup storage cost{#example-2-backup-storage-cost}
 
@@ -98,7 +98,7 @@ With the cloud provider and region, and the cluster type information, you can fi
 
 Due to the [billing rule](./storage-cost#billing-rules), any partial day is rounded up to a full day. So, the retention period, 44 days and 6 hours, will be rounded up to 45 days, which is equivalent to 1.5 months.
 
-The total backup storage cost of the example cluster is  `#0.025 x 20 x 1.5 = #0.75`.
+The total backup storage cost of the example cluster is  `$0.025 x 20 x 1.5 = $0.75`.
 
 ## FAQs{#faqs}
 

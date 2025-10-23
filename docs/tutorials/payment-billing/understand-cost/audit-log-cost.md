@@ -94,11 +94,11 @@ With the plan and cloud provider and region information, you can find on the [pr
 
 According to the CU size and replica count information, the total query CU size is `8 CU x 2 Replica = 16 CU`.
 
-The total audit logs CU cost is `#0.031 x 16 x 36 = #17.856`.
+The total audit logs CU cost is `$0.031 x 16 x 36 = $17.856`.
 
 Data Transfer Cost is **&#36;0**  because of same-region forwarding. 
 
-The total audit logs cost is `#17.856 + #0.00 = #17.856`.
+The total audit logs cost is `$17.856 + $0.00 = $17.856`.
 
 ## FAQs{#faqs}
 

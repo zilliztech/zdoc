@@ -86,7 +86,7 @@ With the plan, cloud provider and region, and the cluster type information, you 
 
 According to the number of query CU and replica count, the total number of query CU is `8 CU x 2 Replica = 16 CU`.
 
-The total vector database cost of the example Dedicated cluster is `#0.248 x 16 x 720 = #2856.96`.
+The total vector database cost of the example Dedicated cluster is `$0.248 x 16 x 720 = $2856.96`.
 
 ## Storage cost{#storage-cost}
 

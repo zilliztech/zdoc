@@ -1507,7 +1507,7 @@ class larkDocWriter {
 
             if (style['inline_code']) {
                 content = this.__style_markdown(element, elements, 'inline_code', '`');
-                content = content.replaceAll('&#36;', '#')
+                content = content.replaceAll('&#36;', '$')
             }
                          
             if (style['bold']) {
