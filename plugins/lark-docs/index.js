@@ -195,6 +195,7 @@ module.exports = function (context, options) {
                                 const page_slug = source.slug
                                 const page_beta = meta['beta']
                                 const notebook = meta['notebook']
+                                const description = meta['description']
                                 const addedSince = meta['addSince']
                                 const lastModified = meta['lastModified']
                                 const deprecateSince = meta['deprecateSince']
@@ -239,6 +240,7 @@ module.exports = function (context, options) {
                                     sidebar_label: labels,
                                     keywords: keywords,
                                     doc_card_list: doc_card_list,
+                                    page_description: description ? description : false,
                                 }
     
                                 await writer.write_doc(req)
