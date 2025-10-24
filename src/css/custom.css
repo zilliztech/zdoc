@@ -341,7 +341,7 @@ div.footer__bottom.text--center {
 
 /* Hide badges and pagination navigation only on the home page */
 html.docs-doc-id-tutorials\/home .badge,
-html.docs-doc-id-tutorials\/home .breadcrumb,
+html.docs-doc-id-tutorials\/home .breadcrumbs,
 html.docs-doc-id-tutorials\/home .pagination-nav {
   display: none !important;
 }
