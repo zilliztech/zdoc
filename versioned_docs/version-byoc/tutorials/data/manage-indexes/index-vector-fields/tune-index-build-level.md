@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - index build level
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
 
 ---
 
@@ -83,9 +83,9 @@ The following table compares the capacity, QPS, and recall rate of a performance
      <td><p>91% - 97%</p></td>
    </tr>
    <tr>
-     <td><p>Precision-first (0)</p></td>
+     <td><p>Capacity-first (0)</p></td>
      <td><p><strong>5.25 million 768-dim vectors (↑ 250%)</strong></p></td>
-     <td><p>~ 3,000</p></td>
+     <td><p>~ 2,850 (↓ ~5%)</p></td>
      <td><p>90% - 95%</p></td>
    </tr>
    <tr>
@@ -95,10 +95,10 @@ The following table compares the capacity, QPS, and recall rate of a performance
      <td><p>91% - 97%</p></td>
    </tr>
    <tr>
-     <td><p>Capacity-first (2)</p></td>
-     <td><p>1.5 million 769-dim vectors</p></td>
-     <td><p>~ 2,850 (↓ ~5%)</p></td>
-     <td><p><strong>92% - 97% (↑)</strong></p></td>
+     <td><p>Precison-first (2)</p></td>
+     <td><p>1.5 million 768-dim vectors</p></td>
+     <td><p>~ 3,000</p></td>
+     <td><p><strong>92% - 98% (↑)</strong></p></td>
    </tr>
 </table>
 
@@ -120,7 +120,7 @@ The following table compares the capacity, QPS, and recall rate of a capacity-op
      <td><p>93% - 98%</p></td>
    </tr>
    <tr>
-     <td><p>Precision-first (0)</p></td>
+     <td><p>Capacity-first (0)</p></td>
      <td><p><strong>10 million 768-dim vectors (↑ 100%)</strong></p></td>
      <td><p>~ 300</p></td>
      <td><p>89% - 97%</p></td>
@@ -132,8 +132,8 @@ The following table compares the capacity, QPS, and recall rate of a capacity-op
      <td><p>92% - 97%</p></td>
    </tr>
    <tr>
-     <td><p>Capacity-first (2)</p></td>
-     <td><p>5 million 769-dim vectors</p></td>
+     <td><p>Precision-first (2)</p></td>
+     <td><p>5 million 768-dim vectors</p></td>
      <td><p>~ 345</p></td>
      <td><p><strong>94% - 98% (↑)</strong></p></td>
    </tr>
