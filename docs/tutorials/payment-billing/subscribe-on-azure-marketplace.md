@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - azure
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 
@@ -45,13 +45,13 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 Ensure you have an [Azure Marketplace](https://learn.microsoft.com/en-us/marketplace/azure-marketplace-overview) account and an Azure [billing account](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/view-all-accounts) for subscription on Azure Marketplace.
 
-Also ensure your billing country is on the [list](./subscribe-on-azure-marketplace) of supported countries. Zilliz Cloud does not support certain billing countries in the Azure Marketplace due to tax and compliance reasons. If you attempt to subscribe from an unsupported country, you may receive an error message stating, `"No plans are available for market '<country_code>'."` If this occurs, please [contact support](http://support.zilliz.com/) and provide a screenshot of the error message along with the country code. We will discuss possible solutions with you.
+Also ensure your billing country or region is on the [list](./subscribe-on-azure-marketplace) of supported markets. Zilliz Cloud does not support certain markets in the Azure Marketplace due to tax and compliance reasons. If you attempt to subscribe from an unsupported market, you may receive an error message stating, `"No plans are available for market '<market_code>'."` If this occurs, please [contact support](http://support.zilliz.com/) and provide a screenshot of the error message along with the market code. We will discuss possible solutions with you.
 
 ![YaPcbHnQXovDLIxks0xcItOJnpf](/img/YaPcbHnQXovDLIxks0xcItOJnpf.png)
 
 <details>
 
-<summary>Supported countries</summary>
+<summary>Supported markets</summary>
 
 <Grid columnSize="4" widthRatios="25,25,25,25">
 
