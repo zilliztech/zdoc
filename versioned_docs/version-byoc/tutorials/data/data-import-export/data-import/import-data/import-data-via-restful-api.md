@@ -45,48 +45,7 @@ Make sure the following conditions are met:
 
      For details on creating a collection, see [Manage Collections (Console)](./manage-collections-console).
 
-## Import data via stage | PRIVATE{#import-data-via-stage}
-
-To import data from files via stage, you must first create a stage and upload the files to it. Once that's done, obtain the path to the files in the stage. For details, refer to [Manage Stages](./manage-stages).
-
-Then you can import the uploaded data into a specific collection as follows:
-
-```bash
-curl --request POST \
---url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
--d '{
-    "clusterId": "inxx-xxxxxxxxxxxxxxx",
-    "dbName": "default",
-    "collectionName": "medium_articles",
-    "partitionName": "",
-    "stageName": "my_stage",
-    "dataPaths": [
-        [
-            "1.parquet"
-        ]
-    ]
-}'
-```
-
-To import data into a specific partition, you need to include `partitionName` in the request.
-
-After Zilliz Cloud processes the above request, you will receive a job ID. Use this job ID to monitor the import progress with the following command:
-
-```bash
-curl --request POST \
-     --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/getProgress" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "Accept: application/json" \
-     --header "Content-Type: application/json" \
-     -d '{
-        "clusterId": "inxx-xxxxxxxxxxxxxxx",
-        "jobId": "job-xxxxxxxxxxxxxxxxxxxxx"
-    }'
-```
-
-## Import data via external storage{#import-data-via-external-storage}
+## Import data {#import-data}
 
 To import data from files via external storage, you must first upload the files to an object storage bucket. Once uploaded, obtain the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket. For details on supported object paths, refer to [Storage Options](./data-import-storage-options).
 
