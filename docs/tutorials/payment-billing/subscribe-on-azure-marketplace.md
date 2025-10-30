@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - azure
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 
@@ -28,6 +28,8 @@ import Admonition from '@theme/Admonition';
 
 
 import Supademo from '@site/src/components/Supademo';
+
+import Grid from '@site/src/components/Grid';
 
 # Subscribe on Azure Marketplace
 
@@ -41,9 +43,181 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 ## Before you start{#before-you-start}
 
-- Ensure you have an [Azure Marketplace](https://learn.microsoft.com/en-us/marketplace/azure-marketplace-overview) account.
+Ensure you have an [Azure Marketplace](https://learn.microsoft.com/en-us/marketplace/azure-marketplace-overview) account and an Azure [billing account](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/view-all-accounts) for subscription on Azure Marketplace.
 
-- Ensure you have set a [billing account](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/view-all-accounts) for subscription on Azure Marketplace.
+Also ensure your billing country is on the [list](./subscribe-on-azure-marketplace) of supported countries. Zilliz Cloud does not support certain billing countries in the Azure Marketplace due to tax and compliance reasons. If you attempt to subscribe from an unsupported country, you may receive an error message stating, `"No plans are available for market '<country_code>'."` If this occurs, please [contact support](http://support.zilliz.com/) and provide a screenshot of the error message along with the country code. We will discuss possible solutions with you.
+
+![YaPcbHnQXovDLIxks0xcItOJnpf](/img/YaPcbHnQXovDLIxks0xcItOJnpf.png)
+
+<details>
+
+<summary>Supported countries</summary>
+
+<Grid columnSize="4" widthRatios="25,25,25,25">
+
+    <div>
+
+        - Armenia
+
+        - Australia
+
+        - Austria
+
+        - Bahrain
+
+        - Barbados
+
+        - Belarus
+
+        - Belgium
+
+        - Bulgaria
+
+        - Canada
+
+        - Chile
+
+        - Colombia
+
+        - Croatia
+
+        - Cyprus
+
+        - Czechia
+
+        - Denmark
+
+        - Egypt
+
+        - Estonia
+
+        - Finland
+
+    </div>
+
+    <div>
+
+        - France
+
+        - Georgia
+
+        - Germany
+
+        - Greece
+
+        - Hong Kong SAR
+
+        - Hungary
+
+        - Iceland
+
+        - India
+
+        - Indonesia
+
+        - Ireland
+
+        - Italy
+
+        - Japan
+
+        - Kenya
+
+        - Latvia
+
+        - Liechtenstein
+
+        - Lithuania
+
+        - Luxembourg
+
+        - Malaysia
+
+    </div>
+
+    <div>
+
+        - Malta
+
+        - Moldova
+
+        - Monaco
+
+        - Netherlands
+
+        - New Zealand
+
+        - Nigeria
+
+        - Norway
+
+        - Oman
+
+        - Philippines
+
+        - Poland
+
+        - Portugal
+
+        - Puerto Rico
+
+        - Qatar
+
+        - Romania
+
+        - Russia
+
+        - Saudi Arabia
+
+        - Serbia
+
+        - Singapore
+
+    </div>
+
+    <div>
+
+        - Slovakia
+
+        - Slovenia
+
+        - South Africa
+
+        - South Korea
+
+        - Spain
+
+        - Sweden
+
+        - Switzerland
+
+        - Taiwan
+
+        - Tajikistan
+
+        - Thailand
+
+        - Türkiye
+
+        - Uganda
+
+        - Ukraine
+
+        - United Arab Emirates
+
+        - United Kingdom
+
+        - United States
+
+        - Uzbekistan
+
+        - Vietnam
+
+    </div>
+
+</Grid>
+
+</details>
 
 ## Subscribe on Azure Marketplace{#subscribe-on-azure-marketplace}
 
@@ -155,9 +329,9 @@ Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms)
 
 ## Troubleshooting{#troubleshooting}
 
-- **Why do I see “No plans are available for market 'XX country'” when subscribing via Azure Marketplace?**
+- **Why do I see “No plans are available for market '&lt;country_code&gt;'” when subscribing via Azure Marketplace?**
 
-    This message appears because Zilliz Cloud is not yet available in the Azure Marketplace for your billing country. Please [contact support](http://support.zilliz.com) and let us know which country you are subscribing from. We may be able to provide alternative solutions or update availability.
+    This message appears because Zilliz Cloud is not yet available in the Azure Marketplace for your billing country. For details, see [supported countries](./subscribe-on-azure-marketplace). Please [contact support](http://support.zilliz.com) and provide a screenshot of the error message along with the country code. We may be able to provide alternative solutions or update availability.
 
 - **What I can do if there is no organization available when linking a marketplace subscription to Zilliz Cloud?**
 
