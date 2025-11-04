@@ -57,7 +57,7 @@ module.exports = function (context, options) {
                             fs.mkdirSync(docSourceDir, { recursive: true })
                             await scraper.fetch(true)
                             if (fallbackSourceDir !== undefined) {
-                                utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir)
+                                utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType)
                             }
                         // Pull specific source file from Feishu
                         } else if (opts.docToken !== undefined) {
@@ -102,7 +102,7 @@ module.exports = function (context, options) {
                                 fs.mkdirSync(docSourceDir, { recursive: true })
                                 await scraper.fetch(true)
                                 if (fallbackSourceDir !== undefined) {
-                                    utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir)
+                                    utils.fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType)
                                 }
                             }
                             

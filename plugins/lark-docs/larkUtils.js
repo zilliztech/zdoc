@@ -51,15 +51,6 @@ class larkUtils {
             }   
         }
 
-        // // remove unnecessary index files
-        // const index_files = fs.readdirSync(outputDir, {recursive: true})
-        //     .filter(path => fs.statSync(`${outputDir}/${path}`).isDirectory() && fs.existsSync(`${outputDir}/${path}/${path}.md`))
-            
-        // for (const index_file of index_files) {
-        //     const index_path = `${outputDir}/${index_file}/${index_file}.md`
-        //     fs.rmSync(index_path, { force: true })
-        // }
-
         // check broken links and anchors
         const mds = fs.readdirSync(outputDir, {recursive: true}).filter(path => path.endsWith('.md'))
         const broken_links = []
@@ -221,13 +212,34 @@ class larkUtils {
         }
     }
 
-    async fetch_fallback_sources(docSourceDir, fallbackSourceDir) {
-        var replaces = []
+    fetch_fallback_sources(docSourceDir, fallbackSourceDir, sourceType) {
+        const TITLE = sourceType === 'drive' ? 'name' : 'title'
+        const TOKEN = sourceType === 'drive' ? 'token' : 'node_token'
+        const PARENT = sourceType === 'drive' ? 'parent_token' : 'parent_node_token'
 
         // list all files in the source directory
         var files = fs.readdirSync(docSourceDir)
         var sources = files.map(file => {
             return JSON.parse(fs.readFileSync(`${docSourceDir}/${file}`, {encoding: 'utf-8', flag: 'r'}))
+        }).map(source => {
+            var raw = JSON.stringify(source, null, 2)
+            
+            if (source?.blocks?.items) {
+                const page_block = source.blocks.items.find(block => block.block_type === 1)
+                const page_block_id = page_block?.block_id
+
+                if (page_block_id) {
+                    const regex = new RegExp(`docx%2F${page_block_id}`, 'g')
+                    const matchesBefore = [...raw.matchAll(regex)]
+                    console.log(matchesBefore.length)
+                    raw = raw.replace(regex, `wiki%2F${source[TOKEN]}`)
+                    const matchesAfter = [...raw.matchAll(regex)]
+                    console.log(matchesAfter.length)
+                    console.log('====')
+                }
+            }
+
+            return JSON.parse(raw)
         })
 
         // list all files in the fallback source directory
@@ -236,55 +248,64 @@ class larkUtils {
             return JSON.parse(fs.readFileSync(`${fallbackSourceDir}/${file}`, {encoding: 'utf-8', flag: 'r'}))
         })
 
-        var sourceRoot = sources.find(source => !source.type)
-        // find the fallback root by name
-        var fallbackRoot = fallbackSources.find(fallback => !fallback.type && fallbackSourceDir.split('/').includes(fallback.name))
+        var sourceRoot, fallbackRoot
 
-        if (sourceRoot.children.length > 0 && fallbackRoot.children.length > 0) {
+        if (sourceType === 'drive') {
+            sourceRoot = sources.find(source => !source?.type)
+            // find the fallback root by name
+            fallbackRoot = fallbackSources.find(fallback => !fallback.type && fallbackSourceDir.split('/').includes(fallback[TITLE]))
+        } else if (sourceType === 'wiki') {
+            sourceRoot = sources.find(source => !source?.slug)
+            fallbackRoot = fallbackSources.find(fallback => !fallback.slug && fallbackSourceDir.split('/').includes(fallback[TITLE]))
+        } else {
+            throw new Error(`Unknown source type: ${sourceType}`)
+        }
+
+        if (sourceRoot?.children?.length > 0 && fallbackRoot?.children?.length > 0) {
 
             fallbackRoot.children.forEach(child => {
-                var pair = sourceRoot.children.find(s => s.name === child.name)
+                var pair = sourceRoot.children.find(s => s[TITLE] === child[TITLE])
 
                 if (!pair) {
-                    child.parent_token = sourceRoot.token
+                    child[PARENT] = sourceRoot[TOKEN]
                     sourceRoot.children.push(child)
                     // fallbackSources.find(fb => fb.token === child.token).parent_token = sourceRoot.token
                 }
             })
 
-            fs.writeFileSync(`${docSourceDir}/${sourceRoot.token}.json`, JSON.stringify(sourceRoot, null, 2), {encoding: 'utf-8', flag: 'w'})
+            fs.writeFileSync(`${docSourceDir}/${sourceRoot[TOKEN]}.json`, JSON.stringify(sourceRoot, null, 2), {encoding: 'utf-8', flag: 'w'})
         }
 
         var replaces = []
 
         fallbackSources.forEach(fallback => {            
             // folder
-            if (fallback.type === 'folder') {
-                var source = sources.find(source => source.slug === fallback.slug && source.type === 'folder')
+            if (fallback?.type === 'folder' || fallback?.children) {
+                var source = sources.find(source => source?.slug === fallback?.slug && (source?.type === 'folder' || source?.children))
                 if (source) {
-                    fallback.token = source.token
-                    fallback.parent_token = source.parent_token
+                    fallback[TOKEN] = source[TOKEN]
+                    fallback[PARENT] = source[PARENT]
                     fallback.url = source.url
                     
                     fallback.children.forEach(child => {
-                        var pair = source.children.find(s => s.name === child.name)
+                        var pair = source.children.find(s => s[TITLE] === child[TITLE])
                         if (pair) {
                             replaces.push({
-                                from: child.token,
-                                to: pair.token
+                                from: child[TOKEN],
+                                to: pair[TOKEN]
                             })
                             
-                            child.parent_token = pair.parent_token
+                            child[PARENT] = pair[PARENT]
                             child.url = pair.url
-                            child.token = pair.token
+                            child[TOKEN] = pair[TOKEN]
                         } else {
-                            child.parent_token = source.token
+                            child[PARENT] = source[TOKEN]
                             // fallbackSources.find(fb => fb.token === child.token).parent_token = source.token
                         }
                     })
 
                     source.children.forEach(s => {
-                        if (!(fallback.children.find(fb => fb.name === s.name))) {
+                        if (!(fallback.children.find(fb => fb[TITLE] === s[TITLE]))) {
                             fallback.children.push(s)
                         }
                     })
@@ -292,11 +313,11 @@ class larkUtils {
             }
 
             // docx
-            if (fallback.type === 'docx') {
-                var source = sources.find(source => source.slug === fallback.slug && source.type === 'docx')
+            if (fallback?.type === 'docx' || !fallback?.children) {
+                var source = sources.find(source => source?.slug === fallback?.slug && (source?.type === 'docx' || !source?.children))
                 if (source) {
-                    fallback.token = source.token
-                    fallback.parent_token = source.parent_token
+                    fallback[TOKEN] = source[TOKEN]
+                    fallback[PARENT] = source[PARENT]
                     fallback.url = source.url
                     fallback.blocks = source.blocks
                 }
@@ -305,8 +326,8 @@ class larkUtils {
 
         // write the fallback sources to the doc source directory
         fallbackSources.forEach(fallback => {
-            const token = fallback.token
-            console.log(`0. Copied ${fallback.token}.json`)
+            const token = fallback[TOKEN]
+            console.log(`0. Copied ${token}.json`)
             const file = `${docSourceDir}/${token}.json`
             var raw = JSON.stringify(fallback, null, 2)
             
@@ -314,6 +335,7 @@ class larkUtils {
             replaces.forEach(replace => {
                 raw = raw.replaceAll(replace.from, replace.to)
             })
+            
             fs.writeFileSync(file, raw, {encoding: 'utf-8', flag: 'w'})
         })
     }
