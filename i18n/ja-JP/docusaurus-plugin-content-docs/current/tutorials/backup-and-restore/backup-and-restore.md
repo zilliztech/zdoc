@@ -1,32 +1,32 @@
 ---
-title: "バックアップと復元 | Cloud"
+title: "バックアップとリストア | Cloud"
 slug: /backup-and-restore
-sidebar_label: "バックアップと復元"
+sidebar_label: "バックアップとリストア"
 beta: FALSE
 notebook: FALSE
-description: "Zilliz Cloudクラスターに保存されたデータのバックアップと復元。 | Cloud"
+description: "Zilliz Cloudクラスタに保存されたデータのデータバックアップとリストア。 | Cloud"
 type: origin
-token: AXmzw3QBKixR0skM8LWc39jwnAe
+token: VvikwOKc9iZ5vBkgMnycrXKmnId
 sidebar_position: 7
-keywords: 
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - backup
-  - restore
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - ベクトルデータベース
+  - クラウド
+  - バックアップ
+  - リストア
+  - vectordb
+  - マルチモーダルベクトルデータベース検索
+  - 検索拡張生成
+  - 大規模言語モデル
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# バックアップと復元
+# バックアップとリストア
 
-Zilliz Cloudクラスターに保存されたデータのバックアップと復元。
+Zilliz Cloudクラスタに保存されたデータのデータバックアップとリストア。
 
 
 

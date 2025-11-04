@@ -230,12 +230,12 @@ class larkUtils {
 
                 if (page_block_id) {
                     const regex = new RegExp(`docx%2F${page_block_id}`, 'g')
-                    const matchesBefore = [...raw.matchAll(regex)]
-                    console.log(matchesBefore.length)
-                    raw = raw.replace(regex, `wiki%2F${source[TOKEN]}`)
-                    const matchesAfter = [...raw.matchAll(regex)]
-                    console.log(matchesAfter.length)
-                    console.log('====')
+                    // const matchesBefore = [...raw.matchAll(regex)]
+                    // console.log(matchesBefore.length)
+                    raw = raw.replace(regex, sourceType === 'drive'? `docx%2F${source[TOKEN]}` : `wiki%2F${source[TOKEN]}`)
+                    // const matchesAfter = [...raw.matchAll(regex)]
+                    // console.log(matchesAfter.length)
+                    // console.log('====')
                 }
             }
 
