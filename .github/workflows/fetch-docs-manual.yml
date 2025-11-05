@@ -60,69 +60,25 @@ jobs:
         branch: dev
         create_branch: true
         push_options: --force
-    - name: fetch japanese docs
-      id: fetch_jp_docs
-      run: |
-        npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.saas
-        npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.saas -post
-        npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.paas -skipS
-        npx docusaurus fetch-lark-docs -man guidesJapanese -tar zilliz.paas -post
-      env:
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-        SPACE_ID: ${{ secrets.SPACE_ID }}
-        FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
-        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
-        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
-        MODEL_ID: ${{ vars.MODEL_ID }}
-    - name: build docsite
-      run: |
-        npx docusaurus report-to-lark -m "🔥 Japanese docs fetched! Building docs..."
-        npm run build
-      env:
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
-        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
-        MODEL_ID: ${{ vars.MODEL_ID }}
-    - name: link checks
-      env:
-        TOKEN: ${{ secrets.ACTION_TOKEN }}
-        APP_ID: ${{ secrets.APP_ID }}
-        APP_SECRET: ${{ secrets.APP_SECRET }}
-        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
-        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
-        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
-        MODEL_ID: ${{ vars.MODEL_ID }}
-      run: |
-        npx docusaurus report-to-lark -m "🔥 Docs built! Checking links..."
-        npx docusaurus link-checks
-    - name: commit to dev
-      uses: stefanzweifel/git-auto-commit-action@v5
-      with:
-        branch: dev
-        create_branch: true
-        push_options: --force
     - name: fetch sdk references
       id: fetch_sdk_refs
       run: |
+        npx docusaurus report-to-lark -m "🔥 Fetching SDK references..."
         npx docusaurus fetch-lark-docs -man python -src-only
-        npx docusaurus fetch-lark-docs -man pymilvus25 -tar zilliz
-        npx docusaurus fetch-lark-docs -man pymilvus25 -tar zilliz -post
-        npx docusaurus fetch-lark-docs -man javaV1 -tar zilliz
-        npx docusaurus fetch-lark-docs -man javaV1 -tar zilliz -post
+        npx docusaurus fetch-lark-docs -man pymilvus25 -src-only
+        npx docusaurus fetch-lark-docs -man pymivlus26 -tar zilliz
+        npx docusaurus fetch-lark-docs -man pymilvus26 -tar zilliz -post
         npx docusaurus fetch-lark-docs -man javaV2 -src-only
-        npx docusaurus fetch-lark-docs -man javaV225 -tar zilliz
-        npx docusaurus fetch-lark-docs -man javaV225 -tar zilliz -post
+        npx docusaurus fetch-lark-docs -man javaV225 -src-only
+        npx docusaurus fetch-lark-docs -man javaV226 -tar zilliz
+        npx docusaurus fetch-lark-docs -man javaV226 -tar zilliz -post
         npx docusaurus fetch-lark-docs -man node -src-only
-        npx docusaurus fetch-lark-docs -man nodejs25 -tar zilliz
-        npx docusaurus fetch-lark-docs -man nodejs25 -tar zilliz -post
-        npx docusaurus fetch-lark-docs -man gov1 -tar zilliz
-        npx docusaurus fetch-lark-docs -man gov1 -tar zilliz -post
-        npx docusaurus fetch-lark-docs -man gov2 -tar zilliz
-        npx docusaurus fetch-lark-docs -man gov2 -tar zilliz -post
+        npx docusaurus fetch-lark-docs -man nodejs25 -src-only
+        npx docusaurus fetch-lark-docs -man nodejs26 -tar zilliz
+        npx docusaurus fetch-lark-docs -man nodejs26 -tar zilliz -post
+        npx docusaurus fetch-lark-docs -man gov2 -src-only
+        npx docusaurus fetch-lark-docs -man gov225 -tar zilliz
+        npx docusaurus fetch-lark-docs -man gov226 -tar zilliz -post
         npx docusaurus fetch-apifox-docs -s plugins/apifox-docs/meta/openapi.json   
       env:
         APP_ID: ${{ secrets.APP_ID }}
