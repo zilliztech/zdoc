@@ -25,7 +25,7 @@ class refGen {
     var idx = 0
     for (const page_url of Object.keys(specifications.paths)) {
       for (const method of Object.keys(specifications.paths[page_url])) {
-        const specification = specifications.paths[page_url][method]
+        const specification = this.resolveRefs(specifications.paths[page_url][method], specifications)
 
         if (specification?.["x-include-target"] && !specification["x-include-target"].includes(target)) {
           continue
@@ -48,10 +48,10 @@ class refGen {
         if (target === 'milvus') {
           slug_suffix = ''
         }
-        var upper_folder = page_parent.startsWith('cloud') || page_parent.startsWith('cluster') || page_parent.startsWith('import') || page_parent.startsWith('pipeline') || page_parent.includes('backup') || page_parent.includes('restore') || page_parent.includes('invoices') || page_parent.includes('usage') || page_parent.includes('metrics') || page_parent.includes('extract') || page_parent.includes('stage') || page_parent.includes('project') ? 'control-plane' : 'data-plane'
+        var upper_folder = this.__get_plane_for_cloud(page_parent)
 
         if (target === 'milvus') {
-          upper_folder = page_parent.startsWith('cloud') || page_parent.startsWith('cluster') || page_parent.startsWith('pipeline') || page_parent.includes('backup') || page_parent.includes('restore') || page_parent.includes('invoices') || page_parent.includes('usage') || page_parent.includes('metrics') || page_parent.includes('extract') || page_parent.includes('stage') || page_parent.includes('project') ? 'control-plane' : 'data-plane'
+          upper_folder = this.__get_plane_for_milvus(page_parent)
         }
         var page_slug = (this.get_slug(page_title, target)) + slug_suffix
         var beta_tag = version === 'v2' ? 'FALSE' : 'NEAR DEPRECATE'
@@ -267,6 +267,94 @@ class refGen {
       })
 
       return returns
+  }
+
+  __get_plane_for_cloud(target) {
+    return target.startsWith('cloud') || 
+      target.startsWith('cluster') || 
+      target.startsWith('import') || 
+      target.startsWith('pipeline') || 
+      target.includes('backup') || 
+      target.includes('restore') || 
+      target.includes('invoices') || 
+      target.includes('usage') || 
+      target.includes('metrics') || 
+      target.includes('extract') || 
+      target.includes('stage') || 
+      target.includes('project') ? 'control-plane' : 'data-plane'    
+  }
+
+  __get_plane_for_milvus(target) {
+    return target.startsWith('cloud') ||
+      target.startsWith('cluster') ||
+      target.startsWith('pipeline') ||
+      target.includes('backup') ||
+      target.includes('restore') ||
+      target.includes('invoices') ||
+      target.includes('usage') ||
+      target.includes('metrics') ||
+      target.includes('extract') ||
+      target.includes('stage') ||
+      target.includes('project') ? 'control-plane' : 'data-plane'
+  }
+
+  resolveRefs(obj, spec, visited = new Set()) {
+    if (!obj || typeof obj !== 'object') {
+      return obj
+    }
+
+    if (visited.has(obj)) {
+      return obj
+    }
+    visited.add(obj)
+
+    if (Array.isArray(obj)) {
+      return obj.map(item => this.resolveRefs(item, spec, visited))
+    }
+
+    if (obj.$ref) {
+      const refPath = obj.$ref
+      if (refPath.startsWith('#/')) {
+        const pathParts = refPath.substring(2).split('/')
+        let resolved = spec
+
+        for (const part of pathParts) {
+          if (resolved && typeof resolved === 'object' && part in resolved) {
+            resolved = resolved[part]
+          } else {
+            console.warn(`Could not resolve reference: ${refPath}`)
+            return obj
+          }
+        }
+
+        return this.resolveRefs(resolved, spec, new Set())
+      }
+      return obj
+    }
+
+    const resolved = {}
+    for (const [key, value] of Object.entries(obj)) {
+      if (key === 'description' && typeof value === 'object') {
+        // Handle description objects while preserving object structure when needed
+        if (value.type && (value.description || value.value)) {
+          // Preserve schema objects
+          resolved[key] = value
+        } else if (typeof value === 'object' && (value.description !== undefined || value.value !== undefined)) {
+          // For simple description containers, preserve the object
+          resolved[key] = value
+        } else if (typeof value === 'object') {
+          // For other objects, stringify as last resort
+          resolved[key] = JSON.stringify(value)
+        } else {
+          // For primitive values
+          resolved[key] = value
+        }
+      } else {
+        resolved[key] = this.resolveRefs(value, spec, visited)
+      }
+    }
+
+    return resolved
   }
 }
 
