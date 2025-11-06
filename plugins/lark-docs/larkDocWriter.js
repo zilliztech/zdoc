@@ -762,9 +762,12 @@ class larkDocWriter {
 
                     // Identify problematic characters based on the error
                     let madeChanges = false;
+                    let line, column, offset;
                     switch (error.ruleId) {
                         case 'acorn':
-                            let { line, column, offset } = error.place;
+                            line = error.place.line;
+                            column = error.place.column;
+                            offset = error.place.offset;
                             // console.log(patchedContent.split('\n')[line-1]);
 
                             if (offset !== undefined && offset > 0 && offset < patchedContent.length) {
@@ -797,8 +800,22 @@ class larkDocWriter {
                             break;
                         case 'unexpected-closing-slash':
                             console.log(patchedContent.split('\n')[error.line-1])
+                            break;
                         case 'unexpected-character':
-                            console.log(patchedContent.split('\n')[error.line-1])
+                            if (error.message.includes('U+002C') || error.message.includes('U+002A')) {
+                                offset = error.place.offset;
+                                if (offset !== undefined && offset > 0 && offset < patchedContent.length) {
+                                    for (let i = offset-1; i >= 0; i--) {
+                                        if (patchedContent[i] === '<') {
+                                            patchedContent = patchedContent.slice(0, i) + '\\' + patchedContent.slice(i);
+                                            madeChanges = true;
+
+                                            break;
+                                        }
+                                    }
+                                }
+                            }
+                            break;
                         default: 
                             madeChanges = false;
                             break;
