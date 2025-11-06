@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 
@@ -45,8 +45,6 @@ Each organization comes with a default **Enterprise** project named `Default Pro
 - You can create a maximum of 100 projects in each organization.
 
 ### Procedures\{#procedures}
-
-When creating a project, you need to specify the project name and select a project plan that best suits your needs. The plan determines available features and the billing. For details about the pricing, plan differences, and how to select a right plan, see [Detailed Plan Comparison](./select-zilliz-cloud-service-plans).
 
 You can create a project via the Zilliz Cloud web console or RESTful API.
 

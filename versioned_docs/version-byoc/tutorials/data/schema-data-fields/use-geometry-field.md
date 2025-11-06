@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - geometry field
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 
@@ -418,7 +418,7 @@ To filter on a `GEOMETRY` field, use a geometry operator in an expression:
 
 Where:
 
-- `operator` is one of the supported geometry operators (e.g., `ST_CONTAINS`, `ST_INTERSECTS`). Operator names must be all uppercase or all lowercase. For a list of supported operators, refer to [Supported geometry operators](./undefined#supported-geometry-operators).
+- `operator` is one of the supported geometry operators (e.g., `ST_CONTAINS`, `ST_INTERSECTS`). Operator names must be all uppercase or all lowercase. For a list of supported operators, refer to [Supported geometry operators](./geometry-operators).
 
 - `geo_field` is the name of your `GEOMETRY` field.
 

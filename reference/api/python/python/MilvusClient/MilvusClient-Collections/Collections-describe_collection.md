@@ -2,29 +2,29 @@
 title: "describe_collection() | Python | MilvusClient"
 slug: /python/python/Collections-describe_collection
 sidebar_label: "describe_collection()"
-beta: false
+beta: FALSE
 added_since: v2.3.x
-last_modified: false
-deprecate_since: false
-notebook: false
+last_modified: v2.6.x
+deprecate_since: FALSE
+notebook: FALSE
 description: "This operation lists detailed information about a specific collection. | Python | MilvusClient"
 type: docx
 token: LXASdPs6KoRfCJx11A1cl2Ssngg
 sidebar_position: 9
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - describe_collection()
   - pymilvus26
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar
@@ -167,7 +167,7 @@ A dictionary that contains detailed information about the specified collection.
 
     - **struct_fields** (*List[Field]*) -
 
-        A list of fields added to the struct element in an array of structs field. For details on the possible field types, refer to [Array of Structs](/docs/array-of-structs).
+        A list of fields added to the struct element in an array of structs field. For details on the possible field types, refer to [Array of Structs](/docs/use-array-of-structs).
 
     - **is_primary** (*bool*) -
 
