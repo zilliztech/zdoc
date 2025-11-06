@@ -764,26 +764,41 @@ class larkDocWriter {
                     let madeChanges = false;
                     switch (error.ruleId) {
                         case 'acorn':
-                            let { line, column, offset } = error.place
+                            let { line, column, offset } = error.place;
+                            // console.log(patchedContent.split('\n')[line-1]);
 
                             if (offset !== undefined && offset > 0 && offset < patchedContent.length) {
-                                const char = patchedContent[offset]
-                                if (char === '#' && patchedContent[offset-1] === '{') {
-                                    patchedContent = patchedContent.slice(0, offset-1) + '\\' + patchedContent.slice(offset-1)
-                                    madeChanges = true;
+                                for (let i = offset - 1; i >= 0; i--) {
+                                    if (patchedContent[i] === '{') {
+                                        patchedContent = patchedContent.slice(0, i) + '\\' + patchedContent.slice(i);
+                                        madeChanges = true;
+
+                                        break;
+                                    }
                                 }
                             }
                             break;
                         case 'end-tag-mismatch':
-                            let tag = error.message.slice(error.message.lastIndexOf('<'), error.message.lastIndexOf('>')+1)
-                            let { start, end } = error.place
-                            if (tag.startsWith('<') && tag.endsWith('>') && tag.length > 2 && start?.offset > 0 && end?.offset > 0) {
-                                start.offset += patchedContent.slice(start.offset, end.offset+1).indexOf('<');
-                                end.offset -= patchedContent.slice(start.offset, end.offset+1).split('').reverse().join('').indexOf('>');
-                                patchedContent = patchedContent.slice(0, start.offset) + '\\' + patchedContent.slice(start.offset);
-                                madeChanges = true;
+                            let tag = error.message.match(/<(?!\/)([A-Za-z][A-Za-z0-9:_-]*)\b[^>]*>/g)?.[0];
+                            let pos = error.message.match(/(\d+):(\d+)-(\d+):(\d+)/);
+                            if (tag && pos) {
+                                const start = { line: parseInt(pos[1]), column: parseInt(pos[2]) }
+
+                                patchedContent = patchedContent.split('\n').map((line, index) => {
+                                    if (index === start.line - 1) {
+                                        line = line.slice(0, start.column - 1) + '\\' + line.slice(start.column - 1)
+                                        madeChanges = true;
+                                    }
+
+                                    return line
+                                }).join('\n')
                             }
+                            
                             break;
+                        case 'unexpected-closing-slash':
+                            console.log(patchedContent.split('\n')[error.line-1])
+                        case 'unexpected-character':
+                            console.log(patchedContent.split('\n')[error.line-1])
                         default: 
                             madeChanges = false;
                             break;

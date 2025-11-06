@@ -3,11 +3,14 @@ title: "Storage Options | Cloud"
 slug: /data-import-storage-options
 sidebar_label: "Storage Options"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Before importing data, it's important to understand the supported cloud storage options and their corresponding URL formats. This ensures that your requests can be properly processed without undergoing validation errors. | Cloud"
 type: origin
 token: TjxAw7lx6iNluBkR4a6czoHpn0f
-sidebar_position: 0
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +18,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
@@ -29,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 Before importing data, it's important to understand the supported cloud storage options and their corresponding URL formats. This ensures that your requests can be properly processed without undergoing validation errors.
 
-## AWS Simple Storage Service (S3){#aws-simple-storage-service-s3}
+## Amazon Simple Storage Service (S3)\{#amazon-simple-storage-service-s3}
 
 - **Object access URIs**
 
@@ -40,15 +43,15 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, virtual-hosted–style</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: <i>http</i>s://&lt;bucket_name&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: <i>http</i>s://&lt;bucket_name&gt;.s3.&lt;region-code&gt;.amazonaws.com/&lt;folder_name&gt;/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: <i>http</i>s://<bucket_name>.s3.<region-code>.amazonaws.com/<object_name></p></li><li><p><strong>Folder</strong>: <i>http</i>s://<bucket_name>.s3.<region-code>.amazonaws.com/<folder_name>/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, path-style</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: <i>http</i>s://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: <i>http</i>s://s3.&lt;region-code&gt;.amazonaws.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: <i>http</i>s://s3.<region-code>.amazonaws.com/<bucket_name>/<object_name></p></li><li><p><strong>Folder</strong>: <i>http</i>s://s3.<region-code>.amazonaws.com/<bucket_name>/<folder_name>/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>AWS S3 URI</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: s3://&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: s3://&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: s3://<bucket_name>/<object_name></p></li><li><p><strong>Folder</strong>: s3://<bucket_name>/<folder_name>/</p></li></ul></td>
        </tr>
     </table>
 
@@ -78,7 +81,7 @@ Before importing data, it's important to understand the supported cloud storage 
 
     - If you prefer to authenticate with short-term credentials, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
 
-## Google Cloud Storage{#google-cloud-storage}
+## Google Cloud Storage\{#google-cloud-storage}
 
 - **Object access URIs**
 
@@ -89,11 +92,11 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>GSC public URL</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: <i>http</i>s://storage.cloud.google.com/&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: <i>http</i>s://storage.cloud.google.com/&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: <i>http</i>s://storage.cloud.google.com/<bucket_name>/<object_name></p></li><li><p><strong>Folder</strong>: <i>http</i>s://storage.cloud.google.com/<bucket_name>/<folder_name>/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>GSC gsutil URI</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: gs://&lt;bucket_name&gt;/&lt;object_name&gt;</p></li><li><p><strong>Folder</strong>: gs://&lt;bucket_name&gt;/&lt;folder_name&gt;/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: gs://<bucket_name>/<object_name></p></li><li><p><strong>Folder</strong>: gs://<bucket_name>/<folder_name>/</p></li></ul></td>
        </tr>
     </table>
 
@@ -113,7 +116,7 @@ Before importing data, it's important to understand the supported cloud storage 
 
     - If you prefer to authenticate with short-term credentials, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
 
-## Azure Blob Storage{#azure-blob-storage}
+## Azure Blob Storage\{#azure-blob-storage}
 
 - **Object access URIs**
 
@@ -124,11 +127,12 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>Azure storage blob URI</strong></p></td>
-         <td><ul><li><p><strong>File</strong>: <i>http</i>s://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;blob&gt;</p></li><li><p><strong>Folder</strong>: <i>http</i>s://&lt;storage_account&gt;.blob.core.windows.net/&lt;container&gt;/&lt;folder&gt;/</p></li></ul></td>
+         <td><ul><li><p><strong>File</strong>: <i>http</i>s://<storage_account>.blob.core.windows.net/<container>/<blob></p></li><li><p><strong>Folder</strong>: <i>http</i>s://<storage_account>.blob.core.windows.net/<container>/<folder>/</p></li></ul></td>
        </tr>
     </table>
 
-    For more details, see [Resource URI Syntax](https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata#resource-uri-syntax).
+    For more details, see [Resource URI Syntax](https://learn.microsoft.com/en-us/rest/api/storageservices
+aming-and-referencing-containers--blobs--and-metadata#resource-uri-syntax).
 
 - **Credential acquisition**
 

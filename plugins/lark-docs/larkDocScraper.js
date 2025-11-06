@@ -165,13 +165,14 @@ class larkDocScraper {
         }
     } 
     
-    __fetch_block_children(block, node, children=[]) {
+    __fetch_block_children(block, node) {
+        let children = [];
         if (block.children) {
             for (let child_id of block.children) {
                 const child = node.blocks.items.find(b => b.block_id == child_id)
                 if (child) {
                     children.push(child)
-                    children.push(...this.__fetch_block_children(child, node, children))
+                    children = children.concat(this.__fetch_block_children(child, node))
                 }
             }
         }
