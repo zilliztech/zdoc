@@ -128,9 +128,7 @@ class larkDocScraper {
                             Object.keys(source_block).forEach(key => block[key] = source_block[key])
                             block.parent_id = parent_id
                             // append child blocks from source document
-                            for (let child of block.children) {
-                                append_blocks.push(node.blocks.items.find(b => b.block_id == child))
-                            }
+                            append_blocks.push(...this.__fetch_block_children(source_block, node))
 
                             replacements.push({
                                 parent_id,
@@ -165,7 +163,21 @@ class larkDocScraper {
                 fs.writeFileSync(`${this.doc_source_dir}/${json}`, JSON.stringify(source, null, 2))
             }   
         }
-    }    
+    } 
+    
+    __fetch_block_children(block, node, children=[]) {
+        if (block.children) {
+            for (let child_id of block.children) {
+                const child = node.blocks.items.find(b => b.block_id == child_id)
+                if (child) {
+                    children.push(child)
+                    children.push(...this.__fetch_block_children(child, node, children))
+                }
+            }
+        }
+
+        return children
+    }
 
     async __wait(duration) {
         return new Promise((resolve, _) => {

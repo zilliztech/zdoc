@@ -747,7 +747,7 @@ class larkDocWriter {
             const { compile } = await import('@mdx-js/mdx');
 
             let patchedContent = content;
-            let maxIterations = 10; // Prevent infinite loops
+            let maxIterations = 50; // Prevent infinite loops
             let iteration = 0;
 
             while (iteration < maxIterations) {
@@ -758,6 +758,7 @@ class larkDocWriter {
                     return patchedContent; // If compilation succeeds, return the fixed content
                 } catch (error) {
                     console.log(`MDX compilation error detected (iteration ${iteration + 1}): ${error.message}`);
+                    // console.log(error)
 
                     // Identify problematic characters based on the error
                     let madeChanges = false;
@@ -765,9 +766,12 @@ class larkDocWriter {
                         case 'acorn':
                             let { line, column, offset } = error.place
 
-                            if (offset !== undefined && offset > 0 && offset < patchedContent.length && patchedContent[offset-1] === '{') {
-                                patchedContent = patchedContent.slice(0, offset-1) + '\\' + patchedContent.slice(offset-1)
-                                madeChanges = true;
+                            if (offset !== undefined && offset > 0 && offset < patchedContent.length) {
+                                const char = patchedContent[offset]
+                                if (char === '#' && patchedContent[offset-1] === '{') {
+                                    patchedContent = patchedContent.slice(0, offset-1) + '\\' + patchedContent.slice(offset-1)
+                                    madeChanges = true;
+                                }
                             }
                             break;
                         case 'end-tag-mismatch':
