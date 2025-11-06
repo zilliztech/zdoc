@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "index_building_progress() | Python | ORM"
 slug: /python/python/utility-index_building_progress
 sidebar_label: "index_building_progress()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation returns the progress of the index-building process. | Python | ORM"
 type: docx
 token: OVfodiKa6o3qTGxadYicI975nhh
 sidebar_position: 21
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - index_building_progress()
-  - pymilvus25
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - pymilvus26
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation returns the progress of the index-building process.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 index_building_progress(
@@ -107,7 +110,7 @@ The dictionary has the following keys:
 
     This exception will be raised if multiple indexes exist but the index name is left unspecified.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import (
@@ -164,7 +167,7 @@ utility.index_building_progress(
 )
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `index_building_progress()`
 

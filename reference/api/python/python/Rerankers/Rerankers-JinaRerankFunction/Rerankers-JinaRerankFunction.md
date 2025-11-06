@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "JinaRerankFunction | Python"
 slug: /python/python/Rerankers-JinaRerankFunction
 sidebar_label: "JinaRerankFunction"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "JinaRerankFunction is a class in milvusmodel that takes a query and document as input and directly returns a similarity score instead of embeddings. This functionality uses the underlying Jina AI reranking model. | Python"
 type: docx
 token: E3opdXwZCoY8igxMjQ1cwsTbnzh
 sidebar_position: 1
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - JinaRerankFunction
-  - pymilvus25
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - pymilvus26
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ JinaRerankFunction is a class in [milvus_model](https://github.com/milvus-io/mil
 pymilvus.model.reranker.JinaRerankFunction
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs a JinaRerankFunction for common use cases.
 
@@ -59,7 +62,7 @@ JinaRerankFunction(
 
     The API key for accessing the Jina AI API.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus.model.reranker import JinaRerankFunction

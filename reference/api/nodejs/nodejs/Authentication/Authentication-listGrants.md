@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listGrants() | Node.js"
 slug: /node/node/Authentication-listGrants
 sidebar_label: "listGrants()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists the privileges granted to the specified role. | Node.js"
 type: docx
 token: CJ9DdmU1ooquOnxcK5AciA3sn3g
-sidebar_position: 16
+sidebar_position: 18
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - listGrants()
-  - nodejs25
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - nodejs26
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation lists the privileges granted to the specified role.
 listGrants(data): Promise<SelectGrantResponse>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
  milvusClient.listGrants({
@@ -138,7 +141,7 @@ This method returns a promise that resolves to a **SelectGrantResponse** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```javascript
  milvusClient.listGrants({

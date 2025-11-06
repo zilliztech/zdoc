@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "hasPartition() | Node.js"
 slug: /node/node/Partitions-hasPartition
 sidebar_label: "hasPartition()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation checks whether the specified partition exists in the specified collection. | Node.js"
 type: docx
 token: TVWPdTw2WoPAJYxsbGMc7MX6nEf
 sidebar_position: 4
 keywords: 
-  - managed milvus
-  - Serverless vector database
   - milvus open source
   - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - hasPartition()
-  - nodejs25
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - nodejs26
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation checks whether the specified partition exists in the specified co
 hasPartition(data): Promise<BoolResponse>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.hasPartition({
@@ -104,7 +107,7 @@ This method returns a promise that resolves to a BoolResponse object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 new milvusClient(MILUVS_ADDRESS).hasPartition({

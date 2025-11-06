@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "alterAlias() | Java | v2"
 slug: /java/java/v2-Collections-alterAlias
 sidebar_label: "alterAlias()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation reassigns the alias of one collection to another. | Java | v2"
 type: docx
-token: QasfdVW4voAzfwxfSc1civsHnVf
+token: Fv8EdYIt4oThstxgpzqcm7C0nug
 sidebar_position: 1
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - alterAlias()
-  - javaV225
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - javaV226
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,11 +41,12 @@ This operation reassigns the alias of one collection to another.
 public void alterAlias(AlterAliasReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 alterAlias(AlterAliasReq.builder()
     .alias(String alias)
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .build()
 )
@@ -72,6 +76,10 @@ alterAlias(AlterAliasReq.builder()
 
     </Admonition>
 
+- `databaseName(String databaseName)`
+
+    The name of the database to which the target collection belongs.
+
 - `collectionName(String collectionName)`
 
     The name of the target collection to reassign an alias to.
@@ -86,7 +94,7 @@ alterAlias(AlterAliasReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

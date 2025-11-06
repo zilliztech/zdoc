@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "query_iterator() | Python | ORM"
 slug: /python/python/Collection-query_iterator
 sidebar_label: "query_iterator()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation returns a Python iterator for you to iterate over the query results. It is useful especially when the query result contains a large volume of data. | Python | ORM"
 type: docx
 token: LffbdiHhzoHe08xivF9ccmoen5d
 sidebar_position: 23
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - query_iterator()
-  - pymilvus25
+  - pymilvus26
+  - llm hallucinations
+  - hybrid search
   - lexical search
   - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation returns a Python iterator for you to iterate over the query results. It is useful especially when the query result contains a large volume of data.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 query_iterator(
@@ -97,7 +100,7 @@ A **QueryIterator** for you to iterate over the query result.
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -149,7 +152,7 @@ while True:
         break
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `query_iterator()`:
 

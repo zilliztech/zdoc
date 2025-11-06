@@ -3,6 +3,9 @@ title: "AlterCollectionFieldProperty() | Go | v2"
 slug: /go/v2-Collection-AlterCollectionFieldProperty
 sidebar_label: "AlterCollectionFieldProperty()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method changes the specified property of a collection field. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method changes the specified property of a collection field.
 func (c *Client) AlterCollectionFieldProperty(ctx context.Context, option AlterCollectionFieldPropertiesOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) AlterCollectionFieldProperty(ctx context.Context, option AlterC
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>AlterCollectionFieldPropertiesOption</code></p></td>
+     <td><p><a href="./v2-Collection-AlterCollectionFieldProperty#altercollectionfieldpropertiesoption"><code>AlterCollectionFieldPropertiesOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) AlterCollectionFieldProperty(ctx context.Context, option AlterC
    </tr>
 </table>
 
-## AlterCollectionFieldPropertiesOption{#altercollectionfieldpropertiesoption}
+## AlterCollectionFieldPropertiesOption\{#altercollectionfieldpropertiesoption}
 
 This is an interface type. The `alterCollectionFieldPropertiesOption` struct type implements this interface type. 
 
 You can use the `NewAlterCollectionFieldPropertiesOption()` function to get the concrete implementation.
 
-### NewAlterCollectionFieldPropertiesOption{#newaltercollectionfieldpropertiesoption}
+### NewAlterCollectionFieldPropertiesOption\{#newaltercollectionfieldpropertiesoption}
 
 The signature of this method is as follows:
 
@@ -80,11 +83,11 @@ func NewAlterCollectionFieldPropertiesOption(collectionName string, fieldName st
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```plaintext
 err = cli.AlterCollectionFieldProperty(ctx, milvusclient.NewAlterCollectionFieldPropertiesOption("customized_setup_2", "id").WithProperty(common.MmapEnabledKey, "true"))

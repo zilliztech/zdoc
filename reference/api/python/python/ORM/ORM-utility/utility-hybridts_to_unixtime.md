@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "hybridts_to_unixtime() | Python | ORM"
 slug: /python/python/utility-hybridts_to_unixtime
 sidebar_label: "hybridts_to_unixtime()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation converts a hybrid timestamp to a UNIX epoch timestamp | Python | ORM"
 type: docx
 token: HbMMdqtQGoQqwixsyrjcTTh0nu5
 sidebar_position: 20
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - hybridts_to_unixtime()
-  - pymilvus25
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - pymilvus26
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation converts a hybrid timestamp to a UNIX epoch timestamp
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 hybridts_to_unixtime(
@@ -59,7 +62,7 @@ hybridts_to_unixtime(
 **RETURNS:**
 A UNIX epoch time, which is an integer that represents the time elapsed since January 1, 1970 (midnight UTC/GMT) in seconds.
 
-## **Examples**{#examples}
+## **Examples**\{#examples}
 
 ```python
 import time
@@ -78,7 +81,7 @@ epoch2 = utility.hybridts_to_unixtime(ts)
 assert epoch1 == epoch2
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `hybridts_to_unixtime()`:
 

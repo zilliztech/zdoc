@@ -3,10 +3,13 @@ title: "Insert() | Go | v2"
 slug: /go/v2-Vector-Insert
 sidebar_label: "Insert()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: v2.6.x
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method inserts data into a specific collection. | Go | v2"
 type: origin
-token: BcTKwc4G5iq7wlkazSGcZJgSnR0
+token: DSUtwOAjSijOjkkyjVzcnSX4nNh
 sidebar_position: 1
 displayed_sidebar: goSidebar
 
@@ -23,7 +26,7 @@ This method inserts data into a specific collection.
 func (c *Client) Insert(ctx context.Context, option InsertOption, callOptions ...grpc.CallOption) (InsertResult, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) Insert(ctx context.Context, option InsertOption, callOptions ..
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>InsertOption</code></p></td>
+     <td><p><a href="./v2-Vector-Insert#insertoption"><code>InsertOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) Insert(ctx context.Context, option InsertOption, callOptions ..
    </tr>
 </table>
 
-## InsertOption{#insertoption}
+## InsertOption\{#insertoption}
 
 This is an interface type. The `columnBasedDataOption` and `rowBasedDataOption` struct types implement this interface type. 
 
-You can use the `NewColumnBasedInsertOption()` or `NewRowBasedInsertOption()` function to get the concrete implementation.
+You can use the [`NewColumnBasedInsertOption()`](./v2-Vector-Insert#newcolumnbasedinsertoption) or [`NewRowBasedInsertOption()`](./v2-Vector-Insert#newrowbasedinsertoption) function to get the concrete implementation.
 
-### NewRowBasedInsertOption{#newrowbasedinsertoption}
+### NewRowBasedInsertOption\{#newrowbasedinsertoption}
 
 This function requires you to organize your data in rows. The signature of this method is as follows:
 
@@ -80,7 +83,7 @@ func NewRowBasedInsertOption(collName string, rows ...any) *rowBasedDataOption
    </tr>
 </table>
 
-### NewColumnBasedInsertOption{#newcolumnbasedinsertoption}
+### NewColumnBasedInsertOption\{#newcolumnbasedinsertoption}
 
 This function requires you to organize your data in columns. The signature of this method is as follows:
 
@@ -102,7 +105,7 @@ func NewColumnBasedInsertOption(collName string, columns ...column.Column) *colu
    <tr>
      <td><p><code>columns</code></p></td>
      <td><p>Data organized in columns.</p></td>
-     <td><p><code>...column.Column</code></p></td>
+     <td><p><a href="./v2-Vector-Insert#columncolumn"><code>...column.Column</code></a></p></td>
    </tr>
 </table>
 
@@ -132,7 +135,9 @@ You can chain the following method to get an implementation of the `columnBasedD
 
 - [WithPartition](./v2-Vector-Insert#withpartition)
 
-### WithColumns{#withcolumns}
+- [WithPartialUpdate](./v2-Vector-Insert#withpartialupdate)
+
+### WithColumns\{#withcolumns}
 
 This method appends a generic column to the `columnBasedDataOption` struct.
 
@@ -149,11 +154,11 @@ func (opt *columnBasedDataOption) WithColumns(columns ...column.Column) *columnB
    <tr>
      <td><p><code>columns</code></p></td>
      <td><p>Data in the column.</p></td>
-     <td><p><code>column.Column</code></p></td>
+     <td><p><a href="./v2-Vector-Insert#columncolumn"><code>column.Column</code></a></p></td>
    </tr>
 </table>
 
-### WithBoolColumn{#withboolcolumn}
+### WithBoolColumn\{#withboolcolumn}
 
 This method appends a **Boolean** column to the `columnBasedDataOption` struct.
 
@@ -179,7 +184,7 @@ func (opt *columnBasedDataOption) WithBoolColumn(colName string, data []bool) *c
    </tr>
 </table>
 
-### WithInt8Column{#withint8column}
+### WithInt8Column\{#withint8column}
 
 This method appends an **Int8** column to the `columnBasedDataOption` struct.
 
@@ -205,7 +210,7 @@ func (opt *columnBasedDataOption) WithInt8Column(colName string, data []int8) *c
    </tr>
 </table>
 
-### WithInt16Column{#withint16column}
+### WithInt16Column\{#withint16column}
 
 This method appends an **Int16** column to the `columnBasedDataOption` struct.
 
@@ -231,7 +236,7 @@ func (opt *columnBasedDataOption) WithInt16Column(colName string, data []int16) 
    </tr>
 </table>
 
-### WithInt32Column{#withint32column}
+### WithInt32Column\{#withint32column}
 
 This method appends an **Int32** column to the `columnBasedDataOption` struct.
 
@@ -257,7 +262,7 @@ func (opt *columnBasedDataOption) WithInt32Column(colName string, data []int32) 
    </tr>
 </table>
 
-### WithInt64Column{#withint64column}
+### WithInt64Column\{#withint64column}
 
 This method appends an **Int64** column to the `columnBasedDataOption` struct.
 
@@ -283,7 +288,7 @@ func (opt *columnBasedDataOption) WithInt64Column(colName string, data []int64) 
    </tr>
 </table>
 
-### WithVarcharColumn{#withvarcharcolumn}
+### WithVarcharColumn\{#withvarcharcolumn}
 
 This method appends a **VarChar** column to the `columnBasedDataOption` struct.
 
@@ -309,7 +314,7 @@ func (opt *columnBasedDataOption) WithVarcharColumn(colName string, data []strin
    </tr>
 </table>
 
-### WithFloatVectorColumn{#withfloatvectorcolumn}
+### WithFloatVectorColumn\{#withfloatvectorcolumn}
 
 This method appends a **FloatVector** column to the `columnBasedDataOption` struct.
 
@@ -340,7 +345,7 @@ func (opt *columnBasedDataOption) WithFloatVectorColumn(colName string, dim int,
    </tr>
 </table>
 
-### WithFloat16VectorColumn{#withfloat16vectorcolumn}
+### WithFloat16VectorColumn\{#withfloat16vectorcolumn}
 
 This method appends a **Float16Vector** column to the `columnBasedDataOption` struct.
 
@@ -371,7 +376,7 @@ func (opt *columnBasedDataOption) WithFloat16VectorColumn(colName string, dim in
    </tr>
 </table>
 
-### WithBFloat16VectorColumn{#withbfloat16vectorcolumn}
+### WithBFloat16VectorColumn\{#withbfloat16vectorcolumn}
 
 This method appends a **BFloat16Vector** column to the `columnBasedDataOption` struct.
 
@@ -402,7 +407,7 @@ func (opt *columnBasedDataOption) WithBFloat16VectorColumn(colName string, dim i
    </tr>
 </table>
 
-### WithBinaryVectorColumn{#withbinaryvectorcolumn}
+### WithBinaryVectorColumn\{#withbinaryvectorcolumn}
 
 This method appends a **BinaryVector** column to the `columnBasedDataOption` struct.
 
@@ -433,7 +438,7 @@ func (opt *columnBasedDataOption) WithBinaryVectorColumn(colName string, dim int
    </tr>
 </table>
 
-### WithPartition{#withpartition}
+### WithPartition\{#withpartition}
 
 This method sets the target partition of this operation.
 
@@ -454,7 +459,28 @@ func (opt *columnBasedDataOption) WithPartition(partitionName string) *columnBas
    </tr>
 </table>
 
-## column.Column{#columncolumn}
+### WithPartialUpdate\{#withpartialupdate}
+
+This method sets whether to include only the fields that need updating in the `upsert` request.
+
+```go
+func (opt *columnBasedDataOption) WithPartialUpdate(partialUpdate bool) *columnBasedDataOption
+```
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>partialUpdate</code></p></td>
+     <td><p>Decide whether to include only the fields that need updating.</p></td>
+     <td><p><code>bool</code></p></td>
+   </tr>
+</table>
+
+## column.Column\{#columncolumn}
 
 This is an interface type. The following struct types implement this interface type. 
 
@@ -504,11 +530,11 @@ This is an interface type. The following struct types implement this interface t
 
 - [column.ColumnVarCharArray](./v2-Vector-Insert#columncolumnvarchararray)
 
-## column.ColumnBFloat16Vector{#columncolumnbfloat16vector}
+## column.ColumnBFloat16Vector\{#columncolumnbfloat16vector}
 
 This is a struct type. You can use the `NewColumnBFloat16Vector` or `NewColumnBFloat16VectorFromFp32Vector` method to implement a **BFloat16Vector** field.
 
-### NewColumnBfloat16Vector{#newcolumnbfloat16vector}
+### NewColumnBfloat16Vector\{#newcolumnbfloat16vector}
 
 This method creates a **BFloat16Vector** field with a list of byte sublists as data. The signature of this method is as follows:
 
@@ -539,7 +565,7 @@ func NewColumnBFloat16Vector(fieldName string, dim int, data [][]byte) *ColumnBF
    </tr>
 </table>
 
-### NewColumnBFloat16VectorFromFp32Vector{#newcolumnbfloat16vectorfromfp32vector}
+### NewColumnBFloat16VectorFromFp32Vector\{#newcolumnbfloat16vectorfromfp32vector}
 
 This method creates a **BFloat16Vector** field with a list of float32 sublists as data. The signature of this method is as follows:
 
@@ -570,11 +596,11 @@ func NewColumnBFloat16VectorFromFp32Vector(fieldName string, dim int, data [][]f
    </tr>
 </table>
 
-## column.ColumnBinaryVector{#columncolumnbinaryvector}
+## column.ColumnBinaryVector\{#columncolumnbinaryvector}
 
 This is a struct type. You can use the `NewColumnBinaryVector` method to implement a **BinaryVector** field.
 
-### NewColumnBinaryVector{#newcolumnbinaryvector}
+### NewColumnBinaryVector\{#newcolumnbinaryvector}
 
 This method creates a **BinaryVector** field with a list of byte sublists as data. The signature of this method is as follows:
 
@@ -605,11 +631,11 @@ func NewColumnBinaryVector(fieldName string, dim int, data [][]byte) *ColumnBina
    </tr>
 </table>
 
-## column.ColumnBool{#columncolumnbool}
+## column.ColumnBool\{#columncolumnbool}
 
 This is a struct type. You can use the `NewColumnBool` method to implement a **Boolean** field.
 
-### NewColumnBool{#newcolumnbool}
+### NewColumnBool\{#newcolumnbool}
 
 This method creates a **Boolean** field with a list of Boolean values as data. The signature of this method is as follows:
 
@@ -635,11 +661,11 @@ func NewColumnBool(name string, values []bool) *ColumnBool
    </tr>
 </table>
 
-## column.ColumnBoolArray{#columncolumnboolarray}
+## column.ColumnBoolArray\{#columncolumnboolarray}
 
 This is a struct type. You can use the `NewColumnBoolArray` method to implement an **Array** field with elements of the **Boolean** type.
 
-### NewColumnBoolArray{#newcolumnboolarray}
+### NewColumnBoolArray\{#newcolumnboolarray}
 
 This method creates an **Array** field with elements of the **Boolean** type. The signature of this method is as follows:
 
@@ -665,11 +691,11 @@ func NewColumnBoolArray(fieldName string, data [][]bool) *ColumnBoolArray
    </tr>
 </table>
 
-## column.ColumnDouble{#columncolumndouble}
+## column.ColumnDouble\{#columncolumndouble}
 
 This is a struct type. You can use the `NewColumnDouble` method to implement a **Double** field.
 
-### NewColumnDouble{#newcolumndouble}
+### NewColumnDouble\{#newcolumndouble}
 
 This method creates a **Double** field. The signature of this method is as follows:
 
@@ -695,11 +721,11 @@ func NewColumnDouble(name string, values []float64) *ColumnDouble
    </tr>
 </table>
 
-## column.ColumnDoubleArray{#columncolumndoublearray}
+## column.ColumnDoubleArray\{#columncolumndoublearray}
 
 This is a struct type. You can use the `NewColumnDoubleArray` method to implement an **Array** field with elements of the **Double** type.
 
-### NewColumnDoubleArray{#newcolumndoublearray}
+### NewColumnDoubleArray\{#newcolumndoublearray}
 
 This method creates an **Array** field with elements of the **Double** type. The signature of this method is as follows:
 
@@ -725,11 +751,11 @@ func NewColumnDoubleArray(fieldName string, data [][]float64) *ColumnDoubleArray
    </tr>
 </table>
 
-## column.ColumnDynamic{#columncolumndynamic}
+## column.ColumnDynamic\{#columncolumndynamic}
 
 This is a struct type. You can use the `NewColumnDynamic` method to implement a **dynamic** field.
 
-### NewColumnDynamic{#newcolumndynamic}
+### NewColumnDynamic\{#newcolumndynamic}
 
 This method creates a **dynamic** field. The signature of this method is as follows:
 
@@ -746,7 +772,7 @@ func NewColumnDynamic(column *ColumnJSONBytes, outputField string) *ColumnDynami
    <tr>
      <td><p><code>column</code></p></td>
      <td><p>A column of the JSON type.</p></td>
-     <td><p><code>*column.ColumnJSONBytes</code></p></td>
+     <td><p><a href="./v2-Vector-Insert#columncolumnjsonbytes"><code>*column.ColumnJSONBytes</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>outputField</code></p></td>
@@ -755,11 +781,11 @@ func NewColumnDynamic(column *ColumnJSONBytes, outputField string) *ColumnDynami
    </tr>
 </table>
 
-## column.ColumnFloat{#columncolumnfloat}
+## column.ColumnFloat\{#columncolumnfloat}
 
 This is a struct type. You can use the `NewColumnFloat` method to implement a **Float** field.
 
-### NewColumnFloat{#newcolumnfloat}
+### NewColumnFloat\{#newcolumnfloat}
 
 This method creates a **Float** field. The signature of this method is as follows:
 
@@ -785,11 +811,11 @@ func NewColumnFloat(name string, values []float32) *ColumnFloat
    </tr>
 </table>
 
-## column.ColumnFloat16Vector{#columncolumnfloat16vector}
+## column.ColumnFloat16Vector\{#columncolumnfloat16vector}
 
 This is a struct type. You can use the `NewColumnFloat16Vector` or `NewColumnFloat16VectorFromFp32Vector` method to implement a **Float16Vector** field.
 
-### NewColumnBfloat16Vector{#newcolumnbfloat16vector}
+### NewColumnBfloat16Vector\{#newcolumnbfloat16vector}
 
 This method creates a **Float16Vector** field with a list of byte sublists as data. The signature of this method is as follows:
 
@@ -820,7 +846,7 @@ func NewColumnFloat16Vector(fieldName string, dim int, data [][]byte) *ColumnFlo
    </tr>
 </table>
 
-### NewColumnFloat16VectorFromFp32Vector{#newcolumnfloat16vectorfromfp32vector}
+### NewColumnFloat16VectorFromFp32Vector\{#newcolumnfloat16vectorfromfp32vector}
 
 This method creates a **Float16Vector** field with a list of float32 sublists as data. The signature of this method is as follows:
 
@@ -851,11 +877,11 @@ func NewColumnFloat16VectorFromFp32Vector(fieldName string, dim int, data [][]fl
    </tr>
 </table>
 
-## column.ColumnFloatArray{#columncolumnfloatarray}
+## column.ColumnFloatArray\{#columncolumnfloatarray}
 
 This is a struct type. You can use the `NewColumnFloatArray` method to implement an **Array** field with elements of the **Float** type.
 
-### NewColumnFloatArray{#newcolumnfloatarray}
+### NewColumnFloatArray\{#newcolumnfloatarray}
 
 This method creates an **Array** field with elements of the **Float** type. The signature of this method is as follows:
 
@@ -881,11 +907,11 @@ func NewColumnFloatArray(fieldName string, data [][]float32) *ColumnFloatArray
    </tr>
 </table>
 
-## column.ColumnFloatVector{#columncolumnfloatvector}
+## column.ColumnFloatVector\{#columncolumnfloatvector}
 
 This is a struct type. You can use the `NewColumnFloatVector` method to implement a **FloatVector** field.
 
-### NewColumnFloatVector{#newcolumnfloatvector}
+### NewColumnFloatVector\{#newcolumnfloatvector}
 
 This method creates a **FloatVector** field with a list of byte sublists as data. The signature of this method is as follows:
 
@@ -916,11 +942,41 @@ func NewColumnFloatVector(fieldName string, dim int, data [][]float32) *ColumnFl
    </tr>
 </table>
 
-## column.ColumnInt16{#columncolumnint16}
+## column.ColumnGeometryWKT\{#columncolumngeometrywkt}
+
+This is a struct type. You can use the `NewColumnGeometryWKT` method to implement a **GeometryWKT** field.
+
+### NewColumnGeometryWKT\{#newcolumngeometrywkt}
+
+This method creates a GeometryWKT field with a list of strings. The signature of this method is as follows:
+
+```go
+func NewColumnGeometryWKT(name string, values []string) *ColumnGeometryWKT
+```
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>name</code></p></td>
+     <td><p>Name of the field to create.</p></td>
+     <td><p><code>string</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>values</code></p></td>
+     <td><p>Geometry information in WKT format in a list of strings.</p></td>
+     <td><p><code>[]string</code></p></td>
+   </tr>
+</table>
+
+## column.ColumnInt16\{#columncolumnint16}
 
 This is a struct type. You can use the `NewColumnInt16` method to implement an **Int16** field.
 
-### NewColumnInt16{#newcolumnint16}
+### NewColumnInt16\{#newcolumnint16}
 
 This method creates an **Int16** field. The signature of this method is as follows:
 
@@ -946,11 +1002,11 @@ func NewColumnInt16(name string, values []int16) *ColumnInt16
    </tr>
 </table>
 
-## column.ColumnInt16Array{#columncolumnint16array}
+## column.ColumnInt16Array\{#columncolumnint16array}
 
 This is a struct type. You can use the `NewColumnInt16Array` method to implement an **Array** field with elements of the **Int16** type.
 
-### NewColumnInt16Array{#newcolumnint16array}
+### NewColumnInt16Array\{#newcolumnint16array}
 
 This method creates an **Array** field with elements of the **Int16** type. The signature of this method is as follows:
 
@@ -976,11 +1032,11 @@ func NewColumnInt16Array(fieldName string, data [][]int16) *ColumnInt16Array
    </tr>
 </table>
 
-## column.ColumnInt32{#columncolumnint32}
+## column.ColumnInt32\{#columncolumnint32}
 
 This is a struct type. You can use the `NewColumnInt32` method to implement an **Int32** field.
 
-### NewColumnInt32{#newcolumnint32}
+### NewColumnInt32\{#newcolumnint32}
 
 This method creates an **Int32** field. The signature of this method is as follows:
 
@@ -1212,7 +1268,7 @@ func NewColumnSparseVectors(name string, values []entity.SparseEmbedding) *Colum
    <tr>
      <td><p><code>values</code></p></td>
      <td><p>Data to be inserted into the field.</p></td>
-     <td><p><code>[]entity.SparseEmbedding</code></p></td>
+     <td><p><a href="./v2-Vector-Insert"><code>[]entity.SparseEmbedding</code></a></p></td>
    </tr>
 </table>
 

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropIndexProperties() | Java | v2"
 slug: /java/java/v2-Management-dropIndexProperties
 sidebar_label: "dropIndexProperties()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation resets the specified index properties to their default values. | Java | v2"
 type: docx
 token: IdNAdlMhjoM40pxjpKecpc7inbd
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndexProperties()
-  - javaV225
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - javaV226
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation resets the specified index properties to their default values.
 public Void dropIndexProperties(DropIndexPropertiesReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 dropIndexProperties(DropIndexPropertiesReq.builder()
@@ -82,7 +85,7 @@ dropIndexProperties(DropIndexPropertiesReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

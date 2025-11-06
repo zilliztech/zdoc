@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "describe_collection() | Python | MilvusClient"
 slug: /python/python/Collections-describe_collection
 sidebar_label: "describe_collection()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists detailed information about a specific collection. | Python | MilvusClient"
 type: docx
-token: MCkjdiRNKo2HCCxzHReclrgAnbg
+token: LXASdPs6KoRfCJx11A1cl2Ssngg
 sidebar_position: 9
 keywords: 
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - Faiss vector database
   - Chroma vector database
-  - nlp search
-  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
   - describe_collection()
-  - pymilvus25
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - pymilvus26
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation lists detailed information about a specific collection.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 describe_collection(
@@ -96,12 +99,15 @@ A dictionary that contains detailed information about the specified collection.
               'element_type': 0
           }
      ],
+     'functions': [],
      'aliases': [],
      'collection_id': 446738261026541332,
      'consistency_level': 2,
      'properties': {},
      'num_partitions': 1，
-     'enable_dynamic_field': True
+     'enable_dynamic_field': True,
+     'created_timestamp': 461643298319106049,
+     'update_timestamp': 461643298319106049
 }
 ```
 
@@ -119,69 +125,83 @@ A dictionary that contains detailed information about the specified collection.
 
     The number of shards the current collection has.
 
-- **description** (*str*)
+- **description** (*str*) -
 
     The description of the current collection.
 
-- **fields** (*list*)
+- **fields** (*list*) -
 
     A list of fields in the current collection.
 
-    - **field_id** (*int*)
+    - **field_id** (*int*) -
 
         The ID of the current field.
 
-    - **name** (*str*)
+    - **name** (*str*) -
 
         The name of the current field.
 
-    - **description** (*str*)
+    - **description** (*str*) -
 
         The description of the current field.
 
-    - **type** (*int*)
+    - **type** (*int*) -
 
-        The type of the current field. For details, refer to DataType.
+        The type of the current field. For details, refer to [DataType](./Collections-DataType).
 
-    - **params** (*dict*)
+    - **params** (*dict*) -
 
         Additional attributes of the current fields.
 
         - For **VARCHAR** fields, **max_length** (*int*) is a possible attribute, which determines the number of characters in the value of the current field.
 
-        - For **FLOAT_VECTOR** fields, **dim** (*int*) is a possible attribute, which determines the number of vector embeddings in the value of the current field.
+        - For vector fields, **dim** (*int*) is a possible attribute, which determines the number of vector embeddings in the value of the current field.
 
-    - **element_type** (*int*) 
+        - For **ARRAY** fields, **max_capacity** (*int*) is a possible attribute, which determines the maximum number of elements in the field of an entity.
 
-        The data type of the elements in the field values. 
+        - For the fields that has mmap configured, **mmap_enabled** (*bool*) is a possible attribute, which specifies whether mmap is enabled or disabled for the current field.
 
-        This always equals **0** if the current field is not an **ARRAY** field.
+    - **element_type** (*int*) -
 
-    - **is_primary** (*bool*)
+        The data type of the elements in the field values. This is displayed if the current field is an ARRAY field.
+
+    - **struct_fields** (*List[Field]*) -
+
+        A list of fields added to the struct element in an array of structs field. For details on the possible field types, refer to [Array of Structs](/docs/array-of-structs).
+
+    - **is_primary** (*bool*) -
 
         Whether the current field serves as the primary key of the collection.
 
-- **aliases** (*list*)      
+- **functions** (*list[[Function](./MilvusClient-Function)]*) -
+
+    The functions that have been defined in the schema.
+
+- **aliases** (*list[str]*) -      
 
     A list of collection aliases. You can use any alias in the list to use the current collection.  
 
-- **collection_id** (*int*)
+- **collection_id** (*int*) -
 
     The ID of the current collection. Zilliz Cloud allocates an ID for each collection while creating it.
 
-- **consistency_level** (*int*)
+- **consistency_level** (*int*) -
 
     The consistency level of the current collection. For details, refer to ConsistencyLevel.
 
-- **properties** (*dict*)
+- **properties** (*dict*) -
 
     Additional properties of the current collection. Possible keys in the dictionary include:
 
-    - **collection.ttl.seconds** (*int*)
+    - **collection.ttl.seconds** (*int*) -
 
         The time-to-live (TTL) of a collection in seconds.
 
-- **num_partitions** (*int*) 
+    - **collection.timezone** (*str*) -
+
+        The timezone configured for the collection. The default value is UTC.
+
+- **num_partitions** (*int*) -
 
     The number of partitions in the current collection. 
 
@@ -189,9 +209,17 @@ A dictionary that contains detailed information about the specified collection.
 
     - If the current collection does not enable the partition key, the number should match the number of partitions already created in this collection.
 
-- **enable_dynamic_field** (*bool*)
+- **enable_dynamic_field** (*bool*) -
 
-    Whether to use the reserved JSON field **$meta** to save non-schema-defined fields and their values as key-value pairs.
+    Whether to use the reserved JSON field **&#36;meta** to save non-schema-defined fields and their values as key-value pairs.
+
+- **created_timestamp** (*int*) -
+
+    The timestamp at which the collection is created. The timestamp is generated by the timestamp oracle service (TSO) of Milvus.
+
+- **updated_timestamp** (*int*) -
+
+    The timestamp at which the collection has been updated. The timestamp is generated by the timestamp oracle service (TSO) of Milvus.
 
 **EXCEPTIONS:**
 
@@ -199,7 +227,7 @@ A dictionary that contains detailed information about the specified collection.
 
     This arises when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
@@ -243,18 +271,21 @@ client.describe_collection(collection_name="test_collection")
 #               'element_type': 0
 #           }
 #      ],
+#      'functions': [],
 #      'aliases': [],
-#      'collection_id': 446738261026541332,
+#      'collection_id': 461639391399348915,
 #      'consistency_level': 2,
 #      'properties': {},
 #      'num_partitions': 1,
-#      'enable_dynamic_field': True
+#      'enable_dynamic_field': True,
+#      'created_timestamp': 461643298319106049,
+#      'updated_timestamp': 461643298319106049
 # }
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
-- [create_collection()](./Collections-create_collection)
+- create_collection()
 
 - [create_schema()](./Collections-create_schema)
 
@@ -268,5 +299,5 @@ client.describe_collection(collection_name="test_collection")
 
 - [rename_collection()](./Collections-rename_collection)
 
-- [DataType](./Collections-DataType)
+- DataType
 

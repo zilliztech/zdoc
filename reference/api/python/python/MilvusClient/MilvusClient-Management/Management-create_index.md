@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "create_index() | Python | MilvusClient"
 slug: /python/python/Management-create_index
 sidebar_label: "create_index()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation creates an index for a specific collection. | Python | MilvusClient"
 type: docx
 token: B3n3db0idoia02xXxJfcONK8nRh
 sidebar_position: 3
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - create_index()
-  - pymilvus25
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - pymilvus26
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation creates an index for a specific collection.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 create_index(
@@ -71,7 +74,7 @@ create_index(
 
         - `True` (default): The client waits until the index is fully built before it returns. This means you will not get a response until the process is complete.
 
-        - `False`: The client returns immediately after the request is received and the index is being built in the background. To find out if index creation has been completed, use the `describe_index()` method.
+        - `False`: The client returns immediately after the request is received and the index is being built in the background. To find out if index creation has been completed, use the [`describe_index()`](./Management-describe_index) method.
 
 **RETURN TYPE:**
 
@@ -87,7 +90,7 @@ None
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient, DataType
@@ -143,7 +146,7 @@ client.list_indexes(collection_name="customized_setup")
 # ['my_id', 'my_vector']
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [add_index()](./Management-add_index)
 

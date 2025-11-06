@@ -3,6 +3,9 @@ title: "DescribeDatabase() | Go | v2"
 slug: /go/v2-Database-DescribeDatabase
 sidebar_label: "DescribeDatabase()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method returns information about a specific database in detail. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method returns information about a specific database in detail.
 func (c *Client) DescribeDatabase(ctx context.Context, option DescribeDatabaseOption, callOptions ...grpc.CallOption) (*entity.Database, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) DescribeDatabase(ctx context.Context, option DescribeDatabaseOp
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DescribeDatabaseOption</code></p></td>
+     <td><p><a href="./v2-Database-DescribeDatabase#describedatabaseoption"><code>DescribeDatabaseOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) DescribeDatabase(ctx context.Context, option DescribeDatabaseOp
    </tr>
 </table>
 
-## DescribeDatabaseOption{#describedatabaseoption}
+## DescribeDatabaseOption\{#describedatabaseoption}
 
 This is an interface type. The `describeDatabaseOption` struct type implements this interface type. 
 
 You can use the `NewDescribeDatabaseOption()` function to get the concrete implementation.
 
-### NewDescribeDatabaseOption{#newdescribedatabaseoption}
+### NewDescribeDatabaseOption\{#newdescribedatabaseoption}
 
 The signature of this method is as follows:
 
@@ -75,7 +78,7 @@ func NewDescribeDatabaseOption(dbName string) *describeDatabaseOption
    </tr>
 </table>
 
-## entity.Database{#entitydatabase}
+## entity.Database\{#entitydatabase}
 
 The `entity.Database` struct type is as follows:
 
@@ -86,11 +89,11 @@ type Database struct {
 }
 ```
 
-## Return{#return}
+## Return\{#return}
 
 `*entity.Database`
 
-## Example{#example}
+## Example\{#example}
 
 ```plaintext
 db, err := cli.DescribeDatabase(ctx, milvusclient.NewDescribeDatabaseOption(dbName))

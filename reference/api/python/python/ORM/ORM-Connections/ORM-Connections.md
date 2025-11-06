@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "Connections | Python | ORM"
 slug: /python/python/ORM-Connections
 sidebar_label: "Connections"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "A Connections instance represents a pool of connections to your Zilliz Cloud clusters. | Python | ORM"
 type: docx
 token: A96udk9seoF5x5xywQZcLasanIe
 sidebar_position: 3
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - Connections
-  - pymilvus25
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - pymilvus26
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ A **Connections** instance represents a pool of connections to your Zilliz Cloud
 class pymilvus.Connections
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs a singleton instance to manage all connections. 
 
@@ -48,7 +51,7 @@ Constructs a singleton instance to manage all connections.
 
 </Admonition>
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections    
@@ -84,6 +87,6 @@ connections.connect(
 
 </Admonition>
 
-## Methods{#methods}
+## Methods\{#methods}
 
 The following are the methods of the `connections` singleton instance:

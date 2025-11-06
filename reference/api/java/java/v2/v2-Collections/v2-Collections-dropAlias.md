@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropAlias() | Java | v2"
 slug: /java/java/v2-Collections-dropAlias
 sidebar_label: "dropAlias()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation drops a specified collection alias. | Java | v2"
 type: docx
-token: MBy3dDXFbo0buwxkh0IczwLInPf
+token: ARw0dIb0hojCNbxKkOacs1K7nQf
 sidebar_position: 13
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - dropAlias()
-  - javaV225
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - javaV226
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,16 +41,21 @@ This operation drops a specified collection alias.
 public void dropAlias(DropAliasReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 dropAlias(DropAliasReq.builder()
+    .databaseName(String databaseName)
     .alias(String alias)
     .build()
 )
 ```
 
 **BUILDER METHODS:**
+
+- `databaseName(String databaseName)`
+
+    The name of the database to which the target alias belongs.
 
 - `alias(String alias)`
 
@@ -65,7 +73,7 @@ dropAlias(DropAliasReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -82,6 +90,8 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 // 2. Drop alias "test_alias"
 DropAliasReq dropAliasReq = DropAliasReq.builder()
+        .databaseName("my_database")
+        .collectionName("my_collection")
         .alias("test_alias")
         .build();
 client.dropAlias(dropAliasReq);

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listPrivilegeGroups() | Node.js"
 slug: /node/node/Authentication-listPrivilegeGroups
 sidebar_label: "listPrivilegeGroups()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists all privilege groups. | Node.js"
 type: docx
 token: HGpSdc7AOo7AV3xKCmOcWaIEnrd
-sidebar_position: 17
+sidebar_position: 19
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - listPrivilegeGroups()
-  - nodejs25
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - nodejs26
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation lists all privilege groups.
 listPrivilegeGroups(data?): Promise<ListPrivilegeGroupsResponse>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
  milvusClient.listPrivilegeGroups({
@@ -107,7 +110,7 @@ This method returns a promise that resolves to a **ListPrivilegeGroupsResponse**
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 await milvusClient.listPrivilegeGroups();

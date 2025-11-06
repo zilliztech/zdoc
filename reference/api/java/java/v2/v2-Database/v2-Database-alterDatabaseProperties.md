@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "alterDatabaseProperties() | Java | v2"
 slug: /java/java/v2-Database-alterDatabaseProperties
 sidebar_label: "alterDatabaseProperties()"
 beta: false
+added_since: v2.4.x
+last_modified: v2.4.x
+deprecate_since: false
 notebook: false
 description: "This operation alters a database's properties. | Java | v2"
 type: docx
 token: PBYIdLALvoHd0pxwI8Ec4JsTnBX
 sidebar_position: 1
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
   - alterDatabaseProperties()
-  - javaV225
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - javaV226
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation alters a database's properties.
 public Void alterDatabaseProperties(AlterDatabasePropertiesReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
@@ -92,7 +95,7 @@ alterDatabaseProperties(AlterDatabasePropertiesReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

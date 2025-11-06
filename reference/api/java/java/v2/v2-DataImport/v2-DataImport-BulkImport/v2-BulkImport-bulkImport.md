@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "bulkImport() | Java | v2"
 slug: /java/java/v2-BulkImport-bulkImport
 sidebar_label: "bulkImport()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read Prepare Data Import. | Java | v2"
 type: docx
 token: S0ITdsnpYoDpH9xKv9fcBhe5nWA
 sidebar_position: 2
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - bulkImport()
-  - javaV225
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - javaV226
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation imports the prepared data files to Zilliz Cloud. To learn how to 
 public static String bulkImport(String url, BaseImportRequest request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 bulkImport.bulkImport(
@@ -70,11 +73,11 @@ bulkImport.bulkImport(
 
 The ID of the created import job.
 
-## BaseImportRequest{#baseimportrequest}
+## BaseImportRequest\{#baseimportrequest}
 
 A **BaseImportRequest** instance is implemented in **CloudImportRequest**.
 
-### CloudImportRequest{#cloudimportrequest}
+### CloudImportRequest\{#cloudimportrequest}
 
 ```java
 CloudImportRequest.builder()
@@ -133,24 +136,26 @@ CloudImportRequest.builder()
 
     The name of the partition in the target cluster of this operation. The value defaults to `default`.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import com.google.gson.Gson;
 import com.google.gson.JsonObject;
-import io.milvus.bulkwriter.BulkImport;
 import io.milvus.bulkwriter.request.import_.MilvusImportRequest;
+import io.milvus.bulkwriter.restful.BulkImportUtils;
 
-List<List<String>> batchFiles = new ArrayList<>();
-batchFiles.add(Collections.singletonList("bulk_data/1.parquet"));
-batchFiles.add(Collections.singletonList("bulk_data/2.parquet"));
-MilvusImportRequest milvusImportRequest = MilvusImportRequest.builder()
-        .collectionName(collectionName)
-        .files(batchFiles)
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
+
+CloudImportRequest cloudImportRequest = CloudImportRequest.builder()
+        .objectUrl(objectUrl).accessKey(accessKey).secretKey(secretKey)
+        .clusterId(clusterId).collectionName(collectionName)
+        .apiKey(apiKey)
         .build();
-String bulkImportResult = BulkImport.bulkImport(url, milvusImportRequest);
+String bulkImportResult = BulkImportUtils.bulkImport(url, cloudImportRequest);
 
-Gson GSON_INSTANCE = new Gson()
+Gson GSON_INSTANCE = new Gson();
 JsonObject result = GSON_INSTANCE.fromJson(bulkImportResult, JsonObject.class);
 String jobId = result.getAsJsonObject("data").get("jobId").getAsString();
 System.out.println("Create a bulkInert task, job id: " + jobId);

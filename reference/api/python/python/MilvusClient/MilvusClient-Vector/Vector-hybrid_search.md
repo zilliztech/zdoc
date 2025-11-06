@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "hybrid_search() | Python | MilvusClient"
 slug: /python/python/Vector-hybrid_search
 sidebar_label: "hybrid_search()"
 beta: false
+added_since: v2.5.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation performs multi-vector search on a collection and returns search results after reranking. | Python | MilvusClient"
 type: docx
-token: NEyWdddQ8oKCw4xQTFPcvDTLn3f
+token: Iv1PdIVxYoDOMax47xDcLnbEnXb
 sidebar_position: 9
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - hybrid_search()
-  - pymilvus25
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - pymilvus26
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,13 +37,13 @@ import Admonition from '@theme/Admonition';
 
 This operation performs multi-vector search on a collection and returns search results after reranking.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 hybrid_search(
     collection_name: str,
     reqs: List[AnnSearchRequest],
-    ranker: BaseRanker,
+    ranker: Union[BaseRanker, Function],
     limit: int = 10,   
     output_fields: Optional[List[str]] = None,
     timeout: Optional[float] = None,
@@ -84,13 +87,11 @@ hybrid_search(
 
             If you choose to use placeholders in `expr` as stated in [Filtering Templating](/docs/filtering-templating), then you can specify the actual values for these placeholders as key-value pairs as the value of this parameter.
 
-- **ranker** (*BaseRanker*) -
+- **ranker** (*Union[BaseRanker, Function]*) -
 
-    The reranking strategy to use for hybrid search. Valid values: `WeightedRanker` and `RRFRanker`.
+    The reranking strategy to use for hybrid search.
 
-    - `WeightedRanker`: The Average Weighted Scoring reranking strategy, which prioritizes vectors based on relevance, averaging their significance.
-
-    - `RRFRanker`: The RRF reranking strategy, which merges results from multiple searches, favoring items that consistently appear.
+    For details, refer to Weighted Ranker, RRF Ranker.
 
 - **limit** (*int*) -
 
@@ -204,7 +205,7 @@ A **SearchResult** object that contains a list of **Hits** objects.
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import AnnSearchRequest, MilvusClient, WeightedRanker

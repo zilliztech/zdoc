@@ -1,9 +1,11 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "get_server_type() | Python | ORM"
 slug: /python/python/utility-get_server_type
 sidebar_label: "get_server_type()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation checks the type of the Zilliz Cloud cluster. | Python | ORM"
 type: docx
@@ -18,13 +20,14 @@ keywords:
   - zilliz cloud
   - cloud
   - get_server_type()
-  - pymilvus25
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - pymilvus26
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation checks the type of the Zilliz Cloud cluster.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 get_server_type(
@@ -77,7 +80,7 @@ connections.connect()
 server_type = utility.get_server_type()
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `get_server_type()`:
 

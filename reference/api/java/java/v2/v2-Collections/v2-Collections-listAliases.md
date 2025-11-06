@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "listAliases() | Java | v2"
 slug: /java/java/v2-Collections-listAliases
 sidebar_label: "listAliases()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation lists all existing aliases for a specific collection. | Java | v2"
 type: docx
-token: RvZDdxU1howmQ7x2V31c8eC7nJb
+token: X6JXdPN7IoRffJxnaZccBvRanIM
 sidebar_position: 19
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - listAliases()
-  - javaV225
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - javaV226
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,11 +41,25 @@ This operation lists all existing aliases for a specific collection.
 public ListAliasResp listAliases()
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
-MilvusClientV2.listAliases()
+MilvusClientV2.listAliases(ListAliasesReq.builder()
+    .databaseName(String databaseName)
+    .collectionName(String collectionName)
+    .build();
+)
 ```
+
+**BUILDER METHODS:**
+
+- `databaseName(String databaseName)`
+
+    The name of the database to which the target collection belongs.
+
+- `collectionName(String collectionName)`
+
+    The name of the target collection of this operation.
 
 **RETURN TYPE:**
 
@@ -68,7 +85,7 @@ A **ListAliasResp** object containing a list of aliases for the specified collec
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -86,7 +103,8 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 // 2. List aliases
 ListAliasesReq listAliasesReq = ListAliasesReq.builder()
-        .collectionName("test")
+        .databaseName("my_database")
+        .collectionName("my_collection")
         .build();
 ListAliasResp listAliasResp = client.listAliases(listAliasesReq);
 ```

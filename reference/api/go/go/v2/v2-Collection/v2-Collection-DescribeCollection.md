@@ -3,6 +3,9 @@ title: "DescribeCollection() | Go | v2"
 slug: /go/v2-Collection-DescribeCollection
 sidebar_label: "DescribeCollection()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method describes a collection by providing its detailed information. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method describes a collection by providing its detailed information.
 func (c *Client) DescribeCollection(ctx context.Context, option DescribeCollectionOption, callOptions ...grpc.CallOption) (collection *entity.Collection, err error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) DescribeCollection(ctx context.Context, option DescribeCollecti
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DescribeCollectionOption</code></p></td>
+     <td><p><a href="./v2-Collection-DescribeCollection#describecollectionoption"><code>DescribeCollectionOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) DescribeCollection(ctx context.Context, option DescribeCollecti
    </tr>
 </table>
 
-## DescribeCollectionOption{#describecollectionoption}
+## DescribeCollectionOption\{#describecollectionoption}
 
 This is an interface type. The `describeCollectionOption` struct type implements this interface type. 
 
 You can use the `NewDescribeCollectionOption()` function to get the concrete implementation.
 
-### NewDescribeCollectionOption{#newdescribecollectionoption}
+### NewDescribeCollectionOption\{#newdescribecollectionoption}
 
 The signature of this method is as follows:
 
@@ -75,7 +78,7 @@ func NewDescribeCollectionOption(name string) *describeCollectionOption
    </tr>
 </table>
 
-## entity.Collection{#entitycollection}
+## entity.Collection\{#entitycollection}
 
 The `entity.Alias` struct type is as follows:
 
@@ -93,19 +96,19 @@ type Collection struct {
 }
 ```
 
-## entity.Schema{#entityschema}
+## entity.Schema\{#entityschema}
 
-For details about this struct type, refer to [entity.Schema](./v2-Collection-CreateCollection#entityschema).
+For details about this struct type, refer to [entity.Schema](./v2-Collection-CreateCollection).
 
-## entity.ConsistencyLevel{#entityconsistencylevel}
+## entity.ConsistencyLevel\{#entityconsistencylevel}
 
-For details about this enumeration, refer to [entity.ConsistencyLevel](./v2-Collection-CreateCollection#entityconsistencylevel).
+For details about this enumeration, refer to [entity.ConsistencyLevel](./v2-Collection-CreateCollection).
 
-## Return{#return}
+## Return\{#return}
 
 `*entity.Collection`
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

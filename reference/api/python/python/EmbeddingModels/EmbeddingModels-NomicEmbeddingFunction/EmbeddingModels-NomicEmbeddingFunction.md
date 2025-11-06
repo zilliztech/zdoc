@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "NomicEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-NomicEmbeddingFunction
 sidebar_label: "NomicEmbeddingFunction"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "NomicEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using Nomic embedding models to support embedding retrieval in Milvus. | Python"
 type: docx
 token: OOQvdXDqdoqKfmxEkTecfuVMnsb
 sidebar_position: 3
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - NomicEmbeddingFunction
-  - pymilvus25
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - pymilvus26
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ NomicEmbeddingFunction is a class in pymilvus that handles encoding text into em
 pymilvus.model.dense.NomicEmbeddingFunction
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs a NomicEmbeddingFunction for common use cases.
 
@@ -71,7 +74,7 @@ NomicEmbeddingFunction(
 
         How to handle texts longer than the model can accept. One of `mean` or `truncate`.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus.model.dense import NomicEmbeddingFunction

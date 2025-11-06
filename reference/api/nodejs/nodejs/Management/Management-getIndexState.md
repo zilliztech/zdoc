@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "getIndexState() | Node.js"
 slug: /node/node/Management-getIndexState
 sidebar_label: "getIndexState()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation gets the status of the specified index. | Node.js"
 type: docx
 token: HqE5d2jOroEuObxIjkZcHkX4nWX
-sidebar_position: 10
+sidebar_position: 12
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - getIndexState()
-  - nodejs25
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - nodejs26
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation gets the status of the specified index.
 getIndexState(data): Promise<GetIndexStateResponse>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.getIndexState({
@@ -135,7 +138,7 @@ This method returns a promise that resolves to a **GetIndexStateResponse** objec
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);

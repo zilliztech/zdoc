@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_aliases() | Python | MilvusClient"
 slug: /python/python/Collections-list_aliases
 sidebar_label: "list_aliases()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists all existing aliases for a specific collection. | Python | MilvusClient"
 type: docx
 token: Cpynd2OFJoIXhLx3dQNct7Wgn6f
 sidebar_position: 16
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - list_aliases()
-  - pymilvus25
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - pymilvus26
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation lists all existing aliases for a specific collection.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 list_aliases(
@@ -99,7 +102,7 @@ A dictionary containing the list of aliases assigned to the specified collection
 
     This exception will be raised when this operation fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```python
 from pymilvus import MilvusClient
@@ -122,7 +125,7 @@ client.list_aliases(collection_name="test_collection")
 # {'aliases': ['test'], 'collection_name': 'test_collection', 'db_name': 'default'}
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [alter_alias()](./Collections-alter_alias)
 

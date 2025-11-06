@@ -3,6 +3,9 @@ title: "DropCollection() | Go | v2"
 slug: /go/v2-Collection-DropCollection
 sidebar_label: "DropCollection()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method drops a collection. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method drops a collection.
 func (c *Client) DropCollection(ctx context.Context, option DropCollectionOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) DropCollection(ctx context.Context, option DropCollectionOption
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DropCollectionOption</code></p></td>
+     <td><p><a href="./v2-Collection-DropCollection#dropcollectionoption"><code>DropCollectionOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) DropCollection(ctx context.Context, option DropCollectionOption
    </tr>
 </table>
 
-## DropCollectionOption{#dropcollectionoption}
+## DropCollectionOption\{#dropcollectionoption}
 
 This is an interface type. The `dropCollectionOption` struct type implements this interface type. 
 
 You can use the `NewDropCollectionOption()` function to get the concrete implementation.
 
-### NewDropCollectionOption{#newdropcollectionoption}
+### NewDropCollectionOption\{#newdropcollectionoption}
 
 The signature of this method is as follows:
 
@@ -75,11 +78,11 @@ func NewDropCollectionOption(name string) *dropCollectionOption
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "alterCollectionFieldProperties() | Node.js"
 slug: /node/node/Collections-alterCollectionFieldProperties
 sidebar_label: "alterCollectionFieldProperties()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation modifies the properties of a specified collection field. | Node.js"
 type: docx
 token: RQH5dhSenoDGjYxyBb2c3n1rnie
 sidebar_position: 2
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionFieldProperties()
-  - nodejs25
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - nodejs26
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation modifies the properties of a specified collection field.
 alterCollectionFieldProperties(data): Promise<ResStatus>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.alterCollectionFieldProperties({
@@ -122,7 +125,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

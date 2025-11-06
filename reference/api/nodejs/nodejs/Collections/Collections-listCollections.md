@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listCollections() | Node.js"
 slug: /node/node/Collections-listCollections
 sidebar_label: "listCollections()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists all existing collections. | Node.js"
 type: docx
 token: Djg7dlb5NoINz9xOAs1cyY67nsh
-sidebar_position: 18
+sidebar_position: 15
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - listCollections()
-  - nodejs25
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - nodejs26
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation lists all existing collections.
 milvusClient.listCollections();
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 listCollections({
@@ -121,7 +124,7 @@ This method returns a promise that resolves to a **ShowCollectionsResponse** obj
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

@@ -3,6 +3,9 @@ title: "UseDatabase() | Go | v2"
 slug: /go/v2-Database-UseDatabase
 sidebar_label: "UseDatabase()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method disconnects the currently connected database and connects to the specified one. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method disconnects the currently connected database and connects to the spe
 func (c *Client) UseDatabase(ctx context.Context, option UseDatabaseOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,17 +42,17 @@ func (c *Client) UseDatabase(ctx context.Context, option UseDatabaseOption) erro
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>UseDatabaseOption</code></p></td>
+     <td><p><a href="./v2-Database-UseDatabase#usedatabaseoption"><code>UseDatabaseOption</code></a></p></td>
    </tr>
 </table>
 
-## UseDatabaseOption{#usedatabaseoption}
+## UseDatabaseOption\{#usedatabaseoption}
 
 This is an interface type. The `useDatabaseNameOpt` struct type implements this interface type. 
 
 You can use the `NewUseDatabaseOption()` function to get the concrete implementation.
 
-### NewUseDatabaseOption{#newusedatabaseoption}
+### NewUseDatabaseOption\{#newusedatabaseoption}
 
 The signature of this method is as follows:
 
@@ -70,11 +73,11 @@ func NewUseDatabaseOption(dbName string) *useDatabaseNameOpt
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```plaintext
 dbName := `test_db`

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "searchIterator() | Java | v2"
 slug: /java/java/v2-Vector-searchIterator
 sidebar_label: "searchIterator()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This method returns a search iterator to iterate search results. | Java | v2"
 type: docx
 token: M4IqdsRCNotiM4xdOA0cWSnUngb
 sidebar_position: 8
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - searchIterator()
-  - javaV225
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - javaV226
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This method returns a search iterator to iterate search results.
 public SearchIterator searchIterator(SearchIteratorReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 searchIterator(SearchIteratorReq.builder()
@@ -136,7 +139,7 @@ searchIterator(SearchIteratorReq.builder()
 
     The topk value.
 
-- `consistencyLevel(ConsistencyLevel consistencyLevel)`
+- `consistencyLevel([ConsistencyLevel](./v2-Collections-ConsistencyLevel) consistencyLevel)`
 
     The consistency level of the target collection.
 
@@ -184,7 +187,7 @@ A *SearchIterator* object to iterate search results, which offers the following 
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.orm.iterator.SearchIterator;

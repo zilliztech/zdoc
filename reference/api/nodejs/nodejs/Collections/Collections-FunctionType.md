@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "FunctionType | Node.js"
 slug: /node/node/Collections-FunctionType
 sidebar_label: "FunctionType"
 beta: false
+added_since: v2.5.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This is an enumeration that provides the following constants. | Node.js"
 type: docx
-token: L4H0dyzS1o6XlmxMQzDca6Pdnjd
-sidebar_position: 20
+token: Vq2VdsWJaoufsGx5stJcTuyPnDb
+sidebar_position: 17
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - FunctionType
-  - nodejs25
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - nodejs26
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,11 +37,19 @@ import Admonition from '@theme/Admonition';
 
 This is an enumeration that provides the following constants.
 
-## Constants{#constants}
+## Constants\{#constants}
 
 - **BM25** = 1
 
     Sets the function type to **BM25**.
+
+- **TEXTEMBEDDING** = 2
+
+    Sets the function type to **TEXTEMBEDDING**.
+
+- **RERANK** = 3
+
+    Sets the function type to **RERANK**.
 
 - **Unknown** = 0
 

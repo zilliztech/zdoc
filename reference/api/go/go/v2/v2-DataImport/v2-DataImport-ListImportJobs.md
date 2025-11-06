@@ -3,6 +3,9 @@ title: "ListImportJobs() | Go | v2"
 slug: /go/v2-DataImport-ListImportJobs
 sidebar_label: "ListImportJobs()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This operation lists all bulk-import jobs of a specific cluster. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This operation lists all bulk-import jobs of a specific cluster.
 func ListImportJobs(ctx context.Context, option *ListImportJobsOption) (*ListImportJobsResponse, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func ListImportJobs(ctx context.Context, option *ListImportJobsOption) (*ListImp
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>ListImportJobsOption</code></p></td>
+     <td><p><a href="./v2-DataImport-ListImportJobs#listimportjobsoption"><code>ListImportJobsOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,11 +51,11 @@ func ListImportJobs(ctx context.Context, option *ListImportJobsOption) (*ListImp
    </tr>
 </table>
 
-## ListImportJobsOption{#listimportjobsoption}
+## ListImportJobsOption\{#listimportjobsoption}
 
 This is a struct type. You can use `NewListImportJobsOption` to get its concrete implementation.
 
-### NewListImportJobsOption{#newlistimportjobsoption}
+### NewListImportJobsOption\{#newlistimportjobsoption}
 
 The signature of `NewListImportJobsOption()` is as follows:
 
@@ -68,7 +71,7 @@ func NewListImportJobsOption(uri string, collectionName string) *ListImportJobsO
    </tr>
    <tr>
      <td><p><code>uri</code></p></td>
-     <td><p>The endpoint URL of the Zilliz Cloud Data Plane, which should be one of the follows:</p><ul><li><p><code>https://api.cloud.zilliz.com</code></p></li><li><p><code>https://api.cloud.zilliz.com.cn</code></p></li></ul></td>
+     <td><p>The endpoint URL of the Zilliz Cloud Data Plane, which should be one of the follows:</p><ul><li><p><code><i>http</i>s://api.cloud.zilliz.com</code></p></li><li><p><code>https://api.cloud.zilliz.com.cn</code></p></li></ul></td>
      <td><p><code>string</code></p></td>
    </tr>
    <tr>
@@ -86,7 +89,7 @@ You can chain the following methods to append more parameters to the `ListImport
 
 - [WithPageSize](./v2-DataImport-ListImportJobs#withpagesize)
 
-### WithAPIKey{#withapikey}
+### WithAPIKey\{#withapikey}
 
 This method appends your Zilliz Cloud API key to the `BulkImportOption` struct. The signature of the method is as follows:
 
@@ -107,7 +110,7 @@ func (opt *BulkImportOption) WithAPIKey(key string) *BulkImportOption
    </tr>
 </table>
 
-### WithCurrentPage{#withcurrentpage}
+### WithCurrentPage\{#withcurrentpage}
 
 This method sets the current page number of the import job list. The signature of the method is as follows:
 
@@ -128,7 +131,7 @@ func (opt *ListImportJobsOption) WithCurrentPage(currentPage int) *ListImportJob
    </tr>
 </table>
 
-### WithPageSize{#withpagesize}
+### WithPageSize\{#withpagesize}
 
 This method sets the number of import jobs to return each time. The signature of the method is as follows:
 
@@ -149,11 +152,11 @@ func (opt *ListImportJobsOption) WithPageSize(pageSize int) *ListImportJobsOptio
    </tr>
 </table>
 
-## grpc.CallOption{#grpccalloption}
+## grpc.CallOption\{#grpccalloption}
 
 This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
 
-## ListImportJobsResponse{#listimportjobsresponse}
+## ListImportJobsResponse\{#listimportjobsresponse}
 
 The `ListImportJobsResponse` struct type is as follows:
 
@@ -165,7 +168,7 @@ type ListImportJobsResponse struct {
 }
 ```
 
-## ListImportJobData{#listimportjobdata}
+## ListImportJobData\{#listimportjobdata}
 
 The `ListImportJobData` struct type is as follows:
 
@@ -180,13 +183,13 @@ type ListImportJobsOption struct {
 }
 ```
 
-## Return{#return}
+## Return\{#return}
 
-`*ListImportJobsResponse`
+`*[ListImportJobsResponse`](./v2-DataImport-ListImportJobs#listimportjobsresponse)
 
-## Example{#example}
+## Example\{#example}
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 

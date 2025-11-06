@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "close() | Python | MilvusClient"
 slug: /python/python/Client-close
 sidebar_label: "close()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation closes the current Milvus client. | Python | MilvusClient"
 type: docx
 token: CWZGd48FJoFHXYx40NMcTd2FnKc
 sidebar_position: 1
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - close()
-  - pymilvus25
+  - pymilvus26
   - k nearest neighbor algorithm
   - ANNS
   - Vector search
   - knn algorithm
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation closes the current Milvus client.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 close() -> None
@@ -56,7 +59,7 @@ None
 
 None
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient

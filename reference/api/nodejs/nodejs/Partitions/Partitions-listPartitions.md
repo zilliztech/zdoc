@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listPartitions() | Node.js"
 slug: /node/node/Partitions-listPartitions
 sidebar_label: "listPartitions()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists the partitions in a specified collection. | Node.js"
 type: docx
-token: JNPwdFI1zoleD7x9LRIc0eqcnof
+token: IvnLd6nXooRR6NxM9jdcDxCHnhh
 sidebar_position: 5
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - listPartitions()
-  - nodejs25
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - nodejs26
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,13 +41,14 @@ This operation lists the partitions in a specified collection.
 listPartitions(data): Promise<ShowPartitionsResponse>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.listPartitions({
     db_name: string,
     collection_name: string,
-    timeout?: number
+    timeout?: number,
+    type?: ShowPartitionsType
  })
 ```
 
@@ -63,6 +67,18 @@ milvusClient.listPartitions({
 - **timeout** (*number*)  
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+
+- **type** (*ShowPartitionsType*) - 
+
+    Determines whether to list all partitions or only the loaded ones. A **ShowPartitionsType** has the following values:
+
+    - **All** = 0
+
+        Indicates that all partitions are to be listed.
+
+    - **Loaded** = 1
+
+        Indicates that only the loaded partitions are to be listed.
 
 **RETURNS** *Promise\<ShowPartitionsResponse>*
 
@@ -110,7 +126,7 @@ This method returns a promise that resolves to a **ShowPartitionsResponse** obje
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 new milvusClient(MILUVS_ADDRESS).listPartitions({

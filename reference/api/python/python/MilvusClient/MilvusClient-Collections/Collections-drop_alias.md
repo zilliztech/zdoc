@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "drop_alias() | Python | MilvusClient"
 slug: /python/python/Collections-drop_alias
 sidebar_label: "drop_alias()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation drops a specified collection alias. | Python | MilvusClient"
 type: docx
 token: FpWXdmIuforYz9xUCsqclyCXnLe
 sidebar_position: 10
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - drop_alias()
-  - pymilvus25
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - pymilvus26
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation drops a specified collection alias. 
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 drop_alias(
@@ -77,7 +80,7 @@ None
 
     This exception will be raised when this operation fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```python
 from pymilvus import MilvusClient
@@ -98,7 +101,7 @@ client.create_alias(collection_name="test_collection", alias="test")
 client.drop_alias(alias="test")
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [alter_alias()](./Collections-alter_alias)
 

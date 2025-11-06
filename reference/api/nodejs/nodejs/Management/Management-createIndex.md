@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "createIndex() | Node.js"
 slug: /node/node/Management-createIndex
 sidebar_label: "createIndex()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation creates an index for a specific collection. | Node.js"
 type: docx
 token: Nu0Id3wzGoJIFyxkC7IcmjAznNf
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
-  - nodejs25
+  - nodejs26
+  - what is semantic search
   - Embedding model
   - image similarity search
   - Context Window
-  - Natural language search
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,11 +41,12 @@ This operation creates an index for a specific collection.
 createIndex(data): Promise<ResStatus>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.createIndex([
     {
+       db_name?: string,
        collection_name: string,
        field_name: string,
        index_name?: string,
@@ -51,10 +55,23 @@ milvusClient.createIndex([
        params?: KeyValueObj,
        timeout?: number
      }
- ]);
+ ] | {
+       db_name?: string,
+       collection_name: string,
+       field_name: string,
+       index_name?: string,
+       index_type: string,
+       metric_type: string,
+       params?: KeyValueObj,
+       timeout?: number    
+ });
 ```
 
 **PARAMETERS:**
+
+- **db_name** (*string*) -
+
+    The name of the database to which the target collection belongs.
 
 - **collection_name** (*string*) -
 
@@ -78,7 +95,7 @@ milvusClient.createIndex([
 
 - **metric_type** (*string*) -
 
-    The metric type used to measure vector distance. Possible values: `IP`, `L2`, `COSINE`, `HAMMING`, `JACCARD`
+    The metric type used to measure vector distance. Possible values: `IP`, `L2`, `COSINE`, `HAMMING`, `JACCARD`, `BM25` (used only for full text search). For more information, refer to [Metric Types](https://milvus.io/docs/metric.md).
 
     This is available only when the specified field is a vector field.
 
@@ -116,7 +133,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 milvusClient._createIndex({

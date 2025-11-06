@@ -3,6 +3,9 @@ title: "Delete() | Go | v2"
 slug: /go/v2-Vector-Delete
 sidebar_label: "Delete()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method deletes data from a specific collection. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method deletes data from a specific collection.
 func (c *Client) Delete(ctx context.Context, option DeleteOption, callOptions ...grpc.CallOption) (DeleteResult, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) Delete(ctx context.Context, option DeleteOption, callOptions ..
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DeleteOption</code></p></td>
+     <td><p><a href="./v2-Vector-Delete#deleteoption"><code>DeleteOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) Delete(ctx context.Context, option DeleteOption, callOptions ..
    </tr>
 </table>
 
-## DeleteOption{#deleteoption}
+## DeleteOption\{#deleteoption}
 
 This is an interface type. The `deleteOption` struct types implement this interface type. 
 
 You can use the `NewDeleteOption` function to get the concrete implementation.
 
-### NewDeleteOption{#newdeleteoption}
+### NewDeleteOption\{#newdeleteoption}
 
 The signature of this method is as follows:
 
@@ -75,7 +78,7 @@ func NewDeleteOption(collectionName string) *deleteOption
    </tr>
 </table>
 
-## DeleteResult{#deleteresult}
+## DeleteResult\{#deleteresult}
 
 The `DeleteResult` struct type is as follows:
 
@@ -85,11 +88,11 @@ type DeleteResult struct {
 }
 ```
 
-## Return{#return}
+## Return\{#return}
 
 `DeleteResult`
 
-## Example{#example}
+## Example\{#example}
 
 ```plaintext
 res, err := cli.Delete(ctx, milvusclient.NewDeleteOption("quick_setup").

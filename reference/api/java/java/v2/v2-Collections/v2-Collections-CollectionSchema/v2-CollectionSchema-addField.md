@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "addField() | Java | v2"
 slug: /java/java/v2-CollectionSchema-addField
 sidebar_label: "addField()"
-beta: FALSE
-notebook: FALSE
+beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
+notebook: false
 description: "This operation adds a vector field to the schema of a collection. | Java | v2"
 type: docx
-token: HWEDdIvrxo3gskxlyKkcDdzVncd
+token: X6MudyTkmoIsE5x0XiKcbwPdntq
 sidebar_position: 1
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - addField()
-  - javaV225
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - javaV226
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation adds a vector field to the schema of a collection.
 public void addField(AddFieldReq addFieldReq)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 CollectionSchema.addField(AddFieldReq.builder()
@@ -59,6 +62,7 @@ CollectionSchema.addField(AddFieldReq.builder()
     .analyzerParams(Map<String, Object> analyzerParams)
     .typeParams(Map<String, String> typeParams)
     .multiAnalyzerParams(Map<String, Object> multiAnalyzerParams)
+    .structFields(List<CreateCollectionReq.FieldSchema> structFields)
     .build()
 )
 ```
@@ -180,7 +184,7 @@ CollectionSchema.addField(AddFieldReq.builder()
 
             Defines the tokenizer type. Possible values: `standard` (default), `whitespace`, `jieba`. For more information, refer to [Standard Tokenizer](https://milvus.io/docs/standard-tokenizer.md), [Whitespace Tokenizer](https://milvus.io/docs/whitespace-tokenizer.md), and [Jieba Tokenizer](https://milvus.io/docs/jieba-tokenizer.md).
 
-        - `filter` (*List&lt;String&gt;*) -
+        - `filter` (*List\<String>*) -
 
             Lists filters to refine tokens produced by the tokenizer, with options for built-in filters and custom filters. For more information, refer to [Alphanumonly Filter](https://milvus.io/docs/alphanumonly-filer.md) and others.
 
@@ -192,6 +196,12 @@ CollectionSchema.addField(AddFieldReq.builder()
 
     A multi-language analyzer that allows you to configure multiple analyzers for a text field and store multilingual documents in this text field.
 
+- `structFields(List<CreateCollectionReq.FieldSchema> structFields)`
+
+    A list of fields in the Array of Structs field. 
+
+    This is required if **dataType** of this field is set to **DataType.Array** and **elementType** of this field is set to **DataType.Struct**.
+
 **RETURNS:**
 
 *void*
@@ -202,7 +212,7 @@ CollectionSchema.addField(AddFieldReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.common.DataType;

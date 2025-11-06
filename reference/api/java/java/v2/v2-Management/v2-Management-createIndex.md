@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "createIndex() | Java | v2"
 slug: /java/java/v2-Management-createIndex
 sidebar_label: "createIndex()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation creates an index for a specific collection. | Java | v2"
 type: docx
-token: OCjUdfc6eo0VihxNUGmcqb7FnTh
-sidebar_position: 2
+token: YXPSdlp3JoP82qxhFMYc5GRnn4g
+sidebar_position: 3
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
-  - javaV225
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - javaV226
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,12 +41,13 @@ This operation creates an index for a specific collection.
 public void createIndex(CreateIndexReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 createIndex(CreateIndexReq.builder()
     .collectionName(String collectionName)
     .indexParams(List<IndexParam> indexParams)
+    .sync(Boolean sync)
     .build()
 )
 ```
@@ -54,9 +58,13 @@ createIndex(CreateIndexReq.builder()
 
     The name of an existing collection.
 
-- `indexParams(List<IndexParam> indexParams)`
+- `indexParams(List<[IndexParam](./v2-Management-IndexParam)> indexParams)`
 
     A list of **IndexParam** objects.
+
+- `sync(Boolean sync)`
+
+    Whether the current operation is synchronous. The default value is `True`.
 
 **RETURNS:**
 
@@ -68,7 +76,7 @@ createIndex(CreateIndexReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

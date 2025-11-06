@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "commit() | Python"
 slug: /python/python/LocalBulkWriter-commit
 sidebar_label: "commit()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation commits the appended data. | Python"
 type: docx
 token: EtBDdoGaFo3bOExKxCHcKgpenib
 sidebar_position: 2
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - commit()
-  - pymilvus25
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - pymilvus26
   - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation commits the appended data.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 pymilvus.LocalBulkWriter.commit(
@@ -52,7 +55,7 @@ pymilvus.LocalBulkWriter.commit(
 
         The value defaults to **None**, indicating no callback is there to call. Use this to add post-commit actions.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import CollectionSchema, FieldSchema, DataType
@@ -83,7 +86,7 @@ def callback():
 writer.commit(call_back=callback)
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [append_row()](./LocalBulkWriter-append_row)
 

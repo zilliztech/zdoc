@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "createCollection() | Java | v2"
 slug: /java/java/v2-Collections-createCollection
 sidebar_label: "createCollection()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation creates a collection either with default or customized settings. | Java | v2"
 type: docx
 token: DkFxdDBvaoUPQRxzudxcDtTXnue
 sidebar_position: 7
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
-  - javaV225
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - javaV226
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation creates a collection either with default or customized settings.
 public void createCollection(CreateCollectionReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 createCollection(CreateCollectionReq.builder()
@@ -124,7 +127,7 @@ createCollection(CreateCollectionReq.builder()
 
 - `enableDynamicField(boolean enableDynamicField)`
 
-    Whether to use a reserved JSON field named **$meta** to store undefined fields and their values in key-value pairs.
+    Whether to use a reserved JSON field named **&#36;meta** to store undefined fields and their values in key-value pairs.
 
     The value defaults to **True**, indicating that the meta field is used.
 
@@ -149,7 +152,7 @@ createCollection(CreateCollectionReq.builder()
 
     Leaving it empty indicates this collection will be created with default settings. To set up a collection with a customized schema, you need to create a **CollectionSchema** object and reference it here.
 
-- `indexParams(List<IndexParam> indexParams)`
+- `indexParams(List<[IndexParam](./v2-Management-IndexParam)> indexParams)`
 
     The parameters for building the index on the vector field in this collection. To set up a collection with a customized schema and automatically load the collection to memory, create an **IndexParams** object with a list of [IndexParam](./v2-Management-IndexParam) objects and reference it here.
 
@@ -177,9 +180,9 @@ createCollection(CreateCollectionReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
-### Create a collection{#create-a-collection}
+### Create a collection\{#create-a-collection}
 
 You can choose between a quick setup or a customized setup as follows:
 

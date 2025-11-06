@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "loadCollectionSync() | Node.js"
 slug: /node/node/Management-loadCollectionSync
 sidebar_label: "loadCollectionSync()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation loads the data of a specific collection into memory. This is the synchronous function that helps to ensure that the specified collection has been loaded. | Node.js"
 type: docx
 token: XXUAdI8T2oOmw2x7iITc8vJgnjm
-sidebar_position: 15
+sidebar_position: 18
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollectionSync()
-  - nodejs25
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - nodejs26
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation loads the data of a specific collection into memory. This is the 
 loadCollectionSync: ((data) => Promise<ResStatus>) = ...
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.loadCollectionSync({ 
@@ -107,7 +110,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

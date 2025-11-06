@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "alter_database_properties() | Python | MilvusClient"
 slug: /python/python/Database-alter_database_properties
 sidebar_label: "alter_database_properties()"
 beta: false
+added_since: v2.5.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation modifies the properties of the specified database. | Python | MilvusClient"
 type: docx
-token: GUv5dxYOZocdURx1qGlc9I8Cn5g
+token: HCWBdorQdoONw2xaawacJWQkn1e
 sidebar_position: 1
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - alter_database_properties()
-  - pymilvus25
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - pymilvus26
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -40,7 +43,7 @@ This operation modifies the properties of the specified database.
 
 </Admonition>
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 alter_database_properties(
@@ -103,7 +106,7 @@ alter_database_properties(
 
 - `MilvusException` - Raised if any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient

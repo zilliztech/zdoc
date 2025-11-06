@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "getLoadingProgress() | Node.js"
 slug: /node/node/Management-getLoadingProgress
 sidebar_label: "getLoadingProgress()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation gets the loading progress of a specific collection. | Node.js"
 type: docx
 token: DkImdRkJwoUmdqxzqn1cpQr9nhy
-sidebar_position: 11
+sidebar_position: 13
 keywords: 
+  - Sparse vs Dense
   - Dense vector
   - Hierarchical Navigable Small Worlds
   - Dense embedding
-  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadingProgress()
-  - nodejs25
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - nodejs26
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation gets the loading progress of a specific collection.
 getLoadingProgress(data): Promise<GetLoadingProgressResponse>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.getLoadingProgress({
@@ -110,7 +113,7 @@ This method returns a promise that resolves to a **GetLoadingProgressResponse** 
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listRoles() | Node.js"
 slug: /node/node/Authentication-listRoles
 sidebar_label: "listRoles()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists all custom roles. | Node.js"
 type: docx
 token: GIeMdvjlMoLwGrxUOu3cFw7bnWc
-sidebar_position: 18
+sidebar_position: 20
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
   - listRoles()
-  - nodejs25
-  - Vector store
-  - open source vector database
+  - nodejs26
   - Vector index
   - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation lists all custom roles.
 listRoles(data): Promise<SelectRoleResponse>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.listRoles(
@@ -136,7 +139,7 @@ This method returns a promise that resolves to a **SelectRoleResponse** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 

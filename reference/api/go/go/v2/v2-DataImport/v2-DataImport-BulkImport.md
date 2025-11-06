@@ -3,6 +3,9 @@ title: "BulkImport() | Go | v2"
 slug: /go/v2-DataImport-BulkImport
 sidebar_label: "BulkImport()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read Prepare Data Import. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This operation imports the prepared data files to Zilliz Cloud. To learn how to 
 func BulkImport(ctx context.Context, option *BulkImportOption) (*BulkImportResponse, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func BulkImport(ctx context.Context, option *BulkImportOption) (*BulkImportRespo
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>BulkImportOption</code></p></td>
+     <td><p><a href="./v2-DataImport-BulkImport#bulkimportoption"><code>BulkImportOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,11 +51,11 @@ func BulkImport(ctx context.Context, option *BulkImportOption) (*BulkImportRespo
    </tr>
 </table>
 
-## BulkImportOption{#bulkimportoption}
+## BulkImportOption\{#bulkimportoption}
 
 This is a struct type. You can use `NewCloudBulkImportOption()` to get its concrete implementation.
 
-### NewCloudBulkImportOption{#newcloudbulkimportoption}
+### NewCloudBulkImportOption\{#newcloudbulkimportoption}
 
 The signature of `NewCloudBulkImportOption()` is as follows:
 
@@ -68,7 +71,7 @@ func NewCloudBulkImportOption(uri string, collectionName string, apiKey string, 
    </tr>
    <tr>
      <td><p><code>uri</code></p></td>
-     <td><p>The endpoint URL of the Zilliz Cloud Data Plane, which should be one of the follows:</p><ul><li><p><code>https://api.cloud.zilliz.com</code></p></li><li><p><code>https://api.cloud.zilliz.com.cn</code></p></li></ul></td>
+     <td><p>The endpoint URL of the Zilliz Cloud Data Plane, which should be one of the follows:</p><ul><li><p><code><i>http</i>s://api.cloud.zilliz.com</code></p></li><li><p><code>https://api.cloud.zilliz.com.cn</code></p></li></ul></td>
      <td><p><code>string</code></p></td>
    </tr>
    <tr>
@@ -111,7 +114,7 @@ You can chain the following methods to append more parameters to the `BulkImport
 
 - [WithOption](./v2-DataImport-BulkImport#withoption)
 
-### WithAPIKey{#withapikey}
+### WithAPIKey\{#withapikey}
 
 This method appends your Zilliz Cloud API key to the `BulkImportOption` struct. The signature of the method is as follows:
 
@@ -132,7 +135,7 @@ func (opt *BulkImportOption) WithAPIKey(key string) *BulkImportOption
    </tr>
 </table>
 
-### WithPartition{#withpartition}
+### WithPartition\{#withpartition}
 
 This method specifies the name of the target partition to the `BulkImportOption` struct. The signature of the method is as follows:
 
@@ -153,7 +156,7 @@ func (opt *BulkImportOption) WithPartition(partitionName string) *BulkImportOpti
    </tr>
 </table>
 
-### WithOption{#withoption}
+### WithOption\{#withoption}
 
 This method appends extra options in key-value pairs to the `BulkImportOption` struct. The signature of the method is as follows:
 
@@ -179,11 +182,11 @@ func (opt *BulkImportOption) WithOption(key, value string) *BulkImportOption
    </tr>
 </table>
 
-## grpc.CallOption{#grpccalloption}
+## grpc.CallOption\{#grpccalloption}
 
 This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
 
-## BulkImportResponse{#bulkimportresponse}
+## BulkImportResponse\{#bulkimportresponse}
 
 The `BulkImportResponse` struct type is as follows:
 
@@ -197,11 +200,11 @@ type BulkImportResponse struct {
 }
 ```
 
-## Return{#return}
+## Return\{#return}
 
-`*BulkImportResponse`
+`*[BulkImportResponse`](./v2-DataImport-BulkImport#bulkimportresponse)
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 

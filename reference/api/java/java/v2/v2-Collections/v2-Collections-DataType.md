@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "DataType | Java | v2"
 slug: /java/java/v2-Collections-DataType
 sidebar_label: "DataType"
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This is an enumeration that provides the following constants. | Java | v2"
 type: docx
-token: QYPIdgWL7oDWrWxVUx0clo32nz4
+token: RZ8idPxaho5yMoxJzGdc7QAcnNf
 sidebar_position: 10
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
-  - javaV225
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - javaV226
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This is an enumeration that provides the following constants.
 
-## Constants{#constants}
+## Constants\{#constants}
 
 - None(0)
 
@@ -72,11 +75,46 @@ This is an enumeration that provides the following constants.
 
     Sets the data type to **VarChar**.
 
+- Array(22)
+
+    Sets the data type to **Array**.
+
 - JSON(23)
 
     Sets the data type to **JSON**.
+
+- Geometry(24)
+
+    Sets the data type to **Geometry**.
+
+- Timestamptz(26)
+
+    Sets the data type to **Timestamptz**.
+
+- BinaryVector(100)
+
+    Sets the data type to **Binary Vector**.
 
 - FloatVector(101)
 
     Sets the data type to **Float Vector**.
 
+- Float16Vector(102)
+
+    Sets the data type to **Float16 Vector**.
+
+- BFloat16Vector(103)
+
+    Sets the data type to **BFloat16 Vector**.
+
+- SparseFloatVector(104)
+
+      Sets the data type to **Sparse Vector**.
+
+- Inv8Vector(105)
+
+    Sets the data type to **Int8 Vector**.
+
+- Struct(201)
+
+    Sets the data type to **Struct**, which should be the element type of an **Array** field.

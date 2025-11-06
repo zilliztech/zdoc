@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "listCollections() | Java | v2"
 slug: /java/java/v2-Collections-listCollections
 sidebar_label: "listCollections()"
 beta: false
+added_since: v2.4.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation lists all existing collections. | Java | v2"
 type: docx
-token: WxhmdPZydowLVLxR2LacSrUNnme
+token: Vv4NdWVa5o5BSrx11OZcNVnQnbh
 sidebar_position: 20
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - listCollections()
-  - javaV225
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - javaV226
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation lists all existing collections.
 public ListCollectionsResp listCollections()
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 listCollections()
@@ -54,9 +57,21 @@ A **ListCollectionsResp** object containing a list of collection names. If there
 
 **PARAMETERS:**
 
-- **collectionNames** (*List\<String\>*)
+- **collectionNames** (*List\<String>*)
 
     A list of strings containing the names of all existing collections.
+
+- **collectionInfos** (*List\<CollectionInfo>*)
+
+    A list of **CollectionInfo** objects. A **CollectionInfo** object has the following fields:
+
+    - **collectionName** (*String*)
+
+        The name of a collection.
+
+    - **shardNum** (*Integer*)
+
+        The number of shards in the above collection.
 
 **EXCEPTIONS:**
 
@@ -64,7 +79,7 @@ A **ListCollectionsResp** object containing a list of collection names. If there
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

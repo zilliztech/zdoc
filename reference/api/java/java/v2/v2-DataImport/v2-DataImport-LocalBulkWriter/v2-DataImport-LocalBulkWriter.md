@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "LocalBulkWriter | Java | v2"
 slug: /java/java/v2-DataImport-LocalBulkWriter
 sidebar_label: "LocalBulkWriter"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "A LocalBulkWriter instance rewrites your raw data locally in a format that Milvus understands. | Java | v2"
 type: docx
 token: G7F9dQ8DwoZsaVxExdnc7K6an3g
 sidebar_position: 5
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - LocalBulkWriter
-  - javaV225
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - javaV226
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ A **LocalBulkWriter** instance rewrites your raw data locally in a format that M
 io.milvus.bulkwriter.LocalBulkWriter
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs a **LocalBulkWriter** instance by schema, output path, segment size, and file type.
 
@@ -58,7 +61,7 @@ LocalBulkWriter(LocalBulkWriterParam bulkWriterParam)
 
     A [LocalBulkWriterParam](./v2-DataImport-LocalBulkWriter#localbulkwriterparam) instance.
 
-## LocalBulkWriterParam{#localbulkwriterparam}
+## LocalBulkWriterParam\{#localbulkwriterparam}
 
 **LocalBulkWriterParam** allows you to configure properties for your **LocalBulkWriter** instances in one place so that you can instantiate the **LocalBulkWriter** class.
 
@@ -111,7 +114,7 @@ LocalBulkWriterParam.newBuilder()
 
         Special string representing null value. The value defaults to empty string: `""`.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import com.google.gson.JsonObject;

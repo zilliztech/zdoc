@@ -1,0 +1,122 @@
+---
+title: "EmbeddingList | Python | MilvusClient"
+slug: /python/python/MilvusClient-EmbeddingList
+sidebar_label: "EmbeddingList"
+beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
+notebook: false
+description: "An EmbeddingList instance represents a list of vector embeddings. You can use an EmbeddingList instance to build the query vectors in a search against a vector field in an Array of Structs field. | Python | MilvusClient"
+type: docx
+token: Ve2WdUAfwoz456xwBIJcGvltn6b
+sidebar_position: 4
+keywords: 
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - EmbeddingList
+  - pymilvus26
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+displayed_sidebar: pythonSidebar
+
+displayed_sidbar: pythonSidebar
+---
+
+import Admonition from '@theme/Admonition';
+
+
+# EmbeddingList
+
+An **EmbeddingList** instance represents a list of vector embeddings. You can use an **EmbeddingList** instance to build the query vectors in a search against a vector field in an Array of Structs field.
+
+```python
+class pymilvus.EmbeddingList
+```
+
+## Constructor\{#constructor}
+
+Constructs an empty embedding list or a list of given vector embeddings.
+
+```python
+EmbeddingList(
+    embeddings: Optional[Union[np.ndarray, List[np.ndarray]],
+    dim: Optional[int],
+    dtype: Optional[Union[np.dtype, str, DataType]]
+)
+```
+
+**PARAMETERS:**
+
+- **embeddings** (*np.ndarray, List[np.ndarray*) -
+
+    A list of vector embeddings, which can be either of the following types:
+
+    - **np.ndarray** with shape **(n, dim)**, indicating a list of multiple vector embeddings
+
+    - **np.ndarray** with shape **(dim,)**, indicating a single vector embedding
+
+    - **List[np.ndarray]**, indicating a list of vector embedding arrays
+
+- **dim** (*int*) -
+
+    The dimensionality of the vector embeddings that are specified in the **embedding** parameter, for validation purposes. 
+
+    If provided, all specified vector embeddings must adhere to the dimensionality restriction.
+
+- **dtype** (*np.dtype, str, [DataType](./Collections-DataType)*) -  
+
+    - **np.dtype**, such as `np.float32`, `np.float16`, or `np.unit8`
+
+    - **string**, such as `'float32'`, `'float16'`, or `'uint8'`
+
+    - **DataType**, such as `DataType.FLOAT_VECTOR`, `DataType.FLOAT16_VECTOR`, `DataType.BFLOAT16_VECTOR`, `DataType.INT8_VECTOR`, or `DataType.BINARY_VECTOR`
+
+**RETURN TYPE:**
+
+*EmbeddingList*
+
+**RETURNS:**
+
+An **EmbeddingList** instance.
+
+## Examples\{#examples}
+
+```python
+from pymilvus import EmbeddingList
+
+# create an empty embedding list
+embeddingList1 = EmbeddingList()
+
+# create an embedding list with a single vector embedding of 5 dimensions
+embeddingList2 = EmbeddingList(
+    embeddings=[0.1, 0.2, 0.3, 0.4, 0.5],
+    dim=5
+)
+
+# create an embedding list with two vector embeddings, each having five dimensions
+embeddingList3 = EmbeddingList(
+    embeddings= [[0.1, 0.2, 0.3, 0.4, 0.5], [0.5, 0.4, 0.3, 0.2, 0.1]],
+    dim=5
+)
+```
+
+## Related methods\{#related-methods}
+
+- [add()](./EmbeddingList-add)
+
+- [add_batch()](./EmbeddingList-add_batch)
+
+- [to_flat_array()](./EmbeddingList-to_flat_array)
+
+- [to_numpy()](./EmbeddingList-to_numpy)
+
+- [clear()](./EmbeddingList-clear)
+

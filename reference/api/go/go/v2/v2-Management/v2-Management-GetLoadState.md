@@ -3,6 +3,9 @@ title: "GetLoadState() | Go | v2"
 slug: /go/v2-Management-GetLoadState
 sidebar_label: "GetLoadState()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method retrieves the load status of a specified collection or partitions. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method retrieves the load status of a specified collection or partitions.
 func (c *Client) GetLoadState(ctx context.Context, option GetLoadStateOption, callOptions ...grpc.CallOption) (entity.LoadState, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) GetLoadState(ctx context.Context, option GetLoadStateOption, ca
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>GetLoadStateOption</code></p></td>
+     <td><p><a href="./v2-Management-GetLoadState#getloadstateoption"><code>GetLoadStateOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) GetLoadState(ctx context.Context, option GetLoadStateOption, ca
    </tr>
 </table>
 
-## GetLoadStateOption{#getloadstateoption}
+## GetLoadStateOption\{#getloadstateoption}
 
 This is an interface type. The `getLoadStateOption` struct type implements this interface type. 
 
 You can use the `NewGetLoadStateOption()` function to get the concrete implementation.
 
-### NewGetLoadStateOption(){#newgetloadstateoption}
+### NewGetLoadStateOption()\{#newgetloadstateoption}
 
 The signature of this method is as follows:
 
@@ -80,7 +83,7 @@ func NewGetLoadStateOption(collectionName string, partitionNames ...string) *get
    </tr>
 </table>
 
-## entity.LoadState{#entityloadstate}
+## entity.LoadState\{#entityloadstate}
 
 The `entity.LoadState` struct type is as follows:
 
@@ -91,7 +94,7 @@ type LoadState struct {
 }
 ```
 
-## entity.LoadStateCode{#entityloadstatecode}
+## entity.LoadStateCode\{#entityloadstatecode}
 
 The `entity.LoadStateCode` is a private enum type and has the following possible values.
 
@@ -105,11 +108,11 @@ const (
 )
 ```
 
-## Return{#return}
+## Return\{#return}
 
 `entity.LoadState`
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

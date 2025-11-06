@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "commit() | Java | v2"
 slug: /java/java/v2-LocalBulkWriter-commit
 sidebar_label: "commit()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation commits the appended data. | Java | v2"
 type: docx
 token: OUhTdWnXBoHqKdxTA0HcdMY5n4b
 sidebar_position: 3
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - commit()
-  - javaV225
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - javaV226
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation commits the appended data.
  public void commit(boolean async)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 localBulkWriter.commit(
@@ -56,7 +59,7 @@ localBulkWriter.commit(
 
 *void*
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```java
 localBulkWriter.commit(false);

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropCollectionFieldProperties() | Java | v2"
 slug: /java/java/v2-Collections-dropCollectionFieldProperties
 sidebar_label: "dropCollectionFieldProperties()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation drops the specified properties of a field. | Java | v2"
 type: docx
 token: O3E9duLvfoMC26x8AmDcomlWneh
-sidebar_position: 25
+sidebar_position: 26
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollectionFieldProperties()
-  - javaV225
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - javaV226
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation drops the specified properties of a field.
 public void dropCollectionFieldProperties(DropCollectionFieldPropertiesReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 dropCollectionFieldProperties(DropCollectionFieldPropertiesReq.builder()
@@ -76,7 +79,7 @@ dropCollectionFieldProperties(DropCollectionFieldPropertiesReq.builder()
 
 None
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

@@ -3,21 +3,24 @@ title: "Database | Java | v2"
 slug: /java/v2-Database
 beta: false
 notebook: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 description: "Methods related to database operations. | Java | v2"
 type: folder
-token: Ja2Wf1J9glm6oCdCxfDc9BzPnoc
-sidebar_position: 8
+token: TOZmfXZa3luWIMdjXUycMbaanCd
+sidebar_position: 4
 sidebar_label: "Database"
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - Database
-  - javaV225
+  - javaV226
 displayed_sidebar: javaSidebar
 ---
 

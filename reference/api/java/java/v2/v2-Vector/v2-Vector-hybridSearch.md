@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "hybridSearch() | Java | v2"
 slug: /java/java/v2-Vector-hybridSearch
 sidebar_label: "hybridSearch()"
 beta: false
+added_since: v2.4.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation performs multi-vector search on a collection and returns search results after reranking. | Java | v2"
 type: docx
-token: LTymdLBGUobp1fx7DOFczF46n7g
+token: EOsTdGbQxouZjpxP4Wbc5MXkneh
 sidebar_position: 3
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
-  - javaV225
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - javaV226
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation performs multi-vector search on a collection and returns search r
 public SearchResp hybridSearch(HybridSearchReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 hybridSearch(HybridSearchReq.builder()
@@ -46,11 +49,16 @@ hybridSearch(HybridSearchReq.builder()
     .databasename(String databaseName)
     .partitionNames(List<String> partitionNames)
     .searchRequests(List<AnnSearchReq> searchRequests)
-    .ranker(BaseRanker ranker)
-    .topK(int topK)
+    .ranker(CreateCollectionReq.Function ranker)
+    .limit(long limit)
     .outFields(List<String> outFields)
+    .offset(long offset)
     .roundDecimal(int roundDecimal)
     .consistencyLevel(ConsistencyLevel consistencyLevel)
+    .groupByFieldName(String fieldName)
+    .groupSize(Integer groupSize)
+    .strictGroupSize(Boolean strictGroupSize)
+    .functionScore(FunctionScore functionScore)
     .build()
 )
 ```
@@ -120,13 +128,35 @@ hybridSearch(HybridSearchReq.builder()
 
     - `params(String)`
 
-        A JSON dictionary format string of search parameters for the request.
+        A JSON dictionary format string of search parameters for the request. Possible values are:
 
-- `ranker(BaseRanker ranker)`
+        - **metric_type** (String)
+
+            The metric type applied to this operation. This should be the same as the one used when you index the vector field specified above. 
+
+        - **radius** (float)
+
+            Determines the threshold of least similarity. When setting `metric_type` to `L2`, ensure that this value is greater than that of **range_filter**. Otherwise, this value should be lower than that of **range_filter**. 
+
+        - **range_filter** (float)
+
+            Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**. 
+
+        - **timezone** (String)
+
+            The timezone  of this operation.
+
+        - **time_fields** (String)
+
+            The time format that is concatenated with the information extracted from the Timestamptz field in the output fields, such as `year, month, day`.
+
+- `ranker(CreateCollectionReq.Function ranker)`
 
     The reranking strategy to use for hybrid search.
 
-- `topK(int topK)`
+    This parameter will be deprecated, and you are advised to use a **FunctionScore** instead.
+
+- `limit(long limit)`
 
      The total number of entities to return.
 
@@ -134,13 +164,13 @@ hybridSearch(HybridSearchReq.builder()
 
     A list of field names to include in each entity in return. The value defaults to null. If left unspecified, only the primary field is included.
 
+- `offset(long offset)`
+
+    The number of entities to skip before the search results returns. The sum of `offset` and `limit` should be less than 16,384.
+
 - `roundDecimal(int roundDecimal)`
 
     The number of decimal places to which Milvus rounds the calculated distances. The value defaults to **-1**, indicating that Milvus skips rounding the calculated distances and returns the raw value.
-
-- `offset(long offset)`
-
-    The number of entities to skip in the search results.
 
 - `consistencyLevel(ConsistencyLevel consistencyLevel)`
 
@@ -158,6 +188,10 @@ hybridSearch(HybridSearchReq.builder()
 
     Controls whether group_size should be strictly enforced. For details, refer to [Grouping Search](https://milvus.io/docs/grouping-search.md#Grouping-Search).
 
+- `functionScore(FunctionScore functionScore)`
+
+    A **FunctionScore** instance that comprises one or multiple **Function** instances. The design purpose is to allow multiple rankers in a search, such as in the [Boost ranker](https://milvus.io/docs/boost-ranker.md).
+
 **RETURN TYPE:**
 
 *SearchResp*
@@ -168,7 +202,7 @@ A **SearchResp** object representing specific search results with the specified 
 
 **PARAMETERS:**
 
-- **searchResults** (*List\<List\<SearchResult\>>*)
+- **searchResults** (*List\<List\<SearchResult\>\>*)
 
     A list of SearchResp.SearchResult, the size of searchResults equals the number of query vectors of the search. Each `List<SearchResult>` is a top-K result of a query vector. Each SearchResult represents an entity hit by the search.
 
@@ -180,7 +214,7 @@ A **SearchResp** object representing specific search results with the specified 
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

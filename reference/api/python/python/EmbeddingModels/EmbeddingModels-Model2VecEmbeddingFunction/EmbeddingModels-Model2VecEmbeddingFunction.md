@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "Model2VecEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-Model2VecEmbeddingFunction
 sidebar_label: "Model2VecEmbeddingFunction"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "Model2VecEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using the model2vec module to support embedding retrieval in Milvus. | Python"
 type: docx
 token: WiT4dJ1SJod0fdx4z23cwFbAn7c
 sidebar_position: 3
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - Model2VecEmbeddingFunction
-  - pymilvus25
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - pymilvus26
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ import Admonition from '@theme/Admonition';
 pymilvus.model.dense.Model2VecEmbeddingFunction
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs an Model2VecEmbeddingFunction for common use cases.
 
@@ -61,7 +64,7 @@ Model2VecEmbeddingFunction(
 
     Allows additional keyword arguments to be passed to the model initialization when loading a model from the Hugging Face Hub, including parameters such as huggingface authentication tokens.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import model

@@ -3,6 +3,9 @@ title: "ListPrivilegeGroups() | Go | v2"
 slug: /go/v2-Authentication-ListPrivilegeGroups
 sidebar_label: "ListPrivilegeGroups()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method returns a list of existing privilege groups. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method returns a list of existing privilege groups.
 func (c *Client) ListPrivilegeGroups(ctx context.Context, option ListPrivilegeGroupsOption, callOptions ...grpc.CallOption) ([]*entity.PrivilegeGroup, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) ListPrivilegeGroups(ctx context.Context, option ListPrivilegeGr
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>ListPrivilegeGroupsOption</code></p></td>
+     <td><p><a href="./v2-Authentication-ListPrivilegeGroups#listprivilegegroupsoption"><code>ListPrivilegeGroupsOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) ListPrivilegeGroups(ctx context.Context, option ListPrivilegeGr
    </tr>
 </table>
 
-## ListPrivilegeGroupsOption{#listprivilegegroupsoption}
+## ListPrivilegeGroupsOption\{#listprivilegegroupsoption}
 
 This is an interface type. The `listPrivilegeGroupsOption` struct type implements this interface type. 
 
 You can use the `NewListPrivilegeGroupsOption()` function to get the concrete implementation.
 
-### NewListUserOption{#newlistuseroption}
+### NewListUserOption\{#newlistuseroption}
 
 The signature of `NewListPrivilegeGroupsOption()` is as follows:
 
@@ -62,15 +65,15 @@ The signature of `NewListPrivilegeGroupsOption()` is as follows:
 func NewListPrivilegeGroupsOption() *listPrivilegeGroupsOption
 ```
 
-## grpc.CallOption{#grpccalloption}
+## grpc.CallOption\{#grpccalloption}
 
 This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
 
-## Return{#return}
+## Return\{#return}
 
 `[]string`
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

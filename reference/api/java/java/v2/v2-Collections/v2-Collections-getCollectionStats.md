@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "getCollectionStats() | Java | v2"
 slug: /java/java/v2-Collections-getCollectionStats
 sidebar_label: "getCollectionStats()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation lists the statistics collected on a specific collection. | Java | v2"
 type: docx
-token: XgfcdpBWCof3pfxhUudcRZajnPc
+token: E27SdesNPoKA8zx6jHkcejt0nWg
 sidebar_position: 17
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStats()
-  - javaV225
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - javaV226
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,16 +41,21 @@ This operation lists the statistics collected on a specific collection.
 public GetCollectionStatsResp getCollectionStats(GetCollectionStatsReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 getCollectionStats(GetCollectionStatsReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .build()
 )
 ```
 
 **BUILDER METHODS:**
+
+- `databaseName(String databaseName)`
+
+    The name of the database to which the target collection belongs.
 
 - `collectionName(String collectionName)`
 
@@ -73,7 +81,7 @@ A **GetCollectionStatsResp** object containing collected statistics on the speci
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

@@ -1,14 +1,16 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "getLoadState() | Node.js"
 slug: /node/node/Management-getLoadState
 sidebar_label: "getLoadState()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation displays whether a specified collection or partition is loaded or not. | Node.js"
 type: docx
 token: J17ZdPNwqo4nt3x5b8pc0H5Nnph
-sidebar_position: 12
+sidebar_position: 14
 keywords: 
   - Vector store
   - open source vector database
@@ -18,13 +20,14 @@ keywords:
   - zilliz cloud
   - cloud
   - getLoadState()
-  - nodejs25
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - nodejs26
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation displays whether a specified collection or partition is loaded or
 getLoadState(data): Promise<GetLoadStateResponse>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.getLoadState({
@@ -108,7 +111,7 @@ This method returns a promise that resolves to a **GetLoadStateResponse** object
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

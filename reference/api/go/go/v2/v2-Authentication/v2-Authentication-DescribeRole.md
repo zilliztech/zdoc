@@ -3,6 +3,9 @@ title: "DescribeRole() | Go | v2"
 slug: /go/v2-Authentication-DescribeRole
 sidebar_label: "DescribeRole()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method returns the detailed information about the specified role. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method returns the detailed information about the specified role.
 func (c *Client) DescribeRole(ctx context.Context, option DescribeRoleOption, callOptions ...grpc.CallOption) (*entity.Role, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) DescribeRole(ctx context.Context, option DescribeRoleOption, ca
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DescribeRoleOption</code></p></td>
+     <td><p><a href="./v2-Authentication-DescribeRole#describeroleoption"><code>DescribeRoleOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) DescribeRole(ctx context.Context, option DescribeRoleOption, ca
    </tr>
 </table>
 
-## DescribeRoleOption{#describeroleoption}
+## DescribeRoleOption\{#describeroleoption}
 
 This is an interface type. The `describeRoleOption` struct type implements this interface type. 
 
 You can use the `NewDescribeRoleOption()` function to get the concrete implementation.
 
-### NewDescribeRoleOption{#newdescriberoleoption}
+### NewDescribeRoleOption\{#newdescriberoleoption}
 
 The signature of `NewDescribeRoleOption()` is as follows:
 
@@ -75,11 +78,11 @@ func NewDescribeRoleOption(roleName string) *describeRoleOption
    </tr>
 </table>
 
-## grpc.CallOption{#grpccalloption}
+## grpc.CallOption\{#grpccalloption}
 
 This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
 
-## entity.Role{#entityrole}
+## entity.Role\{#entityrole}
 
 The `entity.Role` struct type is as follows:
 
@@ -90,11 +93,11 @@ type Role struct {
 }
 ```
 
-## Return{#return}
+## Return\{#return}
 
-`*entity.Role`
+`*[entity.Role`](./v2-Authentication-DescribeRole#entityrole)
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

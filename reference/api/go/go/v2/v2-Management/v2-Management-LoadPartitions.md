@@ -3,6 +3,9 @@ title: "LoadPartitions() | Go | v2"
 slug: /go/v2-Management-LoadPartitions
 sidebar_label: "LoadPartitions()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method loads one or multiple specified partitions. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method loads one or multiple specified partitions.
 func (c *Client) LoadPartitions(ctx context.Context, option LoadPartitionsOption, callOptions ...grpc.CallOption) (LoadTask, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) LoadPartitions(ctx context.Context, option LoadPartitionsOption
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>LoadPartitionsOption</code></p></td>
+     <td><p><a href="./v2-Management-LoadPartitions#loadpartitionsoption"><code>LoadPartitionsOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) LoadPartitions(ctx context.Context, option LoadPartitionsOption
    </tr>
 </table>
 
-## LoadPartitionsOption{#loadpartitionsoption}
+## LoadPartitionsOption\{#loadpartitionsoption}
 
 This is an interface type. The `loadPartitionsOption` struct type implements this interface type. 
 
 You can use the `NewLoadPartitionsOption()` function to get the concrete implementation.
 
-### NewLoadPartitionsOption(){#newloadpartitionsoption}
+### NewLoadPartitionsOption()\{#newloadpartitionsoption}
 
 The signature of this method is as follows:
 
@@ -80,11 +83,11 @@ func NewLoadPartitionsOption(collectionName string, partitionsNames ...string) *
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
-`LoadTask`
+[`LoadTask`](./v2-Management-LoadCollection#loadtask)
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 task, err := cli.LoadPartitions(ctx, milvusclient.NewLoadPartitionsOption("custom_quick_setup", "default", "partitionA"))

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "BulkInsertState | Python | ORM"
 slug: /python/python/utility-BulkInsertState
 sidebar_label: "BulkInsertState"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This is an enumeration that provides the following constants. | Python | ORM"
 type: docx
 token: Arn1dIKgwoISFoxT7xVc3UrBnAf
 sidebar_position: 2
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - BulkInsertState
-  - pymilvus25
+  - pymilvus26
+  - AI Hallucination
+  - AI Agent
   - semantic search
   - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This is an enumeration that provides the following constants.
 
-## Constants{#constants}
+## Constants\{#constants}
 
 - **ImportPending** = 0
 

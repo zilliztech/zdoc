@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "describeUser() | Node.js"
 slug: /node/node/Authentication-describeUser
 sidebar_label: "describeUser()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This is a method template. | Node.js"
 type: docx
 token: Da9KdvvWroKX9cxOwsmcLRBxnVb
-sidebar_position: 8
+sidebar_position: 10
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - describeUser()
-  - nodejs25
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - nodejs26
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This is a method template.
 describeUser(data): Promise<SelectUserResponse>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.describeUser({
@@ -111,7 +114,7 @@ This method returns a promise that resolves to a **SelectUserResponse** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 milvusClient.describeUser({username: 'name'})

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "createAlias() | Java | v2"
 slug: /java/java/v2-Collections-createAlias
 sidebar_label: "createAlias()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation creates an alias for an existing collection. | Java | v2"
 type: docx
-token: NMAOdxhL1oo0E7xcFqXcF6yPnBg
+token: MQxvdwd7QoUu5zxyHTjc0MUKnhe
 sidebar_position: 6
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - zilliz
-  - zilliz cloud
-  - cloud
-  - createAlias()
-  - javaV225
   - multimodal RAG
   - llm hallucinations
   - hybrid search
   - lexical search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - createAlias()
+  - javaV226
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,11 +41,12 @@ This operation creates an alias for an existing collection.
 public void createAlias(CreateAliasReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 createAlias(CreateAliasReq.builder()
     .alias(String alias)
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .build()
 )
@@ -72,6 +76,10 @@ createAlias(CreateAliasReq.builder()
 
     </Admonition>
 
+- `databaseName(String databaseName)`
+
+    The name of the database to which the target collection belongs.
+
 - `collectionName(String collectionName)`
 
     The name of the collection to create an alias for.
@@ -86,7 +94,7 @@ createAlias(CreateAliasReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;
@@ -103,7 +111,8 @@ MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 // 2. Create an alias "test_alias" for collection "test"
 CreateAliasReq createAliasReq = CreateAliasReq.builder()
-        .collectionName("test")
+        .databaseName("my_database")
+        .collectionName("my_collection")
         .alias("test_alias")
         .build();
 client.createAlias(createAliasReq);

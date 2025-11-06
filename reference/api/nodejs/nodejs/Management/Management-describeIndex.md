@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "describeIndex() | Node.js"
 slug: /node/node/Management-describeIndex
 sidebar_label: "describeIndex()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation describes a specific index. | Node.js"
 type: docx
 token: PePIdiq9po6cplxAoF6ca5C2ntb
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
-  - nodejs25
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - nodejs26
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation describes a specific index.
 describeIndex(data): Promise<DescribeIndexResponse>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
  milvusClient.describeIndex({ 
@@ -143,7 +146,7 @@ This method returns a promise that resolves to a **DescribeIndexResponse** objec
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "append_row() | Java | v2"
 slug: /java/java/v2-RemoteBulkWriter-append_row
 sidebar_label: "append_row()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation appends records to the writer. | Java | v2"
 type: docx
 token: L115dnbLyoXAVSxkUKxcuK4gncf
 sidebar_position: 1
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud
   - append_row()
-  - javaV225
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - javaV226
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation appends records to the writer.
 public void appendRow(JsonObject rowData)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 remoteBulkWriter.appendRow(
@@ -58,7 +61,7 @@ remoteBulkWriter.appendRow(
 
 *void*
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 for (JsonObject rowObject : data) {

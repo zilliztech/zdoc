@@ -3,6 +3,9 @@ title: "DropIndexProperties() | Go | v2"
 slug: /go/v2-Management-DropIndexProperties
 sidebar_label: "DropIndexProperties()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This operation drops the settings of the specified index properties. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This operation drops the settings of the specified index properties.
 func (c *Client) DropIndexProperties(ctx context.Context, opt DropIndexPropertiesOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) DropIndexProperties(ctx context.Context, opt DropIndexPropertie
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DropIndexPropertiesOption</code></p></td>
+     <td><p><a href="./v2-Management-DropIndexProperties#dropindexpropertiesoption"><code>DropIndexPropertiesOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,11 +51,11 @@ func (c *Client) DropIndexProperties(ctx context.Context, opt DropIndexPropertie
    </tr>
 </table>
 
-## DropIndexPropertiesOption{#dropindexpropertiesoption}
+## DropIndexPropertiesOption\{#dropindexpropertiesoption}
 
 This is an interface type. The `dropIndexPropertiesOption` struct type implements this interface. You can use `NewDropIndexPropertiesOption()` to get its concrete implementation.
 
-### NewDescribeIndexPropertiesOption{#newdescribeindexpropertiesoption}
+### NewDescribeIndexPropertiesOption\{#newdescribeindexpropertiesoption}
 
 This method prepares the options for `DropIndexProperties()`. The signature of this method is as follows:
 
@@ -83,11 +86,11 @@ func NewDropIndexPropertiesOption(collectionName string, indexName string, keys 
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 

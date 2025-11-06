@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "load_collection() | Python | MilvusClient"
 slug: /python/python/Management-load_collection
 sidebar_label: "load_collection()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation loads the data of a specific collection into memory. | Python | MilvusClient"
 type: docx
-token: FLmWdFP9Zo3JcixOEgucU8JMnLc
+token: YtiQdxTYzoCaYDxEMZcc8TEenQb
 sidebar_position: 10
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - load_collection()
-  - pymilvus25
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - pymilvus26
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation loads the data of a specific collection into memory.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 load_collection(
@@ -50,6 +53,10 @@ load_collection(
     **[REQUIRED]**
 
     The name of a collection.
+
+- **priority** (*string*) -
+
+    The load priority of the current collection. The value may impact CPU usage during the load process. Possible values are `low` and `high`.
 
 - **timeout** (*float* | *None*) -
 
@@ -71,7 +78,7 @@ None
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient, DataType
@@ -162,7 +169,7 @@ client.load_collection(
 )
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [get_load_state()](./Management-get_load_state)
 

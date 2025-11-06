@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "flush() | Node.js"
 slug: /node/node/Management-flush
 sidebar_label: "flush()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation manually seals a segment and persists the data on disk. It is recommended that this operation be called after all the data has been inserted into a collection. | Node.js"
 type: docx
 token: E2XJd4ZHvoc7QlxyrEJcrOJOn9f
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
-  - nodejs25
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - nodejs26
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -44,7 +47,7 @@ flush(data): Promise<FlushResult>
 
 </Admonition>
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.flush({
@@ -107,7 +110,7 @@ This method returns a promise that resolves to a **FlushResult** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

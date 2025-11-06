@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "loadPartitions() | Node.js"
 slug: /node/node/Partitions-loadPartitions
 sidebar_label: "loadPartitions()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation loads a specific set of partitions in a specified collection into memory. | Node.js"
 type: docx
 token: Pyh3dttWKoBqcBx8FGhcArhAnqg
 sidebar_position: 6
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitions()
-  - nodejs25
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - nodejs26
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation loads a specific set of partitions in a specified collection into
 loadPartitions(data): Promise<ResStatus>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.loadPartitions({
@@ -107,7 +110,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 new milvusClient(MILUVS_ADDRESS).loadPartitions({

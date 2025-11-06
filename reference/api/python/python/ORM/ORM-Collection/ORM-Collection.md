@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "Collection | Python | ORM"
 slug: /python/python/ORM-Collection
 sidebar_label: "Collection"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "A Collection instance represents a Milvus collection. | Python | ORM"
 type: docx
 token: OSehdj15Ao3AUvxOIJucXzU8nWW
 sidebar_position: 1
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - Collection
-  - pymilvus25
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - pymilvus26
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ A **Collection** instance represents a Milvus collection.
 class pymilvus.Collection
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs a collection by name, schema, and other parameters.
 
@@ -121,7 +124,7 @@ A collection object.
 
     This exception will be raised when the provided schema is invalid.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -150,7 +153,7 @@ collection = Collection(
 )
 ```
 
-## Members{#members}
+## Members\{#members}
 
 The following are the members of the `Collection` class:
 
