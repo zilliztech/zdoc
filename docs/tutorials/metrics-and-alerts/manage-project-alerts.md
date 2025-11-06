@@ -3,6 +3,9 @@ title: "Manage Project Alerts | Cloud"
 slug: /manage-project-alerts
 sidebar_label: "Manage Project Alerts"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Project alerts enable proactive monitoring of your Zilliz Cloud clusters by sending notifications when specified conditions are met. You can configure project alerts to monitor cluster metrics such as CU capacity, query performance, ensuring you're immediately notified of potential issues that require attention. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 
@@ -33,27 +36,27 @@ Project alerts enable proactive monitoring of your Zilliz Cloud clusters by send
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is exclusively available to clusters in the Standard and Enterprise plans. For more information, see <a href="./select-zilliz-cloud-service-plans">Detailed Plan Comparison</a>.</p>
+<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
 
 </Admonition>
 
-## Before you start{#before-you-start}
+## Before you start\{#before-you-start}
 
 Before creating or managing project alerts, ensure you have:
 
 - **Organization Owner** or **Project Admin** role access
 
-## View project alerts{#view-project-alerts}
+## View project alerts\{#view-project-alerts}
 
 Navigate to **Project Alerts** in the left sidebar to access your project alert dashboard.
 
 <Supademo id="cmb5xa9pg39f6ppkpjwalrmro" title="Zilliz Cloud - View Project Alerts Demo" />
 
-### Alert history{#alert-history}
+### Alert history\{#alert-history}
 
 Use the **History** tab when you need to investigate past events, understand alert patterns, or demonstrate system reliability.
 
-### Alert settings{#alert-settings}
+### Alert settings\{#alert-settings}
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
@@ -77,7 +80,7 @@ When viewing alerts, you'll encounter the following configuration items:
      <td><p>Toggle switch showing current alert state: Enabled (Active monitoring) or Disabled (No notifications)</p></td>
    </tr>
    <tr>
-     <td><p>Target</p></td>
+     <td><p>Target Cluster</p></td>
      <td><p>Monitored clusters - specific clusters (e.g., "Dedicated-02, Dedicated-01") or all Dedicated clusters (including those to be created later)</p></td>
    </tr>
    <tr>
@@ -91,6 +94,10 @@ When viewing alerts, you'll encounter the following configuration items:
    <tr>
      <td><p>Receiver</p></td>
      <td><p>Notification recipients including configured email addresses and notification channels.</p><p>For a list of notification channels available, refer to <a href="./manage-notification-channels">Manage Notification Channels</a>.</p></td>
+   </tr>
+   <tr>
+     <td><p>Alert Interval</p></td>
+     <td><p>Suppresses repeat notifications for a set time after each alert is sent.</p><ul><li><p>If an alert persists, notifications will not be resent during the interval. A notification will be resent before entering the next interval.</p></li><li><p>If the alert is resolved, the alert interval will be reset and resume alert evaluation.</p></li></ul></td>
    </tr>
    <tr>
      <td><p>Actions</p></td>
@@ -118,7 +125,7 @@ curl --request GET \
 </TabItem>
 </Tabs>
 
-## Create a project alert{#create-a-project-alert}
+## Create a project alert\{#create-a-project-alert}
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
 
@@ -173,7 +180,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Manage project alerts{#manage-project-alerts}
+## Manage project alerts\{#manage-project-alerts}
 
 Modify, organize, and maintain your existing alerts to keep monitoring relevant and effective.
 
@@ -185,7 +192,7 @@ Modify, organize, and maintain your existing alerts to keep monitoring relevant 
 
 </Admonition>
 
-### Disable or enable an alert{#disable-or-enable-an-alert}
+### Disable or enable an alert\{#disable-or-enable-an-alert}
 
 Control active monitoring without losing configuration.
 
@@ -193,7 +200,7 @@ Control active monitoring without losing configuration.
 
 - **Enabled alerts:** Actively monitor clusters and send notifications when thresholds are exceeded
 
-### Edit an alert{#edit-an-alert}
+### Edit an alert\{#edit-an-alert}
 
 Update alert configurations when monitoring requirements change.
 
@@ -203,11 +210,11 @@ Modify any alert parameter including:
 
 - Target clusters and metric types
 
-- Notification recipients and channels
+- Nnotification channels, recipients, and alert intervals
 
 - Severity levels and duration settings
 
-### Clone an alert{#clone-an-alert}
+### Clone an alert\{#clone-an-alert}
 
 Create similar alerts with minimal setup effort. Cloning copies all existing settings, allowing you to:
 
@@ -217,7 +224,7 @@ Create similar alerts with minimal setup effort. Cloning copies all existing set
 
 - Scale monitoring across multiple projects
 
-### Delete an alert{#delete-an-alert}
+### Delete an alert\{#delete-an-alert}
 
 Remove obsolete or redundant monitoring rules.
 
@@ -227,7 +234,7 @@ Remove obsolete or redundant monitoring rules.
 
 </Admonition>
 
-## Configure alert receiver settings{#configure-alert-receiver-settings}
+## Configure alert receiver settings\{#configure-alert-receiver-settings}
 
 Set project-wide default notification settings, ensuring consistent monitoring practices across your team.
 
@@ -241,9 +248,9 @@ When configuring settings, you'll encounter the following concepts:
 
 - **Apply Settings to Existing Alerts**: Choose whether to update all existing alerts with new default settings.
 
-## FAQ{#faq}
+## FAQ\{#faq}
 
-### How often will I receive alert notifications when an alert is triggered?{#how-often-will-i-receive-alert-notifications-when-an-alert-is-triggered}
+### How often will I receive alert notifications when an alert is triggered?\{#how-often-will-i-receive-alert-notifications-when-an-alert-is-triggered}
 
 Alert notifications follow an automatic frequency pattern:
 

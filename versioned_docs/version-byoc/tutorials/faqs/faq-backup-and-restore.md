@@ -17,13 +17,13 @@ This topic lists the possible issues that you may encounter while backing up and
 
 ## Contents
 
-- [Is the backup feature available in the Dedicated (Standard) plan?](#is-the-backup-feature-available-in-the-dedicated-standard-plan)
+- [Is the backup feature available in the Standard plan?](#is-the-backup-feature-available-in-the-standard-plan)
 
 ## FAQs
 
 
 
 
-### Is the backup feature available in the Dedicated (Standard) plan?{#is-the-backup-feature-available-in-the-dedicated-standard-plan}
+### Is the backup feature available in the Standard plan?{#is-the-backup-feature-available-in-the-standard-plan}
 
-Yes. Creating bakcups is available in both Dedicated (Standard) and Dedicated (Enterprise) plans.
+Yes. Creating backups is available to **Dedicated** clusters in a **Standard** project.

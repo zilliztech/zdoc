@@ -3,11 +3,14 @@ title: "Integrate with Datadog | Cloud"
 slug: /integrate-with-datadog
 sidebar_label: "Datadog"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Datadog is a cloud monitoring and analytics platform that provides real-time insights into application performance, infrastructure, and log management. By integrating Zilliz Cloud with Datadog, you can send metric data about your Zilliz Cloud clusters to your Datadog dashboards. | Cloud"
 type: origin
 token: JGFQwMcVmiikeOkhepGcQ8Ken0e
-sidebar_position: 2
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +18,10 @@ keywords:
   - third-party
   - services
   - datadog
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 
@@ -29,19 +32,19 @@ import Admonition from '@theme/Admonition';
 
 [Datadog](https://www.datadoghq.com/) is a cloud monitoring and analytics platform that provides real-time insights into application performance, infrastructure, and log management. By integrating Zilliz Cloud with Datadog, you can send metric data about your Zilliz Cloud clusters to your Datadog dashboards.
 
-<Admonition type="info" icon="📘" title="Notes">
+<Admonition type="info" icon="📘" title="说明">
 
-<p><a href="https://www.datadoghq.com/">Datadog</a> integration is available only for Zilliz Cloud clusters running the <strong>Dedicated-Enterprise</strong> plan. To upgrade your plan tier, refer to <a href="./manage-cluster">Manage Cluster</a>.</p>
+<p>This feature is available only to <strong>Dedicated</strong> clusters in an <strong>Enterprise</strong> project.</p>
 
 </Admonition>
 
-## Before you start{#before-you-start}
+## Before you start\{#before-you-start}
 
 - To integrate with Datadog, you must have **Organization Owner** or **Project Admin** access to the project. If you do not have necessary permissions, contact your Zilliz Cloud administrator.
 
 - You must have a Datadog account and a Datadog API key. For information on how to access your API key, refer to [API and Application Keys](https://docs.datadoghq.com/account_management/api-app-keys/#application-keys).
 
-## Procedure{#procedure}
+## Procedure\{#procedure}
 
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
@@ -68,31 +71,31 @@ import Admonition from '@theme/Admonition';
                </tr>
                <tr>
                  <td><p><code>US1</code></p></td>
-                 <td><p><code>https://app.datadoghq.com</code></p></td>
+                 <td><p><code><i>http</i>s://app.datadoghq.com</code></p></td>
                  <td><p><code>datadoghq.com</code></p></td>
                  <td><p>US</p></td>
                </tr>
                <tr>
                  <td><p><code>US3</code></p></td>
-                 <td><p><code>https://us3.datadoghq.com</code></p></td>
+                 <td><p><code><i>http</i>s://us3.datadoghq.com</code></p></td>
                  <td><p><code>us3.datadoghq.com</code></p></td>
                  <td><p>US</p></td>
                </tr>
                <tr>
                  <td><p><code>US5</code></p></td>
-                 <td><p><code>https://us5.datadoghq.com</code></p></td>
+                 <td><p><code><i>http</i>s://us5.datadoghq.com</code></p></td>
                  <td><p><code>us5.datadoghq.com</code></p></td>
                  <td><p>US</p></td>
                </tr>
                <tr>
                  <td><p><code>EU1</code></p></td>
-                 <td><p><code>https://app.datadoghq.eu</code></p></td>
+                 <td><p><code><i>http</i>s://app.datadoghq.eu</code></p></td>
                  <td><p><code>datadoghq.eu</code></p></td>
                  <td><p>EU (Germany)</p></td>
                </tr>
                <tr>
                  <td><p><code>AP1</code></p></td>
-                 <td><p><code>https://ap1.datadoghq.com</code></p></td>
+                 <td><p><code><i>http</i>s://ap1.datadoghq.com</code></p></td>
                  <td><p><code>ap1.datadoghq.com</code></p></td>
                  <td><p>Japan</p></td>
                </tr>
@@ -114,7 +117,7 @@ import Admonition from '@theme/Admonition';
 
 ![integrate-with-datadog-1](/img/integrate-with-datadog-1.png)
 
-## Monitor integration progress{#monitor-integration-progress}
+## Monitor integration progress\{#monitor-integration-progress}
 
 After setup, return to the **Integrations** page and verify that your Datadog integration is listed with the provided configuration details. If the status changes to **Active**, the integration is successful. Zilliz Cloud pushes data to Datadog at a minute-level frequency, ensuring near real-time updates.
 
@@ -122,7 +125,7 @@ By clicking the external link icon next to the integration, you can open the ass
 
 ![integrate-with-datadog-2](/img/integrate-with-datadog-2.png)
 
-## Manage integrations{#manage-integrations}
+## Manage integrations\{#manage-integrations}
 
 To manage your Datadog integration, use the **Actions** column:
 
@@ -132,11 +135,11 @@ To manage your Datadog integration, use the **Actions** column:
 
 ![integrate-with-datadog-3](/img/integrate-with-datadog-3.png)
 
-## Performance metrics available to Datadog{#performance-metrics-available-to-datadog}
+## Performance metrics available to Datadog\{#performance-metrics-available-to-datadog}
 
 [Datadog](https://www.datadoghq.com/) tracks the following metric data for your Zilliz Cloud cluster. The metric names in parentheses are the names used in the Datadog UI.
 
-### Resource{#resource}
+### Resource\{#resource}
 
 <table>
    <tr>
@@ -161,7 +164,7 @@ To manage your Datadog integration, use the **Actions** column:
    </tr>
 </table>
 
-### Performance{#performance}
+### Performance\{#performance}
 
 <table>
    <tr>
@@ -196,7 +199,7 @@ To manage your Datadog integration, use the **Actions** column:
    </tr>
 </table>
 
-### Data{#data}
+### Data\{#data}
 
 <table>
    <tr>
@@ -226,7 +229,7 @@ To manage your Datadog integration, use the **Actions** column:
    </tr>
 </table>
 
-## Tags available to Datadog{#tags-available-to-datadog}
+## Tags available to Datadog\{#tags-available-to-datadog}
 
 Datadog sends the following tags on certain metrics to help you better understand, organize, and identify resources.
 

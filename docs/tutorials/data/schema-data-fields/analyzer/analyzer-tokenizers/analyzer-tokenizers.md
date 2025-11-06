@@ -3,6 +3,9 @@ title: "Tokenizer Reference | Cloud"
 slug: /analyzer-tokenizers
 sidebar_label: "Tokenizer"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This section provides a detailed reference for tokenizers. | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

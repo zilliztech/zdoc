@@ -3,6 +3,9 @@ title: "Full Text Search | Cloud"
 slug: /full-text-search
 sidebar_label: "Full Text Search"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Full text search is a feature that retrieves documents containing specific terms or phrases in text datasets, then ranking the results based on relevance. This feature overcomes semantic search limitations, which might overlook precise terms, ensuring you receive the most accurate and contextually relevant results. Additionally, it simplifies vector searches by accepting raw text input, automatically converting your text data into sparse embeddings without the need to manually generate vector embeddings. | Cloud"
 type: origin
@@ -19,10 +22,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 
@@ -44,7 +47,7 @@ Using the BM25 algorithm for relevance scoring, this feature is particularly val
 
 Zilliz Cloud supports enabling full text search programmatically or via the web console. This page focuses on how to enable full text search programmatically. For details about operations on the web console, refer to [Manage Collections (Console)](./manage-collections-console#full-text-search).
 
-## Overview{#overview}
+## Overview\{#overview}
 
 Full text search simplifies the process of text-based searching by eliminating the need for manual embedding. This feature operates through the following workflow:
 
@@ -68,7 +71,7 @@ To use full text search, follow these main steps:
 
 1. [Perform searches](./full-text-search#perform-full-text-search): Use query texts to search through your collection and retrieve relevant results.
 
-## Create a collection for full text search{#create-a-collection-for-full-text-search}
+## Create a collection for full text search\{#create-a-collection-for-full-text-search}
 
 To enable full text search, create a collection with a specific schema. This schema must include three necessary fields:
 
@@ -78,7 +81,7 @@ To enable full text search, create a collection with a specific schema. This sch
 
 - A `SPARSE_FLOAT_VECTOR` field reserved to store sparse embeddings that Zilliz Cloud will automatically generate for the `VARCHAR` field.
 
-### Define the collection schema{#define-the-collection-schema}
+### Define the collection schema\{#define-the-collection-schema}
 
 First, create the schema and add the necessary fields:
 
@@ -243,7 +246,7 @@ In this configuration,
 
 - `id`: serves as the primary key and is automatically generated with `auto_id=True`.
 
-- `text`: stores your raw text data for full text search operations. The data type must be `VARCHAR`, as `VARCHAR` is Zilliz Cloud string data type for text storage. Set `enable_analyzer=True` to allow Zilliz Cloud to tokenize the text. By default, Zilliz Cloud uses the `standard`[ analyzer](./standard-analyzer) for text analysis. To configure a different analyzer, refer to [Analyzer Overview](./analyzer-overview).
+- `text`: stores your raw text data for full text search operations. The data type must be `VARCHAR`, as `VARCHAR` is Zilliz Cloud string data type for text storage. Set `enable_analyzer=True` to allow Zilliz Cloud to tokenize the text. By default, Zilliz Cloud uses the [`standard`](./standard-analyzer)[ analyzer](./standard-analyzer) for text analysis. To configure a different analyzer, refer to [Analyzer Overview](./analyzer-overview).
 
 - `sparse`: a vector field reserved to store internally generated sparse embeddings for full text search operations. The data type must be `SPARSE_FLOAT_VECTOR`.
 
@@ -382,7 +385,7 @@ export schema='{
 
 </Admonition>
 
-### Configure the index{#configure-the-index}
+### Configure the index\{#configure-the-index}
 
 After defining the schema with necessary fields and the built-in function, set up the index for your collection. To simplify this process, use `AUTOINDEX` as the `index_type`, an option that allows Zilliz Cloud to choose and configure the most suitable index type based on the structure of your data.
 
@@ -409,9 +412,9 @@ index_params.add_index(
 import io.milvus.v2.common.IndexParam;
 
 Map<String,Object> params = new HashMap<>();
-fvParams.put("inverted_index_algo", "DAAT_MAXSCORE");
-fvParams.put("bm25_k1", 1.2);
-fvParams.put("bm25_b", 0.75);
+params.put("inverted_index_algo", "DAAT_MAXSCORE");
+params.put("bm25_k1", 1.2);
+params.put("bm25_b", 0.75);
 
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
@@ -510,7 +513,7 @@ export indexParams='[
    </tr>
 </table>
 
-### Create the collection{#create-the-collection}
+### Create the collection\{#create-the-collection}
 
 Now create the collection using the schema and index parameters defined.
 
@@ -589,7 +592,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Insert text data{#insert-text-data}
+## Insert text data\{#insert-text-data}
 
 After setting up your collection and index, you're ready to insert text data. In this process, you need only to provide the raw text. The built-in function we defined earlier automatically generates the corresponding sparse vector for each text entry.
 
@@ -672,7 +675,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Perform full text search{#perform-full-text-search}
+## Perform full text search\{#perform-full-text-search}
 
 Once you've inserted data into your collection, you can perform full text searches using raw text queries. Zilliz Cloud automatically converts your query into a sparse vector and ranks the matched search results using the BM25 algorithm, and then returns the topK (`limit`) results.
 
@@ -800,11 +803,11 @@ curl --request POST \
    </tr>
    <tr>
      <td><p><code>params.level</code></p></td>
-     <td><p>Controls the search precision with simplified search optimization. For details, refer to <a href="./single-vector-search">Use Level</a>.</p></td>
+     <td><p>Controls the search precision with simplified search optimization. For details, refer to <a href="./tune-recall-rate">Tune Recall Rate</a>.</p></td>
    </tr>
    <tr>
      <td><p><code>data</code></p></td>
-     <td><p>Raw query text in natural language. Milvus automatically converts your text query into sparse vectors using the BM25 function - do not provide pre-computed vectors.</p></td>
+     <td><p>Raw query text in natural language. Zilliz Cloud automatically converts your text query into sparse vectors using the BM25 function - do not provide pre-computed vectors.</p></td>
    </tr>
    <tr>
      <td><p><code>anns_field</code></p></td>
@@ -820,9 +823,9 @@ curl --request POST \
    </tr>
 </table>
 
-## FAQ{#faq}
+## FAQ\{#faq}
 
-### Can I output or access the sparse vectors generated by the BM25 function in full text search?{#can-i-output-or-access-the-sparse-vectors-generated-by-the-bm25-function-in-full-text-search}
+### Can I output or access the sparse vectors generated by the BM25 function in full text search?\{#can-i-output-or-access-the-sparse-vectors-generated-by-the-bm25-function-in-full-text-search}
 
 No, the sparse vectors generated by the BM25 function are not directly accessible or outputable in full text search. Here are the details:
 
@@ -858,7 +861,7 @@ client.search(
 )
 ```
 
-### Why do I need to define a sparse vector field if I can't access it?{#why-do-i-need-to-define-a-sparse-vector-field-if-i-cant-access-it}
+### Why do I need to define a sparse vector field if I can't access it?\{#why-do-i-need-to-define-a-sparse-vector-field-if-i-cant-access-it}
 
 The sparse vector field serves as an internal search index, similar to database indexes that users don't directly interact with.
 

@@ -3,21 +3,24 @@ title: "Subscribe by Adding Credit Card | Cloud"
 slug: /subscribe-by-adding-credit-card
 sidebar_label: "Credit Card"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide provides comprehensive instructions on how to add a payment credit card for your organization on Zilliz Cloud. | Cloud"
 type: origin
 token: TVnkwXupUiX3zDkzYPWcxKP3nvg
-sidebar_position: 1
+sidebar_position: 2
 keywords: 
   - zilliz
   - vector database
   - cloud
   - credit card
   - subscribe
-  - Dense vector
   - Hierarchical Navigable Small Worlds
   - Dense embedding
   - Faiss vector database
+  - Chroma vector database
 
 ---
 
@@ -36,7 +39,7 @@ This guide provides comprehensive instructions on how to add a payment credit ca
 
 </Admonition>
 
-## Add a credit card{#add-a-credit-card}
+## Add a credit card\{#add-a-credit-card}
 
 1. After registering an account and logging in, navigate to **Billing** from the left-side menu to access your billing overview.
 
@@ -78,7 +81,7 @@ All fields above are mandatory. Upon completion, the **Add** button will be acti
 
 ![add-credit-card](/img/add-credit-card.png)
 
-## Edit your payment method{#edit-your-payment-method}
+## Edit your payment method\{#edit-your-payment-method}
 
 Your payment method can be viewed and edited at any time from the **Billing** **Overview** page.
 
@@ -86,7 +89,7 @@ Your payment method can be viewed and edited at any time from the **Billing** **
 
 Should your credit card approach its expiration date, you will be notified by our [credit card expiration monitor](./manage-organization-alerts). You may choose to update your payment information or switch to an [AWS Marketplace subscription](./subscribe-on-aws-marketplace) at your convenience.
 
-### **Edit credit card**{#edit-credit-card}
+### **Edit credit card**\{#edit-credit-card}
 
 To update your credit card information, click on the pencil icon in the **Payment Method** area.
 
@@ -126,13 +129,13 @@ All fields above are mandatory. Upon completion, the **Update** button will be a
 
 ![update-payment-method](/img/update-payment-method.png)
 
-### **Edit billing profile**{#edit-billing-profile}
+### **Edit billing profile**\{#edit-billing-profile}
 
 To update your billing profile, click on the pencil icon in the **Billing Profile** area.
 
 ![edit-billing-profile](/img/edit-billing-profile.png)
 
-### **Switch to Marketplace subscription**{#switch-to-marketplace-subscription}
+### **Switch to Marketplace subscription**\{#switch-to-marketplace-subscription}
 
 For those who prefer to transition from a credit card payment method to an AWS, GCP, or Azure Marketplace subscription, visit the corresponding Marketplace and subscribe to Zilliz Cloud services. Reference our guide on [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace), [Subscribe on GCP Marketplace](./subscribe-on-gcp-marketplace), and [Subscribe on Azure Marketplace](./subscribe-on-azure-marketplace) for detailed instructions.
 
@@ -144,11 +147,11 @@ Upon successful subscription via AWS Marketplace, your existing credit card info
 
 </Admonition>
 
-## Remove payment credit card{#remove-payment-credit-card}
+## Remove payment credit card\{#remove-payment-credit-card}
 
 Currently, Zilliz Cloud does not support removing payment credit card on the web console. Should you need to remove a linked credit card, please contact us and submit a ticket at the Zilliz Cloud [support portal](https://support.zilliz.com/hc/en-us).
 
-## Related topics{#related-topics}
+## Related topics\{#related-topics}
 
 - [Subscribe on AWS Marketplace](./subscribe-on-aws-marketplace)
 

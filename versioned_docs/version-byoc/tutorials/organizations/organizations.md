@@ -3,6 +3,9 @@ title: "Organizations | BYOC"
 slug: /organizations
 sidebar_label: "Organizations"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The chapter focuses on organization operations and related settings. | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

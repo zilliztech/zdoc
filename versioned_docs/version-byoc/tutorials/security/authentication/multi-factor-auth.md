@@ -3,6 +3,9 @@ title: "MFA | BYOC"
 slug: /multi-factor-auth
 sidebar_label: "MFA"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Authentication serves as a gateway to verify one's identity during the login process. Zilliz Cloud enhances this security by offering Multi-factor Authentication (MFA), an advanced login method requiring additional verification beyond a password. MFA is an effective measure against unauthorized access and is recommended for all users. Currently, only users registered with a work email and password can manage MFA on the web console. With MFA enabled, you must enter both your password and the email verification code during each login attempt for added security. | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 
@@ -27,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 Authentication serves as a gateway to verify one's identity during the login process. Zilliz Cloud enhances this security by offering Multi-factor Authentication (MFA), an advanced login method requiring additional verification beyond a password. MFA is an effective measure against unauthorized access and is recommended for all users. Currently, only users registered with a work email and password can manage MFA on the web console. With MFA enabled, you must enter both your password and the email verification code during each login attempt for added security.
 
-### Enable MFA{#enable-mfa}
+### Enable MFA\{#enable-mfa}
 
 1. Go to your **Profile** and choose **Account Settings**.
 
@@ -48,7 +51,7 @@ Authentication serves as a gateway to verify one's identity during the login pro
 
 ![enable_mfa_en](/img/enable_mfa_en.png)
 
-### Disable MFA{#disable-mfa}
+### Disable MFA\{#disable-mfa}
 
 1. Go to your **Profile** and choose **Account Settings**.
 

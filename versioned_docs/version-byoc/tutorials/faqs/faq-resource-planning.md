@@ -19,8 +19,8 @@ This topic lists the possible issues that you may encounter while planning your 
 
 - [What is a Compute Unit (CU)?](#what-is-a-compute-unit-cu)
 - [How can I avoid expenses on unused clusters?](#how-can-i-avoid-expenses-on-unused-clusters)
-- [How many CUs do I need for a given collection?](#how-many-cus-do-i-need-for-a-given-collection)
-- [Which type of CU should I pick?](#which-type-of-cu-should-i-pick)
+- [How many query CUs do I need for a given collection?](#how-many-query-cus-do-i-need-for-a-given-collection)
+- [Which type of cluster should I pick?](#which-type-of-cluster-should-i-pick)
 - [What's the difference between Performance-optimized CU and Capacity-optimized CU?](#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu)
 
 ## FAQs
@@ -38,21 +38,21 @@ For more details, see [Select the Right CU](./cu-types-explained).
 
 We recommend suspending unused clusters to save computing costs. You can resume them later when necessary.
 
-### How many CUs do I need for a given collection?{#how-many-cus-do-i-need-for-a-given-collection}
+### How many query CUs do I need for a given collection?{#how-many-query-cus-do-i-need-for-a-given-collection}
 
-- Performance-optimized CU: Supports up to 1.5 million 768-dimensional vectors.
+- Performance-optimized: Supports up to 1.5 million 768-dimensional vectors.
 
-- Capacity-optimized CU: Supports up to 5 million 768-dimensional vectors.
+- Capacity-optimized: Supports up to 5 million 768-dimensional vectors.
 
-- Extended-capacity CU: Supports up to 20 million 768-dimensional vectors.
+- Tiered-storage: Supports up to 20 million 768-dimensional vectors.
 
 These estimates are based on vectors with primary keys only. Additional scalar fields like IDs or labels may reduce capacity. We recommend conducting your own tests for accurate assessment.
 
-### Which type of CU should I pick?{#which-type-of-cu-should-i-pick}
+### Which type of cluster should I pick?{#which-type-of-cluster-should-i-pick}
 
-Select the Performance-optimized CU if you instant search results and high concurrent traffic for real-time applications.
-Choose the Capacity-optimized CU if you need to handle large vector datasets while maintaining reliable search speeds.
-Opt for the Extended-capacity CU if you need to manage massive-scale datasets where optimizing total cost is prioritized over latency.
+Select the Performance-optimized if you instant search results and high concurrent traffic for real-time applications.
+Choose the Capacity-optimized if you need to handle large vector datasets while maintaining reliable search speeds.
+Opt for the Tiered-storage cluster if you need to handle ultra-large-scale, cost-sensitive workloads with clear hot and cold data patterns. To select a Tiered-storage cluster, your cluster must have at least 8 query CUs.
 
 ### What's the difference between Performance-optimized CU and Capacity-optimized CU?{#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu}
 

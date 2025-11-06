@@ -3,6 +3,9 @@ title: "Dense Vector | BYOC"
 slug: /use-dense-vector
 sidebar_label: "Dense Vector"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Dense vectors are numerical data representations widely used in machine learning and data analysis. They consist of arrays with real numbers, where most or all elements are non-zero. Compared to sparse vectors, dense vectors contain more information at the same dimensional level, as each dimension holds meaningful values. This representation can effectively capture complex patterns and relationships, making data easier to analyze and process in high-dimensional spaces. Dense vectors typically have a fixed number of dimensions, ranging from a few dozen to several hundred or even thousands, depending on the specific application and requirements. | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 
@@ -32,7 +35,7 @@ Dense vectors are numerical data representations widely used in machine learning
 
 Dense vectors are mainly used in scenarios that require understanding the semantics of data, such as semantic search and recommendation systems. In semantic search, dense vectors help capture the underlying connections between queries and documents, improving the relevance of search results. In recommendation systems, they aid in identifying similarities between users and items, offering more personalized suggestions.
 
-## Overview{#overview}
+## Overview\{#overview}
 
 Dense vectors are typically represented as arrays of floating-point numbers with a fixed length, such as `[0.2, 0.7, 0.1, 0.8, 0.3, ..., 0.5]`. The dimensionality of these vectors usually ranges from hundreds to thousands, such as 128, 256, 768, or 1024. Each dimension captures specific semantic features of an object, making it applicable to various scenarios through similarity calculations.
 
@@ -75,9 +78,9 @@ Once data is vectorized, it can be stored in Zilliz Cloud clusters for managemen
 
 </Admonition>
 
-## Use dense vectors{#use-dense-vectors}
+## Use dense vectors\{#use-dense-vectors}
 
-### Add vector field{#add-vector-field}
+### Add vector field\{#add-vector-field}
 
 To use dense vectors in Zilliz Cloud clusters, first define a vector field for storing dense vectors when creating a collection. This process includes:
 
@@ -247,9 +250,13 @@ export schema="{
      <td><p><code>BFLOAT16_VECTOR</code></p></td>
      <td><p>Stores 16-bit Brain Floating Point (bfloat16) numbers, offering the same range of exponents as Float32 but with reduced precision. Suitable for scenarios that need to process large volumes of vectors quickly, such as large-scale image retrieval.</p></td>
    </tr>
+   <tr>
+     <td><p><code>INT8_VECTOR</code></p></td>
+     <td><p>Stores vectors whose individual elements in each dimension are 8-bit integers (int8), with each element ranging from –128 to 127. Designed for quantized deep learning models (e.g., ResNet, EfficientNet), INT8_VECTOR reduces model size and speeds up inference with minimal precision loss.</p></td>
+   </tr>
 </table>
 
-### Set index params for vector field{#set-index-params-for-vector-field}
+### Set index params for vector field\{#set-index-params-for-vector-field}
 
 To accelerate semantic searches, an index must be created for the vector field. Indexing can significantly improve the retrieval efficiency of large-scale vector data.
 
@@ -330,7 +337,7 @@ In the example above, an index named `dense_vector_index` is created for the `de
 
 Zilliz Cloud supports other metric types. For more information, refer to [Metric Types](./search-metrics-explained).
 
-### Create collection{#create-collection}
+### Create collection\{#create-collection}
 
 Once the dense vector and index param settings are complete, you can create a collection containing dense vectors. The example below uses the `create_collection` method to create a collection named `my_collection`.
 
@@ -417,7 +424,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Insert data{#insert-data}
+### Insert data\{#insert-data}
 
 After creating the collection, use the `insert` method to add data containing dense vectors. Ensure that the dimensionality of the dense vectors being inserted matches the `dim` value defined when adding the dense vector field.
 
@@ -513,7 +520,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Perform similarity search{#perform-similarity-search}
+### Perform similarity search\{#perform-similarity-search}
 
 Semantic search based on dense vectors is one of the core features of Zilliz Cloud clusters, allowing you to quickly find data that is most similar to a query vector based on the distance between vectors. To perform a similarity search, prepare the query vector and search parameters, then call the `search` method.
 

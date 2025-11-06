@@ -3,6 +3,9 @@ title: "Metric Types | BYOC"
 slug: /search-metrics-explained
 sidebar_label: "Metric Types"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Similarity metrics are used to measure similarities among vectors. Choosing an appropriate distance metric helps improve classification and clustering performance significantly. | BYOC"
 type: origin
@@ -20,10 +23,10 @@ keywords:
   - IP
   - COSINE
   - Jaccard
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 
@@ -64,6 +67,12 @@ The table below summarizes the mapping between different field types and their c
      <td><p><code>COSINE</code></p></td>
    </tr>
    <tr>
+     <td><p><code>INT8_VECTOR</code></p></td>
+     <td><p>2-32,768</p></td>
+     <td><p><code>COSINE</code>, <code>L2</code>, <code>IP</code></p></td>
+     <td><p><code>COSINE</code></p></td>
+   </tr>
+   <tr>
      <td><p><code>SPARSE\_FLOAT\_VECTOR</code></p></td>
      <td><p>No need to specify the dimension.</p></td>
      <td><p><code>IP</code>, <code>BM25</code> (used only for full text search)</p></td>
@@ -72,7 +81,7 @@ The table below summarizes the mapping between different field types and their c
    <tr>
      <td><p><code>BINARY_VECTOR</code></p></td>
      <td><p>8-32,768*8</p></td>
-     <td><p><code>HAMMING</code>, <code>JACCARD</code>,</p></td>
+     <td><p><code>HAMMING</code>, <code>JACCARD</code>, <code>MHJACCARD</code></p></td>
      <td><p><code>HAMMING</code></p></td>
    </tr>
 </table>
@@ -115,6 +124,11 @@ The table below summarizes the characteristics of the similarity distance values
      <td><p>[0, 1]</p></td>
    </tr>
    <tr>
+     <td><p><code>MHJACCARD</code></p></td>
+     <td><p>Estimates Jaccard similarity from MinHash signature bits; smaller distance = more similar</p></td>
+     <td><p>[0, 1]</p></td>
+   </tr>
+   <tr>
      <td><p><code>HAMMING</code></p></td>
      <td><p>A smaller value indicates a greater similarity.</p></td>
      <td><p>[0, dim(vector)]</p></td>
@@ -126,7 +140,7 @@ The table below summarizes the characteristics of the similarity distance values
    </tr>
 </table>
 
-## Euclidean distance (L2){#euclidean-distance-l2}
+## Euclidean distance (L2)\{#euclidean-distance-l2}
 
 Essentially, Euclidean distance measures the length of a segment that connects 2 points.
 
@@ -144,7 +158,7 @@ It's the most commonly used distance metric and is very useful when the data are
 
 </Admonition>
 
-## Inner product (IP){#inner-product-ip}
+## Inner product (IP)\{#inner-product-ip}
 
 The IP distance between two embeddings is defined as follows:
 
@@ -166,7 +180,7 @@ The correlation between the two embeddings is as follows:
 
 ![SHDAb6UUgo7qR6xLXb5cv4bKnke](/img/SHDAb6UUgo7qR6xLXb5cv4bKnke.png)
 
-## Cosine similarity{#cosine-similarity}
+## Cosine similarity\{#cosine-similarity}
 
 Cosine similarity uses the cosine of the angle between two sets of vectors to measure how similar they are. You can think of the two sets of vectors as line segments starting from the same point, such as [0,0,...], but pointing in different directions.
 
@@ -178,7 +192,7 @@ The cosine similarity is always in the interval **[-1, 1]**. For example, two pr
 
 By subtracting their cosine similarity from 1, you can get the cosine distance between two vectors.
 
-## JACCARD distance{#jaccard-distance}
+## JACCARD distance\{#jaccard-distance}
 
 JACCARD distance coefficient measures the similarity between two sample sets and is defined as the cardinality of the intersection of the defined sets divided by the cardinality of the union of them. It can only be applied to finite sample sets.
 
@@ -188,7 +202,33 @@ JACCARD distance measures the dissimilarity between data sets and is obtained by
 
 ![Kj2kbpNmHoTUUixjDC1ccTntnnV](/img/Kj2kbpNmHoTUUixjDC1ccTntnnV.png)
 
-## HAMMING distance{#hamming-distance}
+## MHJACCARD\{#mhjaccard}
+
+**MinHash Jaccard** (`MHJACCARD`) is a metric type used for efficient, approximate similarity search over large sets—such as document word sets, user tag sets, or genomic k-mer sets. Instead of comparing raw sets directly, MHJACCARD compares **MinHash signatures**, which are compact representations designed to estimate Jaccard similarity efficiently.
+
+This approach is significantly faster than computing exact Jaccard similarity and is especially useful in large-scale or high-dimensional scenarios.
+
+**Applicable vector type**
+
+- `BINARY_VECTOR`, where each vector stores a MinHash signature. Each element corresponds to the minimum hash value under one of the independent hash functions applied to the original set.
+
+**Distance definition**
+
+MHJACCARD measures how many positions in two MinHash signatures match. The higher the match ratio, the more similar the underlying sets are.
+
+Milvus reports:
+
+- **Distance = 1 - estimated similarity (match ratio)**
+
+The distance value ranges from 0 to 1:
+
+- **0** means the MinHash signatures are identical (estimated Jaccard similarity = 1)
+
+- **1** means no matches at any position (estimated Jaccard similarity = 0)
+
+For information on technical details, refer to [MINHASH_LSH](./minhash-lsh).
+
+## HAMMING distance\{#hamming-distance}
 
 HAMMING distance measures binary data strings. The distance between two strings of equal length is the number of bit positions at which the bits are different.
 
@@ -196,7 +236,7 @@ For example, suppose there are two strings, 1101 1001 and 1001 1101.
 
 11011001 ⊕ 10011101 = 01000100. Since, this contains two 1s, the HAMMING distance, d (11011001, 10011101) = 2.
 
-## BM25 similarity{#bm25-similarity}
+## BM25 similarity\{#bm25-similarity}
 
 BM25 is a widely used text relevance measurement method, specifically designed for [full text search](./full-text-search). It combines the following three key factors:
 
@@ -209,7 +249,7 @@ BM25 is a widely used text relevance measurement method, specifically designed f
 The BM25 scoring is calculated as follows:
 
 $$
-score(D, Q)=\sum_{i=1}^{n}IDF(q_i)\cdot {{TF(q_i,D)\cdot(k_1+1)}\over{TF(q_i, D)+k_1\cdot(1-b+b\cdot {{|D|}\over{avgdl}})}}
+score(D, Q)=\sum_{i=1}^{n}IDF(q_i)\cdot \{\{TF(q_i,D)\cdot(k_1+1)}\over\{TF(q_i, D)+k_1\cdot(1-b+b\cdot \{\{|D|}\over{avgdl}})}}
 $$
 
 Parameter description:
@@ -223,7 +263,7 @@ Parameter description:
 - $IDF(q_i)$: Inverse document frequency, calculated as:
 
     $$
-    IDF(q_i)=\log({N-n(q_i)+0.5\over n(q_i)+0.5} + 1)
+    IDF(q_i)=\log(\{N-n(q_i)+0.5\over n(q_i)+0.5} + 1)
     $$
 
     where $N$ is the total number of documents in the corpus, and$n(q_i)$ is the number of documents containing term $q_i$.

@@ -3,6 +3,9 @@ title: "Environment Isolation | Cloud"
 slug: /environment-isolation
 sidebar_label: "Environment Isolation"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Proper environment isolation and access control are essential in enterprise application development and deployment. Zilliz Cloud offers flexible isolation through a hierarchical structure of Organizations, Projects, and Clusters. This guide helps you select the most appropriate strategy based on your operational, security, and financial requirements. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - multi-tenancy
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 
@@ -28,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 Proper environment isolation and access control are essential in enterprise application development and deployment. Zilliz Cloud offers flexible isolation through a hierarchical structure of **Organizations**, **Projects**, and **Clusters**. This guide helps you select the most appropriate strategy based on your operational, security, and financial requirements.
 
-## Organization-level isolation{#organization-level-isolation}
+## Organization-level isolation\{#organization-level-isolation}
 
 Organization-level isolation is the most secure option.
 
@@ -48,7 +51,7 @@ Organization-level isolation is the most secure option.
 
 - By default, only one single organization is supported by Zilliz Cloud. If you need multiple organizations, please submit a request in the [Support Portal](https://support.zilliz.com/hc/en-us).
 
-## Project-level isolation{#project-level-isolation}
+## Project-level isolation\{#project-level-isolation}
 
 This option is recommended for most enterprise-grade production deployments where billing separation is not a requirement.
 
@@ -68,7 +71,7 @@ This option is recommended for most enterprise-grade production deployments wher
 
 - Sufficient isolation for most enterprise use cases
 
-## Cluster-level isolation{#cluster-level-isolation}
+## Cluster-level isolation\{#cluster-level-isolation}
 
 This is the most agile and lightweight option.
 
@@ -88,7 +91,7 @@ This is the most agile and lightweight option.
 
 - Centralized [monitoring](./metrics-and-alerts) for easier operation and management
 
-## Choosing the right isolation strategy{#choosing-the-right-isolation-strategy}
+## Choosing the right isolation strategy\{#choosing-the-right-isolation-strategy}
 
 Use the following flow to guide your decision:
 

@@ -3,6 +3,9 @@ title: "Search | BYOC"
 slug: /search-query-get
 sidebar_label: "Search"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud implements vector-based similarity searches and provides multiple optimizations to improve search efficiency and performance. In this chapter, you will learn the principles and tutorials of various vector search methods available on Zilliz Cloud. | BYOC"
 type: origin

@@ -3,11 +3,14 @@ title: "MCP Server | Cloud"
 slug: /zilliz-mcp-server
 sidebar_label: "MCP Server"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides an MCP server](https//github.com/zilliztech/zilliz-mcp-server/tree/master) that enables AI agents to interact with Zilliz Cloud seamlessly through the standardized [Model Context Protocol (MCP). This page guides you through setting up the Zilliz MCP Server locally and using it with your preferred AI agents. | Cloud"
 type: origin
 token: WRFqwygyNiZ0YJkmsfwcGEsSn4d
-sidebar_position: 14
+sidebar_position: 13
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +18,10 @@ keywords:
   - mcp
   - milvus
   - mcp server
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
   - Dense embedding
   - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 
@@ -29,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud provides an [MCP server](https://github.com/zilliztech/zilliz-mcp-server/tree/master) that enables AI agents to interact with Zilliz Cloud seamlessly through the standardized [Model Context Protocol (MCP)](https://modelcontextprotocol.io/). This page guides you through setting up the Zilliz MCP Server locally and using it with your preferred AI agents.
 
-## Before you start{#before-you-start}
+## Before you start\{#before-you-start}
 
 Ensure that you have
 
@@ -57,15 +60,15 @@ Ensure that you have
 
     You can install it by following the guides on [this page](https://github.com/astral-sh/uv?tab=readme-ov-file#installation).
 
-## Procedure{#procedure}
+## Procedure\{#procedure}
 
 To run Zilliz MCP Server, you need to prepare the configuration and add it to your preferred AI agents.
 
-### Step 1: Prepare Zilliz MCP Server configuration{#step-1-prepare-zilliz-mcp-server-configuration}
+### Step 1: Prepare Zilliz MCP Server configuration\{#step-1-prepare-zilliz-mcp-server-configuration}
 
 You can configure Zilliz MCP Server in either of the following modes:
 
-#### Local mode (Standard Input/Output){#local-mode-standard-inputoutput}
+#### Local mode (Standard Input/Output)\{#local-mode-standard-inputoutput}
 
 In this mode, Zilliz MCP Server is running locally along with your preferred AI agent on the same machine, and the AI agent manages Zilliz MCP Server's lifecycle directly. 
 
@@ -85,7 +88,7 @@ Once you have installed Python and uv on the machine where your AI agent runs, y
 }
 ```
 
-#### Server mode (Streamable HTTP){#server-mode-streamable-http}
+#### Server mode (Streamable HTTP)\{#server-mode-streamable-http}
 
 If you prefer to share Zilliz MCP Server among multiple AI agents running on different machines, run Zilliz MCP Server in server mode. This requires you to clone the Zilliz MCP Server repository and start the server on a separate machines before preparing the configurations.
 
@@ -124,7 +127,7 @@ If you prefer to share Zilliz MCP Server among multiple AI agents running on dif
     MCP_SERVER_HOST=localhost
     ```
 
-    Zilliz MCP Server starts at `localhost:8000` by default. You can change this by setting `MCP_SERVER_HOST` and `MCP_SERVER_PORT` to proper values.
+    Zilliz MCP Server starts at `localhost*:*8000` by default. You can change this by setting `MCP_SERVER_HOST` and `MCP_SERVER_PORT` to proper values.
 
 1. Start Zilliz MCP Server.
 
@@ -134,7 +137,7 @@ If you prefer to share Zilliz MCP Server among multiple AI agents running on dif
 
 1. Prepare the server configuration.
 
-    Zilliz MCP Server starts at `localhost:8000` by default. If you have modified the server settings in the **.env** file above, update the URL in the following configuration with the correct one.
+    Zilliz MCP Server starts at `localhost*:*8000` by default. If you have modified the server settings in the **.env** file above, update the URL in the following configuration with the correct one.
 
     ```json
     {
@@ -148,7 +151,7 @@ If you prefer to share Zilliz MCP Server among multiple AI agents running on dif
     }
     ```
 
-### Step 2: Add the configuration to your preferred AI agent{#step-2-add-the-configuration-to-your-preferred-ai-agent}
+### Step 2: Add the configuration to your preferred AI agent\{#step-2-add-the-configuration-to-your-preferred-ai-agent}
 
 MCP is an open protocol that standardizes how applications provide context to LLMs. Lots of AI-driven applications support it. In this step, you will learn how to add the configuration to Cursor, an AI code editor.
 
@@ -166,11 +169,11 @@ MCP is an open protocol that standardizes how applications provide context to LL
 
 The procedures for adding Zilliz MCP Server to your preferred AI applications are very similar. You can follow the instructions specific to your AI applications to add the configuration.
 
-## Available Tools{#available-tools}
+## Available Tools\{#available-tools}
 
 Zilliz MCP Server provides the following tools for you to interact with Zilliz Cloud.
 
-### Control plane tools{#control-plane-tools}
+### Control plane tools\{#control-plane-tools}
 
 These tools are used to manage resources, such as projects and clusters, on the control plane.
 
@@ -209,7 +212,7 @@ These tools are used to manage resources, such as projects and clusters, on the 
    </tr>
 </table>
 
-### Data plane tools{#data-plane-tools}
+### Data plane tools\{#data-plane-tools}
 
 These tools are used to manage resources, such as databases and collections, and conduct vector searches on the data plane.
 
@@ -256,7 +259,7 @@ These tools are used to manage resources, such as databases and collections, and
    </tr>
 </table>
 
-## Troubleshooting{#troubleshooting}
+## Troubleshooting\{#troubleshooting}
 
 1. **Why does my AI agent report that Zilliz MCP Server has zero tools?**
 

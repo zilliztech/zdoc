@@ -3,6 +3,9 @@ title: "Sparse Vector | Cloud"
 slug: /use-sparse-vector
 sidebar_label: "Sparse Vector"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Sparse vectors are an important method of capturing surface-level term matching in information retrieval and natural language processing. While dense vectors excel in semantic understanding, sparse vectors often provide more predictable matching results, especially when searching for special terms or textual identifiers. | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 
@@ -30,7 +33,7 @@ import TabItem from '@theme/TabItem';
 
 Sparse vectors are an important method of capturing surface-level term matching in information retrieval and natural language processing. While dense vectors excel in semantic understanding, sparse vectors often provide more predictable matching results, especially when searching for special terms or textual identifiers.
 
-## Overview{#overview}
+## Overview\{#overview}
 
 A sparse vector is a special high-dimensional vector where most elements are zero, and only a few dimensions have non-zero values. As shown in the diagram below, dense vectors are typically represented as continuous arrays where each position has a value (e.g., `[0.3, 0.8, 0.2, 0.3, 0.1]`). In contrast, sparse vectors store only non-zero elements and their indices of the dimension, often represented as key-value pairs of `{ index: value}` (e.g., `[{2: 0.2}, ..., {9997: 0.5}, {9999: 0.7}]`). 
 
@@ -40,7 +43,7 @@ With tokenization and scoring, documents can be represented as bag-of-words vect
 
 - **Traditional statistical techniques**, such as [TF-IDF](https://en.wikipedia.org/wiki/Tf%E2%80%93idf) (Term Frequency-Inverse Document Frequency) and [BM25](https://en.wikipedia.org/wiki/Okapi_BM25) (Best Matching 25), assign weights to words based on their frequency and importance across a corpus. These methods compute simple statistics as scores for each dimension, which represents a token.  Zilliz Cloud provides built-in **full-text search** with the BM25 method, which automatically converts text into sparse vectors, eliminating the need for manual preprocessing. This approach is ideal for keyword-based search, where precision and exact matches are important. Refer to [Full Text Search](./full-text-search) for more information.
 
-- **Neural sparse embedding models** are learned methods to generate sparse representations by training on large datasets. They are typically deep learning models with Transformer architecture, able to expand and weigh terms based on semantic context. Zilliz Cloud also supports externally generated sparse embeddings from models like [SPLADE](https://arxiv.org/abs/2109.10086). See [Embeddings](https://milvus.io/docs/embeddings.md#Embedding-Overview) for details.\</include>
+- **Neural sparse embedding models** are learned methods to generate sparse representations by training on large datasets. They are typically deep learning models with Transformer architecture, able to expand and weigh terms based on semantic context. Zilliz Cloud also supports externally generated sparse embeddings from models like [SPLADE](https://arxiv.org/abs/2109.10086). See [Embeddings](https://milvus.io/docs/embeddings.md#Embedding-Overview) for details.
 
 Sparse vectors and the original text can be stored in Zilliz Cloud for efficient retrieval. The diagram below outlines the overall process.
 
@@ -52,20 +55,20 @@ Sparse vectors and the original text can be stored in Zilliz Cloud for efficient
 
 </Admonition>
 
-## Data Formats{#data-formats}
+## Data Formats\{#data-formats}
 
 In the following sections, we demonstrate how to store vectors from learned sparse embedding models like SPLADE. If you are looking for something to complement dense-vector-based semantic search, we recommend [Full Text Search](./full-text-search) with BM25 over SPLADE for simplicity. If you've ran quality evaluation and dediced to use SPLADE, you can refer to [Embeddings](https://milvus.io/docs/embeddings.md#Embedding-Overview) on how to generate sparse vectors with SPLADE.
 
 Zilliz Cloud supports  sparse vector input with the following formats:
 
-- **List of Dictionaries (formatted as `{dimension_index: value, ...}`)**
+- **List of Dictionaries (formatted as** `{dimension_index: value, ...}`**)**
 
     ```python
     # Represent each sparse vector using a dictionary
     sparse_vectors = [{27: 0.5, 100: 0.3, 5369: 0.6} , {100: 0.1, 3: 0.8}]
     ```
 
-- **Sparse Matrix (using the `scipy.sparse` class)**
+- **Sparse Matrix (using the** `scipy.sparse` **class)**
 
     ```python
     from scipy.sparse import csr_matrix
@@ -74,10 +77,10 @@ Zilliz Cloud supports  sparse vector input with the following formats:
     # Second vector: indices [3, 100] with values [0.8, 0.1]
     indices = [[27, 100, 5369], [3, 100]]
     values = [[0.5, 0.3, 0.6], [0.8, 0.1]]
-    sparse_vectors = [csr_matrix((values, ([0]*len(idx), idx)), shape=(1, 5369+1)) for idx, vals in zip(indices, values)]
+    sparse_vectors = [csr_matrix((vals, ([0]*len(idx), idx)), shape=(1, 5369+1)) for idx, vals in zip(indices, values)]
     ```
 
-- **List of Tuple Iterables (e.g. `[(dimension_index, value)]`)**
+- **List of Tuple Iterables (e.g.** `[(dimension_index, value)]`**)**
 
     ```python
     # Represent each sparse vector using a list of iterables (e.g. tuples)
@@ -87,11 +90,11 @@ Zilliz Cloud supports  sparse vector input with the following formats:
         ]
     ```
 
-## Define Collection Schema{#define-collection-schema}
+## Define Collection Schema\{#define-collection-schema}
 
 Before creating a collection, you need to specify the collection schema, which defines fields  and optionally a function to convert a text field into corresponding sparse vector representation.
 
-### Add fields{#add-fields}
+### Add fields\{#add-fields}
 
 To use sparse vectors in Zilliz Cloud clusters, you need to create a collection with a schema including the following fields:
 
@@ -287,7 +290,7 @@ In this example, three fields are added:
 
 </Admonition>
 
-## Set Index Parameters{#set-index-parameters}
+## Set Index Parameters\{#set-index-parameters}
 
 The process of creating an index for sparse vectors is similar to that for [dense vectors](./use-dense-vector), but with differences in the specified index type (`index_type`), distance metric (`metric_type`), and index parameters (`params`).
 
@@ -373,9 +376,11 @@ This example uses the `SPARSE_INVERTED_INDEX` index type with `IP` as the metric
 
 - [Metric Types](./search-metrics-explained): Supported metric types for different field types
 
-## Create Collection{#create-collection}
+- [Full Text Search](./full-text-search): A detailed tutorial on full-text search
 
-Once the sparse vector and index settings are complete, you can create a collection that contains sparse vectors. The example below uses the `create_collection` method to create a collection named `my_collection`.
+## Create Collection\{#create-collection}
+
+Once the sparse vector and index settings are complete, you can create a collection that contains sparse vectors. The example below uses the [`create_collection`](./manage-collections-sdks) method to create a collection named `my_collection`.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -452,7 +457,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Insert data{#insert-data}
+## Insert data\{#insert-data}
 
 You must provide data for all fields defined during collection creation, except for fields that are auto-generated (such as the primary key with `auto_id` enabled). If you are using the built-in BM25 function to auto-generate sparse vectors, you should also omit the sparse vector field when inserting data.
 
@@ -468,6 +473,7 @@ data = [
     {
         "text": "information retrieval focuses on finding relevant information in large datasets.",
         "sparse_vector": {10: 0.1, 200: 0.7, 1000: 0.9}
+    }
 ]
 
 client.insert(
@@ -602,7 +608,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Perform Similarity Search{#perform-similarity-search}
+## Perform Similarity Search\{#perform-similarity-search}
 
 To perform a similarity search using sparse vectors, prepare both the query data and the search parameters. 
 
@@ -691,6 +697,7 @@ res = client.search(
     limit=3,
     output_fields=["pk"],
     search_params=search_params,
+    consistency_level="Strong"
 )
 
 print(res)
@@ -714,6 +721,7 @@ SearchResp searchR = client.search(SearchReq.builder()
         .data(Collections.singletonList(queryData))
         .annsField("sparse_vector")
         .searchParams(searchParams)
+        .consistencyLevel(ConsistencyLevel.STRONG)
         .topK(3)
         .outputFields(Collections.singletonList("pk"))
         .build());
@@ -735,7 +743,8 @@ await client.search({
     data: queryData,
     limit: 3,
     output_fields: ['pk'],
-    params: searchParams
+    params: searchParams,
+    consistency_level: "Strong"
 });
 ```
 
@@ -774,6 +783,10 @@ for _, resultSet := range resultSets {
 <TabItem value='bash'>
 
 ```bash
+export params='{
+    "consistencyLevel": "Strong"
+}'
+
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -784,7 +797,8 @@ curl --request POST \
     "annsField": "sparse_vector",
     "limit": 3,
     "searchParams": $searchParams,
-    "outputFields": ["pk"]
+    "outputFields": ["pk"],
+    "params": $params
 }'
 
 ## {"code":0,"cost":0,"data":[{"distance":0.63,"id":"453577185629572535","pk":"453577185629572535"},{"distance":0.1,"id":"453577185629572534","pk":"453577185629572534"}]}

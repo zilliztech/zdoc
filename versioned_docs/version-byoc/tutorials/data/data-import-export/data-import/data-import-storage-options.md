@@ -3,6 +3,9 @@ title: "Storage Options | BYOC"
 slug: /data-import-storage-options
 sidebar_label: "Storage Options"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Before importing data, it's important to understand the supported cloud storage options and their corresponding URL formats. This ensures that your requests can be properly processed without undergoing validation errors. | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 
@@ -29,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 Before importing data, it's important to understand the supported cloud storage options and their corresponding URL formats. This ensures that your requests can be properly processed without undergoing validation errors.
 
-## AWS Simple Storage Service (S3){#aws-simple-storage-service-s3}
+## Amazon Simple Storage Service (S3)\{#amazon-simple-storage-service-s3}
 
 - **Object access URIs**
 
@@ -40,15 +43,15 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, virtual-hosted–style</strong></p></td>
-         <td><p><em>https://\<bucket_name></em>.s3.<em>\<region-code></em>.amazonaws.com/<em>\<object_name></em></p></td>
+         <td><ul><li><p><strong>File</strong>: <i>http</i>s://\<bucket_name>.s3.\<region-code>.amazonaws.com/\<object_name></p></li><li><p><strong>Folder</strong>: <i>http</i>s://\<bucket_name>.s3.\<region-code>.amazonaws.com/\<folder_name>/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>AWS Object URL, path-style</strong></p></td>
-         <td><p><em>https://</em>s3.<em>\<region-code></em>.amazonaws.co<em>m</em>/<em>\<bucket_name></em>/<em>\<object_name></em></p></td>
+         <td><ul><li><p><strong>File</strong>: <i>http</i>s://s3.\<region-code>.amazonaws.com/\<bucket_name>/\<object_name></p></li><li><p><strong>Folder</strong>: <i>http</i>s://s3.\<region-code>.amazonaws.com/\<bucket_name>/\<folder_name>/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>AWS S3 URI</strong></p></td>
-         <td><p>s3://<em>\<bucket_name></em>/<em>\<object_name></em></p></td>
+         <td><ul><li><p><strong>File</strong>: s3://\<bucket_name>/\<object_name></p></li><li><p><strong>Folder</strong>: s3://\<bucket_name>/\<folder_name>/</p></li></ul></td>
        </tr>
     </table>
 
@@ -78,7 +81,7 @@ Before importing data, it's important to understand the supported cloud storage 
 
     - If you prefer to authenticate with short-term credentials, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
 
-## Google Cloud Storage{#google-cloud-storage}
+## Google Cloud Storage\{#google-cloud-storage}
 
 - **Object access URIs**
 
@@ -89,11 +92,11 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>GSC public URL</strong></p></td>
-         <td><p><em>https://</em>storage.cloud.google.co<em>m</em>/<em>\<bucket_name></em>/<em>\<object_name></em></p></td>
+         <td><ul><li><p><strong>File</strong>: <i>http</i>s://storage.cloud.google.com/\<bucket_name>/\<object_name></p></li><li><p><strong>Folder</strong>: <i>http</i>s://storage.cloud.google.com/\<bucket_name>/\<folder_name>/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>GSC gsutil URI</strong></p></td>
-         <td><p>gs://<em>\<bucket_name></em>/<em>\<object_name></em></p></td>
+         <td><ul><li><p><strong>File</strong>: gs://\<bucket_name>/\<object_name></p></li><li><p><strong>Folder</strong>: gs://\<bucket_name>/\<folder_name>/</p></li></ul></td>
        </tr>
     </table>
 
@@ -113,7 +116,7 @@ Before importing data, it's important to understand the supported cloud storage 
 
     - If you prefer to authenticate with short-term credentials, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
 
-## Azure Blob Storage{#azure-blob-storage}
+## Azure Blob Storage\{#azure-blob-storage}
 
 - **Object access URIs**
 
@@ -124,7 +127,7 @@ Before importing data, it's important to understand the supported cloud storage 
        </tr>
        <tr>
          <td><p><strong>Azure storage blob URI</strong></p></td>
-         <td><p><em>https://\<storage_account></em>.blob.core.windows.net/<em>\<container></em>/<em>\<blob></em></p></td>
+         <td><ul><li><p><strong>File</strong>: <i>http</i>s://\<storage_account>.blob.core.windows.net/\<container>/\<blob></p></li><li><p><strong>Folder</strong>: <i>http</i>s://\<storage_account>.blob.core.windows.net/\<container>/\<folder>/</p></li></ul></td>
        </tr>
     </table>
 

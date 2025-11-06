@@ -3,6 +3,9 @@ title: "Reranking | Cloud"
 slug: /reranking
 sidebar_label: "Reranking"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Hybrid Search achieves more precise search results through multiple simultaneous ANN searches. Multiple searches return several sets of results, which require a reranking strategy to help merge and reorder the results and return a single set of results. This guide will introduce the reranking strategies supported by Zilliz Cloud and provide tips for selecting the appropriate reranking strategy. | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

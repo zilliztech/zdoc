@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This topic lists the possible issues about accounts that you may encounter on Zilliz Cloud and the corresponding solution. | CLOUD"
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
-sidebar_position: 11
+sidebar_position: 10
 
 ---
 

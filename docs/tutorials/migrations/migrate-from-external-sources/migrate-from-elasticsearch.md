@@ -3,6 +3,9 @@ title: "Migrate from Elasticsearch to Zilliz Cloud | Cloud"
 slug: /migrate-from-elasticsearch
 sidebar_label: "Elasticsearch"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This topic describes how Zilliz Cloud handles data type mapping, collection naming rules, and considerations when migrating from Elasticsearch. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - elasticsearch
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 
@@ -28,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 This topic describes how Zilliz Cloud handles data type mapping, collection naming rules, and considerations when migrating from [Elasticsearch](https://www.elastic.co/elasticsearch).
 
-## Prerequisites{#prerequisites}
+## Prerequisites\{#prerequisites}
 
 Before starting your Elasticsearch to Zilliz Cloud migration, ensure you meet these requirements:
 
-### Elasticsearch requirements{#elasticsearch-requirements}
+### Elasticsearch requirements\{#elasticsearch-requirements}
 
 <table>
    <tr>
@@ -57,7 +60,7 @@ Before starting your Elasticsearch to Zilliz Cloud migration, ensure you meet th
    </tr>
 </table>
 
-### Zilliz Cloud requirements{#zilliz-cloud-requirements}
+### Zilliz Cloud requirements\{#zilliz-cloud-requirements}
 
 <table>
    <tr>
@@ -78,7 +81,7 @@ Before starting your Elasticsearch to Zilliz Cloud migration, ensure you meet th
    </tr>
 </table>
 
-## Data type mapping{#data-type-mapping}
+## Data type mapping\{#data-type-mapping}
 
 Understanding how Elasticsearch data types map to Zilliz Cloud is crucial for planning your migration:
 
@@ -150,9 +153,9 @@ Understanding how Elasticsearch data types map to Zilliz Cloud is crucial for pl
    </tr>
 </table>
 
-## Elasticsearch-specific handling rules{#elasticsearch-specific-handling-rules}
+## Elasticsearch-specific handling rules\{#elasticsearch-specific-handling-rules}
 
-### Collection naming rules{#collection-naming-rules}
+### Collection naming rules\{#collection-naming-rules}
 
 Elasticsearch index names are transferred to Zilliz Cloud with the following considerations:
 
@@ -179,7 +182,7 @@ Elasticsearch index names are transferred to Zilliz Cloud with the following con
    </tr>
 </table>
 
-### Migration considerations{#migration-considerations}
+### Migration considerations\{#migration-considerations}
 
 The following features are **not supported** for Elasticsearch migration:
 

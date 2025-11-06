@@ -3,6 +3,9 @@ title: "Set up Whitelist | Cloud"
 slug: /setup-whitelist
 sidebar_label: "Set up Whitelist"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Whitelisting on Zilliz Cloud serves as a robust security layer at the project level, extending its benefits to every cluster within a specified project. By implementing a whitelist, you effectively narrow down access to your project’s clusters to a select group of IP addresses, substantially mitigating the risk of malicious attacks. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - whitelist
   - setup
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 
@@ -28,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 Whitelisting on Zilliz Cloud serves as a robust security layer at the project level, extending its benefits to every cluster within a specified project. By implementing a whitelist, you effectively narrow down access to your project’s clusters to a select group of IP addresses, substantially mitigating the risk of malicious attacks.
 
-## Before you start{#before-you-start}
+## Before you start\{#before-you-start}
 
 Ensure the following prerequisites are met before proceeding:
 
@@ -36,7 +39,7 @@ Ensure the following prerequisites are met before proceeding:
 
 - You are the owner of the organization or project in which you want to set up a whitelist. For information on roles and permissions, see [Manage Organization Users](./organization-users) and [Manage Project Users](./project-users).
 
-## Procedure{#procedure}
+## Procedure\{#procedure}
 
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
@@ -57,7 +60,7 @@ Ensure the following prerequisites are met before proceeding:
        </tr>
        <tr>
          <td><p>IP Address (CIDR)</p></td>
-         <td><p>The IP addresses or CIDR block that you want to add to the whitelist. Up to 20 CIDR blocks are allowed. Example value: 192.168.1.1/20.</p></td>
+         <td><p>The IP addresses or CIDR block that you want to add to the whitelist. Up to 100 CIDR blocks are allowed. Example value: 192.168.1.1/20.</p></td>
        </tr>
        <tr>
          <td><p>Description</p></td>
@@ -79,7 +82,7 @@ Ensure the following prerequisites are met before proceeding:
 
 ![whitelist-ip-access](/img/whitelist-ip-access.png)
 
-## Related topics{#related-topics}
+## Related topics\{#related-topics}
 
 - [API Keys](./manage-api-keys)
 

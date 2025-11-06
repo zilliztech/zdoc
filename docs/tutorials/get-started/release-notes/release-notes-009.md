@@ -3,20 +3,23 @@ title: "Release Notes (Dec 5, 2022) | Cloud"
 slug: /release-notes-009
 sidebar_label: "Release Notes (Dec 5, 2022)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "We are pleased to announce the general availability of a significant update to Zilliz Cloud. This release introduces a new console for Zilliz Cloud services, supports new cloud regions, and allows secure cluster access through private links. | Cloud"
 type: origin
 token: QZXVwFVH3i1p08kal8vcAmmxnie
-sidebar_position: 26
+sidebar_position: 29
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

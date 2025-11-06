@@ -3,6 +3,9 @@ title: "Offline Migration | BYOC"
 slug: /offline-migration
 sidebar_label: "Offline Migration"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Offline Migration transfers all existing data from a source Zilliz Cloud cluster to a target Zilliz Cloud cluster. This method supports migrations both within the same organization and across different organizations. It is ideal for scenarios where temporary write interruptions are acceptable, such as during planned maintenance or smaller-scale database transitions. | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 
@@ -31,9 +34,9 @@ import Supademo from '@site/src/components/Supademo';
 
 Offline Migration transfers all existing data from a source Zilliz Cloud cluster to a target Zilliz Cloud cluster. This method supports migrations both within the same organization and across different organizations. It is ideal for scenarios where temporary write interruptions are acceptable, such as during planned maintenance or smaller-scale database transitions.
 
-## Migration capabilities{#migration-capabilities}
+## Migration capabilities\{#migration-capabilities}
 
-### Migration scope options{#migration-scope-options}
+### Migration scope options\{#migration-scope-options}
 
 <table>
    <tr>
@@ -53,7 +56,7 @@ Offline Migration transfers all existing data from a source Zilliz Cloud cluster
    </tr>
 </table>
 
-### Direct data transfer{#direct-data-transfer}
+### Direct data transfer\{#direct-data-transfer}
 
 Offline migration performs direct data replication between Zilliz Cloud clusters with the following characteristics:
 
@@ -63,11 +66,11 @@ Offline migration performs direct data replication between Zilliz Cloud clusters
 
 - **Automatic indexing**: AUTOINDEX automatically created for vector fields in target cluster
 
-## Prerequisites{#prerequisites}
+## Prerequisites\{#prerequisites}
 
 Before starting your offline migration, ensure you meet these requirements:
 
-### General requirements{#general-requirements}
+### General requirements\{#general-requirements}
 
 <table>
    <tr>
@@ -88,7 +91,7 @@ Before starting your offline migration, ensure you meet these requirements:
    </tr>
 </table>
 
-### Cross-project or organization migration requirements{#cross-project-or-organization-migration-requirements}
+### Cross-project or organization migration requirements\{#cross-project-or-organization-migration-requirements}
 
 <table>
    <tr>
@@ -105,7 +108,7 @@ Before starting your offline migration, ensure you meet these requirements:
    </tr>
 </table>
 
-## Getting started{#getting-started}
+## Getting started\{#getting-started}
 
 The following demo walks you through the complete offline migration process:
 

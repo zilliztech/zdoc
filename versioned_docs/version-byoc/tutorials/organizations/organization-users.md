@@ -3,6 +3,9 @@ title: "Manage Organization Users | BYOC"
 slug: /organization-users
 sidebar_label: "Organization Users"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, an organization typically represents a company. You can invite employees to your organization and assign them roles based on their job functions. These roles determine the user's access to specific resources and the operations they can perform. For example, developers generally require access to data but do not need billing privileges. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 
@@ -30,13 +33,13 @@ In Zilliz Cloud, an organization typically represents a company. You can invite 
 
 This guide explains how to manage organization users, including how to invite users to an organization, revoke or resend invitations, modify the role of an organization user, or remove an organization user.
 
-## Invite a user to your organization{#invite-a-user-to-your-organization}
+## Invite a user to your organization\{#invite-a-user-to-your-organization}
 
 When inviting a user to your organization, you need to grant a role to the user which defines the access to resources and the privileges to perform certain operations within this organization. 
 
 To invite users, enter the email addresses of the users you wish to invite. Then select the organization role you wish to grant to the new organization users. 
 
-### Organization roles{#organization-roles}
+### Organization roles\{#organization-roles}
 
 Zilliz Cloud provides three organization roles. These roles cannot be modified or deleted.
 
@@ -93,7 +96,7 @@ Zilliz Cloud provides three organization roles. These roles cannot be modified o
 
 Note that if you are an **Organization Member** or an **Organization Billing Admin**, you can only grant invitees the role of **Organization Member**.
 
-The invitees will receive an invitation via email, which must be accepted within 48 hours to join the organization. 
+The invitees will receive an invitation via email, which must be accepted within 48 hours to join the organization. Alternatively, you can also copy the invitation link from the web console and share it with the invitees.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -101,15 +104,15 @@ The invitees will receive an invitation via email, which must be accepted within
 
 </Admonition>
 
-![invite-user-to-org-byoc](/img/invite-user-to-org-byoc.png)
+![invite-user-to-org](/img/invite-user-to-org.png)
 
-## Revoke or resend an invitation{#revoke-or-resend-an-invitation}
+## Revoke or resend an invitation\{#revoke-or-resend-an-invitation}
 
 After you invite a user to join your organization, Zilliz Cloud sends an invitation email to the user. You can revoke or resend the invitation before the user accepts it.
 
 ![revoke-or-resend-org-invitation-byoc](/img/revoke-or-resend-org-invitation-byoc.png)
 
-## Edit the role of an organization user{#edit-the-role-of-an-organization-user}
+## Edit the role of an organization user\{#edit-the-role-of-an-organization-user}
 
 Once a user accepts the invitation and joins your organization, you can adjust their roles according to your needs.
 
@@ -117,7 +120,7 @@ To edit the role of an organization user, you must be an **Organization Owner**.
 
 ![edit-user-role-or-remove-org-user-byoc](/img/edit-user-role-or-remove-org-user-byoc.png)
 
-## Remove an organization user{#remove-an-organization-user}
+## Remove an organization user\{#remove-an-organization-user}
 
 If a user no longer belongs to your organization, you can remove the user.
 
@@ -125,7 +128,7 @@ To remove an organization user, you must be an **Organization Owner**.
 
 ![edit-user-role-or-remove-org-user-byoc](/img/edit-user-role-or-remove-org-user-byoc.png)
 
-## Leave an organization{#leave-an-organization}
+## Leave an organization\{#leave-an-organization}
 
 When you no longer belong to an organization, you have the option to leave it.
 

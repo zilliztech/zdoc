@@ -3,6 +3,9 @@ title: "Format Options | Cloud"
 slug: /data-import-format-options
 sidebar_label: "Format Options"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud supports importing data in various formats, including Parquet (recommended), JSON, and NumPy files. In this section, you will find the procedures for importing data in these formats and the aspects you should pay attention to to. | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

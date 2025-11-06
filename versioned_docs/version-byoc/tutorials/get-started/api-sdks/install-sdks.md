@@ -3,6 +3,9 @@ title: "Install SDKs | BYOC"
 slug: /install-sdks
 sidebar_label: "Install SDKs"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Discover how to seamlessly install Milvus SDKs, allowing efficient connections to Zilliz Cloud clusters. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - sdk
   - milvus
+  - sentence transformers
   - Recommender systems
   - information retrieval
   - dimension reduction
-  - hnsw algorithm
 
 ---
 
@@ -28,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 Discover how to seamlessly install Milvus SDKs, allowing efficient connections to Zilliz Cloud clusters.
 
-## Overview{#overview}
+## Overview\{#overview}
 
 Zilliz Cloud offers a managed Milvus vector database as a service. Four SDK options exist to facilitate cluster connections: [Python](./install-sdks#install-pymilvus-python-sdk), [Java](./install-sdks#install-java-sdk), [Go](./install-sdks#install-go-sdk), or [Node.js](./install-sdks#install-nodejs-sdk).
 
@@ -41,7 +44,7 @@ Zilliz Cloud offers a managed Milvus vector database as a service. Four SDK opti
 
 </Admonition>
 
-## Install PyMilvus: Python SDK{#install-pymilvus-python-sdk}
+## Install PyMilvus: Python SDK\{#install-pymilvus-python-sdk}
 
 PyMilvus is Milvus's Python SDK. Access its [source code on GitHub](https://github.com/milvus-io/pymilvus).
 
@@ -53,7 +56,7 @@ PyMilvus is Milvus's Python SDK. Access its [source code on GitHub](https://gith
 
 ```bash
 # Install pymilvus compatible with Milvus v2.5.x
-python -m pip install pymilvus==2.5.8
+python -m pip install pymilvus==2.5.16
 
 # Update PyMilvus to the newest version
 python -m pip install --upgrade pymilvus
@@ -62,7 +65,9 @@ python -m pip install --upgrade pymilvus
 python -m pip list | grep pymilvus
 ```
 
-## Install Node.js SDK{#install-nodejs-sdk}
+If your cluster is compatible with **Milvus v2.6.x (Public Preview),** please change `2.5.16` in the above commands to `2.6.3`.
+
+## Install Node.js SDK\{#install-nodejs-sdk}
 
 For Milvus's Node.js SDK, employ **npm** or **yarn**. Access its [source code on GitHub](https://github.com/milvus-io/milvus-sdk-node).
 
@@ -74,9 +79,9 @@ For Milvus's Node.js SDK, employ **npm** or **yarn**. Access its [source code on
 
 ```bash
 # Install Node.js SDK compatible with Milvus v2.5.x
-npm install @zilliz/milvus2-sdk-node@2.5.8
+npm install @zilliz/milvus2-sdk-node@2.5.13
 # Alternatively,
-yarn add @zilliz/milvus2-sdk-node@2.5.8
+yarn add @zilliz/milvus2-sdk-node@2.5.13
 
 # Upgrade to the latest version
 npm update @zilliz/milvus2-sdk-node
@@ -99,34 +104,39 @@ const { MilvusClient } = require("@zilliz/milvus2-sdk-node")
 import { MilvusClient } from "@zilliz/milvus2-sdk-node"
 ```
 
-## Install Java SDK{#install-java-sdk}
+If your cluster is compatible with **Milvus v2.6.x (Public Preview),** please change `2.5.13` in the above commands to `2.6.4`.
+
+## Install Java SDK\{#install-java-sdk}
 
 Use Apache Maven or Gradle/Grails to obtain the SDK. Access the [source code on GitHub](https://github.com/milvus-io/milvus-sdk-java).
 
 - For Apache Maven, append this to the `pom.xml` dependencies:
 
-```xml
-<!-- Install Java SDK compatible with Milvus v2.5.x -->
-<dependency>
-     <groupId>io.milvus</groupId>
-     <artifactId>milvus-sdk-java</artifactId>
-     <version>2.5.9</version>
- </dependency>
-```
+    ```xml
+    <!-- Install Java SDK compatible with Milvus v2.5.x -->
+    <dependency>
+         <groupId>io.milvus</groupId>
+         <artifactId>milvus-sdk-java</artifactId>
+         <version>2.5.14</version>
+     </dependency>
+    ```
 
 - For Gradle/Grails, execute:
 
-```bash
-# Install Java SDK compatible with Milvus v2.5.x
-compile 'io.milvus:milvus-sdk-java:2.5.9'
-```
+    ```bash
+    # Install Java SDK compatible with Milvus v2.5.x
+    compile 'io.milvus:milvus-sdk-java:2.5.14'
+    ```
 
-## Install Go SDK{#install-go-sdk}
+If your cluster is compatible with **Milvus v2.6.x (Public Preview),** please change `2.5.14` in the above commands to `2.6.6`.
+
+## Install Go SDK\{#install-go-sdk}
 
 The Go SDK is available via `go get`. Explore its [source code on GitHub](https://github.com/milvus-io/milvus-sdk-go).
 
 ```bash
 # Install Go SDK compatible with Milvus v2.5.x
-go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.5.3
+go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.5.6
 ```
 
+If your cluster is compatible with **Milvus v2.6.x (Public Preview),** please change `2.5.6` in the above commands to `2.6.1`.

@@ -3,6 +3,9 @@ title: "Integrate with Third Parties | BYOC"
 slug: /integrate-with-third-parties
 sidebar_label: "Integrate with Third Parties"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Learn how to integrate your Zilliz Cloud project with third-party services. | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

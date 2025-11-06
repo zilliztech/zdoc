@@ -3,8 +3,11 @@ title: "Array Field | Cloud"
 slug: /use-array-fields
 sidebar_label: "Array Field"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "An ARRAY field stores an ordered set of elements of the same data type. Here's an example of how ARRAY fields store data | Cloud"
+description: "An ARRAY field stores an ordered set of elements of the same data type. | Cloud"
 type: origin
 token: N0RmwUtmqinQvokWdYLc3yV5nJh
 sidebar_position: 9
@@ -15,10 +18,10 @@ keywords:
   - collection
   - schema
   - array field
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 
@@ -28,7 +31,9 @@ import TabItem from '@theme/TabItem';
 
 # Array Field
 
-An ARRAY field stores an ordered set of elements of the same data type. Here's an example of how ARRAY fields store data:
+An ARRAY field stores an ordered set of elements of the same data type. 
+
+Here's an example of how ARRAY fields store data:
 
 ```json
 {
@@ -37,23 +42,23 @@ An ARRAY field stores an ordered set of elements of the same data type. Here's a
 }
 ```
 
-## Limits{#limits}
+## Limits\{#limits}
 
 - **Default Values**: ARRAY fields do not support default values. However, you can set the `nullable` attribute to `True` to allow null values. For details, refer to [Nullable & Default](./nullable-and-default).
 
-- **Data Type**: All elements in an Array field must have the same data type, as specified by the `element_type`. If you set `element_type` to `VARCHAR`, you should also set `max_length` for the array elements.
+- **Data Type:** All elements in an ARRAY field must share the same data type, which is defined by the `element_type` parameter. When `element_type` is set to `VARCHAR`, you must also specify the `max_length` for array elements. The `element_type` accepts any scalar data type, `JSON`, and `STRUCT`.
 
-- **Array Capacity**: The number of elements in an Array field must be less than or equal to the maximum capacity defined when the Array was created, as specified by `max_capacity`. The value should be an integer within the range from **1** to **4096**.
+- **Array Capacity**: The number of elements in an ARRAY field must be less than or equal to the maximum capacity defined when the Array was created, as specified by `max_capacity`. The value should be an integer within the range from **1** to **4096**.
 
 - **String Handling**: String values in Array fields are stored as-is, without semantic escaping or conversion. For example, `'a"b'`, `"a'b"`, `'a\'b'`, and `"a\"b"` are stored as entered, while `'a'b'` and `"a"b"` are considered invalid values.
 
-## Add ARRAY field{#add-array-field}
+## Add ARRAY field\{#add-array-field}
 
-To use ARRAY fields Zilliz Cloud clusters, define the relevant field type when creating the collection schema. This process includes:
+To use ARRAY fields in Zilliz Cloud clusters, define the relevant field type when creating the collection schema. This process includes:
 
 1. Setting `datatype` to the supported Array data type, `ARRAY`.
 
-1. Using the `element_type` parameter to specify the data type of elements in the array. This can be any scalar data type supported by Zilliz Cloud clusters, such as `VARCHAR` or `INT64`. All elements in the same Array must be of the same data type.
+1. Using the `element_type` parameter to specify the data type of elements in the array. All elements in the same array must be of the same data type.
 
 1. Using the `max_capacity` parameter to define the maximum capacity of the array, i.e., the maximum number of elements it can contain.
 
@@ -65,7 +70,7 @@ Here’s how to define a collection schema that includes ARRAY fields:
 
 </Admonition>
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"HTTP","value":"http"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -227,9 +232,10 @@ const schema = [
 ```
 
 </TabItem>
-</Tabs>
 
-```http
+<TabItem value='bash'>
+
+```bash
 export arrayField1='{
     "fieldName": "tags",
     "dataType": "Array",
@@ -274,7 +280,10 @@ export schema="{
 }"
 ```
 
-## Set index params{#set-index-params}
+</TabItem>
+</Tabs>
+
+## Set index params\{#set-index-params}
 
 Indexing helps improve search and query performance. In Zilliz Cloud clusters, indexing is mandatory for vector fields but optional for scalar fields.
 
@@ -374,7 +383,7 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-## Create collection{#create-collection}
+## Create collection\{#create-collection}
 
 Once the schema and index are defined, create a collection that includes ARRAY fields.
 
@@ -446,7 +455,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Insert data{#insert-data}
+## Insert data\{#insert-data}
 
 After creating the collection, you can insert data that includes ARRAY fields.
 
@@ -598,7 +607,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Query with filter expressions{#query-with-filter-expressions}
+## Query with filter expressions\{#query-with-filter-expressions}
 
 After inserting entities, use the `query` method to retrieve entities that match the specified filter expressions.
 
@@ -806,7 +815,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Vector search with filter expressions{#vector-search-with-filter-expressions}
+## Vector search with filter expressions\{#vector-search-with-filter-expressions}
 
 In addition to basic scalar field filtering, you can combine vector similarity searches with scalar field filters. For example, the following code shows how to add a scalar field filter to a vector search:
 

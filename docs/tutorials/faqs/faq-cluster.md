@@ -39,7 +39,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 Generally, a free cluster can handle 1 million 768-dimensional vectors. However, the actual capacity depends on your schema. 
 
-If your data exceeds the maximum capacity of a free cluster, please [upgrade](./select-zilliz-cloud-service-plans#plan-overview) to Serverless or Dedicated plan to create a new cluster and [migrate your data](./offline-migration) there. For more information about the capacity of a  cluster, please refer to [Select the Right CU](./cu-types-explained#assess-capacity)
+If your data exceeds the maximum capacity of a free cluster, please [upgrade](./select-zilliz-cloud-service-plans) to the Serverless or Dedicated deployment option to create a new cluster and [migrate your data](./offline-migration) there. For more information about the capacity of a  cluster, please refer to [Select the Right CU](./cu-types-explained#assess-capacity)
 
 ### What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?{#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources}
 
@@ -47,7 +47,7 @@ When inserting or upserting data, you will receive this error because your data 
 
 To address this issue, you can follow the instructions below.
 
-- If you are using a free cluster, please [upgrade](./manage-cluster) to Serverless or Dedicated plan.
+- If you are using a free cluster, please [upgrade](./manage-cluster) to the Serverless or Dedicated deployment option .
 
 - If you are using a Dedicated cluster, please [scale up your cluster](./scale-cluster) by increasing the CU size.
 
@@ -75,7 +75,7 @@ For more information, refer to [Scale Cluster](./scale-cluster).
 
 ### Can I deploy a free cluster on AWS?{#can-i-deploy-a-free-cluster-on-aws}
 
-No. Currently, Zilliz Cloud only supports deploying a free cluster on GCP. If you need to deploy a cluster on AWS, please choose the Dedicated (Standard) or Dedicated (Enterprise) plan.
+Yes. You can deploy a free cluster in either AWS eu-central-1 (Frankfurt, Germany) or Google Cloud us-west1 (Oregon, USA). To deploy a cluster in other cloud regions, simply upgrade to the Dedicated deployment option. For a complete list of supported cloud providers and regions, refer to [Cloud Providers & Regions](./cloud-providers-and-regions).
 
 ### How can I deal with a connection timeout error when I attempt to connect to Zilliz Cloud?{#how-can-i-deal-with-a-connection-timeout-error-when-i-attempt-to-connect-to-zilliz-cloud}
 
@@ -117,7 +117,30 @@ You can identify the problem by following these steps:
 
 1. Check if the IP address of your connection is included in the IP white list.
 
-1. Test the connectivity of the port by running **telnet in01-(uuid).(region).vectordb.zillizcloud.com 19530**. If the issue remains unsolved after all above steps are tried, please[ submit a request](https://support.zilliz.com/hc/en-us).
+1. Check if the port in your cluster endpoint URI is correct. Make sure you copy the endpoint URI from the Zilliz Cloud web console. The following table lists the port of clusters deployed on different cloud providers.
+
+    <table>
+       <tr>
+         <th><p><strong>Cloud Provider</strong></p></th>
+         <th><p><strong>Port</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>AWS</p></td>
+         <td><p>19530 - 19550</p></td>
+       </tr>
+       <tr>
+         <td><p>Google Cloud</p></td>
+         <td><p>443</p></td>
+       </tr>
+       <tr>
+         <td><p>Azure</p></td>
+         <td><p>19530</p></td>
+       </tr>
+    </table>
+
+1. Test the connectivity of the port by running `telnet in01-(uuid).(region).vectordb.zillizcloud.com port-number`.
+
+If the issue persists after all above steps are tried, please[ submit a request](https://support.zilliz.com/hc/en-us).
 
 ### What can I do if I cannot connect to Zilliz Cloud with Node.js SDK?{#what-can-i-do-if-i-cannot-connect-to-zilliz-cloud-with-nodejs-sdk}
 
@@ -127,9 +150,34 @@ If you fail to connect to Zilliz Cloud with the Node.js SDK, please try the foll
 
 1. Ensure you initialize the client correctly.
 
-    ```javascript
+    ```bash
     const client = new MilvusClient('https://your-db-address-with-port', true, 'your-db-user', 'your-db-pasword');
     ```
+
+1. Confirm that your cluster endpoint and token are correct. Ensure to include the protocol `https://` in your cluster endpoint.
+
+1. Check if the port in your cluster endpoint URI is correct. Make sure you copy the endpoint URI from the Zilliz Cloud web console. The following table lists the port of clusters deployed on different cloud providers.
+
+    <table>
+       <tr>
+         <th><p><strong>Cloud Provider</strong></p></th>
+         <th><p><strong>Port</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>AWS</p></td>
+         <td><p>19530 - 19550</p></td>
+       </tr>
+       <tr>
+         <td><p>Google Cloud</p></td>
+         <td><p>443</p></td>
+       </tr>
+       <tr>
+         <td><p>Azure</p></td>
+         <td><p>19530</p></td>
+       </tr>
+    </table>
+
+1. Your IP address must be whitelisted in your cluster settings.
 
 ### What happens to my inactive clusters?{#what-happens-to-my-inactive-clusters}
 

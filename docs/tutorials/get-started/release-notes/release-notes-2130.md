@@ -3,20 +3,23 @@ title: "Release Notes (Jan 27, 2025) | Cloud"
 slug: /release-notes-2130
 sidebar_label: "Release Notes (Jan 27, 2025)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud now supports Milvus 2.5 in Public Preview, introducing full-text search to complement its semantic search. Using the BM25 metric and sparse vectors for efficient storage and retrieval, this feature allows users to query text directly without conversion. The update also enhances BYOC deployments with Private Link for improved security, easier compliance, and simplified network configuration. Additionally, auto-deployment via AWS CloudFormation is now supported, and the handling of large-scale small-file imports is optimized for faster data ingestion. | Cloud"
 type: origin
 token: LRRVwYzxKioMiMk7cf6czQuhn7d
-sidebar_position: 5
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 
@@ -27,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud now supports Milvus 2.5 in **Public Preview**, introducing full-text search to complement its semantic search. Using the BM25 metric and sparse vectors for efficient storage and retrieval, this feature allows users to query text directly without conversion. The update also enhances BYOC deployments with Private Link for improved security, easier compliance, and simplified network configuration. Additionally, auto-deployment via AWS CloudFormation is now supported, and the handling of large-scale small-file imports is optimized for faster data ingestion.
 
-## Milvus Compatibility{#milvus-compatibility}
+## Milvus Compatibility\{#milvus-compatibility}
 
 This release is compatible with **Milvus v2.4.x**.
 
@@ -35,7 +38,7 @@ If you prefer to upgrade your clusters to **Public Preview**, **Milvus 2.5.x** f
 
 ![KkqKbUfwwomTRBxKSwTcVjv0nLf](/img/KkqKbUfwwomTRBxKSwTcVjv0nLf.png)
 
-## Zilliz Cloud Now Supports Milvus 2.5 in Public Preview, Introducing Full-Text Search{#zilliz-cloud-now-supports-milvus-25-in-public-preview-introducing-full-text-search}
+## Zilliz Cloud Now Supports Milvus 2.5 in Public Preview, Introducing Full-Text Search\{#zilliz-cloud-now-supports-milvus-25-in-public-preview-introducing-full-text-search}
 
 Zilliz Cloud is now compatible with Milvus 2.5, available as a **Public Preview**. This update introduces a major new feature: **full-text search**, also known as lexical or keyword search. If you're new to search, full-text search allows you to find documents by looking for specific words or phrases within them—similar to how you search on Google. This complements our existing **semantic search** capabilities, which focus on understanding meaning rather than just matching exact words.
 
@@ -45,7 +48,7 @@ A key advantage of our approach is that you can **insert and query text directly
 
 For more details, refer to [Full Text Search](./full-text-search).
 
-## BYOC - Enhanced Security and Simplified Deployment{#byoc-enhanced-security-and-simplified-deployment}
+## BYOC - Enhanced Security and Simplified Deployment\{#byoc-enhanced-security-and-simplified-deployment}
 
 With this release, **Zilliz Cloud now supports data plane–control plane communication via Private Link**, providing **stronger security and easier compliance** for BYOC deployments.
 
@@ -59,6 +62,6 @@ In addition, **Zilliz Cloud BYOC now supports auto-deployment via AWS CloudForma
 
 For more details, refer to [Deploy BYOC on AWS](/docs/byoc/deploy-byoc-aws).
 
-## Enhancements{#enhancements}
+## Enhancements\{#enhancements}
 
 **Support for Large-Scale Small File Imports**: Improved handling of imports involving numerous small files, ensuring faster and more efficient data ingestion.

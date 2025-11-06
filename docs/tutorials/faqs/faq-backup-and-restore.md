@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This topic lists the possible issues that you may encounter while backing up and restoring data on Zilliz Cloud and the corresponding solution. | CLOUD"
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
-sidebar_position: 8
+sidebar_position: 7
 
 ---
 
@@ -17,13 +17,13 @@ This topic lists the possible issues that you may encounter while backing up and
 
 ## Contents
 
-- [Is the backup feature available in the Dedicated (Standard) plan?](#is-the-backup-feature-available-in-the-dedicated-standard-plan)
+- [Is the backup feature available in the Standard plan?](#is-the-backup-feature-available-in-the-standard-plan)
 
 ## FAQs
 
 
 
 
-### Is the backup feature available in the Dedicated (Standard) plan?{#is-the-backup-feature-available-in-the-dedicated-standard-plan}
+### Is the backup feature available in the Standard plan?{#is-the-backup-feature-available-in-the-standard-plan}
 
-Yes. Creating bakcups is available in both Dedicated (Standard) and Dedicated (Enterprise) plans.
+Yes. Creating backups is available to **Dedicated** clusters in a **Standard** project.

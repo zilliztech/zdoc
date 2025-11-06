@@ -3,6 +3,9 @@ title: "Schema & Data Fields | BYOC"
 slug: /schema-data-fields
 sidebar_label: "Schema & Data Fields"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A schema defines the data structure of a collection and determines the names, order, data types, and related attributes of the collection fields. This chapter mainly discusses the schema and related concepts. | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

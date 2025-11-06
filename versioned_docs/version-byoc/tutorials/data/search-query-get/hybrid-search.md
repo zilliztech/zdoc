@@ -3,6 +3,9 @@ title: "Multi-Vector Hybrid Search | BYOC"
 slug: /hybrid-search
 sidebar_label: "Hybrid Search"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In many applications, an object can be searched by a rich set of information such as title and description, or with multiple modalities such as text, images, and audio. For example, a tweet with a piece of text and an image shall be searched if either the text or the image matches the semantic of the search query. Hybrid search enhances search experience by combining searches across these diverse fields. Zilliz Cloud supports this by allowing search on multiple vector fields, conducting several Approximate Nearest Neighbor (ANN) searches simultaneously. Multi-vector hybrid search is particularly useful if you want to search both text and images, multiple text fields that describe the same object, or dense and sparse vectors to improve search quality. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - data
   - hybrid search
   - combine sparse and dense vectors
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 
@@ -39,7 +42,7 @@ The multi-vector hybrid search integrates different search methods or spans embe
 
 - **Multimodal Vector Search**: Multimodal vector search is a powerful technique that allows you to search across various data types, including text, images, audio, and others. The main advantage of this approach is its ability to unify different modalities into a seamless and cohesive search experience. For instance, in product search, a user might input a text query to find products described with both text and images. By combining these modalities through a hybrid search method, you can enhance search accuracy or enrich the search results.
 
-## Example{#example}
+## Example\{#example}
 
 Let's consider a real world use case where each product includes a text description and an image. Based on the available data, we can conduct three types of searches:
 
@@ -51,13 +54,13 @@ Let's consider a real world use case where each product includes a text descript
 
 This guide will walk you through an example of a multimodal hybrid search combining the above search methods, given the raw text description and image embeddings of products. We will demonstrate how to store multi-vector data and perform hybrid searches with a reranking strategy.
 
-## Create a collection with multiple vector fields{#create-a-collection-with-multiple-vector-fields}
+## Create a collection with multiple vector fields\{#create-a-collection-with-multiple-vector-fields}
 
 The process of creating a collection involves three key steps: defining the collection schema, configuring the index parameters, and creating the collection.
 
-### Define schema{#define-schema}
+### Define schema\{#define-schema}
 
-For multi-vector hybrid search, we should define multiple vector fields within a collection schema. By default, each collection can accommodate up to 4 vector fields. However, if necessary, you can [contact us](https://zilliz.com/contact-sales) to include up to 10 vector fields in your collections.
+For multi-vector hybrid search, we should define multiple vector fields within a collection schema. For details about the limits on the number of vector fields allowed in a collection, see [Zilliz Cloud Limits](./limits#fields). 
 
 This example incorporates the following fields into the schema:
 
@@ -87,7 +90,7 @@ client = MilvusClient(
 )
 
 # Init schema with auto_id disabled
-schema = MilvusClient.create_schema(auto_id=False)
+schema = client.create_schema(auto_id=False)
 
 # Add fields to schema
 schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True, description="product id")
@@ -277,7 +280,7 @@ const functions = [
       output_field_names: ["text_sparse"],
       params: {},
     },
-]；
+];
 ```
 
 </TabItem>
@@ -335,14 +338,20 @@ export schema='{
 </TabItem>
 </Tabs>
 
-### Create index{#create-index}
+### Create index\{#create-index}
+
+After defining the collection schema, the next step is to configure the vector indexes and specify the similarity metrics. In the given example:
+
+- `text_dense_index`: an index of type `AUTOINDEX` with `IP` metric type is created for the text dense vector field.
+
+- `text_sparse_index`: an index of type`SPARSE_INVERTED_INDEX`with `BM25` metric type is used for the text sparse vector field.
+
+- `image_dense_index`: an index of type `AUTOINDEX` with `IP` metric type is created for the image dense vector field.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 # Prepare index parameters
 index_params = client.prepare_index_params()
 
@@ -480,7 +489,7 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-### Create collection{#create-collection}
+### Create collection\{#create-collection}
 
 Create a collection named `demo` with the collection schema and indexes configured in the previous two steps.
 
@@ -488,8 +497,6 @@ Create a collection named `demo` with the collection schema and indexes configur
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 client.create_collection(
     collection_name="my_collection",
     schema=schema,
@@ -558,7 +565,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Insert data{#insert-data}
+## Insert data\{#insert-data}
 
 This section inserts data into the `my_collection` collection based on the schema defined earlier. During insert, ensure all fields, except those with auto-generated values, are provided with data in the correct format. In this example:
 
@@ -578,26 +585,30 @@ Since this example uses the built-in BM25 function to generate sparse embeddings
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
+import random
+
+# Generate example vectors
+def generate_dense_vector(dim):
+    return [random.random() for _ in range(dim)]
 
 data=[
     {
         "id": 0,
         "text": "Red cotton t-shirt with round neck",
-        "text_dense": [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, ...],
-        "image_dense": [0.6366019600530924, -0.09323198122475052, ...]
-    }，
+        "text_dense": generate_dense_vector(768),
+        "image_dense": generate_dense_vector(512)
+    },
     {
         "id": 1,
         "text": "Wireless noise-cancelling over-ear headphones",
-        "text_dense": [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, ...],
-        "image_dense": [0.6414180010301553, 0.8976979978567611, ...]
+        "text_dense": generate_dense_vector(768),
+        "image_dense": generate_dense_vector(512)
     },
     {
         "id": 2,
         "text": "Stainless steel water bottle, 500ml",
-        "dense": [0.43742130801983836, -0.5597502546264526, 0.6457887650909682, ...],
-        "image_dense": [-0.6901259768402174, 0.6100500332193755, ...]
+        "text_dense": generate_dense_vector(768),
+        "image_dense": generate_dense_vector(512)
     }
 ]
 
@@ -714,13 +725,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Perform Hybrid Search{#perform-hybrid-search}
+## Perform Hybrid Search\{#perform-hybrid-search}
 
-### Create multiple AnnSearchRequest instances{#create-multiple-annsearchrequest-instances}
+### Step 1: Create multiple AnnSearchRequest instances\{#step-1-create-multiple-annsearchrequest-instances}
 
 Hybrid Search is implemented by creating multiple `AnnSearchRequest` in the `hybrid_search()` function, where each `AnnSearchRequest` represents a basic ANN search request for a specific vector field. Therefore, before conducting a Hybrid Search, it is necessary to create an `AnnSearchRequest` for each vector field.
 
-In addition, by configuring the `expr` parameter in an `AnnSearchRequest`, you can set the filtering conditions for your hybrid search. Please refer to [Filtered Search](./filtered-search) and [Filtering](./filtering).
+In addition, by configuring the `expr` parameter in an `AnnSearchRequest`, you can set the filtering conditions for your hybrid search. Please refer to [Filtered Search](./filtered-search) and [Filtering Explained](./filtering-overview).
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -743,8 +754,8 @@ To demonstrate the capabilities of various search vector fields, we will constru
 from pymilvus import AnnSearchRequest
 
 query_text = "white headphones, quiet and comfortable"
-query_dense_vector = [0.3580376395471989, -0.6023495712049978, 0.5142999509918703, ...]
-query_multimodal_vector = [0.015829865178701663, 0.5264158340734488, ...]
+query_dense_vector = generate_dense_vector(768)
+query_multimodal_vector = generate_dense_vector(512)
 
 # text semantic search (dense)
 search_param_1 = {
@@ -900,25 +911,25 @@ export req='[
 
 Given that the parameter `limit` is set to 2, each `AnnSearchRequest` returns 2 search results. In this example, 3 `AnnSearchRequest` instances are created, resulting in a total of 6 search results.
 
-### Configure a reranking strategy{#configure-a-reranking-strategy}
+### Step 2: Configure a reranking strategy\{#step-2-configure-a-reranking-strategy}
 
-To merge and rerank the sets of ANN search results, selecting an appropriate reranking strategy is essential. Zilliz Cloud offers two types of reranking strategies: 
-
-- **WeightedRanker**: Use this strategy if the results need to emphasize a particular vector field. WeightedRanker allows you to assign greater weight to certain vector fields, highlighting them more prominently.
-
-- **RRFRanker (Reciprocal Rank Fusion Ranker)**: Choose this strategy when no specific emphasis is required. RRFRanker effectively balances the importance of each vector field.
-
-For more details on these reranking mechanisms, please refer to [Reranking](./reranking). 
+To merge and rerank the sets of ANN search results, selecting an appropriate reranking strategy is essential. Zilliz Cloud offers several types of reranking strategies. For more details on these reranking mechanisms, please refer to [Weighted Ranker](./reranking-weighted-reranker) or [RRF Ranker](./reranking-rrf). 
 
 In this example, since there is no particular emphasis on specific search queries, we will proceed with the RRFRanker strategy.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import RRFRanker
-
-ranker = RRFRanker(100)
+ranker = Function(
+    name="rrf",
+    input_field_names=[], # Must be an empty list
+    function_type=FunctionType.RERANK,
+    params={
+        "reranker": "rrf", 
+        "k": 100  # Optional
+    }
+)
 ```
 
 </TabItem>
@@ -926,18 +937,15 @@ ranker = RRFRanker(100)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.ranker.BaseRanker;
-import io.milvus.v2.service.vector.request.ranker.RRFRanker;
+import io.milvus.common.clientenum.FunctionType;
+import io.milvus.v2.service.collection.request.CreateCollectionReq.Function;
 
-BaseRanker reranker = new RRFRanker(100);
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-reranker := milvusclient.NewRRFReranker().WithK(100)
+Function ranker = Function.builder()
+        .name("rrf")
+        .functionType(FunctionType.RERANK)
+        .param("reranker", "rrf")
+        .param("k", "100")
+        .build()
 ```
 
 </TabItem>
@@ -945,9 +953,32 @@ reranker := milvusclient.NewRRFReranker().WithK(100)
 <TabItem value='javascript'>
 
 ```javascript
-import { RRFRanker } from "@zilliz/milvus2-sdk-node";
+const rerank = {
+  name: 'rrf',
+  description: 'bm25 function',
+  type: FunctionType.RERANK,
+  input_field_names: [],
+  params: {
+      "reranker": "rrf", 
+      "k": 100
+  },
+};
+```
 
-const rerank = RRFRanker("100");
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "github.com/milvus-io/milvus/client/v2/entity"
+)
+
+ranker := entity.NewFunction().
+    WithName("rrf").
+    WithType(entity.FunctionTypeRerank).
+    WithParam("reranker", "rrf").
+    WithParam("k", "100")
 ```
 
 </TabItem>
@@ -955,16 +986,27 @@ const rerank = RRFRanker("100");
 <TabItem value='bash'>
 
 ```bash
-export rerank='{
-        "strategy": "rrf",
-        "params": { "k": 100}
-    }'
+# Restful
+export functionScore='{
+    "functions": [
+        {
+            "name": "rrf",
+            "type": "Rerank",
+            "inputFieldNames": [],
+            "params": {
+                "reranker": "rrf",
+                "k": 100
+            }
+        }
+    ]
+}'
+
 ```
 
 </TabItem>
 </Tabs>
 
-### Perform a Hybrid Search{#perform-a-hybrid-search}
+### Step 3: Perform a Hybrid Search\{#step-3-perform-a-hybrid-search}
 
 Before initiating a Hybrid Search, ensure that the collection is loaded. If any vector fields within the collection lack an index or are not loaded into memory, an error will occur upon executing the Hybrid Search method.
 
@@ -972,8 +1014,6 @@ Before initiating a Hybrid Search, ensure that the collection is loaded. If any 
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
 res = client.hybrid_search(
     collection_name="my_collection",
     reqs=reqs,
@@ -1055,7 +1095,7 @@ const search = await client.search({
 
 ```bash
 curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/advanced_search" \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/hybrid_search" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d "{
@@ -1079,3 +1119,4 @@ The following is the output:
 ```
 
 With the `limit=2` parameter specified for the Hybrid Search, Zilliz Cloud will rerank the six results obtained from the three searches. Ultimately, they will return only the top two most similar results.
+

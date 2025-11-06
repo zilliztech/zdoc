@@ -3,6 +3,9 @@ title: "Manage Cluster | Cloud"
 slug: /manage-cluster
 sidebar_label: "Manage Cluster"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 
@@ -31,13 +34,13 @@ import Supademo from '@site/src/components/Supademo';
 
 This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals.
 
-## Rename cluster{#rename-cluster}
+## Rename cluster\{#rename-cluster}
 
 Navigate to the **Cluster Details** page of your target cluster and then follow the instructions below to rename your cluster.
 
 <Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title=""  />
 
-## Suspend cluster{#suspend-cluster}
+## Suspend cluster\{#suspend-cluster}
 
 For a running Dedicated cluster, you are billed for both CU and storage. To reduce costs, consider suspending the cluster. Only storage charges apply when a Dedicated cluster is suspended.
 
@@ -51,7 +54,7 @@ You can suspend a Dedicated cluster via the web console or programmatically.
 
 Navigate to the **Cluster Details** page of your target cluster and then follow the instructions below to suspend your Dedicated cluster.
 
-<Supademo id="cm9tqgxt30snl11m7twwj7xia" title="Zilliz Cloud - Suspend Cluster Demo" />
+<Supademo id="cm9tqgxt30snl11m7twwj7xia" title=""  />
 
 </TabItem>
 
@@ -89,9 +92,13 @@ For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster-v2).
 
 </Tabs>
 
-## Resume cluster{#resume-cluster}
+Once the suspend operation is successful, a job record will be generated. You can check the progress on the [Jobs](./job-center) page.
 
-Free and Serverless clusters are automatically suspended after 7 days of inactivity and can be resumed anytime.
+## Resume cluster\{#resume-cluster}
+
+Free clusters are automatically suspended after 7 days of inactivity and can be resumed anytime.
+
+Serverless clusters do not support suspend and resume operations.
 
 Suspended Dedicated clusters can also be resumed manually when needed.
 
@@ -105,7 +112,7 @@ You can resume a cluster via the web console or programmatically.
 
 Navigate to the **Cluster Details** page of your target cluster and then follow the instruction below to resume your cluster.
 
-<Supademo id="cm9tr2hze0t1j11m7ijth1pr5" title="Zilliz Cloud - Resume Cluster Demo" />
+<Supademo id="cm9tr2hze0t1j11m7ijth1pr5" title=""  />
 
 </TabItem>
 
@@ -143,18 +150,20 @@ For details, refer to [Resume Cluster](/reference/restful/resume-cluster-v2).
 
 </Tabs>
 
-## Upgrade plan{#upgrade-plan}
+Once the resume operation is successful, a job record will be generated. You can check the progress on the [Jobs](./job-center) page.
 
-To use more advanced features, it is recommended to upgrade your cluster plan. 
+## Upgrade deployment option\{#upgrade-deployment-option}
+
+Some of the features are only limited to Dedicated clusters, to use these features, it is recommended to upgrade your cluster deployment option. 
 
 <table>
    <tr>
-     <th><p><strong>Plan Upgrade</strong></p></th>
+     <th><p><strong>Deployment Option Upgrade</strong></p></th>
      <th><p><strong>Notes</strong></p></th>
    </tr>
    <tr>
      <td><p>Free to Serverless</p></td>
-     <td><p>Your Free cluster will be upgraded to the Serverless plan. Once the cluster is upgraded, you cannot downgrade its plan.</p></td>
+     <td><p>Your Free cluster will be upgraded to the Serverless deployment option. Once the cluster is upgraded, you cannot downgrade it.</p></td>
    </tr>
    <tr>
      <td><p>Free to Dedicated</p></td>
@@ -164,23 +173,19 @@ To use more advanced features, it is recommended to upgrade your cluster plan.
      <td><p>Serverless to Dedicated</p></td>
      <td><p>A new Dedicated cluster will be created, and data from your existing Serverless cluster will be automatically migrated. The Serverless cluster will remain intact.</p><p>Remember to update the cluster endpoint in your application code.</p></td>
    </tr>
-   <tr>
-     <td><p>Dedicated (Standard) to Dedicated (Enterprise)</p></td>
-     <td><p>Your Dedicated (Standard) cluster will be upgraded to the Dedicated (Enterprise) plan. Once the cluster is upgraded, you cannot downgrade its plan.</p></td>
-   </tr>
 </table>
 
-The following demo illustrates how to upgrade a cluster plan, using the Free to Dedicated (Enterprise) upgrade as an example.
+The following demo illustrates how to upgrade the deployment option of a cluster, using the Free to Dedicated upgrade as an example.
 
-<Supademo id="cm9tscqvw0urd11m76ey8cx2p" title=""  />
+<Supademo id="cmfnfgviq0il71d3n2up3lci1?utm_source=link" title=""  />
 
-## Upgrade cluster for preview features{#upgrade-cluster-for-preview-features}
+## Upgrade cluster for preview features\{#upgrade-cluster-for-preview-features}
 
 To try the latest preview features, you need to upgrade the compatible Milvus version of your dedicated cluster.
 
 ![upgrade-to-preview-version](/img/upgrade-to-preview-version.png)
 
-## Drop cluster{#drop-cluster}
+## Drop cluster\{#drop-cluster}
 
 When a cluster is no longer needed, you can drop it. You can drop a cluster via the web console or programatically.
 
@@ -190,7 +195,7 @@ When a cluster is no longer needed, you can drop it. You can drop a cluster via 
 
 Navigate to the **Cluster Details** page of your target cluster and then follow the instruction below to drop your cluster.
 
-<Supademo id="cm9trwi5n0txr11m7otr902sk" title="Zilliz Cloud - Drop Cluster Demo" />
+<Supademo id="cm9trwi5n0txr11m7otr902sk" title=""  />
 
 </TabItem>
 

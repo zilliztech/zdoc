@@ -3,6 +3,9 @@ title: "Offline Migration | Cloud"
 slug: /offline-migration
 sidebar_label: "Offline Migration"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Offline Migration transfers all existing data from a source Zilliz Cloud cluster to a target Zilliz Cloud cluster. This method supports migrations both within the same organization and across different organizations. It is ideal for scenarios where temporary write interruptions are acceptable, such as during planned maintenance or smaller-scale database transitions. | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 
@@ -33,11 +36,11 @@ Offline Migration transfers all existing data from a source Zilliz Cloud cluster
 
 For migrations that require uninterrupted write operations, refer to [Zero Downtime Migration](./zero-downtime-migration).
 
-## Migration capabilities{#migration-capabilities}
+## Migration capabilities\{#migration-capabilities}
 
-### Cluster compatibility{#cluster-compatibility}
+### Cluster compatibility\{#cluster-compatibility}
 
-The following table outlines the migration capabilities and constraints between clusters of different plans: 
+The following table outlines the migration capabilities and constraints between clusters of different deployment options: 
 
 <table>
    <tr>
@@ -52,8 +55,8 @@ The following table outlines the migration capabilities and constraints between 
    <tr>
      <td><p>Free cluster</p></td>
      <td><p>Not supported</p></td>
-     <td><p>Not supported</p><p>(You can only upgrade a Free cluster to a Serverless cluster. Refer to <a href="./manage-cluster">Manage Cluster</a> for more details.)</p></td>
-     <td><p>Supported</p><p>(You can also upgrade a Free cluster to a dedicated cluster. Refer to <a href="./manage-cluster">Manage Cluster</a>for more details.)</p></td>
+     <td><p>Not supported</p><p>(You can only upgrade a Free cluster to a Serverless cluster. Refer to <a href="./manage-cluster#upgrade-deployment-option">Manage Cluster</a> for more details.)</p></td>
+     <td><p>Supported</p><p>(You can also upgrade a Free cluster to a dedicated cluster. Refer to <a href="./manage-cluster#upgrade-deployment-option">Manage Cluster</a> for more details.)</p></td>
    </tr>
    <tr>
      <td><p>Serverless cluster</p></td>
@@ -69,7 +72,7 @@ The following table outlines the migration capabilities and constraints between 
    </tr>
 </table>
 
-### Migration scope options{#migration-scope-options}
+### Migration scope options\{#migration-scope-options}
 
 <table>
    <tr>
@@ -89,7 +92,7 @@ The following table outlines the migration capabilities and constraints between 
    </tr>
 </table>
 
-### Direct data transfer{#direct-data-transfer}
+### Direct data transfer\{#direct-data-transfer}
 
 Offline migration performs direct data replication between Zilliz Cloud clusters with the following characteristics:
 
@@ -99,11 +102,11 @@ Offline migration performs direct data replication between Zilliz Cloud clusters
 
 - **Automatic indexing**: AUTOINDEX automatically created for vector fields in target cluster
 
-## Prerequisites{#prerequisites}
+## Prerequisites\{#prerequisites}
 
 Before starting your offline migration, ensure you meet these requirements:
 
-### General requirements{#general-requirements}
+### General requirements\{#general-requirements}
 
 <table>
    <tr>
@@ -124,7 +127,7 @@ Before starting your offline migration, ensure you meet these requirements:
    </tr>
 </table>
 
-### Cross-project or organization migration requirements{#cross-project-or-organization-migration-requirements}
+### Cross-project or organization migration requirements\{#cross-project-or-organization-migration-requirements}
 
 <table>
    <tr>
@@ -141,7 +144,7 @@ Before starting your offline migration, ensure you meet these requirements:
    </tr>
 </table>
 
-## Getting started{#getting-started}
+## Getting started\{#getting-started}
 
 The following demo walks you through the complete offline migration process:
 

@@ -3,6 +3,9 @@ title: "Set up a PrivateLink (AWS) | Cloud"
 slug: /setup-a-private-link-aws
 sidebar_label: "Set up a PrivateLink (AWS)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide demonstrates the procedure for setting up a private link from a Zilliz Cloud cluster to your service hosted in different AWS VPCs. | Cloud"
 type: origin
@@ -19,10 +22,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 
@@ -33,7 +36,11 @@ import Admonition from '@theme/Admonition';
 
 This guide demonstrates the procedure for setting up a private link from a Zilliz Cloud cluster to your service hosted in different AWS VPCs.
 
-This feature is exclusively available to Dedicated (Enterprise) clusters.
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
+
+</Admonition>
 
 A private link is set up at the project level and is effective for all clusters deployed within the same cloud provider and region under this project.
 
@@ -43,33 +50,35 @@ A private link is set up at the project level and is effective for all clusters 
 
 </Admonition>
 
-## Before you start{#before-you-start}
+## Before you start\{#before-you-start}
 
 Ensure that:
 
-- A Dedicated (Enterprise) cluster has been created. For information on how to create a cluster, see [Create Cluster](./create-cluster).
+- If your service and Zilliz Cloud cluster are in different regions and the service needs to access the cluster through AWS PrivateLink, [submit a ticket](https://support.zilliz.com/hc/en-us/requests/new), and we will handle your request.
 
-## Create private endpoint{#create-private-endpoint}
+## Create private endpoint\{#create-private-endpoint}
 
 Zilliz Cloud offers you an intuitive web console to add a private endpoint. Navigate to your target project and click **Network > Private Endpoint** in the left navigation. Click **+ Private Endpoint**.
 
-![setup_private_link_aws_01](/img/setup_private_link_aws_01.png)
+![I02ibsAgioWpuLxwzHDcp1c2nge](/img/I02ibsAgioWpuLxwzHDcp1c2nge.png)
 
-### Select a cloud provider and region{#select-a-cloud-provider-and-region}
+### Select a cloud provider and region\{#select-a-cloud-provider-and-region}
 
 To create a private endpoint for a cluster deployed in an AWS region, select **AWS** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. Click **Next**. 
 
 For more information on available cloud providers and regions, see [Cloud Providers & Regions](./cloud-providers-and-regions). 
 
-![setup_private_link_window](/img/setup_private_link_window.png)
+![NxuFbXh41oA53VxB4sPcfR9snVg](/img/NxuFbXh41oA53VxB4sPcfR9snVg.png)
 
-### Create an Endpoint{#create-an-endpoint}
+### Create an Endpoint\{#create-an-endpoint}
 
 You need to complete this step on your cloud provider console using either the UI console or CLI.
 
 - **Via UI console**
 
-    1. Switch to the **Via UI Console** tab.
+    ![AJlTbcoxNoXKBIxAxz6cYrkBnrc](/img/AJlTbcoxNoXKBIxAxz6cYrkBnrc.png)
+
+    1. Switch to the **Via UI Console** tab, and copy the **Service Name**.
 
     1. Navigate to the AWS console page. On the AWS console, check if the cloud region corresponds to the cloud region you selected in [Step 1](./setup-a-private-link-aws#select-a-cloud-provider-and-region). Click **Endpoints** in the left navigation. Click **Create Endpoint**.
 
@@ -78,8 +87,6 @@ You need to complete this step on your cloud provider console using either the U
     1. On the **Create Endpoint** page, select **Endpoint services that use NLBs and GWLBs** as the endpoint **Type**.
 
         ![create_endpoint_type_gcp](/img/create_endpoint_type_gcp.png)
-
-    1. Switch back to the Zilliz Cloud console, copy the Service Name.
 
     1. Switch to the AWS console. In **Service Settings**, paste the **Service Name** you copied from the Zilliz Cloud web console into the **Service Name** field. Then click **Verify service**.
 
@@ -91,7 +98,7 @@ You need to complete this step on your cloud provider console using either the U
 
 - **Via CLI**
 
-    ![setup_private_link_aws_via_CLI](/img/setup_private_link_aws_via_CLI.png)
+    ![TzQdb9ReToZlkTxGRVZcCdUbnOe](/img/TzQdb9ReToZlkTxGRVZcCdUbnOe.png)
 
     1. Switch to the **Via CLI** tab.
 
@@ -107,9 +114,9 @@ You need to complete this step on your cloud provider console using either the U
 
         To create a subnet, see [Create a Subnet in Your VPC](https://docs.aws.amazon.com/vpc/latest/userguide/working-with-subnets.html#create-subnets).
 
-    1. Click **Copy and Go**.
+    1. Click the copy icon in the code block and go to the AWS console.
 
-        You will be redirected to your cloud provider console. In the top navigation, launch the AWS CloudShell. Run the CLI command you just copied from Zilliz Cloud in the CloudShell.
+        In the top navigation, launch AWS CloudShell. Run the CLI command you just copied from Zilliz Cloud in the CloudShell.
 
         ![setup_private_link_aws_cloud_shell](/img/setup_private_link_aws_cloud_shell.png)
 
@@ -138,19 +145,19 @@ You need to complete this step on your cloud provider console using either the U
 
         In the returned message, copy the VpcEndpointId (starting with "vpce-") of the created VPC endpoint.
 
-### Authorize your endpoint{#authorize-your-endpoint}
+### Authorize your endpoint\{#authorize-your-endpoint}
 
 Paste the endpoint ID you obtained from the AWS console into the **Endpoint ID** box on Zilliz Cloud. Click **Create**.
 
 ![setup_private_link_aws_authorize_endpoint](/img/setup_private_link_aws_authorize_endpoint.png)
 
-## Obtain a private link{#obtain-a-private-link}
+## Obtain a private link\{#obtain-a-private-link}
 
 After verifying and accepting the VPC endpoint you have submitted, Zilliz Cloud allocates a private link for this endpoint. This process takes about 5 minutes. 
 
 When the private link is ready, you can view it on the **Private Link** page on Zilliz Cloud.
 
-## Set up a DNS record{#set-up-a-dns-record}
+## Set up a DNS record\{#set-up-a-dns-record}
 
 Before you can access your cluster via the private link allocated by Zilliz Cloud, it is necessary to create a CNAME record in your DNS zone to resolve the private link to the DNS name of your VPC endpoint.
 
@@ -205,7 +212,7 @@ Before you can access your cluster via the private link allocated by Zilliz Clou
 
     1. Click **Create records**.
 
-## Manage internet access to your clusters{#manage-internet-access-to-your-clusters}
+## Manage internet access to your clusters\{#manage-internet-access-to-your-clusters}
 
 After configuring your private endpoint, you can choose to disable the cluster public endpoints to restrict internet access to your project. Once you have disabled the public endpoint, users can only connect to the cluster using the private link.
 
@@ -230,9 +237,9 @@ To disable public endpoints:
 
 ![disable_public_endpoint](/img/disable_public_endpoint.png)
 
-## Troubleshooting{#troubleshooting}
+## FAQ\{#faq}
 
-### Why does it always report a timeout when connecting to the private link on AWS?{#why-does-it-always-report-a-timeout-when-connecting-to-the-private-link-on-aws}
+### Why does it always report a timeout when connecting to the private link on AWS?\{#why-does-it-always-report-a-timeout-when-connecting-to-the-private-link-on-aws}
 
 A timeout usually occurs for the following reasons:
 
@@ -269,4 +276,8 @@ A timeout usually occurs for the following reasons:
     <p>Two security groups must be configured: one for the EC2 instance, which must allow traffic on the port associated with your private link, and another for the VPC endpoint, which must permit traffic from the IP address of the EC2 instance and target the specified port number.</p>
 
     </Admonition>
+
+### Can I create a private endpoint for an existing cluster?\{#can-i-create-a-private-endpoint-for-an-existing-cluster}
+
+Yes. When you create a private endpoint, it will take effect on all existing and future Dedicated (Enterprise) clusters that reside in the same region and project. All you need to do is to add different DNS records for different clusters.
 

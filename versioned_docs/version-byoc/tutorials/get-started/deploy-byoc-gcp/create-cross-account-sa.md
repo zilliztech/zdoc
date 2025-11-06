@@ -3,6 +3,9 @@ title: "Create a Cross-Account Service Account | BYOC"
 slug: /create-cross-account-sa
 sidebar_label: "Create a Cross-Account Service Account"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This page describes how to create and configure a cross-account service account for Zilliz Cloud to bootstrap your project data plane. This service account grants Zilliz Cloud the necessary permissions to manage VPC resources on your behalf. | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 
@@ -39,15 +42,15 @@ This page describes how to create and configure a cross-account service account 
 
 </Admonition>
 
-## Procedures{#procedures}
+## Procedures\{#procedures}
 
 You can use the Google Cloud Platform (GCP) dashboard to create the EKS role. Alternatively, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on GCP. For details, refer to [Terraform Provider](./terraform-provider).
 
-### Step 1: Create custom roles{#step-1-create-custom-roles}
+### Step 1: Create custom roles\{#step-1-create-custom-roles}
 
 Before creating the cross-account service account, you need create several custom roles that needs to be assigned to the service account.
 
-#### Create an instance group manager custom role{#create-an-instance-group-manager-custom-role}
+#### Create an instance group manager custom role\{#create-an-instance-group-manager-custom-role}
 
 You will create an instance group manager custom role and assign the custom role to the service account created above so that the service account has the minimum required permissions to manage GKE nodes.
 
@@ -75,7 +78,7 @@ The steps for creating the instance group manager custom role are as follows:
 
 1. Click **Create**.
 
-#### Create an IAM custom role{#create-an-iam-custom-role}
+#### Create an IAM custom role\{#create-an-iam-custom-role}
 
 You will create an IAM custom role and assign the custom role to the service account created above so that the service account has the minimum required permissions to manage IAM policies.
 
@@ -103,7 +106,7 @@ The steps for creating a custom role are as follows:
 
 1. Click **Create**.
 
-### Step 2: Create a service account{#step-2-create-a-service-account}
+### Step 2: Create a service account\{#step-2-create-a-service-account}
 
 In this step, you will create a service account for Zilliz Cloud to manage VPC resources on your behalf and paste the service account email address back to Zilliz Cloud console.
 
@@ -136,7 +139,7 @@ The steps for creating a service account are as follows:
        <tr>
          <td><p><a href="./create-cross-account-sa">Instance group manager custom role</a></p></td>
          <td><p>Custom</p></td>
-         <td><p><code>resource.name.extract("projects/\{name}").startsWith("PROJECT_ID") &amp;&amp;resource.name.extract("zones/\{name}").startsWith("REGION") &amp;&amp;resource.name.extract("instanceGroupManagers/\{name}").startsWith("gke-CLUSTER_NAME")</code></p></td>
+         <td><p><code>resource.name.extract("projects/&lt;name&gt;").startsWith("PROJECT_ID") &amp;&amp;resource.name.extract("zones/&lt;name&gt;").startsWith("REGION") &amp;&amp;resource.name.extract("instanceGroupManagers/&lt;name&gt;").startsWith("gke-CLUSTER_NAME")</code></p></td>
        </tr>
        <tr>
          <td><p><a href="./create-cross-account-sa">IAM custom role</a></p></td>
@@ -169,7 +172,8 @@ The steps for creating a service account are as follows:
     <ul>
     <li><code>CLUSTER_NAME</code></li>
     </ul>
-    <p>This should be the name of the GKE cluster that Zilliz Cloud will create on your behalf.</p>
+    <p>This should be the name of the GKE cluster that Zilliz Cloud will create on your behalf. </p>
+    <p>Note that Google Cloud will add a prefix <code>gke-</code> in front of your cluster name. Therefore, you should keep the <code>gke-</code> prefix in the condition, and just replace <code>CLUSTER_NAME</code> with the actual name.</p>
     <ul>
     <li><code>YOUR_BUCKET_NAME</code> </li>
     </ul>
@@ -179,7 +183,7 @@ The steps for creating a service account are as follows:
 
 1. Click **Save**.
 
-#### Grant access to other service accounts{#grant-access-to-other-service-accounts}
+#### Grant access to other service accounts\{#grant-access-to-other-service-accounts}
 
 You will grant the cross-account service account created in the previous step access to several other service accounts.
 
@@ -215,7 +219,7 @@ Follow the steps below to grant the cross-account service account access to thes
 
 1. Select **Service Account User** in **Assign roles** > **Role**.
 
-#### Impersonate Zilliz Cloud's service account{#impersonate-zilliz-clouds-service-account}
+#### Impersonate Zilliz Cloud's service account\{#impersonate-zilliz-clouds-service-account}
 
 You will have the cross-account service account to impersonate Zilliz Cloud's service account provided on the Zilliz Cloud console.
 

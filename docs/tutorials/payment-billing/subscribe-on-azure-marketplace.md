@@ -3,21 +3,24 @@ title: "Subscribe on Azure Marketplace | Cloud"
 slug: /subscribe-on-azure-marketplace
 sidebar_label: "Azure Marketplace"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on Azure Marketplace. | Cloud"
 type: origin
 token: LbFXwpruviFWWokwtkhcVmnhnFh
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - marketplace
   - azure
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 
@@ -25,6 +28,8 @@ import Admonition from '@theme/Admonition';
 
 
 import Supademo from '@site/src/components/Supademo';
+
+import Grid from '@site/src/components/Grid';
 
 # Subscribe on Azure Marketplace
 
@@ -36,13 +41,185 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 </Admonition>
 
-## Before you start{#before-you-start}
+## Before you start\{#before-you-start}
 
-- Ensure you have an [Azure Marketplace](https://learn.microsoft.com/en-us/marketplace/azure-marketplace-overview) account.
+Ensure you have an [Azure Marketplace](https://learn.microsoft.com/en-us/marketplace/azure-marketplace-overview) account and an Azure [billing account](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/view-all-accounts) for subscription on Azure Marketplace.
 
-- Ensure you have set a [billing account](https://learn.microsoft.com/en-us/azure/cost-management-billing/manage/view-all-accounts) for subscription on Azure Marketplace.
+Also ensure your billing country or region is on the list of supported markets. Zilliz Cloud does not support certain markets in the Azure Marketplace due to tax and compliance reasons. If you attempt to subscribe from an unsupported market, you may receive an error message stating, `"No plans are available for market '<market_code>'."` If this occurs, please [contact support](http://support.zilliz.com/) and provide a screenshot of the error message along with the market code. We will discuss possible solutions with you.
 
-## Subscribe on Azure Marketplace{#subscribe-on-azure-marketplace}
+![YaPcbHnQXovDLIxks0xcItOJnpf](/img/YaPcbHnQXovDLIxks0xcItOJnpf.png)
+
+<details>
+
+<summary>Supported markets</summary>
+
+<Grid columnSize="4" widthRatios="25,25,25,25">
+
+    <div>
+
+        - Armenia
+
+        - Australia
+
+        - Austria
+
+        - Bahrain
+
+        - Barbados
+
+        - Belarus
+
+        - Belgium
+
+        - Bulgaria
+
+        - Canada
+
+        - Chile
+
+        - Colombia
+
+        - Croatia
+
+        - Cyprus
+
+        - Czechia
+
+        - Denmark
+
+        - Egypt
+
+        - Estonia
+
+        - Finland
+
+    </div>
+
+    <div>
+
+        - France
+
+        - Georgia
+
+        - Germany
+
+        - Greece
+
+        - Hong Kong SAR
+
+        - Hungary
+
+        - Iceland
+
+        - India
+
+        - Indonesia
+
+        - Ireland
+
+        - Italy
+
+        - Japan
+
+        - Kenya
+
+        - Latvia
+
+        - Liechtenstein
+
+        - Lithuania
+
+        - Luxembourg
+
+        - Malaysia
+
+    </div>
+
+    <div>
+
+        - Malta
+
+        - Moldova
+
+        - Monaco
+
+        - Netherlands
+
+        - New Zealand
+
+        - Nigeria
+
+        - Norway
+
+        - Oman
+
+        - Philippines
+
+        - Poland
+
+        - Portugal
+
+        - Puerto Rico
+
+        - Qatar
+
+        - Romania
+
+        - Russia
+
+        - Saudi Arabia
+
+        - Serbia
+
+        - Singapore
+
+    </div>
+
+    <div>
+
+        - Slovakia
+
+        - Slovenia
+
+        - South Africa
+
+        - South Korea
+
+        - Spain
+
+        - Sweden
+
+        - Switzerland
+
+        - Taiwan
+
+        - Tajikistan
+
+        - Thailand
+
+        - Türkiye
+
+        - Uganda
+
+        - Ukraine
+
+        - United Arab Emirates
+
+        - United Kingdom
+
+        - United States
+
+        - Uzbekistan
+
+        - Vietnam
+
+    </div>
+
+</Grid>
+
+</details>
+
+## Subscribe on Azure Marketplace\{#subscribe-on-azure-marketplace}
 
 Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and start subscribing to Zilliz Cloud as follows:
 
@@ -104,11 +281,11 @@ Visit [Azure Marketplace](https://azuremarketplace.microsoft.com/en-us) and star
 
     ![azure-marketplace-success](/img/azure-marketplace-success.png)
 
-## Update Azure Marketplace subscription{#update-azure-marketplace-subscription}
+## Update Azure Marketplace subscription\{#update-azure-marketplace-subscription}
 
 After successfully subscribing from Azure Marketplace, you can always update your subscription at any time that you see fit. More specifically, you can either change the Azure Marketplace account used for the subscription to another one or switch your payment method from an Azure Marketplace subscription to a credit card. 
 
-### Change Azure Marketplace subscription{#change-azure-marketplace-subscription}
+### Change Azure Marketplace subscription\{#change-azure-marketplace-subscription}
 
 For more information, please refer to [Change Azure subscription and/or resource group](https://learn.microsoft.com/en-us/marketplace/saas-subscription-lifecycle-management#change-azure-subscription-andor-resource-group).
 
@@ -116,7 +293,7 @@ You can verify the update in the **Payment Method** section on the **Billing Ove
 
 ![view-azure-subscription-id](/img/view-azure-subscription-id.png)
 
-### Switch to payment credit card{#switch-to-payment-credit-card}
+### Switch to payment credit card\{#switch-to-payment-credit-card}
 
 1. Sign in to Azure Marketplace with the Azure account you used for the subscription.
 
@@ -132,7 +309,7 @@ You can verify the update in the **Payment Method** section on the **Billing Ove
 
 1. Verify the update in the **Payment Method** section on the **Billing Overview** page.
 
-## Cancel Azure Marketplace subscription{#cancel-azure-marketplace-subscription}
+## Cancel Azure Marketplace subscription\{#cancel-azure-marketplace-subscription}
 
 1. Open the Azure Marketplace homepage.
 
@@ -146,15 +323,15 @@ You can verify the update in the **Payment Method** section on the **Billing Ove
 
 For more information about how to cancel subscription on Azure Marketplace, see [here](https://learn.microsoft.com/en-us/marketplace/saas-subscription-lifecycle-management#cancel-subscription).
 
-## Azure Marketplace pricing terms{#azure-marketplace-pricing-terms}
+## Azure Marketplace pricing terms\{#azure-marketplace-pricing-terms}
 
 Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms) for more information.
 
-## Troubleshooting{#troubleshooting}
+## Troubleshooting\{#troubleshooting}
 
-- **Why do I see “No plans are available for market 'XX country'” when subscribing via Azure Marketplace?**
+- **Why do I see “No plans are available for market '\<country_code>'” when subscribing via Azure Marketplace?**
 
-    This message appears because Zilliz Cloud is not yet available in the Azure Marketplace for your billing country. Please [contact support](http://support.zilliz.com) and let us know which country you are subscribing from. We may be able to provide alternative solutions or update availability.
+    This message appears because Zilliz Cloud is not yet available in the Azure Marketplace for your billing country or region. For details, see [supported markets](./subscribe-on-azure-marketplace#before-you-start). Please [contact support](http://support.zilliz.com) and provide a screenshot of the error message along with the market code. We may be able to provide alternative solutions or update availability.
 
 - **What I can do if there is no organization available when linking a marketplace subscription to Zilliz Cloud?**
 
@@ -198,7 +375,7 @@ Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms)
 
         - [Create a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 
-## Related topics{#related-topics}
+## Related topics\{#related-topics}
 
 - [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card)
 

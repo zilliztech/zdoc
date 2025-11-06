@@ -3,6 +3,9 @@ title: "Connect to Cluster | BYOC"
 slug: /connect-to-cluster
 sidebar_label: "Connect to Cluster"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This article offers a systematic guide on connecting to a cluster. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 
@@ -29,7 +32,7 @@ import TabItem from '@theme/TabItem';
 
 This article offers a systematic guide on connecting to a cluster.
 
-## Before you start{#before-you-start}
+## Before you start\{#before-you-start}
 
 Ensure the following prerequisites are met before proceeding:
 
@@ -45,7 +48,7 @@ Ensure the following prerequisites are met before proceeding:
 
 </Admonition>
 
-## Connect to a cluster{#connect-to-a-cluster}
+## Connect to a cluster\{#connect-to-a-cluster}
 
 Once your cluster is operational, connect to it utilizing its public endpoint and an authentication token. 
 

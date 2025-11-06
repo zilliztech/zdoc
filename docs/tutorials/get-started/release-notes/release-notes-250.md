@@ -3,20 +3,23 @@ title: "Release Notes (Jan 18, 2024) | Cloud"
 slug: /release-notes-250
 sidebar_label: "Release Notes (Jan 18, 2024)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud have optimized the user experience for data import features, refined API keys with hierarchical permissions, and enhanced the metrics and alerts mechanism. | Cloud"
 type: origin
 token: VbjiwU5RYi4bWdkC48Jceltnnpd
-sidebar_position: 15
+sidebar_position: 18
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 
@@ -27,15 +30,15 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud have optimized the user experience for data import features, refined API keys with hierarchical permissions, and enhanced the metrics and alerts mechanism.
 
-## Milvus Compatibility{#milvus-compatibility}
+## Milvus Compatibility\{#milvus-compatibility}
 
 This release is compatible with **Milvus 2.2.x** and **Milvus 2.3.x (Beta)**.
 
-## Data Import{#data-import}
+## Data Import\{#data-import}
 
 We are excited to announce support for the Parquet data format in our latest release. To enhance user experience, we've introduced the PyMilvus writer utility, a powerful tool designed to assist our users in effortlessly creating files in JSON or Parquet formats for seamless data import. Dive into the details and explore the new possibilities at [Data Import](./data-import).
 
-## API Key{#api-key}
+## API Key\{#api-key}
 
 In this release, Zilliz Cloud introduced a unified design for the [API Key](./manage-api-keys). Each user can access the Zilliz Cloud platform and multiple Clusters using a single unified API key.
 
@@ -53,7 +56,7 @@ In the Operation Layer, Zilliz Cloud supports four types of roles, of which Orga
 
 In the Data Layer, Zilliz Cloud provides three built-in roles: Admin, Read-Only, and Read-Write, to control management, write, and read permissions of data. Zilliz Cloud allows users to create custom roles. These custom roles can define permissions for specific Collections, Partitions, or operations, ensuring the principle of minimal data permissions while using Zilliz Cloud. See the *documentations* to learn the details.
 
-## Metrics & Alert{#metrics-and-alert}
+## Metrics & Alert\{#metrics-and-alert}
 
 In this release, we made a refactor of [metric boards and alert system](./metrics-and-alerts). In the new version, you have the capability to monitor a comprehensive range of metrics:
 
@@ -65,7 +68,7 @@ In this release, we made a refactor of [metric boards and alert system](./metric
 
 Additionally, our enhanced Alert System allows you to set customized alert rules for all the aforementioned metrics. This means you can create alerts for scenarios like when the Query Per Second (QPS) rate surpasses 1000, or when the CU fullness exceeds 70%, ensuring you stay informed and proactive about your system's health and performance.
 
-## Enhancements{#enhancements}
+## Enhancements\{#enhancements}
 
 This release also includes a series of enhancements:
 

@@ -3,6 +3,9 @@ title: "Insert & Delete | Cloud"
 slug: /insert-update-delete
 sidebar_label: "Insert & Delete"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This chapter focuses on the insert, upsert, and delete operations. | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

@@ -3,21 +3,24 @@ title: "Subscribe on Google Cloud Marketplace | Cloud"
 slug: /subscribe-on-gcp-marketplace
 sidebar_label: "Google Cloud Marketplace"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide provides a step-by-step walkthrough of the subscription process and outlines the pricing terms of Zilliz Cloud on GCP Marketplace. | Cloud"
 type: origin
 token: MIqTw7iJ4iQAtVkYKiEc98a7nsh
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - marketplace
   - gcp
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 
@@ -34,7 +37,7 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 </Admonition>
 
-## Before you start{#before-you-start}
+## Before you start\{#before-you-start}
 
 - Ensure you have a [GCP account](https://cloud.google.com/apigee/docs/hybrid/v1.1/precog-gcpaccount).
 
@@ -42,7 +45,7 @@ This guide provides a step-by-step walkthrough of the subscription process and o
 
 - If your GCP Marketplace account is part of an organization, you must be authorized to make purchases by the billing administrator.
 
-## Subscribe on GCP Marketplace{#subscribe-on-gcp-marketplace}
+## Subscribe on GCP Marketplace\{#subscribe-on-gcp-marketplace}
 
 Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://console.cloud.google.com/marketplace) and start subscribing to Zilliz Cloud as follows:
 
@@ -92,11 +95,11 @@ Visit [GCP](https://console.cloud.google.com/marketplace)[ Marketplace](https://
 
     ![gcp-marketplace-success](/img/gcp-marketplace-success.png)
 
-## Update GCP Marketplace subscription{#update-gcp-marketplace-subscription}
+## Update GCP Marketplace subscription\{#update-gcp-marketplace-subscription}
 
 After successfully subscribing from GCP Marketplace, you can always update your subscription at any time that you see fit. More specifically, you can either change the GCP Marketplace account used for the subscription to another one or switch your payment method from a GCP Marketplace subscription to a credit card. 
 
-### Change GCP Marketplace subscription account{#change-gcp-marketplace-subscription-account}
+### Change GCP Marketplace subscription account\{#change-gcp-marketplace-subscription-account}
 
 1. Sign in to GCP Marketplace with the original GCP account you used for the subscription.
 
@@ -132,7 +135,7 @@ After successfully subscribing from GCP Marketplace, you can always update your 
 
 </Admonition>
 
-### Switch to payment credit card{#switch-to-payment-credit-card}
+### Switch to payment credit card\{#switch-to-payment-credit-card}
 
 1. Sign in to GCP Marketplace with the original GCP account you used for the subscription.
 
@@ -150,15 +153,15 @@ After successfully subscribing from GCP Marketplace, you can always update your 
 
 1. Verify the update in the **Payment Method** section on the **Billing Overview** page.
 
-## Cancel GCP Marketplace subscription{#cancel-gcp-marketplace-subscription}
+## Cancel GCP Marketplace subscription\{#cancel-gcp-marketplace-subscription}
 
 To cancel your GCP Marketplace subscription, you need to open the GCP Marketplace console and follow the instructions [here](https://cloud.google.com/marketplace/docs/manage-billing#cancel).
 
-## GCP Marketplace pricing terms{#gcp-marketplace-pricing-terms}
+## GCP Marketplace pricing terms\{#gcp-marketplace-pricing-terms}
 
 Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms) for more information.
 
-## Troubleshooting{#troubleshooting}
+## Troubleshooting\{#troubleshooting}
 
 **What I can do if there is no organization available when linking a marketplace subscription to Zilliz Cloud?**
 
@@ -202,7 +205,7 @@ There could be several reasons.
 
     - [Create a support ticket](https://support.zilliz.com/hc/en-us) and we will create a new organization for you.
 
-## Related topics{#related-topics}
+## Related topics\{#related-topics}
 
 - [Subscribe by Adding Credit Card](./subscribe-by-adding-credit-card)
 

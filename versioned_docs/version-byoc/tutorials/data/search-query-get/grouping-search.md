@@ -3,6 +3,9 @@ title: "Grouping Search | BYOC"
 slug: /grouping-search
 sidebar_label: "Grouping Search"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A grouping search allows Zilliz Cloud to group the search results by the values in a specified field to aggregate data at a higher level. For example, you can use a basic ANN search to find books similar to the one at hand, but you can use a grouping search to find the book categories that may involve the topics discussed in that book. This topic describes how to use Grouping Search along with key considerations. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - data
   - grouping search
   - group
-  - ANN Search
   - What are vector embeddings
   - vector database tutorial
   - how do vector databases work
+  - vector db comparison
 
 ---
 
@@ -31,7 +34,7 @@ import TabItem from '@theme/TabItem';
 
 A grouping search allows Zilliz Cloud to group the search results by the values in a specified field to aggregate data at a higher level. For example, you can use a basic ANN search to find books similar to the one at hand, but you can use a grouping search to find the book categories that may involve the topics discussed in that book. This topic describes how to use Grouping Search along with key considerations.
 
-## Overview{#overview}
+## Overview\{#overview}
 
 When entities in the search results share the same value in a scalar field, this indicates that they are similar in a particular attribute, which may negatively impact the search results.
 
@@ -57,7 +60,7 @@ To improve the diversity of search results, you can add the `group_by_field` par
 
 </Admonition>
 
-## Perform Grouping Search{#perform-grouping-search}
+## Perform Grouping Search\{#perform-grouping-search}
 
 This section provides example code to demonstrate the use of Grouping Search. The following example assumes the collection includes fields for `id`, `vector`, `chunk`, and `docId`.
 
@@ -250,7 +253,7 @@ curl --request POST \
 
 In the request above, `limit=3` indicates that the system will return search results from three groups, with each group containing the single most similar entity to the query vector.
 
-## Configure group size{#configure-group-size}
+## Configure group size\{#configure-group-size}
 
 By default, Grouping Search returns only one entity per group. If you want multiple results per group, adjust the `group_size` and `strict_group_size` parameters.
 
@@ -418,7 +421,7 @@ In the example above:
 
 For additional parameter details, refer to [search](/reference/python/python/Vector-search).
 
-## Considerations{#considerations}
+## Considerations\{#considerations}
 
 - **Number of groups**: The `limit` parameter controls the number of groups from which search results are returned, rather than the specific number of entities within each group. Setting an appropriate `limit` helps control search diversity and query performance. Reducing `limit` can reduce computation costs if data is densely distributed or performance is a concern.
 

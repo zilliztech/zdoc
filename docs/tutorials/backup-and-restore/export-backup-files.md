@@ -3,11 +3,14 @@ title: "Export Backup Files | Cloud"
 slug: /export-backup-files
 sidebar_label: "Export Backup Files"
 beta: PRIVATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "You can export backup files to object storage using the Zilliz Cloud console. | Cloud"
 type: origin
 token: QUTDwkbTTiA2UlkWYDlc796ensf
-sidebar_position: 4
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
@@ -17,10 +20,10 @@ keywords:
   - integrate
   - object
   - storage
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 
@@ -33,21 +36,21 @@ You can export backup files to object storage using the Zilliz Cloud console.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is in <strong>Private Preview</strong> for clusters on the <strong>Dedicated-Enterprise</strong> plan. To enable this feature or learn about the associated costs, contact <a href="https://support.zilliz.com/hc/en-us">Zilliz Cloud support</a>.</p>
+<p>This feature is in <strong>Private Preview</strong> for <strong>Dedicated</strong> clusters in <strong>Enterprise</strong> projects. To enable this feature or learn about the associated costs, contact <a href="https://support.zilliz.com/hc/en-us">Zilliz Cloud support</a>.</p>
 
 </Admonition>
 
-## Before you start{#before-you-start}
+## Before you start\{#before-you-start}
 
-- You have integrated Zilliz Cloud with your object storage. For detailed steps, refer to [Integrate with AWS S3](./integrate-with-aws-s3) and [Integrate with Azure Blob Storage](./integrate-with-azure-blob-storage).
+- You have integrated Zilliz Cloud with your object storage. For detailed steps, refer to [Integrate with AWS S3](./integrate-with-aws-s3), [Integrate with Azure Blob Storage](./integrate-with-azure-blob-storage), or [Integrate with Google Cloud Storage](./integrate-with-gcp).
 
 - You have **Organization Owner** or **Project Admin** access to the project. If you do not have necessary permissions, contact your Zilliz Cloud administrator.
 
-## Procedure{#procedure}
+## Procedure\{#procedure}
 
 You can export backup files from Zilliz Cloud either via the Zilliz Cloud console or through the RESTful API. 
 
-### Export via Zilliz Cloud console{#export-via-zilliz-cloud-console}
+### Export via Zilliz Cloud console\{#export-via-zilliz-cloud-console}
 
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
@@ -65,7 +68,7 @@ You can export backup files from Zilliz Cloud either via the Zilliz Cloud consol
 
     - **Cloud Region of Cluster in Backup File**: Displays the cloud region where the backup file was created.
 
-    - **Integration**: Select the object storage provider integrated with Zilliz Cloud. Currently, AWS S3 is supported. For more information, refer to [Integrate with AWS S3](./integrate-with-aws-s3).
+    - **Integration**: Select the object storage provider integrated with Zilliz Cloud.
 
     - **Integration Configuration**: Choose the specific bucket you configured for the backup export.
 
@@ -75,7 +78,7 @@ You can export backup files from Zilliz Cloud either via the Zilliz Cloud consol
 
 ![export-backup-file](/img/export-backup-file.png)
 
-### Export through RESTful API{#export-through-restful-api}
+### Export through RESTful API\{#export-through-restful-api}
 
 Before you can export backup files from Zilliz Cloud via the [Export Backup Files](/reference/restful/export-backup-files-v2) RESTful API endpoint, you have to integrate one of your AWS S3 buckets with Zilliz Cloud and obtain its integration ID. For details, refer to [Obtain the integration ID](./integrate-with-aws-s3#obtain-the-integration-id).
 
@@ -106,7 +109,7 @@ The response to the above request would be a Job ID as follows:
 }
 ```
 
-## Monitor export progress{#monitor-export-progress}
+## Monitor export progress\{#monitor-export-progress}
 
 Once you click **Export**, an export job is generated automatically:
 
@@ -122,7 +125,7 @@ Once you click **Export**, an export job is generated automatically:
 
 ![monitor-export-job](/img/monitor-export-job.png)
 
-## Cancel export job{#cancel-export-job}
+## Cancel export job\{#cancel-export-job}
 
 If your job remains in the **IN PROGRESS** status and you decide not to proceed, you can cancel the job by clicking **Cancel** in the **Actions** column.
 

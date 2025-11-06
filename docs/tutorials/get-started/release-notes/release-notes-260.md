@@ -3,20 +3,23 @@ title: "Release Notes (March 13, 2024) | Cloud"
 slug: /release-notes-260
 sidebar_label: "Release Notes (March 13, 2024)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud has introduced two major enhancements in its latest release. Firstly, Pipelines now support six state-of-the-art (SOTA) embedding models, which expands your data processing capabilities. The other major enhancement is that the Collection Playground feature has been added to simplify your onboarding experience. With this feature, you can easily perform basic Create, Run, Update, and Delete (CRUD) operations directly from the Zilliz Cloud console, making your data interaction processes more streamlined. You can try these new features today to enjoy a more efficient and effective workflow. | Cloud"
 type: origin
 token: NmolwVTkCiQ2yZkXsJhcftyTnhc
-sidebar_position: 14
+sidebar_position: 17
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 
@@ -27,11 +30,11 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud has introduced two major enhancements in its latest release. Firstly, Pipelines now support six state-of-the-art (SOTA) embedding models, which expands your data processing capabilities. The other major enhancement is that the Collection Playground feature has been added to simplify your onboarding experience. With this feature, you can easily perform basic Create, Run, Update, and Delete (CRUD) operations directly from the Zilliz Cloud console, making your data interaction processes more streamlined. You can try these new features today to enjoy a more efficient and effective workflow.
 
-## Milvus Compatibility{#milvus-compatibility}
+## Milvus Compatibility\{#milvus-compatibility}
 
 This release is compatible with **Milvus 2.3.x**.
 
-## More Embedding Models{#more-embedding-models}
+## More Embedding Models\{#more-embedding-models}
 
 Zilliz Cloud Pipeline now supports six SOTA embedding models to broaden your data processing capabilities.
 
@@ -59,6 +62,6 @@ Zilliz Cloud Pipeline now supports six SOTA embedding models to broaden your dat
 
     Released by BAAI, this SOTA open-source model is hosted on Zilliz Cloud and co-located with vector databases, providing good quality and best network latency. This is the default embedding model.
 
-## Collection Playground{#collection-playground}
+## Collection Playground\{#collection-playground}
 
 In this release, Zilliz Cloud introduced the Collection Playground in Zilliz Cloud, designed to streamline your onboarding experience. The Playground allows users to seamlessly perform basic CRUD operations directly from the Zilliz Cloud console, including the insert, upsert, search, query, get, and delete operations. To access this new feature, navigate to the Playground tab in your collection on the Zilliz Cloud console. You are invited to explore this enhancement and enjoy simplified interaction with your collections!

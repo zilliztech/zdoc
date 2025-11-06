@@ -3,6 +3,9 @@ title: "Best Practices | BYOC"
 slug: /best-practices
 sidebar_label: "Best Practices"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "You can find articles on the best practices when using Zilliz Cloud. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

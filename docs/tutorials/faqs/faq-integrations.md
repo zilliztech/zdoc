@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This topic lists the possible issues about integrations with other software, tool, AI models, etc that you may encounter on Zilliz Cloud and the corresponding solution. | CLOUD"
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
-sidebar_position: 14
+sidebar_position: 13
 
 ---
 

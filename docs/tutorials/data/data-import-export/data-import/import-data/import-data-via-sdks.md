@@ -3,6 +3,9 @@ title: "Import Data (SDK) | Cloud"
 slug: /import-data-via-sdks
 sidebar_label: "SDKs"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide helps you learn how to use our SDKs to import data into a collection with the bulk-writer and bulk-import APIs. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 
@@ -31,7 +34,7 @@ This guide helps you learn how to use our SDKs to import data into a collection 
 
 Alternatively, you can also refer to [our fast-track end-to-end course](./data-import-zero-to-hero) which covers both data preparations and data import to Zilliz Cloud collections.
 
-## Install dependencies{#install-dependencies}
+## Install dependencies\{#install-dependencies}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 
@@ -74,7 +77,7 @@ compile 'io.minio:minio:8.5.9'
 
 </Tabs>
 
-## Check prepared data{#check-prepared-data}
+## Check prepared data\{#check-prepared-data}
 
 Once you have prepared your data using [the BulkWriter tool](./use-bulkwriter) and got the path to the prepared files. You are ready to import them to a Zilliz Cloud collection. To check whether they are ready, do as follows:
 
@@ -158,9 +161,92 @@ while (results.hasNext()) {
 </TabItem>
 </Tabs>
 
-## Import data{#import-data}
+## Import data\{#import-data}
 
-Once your data and collection are ready, you can start the import process as follows:
+Once your data and collection are ready, you can import your data into a specific collection either via a stage or via an external storage, such as an object storage bucket and a block storage blob container.
+
+### Import data via stage | PRIVATE\{#import-data-via-stage}
+
+To import data via stage, you need to create a storage and upload your data into the stage beforehand. For details, refer to [Merge Data](./merge-data).
+
+Once the stage is ready and the source data file is in place, you can import data from a stage as follows:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus.bulk_writer import bulk_import
+
+def cloud_bulkinsert():
+    # The value of the URL is fixed.
+    # For overseas regions, it is: https://api.cloud.zilliz.com
+    # For regions in China, it is: https://api.cloud.zilliz.com.cn
+    url = "https://api.cloud.zilliz.com"
+    api_key = ""
+    cluster_id = "inxx-xxxxxxxxxxxxxxx"
+    stage_name = "my-first-stage"
+    data_path = "dataPath"
+
+    print(f"\n===================== import files to cloud vectordb ====================")
+
+    resp = bulk_import(
+        url=url,
+        api_key=api_key,
+        cluster_id=cluster_id,
+        collection_name='quick_setup',
+        stage_name=stage_name,
+        data_paths=[[data_path]]
+    )
+    print(resp.json())
+
+if __name__ == '__main__':
+    # # to call cloud bulkinsert api, you need to apply a cloud service from Zilliz Cloud(https://zilliz.com/cloud)
+    cloud_bulkinsert()
+
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+private static String bulkImport() throws InterruptedException {
+    /**
+     * The value of the URL is fixed.
+     */
+    String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+    String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
+    String API_KEY = "";
+    String STAGE_NAME = "my-first-stage";
+    List<String> DATA_PATH = Lists.newArrayList("dataPath");
+
+    StageImportRequest stageImportRequest = StageImportRequest.builder()
+            .apiKey(API_KEY)
+            .clusterId(CLUSTER_ID).collectionName("quick_setup")
+            .stageName(STAGE_NAME).dataPaths(Lists.newArrayList(Collections.singleton(DATA_PATH)))
+            .build();
+    String bulkImportResult = BulkImportUtils.bulkImport(CLOUD_API_ENDPOINT, stageImportRequest);
+    System.out.println(bulkImportResult);
+
+    JsonObject bulkImportObject = new Gson().fromJson(bulkImportResult, JsonObject.class);
+    String jobId = bulkImportObject.getAsJsonObject("data").get("jobId").getAsString();
+    System.out.println("Create a bulkInert task, job id: " + jobId);
+    return jobId;
+}
+
+public static void main(String[] args) throws Exception {
+    String jobId = bulkImport();
+}
+
+// 0f7fe853-d93e-4681-99f2-4719c63585cc
+```
+
+</TabItem>
+</Tabs>
+
+### Import data via external storage\{#import-data-via-external-storage}
+
+If you prefer to import data via external storage, do as follows:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -247,7 +333,7 @@ public static void main(String[] args) throws Exception {
 
 </Admonition>
 
-### Check import progress{#check-import-progress}
+### Check import progress\{#check-import-progress}
 
 You can check the progress of a specified bulk-import job.
 
@@ -304,7 +390,7 @@ public static void main(String[] args) throws Exception {
 </TabItem>
 </Tabs>
 
-### List all import jobs{#list-all-import-jobs}
+### List all import jobs\{#list-all-import-jobs}
 
 If you also want to know about all bulk-import tasks, you can call the list-import-jobs API as follows:
 
@@ -358,7 +444,7 @@ public static void main(String[] args) throws Exception {
 </TabItem>
 </Tabs>
 
-## Related topics{#related-topics}
+## Related topics\{#related-topics}
 
 - [Storage Options](./data-import-storage-options)
 

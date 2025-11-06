@@ -3,6 +3,9 @@ title: "Manage Organization Settings | Cloud"
 slug: /organization-settings
 sidebar_label: "Organization Settings"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "If you are an Organization Owner, you have the privileges to manage the organization settings. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 
@@ -30,9 +33,9 @@ If you are an Organization Owner, you have the privileges to manage the organiza
 
 This guide will walk you through the steps of managing organization settings.
 
-## View organizations{#view-organizations}
+## View organizations\{#view-organizations}
 
-Once you sign up for Zilliz Cloud, a default organization will be created for you. While you cannot create new organizations, you can join other use's organizations by invitation. 
+Once you sign up for Zilliz Cloud, a default organization will be created for you. While you cannot create new organizations, you can join other user's organizations by invitation. 
 
 After logging into the [Zilliz Cloud console](https://cloud.zilliz.com/login), you'll land on the page listing the organizations you're part of. You can check out and enter these organizations.
 
@@ -40,7 +43,7 @@ For a quick view of all the organizations you've joined, just click **All Organi
 
 ![view-organizations](/img/view-organizations.png)
 
-## Rename an organization{#rename-an-organization}
+## Rename an organization\{#rename-an-organization}
 
 To rename an organization, you must be an [Organization Owner](./organization-users).
 
@@ -54,7 +57,7 @@ You can rename an organization in either of the following ways:
 
     ![edit-organization-name](/img/edit-organization-name.png)
 
-## Manage timezone{#manage-timezone}
+## Manage timezone\{#manage-timezone}
 
 The system time zone is set to where your first login occurs and applies to all time strings displayed on Zilliz Cloud.
 
@@ -64,7 +67,7 @@ To view the current time zone, you can either be an Organization Owner or an Org
 
 To modify the system time zone, you must be an [Organization Owner](./organization-users). Click **Edit** to open the **Time Zone Settings** dialog box, and select a time zone from the drop-down list. You can also enter the name of a time zone to quickly filter the desired time zone.
 
-## Set up maintenance window{#set-up-maintenance-window}
+## Set up maintenance window\{#set-up-maintenance-window}
 
 You can set up a maintenance window to allow Zilliz Cloud to schedule maintenance for your hosted cluster. This makes impactful maintenance events more predictable and less disruptive for your workload.
 
@@ -82,7 +85,7 @@ To change the system maintenance window hours, click **Edit** to open the Edit S
 
 ![maintenance-window](/img/maintenance-window.png)
 
-## Delete organization{#delete-organization}
+## Delete organization\{#delete-organization}
 
 Before you start, make sure the following conditions are met:
 

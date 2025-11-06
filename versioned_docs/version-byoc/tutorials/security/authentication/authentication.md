@@ -3,6 +3,9 @@ title: "Authentication | BYOC"
 slug: /authentication
 sidebar_label: "Authentication"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Learn more about the management of email accounts, cluster credentials, and multi-factor authentication (MFA) measures. | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

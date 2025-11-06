@@ -3,6 +3,9 @@ title: "View Cluster Metric Charts | Cloud"
 slug: /view-cluster-metric-charts
 sidebar_label: "View Cluster Metric Charts"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud offers a dashboard for observing cluster-specific metrics. To access this feature, navigate to the Metrics tab within one of your clusters. | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 
@@ -31,13 +34,13 @@ Zilliz Cloud offers a dashboard for observing cluster-specific metrics. To acces
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>For free clusters, only read &amp; write vCUs are available. To unlock a range of advanced metrics, <a href="./manage-cluster">upgrade your plan tier</a>.</p>
+<p>For free clusters, only read &amp; write vCUs are available. To unlock a range of advanced metrics, <a href="./manage-cluster#upgrade-deployment-option">upgrade your plan tier</a>.</p>
 
 </Admonition>
 
 ![view_metric_charts](/img/view_metric_charts.png)
 
-## Access cluster metric charts{#access-cluster-metric-charts}
+## Access cluster metric charts\{#access-cluster-metric-charts}
 
 In the [Zilliz Cloud console](https://cloud.zilliz.com/login), locate the target cluster and select the **Metrics** tab.
 
@@ -51,7 +54,7 @@ Zilliz Cloud's metric charts provide performance data on resource usage, queries
 
 For details on each metric chart, refer to [View metric charts](./view-cluster-metric-charts#view-metric-charts).
 
-## Modify curve window size{#modify-curve-window-size}
+## Modify curve window size\{#modify-curve-window-size}
 
 The **Metrics** tab allows for two types of window sizes.
 
@@ -75,23 +78,23 @@ The **Metrics** tab allows for two types of window sizes.
 
     - The time difference between the start and the end time should be greater than 10 minutes.
 
-## View metric charts{#view-metric-charts}
+## View metric charts\{#view-metric-charts}
 
 Zilliz Cloud offers metric charts for monitoring cluster performance from various aspects.
 
-### Resources{#resources}
+### Resources\{#resources}
 
-To view metric charts for resource usage, select the **Metrics** tab and refer to the **Resources** area. These charts provide a snapshot of the cluster's resource usage, including computation, capacity, and storage. For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference#cluster-metrics).
+To view metric charts for resource usage, select the **Metrics** tab and refer to the **Resources** area. These charts provide a snapshot of the cluster's resource usage, including computation, capacity, and storage. For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference#project-level-metrics-cluster-metrics).
 
-### Performance{#performance}
+### Performance\{#performance}
 
-To view metric charts for performance, select the **Metrics** tab and refer to the **Performance** area. These charts provide a snapshot of cluster performance, including QPS, VPS, latency, and request. For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference#cluster-metrics).
+To view metric charts for performance, select the **Metrics** tab and refer to the **Performance** area. These charts provide a snapshot of cluster performance, including QPS, VPS, latency, and request. For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference#project-level-metrics-cluster-metrics).
 
-### Data{#data}
+### Data\{#data}
 
-To view metric charts for business data, select the **Metrics** tab and refer to the **Data** area. These charts provide a snapshot of the cluster's entity data by indicating the number of collections, entities, and loaded entities in the cluster. For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference#cluster-metrics).
+To view metric charts for business data, select the **Metrics** tab and refer to the **Data** area. These charts provide a snapshot of the cluster's entity data by indicating the number of collections, entities, and loaded entities in the cluster. For a quick overview of available metrics, refer to [Metrics & Alerts Reference](./metrics-alerts-reference#project-level-metrics-cluster-metrics).
 
-## Related topics{#related-topics}
+## Related topics\{#related-topics}
 
 - [Manage Organization Alerts](./manage-organization-alerts)
 

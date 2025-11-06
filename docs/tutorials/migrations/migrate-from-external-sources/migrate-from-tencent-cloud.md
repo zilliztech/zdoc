@@ -3,6 +3,9 @@ title: "Migrate from Tencent Cloud to Zilliz Cloud | Cloud"
 slug: /migrate-from-tencent-cloud
 sidebar_label: "Tencent Cloud VectorDB"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This topic describes how Zilliz Cloud handles data type mapping, JSON field conversion, and collection naming rules when migrating from Tencent Cloud VectorDB. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - tencent cloud
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 
@@ -28,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 This topic describes how Zilliz Cloud handles data type mapping, JSON field conversion, and collection naming rules when migrating from [Tencent Cloud VectorDB](https://www.tencentcloud.com/products/vdb).
 
-## Prerequisites{#prerequisites}
+## Prerequisites\{#prerequisites}
 
 Before starting your Tencent Cloud VectorDB to Zilliz Cloud migration, ensure you meet these requirements:
 
-### Tencent Cloud VectorDB requirements{#tencent-cloud-vectordb-requirements}
+### Tencent Cloud VectorDB requirements\{#tencent-cloud-vectordb-requirements}
 
 <table>
    <tr>
@@ -53,7 +56,7 @@ Before starting your Tencent Cloud VectorDB to Zilliz Cloud migration, ensure yo
    </tr>
 </table>
 
-### Zilliz Cloud requirements{#zilliz-cloud-requirements}
+### Zilliz Cloud requirements\{#zilliz-cloud-requirements}
 
 <table>
    <tr>
@@ -74,7 +77,7 @@ Before starting your Tencent Cloud VectorDB to Zilliz Cloud migration, ensure yo
    </tr>
 </table>
 
-## Data type mapping{#data-type-mapping}
+## Data type mapping\{#data-type-mapping}
 
 Understanding how Tencent Cloud VectorDB data types map to Zilliz Cloud is crucial for planning your migration:
 
@@ -101,7 +104,7 @@ Understanding how Tencent Cloud VectorDB data types map to Zilliz Cloud is cruci
    </tr>
 </table>
 
-## JSON field conversion{#json-field-conversion}
+## JSON field conversion\{#json-field-conversion}
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -155,9 +158,9 @@ For JSON fields converted to fixed fields, you can configure additional attribut
 
 - **Partition Key**: Optionally designate an INT64 or VARCHAR field as the partition key. Note that each collection supports only one partition key, and the selected field cannot be nullable. For details, refer to  [Use Partition Key](./use-partition-key).
 
-## Tencent Cloud VectorDB-specific handling rules{#tencent-cloud-vectordb-specific-handling-rules}
+## Tencent Cloud VectorDB-specific handling rules\{#tencent-cloud-vectordb-specific-handling-rules}
 
-### Collection naming rules{#collection-naming-rules}
+### Collection naming rules\{#collection-naming-rules}
 
 Tencent Cloud VectorDB collection names are transferred to Zilliz Cloud with the following considerations:
 

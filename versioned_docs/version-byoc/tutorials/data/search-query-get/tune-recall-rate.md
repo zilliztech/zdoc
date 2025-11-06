@@ -3,6 +3,9 @@ title: "Tune Recall Rate | BYOC"
 slug: /tune-recall-rate
 sidebar_label: "Tune Recall Rate"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud introduces a search parameter `level` to allow users to balance search recall and performance. It also provides another search parameter, `enablerecallcalculation`, to give users the estimated recall rate of the current search. You can combine these two parameters to tune the recall rate of vector searches. | BYOC"
 type: origin
@@ -18,10 +21,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 
@@ -32,20 +35,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud introduces a search parameter `level` to allow users to balance search recall and performance. It also provides another search parameter, `enable_recall_calculation`, to give users the estimated recall rate of the current search. You can combine these two parameters to tune the recall rate of vector searches.
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>This feature is in Public Preview and you have to use a cluster compatible with Milvus v2.5.4 and later or with Milvus v2.4.14 and later.</p>
-<p>This feature is compatible with the API and SDKs of the following versions:</p>
-<ul>
-<li><p>Python: v2.5.4 and v2.4.14</p></li>
-<li><p>Java: v2.5.3 and v2.4.10</p></li>
-<li><p>Node.js: v2.5.2 and v2.4.10</p></li>
-<li><p>RESTful: v2.5.4</p></li>
-</ul>
-
-</Admonition>
-
-## Overview{#overview}
+## Overview\{#overview}
 
 The recall rate in Zilliz Cloud usually refers to the proportion of relevant results successfully retrieved by a search. It measures the system's ability to recover all the relevant items from a collection.
 
@@ -55,7 +45,7 @@ To calculate a search's recall rate, you can divide the number of relevant items
 
 A high recall rate usually indicates a more precise search result, which may be time-consuming. You may want to tune the recall rate to balance the precision and efficiency of vector searches.
 
-## Set up a search request{#set-up-a-search-request}
+## Set up a search request\{#set-up-a-search-request}
 
 To set up a search request with tunable recall, you must include the `level` parameter inside the search parameters as follows:
 
@@ -85,7 +75,7 @@ For scenarios that require a high recall rate (**99%** or above), try setting th
 
 </Admonition>
 
-## Tune recall rate{#tune-recall-rate}
+## Tune recall rate\{#tune-recall-rate}
 
 Zilliz Cloud also introduces another search parameter named `enable_recall_calculation` to facilitate the tuning process. Setting this parameter to `True` indicates that Zilliz Cloud will estimate the recall rate of the current search and includes the estimated recall rate along with the search results.
 
@@ -122,7 +112,13 @@ During the estimation process, Zilliz Cloud:
 
 While setting `enable_recall_calculation` to `True`, you can adjust the value of the `level` parameter to obtain multiple recall rates. By considering these estimated figures and the duration of each search, you can roughly estimate the appropriate level setting.
 
-## Limits{#limits}
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Enabling <code>enable_recall_calculation</code> may impact search performance and is not recommended in production.</p>
+
+</Admonition>
+
+## Limits\{#limits}
 
 Currently, this feature is available only for Zilliz Cloud clusters in basic vector searches, filtered searches, and range searches.
 

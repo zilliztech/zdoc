@@ -3,6 +3,9 @@ title: "Migrate from OpenSearch to Zilliz Cloud | Cloud"
 slug: /migrate-from-opensearch
 sidebar_label: "OpenSearch"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This topic describes how Zilliz Cloud handles data type mapping, collection naming rules, and considerations when migrating from OpenSearch. | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - migrations
   - amazon
   - opensearch
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 
@@ -29,11 +32,11 @@ import Admonition from '@theme/Admonition';
 
 This topic describes how Zilliz Cloud handles data type mapping, collection naming rules, and considerations when migrating from [OpenSearch](https://opensearch.org/).
 
-## Prerequisites{#prerequisites}
+## Prerequisites\{#prerequisites}
 
 Before starting your OpenSearch to Zilliz Cloud migration, ensure you meet these requirements:
 
-### OpenSearch requirements{#opensearch-requirements}
+### OpenSearch requirements\{#opensearch-requirements}
 
 <table>
    <tr>
@@ -58,7 +61,7 @@ Before starting your OpenSearch to Zilliz Cloud migration, ensure you meet these
    </tr>
 </table>
 
-### Zilliz Cloud requirements{#zilliz-cloud-requirements}
+### Zilliz Cloud requirements\{#zilliz-cloud-requirements}
 
 <table>
    <tr>
@@ -79,7 +82,7 @@ Before starting your OpenSearch to Zilliz Cloud migration, ensure you meet these
    </tr>
 </table>
 
-## Data type mapping{#data-type-mapping}
+## Data type mapping\{#data-type-mapping}
 
 The following table summarizes how field types in OpenSearch are mapped to Zilliz Cloud field types, along with details on any customization options.
 
@@ -276,9 +279,9 @@ The following table summarizes how field types in OpenSearch are mapped to Zilli
    </tr>
 </table>
 
-## OpenSearch-specific handling rules{#opensearch-specific-handling-rules}
+## OpenSearch-specific handling rules\{#opensearch-specific-handling-rules}
 
-### Collection naming rules{#collection-naming-rules}
+### Collection naming rules\{#collection-naming-rules}
 
 OpenSearch index names are transferred to Zilliz Cloud with the following considerations:
 
@@ -305,7 +308,7 @@ OpenSearch index names are transferred to Zilliz Cloud with the following consid
    </tr>
 </table>
 
-### Migration considerations{#migration-considerations}
+### Migration considerations\{#migration-considerations}
 
 The following features are **not supported** for OpenSearch migration:
 

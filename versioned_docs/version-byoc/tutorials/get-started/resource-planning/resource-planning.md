@@ -3,6 +3,9 @@ title: "Resource Planning | BYOC"
 slug: /resource-planning
 sidebar_label: "Resource Planning"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Topics related to resource planning before you move your data to Zilliz Cloud. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

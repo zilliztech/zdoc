@@ -1,8 +1,11 @@
 ---
-title: "Auditing | BYOC"
+title: "Auditing Logs | BYOC"
 slug: /auditing
-sidebar_label: "Auditing"
-beta: PRIVATE
+sidebar_label: "Auditing Logs"
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Learn how to configure auditing for your Zilliz Cloud cluster. | BYOC"
 type: origin
@@ -14,17 +17,17 @@ keywords:
   - cloud
   - auditing
   - log
-  - NLP
-  - Neural Network
   - Deep Learning
   - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Auditing
+# Auditing Logs
 
 Learn how to configure auditing for your Zilliz Cloud cluster.
 

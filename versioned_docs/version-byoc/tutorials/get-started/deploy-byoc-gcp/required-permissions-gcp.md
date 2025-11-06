@@ -3,6 +3,9 @@ title: "Required Permissions | BYOC"
 slug: /required-permissions-gcp
 sidebar_label: "Required Permissions"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This page lists the IAM policies required during the deployment of Zilliz BYOC data plane on your VPC network. | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 
@@ -37,7 +40,7 @@ This page lists the IAM policies required during the deployment of Zilliz BYOC d
 
 </Admonition>
 
-## Storage service account{#storage-service-account}
+## Storage service account\{#storage-service-account}
 
 You should create a Cloud Storage bucket and a storage service account so that Zilliz Cloud can assume the service account to access the bucket.
 
@@ -61,7 +64,7 @@ The following table lists the roles that should be assigned to the storage servi
    </tr>
 </table>
 
-## GKE service account{#gke-service-account}
+## GKE service account\{#gke-service-account}
 
 You should create a GKE service account so that Zilliz Cloud can assume this service account to manage the GKE clusters.
 
@@ -80,7 +83,7 @@ The following table lists the roles that should be assigned to the GKE service a
    </tr>
 </table>
 
-## Cross-account service account{#cross-account-service-account}
+## Cross-account service account\{#cross-account-service-account}
 
 You should create a cross-account service account so Zilliz Cloud can assume this service account to manage network resources.
 

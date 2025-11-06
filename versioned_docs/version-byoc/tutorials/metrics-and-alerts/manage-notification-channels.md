@@ -3,6 +3,9 @@ title: "Manage Notification Channels | BYOC"
 slug: /manage-notification-channels
 sidebar_label: "Manage Notification Channels"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Alert notifications in Zilliz Cloud keep you informed about events occurring within your clusters. By default, these notifications are sent to specified user email addresses. However, you can also set up custom notification channels using webhooks for more integrated, event-driven notifications. This guide will walk you through the process of configuring alert notification channels. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - notification
   - channels
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 
@@ -28,17 +31,17 @@ import Admonition from '@theme/Admonition';
 
 Alert notifications in Zilliz Cloud keep you informed about events occurring within your clusters. By default, these notifications are sent to specified user email addresses. However, you can also set up custom notification channels using webhooks for more integrated, event-driven notifications. This guide will walk you through the process of configuring alert notification channels.
 
-## Before you start{#before-you-start}
+## Before you start\{#before-you-start}
 
 To manage notification channels, make sure you are an [organization owner](./organization-users) or [project admin](./project-users).
 
-## Set up notification channels{#set-up-notification-channels}
+## Set up notification channels\{#set-up-notification-channels}
 
 You can access the management page of notification channels in the **Edit Alert** or **Create Alert** dialog box in the Zilliz Cloud console.
 
 ![manage-alert-channel](/img/manage-alert-channel.png)
 
-### Email{#email}
+### Email\{#email}
 
 To set up email notifications,
 
@@ -58,7 +61,7 @@ To set up email notifications,
 
 For more information, refer to [Manage Organization Alerts](./manage-organization-alerts) or [Manage Project Alerts](./manage-project-alerts).
 
-### PagerDuty{#pagerduty}
+### PagerDuty\{#pagerduty}
 
 To integrate with a PagerDuty service,
 
@@ -84,7 +87,7 @@ To integrate with a PagerDuty service,
 
     1. In **Alert Resolution Notification** and **Enable Alert**, configure the appropriate actions to be taken when an alert is resolved or triggered.
 
-### Slack{#slack}
+### Slack\{#slack}
 
 To set up Slack integration,
 
@@ -110,7 +113,7 @@ To set up Slack integration,
 
     1. In **Alert Resolution Notification** and **Enable Alert**, configure the appropriate actions to be taken when an alert is resolved or triggered.
 
-### Opsgenie{#opsgenie}
+### Opsgenie\{#opsgenie}
 
 To set up Opsgenie integration,
 
@@ -142,7 +145,7 @@ To set up Opsgenie integration,
 
     1. In **Alert Resolution Notification** and **Enable Alert**, configure the appropriate actions to be taken when an alert is resolved or triggered.
 
-### Lark{#lark}
+### Lark\{#lark}
 
 To set up Lark integration,
 
@@ -166,7 +169,7 @@ To set up Lark integration,
 
     1. In **Alert Resolution Notification** and **Enable Alert**, configure the appropriate actions to be taken when an alert is resolved or triggered.
 
-### Webhook{#webhook}
+### Webhook\{#webhook}
 
 The **Webhook** option offered by Zilliz Cloud allows you to set up a custom notification channel.
 
@@ -202,7 +205,7 @@ Example webhook notification:
 }
 ```
 
-### WeCom{#wecom}
+### WeCom\{#wecom}
 
 To set up WeCom alert notifications, follow these steps:
 
@@ -234,7 +237,7 @@ To set up WeCom alert notifications, follow these steps:
 
     1. In **Alert Resolution Notification** and **Enable Alert**, configure the appropriate actions to be taken when an alert is resolved or triggered.
 
-### DingTalk{#dingtalk}
+### DingTalk\{#dingtalk}
 
 To set up DingTalk alert notifications, follow these steps:
 
@@ -270,7 +273,7 @@ To set up DingTalk alert notifications, follow these steps:
 
     1. In **Alert Resolution Notification** and **Enable Alert**, configure the appropriate actions to be taken when an alert is resolved or triggered.
 
-## Test connectivity{#test-connectivity}
+## Test connectivity\{#test-connectivity}
 
 After setting up a notification channel, click the Send Test Message icon to verify that it is properly configured.
 

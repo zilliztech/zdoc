@@ -3,6 +3,9 @@ title: "Manage Project Users | BYOC"
 slug: /project-users
 sidebar_label: "Project Users"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, you can invite users to projects and assign them roles based on their job functions. These roles determine the user's access to projects and the operations they can perform. | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 
@@ -29,7 +32,7 @@ In Zilliz Cloud, you can invite users to projects and assign them roles based on
 
 This topic describes how to manage project users.
 
-## Invite a user to a project{#invite-a-user-to-a-project}
+## Invite a user to a project\{#invite-a-user-to-a-project}
 
 To invite a user to join a project, you must be an **Organization Owner** or a **Project Admin**.
 
@@ -37,7 +40,7 @@ When inviting a user to a project, you need to grant a role to the user which de
 
 To invite users, enter the email addresses of the users you wish to invite. Then select the project role you wish to grant to the new project users. 
 
-### Project roles{#project-roles}
+### Project roles\{#project-roles}
 
 Zilliz Cloud provides three project roles. These roles cannot be modified or deleted.
 
@@ -58,7 +61,7 @@ Zilliz Cloud provides three project roles. These roles cannot be modified or del
        </tr>
     </table>
 
-- **Project Read-Writ**e: A Project Read-Write role has the privileges to view a project and manage its resources (clusters, databases, collections).
+- **Project Read-Write**: A Project Read-Write role has the privileges to view a project and manage its resources (clusters, databases, collections).
 
     The following table lists the corresponding UI and API privileges of each project role.
 
@@ -92,7 +95,7 @@ Zilliz Cloud provides three project roles. These roles cannot be modified or del
        </tr>
     </table>
 
-The invitees will receive an invitation via email, which must be accepted within 48 hours to join the project. 
+The invitees will receive an invitation via email, which must be accepted within 48 hours to join the project. Alternatively, you can also copy the invitation link from the web console and share it with the invitees.
 
 Once the user joins the project, this user automatically becomes an Organization Member in the organization to which the project belongs.
 
@@ -102,9 +105,9 @@ Once the user joins the project, this user automatically becomes an Organization
 
 </Admonition>
 
-![byoc-invite-user-to-project](/img/byoc-invite-user-to-project.png)
+![invite-user-to-project](/img/invite-user-to-project.png)
 
-## Revoke or resend an invitation{#revoke-or-resend-an-invitation}
+## Revoke or resend an invitation\{#revoke-or-resend-an-invitation}
 
 When you invite an existing organization member to a project within the same organization, they automatically gain access to the project without receiving a separate invitation. However, if you invite someone to a project within an organization they are not already a part of, they will receive an invitation to join the organization, which also grants them access to the specified project.
 
@@ -118,7 +121,7 @@ To revoke or resend the invitation, you must be an **Organization Owner** or a *
 
 ![byoc-revoke-or-cancel-invitation-to-project](/img/byoc-revoke-or-cancel-invitation-to-project.png)
 
-## Edit a collaborator's role or remove a collaborator{#edit-a-collaborators-role-or-remove-a-collaborator}
+## Edit a collaborator's role or remove a collaborator\{#edit-a-collaborators-role-or-remove-a-collaborator}
 
 After a user accepts the invitation, the user becomes a project collaborator.
 
@@ -126,7 +129,7 @@ To edit a collaborator's role or remove a project collaborator, you must be an *
 
 ![byoc-edit-user-role-or-remove-project-user](/img/byoc-edit-user-role-or-remove-project-user.png)
 
-## Leave a project{#leave-a-project}
+## Leave a project\{#leave-a-project}
 
 In addition to removing a collaborator from a project, you can also remove yourself by leaving it.
 

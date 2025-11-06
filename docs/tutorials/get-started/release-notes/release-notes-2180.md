@@ -3,20 +3,23 @@ title: "Release Notes (July 15, 2025) | Cloud"
 slug: /release-notes-2180
 sidebar_label: "Release Notes (July 15, 2025)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In this release, Zilliz Cloud introduces several powerful enhancements aimed at improving operational efficiency, flexibility, and user experience. These include support for cluster-level scheduled auto-scaling, schema evolution via the new Merge Data API, the introduction of stage — a cloud-native data layer for streamlined data ingestion, partial restore from cluster-level backups with cross-database selection, and UI support for JSON Path indexes. Together, these features enable users to manage complex workloads more effectively, reduce maintenance overhead, and speed up development cycles in the GenAI era. | Cloud"
 type: origin
 token: WBONwyqFAi02DTkCG41c93wCn6e
-sidebar_position: 1
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 
@@ -27,13 +30,13 @@ import Admonition from '@theme/Admonition';
 
 In this release, Zilliz Cloud introduces several powerful enhancements aimed at improving operational efficiency, flexibility, and user experience. These include support for cluster-level scheduled auto-scaling, schema evolution via the new Merge Data API, the introduction of stage — a cloud-native data layer for streamlined data ingestion, partial restore from cluster-level backups with cross-database selection, and UI support for JSON Path indexes. Together, these features enable users to manage complex workloads more effectively, reduce maintenance overhead, and speed up development cycles in the GenAI era.
 
-## Milvus Compatibility{#milvus-compatibility}
+## Milvus Compatibility\{#milvus-compatibility}
 
 All Zilliz Cloud clusters created after this release are compatible with **Milvus v2.5.x**, and all features from Milvus v2.5.x are **Generally Available**. 
 
 For details on feature availabilities, refer to [Current Feature Availability](./feature-availability#current-feature-availability).
 
-## Schema Evolution via Merge Data API | PRIVATE{#schema-evolution-via-merge-data-api}
+## Schema Evolution via Merge Data API | PRIVATE\{#schema-evolution-via-merge-data-api}
 
 In the GenAI era, rapid iteration on business logic drives more frequent schema changes than ever, yet they remain costly and operationally complex. Updating a schema often means rebuilding the Collection: exporting data, merging new fields, and reimporting everything from scratch. This manual process is time-consuming, error-prone, and often requires prolonged write downtime.
 
@@ -49,7 +52,7 @@ Under the hood, the Merge Data API orchestrates a distributed batch processing e
 
 This feature is currently in **Private Preview**. Please [contact support](https://support.zilliz.com/hc/en-us) to enable it for your account. For the related RESTful API reference page, refer to [Merge Data](/reference/restful/merge-data-v2).
 
-## Introducing Stage: The Data Layer of Zilliz Cloud | PRIVATE{#introducing-stage-the-data-layer-of-zilliz-cloud}
+## Introducing Stage: The Data Layer of Zilliz Cloud | PRIVATE\{#introducing-stage-the-data-layer-of-zilliz-cloud}
 
 We're excited to introduce **Stage**, a brand-new capability and the foundational **Data Layer of Zilliz Cloud**.
 
@@ -69,7 +72,7 @@ Stage will soon be integrated with additional services like Backup, Import, and 
 
 This feature is currently in **Private Preview**. Please [contact support](https://support.zilliz.com/hc/en-us) to enable it for your account.
 
-## Scheduled Cluster Scaling Now Available{#scheduled-cluster-scaling-now-available}
+## Scheduled Cluster Scaling Now Available\{#scheduled-cluster-scaling-now-available}
 
 Zilliz Cloud now supports **scheduled scaling** at the **cluster level**, giving you proactive control over resource allocation based on predictable workload patterns.
 
@@ -81,9 +84,9 @@ Zilliz Cloud now supports **scheduled scaling** at the **cluster level**, giving
 
 - **Proactive Auditing:** We provide a transparent email noticing system and audit trail, which gives you peace of mind for resource delivery and cost.
 
-For details, refer to [Cluster Auto-scaling](./scale-cluster#auto-scaling).
+For details, refer to [Cluster Auto-scaling](./scale-cluster).
 
-## Partial Restore from Cluster-level Backups with Cross-Database Selection{#partial-restore-from-cluster-level-backups-with-cross-database-selection}
+## Partial Restore from Cluster-level Backups with Cross-Database Selection\{#partial-restore-from-cluster-level-backups-with-cross-database-selection}
 
 You can now selectively restore specific **databases** and **collections** from a **cluster-level backup**, including collections across multiple databases.This enhancement reduces recovery time and gives you fine-grained control over what data to restore, without needing to recover the entire cluster.
 
@@ -91,15 +94,15 @@ You can now selectively restore specific **databases** and **collections** from 
 
 For details, refer to [Restore a Partial Cluster](./restore-from-snapshot#restore-a-partial-cluster).
 
-## Create JSON Path Indexes on Zilliz Cloud Console{#create-json-path-indexes-on-zilliz-cloud-console}
+## Create JSON Path Indexes on Zilliz Cloud Console\{#create-json-path-indexes-on-zilliz-cloud-console}
 
 Zilliz Cloud now supports creating JSON Path indexes directly from the web console, making it easier to accelerate queries on semi-structured data. This feature supports both JSON fields and dynamic field for flexible, high-performance filtering.
 
 ![PDbobfoUDolZd4xKR8kcDXqIn0f](/img/PDbobfoUDolZd4xKR8kcDXqIn0f.png)
 
-For details on JSON path indexes, refer to [Index Values Inside a JSON Field](./use-json-fields#index-values-inside-the-json-field) and [Index Keys in the Dynamic Field](./enable-dynamic-field#index-keys-in-the-dynamic-field).
+For details on JSON path indexes, refer to [Index Values Inside a JSON Field](./use-json-fields) and [Index Keys in the Dynamic Field](./enable-dynamic-field#index-keys-in-the-dynamic-field).
 
-## BYOC Project Instance Quota Settings Now Available{#byoc-project-instance-quota-settings-now-available}
+## BYOC Project Instance Quota Settings Now Available\{#byoc-project-instance-quota-settings-now-available}
 
 **Zilliz Cloud now supports custom instance quota settings** for your BYOC projects. This update provides greater flexibility, allowing you to optimize costs by defining clear resource boundaries for your services.
 
@@ -113,7 +116,7 @@ For details on JSON path indexes, refer to [Index Values Inside a JSON Field](./
 
 For details, refer to [Deploy BYOC on AWS](/docs/byoc/deploy-byoc-aws), [Deploy BYOC-I on AWS](/docs/byoc/deploy-byoc-i-aws), and [Deploy BYOC on GCP](/docs/byoc/deploy-byoc-gcp).
 
-## Other Enhancements{#other-enhancements}
+## Other Enhancements\{#other-enhancements}
 
 - You can select whether to restore RBAC configurations when performing cluster-level backup restores.
 

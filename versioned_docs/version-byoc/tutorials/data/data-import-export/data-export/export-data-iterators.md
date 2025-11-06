@@ -3,6 +3,9 @@ title: "Export Data Using Iterators | BYOC"
 slug: /export-data-iterators
 sidebar_label: "Using Iterators"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide provides an example of how to export data from a Zilliz Cloud collection. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 
@@ -29,7 +32,7 @@ import TabItem from '@theme/TabItem';
 
 This guide provides an example of how to export data from a Zilliz Cloud collection.
 
-## Overview{#overview}
+## Overview\{#overview}
 
 Both Milvus' Python and Java SDKs provide a set of iterator APIs for you to iterate over the entities within a collection in a memory-efficient manner. For details, refer to [Search Iterator](./with-iterators).
 
@@ -49,11 +52,11 @@ You can make use of these APIs to export certain or all of the entities from a Z
 
 </Admonition>
 
-## Preparations{#preparations}
+## Preparations\{#preparations}
 
 The following steps repurpose the code to connect to a Zilliz Cloud cluster, quickly set up a collection, and insert over 10,000 randomly generated entities into the collection.
 
-### Step 1: Create a collection{#step-1-create-a-collection}
+### Step 1: Create a collection\{#step-1-create-a-collection}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -109,7 +112,7 @@ client.createCollection(createCollectionParam);
 </TabItem>
 </Tabs>
 
-### Step 2: Insert randomly generated entities{#step-2-insert-randomly-generated-entities}
+### Step 2: Insert randomly generated entities\{#step-2-insert-randomly-generated-entities}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -224,7 +227,7 @@ System.out.println(wrapper.getInsertCount());
 </TabItem>
 </Tabs>
 
-## Export data using iterators{#export-data-using-iterators}
+## Export data using iterators\{#export-data-using-iterators}
 
 To export data using iterators, do as follows:
 

@@ -3,6 +3,9 @@ title: "Quickstart | Cloud"
 slug: /quick-start
 sidebar_label: "Quickstart"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide demonstrates how to use Zilliz Cloud clusters to perform operations related to high-performance semantic search. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 
@@ -31,7 +34,7 @@ This guide demonstrates how to use Zilliz Cloud clusters to perform operations r
 
 The following steps assume that you have already created a cluster, obtained the API key or the cluster credentials, and installed your preferred SDK.
 
-## Set up Connection{#set-up-connection}
+## Set up Connection\{#set-up-connection}
 
 Once you have obtained the cluster credentials or an API key, you can use it to connect to your cluster now.
 
@@ -143,7 +146,7 @@ export CLUSTER_TOKEN="YOUR_CLUSTER_TOKEN"
 </TabItem>
 </Tabs>
 
-## Create Collection{#create-collection}
+## Create Collection\{#create-collection}
 
 On Zilliz Cloud, you need to store your vector embeddings in collections. All vector embeddings stored in a collection share the same dimensionality and distance metric for measuring similarity. 
 
@@ -359,7 +362,7 @@ In the above setup, you have defined various aspects of the collection during it
 
     - **Dynamic Field**
 
-        Whether to use the reserved JSON field **$meta** to store non-schema-defined fields and their values. 
+        Whether to use the reserved JSON field **&#36;meta** to store non-schema-defined fields and their values. 
 
      For a detailed explanation of the schema, refer to [Schema Explained](./schema-explained).
 
@@ -382,7 +385,7 @@ In the above setup, you have defined various aspects of the collection during it
 
 </Admonition>
 
-## Insert Data{#insert-data}
+## Insert Data\{#insert-data}
 
 Once the collection is ready, you can add data to it as follows.
 
@@ -597,7 +600,7 @@ As shown in the above code,
 
 </Admonition>
 
-## Similarity Search{#similarity-search}
+## Similarity Search\{#similarity-search}
 
 You can conduct similarity searches based on one or more vector embeddings. You can also include a filtering condition in the search request to enhance the similarity search results.
 
@@ -787,7 +790,7 @@ curl --request POST \
 
 The output should be a sub-list of three dictionaries, each representing a searched entity with its ID, distance, and the specified output fields.
 
-You can also include dynamic fields in a filter expression. In the following code snippet, `color` is a non-schema-defined field. You can include them as keys in the magic `$meta` field, such as `$meta["color"]`, or directly use them like schema-defined fields, such as `color`.
+You can also include dynamic fields in a filter expression. In the following code snippet, `color` is a non-schema-defined field. You can include them as keys in the magic `#meta` field, such as `#meta["color"]`, or directly use them like schema-defined fields, such as `color`.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -989,7 +992,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Delete Entities{#delete-entities}
+## Delete Entities\{#delete-entities}
 
 Zilliz Cloud allows deleting entities by IDs and by filters.
 
@@ -1192,9 +1195,9 @@ Zilliz Cloud allows deleting entities by IDs and by filters.
 
     </Admonition>
 
-## Drop the collection{#drop-the-collection}
+## Drop the collection\{#drop-the-collection}
 
-The Free plan allows up to two collections in a cluster. Once you have done this guide, you can drop the collection as follows:
+Once you have done this guide, you can drop the collection as follows:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -1303,7 +1306,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Recaps{#recaps}
+## Recaps\{#recaps}
 
 - Before creating a collection, you need to make a schema and define the fields in the collection.
 
@@ -1311,7 +1314,7 @@ curl --request POST \
 
 - Filter expressions can be used in both search and query requests. However, they are mandatory for query requests.
 
-## Next steps{#next-steps}
+## Next steps\{#next-steps}
 
 After reviewing this quickstart guide, you can explore the following topics:
 

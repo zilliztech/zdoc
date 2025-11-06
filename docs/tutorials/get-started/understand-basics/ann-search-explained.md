@@ -3,6 +3,9 @@ title: "ANN Search Explained | Cloud"
 slug: /ann-search-explained
 sidebar_label: "ANN Search Explained"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A k-nearest neighbor (kNN) search finds the k-nearest vectors to a query vector. Specifically, it compares a query vector to every vector in a vector space until k exact matches appear. Although kNN searches guarantee perfect accuracy, they are time-consuming, especially for large datasets comprising high-dimensional vectors. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 
@@ -34,7 +37,7 @@ Narrowing the search scope can reduce search time by selecting only a subset of 
 
 There are generally three ideas available for forming the index structure: graphs, trees, and hashes.
 
-## HNSW: A graph-based indexing algorithm{#hnsw-a-graph-based-indexing-algorithm}
+## HNSW: A graph-based indexing algorithm\{#hnsw-a-graph-based-indexing-algorithm}
 
 Hierarchical Navigable Small World (HNSW) indexes a vector space by creating a hierarchical proximity graph. Specifically, HNSW draws proximity links (or edges) between vectors (or vertices) on each layer to form a single-layer proximity graph and stacks them up to form the hierarchical graph. The bottom layer holds all vectors and their proximity links. As the layer goes up, only a smaller set of vectors and proximity links remains.
 
@@ -50,13 +53,13 @@ Once the hierarchical proximity graph is created, the search goes as follows:
 
 ![hnsw-explained](/img/hnsw-explained.png)
 
-## LSH: A hash-based ANN indexing algorithm{#lsh-a-hash-based-ann-indexing-algorithm}
+## LSH: A hash-based ANN indexing algorithm\{#lsh-a-hash-based-ann-indexing-algorithm}
 
 Locality-sensitive hashing (LSH) indexes a vector space by mapping data pieces of any length to fixed-length values as hashes using various hash functions, gathering these hashes into hash buckets, and tagging vectors that have been hashed to the same value at least once as candidate pairs.
 
 ![locality_sensitive_hashing](/img/locality_sensitive_hashing.png)
 
-## DiskANN: ANN search on disk based on Vamana graphs{#diskann-ann-search-on-disk-based-on-vamana-graphs}
+## DiskANN: ANN search on disk based on Vamana graphs\{#diskann-ann-search-on-disk-based-on-vamana-graphs}
 
 Unlike HNSW that builds a hierarchical graph for layered searches, Vamana’s indexing process is relatively simple:
 

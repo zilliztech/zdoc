@@ -3,6 +3,9 @@ title: "Privileges & Privilege Groups | Cloud"
 slug: /cluster-privileges
 sidebar_label: "Privileges & Privilege Groups"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A privilege refers to the permission of specific operations on certain Zilliz Cloud resources such as clusters, databases, and collections. Privileges are assigned to roles, which are then granted to users, defining the operations users can perform on the resources. An example of a privilege could be the permission to insert data into a collection named `collection01`. | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 
@@ -39,9 +42,9 @@ The following figure illustrates the different granting process of privileges an
 
 This topic details the built-in privilege groups and privileges that are available in Zilliz Cloud. 
 
-## Privilege group{#privilege-group}
+## Privilege group\{#privilege-group}
 
-### Built-in privilege groups{#built-in-privilege-groups}
+### Built-in privilege groups\{#built-in-privilege-groups}
 
 Zilliz Cloud offers a total of 9 built-in privilege groups on the collection, database, and cluster level that you can directly grant when [creating roles](./cluster-roles). 
 
@@ -51,7 +54,7 @@ Zilliz Cloud offers a total of 9 built-in privilege groups on the collection, da
 
 </Admonition>
 
-#### Collection level privilege groups{#collection-level-privilege-groups}
+#### Collection level privilege groups\{#collection-level-privilege-groups}
 
 - **CollectionReadOnly (COLL_RO)**: includes privileges to read collection data
 
@@ -88,7 +91,7 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
    <tr>
      <td><p>GetFlushState</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
      <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
@@ -166,7 +169,7 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
    <tr>
      <td><p>Load</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
@@ -209,7 +212,7 @@ The table below lists the specific privileges included in the three built-in pri
    <tr>
      <td><p>Compaction</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
@@ -221,18 +224,18 @@ The table below lists the specific privileges included in the three built-in pri
    <tr>
      <td><p>CreateAlias</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>DropAlias</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
 </table>
 
-#### Database level privilege groups{#database-level-privilege-groups}
+#### Database level privilege groups\{#database-level-privilege-groups}
 
 - **DatabaseReadOnly (DB_RO)**: includes privileges to read database data
 
@@ -263,27 +266,27 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
    <tr>
      <td><p>CreateCollection</p></td>
-     <td><p>✔️</p></td>
      <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>DropCollection</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>AlterDatabase</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
 </table>
 
-#### Cluster level privilege groups{#cluster-level-privilege-groups}
+#### Cluster level privilege groups\{#cluster-level-privilege-groups}
 
-- **ClusterReadOnly (Cluster_RO)**: includes privileges to read instnace data
+- **ClusterReadOnly (Cluster_RO)**: includes privileges to read instance data
 
 - **ClusterReadWrite (Cluster_RW)**: includes privileges to read and write instance data
 
@@ -307,7 +310,7 @@ The table below lists the specific privileges included in the three built-in pri
    <tr>
      <td><p>RenameCollection</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
@@ -330,8 +333,8 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
    <tr>
      <td><p>SelectOwnership</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
@@ -342,109 +345,109 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
    <tr>
      <td><p>SelectUser</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>BackupRBAC</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>RestoreRBAC</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>CreateResourceGroup</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>DropResourceGroup</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>UpdateResourceGroups</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>DescribeResourceGroup</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>ListResourceGroups</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>TransferNode</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>TransferReplica</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>CreateDatabase</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>DropDatabase</p></td>
      <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>FlushAll</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>CreatePrivilegeGroup</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>DropPrivilegeGroup</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
    <tr>
      <td><p>ListPrivilegeGroups</p></td>
-     <td><p>❌</p></td>
-     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
+     <td><p>✔️</p></td>
      <td><p>✔️</p></td>
    </tr>
    <tr>
      <td><p>OperatePrivilegeGroup</p></td>
      <td><p>❌</p></td>
      <td><p>❌</p></td>
-     <td><p>✔️</p></td>
+     <td><p>❌</p></td>
    </tr>
 </table>
 
-### Custom privilege groups{#custom-privilege-groups}
+### Custom privilege groups\{#custom-privilege-groups}
 
 If the built-in privileges do not meet your needs, you can create custom privilege groups and add specified privileges to the privilege groups using the SDKs. 
 
@@ -454,7 +457,7 @@ If the built-in privileges do not meet your needs, you can create custom privile
 
 </Admonition>
 
-#### Create a  custom privilege group{#create-a-custom-privilege-group}
+#### Create a custom privilege group\{#create-a-custom-privilege-group}
 
 The following example demonstrates how to create a privilege group named `privilege_group_1`.
 
@@ -521,7 +524,7 @@ curl --request POST \
 
 Once a custom privilege group is created, you can add privileges to the privilege group.
 
-#### Add privileges to a custom privilege group{#add-privileges-to-a-custom-privilege-group}
+#### Add privileges to a custom privilege group\{#add-privileges-to-a-custom-privilege-group}
 
 The following example demonstrates how to add privileges `PrivilegeBackupRBAC` and `PrivilegeRestoreRBAC` to the privilege group `privilege_group_1` that is just created. For details about all the privileges available in Zilliz Cloud, refer to [All privileges](./cluster-privileges#all-privileges).
 
@@ -593,7 +596,7 @@ curl --request POST \
 
 Once the privileges are added to a privilege group, you can grant the privilege group to a role. For details, refer to [Manage Cluster Roles (SDK)](./cluster-roles-sdk#grant-a-privilege-or-a-privilege-group-to-a-role).
 
-#### Remove privileges from a custom privilege group{#remove-privileges-from-a-custom-privilege-group}
+#### Remove privileges from a custom privilege group\{#remove-privileges-from-a-custom-privilege-group}
 
 The following example demonstrates how to remove the privilege `PrivilegeRestoreRBAC` from the privilege group `privilege_group_1`.
 
@@ -661,7 +664,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-#### List privilege groups{#list-privilege-groups}
+#### List privilege groups\{#list-privilege-groups}
 
 The following example demonstrates how to list all existing privilege groups.
 
@@ -730,7 +733,7 @@ Below is an example output.
 PrivilegeGroupItem: <privilege_group:privilege_group_1>, <privileges:('Search', 'Query')>
 ```
 
-#### Drop a custom privilege group{#drop-a-custom-privilege-group}
+#### Drop a custom privilege group\{#drop-a-custom-privilege-group}
 
 The following example demonstrates how to drop the privilege group `privilege_group_1`.
 
@@ -793,13 +796,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## All privileges{#all-privileges}
+## All privileges\{#all-privileges}
 
 The followings are all the privileges available on Zilliz Cloud. 
 
 If you need to create your own privilege group with the privileges listed below or create custom roles with privileges, please [contact us](http://support.zilliz.com).
 
-### Database privileges{#database-privileges}
+### Database privileges\{#database-privileges}
 
 <table>
    <tr>
@@ -828,7 +831,7 @@ If you need to create your own privilege group with the privileges listed below 
    </tr>
 </table>
 
-### Collection privileges{#collection-privileges}
+### Collection privileges\{#collection-privileges}
 
 <table>
    <tr>
@@ -909,7 +912,7 @@ If you need to create your own privilege group with the privileges listed below 
    </tr>
 </table>
 
-### Partition privileges{#partition-privileges}
+### Partition privileges\{#partition-privileges}
 
 <table>
    <tr>
@@ -934,7 +937,7 @@ If you need to create your own privilege group with the privileges listed below 
    </tr>
 </table>
 
-### Index privileges{#index-privileges}
+### Index privileges\{#index-privileges}
 
 <table>
    <tr>
@@ -955,7 +958,7 @@ If you need to create your own privilege group with the privileges listed below 
    </tr>
 </table>
 
-### Resource management privileges{#resource-management-privileges}
+### Resource management privileges\{#resource-management-privileges}
 
 <table>
    <tr>
@@ -1004,7 +1007,7 @@ If you need to create your own privilege group with the privileges listed below 
    </tr>
 </table>
 
-### Entity privileges{#entity-privileges}
+### Entity privileges\{#entity-privileges}
 
 <table>
    <tr>
@@ -1037,7 +1040,7 @@ If you need to create your own privilege group with the privileges listed below 
    </tr>
 </table>
 
-### RBAC privileges{#rbac-privileges}
+### RBAC privileges\{#rbac-privileges}
 
 <table>
    <tr>

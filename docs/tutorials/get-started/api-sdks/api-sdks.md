@@ -3,6 +3,9 @@ title: "API & SDKs | Cloud"
 slug: /api-sdks
 sidebar_label: "API & SDKs"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This chapter provides access to the procedure for using or installing RESTful API and SDKs and their reference docs. | Cloud"
 type: origin
@@ -20,10 +23,10 @@ keywords:
   - go
   - node
   - nodejs
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

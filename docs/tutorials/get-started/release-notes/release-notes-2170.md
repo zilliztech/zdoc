@@ -3,20 +3,23 @@ title: "Release Notes (Jun 9, 2025) | Cloud"
 slug: /release-notes-2170
 sidebar_label: "Release Notes (Jun 9, 2025)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This release delivers a more refined and intuitive user experience across multiple features of Zilliz Cloud. From a redesigned migration console to policy-based alerting and improved mmap controls, we've focused on making your workflows faster, more flexible, and easier to manage. New AI assistant capabilities and support for BYOC on GCP further extend the platform's power and usability, whether you're managing infrastructure, monitoring environments, or seeking support. | Cloud"
 type: origin
 token: DF8HwUTD6iScNQkVzs8cZTr8n8b
-sidebar_position: 2
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 
@@ -27,11 +30,11 @@ import Admonition from '@theme/Admonition';
 
 This release delivers a more refined and intuitive user experience across multiple features of Zilliz Cloud. From a redesigned migration console to policy-based alerting and improved mmap controls, we've focused on making your workflows faster, more flexible, and easier to manage. New AI assistant capabilities and support for BYOC on GCP further extend the platform's power and usability, whether you're managing infrastructure, monitoring environments, or seeking support.
 
-## Milvus Compatibility{#milvus-compatibility}
+## Milvus Compatibility\{#milvus-compatibility}
 
 All Zilliz Cloud clusters created after this release are compatible with **Milvus v2.5.x**, and all features from Milvus v2.5.x are **Generally Available**.
 
-## Refined user interface and best practice docs, improving the migration experience{#refined-user-interface-and-best-practice-docs-improving-the-migration-experience}
+## Refined user interface and best practice docs, improving the migration experience\{#refined-user-interface-and-best-practice-docs-improving-the-migration-experience}
 
 - **New console user interface:** Quickly locate data sources and select the proper migration method with a clean, intuitive GUI.
 
@@ -45,7 +48,7 @@ All Zilliz Cloud clusters created after this release are compatible with **Milvu
 
     You can read [External Migration Basics](./external-migration-basics) for guidance on general procedures for migrations from external sources, and learn about the requirements and common issues handling rules for specific external sources, including [Pinecone](./migrate-from-pinecone), [Qdrant](./migrate-from-qdrant), [Elasticsearch](./migrate-from-elasticsearch), [PostgreSQL](./migrate-from-pgvector), [Tencent Cloud](./migrate-from-tencent-cloud), and [OpenSearch](./migrate-from-opensearch).
 
-## Policy-based alerts for granular and flexible monitoring{#policy-based-alerts-for-granular-and-flexible-monitoring}
+## Policy-based alerts for granular and flexible monitoring\{#policy-based-alerts-for-granular-and-flexible-monitoring}
 
 This alert system upgrade introduces **Alert Policies** for more granular and flexible monitoring. 
 
@@ -59,7 +62,7 @@ This alert system upgrade introduces **Alert Policies** for more granular and 
 
 For details on policy-based alerts, refer to [Manage Project Alerts](./manage-project-alerts) and the RESTful API reference pages on [creating](/reference/restful/create-alert-rule-v2), [updating](/reference/restful/update-alert-rule-v2), [listing](/reference/restful/list-alert-rules-v2), and [deleting](/reference/restful/delete-alert-rule-v2) alert rules.
 
-## UI support for mmap settings{#ui-support-for-mmap-settings}
+## UI support for mmap settings\{#ui-support-for-mmap-settings}
 
 Zilliz Cloud follows [cluster-level defaults](./use-mmap#global-mmap-strategy) based on your CU type and plan. Since this release, you can manage **mmap settings** directly from the graphical user interface (GUI) at the collection and field levels. 
 
@@ -69,7 +72,7 @@ Zilliz Cloud follows [cluster-level defaults](./use-mmap#global-mmap-strategy) b
 
 ![JspDbBt12o4ra2x353ycjG1Mn7b](/img/JspDbBt12o4ra2x353ycjG1Mn7b.png)
 
-## BYOC now available on GCP{#byoc-now-available-on-gcp}
+## BYOC now available on GCP\{#byoc-now-available-on-gcp}
 
 Zilliz Cloud **Bring Your Own Cloud (BYOC)** now supports **Google Cloud Platform (GCP)**.
 
@@ -79,7 +82,7 @@ Zilliz Cloud **Bring Your Own Cloud (BYOC)** now supports **Google Cloud Platfor
 
 For details, refer to [Deploy BYOC on GCP](/docs/byoc/deploy-byoc-gcp) for the manual guides, and [Terraform Provider](/docs/byoc/terraform-provider) for IaC automation.
 
-## Well-designed AI assistance connects you directly to Zilliz supports{#well-designed-ai-assistance-connects-you-directly-to-zilliz-supports}
+## Well-designed AI assistance connects you directly to Zilliz supports\{#well-designed-ai-assistance-connects-you-directly-to-zilliz-supports}
 
 This release has enhanced the visual design of Zilliz Cloud AI assistance for a more intuitive and pleasant user experience and introduced two new smart capabilities:
 
@@ -89,7 +92,7 @@ This release has enhanced the visual design of Zilliz Cloud AI assistance for a 
 
 ![OQTSbop2WoTH2px3o5tcbDmmnYf](/img/OQTSbop2WoTH2px3o5tcbDmmnYf.png)
 
-## Other Improvements{#other-improvements}
+## Other Improvements\{#other-improvements}
 
 - Improved alert settings and alert history display.
 
