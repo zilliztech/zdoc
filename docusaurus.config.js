@@ -143,6 +143,7 @@ const config = {
       './plugins/i18n-translator',
       i18nTranslatorConfig
     ],
+    './plugins/mdx-parse',
   ],
   themeConfig:
     /** @type {import('@docusaurus/preset-classic').ThemeConfig} */

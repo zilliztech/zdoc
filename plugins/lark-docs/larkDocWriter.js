@@ -799,7 +799,32 @@ class larkDocWriter {
                             
                             break;
                         case 'unexpected-closing-slash':
-                            console.log(patchedContent.split('\n')[error.line-1])
+                            // For this specific error "Unexpected closing slash `/` in tag, expected an open tag first"
+                            // it typically means there's a stray `</content>` tag or similar erroneous closing tag
+                            // Remove erroneous closing tags at the end of document
+                            const originalContent = patchedContent;
+                            patchedContent = patchedContent.replace(/<\/(?:content|[\w\d]+)>\s*$/, '');
+                            if (originalContent !== patchedContent) {
+                                madeChanges = true;
+                            } else {
+                                // If no match at end, look for the erroneous tag anywhere in the content
+                                // that might be causing the slash error
+                                patchedContent = patchedContent.replace(/<[/](\w+)>/g, (match, tagName) => {
+                                    // If this tag doesn't have a matching opening tag, remove it
+                                    const openingTagCount = (patchedContent.match(new RegExp(`<${tagName}(?:\\s|>|/>)`, 'g')) || []).length;
+                                    const closingTagCount = (patchedContent.match(new RegExp(`<\\/${tagName}>`, 'g')) || []).length;
+                                    
+                                    // If there are more closing tags than opening tags, this closing tag is erroneous
+                                    if (closingTagCount > openingTagCount) {
+                                        return ''; // Remove the erroneous closing tag
+                                    }
+                                    return match;
+                                });
+                                
+                                if (originalContent !== patchedContent) {
+                                    madeChanges = true;
+                                }
+                            }
                             break;
                         case 'unexpected-character':
                             if (error.message.includes('U+002C') || error.message.includes('U+002A')) {
@@ -1457,7 +1482,7 @@ class larkDocWriter {
 
             if (style['inline_code']) {
                 content = this.__style_markdown(element, elements, 'inline_code', '`');
-                content = content.replaceAll('&#36;', '#')
+                content = content.replaceAll('&#36;', '$')
             }
                          
             if (style['bold']) {
