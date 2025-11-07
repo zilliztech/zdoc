@@ -121,7 +121,7 @@ Suppose you inserted 3 GB (3,145,728 KB) of entities into a Serverless cluster a
 
 - `Total vCU usage = 1,000 + 78,643 = 178,643 vCUs`
 
-- `Total vector database cost (write)  = 0.178643 x 4 = #0.72`
+- `Total vector database cost (write)  = 0.178643 x 4 = $0.72`
 
 ## Vector database costs (read)\{#vector-database-costs-read}
 

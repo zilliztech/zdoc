@@ -1,160 +1,161 @@
 ---
-title: "クレジットカードを追加して購読する | Cloud"
+title: "クレジットカードを追加して登録 | Cloud"
 slug: /subscribe-by-adding-credit-card
-sidebar_label: "Credit Card"
+sidebar_label: "クレジットカード"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、Zilliz Cloudに組織の支払いクレジットカードを追加する方法について包括的な手順を提供します。 | Cloud"
+description: "このガイドでは、Zilliz Cloudで組織の支払い用クレジットカードを追加する方法について包括的な手順を提供します。 | Cloud"
 type: origin
-token: E3TCwE0EXiQFvmk27QLcNMeunId
-sidebar_position: 1
+token: TVnkwXupUiX3zDkzYPWcxKP3nvg
+sidebar_position: 2
 keywords: 
   - zilliz
-  - vector database
-  - cloud
-  - credit card
-  - subscribe
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - ベクターデータベース
+  - クラウド
+  - クレジットカード
+  - 登録
+  - ヒエラルキカル・ナビゲーブル・スモール・ワールド
+  - デンス埋め込み
+  - faissベクターデータベース
+  - chromaベクターデータベース
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# クレジットカードを追加して購読する
+# クレジットカードを追加して登録
 
-このガイドでは、Zilliz Cloudに組織の支払いクレジットカードを追加する方法について包括的な手順を提供します。
+このガイドでは、Zilliz Cloudで組織の支払い用クレジットカードを追加する方法について包括的な手順を提供します。
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注意">
 
 <ul>
-<li><strong>課税:</strong>請求書の税金は、提供された請求先住所に基づいて計算されます。VATまたはGST IDを入力する必要がある企業の場合は、<a href="http://support.zilliz.com">お問い合わせ</a>ください。</li>
+<li><strong>課税：</strong> 請求書の税金は、提供する請求先住所に基づいて計算されます。VATまたはGST IDの入力が必要な企業の場合は、<a href="http://support.zilliz.com">お問い合わせ</a>ください。</li>
 </ul>
 
 </Admonition>
 
-## クレジットカードを追加する{#add-a-credit-card}
+## クレジットカードを追加\{#add-a-credit-card}
 
-1. アカウントを登録してログインした後、左側のメニューから「**請求**」に移動して、請求の概要にアクセスしてください。
+1. アカウントを登録してログインした後、左側のメニューから**請求**に移動して請求概要にアクセスします。
 
-1. 画面の右下にある**支払** **方法**セクションで、**支払方法を追加**をクリックします。表示されるダイアログボックスで、**クレジットカード**を選択します。
+1. 画面右下にある**支払い方法**セクションで、**支払い方法を追加**をクリックします。開くダイアログボックスで、**クレジットカード**を選択します。
 
-ダイアログボックスが表示され、入力を促します:
+    ダイアログボックスが表示され、以下を入力するよう求められます：
 
-- クレジットカード情報:
+- クレジットカード情報：
 
     - **カード番号**
 
-    - **有効期限切れ**
+    - **有効期限**
 
     - **CVC**
 
-- 請求情報:
+- 請求情報：
 
-    - **最初の名前**
+    - **名**
 
-    - **ラストネーム**
+    - **姓**
 
-    - **会社の名前**
+    - **会社名**
 
-    - **メール**
+    - **メールアドレス**
 
-    - **ストリートアドレス**
+    - **住所**
 
-        - 会社の住所を使用することをお勧めします。この住所は税金の計算に使用され、発行されたすべての請求書に表示されます。
+        - 会社の住所の使用を推奨します。この住所は税金を計算するために使用され、発行されるすべての請求書に表示されます。
 
-    - **国/リージョン**
+    - **国 / リージョン**
 
-    - **州/県**
+    - **都道府県 / 県**
 
-    - **シティ**
+    - **市区町村**
 
-    - **ZIPコード/郵便番号**
+    - **郵便番号**
 
-上記のフィールドはすべて必須です。入力が完了すると、**追加**ボタンが有効になり、クレジットカード情報と請求情報を保存できます。
+上記のすべてのフィールドは必須です。入力が完了すると、**追加**ボタンが有効になり、クレジットカード情報と請求情報を保存できます。
 
 ![add-credit-card](/img/add-credit-card.png)
 
-## 支払い方法を編集する{#edit-your-payment-method}
+## 支払い方法を編集\{#edit-your-payment-method}
 
-支払い方法は、**請求** **の概要**ページからいつでも表示および編集できます。
+支払い方法は、**請求概要**ページからいつでも表示および編集できます。
 
 ![payment-overivew](/img/payment-overivew.png)
 
-クレジットカードの有効期限が近づくと、[クレジットカード有効期限モニター](./manage-organization-alerts)によって通知されます。お支払い情報を更新するか、[AWS Marketplaceサブスクリプション](./subscribe-on-aws-marketplace)に切り替えることができます。
+クレジットカードの有効期限が近づくと、[クレジットカード有効期限モニター](./manage-organization-alerts)によって通知されます。支払い情報を更新するか、都合の良いタイミングで[AWSマーケットプレイス登録](./subscribe-on-aws-marketplace)に切り替えることができます。
 
-### クレジットカードの編集{#edit-credit-card}
+### **クレジットカードを編集**\{#edit-credit-card}
 
-クレジットカード情報を更新するには、**支払方法**エリアの鉛筆アイコンをクリックしてください。
+クレジットカード情報を更新するには、**支払い方法**エリアの鉛筆アイコンをクリックします。
 
-ダイアログボックスが表示され、入力を促します:
+    ダイアログボックスが表示され、以下を入力するよう求められます：
 
-- クレジットカード情報:
+- クレジットカード情報：
 
     - **カード番号**
 
-    - **有効期限切れ**
+    - **有効期限**
 
     - **CVC**
 
-- 請求情報:
+- 請求情報：
 
-    - **最初の名前**
+    - **名**
 
-    - **ラストネーム**
+    - **姓**
 
-    - **会社の名前**
+    - **会社名**
 
-    - **メール**
+    - **メールアドレス**
 
-    - **ストリートアドレス**
+    - **住所**
 
-        - 会社の住所を使用することをお勧めします。この住所は税金の計算に使用され、発行されたすべての請求書に表示されます。
+        - 会社の住所の使用を推奨します。この住所は税金を計算するために使用され、発行されるすべての請求書に表示されます。
 
-    - **国/リージョン**
+    - **国 / リージョン**
 
-    - **州/県**
+    - **都道府県 / 県**
 
-    - **シティ**
+    - **市区町村**
 
-    - **ZIPコード/郵便番号**
+    - **郵便番号**
 
-上記のフィールドはすべて必須です。入力が完了すると、**更新**ボタンが有効になり、払い戻し方法を保存できます。
+上記のすべてのフィールドは必須です。入力が完了すると、**更新**ボタンが有効になり、支払い方法を保存できます。
 
 ![update-payment-method](/img/update-payment-method.png)
 
-### 請求プロフィールの編集{#edit-billing-profile}
+### **請求プロファイルを編集**\{#edit-billing-profile}
 
-請求プロフィールを更新するには、**請求プロフィール**エリアの鉛筆アイコンをクリックします。
+請求プロファイルを更新するには、**請求プロファイル**領域の鉛筆アイコンをクリックします。
 
 ![edit-billing-profile](/img/edit-billing-profile.png)
 
-### マーケットプレイスのサブスクリプションに切り替える{#switch-to-marketplace-subscription}
+### **マーケットプレイス登録に切り替える**\{#switch-to-marketplace-subscription}
 
-クレジットカードからAWS、GCP、またはAzure Marketplaceのサブスクリプションに移行したい方は、対応するMarketplaceを訪問し、Zilliz Cloudサービスに登録してください。詳細な手順については、[AWS Marketplaceで購読する](./subscribe-on-aws-marketplace)、[Google Cloud Marketplaceに登録する](./subscribe-on-gcp-marketplace)、および[Azure Marketplaceで購読する](./subscribe-on-azure-marketplace)のガイドを参照してください。
+クレジットカード支払い方法からAWS、GCP、またはAzureマーケットプレイス登録に移行したい場合は、対応するマーケットプレイスにアクセスしてZilliz Cloudサービスに登録してください。詳細な手順については、[AWSマーケットプレイスで登録](./subscribe-on-aws-marketplace)、[GCPマーケットプレイスで登録](./subscribe-on-gcp-marketplace)、および[Azureマーケットプレイスで登録](./subscribe-on-azure-marketplace)を参照してください。
 
-サブスクリプションがAWSMarketplaceで成功すると、既存のクレジットカード情報が自動的に置き換えられます。更新内容は、**支払方法**セクションの**請求概要**ページで確認できます。
+AWSマーケットプレイス経由で登録が成功すると、既存のクレジットカード情報が自動的に置き換えられます。**請求概要**ページの**支払い方法**セクションで更新内容を確認できます。
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注意">
 
-<p>変更が反映されるまで、請求概要に数分間お時間をいただきますようお願いいたします。</p>
+<p>請求概要に変更が反映されるまで数分お待ちください。</p>
 
 </Admonition>
 
-## 支払いクレジットカードを削除する{#remove-payment-credit-card}
+## 支払い用クレジットカードを削除\{#remove-payment-credit-card}
 
-現在、Zilliz Cloudはウェブコンソールでの支払いクレジットカードの削除をサポートしていません。リンクされたクレジットカードを削除する必要がある場合は、Zilliz Cloud[サポートポータル](https://support.zilliz.com/hc/en-us)でチケットを送信してください。
+現在、Zilliz Cloudではウェブコンソールでの支払い用クレジットカードの削除はサポートされていません。リンクされたクレジットカードを削除する必要がある場合は、お問い合わせいただき、Zilliz Cloud[サポートポータル](https://support.zilliz.com/hc/en-us)でチケットを送信してください。
 
-## 関連するトピック{#related-topics}
+## 関連トピック\{#related-topics}
 
-- [AWS Marketplaceで購読する](./subscribe-on-aws-marketplace)
+- [AWSマーケットプレイスで登録](./subscribe-on-aws-marketplace)
 
-- [Google Cloud Marketplaceに登録する](./subscribe-on-gcp-marketplace)
+- [GCPマーケットプレイスで登録](./subscribe-on-gcp-marketplace)
 
-- [Azure Marketplaceで購読する](./subscribe-on-azure-marketplace)
-
-- [インボイス](./view-invoice)
+- [請求書を表示](./view-invoice)
 

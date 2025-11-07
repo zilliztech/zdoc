@@ -104,7 +104,7 @@ Suppose your cluster is deployed in AWS us-east-1 (Virginia) and you return sear
 
 - **Unit Price**: $0.09/GB (based on AWS us-east-1 public internet egress rate)
 
-The data transfer cost is `#0.09 × 500 = #45.00`.
+The data transfer cost is `$0.09 × 500 = $45.00`.
 
 ### Example 2: Cross-region transfer\{#example-2-cross-region-transfer}
 
@@ -120,7 +120,7 @@ Suppose your cluster is deployed in GCP us-west1 (Oregon) and you need to back u
 
     - Data transfer from GCP us-west1 (Oregon) to GCP europe-west3 (Frankfurt) is billed at the different-continent cross-region rate of **&#36;0.08/GB**.
 
-The data transfer cost is `#0.02 × 20 + #0.08 x 20 = #2.00`.
+The data transfer cost is `$0.02 × 20 + $0.08 x 20 = $2.00`.
 
 ### Example 3: Intra-region transfer\{#example-3-intra-region-transfer}
 

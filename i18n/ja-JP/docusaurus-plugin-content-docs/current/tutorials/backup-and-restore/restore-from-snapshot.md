@@ -1,70 +1,73 @@
 ---
-title: "バックアップファイルからの復元 | Cloud"
+title: "バックアップファイルから復元 | Cloud"
 slug: /restore-from-snapshot
-sidebar_label: "バックアップファイルからの復元"
+sidebar_label: "バックアップファイルから復元"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、リストされたバックアップファイルからクラスタまたはコレクションを復元する方法を説明します。復元できるのは、利用可能な状態のバックアップファイルのみです。 | Cloud"
+description: "Zilliz Cloudの復元機能は、誤ってデータが失われた場合や、データが破損した場合、またはシステム障害が発生した場合に、バックアップファイルからデータを復旧できるようにし、ビジネスの継続性を確保します。これは、インシデントから復旧する信頼性の高い方法であり、意図しない変更を元に戻す、またはテスト用にクラスターを複製することができます。 | Cloud"
 type: origin
-token: JXb5w2vmQi0aHCkP7Ewca7i3ngb
+token: Dd6jwYIGiiz6HWkEPJqcpMA3n6g
 sidebar_position: 4
 keywords: 
   - zilliz
-  - vector database
-  - cloud
-  - backup
-  - restore
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - ベクターデータベース
+  - クラウド
+  - バックアップ
+  - 復元
+  - NLP
+  - ニューラルネットワーク
+  - ディープラーニング
+  - 知識ベース
 
 ---
 
 import Admonition from '@theme/Admonition';
-import Tabs from '@theme/Tabs';
-import TabItem from '@theme/TabItem';
 
-# バックアップファイルからの復元
 
-このガイドでは、リストされたバックアップファイルからクラスタまたはコレクションを復元する方法を説明します。復元できるのは、**利用可能**な状態のバックアップファイルのみです。
+import Supademo from '@site/src/components/Supademo';
 
-## 始める前に{#before-you-start}
+# バックアップファイルから復元
 
-以下の条件が満たされていることを確認してください。
+Zilliz Cloudの復元機能は、誤ってデータが失われた場合や、データが破損した場合、またはシステム障害が発生した場合に、バックアップファイルからデータを復旧できるようにし、ビジネスの継続性を確保します。これは、インシデントから復旧する信頼性の高い方法であり、意図しない変更を元に戻す、またはテスト用にクラスターを複製することができます。
 
-- ターゲット組織で[組織所有者](./organization-users)または[プロジェクト管理者](./project-users)の役割が付与されていること。
+このガイドでは、バックアップファイルから完全または部分的なクラスターを復元する方法を説明します。
 
-- クラスターは**専用**レベルで実行されます。
+<Admonition type="info" icon="📘" title="注意">
 
-## クラスタを復元する{#restore-a-cluster}
+<p>この機能は<strong>専用</strong>クラスターでのみ利用可能です。</p>
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+</Admonition>
 
-<TabItem value="Cloud Console">
+## 制限\{#limits}
 
-[**バックアップ**]ページに移動し、ターゲットバックアップファイルを探します。クラスタを復元する必要がある場合は、ターゲットバックアップファイルの種類を[**クラスタ**]にします。をクリックします**。。。**[**アクション**]列で、[**クラスタの復元**]を選択します。
+- **アクセス制御**: プロジェクト管理者、組織オーナー、またはバックアップ権限を持つカスタムロールを持つユーザーである必要があります。
 
-バックアップファイルから復元するクラスタの属性を設定します。
+## 完全なクラスターを復元\{#restore-a-full-cluster}
 
-![restore_cluster](/img/restore_cluster.png)
+クラスター全体（すべてのデータベースとコレクションを含む）を **新しいクラスター** に復元できます。これは、テスト用に環境を複製したり、復旧する場合に便利です。クラスター全体を復元するには、バックアップファイルがクラスターバックアップである必要があります。
 
-これらの属性を設定する際には、次の点に注意してください:
+復元中、RBAC設定を含めるかどうかを選択できます。
 
-- バックアップファイルから復元して、別のプロジェクトにターゲットクラスターを作成できますが、別のクラウドプロバイダーとリージョンには作成できません。
+<Admonition type="info" icon="📘" title="注意">
 
-- ターゲットクラスター内のコレクションの負荷状態を保持することを選択できます。
+<p>RBACの復元は現在、ウェブコンソール経由でのみサポートされています。RESTful APIはまだサポートしていません。</p>
 
-- ターゲットクラスタの名前を変更し、CU体格とパスワードをリセットすることはできますが、CUタイプはできません。
+</Admonition>
 
-- 
+復元後、`db_admin`ユーザーの **新しいパスワード** が生成されます。このパスワードを使用して、復元されたクラスターに接続してください。
 
-「**復元**」をクリックすると、Zilliz Cloudは指定された属性を持つターゲットクラスタの作成を開始し、バックアップファイル内のコレクションをターゲットクラスタに復元します。新しい復元ジョブが生成されます。クラスタの復元の進捗状況は「[ジョブ](./job-center)」ページで確認できます。ジョブのステータスが「**IN PROGRESS**」から「**SUCCESS FUL**」に切り替わると、復元が完了します。
+### ウェブコンソール経由\{#via-web-console}
 
-</TabItem>
-<TabItem value="Bash">
+以下は、Zilliz Cloudウェブコンソールで完全なクラスターを復元する方法を示すデモです。
 
-クラスタを復元します。パラメータの詳細については、[クラスタバックアップの復元](/reference/restful/restore-cluster-backup-v2)を参照してください。
+<Supademo id="cmcsruzjd0gyo9st8kcjye30i" title=""  />
+
+### RESTful API経由\{#via-restful-api}
+
+以下は、既存のバックアップファイルから`Dedicated-01-backup`という名前の新しいクラスターに完全なクラスターを復元する例です。RESTful APIの詳細については、[クラスターバックアップを復元](/reference/restful/restore-cluster-backup-v2)を参照してください。
 
 ```bash
 curl --request POST \
@@ -80,73 +83,56 @@ curl --request POST \
       }'
 ```
 
-予想される出力:
+以下は出力例です。復元ジョブが生成され、[プロジェクトジョブセンター](./job-center)で進行状況を確認できます。
 
 ```bash
 {
   "code": 0,
   "data": {
-    "clusterId": "in01-4a96cde32afxxxx",
+    "clusterId": "inxx-xxxxxxxxxxxxxxx",
     "username": "db_admin",
-    "password": "Th0]sT4137WOxxxx"
+    "password": "xxxxxxxxx",
+    "jobId": "job-xxxxxxxxxxxxxx"
   }
 }
 ```
 
-</TabItem>
-</Tabs>
+## 部分的なクラスターを復元\{#restore-a-partial-cluster}
 
-## コレクションを復元する{#restore-a-collection}
+特定のデータベースとコレクションのみを **既存のクラスター** に復元するように選択することもできます。
 
-<Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"Bash","value":"Bash"}]}>
+### ウェブコンソール経由\{#via-web-console}
 
-<TabItem value="Cloud Console">
+以下は、Zilliz Cloudウェブコンソールでクラスター内の特定のデータベースとコレクションを復元する方法を示すデモです。
 
-[**バックアップ**]ページに移動し、対象のバックアップファイルを探します。コレクションを復元する必要がある場合は、対象のバックアップファイルの種類を[**コレクション**]にします。をクリックします**。。。**[**アクション**]列で、[**コレクション**の復元]を選択します。
+<Supademo id="cmcss7xi00h8c9st8qsqnutnn" title=""  />
 
-バックアップファイルから復元するコレクションの属性を設定します。
+### RESTful API経由\{#via-restful-api}
 
-![restore_collection](/img/restore_collection.png)
-
-これらの属性を設定する際には、次の点に注意してください:
-
-- バックアップファイルから復元して、別のプロジェクトおよび実行中の別のクラスターにターゲットコレクションを作成できます。
-
-- ターゲットコレクションをロードまたはアンロードすることができます。
-
-- ターゲットコレクションの名前を変更できます。
-
-「**リストア**」をクリックすると、Zilliz Cloudは指定した属性を持つターゲットコレクションの作成を開始します。新しいリストアジョブが生成されます。コレクションのリストアの進捗状況は「[ジョブ](./job-center)」ページで確認できます。ジョブのステータスが「**IN PROGRESS**」から「**SUCCESS FUL**」に切り替わると、リストアが完了します。
-
-</TabItem>
-<TabItem value="Bash">
-
-コレクションを復元します。パラメータの詳細については、「[コレクションバックアップの復元](/reference/restful/restore-collection-backup-v2)」を参照してください。
+以下は、既存のクラスター`in01-3e5ad8adc38xxxx`にバックアップファイルからコレクションを復元する例です。RESTful APIの詳細については、[コレクションバックアップを復元](/reference/restful/restore-collection-backup-v2)を参照してください。
 
 ```bash
 curl --request POST \
-     --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}/restoreCollection" \
-     --header "Authorization: Bearer ${TOKEN}" \
-     --header "Accept: application/json" \
-     --header "Content-type: application/json" \
-     --data-raw '{
-        "targetProjectId": "proj-20e13e974c7d659a83xxxx",
-        "targetClusterId": "in01-3e5ad8adc38xxxx",
-        "dbCollections": [
-           { 
+--url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/backups/${BACKUP_ID}/restoreCollection" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "destClusterId": "in01-xxxxxxxxxxxxxx",
+    "dbCollections": [
+        {
             "collections": [
-               {
-                 "collectionName": "medium_articles",
-                 "targetCollectionName": "restore_medium_articles",
-                 "targetCollectionStatus": "LOADED"
-               }
-             ]
-          }
-        ]
-      }'
+                {
+                    "collectionName": "medium_articles",
+                    "destCollectionName": "restore_medium_articles",
+                    "destCollectionStatus": "LOADED"
+                }
+            ]
+        }
+    ]
+}'
 ```
 
-予想される出力:
+以下は出力例です。復元ジョブが生成され、[プロジェクトジョブセンター](./job-center)で進行状況を確認できます。
 
 ```bash
 {
@@ -156,17 +142,3 @@ curl --request POST \
   }
 }
 ```
-
-</TabItem>
-</Tabs>
-
-## 関連するトピック{#related-topics}
-
-- [バックアップを作成](./create-snapshot)
-
-- [自動バックアップをスケジュールする](./schedule-automatic-backups)
-
-- [バックアップファイルを表示する](./manage-backup-files)
-
-- [バックアップファイルを削除](./manage-backup-files)
-
