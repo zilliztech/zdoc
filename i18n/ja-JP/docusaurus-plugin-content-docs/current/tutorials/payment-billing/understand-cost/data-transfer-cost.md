@@ -104,7 +104,7 @@ import Admonition from '@theme/Admonition';
 
 - **単価**：$0.09/GB（AWS us-east-1パブリックインターネット外部転送レートに基づく）
 
-データ転送料は `#0.09 × 500 = #45.00` です。
+データ転送料は `$0.09 × 500 = $45.00` です。
 
 ### 例2：クロスリージョン転送\{#example-2-cross-region-transfer}
 
@@ -120,7 +120,7 @@ import Admonition from '@theme/Admonition';
 
     - GCP us-west1（オレゴン）からGCP europe-west3（フランクフルト）へのデータ転送は、異なる大陸クロスリージョンレートの**&#36;0.08/GB**で請求されます。
 
-データ転送料は `#0.02 × 20 + #0.08 x 20 = #2.00` です。
+データ転送料は `$0.02 × 20 + $0.08 x 20 = $2.00` です。
 
 ### 例3：同一リージョン転送\{#example-3-intra-region-transfer}
 
