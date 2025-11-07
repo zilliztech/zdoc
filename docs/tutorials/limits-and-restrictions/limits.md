@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 
@@ -507,9 +507,9 @@ Index types vary with field types. The following table lists the indexable field
 
 The rate limit for flush requests is 0.1 requests per second, imposed at the collection level for specific cluster types. This rate limit applies to:
 
-- Serverless clusters compatible with Milvus 2.4.x or later.
+- Serverless clusters compatible with Milvus v2.4.x or later.
 
-- Dedicated clusters upgraded to the beta version, compatible with Milvus 2.4.x or later.
+- Dedicated clusters upgraded to the beta version, compatible with Milvus v2.4.x or later.
 
 <Admonition type="info" icon="📘" title="Notes">
 

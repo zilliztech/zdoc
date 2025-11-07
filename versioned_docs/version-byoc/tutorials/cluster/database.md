@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 
@@ -37,7 +37,7 @@ In Zilliz Cloud, a database serves as a logical unit for organizing and managing
 
 The resources are structured in the following hierarchical order in Zilliz Cloud.
 
-![KkS9wtS5IhcP9obYvc1cK10snfg](/img/KkS9wtS5IhcP9obYvc1cK10snfg.png)
+![Oe7EwkvLDhT9p6b1o3tcFYMlnI9](/img/Oe7EwkvLDhT9p6b1o3tcFYMlnI9.png)
 
 ## Prerequisites\{#prerequisites}
 

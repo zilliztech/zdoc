@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 
@@ -89,7 +89,7 @@ You can create a maximum of **1,024** collections or **4,096** partitions per CU
    </tr>
    <tr>
      <td><p>Vector fields per collection</p></td>
-     <td></td>
+     <td><p>10</p></td>
    </tr>
 </table>
 
@@ -373,7 +373,5 @@ You can restore a snapshot in the same region as the original cluster of the sna
 
 ## Migration\{#migration}
 
-You can migrate data from other vendors to your Zilliz Cloud cluster, and the maximum number of collections per migration varies with the subscription plan for your Zilliz Cloud cluster.
-
-You can migrate a maximum of **10** collections each time during the migrations.
+You can migrate data from other vendors to your Zilliz Cloud cluster, and the maximum number of collections per migration varies with your Zilliz Cloud cluster. You can migrate a maximum of **10** collections each time during the migrations.
 

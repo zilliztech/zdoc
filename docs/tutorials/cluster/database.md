@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 
