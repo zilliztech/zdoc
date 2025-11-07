@@ -12,10 +12,10 @@ token: I37hfvVOClbThMdGuH4cV4R6nkc
 sidebar_position: 1
 sidebar_label: "DataImport"
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud

@@ -12,10 +12,10 @@ token: DFjqfW5yclNaqWdpjpqckLM2nud
 sidebar_position: 7
 sidebar_label: "Vector"
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud

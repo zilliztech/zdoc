@@ -12,19 +12,19 @@ type: docx
 token: Tq1Md4GuIoNbfuxK03ncIa7onMc
 sidebar_position: 1
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - checkCompatibility()
   - nodejs26
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

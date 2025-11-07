@@ -12,19 +12,19 @@ type: docx
 token: KEPYdKup1o3nHdxKbjvcQUzwnnd
 sidebar_position: 8
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - get_load_state()
   - pymilvus26
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

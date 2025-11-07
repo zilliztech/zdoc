@@ -12,19 +12,19 @@ type: docx
 token: OF1mdh4tSo8ZQQxxVgEcdITRndb
 sidebar_position: 3
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - MGTEEmbeddingFunction
   - pymilvus26
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

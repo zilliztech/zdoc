@@ -12,19 +12,19 @@ type: docx
 token: SI3Td00AroRtx8xXQcUce8i2nrb
 sidebar_position: 15
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - IndexType
   - nodejs26
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

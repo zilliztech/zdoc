@@ -12,19 +12,19 @@ type: docx
 token: E7zOdU2JpoqaU5xNYXvcAjgPnNh
 sidebar_position: 6
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - delete_user()
   - pymilvus26
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

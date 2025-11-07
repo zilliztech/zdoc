@@ -12,19 +12,19 @@ type: docx
 token: YXPSdlp3JoP82qxhFMYc5GRnn4g
 sidebar_position: 3
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
   - javaV226
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

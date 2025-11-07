@@ -12,19 +12,19 @@ type: docx
 token: KQDEdcccXozuKpxDg78cSmxYnQg
 sidebar_position: 21
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - MetricType
   - nodejs26
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

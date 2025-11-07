@@ -12,19 +12,19 @@ type: docx
 token: Kp9Dd2dIgoxyDixuqtqctPZXnFb
 sidebar_position: 5
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
   - nodejs26
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

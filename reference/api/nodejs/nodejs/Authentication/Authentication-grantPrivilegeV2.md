@@ -12,19 +12,19 @@ type: docx
 token: R618dfeMYo9GdmxMwe9cQLclncs
 sidebar_position: 15
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - grantPrivilegeV2()
   - nodejs26
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

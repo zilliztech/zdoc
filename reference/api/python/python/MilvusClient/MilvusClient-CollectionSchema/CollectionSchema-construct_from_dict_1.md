@@ -12,19 +12,19 @@ type: docx
 token: Ld10d5YWJofvgGxtwYscGlWunDg
 sidebar_position: 3
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dict()
   - pymilvus26
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

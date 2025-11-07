@@ -12,19 +12,19 @@ type: docx
 token: P0XRd2Mgfo1uG6xk47icWRd4n6b
 sidebar_position: 4
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
   - javaV226
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

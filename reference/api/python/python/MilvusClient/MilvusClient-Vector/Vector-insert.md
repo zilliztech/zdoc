@@ -12,19 +12,19 @@ type: docx
 token: QI87dhVnioL9JLxnNKxcM8jWnkh
 sidebar_position: 3
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
   - pymilvus26
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

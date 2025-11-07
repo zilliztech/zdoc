@@ -12,19 +12,19 @@ type: docx
 token: IdNAdlMhjoM40pxjpKecpc7inbd
 sidebar_position: 6
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndexProperties()
   - javaV226
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

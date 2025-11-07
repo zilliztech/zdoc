@@ -12,19 +12,19 @@ type: docx
 token: CJ9DdmU1ooquOnxcK5AciA3sn3g
 sidebar_position: 18
 keywords: 
-  - nearest neighbor search
   - Agentic RAG
   - rag llm architecture
   - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - listGrants()
   - nodejs26
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

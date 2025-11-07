@@ -21,10 +21,10 @@ keywords:
   - cloud
   - drop_index_properties()
   - pymilvus26
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

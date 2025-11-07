@@ -2,29 +2,29 @@
 title: "describe_collection() | Python | MilvusClient"
 slug: /python/python/Collections-describe_collection
 sidebar_label: "describe_collection()"
-beta: FALSE
+beta: false
 added_since: v2.3.x
 last_modified: v2.6.x
-deprecate_since: FALSE
-notebook: FALSE
+deprecate_since: false
+notebook: false
 description: "This operation lists detailed information about a specific collection. | Python | MilvusClient"
 type: docx
 token: LXASdPs6KoRfCJx11A1cl2Ssngg
 sidebar_position: 9
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describe_collection()
   - pymilvus26
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar
@@ -282,22 +282,4 @@ client.describe_collection(collection_name="test_collection")
 #      'updated_timestamp': 461643298319106049
 # }
 ```
-
-## Related methods\{#related-methods}
-
-- create_collection()
-
-- [create_schema()](./Collections-create_schema)
-
-- [drop_collection()](./Collections-drop_collection)
-
-- [get_collection_stats()](./Collections-get_collection_stats)
-
-- [has_collection()](./Collections-has_collection)
-
-- [list_collections()](./Collections-list_collections)
-
-- [rename_collection()](./Collections-rename_collection)
-
-- DataType
 

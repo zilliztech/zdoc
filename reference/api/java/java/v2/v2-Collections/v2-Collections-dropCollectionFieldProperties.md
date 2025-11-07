@@ -12,19 +12,19 @@ type: docx
 token: O3E9duLvfoMC26x8AmDcomlWneh
 sidebar_position: 26
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollectionFieldProperties()
   - javaV226
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

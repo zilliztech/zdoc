@@ -12,19 +12,19 @@ type: docx
 token: DhZRdYbfMoYIBtxrudGcwWjrngd
 sidebar_position: 3
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - GeminiEmbeddingFunction
   - pymilvus26
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

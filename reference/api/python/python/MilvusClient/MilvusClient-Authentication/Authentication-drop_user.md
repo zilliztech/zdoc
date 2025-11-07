@@ -12,19 +12,19 @@ type: docx
 token: WtyZdeFKMoSv5exaYRxcPLCSndg
 sidebar_position: 9
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - drop_user()
   - pymilvus26
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

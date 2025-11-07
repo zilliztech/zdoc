@@ -12,19 +12,19 @@ type: docx
 token: CCOhd671iog6rRxu8aOcaPncnLK
 sidebar_position: 4
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - get_users()
   - pymilvus26
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

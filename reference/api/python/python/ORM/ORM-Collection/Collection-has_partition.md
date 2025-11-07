@@ -12,19 +12,19 @@ type: docx
 token: QsOsda2lRoJP32xNSLWcbgMOnKI
 sidebar_position: 16
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - has_partition()
   - pymilvus26
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

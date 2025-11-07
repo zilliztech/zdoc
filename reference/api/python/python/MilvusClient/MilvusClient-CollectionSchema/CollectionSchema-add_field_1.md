@@ -12,19 +12,19 @@ type: docx
 token: Ehbdd1HRLoB34nxU6hQcRk2Mnug
 sidebar_position: 1
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - add_field()
   - pymilvus26
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: EOsTdGbQxouZjpxP4Wbc5MXkneh
 sidebar_position: 3
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
   - javaV226
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

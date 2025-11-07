@@ -12,19 +12,19 @@ type: docx
 token: EjFMdRFz0ofehXxxCPqc6raSnAg
 sidebar_position: 11
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollectionProperties()
   - nodejs26
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: Kqlodu0AWoefKvxczcxc1c36nlf
 sidebar_position: 4
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - create_alias()
   - pymilvus26
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

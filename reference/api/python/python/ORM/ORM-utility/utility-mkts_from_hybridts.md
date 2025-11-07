@@ -12,19 +12,19 @@ type: docx
 token: GRarduHPSoFY3Yx9EWRcdcTfn1g
 sidebar_position: 35
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_hybridts()
   - pymilvus26
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

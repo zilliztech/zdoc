@@ -12,19 +12,19 @@ type: docx
 token: CBwkdDs7MoKkVKx0kJgcPUNxn6s
 sidebar_position: 24
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - release()
   - pymilvus26
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

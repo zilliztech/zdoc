@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 
@@ -30,8 +30,6 @@ import Admonition from '@theme/Admonition';
 # Zilliz to Zilliz Migrations
 
 Zilliz to Zilliz migration allows you to transfer data between Zilliz Cloud clusters, whether they reside within the same organization or across different organizations. Key use cases include:
-
-- Migrating from a free-tier cluster to a paid plan.
 
 - Sharing data across organizations securely.
 

@@ -12,19 +12,19 @@ type: docx
 token: MxTAd0haboKnRrxQvoOckGghn1T
 sidebar_position: 4
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - has_partition()
   - pymilvus26
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: FbzLd0f5ToAPRdxa8XWcWfUwnwe
 sidebar_position: 2
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - delete_stage()
   - pymilvus26
-  - Retrieval Augmented Generation
-  - Large language model
   - Vectorization
   - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

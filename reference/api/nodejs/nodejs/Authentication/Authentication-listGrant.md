@@ -12,19 +12,19 @@ type: docx
 token: HSIDdxQGEoPdyaxkMDjcAWGQnpd
 sidebar_position: 17
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - listGrant()
   - nodejs26
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

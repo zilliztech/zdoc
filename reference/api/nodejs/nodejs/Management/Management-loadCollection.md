@@ -12,19 +12,19 @@ type: docx
 token: LoNvdRK80oWllFxV0H6co0HrnBe
 sidebar_position: 17
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollection()
   - nodejs26
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

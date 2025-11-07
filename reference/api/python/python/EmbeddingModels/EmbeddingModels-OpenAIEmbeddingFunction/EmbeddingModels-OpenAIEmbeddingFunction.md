@@ -12,19 +12,19 @@ type: docx
 token: QPcodlsnAoSMvIxEFmlcMNPbntd
 sidebar_position: 3
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - OpenAIEmbeddingFunction
   - pymilvus26
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: BHyidrVcyoPwxexHLrnceOSAnRe
 sidebar_position: 17
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - list_collections()
   - pymilvus26
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

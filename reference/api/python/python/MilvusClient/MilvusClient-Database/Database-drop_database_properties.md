@@ -12,19 +12,19 @@ type: docx
 token: UPVjdLtz1ogFeKxP45wcqyKincc
 sidebar_position: 5
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
   - drop_database_properties()
   - pymilvus26
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

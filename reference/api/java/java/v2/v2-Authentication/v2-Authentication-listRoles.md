@@ -12,19 +12,19 @@ type: docx
 token: XIIyd3bMzoAVx3xVsoLcnQ2pnKh
 sidebar_position: 14
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - listRoles()
   - javaV226
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

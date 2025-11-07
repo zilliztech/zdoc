@@ -12,19 +12,19 @@ type: docx
 token: HWYXdlaGIoTNVUx34GycfwjAnrb
 sidebar_position: 1
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - create_stage()
   - pymilvus26
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

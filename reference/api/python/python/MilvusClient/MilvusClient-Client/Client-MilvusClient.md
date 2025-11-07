@@ -12,19 +12,19 @@ type: docx
 token: TUrSdmskuoGdFRxFT75c6xhinzc
 sidebar_position: 2
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClient
   - pymilvus26
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

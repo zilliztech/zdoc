@@ -12,19 +12,19 @@ type: docx
 token: PPLtdSbtfomgF1x5MHncKPgPnSf
 sidebar_position: 1
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - createPartition()
   - nodejs26
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

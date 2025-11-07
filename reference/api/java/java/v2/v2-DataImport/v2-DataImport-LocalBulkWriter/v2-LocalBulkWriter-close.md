@@ -12,19 +12,19 @@ type: docx
 token: OEcUdoX1yoc94axfwpjcdA2jnEf
 sidebar_position: 2
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - close()
   - javaV226
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

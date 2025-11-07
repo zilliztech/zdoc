@@ -12,19 +12,19 @@ type: docx
 token: G2jjdHvbBoko6BxBZj7csemWnFc
 sidebar_position: 2
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - alter_collection_field()
   - pymilvus26
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

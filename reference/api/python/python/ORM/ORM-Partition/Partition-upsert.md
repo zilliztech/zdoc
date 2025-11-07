@@ -12,19 +12,19 @@ type: docx
 token: MQMzddDnao5Zz0xmSRncZM2nn5b
 sidebar_position: 11
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - pymilvus26
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

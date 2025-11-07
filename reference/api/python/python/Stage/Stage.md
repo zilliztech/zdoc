@@ -12,10 +12,10 @@ token: UJtvfGYb4lKoF1dy7iicFwcAnWr
 sidebar_position: 6
 sidebar_label: "Stage"
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud

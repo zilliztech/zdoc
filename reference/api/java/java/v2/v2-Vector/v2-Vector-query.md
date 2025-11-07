@@ -12,19 +12,19 @@ type: docx
 token: DI5tdxM92oBdXHxk0LFcsBSInVe
 sidebar_position: 5
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - javaV226
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

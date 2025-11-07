@@ -12,19 +12,19 @@ type: docx
 token: CbCodEGY9o6pKuxowNdctUppn7d
 sidebar_position: 19
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
   - pymilvus26
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

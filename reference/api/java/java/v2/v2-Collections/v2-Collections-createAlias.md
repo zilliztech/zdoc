@@ -12,19 +12,19 @@ type: docx
 token: MQxvdwd7QoUu5zxyHTjc0MUKnhe
 sidebar_position: 6
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - createAlias()
   - javaV226
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

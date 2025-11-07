@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 
@@ -32,6 +32,12 @@ import Admonition from '@theme/Admonition';
 # Import from NumPy Files
 
 The `.npy` format is [NumPy's standard binary format](https://numpy.org/devdocs/reference/generated/numpy.lib.format.html) for saving a single array, including its shape and dtype information, ensuring it can be correctly reconstructed on different machines.  You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your raw data into Parquet files. The following figure demonstrates how your raw data can be mapped into a set of `.npy` file.
+
+<Admonition type="danger" icon="🚧" title="Caution">
+
+<p>This feature has been deprecated. You are not recommended to use it in production.</p>
+
+</Admonition>
 
 ![numpy_file_structure](/img/numpy_file_structure.png)
 
@@ -170,24 +176,16 @@ There are some limits you need to observe when you import data in NumPy files fr
 <table>
    <tr>
      <th><p><strong>Import Method</strong></p></th>
-     <th><p><strong>Cluster Plan</strong></p></th>
      <th><p><strong>Max Subdirectories per Import</strong></p></th>
      <th><p><strong>Max Size per Subdirectory</strong></p></th>
      <th><p><strong>Max Total Import Size</strong></p></th>
    </tr>
    <tr>
      <td><p>From local file</p></td>
-     <td colspan="4"><p>Not supported</p></td>
+     <td colspan="3"><p>Not supported</p></td>
    </tr>
    <tr>
-     <td rowspan="2"><p>From object storage</p></td>
-     <td><p>Free</p></td>
-     <td><p>1,000 subdirectories</p></td>
-     <td><p>1 GB</p></td>
-     <td><p>1 GB</p></td>
-   </tr>
-   <tr>
-     <td><p>Serverless &amp; Dedicated</p></td>
+     <td><p>From object storage</p></td>
      <td><p>1,000 subdirectories</p></td>
      <td><p>10 GB</p></td>
      <td><p>1 TB</p></td>

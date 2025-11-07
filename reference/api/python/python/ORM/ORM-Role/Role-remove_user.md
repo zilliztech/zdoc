@@ -12,19 +12,19 @@ type: docx
 token: SlmSdaD7rocMJsxThNHcOtEknVd
 sidebar_position: 9
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - remove_user()
   - pymilvus26
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

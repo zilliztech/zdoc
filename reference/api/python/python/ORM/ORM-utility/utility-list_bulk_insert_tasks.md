@@ -12,19 +12,19 @@ type: docx
 token: T1CGdXeVkoG2yAxkualc1jVonRb
 sidebar_position: 23
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - list_bulk_insert_tasks()
   - pymilvus26
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

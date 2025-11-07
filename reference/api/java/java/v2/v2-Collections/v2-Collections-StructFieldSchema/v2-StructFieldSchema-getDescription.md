@@ -12,19 +12,19 @@ type: docx
 token: QbfPdyw7EoXpGwxSkGgcytBBnAb
 sidebar_position: 2
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - getDescription()
   - javaV226
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

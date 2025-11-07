@@ -12,19 +12,19 @@ type: docx
 token: PBYIdLALvoHd0pxwI8Ec4JsTnBX
 sidebar_position: 1
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - alterDatabaseProperties()
   - javaV226
-  - hallucinations llm
-  - Multimodal search
   - vector search algorithms
   - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

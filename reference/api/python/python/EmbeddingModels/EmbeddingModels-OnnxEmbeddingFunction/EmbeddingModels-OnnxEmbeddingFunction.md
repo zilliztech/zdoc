@@ -12,19 +12,19 @@ type: docx
 token: MVLRdU9nPonUeExs7ogctwZ1n4c
 sidebar_position: 3
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - OnnxEmbeddingFunction
   - pymilvus26
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

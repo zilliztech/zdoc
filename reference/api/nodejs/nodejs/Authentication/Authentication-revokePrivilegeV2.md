@@ -12,19 +12,19 @@ type: docx
 token: UlAUdLNkCo1Mp8xFZYWclSL9n6b
 sidebar_position: 26
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - revokePrivilegeV2()
   - nodejs26
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

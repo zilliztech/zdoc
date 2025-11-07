@@ -12,19 +12,19 @@ type: docx
 token: CzC6dm9N8oBvQZxRMyocNfTpn9f
 sidebar_position: 5
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabaseProperties()
   - javaV226
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: GIeMdvjlMoLwGrxUOu3cFw7bnWc
 sidebar_position: 20
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - listRoles()
   - nodejs26
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

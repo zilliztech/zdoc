@@ -12,19 +12,19 @@ type: docx
 token: Z0EOd1PXooNeowx4SQgcq3synBc
 sidebar_position: 21
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - listUsers()
   - nodejs26
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

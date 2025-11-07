@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 
@@ -38,8 +38,6 @@ In Zilliz Cloud, a database serves as a logical unit for organizing and managing
 The resources are structured in the following hierarchical order in Zilliz Cloud.
 
 ![KkS9wtS5IhcP9obYvc1cK10snfg](/img/KkS9wtS5IhcP9obYvc1cK10snfg.png)
-
-It can be noted that the concept of database is only available to Dedicated clusters. Serverless and Free clusters do not have databases.
 
 ## Prerequisites\{#prerequisites}
 

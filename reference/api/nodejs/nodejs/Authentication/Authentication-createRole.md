@@ -12,19 +12,19 @@ type: docx
 token: SDoYdccLWo1W3PxkNFncibwDnch
 sidebar_position: 6
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - createRole()
   - nodejs26
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

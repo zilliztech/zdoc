@@ -12,19 +12,19 @@ type: docx
 token: IW5SdBOhUop0P8xBslCc6OHLnse
 sidebar_position: 5
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - ModelRanker
   - javaV226
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

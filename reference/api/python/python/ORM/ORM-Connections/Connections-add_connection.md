@@ -12,19 +12,19 @@ type: docx
 token: C37ldNLbFog6ThxA23ScMldnnmb
 sidebar_position: 1
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - add_connection()
   - pymilvus26
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

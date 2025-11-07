@@ -12,19 +12,19 @@ type: docx
 token: KeoKdlitaog6n1xpX8McIIIrnWb
 sidebar_position: 14
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - listAliases()
   - nodejs26
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

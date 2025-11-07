@@ -16,115 +16,21 @@ keywords:
   - vector database
   - cloud
   - projects
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-import Supademo from '@site/src/components/Supademo';
-
 # Manage Projects
 
 In Zilliz Cloud, a project serves as a logical container within an organization, grouping clusters and related resources. You can create multiple projects tailored to different aspects of your business. For example, if your company offers multimedia recommendation services, you can create one project for video recommendations and another for music recommendations.
 
 This guide will walk you through the steps of managing projects.
-
-## Create a project\{#create-a-project}
-
-Each organization comes with a default **Enterprise** project named `Default Project` that cannot be deleted. Based on your workload and business needs, you can create additional projects. When you create a project, you automatically become the [Project Admin](./project-users) of the project.
-
-### Limits\{#limits}
-
-- To create a project, you must be an [Organization Owner](./organization-users).
-
-- You can create a maximum of 100 projects in each organization.
-
-### Procedures\{#procedures}
-
-You can create a project via the Zilliz Cloud web console or RESTful API.
-
-- **Via web console**
-
-    The following demo shows how to create a project on the Zilliz Cloud web console.
-
-    <Supademo id="cmhivxhnz5zctfatifx1jw34l?utm_source=link" title=""  />
-
-    ![create-project-byoc](/img/create-project-byoc.png)
-
-- **Via RESTful API**
-
-    The following example shows how to create a Standard project named `My Project` in the current organization. For details, see [Create Project](/reference/restful/create-project-v2).
-
-    ```bash
-    export TOKEN="YOUR_API_KEY"
-    
-    curl --request POST \
-    --url "${BASE_URL}/v2/projects" \
-    --header "Authorization: Bearer ${TOKEN}" \
-    --header "Content-Type: application/json" \
-    -d '{
-        "projectName": "My Project",
-        "plan": "Standard"
-    }'
-    ```
-
-    The following is an example output.
-
-    ```bash
-    {
-        "code": 0,
-        "data": {
-            "projectId": "proj-x"
-        }
-    }
-    ```
-
-## Upgrade a project\{#upgrade-a-project}
-
-To unlock for advanced features, you can upgrade the plan of your existing projects.
-
-Upgrading the project will also upgrade all clusters in the project.
-
-If you need to upgrade a project to the **Business Critical** or **BYOC** plan, please [contact sales](https://zilliz.com/contact-sales).
-
-- **Via web console**
-
-    The following demo shows how to upgrade the plan of a project from **Standard** to **Enterprise**.
-
-    <Supademo id="cmhiw3gu85zhlfati4r154s2h?utm_source=link" title=""  />
-
-- **Via RESTful API**
-
-    The following demo shows how to upgrade the plan of a project from Standard to Enterprise. For details, see [Upgrade Project](/reference/restful/upgrade-project-v2).
-
-    ```bash
-    export TOKEN="YOUR_API_KEY"
-    export projectId="proj-xx"
-    
-    curl --request PATCH \
-    --url "${BASE_URL}/v2/projects/${projectId}" \
-    --header "Authorization: Bearer ${TOKEN}" \
-    --header "Content-Type: application/json" \
-    -d '{
-        "plan": "Enterprise"
-    }'
-    ```
-
-    The following is an example output.
-
-    ```bash
-    {
-        "code": 0,
-        "data": {
-            "projectId": "proj-x"
-        }
-    }
-    ```
 
 ## View all projects\{#view-all-projects}
 

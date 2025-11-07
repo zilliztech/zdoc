@@ -12,19 +12,19 @@ type: docx
 token: Cpynd2OFJoIXhLx3dQNct7Wgn6f
 sidebar_position: 16
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - list_aliases()
   - pymilvus26
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

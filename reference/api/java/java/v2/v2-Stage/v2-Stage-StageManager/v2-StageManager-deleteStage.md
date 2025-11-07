@@ -12,19 +12,19 @@ type: docx
 token: OalndLUMRoUqpMxr2QscYTCenre
 sidebar_position: 2
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - deleteStage()
   - javaV226
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

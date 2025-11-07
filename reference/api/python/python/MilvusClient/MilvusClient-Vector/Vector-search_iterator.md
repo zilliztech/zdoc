@@ -12,19 +12,19 @@ type: docx
 token: T9KhdDJQColJEuxZ7YOcV2zdnlb
 sidebar_position: 7
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - search_iterator()
   - pymilvus26
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

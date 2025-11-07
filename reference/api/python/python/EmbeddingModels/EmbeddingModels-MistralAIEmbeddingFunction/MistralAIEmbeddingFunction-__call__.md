@@ -12,19 +12,19 @@ type: docx
 token: Z23IddhHhom7AyxDMXecLORVnDh
 sidebar_position: 4
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus26
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

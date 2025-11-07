@@ -12,19 +12,19 @@ type: docx
 token: EtBDdoGaFo3bOExKxCHcKgpenib
 sidebar_position: 2
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - commit()
   - pymilvus26
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

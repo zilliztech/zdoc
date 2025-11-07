@@ -12,19 +12,19 @@ type: docx
 token: ZQ2RdE2AOoH9bfx4k3Sc3Ny0ngb
 sidebar_position: 9
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - release()
   - pymilvus26
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: BThKd2QThoQKGPx1ofKczmADnC6
 sidebar_position: 2
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - compact()
   - pymilvus26
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

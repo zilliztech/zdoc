@@ -12,19 +12,19 @@ type: docx
 token: SM7ld0ZsEoYLqaxVMZxcSH82n9f
 sidebar_position: 1
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - add_index()
   - pymilvus26
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

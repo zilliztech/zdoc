@@ -12,19 +12,19 @@ type: docx
 token: CmFKd9eG2oE6xmx9dIGcVPycnth
 sidebar_position: 2
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - CollectionSchema
   - pymilvus26
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: FuSTdeSCdojDu0xSBEmcYgv9n4g
 sidebar_position: 6
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - RRFRanker
   - javaV226
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,10 +12,10 @@ token: KrK5fBnFDlG6CedvqyHcfZLynre
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud

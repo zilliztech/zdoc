@@ -12,19 +12,19 @@ type: docx
 token: FubcdxJ0LoyQiJxmUMjcZnbjnbc
 sidebar_position: 9
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - dropAlias()
   - nodejs26
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

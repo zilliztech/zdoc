@@ -12,19 +12,19 @@ type: docx
 token: NPnQdZCJ7oF002xTntecdI2ini8
 sidebar_position: 5
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - drop_index()
   - pymilvus26
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

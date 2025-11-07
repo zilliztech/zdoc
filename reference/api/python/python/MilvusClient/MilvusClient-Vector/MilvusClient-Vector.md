@@ -12,10 +12,10 @@ token: N5ynfBUN2l7doCdZw7ecFSl5nqb
 sidebar_position: 7
 sidebar_label: "Vector"
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud

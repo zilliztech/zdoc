@@ -12,19 +12,19 @@ type: docx
 token: CN9sdiCicoERZpx9GhmcLa4Wn7g
 sidebar_position: 4
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - listImportJobs()
   - javaV226
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

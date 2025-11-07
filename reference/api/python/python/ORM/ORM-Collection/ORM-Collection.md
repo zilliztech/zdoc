@@ -12,19 +12,19 @@ type: docx
 token: OSehdj15Ao3AUvxOIJucXzU8nWW
 sidebar_position: 1
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - Collection
   - pymilvus26
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

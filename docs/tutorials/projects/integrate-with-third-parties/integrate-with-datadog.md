@@ -32,7 +32,7 @@ import Admonition from '@theme/Admonition';
 
 [Datadog](https://www.datadoghq.com/) is a cloud monitoring and analytics platform that provides real-time insights into application performance, infrastructure, and log management. By integrating Zilliz Cloud with Datadog, you can send metric data about your Zilliz Cloud clusters to your Datadog dashboards.
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 <p>This feature is available only to <strong>Dedicated</strong> clusters in an <strong>Enterprise</strong> project.</p>
 

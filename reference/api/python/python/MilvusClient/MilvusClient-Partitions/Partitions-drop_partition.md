@@ -12,19 +12,19 @@ type: docx
 token: EMI8dM8uooIAFPxVfffcoqRwnZf
 sidebar_position: 2
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - drop_partition()
   - pymilvus26
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

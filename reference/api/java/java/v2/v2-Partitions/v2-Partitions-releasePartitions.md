@@ -12,19 +12,19 @@ type: docx
 token: VsyQdDkXnoloWYxfjXNchc0dnng
 sidebar_position: 7
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - releasePartitions()
   - javaV226
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

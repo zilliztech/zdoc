@@ -12,19 +12,19 @@ type: docx
 token: ByKadzyxVodrkxxhaGuc4HtFnWh
 sidebar_position: 2
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - close()
   - javaV226
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

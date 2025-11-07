@@ -12,19 +12,19 @@ type: docx
 token: FGZadH85KoLEhRxkbLxcc1zbn4c
 sidebar_position: 1
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - BulkFileType
   - javaV226
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

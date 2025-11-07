@@ -12,19 +12,19 @@ type: docx
 token: CvxodXz8OoWXrlxD7OVcqqJLn8e
 sidebar_position: 3
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - MistralAIEmbeddingFunction
   - pymilvus26
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

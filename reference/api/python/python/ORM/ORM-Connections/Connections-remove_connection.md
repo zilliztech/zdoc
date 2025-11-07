@@ -12,19 +12,19 @@ type: docx
 token: L4KSdOVTEotaiyxjTddcVRDhn3E
 sidebar_position: 8
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - remove_connection()
   - pymilvus26
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

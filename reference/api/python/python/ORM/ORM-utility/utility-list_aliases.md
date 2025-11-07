@@ -12,19 +12,19 @@ type: docx
 token: XBwxdP96Go8ITyx7UuNcL7EonPd
 sidebar_position: 22
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - list_aliases()
   - pymilvus26
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

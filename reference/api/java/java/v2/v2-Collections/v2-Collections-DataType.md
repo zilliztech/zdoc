@@ -12,19 +12,19 @@ type: docx
 token: RZ8idPxaho5yMoxJzGdc7QAcnNf
 sidebar_position: 10
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
   - javaV226
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

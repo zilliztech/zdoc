@@ -12,19 +12,19 @@ type: docx
 token: ZqmudJWyFonUKGxAxXncYrLZn2e
 sidebar_position: 9
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - list_indexes()
   - pymilvus26
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

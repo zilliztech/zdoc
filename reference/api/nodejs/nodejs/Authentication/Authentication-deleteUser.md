@@ -12,19 +12,19 @@ type: docx
 token: Cl5PdhU5jouHnrxyYXLcOQAZneb
 sidebar_position: 8
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud
   - deleteUser()
   - nodejs26
-  - NLP
-  - Neural Network
   - Deep Learning
   - Knowledge base
+  - natural language processing
+  - AI chatbots
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

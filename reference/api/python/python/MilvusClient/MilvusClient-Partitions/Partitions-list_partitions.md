@@ -12,19 +12,19 @@ type: docx
 token: Dxgqdvlk5o2VScxqmL1ctc1Inqb
 sidebar_position: 5
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
   - list_partitions()
   - pymilvus26
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

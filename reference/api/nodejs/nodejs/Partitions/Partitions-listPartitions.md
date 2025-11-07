@@ -12,19 +12,19 @@ type: docx
 token: IvnLd6nXooRR6NxM9jdcDxCHnhh
 sidebar_position: 5
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - listPartitions()
   - nodejs26
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

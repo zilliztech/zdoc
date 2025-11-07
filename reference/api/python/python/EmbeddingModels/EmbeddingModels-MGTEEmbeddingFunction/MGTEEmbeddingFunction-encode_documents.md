@@ -12,19 +12,19 @@ type: docx
 token: GyrmdRjGZoOFKdxsYyCcvNG7npg
 sidebar_position: 1
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus26
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

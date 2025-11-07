@@ -12,19 +12,19 @@ type: docx
 token: X6JXdPN7IoRffJxnaZccBvRanIM
 sidebar_position: 19
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - listAliases()
   - javaV226
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

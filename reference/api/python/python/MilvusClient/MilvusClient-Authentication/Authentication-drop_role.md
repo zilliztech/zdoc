@@ -12,19 +12,19 @@ type: docx
 token: Vmxpd3MttodOE3x3V11cVTeunDh
 sidebar_position: 8
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - drop_role()
   - pymilvus26
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

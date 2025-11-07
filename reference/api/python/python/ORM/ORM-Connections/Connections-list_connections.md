@@ -12,19 +12,19 @@ type: docx
 token: DyPldeRNXo4nMqxQeE0cMnd2nEf
 sidebar_position: 7
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - list_connections()
   - pymilvus26
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

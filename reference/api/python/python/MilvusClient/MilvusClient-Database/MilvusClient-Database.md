@@ -12,10 +12,10 @@ token: JT0gfXjE3lCqEAdn6jPcFbHgnnd
 sidebar_position: 8
 sidebar_label: "Database"
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud

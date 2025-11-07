@@ -12,19 +12,19 @@ type: docx
 token: Sqoed1lkwo8umixJJO1cvKIxnZc
 sidebar_position: 8
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - releasePartitions()
   - nodejs26
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: KEzNdJPoDoHOjlx2FC8cNcHqngg
 sidebar_position: 3
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - drop()
   - pymilvus26
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
   - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

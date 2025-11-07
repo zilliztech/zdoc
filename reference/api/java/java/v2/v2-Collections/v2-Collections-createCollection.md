@@ -12,19 +12,19 @@ type: docx
 token: DkFxdDBvaoUPQRxzudxcDtTXnue
 sidebar_position: 7
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
   - javaV226
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

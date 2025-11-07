@@ -12,19 +12,19 @@ type: docx
 token: XeZwdeK64oGD8rx9DA3ciqNinnh
 sidebar_position: 6
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - has_connection()
   - pymilvus26
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

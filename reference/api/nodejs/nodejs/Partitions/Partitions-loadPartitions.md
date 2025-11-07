@@ -12,19 +12,19 @@ type: docx
 token: Pyh3dttWKoBqcBx8FGhcArhAnqg
 sidebar_position: 6
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitions()
   - nodejs26
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

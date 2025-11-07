@@ -12,19 +12,19 @@ type: docx
 token: X8qWdMHg5oQQK6xZdBYcGNOnn3c
 sidebar_position: 10
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - getFlushState()
   - nodejs26
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

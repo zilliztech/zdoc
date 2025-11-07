@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 
@@ -139,20 +139,6 @@ These metrics describe resource usage and performance within a project’s clust
      <th><p>Description</p></th>
      <th><p>Recommended action</p></th>
      <th><p>Availability</p></th>
-   </tr>
-   <tr>
-     <td></td>
-     <td><p>count</p></td>
-     <td><p>A measure of vCU consumption of search and query operations.</p><p>Note: Alerts are not supported for this metric.</p></td>
-     <td><p>Monitor trends to understand read cost/throughput.</p></td>
-     <td><p>Free / Serverless</p></td>
-   </tr>
-   <tr>
-     <td></td>
-     <td><p>count</p></td>
-     <td><p>A measure of vCU consumption of insert, delete, and upsert operations.</p><p>Note: Alerts are not supported for this metric.</p></td>
-     <td><p>Monitor trends to understand write cost/throughput.</p></td>
-     <td><p>Free / Serverless</p></td>
    </tr>
    <tr>
      <td><p>Query CU Computation</p></td>

@@ -12,19 +12,19 @@ type: docx
 token: WRSYdEZwroNY1Txpk2DcI1sSnVg
 sidebar_position: 25
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - describeReplicas()
   - javaV226
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

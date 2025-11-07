@@ -12,19 +12,19 @@ type: docx
 token: TMq5d6wFmoT8u3xwuruc8k6wnTg
 sidebar_position: 6
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - load_partitions()
   - pymilvus26
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

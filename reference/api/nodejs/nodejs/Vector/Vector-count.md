@@ -12,19 +12,19 @@ type: docx
 token: NaOadUNSpo1EsIxPMSfc0R4Hnfb
 sidebar_position: 1
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - count()
   - nodejs26
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

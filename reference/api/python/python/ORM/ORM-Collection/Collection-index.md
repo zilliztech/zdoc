@@ -12,19 +12,19 @@ type: docx
 token: RkQ8dnWDHo3DiDxiCVRcP1xPnob
 sidebar_position: 18
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - index()
   - pymilvus26
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: NDcldy9OLo62DLxw1a9cFSLsnYb
 sidebar_position: 6
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - useDatabase()
   - nodejs26
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

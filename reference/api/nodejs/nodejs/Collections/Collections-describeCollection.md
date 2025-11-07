@@ -12,19 +12,19 @@ type: docx
 token: FEnwdB0eCotS7wxpPXmcwgQwn8g
 sidebar_position: 8
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
   - nodejs26
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

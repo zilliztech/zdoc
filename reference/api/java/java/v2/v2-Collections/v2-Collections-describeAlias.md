@@ -12,19 +12,19 @@ type: docx
 token: RWaHdvzdvoxGdbxj44cc5SmBnzd
 sidebar_position: 11
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud
   - describeAlias()
   - javaV226
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

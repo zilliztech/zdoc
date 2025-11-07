@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 
@@ -44,7 +44,7 @@ The table below provides a comparison of API availability across various service
      <th><p><strong>Console</strong></p></th>
      <th><p><strong>Free</strong></p></th>
      <th><p><strong>Serverless</strong></p></th>
-     <th><p><strong>Dedicated</strong></p></th>
+     <th><p><strong>Dedicated / BYOC</strong></p></th>
    </tr>
    <tr>
      <td rowspan="5"><p>Alias</p></td>

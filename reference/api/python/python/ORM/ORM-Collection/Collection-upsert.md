@@ -12,19 +12,19 @@ type: docx
 token: AQ1ydMXbOog5VJxITgUc4GFvnVe
 sidebar_position: 28
 keywords: 
+  - vector similarity search
+  - approximate nearest neighbor search
   - DiskANN
   - Sparse vector
-  - Vector Dimension
-  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - pymilvus26
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

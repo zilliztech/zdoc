@@ -12,19 +12,19 @@ type: docx
 token: JQ4QdTaadoIDSPxDJRZcSDu3n5g
 sidebar_position: 3
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionProperties()
   - javaV226
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

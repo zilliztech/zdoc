@@ -12,19 +12,19 @@ type: docx
 token: LPJsdEnvwo6apcxjhZgc3rpDnuc
 sidebar_position: 16
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - grantRole()
   - nodejs26
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: ItZPd1o4uoodqtx1sxIcq38hn7e
 sidebar_position: 9
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
   - nodejs26
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

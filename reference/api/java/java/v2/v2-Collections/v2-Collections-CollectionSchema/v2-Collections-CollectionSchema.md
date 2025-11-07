@@ -12,19 +12,19 @@ type: docx
 token: FxUxdWGz2oUh1ixyquZcAndBnAf
 sidebar_position: 2
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - CollectionSchema
   - javaV226
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

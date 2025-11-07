@@ -12,19 +12,19 @@ type: docx
 token: P66Mdx2aaooL9px9CnQcS2eTnng
 sidebar_position: 6
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - nodejs26
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

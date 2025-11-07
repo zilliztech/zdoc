@@ -12,10 +12,10 @@ token: LkxXfcSA7lKXqEdu8mpcHI8Fnqd
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud

@@ -12,10 +12,10 @@ token: A6atfZDQxl1INud6VYGcX54zngf
 sidebar_position: 2
 sidebar_label: "EmbeddingModels"
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud

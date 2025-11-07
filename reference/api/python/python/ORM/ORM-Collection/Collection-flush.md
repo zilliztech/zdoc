@@ -12,19 +12,19 @@ type: docx
 token: VdiwdqQ9iofbkoxcc8Kcqk5gnhZ
 sidebar_position: 11
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - pymilvus26
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

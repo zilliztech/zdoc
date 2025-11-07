@@ -12,19 +12,19 @@ type: docx
 token: K1Npdj5Ddod6UWxRN2ecf6K4nxf
 sidebar_position: 38
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - reset_password()
   - pymilvus26
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

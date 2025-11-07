@@ -12,19 +12,19 @@ type: docx
 token: AImudC3YNoa1PZxj4zNckcvsnXc
 sidebar_position: 23
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - addCollectionField()
   - javaV226
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

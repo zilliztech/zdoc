@@ -12,19 +12,19 @@ type: docx
 token: JmlKdBz7Io91Ffx9rpKce3vUnMc
 sidebar_position: 2
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - createDatabase()
   - nodejs26
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

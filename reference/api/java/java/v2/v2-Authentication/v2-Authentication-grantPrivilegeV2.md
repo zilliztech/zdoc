@@ -12,19 +12,19 @@ type: docx
 token: MFv3drbbXouqVxxE1OicBBl5ndf
 sidebar_position: 11
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - grantPrivilegeV2()
   - javaV226
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

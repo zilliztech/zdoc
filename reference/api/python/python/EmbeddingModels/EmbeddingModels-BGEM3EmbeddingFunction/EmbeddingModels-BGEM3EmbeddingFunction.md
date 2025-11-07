@@ -12,19 +12,19 @@ type: docx
 token: XYSVdCqCDoJ9Y5xqKEAceYkpnnh
 sidebar_position: 1
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - BGEM3EmbeddingFunction
   - pymilvus26
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

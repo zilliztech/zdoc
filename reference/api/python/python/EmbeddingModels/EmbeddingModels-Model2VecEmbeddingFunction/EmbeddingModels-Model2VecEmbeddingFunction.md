@@ -12,19 +12,19 @@ type: docx
 token: WiT4dJ1SJod0fdx4z23cwFbAn7c
 sidebar_position: 3
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - Model2VecEmbeddingFunction
   - pymilvus26
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

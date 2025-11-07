@@ -12,19 +12,19 @@ type: docx
 token: F1MFdP8VvoMu17x4Vg9cH6ztnqb
 sidebar_position: 1
 keywords: 
-  - cheap vector database
   - Managed vector database
   - Pinecone vector database
   - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - append_row()
   - pymilvus26
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

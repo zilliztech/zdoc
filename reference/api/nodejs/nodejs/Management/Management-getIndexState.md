@@ -12,19 +12,19 @@ type: docx
 token: HqE5d2jOroEuObxIjkZcHkX4nWX
 sidebar_position: 12
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - getIndexState()
   - nodejs26
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

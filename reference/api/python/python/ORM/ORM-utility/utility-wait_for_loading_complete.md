@@ -12,19 +12,19 @@ type: docx
 token: PLKXdUB1EoNX8gxKHruc9GcEnsg
 sidebar_position: 44
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud
   - wait_for_loading_complete()
   - pymilvus26
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

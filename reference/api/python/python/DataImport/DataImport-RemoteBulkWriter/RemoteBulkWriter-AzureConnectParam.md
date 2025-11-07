@@ -12,19 +12,19 @@ type: docx
 token: C2YSddNqZoDNmNxWqqEcuzhKn4f
 sidebar_position: 2
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - AzureConnectParam
   - pymilvus26
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: Al8Pdbn4fomlIBxxYi0chTsgnWg
 sidebar_position: 5
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
   - nodejs26
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -236,7 +236,7 @@ milvusClient.createCollection({
 
     - **data_type** (*string)* -
 
-        The data type of the field. For an enumeration of all available data types, please see DataType.
+        The data type of the field. For an enumeration of all available data types, please see [DataType](./Collections-DataType).
 
     - **description** (*string)* -
 
@@ -556,7 +556,7 @@ milvusClient.createCollection({
 
     - **data_type** (*string)* -
 
-        The data type of the field. For an enumeration of all available data types, please see DataType.
+        The data type of the field. For an enumeration of all available data types, please see [DataType](./Collections-DataType).
 
     - **description** (*string)* -
 

@@ -12,19 +12,19 @@ type: docx
 token: Qc72dTKgroNdHjxIG2xcwNdmnHb
 sidebar_position: 2
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - addUserToRole()
   - nodejs26
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

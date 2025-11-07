@@ -20,10 +20,10 @@ keywords:
   - integrate
   - object
   - storage
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 
@@ -36,7 +36,7 @@ import Supademo from '@site/src/components/Supademo';
 
 Zilliz Cloud allows you to integrate with Amazon Simple Storage Service (Amazon S3) to export backup files or audit logs to designated S3 buckets.
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 <p>This feature is available only to <strong>Dedicated</strong> clusters in an <strong>Enterprise</strong> project.</p>
 

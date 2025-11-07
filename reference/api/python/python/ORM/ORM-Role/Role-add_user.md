@@ -12,19 +12,19 @@ type: docx
 token: W7GJdpYrYoYhSaxW6uzcVAZinYf
 sidebar_position: 1
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - add_user()
   - pymilvus26
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

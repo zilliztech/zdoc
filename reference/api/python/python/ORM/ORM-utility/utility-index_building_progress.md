@@ -12,19 +12,19 @@ type: docx
 token: OVfodiKa6o3qTGxadYicI975nhh
 sidebar_position: 21
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud
   - index_building_progress()
   - pymilvus26
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

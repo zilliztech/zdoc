@@ -12,19 +12,19 @@ type: docx
 token: WE4gduIjooCgQUxcKyLcwQe1n3g
 sidebar_position: 1
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - createPartition()
   - javaV226
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

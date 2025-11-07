@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 
@@ -175,32 +175,23 @@ Zilliz Cloud supports data import from your cloud storage. The table below lists
 
 ## Limits\{#limits}
 
-There are some limits you need to observe when you import data in a local Parquet file or Parquet files from your cloud storage. 
+There are some limits you need to observe when you import data in a local Parquet file or Parquet files from your cloud storage.
 
 <table>
    <tr>
      <th><p><strong>Import Method</strong></p></th>
-     <th><p><strong>Cluster Plan</strong></p></th>
      <th><p><strong>Max Files per Import</strong></p></th>
      <th><p><strong>Max File Size</strong></p></th>
      <th><p><strong>Max Total Import Size</strong></p></th>
    </tr>
    <tr>
      <td><p>From local file</p></td>
-     <td><p>All Plans</p></td>
      <td><p>1 File</p></td>
      <td><p>1 GB</p></td>
      <td><p>1 GB</p></td>
    </tr>
    <tr>
-     <td rowspan="2"><p>From object storage</p></td>
-     <td><p>Free</p></td>
-     <td><p>1,000 Files</p></td>
-     <td><p>1 GB</p></td>
-     <td><p>1 GB</p></td>
-   </tr>
-   <tr>
-     <td><p>Serverless &amp; Dedicated</p></td>
+     <td><p>From object storage</p></td>
      <td><p>1,000 Files</p></td>
      <td><p>10 GB</p></td>
      <td><p>1 TB</p></td>

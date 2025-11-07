@@ -12,19 +12,19 @@ type: docx
 token: OPPHd2AabonMIzxzfupcyNS9n1a
 sidebar_position: 15
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollectionProperties()
   - javaV226
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

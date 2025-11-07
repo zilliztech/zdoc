@@ -12,19 +12,19 @@ type: docx
 token: YmnmdEeHFoctZexccqNcr8xXn8c
 sidebar_position: 3
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - InstructorEmbeddingFunction
   - pymilvus26
+  - milvus vector db
+  - Zilliz Cloud
   - what is milvus
   - milvus database
-  - milvus lite
-  - milvus benchmark
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

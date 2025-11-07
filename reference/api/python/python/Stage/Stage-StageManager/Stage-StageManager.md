@@ -12,19 +12,19 @@ type: docx
 token: XdZ6dFzA3oUu4dxWh7Kcz4dhnQg
 sidebar_position: 4
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - StageManager
   - pymilvus26
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

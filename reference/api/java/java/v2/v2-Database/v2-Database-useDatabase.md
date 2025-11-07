@@ -12,19 +12,19 @@ type: docx
 token: LAJHdQKQQoPjmYxcfQgcvjvLnqh
 sidebar_position: 7
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - useDatabase()
   - javaV226
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: HtOGdjTpOoG0RcxpGv1cCBcEnAh
 sidebar_position: 3
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - closeConnection()
   - nodejs26
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

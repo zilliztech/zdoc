@@ -12,19 +12,19 @@ type: docx
 token: EiTMdIbTgoc9vVxDHUQc1zPpnch
 sidebar_position: 11
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - grant_privilege_v2()
   - pymilvus26
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

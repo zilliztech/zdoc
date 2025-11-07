@@ -12,19 +12,19 @@ type: docx
 token: Ve2WdUAfwoz456xwBIJcGvltn6b
 sidebar_position: 4
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - EmbeddingList
   - pymilvus26
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar
@@ -107,16 +107,4 @@ embeddingList3 = EmbeddingList(
     dim=5
 )
 ```
-
-## Related methods\{#related-methods}
-
-- [add()](./EmbeddingList-add)
-
-- [add_batch()](./EmbeddingList-add_batch)
-
-- [to_flat_array()](./EmbeddingList-to_flat_array)
-
-- [to_numpy()](./EmbeddingList-to_numpy)
-
-- [clear()](./EmbeddingList-clear)
 

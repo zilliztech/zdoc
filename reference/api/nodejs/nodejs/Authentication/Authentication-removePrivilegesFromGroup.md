@@ -12,19 +12,19 @@ type: docx
 token: EeAfdukBNoIIgCxX248c6VULnOb
 sidebar_position: 22
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - removePrivilegesFromGroup()
   - nodejs26
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

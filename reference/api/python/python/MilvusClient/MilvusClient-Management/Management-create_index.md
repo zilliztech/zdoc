@@ -12,19 +12,19 @@ type: docx
 token: B3n3db0idoia02xXxJfcONK8nRh
 sidebar_position: 3
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - create_index()
   - pymilvus26
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

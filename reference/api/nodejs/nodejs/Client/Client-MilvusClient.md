@@ -12,19 +12,19 @@ type: docx
 token: ZxPXdeBXGopnvMxl7v6c9DSanFL
 sidebar_position: 5
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClient
   - nodejs26
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

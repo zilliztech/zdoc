@@ -12,19 +12,19 @@ type: docx
 token: RxU7dBjGlop0e1xZShYcZ4qCnnh
 sidebar_position: 6
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - create_schema()
   - pymilvus26
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

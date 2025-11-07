@@ -12,19 +12,19 @@ type: docx
 token: DCLUdOpVjohl8HxPUx1cGjokngf
 sidebar_position: 1
 keywords: 
+  - Managed vector database
   - Pinecone vector database
   - Audio search
   - what is semantic search
-  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dict()
   - pymilvus26
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

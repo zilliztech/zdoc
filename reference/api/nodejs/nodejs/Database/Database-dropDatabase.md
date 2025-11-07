@@ -12,19 +12,19 @@ type: docx
 token: Ja99dnnaOoncwbx2zIPc4PjunXx
 sidebar_position: 3
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabase()
   - nodejs26
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

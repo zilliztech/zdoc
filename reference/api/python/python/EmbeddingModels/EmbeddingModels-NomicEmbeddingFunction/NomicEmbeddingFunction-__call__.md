@@ -12,19 +12,19 @@ type: docx
 token: Dsl1dDLBeoGixjxt2lpcFP5ynSA
 sidebar_position: 4
 keywords: 
+  - Context Window
   - Natural language search
   - Similarity Search
   - multimodal RAG
-  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus26
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: M6mrdinAjo8CwrxirOQcR6E1nUc
 sidebar_position: 3
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - clear()
   - pymilvus26
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
   - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

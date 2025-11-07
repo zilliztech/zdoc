@@ -12,19 +12,19 @@ type: docx
 token: ZdKEd2ua6o9AHHxKq25ctNSdncb
 sidebar_position: 36
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_unixtime()
   - pymilvus26
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

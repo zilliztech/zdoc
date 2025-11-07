@@ -12,19 +12,19 @@ type: docx
 token: EVKhdy0vwoSLSux2RW2c660unjh
 sidebar_position: 2
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - FieldSchema
   - pymilvus26
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

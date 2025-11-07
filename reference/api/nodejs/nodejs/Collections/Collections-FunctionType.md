@@ -12,19 +12,19 @@ type: docx
 token: Vq2VdsWJaoufsGx5stJcTuyPnDb
 sidebar_position: 17
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - FunctionType
   - nodejs26
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: Bjs5dej7ZoBKhXxZzMjclPCynmd
 sidebar_position: 5
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - listPartitions()
   - javaV226
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

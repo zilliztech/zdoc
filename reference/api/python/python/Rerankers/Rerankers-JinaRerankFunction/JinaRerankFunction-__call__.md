@@ -12,19 +12,19 @@ type: docx
 token: R3gEdUOSfo6JzMxwUsTcevNHn9g
 sidebar_position: 2
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus26
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

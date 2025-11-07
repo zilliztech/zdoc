@@ -12,19 +12,19 @@ type: docx
 token: TWzjdJ61ho613AxKSd7clQt9nrg
 sidebar_position: 6
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - run_analyzer()
   - pymilvus26
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

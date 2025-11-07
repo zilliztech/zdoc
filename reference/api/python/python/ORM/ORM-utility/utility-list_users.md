@@ -12,19 +12,19 @@ type: docx
 token: MtF2dkZcso4XduxM194cUaiinqb
 sidebar_position: 30
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - list_users()
   - pymilvus26
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

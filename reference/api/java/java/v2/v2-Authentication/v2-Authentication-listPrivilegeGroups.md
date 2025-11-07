@@ -12,19 +12,19 @@ type: docx
 token: TGsXduN5OoAjVyxZTvRc8HR2nse
 sidebar_position: 13
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - listPrivilegeGroups()
   - javaV226
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

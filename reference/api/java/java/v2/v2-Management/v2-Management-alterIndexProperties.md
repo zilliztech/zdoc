@@ -12,19 +12,19 @@ type: docx
 token: ITkydrfmroQyLLxusZtc6t1nnjf
 sidebar_position: 1
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - alterIndexProperties()
   - javaV226
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

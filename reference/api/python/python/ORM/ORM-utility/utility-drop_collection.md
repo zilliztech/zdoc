@@ -12,19 +12,19 @@ type: docx
 token: FHcYdN4apoI5TIx0LxScISvtn0f
 sidebar_position: 10
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - drop_collection()
   - pymilvus26
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

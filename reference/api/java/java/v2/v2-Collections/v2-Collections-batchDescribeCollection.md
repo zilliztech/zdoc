@@ -12,19 +12,19 @@ type: docx
 token: SRI6dEn82oNe4Uxro8hcyFV3n1d
 sidebar_position: 30
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - batchDescribeCollection()
   - javaV226
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

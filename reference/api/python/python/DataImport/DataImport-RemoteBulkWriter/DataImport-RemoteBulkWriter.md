@@ -12,19 +12,19 @@ type: docx
 token: BDP4dew9to9tQoxNEMPcBR5xnZb
 sidebar_position: 4
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - RemoteBulkWriter
   - pymilvus26
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

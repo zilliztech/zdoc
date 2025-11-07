@@ -12,10 +12,10 @@ token: BvYKfbpMUlczBxdyBvEc5Gb3nfb
 sidebar_position: 8
 sidebar_label: "utility"
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud

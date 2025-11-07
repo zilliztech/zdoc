@@ -12,19 +12,19 @@ type: docx
 token: G3h4d3jx6oXFHBxFZlyc9jLKnTO
 sidebar_position: 2
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - create()
   - pymilvus26
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

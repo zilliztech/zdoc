@@ -12,19 +12,19 @@ type: docx
 token: TJMVdi4U2oBFnAxO95jctzVAnzg
 sidebar_position: 6
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - pymilvus26
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

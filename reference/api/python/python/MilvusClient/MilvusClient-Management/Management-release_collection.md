@@ -12,19 +12,19 @@ type: docx
 token: PRR7dRfi8o1s61xFRovccAdRnHe
 sidebar_position: 13
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - release_collection()
   - pymilvus26
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

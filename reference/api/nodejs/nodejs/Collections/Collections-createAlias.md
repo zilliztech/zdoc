@@ -12,19 +12,19 @@ type: docx
 token: MPuIdwujBoXM6rx7Okfc3lhZnUd
 sidebar_position: 4
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - createAlias()
   - nodejs26
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

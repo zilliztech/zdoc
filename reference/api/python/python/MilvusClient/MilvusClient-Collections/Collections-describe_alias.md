@@ -12,19 +12,19 @@ type: docx
 token: HN7nddgueo3scIxmPXAcpjkFnDf
 sidebar_position: 8
 keywords: 
+  - milvus benchmark
+  - managed milvus
   - Serverless vector database
   - milvus open source
-  - how does milvus work
-  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describe_alias()
   - pymilvus26
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

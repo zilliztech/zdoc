@@ -12,19 +12,19 @@ type: docx
 token: JNZxdKEX3ohBl2xud7Wckhq7nVh
 sidebar_position: 7
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - createUser()
   - nodejs26
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

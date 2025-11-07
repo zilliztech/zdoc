@@ -12,19 +12,19 @@ type: docx
 token: MkWNdU1tvoqlBRxI05Rcu09cnEc
 sidebar_position: 2
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - get_import_progress()
   - pymilvus26
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

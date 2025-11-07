@@ -12,19 +12,19 @@ type: docx
 token: VDKPdBJzdoAu7exEOE2czN2gnTd
 sidebar_position: 5
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
   - javaV226
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

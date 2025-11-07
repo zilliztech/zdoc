@@ -12,10 +12,10 @@ token: Snf8fZZTklTziidxXP2cL4cRnOf
 sidebar_position: 6
 sidebar_label: "Partitions"
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud

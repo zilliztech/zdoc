@@ -12,19 +12,19 @@ type: docx
 token: J17ZdPNwqo4nt3x5b8pc0H5Nnph
 sidebar_position: 14
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadState()
   - nodejs26
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

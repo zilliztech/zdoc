@@ -12,19 +12,19 @@ type: docx
 token: M0qRdF1cLokrxvxyrXScJ64FnEe
 sidebar_position: 37
 keywords: 
-  - vector db comparison
   - openai vector db
   - natural language processing database
   - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - rename_collection()
   - pymilvus26
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

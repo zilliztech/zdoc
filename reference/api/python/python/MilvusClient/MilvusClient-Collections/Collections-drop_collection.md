@@ -12,19 +12,19 @@ type: docx
 token: QNB4d2q2ZorIApxpnzqczW2HnL7
 sidebar_position: 11
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - drop_collection()
   - pymilvus26
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

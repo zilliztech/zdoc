@@ -12,19 +12,19 @@ type: docx
 token: QqOSdTDaLoOKGRxiKEtcuuiAnrf
 sidebar_position: 17
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - hybrid_search()
   - pymilvus26
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

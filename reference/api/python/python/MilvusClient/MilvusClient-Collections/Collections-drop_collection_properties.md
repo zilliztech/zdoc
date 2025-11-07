@@ -12,19 +12,19 @@ type: docx
 token: WjNRdifU9o3xl5xG0W7ch4Fjnme
 sidebar_position: 12
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - drop_collection_properties()
   - pymilvus26
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

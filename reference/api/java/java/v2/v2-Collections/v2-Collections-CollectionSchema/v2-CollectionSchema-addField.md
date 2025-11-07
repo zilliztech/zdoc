@@ -12,19 +12,19 @@ type: docx
 token: X6MudyTkmoIsE5x0XiKcbwPdntq
 sidebar_position: 1
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - addField()
   - javaV226
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

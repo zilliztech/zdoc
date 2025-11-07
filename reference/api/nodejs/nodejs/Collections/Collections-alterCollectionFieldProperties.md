@@ -12,19 +12,19 @@ type: docx
 token: RQH5dhSenoDGjYxyBb2c3n1rnie
 sidebar_position: 2
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionFieldProperties()
   - nodejs26
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

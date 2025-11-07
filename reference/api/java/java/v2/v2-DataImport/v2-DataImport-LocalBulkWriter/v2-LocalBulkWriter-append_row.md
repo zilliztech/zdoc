@@ -12,19 +12,19 @@ type: docx
 token: HofVdjV0koj42QxX0iHcQb05nab
 sidebar_position: 1
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - append_row()
   - javaV226
+  - Audio similarity search
+  - Elastic vector database
   - Pinecone vs Milvus
   - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

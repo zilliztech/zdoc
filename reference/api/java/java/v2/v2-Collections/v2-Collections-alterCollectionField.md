@@ -12,19 +12,19 @@ type: docx
 token: OtrZdy7OtoC9N9xb8TjcCtM7nfc
 sidebar_position: 2
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionField()
   - javaV226
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

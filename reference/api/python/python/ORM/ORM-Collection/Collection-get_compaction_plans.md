@@ -12,19 +12,19 @@ type: docx
 token: D6Q7dq4USotLS3xxMP0cFiGLnsf
 sidebar_position: 12
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - get_compaction_plans()
   - pymilvus26
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

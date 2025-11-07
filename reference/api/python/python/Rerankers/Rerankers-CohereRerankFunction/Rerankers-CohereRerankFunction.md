@@ -12,19 +12,19 @@ type: docx
 token: GAWOdft83oZPvHxtxzZcjrQunGg
 sidebar_position: 1
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - CohereRerankFunction
   - pymilvus26
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

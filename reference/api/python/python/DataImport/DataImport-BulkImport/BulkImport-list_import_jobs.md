@@ -12,19 +12,19 @@ type: docx
 token: P0vxdEVBPoTNKLxkKIzcznlYnNc
 sidebar_position: 3
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - list_import_jobs()
   - pymilvus26
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

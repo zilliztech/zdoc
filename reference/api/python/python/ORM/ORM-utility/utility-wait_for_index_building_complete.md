@@ -12,19 +12,19 @@ type: docx
 token: MfR8dw5TioPvw3xvrstcgYixnUb
 sidebar_position: 43
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - wait_for_index_building_complete()
   - pymilvus26
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

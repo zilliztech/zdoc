@@ -12,19 +12,19 @@ type: docx
 token: ZWLCdBWwOo4OSVxfnNRcDrv5nhe
 sidebar_position: 4
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus26
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

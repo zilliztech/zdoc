@@ -12,19 +12,19 @@ type: docx
 token: RFSCdiUYGouQrtx8c1RczPVvnmf
 sidebar_position: 1
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - bulk_import()
   - pymilvus26
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

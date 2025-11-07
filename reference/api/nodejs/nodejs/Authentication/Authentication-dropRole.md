@@ -12,19 +12,19 @@ type: docx
 token: AnkUdEHXmob3Vwx9GIWcDOQanng
 sidebar_position: 13
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - dropRole()
   - nodejs26
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

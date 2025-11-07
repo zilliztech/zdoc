@@ -12,10 +12,10 @@ token: O6ngfC8y5lIhIWdEGDAcXHzcntl
 sidebar_position: 10
 sidebar_label: "Stage"
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud

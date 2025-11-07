@@ -12,19 +12,19 @@ type: docx
 token: ARw0dIb0hojCNbxKkOacs1K7nQf
 sidebar_position: 13
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - dropAlias()
   - javaV226
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

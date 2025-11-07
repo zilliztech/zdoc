@@ -12,19 +12,19 @@ type: docx
 token: N97pdfkjlo9j61xrtL2cbB79nKe
 sidebar_position: 8
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - pymilvus26
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: GulFdOWMboEK9bxnzMSc8Uf8n8b
 sidebar_position: 4
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabaseProperties()
   - nodejs26
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: WaAvdBOvCoeLeCxKXtQct12gnGh
 sidebar_position: 11
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - searchIterator()
   - nodejs26
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

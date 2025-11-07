@@ -12,19 +12,19 @@ type: docx
 token: YCzNdg5yWoeZVrxj7jGcb1UXnBd
 sidebar_position: 7
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - describeAlias()
   - nodejs26
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

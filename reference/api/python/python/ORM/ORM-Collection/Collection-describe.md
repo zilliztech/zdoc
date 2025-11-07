@@ -12,19 +12,19 @@ type: docx
 token: EZwsd887JojFjLxbMByckhW0nxg
 sidebar_position: 7
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - describe()
   - pymilvus26
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

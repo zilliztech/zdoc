@@ -12,19 +12,19 @@ type: docx
 token: OLVbdsTOAoQwybx7oLPcZE3wnCf
 sidebar_position: 8
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - dropRole()
   - javaV226
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

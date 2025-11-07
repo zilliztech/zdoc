@@ -12,19 +12,19 @@ type: docx
 token: XDXid6aZ8oCHnVxxFpPcKAB9n0c
 sidebar_position: 3
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - getPartitionStatistics()
   - nodejs26
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

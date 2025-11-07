@@ -12,19 +12,19 @@ type: docx
 token: AtkDdtMAWodFzExARxnco5xLnsg
 sidebar_position: 9
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - drop_index()
   - pymilvus26
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
   - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

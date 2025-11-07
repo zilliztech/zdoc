@@ -12,19 +12,19 @@ type: docx
 token: Pl7Fd8C3zocPaZx3VrAcl54Dnkd
 sidebar_position: 3
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - alter_collection_properties()
   - pymilvus26
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar
@@ -73,7 +73,7 @@ alter_collection_properties(
 
     - **dynamicfield.enabled** (bool) -
 
-        Whether to enable the dynamic field. For details, refer to Dynamic Field.
+        Whether to enable the dynamic field. For details, refer to [Dynamic Field](/docs/enable-dynamic-field).
 
 - **timeout** (*Optional[float]*) - 
 

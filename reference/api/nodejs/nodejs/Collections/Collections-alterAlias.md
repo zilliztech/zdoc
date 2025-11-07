@@ -12,19 +12,19 @@ type: docx
 token: DXTLdtFCso7fo6xJHShc7XLpngh
 sidebar_position: 1
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - alterAlias()
   - nodejs26
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

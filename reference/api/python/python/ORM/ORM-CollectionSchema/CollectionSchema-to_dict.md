@@ -12,19 +12,19 @@ type: docx
 token: GfTadfqhAo64XDxc643ci4Zwnwb
 sidebar_position: 4
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - to_dict()
   - pymilvus26
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

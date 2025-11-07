@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - json
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 
@@ -186,27 +186,18 @@ There are some limits you need to observe when you import data in a local JSON f
 <table>
    <tr>
      <th><p><strong>Import Method</strong></p></th>
-     <th><p><strong>Cluster Plan</strong></p></th>
      <th><p><strong>Max Files per Import</strong></p></th>
      <th><p><strong>Max File Size</strong></p></th>
      <th><p><strong>Max Total Import Size</strong></p></th>
    </tr>
    <tr>
      <td><p>From local file</p></td>
-     <td><p>All Plans</p></td>
      <td><p>1 File</p></td>
      <td><p>1 GB</p></td>
      <td><p>1 GB</p></td>
    </tr>
    <tr>
-     <td rowspan="2"><p>From object storage</p></td>
-     <td><p>Free</p></td>
-     <td><p>1,000 Files</p></td>
-     <td><p>1 GB</p></td>
-     <td><p>1 GB</p></td>
-   </tr>
-   <tr>
-     <td><p>Serverless &amp; Dedicated</p></td>
+     <td><p>From object storage</p></td>
      <td><p>1,000 Files</p></td>
      <td><p>10 GB</p></td>
      <td><p>1 TB</p></td>

@@ -12,19 +12,19 @@ type: docx
 token: SSQ6dFGdxouy7hxRwCOcatnEn0e
 sidebar_position: 14
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - has_collection()
   - pymilvus26
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

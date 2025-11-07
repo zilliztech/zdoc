@@ -12,10 +12,10 @@ token: ZEQZf4BtildBijdf1T6cdDnmnZb
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud

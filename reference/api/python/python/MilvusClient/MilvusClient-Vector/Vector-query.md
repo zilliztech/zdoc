@@ -12,19 +12,19 @@ type: docx
 token: Edrcdw34jofMbNxK5HncdDT5n8e
 sidebar_position: 4
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - pymilvus26
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar
@@ -369,16 +369,4 @@ res = client.query(
 
 # [{'count(*)': 3}]
 ```
-
-## Related methods\{#related-methods}
-
-- [delete()](./Vector-delete)
-
-- [get()](./Vector-get)
-
-- [insert()](./Vector-insert)
-
-- search()
-
-- [upsert()](./Vector-upsert)
 

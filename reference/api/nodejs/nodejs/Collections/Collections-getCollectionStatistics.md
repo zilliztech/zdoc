@@ -12,19 +12,19 @@ type: docx
 token: LQMGdRHjKogdeMxekCtcdBLqnNf
 sidebar_position: 12
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStatistics()
   - nodejs26
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

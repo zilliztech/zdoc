@@ -12,19 +12,19 @@ type: docx
 token: E2XJd4ZHvoc7QlxyrEJcrOJOn9f
 sidebar_position: 7
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - nodejs26
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

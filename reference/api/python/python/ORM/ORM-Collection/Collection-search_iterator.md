@@ -12,19 +12,19 @@ type: docx
 token: HrnndnWtKoPuenxvsXBchF1wnnh
 sidebar_position: 26
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - search_iterator()
   - pymilvus26
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

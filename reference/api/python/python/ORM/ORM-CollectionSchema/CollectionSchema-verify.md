@@ -12,19 +12,19 @@ type: docx
 token: KSECdBDcUoIkL7xI4KOc29Ukn1g
 sidebar_position: 5
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - verify()
   - pymilvus26
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

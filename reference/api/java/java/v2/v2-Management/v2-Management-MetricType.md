@@ -12,19 +12,19 @@ type: docx
 token: GEcrdVWnboOetOx08RrcRHVhn3g
 sidebar_position: 14
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - MetricType
   - javaV226
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: S0ITdsnpYoDpH9xKv9fcBhe5nWA
 sidebar_position: 2
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - bulkImport()
   - javaV226
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: OUz3drncZo1Er8xyITZcYz66nWE
 sidebar_position: 3
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - create_role()
   - pymilvus26
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

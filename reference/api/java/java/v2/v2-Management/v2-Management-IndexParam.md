@@ -12,19 +12,19 @@ type: docx
 token: FUNwdQQqAon41YxMWiIcHIBmned
 sidebar_position: 10
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - IndexParam
   - javaV226
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

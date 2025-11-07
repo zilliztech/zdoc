@@ -12,19 +12,19 @@ type: docx
 token: WY4idJdzCozGGnxmLoFcIjC2ndw
 sidebar_position: 29
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - ListCollectionsV2()
   - javaV226
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

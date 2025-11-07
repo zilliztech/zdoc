@@ -12,19 +12,19 @@ type: docx
 token: Ulypd24byoDBOpxGnnJcbF3Nnkb
 sidebar_position: 2
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dict()
   - pymilvus26
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

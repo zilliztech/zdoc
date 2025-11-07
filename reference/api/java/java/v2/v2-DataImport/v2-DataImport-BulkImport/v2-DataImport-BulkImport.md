@@ -12,19 +12,19 @@ type: docx
 token: NIm8dRx2Aozt4Qxv1Q6cAm3Fn97
 sidebar_position: 1
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud
   - BulkImport
   - javaV226
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

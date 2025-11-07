@@ -12,19 +12,19 @@ type: docx
 token: FhbbdNrlNouBXJxHIdKctXVKnmf
 sidebar_position: 13
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - hasCollection()
   - nodejs26
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

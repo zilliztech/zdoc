@@ -1,13 +1,13 @@
 ---
-title: "About | Java | v1"
-slug: /java/v1-About
+title: "About | Java | v2"
+slug: /java/v2-About
 sidebar_label: "About"
-beta: NEAR DEPRECATE
+beta: false
 notebook: FALSE
-description: "Milvus Java SDK is an open-source project and its source code is hosted on GitHub. | Java | v1"
+description: "Milvus Java SDK is an open-source project and its source code is hosted on GitHub. | Java | v2"
 type: origin
 token: D0cfwvTqMiyhSrkCUv4c1a2Fnjd#doxcnwl3WAzrojyyvlllUicOGBd
-sidebar_position: 1
+sidebar_position: 0
 displayed_sidebar: javaSidebar
 
 ---

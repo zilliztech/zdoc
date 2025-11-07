@@ -12,19 +12,19 @@ type: docx
 token: LffbdiHhzoHe08xivF9ccmoen5d
 sidebar_position: 23
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - query_iterator()
   - pymilvus26
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

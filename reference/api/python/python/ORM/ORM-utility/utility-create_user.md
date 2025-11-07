@@ -12,19 +12,19 @@ type: docx
 token: N44ndTSrgoEBx7xCID5cXRS7n1c
 sidebar_position: 5
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - create_user()
   - pymilvus26
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

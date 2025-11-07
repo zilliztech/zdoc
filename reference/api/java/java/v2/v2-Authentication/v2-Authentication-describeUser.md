@@ -12,19 +12,19 @@ type: docx
 token: YLQJdvVA8odibAx7mQscYwMVn8g
 sidebar_position: 6
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - describeUser()
   - javaV226
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

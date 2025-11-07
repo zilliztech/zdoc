@@ -12,19 +12,19 @@ type: docx
 token: Iv1PdIVxYoDOMax47xDcLnbEnXb
 sidebar_position: 9
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - hybrid_search()
   - pymilvus26
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar
@@ -91,7 +91,7 @@ hybrid_search(
 
     The reranking strategy to use for hybrid search.
 
-    For details, refer to Weighted Ranker, RRF Ranker.
+    For details, refer to [Weighted Ranker](/docs/reranking-weighted-reranker), [RRF Ranker](/docs/reranking-rrf) and .
 
 - **limit** (*int*) -
 

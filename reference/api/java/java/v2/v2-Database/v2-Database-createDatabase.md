@@ -12,19 +12,19 @@ type: docx
 token: IqQudFVIKot4mVxWD4xclJymn8g
 sidebar_position: 2
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - createDatabase()
   - javaV226
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

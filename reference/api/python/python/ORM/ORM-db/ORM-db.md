@@ -12,10 +12,10 @@ token: E2Zlf8PdXlx097dT2sNchgqpnbF
 sidebar_position: 4
 sidebar_label: "db"
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud

@@ -12,19 +12,19 @@ type: docx
 token: JJz3dFrE2oJP3AxySWYcJlf4nMh
 sidebar_position: 5
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - describe_role()
   - pymilvus26
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

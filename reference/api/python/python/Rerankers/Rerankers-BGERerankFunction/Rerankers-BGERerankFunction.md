@@ -12,19 +12,19 @@ type: docx
 token: GxAZd9O9gozzhExhMHWcMnXPngh
 sidebar_position: 1
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - BGERerankFunction
   - pymilvus26
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

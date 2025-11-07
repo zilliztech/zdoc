@@ -12,19 +12,19 @@ type: docx
 token: UxOXdeKF1oOIBuxTjPhcKBtPnRb
 sidebar_position: 20
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - releaseCollection()
   - nodejs26
+  - Embedding model
+  - image similarity search
+  - Context Window
   - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

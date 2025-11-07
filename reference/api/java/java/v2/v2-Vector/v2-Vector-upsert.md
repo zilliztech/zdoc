@@ -12,19 +12,19 @@ type: docx
 token: Ei2hd8dE4oGCvJxKbEvcamxTnke
 sidebar_position: 9
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - javaV226
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

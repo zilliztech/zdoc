@@ -12,19 +12,19 @@ type: docx
 token: LSwVdMg4SorzZ5xSHHVcQeVDnfh
 sidebar_position: 16
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - renameCollection()
   - nodejs26
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

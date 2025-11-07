@@ -18,10 +18,10 @@ keywords:
   - collection
   - manage
   - console
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 
@@ -130,13 +130,7 @@ To use functions, you need to add both `SPARSE_FLOAT_VECTOR` and `VARCHAR` field
 
 ### mmap\{#mmap}
 
-Memory mapping (mmap) is a memory usage optimization that enables direct access to large files on disk without loading them to memory. After enabling mmap, you can store more data under the same CU size specifications. As indicated below, mmap is configured with recommended defaults based on your CU type and plan. 
-
-- Free, Serverless, and Dedicated clusters with the extended-capacity CU type have mmap enabled by default. This setting is fixed and cannot be modified, so you may not see mmap configuration options during collection creation.
-
-- Dedicated clusters with the performance-optimized CU type have mmap disabled by default.
-
-- Dedicated clusters with the capacity-optimized CU type have mmap enabled by default.
+Memory mapping (mmap) is a memory usage optimization that enables direct access to large files on disk without loading them to memory. After enabling mmap, you can store more data under the same CU size specifications. As indicated below, mmap is configured with recommended defaults based on your CU type and plan.
 
 For details about the cluster-level default mmap settings, see [Use mmap](./use-mmap#global-mmap-strategy).
 

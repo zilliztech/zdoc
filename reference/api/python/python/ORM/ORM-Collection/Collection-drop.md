@@ -12,19 +12,19 @@ type: docx
 token: L8UTdDNkPoeew0x6LoDcfHx4nof
 sidebar_position: 8
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - drop()
   - pymilvus26
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

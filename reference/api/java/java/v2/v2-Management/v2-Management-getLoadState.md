@@ -12,19 +12,19 @@ type: docx
 token: PAs7dwIIrop4OixCUr8ctHVLnXc
 sidebar_position: 9
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadState()
   - javaV226
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

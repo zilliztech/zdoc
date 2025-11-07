@@ -12,19 +12,19 @@ type: docx
 token: Smobd2lIho2yQPxtRhLcLcKznCf
 sidebar_position: 1
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - VoyageRerankFunction
   - pymilvus26
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

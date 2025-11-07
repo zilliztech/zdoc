@@ -12,19 +12,19 @@ type: docx
 token: QgxEdfBMSodYo6xCg24cH3hInr4
 sidebar_position: 24
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - list_collections()
   - pymilvus26
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

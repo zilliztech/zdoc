@@ -12,19 +12,19 @@ type: docx
 token: Uwsfd443boKKgyx2zZTcYDqKnCe
 sidebar_position: 12
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - flush_all()
   - pymilvus26
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: X8BVdD5I2oCUaZxFKGxcMoionnh
 sidebar_position: 4
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
   - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
   - nodejs26
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

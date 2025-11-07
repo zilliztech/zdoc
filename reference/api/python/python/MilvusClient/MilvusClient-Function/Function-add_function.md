@@ -12,19 +12,19 @@ type: docx
 token: XhcVd1JXvoAgUfxSEpQcL2H6nVg
 sidebar_position: 1
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - add_function()
   - pymilvus26
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

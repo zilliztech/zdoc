@@ -12,19 +12,19 @@ type: docx
 token: XYNMdg3Vpo3SE7xTRVqcJNvrn0d
 sidebar_position: 32
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - load_balance()
   - pymilvus26
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

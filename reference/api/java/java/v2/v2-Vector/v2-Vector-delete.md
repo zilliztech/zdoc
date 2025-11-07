@@ -12,19 +12,19 @@ type: docx
 token: NOX7dAR3zodEH3xinMecMjq5n4S
 sidebar_position: 1
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - javaV226
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

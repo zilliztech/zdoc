@@ -12,19 +12,19 @@ type: docx
 token: Df6GdjeIXoThhVxM6dMcvDqenSe
 sidebar_position: 2
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - compact()
   - javaV226
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

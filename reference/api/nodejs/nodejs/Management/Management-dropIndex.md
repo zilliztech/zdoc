@@ -12,19 +12,19 @@ type: docx
 token: UBbndftiQo2HdOxUNtocIISnnVh
 sidebar_position: 5
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndex()
   - nodejs26
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

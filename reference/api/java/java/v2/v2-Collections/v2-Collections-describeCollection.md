@@ -12,19 +12,19 @@ type: docx
 token: F8lCdDCa3oD48WxWyURcmfoznYt
 sidebar_position: 12
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
   - javaV226
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

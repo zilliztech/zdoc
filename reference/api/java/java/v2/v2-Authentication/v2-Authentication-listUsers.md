@@ -12,19 +12,19 @@ type: docx
 token: EfM3drSXlo4Yzyxq2GpcmvoHnTm
 sidebar_position: 15
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - listUsers()
   - javaV226
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: Q8IidbqKMopplgxSxaicS2o9nwc
 sidebar_position: 5
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - ConsistencyLevel
   - javaV226
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

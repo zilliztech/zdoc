@@ -12,19 +12,19 @@ type: docx
 token: UUJWdoEnjoXx69xahsScdMVSnzf
 sidebar_position: 10
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - revoke()
   - pymilvus26
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

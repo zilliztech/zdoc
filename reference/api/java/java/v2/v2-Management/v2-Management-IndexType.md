@@ -12,19 +12,19 @@ type: docx
 token: SVbSdttVjoTGJrxdLiIcr9VLnPg
 sidebar_position: 11
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
   - IndexType
   - javaV226
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: JXNXdQuwhoYmZQxSohNcdxtwnzh
 sidebar_position: 7
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - list_grant()
   - pymilvus26
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

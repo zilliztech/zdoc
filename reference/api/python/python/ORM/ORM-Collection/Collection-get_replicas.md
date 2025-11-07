@@ -12,19 +12,19 @@ type: docx
 token: BQKPdDd5xo8OPgxoXorcMxk0nVb
 sidebar_position: 14
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - get_replicas()
   - pymilvus26
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

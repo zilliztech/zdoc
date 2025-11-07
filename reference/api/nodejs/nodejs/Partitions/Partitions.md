@@ -12,10 +12,10 @@ token: Hg5PfTIHll3FK4dbYdxcaURHn2n
 sidebar_position: 6
 sidebar_label: "Partitions"
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud

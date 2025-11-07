@@ -12,19 +12,19 @@ type: docx
 token: MJjHd3uGcoxEYBx0laKcAIKNnhg
 sidebar_position: 3
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - describeDatabase()
   - javaV226
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

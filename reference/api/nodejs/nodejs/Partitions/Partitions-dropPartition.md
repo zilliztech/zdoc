@@ -12,19 +12,19 @@ type: docx
 token: BBmsddqZEozxWyxkoADcFfzpncW
 sidebar_position: 2
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - dropPartition()
   - nodejs26
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

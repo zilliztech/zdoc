@@ -12,19 +12,19 @@ type: docx
 token: CWZGd48FJoFHXYx40NMcTd2FnKc
 sidebar_position: 1
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - close()
   - pymilvus26
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

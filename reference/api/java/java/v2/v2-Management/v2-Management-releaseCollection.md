@@ -12,19 +12,19 @@ type: docx
 token: KJArdiXZvoBtdIxumpocfe5knJc
 sidebar_position: 16
 keywords: 
+  - Faiss vector database
+  - Chroma vector database
   - nlp search
   - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - releaseCollection()
   - javaV226
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

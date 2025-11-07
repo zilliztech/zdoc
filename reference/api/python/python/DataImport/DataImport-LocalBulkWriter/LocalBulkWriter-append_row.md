@@ -12,19 +12,19 @@ type: docx
 token: WCxIdVwCpoIaMUxbabWcSRCkn2g
 sidebar_position: 1
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - append_row()
   - pymilvus26
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

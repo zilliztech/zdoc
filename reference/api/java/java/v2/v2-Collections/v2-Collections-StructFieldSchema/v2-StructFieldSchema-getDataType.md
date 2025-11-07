@@ -12,19 +12,19 @@ type: docx
 token: MPJ0dxzDIoNKYPxGA5PcD2F8nRb
 sidebar_position: 1
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - getDataType()
   - javaV226
-  - Sparse vector
   - Vector Dimension
   - ANN Search
   - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

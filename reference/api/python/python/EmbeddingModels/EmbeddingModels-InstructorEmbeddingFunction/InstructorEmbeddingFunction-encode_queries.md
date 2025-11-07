@@ -12,19 +12,19 @@ type: docx
 token: LrvhdFR5Vo1ZnExohgicdi58njc
 sidebar_position: 2
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus26
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

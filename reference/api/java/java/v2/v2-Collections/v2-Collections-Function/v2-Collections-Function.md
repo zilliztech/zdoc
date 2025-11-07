@@ -12,19 +12,19 @@ type: docx
 token: CW06d3MZQo2AzuxIv2ycCFpsn4b
 sidebar_position: 3
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
   - Function
   - javaV226
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: C8kgdOn3pozkrtxCBMLcqcSTnTb
 sidebar_position: 8
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - nodejs26
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

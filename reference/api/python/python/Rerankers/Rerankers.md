@@ -12,10 +12,10 @@ token: Ph7xfldrplFoihdiSAkciCuenyh
 sidebar_position: 5
 sidebar_label: "Rerankers"
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud

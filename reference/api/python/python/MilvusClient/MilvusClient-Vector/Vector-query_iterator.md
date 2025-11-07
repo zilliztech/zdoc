@@ -12,19 +12,19 @@ type: docx
 token: L6i8dmvsBogcmIxtORsc1Mu0nhg
 sidebar_position: 5
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - query_iterator()
   - pymilvus26
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

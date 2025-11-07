@@ -12,19 +12,19 @@ type: docx
 token: XfxvdiIdOokuN1xiVBWct34Wnre
 sidebar_position: 1
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus26
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

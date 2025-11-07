@@ -12,19 +12,19 @@ type: docx
 token: WazKdTlcOoYoBWxIJEEc7gFMnfC
 sidebar_position: 18
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - revoke_privilege_v2()
   - pymilvus26
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

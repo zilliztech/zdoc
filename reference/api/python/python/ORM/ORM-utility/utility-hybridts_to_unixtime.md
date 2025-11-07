@@ -12,19 +12,19 @@ type: docx
 token: HbMMdqtQGoQqwixsyrjcTTh0nu5
 sidebar_position: 20
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - hybridts_to_unixtime()
   - pymilvus26
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
   - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

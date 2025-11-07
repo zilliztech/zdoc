@@ -12,19 +12,19 @@ type: docx
 token: RFv2dtZ1qoP9XQxJEGqcgLGUnhc
 sidebar_position: 9
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - dropUser()
   - javaV226
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

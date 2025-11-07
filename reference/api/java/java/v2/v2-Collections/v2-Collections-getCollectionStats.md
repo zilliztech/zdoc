@@ -12,19 +12,19 @@ type: docx
 token: E27SdesNPoKA8zx6jHkcejt0nWg
 sidebar_position: 17
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStats()
   - javaV226
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

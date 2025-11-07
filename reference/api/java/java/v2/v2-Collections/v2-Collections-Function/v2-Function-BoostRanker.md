@@ -12,19 +12,19 @@ type: docx
 token: QO5ldltYOoo5uFxS4ZJc24JWnUh
 sidebar_position: 1
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
   - BoostRanker
   - javaV226
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

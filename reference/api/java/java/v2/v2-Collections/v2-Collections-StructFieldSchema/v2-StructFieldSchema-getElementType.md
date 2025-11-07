@@ -12,19 +12,19 @@ type: docx
 token: PvRGdribPou7PHxcoSWcRK3unUc
 sidebar_position: 3
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - getElementType()
   - javaV226
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

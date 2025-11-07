@@ -12,19 +12,19 @@ type: docx
 token: IpSBdcabbosobvxQkAEcv6CvnJd
 sidebar_position: 4
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - disconnect()
   - pymilvus26
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

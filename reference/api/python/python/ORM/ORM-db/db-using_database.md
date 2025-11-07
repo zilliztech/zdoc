@@ -12,19 +12,19 @@ type: docx
 token: GXXTd7JIgoUKhzxiI6ncWtwjnVc
 sidebar_position: 4
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - using_database()
   - pymilvus26
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

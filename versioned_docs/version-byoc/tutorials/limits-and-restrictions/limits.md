@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 
@@ -89,7 +89,7 @@ You can create a maximum of **1,024** collections or **4,096** partitions per CU
    </tr>
    <tr>
      <td><p>Vector fields per collection</p></td>
-     <td><ul><li><p>Free &amp; Serverless: 4</p></li><li><p>Dedicated: 10</p></li></ul></td>
+     <td></td>
    </tr>
 </table>
 
@@ -275,11 +275,7 @@ Index types vary with field types. The following table lists the indexable field
 
 ### Flush\{#flush}
 
-The rate limit for flush requests is 0.1 requests per second, imposed at the collection level for specific cluster types. This rate limit applies to:
-
-- Serverless clusters compatible with Milvus 2.4.x or later.
-
-- Dedicated clusters upgraded to the beta version, compatible with Milvus 2.4.x or later.
+The rate limit for flush requests is 0.1 requests per second, imposed at the collection level for specific cluster types. This rate limit applies to clusters compatible with Milvus v2.4.x or later.
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -301,17 +297,7 @@ The rate limit for load requests is **20** req/s per cluster.
 
 Each search request/response should be no greater than **64** MB.
 
-The number of query vectors that each search request carries (usually known as **nq**) varies with your subscription plan:
-
-- For Free and Serverless clusters, the **nq** is no greater than **10**.
-
-- For Dedicated clusters, the **nq** is no greater than **16,384**.
-
-The number that each search response carries (usually known as **topK**) varies with your subscription plan:
-
-- For Free and Serverless clusters, the **topK** is no greater than **1,024** entities in return.
-
-- For Dedicated clusters, the **topK** is no greater than **16,384** entities in return.
+The number of query vectors that each search request carries (ususally known as **nq**) is no greater than **16,384**, and the nubmer that each search response carries (usually known as **topK**) is no greater than **16,384** entities in return.
 
 ### Query\{#query}
 
@@ -344,17 +330,17 @@ Zilliz Cloud also imposes limits on the files to import on the web console.
    <tr>
      <td><p>JSON</p></td>
      <td><p>1 GB</p></td>
-     <td><p><strong>Free</strong>: Each import request can import up to 1 GB of data, with a maximum of 1 GB per file, and no more than 1,000 files per import.</p><p><strong>Serverless & Dedicated</strong>: The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files.</p></td>
+     <td><p>The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files.</p></td>
    </tr>
    <tr>
      <td><p>Parquet</p></td>
      <td><p>1 GB</p></td>
-     <td><p><strong>Free</strong>: Each import request can import up to 1 GB of data, with a maximum of 1 GB per file, and no more than 1,000 files per import.</p><p><strong>Serverless & Dedicated</strong>: The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files.</p></td>
+     <td><p>The maximum total import size is 1 TB and the maximum size of each file is 10 GB with up to 1,000 files.</p></td>
    </tr>
    <tr>
      <td><p>Numpy</p></td>
      <td><p>Not support</p></td>
-     <td><p><strong>Free</strong>: Each import request can import up to 1 GB of data, with a maximum of 1 GB per subdirectory, and no more than 1,000 subdirectories per import.</p><p><strong>Serverless & Dedicated</strong>: The maximum total import size is 1 TB and the maximum size of each subdirectory is 10 GB with up to 1,000 subdirectories.</p></td>
+     <td><p>The maximum total import size is 1 TB and the maximum size of each subdirectory is 10 GB with up to 1,000 subdirectories.</p></td>
    </tr>
 </table>
 
@@ -389,18 +375,5 @@ You can restore a snapshot in the same region as the original cluster of the sna
 
 You can migrate data from other vendors to your Zilliz Cloud cluster, and the maximum number of collections per migration varies with the subscription plan for your Zilliz Cloud cluster.
 
-<table>
-   <tr>
-     <th><p>Subscription Plan of the Target Cluster</p></th>
-     <th><p>Maximum Number of Collections Per Migration</p></th>
-   </tr>
-   <tr>
-     <td><p>Free</p></td>
-     <td><p>5</p></td>
-   </tr>
-   <tr>
-     <td><p>Serverless / Dedicated</p></td>
-     <td><p>10</p></td>
-   </tr>
-</table>
+You can migrate a maximum of **10** collections each time during the migrations.
 

@@ -12,19 +12,19 @@ type: docx
 token: HVGNdMYOvojQoXxvDmEcnHYanMh
 sidebar_position: 1
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - CrossEncoderRerankFunction
   - pymilvus26
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

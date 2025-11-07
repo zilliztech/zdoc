@@ -12,19 +12,19 @@ type: docx
 token: L115dnbLyoXAVSxkUKxcuK4gncf
 sidebar_position: 1
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - append_row()
   - javaV226
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

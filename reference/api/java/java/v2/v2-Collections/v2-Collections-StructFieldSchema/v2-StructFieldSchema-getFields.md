@@ -12,19 +12,19 @@ type: docx
 token: FIzIdKrRNooFttxaf3Pc1vOlnnc
 sidebar_position: 4
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - getFields()
   - javaV226
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

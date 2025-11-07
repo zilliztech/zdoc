@@ -12,19 +12,19 @@ type: docx
 token: IeOWd0yR2onm5Ex6XyqcrGjKnpS
 sidebar_position: 1
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClientV2
   - javaV226
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

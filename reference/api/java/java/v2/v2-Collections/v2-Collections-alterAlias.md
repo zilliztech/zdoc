@@ -12,19 +12,19 @@ type: docx
 token: Fv8EdYIt4oThstxgpzqcm7C0nug
 sidebar_position: 1
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - alterAlias()
   - javaV226
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

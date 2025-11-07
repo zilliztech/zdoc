@@ -12,19 +12,19 @@ type: docx
 token: Arn1dIKgwoISFoxT7xVc3UrBnAf
 sidebar_position: 2
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - BulkInsertState
   - pymilvus26
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

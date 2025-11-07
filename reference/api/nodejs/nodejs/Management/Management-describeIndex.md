@@ -12,19 +12,19 @@ type: docx
 token: PePIdiq9po6cplxAoF6ca5C2ntb
 sidebar_position: 4
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
   - nodejs26
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

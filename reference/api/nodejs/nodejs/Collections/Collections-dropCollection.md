@@ -12,19 +12,19 @@ type: docx
 token: KLknda2VtocQSBx7PKVc6F9Nnug
 sidebar_position: 10
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollection()
   - nodejs26
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

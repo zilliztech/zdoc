@@ -12,19 +12,19 @@ type: docx
 token: RaBJd4clVo6KX4xjGJoc3Mz7nhg
 sidebar_position: 18
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - hasCollection()
   - javaV226
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

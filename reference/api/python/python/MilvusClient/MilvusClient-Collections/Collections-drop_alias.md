@@ -12,19 +12,19 @@ type: docx
 token: FpWXdmIuforYz9xUCsqclyCXnLe
 sidebar_position: 10
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - drop_alias()
   - pymilvus26
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

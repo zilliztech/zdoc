@@ -12,19 +12,19 @@ type: docx
 token: EXcNdtZrro7Ufkxp3G6cUArOn7b
 sidebar_position: 2
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - EmbeddingList
   - javaV226
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

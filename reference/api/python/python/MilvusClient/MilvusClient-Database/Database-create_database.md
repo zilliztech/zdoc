@@ -12,19 +12,19 @@ type: docx
 token: S278drWUVoRZ5fx8XkfcWaZfnwh
 sidebar_position: 2
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - create_database()
   - pymilvus26
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

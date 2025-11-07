@@ -12,19 +12,19 @@ type: docx
 token: HGpSdc7AOo7AV3xKCmOcWaIEnrd
 sidebar_position: 19
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - listPrivilegeGroups()
   - nodejs26
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

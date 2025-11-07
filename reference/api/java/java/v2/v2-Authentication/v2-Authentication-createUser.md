@@ -12,19 +12,19 @@ type: docx
 token: OTMXd9uNWoMwe4xvg70cg49Pnmh
 sidebar_position: 4
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
   - createUser()
   - javaV226
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

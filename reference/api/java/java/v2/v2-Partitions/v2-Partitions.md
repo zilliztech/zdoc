@@ -12,10 +12,10 @@ token: JukBfPwp8luly7dRHdWc1MEBnge
 sidebar_position: 6
 sidebar_label: "Partitions"
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud

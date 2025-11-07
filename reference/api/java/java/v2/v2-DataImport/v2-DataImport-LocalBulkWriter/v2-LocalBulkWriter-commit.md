@@ -12,19 +12,19 @@ type: docx
 token: OUhTdWnXBoHqKdxTA0HcdMY5n4b
 sidebar_position: 3
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - commit()
   - javaV226
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: CSaVdr3zao9zFpxaJBgcCTCYnPd
 sidebar_position: 2
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - dropPartition()
   - javaV226
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

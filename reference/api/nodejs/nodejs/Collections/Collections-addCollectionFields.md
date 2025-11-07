@@ -12,19 +12,19 @@ type: docx
 token: FmG6dw3O1ouzgbxnl4jc5T7cnXf
 sidebar_position: 20
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - addCollectionFields()
   - nodejs26
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -78,7 +78,7 @@ milvusClient.addCollectionFields({
 
     - **data_type** (*string)* -
 
-        The data type of the field. For an enumeration of all available data types, please see DataType.
+        The data type of the field. For an enumeration of all available data types, please see [DataType](./Collections-DataType).
 
     - **description** (*string)* -
 

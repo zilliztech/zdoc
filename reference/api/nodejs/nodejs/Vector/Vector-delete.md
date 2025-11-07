@@ -12,19 +12,19 @@ type: docx
 token: KOZHdyeQvo4htOxhO8BcbEudnNd
 sidebar_position: 2
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - nodejs26
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

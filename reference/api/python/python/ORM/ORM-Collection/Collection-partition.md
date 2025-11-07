@@ -12,19 +12,19 @@ type: docx
 token: SvCrdEJIdosGQYxQZhrc2OAXnpd
 sidebar_position: 21
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - partition()
   - pymilvus26
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

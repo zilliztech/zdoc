@@ -12,19 +12,19 @@ type: docx
 token: I63tdWAY2ok8V1xrK4tcrkwjncd
 sidebar_position: 12
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - dropPrivilegeGroup()
   - nodejs26
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

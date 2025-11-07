@@ -20,10 +20,10 @@ keywords:
   - google
   - cloud
   - storage
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 
@@ -36,7 +36,7 @@ import Supademo from '@site/src/components/Supademo';
 
 Zilliz Cloud allows you to integrate with [Google Cloud Storage](https://cloud.google.com/storage) to export audit logs or backup files to designated buckets.
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 <p>This feature is available only to <strong>Dedicated</strong> clusters in an <strong>Enterprise</strong> project.</p>
 

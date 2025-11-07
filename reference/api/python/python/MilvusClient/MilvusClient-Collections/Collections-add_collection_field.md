@@ -12,19 +12,19 @@ type: docx
 token: IquldHhyGo9s4IxF3cicOXGnnNf
 sidebar_position: 20
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - add_collection_field()
   - pymilvus26
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

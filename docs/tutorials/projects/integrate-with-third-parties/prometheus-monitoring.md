@@ -18,10 +18,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 
@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 
 By integrating Zilliz Cloud with Prometheus, you can collect and monitor metrics related to your Zilliz Cloud deployment.
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 <p>This feature is available only to <strong>Dedicated</strong> clusters in an <strong>Enterprise</strong> project.</p>
 

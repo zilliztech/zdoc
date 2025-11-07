@@ -12,19 +12,19 @@ type: docx
 token: LJqud2x3AojxV4xKONocTe4YnFb
 sidebar_position: 4
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus26
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

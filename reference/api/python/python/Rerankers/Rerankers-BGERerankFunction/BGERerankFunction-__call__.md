@@ -12,19 +12,19 @@ type: docx
 token: C2AbdIReZos7HwxiZXIcyW8nnm1
 sidebar_position: 2
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus26
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

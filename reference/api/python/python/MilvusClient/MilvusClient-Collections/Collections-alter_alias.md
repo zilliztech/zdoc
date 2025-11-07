@@ -12,19 +12,19 @@ type: docx
 token: CBc3d1mrdoYqmDxe4Kcc9zxAnzh
 sidebar_position: 1
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - alter_alias()
   - pymilvus26
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -32,7 +32,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 
 ### What can I do if I receive the error "quota exceeded\[reason=disk quota exceeded, please allocate more resources"?{#what-can-i-do-if-i-receive-the-error-quota-exceededreasondisk-quota-exceeded-please-allocate-more-resources}
 
-When inserting or upserting data, you will receive this error because your data exceeds the cluster CU capacity. A free cluster can handle 1 million 768-dimensional vectors. The capacity of a dedicated cluster depends on its [CU type and CU size](./cu-types-explained#assess-capacity).
+When inserting or upserting data, you will receive this error because your data exceeds the cluster CU capacity.  The capacity of a cluster depends on its [CU type and CU size](./cu-types-explained#assess-capacity).
 
 To address this issue, you can follow the instructions below.
 

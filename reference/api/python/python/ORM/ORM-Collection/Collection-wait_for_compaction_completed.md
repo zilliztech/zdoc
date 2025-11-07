@@ -12,19 +12,19 @@ type: docx
 token: VFKIdx0tDoeAzSx4Ud6c3u5Snsf
 sidebar_position: 29
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - wait_for_compaction_completed()
   - pymilvus26
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

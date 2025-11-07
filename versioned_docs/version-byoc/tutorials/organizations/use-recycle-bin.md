@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of all Serverless and Dedicated clusters that have been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration. | BYOC"
+description: "Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of all clusters that have been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration. | BYOC"
 type: origin
 token: JQvjwCDxhiMcj0kpaWicqXsTn1e
 sidebar_position: 3
@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 
@@ -28,7 +28,7 @@ import Admonition from '@theme/Admonition';
 
 # Use Recycle Bin
 
-Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of all Serverless and Dedicated clusters that have been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration.
+Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of all clusters that have been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration.
 
 To use recycle bin, you must be an **Organization Owner**.
 

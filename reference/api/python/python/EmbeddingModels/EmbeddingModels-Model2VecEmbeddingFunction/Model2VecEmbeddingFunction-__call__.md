@@ -12,19 +12,19 @@ type: docx
 token: WJpVd6gQzoxCEUxM93ScXsL5ntA
 sidebar_position: 4
 keywords: 
+  - nlp search
   - hallucinations llm
   - Multimodal search
   - vector search algorithms
-  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus26
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

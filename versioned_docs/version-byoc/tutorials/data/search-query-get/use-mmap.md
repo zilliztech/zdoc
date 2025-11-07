@@ -17,10 +17,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 
@@ -56,48 +56,11 @@ By comparing the data placement procedures in the left and right figures, you ca
 
 The following table lists the global mmap strategy for clusters from different tiers.
 
-<table>
-   <tr>
-     <th rowspan="2"><p>Mmap Target</p></th>
-     <th colspan="3"><p>Dedicated Clusters</p></th>
-     <th rowspan="2"><p>Free Clusters</p><p>Serverless Clusters</p></th>
-   </tr>
-   <tr>
-     <td><p>Performance-optimized</p></td>
-     <td><p>Capacity-optimized</p></td>
-     <td><p>Extended-capacity</p></td>
-   </tr>
-   <tr>
-     <td><p>Scalar field raw data</p></td>
-     <td><p>Disabled &amp; Changeable</p></td>
-     <td><p>Enabled &amp; Changeable</p></td>
-     <td colspan="2"><p>Enabled &amp; Unchangeable</p></td>
-   </tr>
-   <tr>
-     <td><p>Scalar field index</p></td>
-     <td><p>Disabled &amp; Changeable</p></td>
-     <td><p>Enabled &amp; Changeable</p></td>
-     <td colspan="2"><p>Enabled &amp; Unchangeable</p></td>
-   </tr>
-   <tr>
-     <td><p>Vector field raw data</p></td>
-     <td><p>Enabled &amp; Changeable</p></td>
-     <td><p>Enabled &amp; Changeable</p></td>
-     <td colspan="2"><p>Enabled &amp; Unchangeable</p></td>
-   </tr>
-   <tr>
-     <td><p>Vector field index</p></td>
-     <td><p>Disabled &amp; Unchangeable</p></td>
-     <td><p>Disabled &amp; Unchangeable</p></td>
-     <td colspan="2"><p>Enabled &amp; Unchangeable</p></td>
-   </tr>
-</table>
+In clusters using the **Performance-optimized** CUs, Zilliz Cloud enables mmap only for the raw data in vector fields and loads the raw data in scalar fields and all field indexes into memory. You are advised to keep the global settings to ensure the performance of metadata filtering and retrieval during searches and queries. However, you can still enable mmap for those fields that are not involved in metadata filtering or used as output fields.
 
-In dedicated clusters using the **Performance-optimized** CUs, Zilliz Cloud enables mmap only for the raw data in vector fields and loads the raw data in scalar fields and all field indexes into memory. You are advised to keep the global settings to ensure the performance of metadata filtering and retrieval during searches and queries. However, you can still enable mmap for those fields that are not involved in metadata filtering or used as output fields.
+In clusters using the **Capacity-optimized** CUs, Zilliz Cloud disables mmap for the vector field indexes for the sake of auto-indexing and memory-maps the indexes of scalar fields and all field raw data, ensuring the maximum storage capacity. If the raw data of some fields used in metadata filtering conditions or listed in the output fields is too large and leaving them on the hard drive causes slow response or network jitters, you can consider disabling mmap for these fields to improve search performance. 
 
-In dedicated clusters using the **Capacity-optimized** CUs, Zilliz Cloud disables mmap for the vector field indexes for the sake of auto-indexing and memory-maps the indexes of scalar fields and all field raw data, ensuring the maximum storage capacity. If the raw data of some fields used in metadata filtering conditions or listed in the output fields is too large and leaving them on the hard drive causes slow response or network jitters, you can consider disabling mmap for these fields to improve search performance. 
-
-In **Free** and **Serverless** clusters and the dedicated clusters using **Extended-capacity CUs**, Zilliz Cloud enables mmap for the raw data and indexes of all fields to fully utilize the system cache, improve the performance of hot data, and reduce the cost of cold data.
+In clusters and the dedicated clusters using **Extended-capacity CUs**, Zilliz Cloud enables mmap for the raw data and indexes of all fields to fully utilize the system cache, improve the performance of hot data, and reduce the cost of cold data.
 
 ## Collection-specific mmap settings\{#collection-specific-mmap-settings}
 

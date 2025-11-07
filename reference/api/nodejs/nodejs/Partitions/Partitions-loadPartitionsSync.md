@@ -12,19 +12,19 @@ type: docx
 token: VGofdSRi0o6EagxNkokc9Iinndf
 sidebar_position: 7
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitionsSync()
   - nodejs26
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

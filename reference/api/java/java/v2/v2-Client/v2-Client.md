@@ -12,10 +12,10 @@ token: QW8NfURhvl0NtOdmS3DcvQYCnFh
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud

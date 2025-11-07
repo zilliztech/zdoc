@@ -12,19 +12,19 @@ type: docx
 token: RrW9dOM8do7d3ixXIP9clJJUnVg
 sidebar_position: 3
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - Function
   - pymilvus26
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar
@@ -292,13 +292,13 @@ Function(
 
             - `truncate_prompt_tokens` *(int)*: **[vLLM only]** Number of tokens to keep from the end of the prompt when truncating. For details, refer to [vLLM Ranker](https://milvus.io/docs/vllm-ranker.md).
 
-            - `max_tokens_per_doc` *(int)*: **[Cohere only]** Maximum number of tokens per document. Long documents will be automatically truncated to the specified number of tokens. For details, refer to Cohere Ranker.
+            - `max_tokens_per_doc` *(int)*: **[Cohere only]** Maximum number of tokens per document. Long documents will be automatically truncated to the specified number of tokens. For details, refer to [Cohere Ranker](https://milvus.io/docs/cohere-ranker.md).
 
-            - `truncation` *(bool)*: **[Voyage AI only]** Whether to truncate the input to satisfy the "context length limit" on the query and the documents. For details, refer to Voyage AI Ranker.
+            - `truncation` *(bool)*: **[Voyage AI only]** Whether to truncate the input to satisfy the "context length limit" on the query and the documents. For details, refer to [Voyage AI Ranker](https://milvus.io/docs/voyage-ai-ranker.md).
 
-            - `max_chunks_per_doc` *(int)*: **[SiliconFlow only]** Maximum number of chunks generated from within a document. For details, refer to SiliconFlow Ranker.
+            - `max_chunks_per_doc` *(int)*: **[SiliconFlow only]** Maximum number of chunks generated from within a document. For details, refer to [SiliconFLow Ranker](https://milvus.io/docs/siliconflow-ranker.md).
 
-            - `overlap_tokens`  *(int)*: **[SiliconFlow only]** Number of token overlaps between adjacent chunks when documents are chunked. For details, refer to SiliconFlow Ranker.
+            - `overlap_tokens`  *(int)*: **[SiliconFlow only]** Number of token overlaps between adjacent chunks when documents are chunked. For details, refer to [SiliconFLow Ranker](https://milvus.io/docs/siliconflow-ranker.md).
 
 - `description` (*str*) -
 

@@ -12,19 +12,19 @@ type: docx
 token: SJ3ndk2d7oQbAOxP5iHcGtr1nrb
 sidebar_position: 3
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - commit()
   - javaV226
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: JzDLdkv3QoCY8OxKpBjc5zsmnId
 sidebar_position: 1
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - CohereEmbeddingFunction
   - pymilvus26
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

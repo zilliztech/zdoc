@@ -12,19 +12,19 @@ type: docx
 token: JqOJdOA6Dooy2cxAXTkcQpBEnyk
 sidebar_position: 19
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - addCollectionField()
   - nodejs26
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
@@ -78,7 +78,7 @@ milvusClient.addCollectionField({
 
     - **data_type** (*string)* -
 
-        The data type of the field. For an enumeration of all available data types, please see DataType.
+        The data type of the field. For an enumeration of all available data types, please see [DataType](./Collections-DataType).
 
     - **description** (*string)* -
 

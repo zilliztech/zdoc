@@ -12,19 +12,19 @@ type: docx
 token: G7F9dQ8DwoZsaVxExdnc7K6an3g
 sidebar_position: 5
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - LocalBulkWriter
   - javaV226
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

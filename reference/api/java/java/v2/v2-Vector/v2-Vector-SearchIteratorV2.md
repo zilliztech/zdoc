@@ -12,19 +12,19 @@ type: docx
 token: JxXHdFBRhoDT8MxlTvEc42IsnEh
 sidebar_position: 11
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - SearchIteratorV2()
   - javaV226
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

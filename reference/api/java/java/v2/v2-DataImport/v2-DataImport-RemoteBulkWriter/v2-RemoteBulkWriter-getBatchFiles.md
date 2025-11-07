@@ -12,19 +12,19 @@ type: docx
 token: YlpQdEUnKoFR3xxizt2cCV8UnZb
 sidebar_position: 4
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - getBatchFiles()
   - javaV226
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: H9IFdpWWUouzXOxKlx9cImP8nnd
 sidebar_position: 1
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - add_field()
   - pymilvus26
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

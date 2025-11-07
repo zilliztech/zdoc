@@ -12,19 +12,19 @@ type: docx
 token: Y2prdJqs9oEOyax1S9acKecan8e
 sidebar_position: 19
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - FunctionType
   - pymilvus26
+  - Chroma vs Milvus
+  - Annoy vector search
   - milvus
   - Zilliz
-  - milvus vector database
-  - milvus db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar
@@ -50,7 +50,3 @@ This is an enumeration that provides the following constants.
 - RERANK = 3
 
     Sets the function type to **RERANK**. This indicates that Milvus will use a ranker to rerank candidates for improved search performance.
-
-- UNKNOWN = 999
-
-    Sets the data type to **Unknown**.

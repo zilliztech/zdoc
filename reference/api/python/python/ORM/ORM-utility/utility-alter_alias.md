@@ -12,19 +12,19 @@ type: docx
 token: MfTsdrbGcoO9JqxjgPtcMZTvncc
 sidebar_position: 1
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - alter_alias()
   - pymilvus26
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

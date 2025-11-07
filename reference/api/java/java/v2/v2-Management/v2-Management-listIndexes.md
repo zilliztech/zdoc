@@ -12,19 +12,19 @@ type: docx
 token: LxwIdeFiGoYaRAxKS72cdjNkneh
 sidebar_position: 12
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
   - listIndexes()
   - javaV226
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: VRGwdg75Ao7ZXQx7uANc9wzXnVb
 sidebar_position: 3
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - pymilvus26
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: U4Q8deNe2offXCx3OgIc9QJPnnh
 sidebar_position: 2
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - CollectionSchema
   - pymilvus26
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

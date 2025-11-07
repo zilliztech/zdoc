@@ -12,19 +12,19 @@ type: docx
 token: DAIfdXKk5oCHeNxOUvCc1KcpnNh
 sidebar_position: 24
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - CreateSchema()
   - javaV226
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

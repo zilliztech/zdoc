@@ -12,19 +12,19 @@ type: docx
 token: KBujdxXhko2zJjx4hFmcsHGhn4g
 sidebar_position: 2
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus26
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: QIpldgpB1oP5IYxNSSdcyRNcn1c
 sidebar_position: 2
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - DecayRanker
   - javaV226
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

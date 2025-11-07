@@ -12,19 +12,19 @@ type: docx
 token: Djg7dlb5NoINz9xOAs1cyY67nsh
 sidebar_position: 15
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - listCollections()
   - nodejs26
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

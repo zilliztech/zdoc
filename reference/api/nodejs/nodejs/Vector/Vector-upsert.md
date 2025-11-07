@@ -12,19 +12,19 @@ type: docx
 token: MpW0dmPAao1SWkx7HGkcT16dnvb
 sidebar_position: 9
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - nodejs26
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

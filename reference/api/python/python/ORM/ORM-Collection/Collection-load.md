@@ -12,19 +12,19 @@ type: docx
 token: HQDndiGwloWKIexgPCUcEZGenOh
 sidebar_position: 20
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - load()
   - pymilvus26
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

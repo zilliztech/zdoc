@@ -12,19 +12,19 @@ type: docx
 token: Vv4NdWVa5o5BSrx11OZcNVnQnbh
 sidebar_position: 20
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - listCollections()
   - javaV226
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: ClLXdDs64oixJBxlIrCcEB2dngb
 sidebar_position: 27
 keywords: 
+  - Audio similarity search
+  - Elastic vector database
   - Pinecone vs Milvus
   - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - list_roles()
   - pymilvus26
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

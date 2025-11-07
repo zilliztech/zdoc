@@ -12,19 +12,19 @@ type: docx
 token: XAIndF6XWoQzvRxDvpLcgEE1nEb
 sidebar_position: 5
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - RemoteBulkWriter
   - javaV226
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

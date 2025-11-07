@@ -12,19 +12,19 @@ type: docx
 token: VccVd4MTgoPzCixDVtgcEoKWnPf
 sidebar_position: 3
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - commit()
   - pymilvus26
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

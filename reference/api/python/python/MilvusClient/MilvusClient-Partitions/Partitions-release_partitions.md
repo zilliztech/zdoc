@@ -12,19 +12,19 @@ type: docx
 token: VblKdUEU4o4t31xcFiicIGtjn9g
 sidebar_position: 7
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - release_partitions()
   - pymilvus26
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

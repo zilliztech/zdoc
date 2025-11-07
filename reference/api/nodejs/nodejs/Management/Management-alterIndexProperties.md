@@ -12,19 +12,19 @@ type: docx
 token: PcQcdDwthoSEZaxI6GncpUpGnBh
 sidebar_position: 1
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - alterIndexProperties()
   - nodejs26
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

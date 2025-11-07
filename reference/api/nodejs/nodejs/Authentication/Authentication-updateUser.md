@@ -12,19 +12,19 @@ type: docx
 token: BCGKdCttdotF32xUJTec8UFlndg
 sidebar_position: 28
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
   - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - updateUser()
   - nodejs26
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

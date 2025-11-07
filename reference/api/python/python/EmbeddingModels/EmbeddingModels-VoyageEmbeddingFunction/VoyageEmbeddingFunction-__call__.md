@@ -12,19 +12,19 @@ type: docx
 token: DQFbdMhfcodFuxxhYFeccDzEnkf
 sidebar_position: 4
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus26
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: E3opdXwZCoY8igxMjQ1cwsTbnzh
 sidebar_position: 1
 keywords: 
-  - Vector search
   - knn algorithm
   - HNSW
   - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - JinaRerankFunction
   - pymilvus26
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

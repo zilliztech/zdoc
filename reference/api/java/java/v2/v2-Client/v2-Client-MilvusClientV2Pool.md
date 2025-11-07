@@ -12,19 +12,19 @@ type: docx
 token: UrjHd9KZKo1Rlfxfj8AcmXNinlg
 sidebar_position: 2
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClientV2Pool
   - javaV226
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

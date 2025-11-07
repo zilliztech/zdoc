@@ -12,19 +12,19 @@ type: docx
 token: TWOxdwDYRo4CCHxDdZbc7IOznCg
 sidebar_position: 17
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - has_collection()
   - pymilvus26
+  - Sparse vs Dense
+  - Dense vector
   - Hierarchical Navigable Small Worlds
   - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

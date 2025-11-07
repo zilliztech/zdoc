@@ -12,19 +12,19 @@ type: docx
 token: Lp8AdBebwoF7bLx7Q8Jc3Qz0nF9
 sidebar_position: 4
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
   - javaV226
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

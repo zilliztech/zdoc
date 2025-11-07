@@ -12,19 +12,19 @@ type: docx
 token: Aym2dpBuIo81mExCqyLcSWhunBe
 sidebar_position: 10
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - drop_partition()
   - pymilvus26
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

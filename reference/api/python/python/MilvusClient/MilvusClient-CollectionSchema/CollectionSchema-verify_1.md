@@ -12,19 +12,19 @@ type: docx
 token: TfV3dOYPyoKVSMxShrTc9SZ2nqh
 sidebar_position: 5
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
   - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - verify()
   - pymilvus26
+  - Zilliz database
+  - Unstructured Data
   - vector database
   - IVF
-  - knn
-  - Image Search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

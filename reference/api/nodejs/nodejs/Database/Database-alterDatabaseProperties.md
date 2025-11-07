@@ -12,19 +12,19 @@ type: docx
 token: NNWed9Vd1o7vDkxY4pncM4wYnaf
 sidebar_position: 7
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - alterDatabaseProperties()
   - nodejs26
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

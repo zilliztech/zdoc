@@ -12,19 +12,19 @@ type: docx
 token: GE25dbBmMoU8glxCWbJckYObnN1
 sidebar_position: 2
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - uploadFilesAsync
   - javaV226
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

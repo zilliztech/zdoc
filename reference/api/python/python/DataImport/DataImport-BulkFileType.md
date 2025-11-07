@@ -12,19 +12,19 @@ type: docx
 token: NV3Ud1M9iojhaSxZY4ec8RjgnlP
 sidebar_position: 1
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - BulkFileType
   - pymilvus26
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: G6CGdbM4QoNgr5xS1ZAc94lhnFd
 sidebar_position: 11
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - getIndexBuildProgress()
   - nodejs26
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

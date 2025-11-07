@@ -12,19 +12,19 @@ type: docx
 token: BLFEde4BuoCjTSxjYSUcZerEnOb
 sidebar_position: 4
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - getBatchFiles()
   - javaV226
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

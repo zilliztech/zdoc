@@ -12,19 +12,19 @@ type: docx
 token: X5qsdhFQ5oOhkcxOprzcOZq4nMc
 sidebar_position: 4
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - create_resource_group()
   - pymilvus26
-  - private llms
-  - nn search
   - llm eval
   - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

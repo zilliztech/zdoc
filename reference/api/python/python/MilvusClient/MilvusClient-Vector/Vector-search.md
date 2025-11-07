@@ -12,19 +12,19 @@ type: docx
 token: N6afdOON2o3U0YxMAt7cMiBqnXg
 sidebar_position: 6
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - pymilvus26
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar
@@ -198,7 +198,7 @@ search(
 
     The ranker to use for the search.
 
-    For details, refer to Decay Ranker Overview and Model Ranker Overview.
+    For details, refer to [Decay Ranker Overview](/docs/decay-ranker-oveview) and .
 
 - **kwargs** -
 
@@ -364,16 +364,4 @@ res = client.search(
 #   {'id': 1, 'distance': 0.2993225157260895, 'entity': {}}]]
 
 ```
-
-## Related methods\{#related-methods}
-
-- [delete()](./Vector-delete)
-
-- [get()](./Vector-get)
-
-- [insert()](./Vector-insert)
-
-- [query()](./Vector-query)
-
-- [upsert()](./Vector-upsert)
 

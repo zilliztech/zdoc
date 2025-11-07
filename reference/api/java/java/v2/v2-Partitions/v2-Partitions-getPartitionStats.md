@@ -12,19 +12,19 @@ type: docx
 token: ZCESd1IrfoFHByx125kcd38Zndg
 sidebar_position: 3
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - getPartitionStats()
   - javaV226
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: PmHrdRirloGrFExMMfcc5un0n1g
 sidebar_position: 7
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - javaV226
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

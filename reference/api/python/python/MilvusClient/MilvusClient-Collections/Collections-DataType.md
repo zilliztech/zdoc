@@ -12,19 +12,19 @@ type: docx
 token: KvNsd3aV4ocRNJxrZN2cg1zenqb
 sidebar_position: 7
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
   - pymilvus26
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

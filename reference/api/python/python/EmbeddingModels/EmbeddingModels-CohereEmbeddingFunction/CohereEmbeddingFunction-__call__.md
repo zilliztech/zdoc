@@ -12,19 +12,19 @@ type: docx
 token: P2n8d2wQtoK8YqxnccocmNwRnKb
 sidebar_position: 4
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call()\_\_
   - pymilvus26
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

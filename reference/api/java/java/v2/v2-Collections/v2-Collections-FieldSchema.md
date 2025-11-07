@@ -12,19 +12,19 @@ type: docx
 token: WeXmdv8bioJ7AEx9sEtct6kgnUd
 sidebar_position: 16
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - FieldSchema
   - javaV226
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

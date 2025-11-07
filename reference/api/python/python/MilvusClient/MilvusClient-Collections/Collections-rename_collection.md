@@ -12,19 +12,19 @@ type: docx
 token: IeiIdJ71Pox2OjxMiOzczUTenud
 sidebar_position: 18
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - rename_collection()
   - pymilvus26
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

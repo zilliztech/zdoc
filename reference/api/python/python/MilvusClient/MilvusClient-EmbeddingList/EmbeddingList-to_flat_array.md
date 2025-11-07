@@ -12,19 +12,19 @@ type: docx
 token: Z76PdoAJkoGaMPxG4CFcCmShnwh
 sidebar_position: 5
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - to_flat_array()
   - pymilvus26
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

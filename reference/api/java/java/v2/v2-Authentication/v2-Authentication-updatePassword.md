@@ -12,19 +12,19 @@ type: docx
 token: GQH8dgqlPoRY1sxFhCRcLlgInNc
 sidebar_position: 20
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - updatePassword()
   - javaV226
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

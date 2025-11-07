@@ -12,19 +12,19 @@ type: docx
 token: JB90dbBNRoz1I2xZY5rcSmJ1nSb
 sidebar_position: 12
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - grantRole()
   - javaV226
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

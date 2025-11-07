@@ -12,19 +12,19 @@ type: docx
 token: QXDxdv36FoVgjcxDV1gcDwWXnsd
 sidebar_position: 5
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
   - pymilvus26
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

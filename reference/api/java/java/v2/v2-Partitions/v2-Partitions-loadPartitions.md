@@ -12,19 +12,19 @@ type: docx
 token: IBTSd8lrvoAYLzxl6Z8cEVoXnMd
 sidebar_position: 6
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitions()
   - javaV226
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

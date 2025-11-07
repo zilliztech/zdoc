@@ -12,19 +12,19 @@ type: docx
 token: FZuddXocNopEufxRFGdcbvkRnnb
 sidebar_position: 6
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - list_databases()
   - pymilvus26
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: I6hvdlYUuoUaw3xWqSnce4Fin9g
 sidebar_position: 1
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - create_partition()
   - pymilvus26
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

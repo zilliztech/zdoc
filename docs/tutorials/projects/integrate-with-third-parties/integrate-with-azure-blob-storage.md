@@ -20,10 +20,10 @@ keywords:
   - azure
   - blob
   - storage
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 
@@ -34,7 +34,7 @@ import Admonition from '@theme/Admonition';
 
 Zilliz Cloud allows you to integrate with [Azure Blob Storage](https://azure.microsoft.com/en-us/products/storage/blobs) to export backup files or audit logs to designated containers.
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 <p>This feature is available only to <strong>Dedicated</strong> clusters in an <strong>Enterprise</strong> project.</p>
 

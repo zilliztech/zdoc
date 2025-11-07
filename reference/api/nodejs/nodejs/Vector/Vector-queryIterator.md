@@ -12,19 +12,19 @@ type: docx
 token: Ru8IdsrG8oayAWxly1PcqMGFnxd
 sidebar_position: 7
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - queryIterator()
   - nodejs26
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

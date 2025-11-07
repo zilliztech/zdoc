@@ -12,19 +12,19 @@ type: docx
 token: XQAQd2tPKon4JgxKEoAc0CCHnUg
 sidebar_position: 6
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - to_numpy()
   - pymilvus26
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

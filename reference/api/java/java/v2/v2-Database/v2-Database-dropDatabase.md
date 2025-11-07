@@ -12,19 +12,19 @@ type: docx
 token: LwqSdN6s5oZBhAxzQsxcnXswnah
 sidebar_position: 4
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabase()
   - javaV226
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

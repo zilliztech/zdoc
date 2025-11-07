@@ -12,19 +12,19 @@ type: docx
 token: DZcddGCD3oh29txhnB5cuxzzn4d
 sidebar_position: 6
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - getName()
   - javaV226
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

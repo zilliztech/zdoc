@@ -12,10 +12,10 @@ type: docx
 token: DK7ZdxRCyoepyxx0odzcH66xnu3
 sidebar_position: 1
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud

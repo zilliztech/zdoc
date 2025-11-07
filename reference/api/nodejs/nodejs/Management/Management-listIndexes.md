@@ -12,19 +12,19 @@ type: docx
 token: N1fldMqhtoWBJPxh8VccivqxnZd
 sidebar_position: 16
 keywords: 
+  - Similarity Search
+  - multimodal RAG
   - llm hallucinations
   - hybrid search
-  - lexical search
-  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - listIndexes()
   - nodejs26
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

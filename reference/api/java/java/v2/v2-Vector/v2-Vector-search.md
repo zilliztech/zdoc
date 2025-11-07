@@ -12,19 +12,19 @@ type: docx
 token: Rz5rdpGzGoNlByxy8cVcbUy9nhd
 sidebar_position: 7
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - javaV226
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

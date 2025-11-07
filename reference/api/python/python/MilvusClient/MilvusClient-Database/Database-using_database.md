@@ -12,19 +12,19 @@ type: docx
 token: OCfid8DdPo1ga1x24JZcV92xnwd
 sidebar_position: 7
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - using_database()
   - pymilvus26
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: EjnFdC5EfoIkoExSBOxcEC2hnbg
 sidebar_position: 3
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - getImportProgress()
   - javaV226
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

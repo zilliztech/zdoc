@@ -12,19 +12,19 @@ type: docx
 token: AXWod56QkoprlXxOXkwcPXfonHg
 sidebar_position: 3
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - getField()
   - javaV226
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

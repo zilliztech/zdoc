@@ -12,19 +12,19 @@ type: docx
 token: SAAmdJbZxoYTlNxKrX7cDLvAnFy
 sidebar_position: 13
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollection()
   - javaV226
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

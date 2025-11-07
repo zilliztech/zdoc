@@ -12,19 +12,19 @@ type: docx
 token: UjjpdBwaooRDdlxFHScc6dKwnTg
 sidebar_position: 8
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
   - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - pymilvus26
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar
@@ -264,16 +264,4 @@ res = client.upsert(
 
 # {'upsert_count': 2: primary_keys: [1, 2]}
 ```
-
-## Related methods\{#related-methods}
-
-- [delete()](./Vector-delete)
-
-- [get()](./Vector-get)
-
-- [insert()](./Vector-insert)
-
-- [query()](./Vector-query)
-
-- search()
 

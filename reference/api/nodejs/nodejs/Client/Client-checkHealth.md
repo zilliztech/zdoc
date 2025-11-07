@@ -12,19 +12,19 @@ type: docx
 token: DDvudeY20o6tV5xwwo4cKovjnHf
 sidebar_position: 2
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - checkHealth()
   - nodejs26
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

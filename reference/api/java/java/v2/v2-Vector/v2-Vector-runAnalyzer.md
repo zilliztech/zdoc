@@ -12,19 +12,19 @@ type: docx
 token: S2RfdHUQro7atExpfJBc6FPfnZe
 sidebar_position: 10
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - runAnalyzer()
   - javaV226
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

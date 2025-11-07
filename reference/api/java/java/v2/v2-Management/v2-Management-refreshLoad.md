@@ -12,19 +12,19 @@ type: docx
 token: CAmHdisseogwBkx8XWUcM6aHnfe
 sidebar_position: 15
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - refreshLoad()
   - javaV226
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

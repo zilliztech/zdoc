@@ -12,19 +12,19 @@ type: docx
 token: CAzpdAw3wo4ZqrxhjTLcEGBBn1S
 sidebar_position: 11
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - prepare_index_params()
   - pymilvus26
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

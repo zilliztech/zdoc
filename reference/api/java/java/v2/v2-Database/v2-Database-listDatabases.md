@@ -12,19 +12,19 @@ type: docx
 token: IHoodknUJohFAbxMFg3c0q8un6f
 sidebar_position: 6
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
   - javaV226
+  - information retrieval
   - dimension reduction
   - hnsw algorithm
   - vector similarity search
-  - approximate nearest neighbor search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

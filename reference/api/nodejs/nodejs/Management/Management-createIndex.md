@@ -12,19 +12,19 @@ type: docx
 token: Nu0Id3wzGoJIFyxkC7IcmjAznNf
 sidebar_position: 3
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
   - nodejs26
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

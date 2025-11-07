@@ -12,19 +12,19 @@ type: docx
 token: Fr3rdPTuXoC0Lzx7urIcwBqWnDb
 sidebar_position: 2
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - upload_file_to_stage()
   - pymilvus26
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

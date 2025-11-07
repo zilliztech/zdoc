@@ -12,19 +12,19 @@ type: docx
 token: Cde1dlUbDosa86xjuShcoKgQnvg
 sidebar_position: 3
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - listStages()
   - javaV226
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

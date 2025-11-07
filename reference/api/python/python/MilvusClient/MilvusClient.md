@@ -12,10 +12,10 @@ token: B2fdfjb1nl9Pjidkaa9cM6lAngd
 sidebar_position: 3
 sidebar_label: "MilvusClient"
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud

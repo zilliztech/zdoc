@@ -21,10 +21,10 @@ keywords:
   - cloud
   - dropIndex()
   - javaV226
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

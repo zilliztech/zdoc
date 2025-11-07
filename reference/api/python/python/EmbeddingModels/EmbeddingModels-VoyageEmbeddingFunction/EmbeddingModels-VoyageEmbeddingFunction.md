@@ -12,19 +12,19 @@ type: docx
 token: HEyLd2lxzo3bl4xqVBOco8vWn1c
 sidebar_position: 3
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - VoyageEmbeddingFunction
   - pymilvus26
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

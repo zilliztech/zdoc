@@ -12,19 +12,19 @@ type: docx
 token: E5rYdw3EWo2WKZxEyGac049an3e
 sidebar_position: 11
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - dropAllRoles()
   - nodejs26
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

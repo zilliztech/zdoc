@@ -12,10 +12,10 @@ token: ABk9fhVMTlQb0MdGuOrck8a8n7f
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud

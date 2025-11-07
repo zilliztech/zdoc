@@ -12,10 +12,10 @@ token: ALDZfPYy3lNm8ZdotPecBX7rnNd
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 
@@ -39,7 +39,7 @@ Configuring replicas will affect the cluster's monthly CU cost. The storage cost
 
 This guide outlines the procedures of configuring replicas for a cluster in Zilliz Cloud.
 
-<Admonition type="info" icon="📘" title="说明">
+<Admonition type="info" icon="📘" title="Notes">
 
 <p>This feature is available only to <strong>Dedicated</strong> clusters in an <strong>Enterprise</strong> project.</p>
 

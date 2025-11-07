@@ -12,19 +12,19 @@ type: docx
 token: DsnpdZuDGo77TYxFuYvcDpOgnIf
 sidebar_position: 12
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - grant_role()
   - pymilvus26
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: DMh5d1uiGolDtLxSNpCcWx9On7c
 sidebar_position: 14
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollection()
   - javaV226
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

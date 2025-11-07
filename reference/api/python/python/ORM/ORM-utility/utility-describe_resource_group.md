@@ -12,19 +12,19 @@ type: docx
 token: HScCdxLNJotPCcxb4AZcxsNJn9c
 sidebar_position: 7
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - describe_resource_group()
   - pymilvus26
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

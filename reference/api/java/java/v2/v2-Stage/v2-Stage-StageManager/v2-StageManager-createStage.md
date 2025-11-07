@@ -12,19 +12,19 @@ type: docx
 token: Efi4dCKhFoYpEZxRfWRcvFEXnBg
 sidebar_position: 1
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - createStage()
   - javaV226
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

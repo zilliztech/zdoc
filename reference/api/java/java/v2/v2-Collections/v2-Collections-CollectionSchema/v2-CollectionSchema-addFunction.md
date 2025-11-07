@@ -12,19 +12,19 @@ type: docx
 token: WI76dwejQosQWcxuhkccHOl7nXf
 sidebar_position: 4
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - addFunction()
   - javaV226
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

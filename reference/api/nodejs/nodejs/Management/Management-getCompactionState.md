@@ -12,19 +12,19 @@ type: docx
 token: CRFLdvgkhoeRikxMcMAcJk3qnIc
 sidebar_position: 9
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - getCompactionState()
   - nodejs26
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

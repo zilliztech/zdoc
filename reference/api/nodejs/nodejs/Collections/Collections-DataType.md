@@ -12,19 +12,19 @@ type: docx
 token: AtLEdt0ZWoUbHoxkfvHcq1ZunUg
 sidebar_position: 6
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
   - nodejs26
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

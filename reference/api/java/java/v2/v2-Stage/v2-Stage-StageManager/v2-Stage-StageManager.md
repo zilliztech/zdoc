@@ -12,19 +12,19 @@ type: docx
 token: QHyGdm4FyoFwCzxDgUUc9yQrnPf
 sidebar_position: 4
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - StageManager
   - javaV226
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

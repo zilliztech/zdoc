@@ -12,19 +12,19 @@ type: docx
 token: DDshdoIEoo7X1BxpciBc66Rlndd
 sidebar_position: 2
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - get()
   - javaV226
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

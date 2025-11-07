@@ -12,19 +12,19 @@ type: docx
 token: KVSUdHV0ho7nnwxeQKMcEL47nKe
 sidebar_position: 4
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - hasPartition()
   - javaV226
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: Znb7dcNoeobIkkxGLGfcpVfUnIX
 sidebar_position: 19
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - revokeRole()
   - javaV226
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

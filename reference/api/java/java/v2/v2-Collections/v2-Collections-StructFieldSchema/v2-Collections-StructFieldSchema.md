@@ -12,19 +12,19 @@ type: docx
 token: DCszdG9rCoZxhfxfAuOcNsXRnOc
 sidebar_position: 7
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - StructFieldSchema
   - javaV226
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

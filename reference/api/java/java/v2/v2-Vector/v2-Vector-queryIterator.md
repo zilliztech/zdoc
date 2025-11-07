@@ -12,19 +12,19 @@ type: docx
 token: ByLVdf2nRocLcxxwH3Gc9CyFnbb
 sidebar_position: 6
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - queryIterator()
   - javaV226
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

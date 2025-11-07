@@ -12,19 +12,19 @@ type: docx
 token: Da9KdvvWroKX9cxOwsmcLRBxnVb
 sidebar_position: 10
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - describeUser()
   - nodejs26
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: TRFadKWOAofCVoxH3qYcdTvynHf
 sidebar_position: 14
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - alter_index_properties()
   - pymilvus26
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

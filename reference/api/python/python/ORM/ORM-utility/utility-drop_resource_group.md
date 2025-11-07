@@ -12,19 +12,19 @@ type: docx
 token: EofGdftYjoQ9E6x8mxLcpbG1nhc
 sidebar_position: 11
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - drop_resource_group()
   - pymilvus26
+  - Serverless vector database
   - milvus open source
   - how does milvus work
   - Zilliz vector database
-  - Zilliz database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

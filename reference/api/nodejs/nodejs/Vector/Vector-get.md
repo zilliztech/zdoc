@@ -12,19 +12,19 @@ type: docx
 token: IbxXdvdZlonJk9xnlk2cZlIinCh
 sidebar_position: 3
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - get()
   - nodejs26
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

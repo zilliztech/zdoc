@@ -12,19 +12,19 @@ type: docx
 token: V9YUdnfxDoc5Gmx80Wec9P6Sn2d
 sidebar_position: 7
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - WeightedRanker
   - javaV226
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

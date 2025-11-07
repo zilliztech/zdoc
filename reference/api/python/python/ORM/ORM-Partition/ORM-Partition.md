@@ -21,10 +21,10 @@ keywords:
   - cloud
   - Partition
   - pymilvus26
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,10 +12,10 @@ token: I5i9f86n4lsy9IddsDocMOsfnXg
 sidebar_position: 2
 sidebar_label: "BulkImport"
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud

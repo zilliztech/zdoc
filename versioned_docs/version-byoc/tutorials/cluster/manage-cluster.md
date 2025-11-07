@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 
@@ -42,11 +42,7 @@ Navigate to the **Cluster Details** page of your target cluster and then follow 
 
 ## Suspend cluster\{#suspend-cluster}
 
-For a running Dedicated cluster, you are billed for both CU and storage. To reduce costs, consider suspending the cluster. Only storage charges apply when a Dedicated cluster is suspended.
-
-Please note that during suspension, you cannot perform other actions on the cluster.
-
-You can suspend a Dedicated cluster via the web console or programmatically.
+You can suspend a cluster via the web console or programmatically.
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
@@ -95,12 +91,6 @@ For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster-v2).
 Once the suspend operation is successful, a job record will be generated. You can check the progress on the [Jobs](./job-center) page.
 
 ## Resume cluster\{#resume-cluster}
-
-Free clusters are automatically suspended after 7 days of inactivity and can be resumed anytime.
-
-Serverless clusters do not support suspend and resume operations.
-
-Suspended Dedicated clusters can also be resumed manually when needed.
 
 Please note that during resuming, you cannot perform other actions on the cluster.
 

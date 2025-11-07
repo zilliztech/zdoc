@@ -12,19 +12,19 @@ type: docx
 token: EZ2YdBHoDoRTlxx91tscffm1nSb
 sidebar_position: 15
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - list_users()
   - pymilvus26
-  - milvus database
-  - milvus lite
   - milvus benchmark
   - managed milvus
+  - Serverless vector database
+  - milvus open source
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

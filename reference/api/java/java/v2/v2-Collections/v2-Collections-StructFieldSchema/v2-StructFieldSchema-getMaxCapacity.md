@@ -12,19 +12,19 @@ type: docx
 token: PSdEdxU7ZoTxelx7sLzcAAXsnQH
 sidebar_position: 5
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - getMaxCapacity()
   - javaV226
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

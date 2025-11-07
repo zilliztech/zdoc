@@ -12,19 +12,19 @@ type: docx
 token: H7eOdq9hOo7so7xes5LchIVwnrb
 sidebar_position: 5
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - create_collection()
   - pymilvus26
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar
@@ -345,22 +345,3 @@ You can choose between a quick setup or a customized setup as follows:
     ```
 
     In the above code, the collection will also be created. However, without `index_param`, data in the collection will not be indexed and loaded into memory.
-
-## Related methods\{#related-methods}
-
-- [create_schema()](./Collections-create_schema)
-
-- [describe_collection()](./Collections-describe_collection)
-
-- [drop_collection()](./Collections-drop_collection)
-
-- [get_collection_stats()](./Collections-get_collection_stats)
-
-- [has_collection()](./Collections-has_collection)
-
-- [list_collections()](./Collections-list_collections)
-
-- [rename_collection()](./Collections-rename_collection)
-
-- [DataType](./Collections-DataType)
-
