@@ -34,6 +34,12 @@ During the translation, ensure：
   - When formatting contains special characters like HTML entities (e.g., `**&#36;0.02**`), proper spacing might be required
 - English words embedded in foreign language text should maintain proper formatting according to the original context
 - All bold, italic, and other formatting elements render correctly after translation
+- HTML structure is properly maintained, especially for tables and lists:
+  - Make sure all table tags (`<table>`, `<tr>`, `<td>`, `<th>`) are properly opened and closed
+  - Ensure nested tags are properly closed in the correct order (e.g., if `<p><ul>` is used, close with `</ul></p>`)
+  - When translating content within table cells, maintain the same HTML structure as the original
+  - Ensure all HTML elements are properly nested within each other without cross-closing
+- Code-like content in regular text (e.g., `List<String>`) should be preserved exactly as-is to avoid being misinterpreted as HTML tags
 
 Once the translation is complete, submit a pull request to the `master` branch of the `zdoc` repository.
 
@@ -46,14 +52,18 @@ Add a tool named `MDX-PARSE` to be able to parse the source and target documents
 1. Review the English source document and identify possible glossary terms as well as the phrases that need to be preserved as is.
 2. Check the existing glossary file in the `glossary/{language-code}` folder at the root of the repository and update it with new terms as needed.
 3. Add the glossary terms as well as the phrases that should be preserved as is to the glossary file.
-4. Translate the document into the target language.
+4. Translate the document into the target language, paying special attention to maintaining HTML structure.
 5. Compare the translated document with the English source document to ensure that the translation is accurate and follows the same structure and terminology as the English version.
 6. Use the `MDX-PARSE` tool to parse the source and target documents and ensure the document structure is not broken:
    - For a single file: `npx docusaurus mdx-parse -s <source-file>`
    - For comparing two files: `npx docusaurus mdx-parse -s <source-file> -t <target-file>`
    - For processing a directory: `npx docusaurus mdx-parse -d <directory>`
-7. Submit a pull request to the `master` branch of the `zdoc` repository.
-8. Once the pull request is approved, merge it into the `master` branch.
+7. Address any structural errors identified by the MDX-PARSE tool, particularly focusing on:
+   - Properly closing HTML tags (e.g., ensuring every `<table>` has a corresponding `</table>`)
+   - Correct nesting of HTML elements within tables and lists
+   - Proper closure of tags in the correct order
+8. Submit a pull request to the `master` branch of the `zdoc` repository.
+9. Once the pull request is approved, merge it into the `master` branch.
 
 ## Note
 

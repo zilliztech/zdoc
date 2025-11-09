@@ -1,25 +1,28 @@
 ---
-title: "クラスタロールの管理(SDK) | Cloud"
+title: "クラスターロールの管理（SDK） | Cloud"
 slug: /cluster-roles-sdk
-sidebar_label: "クラスタロールの管理(SDK)"
+sidebar_label: "クラスターロールの管理（SDK）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "クラスターロールは、ユーザーがクラスター内で持つ権限を定義します。より具体的には、クラスターロールは、クラスター、データベース、およびコレクションレベルでクラスターユーザーの権限を制御します。 | Cloud"
+description: "クラスターロールは、クラスター内でユーザーが持つ権限を定義します。具体的には、クラスターロールはクラスターユーザーのクラスター、データベース、およびコレクションレベルの権限を制御します。 | Cloud"
 type: origin
-token: ZLwswiskDiEC95k7cMgcmcn1npc
+token: PBZwwNqWjiikeYkXgHPcGhLznTh
 sidebar_position: 5
-keywords: 
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - cluster
-  - access control
+  - ベクターデータベース
+  - クラウド
+  - クラスター
+  - アクセス制御
   - rbac
-  - roles
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - ロール
+  - マルチモーダl RAG
+  - llm ホルシネーション
+  - ハイブリッド検索
+  - レクシカル検索
 
 ---
 
@@ -27,25 +30,25 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# クラスタロールの管理(SDK)
+# クラスターロールの管理（SDK）
 
-クラスターロールは、ユーザーがクラスター内で持つ権限を定義します。より具体的には、クラスターロールは、クラスター、データベース、およびコレクションレベルでクラスターユーザーの権限を制御します。
+クラスターロールは、クラスター内でユーザーが持つ権限を定義します。具体的には、クラスターロールはクラスターユーザーのクラスター、データベース、およびコレクションレベルの権限を制御します。
 
-このガイドでは、ロールの作成方法、ロールに組み込み特権グループを付与する方法、ロールから特権グループを取り消す方法、そして最後にロールを削除する方法について説明します。組み込み特権グループの詳細については、「[特権について](./cluster-privileges)」を参照してください。
+このガイドでは、ロールの作成、組み込み権限グループをロールに付与、ロールから権限グループを取り消し、最後にロールを削除する方法を説明します。組み込み権限グループの詳細については、[権限](./cluster-privileges#built-in-privilege-groups)を参照してください。
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>この機能は専用クラスターでのみ利用可能です。</p>
+<p>この機能は、専用クラスターでのみ利用可能です。</p>
 
 </Admonition>
 
-## 役割を作成する{#create-a-role}
+## ロールを作成\{#create-a-role}
 
-次の例は、role_aという名前のロールを作成する方法を示`してい`ます。
+以下の例は、`role_a`という名前のロールを作成する方法を示しています。
 
-ロール名は次のルールに従う必要があります。
+ロール名は以下の規則に従う必要があります：
 
-- 文字で始め、大文字または小文字、数字、アンダースコアのみを含める必要があります。
+- 文字で始まり、大文字または小文字の英字、数字、およびアンダースコアのみを含めることができます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -65,7 +68,7 @@ import io.milvus.v2.service.rbac.request.CreateRoleReq;
 CreateRoleReq createRoleReq = CreateRoleReq.builder()
         .roleName("role_a")
         .build();
-       
+
 ```
 
 </TabItem>
@@ -98,9 +101,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## 役割リスト{#list-roles}
+## ロールを一覧表示\{#list-roles}
 
-複数のロールを作成した後、既存のすべてのロールを一覧表示できます。
+複数のロールを作成した後、すべての既存のロールを一覧表示して確認できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -152,53 +155,50 @@ curl --request POST \
 ['role_a']
 ```
 
-## ロールに組み込みの特権グループを付与する{#grant-a-built-in-privilege-group-to-a-role}
+## ロールに権限または権限グループを付与\{#grant-a-privilege-or-a-privilege-group-to-a-role}
+
+Zilliz Cloudでは、以下をロールに付与できます：
+
+- **権限：** Zilliz Cloudはさまざまなタイプの権限を提供します。詳細については、[すべての権限](./cluster-privileges#all-privileges)を参照してください。
+
+- **組み込み権限グループ：** Zilliz Cloudは9つの組み込み権限グループを提供します。各組み込み権限グループに含まれる特定の権限の詳細については、[組み込み権限グループ](./cluster-privileges#built-in-privilege-groups)を参照してください。
+
+- **カスタム権限グループ：** 組み込み権限がニーズを満たさない場合は、異なる権限を組み合わせて独自のカスタム権限グループを作成できます。詳細については、[カスタム権限グループ](./cluster-privileges#custom-privilege-groups)を参照してください。
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>現在、Zilliz Cloudは組み込み特権グループを持つカスタムロールの作成のみをサポートしています。組み込み特権グループの詳細については、「<a href="./cluster-privileges">特権について</a>」を参照してください。</p>
-<p>ユーザー定義の権限と権限グループを持つカスタムロールを作成する必要がある場合は、<a href="http://support.zilliz.com">お問い合わせ</a>ください。</p>
+<p>特定の権限やカスタム権限グループをロールに付与する必要がある場合は、最初に<a href="http://support.zilliz.com">サポートチケットを作成</a>して、この機能を有効にしてください。</p>
 
 </Admonition>
 
-次の例は、`role_a`に`既定`のデータベース内のすべてのコレクションへの読み取り専用アクセスと`collection_01`への管理者アクセスを付与する方法を示しています。
+以下の例は、`default`データベース下の`collection_01`に対する権限`PrivilegeSearch`と、`privilege_group_1`という名前のカスタム権限グループをロール`role_a`に付与する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 from pymilvus import MilvusClient
 
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
-)
-
 client.grant_privilege_v2(
     role_name="role_a",
-    privilege="COLL_ADMIN"
-    collection_name='collection_01'
+    privilege="Search",
+    collection_name='collection_01',
     db_name='default',
 )
 
 client.grant_privilege_v2(
     role_name="role_a",
-    privilege="DatabaseReadOnly"
-    collection_name='*'
+    privilege="privilege_group_1",
+    collection_name='collection_01',
     db_name='default',
 )
-```
 
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import "github.com/milvus-io/milvus-sdk-go/v2/client"
-
-client.GrantV2(context.Background(), "role_a", "collection_01", "COLL_ADMIN", entity.WithOperatePrivilegeDatabase("default"))
-
-client.GrantV2(context.Background(), "role_a", "*", "DatabaseReadOnly", entity.WithOperatePrivilegeDatabase("default"))
+client.grant_privilege_v2(
+    role_name="role_a",
+    privilege="ClusterReadOnly",
+    collection_name='*',
+    db_name='*',
+)
 ```
 
 </TabItem>
@@ -210,17 +210,68 @@ import io.milvus.v2.service.rbac.request.GrantPrivilegeReqV2
 
 client.grantPrivilegeV2(GrantPrivilegeReqV2.builder()
         .roleName("role_a")
-        .privilege("COLL_ADMIN")
+        .privilege("Search")
         .collectionName("collection_01")
         .dbName("default")
         .build());
 
 client.grantPrivilegeV2(GrantPrivilegeReqV2.builder()
         .roleName("role_a")
-        .privilege("DatabaseReadOnly")
-        .collectionName("*")
+        .privilege("privilege_group_1")
+        .collectionName("collection_01")
         .dbName("default")
         .build());
+
+client.grantPrivilegeV2(GrantPrivilegeReqV2.builder()
+        .roleName("role_a")
+        .privilege("ClusterReadOnly")
+        .collectionName("*")
+        .dbName("*")
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: "YOUR_CLUSTER_ENDPOINT",
+    APIKey:  "YOUR_CLUSTER_TOKEN",
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+err = client.GrantV2(ctx, milvusclient.NewGrantV2Option("role_a", "Search", "default", "collection_01"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+err = client.GrantV2(ctx, milvusclient.NewGrantV2Option("role_a", "privilege_group_1", "default", "collection_01"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+err = client.GrantV2(ctx, milvusclient.NewGrantV2Option("role_a", "ClusterReadOnly", "*", "*"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -234,12 +285,26 @@ const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
-await milvusClient.grantPrivilege({
-   roleName: 'role_a',
-   object: 'Collection', 
-   objectName: 'collection_01',
-   privilegeName: 'COLL_ADMIN'
- });
+await client.grantPrivilegeV2({
+    role: "role_a",
+    privilege: "Search"
+    collection_name: 'collection_01'
+    db_name: 'default',
+});
+
+await client.grantPrivilegeV2({
+    role: "role_a",
+    privilege: "privilege_group_1"
+    collection_name: 'collection_01'
+    db_name: 'default',
+});
+
+await client.grantPrivilegeV2({
+    role: "role_a",
+    privilege: "ClusterReadOnly"
+    collection_name: '*'
+    db_name: '*',
+});
 ```
 
 </TabItem>
@@ -253,7 +318,7 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "roleName": "role_a",
-    "privilege": "COLL_ADMIN",
+    "privilege": "Search",
     "collectionName": "collection_01",
     "dbName":"default"
 }'
@@ -264,9 +329,20 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "roleName": "role_a",
-    "privilege": "DatabaseReadOnly",
-    "collectionName": "*",
+    "privilege": "privilege_group_1",
+    "collectionName": "collection_01",
     "dbName":"default"
+}'
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/roles/grant_privilege_v2" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "roleName": "role_a",
+    "privilege": "ClusterReadOnly",
+    "collectionName": "*",
+    "dbName":"*"
 }'
 
 ```
@@ -274,9 +350,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## 役割を説明してください{#describe-a-role}
+## ロールの説明\{#describe-a-role}
 
-次の例では、役割に付与された権限を表示する方法を示します`role_a`を使用して、`description_role`メソッド。
+以下の例は、`describe_role`メソッドを使用してロール`role_a`に付与された権限を表示する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -350,46 +426,34 @@ curl --request POST \
 }
 ```
 
-## ロールから組み込みの特権グループを取り消す{#revoke-a-built-in-privilege-group-from-a-role}
+## ロールから権限または権限グループを取り消し\{#revoke-a-privilege-or-a-privilege-group-from-a-role}
 
-次の例では、`既定`のデータベース内のすべてのコレクションへの読み取り専用アクセスと、role_aから`collection_01`への管理者アクセスを取り消す方法を示し`ます`。
+以下の例は、`default`データベース下の`collection_01`に対する権限`PrivilegeSearch`と、ロール`role_a`に付与された権限グループ`privilege_group_1`を取り消す方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Go","value":"go"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import MilvusClient
-
-client = MilvusClient(
-    uri="YOUR_CLUSTER_ENDPOINT",
-    token="YOUR_CLUSTER_TOKEN"
-)
-   
 client.revoke_privilege_v2(
     role_name="role_a",
-    privilege="COLL_ADMIN"
-    collection_name='collection_01'
+    privilege="Search",
+    collection_name='collection_01',
     db_name='default',
 )
 
 client.revoke_privilege_v2(
     role_name="role_a",
-    privilege="ClusterReadOnly"
-    collection_name='*'
+    privilege="privilege_group_1",
+    collection_name='collection_01',
+    db_name='default',
+)
+
+client.revoke_privilege_v2(
+    role_name="role_a",
+    privilege="ClusterReadOnly",
+    collection_name='*',
     db_name='*',
 )
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import "github.com/milvus-io/milvus-sdk-go/v2/client"
-
-client.RevokeV2(context.Background(), "role_a", "collection_01", "COLL_ADMIN", entity.WithOperatePrivilegeDatabase("default"))
-
-client.RevokeV2(context.Background(), "role_a", "*", "ClusterReadOnly", entity.WithOperatePrivilegeDatabase("*"))
 ```
 
 </TabItem>
@@ -401,7 +465,14 @@ import io.milvus.v2.service.rbac.request.RevokePrivilegeReqV2
 
 client.revokePrivilegeV2(RevokePrivilegeReqV2.builder()
         .roleName("role_a")
-        .privilege("COLL_ADMIN")
+        .privilege("Search")
+        .collectionName("collection_01")
+        .dbName("default")
+        .build());
+
+client.revokePrivilegeV2(RevokePrivilegeReqV2.builder()
+        .roleName("role_a")
+        .privilege("privilege_group_1")
         .collectionName("collection_01")
         .dbName("default")
         .build());
@@ -416,6 +487,60 @@ client.revokePrivilegeV2(RevokePrivilegeReqV2.builder()
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+err = client.RevokePrivilegeV2(ctx, milvusclient.NewRevokePrivilegeV2Option("role_a", "Search", "collection_01").
+        WithDbName("default"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+err = client.RevokePrivilegeV2(ctx, milvusclient.NewRevokePrivilegeV2Option("role_a", "privilege_group_1", "collection_01").
+    WithDbName("default"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+err = client.RevokePrivilegeV2(ctx, milvusclient.NewRevokePrivilegeV2Option("role_a", "ClusterReadOnly", "*").
+    WithDbName("*"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.revokePrivilegeV2({
+    role: 'role_a',
+    privilege: 'Search',
+    collection_name: 'collection_01',
+    db_name: 'default'
+});
+
+await client.revokePrivilegeV2({
+    role: 'role_a',
+    collection_name: 'collection_01',
+    privilege: 'Search',
+    db_name: 'default'
+});
+
+await client.revokePrivilegeV2({
+    role: 'role_a',
+    collection_name: '*',
+    privilege: 'ClusterReadOnly',
+    db_name: '*'
+});
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -425,7 +550,18 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "roleName": "role_a",
-    "privilege": "COLL_ADMIN",
+    "privilege": "Search",
+    "collectionName": "collection_01",
+    "dbName":"default"
+}'
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/roles/revoke_privilege_v2" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "roleName": "role_a",
+    "privilege": "Search",
     "collectionName": "collection_01",
     "dbName":"default"
 }'
@@ -446,13 +582,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## 役割を削除する{#drop-a-role}
+## ロールを削除\{#drop-a-role}
 
-次の例は、ロールrole_aを削除する方法を示`してい`ます。
+以下の例は、ロール`role_a`を削除する方法を示しています。
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>組み込みのロール<code>admin</code>は削除できません。</p>
+<p>組み込みロール<code>admin</code>は削除できません。</p>
 
 </Admonition>
 
@@ -507,7 +643,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-ロールが削除されたら、既存のすべてのロールを一覧表示して、削除操作が成功したかどうかを確認できます。
+ロールが削除されたら、すべての既存のロールを一覧表示して、削除操作が成功したか確認できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -553,9 +689,8 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。リストには`role_aが`ありません。ドロップ操作は成功しました。
+以下は出力例です。リストに`role_a`はありません。削除操作は成功しました。
 
 ```bash
 ['admin']
 ```
-

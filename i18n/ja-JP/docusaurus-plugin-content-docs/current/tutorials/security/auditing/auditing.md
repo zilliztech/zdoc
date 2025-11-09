@@ -1,32 +1,35 @@
 ---
-title: "監査する | Cloud"
+title: "監査ログ | Cloud"
 slug: /auditing
-sidebar_label: "監査する"
-beta: PRIVATE
+sidebar_label: "監査ログ"
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudクラスターの監査を構成する方法を学びましょう。 | Cloud"
+description: "Zilliz Cloudクラスターの監査を構成する方法について学びます。 | Cloud"
 type: origin
-token: Q9mywCJmpiFcyUkkgEkcJDLpnDd
+token: UfGkwPQIPiJi6OkEu47cH3Umnvb
 sidebar_position: 5
-keywords: 
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - auditing
-  - log
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - ベクターデータベース
+  - クラウド
+  - 監査
+  - ロッグ
+  - 次元削減
+  - hnswアルゴリズム
+  - ベクトル類似検索
+  - 近似最近傍検索
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# 監査する
+# 監査ログ
 
-Zilliz Cloudクラスターの監査を構成する方法を学びましょう。
+Zilliz Cloudクラスターの監査を構成する方法について学びます。
 
 import DocCardList from '@theme/DocCardList';
 
