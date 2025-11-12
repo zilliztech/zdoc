@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 
@@ -229,6 +229,12 @@ The table below lists the specific privileges included in the three built-in pri
    </tr>
    <tr>
      <td><p>DropAlias</p></td>
+     <td><p>❌</p></td>
+     <td><p>✔️</p></td>
+     <td><p>✔️</p></td>
+   </tr>
+   <tr>
+     <td><p>AddCollectionField</p></td>
      <td><p>❌</p></td>
      <td><p>✔️</p></td>
      <td><p>✔️</p></td>
@@ -909,6 +915,10 @@ If you need to create your own privilege group with the privileges listed below 
    <tr>
      <td><p>FlushAll</p></td>
      <td><p>Flush all collections in a database</p></td>
+   </tr>
+   <tr>
+     <td><p>AddCollectionField</p></td>
+     <td><p>Add a field to an existing collection</p></td>
    </tr>
 </table>
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 
@@ -62,6 +62,10 @@ Zilliz Cloud supports `AUTOINDEX` for the following field types:
    <tr>
      <td><p><code>ARRAY</code></p></td>
      <td><p>Homogeneous array of scalar values</p></td>
+   </tr>
+   <tr>
+     <td><p><code>GEOMETRY</code></p></td>
+     <td><p>Geometric data that stores spatial information</p></td>
    </tr>
 </table>
 
