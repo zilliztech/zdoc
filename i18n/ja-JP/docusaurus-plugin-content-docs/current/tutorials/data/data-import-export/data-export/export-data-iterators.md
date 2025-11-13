@@ -1,23 +1,26 @@
 ---
-title: "イテレータを使用したデータのエクスポート | Cloud"
+title: "イテレーターを使用したデータのエクスポート | Cloud"
 slug: /export-data-iterators
-sidebar_label: "イテレータを使用したデータのエクスポート"
+sidebar_label: "イテレーターの使用"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、Zilliz Cloudコレクションからデータをエクスポートする方法の例を提供します。 | Cloud"
+description: "このガイドでは、Zilliz Cloudコレクションからデータをエクスポートする方法の例を紹介します。 | Cloud"
 type: origin
-token: YehKwci6ViokYUkkz5rcIwP5nzg
+token: N6fZwCUXqiqoJEkFiVNcvDJEnnc
 sidebar_position: 1
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
   - data export
   - iterator
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 
@@ -25,35 +28,35 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# イテレータを使用したデータのエクスポート
+# イテレーターを使用したデータのエクスポート
 
-このガイドでは、Zilliz Cloudコレクションからデータをエクスポートする方法の例を提供します。
+このガイドでは、Zilliz Cloudコレクションからデータをエクスポートする方法の例を紹介します。
 
-## 概要について{#overview}
+## 概要\{#overview}
 
-MilvusのPythonおよびJava SDKは、コレクション内のエンティティをメモリ効率的に反復処理するための一連のイテレータAPIを提供しています。詳細については、「[検索イテレータ](./with-iterators)」を参照してください。
+MilvusのPythonおよびJava SDKは、メモリ効率の良い方法でコレクション内のエンティティを反復処理するためのイテレータAPIを提供します。詳細については、[Search Iterator](./with-iterators)を参照してください。
 
-イテレータを使用すると、次の利点があります。
+イテレータを使用すると、以下のような利点があります：
 
-- **シンプルさ**:複雑な**オフセット**と**リミット**設定を排除します。
+- **簡潔性**: 複雑な**offset**および**limit**の設定を排除します。
 
-- **効率性**:必要なデータのみを取得してスケーラブルなデータ取得を提供します。
+- **効率性**: 必要なデータのみを取得することで、スケーラブルなデータ検索を提供します。
 
-- **Consistency**:ブールフィルタを使用して一貫したデータセット体格を確保します。
+- **一貫性**: ブールフィルタを使用してデータセットのサイズを一貫性のあるものに保ちます。
 
 これらのAPIを使用して、Zilliz Cloudコレクションから特定またはすべてのエンティティをエクスポートできます。
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注意">
 
-<p>この機能は、Milvus 2.3. x以上と互換性のあるZilliz Cloudクラスターで利用できます。</p>
+<p>この機能は、Milvus 2.3.x以上に対応したZilliz Cloudクラスターで利用可能です。</p>
 
 </Admonition>
 
-## 準備する{#preparations}
+## 事前準備\{#preparations}
 
-次の手順では、コードを再利用してZilliz Cloudクラスターに接続し、コレクションをすばやく設定し、10,000以上のランダムに生成されたエンティティをコレクションに挿入します。
+以下の手順では、Zilliz Cloudクラスターに接続し、コレクションをすばやくセットアップし、10,000個以上のランダムに生成されたエンティティをコレクションに挿入するコードを再利用します。
 
-### ステップ1:コレクションを作成する{#step-1-create-a-collection}
+### ステップ 1: コレクションの作成\{#step-1-create-a-collection}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -64,13 +67,13 @@ from pymilvus import MilvusClient
 CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT"
 TOKEN = "YOUR_CLUSTER_TOKEN"
 
-# 1. Set up a Milvus client
+# 1. Milvusクライアントをセットアップ
 client = MilvusClient(
     uri=CLUSTER_ENDPOINT,
-    token=TOKEN 
+    token=TOKEN
 )
 
-# 2. Create a collection
+# 2. コレクションの作成
 client.create_collection(
     collection_name="quick_setup",
     dimension=5,
@@ -89,7 +92,7 @@ import io.milvus.param.highlevel.collection.CreateSimpleCollectionParam;
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
 
-// 1. Connect to Milvus server
+// 1. Milvusサーバーに接続
 ConnectParam connectParam = ConnectParam.newBuilder()
         .withUri(CLUSTER_ENDPOINT)
         .withToken(TOKEN)
@@ -97,7 +100,7 @@ ConnectParam connectParam = ConnectParam.newBuilder()
 
 MilvusServiceClient client  = new MilvusServiceClient(connectParam);
 
-// 2. Create a collection
+// 2. コレクションの作成
 CreateSimpleCollectionParam createCollectionParam = CreateSimpleCollectionParam.newBuilder()
         .withCollectionName("quick_setup")
         .withDimension(5)
@@ -109,13 +112,13 @@ client.createCollection(createCollectionParam);
 </TabItem>
 </Tabs>
 
-### ステップ2:ランダムに生成されたエンティティを挿入する{#step-2-insert-randomly-generated-entities}
+### ステップ 2: ランダムに生成されたエンティティの挿入\{#step-2-insert-randomly-generated-entities}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
 
 ```python
-# 3. Insert randomly generated vectors 
+# 3. ランダムに生成されたベクトルを挿入
 colors = ["green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey"]
 data = []
 
@@ -192,7 +195,7 @@ import io.milvus.param.dml.InsertParam;
 import io.milvus.response.MutationResultWrapper;
 import io.milvus.grpc.MutationResult;
 
-// 3. Insert randomly generated vectors into the collection
+// 3. コレクションにランダムに生成されたベクトルを挿入
 List<String> colors = Arrays.asList("green", "blue", "yellow", "red", "black", "white", "purple", "pink", "orange", "brown", "grey");
 List<JSONObject> data = new ArrayList<>();
 
@@ -224,21 +227,21 @@ System.out.println(wrapper.getInsertCount());
 </TabItem>
 </Tabs>
 
-## イテレータを使用したデータのエクスポート{#export-data-using-iterators}
+## イテレータを使用してデータをエクスポート\{#export-data-using-iterators}
 
-イテレータを使用してデータをエクスポートするには、次のようにします:
+イテレータを使用してデータをエクスポートするには、以下のようにします：
 
-1. 検索イテレータを初期化して、検索パラメータと出力フィールドを定義します。`batch_size`パラメータを設定することで、反復ごとにエクスポートするエンティティの数を制限できます。
+1. 検索パラメータと出力フィールドを定義するための検索イテレータを初期化します。`batch_size`パラメータを設定して、各イテレーションでエクスポートするエンティティの数を制限できます。
 
-1. ループ内で`next()`メソッドを使用して、検索結果をページ分割します。
+2. ループ内で`next()`メソッドを使用して検索結果をページ送りします。
 
     - メソッドが空の配列を返す場合、ループは終了します。
 
-    - それ以外の場合は、適切な方法でリターンを保存してください。例えば、リターンをファイルに追加したり、データベースに保存したり、他の消費者向けプログラムにフィードしたりすることができます。
+    - それ以外の場合、返された結果を任意の方法で保存します。たとえば、返された結果をファイルに追記する、データベースに保存する、または他のコンシューマープログラムに渡すことができます。
 
-1. すべてのデータが取得されたら、`close()`メソッドを呼び出してイテレータを閉じます。
+3. すべてのデータが取得されたら、`close()`メソッドを呼び出してイテレータを閉じます。
 
-次のコードスニペットは、**QueryIterator**APIを使用してエクスポートされたデータをファイルに追加する方法を示しています。
+以下のコードスニペットでは、**QueryIterator** APIを使用してエクスポートされたデータをファイルに追記する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -252,14 +255,14 @@ TOKEN = "YOUR_CLUSTER_TOKEN"
 
 connections.connect(
     uri=CLUSTER_ENDPOINT,
-    token=TOKEN 
+    token=TOKEN
 )
 
 collection = Collection("quick_setup")
 
-# 6. Query with iterator
+# 6. イテレータでクエリ
 
-# Initiate an empty JSON file
+# 空のJSONファイルを初期化
 with open('results.json', 'w') as fp:
     fp.write(json.dumps([]))
 
@@ -274,13 +277,13 @@ while True:
     if not result:
         iterator.close()
         break
-    
-    # Read existing records and append the returns    
+
+    # 既存のレコードを読み込んで返された結果を追加
     with open('results.json', 'r') as fp:
         results = json.loads(fp.read())
         results += result
-    
-    # Save the result set    
+
+    # 結果セットを保存
     with open('results.json', 'w') as fp:
         fp.write(json.dumps(results))
 ```
@@ -301,7 +304,7 @@ import java.util.List;
 import io.milvus.param.dml.QueryIteratorParam;
 import io.milvus.orm.iterator.QueryIterator;
 
-// 5. Query with iterators
+// 5. イテレータでクエリ
 
 try {
     Files.write(Path.of("results.json"), JSON.toJSONString(new ArrayList<>()).getBytes(), StandardOpenOption.CREATE, StandardOpenOption.TRUNCATE_EXISTING);
@@ -353,7 +356,7 @@ while (true) {
     try {
         Files.write(
             Path.of("results.json"),
-            JSON.toJSONString(jsonObject).getBytes(), 
+            JSON.toJSONString(jsonObject).getBytes(),
             StandardOpenOption.WRITE
         );
     } catch (IOException e) {
@@ -364,4 +367,3 @@ while (true) {
 
 </TabItem>
 </Tabs>
-

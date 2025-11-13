@@ -1,14 +1,17 @@
 ---
-title: "JSONファイルからインポートする | Cloud"
+title: "JSONファイルからのインポート | Cloud"
 slug: /data-import-json
-sidebar_label: "JSONファイルからインポートする"
+sidebar_label: "JSON"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "JSONは、機械が簡単に解析および生成できる軽量で人間が読めるデータ形式です。Language-independent、C系言語プログラマーにとって馴染みのある規約に従っているため、理想的なデータ交換形式です。 | Cloud"
+description: "JSONは、機械が容易に解析および生成可能な軽量で人間が読めるデータ形式です。言語に依存せず、C言語ファミリーのプログラマーに馴染みのある規則に従っているため、理想的なデータ交換形式です。 | Cloud"
 type: origin
-token: Y8CAwzXnHiqOGhkYW8Vc5k0Pnwf
+token: EHmOwLz5qi3tPDkb0gZcb5ExnJb
 sidebar_position: 2
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
@@ -16,72 +19,72 @@ keywords:
   - milvus
   - format options
   - json
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# JSONファイルからインポートする
+# JSONファイルからのインポート
 
-[JSON](https://www.json.org/json-en.html)(Java Script Object Notation)は、機械が簡単に解析および生成できる軽量で人間が読めるデータ形式です。Language-independent、C系言語プログラマーにとって馴染みのある規約に従っているため、理想的なデータ交換形式です。
+[JSON](https://www.json.org/json-en.html)（JavaScriptオブジェクト表記）は、軽量で人間が読めるデータ形式で、機械が容易に解析および生成できます。言語に依存せず、C言語ファミリーのプログラマーに馴染みのある規則に従っているため、理想的なデータ交換形式です。
 
-生データをJSONファイルに準備するには、[BulkWriterツール](./use-bulkwriter)を使用することをお勧めします。次の図は、生データをJSONファイルにマップする方法を示しています。
+生データをJSONファイルに準備するには、[BulkWriterツール](./use-bulkwriter)の使用を推奨します。以下の図は、生データがJSONファイルにどのようにマッピングされるかを示しています。
 
 ![json_data_structure](/img/json_data_structure.png)
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注意">
 
 <ul>
 <li><strong>AutoIDを有効にするかどうか</strong></li>
 </ul>
-<p>「<strong>id</strong>」フィールドは、コレクションのプライマリフィールドとして機能します。プライマリフィールドを自動的にインクリメントするには、スキーマで「<strong>AutoID</strong>」を有効にします。この場合、ソースデータの各行から「<strong>id</strong>」フィールドを除外する必要があります。</p>
+<p><strong>id</strong>フィールドはコレクションの主フィールドとして機能します。主フィールドを自動的にインクリメントするには、スキーマで<strong>AutoID</strong>を有効にすることができます。この場合、ソースデータの各行から<strong>id</strong>フィールドを除外する必要があります。</p>
 <ul>
 <li><strong>動的フィールドを有効にするかどうか</strong></li>
 </ul>
-<p>ターゲットコレクションで動的フィールドが有効になっている場合、定義済みスキーマに含まれていないフィールドを格納する必要がある場合は、書き込み操作中に<strong>$meta</strong>列を指定し、対応するキー値データを指定できます。</p>
+<p>ターゲットコレクションで動的フィールドが有効になっている場合、事前定義されたスキーマに含まれていないフィールドを格納する必要がある場合は、書き込み操作中に<strong>&#36;meta</strong>列を指定して対応するキーバリューデータを提供できます。</p>
 <ul>
-<li><strong>大文字と小文字を区別する</strong></li>
+<li><strong>大文字小文字の区別</strong></li>
 </ul>
-<p>ディクショナリのキーとコレクションのフィールド名は大文字と小文字を区別します。データ内のディクショナリのキーがターゲットコレクションのフィールド名と完全に一致するようにしてください。ターゲットコレクションに<strong>id</strong>という名前のフィールドがある場合、各エンティティディクショナリにはidという名前のキーが必要です<strong>。ID</strong>または<strong>Idを使用するとエラーが発生します。</strong></p>
+<p>辞書のキーとコレクションフィールド名は大文字小文字を区別します。データ内の辞書キーがターゲットコレクションのフィールド名と完全に一致するようにしてください。ターゲットコレクションに<strong>id</strong>という名前のフィールドがある場合、各エンティティ辞書には<strong>id</strong>という名前のキーが必要です。<strong>ID</strong>や<strong>Id</strong>を使用するとエラーになります。</p>
 
 </Admonition>
 
-## ディレクトリ構造{#directory-structure}
+## ディレクトリ構造\{#directory-structure}
 
-データをJSONファイルに準備する場合は、下のツリー図に示すように、すべてのJSONファイルをソースデータフォルダに直接置くことができます。
+データをJSONファイルに準備する場合は、以下のツリー図に示すように、すべてのJSONファイルを直接ソースデータフォルダに配置してください。
 
 ```plaintext
 ├── json-folder
 │       ├── 1.json
-│       └── 2.json 
+│       └── 2.json
 ```
 
-## データのインポート{#import-data}
+## データのインポート\{#import-data}
 
-データの準備ができたら、次のいずれかの方法を使用して、Zilliz Cloudコレクションにデータをインポートできます。
+データの準備が完了したら、以下のいずれかの方法を使用してZilliz Cloudコレクションにインポートできます。
 
-- [複数のパスからファイルをインポートする（推奨）](./data-import-json#import-files-from-multiple-paths-recommended)
+- [複数パスからのファイルのインポート（推奨）](./data-import-json#import-files-from-multiple-paths-recommended)
 
-- [フォルダからファイルをインポートする](./data-import-json#import-files-from-a-folder)
+- [フォルダからのファイルのインポート](./data-import-json#import-files-from-a-folder)
 
-- [単一のファイルをインポート](./data-import-json#import-a-single-file)
+- [単一ファイルのインポート](./data-import-json#import-a-single-file)
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注意">
 
-<p>ファイルが比較的小さい場合は、フォルダまたは複数パスの方法を使用して一度にすべてをインポートすることをお勧めします。このアプローチにより、インポート過程で内部最適化が可能になり、後でリソースの消費を減らすことができます。</p>
+<p>ファイルが比較的小さい場合は、フォルダまたは複数パスの方法を使用して一度にすべてをインポートすることを推奨します。このアプローチにより、インポートプロセス中の内部最適化が可能になり、後のリソース消費を削減するのに役立ちます。</p>
 
 </Admonition>
 
-Milvus SDKを使用して、Zilliz Cloudコンソールからデータをインポートすることもできます。詳細については、「[データのインポート(コンソール)](./import-data-on-web-ui)」および「[データのインポート(コンソール)](./import-data-on-web-ui)」を参照してください。
+Milvus SDKを使用してZilliz Cloudコンソールでデータをインポートすることもできます。詳細については、[データのインポート（コンソール）](./import-data-on-web-ui)および[データのインポート（SDK）](./import-data-via-sdks)を参照してください。
 
-### 複数のパスからファイルをインポートする（推奨）{#import-files-from-multiple-paths-recommended}
+### 複数パスからのファイルのインポート（推奨）\{#import-files-from-multiple-paths-recommended}
 
-複数のパスからファイルをインポートする場合は、各JSONファイルパスを個別のリストに含め、次のコード例のようにすべてのリストを上位レベルのリストにグループ化します。
+複数パスからファイルをインポートする場合は、各JSONファイルパスを個別のリストに含め、その後すべてのリストを上位のリストにグループ化します。以下のコード例を参照してください。
 
 ```bash
 curl --request POST \
@@ -103,9 +106,9 @@ curl --request POST \
     }'
 ```
 
-### フォルダからファイルをインポートする{#import-files-from-a-folder}
+### フォルダからのファイルのインポート\{#import-files-from-a-folder}
 
-ソースフォルダにインポートするJSONファイルのみが含まれている場合は、次のようにソースフォルダをリクエストに含めることができます。
+ソースフォルダにインポートするJSONファイルのみが含まれている場合は、リクエストにソースフォルダを以下のように含めることができます。
 
 ```bash
 curl --request POST \
@@ -125,9 +128,9 @@ curl --request POST \
     }'
 ```
 
-### 単一のファイルをインポート{#import-a-single-file}
+### 単一ファイルのインポート\{#import-a-single-file}
 
-準備したデータファイルが1つのJSONファイルの場合は、次のコード例に示すようにインポートします。
+準備したデータファイルが単一のJSONファイルの場合は、以下のコード例に示すようにインポートします。
 
 ```bash
 curl --request POST \
@@ -147,50 +150,67 @@ curl --request POST \
     }'
 ```
 
-## ストレージパス{#storage-paths}
+## ストレージパス\{#storage-paths}
 
-Zilliz Cloudは、クラウドストレージからのデータインポートをサポートしています。以下の表は、データファイルの可能なストレージパスを示しています。
+Zilliz Cloudは、クラウドストレージからのデータインポートをサポートしています。以下の表は、データファイルの可能なストレージパスを一覧表示しています。
 
 <table>
    <tr>
      <th><p><strong>クラウド</strong></p></th>
-     <th><p><strong>クイックな例</strong></p></th>
+     <th><p><strong>クイック例</strong></p></th>
    </tr>
    <tr>
      <td><p><strong>AWS S3</strong></p></td>
-     <td><p><code>s3://bucket-name/json-folder/</code></p><p><code>s3://bucket-name/json-folder/data.json</code></p></td>
+     <td><p>s3://<em>bucket-name</em>/<em>json-folder</em>/</p><p>s3://<em>bucket-name</em>/<em>json-folder</em>/<em>data.json</em></p></td>
    </tr>
    <tr>
      <td><p><strong>Google Cloud Storage</strong></p></td>
-     <td><p><code>gs://bucket-name/json-folder/</code></p><p><code>gs://bucket-name/json-folder/data.json</code></p></td>
+     <td><p>gs://<em>bucket-name</em>/<em>json-folder</em>/</p><p>gs://<em>bucket-name</em>/<em>json-folder</em>/<em>data.json</em></p></td>
    </tr>
    <tr>
-     <td><p><strong>Azure Bolb</strong></p></td>
-     <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/</code></p><p><code>https://myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</code></p></td>
+     <td><p><strong>Azure Blob</strong></p></td>
+     <td><p><em>https:</em>//myaccount.blob.core.windows.net/bucket-name/json-folder/</p><p><em>https:</em>//myaccount.blob.core.windows.net/bucket-name/json-folder/data.json</p></td>
    </tr>
 </table>
 
-## 限界{#limits}
+## 制限事項\{#limits}
 
-クラウドストレージからJSON形式のデータをインポートする際には、いくつかの制限があります。有効なJSONファイルには、**rows**という名前のルートキーがあり、その対応する値は、ターゲットコレクションのスキーマに一致するエンティティを表す辞書のリストです。
+ローカルJSONファイルまたはクラウドストレージからのJSONファイルをインポートする際には、いくつかの制限事項があります。
+
+<Admonition type="info" icon="📘" title="注意">
+
+<p>有効なJSONファイルには、<strong>rows</strong>という名前のルートキーがあり、その対応する値はターゲットコレクションのスキーマに一致する各エンティティを表す辞書のリストです。</p>
+
+</Admonition>
 
 <table>
    <tr>
-     <th><p><strong>アイテム</strong></p></th>
-     <th><p><strong>説明する</strong></p></th>
+     <th><p><strong>インポート方法</strong></p></th>
+     <th><p><strong>クラスタープラン</strong></p></th>
+     <th><p><strong>1回のインポートあたりの最大ファイル数</strong></p></th>
+     <th><p><strong>最大ファイルサイズ</strong></p></th>
+     <th><p><strong>最大総インポートサイズ</strong></p></th>
    </tr>
    <tr>
-     <td><p><strong>一度に複数のファイルをインポートする</strong></p></td>
-     <td><p>はい</p></td>
+     <td><p>ローカルファイルからのインポート</p></td>
+     <td><p>すべてのプラン</p></td>
+     <td><p>1ファイル</p></td>
+     <td><p>1 GB</p></td>
+     <td><p>1 GB</p></td>
    </tr>
    <tr>
-     <td><p><strong>インポートごとの最大ファイル体格</strong></p></td>
-     <td><p>クラスタの空き容量:合計512 MB</p><p>サーバーレスおよび専用クラスター:</p><ul><li><p>ファイルの体格: 10 GB</p></li><li><p>ファイルの体格: 100 GB</p></li></ul></td>
+     <td rowspan="2"><p>オブジェクトストレージからのインポート</p></td>
+     <td><p>無料</p></td>
+     <td><p>1,000ファイル</p></td>
+     <td><p>1 GB</p></td>
+     <td><p>1 GB</p></td>
    </tr>
    <tr>
-     <td><p><strong>使用可能なデータファイルの場所</strong></p></td>
-     <td><p>ローカルファイルとリモートファイル</p></td>
+     <td><p>サーバーレス & 専用</p></td>
+     <td><p>1,000ファイル</p></td>
+     <td><p>10 GB</p></td>
+     <td><p>1 TB</p></td>
    </tr>
 </table>
 
-「[データファイルの準備](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file)」を参照して、自分でデータを再構築するか、[BulkWriterツール](./use-bulkwriter)を使用してソースデータファイルを生成できます。[上の図のスキーマに基づいて準備されたサンプルデータをダウンロードするには、ここをクリックしてください](https://assets.zilliz.com/prepared_json_data.json)。
+[Prepare the data file](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file)を参照して独自にデータを再構築するか、[BulkWriterツール](./use-bulkwriter)を使用してソースデータファイルを生成できます。[上記の図のスキーマに基づいて準備されたサンプルデータをダウンロードするにはここをクリックしてください](https://assets.zilliz.com/prepared_json_data.json)。

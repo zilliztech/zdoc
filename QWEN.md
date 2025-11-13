@@ -50,8 +50,6 @@ Add a tool named `MDX-PARSE` to be able to parse the source and target documents
 ## Translation steps
 
 1. Review the English source document and identify possible glossary terms as well as the phrases that need to be preserved as is.
-2. Check the existing glossary file in the `glossary/{language-code}` folder at the root of the repository and update it with new terms as needed.
-3. Add the glossary terms as well as the phrases that should be preserved as is to the glossary file.
 4. Translate the document into the target language, paying special attention to maintaining HTML structure.
 5. Compare the translated document with the English source document to ensure that the translation is accurate and follows the same structure and terminology as the English version.
 6. Use the `MDX-PARSE` tool to parse the source and target documents and ensure the document structure is not broken:
@@ -67,7 +65,6 @@ Add a tool named `MDX-PARSE` to be able to parse the source and target documents
 
 ## Note
 
-- The glossary file should be updated as the translation process progresses to ensure that the translations are accurate and up-to-date.
 - The `MDX-PARSE` tool should be used to ensure that the document structure is not broken during the translation process.
 - The translated document should be reviewed by a native speaker of the target language to ensure that the translation is accurate and follows the same structure and terminology as the English version.
 - The MDX-PARSE tool is implemented as a Docusaurus plugin and integrates with the build process.

@@ -1,24 +1,27 @@
 ---
-title: "エイリアスの管理 | Cloud"
+title: "エイリアスの管理 | クラウド"
 slug: /manage-aliases
 sidebar_label: "エイリアスの管理"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudはエイリアス管理機能を提供します。このページでは、エイリアスの作成、一覧表示、変更、削除の手順を示します。 | Cloud"
+description: "Zilliz Cloudでは、エイリアスはコレクションの二次的で変更可能な名前です。エイリアスを使用すると、アプリケーションコードを変更せずにコレクション間を動的に切り替えることができる抽象化レイヤーが提供されます。これは、サービスの中断なしでのシームレスなデータ更新、A/Bテスト、その他の運用作業に特に役立ちます。 | Cloud"
 type: origin
-token: U2Dow4jx5iPUuZkVH9ucj2wOnuc
+token: OLn1wMgW0iceBlkuey2cBD91neb
 sidebar_position: 9
-keywords: 
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - collection
-  - alias
-  - aliases
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - ベクトルデータベース
+  - クラウド
+  - コレクション
+  - エイリアス
+  - エイリアス群
+  - AIエージェント
+  - セマンティック検索
+  - 異常検知
+  - 文章変換器
 
 ---
 
@@ -28,17 +31,35 @@ import TabItem from '@theme/TabItem';
 
 # エイリアスの管理
 
-Zilliz Cloudはエイリアス管理機能を提供します。このページでは、エイリアスの作成、一覧表示、変更、削除の手順を示します。
+Zilliz Cloudでは、エイリアスはコレクションの二次的で変更可能な名前です。エイリアスを使用すると、アプリケーションコードを変更せずにコレクション間を動的に切り替えることができる抽象化レイヤーが提供されます。これは、サービスの中断なしでのシームレスなデータ更新、A/Bテスト、その他の運用作業に特に役立ちます。
 
-## 概要について{#overview}
+このページでは、コレクションエイリアスの作成、一覧表示、再割り当て、削除方法を説明します。
 
-コレクションにエイリアスを作成できます。コレクションには複数のエイリアスを含めることができますが、コレクションはエイリアスを共有することはできません。
+## なぜエイリアスを使用するのか\{#why-use-an-alias}
 
-コレクションに対するリクエストを受け取ると、Zilliz Cloudは指定された名前に基づいてコレクションを検索します。指定された名前のコレクションが存在しない場合、Zilliz Cloudは指定された名前をエイリアスとして検索し続けます。コレクションのエイリアスを使用して、コードをさまざまなシナリオに適応させることができます。
+エイリアスを使用する主な利点は、クライアントアプリケーションを特定の物理的なコレクション名から切り離すことにある。
 
-## エイリアスを作成{#create-alias}
+`prod_data`という名前のエイリアスを持つコレクションをクエリする本番アプリケーションがあると想像してください。基盤データを更新する必要がある場合、サービスの中断なしに更新を実行できます。作業手順は以下のとおりです。
 
-次のコードスニペットは、コレクションのエイリアスを作成する方法を示しています。
+1. **新しいコレクションの作成**: 例えば、`prod_data_v2` という新しいコレクションを作成します。
+
+1. **データの準備**: `prod_data_v2` に新しいデータをインデックス化し、ロードします。
+
+1. **エイリアスの切り替え**: 新しいコレクションがサービスの準備ができたら、`prod_data` エイリアスを古いコレクションから `prod_data_v2` に原子的に再割り当てします。
+
+アプリケーションは引き続き `prod_data` エイリアスにリクエストを送信し、ダウンタイムはゼロになります。このメカニズムにより、シームレスな更新が可能になり、ベクトル検索サービスのブルーグリーンデプロイのような運用作業が簡素化されます。
+
+**エイリアスの主な特性:**
+
+- 1つのコレクションに複数のエイリアスを付けることができます。
+
+- 1つのエイリアスは一度に1つのコレクションのみを指すことができます。
+
+- リクエストを処理する際、Zilliz Cloudはまず提供された名前を持つコレクションが存在するかどうかを確認します。存在しない場合、その名前がコレクションのエイリアスかどうかを確認します。
+
+## エイリアスの作成\{#create-alias}
+
+以下のコードスニペットは、コレクションのエイリアスを作成する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -51,15 +72,15 @@ client = MilvusClient(
     token="YOUR_CLUSTER_TOKEN"
 )
 
-# 9. Manage aliases
-# 9.1. Create aliases
+# 9. エイリアスの管理
+# 9.1. エイリアスの作成
 client.create_alias(
-    collection_name="customized_setup_2",
+    collection_name="my_collection_1",
     alias="bob"
 )
 
 client.create_alias(
-    collection_name="customized_setup_2",
+    collection_name="my_collection_1",
     alias="alice"
 )
 ```
@@ -76,7 +97,7 @@ import io.milvus.v2.client.MilvusClientV2;
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
 
-// 1. Connect to Milvus server
+// 1. Milvusサーバーに接続
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri(CLUSTER_ENDPOINT)
         .token(TOKEN)
@@ -84,18 +105,18 @@ ConnectConfig connectConfig = ConnectConfig.builder()
 
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
-// 9. Manage aliases
+// 9. エイリアスの管理
 
-// 9.1 Create alias
+// 9.1 エイリアスの作成
 CreateAliasReq createAliasReq = CreateAliasReq.builder()
-        .collectionName("customized_setup_2")
+        .collectionName("my_collection_1")
         .alias("bob")
         .build();
 
 client.createAlias(createAliasReq);
 
 createAliasReq = CreateAliasReq.builder()
-        .collectionName("customized_setup_2")
+        .collectionName("my_collection_1")
         .alias("alice")
         .build();
 
@@ -113,31 +134,31 @@ const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
-// 9. Manage aliases
-// 9.1 Create aliases
+// 9. エイリアスの管理
+// 9.1 エイリアスの作成
 res = await client.createAlias({
-    collection_name: "customized_setup_2",
+    collection_name: "my_collection_1",
     alias: "bob"
 })
 
 console.log(res.error_code)
 
-// Output
-// 
+// 出力
+//
 // Success
-// 
+//
 
 res = await client.createAlias({
-    collection_name: "customized_setup_2",
+    collection_name: "my_collection_1",
     alias: "alice"
 })
 
 console.log(res.error_code)
 
-// Output
-// 
+// 出力
+//
 // Success
-// 
+//
 ```
 
 </TabItem>
@@ -147,18 +168,33 @@ console.log(res.error_code)
 ```go
 import (
     "context"
+    "fmt"
 
     "github.com/milvus-io/milvus/client/v2/milvusclient"
 )
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
-err := cli.CreateAlias(ctx, milvusclient.NewCreateAliasOption("customized_setup_2", "bob"))
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
 if err != nil {
-    // handle error
+    fmt.Println(err.Error())
+    // エラー処理
+}
+defer client.Close(ctx)
+
+err = client.CreateAlias(ctx, milvusclient.NewCreateAliasOption("my_collection_1", "bob"))
+if err != nil {
+    fmt.Println(err.Error())
+    // エラー処理
 }
 
-err = cli.CreateAlias(ctx, milvusclient.NewCreateAliasOption("customized_setup_2", "alice"))
+err = client.CreateAlias(ctx, milvusclient.NewCreateAliasOption("my_collection_1", "alice"))
 if err != nil {
-    // handle error
+    fmt.Println(err.Error())
+    // エラー処理
 }
 ```
 
@@ -176,7 +212,7 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "aliasName": "bob",
-    "collectionName": "customized_setup_2"
+    "collectionName": "my_collection_1"
 }'
 
 # {
@@ -190,7 +226,7 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "aliasName": "alice",
-    "collectionName": "customized_setup_2"
+    "collectionName": "my_collection_1"
 }'
 
 # {
@@ -202,29 +238,29 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## リストエイリアス{#list-aliases}
+## エイリアスの一覧表示\{#list-aliases}
 
-次のコードスニペットは、特定のコレクションに割り当てられたエイリアスを一覧表示する手順を示しています。
+以下のコードスニペットは、特定のコレクションに割り当てられたエイリアスを一覧表示する手順を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# 9.2. List aliases
+# 9.2. エイリアスの一覧表示
 res = client.list_aliases(
-    collection_name="customized_setup_2"
+    collection_name="my_collection_1"
 )
 
 print(res)
 
-# Output
+# 出力
 #
 # {
 #     "aliases": [
 #         "bob",
 #         "alice"
 #     ],
-#     "collection_name": "customized_setup_2",
+#     "collection_name": "my_collection_1",
 #     "db_name": "default"
 # }
 ```
@@ -237,16 +273,16 @@ print(res)
 import io.milvus.v2.service.utility.request.ListAliasesReq;
 import io.milvus.v2.service.utility.response.ListAliasResp;
 
-// 9.2 List alises
+// 9.2 エイリアスの一覧表示
 ListAliasesReq listAliasesReq = ListAliasesReq.builder()
-    .collectionName("customized_setup_2")
+    .collectionName("my_collection_1")
     .build();
 
 ListAliasResp listAliasRes = client.listAliases(listAliasesReq);
 
 System.out.println(listAliasRes.getAlias());
 
-// Output:
+// 出力:
 // [bob, alice]
 ```
 
@@ -255,17 +291,17 @@ System.out.println(listAliasRes.getAlias());
 <TabItem value='javascript'>
 
 ```javascript
-// 9.2 List aliases
+// 9.2 エイリアスの一覧表示
 res = await client.listAliases({
-    collection_name: "customized_setup_2"
+    collection_name: "my_collection_1"
 })
 
 console.log(res.aliases)
 
-// Output
-// 
+// 出力
+//
 // [ 'bob', 'alice' ]
-// 
+//
 ```
 
 </TabItem>
@@ -273,16 +309,10 @@ console.log(res.aliases)
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-)
-
-aliases, err := cli.ListAliases(ctx, milvusclient.NewListAliasesOption("customized_setup_2"))
+aliases, err := client.ListAliases(ctx, milvusclient.NewListAliasesOption("my_collection_1"))
 if err != nil {
-    // handle error
+    fmt.Println(err.Error())
+    // エラー処理
 }
 fmt.Println(aliases)
 ```
@@ -313,26 +343,26 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## エイリアスの説明{#describe-alias}
+## エイリアスの詳細表示\{#describe-alias}
 
-次のコードスニペットは、割り当て先のコレクションの名前など、特定のエイリアスについて詳しく説明しています。
+以下のコードスニペットは、割り当て先コレクション名を含む特定のエイリアスの詳細を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# 9.3. Describe aliases
+# 9.3. エイリアスの詳細表示
 res = client.describe_alias(
     alias="bob"
 )
 
 print(res)
 
-# Output
+# 出力
 #
 # {
 #     "alias": "bob",
-#     "collection_name": "customized_setup_2",
+#     "collection_name": "my_collection_1",
 #     "db_name": "default"
 # }
 ```
@@ -345,7 +375,7 @@ print(res)
 import io.milvus.v2.service.utility.request.DescribeAliasReq;
 import io.milvus.v2.service.utility.response.DescribeAliasResp;
 
-// 9.3 Describe alias
+// 9.3 エイリアスの詳細表示
 DescribeAliasReq describeAliasReq = DescribeAliasReq.builder()
     .alias("bob")
     .build();
@@ -354,8 +384,8 @@ DescribeAliasResp describeAliasRes = client.describeAlias(describeAliasReq);
 
 System.out.println(describeAliasRes);
 
-// Output:
-// DescribeAliasResp(collectionName=customized_setup_2, alias=bob)
+// 出力:
+// DescribeAliasResp(collectionName=my_collection_1, alias=bob)
 ```
 
 </TabItem>
@@ -363,16 +393,16 @@ System.out.println(describeAliasRes);
 <TabItem value='javascript'>
 
 ```javascript
-// 9.3 Describe aliases
+// 9.3 エイリアスの詳細表示
 res = await client.describeAlias({
-    collection_name: "customized_setup_2",
+    collection_name: "my_collection_1",
     alias: "bob"
 })
 
 console.log(res)
 
-// Output
-// 
+// 出力
+//
 // {
 //   status: {
 //     extra_info: {},
@@ -384,9 +414,9 @@ console.log(res)
 //   },
 //   db_name: 'default',
 //   alias: 'bob',
-//   collection: 'customized_setup_2'
+//   collection: 'my_collection_1'
 // }
-// 
+//
 ```
 
 </TabItem>
@@ -394,16 +424,10 @@ console.log(res)
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-)
-
-alias, err := cli.DescribeAlias(ctx, milvusclient.NewDescribeAliasOption("bob"))
+alias, err := client.DescribeAlias(ctx, milvusclient.NewDescribeAliasOption("bob"))
 if err != nil {
-    // handle error
+    fmt.Println(err.Error())
+    // エラー処理
 }
 fmt.Println(alias)
 ```
@@ -428,7 +452,7 @@ curl --request POST \
 #     "code": 0,
 #     "data": {
 #         "aliasName": "bob",
-#         "collectionName": "customized_setup_2",
+#         "collectionName": "my_collection_1",
 #         "dbName": "default"
 #     }
 # }
@@ -437,49 +461,49 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Alterエイリアス{#alter-alias}
+## エイリアスの変更\{#alter-alias}
 
-特定のコレクションにすでに割り当てられているエイリアスを別のコレクションに再割り当てできます。
+特定のコレクションに既に割り当てられているエイリアスを別のコレクションに再割り当てできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# 9.4 Reassign aliases to other collections
+# 9.4 他のコレクションにエイリアスを再割り当て
 client.alter_alias(
-    collection_name="customized_setup_1",
+    collection_name="my_collection_2",
     alias="alice"
 )
 
 res = client.list_aliases(
-    collection_name="customized_setup_1"
+    collection_name="my_collection_2"
 )
 
 print(res)
 
-# Output
+# 出力
 #
 # {
 #     "aliases": [
 #         "alice"
 #     ],
-#     "collection_name": "customized_setup_1",
+#     "collection_name": "my_collection_2",
 #     "db_name": "default"
 # }
 
 res = client.list_aliases(
-    collection_name="customized_setup_2"
+    collection_name="my_collection_1"
 )
 
 print(res)
 
-# Output
+# 出力
 #
 # {
 #     "aliases": [
 #         "bob"
 #     ],
-#     "collection_name": "customized_setup_2",
+#     "collection_name": "my_collection_1",
 #     "db_name": "default"
 # }
 ```
@@ -491,16 +515,16 @@ print(res)
 ```java
 import io.milvus.v2.service.utility.request.AlterAliasReq;
 
-// 9.4 Reassign alias to other collections
+// 9.4 他のコレクションにエイリアスを再割り当て
 AlterAliasReq alterAliasReq = AlterAliasReq.builder()
-        .collectionName("customized_setup_1")
+        .collectionName("my_collection_2")
         .alias("alice")
         .build();
 
 client.alterAlias(alterAliasReq);
 
 ListAliasesReq listAliasesReq = ListAliasesReq.builder()
-        .collectionName("customized_setup_1")
+        .collectionName("my_collection_2")
         .build();
 
 ListAliasResp listAliasRes = client.listAliases(listAliasesReq);
@@ -508,14 +532,14 @@ ListAliasResp listAliasRes = client.listAliases(listAliasesReq);
 System.out.println(listAliasRes.getAlias());
 
 listAliasesReq = ListAliasesReq.builder()
-        .collectionName("customized_setup_2")
+        .collectionName("my_collection_1")
         .build();
 
 listAliasRes = client.listAliases(listAliasesReq);
 
 System.out.println(listAliasRes.getAlias());
 
-// Output:
+// 出力:
 // [bob]
 ```
 
@@ -524,40 +548,40 @@ System.out.println(listAliasRes.getAlias());
 <TabItem value='javascript'>
 
 ```javascript
-// 9.4 Reassign aliases to other collections
+// 9.4 他のコレクションにエイリアスを再割り当て
 res = await client.alterAlias({
-    collection_name: "customized_setup_1",
+    collection_name: "my_collection_2",
     alias: "alice"
 })
 
 console.log(res.error_code)
 
-// Output
-// 
+// 出力
+//
 // Success
-// 
+//
 
 res = await client.listAliases({
-    collection_name: "customized_setup_1"
+    collection_name: "my_collection_2"
 })
 
 console.log(res.aliases)
 
-// Output
-// 
+// 出力
+//
 // [ 'alice' ]
-// 
+//
 
 res = await client.listAliases({
-    collection_name: "customized_setup_2"
+    collection_name: "my_collection_1"
 })
 
 console.log(res.aliases)
 
-// Output
-// 
+// 出力
+//
 // [ 'bob' ]
-// 
+//
 
 ```
 
@@ -566,27 +590,23 @@ console.log(res.aliases)
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-)
-
-err = cli.AlterAlias(ctx, milvusclient.NewAlterAliasOption("alice", "customized_setup_1"))
+err = client.AlterAlias(ctx, milvusclient.NewAlterAliasOption("alice", "my_collection_2"))
 if err != nil {
-    // handle error
+    fmt.Println(err.Error())
+    // エラー処理
 }
 
-aliases, err := cli.ListAliases(ctx, milvusclient.NewListAliasesOption("customized_setup_1"))
+aliases, err := client.ListAliases(ctx, milvusclient.NewListAliasesOption("my_collection_2"))
 if err != nil {
-    // handle error
+    fmt.Println(err.Error())
+    // エラー処理
 }
 fmt.Println(aliases)
 
-aliases, err = cli.ListAliases(ctx, milvusclient.NewListAliasesOption("customized_setup_2"))
+aliases, err = client.ListAliases(ctx, milvusclient.NewListAliasesOption("my_collection_1"))
 if err != nil {
-    // handle error
+    fmt.Println(err.Error())
+    // エラー処理
 }
 fmt.Println(aliases)
 ```
@@ -605,29 +625,12 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "aliasName": "alice",
-    "collectionName": "customized_setup_1"
+    "collectionName": "my_collection_2"
 }'
 
 # {
 #     "code": 0,
 #     "data": {}
-# }
-
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/aliases/describe" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
--d '{
-    "aliasName": "bob"
-}'
-
-# {
-#     "code": 0,
-#     "data": {
-#         "aliasName": "bob",
-#         "collectionName": "customized_setup_2",
-#         "dbName": "default"
-#     }
 # }
 
 curl --request POST \
@@ -642,7 +645,24 @@ curl --request POST \
 #     "code": 0,
 #     "data": {
 #         "aliasName": "alice",
-#         "collectionName": "customized_setup_1",
+#         "collectionName": "my_collection_2",
+#         "dbName": "default"
+#     }
+# }
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/aliases/describe" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "aliasName": "bob"
+}'
+
+# {
+#     "code": 0,
+#     "data": {
+#         "aliasName": "alice",
+#         "collectionName": "my_collection_1",
 #         "dbName": "default"
 #     }
 # }
@@ -651,15 +671,15 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ドロップエイリアス{#drop-alias}
+## エイリアスの削除\{#drop-alias}
 
-次のコードスニペットは、エイリアスを削除する手順を示しています。
+以下のコードスニペットは、エイリアスを削除する手順を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# 9.5 Drop aliases
+# 9.5 エイリアスの削除
 client.drop_alias(
     alias="bob"
 )
@@ -676,7 +696,7 @@ client.drop_alias(
 ```java
 import io.milvus.v2.service.utility.request.DropAliasReq;
 
-// 9.5 Drop alias
+// 9.5 エイリアスの削除
 DropAliasReq dropAliasReq = DropAliasReq.builder()
     .alias("bob")
     .build();
@@ -695,17 +715,17 @@ client.dropAlias(dropAliasReq);
 <TabItem value='javascript'>
 
 ```javascript
-// 9.5 Drop aliases
+// 9.5 エイリアスの削除
 res = await client.dropAlias({
     alias: "bob"
 })
 
 console.log(res.error_code)
 
-// Output
-// 
+// 出力
+//
 // Success
-// 
+//
 
 res = await client.dropAlias({
     alias: "alice"
@@ -713,10 +733,10 @@ res = await client.dropAlias({
 
 console.log(res.error_code)
 
-// Output
-// 
+// 出力
+//
 // Success
-// 
+//
 ```
 
 </TabItem>
@@ -724,20 +744,16 @@ console.log(res.error_code)
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-)
-
-err := cli.DropAlias(ctx, milvusclient.NewDropAliasOption("bob"))
+err = client.DropAlias(ctx, milvusclient.NewDropAliasOption("bob"))
 if err != nil {
-    // handle error
+    fmt.Println(err.Error())
+    // エラー処理
 }
 
-err = cli.DropAlias(ctx, milvusclient.NewDropAliasOption("alice"))
+err = client.DropAlias(ctx, milvusclient.NewDropAliasOption("alice"))
 if err != nil {
-    // handle error
+    fmt.Println(err.Error())
+    // エラー処理
 }
 ```
 
@@ -778,4 +794,3 @@ curl --request POST \
 
 </TabItem>
 </Tabs>
-

@@ -1,77 +1,79 @@
 ---
-title: "リリースノート（2024年5月15日） | Cloud"
+title: "リリースノート (2024年5月15日) | Cloud"
 slug: /release-notes-280
-sidebar_label: "リリースノート（2024年5月15日）"
+sidebar_label: "リリースノート (2024年5月15日)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudのこのアップデートでは、BETAのServerlessプランが導入されました。これは、可変クエリボリュームを持つアプリケーション向けに設計されており、最小限の構成が必要で、滑らかなスケーラビリティを提供します。このプランは現在、GCP us-west 1(Oregon)で利用可能であり、BETA期間中に無料トライアルが含まれています。さらに、専用クラスターに対して新しいリージョンがサポートされています AzureのGermany West Central(Frankfurt)、GCPのヨーロッパ-west 3(Frankfurt)およびus-east-4(Virginia)。このリリースでは、モニタリングメトリクス、検索精度制御、およびジョブのインポートにいくつかの強化が導入されています。 | Cloud"
+description: "このZilliz Cloudへのアップデートでは、BETA版のServerlessプランを導入します。可変的なクエリボリュームを持つアプリケーション向けに設計され、最小限の構成を必要とし、シームレスなスケーラビリティを提供します。このプランはGCP us-west1（オレゴン）で利用可能になり、BETA期間中は無料トライアルが含まれます。さらに、専用クラスター向けに新しいリージョンがサポートされます：AzureのGermany West Central（フランクフルト）、およびGCPのeurope-west3（フランクフルト）とus-east-4（バージニア）。このリリースでは、監視メトリクス、検索精度制御、インポートジョブの強化もいくつか導入されます。 | Cloud"
 type: origin
-token: C8ZGwL46hiuqTmkbdRZcggY2nXg
-sidebar_position: 10
-keywords: 
+token: EL8jwqHsPikz2okhYzXcuLscnhf
+sidebar_position: 15
+keywords:
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# リリースノート（2024年5月15日）
+# リリースノート (2024年5月15日)
 
-Zilliz Cloudのこのアップデートでは、BETAのServerlessプランが導入されました。これは、可変クエリボリュームを持つアプリケーション向けに設計されており、最小限の構成が必要で、滑らかなスケーラビリティを提供します。このプランは現在、**GCP us-west 1(Oregon)**で利用可能であり、BETA期間中に無料トライアルが含まれています。さらに、専用クラスターに対して新しいリージョンがサポートされています: Azureの**Germany West Central(Frankfurt)**、GCPの**ヨーロッパ-west 3(Frankfurt)**および**us-east-4(Virginia)**。このリリースでは、モニタリングメトリクス、検索精度制御、およびジョブのインポートにいくつかの強化が導入されています。
+このZilliz Cloudへのアップデートでは、BETA版のServerlessプランを導入します。可変的なクエリボリュームを持つアプリケーション向けに設計され、最小限の構成を必要とし、シームレスなスケーラビリティを提供します。このプランは**GCP us-west1（オレゴン）**で利用可能になり、BETA期間中は無料トライアルが含まれます。さらに、専用クラスター向けに新しいリージョンがサポートされます：Azureの**Germany West Central（フランクフルト）**、およびGCPの**europe-west3（フランクフルト）**と**us-east-4（バージニア）**。このリリースでは、監視メトリクス、検索精度制御、インポートジョブの強化もいくつか導入されます。
 
-### Milvusの互換性{#milvus-compatibility}
+### Milvus互換性\{#milvus-compatibility}
 
-このリリースは**Milvus 2.3. x**と互換性があります。
+このリリースは**Milvus 2.3.x**と互換性があります。
 
-## サーバーレスベータ版{#serverless-beta}
+## Serverless Beta\{#serverless-beta}
 
-サーバーレスプランは、可変または散発的なクエリボリュームを持つアプリケーションに合わせて調整されており、最小限の構成と最適化の負担と滑らかなスケーラビリティを提供します。ワークロードの要求に合わせて自動的にスケーリングされるサーバーレスクラスターを備えており、使いやすさと迅速なセットアップを保証します。
+Serverlessプランは、可変または断続的なクエリボリュームを持つアプリケーション向けに設計され、最小限の構成および最適化の負担を提供し、シームレスなスケーラビリティを実現します。ワークロードの要求に合わせて自動スケーリングするServerlessクラスターを備えており、使いやすさと迅速なセットアップを保証します。
 
-Serverlessは現在**BETA**で提供されており、**GCP us-west 1(Oregon)**で利用可能です。無料トライアルでは、支払い方法を追加することなく、最大1つのServerlessクラスタを作成できます。
+Serverlessは現在**BETA**として提供され、**GCP us-west1（オレゴン）**で利用可能です。無料トライアルにより、支払い方法を追加することなく最大1つのServerlessクラスターを作成できます。
 
-詳細については、[Severlessプラン](./free-trials)を参照してください。
+詳細については、[Serverlessプラン](./free-trials)を参照してください。
 
-## 他の利用可能な地域{#more-available-regions}
+## 利用可能なリージョンの追加\{#more-available-regions}
 
-新しいAzureリージョン: 
+新しいAzureリージョン：
 
-- ドイツ西中部（フランクフルト）
+- Germany West Central（フランクフルト）
 
-新しいGCPリージョン:
+新しいGCPリージョン：
 
-- ヨーロッパ西3（フランクフルト）
+- europe-west3（フランクフルト）
 
-- us-east-4(バージニア)
+- us-east-4（バージニア）
 
-利用可能なすべてのクラウドリージョンについては、「[クラウドプロバイダー&地域](./cloud-providers-and-regions)」を参照してください。
+利用可能なすべてのクラウドリージョンについては、[クラウドプロバイダーおよびリージョン](./cloud-providers-and-regions)を参照してください。
 
-## パイプライン{#pipelines}
+## パイプライン\{#pipelines}
 
 - テキストパイプライン
 
-    ドキュメント全体を取り込むだけでなく、商品説明やドキュメントチャンクなどのテキスト文字列を取り込んで検索できるようになりました。これにより、RAGやセマンティック検索をより柔軟に開発できます。詳細については、[テキストデータ](./pipelines-text-data)と[ドキュメントデータ](./pipelines-doc-data)を参照してください。
+    ドキュメント全体をインジェストするだけでなく、検索用の商品説明やドキュメントチャンクなどのテキスト文字列のインジェストもサポートするようになりました。これにより、RAGやセマンティック検索の開発における柔軟性が高まります。
 
-- イメージパイプライン
+- 画像パイプライン
 
-    新しく追加された画像パイプラインは、ベクトル埋め込みを生成し、画像URLをクエリ入力として受け取ることで、画像検索のユースケースをロック解除することができます。これにより、画像ごとに検索する必要があるアプリケーションを実装することができます。詳細については、[画像データ](./pipelines-image-data)を参照してください。
+    画像検索ユースケースを解き放つために、新しく追加された画像パイプラインはベクトル埋め込みを生成し、画像URLをクエリ入力として受け取ることができます。これにより、画像で画像を検索する必要があるアプリケーションの実装が可能になります。
 
-- パイプラインは既存のコレクションと一緒に使用できるようになりました。REST APIでは、パイプラインのロジックが既存のコレクションのスキーマと一致する限り、パイプラインの作成要求で既存のベクトルコレクションを宛先として指定できます(たとえば、パイプラインが「published_date」というフィールドをPRESERVEと指定する場合、そのフィールドはコレクションスキーマにも存在する必要があります)。詳細については、[パイプラインリファレンス](/reference/restful/pipeline-operations)ドキュメントを参照してください。
+- パイプラインを既存のコレクションで使用できるようになりました。REST APIでは、作成パイプラインリクエストで、パイプラインのロジックが既存のコレクションのスキーマと一致していれば、既存のベクトルコレクションを宛先として指定できます（例：パイプラインが「publish_date」というフィールドをPRESERVEとして指定する場合、そのフィールドもコレクションスキーマに存在する必要があります）。
 
-## エンハンスメント{#enhancements}
+## 機能強化\{#enhancements}
 
-このリリースには、一連の機能強化も含まれています。
+このリリースには、一連の機能強化も含まれます：
 
-- クラスターを監視するためのより多くの[指標](./metrics-alerts-reference)。
+- クラスター監視のためのより多くの[メトリクス](./metrics-alerts-reference)。
 
-- 精度制御のための検索パラメータで、リコールと検索パフォーマンスのトレードオフに5つのレベルを提供します。詳細については、[レベルパラメータについて](./autoindex-explained#about-the-level-parameter)読んでください。
+- 精度制御のための検索パラメータで、リコールと検索パフォーマンスのトレードオフのための5つのレベルを提供します。詳細については、[levelパラメータについて](./autoindex-explained#about-the-level-parameter)を読んでください。
 
-- 1つのコレクションに対して最大10件の実行中または保留中のインポートジョブを許可します。
-
+- 単一コレクションに対して最大10個の実行中または保留中のインポートジョブを許可します。

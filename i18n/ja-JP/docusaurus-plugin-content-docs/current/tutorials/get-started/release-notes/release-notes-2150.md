@@ -1,72 +1,82 @@
 ---
-title: "リリースノート（2025年4月24日） | Cloud"
+title: "リリースノート (2025年4月24日) | Cloud"
 slug: /release-notes-2150
-sidebar_label: "リリースノート（2025年4月24日）"
+sidebar_label: "リリースノート (2025年4月24日)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudのプライベートプレビューで、Zero-Downtime Migrationが利用可能になったことをお知らせできることを嬉しく思っています!クラスタをアップグレードする必要がある場合や、キャパシティ最適化されたコンピュートユニット(CU)から別のオプションに切り替える必要がある場合でも、サービスの中断なしにデータを簡単に移行できます。さらに、Zilliz BYOCは、BYOCプロジェクトのインスタンス設定を構成し、クラスタのAWS PrivateLinkを有効にするためのいくつかの改良を導入しました。 | Cloud"
+description: "Zilliz CloudのPrivate Previewでゼロダウンタイム移行が可能になったことを嬉しく思います！クラスターのアップグレードや、容量最適化コンピュートユニット（CU）から別のオプションへの切り替えなど、展開の変更が必要な場合でも、サービスの中断なしに簡単にデータを移行できます。さらに、Zilliz BYOCはいくつかの機能強化を導入し、BYOCプロジェクトのインスタンス設定を構成し、クラスターのAWS PrivateLinkを有効にできるようになりました。 | Cloud"
 type: origin
-token: WXCgwGfXriSJrIkYPrdcPYLnn4g
-sidebar_position: 1
-keywords: 
+token: JPNiwF6rPiNe0pkx460cr321nTc
+sidebar_position: 6
+keywords:
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# リリースノート（2025年4月24日）
+# リリースノート (2025年4月24日)
 
-Zilliz Cloudの**プライベートプレビュー**で、Zero-Downtime Migrationが利用可能になったことをお知らせできることを嬉しく思っています!クラスタをアップグレードする必要がある場合や、キャパシティ最適化されたコンピュートユニット(CU)から別のオプションに切り替える必要がある場合でも、サービスの中断なしにデータを簡単に移行できます。さらに、Zilliz BYOCは、BYOCプロジェクトのインスタンス設定を構成し、クラスタのAWS PrivateLinkを有効にするためのいくつかの改良を導入しました。
+Zilliz Cloudの**Private Preview**でゼロダウンタイム移行が可能になったことを嬉しく思います！クラスターのアップグレードや、容量最適化コンピュートユニット（CU）から別のオプションへの切り替えなど、展開の変更が必要な場合でも、サービスの中断なしに簡単にデータを移行できます。さらに、Zilliz BYOCはいくつかの機能強化を導入し、BYOCプロジェクトのインスタンス設定を構成し、クラスターのAWS PrivateLinkを有効にできるようになりました。
 
-## Milvusの互換性{#milvus-compatiblity}
+## Milvus互換性\{#milvus-compatibility}
 
-このリリースはMilvus v 2.5. xと互換性があり、Milvus v 2.5.xのすべての機能が**一般提供**されています。
+このリリースは**Milvus v2.5.x**と互換性があります。
 
-## 最小限のサービス中断でシームレスなデータ移行{#seamless-data-migration-with-minimal-service-interruption}
+- このリリース後に作成されたすべてのZilliz CloudクラスターはMilvus v2.5.xと互換性があります。
 
-以前のリリースでは、クラスタ間でデータを移行するには、厳密な可用性要件を持つ企業にとって障害となる慎重に計画されたダウンタイムが必要でした。Zilliz Cloudは、ゼロダウンタイム移行により、この複雑さを排除し、滑らかで完全に管理された移行体験を提供します。
+- このリリース前に作成されたクラスターについては、Milvus v2.5.xの機能と機能を試すために、次の図に示すように黄色枠のボタンをクリックする必要がある場合があります。
 
-この機能は、バックアップツールと変更データキャプチャ(CDC)の2つのコンポーネントを組み合わせたデュアルスタック戦略を使用しています。バックアップツールはソースクラスタの一貫したスナップショットをキャプチャし、CDCはターゲットクラスタへの新しい書き込みを実際立って追跡および複製します。
+現在、すべてのMilvus v2.5.x機能は**PUBLIC PREVIEW**中です。
 
-Zilliz Cloudのネイティブマイグレーションフローは以下を保証します:
+![GeJSbANVto14OtxFg6zcPFAYnZz](/img/GeJSbANVto14OtxFg6zcPFAYnZz.png)
 
-- 履歴データとリアルタイム更新の一貫性
+## 最小限のサービス中断によるシームレスなデータ移行\{#seamless-data-migration-with-minimal-service-interruption}
 
-- イベントの正しい順序付けと堅牢なフォールトトレランス
+以前のリリースでは、クラスター間でのデータ移行には、厳格な可用性要件を持つビジネスにとって障害となる、慎重に計画されたダウンタイムが必要でした。ゼロダウンタイム移行により、Zilliz Cloudはこの複雑さを排除し、シームレスな完全管理型移行エクスペリエンスを提供します。
 
-- 書き込みの競合、競合状態、スキーマの不一致に対する保護
+この機能は、バックアップツールと変更データ取得（CDC）の2つのコンポーネントを組み合わせたデュアルスタック戦略を使用します。バックアップツールはソースクラスターの整合性のあるスナップショットを取得し、CDCはリアルタイムで新しい書き込みをターゲットクラスターに継続的に追跡およびレプリケートします。
 
-- 移行過程を通じて、ソースクラスタとターゲットクラスタ間の状態遷移がスムーズに行われます。
+Zilliz Cloudのネイティブ移行フローは以下を保証します：
 
-Zilliz Cloudコンソールの**プライベートプレビュー**で、ゼロダウンタイム移行が利用可能になりました。最初の移行を開始するにはログインしてください。ダウンタイムは必要ありません。詳細な操作手順と制限については、「[ゼロダウンタイム移行](./zero-downtime-migration)」を参照してください。
+- 履歴データとリアルタイム更新間の整合性、
 
-## BYOCはインスタンス設定とAWS PrivateLinkサポートで強化されました{#byoc-enhanced-with-instance-settings-and-aws-privatelink-support}
+- 正しいイベント順序付けと堅牢な障害耐性、
 
-Zilliz BYOCプロジェクトでは、**Search Services**、**Other Database Components**、**Core Support Services**などの複数のグループにサービスが整理されています。このリリースでは、プロジェクト作成時に各サービスグループのインスタンスタイプと数量を定義できるようになりました。
+- 書き込み競合、競合状態、およびスキーマ不一致に対する保護、および
 
-構成を簡素化するために、Zilliz BYOCは4つの事前定義されたプロジェクトサイズ(**小**、**中**、**大**、**X-大**)を提供しているため、ワークロード要件に最適なオプションを選択できます。
+- 移行プロセス全体でのソースクラスターとターゲットクラスター間のスムーズな状態遷移。
 
-このリリースでは、VPCからZilliz Cloud Control Planeへの安全でプライベートな接続のために**AWS PrivateLink**を有効または無効にする機能も導入されています。PrivateLinkはデフォルトオンになっていることに注意してください。
+ゼロダウンタイム移行は現在Zilliz Cloudコンソールの**Private Preview**で利用可能です。ログインして最初の移行を開始してください。ダウンタイムは必要ありません。詳細な操作手順および制限については、[ゼロダウンタイム移行](./zero-downtime-migration)を参照してください。
 
-設定手順の詳細については、「[BYOCをAWSにデプロイする](/ja-JP/docs/byoc/deploy-byoc-aws)」と「[BYOC-IをAWSにデプロイする](/ja-JP/docs/byoc/deploy-byoc-i-aws)」を参照してください。
+## インスタンス設定およびAWS PrivateLinkサポートで強化されたBYOC\{#byoc-enhanced-with-instance-settings-and-aws-privatelink-support}
 
-## JSONフィールド内での細かいフィルタリング{#fine-granular-filtering-within-a-json-field}
+Zilliz BYOCプロジェクトでは、サービスは**検索サービス**、**その他のデータベースコンポーネント**、および**コアサポートサービス**などの複数のグループに整理されています。このリリースでは、プロジェクト作成時に各サービスグループのインスタンスタイプおよび数量を定義できるようになりました。
 
-以前は、JSONフィールドはインデックス化されておらず、すべてのフィルタークエリは各エンティティのJSONフィールド全体をスキャンする必要がありました。このリリースでは、JSONフィールド内の特定のパスに反転インデックスを作成してクエリを高速化できるようになりました。
+構成を簡素化するために、Zilliz BYOCは**Small**、**Medium**、**Large**、および**X-Large**の4つの事前定義プロジェクトサイズを提供するため、ワークロード要件に最も適したオプションを選択できます。
 
-JSONフィールドをインデックス化するには、インデックスタイプを**INVERTED**に設定し、最適化したいJSONパスを指定し、その値を適切なデータ型にキャストします。メタデータフィルタリング中、Zilliz Cloudは各JSONフィールド値内の指定されたパスのみをスキャンし、解析時間を大幅に短縮し、フィルタリングのパフォーマンスを向上させます。
+このリリースでは、VPCからZilliz Cloudコントロールプレーンへの安全でプライベートな接続のための**AWS PrivateLink**を有効または無効にする機能も導入されました。PrivateLinkはデフォルトで有効になっていることに注意してください。
 
-JSONフィールドをインデックス化する方法とその考慮事項の詳細については、[JSONフィールドのインデックス化](./use-json-fields#set-index-params)を参照してください。
+構成手順の詳細については、[AWSへのBYOC展開](/docs/byoc/deploy-byoc-aws)および[AWSへのBYOC-I展開](/docs/byoc/deploy-byoc-i-aws)を参照してください。
 
-## その他の機能強化{#other-enhancements}
+## JSONフィールド内の細かなフィルタリング\{#fine-granular-filtering-within-a-json-field}
 
-クラスタのレプリカ数を変更するための新しいRESTful APIエンドポイントを追加しました。詳細については、「[クラスタレプリカの変更](/ja-JP/reference/restful/modify-cluster-replica-v2)」を参照してください。
+以前は、JSONフィールドはインデックス化されておらず、すべてのフィルタクエリは各エンティティのJSONフィールド全体をスキャンする必要がありました。このリリースでは、JSONフィールド内の特定のパスに逆インデックスを作成してクエリを高速化できるようになりました。
+JSONフィールドをインデックス化するには、インデックスタイプを**INVERTED**に設定し、最適化したいJSONパスを指定し、その値を適切なデータ型にキャストします。メタデータフィルタリング中、Zilliz Cloudは各JSONフィールド値内の指定されたパスのみをスキャンするため、解析時間の大幅な短縮とフィルタリングパフォーマンスの向上が実現します。
+
+JSONフィールドのインデックス化方法および考慮事項の詳細については、[JSONフィールドのインデックス化](./use-json-fields)を参照してください。
+
+## その他の機能強化\{#other-enhancements}
+
+クラスターのレプリカ数を変更するための新しいRESTful APIエンドポイントを追加しました。詳細については、[クラスターレプリカの変更](/reference/restful/modify-cluster-replica-v2)を参照してください。

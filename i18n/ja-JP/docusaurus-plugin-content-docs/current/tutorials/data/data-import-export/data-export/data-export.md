@@ -3,20 +3,23 @@ title: "データエクスポート | Cloud"
 slug: /data-export
 sidebar_label: "データエクスポート"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "このガイドでは、さまざまな方法を使用してZilliz Cloudからデータをエクスポートする方法の例を紹介します。 | Cloud"
 type: origin
-token: OyMpwQi09iopGikeSojcMGTDnsh
+token: CeH9wPtUfiOdDckoPszcAuLonce
 sidebar_position: 2
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
   - data export
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

@@ -1,70 +1,71 @@
 ---
-title: "リリースノート（2024年4月3日） | Cloud"
+title: "リリースノート (2024年4月3日) | Cloud"
 slug: /release-notes-270
-sidebar_label: "リリースノート（2024年4月3日）"
+sidebar_label: "リリースノート (2024年4月3日)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "このアップデートにより、Zilliz Cloudに強力なツールと強化が導入されました。Object Storageなどのソースから簡単にデータを取り込むための新しいコネクタ、検索の関連性を向上させるためのRerankers、詳細なシステム状態分析のためのMetrics Monitoring API、AWS S 3、Google Cloud Storage、Azure Blob Storageからベクトルデータベースインスタンスに直接インポートすることができるCross Cloud Data Import機能が追加されました。これらの機能は、データの取り込み、検索精度、運用洞察を向上させ、クラウド上のベクトルデータベースの管理を効率化します。 | Cloud"
+description: "このアップデートでは、Zilliz Cloudに強力なツールと機能強化を導入します：Object Storageなどのソースからの簡単なデータインジェストのための新しいConnector、検索関連性を改善するRerankers、詳細なシステム状態分析のためのメトリクス監視API、およびAWS S3、Google Cloud Storage、およびAzure Blob Storageからベクターデータベースインスタンスへの直接インポートを可能にするクロスクラウドデータインポート機能。これらの機能は、クラウドでのベクターデータベース管理を合理化する、データインジェスト、検索精度、および運用洞察の向上を組み合わせています。 | Cloud"
 type: origin
-token: K2piwxZFZiL00xkf2TtctY80nSe
-sidebar_position: 11
-keywords: 
+token: S7PMwgqGOiURCpkTFT4cTnTjnAc
+sidebar_position: 16
+keywords:
   - zilliz
   - vector database
   - cloud
   - release notes
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# リリースノート（2024年4月3日）
+# リリースノート (2024年4月3日)
 
-このアップデートにより、Zilliz Cloudに強力なツールと強化が導入されました。Object Storageなどのソースから簡単にデータを取り込むための新しいコネクタ、検索の関連性を向上させるためのRerankers、詳細なシステム状態分析のためのMetrics Monitoring API、AWS S 3、Google Cloud Storage、Azure Blob Storageからベクトルデータベースインスタンスに直接インポートすることができるCross Cloud Data Import機能が追加されました。これらの機能は、データの取り込み、検索精度、運用洞察を向上させ、クラウド上のベクトルデータベースの管理を効率化します。
+このアップデートでは、Zilliz Cloudに強力なツールと機能強化を導入します：Object Storageなどのソースからの簡単なデータインジェストのための新しいConnector、検索関連性を改善するRerankers、詳細なシステム状態分析のためのメトリクス監視API、およびAWS S3、Google Cloud Storage、およびAzure Blob Storageからベクターデータベースインスタンスへの直接インポートを可能にするクロスクラウドデータインポート機能。これらの機能は、クラウドでのベクターデータベース管理を合理化する、データインジェスト、検索精度、および運用洞察の向上を組み合わせています。
 
-### Milvusの互換性{#milvus-compatibility}
+### Milvus互換性\{#milvus-compatibility}
 
-このリリースは**Milvus 2.3. x**と互換性があります。
+このリリースは**Milvus 2.3.x**と互換性があります。
 
-### Azure Marketplace Azureブログ{#azure-marketplace}
+### Azure Marketplace\{#azure-marketplace}
 
-Zilliz CloudがAzure Marketplaceで利用可能になりました。これにより、ユーザーはAzure上で高度で完全に管理されたベクトルデータベースサービスにアクセスすることがこれまで以上に簡単になりました。この新しい統合は、スケーラブルなAIアプリケーションの必要性がますます高まる中で、重要な時期に到着しました。Zilliz CloudがAzure Marketplaceに登場したことで、ユーザーは簡単にAIアプリケーションを構築および拡張することができます。Zilliz Cloud on Azureのパワーを活用して、AIプロジェクトを加速しましょう。[Zilliz Cloud on Azure Marketplace](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=PlansAndPrice)をご覧ください。
+Zilliz CloudはAzure Marketplaceで利用可能になり、ユーザーがAzureで高度な完全管理型ベクターデータベースサービスにこれまで以上に簡単にアクセスできるようになりました。この新しい統合は、スケーラブルなAIアプリケーションの必要性が高まり続ける中で重要な時期に登場しました。Zilliz CloudがAzure Marketplaceで利用可能になったことで、ユーザーはAIアプリケーションをすばやく構築し、簡単に拡張できるようになりました。今日からAIプロジェクトを加速するために、AzureのZilliz Cloudのパワーを活用してください。[Azure MarketplaceのZilliz Cloudを参照](https://azuremarketplace.microsoft.com/en-us/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=PlansAndPrice)。
 
-### コネクタ{#connectors}
+### コネクタ\{#connectors}
 
-コネクタは、Object Storage、Kafka(近日中にサポートが提供されます)など、複数のデータソースからZilliz Cloudにデータをストリーミングするために設計された組み込みツールです。たとえば、Object Storageコネクタには、特定のオブジェクトストレージバケットを監視し、PDFやHTMLなどのファイルをZilliz Cloud Ingestion Pipelinesに自動的に同期する機能があります。この過程により、これらのファイルをベクトル表現に変換し、検索機能を強化するために効率的にベクトルデータベースにロードできます。詳細については、「[データに接続する](./connectors)」を参照してください。
+コネクタは、Object Storage、Kafka（まもなくサポート開始）、およびそれ以上の複数データソースからZilliz Cloudへのストリーミングデータ用に設計された組み込みツールです。たとえば、Object Storageコネクタは、指定されたオブジェクトストレージバケットを監視し、PDFおよびHTMLなどのファイルをZilliz Cloudインジェストパイプラインに自動的に同期する機能を持っています。このプロセスは、これらのファイルをベクトル表現に変換し、強化された検索機能のためにベクターデータベースに効率的にロードすることを可能にします。
 
-### リランカーズ{#rerankers}
+### リランカー\{#rerankers}
 
-リランカーは現在、検索パイプラインに統合されており、関連性によって検索結果を絞り込み、検索品質を向上させるためのオプションの強化を提供しています。このリリースでは、以下のリランカーオプションを導入しています。
+リランカーは現在、検索パイプラインに統合されており、関連性で検索結果を洗練させたい人に向けたオプション強化を提供し、検索品質を向上させます。このリリースでは、以下のリランカーオプションを導入します：
 
-- zilliz/bge-reranker-base-ダウンロード
+- zilliz/bge-reranker-base
 
-[リランカーの機能と利点の詳細をご覧ください](./reranker)。
+### メトリクス監視用API\{#api-for-metrics-monitoring}
 
-### メトリクスモニタリング用API{#api-for-metrics-monitoring}
+このリリースから、Zilliz Cloudはメトリクス監視に特化したAPIを提供します。この新しく導入されたAPIは、30以上のメトリクスへのアクセスを提供し、システムのパフォーマンスと効率に不可欠なさまざまな側面を包括的に把握できます。
 
-今回のリリースから、Zilliz Cloudはメトリクスモニタリング専用のAPIを提供します。この新しく導入されたAPIにより、30以上のメトリクスの包括的なスイートへのアクセスが可能となり、システムのパフォーマンスと効率に重要なさまざまな側面を包括的に把握できます。
+主要メトリクスカバー：
 
-主な指標のカバー:
+- リソース使用量追跡：Compute Unit（CU）リソース使用量を深く洞察し、コンピュート使用量およびストレージ容量を追跡できます。
 
-- リソース使用率の追跡:コンピューティングユニット（CU）のリソース使用率に関する深い洞察を得て、コンピューティングの使用率とストレージ容量を追跡できます。
+- 検索およびデータ挿入パフォーマンスメトリクス：レイテンシとスループットに特に焦点を当てて、検索クエリおよびデータ挿入プロセスのパフォーマンスを評価します。
 
-- 検索とデータ挿入のパフォーマンスメトリック:検索クエリとデータ挿入プロセスのパフォーマンスを評価し、特にレイテンシとスループットに焦点を当てます。
+- リクエスト失敗率：潜在的な問題をすばやく特定し、トラブルシューティングできるように、リクエストの失敗率を監視し、信頼性の高いアプリケーションパフォーマンスを確保します。
 
-- リクエストの失敗率:リクエストの失敗率を監視して、潜在的な問題を迅速に特定してトラブルシューティングし、信頼性の高いアプリケーションパフォーマンスを確保します。
+- コレクションおよびエンティティ統計：コレクションおよびエンティティの詳細な統計にアクセスし、データ管理の改善を促進します。
 
-- コレクションとエンティティの統計:コレクションとエンティティの詳細な統計にアクセスし、データ管理を改善します。
+[APIの詳細についてはさらに発見](/reference/restful/query-metrics)。
 
-[APIの詳細についてはこちらをご覧ください](/reference/restful/query-metrics)。
+### クロスクラウドデータインポートおよび移行強化\{#cross-cloud-data-import-and-migration-enhancement}
 
-### クロスクラウドデータのインポートと移行の強化{#cross-cloud-data-import-and-migration-enhancement}
+現在、Zilliz Cloudユーザーは、AWS S3、Google Cloud Storage、およびAzure Blob StorageからZilliz Cloud上の任意のベクターデータベースインスタンスに、場所に関係なくデータを容易にインポートまたは移行できます。
 
-今や、Zilliz Cloudのユーザーは、AWS S 3、Google Cloud Storage、Azure Blob Storageからデータを簡単にインポートまたはZilliz Cloud上の任意のベクトルデータベースインスタンスに移行できます。
-
-詳細については、Zilliz Cloudドキュメントの[データインポート](./data-import)と[マイグレーション](./migrations)を参照してください。
+詳細については、Zilliz Cloudドキュメントの[データインポート](./data-import)および[移行](./migrations)を参照してください。

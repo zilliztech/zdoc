@@ -3,22 +3,25 @@ title: "インポートとエクスポート | Cloud"
 slug: /data-import-export
 sidebar_label: "インポートとエクスポート"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "この章では、Zilliz Cloudクラスターにデータをインポートしたり、データをエクスポートするための一般的な手順について説明します。 | Cloud"
+description: "この章では、Zilliz Cloudクラスターへのデータのインポートとエクスポートの一般的な手順について説明します。 | Cloud"
 type: origin
-token: DTs5w8R6die9xGk9nHncNE2jnlb
-sidebar_position: 6
-keywords: 
+token: Oh3VwT15Yi03bRkOtoXcZpurnWe
+sidebar_position: 7
+keywords:
   - zilliz
   - vector database
   - cloud
   - data import
   - export
   - milvus
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 
@@ -27,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 # インポートとエクスポート
 
-この章では、Zilliz Cloudクラスターにデータをインポートしたり、データをエクスポートするための一般的な手順について説明します。
+この章では、Zilliz Cloudクラスターへのデータのインポートとエクスポートの一般的な手順について説明します。
 
 import DocCardList from '@theme/DocCardList';
 

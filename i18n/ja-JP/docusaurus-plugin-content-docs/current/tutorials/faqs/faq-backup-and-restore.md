@@ -1,29 +1,26 @@
 ---
-title: "FAQ:バックアップと復元 | CLOUD"
+title: "FAQ：バックアップとリストア | CLOUD"
 slug: /faq-backup-and-restore
-sidebar_label: "FAQ:バックアップと復元"
+sidebar_label: "FAQ：バックアップとリストア"
 beta: FALSE
 notebook: FALSE
-description: "このトピックでは、Zilliz Cloudでデータをバックアップおよび復元する際に発生する可能性のある問題と、それに対応する解決策について説明します。 | CLOUD"
+description: "このトピックでは、Zilliz Cloud上でデータのバックアップと復元を行う際に遭遇する可能性のある問題と、それに対応する解決策をリストアップしています。 | CLOUD"
 type: origin
-token: LKxiwykkhi5VyLkTfAGcE3LinBe
-sidebar_position: 8
+token: EV41wG08BiOWW8kbo9xcTGoPnKd
+sidebar_position: 7
 
 ---
 
-# FAQ:バックアップと復元
+# FAQ：バックアップとリストア
 
-このトピックでは、Zilliz Cloudでデータをバックアップおよび復元する際に発生する可能性のある問題と、それに対応する解決策について説明します。
+このトピックでは、Zilliz Cloud上でデータのバックアップと復元を行う際に遭遇する可能性のある問題と、それに対応する解決策をリストアップしています。
 
-## Contents
+## 目次
 
-- [専用（スタンダード）プランでバックアップ機能は利用できますか?](#is-the-backup-feature-available-in-the-dedicated-standard-plan)
+- [Standardプランでバックアップ機能は利用可能ですか？](#is-the-backup-feature-available-in-the-standard-plan)
 
-## FAQs
+## FAQ
 
+### Standardプランでバックアップ機能は利用可能ですか？\{#is-the-backup-feature-available-in-the-standard-plan}
 
-
-
-### 専用（スタンダード）プランでバックアップ機能は利用できますか?{#is-the-backup-feature-available-in-the-dedicated-standard-plan}
-
-はい。バクカップの作成は、専用（スタンダード）プランと専用（エンタープライズ）プランの両方で利用できます。
+はい。バックアップの作成は、**Standard**プロジェクト内の**Dedicated**クラスターで利用可能です。

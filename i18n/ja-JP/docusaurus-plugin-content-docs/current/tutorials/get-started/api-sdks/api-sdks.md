@@ -1,14 +1,17 @@
 ---
-title: "APIとSDK | Cloud"
+title: "API & SDK | Cloud"
 slug: /api-sdks
-sidebar_label: "APIとSDK"
+sidebar_label: "API & SDK"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "この章では、RESTful APIとSDKを使用またはインストールする手順と、それらのリファレンスドキュメントにアクセスできます。 | Cloud"
+description: "この章では、RESTful APIおよびSDKの使用またはインストール手順とそのリファレンスドキュメントへのアクセスを提供します。 | Cloud"
 type: origin
-token: AiLpwtyT3ieHFikJsUDc9kgunUb
-sidebar_position: 11
-keywords: 
+token: Ecwpw6cImiFV0gkkusgcQhvBnLe
+sidebar_position: 12
+keywords:
   - zilliz
   - milvus
   - vector database
@@ -20,19 +23,19 @@ keywords:
   - go
   - node
   - nodejs
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# APIとSDK
+# API & SDK
 
-この章では、RESTful APIとSDKを使用またはインストールする手順と、それらのリファレンスドキュメントにアクセスできます。
+この章では、RESTful APIおよびSDKの使用またはインストール手順とそのリファレンスドキュメントへのアクセスを提供します。
 
 import DocCardList from '@theme/DocCardList';
 

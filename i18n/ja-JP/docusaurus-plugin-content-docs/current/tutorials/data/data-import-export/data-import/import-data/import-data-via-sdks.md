@@ -1,23 +1,26 @@
 ---
-title: "データのインポート(SDK) | Cloud"
+title: "データのインポート（SDK） | Cloud"
 slug: /import-data-via-sdks
-sidebar_label: "データのインポート(SDK)"
+sidebar_label: "SDK"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、バルクライターおよびバルクインポートAPIを使用して、S DKを使用してデータをコレクションにインポートする方法について説明します。 | Cloud"
+description: "このガイドでは、SDKを使用してバルクライターおよびバルクインポートAPIでデータをコレクションにインポートする方法を学習します。 | Cloud"
 type: origin
-token: AIsmwf4qIiGUUckvWLNcbfn0nac
+token: MvgAwL4HIiuRRJkH0FwcJhxSnld
 sidebar_position: 3
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
   - data import
   - sdk
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 
@@ -25,19 +28,19 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# データのインポート(SDK)
+# データのインポート（SDK）
 
-このガイドでは、バルクライターおよびバルクインポートAPIを使用して、S DKを使用してデータをコレクションにインポートする方法について説明します。
+このガイドでは、SDKを使用してバルクライターおよびバルクインポートAPIでデータをコレクションにインポートする方法を学習します。
 
-また、データの準備とZilliz Cloudコレクションへのデータインポートの両方をカバーする[ファストトラックのエンドツーエンドコース](./data-import-zero-to-hero)を参照することもできます。
+または、[私たちの短期集中型エンドツーエンドコース](./data-import-zero-to-hero)も参照できます。このコースでは、データの準備とZilliz Cloudコレクションへのデータインポートの両方をカバーしています。
 
-## 依存関係のインストール{#install-dependencies}
+## 依存関係をインストール\{#install-dependencies}
 
-<Tabs groupId="code"defaultValue='python'value={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 
 <TabItem value='python'>
 
-端末で以下のコマンドを実行して、**pymilvus**と**minio**をインストールするか、最新バージョンにアップグレードしてください。
+ターミナルで以下のコマンドを実行して、**pymilvus**および**minio**をインストールするか、最新バージョンにアップグレードしてください。
 
 ```shell
 python3 -m pip install --upgrade pymilvus minio
@@ -47,7 +50,7 @@ python3 -m pip install --upgrade pymilvus minio
 
 <TabItem value='java'>
 
-- Apache Mavenの場合、**pom. xml**の依存関係に以下を追加してください:
+- Apache Mavenの場合は、**pom.xml**の依存関係に以下を追加：
 
 ```java
 <dependency>
@@ -63,7 +66,7 @@ python3 -m pip install --upgrade pymilvus minio
 </dependency>
 ```
 
-- Gradle/Grailsの場合、以下を実行してください。
+- Gradle/Grailsの場合は、以下を実行：
 
 ```shell
 compile 'io.milvus:milvus-sdk-java:2.4.8'
@@ -74,9 +77,9 @@ compile 'io.minio:minio:8.5.9'
 
 </Tabs>
 
-## 準備したデータを確認する{#check-prepared-data}
+## 準備されたデータを確認\{#check-prepared-data}
 
-[BulkWriterツール](./use-bulkwriter)を使用してデータを準備し、準備したファイルのパスを取得したら、Zilliz Cloudコレクションにインポートする準備ができました。準備ができているかどうかを確認するには、次の手順を実行します。
+[BulkWriterツール](./use-bulkwriter)を使用してデータを準備し、準備されたファイルのパスを取得したとします。Zilliz Cloudコレクションにインポートする準備ができています。準備ができているかどうかを確認するには、以下のようにします：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -84,14 +87,14 @@ compile 'io.minio:minio:8.5.9'
 ```python
 from minio import Minio
 
-# Third-party constants
+# サードパーティの定数
 ACCESS_KEY = "YOUR_ACCESS_KEY"
 SECRET_KEY = "YOUR_SECRET_KEY"
 BUCKET_NAME = "YOUR_BUCKET_NAME"
 REMOTE_PATH = "YOUR_REMOTE_PATH"
 
 client = Minio(
-    endpoint="storage.googleapis.com", # use 's3.amazonaws.com' for AWS S3
+    endpoint="storage.googleapis.com", # AWS S3の場合は 's3.amazonaws.com' を使用
     access_key=ACCESS_KEY,
     secret_key=SECRET_KEY,
     secure=True
@@ -105,7 +108,7 @@ objects = client.list_objects(
 
 print([obj.object_name for obj in objects])
 
-# Output
+# 出力
 #
 # [
 #     "folder/1/claps.npy",
@@ -131,17 +134,17 @@ import io.minio.messages.Item;
 
 import java.util.Iterator;
 
-// Third-party constants
+// サードパーティの定数
 String ACCESS_KEY = "YOUR_ACCESS_KEY";
 String SECRET_KEY = "YOUR_SECRET_KEY";
 String BUCKET_NAME = "YOUR_BUCKET_NAME";
 String REMOTE_PATH = "YOUR_REMOTE_PATH";
 
 MinioClient minioClient = MinioClient.builder()
-        .endpoint("storage.googleapis.com") // use 's3.amazonaws.com' for AWS S3
+        .endpoint("storage.googleapis.com") // AWS S3の場合は 's3.amazonaws.com' を使用
         .credentials(ACCESS_KEY, SECRET_KEY)
         .build();
-        
+
 Iterable<Result<Item>> results = minioClient.listObjects(
     ListObjectsArgs.builder().bucket(BUCKET_NAME).prefix(REMOTE_PATH).build();
 );
@@ -151,16 +154,22 @@ while (results.hasNext()) {
     System.out.println(result.get().objectName());
 }
 
-// Output
+// 出力
 // [[1.parquet]]
 ```
 
 </TabItem>
 </Tabs>
 
-## データのインポート{#import-data}
+## データのインポート\{#import-data}
 
-データとコレクションの準備ができたら、次のようにインポート過程を開始できます。
+データとコレクションの準備ができたら、ステージ経由またはオブジェクトストレージバケットやブロックストレージblobコンテナなどの外部ストレージ経由で、特定のコレクションにデータをインポートできます。
+
+### ステージを介したデータのインポート | PRIVATE\{#import-data-via-stage}
+
+ステージ経由でデータをインポートするには、事前にストレージを作成し、データをステージにアップロードする必要があります。詳細については、[データのマージ](./merge-data)を参照してください。
+
+ステージの準備ができ、ソースデータファイルが配置されたら、以下のようにステージからデータをインポートできます：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -168,7 +177,84 @@ while (results.hasNext()) {
 ```python
 from pymilvus.bulk_writer import bulk_import
 
-# Bulk-import your data from the prepared data files
+def cloud_bulkinsert():
+    # URLの値は固定です。
+    # 海外リージョンの場合は：https://api.cloud.zilliz.com
+    # 中国リージョンの場合は：https://api.cloud.zilliz.com.cn
+    url = "https://api.cloud.zilliz.com"
+    api_key = ""
+    cluster_id = "inxx-xxxxxxxxxxxxxxx"
+    stage_name = "my-first-stage"
+    data_path = "dataPath"
+
+    print(f"\n===================== クラウドベクトルDBにファイルをインポート ====================")
+
+    resp = bulk_import(
+        url=url,
+        api_key=api_key,
+        cluster_id=cluster_id,
+        collection_name='quick_setup',
+        stage_name=stage_name,
+        data_paths=[[data_path]]
+    )
+    print(resp.json())
+
+if __name__ == '__main__':
+    # # クラウドバルクインサートAPIを呼び出すには、Zilliz Cloud(https://zilliz.com/cloud)からクラウドサービスを申し込む必要があります
+    cloud_bulkinsert()
+
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+private static String bulkImport() throws InterruptedException {
+    /**
+     * URLの値は固定です。
+     */
+    String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
+    String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
+    String API_KEY = "";
+    String STAGE_NAME = "my-first-stage";
+    List<String> DATA_PATH = Lists.newArrayList("dataPath");
+
+    StageImportRequest stageImportRequest = StageImportRequest.builder()
+            .apiKey(API_KEY)
+            .clusterId(CLUSTER_ID).collectionName("quick_setup")
+            .stageName(STAGE_NAME).dataPaths(Lists.newArrayList(Collections.singleton(DATA_PATH)))
+            .build();
+    String bulkImportResult = BulkImportUtils.bulkImport(CLOUD_API_ENDPOINT, stageImportRequest);
+    System.out.println(bulkImportResult);
+
+    JsonObject bulkImportObject = new Gson().fromJson(bulkImportResult, JsonObject.class);
+    String jobId = bulkImportObject.getAsJsonObject("data").get("jobId").getAsString();
+    System.out.println("バルクインサートタスクを作成しました、ジョブID: " + jobId);
+    return jobId;
+}
+
+public static void main(String[] args) throws Exception {
+    String jobId = bulkImport();
+}
+
+// 0f7fe853-d93e-4681-99f2-4719c63585cc
+```
+
+</TabItem>
+</Tabs>
+
+### 外部ストレージを介したデータのインポート\{#import-data-via-external-storage}
+
+外部ストレージ経由でデータをインポートする場合は、以下のようにします：
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus.bulk_writer import bulk_import
+
+# 準備したデータファイルからデータをバルクインポート
 CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com"
 CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx"
 API_KEY = ""
@@ -188,7 +274,7 @@ res = bulk_import(
 
 print(res.json())
 
-# Output
+# 出力
 #
 # {
 #     "code": 0,
@@ -205,7 +291,7 @@ print(res.json())
 ```java
 private static String bulkImport() throws InterruptedException {
     /**
-     * The value of the URL is fixed.
+     * URLの値は固定です。
      */
     String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
     String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
@@ -227,7 +313,7 @@ private static String bulkImport() throws InterruptedException {
 
     JsonObject bulkImportObject = new Gson().fromJson(bulkImportResult, JsonObject.class);
     String jobId = bulkImportObject.getAsJsonObject("data").get("jobId").getAsString();
-    System.out.println("Create a bulkInert task, job id: " + jobId);
+    System.out.println("バルクインサートタスクを作成しました、ジョブID: " + jobId);
     return jobId;
 }
 
@@ -241,15 +327,15 @@ public static void main(String[] args) throws Exception {
 </TabItem>
 </Tabs>
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注意">
 
-<p>データのインポートを成功させるには、ターゲットコレクションに10,000件小なりの実行中または保留中のインポートジョブがあることを確認します。</p>
+<p>データインポートが成功するには、ターゲットコレクションに実行中または保留中のインポートジョブが10,000件未満であることを確認してください。</p>
 
 </Admonition>
 
-### インポートの進捗を確認する{#check-import-progress}
+### インポートの進行状況を確認\{#check-import-progress}
 
-指定した一括インポートジョブの進捗状況を確認できます。
+指定されたバルクインポートジョブの進行状況を確認できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -258,12 +344,12 @@ public static void main(String[] args) throws Exception {
 import json
 from pymilvus.bulk_writer import get_import_progress
 
-## Zilliz Cloud constants
+## Zilliz Cloud定数
 CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com"
 CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx"
 API_KEY = ""
 
-# Get bulk-insert job progress
+# バルクインサートジョブの進行状況を取得
 resp = get_import_progress(
     api_key=API_KEY,
     url=CLOUD_API_ENDPOINT,
@@ -281,7 +367,7 @@ print(json.dumps(resp.json(), indent=4))
 ```java
 private static void getImportProgress(String jobId) {
     /**
-     * The value of the URL is fixed.
+     * URLの値は固定です。
      */
     String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
     String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
@@ -293,7 +379,7 @@ private static void getImportProgress(String jobId) {
         .jobId(jobId)
         .build();
     String getImportProgressResult = BulkImport.getImportProgress(CLOUD_API_ENDPOINT, request);
-    System.out.println("Get import progress, result: " + getImportProgressResult);
+    System.out.println("インポート進行状況を取得しました、結果: " + getImportProgressResult);
 }
 
 public static void main(String[] args) throws Exception {
@@ -304,9 +390,9 @@ public static void main(String[] args) throws Exception {
 </TabItem>
 </Tabs>
 
-### インポートジョブの一覧{#list-all-import-jobs}
+### すべてのインポートジョブを一覧表示\{#list-all-import-jobs}
 
-一括インポートタスクについても知りたい場合は、以下のようにlist-import-jobsAPIを呼び出すことができます。
+すべてのバルクインポートタスクについても知りたい場合は、以下のようにlist-import-jobs APIを呼び出すことができます：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -315,12 +401,12 @@ public static void main(String[] args) throws Exception {
 import json
 from pymilvus.bulk_writer import list_import_jobs
 
-## Zilliz Cloud constants
+## Zilliz Cloud定数
 CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com"
 CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx"
 API_KEY = ""
 
-# List bulk-insert jobs
+# バルクインサートジョブを一覧表示
 resp = list_import_jobs(
     api_key=API_KEY,
     url=CLOUD_API_ENDPOINT,
@@ -337,12 +423,12 @@ print(json.dumps(resp.json(), indent=4))
 ```java
 private static void listImportJobs() {
     /**
-     * The value of the URL is fixed.
+     * URLの値は固定です。
      */
     String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
     String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
     String API_KEY = "";
-    
+
     CloudListImportJobsRequest listImportJobsRequest = CloudListImportJobsRequest.builder()
             .apiKey(API_KEY)
             .clusterId(CLUSTER_ID).build();
@@ -358,13 +444,12 @@ public static void main(String[] args) throws Exception {
 </TabItem>
 </Tabs>
 
-## 関連するトピック{#list-all-import-jobs}
+## 関連トピック\{#related-topics}
 
 - [ストレージオプション](./data-import-storage-options)
 
-- [書式オプション](./data-import-format-options)
+- [フォーマットオプション](./data-import-format-options)
 
-- [データのインポート(RESTful API)](./import-data-via-restful-api)
+- [RESTful APIを使用したデータのインポート](./import-data-via-restful-api)
 
-- [データインポートハンズオン](./data-import-zero-to-hero)
-
+- [データインポートゼロからヒーロー](./data-import-zero-to-hero)

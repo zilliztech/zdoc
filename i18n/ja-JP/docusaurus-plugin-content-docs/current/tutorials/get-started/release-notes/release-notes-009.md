@@ -1,52 +1,55 @@
 ---
-title: "リリースノート（2022年12月5日） | Cloud"
+title: "リリースノート (2022年12月5日) | Cloud"
 slug: /release-notes-009
-sidebar_label: "リリースノート（2022年12月5日）"
+sidebar_label: "リリースノート (2022年12月5日)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudの重要なアップデートの一般提供を発表できることを嬉しく思います。このリリースでは、Zilliz Cloudサービス用の新しいコンソールが導入され、新しいクラウドリージョンがサポートされ、プライベートリンクを介して安全なクラスターアクセスが可能になります。 | Cloud"
+description: "Zilliz Cloudの重要なアップデートの一般提供を発表できることを嬉しく思います。このリリースでは、Zilliz Cloudサービスの新しいコンソールを導入し、新しいクラウドリージョンをサポートし、プライベートリンクを通じた安全なクラスターアクセスを可能にします。 | Cloud"
 type: origin
-token: Zbxlw0dTIilIRFkgKvxco0vqnwb
-sidebar_position: 24
-keywords: 
+token: QZXVwFVH3i1p08kal8vcAmmxnie
+sidebar_position: 29
+keywords:
   - zilliz
   - vector database
   - cloud
   - release notes
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# リリースノート（2022年12月5日）
+# リリースノート (2022年12月5日)
 
-Zilliz Cloudの重要なアップデートの一般提供を発表できることを嬉しく思います。このリリースでは、Zilliz Cloudサービス用の新しいコンソールが導入され、新しいクラウドリージョンがサポートされ、プライベートリンクを介して安全なクラスターアクセスが可能になります。
+Zilliz Cloudの重要なアップデートの一般提供を発表できることを嬉しく思います。このリリースでは、Zilliz Cloudサービスの新しいコンソールを導入し、新しいクラウドリージョンをサポートし、プライベートリンクを通じた安全なクラスターアクセスを可能にします。
 
 - Zilliz Cloudサービスの新しいUI
 
-    今回のリリースでは、Zilliz Cloudの新しいUIをご紹介できることを嬉しく思います。新しいUIのツリーベースのナビゲーション構造により、より直感的なガイダンスを提供します。すべての機能は5つのカテゴリに分類されています。
+    このリリースに伴い、Zilliz Cloudの新しいUIをご紹介できることを嬉しく思います。ブランド新UIのツリーベースのナビゲーション構造は、はるかに直感的なガイダンスを提供します。すべての機能は5つのカテゴリに整理されています：
 
-    Zilliz Cloudでは、これらの機能を90日間の無料トライアルでご利用いただけます。[今すぐお試しください!](https://cloud.zilliz.com/)
+    これらのすべての機能は現在、Zilliz Cloudで90日間の無料トライアルとして利用可能です。[いますぐ試してみましょう！](https://cloud.zilliz.com/)
 
-- サポートAWSリージョン**US-East-2**
+- AWSリージョン **US-East-2** をサポート
 
-    Zilliz Cloudは、新しいAWSリージョン**US-East-2**でのサービス展開をサポートすることをお知らせいたします。現在サポートされているリージョンは、AWS**US-West-2**と**US-East-2**です。
+    Zilliz Cloudが新しいAWSリージョン**US-East-2**でのサービスデプロイメントをサポートすることを発表できることを嬉しく思います。現在、サポートされているリージョンはAWS **US-West-2** および **US-East-2** です。
 
 - プライベートリンク
 
-    プライベートリンクは、アプリケーションからデータベースへのプライベート接続を提供します。プライベートリンクソリューションは、Zilliz Cloudサービスへのプライベートでより安全かつ効率的な接続のニーズに応えます。
+    プライベートリンクは、アプリケーションからデータベースへのプライベート接続を提供します。プライベートリンクソリューションは、Zilliz Cloudサービスへのプライベートで、より安全で、より効率的な接続のニーズに対応します。
 
-    プライベートリンクを使用してデータベース接続を設定するには、Zilliz CloudにVPCエンドポイントを登録してプライベートリンクを作成し、そのリンクをエンドポイントのDNS名にマッピングする必要があります。
+    プライベートリンクでデータベース接続を設定するには、VPCエンドポイントをZilliz Cloudに登録してプライベートリンクを作成し、エンドポイントのDNS名にリンクをマッピングする必要があります。
 
-    詳細については、「[プライベートエンドポイントを設定する](./setup-a-private-link)」を参照してください。
+    詳細については、[プライベートリンクの設定](./setup-a-private-link)を参照してください。
 
 - 大きなファイルからのデータインポート
 
-    Zilliz Cloudが大きなファイルからのデータインポートをサポートすることをお知らせいたします。最大512 MBのファイルからデータを一括でコレクションに挿入できます。ファイルはS 3バケットまたはローカルディスクに配置できます。
+    Zilliz Cloudが大きなファイルからのデータインポートをサポートすることを発表できることを嬉しく思います。最大512MBのファイルからコレクションにデータを一括挿入できます。ファイルはS3バケットまたはローカルディスクに配置できます。
 
-    詳細は[データインポート](./data-import)を参照してください。
+    詳細については、[データインポート](./data-import)を参照してください。

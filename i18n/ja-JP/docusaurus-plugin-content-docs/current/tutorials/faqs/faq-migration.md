@@ -1,34 +1,31 @@
 ---
-title: "FAQ:マイグレーション | CLOUD"
+title: "FAQ：移行 | CLOUD"
 slug: /faq-migration
-sidebar_label: "FAQ:マイグレーション"
+sidebar_label: "FAQ：移行"
 beta: FALSE
 notebook: FALSE
-description: "このトピックでは、Zilliz Cloudでデータを移行する際に発生する可能性のある問題と、それに対応する解決策について説明します。 | CLOUD"
+description: "このトピックでは、Zilliz Cloudでデータを移行する際に遭遇する可能性のある問題と、それに対応する解決策をリストアップしています。 | CLOUD"
 type: origin
-token: LKxiwykkhi5VyLkTfAGcE3LinBe
-sidebar_position: 6
+token: EV41wG08BiOWW8kbo9xcTGoPnKd
+sidebar_position: 5
 
 ---
 
-# FAQ:マイグレーション
+# FAQ：移行
 
-このトピックでは、Zilliz Cloudでデータを移行する際に発生する可能性のある問題と、それに対応する解決策について説明します。
+このトピックでは、Zilliz Cloudでデータを移行する際に遭遇する可能性のある問題と、それに対応する解決策をリストアップしています。
 
-## Contents
+## 目次
 
-- [ElasticsearchからZilliz Cloudにデータを移行する方法は?](#how-to-migrate-data-from-elasticsearch-to-zilliz-cloud)
-- [無料クラスターをサーバーレスまたは専用クラスターにアップグレードできますか?](#can-i-upgrade-a-free-cluster-to-a-serverless-or-dedicated-cluster)
+- [ElasticsearchからZilliz Cloudにデータを移行するには？](#how-to-migrate-data-from-elasticsearch-to-zilliz-cloud)
+- [無料クラスターをServerlessまたはDedicatedクラスターにアップグレードできますか？](#can-i-upgrade-a-free-cluster-to-a-serverless-or-dedicated-cluster)
 
-## FAQs
+## FAQ
 
+### ElasticsearchからZilliz Cloudにデータを移行するには？\{#how-to-migrate-data-from-elasticsearch-to-zilliz-cloud}
 
+Zilliz Cloudウェブコンソールを通じて、Zilliz Cloud上で簡単にElasticsearchからデータを移行できます。詳細については、[Elasticsearchからの移行](./migrate-from-elasticsearch)を参照してください。
 
+### 無料クラスターをServerlessまたはDedicatedクラスターにアップグレードできますか？\{#can-i-upgrade-a-free-cluster-to-a-serverless-or-dedicated-cluster}
 
-### ElasticsearchからZilliz Cloudにデータを移行する方法は?{#how-to-migrate-data-from-elasticsearch-to-zilliz-cloud}
-
-Zilliz Cloudウェブコンソールを介して、ElasticsearchからZilliz Cloud上のデータを簡単に移行できます。詳細については、「[ElasticsearchからZilliz Cloudへの移行](./migrate-from-elasticsearch)」を参照してください。
-
-### 無料クラスターをサーバーレスまたは専用クラスターにアップグレードできますか?{#can-i-upgrade-a-free-cluster-to-a-serverless-or-dedicated-cluster}
-
-はい。詳細については、「[クラスタ管理](./manage-cluster)」を参照してください。
+はい。詳しくは、[クラスターの管理](./manage-cluster)を参照してください。
