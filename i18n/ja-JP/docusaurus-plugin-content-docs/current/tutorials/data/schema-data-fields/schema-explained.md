@@ -3,10 +3,13 @@ title: "スキーマの説明 | Cloud"
 slug: /schema-explained
 sidebar_label: "スキーマの説明"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "スキーマはコレクションのデータ構造を定義します。コレクションを作成する前に、スキーマの設計を行う必要があります。このページでは、コレクションのスキーマを理解し、独自のスキーマの例を設計するのに役立ちます。 | Cloud"
+description: "スキーマはコレクションのデータ構造を定義します。コレクションを作成する前に、そのスキーマの設計を練る必要があります。このページでは、コレクションスキーマを理解し、独自の例となるスキーマを設計する方法を説明します。 | Cloud"
 type: origin
-token: SVrnwFgVEihptQks0BHcthjJnjd
+token: Vs4YwNnvzitoQ8kunlGcWMJInbf
 sidebar_position: 1
 keywords: 
   - zilliz
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - collection
   - schema explained
+  - how do vector databases work
   - vector db comparison
   - openai vector db
   - natural language processing database
-  - cheap vector database
 
 ---
 
@@ -27,27 +30,27 @@ import TabItem from '@theme/TabItem';
 
 # スキーマの説明
 
-スキーマはコレクションのデータ構造を定義します。コレクションを作成する前に、スキーマの設計を行う必要があります。このページでは、コレクションのスキーマを理解し、独自のスキーマの例を設計するのに役立ちます。
+スキーマはコレクションのデータ構造を定義します。コレクションを作成する前に、そのスキーマの設計を練る必要があります。このページでは、コレクションスキーマを理解し、独自の例となるスキーマを設計する方法を説明します。
 
-## 概要について{#overview}
+## 概要\{#overview}
 
-Zilliz Cloudでは、コレクションスキーマがリレーショナルデータベース内のテーブルを組み立て、Zilliz Cloudがコレクション内のデータをどのように整理するかを定義します。
+Zilliz Cloudでは、コレクションスキーマはリレーショナルデータベースのテーブルのように機能し、Zilliz Cloudがコレクション内のデータをどのように整理するかを定義します。
 
-よく設計されたスキーマは、データモデルを抽象化し、検索を通じてビジネス目標を達成できるかどうかを決定するために不可欠です。さらに、コレクションに挿入されるすべてのデータ行がスキーマに従う必要があるため、データの一貫性と長期的な品質を維持するのに役立ちます。技術的な観点からは、よく定義されたスキーマは、整理された列データストレージとクリーンなインデックス構造につながり、検索パフォーマンスを向上させます。
+設計の良いスキーマは不可欠であり、データモデルを抽象化し、検索を通じてビジネス目標を達成できるかどうかを決定します。さらに、コレクションに挿入されるすべてのデータ行がスキーマに従わなければならないため、データの一貫性と長期的な品質を維持するのに役立ちます。技術的な観点から見ると、定義の良いスキーマは、よく整理されたカラムデータストレージとよりクリーンなインデックス構造をもたらし、検索パフォーマンスを向上させます。
 
-コレクションスキーマには、主キー、最大4つのベクトルフィールド、およびいくつかのスカラーフィールドがあります。次の図は、記事をスキーマフィールドのリストにマップする方法を示しています。
+コレクションスキーマには、主キー、少なくとも1つのベクトルフィールド、およびいくつかのスカラーフィールドがあります。以下の図は、記事をスキーマフィールドのリストにマッピングする方法を示しています。
 
-![K9uAbRdLmoiAHqxR0abcZQTcnGc](/img/K9uAbRdLmoiAHqxR0abcZQTcnGc.png)
+![RoJFbyTsuoY8mHxoBBicgBH9nTc](/img/RoJFbyTsuoY8mHxoBBicgBH9nTc.png)
 
-検索システムのデータモデル設計には、ビジネスニーズを分析し、情報をスキーマ表現されたデータモデルに抽象化することが含まれます。例えば、テキストの検索は、リテラル文字列を「埋め込む」ことによってベクトルに変換し、ベクトル検索を有効にすることで「インデックス化」する必要があります。この必須要件を超えて、出版タイムスタンプや著者などの他のプロパティを格納する必要がある場合があります。このメタデータにより、特定の日付以降または特定の著者によって公開されたテキストのみを返すフィルタリングを通じて意味検索を洗練することができます。また、これらのスカラーをメインテキストとともに取得して、アプリケーションで検索結果をレンダリングすることもできます。それぞれに、整数または文字列として表されるこれらのテキストピースを整理するための一意の識別子が割り当てられる必要があります。これらの要素は、洗練された検索ロジックを実現するために不可欠です。
+検索システムのデータモデル設計には、ビジネスニーズの分析と情報をスキーマで表現されたデータモデルに抽象化することが含まれます。例えば、テキストの一部を検索するには、リテラル文字列を「埋め込み」によってベクトルに変換し、ベクトル検索を可能にする必要があります。この基本的な要件に加えて、発行日時や著者などの他のプロパティを保存することが必要な場合があります。このメタデータにより、セマンティック検索をフィルタリングによって洗練させ、特定の日付以降に発行されたテキストや特定の著者のテキストのみを返すことができます。また、メインテキストとともにこれらのスカラー値を取得して、アプリケーションで検索結果をレンダリングすることもできます。これらのテキスト断片を整理するには、それぞれに一意の識別子を割り当てる必要があります。これは整数または文字列として表現されます。これらの要素は、洗練された検索ロジックを実現するために不可欠です。
 
-よく設計されたスキーマを作成する方法については、「[スキーマデザインハンズオン](./schema-design-hands-on)」を参照してください。
+設計の良いスキーマを作成する方法については、[スキーマ設計 ハンズオン](./schema-design-hands-on)を参照してください。
 
-## スキーマの作成{#create-schema}
+## スキーマの作成\{#create-schema}
 
-次のコードスニペットは、スキーマを作成する方法を示しています。
+以下のコードスニペットは、スキーマを作成する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -78,6 +81,16 @@ const schema = []
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import "github.com/milvus-io/milvus/client/v2/entity"
+
+schema := entity.NewSchema()
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -89,11 +102,11 @@ export schema='{
 </TabItem>
 </Tabs>
 
-## プライマリフィールドを追加{#add_primary_field}
+## 主フィールドの追加\{#add-primary-field}
 
-コレクション内のプライマリフィールドは、エンティティを一意に識別します。**Int 64**または**VarChar**の値のみを受け入れます。次のコードスニペットは、プライマリフィールドを追加する方法を示しています。
+コレクションの主フィールドは、エンティティを一意に識別します。これは**Int64**または**VarChar**の値のみを受け入れます。以下のコードスニペットは、主フィールドを追加する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -142,6 +155,20 @@ schema.push({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+schema.WithField(entity.NewField().WithName("my_id").
+    WithDataType(entity.FieldTypeInt64).
+    // highlight-start
+    WithIsPrimaryKey(true).
+    WithIsAutoID(false),
+    // highlight-end
+)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -162,17 +189,17 @@ export schema='{
 </TabItem>
 </Tabs>
 
-フィールドを追加する場合、`is_mary`プロパティを`True`に設定することで、フィールドを明示的にプライマリフィールドとして明確にすることができます。プライマリフィールドはデフォルトで**Int 64**値を受け入れます。この場合、プライマリフィールドの値は`12345`に似た整数である必要があります。プライマリフィールドで**VarChar**値を使用する場合、値は`my_entity_1234`に似た文字列である必要があります。
+フィールドを追加する際には、`is_primary`プロパティを`True`に設定して、フィールドを明示的に主フィールドとして定義できます。主フィールドはデフォルトで**Int64**の値を受け入れます。この場合、主フィールド値は`12345`のような整数である必要があります。主フィールドで**VarChar**の値を使用することを選択した場合、値は`my_entity_1234`のような文字列である必要があります。
 
-また、`autoId`プロパティを`True`に設定すると、Zilliz Cloudがデータ挿入時にプライマリフィールドの値を自動的に割り当てるようになります。
+また、`autoId`プロパティを`True`に設定して、Zilliz Cloudがデータ挿入時に主フィールド値を自動的に割り当てるようにすることもできます。
 
-詳細は、「[プライマリフィールドとAutoID](./primary-field-auto-id)」を参照してください。
+詳細については、[主フィールド & AutoId](./primary-field-auto-id)を参照してください。
 
-## ベクトルフィールドを追加{#add-vector-fields}
+## ベクトルフィールドの追加\{#add-vector-fields}
 
-ベクトル場は、疎なベクトル埋め込みと密なベクトル埋め込みを受け入れます。Zilliz Cloudでは、4つのベクトル場をコレクションに追加できます。以下のコードスニペットは、ベクトル場を追加する方法を示しています。
+ベクトルフィールドは、さまざまなスパースおよびデンスベクトル埋め込みを受け入れます。Zilliz Cloudでは、1つのコレクションに4つのベクトルフィールドを追加できます。以下のコードスニペットは、ベクトルフィールドを追加する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -212,6 +239,18 @@ schema.push({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+schema.WithField(entity.NewField().WithName("my_vector").
+    WithDataType(entity.FieldTypeFloatVector).
+    // highlight-next-line
+    WithDim(5),
+)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -235,33 +274,33 @@ export schema="{
 </TabItem>
 </Tabs>
 
-上記のコードスニペットの`dim`パラメータは、ベクトルフィールドに保持されるベクトル埋め込みの次元を示します。`FLOAT_VECTOR`値は、ベクトルフィールドが32ビット浮動小数点数のリストを保持していることを示します。これらは通常、表すために使用されますantilogarithms.Inさらに、Zilliz Cloudは以下の種類のベクトル埋め込みもサポートしています
+上記のコードスニペットの`dim`パラメータは、ベクトルフィールドに保持されるベクトル埋め込みの次元数を示します。`FLOAT_VECTOR`値は、ベクトルフィールドが32ビット浮動小数点数のリストを保持することを示しており、通常は対数の逆数を表すために使用されます。これに加えて、Zilliz Cloudは以下のタイプのベクトル埋め込みもサポートしています。
 
-- `ベクターデータ`
+- `FLOAT16_VECTOR`
 
-    このタイプのベクトル場は、16ビットの半精度浮動小数点数のリストを保持し、通常はメモリまたはbandwidth-restrictedのディープラーニングまたはGPUベースのコンピューティングシナリオに適用されます。
+    このタイプのベクトルフィールドは、16ビット半精度浮動小数点数のリストを保持し、通常はメモリや帯域幅が制限されたディープラーニングやGPUベースのコンピューティングのシナリオに適用されます。
 
-- `その他のベクトル:`
+- `BFLOAT16_VECTOR`
 
-    このタイプのベクトル場は、精度が低下しているがFloat 32と同じ指数範囲を持つ16ビット浮動小数点数のリストを保持します。このタイプのデータは、精度に大きな影響を与えることなくメモリ使用量を減らすため、深層学習シナリオで一般的に使用されます。
+    このタイプのベクトルフィールドは、Float32と同じ指数範囲を持つが精度が低い16ビット浮動小数点数のリストを保持します。このタイプのデータはディープラーニングのシナリオで一般的に使用され、精度に大きく影響を与えることなくメモリ使用量を削減します。
 
-- `バイナリベクトル`
+- `BINARY_VECTOR`
 
-    このタイプのベクトル場は、0と1のリストを保持します。これらは、画像処理や情報検索シナリオでデータを表現するためのコンパクトな特徴として機能します。
+    このタイプのベクトルフィールドは、0と1のリストを保持します。これらは、画像処理や情報検索のシナリオでデータを表すためのコンパクトな特徴量として機能します。
 
-- `浮動小数点ベクトル`
+- `SPARSE_FLOAT_VECTOR`
 
-    このタイプのベクトル場は、疎なベクトル埋め込みを表す非ゼロの数とそのシーケンス番号のリストを保持します。
+    このタイプのベクトルフィールドは、非ゼロ数値とそのシーケンス番号のリストを保持して、スパースベクトル埋め込みを表します。
 
-## スカラーフィールドを追加{#add-scalar-fields}
+## スカラーフィールドの追加\{#add-scalar-fields}
 
-一般的な場合、スカラーフィールドを使用して、Zilliz Cloudクラスターに格納されたベクトル埋め込みのメタデータを格納し、メタデータフィルタリングを使用してANN検索を実行して検索結果の正確性を向上させることができます。Zilliz Cloudは、**VarChar**、**Boolean**、**Int**、**Float**、**Double**、**Array**、**JSON**など、複数のスカラーフィールドタイプをサポートしています。
+一般的なケースでは、スカラーフィールドを使用して、Zilliz Cloudクラスターに保存されたベクトル埋め込みのメタデータを保存し、メタデータフィルタリング付きのANN検索を実行して検索結果の正確性を向上させることができます。Zilliz Cloudは、**VarChar**、**Boolean**、**Int**、**Float**、**Double**を含む複数のスカラーフィールドタイプをサポートしています。
 
-### 文字列フィールドを追加{#add-string-fields}
+### 文字列フィールドの追加\{#add-string-fields}
 
-Zilliz Cloudクラスタでは、VarCharフィールドを使用して文字列を保存できます。VarCharフィールドの詳細については、「[文字列フィールド](./use-string-field)」を参照してください。
+Zilliz Cloudクラスターでは、VarCharフィールドを使用して文字列を保存できます。VarCharフィールドの詳細については、[文字列フィールド](./use-string-field)を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -301,6 +340,17 @@ schema.push({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+schema.WithField(entity.NewField().WithName("my_varchar").
+    WithDataType(entity.FieldTypeVarChar).
+    WithMaxLength(512),
+)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -308,7 +358,7 @@ export varCharField='{
     "fieldName": "my_varchar",
     "dataType": "VarChar",
     "elementTypeParams": {
-        "max_length": 256
+        "max_length": 512
     }
 }'
 
@@ -325,11 +375,11 @@ export schema="{
 </TabItem>
 </Tabs>
 
-### 数値フィールドを追加{#add-number-fields}
+### 数値フィールドの追加\{#add-number-fields}
 
-Zilliz Cloudがサポートする数値の種類は、`Int 8`、`Int 16`、`Int 32`、`Int 64`、`Float`、`Double`です。数値フィールドの詳細については、「[数字フィールド](./use-number-field)」を参照してください。
+Zilliz Cloudがサポートしている数値のタイプは、`Int8`、`Int16`、`Int32`、`Int64`、`Float`、および`Double`です。数値フィールドの詳細については、[数値フィールド](./use-number-field)を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -363,6 +413,16 @@ schema.push({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+schema.WithField(entity.NewField().WithName("my_int64").
+    WithDataType(entity.FieldTypeInt64),
+)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -385,11 +445,11 @@ export schema="{
 </TabItem>
 </Tabs>
 
-### ブールフィールドを追加{#add-boolean-fields}
+### 真偽値フィールドの追加\{#add-boolean-fields}
 
-Zilliz Cloudはブール値フィールドをサポートしています。以下のコードスニペットはブール値フィールドを追加する方法を示しています。
+Zilliz Cloudは真偽値フィールドをサポートしています。以下のコードスニペットは、真偽値フィールドを追加する方法を示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -423,6 +483,16 @@ schema.push({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+schema.WithField(entity.NewField().WithName("my_bool").
+    WithDataType(entity.FieldTypeBool),
+)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -446,11 +516,15 @@ export schema="{
 </TabItem>
 </Tabs>
 
-### JSONフィールドを追加{#add-json-fields}
+## 複合フィールドの追加\{#add-composite-fields}
 
-JSONフィールドは通常、半構造化されたJSONデータを格納します。JSONフィールドの詳細については、「[JSONフィールド](./use-json-fields)」を参照してください。
+Milvusでは、複合フィールドはJSONフィールドのキーまたはArrayフィールドのインデックスのように、より小さなサブフィールドに分割できるフィールドです。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+### JSONフィールドの追加\{#add-json-fields}
+
+JSONフィールドは通常、半構造化されたJSONデータを保存します。JSONフィールドの詳細については、[JSONフィールド](./use-json-fields)を参照してください。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -484,6 +558,16 @@ schema.push({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+schema.WithField(entity.NewField().WithName("my_json").
+    WithDataType(entity.FieldTypeJSON),
+)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -508,11 +592,11 @@ export schema="{
 </TabItem>
 </Tabs>
 
-### 配列フィールドを追加{#add-array-fields}
+### 配列フィールドの追加\{#add-array-fields}
 
-配列フィールドは要素のリストを格納します。配列フィールド内のすべての要素のデータ型は同じでなければなりません。配列フィールドの詳細については、「[配列フィールド](./use-array-fields)」を参照してください。
+配列フィールドは、要素のリストを保存します。配列フィールド内のすべての要素のデータ型は同じである必要があります。配列フィールドの詳細については、[配列フィールド](./use-array-fields)を参照してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -555,6 +639,19 @@ schema.push({
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+schema.WithField(entity.NewField().WithName("my_array").
+    WithDataType(entity.FieldTypeArray).
+    WithElementType(entity.FieldTypeInt64).
+    WithMaxLength(512).
+    WithMaxCapacity(5),
+)
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -583,4 +680,3 @@ export schema="{
 
 </TabItem>
 </Tabs>
-

@@ -21,10 +21,10 @@ keywords:
   - hands-on
   - structs
   - array of structs
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 
@@ -69,9 +69,9 @@ An excessively high value wastes memory, and you'll need to do some calculations
 
 ### Index vector fields in Structs\{#index-vector-fields-in-structs}
 
-Indexing is mandatory for vector fields, including both the vector fields in a collection and those defined in a Struct. For vector fields in a Struct, you should use `HNSW` as the index type and `MAX_SIM` series as the metric type.
+Indexing is mandatory for vector fields, including both the vector fields in a collection and those defined in a Struct. For vector fields in a Struct, you should use `AUTOINDEX` as the index type and `MAX_SIM` series as the metric type.
 
-For details on all applicable limits, refer to [the limits](./use-array-of-structs#limits).
+For details on all applicable limits, refer to [the limits](./undefined#limits).
 
 ## A real-world example: Modeling the CoVLA dataset for autonomous driving\{#a-real-world-example-modeling-the-covla-dataset-for-autonomous-driving}
 
@@ -406,14 +406,14 @@ To start, we need to initialize the schema for a caption Struct, a front_cars St
 
 ### Step 3: Set index parameters\{#step-3-set-index-parameters}
 
-All vector fields must be indexed. To index the vector fields in an element Struct, you need to use `HNSW` as the index type and the `MAX_SIM` series metric type to measure the similarities between embedding lists.
+All vector fields must be indexed. To index the vector fields in an element Struct, you need to use `AUTOINDEX` as the index type and the `MAX_SIM` series metric type to measure the similarities between embedding lists.
 
 ```python
 index_params = client.prepare_index_params()
 
 index_params.add_index(
     field_name="captions[plain_cap_vector]", 
-    index_type="HNSW", 
+    index_type="AUTOINDEX", 
     metric_type="MAX_SIM_COSINE", 
     index_name="captions_plain_cap_vector_idx", # mandatory for now
     index_params={"M": 16, "efConstruction": 200}
@@ -421,7 +421,7 @@ index_params.add_index(
 
 index_params.add_index(
     field_name="captions[rich_cap_vector]", 
-    index_type="HNSW", 
+    index_type="AUTOINDEX", 
     metric_type="MAX_SIM_COSINE", 
     index_name="captions_rich_cap_vector_idx", # mandatory for now
     index_params={"M": 16, "efConstruction": 200}
@@ -429,7 +429,7 @@ index_params.add_index(
 
 index_params.add_index(
     field_name="captions[risk_vector]", 
-    index_type="HNSW", 
+    index_type="AUTOINDEX", 
     metric_type="MAX_SIM_COSINE", 
     index_name="captions_risk_vector_idx", # mandatory for now
     index_params={"M": 16, "efConstruction": 200}
