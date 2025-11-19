@@ -138,10 +138,10 @@
 			}
 		},
 		{
-			"name": "Stage (V2)",
+			"name": "Volume Operations (V2)",
 			"x-i18n": {
 				"zh-CN": {
-					"name": "Stage (V2)"
+					"name": "Volume Operations (V2)"
 				}
 			}
 		},
@@ -2837,11 +2837,11 @@
 			"post": {
 				"summary": "Merge Data",
 				"deprecated": false,
-				"description": "You can use this interface to add fields with or without data to an existing collection.<div style=\"padding: 8px;\"><ul style=\"margin-bottom: 0px;\"><li>If you choose to add fields with data, you need to upload the data file to an AWS S3 bucket or a Zilliz Cloud Stage and ensure that the data share the same merge key as the source collection. The merged data will be stored in a new collection that you specify.</li><li>If you choose to add without data, the new fields will be created with null values.</li></ul></div>You need to be a project admin or above to perform this operation. For details, refer to <a href=\"/docs/merge-data\">Merge Data</a>.<br/>",
+				"description": "You can use this interface to add fields with or without data to an existing collection.<div style=\"padding: 8px;\"><ul style=\"margin-bottom: 0px;\"><li>If you choose to add fields with data, you need to upload the data file to an AWS S3 bucket or a Zilliz Cloud Volume and ensure that the data share the same merge key as the source collection. The merged data will be stored in a new collection that you specify.</li><li>If you choose to add without data, the new fields will be created with null values.</li></ul></div>You need to be a project admin or above to perform this operation. For details, refer to <a href=\"/docs/merge-data\">Merge Data</a>.<br/>",
 				"x-i18n": {
 					"zh-CN": {
 						"summary": "合并数据",
-						"description": "您可以使用此接口在指定 Collection 中新增字段并填充数据。<div style=\"padding: 8px;\"><ul style=\"margin-bottom: 0px;\"><li>如果您选择创建字段的同时填充数据，需要将数据文件上传到阿里云 OSS 存储桶或 Zilliz Cloud Stage，并确保数据与源 Collection 的合并键相同。合并后的数据将存储在您指定的新 Collection 中。</li><li>如果您选择仅创建字段但不填充数据，则会创建新的字段并填充 null 值。</li></ul></div>您需要是项目管理员或以上权限才能执行此操作。更多详情，可以参考<a href=\"/docs/merge-data\">合并数据</a>。<br/>"
+						"description": "您可以使用此接口在指定 Collection 中新增字段并填充数据。<div style=\"padding: 8px;\"><ul style=\"margin-bottom: 0px;\"><li>如果您选择创建字段的同时填充数据，需要将数据文件上传到阿里云 OSS 存储桶或 Zilliz Cloud Volume，并确保数据与源 Collection 的合并键相同。合并后的数据将存储在您指定的新 Collection 中。</li><li>如果您选择仅创建字段但不填充数据，则会创建新的字段并填充 null 值。</li></ul></div>您需要是项目管理员或以上权限才能执行此操作。更多详情，可以参考<a href=\"/docs/merge-data\">合并数据</a>。<br/>"
 					}
 				},
 				"tags": [
@@ -2873,7 +2873,7 @@
 							"schema": {
 								"oneOf": [
 									{
-										"x-tab-label": "use stage",
+										"x-tab-label": "use volume",
 										"type": "object",
 										"properties": {
 											"clusterId": {
@@ -2924,29 +2924,29 @@
 											},
 											"dataSource": {
 												"type": "object",
-												"description": "The data to be merged with the above specified collection. You need to upload the data file in PARQUET format to an AWS S3 bucket or a Zilliz Cloud Stage as the data source and then provide the URL of the data file optionally with the access credentials.",
+												"description": "The data to be merged with the above specified collection. You need to upload the data file in PARQUET format to an AWS S3 bucket or a Zilliz Cloud Volume as the data source and then provide the URL of the data file optionally with the access credentials.",
 												"x-i18n": {
 													"zh-CN": {
-														"description": "待与指定 Collection 合并的数据。您需要将 PARQUET 格式的数据文件上传到阿里云 OSS 存储桶或 Zilliz Cloud Stage 作为数据源，并提供数据文件的 URL 及访问凭据（如有）。"
+														"description": "待与指定 Collection 合并的数据。您需要将 PARQUET 格式的数据文件上传到阿里云 OSS 存储桶或 Zilliz Cloud Volume 作为数据源，并提供数据文件的 URL 及访问凭据（如有）。"
 													}
 												},
 												"properties": {
 													"type": {
 														"type": "string",
-														"description": "The type of the data source. When using a stage, set this parameter to `stage`.",
+														"description": "The type of the data source. When using a volume, set this parameter to `volume`.",
 														"x-i18n": {
 															"zh-CN": {
 																"description": "数据源的类型。"
 															}
 														},
-														"example": "stage"
+														"example": "volume"
 													},
-													"stageName": {
+													"volumeName": {
 														"type": "string",
-														"description": "The name of a Zilliz Cloud stage that holds the PARQUET file. This parameter applies only when you set `type` to `stage`. For details on how to create a stage, see the documentation for the [Create Stage](/reference/restful/create-stage-v2) operation.",
+														"description": "The name of a Zilliz Cloud Volume that holds the PARQUET file. This parameter applies only when you set `type` to `volume`. For details on how to create a volume, see the documentation for the [Create Volume](/reference/restful/create-volume-v2) operation.",
 														"x-i18n": {
 															"zh-CN": {
-																"description": "Zilliz Cloud 存储点的名称。此参数仅当您将 `type` 设置为 `stage` 时有效。有关创建存储点的详细信息，请参阅 [Create Stage](/reference/restful/create-stage-v2) 操作的文档。"
+																"description": "Zilliz Cloud 存储点的名称。此参数仅当您将 `type` 设置为 `volume` 时有效。有关创建存储点的详细信息，请参阅 [Create Volume](/reference/restful/create-volume-v2) 操作的文档。"
 															}
 														}
 													},
@@ -3094,10 +3094,10 @@
 											},
 											"dataSource": {
 												"type": "object",
-												"description": "The data to be merged with the above specified collection. You need to upload the data file in PARQUET format to an AWS S3 bucket or a Zilliz Cloud Stage as the data source and then provide the URL of the data file optionally with the access credentials.",
+												"description": "The data to be merged with the above specified collection. You need to upload the data file in PARQUET format to an AWS S3 bucket or a Zilliz Cloud Volume as the data source and then provide the URL of the data file optionally with the access credentials.",
 												"x-i18n": {
 													"zh-CN": {
-														"description": "待与指定 Collection 合并的数据。您需要将 PARQUET 格式的数据文件上传到阿里云 OSS 存储桶或 Zilliz Cloud Stage 作为数据源，并提供数据文件的 URL 及访问凭据（如有）。"
+														"description": "待与指定 Collection 合并的数据。您需要将 PARQUET 格式的数据文件上传到阿里云 OSS 存储桶或 Zilliz Cloud Volume 作为数据源，并提供数据文件的 URL 及访问凭据（如有）。"
 													}
 												},
 												"properties": {
@@ -3234,7 +3234,7 @@
 							},
 							"examples": {
 								"1": {
-									"summary": "use stage",
+									"summary": "use volume",
 									"x-target-request": "OPTION 1",
 									"value": {
 										"clusterId": "in00-xxxxxxxxxxxxxxx",
@@ -3243,8 +3243,8 @@
 										"destDbName": "my_database",
 										"destCollectionName": "my_merged_collection",
 										"dataSource": {
-											"type": "stage",
-											"stageName": "my_stage",
+											"type": "volume",
+											"volumeName": "my_volume",
 											"dataPath": "/path/to/your/data.parquet"
 										},
 										"mergeField": "id",
@@ -17929,7 +17929,7 @@
 							"schema": {
 								"oneOf": [
 									{
-										"x-tab-label": "use stage",
+										"x-tab-label": "use volume",
 										"x-include-target": [
 											"zilliz"
 										],
@@ -17975,21 +17975,21 @@
 													}
 												}
 											},
-											"stageName": {
+											"volumeName": {
 												"type": "string",
-												"description": "The name of the stage from which the data files will be uploaded. The stage must be created beforehand. For details, refer to [Create Stage](/reference/restful/create-stage-v2)",
+												"description": "The name of the volume from which the data files will be uploaded. The volume must be created beforehand. For details, refer to [Create Volume](/reference/restful/create-volume-v2)",
 												"x-i18n": {
 													"zh-CN": {
-														"description": "数据文件上传的源 stage 名称。该 stage 需事先创建。详情请参考 [创建 stage](/reference/restful/create-stage-v2)"
+														"description": "数据文件上传的源 volume 名称。该 volume 需事先创建。详情请参考 [创建 volume](/reference/restful/create-volume-v2)"
 													}
 												}
 											},
 											"dataPaths": {
 												"type": "array",
-												"description": "The paths of the data files to be uploaded. The paths should be relative to the root of the specified stage.",
+												"description": "The paths of the data files to be uploaded. The paths should be relative to the root of the specified volume.",
 												"x-i18n": {
 													"zh-CN": {
-														"description": "待上传的数据文件路径列表。路径应相对于指定 stage 的根目录。"
+														"description": "待上传的数据文件路径列表。路径应相对于指定 volume 的根目录。"
 													}
 												},
 												"items": {
@@ -18002,7 +18002,7 @@
 													},
 													"items": {
 														"type": "string",
-														"description": "The path of the data file to be uploaded. The path should be relative to the root of the specified stage.",
+														"description": "The path of the data file to be uploaded. The path should be relative to the root of the specified volume.",
 														"x-i18n": {
 															"zh-CN": {
 																"description": "待上传数据文件路径。"
@@ -18239,7 +18239,7 @@
 									}
 								},
 								"3": {
-									"summary": "use stage",
+									"summary": "use volume",
 									"x-target-request": "OPTION 1",
 									"x-include-target": [
 										"zilliz"
@@ -18249,7 +18249,7 @@
 										"dbName": "default",
 										"collectionName": "medium_articles",
 										"partitionName": "",
-										"stageName": "my_stage",
+										"volumeName": "my_volume",
 										"dataPaths": [
 											["json-folder/1.json"]
 										]										
@@ -26550,19 +26550,19 @@
 				]
 			}
 		},
-		"/v2/stages": {
+		"/v2/volumes": {
 			"get": {
-				"summary": "List Stages",
+				"summary": "List Volumes",
 				"deprecated": false,
-				"description": "This operation lists all stages in the specified project. You need to be ",
+				"description": "This operation lists all volumes in the specified project. You need to be ",
 				"x-i18n": {
 					"zh-CN": {
-						"summary": "查看 Stage 列表",
-						"description": "本接口将列出指定项目下的所有 Stage。"
+						"summary": "查看 Volume 列表",
+						"description": "本接口将列出指定项目下的所有 Volume。"
 					}
 				},
 				"tags": [
-					"Stage (V2)"
+					"Volume Operations (V2)"
 				],
 				"parameters": [
 					{
@@ -26633,10 +26633,10 @@
 				],
 				"responses": {
 					"200": {
-						"description": "Returns the list of stages.",
+						"description": "Returns the list of volumes.",
 						"x-i18n": {
 							"zh-CN": {
-								"description": "返回 Stage 列表。"
+								"description": "返回 Volume 列表。"
 							}
 						},
 						"content": {
@@ -26645,10 +26645,10 @@
 									"anyOf": [
 										{
 											"x-tab-label": "success",
-											"description": "Returns a list of stages.",
+											"description": "Returns a list of volumes.",
 											"x-i18n": {
 												"zh-CN": {
-													"description": "返回 Stage 列表。"
+													"description": "返回 Volume 列表。"
 												}
 											},
 											"type": "object",
@@ -26667,10 +26667,10 @@
 													"properties": {
 														"count": {
 															"type": "integer",
-															"description": "The total number of stages.",
+															"description": "The total number of volumes.",
 															"x-i18n": {
 																"zh-CN": {
-																	"description": "Stage 总数。"
+																	"description": "Volume 总数。"
 																}
 															}
 														},
@@ -26692,23 +26692,23 @@
 																}
 															}
 														},
-														"stages": {
+														"volumes": {
 															"type": "array",
-															"description": "The list of stages.",
+															"description": "The list of volumes.",
 															"x-i18n": {
 																"zh-CN": {
-																	"description": "Stage 列表。"
+																	"description": "Volume 列表。"
 																}
 															},
 															"items": {
 																"type": "object",
 																"properties": {
-																	"stageName": {
+																	"volumeName": {
 																		"type": "string",
-																		"description": "The name of the stage.",
+																		"description": "The name of the volume.",
 																		"x-i18n": {
 																			"zh-CN": {
-																				"description": "Stage 名称。"
+																				"description": "Volume 名称。"
 																			}
 																		}
 																	}
@@ -26764,15 +26764,15 @@
 												"count": 3,
 												"currentPage": 1,
 												"pageSize": 10,
-												"stages": [
+												"volumes": [
 													{
-														"stageName": "my_stage_1"
+														"volumeName": "my_volume_1"
 													},
 													{
-														"stageName": "my_stage_2"
+														"volumeName": "my_volume_2"
 													},
 													{
-														"stageName": "my_stage_3"
+														"volumeName": "my_volume_3"
 													}
 												]
 											}
@@ -26793,19 +26793,19 @@
 				}
 			}
 		},
-		"/v2/stages/create": {
+		"/v2/volumes/create": {
 			"post": {
-				"summary": "Create Stage",
+				"summary": "Create Volume",
 				"deprecated": false,
-				"description": "This operation creates a new stage in the specified project.",
+				"description": "This operation creates a new volume in the specified project.",
 				"x-i18n": {
 					"zh-CN": {
-						"summary": "创建 Stage",
-						"description": "本接口用于在指定项目下创建一个新的 Stage。"
+						"summary": "创建 Volume",
+						"description": "本接口用于在指定项目下创建一个新的 Volume。"
 					}	
 				},
 				"tags": [
-					"Stage (V2)"
+					"Volume Operations (V2)"
 				],
 				"parameters": [
 					{
@@ -26832,7 +26832,7 @@
 								"properties": {
 									"projectId": {
 										"type": "string",
-										"description": "The ID of the project to which the stage belongs.",
+										"description": "The ID of the project to which the volume belongs.",
 										"x-i18n": {
 											"zh-CN": {
 												"description": "所属项目的 ID。"
@@ -26842,26 +26842,26 @@
 									},
 									"regionId": {
 										"type": "string",
-										"description": "The ID of the region where the stage will be created. You can use [List Cloud Regions](/reference/list-cloud-regions-v2) to list available regions.",
+										"description": "The ID of the region where the volume will be created. You can use [List Cloud Regions](/reference/list-cloud-regions-v2) to list available regions.",
 										"x-i18n": {
 											"zh-CN": {
-												"description": "Stage 所属区域的 ID。您可以使用 [查看云服务区域](/reference/list-cloud-regions-v2) 接口列出可用区域。"
+												"description": "Volume 所属区域的 ID。您可以使用 [查看云服务区域](/reference/list-cloud-regions-v2) 接口列出可用区域。"
 											}
 										}
 									},
-									"stageName": {
+									"volumeName": {
 										"type": "string",
-										"description": "The name of the stage to create.",
+										"description": "The name of the volume to create.",
 										"x-i18n": {
 											"zh-CN": {
-												"description": "Stage 名称。"
+												"description": "Volume 名称。"
 											}
 										}
 									}
 
 								},
 								"required": [
-									"stageName",
+									"volumeName",
 									"regionId",
 									"projectId"
 								]
@@ -26874,7 +26874,7 @@
 									"value": {
 										"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
 										"regionId": "aws-us-west-2",
-										"stageName": "my_stage"
+										"volumeName": "my_volume"
 									}
 								},
 								"2": {
@@ -26884,7 +26884,7 @@
 									"value": {
 										"projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
 										"regionId": "ali-cn-hangzhou",
-										"stageName": "my_stage"
+										"volumeName": "my_volume"
 									}
 								}
 							}
@@ -26893,10 +26893,10 @@
 				},
 				"responses": {
 					"200": {
-						"description": "Returns the list of stages.",
+						"description": "Returns the list of volumes.",
 						"x-i18n": {
 							"zh-CN": {
-								"description": "返回 Stage 列表。"
+								"description": "返回 Volume 列表。"
 							}
 						},
 						"content": {
@@ -26905,10 +26905,10 @@
 									"anyOf": [
 										{
 											"x-tab-label": "success",
-											"description": "Returns a list of stages.",
+											"description": "Returns a list of volumes.",
 											"x-i18n": {
 												"zh-CN": {
-													"description": "返回 Stage 列表。"
+													"description": "返回 Volume 列表。"
 												}
 											},
 											"type": "object",
@@ -26925,12 +26925,12 @@
 												"data": {
 													"type": "object",
 													"properties": {
-														"stageName": {
+														"volumeName": {
 															"type": "string",
-															"description": "The name of the created stage.",
+															"description": "The name of the created volume.",
 															"x-i18n": {
 																"zh-CN": {
-																	"description": "已创建的 Stage 名称。"
+																	"description": "已创建的 Volume 名称。"
 																}
 															}
 														}
@@ -26980,7 +26980,7 @@
 										"value": {
 											"code": 0,
 											"data": {
-												"stageName": "my_stage"
+												"volumeName": "my_volume"
 											}
 										}
 									},
@@ -26999,32 +26999,32 @@
 				}
 			}
 		},
-		"/v2/stages/{STAGE_NAME}": {
+		"/v2/volumes/{VOLUME_NAME}": {
 			"delete": {
-				"summary": "Delete Stage",
+				"summary": "Delete Volume",
 				"deprecated": false,
-				"description": "This operation deletes a stage in the specified project.",
+				"description": "This operation deletes a volume in the specified project.",
 				"x-i18n": {
 					"zh-CN": {
-						"summary": "删除 Stage",
-						"description": "本接口用于删除指定项目下的一个 Stage。"
+						"summary": "删除 Volume",
+						"description": "本接口用于删除指定项目下的一个 Volume。"
 					}
 				},
 				"tags": [
-					"Stage (V2)"
+					"Volume Operations (V2)"
 				],
 				"parameters": [
 					{
-						"name": "STAGE_NAME",
+						"name": "VOLUME_NAME",
 						"in": "path",
-						"description": "The name of an existing stage to delete.",
+						"description": "The name of an existing volume to delete.",
 						"x-i18n": {
 							"zh-CN": {
-								"description": "待删除的 Stage 名称。"
+								"description": "待删除的 Volume 名称。"
 							}
 						},
 						"required": true,
-						"example": "my_stage",
+						"example": "my_volume",
 						"schema": {
 							"type": "string"
 						}
@@ -27047,10 +27047,10 @@
 				],
 				"responses": {
 					"200": {
-						"description": "Returns the list of stages.",
+						"description": "Returns the list of volumes.",
 						"x-i18n": {
 							"zh-CN": {
-								"description": "返回 Stage 列表。"
+								"description": "返回 Volume 列表。"
 							}
 						},
 						"content": {
@@ -27059,10 +27059,10 @@
 									"anyOf": [
 										{
 											"x-tab-label": "success",
-											"description": "Returns a list of stages.",
+											"description": "Returns a list of volumes.",
 											"x-i18n": {
 												"zh-CN": {
-													"description": "返回 Stage 列表。"
+													"description": "返回 Volume 列表。"
 												}
 											},
 											"type": "object",
@@ -27079,12 +27079,12 @@
 												"data": {
 													"type": "object",
 													"properties": {
-														"stageName": {
+														"volumeName": {
 															"type": "string",
-															"description": "The name of the created stage.",
+															"description": "The name of the created volume.",
 															"x-i18n": {
 																"zh-CN": {
-																	"description": "已创建的 Stage 名称。"
+																	"description": "已创建的 Volume 名称。"
 																}
 															}
 														}
@@ -27134,7 +27134,7 @@
 										"value": {
 											"code": 0,
 											"data": {
-												"stageName": "my_stage"
+												"volumeName": "my_volume"
 											}
 										}
 									},

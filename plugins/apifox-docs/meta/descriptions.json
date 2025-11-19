@@ -136,8 +136,8 @@
         "description": "This set of APIs provides a way to extract, load, and transform data."
     },
     {
-        "name": "stage-v2",
-        "description": "This set of APIs provides a way to manage stages."
+        "name": "volume-operations-v2",
+        "description": "This set of APIs provides a way to manage volumes."
     },
     {
         "name": "project-operations-v2",

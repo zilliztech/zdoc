@@ -58,7 +58,7 @@ class refGen {
 
         // add beta tags
         // beta_tag = page_slug.includes('invoice') || page_slug.includes('usage') ? 'PUBLIC' : beta_tag
-        beta_tag = page_slug.includes('merge') || page_slug.includes('stage') ? 'PRIVATE' : beta_tag
+        beta_tag = page_slug.includes('merge') ? 'PRIVATE' : beta_tag
         const page_method = method.toLowerCase()
         const specs = JSON.stringify(specification)
 
@@ -94,9 +94,9 @@ class refGen {
 
       const slug = specifications.tags[group].name.replace("&", "and").split(' ').join('-').replace(/\(|\)|,/g, '').toLowerCase()
       const version = slug.includes('v2') ? 'v2' : 'v1'
-      var upper_folder = slug.startsWith('cloud') || slug.startsWith('cluster') || slug.startsWith('import') || slug.startsWith('pipeline') || slug.includes('backup') || slug.includes('restore') || slug.includes('invoices') || slug.includes('usage') || slug.includes('metrics') || slug.includes('extract') || slug.includes('stage') || slug.includes('project') ? 'control-plane' : 'data-plane'
+      var upper_folder = slug.startsWith('cloud') || slug.startsWith('cluster') || slug.startsWith('import') || slug.startsWith('pipeline') || slug.includes('backup') || slug.includes('restore') || slug.includes('invoices') || slug.includes('usage') || slug.includes('metrics') || slug.includes('extract') || slug.includes('volume') || slug.includes('project') ? 'control-plane' : 'data-plane'
       if (target === 'milvus') {
-        upper_folder = slug.startsWith('cloud') || slug.startsWith('cluster') || slug.startsWith('pipeline') || slug.includes('backup') || slug.includes('restore') || slug.includes('invoices') || slug.includes('usage') || slug.includes('metrics') || slug.includes('extract') || slug.includes('stage') || slug.includes('project') ? 'control-plane' : 'data-plane'
+        upper_folder = slug.startsWith('cloud') || slug.startsWith('cluster') || slug.startsWith('pipeline') || slug.includes('backup') || slug.includes('restore') || slug.includes('invoices') || slug.includes('usage') || slug.includes('metrics') || slug.includes('extract') || slug.includes('volume') || slug.includes('project') ? 'control-plane' : 'data-plane'
       }
 
       console.log(slug)
@@ -106,7 +106,7 @@ class refGen {
       const position = specifications.tags.map(x => x.name).indexOf(specifications.tags[group].name)
       var beta_tag = version === 'v2' ? 'FALSE' : 'NEAR DEPRECATE'
       // beta_tag = slug.includes('invoice') || slug.includes('usage') ? 'PUBLIC' : beta_tag
-      beta_tag = slug.includes('extract') || slug.includes('stage') ? 'PRIVATE' : beta_tag
+      beta_tag = slug.includes('extract') ? 'PRIVATE' : beta_tag
       const t = template.render({
         group_name: group_name + (version === 'v2' ? ' (V2)' : ' (V1)'),
         position,
@@ -280,7 +280,7 @@ class refGen {
       target.includes('usage') || 
       target.includes('metrics') || 
       target.includes('extract') || 
-      target.includes('stage') || 
+      target.includes('volume') || 
       target.includes('project') ? 'control-plane' : 'data-plane'    
   }
 
@@ -294,7 +294,7 @@ class refGen {
       target.includes('usage') ||
       target.includes('metrics') ||
       target.includes('extract') ||
-      target.includes('stage') ||
+      target.includes('volume') ||
       target.includes('project') ? 'control-plane' : 'data-plane'
   }
 
