@@ -1147,14 +1147,16 @@ class larkDocWriter {
     
     async __image(image) {
         const root = this.imageDir.replace(/^static\//g, '')
+        const caption = image.caption?.content ? image.caption.content.trim() : image.token;
+        const slug = slugify(caption, {lower: true, strict: true})
 
         if (this.skip_image_download) {
-            return `![${image.token}](/${root}/${image["token"]}.png)`;
+            return `![${caption}](/${root}/${slug}.png "${caption}")`;
         }
 
         try {
             const result = await this.downloader.__downloadImage(image.token)
-            result.body.pipe(fs.createWriteStream(`${this.downloader.target_path}/${image["token"]}.png`));
+            result.body.pipe(fs.createWriteStream(`${this.downloader.target_path}/${slug}.png`));
         } catch (error) {
             console.log(error)
             console.log("-------------- A retry is needed -----------------");
@@ -1163,7 +1165,7 @@ class larkDocWriter {
             this.__image(image)
         }
 
-        return `![${image.token}](/${root}/${image["token"]}.png)`;
+        return `![${caption}](/${root}/${slug}.png "${caption}")`;
     }
 
     async __board(board, indent) {
@@ -1243,7 +1245,7 @@ class larkDocWriter {
         const iframe = block['iframe'];
         const existing_iframe = this.iframes.find(x => x.block_id === block_id)
         if (existing_iframe) {
-            return `![${existing_iframe.caption}](/${root}/${existing_iframe.caption}.png)`;
+            return `![${existing_iframe.caption}](/${root}/${existing_iframe.caption}.png "${existing_iframe.caption}")`;
         }
 
         if (iframe['component']['iframe_type'] !== 8) {
@@ -1257,7 +1259,7 @@ class larkDocWriter {
                 block_id,
                 caption
             })
-            return `![${caption}](/${root}/${caption}.png)`;
+            return `![${caption}](/${root}/${caption}.png "${existing_iframe.caption}")`;
         } else {
             try {
                 const url = new URL(decodeURIComponent(iframe.component.url))
@@ -1274,7 +1276,7 @@ class larkDocWriter {
                     })
                 }
 
-                return `![${caption}](/${root}/${caption}.png)`;
+                return `![${caption}](/${root}/${caption}.png "${caption}")`;
             } catch (error) {
                 console.log(error)
                 console.log("-------------- A retry is needed -----------------");
