@@ -49,8 +49,6 @@
 }
 
 .stepContent h3 {
-    display: flex;
-    align-items: center;
     font-size: 18px !important;
     line-height: 24px !important;
     font-weight: 600 !important;
@@ -61,5 +59,32 @@
     font-size: 16px;
     line-height: 22px;
     color: #475467;
+    margin: 0;
+}
+
+.stepContent strong, .stepContent b {
+    position: relative;
+}
+
+.stepContent strong::before, .stepContent b::before {
+    content: '"';
+    margin-right: 2px;
+}
+
+.stepContent strong::after, .stepContent b::after {
+    content: '"';
+    margin-left: 2px;
+}
+
+.stepContent :global(.theme-code-block) {
+    max-width: 100%;
+    overflow-x: auto;
+    margin: 8px 0;
+}
+
+.stepContent :global(.theme-code-block) pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    overflow-x: hidden;
     margin: 0;
 }

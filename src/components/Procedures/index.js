@@ -6,11 +6,25 @@ export default function Procedures({ children, active }) {
 
     children = children.props.children.filter((child) => child !== '\n');
     const steps = children.map((child) => {
-        const step = child.props.children.filter((step) => step !== '\n')
-        const title = step[0].props.children;
-        const description = step[1];
+        const stepChildren = child.props.children.filter((step) => step !== '\n');
 
-        return { title, description };
+        // Extract title from the first paragraph element
+        let title = '';
+        let descriptionElements = [];
+        let foundTitle = false;
+
+        stepChildren.forEach((element) => {
+            if (!foundTitle && element.type === 'p') {
+                // First paragraph is the title
+                title = element.props.children;
+                foundTitle = true;
+            } else {
+                // Everything else is part of the description
+                descriptionElements.push(element);
+            }
+        });
+
+        return { title, description: descriptionElements };
     })
 
     return (
@@ -23,7 +37,7 @@ export default function Procedures({ children, active }) {
                     </div>
                     <div className={styles.stepContent}>
                         <h3>{step.title}</h3>
-                        {step.description}
+                        {Array.isArray(step.description) ? step.description.map((desc, i) => <div key={i}>{desc}</div>) : step.description}
                     </div>
                 </div>
             ))}
