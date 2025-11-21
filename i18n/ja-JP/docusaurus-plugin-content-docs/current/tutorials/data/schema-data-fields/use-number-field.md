@@ -1,14 +1,17 @@
 ---
-title: "数字フィールド | Cloud"
+title: "Boolean & Number | Cloud"
 slug: /use-number-field
-sidebar_label: "数字フィールド"
+sidebar_label: "Boolean & Number"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "数値フィールドは、数値を格納するスカラーフィールドです。これらの値は、整数(整数)または10進数(浮動小数点数)である場合があります。通常、量、測定値、または数学的に処理する必要があるデータを表すために使用されます。 | Cloud"
+description: "ブール値または数値フィールドは、ブール値または数値を格納するスカラーフィールドです。これらの値は2つの可能な値のいずれか、または整数と10進数（浮動小数点数）です。通常、数量、測定値、または論理的または数学的に処理する必要のあるデータを表現するために使用されます。 | Cloud"
 type: origin
-token: EJdCwl6J1iOTdIkC3G9cIMRjnjb
+token: EwArwXCOPip15hkSvvpciAMJnSe
 sidebar_position: 7
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
@@ -18,10 +21,10 @@ keywords:
   - int
   - integer
   - float
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 
@@ -29,66 +32,68 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 数字フィールド
+# Boolean & Number
 
-数値フィールドは、数値を格納するスカラーフィールドです。これらの値は、整数(**整数**)または10進数(**浮動小数点数**)である場合があります。通常、量、測定値、または数学的に処理する必要があるデータを表すために使用されます。
+ブール値または数値フィールドは、ブール値または数値を格納するスカラーフィールドです。これらの値は2つの可能な値のいずれか、または整数（**integers**）と10進数（**floating-point numbers**）です。通常、数量、測定値、または論理的または数学的に処理する必要のあるデータを表現するために使用されます。
 
-以下の表は、Zilliz Cloudクラスターで利用可能な数値フィールドのデータ型を説明しています。
+以下の表は、Zilliz Cloudクラスタで利用可能な数値フィールドのデータ型を説明しています。
 
 <table>
    <tr>
-     <th><p>フィールドタイプ</p></th>
-     <th><p>説明する</p></th>
+     <th><p>フィールド型</p></th>
+     <th><p>説明</p></th>
    </tr>
    <tr>
      <td><p><code>BOOL</code></p></td>
-     <td><p>バイナリ状態を記述するために適した、<code>true</code>または<code>false</code>を格納するためのブール型。</p></td>
+     <td><p><code>true</code>または<code>false</code>を格納するブール型。バイナリ状態を記述するのに適しています。</p></td>
    </tr>
    <tr>
-     <td><p><code>INT 8</code></p></td>
-     <td><p>小さな範囲の整数データを格納するのに適した8ビット整数。</p></td>
+     <td><p><code>INT8</code></p></td>
+     <td><p>8ビット整数。小範囲の整数データを格納するのに適しています。</p></td>
    </tr>
    <tr>
-     <td><p><code>INT 16</code></p></td>
-     <td><p>中程度の整数データ用の16ビット整数。</p></td>
+     <td><p><code>INT16</code></p></td>
+     <td><p>16ビット整数。中範囲の整数データ用です。</p></td>
    </tr>
    <tr>
-     <td><p><code>INT 32</code></p></td>
-     <td><p>32ビット整数は、製品数量やユーザーIDなどの一般的な整数データストレージに最適です。</p></td>
+     <td><p><code>INT32</code></p></td>
+     <td><p>32ビット整数。製品数量やユーザーIDなどの一般的な整数データ格納に理想的です。</p></td>
    </tr>
    <tr>
-     <td><p><code>INT 64</code></p></td>
-     <td><p>タイムスタンプや識別子のような大規模なデータを格納するのに適した64ビット整数。</p></td>
+     <td><p><code>INT64</code></p></td>
+     <td><p>64ビット整数。タイムスタンプや識別子など、大範囲のデータを格納するのに適しています。</p></td>
    </tr>
    <tr>
-     <td><p><code>フロート</code></p></td>
-     <td><p>定格や温度などの一般的な精度が必要なデータ用の32ビット浮動小数点数。</p></td>
+     <td><p><code>FLOAT</code></p></td>
+     <td><p>32ビット浮動小数点数。評価や温度など、一般的な精度が必要なデータ用です。</p></td>
    </tr>
    <tr>
-     <td><p><code>ダブル</code></p></td>
-     <td><p>財務情報や科学計算などの高精度データ用の64ビット倍精度浮動小数点数。</p></td>
+     <td><p><code>DOUBLE</code></p></td>
+     <td><p>64ビット倍精度浮動小数点数。金融情報や科学計算など、高精度データ用です。</p></td>
    </tr>
 </table>
 
-数値フィールドを宣言するには、利用可能な数値`datatype`のいずれかにデータ型を設定するだけです。例えば、整数フィールドの場合は`DataType. INT64`、浮動小数点フィールドの場合は`DataType.FLOAT`となります。
+ブールフィールドを宣言するには、`datatype`を`BOOL`に設定します。数値フィールドを宣言するには、利用可能な数値データ型のいずれかに設定します。例えば、整数フィールドの場合は`DataType.INT64`、浮動小数点フィールドの場合は`DataType.FLOAT`です。
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注">
 
-<p>Zilliz Cloudは、数値フィールドのnull値とデフォルト値をサポートしています。これらの機能を有効にするには、<code>nullable</code>を<code>True</code>に設定し、<code>default_value</code>を数値に設定します。詳細については、<a href="./nullable-and-default">Nullableデフォルト</a>を参照してください。</p>
+<p>Zilliz Cloudは、ブール値および数値フィールドのnull値とデフォルト値をサポートしています。これらの機能を有効にするには、<code>nullable</code>を<code>True</code>に設定し、<code>default_value</code>を数値に設定します。詳細については、<a href="./nullable-and-default">Nullable & Default</a>を参照してください。</p>
 
 </Admonition>
 
-## 数値フィールドを追加{#add-number-field}
+## ブール値および数値フィールドの追加\\{#add-boolean-and-number-fields}
 
-数値データを保存するには、コレクションスキーマに数値フィールドを定義します。以下は、2つの数値フィールドを持つコレクションスキーマの例です。
+ブール値または数値データを格納するには、コレクションスキーマで対応する型のフィールドを定義します。以下は2つの数値フィールドを持つコレクションスキーマの例です：
 
-- `age`:整数データを格納し、null値を許可し、デフォルト値は`18`です。
+- `age`：整数データを格納し、null値を許可し、デフォルト値が`18`です。
 
-- `price`:浮動小数点データを格納し、null値を許可しますが、デフォルト値はありません。
+- `broken`：ブールデータを格納し、null値を許可しますが、デフォルト値はありません。
 
-<Admonition type="info" icon="📘" title="ノート">
+- `price`：浮動小数点データを格納し、null値を許可しますが、デフォルト値はありません。
 
-<p>スキーマを定義する際に<code>enable_dynamic_fields=True</code>を設定した場合、Zilliz Cloudでは、事前に定義されていないスカラーフィールドを挿入することができます。ただし、これによりクエリや管理が複雑になり、パフォーマンスに影響を与える可能性があります。詳細については、<a href="./enable-dynamic-field">ダイナミックフィールド</a>を参照してください。</p>
+<Admonition type="info" icon="📘" title="注">
+
+<p>スキーマを定義する際に<code>enable_dynamic_fields=True</code>を設定すると、Zilliz Cloudは事前に定義されていないスカラーフィールドの挿入を許可します。ただし、これによりクエリと管理の複雑さが増加し、パフォーマンスに影響を与える可能性があります。詳細については、<a href="./enable-dynamic-field">Dynamic Field</a>を参照してください。</p>
 
 </Admonition>
 
@@ -96,24 +101,25 @@ import TabItem from '@theme/TabItem';
 <TabItem value='python'>
 
 ```python
-# Import necessary libraries
+# 必要なライブラリをインポート
 from pymilvus import MilvusClient, DataType
 
-# Define server address
+# サーバーアドレスを定義
 SERVER_ADDR = "YOUR_CLUSTER_ENDPOINT"
 
-# Create a MilvusClient instance
+# MilvusClientインスタンスを作成
 client = MilvusClient(uri=SERVER_ADDR)
 
-# Define the collection schema
+# コレクションスキーマを定義
 schema = client.create_schema(
     auto_id=False,
     enable_dynamic_fields=True,
 )
 
-# Add an INT64 field `age` that supports null values with default value 18
+# null値をサポートしデフォルト値18を持つINT64フィールド`age`を追加
 schema.add_field(field_name="age", datatype=DataType.INT64, nullable=True, default_value=18)
-# Add a FLOAT field `price` that supports null values without default value
+schema.add_field(field_name="broken", datatype=DataType.BOOL, nullable=True)
+# null値をサポートしデフォルト値なしのFLOATフィールド`price`を追加
 schema.add_field(field_name="price", datatype=DataType.FLOAT, nullable=True)
 schema.add_field(field_name="pk", datatype=DataType.INT64, is_primary=True)
 schema.add_field(field_name="embedding", datatype=DataType.FLOAT_VECTOR, dim=3)
@@ -134,7 +140,7 @@ import io.milvus.v2.service.collection.request.CreateCollectionReq;
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .build());
-        
+
 CreateCollectionReq.CollectionSchema schema = client.createSchema();
 schema.setEnableDynamicField(true);
 
@@ -143,6 +149,12 @@ schema.addField(AddFieldReq.builder()
         .dataType(DataType.Int64)
         .isNullable(true)
         .defaultValue(18)
+        .build());
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("broken")
+        .dataType(DataType.BOOL)
+        .isNullable(true)
         .build());
 
 schema.addField(AddFieldReq.builder()
@@ -174,6 +186,10 @@ const schema = [
   {
     name: "age",
     data_type: DataType.Int64,
+  },
+  {
+    name: "broken",
+    data_type: DataType.Bool,
   },
   {
     name: "price",
@@ -240,7 +256,10 @@ schema.WithField(entity.NewField().
     WithDataType(entity.FieldTypeInt64).
     WithNullable(true).
     WithDefaultValueLong(18),
-)
+).WithField(entity.NewField().
+    WithName("broken").
+    WithDataType(entity.FieldTypeBool).
+    WithNullable(true),
 ```
 
 </TabItem>
@@ -251,6 +270,11 @@ schema.WithField(entity.NewField().
 export int64Field='{
     "fieldName": "age",
     "dataType": "Int64"
+}'
+
+export boolField='{
+    "fieldName": "broken",
+    "dataType": "Bool"
 }'
 
 export floatField='{
@@ -276,6 +300,7 @@ export schema="{
     \"autoID\": false,
     \"fields\": [
         $int64Field,
+        $boolField,
         $floatField,
         $pkField,
         $vectorField
@@ -286,32 +311,32 @@ export schema="{
 </TabItem>
 </Tabs>
 
-## インデックスパラメータの設定{#set-index-params}
+## インデックスパラメータの設定\\{#set-index-params}
 
-インデックス作成は、検索とクエリのパフォーマンスを向上させるのに役立ちます。Zilliz Cloudクラスタでは、ベクトルフィールドではインデックス作成が必須ですが、スカラーフィールドではオプションです。
+インデックス作成は検索とクエリのパフォーマンスを向上させます。Zilliz Cloudクラスタでは、インデックス作成はベクターフィールドでは必須ですが、スカラーフィールドではオプションです。
 
-以下の例では、ベクトルフィールドの`embedding`とスカラーフィールドの`age`に関するインデックスを、`AUTOINDEX`インデックスタイプを使用して作成します。このタイプを使用すると、Milvusはデータ型に基づいて最適なインデックスを自動的に選択します。
+以下の例では、ベクターフィールド`embedding`とスカラーフィールド`age`の両方に`AUTOINDEX`インデックスタイプを使用してインデックスを作成します。このタイプを使用すると、Milvusはデータ型に基づいて最適なインデックスを自動的に選択します。詳細については、[AUTOINDEX Explained](./autoindex-explained)を参照してください。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Set index params
+# インデックスパラメータを設定
 
 index_params = client.prepare_index_params()
 
-# Index `age` with AUTOINDEX
+# `age`をAUTOINDEXでインデックス化
 index_params.add_index(
     field_name="age",
     index_type="AUTOINDEX",
     index_name="age_index"
 )
 
-# Index `embedding` with AUTOINDEX and specify similarity metric type
+# `embedding`をAUTOINDEXでインデックス化し、類似性メトリックタイプを指定
 index_params.add_index(
     field_name="embedding",
-    index_type="AUTOINDEX",  # Use automatic indexing to simplify complex index settings
-    metric_type="COSINE"  # Specify similarity metric type, options include L2, COSINE, or IP
+    index_type="AUTOINDEX",  # 複雑なインデックス設定を簡素化するために自動インデックスを使用
+    metric_type="COSINE"  # 類似性メトリックタイプを指定、オプションはL2、COSINE、またはIP
 )
 ```
 
@@ -328,7 +353,7 @@ indexes.add(IndexParam.builder()
         .fieldName("age")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .build());
-        
+
 indexes.add(IndexParam.builder()
         .fieldName("embedding")
         .indexType(IndexParam.IndexType.AUTOINDEX)
@@ -389,15 +414,15 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-## コレクションを作成{#create-collection}
+## コレクションの作成\\{#create-collection}
 
-スキーマとインデックスが定義されたら、数値フィールドを含むコレクションを作成してください。
+スキーマとインデックスが定義されたら、数値フィールドを含むコレクションを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Create Collection
+# コレクションを作成
 client.create_collection(
     collection_name="my_collection",
     schema=schema,
@@ -463,22 +488,22 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## データの挿入{#insert-data}
+## データの挿入\\{#insert-data}
 
-コレクションを作成した後、スキーマに一致するエンティティを挿入してください。
+コレクションを作成した後、スキーマに一致するエンティティを挿入します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Sample data
+# サンプルデータ
 data = [
     {"age": 25, "price": 99.99, "pk": 1, "embedding": [0.1, 0.2, 0.3]},
-    {"age": 30, "pk": 2, "embedding": [0.4, 0.5, 0.6]}, # `price` field is missing, which should be null
-    {"age": None, "price": None, "pk": 3, "embedding": [0.2, 0.3, 0.1]},  # `age` should default to 18, `price` is null
-    {"age": 45, "price": None, "pk": 4, "embedding": [0.9, 0.1, 0.4]},  # `price` is null
-    {"age": None, "price": 59.99, "pk": 5, "embedding": [0.8, 0.5, 0.3]},  # `age` should default to 18
-    {"age": 60, "price": None, "pk": 6, "embedding": [0.1, 0.6, 0.9]}  # `price` is null
+    {"age": 30, "pk": 2, "embedding": [0.4, 0.5, 0.6]}, # `price`フィールドが欠落しており、nullになるはず
+    {"age": None, "price": None, "pk": 3, "embedding": [0.2, 0.3, 0.1]},  # `age`はデフォルト値18になり、`price`はnull
+    {"age": 45, "price": None, "pk": 4, "embedding": [0.9, 0.1, 0.4]},  # `price`はnull
+    {"age": None, "price": 59.99, "pk": 5, "embedding": [0.8, 0.5, 0.3]},  # `age`はデフォルト値18になる
+    {"age": 60, "price": None, "pk": 6, "embedding": [0.1, 0.6, 0.9]}  # `price`はnull
 ]
 
 client.insert(
@@ -574,7 +599,7 @@ curl --request POST \
     "data": [
         {"age": 25, "price": 99.99, "pk": 1, "embedding": [0.1, 0.2, 0.3]},
         {"age": 30, "price": 149.50, "pk": 2, "embedding": [0.4, 0.5, 0.6]},
-        {"age": 35, "price": 199.99, "pk": 3, "embedding": [0.7, 0.8, 0.9]}       
+        {"age": 35, "price": 199.99, "pk": 3, "embedding": [0.7, 0.8, 0.9]}
     ],
     "collectionName": "my_collection"
 }'
@@ -583,11 +608,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## フィルタ式を使用したクエリ{#query-with-filter-expressions}
+## フィルタ式でのクエリ\\{#query-with-filter-expressions}
 
-エンティティを挿入した後、`query`メソッドを使用して、指定したフィルター式に一致するエンティティを取得します。
+エンティティを挿入した後、`query`メソッドを使用して指定されたフィルタ式に一致するエンティティを取得します。
 
-大なり30の`age`のエンティティを取得するには:
+`age`が30より大きいエンティティを取得するには：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -603,7 +628,7 @@ res = client.query(
 
 print(res)
 
-# Example output:
+# 出力例：
 # data: [
 #     "{'age': 45, 'price': None, 'pk': 4}",
 #     "{'age': 60, 'price': None, 'pk': 6}"
@@ -627,10 +652,10 @@ QueryResp resp = client.query(QueryReq.builder()
         .build());
 System.out.println(resp.getQueryResults());
 
-// Output
+// 出力
 //
 // [
-//    QueryResp.QueryResult(entity={price=null, pk=4, age=45}), 
+//    QueryResp.QueryResult(entity={price=null, pk=4, age=45}),
 //    QueryResp.QueryResult(entity={price=null, pk=6, age=60})
 // ]
 ```
@@ -686,7 +711,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-価格がnullのエンティティを`取得`するには:
+`price`がnullのエンティティを取得するには：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -702,7 +727,7 @@ res = client.query(
 
 print(res)
 
-# Example output:
+# 出力例：
 # data: [
 #     "{'age': 30, 'price': None, 'pk': 2}",
 #     "{'age': 18, 'price': None, 'pk': 3}",
@@ -725,11 +750,11 @@ QueryResp resp = client.query(QueryReq.builder()
         .build());
 System.out.println(resp.getQueryResults());
 
-// Output
+// 出力
 // [
-//    QueryResp.QueryResult(entity={price=null, pk=2, age=30}), 
-//    QueryResp.QueryResult(entity={price=null, pk=3, age=18}), 
-//    QueryResp.QueryResult(entity={price=null, pk=4, age=45}), 
+//    QueryResp.QueryResult(entity={price=null, pk=2, age=30}),
+//    QueryResp.QueryResult(entity={price=null, pk=3, age=18}),
+//    QueryResp.QueryResult(entity={price=null, pk=4, age=45}),
 //    QueryResp.QueryResult(entity={price=null, pk=6, age=60})
 // ]
 ```
@@ -745,12 +770,12 @@ const filter = 'price is null';
 const res = await client.query({
     collection_name:"my_collection",
     filter:filter,
-    output_fields=["age", "price", "pk"]
+    output_fields:["age", "price", "pk"]
 });
 
 console.log(res);
 
-// Example output:
+// 出力例：
 // data: [
 //     "{'age': 18, 'price': None, 'pk': 3}",
 //     "{'age': 18, 'price': 59.99, 'pk': 5}"
@@ -795,7 +820,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`age`の値が18のエンティティを取得するには、以下の式を使用します。`age`のデフォルト値が`18`であるため、期待される結果には、`age`が明示的に`18`に設定されているか、`age`がnullに設定されているエンティティが含まれる必要があります。
+`age`が値`18`を持つエンティティを取得するには、以下の式を使用します。`age`のデフォルト値は`18`なので、期待される結果には`age`が明示的に`18`に設定されているか、`age`がnullに設定されているエンティティが含まれるはずです。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -811,7 +836,7 @@ res = client.query(
 
 print(res)
 
-# Example output:
+# 出力例：
 # data: [
 #     "{'age': 18, 'price': None, 'pk': 3}",
 #     "{'age': 18, 'price': 59.99, 'pk': 5}"
@@ -832,9 +857,9 @@ QueryResp resp = client.query(QueryReq.builder()
         .build());
 System.out.println(resp.getQueryResults());
 
-// Output
+// 出力
 // [
-//    QueryResp.QueryResult(entity={price=null, pk=3, age=18}), 
+//    QueryResp.QueryResult(entity={price=null, pk=3, age=18}),
 //    QueryResp.QueryResult(entity={price=59.99, pk=5, age=18})
 // ]
 ```
@@ -850,16 +875,16 @@ const filter = 'age == 18';
 const res = await client.query({
     collection_name:"my_collection",
     filter:filter,
-    output_fields=["age", "price", "pk"]
+    output_fields:["age", "price", "pk"]
 });
 
 console.log(res);
 
-// Example output:
+// 出力例：
 // data: [
 //     "{'age': 18, 'price': None, 'pk': 3}",
 //     "{'age': 18, 'price': 59.99, 'pk': 5}"
-// ]
+# ]
 ```
 
 </TabItem>
@@ -900,9 +925,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## フィルタ式を用いたベクトル検索{#vector-search-with-filter-expressions}
+## フィルタ式でのベクター検索\\{#vector-search-with-filter-expressions}
 
-基本的な数値フィールドフィルタリングに加えて、ベクトル類似検索と数値フィールドフィルタを組み合わせることができます。例えば、次のコードはベクトル検索に数値フィールドフィルタを追加する方法を示しています。
+基本的な数値フィールドフィルタリングに加えて、ベクター類似性検索と数値フィールドフィルタを組み合わせることができます。例えば、以下のコードはベクター検索に数値フィールドフィルタを追加する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -921,7 +946,7 @@ res = client.search(
 
 print(res)
 
-# Example output:
+# 出力例：
 # data: [
 #     "[{'id': 2, 'distance': -0.2016308456659317, 'entity': {'age': 30, 'price': None}}, {'id': 1, 'distance': -0.23643313348293304, 'entity': {'age': 25, 'price': 99.98999786376953}}]"
 # ]
@@ -949,7 +974,7 @@ SearchResp resp = client.search(SearchReq.builder()
 
 System.out.println(resp.getSearchResults());
 
-// Output
+// 出力
 //
 // [
 //   [
@@ -1029,4 +1054,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-この例では、まずクエリベクトルを定義し、検索中に`25<=age<=35`というフィルタ条件を追加します。これにより、検索結果がクエリベクトルに似ているだけでなく、指定された年齢範囲を満たすことが保証されます。詳細については、[フィルタリング](./filtering)を参照してください。
+この例では、まずクエリベクターを定義し、検索中にフィルタ条件`25 <= age <= 35`を追加します。これにより、検索結果がクエリベクターに類似しているだけでなく、指定された年齢範囲も満たすようになります。詳細については、[Filtering](./filtering)を参照してください。
