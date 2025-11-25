@@ -71,7 +71,7 @@ An excessively high value wastes memory, and you'll need to do some calculations
 
 Indexing is mandatory for vector fields, including both the vector fields in a collection and those defined in a Struct. For vector fields in a Struct, you should use `AUTOINDEX` as the index type and `MAX_SIM` series as the metric type.
 
-For details on all applicable limits, refer to [the limits](./undefined#limits).
+For details on all applicable limits, refer to [the limits](./use-array-of-structs#limits).
 
 ## A real-world example: Modeling the CoVLA dataset for autonomous driving\{#a-real-world-example-modeling-the-covla-dataset-for-autonomous-driving}
 
