@@ -107,12 +107,12 @@ index_params.add_index(
    </tr>
    <tr>
      <td><p><code>json_cast_type</code></p></td>
-     <td><p>値を解釈およびインデックス化するときに使用するデータ型。キーの実際のデータ型と一致する必要があります。<p>使用可能なキャスト型のリストについては、<a href="./json-indexing#supported-cast-types">サポートされているキャスト型</a>以下を参照してください。</p></td>
+     <td><p>値を解釈およびインデックス化するときに使用するデータ型。キーの実際のデータ型と一致する必要があります。</p><p>使用可能なキャスト型のリストについては、<a href="./json-indexing#supported-cast-types">サポートされているキャスト型</a>以下を参照してください。</p></td>
      <td><p><code>"VARCHAR"</code></p></td>
    </tr>
    <tr>
      <td><p><code>json_cast_function</code></p></td>
-     <td><p><strong>（オプション）</strong> インデックス作成時に元のキー値をターゲット型に変換します。この構成は、キー値が誤った形式で保存されており、インデックス作成時にデータ型を変換したい場合にのみ必要です。<p>使用可能なキャスト関数のリストについては、<a href="./json-indexing#supported-cast-functions">サポートされているキャスト関数</a>以下を参照してください。</p></td>
+     <td><p><strong>（オプション）</strong> インデックス作成時に元のキー値をターゲット型に変換します。この構成は、キー値が誤った形式で保存されており、インデックス作成時にデータ型を変換したい場合にのみ必要です。</p><p>使用可能なキャスト関数のリストについては、<a href="./json-indexing#supported-cast-functions">サポートされているキャスト関数</a>以下を参照してください。</p></td>
      <td><p><code>"STRING_TO_DOUBLE"</code></p></td>
    </tr>
 </table>
@@ -159,7 +159,7 @@ Zilliz Cloudは、インデックス作成時のキャストに以下のデー�
    </tr>
    <tr>
      <td><p><code>JSON</code> / <code>json</code></p></td>
-     <td><p>自動型推論とフラット化による完全なJSONオブジェクトまたはサブオブジェクト。<p>完全なJSONオブジェクトにインデックスを作成すると、インデックスサイズが大きくなります。多キーのシナリオでは、<a href="./json-shredding">JSON Shredding</a>を検討してください。</p></td>
+     <td><p>自動型推論とフラット化による完全なJSONオブジェクトまたはサブオブジェクト。</p><p>完全なJSONオブジェクトにインデックスを作成すると、インデックスサイズが大きくなります。多キーのシナリオでは、<a href="./json-shredding">JSON Shredding</a>を検討してください。</p></td>
      <td><p>任意のJSONオブジェクト</p></td>
    </tr>
 </table>

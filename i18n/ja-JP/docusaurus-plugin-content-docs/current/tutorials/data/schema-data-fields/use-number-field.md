@@ -81,7 +81,7 @@ import TabItem from '@theme/TabItem';
 
 </Admonition>
 
-## ブール値および数値フィールドの追加\\{#add-boolean-and-number-fields}
+## ブール値および数値フィールドの追加\\\{#add-boolean-and-number-fields}
 
 ブール値または数値データを格納するには、コレクションスキーマで対応する型のフィールドを定義します。以下は2つの数値フィールドを持つコレクションスキーマの例です：
 
@@ -311,7 +311,7 @@ export schema="{
 </TabItem>
 </Tabs>
 
-## インデックスパラメータの設定\\{#set-index-params}
+## インデックスパラメータの設定\\\{#set-index-params}
 
 インデックス作成は検索とクエリのパフォーマンスを向上させます。Zilliz Cloudクラスタでは、インデックス作成はベクターフィールドでは必須ですが、スカラーフィールドではオプションです。
 
@@ -414,7 +414,7 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-## コレクションの作成\\{#create-collection}
+## コレクションの作成\\\{#create-collection}
 
 スキーマとインデックスが定義されたら、数値フィールドを含むコレクションを作成します。
 
@@ -488,7 +488,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## データの挿入\\{#insert-data}
+## データの挿入\\\{#insert-data}
 
 コレクションを作成した後、スキーマに一致するエンティティを挿入します。
 
@@ -608,7 +608,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## フィルタ式でのクエリ\\{#query-with-filter-expressions}
+## フィルタ式でのクエリ\\\{#query-with-filter-expressions}
 
 エンティティを挿入した後、`query`メソッドを使用して指定されたフィルタ式に一致するエンティティを取得します。
 
@@ -925,7 +925,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## フィルタ式でのベクター検索\\{#vector-search-with-filter-expressions}
+## フィルタ式でのベクター検索\\\{#vector-search-with-filter-expressions}
 
 基本的な数値フィールドフィルタリングに加えて、ベクター類似性検索と数値フィールドフィルタを組み合わせることができます。例えば、以下のコードはベクター検索に数値フィールドフィルタを追加する方法を示しています。
 

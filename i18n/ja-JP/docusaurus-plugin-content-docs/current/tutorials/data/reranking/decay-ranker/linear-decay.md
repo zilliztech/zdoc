@@ -442,6 +442,8 @@ const hybrid = await milvusClient.search({
 
 ```bash
 # restful
+```
+
 </TabItem>
 </Tabs>
 
