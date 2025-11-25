@@ -1,14 +1,17 @@
 ---
-title: "フィルタリファレンス | Cloud"
+title: "Filter Reference | Cloud"
 slug: /analyzer-filters
-sidebar_label: "フィルタリファレンス"
+sidebar_label: "Filter"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "このセクションでは、アナライザのフィルタの詳細なリファレンスを提供します。 | Cloud"
+description: "このセクションでは、アナライザーのフィルターの詳細リファレンスを提供します。| Cloud"
 type: origin
-token: J221wV4l2i1lYykdMYwcVJkXnmp
+token: ZIakwn5V8i1msRk7EDscPNqsnUf
 sidebar_position: 4
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
@@ -16,19 +19,19 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# フィルタリファレンス
+# Filter Reference
 
-このセクションでは、アナライザのフィルタの詳細なリファレンスを提供します。
+このセクションでは、アナライザーのフィルターの詳細リファレンスを提供します。
 
 import DocCardList from '@theme/DocCardList';
 

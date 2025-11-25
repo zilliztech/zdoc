@@ -1,6 +1,6 @@
 {
   "model": {
-    "sessionTokenLimit": 128000
+    "sessionTokenLimit": 1280000
   },
   "$version": 2
 }
