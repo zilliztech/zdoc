@@ -35799,6 +35799,11 @@
 						"name": "CLUSTER_ID",
 						"in": "path",
 						"description": "ID of the cluster to modify.",
+						"x-i18n": {
+							"zh-CN": {
+								"description": "待修改集群 ID。"
+							}
+						},
 						"required": true,
 						"example": "inxx-xxxxxxxxxxxxxxx",
 						"schema": {
@@ -35824,6 +35829,11 @@
 						"name": "Accept",
 						"in": "header",
 						"description": "Use `application/json`.",
+						"x-i18n": {
+							"zh-CN": {
+								"description": "使用 `application/json`。"
+							}
+						},
 						"required": false,
 						"example": "application/json",
 						"schema": {
