@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

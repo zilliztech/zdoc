@@ -35839,18 +35839,235 @@
 								"properties": {
 									"cuSize": {
 										"type": "integer",
-										"description": "Number of CUs allocated to this cluster after the modification.",
+										"description": "Number of CUs allocated to this cluster after the modification. This parameter and `autoscaling.cu` are mutually exclusive; you can specify only one of them. The product of this parameter and `replica` should not exceed 256.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "修改后分配给指定集群的 CU 数量。此参数与 `autoscaling.cu` 互斥；您只能指定其中一个。此参数与 `replica` 的乘积不得超过 256。"
+											}
+										},
 										"minimum": 1,
 										"maximum": 256,
 										"exclusiveMinimum": true
+									},
+									"replica": {
+										"type": "integer",
+										"description": "Number of replicas for this cluster after the modification. This parameter and `autoscaling.replica` are mutually exclusive; you can specify only one of them. The product of this parameter and `cuSize` should not exceed 256.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "修改后指定集群的副本数量。此参数与 `autoscaling.replica` 互斥；您只能指定其中一个。此参数与 `cuSize` 的乘积不得超过 256。"
+											}
+										},
+										"minimum": 1,
+										"maximum": 10,
+										"exclusiveMinimum": true
+									},
+									"autoscaling": {
+										"type": "object",
+										"description": "Auto-scaling configuration for the cluster. This parameter and `cuSize` or `replica` are mutually exclusive; you can specify only one of them.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "集群的自动扩缩容配置。此参数与 `cuSize` 或 `replica` 互斥；您只能指定其中一个。"
+											}
+										},
+										"properties": {
+											"cu": {
+												"type": "object",
+												"description": "Auto-scaling configuration for CUs. This is unavailable if you have already set `cuSize`. The product of the maximum number of CUs and the maximum number of replicas should not exceed 256.",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "CU 的自动扩缩容配置。如果您已设置 `cuSize`，则无法使用此配置。最大 CU 数量与最大副本数量的乘积不得超过 256。"
+													}
+												},
+												"properties": {
+													"min": {
+														"type": "integer",
+														"description": "Minimum number of CUs for auto-scaling. This parameter and `schedules` are mutually exclusive; you can specify only one of them.",
+														"x-i18n": {
+															"zh-CN": {
+																"description": "自动扩缩容的最小 CU 数量。此参数与 `schedules` 互斥；您只能指定其中一个。"
+															}
+														},
+														"minimum": 1,
+														"maximum": 256,
+														"exclusiveMinimum": true
+													},
+													"max": {
+														"type": "integer",
+														"description": "Maximum number of CUs for auto-scaling. This parameter and `schedules` are mutually exclusive; you can specify only one of them.",
+														"x-i18n": {
+															"zh-CN": {
+																"description": "自动扩缩容的最大 CU 数量。此参数与 `schedules` 互斥；您只能指定其中一个。"
+															}
+														},
+														"minimum": 1,
+														"maximum": 256,
+														"exclusiveMinimum": true
+													},
+													"schedules": {
+														"type": "array",
+														"description": "Auto-scaling schedules. This parameter and `min`/`max` are mutually exclusive; you can specify only one of them.",
+														"x-i18n": {
+															"zh-CN": {
+																"description": "自动扩缩容的时间表。此参数与 `min`/`max` 互斥；您只能指定其中一个。"
+															}
+														},
+														"items": {
+															"type": "object",
+															"description": "An auto-scaling schedule.",
+															"x-i18n": {
+																"zh-CN": {
+																	"description": "自动扩缩容时间表。"
+																}
+															},
+															"properties": {
+																"cron": {
+																	"type": "string",
+																	"description": "Cron expression defining the schedule.",
+																	"x-i18n": {
+																		"zh-CN": {
+																			"description": "定义时间表的 Cron 表达式。"
+																		}
+																	},
+																	"example": "0 0 * * *"
+																},
+																"target": {
+																	"type": "integer",
+																	"description": "Target number of CUs for this schedule.",
+																	"x-i18n": {
+																		"zh-CN": {
+																			"description": "此时间表的目标 CU 数量。"
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											},
+											"replica": {
+												"type": "object",
+												"description": "Auto-scaling configuration for replicas. This is unavailable if you have already set `replica`. The product of the maximum number of CUs and the maximum number of replicas should not exceed 256.",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "Replica 的自动扩缩容配置。如果您已设置 `replica`，则无法使用此配置。最大 CU 数量与最大副本数量的乘积不得超过 256。"
+													}
+												},
+												"properties": {
+													"min": {
+														"type": "integer",
+														"description": "Minimum number of replicas for auto-scaling. This parameter and `schedules` are mutually exclusive; you can specify only one of them.",
+														"x-i18n": {
+															"zh-CN": {
+																"description": "自动扩缩容的最小 Replica 数量。此参数与 `schedules` 互斥；您只能指定其中一个。"
+															}
+														},
+														"minimum": 1,
+														"maximum": 10,
+														"exclusiveMinimum": true
+													},
+													"max": {
+														"type": "integer",
+														"description": "Maximum number of replicas for auto-scaling. This parameter and `schedules` are mutually exclusive; you can specify only one of them.",
+														"x-i18n": {
+															"zh-CN": {
+																"description": "自动扩缩容的最大 Replica 数量。此参数与 `schedules` 互斥；您只能指定其中一个。"
+															}
+														},
+														"minimum": 1,
+														"maximum": 10,
+														"exclusiveMinimum": true
+													},
+													"schedules": {
+														"type": "array",
+														"description": "Auto-scaling schedules. This parameter and `min`/`max` are mutually exclusive; you can specify only one of them.",
+														"x-i18n": {
+															"zh-CN": {
+																"description": "自动扩缩容的时间表。此参数与 `min`/`max` 互斥；您只能指定其中一个。"
+															}
+														},
+														"items": {
+															"type": "object",
+															"description": "An auto-scaling schedule.",
+															"x-i18n": {
+																"zh-CN": {
+																	"description": "自动扩缩容时间表。"
+																}
+															},
+															"properties": {
+																"cron": {
+																	"type": "string",
+																	"description": "Cron expression defining the schedule.",
+																	"x-i18n": {
+																		"zh-CN": {
+																			"description": "定义时间表的 Cron 表达式。"
+																		}
+																	},
+																	"example": "0 0 * * *"
+																},
+																"target": {
+																	"type": "integer",
+																	"description": "Target number of replicas for this schedule.",
+																	"x-i18n": {
+																		"zh-CN": {
+																			"description": "此时间表的目标 Replica 数量。"
+																		}
+																	}
+																}
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							},
+							"examples": {
+								"1": {
+									"summary": "Manual Scaling",
+									"value": {
+										"cuSize": 2,
+										"replica": 2
 									}
 								},
-								"required": [
-									"cuSize"
-								]
-							},
-							"example": {
-								"cuSize": 2
+								"2": {
+									"summary": "Dynamic Scaling",
+									"value": {
+										"autoscaling": {
+											"cu": {
+												"min": 1,
+												"max": 2
+											},
+											"replica": {
+												"min": 1,
+												"max": 2
+											}
+										}
+									}
+								},
+								"3": {
+									"summary": "Scheduled Scaling",
+									"value": {
+										"autoscaling": {
+											"cu": {
+												"schedules": [
+													{
+														"cron": "10 0 0 0 0 ?",
+														"target": 2
+													}
+												]
+											},
+											"replica": {
+												"schedules": [
+													{
+														"cron": "10 0 0 0 0 ?",
+														"target": 2
+													}
+												]
+											}
+										}
+									}
+								}
 							}
 						}
 					}
