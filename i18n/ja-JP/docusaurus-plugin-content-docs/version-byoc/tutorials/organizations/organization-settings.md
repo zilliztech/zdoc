@@ -30,7 +30,7 @@ Organizationのオーナーの場合、Organizationの設定を管理する権�
 
 このガイドでは、組織の設定を管理する手順を説明します。
 
-## 組織を見る{#view-organizations}
+## 組織を見る\{#view-organizations}
 
 Zilliz Cloudにサインアップすると、デフォルトの組織が作成されます。新しい組織を作成することはできませんが、招待により他のユーザーの組織に参加することができます。
 
@@ -40,13 +40,13 @@ Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインす�
 
 ![view-organizations](/img/view-organizations.png)
 
-## 組織の名前を変更する{#rename-an-organization}
+## 組織の名前を変更する\{#rename-an-organization}
 
 組織の名前を変更するには、[組織オーナー](./organization-users)である必要があります。
 
-    ![edit-organization-name-byoc](/img/edit-organization-name-byoc.png)
+![edit-organization-name-byoc](/img/edit-organization-name-byoc.png)
 
-## タイムゾーンの管理{#manage-timezone}
+## タイムゾーンの管理\{#manage-timezone}
 
 システムのタイムゾーンは、最初のログインが行われる場所に設定され、Zilliz Cloudに表示されるすべての時間文字列に適用されます。
 
@@ -56,7 +56,7 @@ Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインす�
 
 システムのタイムゾーンを変更するには、[組織オーナー](./organization-users)である必要があります。**編集**をクリックして**タイムゾーン設定**ダイアログボックスを開き、ドロップダウンリストからタイムゾーンを選択します。また、タイムゾーンの名前を入力して、希望のタイムゾーンを素早くフィルタリングすることもできます。
 
-## メンテナンスウィンドウを設定する{#set-up-maintenance-window}
+## メンテナンスウィンドウを設定する\{#set-up-maintenance-window}
 
 Zilliz Cloudがホストされたクラスターのメンテナンスをスケジュールするためのメンテナンスウィンドウを設定することができます。これにより、影響力のあるメンテナンスイベントがより予測可能になり、ワークロードの混乱が少なくなります。
 
@@ -74,7 +74,7 @@ Zilliz Cloudがホストされたクラスターのメンテナンスをスケ�
 
 ![byoc-maintenance-window](/img/byoc-maintenance-window.png)
 
-## 組織を削除{#delete-organization}
+## 組織を削除\{#delete-organization}
 
 始める前に、以下の条件が満たされていることを確認してください。
 

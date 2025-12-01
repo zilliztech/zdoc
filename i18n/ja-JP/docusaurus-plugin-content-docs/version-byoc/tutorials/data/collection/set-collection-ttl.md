@@ -1,24 +1,27 @@
 ---
-title: "コレクションTTLを設定する | BYOC"
+title: "コレクションTTLの設定 | BYOC"
 slug: /set-collection-ttl
-sidebar_label: "コレクションTTLを設定する"
+sidebar_label: "コレクションTTLの設定"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "データがコレクションに挿入されると、デフォルトでそこに残ります。ただし、一部のシナリオでは、一定期間後にデータを削除またはクリーンアップする必要がある場合があります。そのような場合、コレクションのTTLプロパティを構成して、TTLが期限切れになるとMilvusが自動的にデータを削除するようにすることができます。 | BYOC"
+description: "データがコレクションに挿入されると、デフォルトではそこに残り続けます。ただし、一定期間後にデータを削除またはクリーンアップしたい場合があります。このような場合、コレクションのTTL（Time-to-Live）プロパティを設定し、TTLが期限切れになったときにZilliz Cloudがデータを自動的に削除するようにできます。 | BYOC"
 type: origin
-token: FTYswRW4niCGNUkbnbmc7NjQng3
+token: GthGwnrpEiGpClkV5JXcgWUgn8c
 sidebar_position: 6
-keywords: 
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - collection
-  - collection ttl
-  - time-to-live
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - ベクトルデータベース
+  - クラウド
+  - コレクション
+  - コレクションTTL
+  - Time-to-Live
+  - Faiss
+  - ビデオ検索
+  - AIの幻覚
+  - AIエージェント
 
 ---
 
@@ -26,31 +29,37 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# コレクションTTLを設定する
+# コレクションTTLの設定
 
-データがコレクションに挿入されると、デフォルトでそこに残ります。ただし、一部のシナリオでは、一定期間後にデータを削除またはクリーンアップする必要がある場合があります。そのような場合、コレクションのTTLプロパティを構成して、TTLが期限切れになるとMilvusが自動的にデータを削除するようにすることができます。
+データがコレクションに挿入されると、デフォルトではそこに残り続けます。ただし、一定期間後にデータを削除またはクリーンアップしたい場合があります。このような場合、コレクションのTTL（Time-to-Live）プロパティを設定し、TTLが期限切れになったときにZilliz Cloudがデータを自動的に削除するようにできます。
 
-## 概要について{#overview}
+## 概要\{#overview}
 
-Time-to-Live(TTL)は、データが挿入や変更後に一定期間のみ有効またはアクセス可能である必要がある場合に、データベースで一般的に使用されます。その後、データは自動的に削除されます。
+TTL（Time-to-Live）は、データベースで一般的に使用される概念であり、挿入または変更後の一定期間のみデータの有効性またはアクセシビリティを維持すべきケースに使用されます。その後、データは自動的に削除されます。
 
-例えば、毎日データを取り込み、14日間だけレコードを保持する必要がある場合、コレクションのTTLを**14×24×3600=1209600**秒に設定することで、それより古いデータを自動的に削除するようにMilvusを設定できます。これにより、最新の14日間分のデータのみがコレクションに残ります。
+例えば、毎日データをインジェストするが、過去14日間のレコードのみを保存する必要がある場合、コレクションのTTLを**14 × 24 × 3600 = 1209600**秒に設定することで、Zilliz Cloudがそれより古いすべてのデータを自動的に削除するように構成できます。これにより、コレクション内には直近14日分のデータのみが保持されることが保証されます。
 
-MilvusコレクションのTTLプロパティは、秒単位の整数で指定されます。設定されると、TTLを超えるデータは自動的にコレクションから削除されます。
+<Admonition type="info" icon="📘" title="注意">
 
-削除過程が非同期であるため、指定されたTTLが経過した後にデータが検索結果から正確に削除されない場合があります。代わりに、非決定的な間隔で発生するガベージコレクション(GC)および圧縮プロセスに依存するため、遅延が発生する可能性があります。
+<p>期限切れのエンティティは検索またはクエリ結果には表示されません。ただし、データは後続のデータコンパクションが行われるまで（24時間以内に行われる予定）ストレージに残ることがあります。</p>
 
-## TTLを設定{#set-ttl}
+</Admonition>
 
-TTLプロパティを設定できます
+Zilliz CloudコレクションのTTLプロパティは、秒単位の整数で指定されます。設定後、TTLを超えたデータはコレクションから自動的に削除されます。
 
-- [コレクションを作成します。](./set-collection-ttl#set-ttl-when-creating-a-collection)
+削除プロセスは非同期であるため、指定されたTTLの経過後に検索結果からデータが正確に削除されるとは限りません。代わりに、ごみ集め（GC）およびコンパクションプロセスが不定期に行われるため、削除には遅延が生じることがあります。
 
-- [既存のコレクションのTTLプロパティを変更します。](./set-collection-ttl#set-ttl-for-an-existing-collection)
+## TTLの設定\{#set-ttl}
 
-### コレクション作成時にTTLを設定する{#set-ttl-when-creating-a-collection}
+TTLプロパティは以下のタイミングで設定できます：
 
-次のコードスニペットは、コレクションを作成するときにTTLプロパティを設定する方法を示しています。
+- [コレクション作成時](./set-collection-ttl#set-ttl-when-creating-a-collection)
+
+- [既存コレクションのTTLプロパティの変更時](./set-collection-ttl#set-ttl-for-an-existing-collection)
+
+### コレクション作成時のTTL設定\{#set-ttl-when-creating-a-collection}
+
+以下のコードスニペットは、コレクション作成時にTTLプロパティを設定する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -58,9 +67,9 @@ TTLプロパティを設定できます
 ```python
 from pymilvus import MilvusClient
 
-# With TTL
+# TTL付き
 client.create_collection(
-    collection_name="customized_setup_5",
+    collection_name="my_collection",
     schema=schema,
     # highlight-start
     properties={
@@ -81,14 +90,14 @@ import io.milvus.param.Constant;
 import java.util.HashMap;
 import java.util.Map;
 
-// With TTL
-CreateCollectionReq customizedSetupReq5 = CreateCollectionReq.builder()
-        .collectionName("customized_setup_5")
+// TTL付き
+CreateCollectionReq customizedSetupReq = CreateCollectionReq.builder()
+        .collectionName("my_collection")
         .collectionSchema(schema)
         // highlight-next-line
         .property(Constant.TTL_SECONDS, "1209600")
         .build();
-client.createCollection(customizedSetupReq5);
+client.createCollection(customizedSetupReq);
 ```
 
 </TabItem>
@@ -97,7 +106,7 @@ client.createCollection(customizedSetupReq5);
 
 ```javascript
 const createCollectionReq = {
-    collection_name: "customized_setup_5",
+    collection_name: "my_collection",
     schema: schema,
     // highlight-start
     properties: {
@@ -112,21 +121,12 @@ const createCollectionReq = {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v2/milvusclient"
-    "github.com/milvus-io/milvus/pkg/common"
-)
-
-err = cli.CreateCollection(ctx, client.NewCreateCollectionOption("customized_setup_5", schema).
-        WithProperty(common.CollectionTTLConfigKey, 1209600)) //  TTL in seconds
+err = client.CreateCollection(ctx, milvusclient.NewCreateCollectionOption("my_collection", schema).
+    WithProperty(common.CollectionTTLConfigKey, 1209600)) //  TTL in seconds
 if err != nil {
-        // handle error
+    fmt.Println(err.Error())
+    // handle error
 }
-fmt.Println("collection created")
 ```
 
 </TabItem>
@@ -146,7 +146,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d "{
-    \"collectionName\": \"customized_setup_5\",
+    \"collectionName\": \"my_collection\",
     \"schema\": $schema,
     \"params\": $params
 }"
@@ -155,9 +155,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### 既存のコレクションにTTLを設定する{#set-ttl-for-an-existing-collection}
+### 既存コレクションのTTL設定\{#set-ttl-for-an-existing-collection}
 
-次のコードスニペットは、既存のコレクションのTTLプロパティを変更する方法を示しています。
+以下のコードスニペットは、既存のコレクションでTTLプロパティを変更する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -203,22 +203,10 @@ res = await client.alterCollection({
 <TabItem value='go'>
 
 ```go
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-})
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").
+    WithProperty(common.CollectionTTLConfigKey, 60))
 if err != nil {
-    log.Fatal("failed to connect to milvus server: ", err.Error())
-}
-
-defer cli.Close(ctx)
-
-err = cli.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.CollectionTTLConfigKey, 60))
-if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
 ```
@@ -233,7 +221,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d "{
-    \"collectionName\": \"customized_setup_5\",
+    \"collectionName\": \"my_collection\",
     \"properties\": {
         \"collection.ttl.seconds\": 1209600
     }
@@ -243,9 +231,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ドロップTTL設定{#drop-ttl-setting}
+## TTL設定の削除\{#drop-ttl-setting}
 
-コレクション内のデータを無期限に保持する場合は、そのコレクションからTTL設定を削除することができます。
+コレクション内のデータを無期限に保持することにした場合、そのコレクションからTTL設定を削除できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -289,22 +277,9 @@ res = await client.dropCollectionProperties({
 <TabItem value='go'>
 
 ```go
-ctx, cancel := context.WithCancel(context.Background())
-defer cancel()
-
-milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
-    Address: milvusAddr,
-})
+err = client.DropCollectionProperties(ctx, milvusclient.NewDropCollectionPropertiesOption("my_collection", common.CollectionTTLConfigKey))
 if err != nil {
-    log.Fatal("failed to connect to milvus server: ", err.Error())
-}
-
-defer cli.Close(ctx)
-
-err = cli.DropCollectionProperties(ctx, milvusclient.NewDropCollectionPropertiesOption("my_collection", common.CollectionTTLConfigKey))
-if err != nil {
+    fmt.Println(err.Error())
     // handle error
 }
 ```
@@ -319,7 +294,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d "{
-    \"collectionName\": \"customized_setup_5\",
+    \"collectionName\": \"my_collection\",
     \"properties\": {
         \"collection.ttl.seconds\": 60
     }
@@ -328,4 +303,3 @@ curl --request POST \
 
 </TabItem>
 </Tabs>
-

@@ -1,212 +1,217 @@
 ---
-title: "Google Cloud Marketplaceに登録する | Cloud"
+title: "Google Cloudマーケットプレイスで登録 | Cloud"
 slug: /subscribe-on-gcp-marketplace
-sidebar_label: "Google Cloud Marketplace"
+sidebar_label: "Google Cloudマーケットプレイス"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、サブスクリプションの過程をステップバイステップで説明し、GCP Marketplace上のZilliz Cloudの価格条件について概説します。 | Cloud"
+description: "このガイドでは、登録プロセスのステップバイステップガイドを提供し、GCPマーケットプレイスでのZilliz Cloudの価格用語を概説します。 | Cloud"
 type: origin
-token: IJfwwpxMSiOb39ktg4IcIr7un5f
-sidebar_position: 3
+token: MIqTw7iJ4iQAtVkYKiEc98a7nsh
+sidebar_position: 4
 keywords: 
   - zilliz
-  - vector database
-  - cloud
-  - marketplace
+  - ベクターデータベース
+  - クラウド
+  - マーケットプレイス
   - gcp
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Rag llmアーキテクチャ
+  - プライベートllm
+  - nn検索
+  - llm評価
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Google Cloud Marketplaceに登録する
+# Google Cloudマーケットプレイスで登録
 
-このガイドでは、サブスクリプションの過程をステップバイステップで説明し、GCP Marketplace上のZilliz Cloudの価格条件について概説します。
+このガイドでは、登録プロセスのステップバイステップガイドを提供し、GCPマーケットプレイスでのZilliz Cloudの価格用語を概説します。
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注意">
 
-<p>一度購読すると、Google Cloud Marketplaceを介してGoogle Cloudクラスターの使用料を支払うことができます。他のクラウドプロバイダーにクラスターをデプロイしている場合は、Google Cloud Marketplaceを使用して支払うこともできます。</p>
+<p>登録後、Google Cloudクラスターの使用量はGoogle Cloudマーケットプレイス経由で支払えます。他のクラウドプロバイダーにデプロイされているクラスターがある場合も、Google Cloudマーケットプレイスを使用して支払えます。</p>
 
 </Admonition>
 
-## 始める前に{#before-you-start}
+## 始める前に\{#before-you-start}
 
-- 必ず[GCPアカウント](https://cloud.google.com/apigee/docs/hybrid/v1.1/precog-gcpaccount)を作成してください。
+- [GCPアカウント](https://cloud.google.com/apigee/docs/hybrid/v1.1/precog-gcpaccount)があることを確認してください。
 
-- サブスクリプションに使用するGCPプロジェクトの請求先アカウントを設定していることを確認してください。
+- 登録に使用するGCPプロジェクトに請求アカウントが設定されていることを確認してください。
 
-- ご利用のGCPMarketplaceアカウントが組織に属している場合は、課金管理者による購入の承認が必要です。
+- GCPマーケットプレイスアカウントが組織の一部である場合、請求管理者による購入の承認を受ける必要があります。
 
-## GCP Marketplaceに登録する{#subscribe-on-gcp-marketplace}
+## GCPマーケットプレイスで登録\{#subscribe-on-gcp-marketplace}
 
-以下の手順で[GCP](https://console.cloud.google.com/marketplace) [Marketplace](https://console.cloud.google.com/marketplace)にアクセスし、Zilliz Cloudの購読を開始してください。
+[GCPマーケットプレイス](https://console.cloud.google.com/marketplace)にアクセスし、以下のようにZilliz Cloudの登録を開始します：
 
-1. 検索ボックスで**Zilliz Cloud**を検索するか、[GCP Marketplaceにアクセス](https://console.cloud.google.com/marketplace/product/zilliz-public/zilliz-cloud?project=zilliz-public&pli=1)してZilliz Cloudポータルページを表示してください。
+1. 検索ボックスで**Zilliz Cloud**を検索するか、[GCPマーケットプレイスに移動](https://console.cloud.google.com/marketplace/product/zilliz-public/zilliz-cloud?project=zilliz-public&pli=1)してZilliz Cloudポータルページを表示します。
 
     ![search_for_zilliz_on_gcp](/img/search_for_zilliz_on_gcp.png)
 
-1. [**Zilliz Cloud**]をクリックします。
+1. **Zilliz Cloud**をクリックします。
 
-    サービスと価格について理解してください。
+    サービスと価格に精通してください。
 
-1. 登録するプロジェクトを選択し、[**登録**]をクリックします。
+1. 登録用のプロジェクトを選択し、**登録**をクリックします。
 
     ![click_subscribe_on_gcp](/img/click_subscribe_on_gcp.png)
 
-1. [**New Zilliz Cloudサブスクリプション**]ページで、次の手順を実行します。
+1. **新しいZilliz Cloud登録**ページで、以下の手順を完了します：
 
-    1. [**購入詳細**]セクションのドロップダウンから請求先アカウントを選択します。
+    1. **購入詳細**セクションのドロップダウンから請求アカウントを選択します。
 
-    1. 利用**規約**を確認し、同意します。
+    1. **利用規約**を確認し、同意します。
 
-    1. 購読をクリックし**ます**。
+    1. **登録**をクリックします。
 
     ![new_zilliz_cloud_subscription_on_gcp](/img/new_zilliz_cloud_subscription_on_gcp.png)
 
-1. ポップアップウィンドウで、「**SIGN UP WITH ZILLIZ**」をクリックします。
+1. ポップアップウィンドウで、**ZILLIZでサインアップ**をクリックします。
 
-    <Admonition type="info" icon="📘" title="ノート">
+    <Admonition type="info" icon="📘" title="注意">
 
-    <p>登録手続きを完了できない場合は、GCP Marketplaceの[<strong><a href="https://console.cloud.google.com/marketplace/orders">ご注文</a></strong>]ページに移動して再試行できます。</p>
+    <p>サインアッププロセスを完了できない場合は、GCPマーケットプレイスの<strong><a href="https://console.cloud.google.com/marketplace/orders">注文</a></strong>ページに移動して再試行できます。</p>
 
     </Admonition>
 
     ![gcp_flash_message](/img/gcp_flash_message.png)
 
-1. 新しいしいタブで、以下の手順に従ってサブスクリプションを完了します。
+1. 新しいタブで、以下の手順に従って登録を完了します：
 
-    1. Zilliz Cloudアカウントをお持ちの場合は、ログインしてください。お持ちでない場合は、[サインアップオプション](./register-with-zilliz-cloud)を選択して、手順に従ってください。
+    1. すでにZilliz Cloudアカウントをお持ちの場合は、単にログインしてください。そうでない場合は、[サインアップオプション](./register-with-zilliz-cloud)を選択してプロセスに従ってください。
 
-    1. 既存のZilliz Cloud組織にサブスクリプションをリンクしてください。
+    1. 登録を既存のZilliz Cloud組織にリンクします。
 
-    1. 完全な承認。
+    1. 承認を完了します。
 
     ![aws-marketplace-dialog](/img/aws-marketplace-dialog.png)
 
-1. GCP Marketplaceのサブスクリプションが**支払**い方法として設定されていることを確認するには、請求に移動してください。
+1. **請求**に移動し、GCPマーケットプレイス登録が支払い方法として設定されていることを確認します。
 
     ![gcp-marketplace-success](/img/gcp-marketplace-success.png)
 
-## GCP Marketplaceのサブスクリプションを更新する{#update-gcp-marketplace-subscription}
+## GCPマーケットプレイス登録を更新\{#update-gcp-marketplace-subscription}
 
-GCP Marketplaceから正常にサブスクリプションを申し込んだ後は、いつでも適切なタイミングでサブスクリプションを更新できます。具体的には、サブスクリプションに使用するGCP Marketplaceアカウントを別のアカウントに変更するか、GCP Marketplaceのサブスクリプションからクレジットカードへの支払い方法を切り替えることができます。
+GCPマーケットプレイスから正常に登録した後、都合の良いときにいつでも登録を更新できます。具体的には、登録に使用されているGCPマーケットプレイスアカウントを別のアカウントに変更するか、GCPマーケットプレイス登録からクレジットカードへの支払い方法を切り替えることができます。
 
-### GCP Marketplaceのサブスクリプションアカウントを変更する{#change-gcp-marketplace-subscription-account}
+### GCPマーケットプレイス登録アカウントを変更\{#change-gcp-marketplace-subscription-account}
 
-1. サブスクリプションに使用した元のGCPアカウントでGCP Marketplaceにサインインしてください。
+1. 登録に使用した元のGCPアカウントでGCPマーケットプレイスにサインインします。
 
-1. Zilliz Cloudのサブスクリプションをキャンセルしてください。詳細については、[プランをキャンセル](https://cloud.google.com/marketplace/docs/manage-billing#saas-products)するを参照してください。
+1. Zilliz Cloud登録をキャンセルします。詳細については、[プランをキャンセル](https://cloud.google.com/marketplace/docs/manage-billing#saas-products)を参照してください。
 
-    <Admonition type="info" icon="📘" title="ノート">
+    <Admonition type="info" icon="📘" title="注意">
 
-    <p>サブスクリプションをキャンセルしても、Zilliz Cloudのデータは削除されませんのでご安心ください。</p>
-
-    </Admonition>
-
-    GCP Marketplaceがキャンセルの過程を完了するには数分かかります。
-
-1. 元のGCPアカウントからログアウトします。
-
-1. サブスクリプションに使用する新しいGCPアカウントでGCP Marketplaceにサインインします。
-
-1. 新しいアカウントでZilliz Cloudのサブスクリプションを完了するには、[GCP Marketplaceで購読](./subscribe-on-gcp-marketplace#subscribe-on-gcp-marketplace)するセクションの手順1から4に従ってください。
-
-    <Admonition type="info" icon="📘" title="ノート">
-
-    <p>GCP Marketplaceのサブスクリプションを更新する場合、新しいサブスクリプションをZilliz Cloud組織にリンクするには、[プロバイダーで管理]ボタンをクリックする必要があります。</p>
+    <p>登録をキャンセルしても、Zilliz Cloudデータは削除されませんのでご安心ください。</p>
 
     </Admonition>
 
-1. [**支払方法**]セクションの[**請求概要**]ページで更新を確認します。[サブスクリプションID]をクリックし、サブスクリプション**アカウントID**が新しいMarketplaceアカウントに更新されているかどうかを確認します。
+    GCPマーケットプレイスによるキャンセル処理には数分かかります。
+
+1. 元のGCPアカウントからサインアウトします。
+
+1. 登録に使用する新しいGCPアカウントでGCPマーケットプレイスにサインインします。
+
+1. [GCPマーケットプレイスで登録](./subscribe-on-gcp-marketplace#subscribe-on-gcp-marketplace)セクションの手順1～4に従って、新しいアカウントでZilliz Cloudへの登録を完了します。
+
+    <Admonition type="info" icon="📘" title="注意">
+
+    <p>GCPマーケットプレイス登録を更新する際は、新しい登録をZilliz Cloud組織にリンクするために<strong>プロバイダーで管理</strong>ボタンをクリックする必要があります。</p>
+
+    </Admonition>
+
+1. **請求概要**ページの**支払い方法**セクションで更新を確認します。登録IDをクリックして、登録の**アカウントID**が新しいマーケットプレイスアカウントに更新されたことを確認します。
 
     ![view-gcp-subscription-id](/img/view-gcp-subscription-id.png)
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注意">
 
-<p>サービスの中断を避けるために、1時間以内に操作を完了することをお勧めします。</p>
+<p>サービスの中断を避けるため、1時間以内に操作を完了することを推奨します。</p>
 
 </Admonition>
 
-### クレジットカード決済に切り替える{#switch-to-payment-credit-card}
+### 支払いクレジットカードに切り替える\{#switch-to-payment-credit-card}
 
-1. サブスクリプションに使用した元のGCPアカウントでGCP Marketplaceにサインインしてください。
+1. 登録に使用した元のGCPアカウントでGCPマーケットプレイスにサインインします。
 
-1. Zilliz Cloudのサブスクリプションをキャンセルしてください。詳細については、[プランをキャンセル](https://cloud.google.com/marketplace/docs/manage-billing#saas-products)するを参照してください。
+1. Zilliz Cloud登録をキャンセルします。詳細については、[プランをキャンセル](https://cloud.google.com/marketplace/docs/manage-billing#saas-products)を参照してください。
 
-    <Admonition type="info" icon="📘" title="ノート">
+    <Admonition type="info" icon="📘" title="注意">
 
-    <p>サブスクリプションをキャンセルしても、Zilliz Cloudのデータは削除されませんのでご安心ください。</p>
+    <p>登録をキャンセルしても、Zilliz Cloudデータは削除されませんのでご安心ください。</p>
 
     </Admonition>
 
-    GCP Marketplaceがキャンセルの過程を完了するには数分かかります。
+    GCPマーケットプレイスによるキャンセル処理には数分かかります。
 
-1. 「[クレジットカードを追加して購読する](./subscribe-by-adding-credit-card)」の手順に従って、支払いクレジットカードを追加します。
+1. [クレジットカードを追加して登録](./subscribe-by-adding-credit-card#add-a-credit-card)の手順に従って、支払い用クレジットカードを追加します。
 
-1. [**支払方法**]セクションの[**請求概要**]ページで更新を確認します。
+1. **請求概要**ページの**支払い方法**セクションで更新を確認します。
 
-## GCP Marketplaceのサブスクリプションをキャンセルする{#cancel-gcp-marketplace-subscription}
+## GCPマーケットプレイス登録をキャンセル\{#cancel-gcp-marketplace-subscription}
 
-GCP Marketplaceのサブスクリプションを解約するには、GCP Marketplaceコンソールを開き、[こちら](https://cloud.google.com/marketplace/docs/manage-billing#cancel)の手順に従ってください。
+GCPマーケットプレイス登録をキャンセルするには、GCPマーケットプレイスコンソールを開き、[こちら](https://cloud.google.com/marketplace/docs/manage-billing#cancel)の指示に従う必要があります。
 
-## GCP Marketplaceの価格条件{#gcp-marketplace-pricing-terms}
+## GCPマーケットプレイス価格用語\{#gcp-marketplace-pricing-terms}
 
-詳細については、[支払いと請求](./payment-billing)を参照してください。
+詳細については、[支払いと請求](./payment-billing#marketplace-pricing-terms)を参照してください。
 
-## トラブルシューティング{#troubleshooting}
+## トラブルシューティング\{#troubleshooting}
 
-**Zilliz Cloudにマーケットプレイスのサブスクリプションをリンクする際に利用可能な組織がない場合、私は何ができますか?**
+**マーケットプレイス登録をZilliz Cloudにリンクする際に利用可能な組織がない場合、どうすればよいですか？**
 
-いくつかの理由が考えられます:
+考えられる理由はいくつかあります。
 
-1. **不十分な権限**
+1. **権限が不十分**
 
-    これは、十分な権限がない場合に発生する可能性があります。利用できない組織の横に「権限不足」タグが表示されます。
+    これは、十分な特権がない場合に発生する可能性があります。利用できない組織の横に**「権限が不十分」**タグが表示されます。
 
     ![insufficient-permission-subscription](/img/insufficient-permission-subscription.png)
 
-1. **すべての組織はすでにMarketplaceサブスクリプションに正常にリンクされています**(UIプロンプト: Marketplace Linked)
+    組織をマーケットプレイス登録にリンクするには、**組織オーナー**または**組織請求管理者**である必要があります。組織メンバーであるだけの場合、必要な権限がありません。組織オーナーに支援を依頼してください。
 
-    1. 既存のMarketplaceサブスクリプションを更新する必要がある場合は、まず組織の現在のサブスクリプションの[リンク](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription)を解除してから、新しいサブスクリプションを設定してください。
+1. **すべての組織が既にマーケットプレイス登録に正常にリンクされている**
 
-    1. 異なるマーケットプレイスのサブスクリプションに複数の組織が必要な場合は、次のことができます:
+    これは、すべての組織が既にマーケットプレイス登録にリンクされている場合に発生する可能性があります。利用できない組織の横に**「マーケットプレイスリンク済み」**タグが表示されます。
 
-        1. [新し](./register-with-zilliz-cloud)いZilliz Cloudアカウントを登録して、新しい組織を作成します。その後、組織のオーナーを新しい組織に[招待](./organization-users#invite-a-user-to-your-organization)します。この組織のオーナーは複数の組織に所属し、組織ごとに異なるマーケットプレイスのサブスクリプションを設定できます。
+    ![marketplace-already-linked-subscription](/img/marketplace-already-linked-subscription.png)
 
-        1. [サポートチケットを作成](http://support.zilliz.com)すると、新しい組織が作成されます。現在、Zilliz Cloudでは、ユーザーが手動で組織を作成することはサポートされていません。
+    この場合、
 
-1. **リストに組織がありません**
+    1. 既存のマーケットプレイス登録を更新する必要がある場合は、最初に組織の現在のマーケットプレイス登録を[リンク解除](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription)し、次に新しい登録を設定してください。
 
-    アカウントが閉鎖された場合や、すべての組織から離脱した場合に発生する可能性があります。UIは以下のようになります。
+    1. 異なるマーケットプレイス登録用に複数の組織が必要な場合は、以下を行うことができます：
+
+        1. [登録](./register-with-zilliz-cloud)して新しいZilliz Cloudアカウントを作成し、新しい組織を作成します。次に、組織オーナーを新しい組織に[招待](./organization-users#invite-a-user-to-your-organization)します。この組織オーナーは複数の組織に属し、各組織に異なるマーケットプレイス登録を設定できます。
+
+        1. [サポートチケットを作成](http://support.zilliz.com)して、新しい組織を作成してもらいます。現在、Zilliz Cloudではユーザーによる組織の手動作成はサポートされていません。
+
+1. **リストに組織がない**
+
+    これは、アカウントが閉鎖されたか、すべての組織から退出した場合に発生する可能性があります。UIは以下のようになります。
 
     ![no-organization-during-subcription](/img/no-organization-during-subcription.png)
 
-    この場合、次のことができます:
+    この場合、以下を行うことができます：
 
-    1. 新しい組織を作る。
+    - 新しい組織を作成します。
 
-    1. 他のユーザに自分をOrganizationの所有者としてOrganizationに[招待](./organization-users#invite-a-user-to-your-organization)するように依頼します。
+    - 他のユーザーに[招待](./organization-users#invite-a-user-to-your-organization)されて組織に参加してもらい、組織オーナーの役割を付与してもらいます。
 
-    1. [サポートチケットを送信](https://support.zilliz.com/hc/en-us)すると、新しい組織が作成されます。
+    - [サポートチケットを作成](https://support.zilliz.com/hc/en-us)して、新しい組織を作成してもらいます。
 
-1. **Zilliz Cloud BYOCを使用しています。**
+## 関連トピック\{#related-topics}
 
-    あなたの組織が実際にZilliz Cloud BYOC組織である場合、これが起こる可能性があります。利用できない組織の横に「署名済み契約」タグが表示されます。BYOC組織には支払い方法は必要ありません。ご質問がある場合は、[営業にお問い合わせ](https://zilliz.com/contact-sales)ください。 
+- [クレジットカードを追加して登録](./subscribe-by-adding-credit-card)
 
-    ![signed-contract-subscription](/img/signed-contract-subscription.png)
+- [AWSマーケットプレイスで登録](./subscribe-on-aws-marketplace)
 
-## 関連するトピック{#related-topics}
+- [Azureマーケットプレイスで登録](./subscribe-on-azure-marketplace)
 
-- [クレジットカードを追加して購読する](./subscribe-by-adding-credit-card)
-
-- [AWS Marketplaceで購読する](./subscribe-on-aws-marketplace)
-
-- [Azure Marketplaceで購読する](./subscribe-on-azure-marketplace)
-
-- [インボイス](./view-invoice)
+- [請求書を表示](./view-invoice)
 

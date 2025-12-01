@@ -1,14 +1,17 @@
 ---
-title: "コレクションフィールドを変更する | Cloud"
+title: "コレクションフィールドの変更 | Cloud"
 slug: /alter-collection-field
-sidebar_label: "コレクションフィールドを変更する"
+sidebar_label: "コレクションフィールドの変更"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "コレクションフィールドのプロパティを変更して、列の制約を変更したり、より厳格なデータ整合性ルールを適用したりできます。 | Cloud"
+description: "コレクションフィールドのプロパティを変更して、列制約を変更したり、データ整合性ルールをより厳格に適用できます。 | Cloud"
 type: origin
-token: BPVOwD335iKOrek0N4pcnJ9Enae
-sidebar_position: 13
-keywords: 
+token: PLjFwlcT8ilFBakYXyfcg6S2n7d
+sidebar_position: 16
+keywords:
   - zilliz
   - vector database
   - cloud
@@ -16,10 +19,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 
@@ -27,24 +30,24 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# コレクションフィールドを変更する
+# コレクションフィールドの変更
 
-コレクションフィールドのプロパティを変更して、列の制約を変更したり、より厳格なデータ整合性ルールを適用したりできます。
+コレクションフィールドのプロパティを変更して、列制約を変更したり、データ整合性ルールをより厳格に適用できます。
 
 <Admonition type="info" icon="📘" title="ノート">
 
 <ul>
-<li><p>各コレクションは1つのプライマリフィールドのみで構成されています。コレクション作成時に設定したプライマリフィールドやそのプロパティを変更することはできません。</p></li>
-<li><p>各コレクションには1つのパーティションキーしか持てません。コレクション作成時に設定したパーティションキーは変更できません。</p></li>
+<li><p>各コレクションは1つの主フィールドのみで構成されます。コレクション作成時に設定すると、主フィールドを変更したり、そのプロパティを変更することはできません。</p></li>
+<li><p>各コレクションは1つのパーティションキーのみを持つことができます。コレクション作成時に設定すると、パーティションキーを変更することはできません。</p></li>
 </ul>
 
 </Admonition>
 
-## Alter VarCharフィールド{#alter-varchar-field}
+## VarCharフィールドの変更\{#alter-varchar-field}
 
-VarCharフィールドには、`max_length`という名前のプロパティがあり、フィールド値に含めることができる最大文字数を制限します。`max_length`プロパティは変更できます。
+VarCharフィールドには`max_length`というプロパティがあり、フィールド値に含めることができる最大文字数を制約します。`max_length`プロパティを変更できます。
 
-次の例では、コレクションがVarCharという名前のフィールド`varchar`を持ち、その`max_length`プロパティを設定します。
+次の例では、コレクションに`varchar`という名前のVarCharフィールドがあり、その`max_length`プロパティを設定することを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -93,7 +96,11 @@ client.alterCollectionField(AlterCollectionFieldReq.builder()
 <TabItem value='javascript'>
 
 ```javascript
-// TODO
+await client.alterCollectionFieldProperties({
+  collection_name: LOAD_COLLECTION_NAME,
+  field_name: 'varchar',
+  properties: { max_length: 1024 },
+});
 ```
 
 </TabItem>
@@ -101,7 +108,35 @@ client.alterCollectionField(AlterCollectionFieldReq.builder()
 <TabItem value='go'>
 
 ```go
-// TODO
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+    "github.com/milvus-io/milvus/pkg/v2/common"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+err = client.AlterCollectionFieldProperty(ctx, milvusclient.NewAlterCollectionFieldPropertiesOption(
+    "my_collection", "varchar").WithProperty(common.MaxLengthKey, 1024))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -109,17 +144,28 @@ client.alterCollectionField(AlterCollectionFieldReq.builder()
 <TabItem value='bash'>
 
 ```bash
-// TODO
+# restful
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/collections/fields/alter_properties" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data "{
+    \"collectionName\": \"my_collection\",
+    \"field_name\": \"varchar\",
+    \"properties\": {
+        \"max_length\": \"1024\"
+    }
+}"
 ```
 
 </TabItem>
 </Tabs>
 
-## Alter ARRAYフィールド{#alter-array-field}
+## 配列フィールドの変更\{#alter-array-field}
 
-配列のフィールドには、`element_type`と`max_Capacity`の2つのプロパティがあります。前者は配列内の要素のデータ型を決定し、後者は配列内の最大要素数を制限します。`max_Capacity`プロパティのみを変更できます。
+配列フィールドには`element_type`と`max_capacity`の2つのプロパティがあります。前者は配列内の要素のデータ型を決定し、後者は配列内の最大要素数を制約します。`max_capacity`プロパティのみを変更できます。
 
-次の例では、コレクションにarrayという名前の`配列`フィールドがあり、その`max_bility`プロパティを設定することを前提としています。
+次の例では、コレクションに`array`という名前の配列フィールドがあり、その`max_capacity`プロパティを設定することを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -154,8 +200,8 @@ client.alterCollectionField(AlterCollectionFieldReq.builder()
 await client.alterCollectionFieldProperties({
   collection_name: "my_collection",
   field_name: 'array',
-  properties: { 
-      max_capacity: 64 
+  properties: {
+      max_capacity: 64
   }
 });
 ```
@@ -165,7 +211,12 @@ await client.alterCollectionFieldProperties({
 <TabItem value='go'>
 
 ```go
-// TODO
+err = client.AlterCollectionFieldProperty(ctx, milvusclient.NewAlterCollectionFieldPropertiesOption(
+    "my_collection", "array").WithProperty(common.MaxCapacityKey, 64))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -173,17 +224,28 @@ await client.alterCollectionFieldProperties({
 <TabItem value='bash'>
 
 ```bash
-// TODO
+# restful
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/collections/fields/alter_properties" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data "{
+    \"collectionName\": \"my_collection\",
+    \"field_name\": \"array\",
+    \"properties\": {
+        \"max_capacity\": \"64\"
+    }
+}"
 ```
 
 </TabItem>
 </Tabs>
 
-## フィールドレベルのmmap設定を変更する{#alter-field-level-mmap-settings}
+## フィールドレベルのmmap設定の変更\{#alter-field-level-mmap-settings}
 
-メモリマッピング(Mmap)により、ディスク上の大きなファイルに直接メモリアクセスできるため、Zilliz Cloudはインデックスとデータをメモリとハードドライブの両方に保存できます。このアプローチにより、アクセス頻度に基づいてデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えることなくコレクションのストレージ容量を拡張できます。
+メモリマッピング(mmap)により、ディスク上の大きなファイルへの直接メモリアクセスが可能になり、Zilliz Cloudがインデックスとデータをメモリとハードドライブの両方に保存できるようになります。このアプローチにより、アクセス頻度に基づいたデータ配置ポリシーを最適化し、検索パフォーマンスに影響を与えずにコレクションのストレージ容量を拡大できます。
 
-次の例では、コレクションに`doc_chunk`という名前のフィールドがあると仮定し、その`mmap_enable`プロパティを設定します。
+次の例では、コレクションに`doc_chunk`という名前のフィールドがあり、その`mmap_enabled`プロパティを設定することを前提としています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -216,8 +278,8 @@ client.alterCollectionField(AlterCollectionFieldReq.builder()
 await client.alterCollectionProperties({
   collection_name: "my_collection",
   field_name: 'doc_chunk',
-  properties: { 
-      'mmap.enabled': true, 
+  properties: {
+      'mmap.enabled': true,
   }
 });
 ```
@@ -227,7 +289,12 @@ await client.alterCollectionProperties({
 <TabItem value='go'>
 
 ```go
-// TODO
+err = client.AlterCollectionFieldProperty(ctx, milvusclient.NewAlterCollectionFieldPropertiesOption(
+    "my_collection", "doc_chunk").WithProperty(common.MmapEnabledKey, true))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -235,9 +302,19 @@ await client.alterCollectionProperties({
 <TabItem value='bash'>
 
 ```bash
-// TODO
+# restful
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/collections/fields/alter_properties" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+--data "{
+    \"collectionName\": \"my_collection\",
+    \"field_name\": \"doc_chunk\",
+    \"properties\": {
+        \"mmap.enabled\": True
+    }
+}"
 ```
 
 </TabItem>
 </Tabs>
-

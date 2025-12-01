@@ -3,21 +3,24 @@ title: "バックアップとリストア | Cloud"
 slug: /backup-and-restore
 sidebar_label: "バックアップとリストア"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudクラスタに保存されたデータのデータバックアップとリストア。 | Cloud"
+description: "Zilliz Cloudクラスターに保存されたデータのバックアップとリストア。 | Cloud"
 type: origin
 token: VvikwOKc9iZ5vBkgMnycrXKmnId
 sidebar_position: 7
-keywords:
+keywords: 
   - zilliz
-  - ベクトルデータベース
+  - ベクターデータベース
   - クラウド
   - バックアップ
   - リストア
-  - vectordb
-  - マルチモーダルベクトルデータベース検索
-  - 検索拡張生成
-  - 大規模言語モデル
+  - llm eval
+  - スパース vs デンス
+  - デンスベクター
+  - ヒエラルキカル・ナビゲーブル・スモール・ワールド
 
 ---
 
@@ -26,7 +29,7 @@ import Admonition from '@theme/Admonition';
 
 # バックアップとリストア
 
-Zilliz Cloudクラスタに保存されたデータのデータバックアップとリストア。
+Zilliz Cloudクラスターに保存されたデータのバックアップとリストア。
 
 
 

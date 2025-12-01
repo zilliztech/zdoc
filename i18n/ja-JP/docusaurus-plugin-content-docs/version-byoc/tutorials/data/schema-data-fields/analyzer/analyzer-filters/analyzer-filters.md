@@ -1,14 +1,17 @@
 ---
-title: "フィルタリファレンス | BYOC"
+title: "フィルター参照 | BYOC"
 slug: /analyzer-filters
-sidebar_label: "フィルタリファレンス"
+sidebar_label: "Filter"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "このセクションでは、アナライザのフィルタの詳細なリファレンスを提供します。 | BYOC"
+description: "このセクションは、アナライザー内のフィルターの詳細なリファレンスを提供します。| BYOC"
 type: origin
-token: J221wV4l2i1lYykdMYwcVJkXnmp
+token: ZIakwn5V8i1msRk7EDscPNqsnUf
 sidebar_position: 4
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
@@ -16,19 +19,19 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# フィルタリファレンス
+# フィルター参照
 
-このセクションでは、アナライザのフィルタの詳細なリファレンスを提供します。
+このセクションは、アナライザー内のフィルターの詳細なリファレンスを提供します。
 
 import DocCardList from '@theme/DocCardList';
 

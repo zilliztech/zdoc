@@ -1,24 +1,28 @@
 ---
-title: "コレクションを削除 | Cloud"
+title: "コレクションの削除 | クラウド"
 slug: /drop-collection
-sidebar_label: "コレクションを削除"
+sidebar_label: "コレクションの削除"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "必要がなくなった場合は、コレクションを削除できます。 | Cloud"
+description: "不要になったコレクションは削除できます。 | Cloud"
 type: origin
-token: KKIawFiLKiPVEOkq31BcCveHnTf
+token: DEUuwEwM4iMLOikU7XpcpNnKnGd
 sidebar_position: 10
-keywords: 
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - collection
-  - manage
-  - console
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - ベクトルデータベース
+  - クラウド
+  - コレクション
+  - 削除
+  - フィルターによる削除
+  - IDによる削除
+  - マルチモーダル検索
+  - ベクトル検索アルゴリズム
+  - 質問応答システム
+  - llm-as-a-judge
 
 ---
 
@@ -26,13 +30,13 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# コレクションを削除
+# コレクションの削除
 
-必要がなくなった場合は、コレクションを削除できます。
+不要になったコレクションは削除できます。
 
-## 例例{#examples}
+## 例\{#examples}
 
-次のコードスニペットは、**customised_setup_2**という名前のコレクションがあることを前提としています。
+以下のコードスニペットでは、**my_collection**という名前のコレクションが存在すると仮定しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -46,7 +50,7 @@ client = MilvusClient(
 )
 
 client.drop_collection(
-    collection_name="customized_setup_2"
+    collection_name="my_collection"
 )
 ```
 
@@ -62,7 +66,7 @@ import io.milvus.v2.client.MilvusClientV2;
 String CLUSTER_ENDPOINT = "YOUR_CLUSTER_ENDPOINT";
 String TOKEN = "YOUR_CLUSTER_TOKEN";
 
-// 1. Connect to Milvus server
+// 1. Milvusサーバーに接続
 ConnectConfig connectConfig = ConnectConfig.builder()
         .uri(CLUSTER_ENDPOINT)
         .token(TOKEN)
@@ -71,7 +75,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 DropCollectionReq dropQuickSetupParam = DropCollectionReq.builder()
-        .collectionName("customized_setup_2")
+        .collectionName("my_collection")
         .build();
 
 client.dropCollection(dropQuickSetupParam);
@@ -88,17 +92,17 @@ const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
-// 10. Drop the collection
+// 10. コレクションを削除
 res = await client.dropCollection({
-    collection_name: "customized_setup_2"
+    collection_name: "my_collection"
 })
 
 console.log(res.error_code)
 
-// Output
-// 
+// 出力
+//
 // Success
-// 
+//
 ```
 
 </TabItem>
@@ -120,19 +124,20 @@ defer cancel()
 milvusAddr := "YOUR_CLUSTER_ENDPOINT"
 token := "YOUR_CLUSTER_TOKEN"
 
-cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: milvusAddr,
     APIKey:  token,
 })
 if err != nil {
-    log.Fatal("failed to connect to milvus server: ", err.Error())
+    fmt.Println(err.Error())
+    // エラー処理
 }
+defer client.Close(ctx)
 
-defer cli.Close(ctx)
-
-err = cli.DropCollection(ctx, milvusclient.NewDropCollectionOption("customized_setup_2"))
+err = client.DropCollection(ctx, milvusclient.NewDropCollectionOption("my_collection"))
 if err != nil {
-    // handle error
+    fmt.Println(err.Error())
+    // エラー処理
 }
 ```
 
@@ -149,7 +154,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "customized_setup_2"
+    "collectionName": "my_collection"
 }'
 
 # {
@@ -160,4 +165,3 @@ curl --request POST \
 
 </TabItem>
 </Tabs>
-

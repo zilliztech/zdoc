@@ -3,23 +3,26 @@ title: "グループ検索 | BYOC"
 slug: /grouping-search
 sidebar_label: "グループ検索"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "グルーピング検索により、Zilliz Cloudは、指定されたフィールドの値によって検索結果をグループ化して、より高いレベルでデータを集計することができます。たとえば、基本的なANN検索を使用して、手元の本に似た本を見つけることができますが、グルーピング検索を使用して、その本で議論されているトピックに関連する書籍カテゴリを見つけることができます。このトピックでは、グルーピング検索の使用方法と主要な考慮事項について説明します。 | BYOC"
+description: "グループ検索により、Zilliz Cloudは検索結果を指定されたフィールドの値でグループ化し、データをより高いレベルで集約できます。たとえば、基本的なANN検索を使用して手元の本に類似した本を見つけることができますが、グループ検索を使用してその本で議論されているトピックに関連する本のカテゴリを見つけることもできます。このトピックでは、グループ検索の使用方法と主要な考慮事項について説明します。 | BYOC"
 type: origin
-token: Gx9Cw3Niqiq9p7kqEgXcaQNmnmc
+token: JWZGw89MBiUDBNkhtGfcyyUcnsd
 sidebar_position: 5
-keywords: 
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - grouping search
-  - group
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - ベクトルデータベース
+  - クラウド
+  - コレクション
+  - データ
+  - グループ検索
+  - グループ
+  - ベクトル埋め込みとは
+  - ベクトルデータベースチュートリアル
+  - ベクトルデータベースの仕組み
+  - ベクトルデータベース比較
 
 ---
 
@@ -29,37 +32,37 @@ import TabItem from '@theme/TabItem';
 
 # グループ検索
 
-グルーピング検索により、Zilliz Cloudは、指定されたフィールドの値によって検索結果をグループ化して、より高いレベルでデータを集計することができます。たとえば、基本的なANN検索を使用して、手元の本に似た本を見つけることができますが、グルーピング検索を使用して、その本で議論されているトピックに関連する書籍カテゴリを見つけることができます。このトピックでは、グルーピング検索の使用方法と主要な考慮事項について説明します。
+グループ検索により、Zilliz Cloudは検索結果を指定されたフィールドの値でグループ化し、データをより高いレベルで集約できます。たとえば、基本的なANN検索を使用して手元の本に類似した本を見つけることができますが、グループ検索を使用してその本で議論されているトピックに関連する本のカテゴリを見つけることもできます。このトピックでは、グループ検索の使用方法と主要な考慮事項について説明します。
 
-## 概要について{#overview}
+## 概要\{#overview}
 
-検索結果のエンティティがスカラーフィールドで同じ値を共有する場合、特定の属性で類似していることを示し、検索結果に悪影響を与える可能性があります。
+検索結果のエンティティがスカラーフィールドで同じ値を共有する場合、これは特定の属性において類似していることを示しており、検索結果に悪影響を与える可能性があります。
 
-コレクションには複数のドキュメント(**docId**で示される)が格納されていると仮定します。ドキュメントをベクトルに変換する際に可能な限り多くの意味情報を保持するために、各ドキュメントはより小さく、管理しやすい段落(または**チャンク**)に分割され、別々のエンティティとして格納されます。ドキュメントがより小さなセクションに分割されていても、ユーザーはしばしば自分のニーズに最も関連するドキュメントを特定することに興味を持ちます。
+コレクションが複数のドキュメント（**docId**で示される）を格納していると仮定します。ドキュメントをベクトルに変換する際にできるだけ多くのセマンティック情報を保持するため、各ドキュメントは小さな管理しやすい段落（または**chunks**）に分割され、個別にエンティティとして格納されます。ドキュメントが小さなセクションに分割されていても、ユーザーは多くの場合、自分のニーズに最も関連するドキュメントを特定することに興味があります。
 
-![GiojwPBydhBLhpbSYq1cuNVdnvd](/img/GiojwPBydhBLhpbSYq1cuNVdnvd.png)
+![LhJEwzWiphLWxobMaiCcbVDPnNb](/img/LhJEwzWiphLWxobMaiCcbVDPnNb.png)
 
-このようなコレクションに対して近似最近傍法(ANN)検索を実行すると、検索結果に同じドキュメントから複数の段落が含まれる可能性があり、他のドキュメントが見落とされる可能性があり、意図したユースケースと一致しない可能性があります。
+このようなコレクションに対して近似最近傍(ANN)検索を実行すると、検索結果に同じドキュメントからの複数の段落が含まれる可能性があり、他のドキュメントが見落とされる可能性があり、意図したユースケースに合致しない可能性があります。
 
-![JLeewIiPlhSaPeblU5TcxA2wnmg](/img/JLeewIiPlhSaPeblU5TcxA2wnmg.png)
+![Ktj8wigrHhvz4nbDES5coKZJnZe](/img/Ktj8wigrHhvz4nbDES5coKZJnZe.png)
 
-検索結果の多様性を向上させるために、検索リクエストに`group_by_field`パラメータを追加してグルーピング検索を有効にすることができます。図に示すように、`group_by_field`を`docId`に設定できます。このリクエストを受け取ると、Zilliz Cloudは次のようになります:
+検索結果の多様性を向上させるために、検索リクエストに`group_by_field`パラメータを追加してグループ検索を有効にできます。図に示すように、`group_by_field`を`docId`に設定できます。このリクエストを受け取ると、Zilliz Cloudは以下のことを行います。
 
-- 提供されたクエリベクトルに基づいてANN検索を実行し、クエリに最も似ているすべてのエンティティを検索します。
+- 提供されたクエリベクトルに基づいてANN検索を実行し、クエリに最も類似したすべてのエンティティを見つけます。
 
-- docIdなどの指定した`group_by_field`で検索結果をグループ化しま`す`。
+- 指定された`group_by_field`（例：`docId`）で検索結果をグループ化します。
 
-- 各グループについて、`limit`パラメータで定義された上位の結果と、各グループから最も類似したエンティティを返します。
+- 各グループからの上位結果を返します。これは`limit`パラメータで定義され、各グループから最も類似したエンティティです。
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注釈">
 
-<p>デフォルトでは、グループごとに1つのエンティティのみが返されます。グループごとに返す結果の数を増やしたい場合は、<code>group_size</code>および<code>strict_group_size</code>パラメータで制御できます。</p>
+<p>デフォルトでは、グループ検索はグループごとに1つのエンティティのみを返します。グループごとに返される結果数を増やしたい場合は、<code>group_size</code>および<code>strict_group_size</code>パラメータで制御できます。</p>
 
 </Admonition>
 
-## グループ化検索を実行する{#perform-grouping-search}
+## グループ検索の実行\{#perform-grouping-search}
 
-このセクションでは、Grouping Searchの使用例を示します。次の例では、コレクションに`id`、`vector`、`chunk`、および`docId`のフィールドが含まれていることを前提としています。
+このセクションでは、グループ検索の使用方法を示す例コードを提供します。以下の例では、コレクションに`id`、`vector`、`chunk`、および`docId`のフィールドが含まれていると仮定します。
 
 ```python
 [
@@ -77,7 +80,7 @@ import TabItem from '@theme/TabItem';
 
 ```
 
-検索リクエストで、`group_by_field`と`output_fields`の両方を`docId`に設定します。Zilliz Cloudは、指定されたフィールドで結果をグループ化し、各グループから最も類似したエンティティを返します。返されたエンティティの`docId`の値も含まれます。
+検索リクエストで`group_by_field`と`output_fields`の両方を`docId`に設定します。Zilliz Cloudは結果を指定されたフィールドでグループ化し、各グループから最も類似したエンティティを返します。各返されたエンティティには`docId`の値も含まれます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -93,16 +96,16 @@ client = MilvusClient(
 query_vectors = [
     [0.14529211512077012, 0.9147257273453546, 0.7965055218724449, 0.7009258593102812, 0.5605206522382088]]
 
-# Group search results
+# グループ検索結果
 res = client.search(
-    collection_name="group_search_collection",
+    collection_name="my_collection",
     data=query_vectors,
     limit=3,
     group_by_field="docId",
     output_fields=["docId"]
 )
 
-# Retrieve the values in the `docId` column
+# `docId`列の値を取得
 doc_ids = [result['entity']['docId'] for result in res[0]]
 ```
 
@@ -124,7 +127,7 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
 
 FloatVec queryVector = new FloatVec(new float[]{0.14529211512077012f, 0.9147257273453546f, 0.7965055218724449f, 0.7009258593102812f, 0.5605206522382088f});
 SearchReq searchReq = SearchReq.builder()
-        .collectionName("group_search_collection")
+        .collectionName("my_collection")
         .data(Collections.singletonList(queryVector))
         .topK(3)
         .groupByFieldName("docId")
@@ -153,42 +156,45 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 <TabItem value='go'>
 
 ```go
-// nolint
-func ExampleClient_Search_grouping() {
-    ctx, cancel := context.WithCancel(context.Background())
-    defer cancel()
+import (
+    "context"
+    "fmt"
 
-    milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-    token := "YOUR_CLUSTER_TOKEN"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
 
-    cli, err := client.New(ctx, &client.ClientConfig{
-        Address: milvusAddr,
-        APIKey:  token,
-    })
-    if err != nil {
-        log.Fatal("failed to connect to milvus server: ", err.Error())
-    }
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
 
-    defer cli.Close(ctx)
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
 
-    queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
+queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
 
-    resultSets, err := cli.Search(ctx, client.NewSearchOption(
-        "my_collection", // collectionName
-        3,               // limit
-        []entity.Vector{entity.FloatVector(queryVector)},
-    ).WithGroupByField("docId"))
-    if err != nil {
-        log.Fatal("failed to perform basic ANN search collection: ", err.Error())
-    }
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "my_collection", // collectionName
+    3,               // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("vector").
+    WithGroupByField("docId").
+    WithOutputFields("docId"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 
-    for _, resultSet := range resultSets {
-        log.Println("IDs: ", resultSet.IDs)
-        log.Println("Scores: ", resultSet.Scores)
-    }
-    // Output:
-    // IDs:
-    // Scores:
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+    fmt.Println("docId: ", resultSet.GetColumn("docId").FieldData().GetScalars())
 }
 ```
 
@@ -214,7 +220,7 @@ res = await client.search({
     // highlight-end
 })
 
-// Retrieve the values in the `docId` column
+// `docId`列の値を取得
 var docIds = res.results.map(result => result.entity.docId)
 ```
 
@@ -231,7 +237,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "group_search_collection",
+    "collectionName": "my_collection",
     "data": [
         [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
     ],
@@ -245,25 +251,25 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-上記のリクエストでは、`limit=3`は、システムが3つのグループから検索結果を返すことを示しています。各グループには、クエリベクトルに最も似た単一のエンティティが含まれています。
+上記のリクエストでは、`limit=3`はシステムが3つのグループからの検索結果を返すことを示しており、各グループにはクエリベクトルに最も類似した単一のエンティティが含まれます。
 
-## グループの体格を設定{#configure-group-size}
+## グループサイズの設定\{#configure-group-size}
 
-デフォルトでは、グループごとに1つのエンティティのみが返されます。グループごとに複数の結果を取得したい場合は、`group_size`と`strict_group_size`パラメータを調整してください。
+デフォルトでは、グループ検索はグループごとに1つのエンティティのみを返します。グループごとに複数の結果が必要な場合は、`group_size`および`strict_group_size`パラメータを調整してください。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Group search results
+# グループ検索結果
 
 res = client.search(
-    collection_name="group_search_collection", 
-    data=query_vectors, # query vector
-    limit=5, # number of groups to return
-    group_by_field="docId", # grouping field
-    group_size=2, # p to 2 entities to return from each group
-    strict_group_size=True, # return exact 2 entities from each group
+    collection_name="my_collection",
+    data=query_vectors, # クエリベクトル
+    limit=5, # 返すグループ数
+    group_by_field="docId", # グループ化フィールド
+    group_size=2, # 各グループから最大2つのエンティティを返す
+    strict_group_size=True, # 各グループから正確に2つのエンティティを返す
     output_fields=["docId"]
 )
 ```
@@ -275,7 +281,7 @@ res = client.search(
 ```java
 FloatVec queryVector = new FloatVec(new float[]{0.14529211512077012f, 0.9147257273453546f, 0.7965055218724449f, 0.7009258593102812f, 0.5605206522382088f});
 SearchReq searchReq = SearchReq.builder()
-        .collectionName("group_search_collection")
+        .collectionName("my_collection")
         .data(Collections.singletonList(queryVector))
         .topK(5)
         .groupByFieldName("docId")
@@ -306,6 +312,55 @@ for (List<SearchResp.SearchResult> results : searchResults) {
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
+
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "my_collection", // collectionName
+    5,               // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithANNSField("vector").
+    WithGroupByField("docId").
+    WithStrictGroupSize(true).
+    WithGroupSize(2).
+    WithOutputFields("docId"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+    fmt.Println("docId: ", resultSet.GetColumn("docId").FieldData().GetScalars())
+}
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -320,7 +375,7 @@ var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835
 res = await client.search({
     collection_name: "my_collection",
     data: [query_vector],
-    limit: 3,
+    limit: 5,
     group_by_field: "docId",
     // highlight-start
     group_size: 2,
@@ -328,7 +383,7 @@ res = await client.search({
     // highlight-end
 })
 
-// Retrieve the values in the `docId` column
+// `docId`列の値を取得
 var docIds = res.results.map(result => result.entity.docId)
 ```
 
@@ -342,7 +397,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "group_search_collection",
+    "collectionName": "my_collection",
     "data": [
         [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
     ],
@@ -358,19 +413,18 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-上記の例では:
+上記の例では：
 
-- `group_size`:グループごとに返すエンティティの数を指定します。例えば、`group_size=2`と設定すると、各グループ（または各`docId`）は最も似た段落（または**チャンク**）を2つ返すことが理想的です。`group_size`が設定されていない場合、システムはデフォルトでグループごとに1つの結果を返します。
+- `group_size`: グループごとに返すエンティティの希望数を指定します。例えば、`group_size=2`を設定すると、各グループ（または各`docId`）は理想的には最も類似した2つの段落（または**chunks**）を返します。`group_size`が設定されていない場合、システムはグループごとに1つの結果を返すデフォルトになっています。
 
-- `strict_group_size`:このブールパラメータは、group_sizeによって設定されたカウントをシステムが厳密に強制するかどうかを制御します。`strict_group_size=True`の場合、システムは各グループに`group_size`で指定されたエンティティの正確な数(例: 2段落)を含めようとしますが、そのグループに十分なデータがない場合を除きます。デフォルトでは(`strict_group_size=False`)、システムは各グループに`group_sizeエンティティが含まれていることを確認するのではなく、limit`パラメータで指定されたグループの数を満たすことを優先します。このアプローチは、データ分布が不均等な場合に一般的により効率的です。
+- `strict_group_size`: このブール型パラメータは、システムが`group_size`で設定された数を厳密に強制するかどうかを制御します。`strict_group_size=True`の場合、システムは各グループに`group_size`で指定された正確な数のエンティティ（例：2つの段落）を含めようとします。ただし、そのグループに十分なデータがない場合は除きます。デフォルト（`strict_group_size=False`）では、システムは各グループが`group_size`エンティティを含んでいることを確認するよりも、`limit`パラメータで指定されたグループ数を満たすことを優先します。このアプローチは、データ分布が不均一な場合に一般的により効率的です。
 
-パラメータの詳細については、[検索](/reference/python/python/Vector-search)を参照してください。
+追加パラメータの詳細については、[検索](/reference/python/python/Vector-search)を参照してください。
 
-## 考慮事項{#considerations}
+## 考慮事項\{#considerations}
 
-- **グループの数**:`limit`パラメータは、各グループ内の特定のエンティティの数ではなく、検索結果が返されるグループの数を制御します。適切な`制限`を設定することで、検索の多様性とクエリのパフォーマンスを制御できます。`制限`を減らすことで、データが密集している場合やパフォーマンスが懸念される場合に計算コストを削減できます。
+- **グループ数**: `limit`パラメータは、各グループ内のエンティティ数ではなく、検索結果が返されるグループ数を制御します。適切な`limit`を設定すると、検索の多様性とクエリのパフォーマンスを制御できます。データの分布が密またはパフォーマンスが懸念事項である場合、`limit`を減らすことで計算コストを削減できます。
 
-- **グループごと**のエンティティ:`group_size`パラメータは、グループごとに返されるエンティティの数を制御します。ユースケースに基づいて`group_size`を調整すると、検索結果の豊富さが増します。ただし、データが不均等に分布している場合、特に限られたデータシナリオでは、`group_size`で指定された数よりも少ないエンティティが返される場合があります。
+- **グループあたりのエンティティ数**: `group_size`パラメータはグループごとに返されるエンティティ数を制御します。使用ケースに応じて`group_size`を調整することで、検索結果の豊かさを高めることができます。ただし、データが不均一に分布している場合、一部のグループは`group_size`で指定されたよりも少ないエンティティを返す場合があり、特にデータが限られている状況で顕著です。
 
-- **Strict group体格**: When`strict_group_size=True`,システムは、各グループに対して指定された数のエンティティ(`group_size`)を返そうとします。ただし、そのグループに十分なデータがない場合は除きます。この設定により、グループごとに一貫したエンティティ数が保証されますが、不均等なデータ分布や限られたリソースによるパフォーマンスの低下につながる可能性があります。厳密なエンティティ数が必要でない場合は、`strict_group_size=False`を設定することでクエリ速度を向上させることができます。
-
+- **厳格なグループサイズ**: `strict_group_size=True`の場合、システムはそのグループに十分なデータがない限り、各グループに対して指定された数のエンティティ（`group_size`）を返そうとします。この設定はグループごとのエンティティ数を一貫させますが、データ分布が不均一またはリソースが限られている場合にパフォーマンスが低下する可能性があります。厳格なエンティティ数が必要でない場合は、`strict_group_size=False`を設定することでクエリ速度を向上させることができます。

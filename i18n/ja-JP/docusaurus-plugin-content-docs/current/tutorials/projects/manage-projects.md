@@ -1,75 +1,229 @@
 ---
 title: "プロジェクトの管理 | Cloud"
 slug: /manage-projects
-sidebar_label: "プロジェクトの管理"
+sidebar_label: "プロジェクト"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudでは、プロジェクトは組織内の論理的なコンテナとして機能し、クラスターや関連リソースをグループ化します。ビジネスのさまざまな側面に合わせた複数のプロジェクトを作成できます。たとえば、会社がマルチメディア推薦サービスを提供している場合、ビデオ推薦用の1つのプロジェクトと音楽推薦用の別のプロジェクトを作成できます。 | Cloud"
+description: "Zilliz Cloudでは、プロジェクトは組織内の論理コンテナとして機能し、クラスターと関連リソースをグループ化します。ビジネスのさまざまな側面に合わせて複数のプロジェクトを作成できます。たとえば、会社がマルチメディアレコメンデーションサービスを提供している場合、動画推薦用のプロジェクトと音楽推薦用のプロジェクトを作成できます。 | Cloud"
 type: origin
-token: T8EbweuboiV1TRkLxVCcuduhn5b
+token: NXypwJ2ySiv7RAkyKb5cZ9SKnvf
 sidebar_position: 1
-keywords: 
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - projects
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - ベクターデータベース
+  - クラウド
+  - プロジェクト
+  - ベクトル類似検索
+  - 近似最近傍検索
+  - DiskANN
+  - スパースベクトル
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 # プロジェクトの管理
 
-Zilliz Cloudでは、プロジェクトは組織内の論理的なコンテナとして機能し、クラスターや関連リソースをグループ化します。ビジネスのさまざまな側面に合わせた複数のプロジェクトを作成できます。たとえば、会社がマルチメディア推薦サービスを提供している場合、ビデオ推薦用の1つのプロジェクトと音楽推薦用の別のプロジェクトを作成できます。
+Zilliz Cloudでは、プロジェクトは組織内の論理コンテナとして機能し、クラスターと関連リソースをグループ化します。ビジネスのさまざまな側面に合わせて複数のプロジェクトを作成できます。たとえば、会社がマルチメディアレコメンデーションサービスを提供している場合、動画推薦用のプロジェクトと音楽推薦用のプロジェクトを作成できます。
 
 このガイドでは、プロジェクトを管理する手順を説明します。
 
-## プロジェクトを見る{#view-projects}
+## プロジェクトの作成\{#create-a-project}
 
-組織に参加すると、組織内のすべてのプロジェクトのリストを閲覧可能になります。
+各組織には、削除できない`Default Project`という名前のデフォルトの**Enterprise**プロジェクトが付属しています。ワークロードとビジネスのニーズに応じて、追加のプロジェクトを作成できます。プロジェクトを作成すると、自動的にそのプロジェクトの[プロジェクト管理者](./project-users)になります。
 
-![view-projects-saas](/img/view-projects-saas.png)
+### 制限事項\{#limits}
 
-## プロジェクトを作成する{#create-a-project}
+- プロジェクトを作成するには、[組織オーナー](./organization-users)である必要があります。
 
-プロジェクトを作成するには、[組織オーナー](./organization-users)である必要があります。
+- 各組織で最大100個のプロジェクトを作成できます。
 
-プロジェクトを作成すると、自動的にそのプロジェクトの[プロジェクト管理者](./project-users)になります。
+### 手順\{#procedures}
 
-<Admonition type="info" icon="📘" title="ノート">
+プロジェクトを作成する際には、プロジェクト名を指定し、ニーズに最も適したプロジェクトプランを選択する必要があります。プランは、利用可能な機能と請求に影響します。価格、プランの違い、および適切なプランの選択方法の詳細については、[詳細プラン比較](./select-zilliz-cloud-service-plans)を参照してください。
 
-<p>各組織で最大100件のプロジェクトを作成できます。</p>
+Zilliz CloudウェブコンソールまたはRESTful APIを使用してプロジェクトを作成できます。
 
-</Admonition>
+- **ウェブコンソール経由**
 
-![create-project](/img/create-project.png)
+    以下のデモでは、Zilliz Cloudウェブコンソールでプロジェクトを作成する方法を示しています。
 
-## プロジェクトの名前を変更する{#rename-a-project}
+    <Supademo id="cmhivxhnz5zctfatifx1jw34l?utm_source=link" title=""  />
 
-プロジェクトの名前を変更するには、[組織オーナー](./organization-users)である必要があります。
+    ![create-project](/img/create-project.png)
 
-<Admonition type="info" icon="📘" title="ノート">
+- **RESTful API経由**
 
-<p>各組織にはデフォルトプロジェクトが含まれています。デフォルトプロジェクトの名前は変更できません。</p>
+    次の例では、現在の組織に`My Project`という名前のStandardプロジェクトを作成する方法を示しています。詳細については、[プロジェクトの作成](/reference/restful/create-project-v2)を参照してください。
 
-</Admonition>
+    ```bash
+    export TOKEN="YOUR_API_KEY"
 
-![rename-project](/img/rename-project.png)
+    curl --request POST \
+    --url "${BASE_URL}/v2/projects" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "projectName": "My Project",
+        "plan": "Standard"
+    }'
+    ```
 
-## プロジェクトを削除{#delete-a-project}
+    以下は出力例です。
+
+    ```bash
+    {
+        "code": 0,
+        "data": {
+            "projectId": "proj-x"
+        }
+    }
+    ```
+
+## プロジェクトのアップグレード\{#upgrade-a-project}
+
+高度な機能をアンロックするには、既存のプロジェクトのプランをアップグレードできます。
+
+プロジェクトをアップグレードすると、プロジェクト内のすべてのクラスターもアップグレードされます。
+
+**Business Critical**プランまたは**BYOC**プランにプロジェクトをアップグレードする必要がある場合は、[営業担当者に連絡](https://zilliz.com/contact-sales)してください。
+
+- **ウェブコンソール経由**
+
+    以下のデモでは、プロジェクトのプランを**Standard**から**Enterprise**にアップグレードする方法を示しています。
+
+    <Supademo id="cmhiw3gu85zhlfati4r154s2h?utm_source=link" title=""  />
+
+- **RESTful API経由**
+
+    以下のデモでは、プロジェクトのプランをStandardからEnterpriseにアップグレードする方法を示しています。詳細については、[プロジェクトのアップグレード](/reference/restful/upgrade-project-v2)を参照してください。
+
+    ```bash
+    export TOKEN="YOUR_API_KEY"
+    export projectId="proj-xx"
+
+    curl --request PATCH \
+    --url "${BASE_URL}/v2/projects/${projectId}" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Content-Type: application/json" \
+    -d '{
+        "plan": "Enterprise"
+    }'
+    ```
+
+    以下は出力例です。
+
+    ```bash
+    {
+        "code": 0,
+        "data": {
+            "projectId": "proj-x"
+        }
+    }
+    ```
+
+## すべてのプロジェクトを表示\{#view-all-projects}
+
+組織内の権限スコープ内のすべてのプロジェクトのリストを表示できます。
+
+- **ウェブコンソール経由**
+
+    ![view-projects-saas](/img/view-projects-saas.png)
+
+- **RESTful API経由**
+
+    次の例では、現在の組織内のすべてのプロジェクトをリストする方法を示しています。詳細については、[プロジェクトのリスト](/reference/restful/list-projects-v2)を参照してください。
+
+    ```bash
+    export TOKEN="YOUR_API_KEY"
+
+    curl --request GET \
+    --url "${BASE_URL}/v2/projects" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Accept: application/json" \
+    --header "Content-Type: application/json"
+    ```
+
+    以下は出力例です。
+
+    ```json
+    {
+        "code": 0,
+        "data": [
+            {
+                "projectName": "Default Project",
+                "projectId": "proj-xxxxxxxxxxxxxxxxxxxxxxx",
+                "instanceCount": 2,
+                "createTime": "2023-08-16T07:34:06Z",
+                "plan": "Enterprise"
+            }
+        ]
+    }
+    ```
+
+## プロジェクトの詳細を表示\{#view-project-details}
+
+特定のプロジェクトの詳細も確認できます。
+
+- **ウェブコンソール経由**
+
+    **プロジェクト**ページで、プロジェクト名、プラン、作成時刻、およびプロジェクト内のクラスター数を確認できます。特定のプロジェクトをクリックして、そのクラスターをさらに表示することもできます。
+
+    ![NoSTbfMVjoPp99x5cjcc0cwWnbd](/img/NoSTbfMVjoPp99x5cjcc0cwWnbd.png)
+
+- **RESTful API経由**
+
+    次の例では、プロジェクト`proj-xxxxxxxxxxxxxxx`を説明しています。詳細については、[プロジェクトの説明](/reference/restful/describe-project-v2)を参照してください。
+
+    ```bash
+    export TOKEN="YOUR_API_KEY"
+    export projectId="proj-xx"
+
+    curl --request GET \
+    --url "${BASE_URL}/v2/projects/${projectId}" \
+    --header "Authorization: Bearer ${TOKEN}" \
+    --header "Content-Type: application/json"
+    ```
+
+    以下は出力例です
+
+    ```json
+    {
+        "code": 0,
+        "data": {
+            "projectId": "proj-x",
+            "projectName": "My Project",
+            "instanceCount": 2,
+            "createTime": "2023-08-16T07:34:06Z",
+            "plan": "Enterprise"
+        }
+    }
+    ```
+
+## プロジェクト名の変更\{#rename-a-project}
+
+プロジェクト名を変更するには、[組織オーナー](./organization-users)である必要があります。ウェブコンソールを使用してプロジェクト名を変更できます。
+
+<Supademo id="cmhiwa69y5zk2fatiw4ou24k6?utm_source=link" title=""  />
+
+## プロジェクトの削除\{#delete-a-project}
 
 プロジェクトを削除するには、[組織オーナー](./organization-users)である必要があります。
 
+プロジェクトが削除されると、関連するすべてのデータとリソースも不可逆的に削除されます。
+
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>各組織にはデフォルトプロジェクトが含まれています。デフォルトプロジェクトは削除できません。</p>
+<p>デフォルトプロジェクトは削除できません。</p>
 
 </Admonition>
 
-![delete-project](/img/delete-project.png)
+ウェブコンソールを使用してプロジェクトを削除できます。
 
+<Supademo id="cmhiwf80b5zoufatic4p14w7m?utm_source=link" title=""  />

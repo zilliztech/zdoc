@@ -1,24 +1,27 @@
 ---
-title: "一貫性レベル | Cloud"
+title: "整合性レベル | Cloud"
 slug: /consistency-level
-sidebar_label: "一貫性レベル"
+sidebar_label: "整合性レベル"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "分散ベクトルデータベースとして、Zilliz Cloudは、各ノードまたはレプリカが読み取りおよび書き込み操作中に同じデータにアクセスできるように、複数の一貫性レベルを提供しています。現在、サポートされている一貫性レベルには、Strong、Bounded、Eventally、Sessionがあり、Boundedがデフォルトの一貫性レベルとして使用されています。 | Cloud"
+description: "分散型ベクトルデータベースとして、Zilliz Cloudは複数の整合性レベルを提供し、各ノードまたはレプリカが読み書き操作中に同じデータにアクセスできるようにします。現在サポートされている整合性レベルには、Strong、Bounded、Eventually、Sessionがあり、デフォルトではBoundedが使用されます。 | Cloud"
 type: origin
-token: L0kBwLwG5iNXSBkUpYKcSixknqe
-sidebar_position: 15
-keywords: 
+token: Xx9EwWtekinLZfkWKqic37dDnFb
+sidebar_position: 17
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - consistency level
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - ベクトルデータベース
+  - クラウド
+  - コレクション
+  - データ
+  - 整合性レベル
+  - 類似度検索
+  - マルチモーダルRAG
+  - LLMの幻覚
+  - ハイブリッド検索
 
 ---
 
@@ -26,67 +29,65 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 一貫性レベル
+# 整合性レベル
 
-分散ベクトルデータベースとして、Zilliz Cloudは、各ノードまたはレプリカが読み取りおよび書き込み操作中に同じデータにアクセスできるように、複数の一貫性レベルを提供しています。現在、サポートされている一貫性レベルには、**Strong**、**Bounded**、**Eventally**、**Session**があり、**Bounded**がデフォルトの一貫性レベルとして使用されています。
+分散型ベクトルデータベースとして、Zilliz Cloudは複数の整合性レベルを提供し、各ノードまたはレプリカが読み書き操作中に同じデータにアクセスできるようにします。現在サポートされている整合性レベルには、**Strong**、**Bounded**、**Eventually**、**Session**があり、デフォルトでは**Bounded**が使用されます。
 
-## 概要について{#overview}
+## 概要\{#overview}
 
-Zilliz Cloudは、ストレージと計算を分離するシステムです。このシステムでは、**DataNodes**がデータの永続性に責任を持ち、最終的にMinIO/S 3などの分散オブジェクトストレージに保存します。**Query Nodes**は、Searchのような計算タスクを処理します。これらのタスクには、**バッチデータ**と**ストリーミングデータ**の両方を処理する必要があります。単純に言えば、バッチデータはすでにオブジェクトストレージに保存されているデータとして理解でき、ストリーミングデータはまだオブジェクトストレージに保存されていないデータを指します。ネットワークレイテンシのため、Query Nodesは最新のストリーミングデータを保持しないことがよくあります。追加の保護措置がない場合、ストリーミングデータに直接Searchを実行すると、多くの未確定データポイントが失わ
+Zilliz Cloudはストレージと計算を分離したシステムです。このシステムでは、**DataNodes**がデータの永続化を担当し、最終的にはMinIO/S3などの分散オブジェクトストレージに保存します。**QueryNodes**は検索などの計算タスクを処理します。これらのタスクには、**バッチデータ**と**ストリーミングデータ**の両方の処理が含まれます。簡単に言うと、バッチデータは既にオブジェクトストレージに保存されたデータであると理解できますが、ストリーミングデータはまだオブジェクトストレージに保存されていないデータを指します。ネットワークの遅延により、QueryNodesはしばしば最新のストリーミングデータを持っていません。追加の保護措置を講じない場合、ストリーミングデータに対して直接検索を実行すると、多くの未コミットデータポイントが失われる可能性があり、検索結果の正確性に影響を与えることがあります。
 
-Zilliz CloudCommercial Editionは、ストレージと計算を分離するシステムです。このシステムでは、DataNodesがデータの永続性に責任を持ち、最終的にMinIO/S 3などの分散オブジェクトストレージに保存します。QueryNodesは、Searchのような計算タスクを処理します。これらのタスクには、バッチデータとストリーミングデータの両方の処理が含まれます。単純に言えば、バッチデータはすでにオブジェクトストレージに保存されているデータとして理解でき、ストリーミングデータはまだオブジェクトストレージに保存されていないデータを指します。ネットワークレイテンシのため、QueryNodesは最新のストリーミングデータを保持しないことがよくあります。追加の保護措置がない場合、ストリーミングデータに直接Searchを実行すると、多くの未確定データポイントが失われ、検索結果の精度に影響を与える
+![UlOJwpWuKhj5LAbGSp9cwMFznEb](/img/UlOJwpWuKhj5LAbGSp9cwMFznEb.png)
 
-![Owpww720QhpW3UbnDaLcXNcJnQd](/img/Owpww720QhpW3UbnDaLcXNcJnQd.png)
+上図のように、検索リクエストを受け取った後、QueryNodesはストリーミングデータとバッチデータの両方を受け取ることができます。ただし、ネットワークの遅延により、QueryNodesが取得するストリーミングデータは不完全である可能性があります。
 
-上の図に示すように、Query NodesはSearchリクエストを受信した後、ストリーミングデータとバッチデータの両方を同時に受信することができます。ただし、ネットワークの遅延により、Query Nodesが取得するストリーミングデータが不完全になる可能性があります。
+この問題を解決するために、Zilliz Cloudはデータキュー内の各レコードにタイムスタンプを付与し、データキューに継続的に同期タイムスタンプを挿入します。同期タイムスタンプ（syncTs）を受信するたびに、QueryNodesはそれをServiceTimeとして設定します。つまり、QueryNodesはそのServiceTime以前のすべてのデータを見ることができるようになります。ServiceTimeに基づき、Zilliz Cloudは整合性と可用性の異なるユーザー要求を満たすために保証タイムスタンプ（GuaranteeTs）を提供できます。ユーザーは、検索範囲に指定した時刻以前のデータを含める必要があることを検索リクエストでGuaranteeTsを指定することでQueryNodesに通知できます。
 
-この問題に対処するために、Zilliz Cloudは、データキュー内の各レコードにタイムスタンプを付け、データキューに同期タイムスタンプを継続的に挿入します。同期タイムスタンプ(syncTs)が受信されるたびに、Query NodesはそれをService Timeとして設定します。つまり、Query NodesはそのService Timeより前のすべてのデータを見ることができます。Service Timeに基づいて、Zilliz Cloudは、一貫性と可用性の異なるユーザー要件を満たすための保証タイムスタンプ(GuaranteeTs)を提供できます。ユーザーは、SearchリクエストでGuaranteeTsを指定することで、指定された時点よりも前にデータを含める必要があることを
+![Owddb7D3Fo8zyFxJgWWcZCxanIf](/img/Owddb7D3Fo8zyFxJgWWcZCxanIf.png)
 
-![PW6pbkoQtoKVQTxE4mlcIfOen5g](/img/PW6pbkoQtoKVQTxE4mlcIfOen5g.png)
+上図のように、GuaranteeTsがServiceTimeより小さい場合、指定された時刻以前のすべてのデータが完全にディスクに書き込まれたことを意味し、QueryNodesはすぐに検索操作を実行できます。GuaranteeTsがServiceTimeより大きい場合、QueryNodesはServiceTimeがGuaranteeTsを超えるまで待機してから検索操作を実行する必要があります。
 
-上の図に示されているように、GuaranteeTsが小なりServiceTimeである場合、指定された時点より前のすべてのデータがディスクに完全に書き込まれたことを意味し、Query NodesがすぐにSearch操作を実行できるようになります。GuaranteeTsが大なりServiceTimeである場合、Query NodesはServiceTimeがGuaranteeTsを超えるまで待たなければなりません。
+ユーザーはクエリの正確性とクエリの遅延の間でトレードオフを考慮する必要があります。整合性の要件が高く、クエリの遅延に敏感でない場合は、GuaranteeTsをできるだけ大きな値に設定できます。クエリ結果を迅速に受け取りたいが、クエリの正確性に対して寛容である場合は、GuaranteeTsを小さな値に設定できます。
 
-ユーザーは、クエリの正確性とクエリの遅延のトレードオフを行う必要があります。ユーザーが高い一貫性要件を持ち、クエリの遅延に敏感でない場合、GuaranteeTsをできるだけ大きな値に設定できます。ユーザーが検索結果を迅速に受け取り、クエリの正確性により寛容である場合、GuaranteeTsをより小さな値に設定できます。
+![Y9YabwvmjoWMXhxt9kRc8Atmnid](/img/Y9YabwvmjoWMXhxt9kRc8Atmnid.png)
 
-![OhjXbpye0oktzExy7MaccTCunrg](/img/OhjXbpye0oktzExy7MaccTCunrg.png)
+Zilliz Cloudは、異なるGuaranteeTsを持つ4つの整合性レベルを提供します。
 
-Zilliz Cloudは、異なる保証Tを持つ4種類の一貫性レベルを提供します。
+- **Strong**
 
-- **強い**
+    最新のタイムスタンプをGuaranteeTsとして使用し、QueryNodesはServiceTimeがGuaranteeTsを満たすまで待機してから検索リクエストを実行します。
 
-    最新のタイムスタンプがGuaranteeTとして使用され、Query NodeはServiceTimeがGuaranteeTに達するまで待ってからSearchリクエストを実行する必要があります。
+- **Eventually**
 
-- **Eventual**
+    GuaranteeTsを1のように極めて小さな値に設定し、整合性チェックを回避して、QueryNodesがすべてのバッチデータに対して即座に検索リクエストを実行できるようにします。
 
-    GuaranteeTsは、整合性チェックを回避するために1などの非常に小さな値に設定されています。これにより、Query Nodesはすべてのバッチデータに対してすぐにSearch要求を実行できます。
+- **Bounded Staleness**
 
-- **不美しさの限界**
+    GuaranteeTsを最新のタイムスタンプより前の時刻に設定し、一定のデータ損失を許容してQueryNodesが検索を実行できるようにします。
 
-    GuranteeTsは、最新のタイムスタンプよりも前の時点に設定され、Query Nodesが特定のデータ損失の許容範囲で検索を実行するようになっています。
+- **Session**
 
-- **セッション**
+    クライアントがデータを挿入した最新の時刻をGuaranteeTsとして使用し、QueryNodesがクライアントが挿入したすべてのデータを検索できるようにします。
 
-    クライアントがデータを挿入した最新の時点が保証Tとして使用されるため、Query Nodesはクライアントによって挿入されたすべてのデータに対して検索を実行できます。
+Zilliz Cloudでは、デフォルトの整合性レベルとしてBounded Stalenessが使用されます。GuaranteeTsを指定しない場合、最新のServiceTimeがGuaranteeTsとして使用されます。
 
-Zilliz Cloudは、デフォルトの一貫性レベルとしてBounded Stalenessを使用します。GuaranteeTが指定されていない場合、最新のService TimeがGuaranteeTとして使用されます。
+## 整合性レベルの設定\{#set-consistency-level}
 
-## 一貫性レベルを設定{#set-consistency-level}
+コレクションの作成時や検索・クエリの実行時に、異なる整合性レベルを設定できます。検索またはクエリに整合性レベルが指定されていない場合、コレクション作成時に指定した整合性レベルが適用されます。
 
-コレクションを作成したり、検索やクエリを実行したりするときに、さまざまな一貫性レベルを設定できます。
+### コレクション作成時の整合性レベル設定\{#set-consistency-level-upon-creating-collection}
 
-### コレクション作成時に一貫性レベルを設定する{#set-consistency-level-upon-creating-collection}
+コレクションを作成する際、コレクション内の検索およびクエリの整合性レベルを設定できます。以下のコード例では、整合性レベルを**Bounded**に設定しています。
 
-コレクションを作成するときに、コレクション内の検索とクエリの一貫性レベルを設定できます。次のコード例では、一貫性レベルを**Strong**に設定します。
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 client.create_collection(
     collection_name="my_collection",
     schema=schema,
-    # highlight-next
-    consistency_level="Strong",
+    # highlight-next-line
+    consistency_level="Bounded",
 )
 ```
 
@@ -98,10 +99,24 @@ client.create_collection(
 CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
-        // highlight-next
-        .consistencyLevel(ConsistencyLevel.STRONG)
+        // highlight-next-line
+        .consistencyLevel(ConsistencyLevel.Bounded)
         .build();
 client.createCollection(createCollectionReq);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("my_collection", schema).
+        WithConsistencyLevel(entity.ClBounded))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
 ```
 
 </TabItem>
@@ -114,12 +129,12 @@ export schema='{
         "enabledDynamicField": false,
         "fields": [
             {
-                "fieldName": "my_id",
+                "fieldName": "id",
                 "dataType": "Int64",
                 "isPrimary": true
             },
             {
-                "fieldName": "my_vector",
+                "fieldName": "vector",
                 "dataType": "FloatVector",
                 "elementTypeParams": {
                     "dim": "5"
@@ -137,7 +152,7 @@ export schema='{
     }'
 
 export params='{
-    "consistencyLevel": "Strong"
+    "consistencyLevel": "Bounded"
 }'
 
 curl --request POST \
@@ -154,13 +169,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-使用可能な値、`整合性_レベル`パラメーターは`強い`、`境界`、`最終的`に、および`セッション`。
+`consistency_level`パラメータの可能な値は、`Strong`、`Bounded`、`Eventually`、`Session`です。
 
-### 検索の一貫性レベルを設定する{#set-consistency-level-in-search}
+### 検索時の整合性レベル設定\{#set-consistency-level-in-search}
 
-特定の検索の一貫性レベルはいつでも変更できます。次のコード例では、一貫性レベルを**Bounded**に戻します。この変更は、現在の検索要求にのみ適用されます。
+特定の検索について常に整合性レベルを変更できます。以下のコード例では、整合性レベルを**Bounded**に戻しています。変更は現在の検索リクエストにのみ適用されます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -193,6 +208,23 @@ SearchResp searchResp = client.search(searchReq);
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "my_collection", // collectionName
+    3,               // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithConsistencyLevel(entity.ClBounded).
+    WithANNSField("vector"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
 <TabItem value='bash'>
 
 ```bash
@@ -213,13 +245,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-このパラメータは、ハイブリッド検索や検索イテレータでも使用できます。`Consistence_level`パラメータの可能な値は、`Strong`、`Bounded`、`Eventally`、`Session`です。
+このパラメータはハイブリッド検索および検索イテレータでも使用できます。`consistency_level`パラメータの可能な値は、`Strong`、`Bounded`、`Eventually`、`Session`です。
 
-### クエリで一貫性レベルを設定する{#set-consistency-level-in-query}
+### クエリ時の整合性レベル設定\{#set-consistency-level-in-query}
 
-特定の検索の一貫性レベルはいつでも変更できます。次のコード例では、一貫性レベルを**Eventally**に設定します。この設定は、現在のクエリ要求にのみ適用されます。
+特定の検索について常に整合性レベルを変更できます。以下のコード例では、整合性レベルを**Eventually**に設定しています。設定は現在のクエリリクエストにのみ適用されます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -229,7 +261,7 @@ res = client.query(
     output_fields=["vector", "color"],
     limit=3，
     # highlight-start
-    consistency_level="Eventually",
+    consistency_level="Bounded",
     # highlight-next
 )
 ```
@@ -244,13 +276,46 @@ QueryReq queryReq = QueryReq.builder()
         .filter("color like \"red%\"")
         .outputFields(Arrays.asList("vector", "color"))
         .limit(3)
-        .consistencyLevel(ConsistencyLevel.EVENTUALLY)
+        .consistencyLevel(ConsistencyLevel.Bounded)
         .build();
-        
+
  QueryResp getResp = client.query(queryReq);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("color like \"red%\"").
+    WithOutputFields("vector", "color").
+    WithLimit(3).
+    WithConsistencyLevel(entity.ClBounded))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "my_collection",
+    "filter": "color like \"red_%\"",
+    "consistencyLevel": "Bounded",
+    "limit": 3
+}'
 ```
 
 </TabItem>
 </Tabs>
 
-クエリイテレータでもこのパラメータを使用できます。`Consistence_level`パラメータの可能な値は、`Strong`、`Bounded`、`Eventally`、`Session`です。
+このパラメータはクエリイテレータでも使用できます。`consistency_level`パラメータの可能な値は、`Strong`、`Bounded`、`Eventually`、`Session`です。

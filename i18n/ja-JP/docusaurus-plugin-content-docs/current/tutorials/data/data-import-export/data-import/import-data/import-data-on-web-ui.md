@@ -1,107 +1,101 @@
 ---
-title: "データのインポート(コンソール) | Cloud"
+title: "データのインポート（コンソール） | Cloud"
 slug: /import-data-on-web-ui
-sidebar_label: "データのインポート(コンソール)"
+sidebar_label: "コンソール"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "このページでは、準備したデータをZilliz Cloudコンソールにインポートする方法を紹介します。 | Cloud"
+description: "このページでは、Zilliz Cloudコンソールで準備したデータをインポートする方法を紹介します。 | Cloud"
 type: origin
-token: IYSWwKyhAif6wrkkQLJclF2InGc
+token: KkdswLx2bi4bgCkY6bEc7Do9neh
 sidebar_position: 1
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
   - data import
   - console
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# データのインポート(コンソール)
+import Supademo from '@site/src/components/Supademo';
 
-このページでは、準備したデータをZilliz Cloudコンソールにインポートする方法を紹介します。
+# データのインポート（コンソール）
 
-## 始める前に{#before-you-start}
+このページでは、Zilliz Cloudコンソールで準備したデータをインポートする方法を紹介します。
 
-以下の条件が満たされていることを確認してください。
+## Web UIでのデータインポート\{#import-data-on-the-web-ui}
 
-- クラスタが作成されました。詳細については、「[クラスタ作成](./create-cluster)」を参照してください。
+データファイルの準備ができたら、ローカルドライブから直接インポートするか、AWS S3やGoogle Cloud GCS、Azure Blob Storageなどのオブジェクトストレージバケットにアップロードしてデータインポートを行うことができます。
 
-- サポートされている形式のいずれかでデータを準備していること。
-
-    データの準備方法の詳細については、「[ストレージオプション](./data-import-storage-options)」と「[書式オプション](./data-import-format-options)」を参照してください。詳細については、エンドツーエンドのノートブック「[データインポートハンズオン](./data-import-zero-to-hero)」を参照することもできます。
-
-- サンプルデータセットに一致するスキーマを持つコレクションを作成して読み込んでいます。コレクションの作成の詳細については、「[コレクションの管理(コンソール)](./manage-collections-console)」を参照してください。
-
-## ウェブ上のデータをインポートする{#import-data-on-the-web-ui}
-
-データファイルが準備できたら、ローカルドライブから直接インポートするか、オブジェクトストレージバケットにアップロードしてくださいデータのインポートには、AWS S 3やGoogle Cloud GCS、Azure Blob Storageなどがあります。
-
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注意">
 
 <ul>
-<li><p>コレクションには、最大10,000件の実行中または保留中のインポートジョブを含めることができます。</p></li>
-<li><p>ウェブコンソールは、最大1 GBのローカルJSONファイルのアップロードをサポートしています。より大きなファイルの場合は、代わりに<a href="./import-data-on-web-ui#remote-files-from-an-object-storage-bucket">オブジェクトストレージからアップロードする</a>ことをお勧めします。データのインポートに問題がある場合は、<a href="https://support.zilliz.com/hc/en-us">サポートチケットを作成</a>してください。</p></li>
+<li><p>コレクションには最大で10,000件の実行中または保留中のインポートジョブを持つことができます。</p></li>
+<li><p>Webコンソールでは、最大1 GBのローカルJSONファイルまたはParquetファイルのアップロードをサポートしています。より大きなファイルの場合は、代わりに<a href="./import-data-on-web-ui#remote-files-from-an-object-storage-bucket">オブジェクトストレージからのアップロード</a>を推奨します。データインポートに関する問題が発生した場合は、<a href="https://support.zilliz.com/hc/en-us">サポートチケットを作成</a>してください。</p></li>
 </ul>
 
 </Admonition>
 
-### ローカルJSONファイル{#local-json-file}
+### ローカルファイル\{#local-file}
 
-データをインポートするには、ローカルファイルをアップロードエリアにドラッグアンドドロップして、[**インポート**]をクリックします。
+Zilliz Cloudは、ローカルJSONファイルまたはParquetファイルからのデータインポートをサポートしています。データがNumPy形式で準備されている場合は、[オブジェクトストレージバケット](./import-data-on-web-ui#remote-files-from-an-object-storage-bucket)からのインポートを行ってください。
 
-![data-import-on-console](/img/data-import-on-console.png)
+ローカルファイルからデータをインポートするには、ファイルをアップロード領域にドラッグ&ドロップして、**インポート**をクリックしてください。
 
-### オブジェクトストレージバケットからのリモートファイル{#remote-files-from-an-object-storage-bucket}
+<Supademo id="cme7x3fgv388ch3pyymi6ek0q?utm_source=link" title=""  />
 
-リモートファイルをインポートするには、まずリモートバケットにアップロードする必要があります。[BulkWriterツールを使用して](./use-bulkwriter)、生データをサポートされている形式に簡単に変換し、結果ファイルをアップロードできます。
+### オブジェクトストレージバケットからのリモートファイル\{#remote-files-from-an-object-storage-bucket}
 
-準備したファイルをリモートバケットにアップロードしたら、オブジェクトストレージサービスを選択し、リモートバケット内のファイルへのパスと、Zilliz Cloudがバケットからデータを取得するためのバケットの認証情報を入力します。
+リモートファイルをインポートするには、まずリモートバケットにアップロードする必要があります。生データをサポートされている形式に変換し、[BulkWriterツール](./use-bulkwriter)を使用して結果のファイルをアップロードできます。
 
-データのセキュリティ要件に基づいて、データのインポート中に長期的な資格情報またはセッショントークンを使用できます。
+準備したファイルをリモートバケットにアップロードしたら、オブジェクトストレージサービスを選択し、リモートバケット内のファイルパスとバケットの認証情報を入力して、Zilliz Cloudがバケットからデータをプルできるようにします。
 
-資格情報の取得に関する詳細については、次を参照してください:
+データセキュリティ要件に応じて、データインポート中に長期認証情報または短期トークンのいずれかを使用できます。
 
-- Amazon S 3:[長期認証情報を使用した認証](https://docs.aws.amazon.com/sdkref/latest/guide/access-iam-users.html)
+認証情報の取得方法の詳細については、以下を参照してください：
 
-- Google Cloud Storage:[サービスアカウントのHMACキーを管理する](https://cloud.google.com/storage/docs/authentication/managing-hmackeys)
+- Amazon S3: [長期認証情報を使用した認証](https://docs.aws.amazon.com/sdkref/latest/guide/access-iam-users.html)
 
-- Azure Blob Storage:[アカウントアクセスキーの表示](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys)
+- Google Cloud Storage: [サービスアカウントのHMACキーの管理](https://cloud.google.com/storage/docs/authentication/managing-hmackeys)
 
-セッショントークンの使用方法については、[FAQを](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)参照してください。
+- Azure Blob Storage: [アカウントアクセスキーの表示](https://learn.microsoft.com/ja-jp/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys)
 
-<Admonition type="info" icon="📘" title="ノート">
+短期トークンの使用方法の詳細については、[このFAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service)を参照してください。
 
-<p>Zilliz Cloudは、クラスタをホストするクラウドプロバイダに関係なく、任意のオブジェクトストレージサービスから任意のZilliz Cloudクラスタにデータをインポートできるようになりました。例えば、AWS S 3バケットからGCPにデプロイされたZilliz Cloudクラスタにデータをインポートすることができます。</p>
+<Admonition type="info" icon="📘" title="注意">
+
+<p>Zilliz Cloudでは、クラスターをホストしているクラウドプロバイダに関係なく、任意のオブジェクトストレージサービスから任意のZilliz Cloudクラスターにデータをインポートできます。たとえば、AWS S3バケットからGCPに展開されたZilliz Cloudクラスターにデータをインポートできます。</p>
 
 </Admonition>
 
-![data-import-on-console-remote](/img/data-import-on-console-remote.png)
+<Supademo id="cme7xfbw40096xf0irz21196r?utm_source=link" title=""  />
 
-## 結果を検証する{#verify-resultes}
+## 結果の確認\{#verify-results}
 
-インポートジョブの進捗状況やステータスは「**[Job](./job-center)**」ページで閲覧可能です。
+インポートジョブの進行状況とステータスは、[ジョブ](./job-center)ページで確認できます。
 
-## サポートされるオブジェクトパス{#supported-object-paths}
+## サポートされているオブジェクトパス\{#supported-object-paths}
 
-適用可能なオブジェクトパスについては、「[ストレージオプション](./data-import-storage-options)」と「[書式オプション](./data-import-format-options)」を参照してください。
+対応するオブジェクトパスについては、[ストレージオプション](./data-import-storage-options)および[フォーマットオプション](./data-import-format-options)を参照してください。
 
-## 関連するトピック{#related-topics}
+## 関連トピック\{#related-topics}
 
 - [ストレージオプション](./data-import-storage-options)
 
-- [書式オプション](./data-import-format-options)
+- [フォーマットオプション](./data-import-format-options)
 
-- [データのインポート(RESTful API)](./import-data-via-restful-api)
+- [RESTful APIを使用したデータのインポート](./import-data-via-restful-api)
 
-- [データのインポート(SDK)](./import-data-via-sdks)
+- [SDKを使用したデータのインポート](./import-data-via-sdks)
 
 - [データインポートハンズオン](./data-import-zero-to-hero)
-

@@ -1,32 +1,35 @@
 ---
-title: "制限と制約 | BYOC"
+title: "制限と制約事項 | BYOC"
 slug: /limits-and-restrictions
-sidebar_label: "制限と制約"
+sidebar_label: "制限と制約事項"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudでの操作について知っておくべき制限と制限について学びましょう。 | BYOC"
+description: "Zilliz Cloudでの操作について知っておくべき制限と制約事項について学びます。 | BYOC"
 type: origin
-token: Ox3gw1j54ipZpUkHMzMculQsndD
+token: Tve5wxmTHio0LPk50jgcKHe1nWg
 sidebar_position: 13
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
   - milvus
   - limits
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# 制限と制約
+# 制限と制約事項
 
-Zilliz Cloudでの操作について知っておくべき制限と制限について学びましょう。
+Zilliz Cloudでの操作について知っておくべき制限と制約事項について学びます。
 
 import DocCardList from '@theme/DocCardList';
 

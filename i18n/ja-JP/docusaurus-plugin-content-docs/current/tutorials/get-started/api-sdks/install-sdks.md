@@ -3,21 +3,24 @@ title: "SDKのインストール | Cloud"
 slug: /install-sdks
 sidebar_label: "SDKのインストール"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Milvus SDKをシームレスにインストールする方法を発見し、Zilliz Cloudクラスターへの効率的な接続を可能にします。 | Cloud"
+description: "Zilliz Cloudクラスターへの効率的な接続を可能にするMilvus SDKをシームレスにインストールする方法を発見してください。 | Cloud"
 type: origin
-token: JBrKwDkmxia6kWkHn76cHnXonUf
+token: J274wT61xiEM4fkYeL8cMb4Pnbd
 sidebar_position: 1
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
   - sdk
   - milvus
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 
@@ -26,107 +29,114 @@ import Admonition from '@theme/Admonition';
 
 # SDKのインストール
 
-Milvus SDKをシームレスにインストールする方法を発見し、Zilliz Cloudクラスターへの効率的な接続を可能にします。
+Zilliz Cloudクラスターへの効率的な接続を可能にするMilvus SDKをシームレスにインストールする方法を発見してください。
 
-## 概要について{#overview}
+## 概要\{#overview}
 
-Zilliz Cloudは、管理されたMilvusベクトルデータベースをサービスとして提供しています。クラスター接続を容易にするために、4つのSDKオプションが存在します:[Python](./install-sdks#install-pymilvus-python-sdk)、[Java](./install-sdks#install-java-sdk)、[Go](./install-sdks#install-go-sdk)、または[Node. js](./install-sdks#install-nodejs-sdk)。
+Zilliz Cloudは、サービスとして提供される管理型Milvusベクターデータベースを提供しています。クラスター接続を容易にするために4つのSDKオプションがあります：[Python](./install-sdks#install-pymilvus-python-sdk)、[Java](./install-sdks#install-java-sdk)、[Go](./install-sdks#install-go-sdk)、または[Node.js](./install-sdks#install-nodejs-sdk)。
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注釈">
 
 <ul>
-<li><p>Zilliz Cloudは、バージョンの互換性を確保するためにクラスターを一貫してアップグレードしています。詳細については、<a href="./organization-settings">組織の設定を管理する</a>の管理ページをご覧ください。SDKバージョンの不一致により接続に問題が発生した場合は、提供されたプロンプトに従って、互換性のあるSDKバージョンに戻してください。メンテナンス後、問題なくSDKをアップグレードできることをお知らせします。</p></li>
-<li><p>以下のすべてのSDKは、安定版とベータ版の両方を提供しています。安定版は一般的なクラスター向けであり、ベータ版はベータクラスターに対応しています。クラスターをベータ版にアップグレードした場合は、S DKもベータ版にアップグレードしていることを確認してください。</p></li>
+<li><p>Zilliz Cloudはバージョン互換性を確保するためにクラスターを常にアップグレードします。詳細は <a href="./organization-settings">組織設定の管理</a> ページをご覧ください。SDKバージョンの不一致により接続の問題が発生した場合は、互換性のあるSDKバージョンにロールバックするための指示に従ってください。メンテナンス後には、SDKをアップグレードして問題ありません。</p></li>
+<li><p>以下に示すすべてのSDKには、安定版とベータ版の両方があります。安定版は一般クラスターを対象としており、ベータ版はベータクラスターに対応しています。クラスターをベータ版にアップグレードした場合は、SDKもベータ版にアップグレードしてください。</p></li>
 </ul>
 
 </Admonition>
 
-## PyMilvus: Python SDKのインストール{#install-pymilvus-python-sdk}
+## PyMilvus：Python SDKのインストール\{#install-pymilvus-python-sdk}
 
-PyMilvusはMilvusのPython SDKです。[GitHubでソースコードに](https://github.com/milvus-io/pymilvus)アクセスしてください。
+PyMilvusはMilvusのPython SDKです。[GitHubのソースコード](https://github.com/milvus-io/pymilvus)にアクセスできます。
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注釈">
 
-<p>インストールする前に、<strong>Python</strong>のバージョンが<strong>3.8</strong>を超えていることを確認してください。</p>
+<p>インストール前に <strong>Python</strong> バージョンが <strong>3.8</strong> を超えていることを確認してください。</p>
 
 </Admonition>
 
 ```bash
-# Install pymilvus compatible with Milvus v2.4.x
-python -m pip install pymilvus==2.4.10
+# Milvus v2.5.x と互換性のある pymilvus をインストール
+python -m pip install pymilvus==2.5.16
 
-# Update PyMilvus to the newest version
+# PyMilvus を最新バージョンに更新
 python -m pip install --upgrade pymilvus
 
-# Verify installation success
+# インストール成功を確認
 python -m pip list | grep pymilvus
 ```
 
-## Node. jsSDKのインストール{#install-nodejs-sdk}
+クラスターが **Milvus v2.6.x（パブリックプレビュー）** と互換性がある場合は、上記のコマンドの `2.5.16` を `2.6.3` に変更してください。
 
-MilvusのNode. js SDKでは、**npm**または**yarn**を使用してください。[GitHubでソースコード](https://github.com/milvus-io/milvus-sdk-node)にアクセスしてください。
+## Node.js SDKのインストール\{#install-nodejs-sdk}
 
-<Admonition type="info" icon="📘" title="ノート">
+MilvusのNode.js SDKには、**npm** または **yarn** を使用します。[GitHubのソースコード](https://github.com/milvus-io/milvus-sdk-node)にアクセスできます。
 
-<p>インストールする前に、<strong>Node. js</strong>のバージョンが<strong>14</strong>以上であることを確認してください。</p>
+<Admonition type="info" icon="📘" title="注釈">
+
+<p>インストール前に <strong>Node.js</strong> バージョンが <strong>14</strong> 以上であることを確認してください。</p>
 
 </Admonition>
 
 ```bash
-# Install Node.js SDK compatible with Milvus v2.4.x
-npm install @zilliz/milvus2-sdk-node@2.4.9
-# Alternatively,
-yarn add @zilliz/milvus2-sdk-node@2.4.9
+# Milvus v2.5.x と互換性のある Node.js SDK をインストール
+npm install @zilliz/milvus2-sdk-node@2.5.13
+# または、
+yarn add @zilliz/milvus2-sdk-node@2.5.13
 
-# Upgrade to the latest version
+# 最新バージョンにアップグレード
 npm update @zilliz/milvus2-sdk-node
-# Alternatively,
+# または、
 yarn upgrade @zilliz/milvus2-sdk-node
 
-# Verify installation
+# インストールを確認
 npm list | grep @zilliz/milvus2-sdk-node
-# or
+# または
 yarn list | grep @zilliz/milvus2-sdk-node
 ```
 
-このSDKはCommonJSまたはES 6モジュールとして使用できます。通常、`npm init`プロジェクトではCommonJSを使用します。`npm init es 6`プロジェクトではES 6が望ましいです。
+このSDKはCommonJSまたはES6モジュールとして使用できます。通常、`npm init`プロジェクトにはCommonJSを使用し、`npm init es6`プロジェクトにはES6が推奨されます。
 
 ```javascript
-// Import the SDK as a CommonJS module
+// CommonJSモジュールとしてSDKをインポート
 const { MilvusClient } = require("@zilliz/milvus2-sdk-node")
 
-// Import the SDK as a ES6 module
+// ES6モジュールとしてSDKをインポート
 import { MilvusClient } from "@zilliz/milvus2-sdk-node"
 ```
 
-## JavaSDKのインストール{#install-java-sdk}
+クラスターが **Milvus v2.6.x（パブリックプレビュー）** と互換性がある場合は、上記のコマンドの `2.5.13` を `2.6.4` に変更してください。
 
-Apache MavenまたはGradle/Grailsを使用してSDKを入手してください。[GitHubでソースコードに](https://github.com/milvus-io/milvus-sdk-java)アクセスしてください。
+## Java SDKのインストール\{#install-java-sdk}
 
-- Apache Mavenの場合、`pom. xml`の依存関係にこれを追加してください
+Apache MavenまたはGradle/Grailsを使用してSDKを取得します。[GitHubのソースコード](https://github.com/milvus-io/milvus-sdk-java)を参照してください。
 
-```xml
-<!-- Install Java SDK compatible with Milvus v2.4.x -->
-<dependency>
-     <groupId>io.milvus</groupId>
-     <artifactId>milvus-sdk-java</artifactId>
-     <version>2.4.9</version>
- </dependency>
-```
+- Apache Mavenの場合、`pom.xml`の依存関係に以下を追加します：
 
-- Gradle/Grailsの場合、以下を実行してください:
+    ```xml
+    <!-- Milvus v2.5.x と互換性のある Java SDK をインストール -->
+    <dependency>
+         <groupId>io.milvus</groupId>
+         <artifactId>milvus-sdk-java</artifactId>
+         <version>2.5.14</version>
+     </dependency>
+    ```
+
+- Gradle/Grailsの場合、以下を実行します：
+
+    ```bash
+    # Milvus v2.5.x と互換性のある Java SDK をインストール
+    compile 'io.milvus:milvus-sdk-java:2.5.14'
+    ```
+
+クラスターが **Milvus v2.6.x（パブリックプレビュー）** と互換性がある場合は、上記のコマンドの `2.5.14` を `2.6.6` に変更してください。
+
+## Go SDKのインストール\{#install-go-sdk}
+
+Go SDKは `go get` から利用できます。[GitHubのソースコード](https://github.com/milvus-io/milvus-sdk-go)を参照してください。
 
 ```bash
-# Install Java SDK compatible with Milvus v2.4.x
-compile 'io.milvus:milvus-sdk-java:2.4.9'
+# Milvus v2.5.x と互換性のある Go SDK をインストール
+go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.5.6
 ```
 
-## GoSDKダウンロード{#install-go-sdk}
-
-Go SDKは`go get`を通じて利用可能です。[GitHubでソースコード](https://github.com/milvus-io/milvus-sdk-go)を探索してください。
-
-```bash
-# Install Go SDK compatible with Milvus v2.4.x
-go get -u github.com/milvus-io/milvus-sdk-go/v2@v2.4.2
-```
-
+クラスターが **Milvus v2.6.x（パブリックプレビュー）** と互換性がある場合は、上記のコマンドの `2.5.6` を `2.6.1` に変更してください。

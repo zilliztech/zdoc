@@ -1,93 +1,125 @@
 ---
-title: "データベースエンドポイントを使用してMilvusからZilliz Cloudへの移行 | Cloud"
+title: "エンドポイント経由でMilvusからZilliz Cloudに移行 | Cloud"
 slug: /via-endpoint
-sidebar_label: "エンドポイントへ"
+sidebar_label: "エンドポイント経由"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudは、インフラストラクチャを自分で管理する必要がなく、Milvusベクトルデータベースを使用したいユーザー向けに、完全に管理されたクラウドホストソリューションとしてMilvusを提供しています。スムーズな移行を可能にするために、データベースエンドポイントを介してソースMilvusに接続するか、バックアップファイルを直接アップロードすることができます。 | Cloud"
+description: "Zilliz Cloudは、インフラストラクチャ管理を自分で行う必要なくMilvusベクターデータベースを使用したいユーザーのために、完全に管理されたクラウドホスト型ソリューションとしてMilvusを提供します。このトピックでは、データベースエンドポイントを介してMilvusから移行する方法について説明します。 | Cloud"
 type: origin
-token: YRFowK2X8i7Tm8k5X8kcJDgBnGf
+token: PlX3wo82Di6oWVkg2ercRWCUnvV
 sidebar_position: 1
 keywords: 
   - zilliz
-  - vector database
-  - cloud
-  - migrations
+  - ベクターデータベース
+  - クラウド
+  - 移行
   - milvus
-  - endpoint
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - エンドポイント
+  - ベクターデータベースとは
+  - ベクターデータベースの比較
+  - Faiss
+  - ビデオ検索
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# データベースエンドポイントを使用してMilvusからZilliz Cloudへの移行
+import Supademo from '@site/src/components/Supademo';
 
-Zilliz Cloudは、インフラストラクチャを自分で管理する必要がなく、[Milvus](https://milvus.io/)ベクトルデータベースを使用したいユーザー向けに、完全に管理されたクラウドホストソリューションとしてMilvusを提供しています。スムーズな移行を可能にするために、データベースエンドポイントを介してソースMilvusに接続するか、バックアップファイルを直接アップロードすることができます。
+# MilvusからZilliz Cloudへの移行（エンドポイント経由）
 
-このトピックでは、Milvusからデータベースエンドポイントを介して移行する方法について説明します。バックアップファイルのアップロード方法については、「[バックアップファイルへ](./via-backup-files)」を参照してください。
+Zilliz Cloudは[Milvus](https://milvus.io/)を完全に管理されたクラウドホスト型ソリューションとして提供し、インフラストラクチャ管理を自分で行う必要なくMilvusベクターデータベースを使用したいユーザーをサポートしています。このトピックでは、データベースエンドポイント経由でMilvusから移行する方法を説明します。
 
-## 考慮事項{#considerations}
+## 前提条件\{#prerequisites}
 
-- 各移行タスクは単一のソースMilvusデータベースに制限されます。複数のソースデータベースにデータがある場合は、それぞれに別々の移行ジョブを設定できます。
+MilvusからZilliz Cloudへの移行を開始する前に、以下の要件を満たしていることを確認してください：
 
-- 移行の過程で、Zilliz CloudはソースのMilvusコレクションから正確なコレクションスキーマを複製します。移行中にスキーマを変更することはできません。
+### Milvusの要件\{#milvus-requirements}
 
-## 始める前に{#migrate-from-milvus-via-database-endpoint}
+<table>
+   <tr>
+     <th><p>要件</p></th>
+     <th><p>詳細</p></th>
+   </tr>
+   <tr>
+     <td><p>バージョン互換性</p></td>
+     <td><p>Milvus 2.3.6以上</p></td>
+   </tr>
+   <tr>
+     <td><p>ネットワークアクセス</p></td>
+     <td><p>ソースMilvusインスタンスがパプリックインターネットからアクセス可能であること</p></td>
+   </tr>
+   <tr>
+     <td><p>認証情報</p></td>
+     <td><p>認証が有効の場合、ユーザー名とパスワードが必要です（<a href="https://milvus.io/docs/authenticate.md?tab=docker#Authenticate-User-Access">ユーザーアクセス認証</a>を参照）</p></td>
+   </tr>
+</table>
 
-- ソースのMilvusインスタンスはバージョン2.3.6以降を実行しており、パブリックインターネットからアクセスできます。
+### Zilliz Cloudの要件\{#zilliz-cloud-requirements}
 
-- ネットワーク環境で許可リストが設定されている場合は、Zilliz CloudのIPアドレスが追加されていることを確認してください。詳細については、「[Zilliz CloudのIPアドレス](./zilliz-cloud-ips)」を参照してください。
+<table>
+   <tr>
+     <th><p>要件</p></th>
+     <th><p>詳細</p></th>
+   </tr>
+   <tr>
+     <td><p>ユーザーロール</p></td>
+     <td><p>組織オーナーまたはプロジェクト管理者</p></td>
+   </tr>
+   <tr>
+     <td><p>クラスターキャパシティ</p></td>
+     <td><p>十分なストレージおよびコンピュートリソース（<a href="https://zilliz.com/pricing#calculator">CU計算機</a>を使用してCUサイズを推定してください）</p></td>
+   </tr>
+   <tr>
+     <td><p>ネットワークアクセス</p></td>
+     <td><p>ネットワーク制限を使用している場合は、ネットワーク許可リストに<a href="./zilliz-cloud-ips">Zilliz Cloud IP</a>を追加してください</p></td>
+   </tr>
+</table>
 
-- 移行元のMilvusで認証が有効になっている場合は、必要な接続認証情報を取得していることを確認してください。詳細については、[ユーザーアクセス認証](https://milvus.io/docs/authenticate.md?tab=docker#Authenticate-User-Access)を参照してください。
+## はじめに\{#getting-started}
 
-- 組織オーナーまたはプロジェクト管理者の役割が付与されています。必要な権限がない場合は、Zilliz Cloudの管理者にお問い合わせください。
+以下のデモでは、エンドポイント経由でMilvusから移行を開始する方法を説明します：
 
-## データベースエンドポイントを介してMilvusから移行する{#migrate-from-milvus-via-database-endpoint}
+<Supademo id="cmbkiuxw98p13sn1rc65tt6b0" title="Zilliz Cloud - エンドポイント経由でMilvusから移行" />
 
-1つのMilvusデータベースから1つ以上のコレクションを同時に移行できます。
+<Admonition type="info" icon="📘" title="注意">
 
-1. [Zilliz Cloud コンソール](https://cloud.zilliz.com/login)にログインします。
-
-1. ターゲットプロジェクトに移動し、**Migrations**>**Milvus**>**Via Endpoint**を選択してください。
-
-1. [**Database Endpoint**]フィールドの[**Connect to Data Source**]ステップで、ソースMilvusのサーバーアドレスを入力します。ソースMilvusの[認証](https://milvus.io/docs/authenticate.md)が有効になっている場合は、アクセス資格情報として**ユーザー名**と**パスワード**を入力します。次に、[**次**へ]をクリックします。
-
-1. 「**ソースとターゲットを選択**」ステップで、ソースのMilvusとターゲットのZilliz Cloudクラスタの設定を行います。次に、「**次**へ」をクリックしてください。
-
-1. 「**スキーマ構成**」ステップでは、
-
-    1. スキーマプレビューでターゲットコレクションとそのフィールド設定を確認します。
-
-    1. [**詳細設定**]で、ソースコレクションの設定を継承し、変更できない**ダイナミックフィールド**と**パーティションキー**の設定を確認します。詳細については、「[ダイナミックフィールド](./enable-dynamic-field)」と「[パーティションキーを使う](./use-partition-key)」を参照してください。
-
-    1. [**ターゲットコレクション名**と**説明**]で、ターゲットコレクション名と説明をカスタマイズします。コレクション名は、各クラスターで一意である必要があります。名前が既存の名前と重複する場合は、コレクション名を変更します。
-
-1. [**移行**]をクリックします。
-
-![migrate_from_milvus_via_endpoint_1](/img/migrate_from_milvus_via_endpoint_1.png)
-
-## 移行過程を監視する{#monitor-the-migration-process}
-
-「**移行**」をクリックすると、移行ジョブが生成されます。[ジョブ](./job-center)ページで移行の進捗状況を確認できます。ジョブのステータスが「**IN PROGRESS**」から「**SUCCESS FUL**」に切り替わると、移行が完了します。
-
-<Admonition type="info" icon="📘" title="ノート">
-
-<p>移行後、ターゲットクラスタ内のコレクションとエンティティの数がデータソースと一致していることを確認してください。不一致が見つかった場合は、エンティティが欠落しているコレクションを削除して再移行してください。</p>
+<ul>
+<li><p>ソースコレクションですでに全文検索が有効になっている場合、移行後もZilliz Cloudはその機能設定をターゲットコレクションに保持します。これらの継承された設定は変更できません。</p></li>
+<li><p>移行中に他のVARCHARフィールドに対して全文検索を有効にすることもできます。詳細については、<a href="./full-text-search">全文検索</a>を参照してください。</p></li>
+</ul>
 
 </Admonition>
 
-![verify_collection](/img/verify_collection.png)
+## 移行プロセスの監視\{#monitor-the-migration-process}
 
-## 移行ジョブをキャンセル{#cancel-migration-job}
+**移行**をクリックすると、移行ジョブが生成されます。移行の進行状況は[ジョブ](./job-center)ページで確認できます。ジョブステータスが**進行中**から**成功**に変わると、移行が完了します。
 
-移行過程で問題が発生した場合は、次の手順に従ってトラブルシューティングを行い、移行を再開できます。
+![RGsvb7oFpo7uzbxjSSFc6owNn0c](/img/RGsvb7oFpo7uzbxjSSFc6owNn0c.png)
 
-1. [[ジョブ](./job-center)]ページで、失敗した移行ジョブを特定してキャンセルします。
+## 移行後\{#post-migration}
 
-1. [アクション]列の[**詳細**を**表示**]をクリックして、エラーログにアクセスします。
+移行ジョブが完了した後、以下の点に注意してください：
+
+- **インデックス作成**: 移行プロセスでは、移行されたコレクションに対して[AUTOINDEX](./autoindex-explained)が自動的に作成されます。
+
+- **手動でのロードが必要**: 自動インデックス作成にもかかわらず、移行されたコレクションは検索またはクエリ操作に対してすぐに使用可能にはなりません。検索およびクエリ機能を有効にするには、Zilliz Cloudでコレクションを手動でロードする必要があります。詳細については、[ロードとリリース](./load-release-collections)を参照してください。
+
+<Admonition type="info" icon="📘" title="注意">
+
+<p>コレクションがロードされたら、ターゲットクラスターのコレクション数およびエンティティ数がデータソースと一致していることを確認してください。不一致が見つかった場合は、エンティティが欠落しているコレクションを削除して再移行してください。</p>
+
+</Admonition>
+
+## 移行ジョブをキャンセル\{#cancel-migration-job}
+
+移行プロセスで問題が発生した場合、以下の手順に従ってトラブルシューティングおよび移行を再開できます：
+
+1. [ジョブ](./job-center)ページで、失敗した移行ジョブを特定してキャンセルします。
+
+1. **アクション**列の**詳細を表示**をクリックしてエラーログにアクセスします。
 

@@ -3,10 +3,13 @@ title: "文字列フィールド | Cloud"
 slug: /use-string-field
 sidebar_label: "文字列フィールド"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudクラスターでは、文字列データを格納するために使用されるデータ型は`VARCHAR`です。`VARCHAR`フィールドを定義する場合、2つのパラメータが必須です | Cloud"
+description: "Zilliz Cloudクラスターでは、文字列データを保存するために`VARCHAR`がデータ型として使用されます。 | Cloud"
 type: origin
-token: KIOaw0B1ziqB43kJgafcYQRWnyh
+token: QBXVwP7oiiuEovkprDnckJlEnoK
 sidebar_position: 6
 keywords: 
   - zilliz
@@ -16,10 +19,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 
@@ -29,29 +32,31 @@ import TabItem from '@theme/TabItem';
 
 # 文字列フィールド
 
-Zilliz Cloudクラスターでは、文字列データを格納するために使用されるデータ型は`VARCHAR`です。`VARCHAR`フィールドを定義する場合、2つのパラメータが必須です
+Zilliz Cloudクラスターでは、文字列データを保存するために`VARCHAR`がデータ型として使用されます。
+
+`VARCHAR`フィールドを定義する際、以下の2つのパラメータが必要です：
 
 - `datatype`を`DataType.VARCHAR`に設定します。
 
-- `VARCHAR`フィールドに格納できる最大文字数を定義する`max_length`を指定します。`max_length`の有効な範囲は1から65,535までです。
+- `max_length`を指定します。これは`VARCHAR`フィールドが保存できる最大バイト数を定義します。`max_length`の有効範囲は1から65,535です。
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注釈">
 
-<p>Zilliz Cloudは、<code>VARCHAR</code>フィールドのnull値とデフォルト値をサポートしています。これらの機能を有効にするには、<code>nullable</code>を<code>True</code>に、<code>default_value</code>を文字列値に設定します。詳細については、<a href="./nullable-and-default">Nullableデフォルト</a>を参照してください。</p>
+<p>Zilliz Cloudは<code>VARCHAR</code>フィールドに対してnull値とデフォルト値をサポートしています。これらの機能を有効にするには、<code>nullable</code>を<code>True</code>に設定し、<code>default_value</code>を文字列値に設定してください。詳細については、<a href="./nullable-and-default">Nullable & Default</a>を参照してください。</p>
 
 </Admonition>
 
-## VARCHARフィールドを追加{#add-varchar-field}
+## VARCHARフィールドの追加\{#add-varchar-field}
 
-文字列データをZilliz Cloudクラスターに格納するには、コレクションスキーマに`VARCHAR`フィールドを定義します。以下は、2つの`VARCHAR`フィールドを持つコレクションスキーマを定義する例です
+Zilliz Cloudクラスターに文字列データを保存するには、コレクションスキーマに`VARCHAR`フィールドを定義します。以下は、2つの`VARCHAR`フィールドを持つコレクションスキーマを定義する例です：
 
-- `varchar_field 1`:最大100文字を格納し、null値を許可し、既定値は`"Unknown"`です。
+- `varchar_field1`：最大100バイトを保存し、null値を許可し、デフォルト値は`"Unknown"`です。
 
-- `varchar_field 2`:最大200文字を格納し、null値を許可しますが、デフォルト値はありません。
+- `varchar_field2`：最大200バイトを保存し、null値を許可しますが、デフォルト値はありません。
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注釈">
 
-<p>スキーマを定義する際に<code>enable_dynamic_fields=True</code>を設定した場合、Zilliz Cloudでは、事前に定義されていないスカラーフィールドを挿入することができます。ただし、これによりクエリや管理が複雑になり、パフォーマンスに影響を与える可能性があります。詳細については、<a href="./enable-dynamic-field">ダイナミックフィールド</a>を参照してください。</p>
+<p>スキーマ定義時に<code>enable_dynamic_fields=True</code>を設定すると、Zilliz Cloudでは事前に定義されていないスカラーフィールドの挿入が可能になります。しかし、これによりクエリと管理の複雑さが増し、パフォーマンスに影響を与える可能性があります。詳細については、<a href="./enable-dynamic-field">Dynamic Field</a>を参照してください。</p>
 
 </Admonition>
 
@@ -59,24 +64,24 @@ Zilliz Cloudクラスターでは、文字列データを格納するために�
 <TabItem value='python'>
 
 ```python
-# Import necessary libraries
+# 必要なライブラリをインポート
 from pymilvus import MilvusClient, DataType
 
-# Define server address
+# サーバーアドレスを定義
 SERVER_ADDR = "YOUR_CLUSTER_ENDPOINT"
 
-# Create a MilvusClient instance
+# MilvusClientインスタンスを作成
 client = MilvusClient(uri=SERVER_ADDR)
 
-# Define the collection schema
+# コレクションスキーマを定義
 schema = client.create_schema(
     auto_id=False,
     enable_dynamic_fields=True,
 )
 
-# Add `varchar_field1` that supports null values with default value "Unknown"
+# デフォルト値"Unknown"を持つnull値をサポートする`varchar_field1`を追加
 schema.add_field(field_name="varchar_field1", datatype=DataType.VARCHAR, max_length=100, nullable=True, default_value="Unknown")
-# Add `varchar_field2` that supports null values without default value
+# デフォルト値を持たないnull値をサポートする`varchar_field2`を追加
 schema.add_field(field_name="varchar_field2", datatype=DataType.VARCHAR, max_length=200, nullable=True)
 schema.add_field(field_name="pk", datatype=DataType.INT64, is_primary=True)
 schema.add_field(field_name="embedding", datatype=DataType.FLOAT_VECTOR, dim=3)
@@ -97,7 +102,7 @@ import io.milvus.v2.service.collection.request.CreateCollectionReq;
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .build());
-        
+
 CreateCollectionReq.CollectionSchema schema = client.createSchema();
 schema.setEnableDynamicField(true);
 
@@ -266,32 +271,32 @@ export schema="{
 </TabItem>
 </Tabs>
 
-## インデックスパラメータの設定{#set-index-params}
+## インデックスパラメータの設定\{#set-index-params}
 
-インデックス作成は、検索とクエリのパフォーマンスを向上させるのに役立ちます。Zilliz Cloudクラスタでは、ベクトルフィールドではインデックス作成が必須ですが、スカラーフィールドではオプションです。
+インデックスは検索およびクエリのパフォーマンスを向上させるのに役立ちます。Zilliz Cloudクラスターでは、ベクトルフィールドに対してはインデックスが必須ですが、スカラーフィールドに対しては任意です。
 
-以下の例では、ベクトルフィールドの`embedding`とスカラーフィールドの`varchar_field 1`に対して、`AUTOINDEX`インデックスタイプを使用してインデックスを作成します。このタイプを使用すると、Milvusはデータ型に基づいて最適なインデックスを自動的に選択します。
+以下の例では、ベクトルフィールド`embedding`とスカラーフィールド`varchar_field1`に対して`AUTOINDEX`インデックスタイプを使用してインデックスを作成しています。このタイプでは、Milvusがデータ型に基づいて最も適切なインデックスを自動的に選択します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Set index params
+# インデックスパラメータを設定
 
 index_params = client.prepare_index_params()
 
-# Index `varchar_field1` with AUTOINDEX
+# AUTOINDEXで`varchar_field1`をインデックス化
 index_params.add_index(
     field_name="varchar_field1",
     index_type="AUTOINDEX",
     index_name="varchar_index"
 )
 
-# Index `embedding` with AUTOINDEX and specify metric_type
+# AUTOINDEXで`embedding`をインデックス化しmetric_typeを指定
 index_params.add_index(
     field_name="embedding",
-    index_type="AUTOINDEX",  # Use automatic indexing to simplify complex index settings
-    metric_type="COSINE"  # Specify similarity metric type, options include L2, COSINE, or IP
+    index_type="AUTOINDEX",  # 自動インデックスを使用して複雑なインデックス設定を簡略化
+    metric_type="COSINE"  # 類似度メトリックタイプを指定、オプションにはL2、COSINE、IPが含まれます
 )
 ```
 
@@ -309,7 +314,7 @@ indexes.add(IndexParam.builder()
         .indexName("varchar_index")
         .indexType(IndexParam.IndexType.AUTOINDEX)
         .build());
-        
+
 indexes.add(IndexParam.builder()
         .fieldName("embedding")
         .indexType(IndexParam.IndexType.AUTOINDEX)
@@ -359,7 +364,7 @@ export indexParams='[
             "indexType": "AUTOINDEX"
         }
     ]'
-    
+
 export indexParams='[
         {
             "fieldName": "varchar_field1",
@@ -377,15 +382,15 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-## コレクションを作成{#create-collection}
+## コレクションの作成\{#create-collection}
 
-スキーマとインデックスが定義されたら、文字列フィールドを含むコレクションを作成してください。
+スキーマとインデックスが定義されたら、文字列フィールドを含むコレクションを作成します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Create Collection
+# コレクションを作成
 client.create_collection(
     collection_name="my_collection",
     schema=schema,
@@ -452,26 +457,26 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## データの挿入{#insert-data}
+## データの挿入\{#insert-data}
 
-コレクションを作成した後、スキーマに一致するエンティティを挿入してください。
+コレクションを作成した後、スキーマに一致するエンティティを挿入します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Sample data
+# サンプルデータ
 data = [
     {"varchar_field1": "Product A", "varchar_field2": "High quality product", "pk": 1, "embedding": [0.1, 0.2, 0.3]},
-    {"varchar_field1": "Product B", "pk": 2, "embedding": [0.4, 0.5, 0.6]}, # varchar_field2 field is missing, which should be NULL
-    {"varchar_field1": None, "varchar_field2": None, "pk": 3, "embedding": [0.2, 0.3, 0.1]},  # `varchar_field1` should default to `Unknown`, `varchar_field2` is NULL
-    {"varchar_field1": "Product C", "varchar_field2": None, "pk": 4, "embedding": [0.5, 0.7, 0.2]},  # `varchar_field2` is NULL
-    {"varchar_field1": None, "varchar_field2": "Exclusive deal", "pk": 5, "embedding": [0.6, 0.4, 0.8]},  # `varchar_field1` should default to `Unknown`
-    {"varchar_field1": "Unknown", "varchar_field2": None, "pk": 6, "embedding": [0.8, 0.5, 0.3]},  # `varchar_field2` is NULL
-    {"varchar_field1": "", "varchar_field2": "Best seller", "pk": 7, "embedding": [0.8, 0.5, 0.3]}, # Empty string is not treated as NULL
+    {"varchar_field1": "Product B", "pk": 2, "embedding": [0.4, 0.5, 0.6]}, # varchar_field2フィールドは省略されており、NULLになるはず
+    {"varchar_field1": None, "varchar_field2": None, "pk": 3, "embedding": [0.2, 0.3, 0.1]},  # `varchar_field1`は`Unknown`にデフォルト設定、`varchar_field2`はNULL
+    {"varchar_field1": "Product C", "varchar_field2": None, "pk": 4, "embedding": [0.5, 0.7, 0.2]},  # `varchar_field2`はNULL
+    {"varchar_field1": None, "varchar_field2": "Exclusive deal", "pk": 5, "embedding": [0.6, 0.4, 0.8]},  # `varchar_field1`は`Unknown`にデフォルト設定
+    {"varchar_field1": "Unknown", "varchar_field2": None, "pk": 6, "embedding": [0.8, 0.5, 0.3]},  # `varchar_field2`はNULL
+    {"varchar_field1": "", "varchar_field2": "Best seller", "pk": 7, "embedding": [0.8, 0.5, 0.3]}, # 空文字列はNULLとして扱われない
 ]
 
-# Insert data
+# データを挿入
 client.insert(
     collection_name="my_collection",
     data=data
@@ -581,11 +586,11 @@ curl --request POST \
     "data": [
         {"varchar_field1": "Product A", "varchar_field2": "High quality product", "pk": 1, "embedding": [0.1, 0.2, 0.3]},
         {"varchar_field1": "Product B", "pk": 2, "embedding": [0.4, 0.5, 0.6]},
-        {"varchar_field1": null, "varchar_field2": null, "pk": 3, "embedding": [0.2, 0.3, 0.1]},  
-        {"varchar_field1": "Product C", "varchar_field2": null, "pk": 4, "embedding": [0.5, 0.7, 0.2]},  
-        {"varchar_field1": null, "varchar_field2": "Exclusive deal", "pk": 5, "embedding": [0.6, 0.4, 0.8]},  
-        {"varchar_field1": "Unknown", "varchar_field2": null, "pk": 6, "embedding": [0.8, 0.5, 0.3]},  
-        {"varchar_field1": "", "varchar_field2": "Best seller", "pk": 7, "embedding": [0.8, 0.5, 0.3]}  
+        {"varchar_field1": null, "varchar_field2": null, "pk": 3, "embedding": [0.2, 0.3, 0.1]},
+        {"varchar_field1": "Product C", "varchar_field2": null, "pk": 4, "embedding": [0.5, 0.7, 0.2]},
+        {"varchar_field1": null, "varchar_field2": "Exclusive deal", "pk": 5, "embedding": [0.6, 0.4, 0.8]},
+        {"varchar_field1": "Unknown", "varchar_field2": null, "pk": 6, "embedding": [0.8, 0.5, 0.3]},
+        {"varchar_field1": "", "varchar_field2": "Best seller", "pk": 7, "embedding": [0.8, 0.5, 0.3]}
     ],
     "collectionName": "my_collection"
 }'
@@ -596,17 +601,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## フィルタ式を使用したクエリ{#query-with-filter-expressions}
+## フィルター式を使用したクエリ\{#query-with-filter-expressions}
 
-エンティティを挿入した後、`query`メソッドを使用して、指定したフィルター式に一致するエンティティを取得します。
+エンティティを挿入した後、`query`メソッドを使用して指定されたフィルター式に一致するエンティティを取得します。
 
-`varchar_field1`が文字列`"Product A"`に一致するエンティティを取得するには:
+`varchar_field1`が文字列`"Product A"`に一致するエンティティを取得するには：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Filter `varchar_field1` with value "Product A"
+# `varchar_field1`を"Product A"でフィルター
 filter = 'varchar_field1 == "Product A"'
 
 res = client.query(
@@ -617,7 +622,7 @@ res = client.query(
 
 print(res)
 
-# Example output:
+# 例示出力:
 # data: [
 #     "{'varchar_field1': 'Product A', 'varchar_field2': 'High quality product', 'pk': 1}"
 # ]
@@ -640,7 +645,7 @@ QueryResp resp = client.query(QueryReq.builder()
 
 System.out.println(resp.getQueryResults());
 
-// Output
+// 出力
 //
 // [QueryResp.QueryResult(entity={varchar_field1=Product A, varchar_field2=High quality product, pk=1})]
 ```
@@ -661,7 +666,7 @@ if err != nil {
 fmt.Println("varchar_field1", queryResult.GetColumn("varchar_field1").FieldData().GetScalars())
 fmt.Println("varchar_field2", queryResult.GetColumn("varchar_field2").FieldData().GetScalars())
 
-// Output
+// 出力
 //
 // varchar_field1 string_data:{data:"Product A"}
 // varchar_field2 string_data:{data:"High quality product"}
@@ -699,13 +704,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`varchar_field2`がnullのエンティティを取得するには:
+`varchar_field2`がnullであるエンティティを取得するには：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Filter entities where `varchar_field2` is null
+# `varchar_field2`がnullのエンティティをフィルター
 filter = 'varchar_field2 is null'
 
 res = client.query(
@@ -716,7 +721,7 @@ res = client.query(
 
 print(res)
 
-# Example output:
+# 例示出力:
 # data: [
 #     "{'varchar_field1': 'Product B', 'varchar_field2': None, 'pk': 2}",
 #     "{'varchar_field1': 'Unknown', 'varchar_field2': None, 'pk': 3}",
@@ -739,7 +744,7 @@ QueryResp resp = client.query(QueryReq.builder()
 
 System.out.println(resp.getQueryResults());
 
-// Output
+// 出力
 //
 // [
 //    QueryResp.QueryResult(entity={varchar_field1=Product B, varchar_field2=null, pk=2}),
@@ -798,13 +803,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-`varchar_field1`の値が`"Unknown"`であるエンティティを取得するには、以下の式を使用します。`varchar_field1`のデフォルト値は`"Unknown"`であるため、期待される結果には、`varchar_field1`が明示的に`"Unknown"`に設定されているか、`varchar_field1`がnullに設定されているエンティティが含まれます。
+`varchar_field1`が`"Unknown"`の値を持つエンティティを取得するには、以下の式を使用します。`varchar_field1`のデフォルト値は`"Unknown"`であるため、予想される結果には`varchar_field1`が明示的に`"Unknown"`に設定されたエンティティ、または`varchar_field1`がnullに設定されたエンティティが含まれます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Filter entities with `varchar_field1` with value `Unknown`
+# `varchar_field1`が`Unknown`の値を持つエンティティをフィルター
 filter = 'varchar_field1 == "Unknown"'
 
 res = client.query(
@@ -815,7 +820,7 @@ res = client.query(
 
 print(res)
 
-# Example output:
+# 例示出力:
 # data: [
 #     "{'varchar_field1': 'Unknown', 'varchar_field2': None, 'pk': 3}",
 #     "{'varchar_field1': 'Unknown', 'varchar_field2': 'Exclusive deal', 'pk': 5}",
@@ -837,8 +842,8 @@ QueryResp resp = client.query(QueryReq.builder()
 
 System.out.println(resp.getQueryResults());
 
-// Output
-// 
+// 出力
+//
 // [
 //    QueryResp.QueryResult(entity={varchar_field1=Unknown, varchar_field2=null, pk=3}),
 //    QueryResp.QueryResult(entity={varchar_field1=Unknown, varchar_field2=Exclusive deal, pk=5}),
@@ -896,17 +901,17 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## フィルタ式を用いたベクトル検索{#vector-search-with-filter-expressions}
+## フィルター式を使用したベクトル検索\{#vector-search-with-filter-expressions}
 
-基本的なスカラー場フィルタリングに加えて、ベクトル類似検索とスカラー場フィルターを組み合わせることができます。例えば、次のコードはベクトル検索にスカラー場フィルターを追加する方法を示しています。
+基本的なスカラーフィールドのフィルタリングに加えて、ベクトル類似検索とスカラーフィールドフィルターを組み合わせることができます。たとえば、以下のコードはベクトル検索にスカラーフィールドフィルターを追加する方法を示しています：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Search with string filtering
+# 文字列フィルタリングで検索
 
-# Filter `varchar_field2` with value "Best seller"
+# "Best seller"の値を持つ`varchar_field2`をフィルター
 filter = 'varchar_field2 == "Best seller"'
 
 res = client.search(
@@ -920,7 +925,7 @@ res = client.search(
 
 print(res)
 
-# Example output:
+# 例示出力:
 # data: [
 #     "[{'id': 7, 'distance': -0.04468163847923279, 'entity': {'varchar_field1': '', 'varchar_field2': 'Best seller'}}]"
 # ]
@@ -946,7 +951,7 @@ SearchResp resp = client.search(SearchReq.builder()
 
 System.out.println(resp.getSearchResults());
 
-// Output
+// 出力
 //
 // [[SearchResp.SearchResult(entity={varchar_field1=, varchar_field2=Best seller}, score=-0.04468164, id=7)]]
 ```
@@ -1026,4 +1031,3 @@ curl --request POST \
 
 </TabItem>
 </Tabs>
-

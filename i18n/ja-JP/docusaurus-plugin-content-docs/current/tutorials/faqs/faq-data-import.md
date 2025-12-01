@@ -1,78 +1,75 @@
 ---
-title: "FAQ:データインポート | CLOUD"
+title: "FAQ：データインポート | CLOUD"
 slug: /faq-data-import
-sidebar_label: "FAQ:データインポート"
+sidebar_label: "FAQ：データインポート"
 beta: FALSE
 notebook: FALSE
-description: "このトピックでは、Zilliz Cloudでデータをインポートする際に発生する可能性のある問題と、それに対応する解決策について説明します。 | CLOUD"
+description: "このトピックでは、Zilliz Cloudでデータをインポートする際に遭遇する可能性のある問題と、それに対応する解決策をリストアップしています。 | CLOUD"
 type: origin
-token: LKxiwykkhi5VyLkTfAGcE3LinBe
+token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 4
 
 ---
 
-# FAQ:データインポート
+# FAQ：データインポート
 
-このトピックでは、Zilliz Cloudでデータをインポートする際に発生する可能性のある問題と、それに対応する解決策について説明します。
+このトピックでは、Zilliz Cloudでデータをインポートする際に遭遇する可能性のある問題と、それに対応する解決策をリストアップしています。
 
-## Contents
+## 目次
 
-- [オブジェクトストレージサービスからデータをインポートする際にセッショントークンを使用できますか?](#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)
-- [Zilliz Cloudベクトルデータベースにデータを一括挿入できますか?](#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases)
-- [Node. js SDKを使用してZilliz Cloudクラスタにデータをインポートまたはクエリする際に`ECONNRESET`エラーが発生した場合、どうすればよいですか?](#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk)
+- [オブジェクトストレージサービスからデータをインポートする際に短期間の認証情報を使用できますか？](#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service)
+- [Zilliz Cloudのベクトルデータベースに一括挿入することはできますか？](#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases)
+- [Node.js SDKでZilliz CloudクラスターにデータをインポートまたはクエリするときにECONNRESETエラーが発生した場合、どのように対処すればよいですか？](#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk)
 
-## FAQs
+## FAQ
 
+### オブジェクトストレージサービスからデータをインポートする際に短期間の認証情報を使用できますか？\{#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service}
 
-
-
-### オブジェクトストレージサービスからデータをインポートする際にセッショントークンを使用できますか?{#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service}
-
-はい。データセキュリティ要件に基づいて、オブジェクトストレージサービスからデータをインポートするときにセッショントークンを使用できます。
+はい。データセキュリティ要件に応じて、オブジェクトストレージサービスからデータをインポートする際にセッショントークンを使用できます。
 
 1. セッショントークンを生成します。
 
-    - Amazon S 3:[AWSリソースで一時的な資格情報を使用する](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html)。
+    - Amazon S3: [AWSリソースで一時的な認証情報を使用する](https://docs.aws.amazon.com/IAM/latest/UserGuide/id_credentials_temp_use-resources.html)。
 
-    - Google Cloud Storage:[サービスアカウントの短期間の認証情報を作成する](https://cloud.google.com/iam/docs/create-short-lived-credentials-direct)
+    - Google Cloud Storage: [サービスアカウントの短期間の認証情報を作成](https://cloud.google.com/iam/docs/create-short-lived-credentials-direct)
 
-    - Azure Blog Storage:[ストレージコンテナ用のSASトークンを作成する](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/create-sas-tokens?view=doc-intel-4.0.0)
+    - Azure Blog Storage: [ストレージコンテナーのSASトークンを作成](https://learn.microsoft.com/en-us/azure/ai-services/document-intelligence/create-sas-tokens?view=doc-intel-4.0.0)
 
-1. データのインポート時に、以下のセッショントークン情報を入力してください。
+1. データインポート中に以下のセッショントークン情報を入力します。
 
-    - Amazon S 3:`accessKeyId`、`secret`AccessKey、`sessionToken`
+    - Amazon S3: `accessKeyId`, `secretAccessKey`, `sessionToken`
 
-    - タグ: Google Cloud`Storage`
+    - Google Cloud Storage: `accessToken`
 
-    - Azure Blog Storage:`Azureブログまとめ`
+    - Azure Blog Storage: `sasToken`
 
-### Zilliz Cloudベクトルデータベースにデータを一括挿入できますか?{#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases}
+### Zilliz Cloudのベクトルデータベースに一括挿入することはできますか？\{#can-i-bulk-insert-data-into-the-zilliz-cloud-vector-databases}
 
-はい。詳細については、「[データインポート](./data-import)」を参照してください。
+はい。詳細については、[データインポート](./data-import)を参照してください。
 
-### Node. js SDKを使用してZilliz Cloudクラスタにデータをインポートまたはクエリする際に`ECONNRESET`エラーが発生した場合、どうすればよいですか?{#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk}
+### Node.js SDKでZilliz CloudクラスターにデータをインポートまたはクエリするときにECONNRESETエラーが発生した場合、どのように対処すればよいですか？\{#what-can-i-do-if-i-receive-econnreset-errors-when-importing-data-to-or-querying-zilliz-cloud-clusters-with-nodejs-sdk}
 
 この問題を解決するには、以下の手順に従ってください。
 
-1. channelOptionsをサポートするMilvus NodeJS SDKの最新バージョンにアップグレードしてくださ**い**。
+1. **channelOptions**をサポートする最新バージョンのMilvus NodeJS SDKにアップグレードします。
 
-1. channelOptionsを手動で追加してください。
+1. channelOptionsを手動で追加します。
 
     ```javascript
     const channelOptions: ChannelOptions = {
-    
-    // Send keepalive pings every 10 seconds, default is 2 hours.
-    
+
+    // 10秒ごとにキープアライブpingを送信します。デフォルトは2時間です。
+
     'grpc.keepalive_time_ms': 10 * 1000,
-    
-    // Keepalive ping timeout after 5 seconds, default is 20 seconds.
-    
+
+    // 5秒後にキープアライブpingのタイムアウトになります。デフォルトは20秒です。
+
     'grpc.keepalive_timeout_ms': 5 * 1000,
-    
-    // Allow keepalive pings when there are no gRPC calls.
-    
+
+    // gRPC呼び出しがない場合でもキープアライブpingを許可します。
+
     'grpc.keepalive_permit_without_calls': 1,
-    
+
     };
     ```
 
@@ -80,12 +77,12 @@ sidebar_position: 4
 
     ```javascript
     import { MilvusClient, DataType } from '@zilliz/milvus2-sdk-node';
-    
+
     new MilvusClient({
       address: 'your-zilliz-cloud-address',
       ssl: true,
       username: 'username',
       password: 'your-pass',
-      channelOptions: channel options
+      channelOptions: channelOptions
     })
     ```

@@ -1,94 +1,97 @@
 ---
-title: "リリースノート（2023年10月17日） | Cloud"
+title: "リリースノート (2023年10月17日) | Cloud"
 slug: /release-notes-230
-sidebar_label: "リリースノート（2023年10月17日）"
+sidebar_label: "リリースノート (2023年10月17日)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "私たちは、EUにおけるAWSフランクフルト地域のローンチを発表できることを喜んでいます。この拡張に伴い、ベータ機能であるRange Search、Upsert、Cosine Metric Typeを導入し、検索機能とデータ管理の効率を向上させました。追加機能には、APIKey Access、Retrieve Raw Vectors、JSONCONTAINS Filter、Entity Countが含まれます。RBAC、請求、価格計算、アカウントマネジメント、サービスの安定性にも注目すべき改善が実装され、ユーザーエクスペリエンスが向上しました。 | Cloud"
+description: "EUのAWSフランクフルトリージョンのローンチを発表できることを嬉しく思います。この拡大に伴い、検索機能およびデータ管理効率を向上させるベータ機能である範囲検索、アップサート、およびコサイン距離メトリックタイプを導入します。追加機能には、APIキーによるアクセス、生ベクトルの取得、JSONCONTAINSフィルター、エンティティ数が含まれます。RBAC、請求、価格計算、アカウント管理、およびサービス安定性における注目すべき改善も実装され、ユーザーエクスペリエンスが向上しました。 | Cloud"
 type: origin
-token: QEWhwhoNciJQCDklDF4cJEYrnfh
-sidebar_position: 15
-keywords: 
+token: MocQwCCItiHYEbkkJtOcROPTnod
+sidebar_position: 20
+keywords:
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# リリースノート（2023年10月17日）
+# リリースノート (2023年10月17日)
 
-私たちは、EUにおけるAWSフランクフルト地域のローンチを発表できることを喜んでいます。この拡張に伴い、ベータ機能であるRange Search、Upsert、Cosine Metric Typeを導入し、検索機能とデータ管理の効率を向上させました。追加機能には、APIKey Access、Retrieve Raw Vectors、JSON_CONTAINS Filter、Entity Countが含まれます。RBAC、請求、価格計算、アカウントマネジメント、サービスの安定性にも注目すべき改善が実装され、ユーザーエクスペリエンスが向上しました。
+EUのAWSフランクフルトリージョンのローンチを発表できることを嬉しく思います。この拡大に伴い、検索機能およびデータ管理効率を向上させるベータ機能を導入します：範囲検索、アップサート、およびコサイン距離メトリックタイプ。追加機能には、APIキーによるアクセス、生ベクトルの取得、JSON_CONTAINSフィルター、エンティティ数が含まれます。RBAC、請求、価格計算、アカウント管理、およびサービス安定性における注目すべき改善も実装され、ユーザーエクスペリエンスが向上しました。
 
-## Milvusの互換性{#milvus}
+## Milvus互換性\{#milvus-compatibility}
 
-このリリースは、**Milvus 2.2. x**および**Milvus 2.3.x(Beta)**と互換性があります。
+このリリースは**Milvus 2.2.x**および**Milvus 2.3.x (Beta)**と互換性があります。
 
-## 新しいAWSリージョン:フランクフルト(aws-eu-central-1)が利用可能になりました。{#new-aws-region-frankfurt-aws-eu-central-1-now-live}
+## 新AWSリージョン：フランクフルト (aws-eu-central-1) - 現在運用中\{#new-aws-region-frankfurt-aws-eu-central-1-now-live}
 
-私たちは、ヨーロッパのユーザーベースにより適した新しいAWSフランクフルトリージョンを発表できることを喜んでいます。このリージョンは、強化されたサポートだけでなく、AWS Marketplaceの支払いオプションの利便性も提供しています。利用可能なすべてのクラウドリージョンについては、「[クラウドプロバイダー&地域](./cloud-providers-and-regions)」を参照してください。
+欧州市場のユーザーをより適切に支援するために設計された新しいAWSフランクフルトリージョンの公開を嬉しく思います。このリージョンは、拡張サポートを提供するだけでなく、AWS Marketplaceの支払いオプションの利便性も提供します。利用可能なすべてのクラウドリージョンについては、[クラウドプロバイダーおよびリージョン](./cloud-providers-and-regions)を参照してください。
 
-## 革新的なベータ機能{#innovative-beta-features}
+## 革新的なベータ機能\{#innovative-beta-features}
 
-専用クラスタで利用可能な最新のベータ機能で未来を探索しましょう。今すぐアップグレードして、以下の機能強化を体験してください:
+最新のベータ機能で未来を探索し、専用クラスターで利用可能です。今すぐアップグレードしてこれらの強化を体験してください：
 
-- *レンジ検索*
+- *範囲検索*
 
-    範囲検索を使用してクエリを再定義し、[検索](./range-search)の半径を設定できるようにします。従来のANN検索とは異なり、範囲検索は指定された半径内のすべてのベクトルを確実に含めるため、より包括的なビューを提供します。
+    [範囲検索](./range-search)でクエリを再定義し、検索の半径を設定できます。従来のANN検索とは異なり、範囲検索は指定された半径内のすべてのベクトルを含めることを保証し、より包括的なビューを提供します。
 
 - *アップサート*
 
-    「更新」と「挿入」を融合した[Upsert](./upsert-entities)を使用して、動的なデータセットをシームレスに管理できます。頻繁に変更が行われるデータセットの効率を高めることができます。
+    [アップサート](./upsert-entities)で動的データセットをシームレスに管理し、「更新」と「挿入」を融合したものです。変更が頻繁なデータセットにおいてより効率的です。
 
-- *コサインメトリック型*
+- *コサイン距離メトリックタイプ*
 
-    高度なベクトル検索を[コサイン](./search-metrics-explained#cosine-similarity)、[内積](./search-metrics-explained#inner-product-ip)、[ユークリッド距離](./search-metrics-explained#euclidean-distance-l2)のサポートで体験できます。コサインメトリックにより、事前のベクトル正規化が不要になり、検索過程が効率化されます。
+    [コサイン](./search-metrics-explained#cosine-similarity)、[内積](./search-metrics-explained#inner-product-ip)、および[ユークリッド距離](./search-metrics-explained#euclidean-distance-l2)サポートによる高度なベクトル検索を体験してください。コサインメトリックは、事前ベクトル正規化の必要性を排除し、検索プロセスを合理化します。
 
 - *アクセス制御*
 
-    専用クラスタやサーバーレスインスタンスには、[APIキー](./manage-api-keys)または[ユーザー名パスワード認証](./cluster-credentials)で安全にアクセスできます。
+    [APIキー](./manage-api-keys)または[ユーザー名パスワード認証](./cluster-credentials)で専用クラスターおよびサーバーレスインスタンスに安全にアクセスできます。
 
-- *生のベクトルを返す*
+- *生ベクトルの取得*
 
-    検索結果の一部として受け取るために、[検索パラメータ](./single-vector-search#use-output-fields)にベクトルフィールドを指定してください。
+    [検索パラメータ](./single-vector-search#use-output-fields)でベクトルフィールドを指定して、検索結果の一部として受信できます。
 
-- *JSON_CONTAINSフィルタ*
+- *JSON_CONTAINSフィルター*
 
-    さらに[JSON_CONTAINS演算子](./json-filtering-operators)を使用して検索を絞り込むと、JSONフィールドの値に基づいてフィルタリング条件を指定できます。
+    [JSON_CONTAINS演算子](./json-filtering-operators)で検索をさらに絞り込み、JSONフィールド値に基づいてフィルタリング条件を指定できます。
 
-- *エンティティカウント*
+- *エンティティ数*
 
-    データ管理を改善するために、[ロードされたコレクション内のエンティティの総数](./single-vector-search#use-output-fields)の概要をすばやく確認できます。
+    読み込まれたコレクション内の[エンティティの総数](./single-vector-search#use-output-fields)に関する概要をすばやく取得し、データ管理をより効果的に行えます。
 
-## エンハンスメント{#enhancements}
+## 機能強化\{#enhancements}
 
-あなたの全体的な体験を改善するために、いくつかの改良も実装しました。
+全体的なエクスペリエンスを向上させるために、いくつかの強化も実装しました：
 
-- *RBACの新しい役割*
+- *RBACの新ロール*
 
-    より効率的なコラボレーションのために、[プロジェクトメンバーロール](./project-users)をプロジェクトコラボレーターに付与します。
+    よりスムーズなコラボレーションのために、プロジェクト共同作業者に[プロジェクトメンバー役割](./project-users)を付与します。
 
-- *課金の最適化*
+- *請求の最適化*
 
-    合理化されたプロセスでより効率的な請求管理をお楽しみください。
+    効率的な請求管理を、合理化されたプロセスで楽しめます。
 
-- *高度な[価格計算ツール](https://zilliz.com/pricing#calculator)*
+- *高度な[価格計算機](https://zilliz.com/pricing#calculator)*
 
-    主キー、ベクトルフィールド、文字列フィールドを組み合わせた包括的な見積もりを取得して、より正確な価格概要を確認します。
+    主キー、ベクトルフィールド、および文字列フィールドを組み合わせた包括的な見積もりにより、より正確な価格概要を取得できます。
 
-- *セルフサービスアカウントの削除*
+- *セルフサービスアカウント削除*
 
-    簡単に[自分のアカウント](./email-accounts)や[組織](./organizations)を削除して、プロフィールをより細かく管理できます。
+    プロファイルに対するより大きな制御のために、[自身のアカウントを簡単に削除](./email-accounts#close-your-account)したり、[組織を削除](./organization-settings#delete-organization)できます。
 
-- *安定性の強化*
+- *安定性強化*
 
-    私たちは、サービスの信頼性を高めるために既知の問題に対処しました。
+    サービスの信頼性を向上させるために既知の問題に対処しました。
 
-イノベーションとパフォーマンスが融合したZilliz Cloudをお選びいただきありがとうございます!
+イノベーションとパフォーマンスが融合するZilliz Cloudをお選びいただきありがとうございます！

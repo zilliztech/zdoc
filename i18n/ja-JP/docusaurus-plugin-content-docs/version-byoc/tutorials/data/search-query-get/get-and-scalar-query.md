@@ -3,24 +3,27 @@ title: "クエリ | BYOC"
 slug: /get-and-scalar-query
 sidebar_label: "クエリ"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudは、ANN検索に加えて、クエリによるメタデータフィルタリングもサポートしています。このページでは、Query、Get、QueryIteratorsを使用してメタデータフィルタリングを実行する方法を紹介します。 | BYOC"
+description: "ANN検索に加えて、Zilliz Cloudはクエリを通じたメタデータフィルタリングもサポートしています。このページでは、Query、Get、QueryIteratorを使用してメタデータフィルタリングを実行する方法を紹介します。 | BYOC"
 type: origin
-token: D47Qw0Zo7iWNEukOUWVcNWANnBc
+token: R7F7wY8pCiJ5Q4kbntxcMsE6nLf
 sidebar_position: 7
-keywords: 
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - get by id
-  - query with filters
-  - filtering
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - ベクトルデータベース
+  - クラウド
+  - コレクション
+  - データ
+  - idで取得
+  - フィルター付きクエリ
+  - フィルタリング
+  - milvusの仕組み
+  - Zillizベクトルデータベース
+  - Zillizデータベース
+  - 非構造化データ
 
 ---
 
@@ -30,56 +33,56 @@ import TabItem from '@theme/TabItem';
 
 # クエリ
 
-Zilliz Cloudは、ANN検索に加えて、クエリによるメタデータフィルタリングもサポートしています。このページでは、Query、Get、QueryIteratorsを使用してメタデータフィルタリングを実行する方法を紹介します。
+ANN検索に加えて、Zilliz Cloudはクエリを通じたメタデータフィルタリングもサポートしています。このページでは、Query、Get、QueryIteratorを使用してメタデータフィルタリングを実行する方法を紹介します。
 
-## 概要について{#overview}
+## 概要\{#overview}
 
-コレクションには、さまざまな種類のスカラーフィールドを格納できます。Zilliz Cloudフィルタ1つ以上のスカラーフィールドに基づくエンティティ。Zilliz Cloudには、Query、Get、QueryIteratorの3種類のクエリがあります。以下の表は、これら3つのクエリタイプを比較しています。
+コレクションはさまざまな種類のスカラーフィールドを格納できます。Zilliz Cloudでは、1つ以上のスカラーフィールドに基づいてエンティティをフィルターできます。Zilliz Cloudは3つのタイプのクエリを提供しています：Query、Get、QueryIterator。以下の表は、これらの3つのクエリタイプを比較しています。
 
 <table>
    <tr>
      <th></th>
-     <th><p>ゲット</p></th>
-     <th><p>クエリ</p></th>
+     <th><p>Get</p></th>
+     <th><p>Query</p></th>
      <th><p>QueryIterator</p></th>
    </tr>
    <tr>
      <td><p>適用可能なシナリオ</p></td>
-     <td><p>指定された主キーを保持するエンティティを検索する。</p></td>
-     <td><p>カスタムフィルタリング条件を満たすエンティティのすべてまたは指定された数を検索するには</p></td>
-     <td><p>ページ分割されたクエリでカスタムフィルタリング条件を満たすすべてのエンティティを検索する。</p></td>
+     <td><p>指定されたプライマリキーを持つエンティティを見つけるため。</p></td>
+     <td><p>カスタムフィルター条件を満たすすべてまたは指定された数のエンティティを見つけるため。</p></td>
+     <td><p>ページネーションクエリでカスタムフィルター条件を満たすすべてのエンティティを見つけるため。</p></td>
    </tr>
    <tr>
      <td><p>フィルタリング方法</p></td>
-     <td><p>主キーによる</p></td>
-     <td><p>式をフィルタリングすることで。</p></td>
-     <td><p>式をフィルタリングすることで。</p></td>
+     <td><p>プライマリキーによる</p></td>
+     <td><p>フィルタリング式による。</p></td>
+     <td><p>フィルタリング式による。</p></td>
    </tr>
    <tr>
      <td><p>必須パラメータ</p></td>
      <td><ul><li><p>コレクション名</p></li><li><p>プライマリキー</p></li></ul></td>
-     <td><ul><li><p>コレクション名</p></li><li><p>式のフィルタリング</p></li></ul></td>
-     <td><ul><li><p>コレクション名</p></li><li><p>式のフィルタリング</p></li><li><p>クエリごとに返すエンティティの数</p></li></ul></td>
+     <td><ul><li><p>コレクション名</p></li><li><p>フィルタリング式</p></li></ul></td>
+     <td><ul><li><p>コレクション名</p></li><li><p>フィルタリング式</p></li><li><p>クエリごとに返すエンティティ数</p></li></ul></td>
    </tr>
    <tr>
-     <td><p>任意のパラメータ</p></td>
+     <td><p>任意パラメータ</p></td>
      <td><ul><li><p>パーティション名</p></li><li><p>出力フィールド</p></li></ul></td>
-     <td><ul><li><p>パーティション名</p></li><li><p>返すエンティティの数</p></li><li><p>出力フィールド</p></li></ul></td>
-     <td><ul><li><p>パーティション名</p></li><li><p>返すエンティティの総数</p></li><li><p>出力フィールド</p></li></ul></td>
+     <td><ul><li><p>パーティション名</p></li><li><p>返すエンティティ数</p></li><li><p>出力フィールド</p></li></ul></td>
+     <td><ul><li><p>パーティション名</p></li><li><p>合計で返すエンティティ数</p></li><li><p>出力フィールド</p></li></ul></td>
    </tr>
    <tr>
-     <td><p>リターン</p></td>
-     <td><p>指定されたコレクションまたはパーティション内の指定されたプライマリキーを保持するエンティティを返します。</p></td>
-     <td><p>指定したコレクションまたはパーティション内のカスタムフィルター条件を満たすエンティティのすべてまたは指定した数を返します。</p></td>
-     <td><p>指定されたコレクションまたはパーティションのカスタムフィルター条件を満たすすべてのエンティティを、ページ分割されたクエリで返します。</p></td>
+     <td><p>返すもの</p></td>
+     <td><p>指定されたコレクションまたはパーティション内で指定されたプライマリキーを持つエンティティを返します。</p></td>
+     <td><p>指定されたコレクションまたはパーティション内でカスタムフィルター条件を満たすすべてまたは指定された数のエンティティを返します。</p></td>
+     <td><p>ページネーションクエリを通じて、指定されたコレクションまたはパーティション内でカスタムフィルター条件を満たすすべてのエンティティを返します。</p></td>
    </tr>
 </table>
 
-メタデータのフィルタリングについては、「[フィルタリング](./filtering)」を参照してください。
+メタデータフィルタリングの詳細については、[フィルタリング](./filtering)[フィルタリングの説明](./filtering-overview)を参照してください。
 
-## Getを使用{#use-get}
+## Getの使用\{#use-get}
 
-主キーでエンティティを検索する必要がある場合は、**Get**メソッドを使用できます。次のコード例では、コレクションに`id`、`vector`、`color`という3つのフィールドがあると仮定し、主キーが`1`、`2`、`3`のエンティティを返します。
+プライマリキーでエンティティを検索する必要がある場合、**Get**メソッドを使用できます。以下のコード例では、コレクションに`id`、`vector`、`color`という名前の3つのフィールドがあると仮定しています。
 
 ```python
 [
@@ -96,9 +99,9 @@ Zilliz Cloudは、ANN検索に加えて、クエリによるメタデータフ�
 ]
 ```
 
-以下のようにIDでエンティティを取得できます。
+以下のようにしてIDでエンティティを取得できます。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -110,7 +113,7 @@ client = MilvusClient(
 )
 
 res = client.get(
-    collection_name="query_collection",
+    collection_name="my_collection",
     ids=[0, 1, 2],
     output_fields=["vector", "color"]
 )
@@ -127,15 +130,16 @@ import io.milvus.v2.client.ConnectConfig;
 import io.milvus.v2.client.MilvusClientV2;
 import io.milvus.v2.service.vector.request.GetReq
 import io.milvus.v2.service.vector.request.GetResp
+import io.milvus.v2.service.vector.response.QueryResp;
 import java.util.*;
 
 MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build());
-        
+
 GetReq getReq = GetReq.builder()
-        .collectionName("query_collection")
+        .collectionName("my_collection")
         .ids(Arrays.asList(0, 1, 2))
         .outputFields(Arrays.asList("vector", "color"))
         .build();
@@ -155,6 +159,47 @@ for (QueryResp.QueryResult result : results) {
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/column"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+defer client.Close(ctx)
+
+resultSet, err := client.Get(ctx, milvusclient.NewQueryOption("my_collection").
+    WithConsistencyLevel(entity.ClStrong).
+    WithIDs(column.NewColumnInt64("id", []int64{0, 1, 2})).
+    WithOutputFields("vector", "color"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+fmt.Println("id: ", resultSet.GetColumn("id").FieldData().GetScalars())
+fmt.Println("vector: ", resultSet.GetColumn("vector").FieldData().GetVectors())
+fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
@@ -165,7 +210,7 @@ const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 const res = client.get({
-    collection_name="query_collection",
+    collection_name="my_collection",
     ids=[0,1,2],
     output_fields=["vector", "color"]
 })
@@ -184,7 +229,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "quick_setup",
+    "collectionName": "my_collection",
     "id": [0, 1, 2],
     "outputFields": ["vector", "color"]
 }'
@@ -195,9 +240,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## クエリを使用{#use-query}
+## Queryの使用\{#use-query}
 
-カスタムフィルタリング条件でエンティティを検索する必要がある場合は、**Query**メソッドを使用してください。次のコード例では、`id`、`vector`、`color`という3つのフィールドがあると仮定し、`color`値が`red`で始まる指定された数のエンティティを返します。
+カスタムフィルター条件でエンティティを検索する必要がある場合は、**Query**メソッドを使用します。以下のコード例では、`id`、`vector`、`color`という名前の3つのフィールドがあり、`color`値が`red`で始まる指定された数のエンティティを返すと仮定しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -211,7 +256,7 @@ client = MilvusClient(
 )
 
 res = client.query(
-    collection_name="query_collection",
+    collection_name="my_collection",
     filter="color like \"red%\"",
     output_fields=["vector", "color"],
     limit=3
@@ -223,20 +268,19 @@ res = client.query(
 <TabItem value='java'>
 
 ```java
-
 import io.milvus.v2.service.vector.request.QueryReq
 import io.milvus.v2.service.vector.request.QueryResp
 
 QueryReq queryReq = QueryReq.builder()
-        .collectionName("query_collection")
+        .collectionName("my_collection")
         .filter("color like \"red%\"")
         .outputFields(Arrays.asList("vector", "color"))
         .limit(3)
         .build();
 
-QueryResp getResp = client.query(queryReq);
+QueryResp queryResp = client.query(queryReq);
 
-List<QueryResp.QueryResult> results = getResp.getQueryResults();
+List<QueryResp.QueryResult> results = queryResp.getQueryResults();
 for (QueryResp.QueryResult result : results) {
     System.out.println(result.getEntity());
 }
@@ -252,38 +296,17 @@ for (QueryResp.QueryResult result : results) {
 <TabItem value='go'>
 
 ```go
-import (
-    "context"
-    "fmt"
-    "log"
-
-    "github.com/milvus-io/milvus/client/v2"
-)
-
-func ExampleClient_Query_basic() {
-    ctx, cancel := context.WithCancel(context.Background())
-    defer cancel()
-
-    milvusAddr := "YOUR_CLUSTER_ENDPOINT"
-    token := "YOUR_CLUSTER_TOKEN"
-
-    cli, err := client.New(ctx, &client.ClientConfig{
-        Address: milvusAddr,
-        APIKey:  token,
-    })
-    if err != nil {
-        log.Fatal("failed to connect to milvus server: ", err.Error())
-    }
-
-    defer cli.Close(ctx)
-
-    resultSet, err := cli.Query(ctx, client.NewQueryOption("query_collection").
-        WithFilter(`color like "red%"`).
-        WithOutputFields("vector", "color").
-        WithLimit(3))
-
-    fmt.Println(resultSet.GetColumn("color"))
+resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("color like \"red%\"").
+    WithOutputFields("vector", "color"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
 }
+
+fmt.Println("id: ", resultSet.GetColumn("id").FieldData().GetScalars())
+fmt.Println("vector: ", resultSet.GetColumn("vector").FieldData().GetVectors())
+fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 
 ```
 
@@ -299,7 +322,7 @@ const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
 const res = client.query({
-    collection_name="quick_setup",
+    collection_name="my_collection",
     filter='color like "red%"',
     output_fields=["vector", "color"],
     limit(3)
@@ -319,7 +342,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "quick_setup",
+    "collectionName": "my_collection",
     "filter": "color like \"red%\"",
     "limit": 3,
     "outputFields": ["vector", "color"]
@@ -330,11 +353,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## QueryIteratorを使う{#use-queryiterator}
+## QueryIteratorの使用\{#use-queryiterator}
 
-ページ分割されたクエリを通じてカスタムフィルタリング条件でエンティティを検索する必要がある場合は、**QueryIterator**を作成し、その**next()**メソッドを使用してすべてのエンティティを反復処理して、フィルタリング条件を満たすものを見つけます。次のコード例では、`id`、`vector`、`color`という3つのフィールドがあると仮定し、`color`値が`red`で始まるすべてのエンティティを返します。
+ページネーションクエリを通じてカスタムフィルター条件でエンティティを検索する場合は、**QueryIterator**を作成し、その**next()**メソッドを使用してすべてのエンティティを反復処理し、フィルター条件を満たすエンティティを見つけます。以下のコード例では、`id`、`vector`、`color`という名前の3つのフィールドがあり、`color`値が`red`で始まるすべてのエンティティを返すと仮定しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -345,7 +368,7 @@ connections.connect(
     token="YOUR_CLUSTER_TOKEN"
 )
 
-collection = Collection("query_collection")
+collection = Collection("my_collection")
 
 iterator = collection.query_iterator(
     batch_size=10,
@@ -376,7 +399,7 @@ import io.milvus.v2.common.ConsistencyLevel;
 import io.milvus.v2.service.vector.request.QueryIteratorReq;
 
 QueryIteratorReq req = QueryIteratorReq.builder()
-        .collectionName("query_collection")
+        .collectionName("my_collection")
         .expr("color like \"red%\"")
         .batchSize(50L)
         .outputFields(Collections.singletonList("color"))
@@ -404,13 +427,21 @@ while (true) {
 
 </TabItem>
 
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
 <TabItem value='javascript'>
 
 ```javascript
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 const iterator = await milvusClient.queryIterator({
-  collection_name: 'query_collection',
+  collection_name: 'my_collection',
   batchSize: 10,
   expr: 'color like "red%"',
   output_fields: ['color'],
@@ -428,17 +459,17 @@ for await (const value of iterator) {
 <TabItem value='bash'>
 
 ```bash
-# 暂无此方法
+# Not available
 ```
 
 </TabItem>
 </Tabs>
 
-## パーティション内のクエリ{#queries-in-partitions}
+## パーティション内でのクエリ\{#queries-in-partitions}
 
-Get、Query、またはQueryIterator要求にパーティション名を含めることで、1つまたは複数のパーティション内でクエリを実行することもできます。次のコード例では、コレクションにPartitionAという名前のパーティションがあると仮定**し**ています。
+Get、Query、またはQueryIteratorリクエストにパーティション名を含めることで、1つまたは複数のパーティション内でクエリを実行することもできます。以下のコード例では、コレクションに**PartitionA**という名前のパーティションがあると仮定しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -449,10 +480,10 @@ client = MilvusClient(
 )
 
 res = client.get(
-    collection_name="query_collection",
+    collection_name="my_collection",
     # highlight-next-line
     partitionNames=["partitionA"],
-    ids=[0, 1, 2],
+    ids=[10, 11, 12],
     output_fields=["vector", "color"]
 )
 
@@ -464,7 +495,7 @@ client = MilvusClient(
 )
 
 res = client.query(
-    collection_name="query_collection",
+    collection_name="my_collection",
     # highlight-next-line
     partitionNames=["partitionA"],
     filter="color like \"red%\"",
@@ -472,7 +503,7 @@ res = client.query(
     limit=3
 )
 
-# 使用 QueryIterator
+# Use QueryIterator
 from pymilvus import connections, Collection
 
 connections.connect(
@@ -480,7 +511,7 @@ connections.connect(
     token="YOUR_CLUSTER_TOKEN"
 )
 
-collection = Collection("query_collection")
+collection = Collection("my_collection")
 
 iterator = collection.query_iterator(
     # highlight-next-line
@@ -508,7 +539,7 @@ while True:
 
 ```java
 GetReq getReq = GetReq.builder()
-        .collectionName("query_collection")
+        .collectionName("my_collection")
         .partitionName("partitionA")
         .ids(Arrays.asList(10, 11, 12))
         .outputFields(Collections.singletonList("color"))
@@ -517,7 +548,7 @@ GetReq getReq = GetReq.builder()
 GetResp getResp = client.get(getReq);
 
 QueryReq queryReq = QueryReq.builder()
-        .collectionName("query_collection")
+        .collectionName("my_collection")
         .partitionNames(Collections.singletonList("partitionA"))
         .filter("color like \"red%\"")
         .outputFields(Collections.singletonList("color"))
@@ -527,7 +558,7 @@ QueryReq queryReq = QueryReq.builder()
 QueryResp getResp = client.query(queryReq);
 
 QueryIteratorReq req = QueryIteratorReq.builder()
-        .collectionName("query_collection")
+        .collectionName("my_collection")
         .partitionNames(Collections.singletonList("partitionA"))
         .expr("color like \"red%\"")
         .batchSize(50L)
@@ -535,6 +566,38 @@ QueryIteratorReq req = QueryIteratorReq.builder()
         .consistencyLevel(ConsistencyLevel.BOUNDED)
         .build();
 QueryIterator queryIterator = client.queryIterator(req);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+resultSet, err := client.Get(ctx, milvusclient.NewQueryOption("my_collection").
+    WithPartitions("partitionA").
+    WithIDs(column.NewColumnInt64("id", []int64{10, 11, 12})).
+    WithOutputFields("vector", "color"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+fmt.Println("id: ", resultSet.GetColumn("id").FieldData().GetScalars())
+fmt.Println("vector: ", resultSet.GetColumn("vector").FieldData().GetVectors())
+fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
+
+resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithPartitions("partitionA").
+    WithFilter("color like \"red%\"").
+    WithOutputFields("vector", "color"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+fmt.Println("id: ", resultSet.GetColumn("id").FieldData().GetScalars())
+fmt.Println("vector: ", resultSet.GetColumn("vector").FieldData().GetVectors())
+fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 ```
 
 </TabItem>
@@ -548,9 +611,9 @@ const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
-// 使用 Get 方法
+// Use get
 var res = client.query({
-    collection_name="query_collection",
+    collection_name="my_collection",
     // highlight-next-line
     partition_names=["partitionA"],
     filter='color like "red%"',
@@ -558,9 +621,9 @@ var res = client.query({
     limit(3)
 })
 
-// 使用 Query 方法
+// Use query
 res = client.query({
-    collection_name="query_collection",
+    collection_name="my_collection",
     // highlight-next-line
     partition_names=["partitionA"],
     filter="color like \"red%\"",
@@ -568,9 +631,9 @@ res = client.query({
     limit(3)
 })
 
-// 暂不支持使用 QueryIterator
+// Use queryiterator
 const iterator = await milvusClient.queryIterator({
-  collection_name: 'query_collection',
+  collection_name: 'my_collection',
   partition_names: ['partitionA'],
   batchSize: 10,
   expr: 'color like "red%"',
@@ -592,25 +655,25 @@ for await (const value of iterator) {
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
 export TOKEN="YOUR_CLUSTER_TOKEN"
 
-# 使用 Get 方法
+# Use get
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/get" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "query_collection",
+    "collectionName": "my_collection",
     "partitionNames": ["partitionA"],
     "id": [0, 1, 2],
     "outputFields": ["vector", "color"]
 }'
 
-# 使用 Query 方法
+# Use query
 curl --request POST \
 --url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/get" \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d '{
-    "collectionName": "query_collection",
+    "collectionName": "my_collection",
     "partitionNames": ["partitionA"],
     "filter": "color like \"red%\"",
     "limit": 3,
@@ -622,3 +685,147 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
+## Queryでのランダムサンプリング\{#random-sampling-with-query}
+
+データ探索や開発テストのためにコレクションから代表的なデータのサブセットを抽出するには、`RANDOM_SAMPLE(sampling_factor)`式を使用します。`sampling_factor`は、0から1の間の浮動小数点数で、サンプルするデータの割合を表します。
+
+<Admonition type="info" icon="📘" title="注釈">
+
+<p>詳細な使用方法、高度な例、およびベストプラクティスについては、<a href="./ramdom-sampling">ランダムサンプリング</a>を参照してください。</p>
+
+</Admonition>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient
+
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
+
+# Sample 1% of the entire collection
+res = client.query(
+    collection_name="my_collection",
+    # highlight-next-line
+    filter="RANDOM_SAMPLE(0.01)",
+    output_fields=["vector", "color"]
+)
+
+print(f"Sampled {len(res)} entities from collection")
+
+# Combine with other filters - first filter, then sample
+res = client.query(
+    collection_name="my_collection",
+    # highlight-next-line
+    filter="color like \"red%\" AND RANDOM_SAMPLE(0.005)",
+    output_fields=["vector", "color"],
+    limit=10
+)
+
+print(f"Found {len(res)} red items in sample")
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.GetReq
+import io.milvus.v2.service.vector.request.GetResp
+import io.milvus.v2.service.vector.request.QueryReq
+import io.milvus.v2.service.vector.request.QueryResp
+import java.util.*;
+
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build());
+
+QueryReq queryReq = QueryReq.builder()
+        .collectionName("my_collection")
+        .filter("RANDOM_SAMPLE(0.01)")
+        .outputFields(Arrays.asList("vector", "color"))
+        .build();
+
+QueryResp getResp = client.query(queryReq);
+for (QueryResp.QueryResult result : getResp.getQueryResults()) {
+    System.out.println(result.getEntity());
+}
+
+queryReq = QueryReq.builder()
+        .collectionName("my_collection")
+        .filter("color like \"red%\" AND RANDOM_SAMPLE(0.005)")
+        .outputFields(Arrays.asList("vector", "color"))
+        .limit(10)
+        .build();
+
+getResp = client.query(queryReq);
+for (QueryResp.QueryResult result : getResp.getQueryResults()) {
+    System.out.println(result.getEntity());
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/column"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    return err
+}
+
+resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("RANDOM_SAMPLE(0.01)").
+    WithOutputFields("vector", "color"))
+if err != nil {
+    return err
+}
+
+resultSet, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("color like \"red%\" AND RANDOM_SAMPLE(0.005)").
+    WithLimit(10).
+    WithOutputFields("vector", "color"))
+if err != nil {
+    return err
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// node
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+```
+
+</TabItem>
+</Tabs>

@@ -1,31 +1,34 @@
 ---
-title: "始める | Cloud"
+title: "Zilliz Cloudの開始 | Cloud"
 slug: /get-started
-sidebar_label: "始める"
+sidebar_label: "はじめに"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud上でアプリを構築するための包括的なクイックスタートガイドと関連トピック。 | Cloud"
+description: "この章では、Zilliz Cloudを始めるための資料を提供します。 | Cloud"
 type: origin
-token: FDtOwKSriiayeQkFsPAcOMmQnNc
+token: BDOHwqlMDiei78kdUefcjSQUnEg
 sidebar_position: 2
-keywords: 
+keywords:
   - zilliz
   - vector database
   - get started
   - milvus
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# 始める
+# Zilliz Cloudの開始
 
-Zilliz Cloud上でアプリを構築するための包括的なクイックスタートガイドと関連トピック。
+この章では、Zilliz Cloudを始めるための資料を提供します。
 
 
 

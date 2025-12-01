@@ -1,14 +1,17 @@
 ---
-title: "組み込みアナライザのリファレンス | BYOC"
+title: "組み込みアナライザー参照 | BYOC"
 slug: /built-in-analyzer
-sidebar_label: "組み込みアナライザのリファレンス"
+sidebar_label: "Built-in Analyzer"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "このセクションでは、組み込みアナライザに関する詳細情報を提供します。 | BYOC"
+description: "このセクションは、組み込みアナライザーに関する詳細情報を提供します。| BYOC"
 type: origin
-token: RWl2wA3omiCIo2ksxxTcN6oYnrf
+token: VvJowcWXeiFPlDkYU7ScezGznIb
 sidebar_position: 2
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
@@ -16,19 +19,19 @@ keywords:
   - schema
   - analyzer
   - built-in analyzer
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# 組み込みアナライザのリファレンス
+# 組み込みアナライザー参照
 
-このセクションでは、組み込みアナライザに関する詳細情報を提供します。
+このセクションは、組み込みアナライザーに関する詳細情報を提供します。
 
 import DocCardList from '@theme/DocCardList';
 

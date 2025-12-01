@@ -3,21 +3,24 @@ title: "インデックスの管理 | BYOC"
 slug: /manage-indexes
 sidebar_label: "インデックスの管理"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "SDKを使用してベクトルおよびスカラーフィールドのインデックスを操作する方法を学びます。 | BYOC"
+description: "SDKを介してベクトルフィールドとスカラーフィールドのインデックスを操作する方法について学びます。| BYOC"
 type: origin
-token: BOGFwbkUfiJeACkG6nec4MnPn7d
+token: NDLBwtFIuihc5wkq37KchzqLnrc
 sidebar_position: 4
-keywords: 
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - index
-  - manage
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - ベクトルデータベース
+  - クラウド
+  - インデックス
+  - 管理
+  - Annoy ベクトル検索
+  - milvus
+  - Zilliz
+  - milvus ベクトルデータベース
 
 ---
 
@@ -26,24 +29,23 @@ import Admonition from '@theme/Admonition';
 
 # インデックスの管理
 
-SDKを使用してベクトルおよびスカラーフィールドのインデックスを操作する方法を学びます。
+SDKを介してベクトルフィールドとスカラーフィールドのインデックスを操作する方法について学びます。
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="備考">
 
-<p>コレクションが自動的にインデックス化されて読み込まれるかどうかは、コレクションの作成方法によって異なります。次のシナリオでは、コレクションは作成時に自動的に読み込まれます。</p>
+<p>コレクションが自動的にインデックス化およびロードされるかどうかは、コレクションの作成方法によって異なります。以下のシナリオでは、コレクションは作成時に自動的にロードされます。</p>
 <ul>
-<li><p>コンソールで。</p></li>
-<li><p><a href="/reference/create-collection">RESTful APIを使用する</a>。</p></li>
-<li><p><a href="null">SDKを使用してコレクションを即座に作成する</a>。</p></li>
-<li><p><a href="null">SDKを使用してコレクションを作成するとインデックスをセットする</a>。</p></li>
+<li><p>コンソール上での作成。</p></li>
+<li><p><a href="/reference/create-collection">RESTful APIを使用する場合</a>。</p></li>
+<li><p><a href="./manage-collections-sdks">インデックスパラメータを指定した適切なSDKを使用する場合</a>。</p></li>
 </ul>
-<p>自動的にロードされないコレクションを作成して、独自にインデックスの管理を開始することもできます。</p>
+<p>また、自動的にロードされないコレクションを作成し、自分でインデックスを管理することもできます。</p>
 
 </Admonition>
 
-## コンテンツ{#contents}
+## コンテンツ\{#contents}
 
-この章では、ベクトルフィールドとスカラーフィールドのコレクションインデックスを管理する方法について説明します。
+この章では、ベクトルフィールドとスカラーフィールドのコレクションインデックスの管理方法について説明します。
 
 import DocCardList from '@theme/DocCardList';
 

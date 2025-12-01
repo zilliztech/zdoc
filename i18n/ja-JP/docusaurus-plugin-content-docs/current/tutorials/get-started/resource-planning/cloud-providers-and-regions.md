@@ -1,86 +1,90 @@
 ---
-title: "クラウドプロバイダー&地域 | Cloud"
+title: "クラウドプロバイダーおよびリージョン | Cloud"
 slug: /cloud-providers-and-regions
-sidebar_label: "クラウドプロバイダー&地域"
+sidebar_label: "クラウドプロバイダーおよびリージョン"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudは、パブリッククラウド上でベクトルデータベースクラスタを提供するクラウドベースのサービスです。当社のサービスを使用すると、お好みのパブリッククラウドプラットフォーム上で独自のベクトルデータベースクラスタを簡単に作成および管理できます。 | Cloud"
+description: "Zilliz Cloudはパブリッククラウド上でベクターデータベースクラスターを提供するクラウドベースのサービスです。当社のサービスにより、選択したパブリッククラウドプラットフォーム上で簡単に独自のベクターデータベースクラスターを作成および管理できます。 | Cloud"
 type: origin
-token: D8EKw1MRViXdv8kgQvWcAk2Ynje
+token: CPLrwghdWiSvGBkdeEecGjgLnSb
 sidebar_position: 5
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
   - providers
   - regions
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# クラウドプロバイダー&地域
+# クラウドプロバイダーおよびリージョン
 
-Zilliz Cloudは、パブリッククラウド上でベクトルデータベースクラスタを提供するクラウドベースのサービスです。当社のサービスを使用すると、お好みのパブリッククラウドプラットフォーム上で独自のベクトルデータベースクラスタを簡単に作成および管理できます。
+Zilliz Cloudはパブリッククラウド上でベクターデータベースクラスターを提供するクラウドベースのサービスです。当社のサービスにより、選択したパブリッククラウドプラットフォーム上で簡単に独自のベクターデータベースクラスターを作成および管理できます。
 
-Zilliz Cloudは、Amazon Web Services（AWS）、Google Cloud Platform（GCP）、およびMicrosoft Azure上のさまざまなリージョンにクラスターを提供しています。新しいリージョンをリクエストする場合は、お気軽に[お問い合わせくださ](https://zilliz.com/cloud-region-request?)い。
+Zilliz Cloudは、Amazon Web Services（AWS）、Google Cloud Platform（GCP）、Microsoft Azureのさまざまなリージョンでクラスターを提供します。新しいリージョンのリクエストがある場合は、[お問い合わせください](https://zilliz.com/cloud-region-request?)。
 
-## AWS{#aws}
+## AWS\{#aws}
 
-Zilliz CloudはAWS上で専用クラスタのデプロイをサポートしています。
+Zilliz Cloudは、AWS上で無料、サーバーレス、および専用クラスターの展開をサポートしています。
 
 <table>
    <tr>
      <th><p><strong>AWSリージョン</strong></p></th>
-     <th><p><strong>ロケーション</strong></p></th>
-     <th><p><strong>フリークラスタ</strong></p></th>
-     <th><p><strong>サーバーレスクラスタ</strong></p></th>
-     <th><p><strong>専用クラスタ(Standard)</strong></p></th>
-     <th><p><strong>専用クラスタ(Enterprise)</strong></p></th>
+     <th><p><strong>場所</strong></p></th>
+     <th><p><strong>無料クラスター</strong></p></th>
+     <th><p><strong>サーバーレスクラスター</strong></p></th>
+     <th><p><strong>専用クラスター</strong></p></th>
    </tr>
    <tr>
      <td><p>us-east-1</p></td>
-     <td><p>アメリカ合衆国バージニア州</p></td>
+     <td><p>米国北部バージニア</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
-     <td><p>はい</p></td>
      <td><p>はい</p></td>
    </tr>
    <tr>
      <td><p>us-east-2</p></td>
-     <td><p>アメリカ、オハイオ州</p></td>
+     <td><p>米国オハイオ</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
-     <td><p>はい</p></td>
      <td><p>はい</p></td>
    </tr>
    <tr>
      <td><p>us-west-2</p></td>
-     <td><p>アメリカ合衆国オレゴン州</p></td>
+     <td><p>米国オレゴン</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
-     <td><p>はい</p></td>
      <td><p>はい</p></td>
    </tr>
    <tr>
      <td><p>ca-central-1</p></td>
-     <td><p>カナダ(中部)</p></td>
+     <td><p>カナダ（セントラル）</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
-     <td><p>はい</p></td>
      <td><p>はい</p></td>
    </tr>
    <tr>
      <td><p>eu-central-1</p></td>
-     <td><p>フランクフルト,ドイツ</p></td>
-     <td><p>いいえ</p></td>
-     <td><p>いいえ</p></td>
+     <td><p>ドイツフランクフルト</p></td>
      <td><p>はい</p></td>
+     <td><p>はい</p></td>
+     <td><p>はい</p></td>
+   </tr>
+   <tr>
+     <td><p>ap-northeast-1</p></td>
+     <td><p>日本東京</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>いいえ</p></td>
      <td><p>はい</p></td>
    </tr>
    <tr>
@@ -89,63 +93,56 @@ Zilliz CloudはAWS上で専用クラスタのデプロイをサポートして�
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
      <td><p>はい</p></td>
-     <td><p>はい</p></td>
    </tr>
    <tr>
-     <td><p>ap-northeast-1</p></td>
-     <td><p>東京,日本</p></td>
+     <td><p>ap-southeast-2</p></td>
+     <td><p>オーストラリアシドニー</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
-     <td><p>はい</p></td>
      <td><p>はい</p></td>
    </tr>
 </table>
 
-クラスタータイプの詳細については、「[詳細なプラン比較](./select-zilliz-cloud-service-plans)」を参照してください。
+クラスタータイプの詳細については、[クラスタープランの選択](./select-zilliz-cloud-service-plans)を参照してください。
 
-## GCP{#gcp}
+## GCP\{#gcp}
 
-無料、サーバーレス、専用クラスターはGCPにデプロイできます。
+無料、サーバーレス、および専用クラスターはGCPに展開できます。
 
 <table>
    <tr>
      <th><p><strong>GCPリージョン</strong></p></th>
-     <th><p><strong>ロケーション</strong></p></th>
-     <th><p><strong>フリークラスタ</strong></p></th>
-     <th><p><strong>サーバーレスクラスタ</strong></p></th>
-     <th><p><strong>専用クラスタ(Standard)</strong></p></th>
-     <th><p><strong>専用クラスタ(Enterprise)</strong></p></th>
+     <th><p><strong>場所</strong></p></th>
+     <th><p><strong>無料クラスター</strong></p></th>
+     <th><p><strong>サーバーレスクラスター</strong></p></th>
+     <th><p><strong>専用クラスター</strong></p></th>
    </tr>
    <tr>
      <td><p>us-west1</p></td>
-     <td><p>アメリカ合衆国オレゴン州</p></td>
-     <td><p>はい</p></td>
+     <td><p>米国オレゴン</p></td>
      <td><p>はい</p></td>
      <td><p>はい</p></td>
      <td><p>はい</p></td>
    </tr>
    <tr>
      <td><p>us-east4</p></td>
-     <td><p>アメリカ合衆国バージニア州</p></td>
+     <td><p>米国バージニア</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
-     <td><p>はい</p></td>
      <td><p>はい</p></td>
    </tr>
    <tr>
      <td><p>us-central1</p></td>
-     <td><p>アイオワ州、アメリカ</p></td>
+     <td><p>米国アイオワ</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
-     <td><p>はい</p></td>
      <td><p>はい</p></td>
    </tr>
    <tr>
      <td><p>europe-west3</p></td>
-     <td><p>フランクフルト,ドイツ</p></td>
+     <td><p>ドイツフランクフルト</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
-     <td><p>はい</p></td>
      <td><p>はい</p></td>
    </tr>
    <tr>
@@ -154,64 +151,71 @@ Zilliz CloudはAWS上で専用クラスタのデプロイをサポートして�
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
      <td><p>はい</p></td>
-     <td><p>はい</p></td>
    </tr>
 </table>
 
-クラスタータイプの詳細については、「[詳細なプラン比較](./select-zilliz-cloud-service-plans)」を参照してください。
+クラスタータイプの詳細については、[クラスタープランの選択](./select-zilliz-cloud-service-plans)を参照してください。
 
-## マイクロソフトAzure{#microsoft-azure}
+## Microsoft Azure\{#microsoft-azure}
 
-Zilliz Cloudは、Microsoft Azure上で専用クラスタを展開することをサポートしています。
+Zilliz Cloudは、Microsoft Azure上で専用クラスターの展開をサポートしています。
 
 <table>
    <tr>
      <th><p><strong>Azureリージョン</strong></p></th>
-     <th><p><strong>ロケーション</strong></p></th>
-     <th><p><strong>フリークラスタ</strong></p></th>
-     <th><p><strong>サーバーレスクラスタ</strong></p></th>
-     <th><p><strong>専用クラスタ(Standard)</strong></p></th>
-     <th><p><strong>専用クラスタ(Enterprise)</strong></p></th>
+     <th><p><strong>場所</strong></p></th>
+     <th><p><strong>無料クラスター</strong></p></th>
+     <th><p><strong>サーバーレスクラスター</strong></p></th>
+     <th><p><strong>専用クラスター</strong></p></th>
    </tr>
    <tr>
      <td><p>East US</p></td>
-     <td><p>アメリカ合衆国バージニア州</p></td>
+     <td><p>米国バージニア</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
-     <td><p>はい</p></td>
      <td><p>はい</p></td>
    </tr>
    <tr>
      <td><p>East US 2</p></td>
-     <td><p>アメリカ合衆国バージニア州</p></td>
+     <td><p>米国バージニア</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
-     <td><p>はい</p></td>
      <td><p>はい</p></td>
    </tr>
    <tr>
      <td><p>Central US</p></td>
-     <td><p>アメリカ合衆国ロワ州</p></td>
+     <td><p>米国アイオワ</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
-     <td><p>はい</p></td>
      <td><p>はい</p></td>
    </tr>
    <tr>
      <td><p>Germany West Central</p></td>
-     <td><p>フランクフルト,ドイツ</p></td>
+     <td><p>ドイツフランクフルト</p></td>
      <td><p>いいえ</p></td>
      <td><p>いいえ</p></td>
      <td><p>はい</p></td>
+   </tr>
+   <tr>
+     <td><p>North Europe</p></td>
+     <td><p>アイルランド</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>はい</p></td>
+   </tr>
+   <tr>
+     <td><p>Central India</p></td>
+     <td><p>インドプネ</p></td>
+     <td><p>いいえ</p></td>
+     <td><p>いいえ</p></td>
      <td><p>はい</p></td>
    </tr>
 </table>
 
-クラスタープランの詳細については、「[詳細なプラン比較](./select-zilliz-cloud-service-plans)」を参照してください。
+クラスタープランの詳細については、[適切なクラスタープランの選択](./select-zilliz-cloud-service-plans)を参照してください。
 
-## 関連するトピック{#}
+## 関連トピック\{#related-topics}
 
-- [詳細なプラン比較](./select-zilliz-cloud-service-plans)
+- [適切なクラスタープランの選択](./select-zilliz-cloud-service-plans)
 
-- [適切なCUを選択](./cu-types-explained)
-
+- [適切なCUの選択](./cu-types-explained)

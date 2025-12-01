@@ -1,25 +1,28 @@
 ---
-title: "クラスタユーザーの管理(SDK) | BYOC"
+title: "クラスターユーザーの管理（SDK） | BYOC"
 slug: /cluster-users-sdk
-sidebar_label: "クラスタユーザーの管理(SDK)"
+sidebar_label: "クラスターユーザーの管理（SDK）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudでは、クラスターユーザーを作成し、クラスターロールを割り当てて特権を定義し、データセキュリティを実現できます。 | BYOC"
+description: "Zilliz Cloudでは、クラスターユーザーを作成し、権限を定義するためにクラスターロールを割り当てることで、データセキュリティを実現できます。 | BYOC"
 type: origin
-token: Dy4Kw9d7piYQh0kS1sHcImejnNc
+token: I2CHwfDHKilTMukoZ13cR2M4nzb
 sidebar_position: 3
-keywords: 
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - cluster
-  - access control
+  - ベクトルデータベース
+  - クラウド
+  - クラスター
+  - アクセス制御
   - rbac
-  - users
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - ユーザー
+  - オープンソースベクトルデータベース
+  - ベクトルインデックス
+  - オープンソースベクトルデータベース
+  - オープンソースベクトルDB
 
 ---
 
@@ -27,19 +30,19 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# クラスタユーザーの管理(SDK)
+# クラスターユーザーの管理（SDK）
 
-Zilliz Cloudでは、クラスターユーザーを作成し、クラスターロールを割り当てて特権を定義し、データセキュリティを実現できます。
+Zilliz Cloudでは、クラスターユーザーを作成し、権限を定義するためにクラスターロールを割り当てることで、データセキュリティを実現できます。
 
-このガイドでは、クラスターユーザーの作成方法、ユーザーにロールを付与する方法、ユーザーからロールを取り消す方法、そして最後にユーザーを削除する方法について説明します。クラスターロールの詳細については、「[クラスタロールの管理(コンソール)](./cluster-roles)」を参照してください。
+このガイドでは、クラスターユーザーの作成方法、ユーザーへのロールの付与方法、ユーザーからのロールの取り消し方法、最後にユーザーの削除方法を説明します。クラスターロールの詳細については、[クラスターロールの管理（コンソール）](./cluster-roles)を参照してください。
 
-## ユーザーを作成する{#create-a-user}
+## ユーザーの作成\{#create-a-user}
 
-以下の例は、ユーザー名`user_1`とパスワード`P@ssw0rd`でユーザーを作成する方法を示しています。ユーザーのユーザー名とパスワードは以下のルールに従う必要があります。
+以下の例は、ユーザー名`user_1`およびパスワード`P@ssw0rd`を持つユーザーを作成する方法を示しています。ユーザーのユーザー名とパスワードは以下のルールに従う必要があります：
 
-- ユーザー名:文字で始まり、大文字または小文字、数字、アンダースコアのみを含める必要があります。
+- ユーザー名：文字で始まり、英大文字、英小文字、数字、およびアンダースコアのみを含めることができます。
 
-- パスワード: 8～64文字で、大文字、小文字、数字、特殊文字のうち3つを含める必要があります。
+- パスワード：8〜64文字で、以下のうち3つを含む必要があります：英大文字、英小文字、数字、および特殊文字。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -68,14 +71,14 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build();
-        
+
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 CreateUserReq createUserReq = CreateUserReq.builder()
         .userName("user_1")
         .password("P@ssw0rd")
         .build();
-        
+
 client.createUser(createUserReq);
 ```
 
@@ -117,9 +120,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ユーザー一覧{#list-users}
+## ユーザー一覧表示\{#list-users}
 
-複数のユーザーを作成した後、既存のすべてのユーザーをリストアップして表示できます。
+いくつかのユーザーを作成した後、既存のすべてのユーザーを一覧表示および表示できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -163,15 +166,15 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。`root`は自動生成されたデフォルトのユーザーです。`user_1`は新しく作成されたユーザーです。
+以下は出力例です。`root`は自動的に生成されたデフォルトユーザーです。`user_1`は新しく作成されたユーザーです。
 
 ```bash
 ['root', 'user_1']
 ```
 
-## ユーザーに役割を付与する{#grant-a-role-to-a-user}
+## ユーザーへのロールの付与\{#grant-a-role-to-a-user}
 
-次の例は、ユーザーuser_1にロール`role_a`を付与する方法を示してい`ます`。
+以下の例は、ロール`role_a`をユーザー`user_1`に付与する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -203,7 +206,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
     .uri(CLUSTER_ENDPOINT)
     .token(TOKEN)
     .build();
-    
+
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 GrantRoleReq grantRoleReq = GrantRoleReq.builder()
@@ -251,11 +254,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ユーザーの説明{#describe-user}
+## ユーザーの詳細表示\{#describe-user}
 
-ユーザーにロールを付与したら、`description_user()`メソッドを使用して、付与操作が成功したかどうかを確認できます。
+ユーザーにロールを付与すると、`describe_user()`メソッドを使用して付与操作が成功したかどうかを確認できます。
 
-次の例は、ユーザー`user_1`のロールを確認する方法を示しています。
+以下の例は、ユーザー`user_1`のロールを確認する方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -313,11 +316,11 @@ curl --request POST \
 {'user_name': 'user_1', 'roles': 'role_a'}
 ```
 
-## 役割を取り消す{#revoke-a-role}
+## ロールの取り消し\{#revoke-a-role}
 
 ユーザーに割り当てられたロールを取り消すこともできます。
 
-次の例は、ユーザーuser_1に割り当てられた`役割role_a`を取り消す方法を示してい`ます`。
+以下の例は、ユーザー`user_1`に割り当てられたロール`role_a`を取り消す方法を示しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -373,13 +376,13 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ドロップユーザー{#drop-user}
+## ユーザーの削除\{#drop-user}
 
-次の例は、ユーザー`user_1`を削除する方法を示しています。
+以下の例は、ユーザー`user_1`を削除する方法を示しています。
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注意">
 
-<p>ルートユーザーは<code>削除</code>できません。</p>
+<p><code>root</code>ユーザーは削除できません。</p>
 
 </Admonition>
 
@@ -411,7 +414,7 @@ ConnectConfig connectConfig = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
         .token("YOUR_CLUSTER_TOKEN")
         .build();
-        
+
 MilvusClientV2 client = new MilvusClientV2(connectConfig);
 
 DropUserReq dropUserReq = DropUserReq.builder()
@@ -456,7 +459,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-ユーザーが削除されたら、既存のすべてのユーザーを一覧表示して、削除操作が成功したかどうかを確認できます。
+ユーザーが削除されたら、既存のすべてのユーザーを一覧表示して削除操作が成功したかどうかを確認できます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -502,9 +505,8 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-以下は出力例です。リストに`user_1`はありません。ドロップ操作が成功しました。
+以下は出力例です。リストには`user_1`がありません。削除操作は成功しました。
 
 ```bash
 ['root']
 ```
-

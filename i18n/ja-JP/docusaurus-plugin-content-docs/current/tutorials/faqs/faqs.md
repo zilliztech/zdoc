@@ -1,17 +1,17 @@
 ---
-title: "よくある質問(FAQ) | CLOUD"
+title: "FAQ | CLOUD"
 slug: /faqs
-sidebar_label: "よくある質問(FAQ)"
+sidebar_label: "FAQ"
 beta: FALSE
 notebook: FALSE
-description: "Frequently asked questions | CLOUD"
+description: "よくある質問 | CLOUD"
 type: origin
-token: LKxiwykkhi5VyLkTfAGcE3LinBe
+token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 999
 
 ---
 
-# よくある質問(FAQ)
+# FAQ
 
 import DocCardList from '@theme/DocCardList';
 

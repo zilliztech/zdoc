@@ -1,33 +1,36 @@
 ---
-title: "インポートとエクスポート | BYOC"
+title: "インポート & エクスポート | BYOC"
 slug: /data-import-export
-sidebar_label: "インポートとエクスポート"
+sidebar_label: "インポート & エクスポート"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "この章では、Zilliz Cloudクラスターにデータをインポートしたり、データをエクスポートするための一般的な手順について説明します。 | BYOC"
+description: "この章では、Zilliz Cloudクラスターへのデータのインポートおよびクラスターからのデータのエクスポートに関する一般的な手順について説明します。 | BYOC"
 type: origin
-token: DTs5w8R6die9xGk9nHncNE2jnlb
-sidebar_position: 6
-keywords: 
+token: Oh3VwT15Yi03bRkOtoXcZpurnWe
+sidebar_position: 7
+keywords:
   - zilliz
   - vector database
   - cloud
   - data import
   - export
   - milvus
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# インポートとエクスポート
+# インポート & エクスポート
 
-この章では、Zilliz Cloudクラスターにデータをインポートしたり、データをエクスポートするための一般的な手順について説明します。
+この章では、Zilliz Cloudクラスターへのデータのインポートおよびクラスターからのデータのエクスポートに関する一般的な手順について説明します。
 
 import DocCardList from '@theme/DocCardList';
 

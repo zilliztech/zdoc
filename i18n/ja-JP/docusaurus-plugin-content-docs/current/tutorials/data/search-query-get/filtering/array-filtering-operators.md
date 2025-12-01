@@ -1,107 +1,110 @@
 ---
-title: "アレイ演算子 | Cloud"
+title: "ARRAY 演算子 | Cloud"
 slug: /array-filtering-operators
-sidebar_label: "アレイ演算子"
+sidebar_label: "ARRAY 演算子"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudは、配列フィールドをクエリするための強力な演算子を提供し、配列の内容に基づいてエンティティをフィルタリングして取得することができます。 | Cloud"
+description: "Zilliz Cloud は配列フィールドをクエリするための強力な演算子を提供し、配列の内容に基づいてエンティティをフィルタリングおよび取得できます。| Cloud"
 type: origin
-token: LqSTw6JCuiMzJnkgyAccYAxenh9
+token: MaWywRYCniq6vwkJsT7c2wAyn0f
 sidebar_position: 5
-keywords: 
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - filter
-  - filtering expressions
-  - filtering
-  - array operators
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - ベクトルデータベース
+  - クラウド
+  - コレクション
+  - データ
+  - フィルター
+  - フィルタリング式
+  - フィルタリング
+  - 配列演算子
+  - Agentic RAG
+  - rag llm アーキテクチャ
+  - プライベート llms
+  - nn 検索
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# アレイ演算子
+# ARRAY 演算子
 
-Zilliz Cloudは、配列フィールドをクエリするための強力な演算子を提供し、配列の内容に基づいてエンティティをフィルタリングして取得することができます。
+Zilliz Cloud は配列フィールドをクエリするための強力な演算子を提供し、配列の内容に基づいてエンティティをフィルタリングおよび取得できます。
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>配列内のすべての要素は同じ型でなければならず、配列内のネストされた構造はプレーンな文字列として扱われます。したがって、ARRAYフィールドを使用する場合は、過度に深いネストを避け、データ構造が最適なパフォーマンスのために可能な限りフラットであることを確認することが望ましいです。</p>
+<p>配列内のすべての要素は同じ型でなければならず、配列内のネストされた構造はプレーンな文字列として扱われます。したがって、ARRAY フィールドを操作する際には、過度に深いネストを避け、最適なパフォーマンスを得るためにデータ構造をできるだけフラットにしておくことをお勧めします。</p>
 
 </Admonition>
 
-## 利用可能なARRAYオペレーター{#available-array-operators}
+## 利用可能な ARRAY 演算子\{#available-array-operators}
 
-ARRAY演算子を使用すると、Zilliz Cloudクラスター内の配列フィールドを細かくクエリできます。これらの演算子は次のとおりです:
+ARRAY 演算子を使用すると、Zilliz Cloud クラスター内の配列フィールドを細かくクエリできます。これらの演算子は以下の通りです：
 
-- `ARRAY_CONTAINS(identifier, expr)`:配列フィールドに特定の要素が存在するかどうかをチェックします。
+- [`ARRAY_CONTAINS(identifier, expr)`](./array-filtering-operators#arraycontains)：配列フィールド内に特定の要素が存在するかどうかをチェックします。
 
-- `ARRAY_CONTAINS_ALL(identifier, expr)`:指定されたリストのすべての要素が配列フィールドに存在することを保証します。
+- [`ARRAY_CONTAINS_ALL(identifier, expr)`](./array-filtering-operators#arraycontainsall)：指定されたリストのすべての要素が配列フィールド内に存在することを確認します。
 
-- `ARRAY_CONTAINS_ANY(identifier, expr)`:指定されたリストの要素のいずれかが配列フィールドに存在するかどうかをチェックします。
+- [`ARRAY_CONTAINS_ANY(identifier, expr)`](./array-filtering-operators#arraycontainsany)：指定されたリストの要素のいずれかが配列フィールド内に存在するかどうかをチェックします。
 
-- `ARRAY_LENGTH(identifier, expr)`:配列フィールドの要素数に基づいてエンティティをフィルタリングできます。
+- [`ARRAY_LENGTH(identifier, expr)`](./array-filtering-operators#arraylength)：配列フィールド内の要素数に基づいてエンティティをフィルタリングできます。
 
-## 配列を含む{#arraycontains}
+## ARRAY_CONTAINS\{#arraycontains}
 
-ARRAY_`CONTAINS`演算子は、配列フィールドに特定の要素が存在するかどうかをチェックします。特定の要素が配列内に存在するエンティティを検索する場合に便利です。
+`ARRAY_CONTAINS` 演算子は、配列フィールド内に特定の要素が存在するかどうかをチェックします。配列内に特定の要素が存在するエンティティを検索したいときに便利です。
 
 **例**
 
-異なる年の記録された最低気温を含む配列フィールド`history_`温度があるとします。配列に値`23`が含まれるすべてのエンティティを見つけるには、次のフィルタ式を使用します。
+`history_temperatures` という配列フィールドがあり、これは異なる年における記録された最低気温を含んでいるとします。配列に値 `23` が含まれるすべてのエンティティを検索するには、以下のフィルター式を使用できます：
 
 ```python
 filter = 'ARRAY_CONTAINS(history_temperatures, 23)'
 ```
 
-これにより、`history_`温度配列に値`23`が含まれるすべてのエンティティが返されます。
+これにより、`history_temperatures` 配列に値 `23` が含まれているすべてのエンティティが返されます。
 
-## すべてを含む配列{#arraycontainsall}
+## ARRAY_CONTAINS_ALL\{#arraycontainsall}
 
-ARRAY_`CONTAINS_ALL`演算子は、指定されたリストのすべての要素が配列フィールドに存在することを保証します。この演算子は、配列内に複数の値を含むエンティティを一致させたい場合に便利です。
+`ARRAY_CONTAINS_ALL` 演算子は、指定されたリストのすべての要素が配列フィールド内に存在することを確認します。この演算子は、配列内に複数の値が含まれているエンティティを一致させたい場合に便利です。
 
 **例**
 
-もし`history_温度`配列に`23`と`24`の両方が含まれているすべてのエンティティを見つけたい場合は、次のようにします。
+`history_temperatures` 配列に `23` と `24` の両方が含まれているすべてのエンティティを検索する場合は、以下を使用できます：
 
 ```python
 filter = 'ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])'
 ```
 
-これにより、`history_`温度配列に指定された両方の値が含まれるすべてのエンティティが返されます。
+これにより、`history_temperatures` 配列に指定された両方の値が含まれているすべてのエンティティが返されます。
 
-## 配列の内容{#arraycontainsany}
+## ARRAY_CONTAINS_ANY\{#arraycontainsany}
 
-ARRAY_`CONTAINS_ANY`演算子は、指定されたリストの要素のいずれかが配列フィールドに存在するかどうかをチェックします。これは、配列内の指定された値の少なくとも1つを含むエンティティに一致させたい場合に便利です。
+`ARRAY_CONTAINS_ANY` 演算子は、指定されたリストの要素のいずれかが配列フィールド内に存在するかどうかをチェックします。これは、配列内に指定された値の少なくとも1つが含まれているエンティティを一致させたい場合に便利です。
 
 **例**
 
-History_`Temperations配列`に`23`または`24`が含まれるすべてのエンティティを検索するには、次を使用します。
+`history_temperatures` 配列に `23` または `24` のいずれかが含まれているすべてのエンティティを検索するには、以下を使用します：
 
 ```python
 filter = 'ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])'
 ```
 
-これにより、`history_`温度配列に`23`または`24`の値が少なくとも1つ含まれているすべてのエンティティが返されます。
+これにより、`history_temperatures` 配列に `23` または `24` の少なくともいずれかの値が含まれているすべてのエンティティが返されます。
 
-## 配列の長さ{#arraylength}
+## ARRAY_LENGTH\{#arraylength}
 
-ARRAY`_LENGTH`演算子を使用すると、配列フィールドの要素数に基づいてエンティティをフィルタリングできます。これは、特定の長さの配列を持つエンティティを見つける必要がある場合に便利です。
+`ARRAY_LENGTH` 演算子を使用すると、配列フィールド内の要素数に基づいてエンティティをフィルタリングできます。これは、特定の長さの配列を持つエンティティを検索する必要がある場合に便利です。
 
 **例**
 
-History_`Temperations配列`の要素数が10未満のすべてのエンティティを検索するには、次のようにします。
+`history_temperatures` 配列の要素数が10未満であるすべてのエンティティを検索する場合は、以下を使用できます：
 
 ```python
 filter = 'ARRAY_LENGTH(history_temperatures) < 10'
 ```
 
-これにより、`History_Temperations`配列の要素数が10未満のすべてのエンティティが返されます。
+これにより、`history_temperatures` 配列の要素数が10未満であるすべてのエンティティが返されます。

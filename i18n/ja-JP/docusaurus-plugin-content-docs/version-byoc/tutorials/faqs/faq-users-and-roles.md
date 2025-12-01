@@ -1,53 +1,58 @@
 ---
-title: "FAQ:ユーザーと役割 | BYOC"
+title: "FAQ: ユーザーとロール | BYOC"
 slug: /faq-users-and-roles
-sidebar_label: "FAQ:ユーザーと役割"
+sidebar_label: "FAQ: ユーザーとロール"
 beta: FALSE
 notebook: FALSE
-description: "このトピックでは、Zilliz Cloudで発生する可能性のあるユーザー、ロール、アクセスに関する問題とそれに対応する解決策をリストアップしています。 | BYOC"
+description: "Zilliz Cloudでユーザー、ロール、アクセスに関する問題に遭遇する可能性のある問題とその解決方法についてこのトピックで紹介します。 | BYOC"
 type: origin
-token: LKxiwykkhi5VyLkTfAGcE3LinBe
+token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 8
 
 ---
 
-# FAQ:ユーザーと役割
+# FAQ: ユーザーとロール
 
-このトピックでは、Zilliz Cloudで発生する可能性のあるユーザー、ロール、アクセスに関する問題とそれに対応する解決策をリストアップしています。
+このトピックでは、Zilliz Cloudでユーザー、ロール、アクセスに関する問題に遭遇する可能性のある問題とその解決方法について紹介します。
 
-## Contents
+## 目次
 
-- [組織を辞めることはできますか?](#can-i-leave-my-organization)
-- [法人名を編集するにはどうすればいいですか?](#how-can-i-edit-my-organization-name)
-- [同僚やチームメイトをコラボレーションに招待するにはどうすればよいですか?](#how-can-i-invite-a-colleague-or-teammate-to-collaborate)
+- [組織から脱退できますか？](#can-i-leave-my-organization)
+- [組織名をどのように編集できますか？](#how-can-i-edit-my-organization-name)
+- [同僚やチームメイトを協力者として招待するにはどうすればよいですか？](#how-can-i-invite-a-colleague-or-teammate-to-collaborate)
+- [特定の権限またはカスタム権限グループを持つロールを作成できますか？](#can-i-create-a-role-with-specific-privileges-or-custom-privilege-groups)
 
-## FAQs
+## よくある質問
 
 
 
 
-### 組織を辞めることはできますか?{#can-i-leave-my-organization}
+### 組織から脱退できますか？\{#can-i-leave-my-organization}
 
-組織のメンバーであれば、自由に組織を離れることができます。
+組織のメンバーである場合は、自由に組織から脱退できます。
 
-Organizationのオーナーである場合、Organizationの最後のオーナーでない場合にのみOrganizationを離れることができます。Organizationには少なくとも1人のオーナーが必要であり、Organization内の唯一のオーナーは組織を離れることはできません。
+組織の所有者である場合は、組織内の最後の所有者でない場合にのみ組織から脱退できます。組織には少なくとも1人の所有者がいなければならず、組織内に唯一の所有者がいる場合、その所有者は組織から脱退できません。
 
-### 法人名を編集するにはどうすればいいですか?{#how-can-i-edit-my-organization-name}
+### 組織名をどのように編集できますか？\{#how-can-i-edit-my-organization-name}
 
 1. 組織を選択します。
 
-1. 左ナビゲーションの[**設定**]をクリックします。
+2. 左側のナビゲーションで**設定**をクリックします。
 
-1. [**組織情報**]セクションの[**組織** **設定**]ページで、[**編集**]をクリックします。
+3. **組織** **設定**ページの**組織情報**セクションで、**編集**をクリックします。
 
-1. 新しい法人名を入力し、「**確認**」をクリックします。
+4. 新しい組織名を入力して**確認**をクリックします。
 
-1. 法人名が正常に変更されたというメッセージが表示されます。
+5. 組織名が正常に変更されたことを示すメッセージが表示されます。
 
-### 同僚やチームメイトをコラボレーションに招待するにはどうすればよいですか?{#how-can-i-invite-a-colleague-or-teammate-to-collaborate}
+### 同僚やチームメイトを協力者として招待するにはどうすればよいですか？\{#how-can-i-invite-a-colleague-or-teammate-to-collaborate}
 
-Organizationのオーナーであれば、Organizationにユーザーを招待することができます。詳しい手順については、「[組織のユーザーを管理する](./organization-users)」を参照してください。
+組織の所有者である場合は、ユーザーを組織に招待できます。詳細な手順については、[組織ユーザーの管理](./organization-users)を参照してください。
 
-組織のメンバーの場合は、組織の所有者に連絡して他のユーザーを招待できます。
+組織のメンバーである場合は、他のユーザーを招待するように組織の所有者に連絡できます。
 
-さらに、Zilliz Cloudはユーザーをプロジェクトに招待することもサポートしています。プロジェクト管理者の場合、他のプロジェクトユーザーをプロジェクトに招待することができます。詳しい手順については、「[プロジェクトのユーザーを管理する](./project-users)」を参照してください。
+さらに、Zilliz Cloudではプロジェクトにユーザーを招待することもサポートしています。プロジェクト管理者である場合は、他のプロジェクトユーザーをプロジェクトに招待できます。詳細な手順については、[プロジェクトユーザーの管理](./project-users)を参照してください。
+
+### 特定の権限またはカスタム権限グループを持つロールを作成できますか？\{#can-i-create-a-role-with-specific-privileges-or-custom-privilege-groups}
+
+はい。まず[サポートチケットを作成](http://support.zilliz.com)して、この機能を有効にしてもらう必要があります。この機能が有効になると、SDKを使用してこのタスクを完了できます。詳細については、[権限と権限グループ](./cluster-privileges#custom-privilege-groups)を参照してください。

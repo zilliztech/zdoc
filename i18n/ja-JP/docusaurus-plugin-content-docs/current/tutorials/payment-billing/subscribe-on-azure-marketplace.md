@@ -1,201 +1,387 @@
 ---
-title: "Azure Marketplaceで購読する | Cloud"
+title: "Azureマーケットプレイスで登録 | Cloud"
 slug: /subscribe-on-azure-marketplace
-sidebar_label: "Azure Marketplace"
+sidebar_label: "Azureマーケットプレイス"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、サブスクリプションの過程を順を追って説明し、Azure Marketplace上のZilliz Cloudの価格条件について概説します。 | Cloud"
+description: "このガイドでは、Azureマーケットプレイスでの登録プロセスのステップバイステップガイドを提供し、Zilliz Cloudの価格用語を概説します。 | Cloud"
 type: origin
-token: ETyHwKLQwiHeJmk25vUcSKUQnk7
-sidebar_position: 4
+token: LbFXwpruviFWWokwtkhcVmnhnFh
+sidebar_position: 5
 keywords: 
   - zilliz
-  - vector database
-  - cloud
-  - marketplace
+  - ベクターデータベース
+  - クラウド
+  - マーケットプレイス
   - azure
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - 機械学習
+  - rag
+  - nlp
+  - ニューラルネットワーク
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Azure Marketplaceで購読する
+import Supademo from '@site/src/components/Supademo';
 
-このガイドでは、サブスクリプションの過程を順を追って説明し、Azure Marketplace上のZilliz Cloudの価格条件について概説します。
+import Grid from '@site/src/components/Grid';
 
-<Admonition type="info" icon="📘" title="ノート">
+# Azureマーケットプレイスで登録
 
-<p>一度購読すると、Azure Marketplaceを介してAzureクラスターの使用料を支払うことができます。他のクラウドプロバイダーにクラスターをデプロイしている場合は、Azure Marketplaceを使用して支払うこともできます。</p>
+このガイドでは、登録プロセスのステップバイステップガイドを提供し、AzureマーケットプレイスでのZilliz Cloudの価格用語を概説します。
+
+<Admonition type="info" icon="📘" title="注意">
+
+<p>登録後、Azureクラスターの使用量はAzureマーケットプレイス経由で支払えます。他のクラウドプロバイダーにデプロイされているクラスターがある場合も、Azureマーケットプレイスを使用して支払えます。</p>
 
 </Admonition>
 
-## 始める前に{#before-you-start}
+## 始める前に\{#before-you-start}
 
-- 必ず[Azure Marketplace](https://learn.microsoft.com/ja-jp/marketplace/azure-marketplace-overview)アカウントがあることを確認してください。
+[Azureマーケットプレイス](https://learn.microsoft.com/ja-jp/marketplace/azure-marketplace-overview)アカウントとAzure [請求アカウント](https://learn.microsoft.com/ja-jp/azure/cost-management-billing/manage/view-all-accounts)があり、Azureマーケットプレイスでの登録用に設定されていることを確認してください。
 
-- Azure Marketplaceでサブスクリプションの[請求アカウント](https://learn.microsoft.com/ja-jp/azure/cost-management-billing/manage/view-all-accounts)を設定していることを確認してください。
+また、請求先の国またはリージョンがサポートされている市場のリストに含まれていることを確認してください。税務およびコンプライアンスの理由により、Zilliz CloudはAzureマーケットプレイスで特定の市場をサポートしていません。サポートされていない市場から登録しようとすると、「`「<market_code>」市場のプランは利用できません。`」というエラーメセージが表示される場合があります。这种情况が発生した場合は、[サポートに連絡](http://support.zilliz.com/)して、エラーメセージのスクリーンショットと市場コードを提供してください。可能な解決策について協議させていただきます。
 
-## Azure Marketplaceで購読する{#subscribe-on-azure-marketplace}
+![YaPcbHnQXovDLIxks0xcItOJnpf](/img/YaPcbHnQXovDLIxks0xcItOJnpf.png)
 
-以下の手順で[Azure Marketplace](https://azuremarketplace.microsoft.com/ja-JP)にアクセスし、Zilliz Cloudの購読を開始してください:
+<details>
 
-1. 検索ボックスで**Zilliz Cloud**を検索するか、 [Azure Marketplaceに移動](https://azuremarketplace.microsoft.com/ja-jp/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=Overview)してZilliz Cloudポータルページを表示します。
+<summary>対応市場</summary>
+
+<Grid columnSize="4" widthRatios="25,25,25,25">
+
+    <div>
+
+        - アルメニア
+
+        - オーストラリア
+
+        - オーストリア
+
+        - バーレーン
+
+        - バルバドス
+
+        - ベラルス
+
+        - ベルギー
+
+        - ブルガリア
+
+        - カナダ
+
+        - チリ
+
+        - コロンビア
+
+        - クロアチア
+
+        - キプロス
+
+        - チェコ
+
+        - デンマーク
+
+        - エジプト
+
+        - エストニア
+
+        - フィンランド
+
+    </div>
+
+    <div>
+
+        - フランス
+
+        - ジョージア
+
+        - ドルマニー
+
+        - ギリシャ
+
+        - 香港特別行政区
+
+        - ハンガリー
+
+        - アイスランド
+
+        - インド
+
+        - インドネシア
+
+        - アイルランド
+
+        - イタリア
+
+        - ジャパン
+
+        - ケニア
+
+        - ラトビア
+
+        - リヒテンシュタイン
+
+        - リトアニア
+
+        - ルクセンブルク
+
+        - マレーシア
+
+    </div>
+
+    <div>
+
+        - マルタ
+
+        - モルドバ
+
+        - モナコ
+
+        - ネーデルランド
+
+        - ニュージーランド
+
+        - ニジェリア
+
+        - ノルウェー
+
+        - オマーン
+
+        - フィリピン
+
+        - ポーランド
+
+        - ポルトガル
+
+        - プエルトリコ
+
+        - カタル
+
+        - ルーマニア
+
+        - ロシア
+
+        - サウジアラビア
+
+        - セルビア
+
+        - シンガポール
+
+    </div>
+
+    <div>
+
+        - スロバキア
+
+        - スロベニア
+
+        - 南アフリカ
+
+        - 韓国
+
+        - スペイン
+
+        - スウェーデン
+
+        - スイス
+
+        - 台湾
+
+        - タジキスタン
+
+        - タイランド
+
+        - トルキエ
+
+        - ウガンダ
+
+        - ウクライナ
+
+        - アラブ首長国連邦
+
+        - 英国
+
+        - アメリカ合衆国
+
+        - ウズベキスタン
+
+        - ベトナム
+
+    </div>
+
+</Grid>
+
+</details>
+
+## Azureマーケットプレイスで登録\{#subscribe-on-azure-marketplace}
+
+[Azureマーケットプレイス](https://azuremarketplace.microsoft.com/ja-jp)にアクセスし、以下のようにZilliz Cloudの登録を開始します：
+
+<Supademo id="cm9jmpiac3eq2ljv5itt1tn7s" title="Zilliz Cloud - Azureマーケットプレイス登録デモ" />
+
+1. 検索ボックスで**Zilliz Cloud**を検索するか、[Azureマーケットプレイスに移動](https://azuremarketplace.microsoft.com/ja-jp/marketplace/apps/zillizinc1703056661329.zilliz_cloud?tab=Overview)してZilliz Cloudポータルページを表示します。
 
     ![search_for_zilliz_on_azure](/img/search_for_zilliz_on_azure.png)
 
-1. [**Zilliz Cloud**]をクリックします。
+1. **Zilliz Cloud**をクリックします。
 
-    サービスと価格について理解してください。
+    サービスと価格をよく理解してください。
 
-1. [**プラン+価格**]タブに切り替えます。[**今すぐ入手**]をクリックします。
+1. **プラン＋価格**タブに切り替えます。**今すぐ入手**をクリックします。
 
     ![get_it_now_on_azure](/img/get_it_now_on_azure.png)
 
-1. ポップアップウィンドウで、Zilliz Cloudが必要とする基本情報を入力してください。
+1. ポップアップウィンドウで、Zilliz Cloudに必要な基本情報を入力します。
 
     ![enter_basic_information_azure](/img/enter_basic_information_azure.png)
 
-1. 「**Zilliz Cloudの購読**」ページで、以下の手順を実行してください:
+1. **Zilliz Cloudに登録**ページで、以下の手順を完了します：
 
-    1. 適切なサブスクリ**プションとリソースグループ**を選択して、プロジェクトの詳細を設定します。リソースグループがない場合は、作成してください。**サブスクリプション**と**リソースグループ**の詳細については、Azuresの[SaaS購入体験](https://learn.microsoft.com/en-us/marketplace/purchase-saas-offer-in-azure-portal#the-saas-purchase-experience)を参照してください。
+    1. **プロジェクトの詳細**を設定し、適切な**サブスクリプション**と**リソースグループ**を選択します。リソースグループがない場合は、作成してください。サブスクリプションとリソースグループの詳細については、Azureの[SaaS購入体験](https://learn.microsoft.com/ja-jp/marketplace/purchase-saas-offer-in-azure-portal#the-saas-purchase-experience)を参照してください。
 
-    1. [**SaaS詳細**]を設定します。
+    1. **SaaSの詳細**を構成します。
 
-        1. 後で簡単に識別できるように、サブスクリプションに名前を付けてください。
+        1. 登録名を入力して、後で簡単に識別できるようにします。
 
-        1. 契約期間を選択してください: 1ヶ月または1年。
+        1. 契約期間を選択：1か月または1年。
 
-        1. **自動更新**の設定を行います。
+        1. **自動更新**設定を構成します。
 
-        <Admonition type="info" icon="📘" title="ノート">
+            <Admonition type="info" icon="📘" title="注意">
 
-        <p>自動更新がオンになっている場合、契約期間の終了時にAzure上のZilliz Cloudに自動的にサブスクリプションされます。自動更新がオフになっている場合、契約期間の終了時にサブスクリプションが終了し、Zilliz Cloudの組織とアカウントはこのAzure Marketplaceサブスクリプションから自動的に解除されます。</p>
+            <p>自動更新がオンの場合、契約期間が終了するとZilliz CloudのAzure登録が自動的に行われます。自動更新がオフの場合、契約期間が終了すると登録が終了し、Zilliz Cloudの組織およびアカウントはこのAzureマーケットプレイス登録から自動的にリンク解除されます。</p>
 
-        </Admonition>
+            </Admonition>
 
-    1. サブスクリプションの詳細を確認し、[**レビュー+購読**]をクリックします。
+    1. 登録の詳細を確認し、**確認+登録**をクリックします。
 
     ![configure_subscription_on_azure](/img/configure_subscription_on_azure.png)
 
-1. 次のページで、[**今すぐアカウント**を構成]をクリックして、Azure MarketplaceサブスクリプションをZilliz Cloudにリンクします。
+1. 次のページで、**アカウントを今すぐ構成**をクリックして、Azureマーケットプレイス登録をZilliz Cloudにリンクします。
 
     ![configure_account_azure](/img/configure_account_azure.png)
 
-1. 新しいしいタブで、以下の手順に従ってサブスクリプションを完了します。
+1. 新しいタブで、以下の手順に従って登録を完了します：
 
-    1. Zilliz Cloudアカウントをお持ちの場合は、ログインしてください。お持ちでない場合は、[サインアップオプション](./register-with-zilliz-cloud)を選択して、手順に従ってください。
+    1. すでにZilliz Cloudアカウントをお持ちの場合は、ログインするだけでかまいません。ない場合は、[登録オプション](./register-with-zilliz-cloud)を選択してプロセスに従ってください。
 
-    1. 既存のZilliz Cloud組織にサブスクリプションをリンクしてください。
+    1. 既存のZilliz Cloud組織に登録をリンクします。
 
-    1. 完全な承認。
+    1. 承認を完了します。
 
         ![aws-marketplace-dialog](/img/aws-marketplace-dialog.png)
 
-1. Zilliz Cloudの**請求**に移動して、Azure Marketplaceサブスクリプションが支払い方法として設定されていることを確認してください。
+1. Zilliz Cloudで**請求**に移動し、Azureマーケットプレイス登録が支払い方法として設定されていることを確認します。
 
     ![azure-marketplace-success](/img/azure-marketplace-success.png)
 
-## Update Azure Marketplaceサブスクリプション{#update-azure-marketplace-subscription}
+## Azureマーケットプレイス登録を更新\{#update-azure-marketplace-subscription}
 
-Azure Marketplaceから正常にサブスクライブした後は、必要に応じていつでもサブスクリプションを更新できます。具体的には、サブスクリプションに使用されるAzure Marketplaceアカウントを別のアカウントに変更するか、Azure Marketplaceサブスクリプションからクレジットカードに支払い方法を切り替えることができます。
+Azureマーケットプレイスから正常に登録した後、いつでも都合の良いときに登録を更新できます。具体的には、登録に使用されているAzureマーケットプレイスアカウントを別のアカウントに変更するか、Azureマーケットプレイス登録からクレジットカードへの支払い方法を切り替えることができます。
 
-### Azure Marketplaceのサブスクリプションを変更する{#change-azure-marketplace-subscription}
+### Azureマーケットプレイス登録を変更\{#change-azure-marketplace-subscription}
 
-詳細については、「[Azureサブスクリプションおよび/またはリソースグループの変更](https://learn.microsoft.com/ja-jp/marketplace/saas-subscription-lifecycle-management#change-azure-subscription-andor-resource-group)」を参照してください。
+詳細については、[Azureサブスクリプションと/またはリソースグループを変更](https://learn.microsoft.com/ja-jp/marketplace/saas-subscription-lifecycle-management#change-azure-subscription-andor-resource-group)を参照してください。
 
-更新内容は、[**支払方法**]セクションの[**請求概要**]ページで確認できます。[サブスクリプションID]をクリックし、サブスクリプション**購入者PUID**が新しいMarketplaceアカウントに更新されているかどうかを確認します。
+**請求概要**ページの**支払い方法**セクションで更新を確認できます。登録IDをクリックして、登録の**購入者PUID**が新しいマーケットプレイスアカウントに更新されたことを確認します。
 
 ![view-azure-subscription-id](/img/view-azure-subscription-id.png)
 
-### クレジットカード決済に切り替える{#switch-to-payment-credit-card}
+### 支払い用クレジットカードに切り替える\{#switch-to-payment-credit-card}
 
-1. サブスクリプションに使用したAzureアカウントでAzure Marketplaceにサインインしてください。
+1. 登録に使用したAzureアカウントでAzureマーケットプレイスにサインインします。
 
-1. Zilliz Cloudのサブスクリプションをキャンセルまたは削除します。詳細については、[サブスクリプションキャンセル](https://learn.microsoft.com/ja-jp/marketplace/saas-subscription-lifecycle-management#cancel-subscription)および[サブスクリプション削除](https://learn.microsoft.com/ja-jp/marketplace/saas-subscription-lifecycle-management#delete-subscription)を参照してください。
+1. Zilliz Cloud登録をキャンセルまたは削除します。詳細については、[登録をキャンセル](https://learn.microsoft.com/ja-jp/marketplace/saas-subscription-lifecycle-management#cancel-subscription)および[登録を削除](https://learn.microsoft.com/ja-jp/marketplace/saas-subscription-lifecycle-management#delete-subscription)を参照してください。
 
-    <Admonition type="info" icon="📘" title="ノート">
+    <Admonition type="info" icon="📘" title="注意">
 
-    <p>Azure Marketplaceでキャンセルの過程が完了するまで数分かかります。</p>
+    <p>Azureマーケットプレイスによるキャンセル処理には数分かかります。</p>
 
     </Admonition>
 
-1. 「[クレジットカードを追加して購読する](./subscribe-by-adding-credit-card)」の手順に従って、支払いクレジットカードを追加します。
+1. [クレジットカードを追加して登録](./subscribe-by-adding-credit-card#add-a-credit-card)の手順に従って、支払い用クレジットカードを追加します。
 
-1. [**支払方法**]セクションの[**請求概要**]ページで更新を確認します。
+1. **請求概要**ページの**支払い方法**セクションで更新を確認します。
 
-## Azure Marketplaceのサブスクリプションをキャンセルする{#cancel-azure-marketplace-subscription}
+## Azureマーケットプレイス登録をキャンセル\{#cancel-azure-marketplace-subscription}
 
-1. Azure Marketplaceのホームページを開きます。
+1. Azureマーケットプレイスホームページを開きます。
 
-1. [**すべてのリソース**]をクリックするか、[**リソース/最近**]タブでサブスクリプションを見つけます。
+1. **すべてのリソース**をクリックするか、**リソース/最近の**タブで登録を探します。
 
     ![azure_all_resources](/img/azure_all_resources.png)
 
-1. キャンセルしたいサブスクリプションに移動します。[**サブスクリプションのキャンセル**]をクリックします。Azure Marketplaceが処理を完了するまで数分間お待ちください。
+1. キャンセルする登録に移動します。**登録をキャンセル**をクリックします。Azureマーケットプレイスによる処理完了まで数分待ちます。
 
     ![cancel_azure_subscription](/img/cancel_azure_subscription.png)
 
-Azure Marketplaceでサブスクリプションをキャンセルする方法の詳細については、[こちら](https://learn.microsoft.com/en-us/marketplace/saas-subscription-lifecycle-management#cancel-subscription)を参照してください。
+Azureマーケットプレイスでの登録キャンセル方法の詳細については、[こちら](https://learn.microsoft.com/ja-jp/marketplace/saas-subscription-lifecycle-management#cancel-subscription)を参照してください。
 
-## Azure Marketplaceの価格条件{#azure-marketplace-pricing-terms}
+## Azureマーケットプレイス価格用語\{#azure-marketplace-pricing-terms}
 
-詳細については、[支払いと請求](./payment-billing)を参照してください。
+詳細については、[支払いと請求](./payment-billing#marketplace-pricing-terms)を参照してください。
 
-## トラブルシューティング{#troubleshooting}
+## トラブルシューティング\{#troubleshooting}
 
-**Zilliz Cloudにマーケットプレイスのサブスクリプションをリンクする際に利用可能な組織がない場合、私は何ができますか?**
+- **Azureマーケットプレイス経由で登録する際、「「\<country_code>」市場のプランは利用できません」と表示されるのはなぜですか？**
 
-いくつかの理由が考えられます:
+    このメッセージは、請求先の国または地域のAzureマーケットプレイスでZilliz Cloudがまだ利用できないために表示されます。詳細については、[対応市場](./subscribe-on-azure-marketplace#before-you-start)を参照してください。[サポートに連絡](http://support.zilliz.com)して、エラーメセージのスクリーンショットと市場コードを提供してください。代替ソリューションを提供したり、利用可能状況を更新したりできる場合があります。
 
-1. **不十分な権限**
+- **マーケットプレイス登録をZilliz Cloudにリンクする際に利用可能な組織がない場合、どうすればよいでしょうか？**
 
-    これは、十分な権限がない場合に発生する可能性があります。利用できない組織の横に「権限不足」タグが表示されます。
+    これにはいくつかの理由が考えられます。
 
-    ![insufficient-permission-subscription](/img/insufficient-permission-subscription.png)
+    1. **権限が不十分**
 
-1. **すべての組織はすでにMarketplaceサブスクリプションに正常にリンクされています**(UIプロンプト: Marketplace Linked)
+        これは、十分な特権がない場合に発生する可能性があります。利用できない組織の横に**「権限が不十分」**タグが表示されます。
 
-    1. 既存のMarketplaceサブスクリプションを更新する必要がある場合は、まず組織の現在のサブスクリプションの[リンク](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription)を解除してから、新しいサブスクリプションを設定してください。
+        ![insufficient-permission-subscription](/img/insufficient-permission-subscription.png)
 
-    1. 異なるマーケットプレイスのサブスクリプションに複数の組織が必要な場合は、次のことができます:
+        組織をマーケットプレイス登録にリンクするには、**組織オーナー**または**組織請求管理者**である必要があります。組織メンバーであるだけの場合、必要な権限がありません。組織オーナーに支援を依頼してください。
 
-        1. [新し](./register-with-zilliz-cloud)いZilliz Cloudアカウントを登録して、新しい組織を作成します。その後、組織のオーナーを新しい組織に[招待](./organization-users#invite-a-user-to-your-organization)します。この組織のオーナーは複数の組織に所属し、組織ごとに異なるマーケットプレイスのサブスクリプションを設定できます。
+    1. **すべての組織が既にマーケットプレイス登録に正常にリンクされている**
 
-        1. [サポートチケットを作成](http://support.zilliz.com)すると、新しい組織が作成されます。現在、Zilliz Cloudでは、ユーザーが手動で組織を作成することはサポートされていません。
+        これは、すべての組織が既にマーケットプレイス登録にリンクされている場合に発生する可能性があります。利用できない組織の横に**「マーケットプレイスリンク済み」**タグが表示されます。
 
-1. **リストに組織がありません**
+        ![marketplace-already-linked-subscription](/img/marketplace-already-linked-subscription.png)
 
-    アカウントが閉鎖された場合や、すべての組織から離脱した場合に発生する可能性があります。UIは以下のようになります。
+        この場合、
 
-    ![no-organization-during-subcription](/img/no-organization-during-subcription.png)
+        1. 既存のマーケットプレイス登録を更新する必要がある場合は、最初に組織の現在のマーケットプレイス登録を[リンク解除](./subscribe-on-aws-marketplace#cancel-aws-marketplace-subscription)し、次に新しい登録を設定してください。
 
-    この場合、次のことができます:
+        1. 異なるマーケットプレイス登録用に複数の組織が必要な場合は、以下を行うことができます：
 
-    1. 新しい組織を作る。
+            1. [登録](./register-with-zilliz-cloud)して新しいZilliz Cloudアカウントを作成し、新しい組織を作成します。次に、組織オーナーを新しい組織に[招待](./organization-users#invite-a-user-to-your-organization)します。この組織オーナーは複数の組織に属するようになり、各組織に異なるマーケットプレイス登録を設定できます。
 
-    1. 他のユーザに自分をOrganizationの所有者としてOrganizationに[招待](./organization-users#invite-a-user-to-your-organization)するように依頼します。
+            1. [サポートチケットを作成](http://support.zilliz.com)して、新しい組織を作成してもらいます。現在、Zilliz Cloudではユーザーによる組織の手動作成はサポートされていません。
 
-    1. [サポートチケットを送信](https://support.zilliz.com/hc/en-us)すると、新しい組織が作成されます。
+    1. **リストに組織がない**
 
-1. **Zilliz Cloud BYOCを使用しています。**
+        これは、アカウントが閉鎖されたか、すべての組織から退出した場合に発生する可能性があります。UIは以下のようになります。
 
-    あなたの組織が実際にZilliz Cloud BYOC組織である場合、これが起こる可能性があります。利用できない組織の横に「署名済み契約」タグが表示されます。BYOC組織には支払い方法は必要ありません。ご質問がある場合は、[営業にお問い合わせ](https://zilliz.com/contact-sales)ください。 
+        ![no-organization-during-subcription](/img/no-organization-during-subcription.png)
 
-    ![signed-contract-subscription](/img/signed-contract-subscription.png)
+        この場合、以下を行うことができます：
 
-## 関連するトピック{#related-topics}
+        - 新しい組織を作成します。
 
-- [クレジットカードを追加して購読する](./subscribe-by-adding-credit-card)
+        - 他のユーザーに[招待](./organization-users#invite-a-user-to-your-organization)されて組織に参加してもらい、組織オーナーの役割を付与してもらいます。
 
-- [AWS Marketplaceで購読する](./subscribe-on-aws-marketplace)
+        - [サポートチケットを作成](https://support.zilliz.com/hc/en-us)して、新しい組織を作成してもらいます。
 
-- [Google Cloud Marketplaceに登録する](./subscribe-on-gcp-marketplace)
+## 関連トピック\{#related-topics}
 
-- [インボイス](./view-invoice)
+- [クレジットカードを追加して登録](./subscribe-by-adding-credit-card)
 
- 
+- [AWSマーケットプレイスで登録](./subscribe-on-aws-marketplace)
+
+- [GCPマーケットプレイスで登録](./subscribe-on-gcp-marketplace)
+
+- [請求書を表示](./view-invoice)
+

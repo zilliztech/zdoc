@@ -3,22 +3,25 @@ title: "ストレージオプション | Cloud"
 slug: /data-import-storage-options
 sidebar_label: "ストレージオプション"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "データをインポートする前に、サポートされているクラウドストレージオプションとそれに対応するURL形式を理解することが重要です。これにより、検証エラーを起こすことなくリクエストを適切に処理できます。 | Cloud"
+description: "データをインポートする前に、サポートされているクラウドストレージオプションと対応するURL形式を理解することが重要です。これにより、リクエストが検証エラーなしに適切に処理されることを確認できます。 | Cloud"
 type: origin
-token: LlsEwBCeZiMSFIkXJdpcaJKSneb
+token: TjxAw7lx6iNluBkR4a6czoHpn0f
 sidebar_position: 1
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
   - data import
   - milvus
   - storage options
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 
@@ -27,32 +30,32 @@ import Admonition from '@theme/Admonition';
 
 # ストレージオプション
 
-データをインポートする前に、サポートされているクラウドストレージオプションとそれに対応するURL形式を理解することが重要です。これにより、検証エラーを起こすことなくリクエストを適切に処理できます。
+データをインポートする前に、サポートされているクラウドストレージオプションと対応するURL形式を理解することが重要です。これにより、リクエストが検証エラーなしに適切に処理されることを確認できます。
 
-## AWS簡易ストレージサービス(S3){#aws-simple-storage-service-s3}
+## Amazon Simple Storage Service (S3)\{#amazon-simple-storage-service-s3}
 
 - **オブジェクトアクセスURI**
 
     <table>
        <tr>
          <th><p><strong>URIスタイル</strong></p></th>
-         <th><p><strong>URIフォーマット</strong></p></th>
+         <th><p><strong>URI形式</strong></p></th>
        </tr>
        <tr>
-         <td><p><strong>AWS Object URL, virtual-hosted–style</strong></p></td>
-         <td><p><code>https://bucket-name.s3.region-code.amazonaws.com/object-name</code></p></td>
+         <td><p><strong>AWSオブジェクトURL、仮想ホスト形式</strong></p></td>
+         <td><ul><li><p><strong>ファイル</strong>: <i>http</i>s://\<bucket_name>.s3.\<region-code>.amazonaws.com/\<object_name></p></li><li><p><strong>フォルダ</strong>: <i>http</i>s://\<bucket_name>.s3.\<region-code>.amazonaws.com/\<folder_name>/</p></li></ul></td>
        </tr>
        <tr>
-         <td><p><strong>AWS Object URL, path-style</strong></p></td>
-         <td><p><code>https://s3.region-code.amazonaws.com/bucket-name/object-name</code></p></td>
+         <td><p><strong>AWSオブジェクトURL、パス形式</strong></p></td>
+         <td><ul><li><p><strong>ファイル</strong>: <i>http</i>s://s3.\<region-code>.amazonaws.com/\<bucket_name>/\<object_name></p></li><li><p><strong>フォルダ</strong>: <i>http</i>s://s3.\<region-code>.amazonaws.com/\<bucket_name>/\<folder_name>/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>AWS S3 URI</strong></p></td>
-         <td><p><code>s3://bucket-name/object-name</code></p></td>
+         <td><ul><li><p><strong>ファイル</strong>: s3://\<bucket_name>/\<object_name></p></li><li><p><strong>フォルダ</strong>: s3://\<bucket_name>/\<folder_name>/</p></li></ul></td>
        </tr>
     </table>
 
-    詳細については、[バケットへのアクセス方法を](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html)参照してください。
+    詳細については、[バケットへのアクセス方法](https://docs.aws.amazon.com/AmazonS3/latest/userguide/access-bucket-intro.html)を参照してください。
 
 - **必要な権限**
 
@@ -62,34 +65,42 @@ import Admonition from '@theme/Admonition';
 
     - `s3:GetBucketLocation`
 
-- **クレデンシャル取得**
+    - `kms:Decrypt`
 
-    データのセキュリティ要件に基づいて、データのインポート中に長期的な資格情報またはセッショントークンを使用できます。
+        <Admonition type="info" icon="📘" title="注意">
 
-    - 長期的な資格情報を使用して認証する場合は、詳細については、[長期的な資格情報を使用](https://docs.aws.amazon.com/sdkref/latest/guide/access-iam-users.html)した認証を参照してください。
+        <p>バケットまたはバケット内の特定のアイテムがカスタムKMS IDで暗号化されている場合、認証資格情報と一緒にそのKMS IDの復号化権限を提供する必要があります。</p>
 
-    - セッショントークンで認証する場合は、[このFAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)を参照してください。
+        </Admonition>
 
-## Google Cloudストレージ{#google-cloud-storage}
+- **資格情報の取得**
+
+    データセキュリティ要件に応じて、データインポート中に長期資格情報またはセッショントークンのいずれかを使用できます。
+
+    - 長期資格情報を使用して認証する場合は、詳細については[長期資格情報を使用した認証](https://docs.aws.amazon.com/sdkref/latest/guide/access-iam-users.html)を参照してください。
+
+    - 短期資格情報を使用して認証する場合は、[このFAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service)を参照してください。
+
+## Google Cloud Storage\{#google-cloud-storage}
 
 - **オブジェクトアクセスURI**
 
     <table>
        <tr>
          <th><p><strong>URIスタイル</strong></p></th>
-         <th><p><strong>URIフォーマット</strong></p></th>
+         <th><p><strong>URI形式</strong></p></th>
        </tr>
        <tr>
-         <td><p><strong>GSC public URL</strong></p></td>
-         <td><p><code>https://storage.googleapis.com/bucket_name/object_name</code></p></td>
+         <td><p><strong>GSCパブリックURL</strong></p></td>
+         <td><ul><li><p><strong>ファイル</strong>: <i>http</i>s://storage.cloud.google.com/\<bucket_name>/\<object_name></p></li><li><p><strong>フォルダ</strong>: <i>http</i>s://storage.cloud.google.com/\<bucket_name>/\<folder_name>/</p></li></ul></td>
        </tr>
        <tr>
          <td><p><strong>GSC gsutil URI</strong></p></td>
-         <td><p><code>gs://bucket_name/object_name</code></p></td>
+         <td><ul><li><p><strong>ファイル</strong>: gs://\<bucket_name>/\<object_name></p></li><li><p><strong>フォルダ</strong>: gs://\<bucket_name>/\<folder_name>/</p></li></ul></td>
        </tr>
     </table>
 
-    詳細については、[オブジェクトの共有を](https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object)参照してください。
+    詳細については、[オブジェクトの共有](https://cloud.google.com/storage/docs/discover-object-storage-console#share_the_object)を参照してください。
 
 - **必要な権限**
 
@@ -97,36 +108,35 @@ import Admonition from '@theme/Admonition';
 
     - `storage.objects.list`
 
-- **クレデンシャル取得**
+- **資格情報の取得**
 
-    データのセキュリティ要件に基づいて、データのインポート中に長期的な資格情報またはセッショントークンを使用できます。
+    データセキュリティ要件に応じて、データインポート中に長期資格情報またはセッショントークンのいずれかを使用できます。
 
-    - 長期的な資格情報で認証する場合は、[サービスアカウントのHMACキーの管理](https://cloud.google.com/storage/docs/authentication/managing-hmackeys)を参照してください。
+    - 長期資格情報を使用して認証する場合は、詳細については[サービスアカウントのHMAC鍵の管理](https://cloud.google.com/storage/docs/authentication/managing-hmackeys)を参照してください。
 
-    - セッショントークンで認証する場合は、[このFAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)を参照してください。
+    - 短期資格情報を使用して認証する場合は、[このFAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service)を参照してください。
 
-## Azure Blobストレージ{#azure-blob-storage}
+## Azure Blob Storage\{#azure-blob-storage}
 
 - **オブジェクトアクセスURI**
 
     <table>
        <tr>
          <th><p><strong>URIスタイル</strong></p></th>
-         <th><p><strong>URIフォーマット</strong></p></th>
+         <th><p><strong>URI形式</strong></p></th>
        </tr>
        <tr>
-         <td><p><strong>Azure storage blob URI</strong></p></td>
-         <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/object_name</code></p></td>
+         <td><p><strong>AzureストレージBlobURI</strong></p></td>
+         <td><ul><li><p><strong>ファイル</strong>: <i>http</i>s://\<storage_account>.blob.core.windows.net/\<container>/\<blob></p></li><li><p><strong>フォルダ</strong>: <i>http</i>s://\<storage_account>.blob.core.windows.net/\<container>/\<folder>/</p></li></ul></td>
        </tr>
     </table>
 
-    詳細については、[リソースURI構文](https://learn.microsoft.com/en-us/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata#resource-uri-syntax)を参照してください。
+    詳細については、[リソースURI構文](https://learn.microsoft.com/ja-jp/rest/api/storageservices/naming-and-referencing-containers--blobs--and-metadata#resource-uri-syntax)を参照してください。
 
-- **クレデンシャル取得**
+- **資格情報の取得**
 
-    データのセキュリティ要件に基づいて、データのインポート中に長期的な資格情報またはセッショントークンを使用できます。
+    データセキュリティ要件に応じて、データインポート中に長期資格情報またはセッショントークンのいずれかを使用できます。
 
-    - 長期的な認証情報で認証する場合は、詳細については「[アカウントアクセスキーの表示](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys)」を参照してください
+    - 長期資格情報を使用して認証する場合は、詳細については[アカウントアクセスキーの表示](https://learn.microsoft.com/ja-jp/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys)を参照してください。
 
-    - セッショントークンで認証する場合は、[このFAQ](/docs/faq-data-import#can-i-use-session-tokens-when-importing-data-from-an-object-storage-service)を参照してください。
-
+    - 短期資格情報を使用して認証する場合は、[このFAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service)を参照してください。

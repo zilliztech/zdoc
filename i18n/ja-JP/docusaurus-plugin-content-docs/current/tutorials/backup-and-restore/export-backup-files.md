@@ -1,83 +1,86 @@
 ---
-title: "バックアップファイルのエクスポート | Cloud"
+title: "バックアップファイルをエクスポート | Cloud"
 slug: /export-backup-files
-sidebar_label: "バックアップファイルのエクスポート"
+sidebar_label: "バックアップファイルをエクスポート"
 beta: PRIVATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloudコンソールを使用して、バックアップファイルをオブジェクトストレージにエクスポートできます。 | Cloud"
 type: origin
-token: LEL8wsFaxidFcKkep84c6plnnub
+token: QUTDwkbTTiA2UlkWYDlc796ensf
 sidebar_position: 5
 keywords: 
   - zilliz
-  - vector database
-  - cloud
-  - backup
-  - export
-  - integrate
-  - object
-  - storage
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - ベクターデータベース
+  - クラウド
+  - バックアップ
+  - エクスポート
+  - 統合
+  - オブジェクト
+  - ストレージ
+  - milvusベクターデータベース
+  - milvus db
+  - milvusベクターデータベース
+  - Zilliz Cloud
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# バックアップファイルのエクスポート
+# バックアップファイルをエクスポート
 
 Zilliz Cloudコンソールを使用して、バックアップファイルをオブジェクトストレージにエクスポートできます。
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注意">
 
-<p>この機能は、<strong>プライベートプレビュー</strong>として<strong>Dedicated-Enterprise</strong>プランのクラスターで提供されています。この機能を有効にするか、関連するコストについては、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p>
+<p>この機能は、<strong>エンタープライズ</strong>プロジェクトの<strong>専用</strong>クラスター向けに<strong>プライベートプレビュー</strong>中です。この機能を有効にする、または関連する料金について知るには、<a href="https://support.zilliz.com/hc/en-us">Zilliz Cloudサポート</a>までお問い合わせください。</p>
 
 </Admonition>
 
-## 始める前に{#before-you-start}
+## 事前準備\{#before-you-start}
 
-- Zilliz Cloudをオブジェクトストレージに統合しました。詳細な手順については、[AWS S 3との統合](./integrate-with-aws-s3)するを参照してください。
+- Zilliz Cloudをオブジェクトストレージと統合済みです。詳細な手順については、[AWS S3と統合](./integrate-with-aws-s3)、[Azure Blob Storageと統合](./integrate-with-azure-blob-storage)、または[Google Cloud Storageと統合](./integrate-with-gcp)を参照してください。
 
-- プロジェクトには**組織オーナー**また**はプロジェクト管理者**のアクセス権があります。必要な権限がない場合は、Zilliz Cloudの管理者にお問い合わせください。
+- プロジェクトへの<strong>組織オーナー</strong>または<strong>プロジェクト管理者</strong>としてのアクセス権を持っています。必要な権限がない場合は、Zilliz Cloud管理者にお問い合わせください。
 
-## 手続き{#procedure}
+## 手順\{#procedure}
 
-Zilliz Cloudからバックアップファイルをエクスポートするには、Zilliz CloudコンソールまたはRESTful APIを使用します。 
+Zilliz Cloudからバックアップファイルをエクスポートするには、Zilliz Cloudコンソール経由、またはRESTful API経由のいずれかを選択できます。
 
-### Zilliz Cloudコンソールを使用してエクスポートする{#export-via-zilliz-cloud-console}
+### Zilliz Cloudコンソール経由でエクスポート\{#export-via-zilliz-cloud-console}
 
-1. Zilliz[Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
+1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
 
-1. 左側のナビゲーションウィンドウで、[**バックアップ**]を選択します。
+1. 左側のナビゲーションペインで、**バックアップ**を選択します。
 
-1. 表示されるページで、対象のバックアップファイルを探し、をクリックします**。。。**[**アクション**]列で、[**エクスポート**]を選択します。
+1. 表示されたページで、対象のバックアップファイルを見つけ、**アクション**列の**...**をクリックし、**エクスポート**を選択します。
 
-    <Admonition type="info" icon="📘" title="ノート">
+    <Admonition type="info" icon="📘" title="注意">
 
-    <p>エクスポートできるのは、[<strong>利用可能</strong>]ステータスのバックアップファイルのみです。</p>
+    <p><strong>利用可能</strong>ステータスのバックアップファイルのみがエクスポート可能です。</p>
 
     </Admonition>
 
-1. [**バックアップファイルのエクスポート**]ダイアログボックスで、バックアップ設定を構成します。
+1. **バックアップファイルをエクスポート**ダイアログボックスで、バックアップ設定を構成します：
 
-    - **Cloud Region of Cluster in Backup File**:バックアップファイルが作成されたクラウドリージョンを表示します。
+    - **バックアップファイル内のクラスターのクラウドリージョン**: バックアップファイルが作成されたクラウドリージョンを表示します。
 
-    - **連携**: Zilliz Cloudと連携するオブジェクトストレージプロバイダを選択してください。現在、AWS S 3がサポートされています。詳細については、「[AWS S 3との統合](./integrate-with-aws-s3)する」を参照してください。
+    - **統合**: Zilliz Cloudと統合されているオブジェクトストレージプロバイダーを選択します。
 
-    - **統合構成**:バックアップエクスポート用に構成した特定のバケットを選択します。
+    - **統合構成**: バックアップエクスポート用に構成した特定のバケットを選択します。
 
-    - **ディレクトリ**:エクスポートしたバックアップファイルを保存するオブジェクトストレージバケットのディレクトリパスを入力します。
+    - **ディレクトリ**: エクスポートされたバックアップファイルが保存されるオブジェクトストレージバケット内のディレクトリパスを入力します。
 
-1. [**エクスポート**]をクリックします。
+1. 次に、**エクスポート**をクリックします。
 
-    ![export-backup-file](/img/export-backup-file.png)
+![export-backup-file](/img/export-backup-file.png)
 
-### RESTful APIを使用してエクスポートする{#export-through-restful-api}
+### RESTful API経由でエクスポート\{#export-through-restful-api}
 
-[Export Backup Files RESTful API](/ja-JP/reference/restful/export-backup-files-v2)エンドポイントを使用してZilliz Cloudからバックアップファイルをエクスポートする前に、AWS S 3バケットの1つをZilliz Cloudに統合し、その統合IDを取得する必要があります。詳細については、[統合IDの取得](./integrate-with-aws-s3#obtain-the-integration-id)を参照してください。
+[Zilliz Cloud RESTful APIエンドポイント](/reference/restful/export-backup-files-v2)経由でZilliz Cloudからバックアップファイルをエクスポートするには、AWS S3バケットのいずれかをZilliz Cloudと統合し、その統合IDを取得する必要があります。詳細は、[統合IDを取得](./integrate-with-aws-s3#obtain-the-integration-id)を参照してください。
 
 ```bash
 export BASE_URL="https://api.cloud.zilliz.com"
@@ -95,7 +98,7 @@ curl --request POST \
 }'
 ```
 
-上記の要求に対する応答は、次のようなジョブIDになります。
+上記リクエストに対する応答は、以下のようなジョブIDになります：
 
 ```bash
 {
@@ -106,29 +109,28 @@ curl --request POST \
 }
 ```
 
-## エクスポートの進捗を監視する{#monitor-export-progress}
+## エクスポートの進行状況を監視\{#monitor-export-progress}
 
-[**エクスポート**]をクリックすると、エクスポートジョブが自動的に生成されます。
+**エクスポート**をクリックすると、エクスポートジョブが自動的に生成されます：
 
-1. 左側のナビゲーションウィンドウの[[ジョブ](./job-center)]ページに移動します。
+1. 左側のナビゲーションペインで、[ジョブ](https://docs.cloud-uat3.zilliz.com/docs/job-center)ページに移動します。
 
-1. ジョブの**ステータス**を監視する:
+1. ジョブの**ステータス**を監視します：
 
-    - **進行中**:ファイルがエクスポートされています。
+    - **進行中**: ファイルがエクスポートされています。
 
-    - **成功**:バックアップファイルが正常にエクスポートされました。指定されたS 3バケットでアクセス可能です。
+    - **成功**: バックアップファイルが正常にエクスポートされました。指定されたS3バケットでアクセスできます。
 
-    - **エラー**:ジョブが失敗しました。これは、ロールARNやバックアップファイルなど、エクスポート過程で使用されるリソースがジョブの実行中に削除された場合に発生します。
+    - **エラー**: ジョブが失敗しました。これは、Role ARNやバックアップファイルなど、エクスポート処理で使用されるリソースがジョブ実行中に削除された場合に発生する可能性があります。
 
 ![monitor-export-job](/img/monitor-export-job.png)
 
-## エクスポートジョブをキャンセル{#cancel-export-job}
+## エクスポートジョブをキャンセル\{#cancel-export-job}
 
-ジョブが**IN PROGRESS**ステータスのままで続行しない場合は、[アクション]列の[**キャンセル**]をクリックしてジョブを**キャンセル**できます。
+ジョブが**進行中**のステータスで、続行しないことに決めた場合は、**アクション**列の**キャンセル**をクリックしてジョブをキャンセルできます。
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注意">
 
-<p>途中でキャンセルしても、バケットにすでにアップロードされているデータは削除されません。</p>
+<p>途中でキャンセルしても、バケットに既にアップロードされたデータは削除されません。</p>
 
 </Admonition>
-

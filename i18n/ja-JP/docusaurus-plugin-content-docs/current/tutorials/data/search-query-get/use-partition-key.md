@@ -1,25 +1,28 @@
 ---
-title: "パーティションキーを使う | Cloud"
+title: "パーティションキーの使用 | Cloud"
 slug: /use-partition-key
-sidebar_label: "パーティションキーを使う"
+sidebar_label: "パーティションキーの使用"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "パーティションキーは、パーティションに基づく検索最適化ソリューションです。特定のスカラーフィールドをパーティションキーとして指定し、検索中にパーティションキーに基づくフィルタリング条件を指定することで、検索範囲を複数のパーティションに絞り込むことができ、検索効率を向上させることができます。この記事では、パーティションキーの使用方法と関連する考慮事項を紹介します。 | Cloud"
+description: "パーティションキーはパーティションに基づく検索最適化解決策です。特定のスカラーフィールドをパーティションキーとして指定し、検索時にパーティションキーに基づいたフィルタリング条件を指定することで、検索範囲をいくつかのパーティションに絞り込むことができ、検索効率を向上させます。この記事では、パーティションキーの使用方法と関連する考慮事項を紹介します。| Cloud"
 type: origin
-token: LBGuwDfViiZHc5k0ETRcJ4tJnvg
-sidebar_position: 13
-keywords: 
+token: QWqiwrgJViA5AJkv64VcgQX2nKd
+sidebar_position: 14
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
-  - search optimization
-  - partition key
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - ベクトルデータベース
+  - クラウド
+  - コレクション
+  - データ
+  - 検索最適化
+  - パーティションキー
+  - ベクトルストア
+  - オープンソースベクトルデータベース
+  - ベクトルインデックス
+  - オープンソースベクトルデータベース
 
 ---
 
@@ -27,41 +30,47 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# パーティションキーを使う
+# パーティションキーの使用
 
-パーティションキーは、パーティションに基づく検索最適化ソリューションです。特定のスカラーフィールドをパーティションキーとして指定し、検索中にパーティションキーに基づくフィルタリング条件を指定することで、検索範囲を複数のパーティションに絞り込むことができ、検索効率を向上させることができます。この記事では、パーティションキーの使用方法と関連する考慮事項を紹介します。
+パーティションキーはパーティションに基づく検索最適化解決策です。特定のスカラーフィールドをパーティションキーとして指定し、検索時にパーティションキーに基づいたフィルタリング条件を指定することで、検索範囲をいくつかのパーティションに絞り込むことができ、検索効率を向上させます。この記事では、パーティションキーの使用方法と関連する考慮事項を紹介します。
 
-## 概要について{#overview}
+## 概要\{#overview}
 
-Zilliz Cloudでは、パーティションを使用してデータの分離を実装し、検索範囲を特定のパーティションに制限することで検索パフォーマンスを向上させることができます。パーティションを手動で管理する場合、コレクション内に最大1,024のパーティションを作成し、特定のルールに基づいてこれらのパーティションにエンティティを挿入して、特定のパーティション数内で検索を制限することで検索範囲を狭めることができます。
+Zilliz Cloudでは、パーティションを使用してデータの分離を実装し、検索範囲を特定のパーティションに制限することで検索パフォーマンスを向上させることができます。パーティションを手動で管理することを選択した場合、コレクション内に最大1,024個のパーティションを作成でき、特定のルールに基づいてこれらのパーティションにエンティティを挿入できます。これにより、特定の数のパーティション内での検索を制限することで検索範囲を絞り込むことができます。
 
-Zilliz Cloudは、データ分離においてパーティションを再利用し、コレクション内で作成できるパーティションの数の制限を克服するためのパーティションキーを導入しました。コレクションを作成する際には、スカラーフィールドをパーティションキーとして使用できます。コレクションが準備できたら、Zilliz Cloudは、パーティションキーの値の範囲に対応する各パーティションをコレクション内に指定された数作成します。Zilliz Cloudは、挿入されたエンティティを受け取ると、エンティティのPartition Key値を使用してハッシュ値を計算し、ハッシュ値とコレクションのpartitions_numプロパティに基づいてモジュロ演算を実行してターゲットパーティションIDを取得し、エンティティをターゲットパーティションに格納します。
+Zilliz Cloudでは、パーティションキーを導入して、データ分離におけるパーティションの再利用を可能にし、コレクションで作成できるパーティション数の制限を克服できます。コレクションを作成する際、スカラーフィールドをパーティションキーとして使用できます。いったんコレクションの準備が完了すると、Zilliz Cloudはコレクション内に指定された数のパーティションを作成します。挿入されたエンティティを受信すると、Zilliz Cloudはエンティティのパーティションキー値を使用してハッシュ値を計算し、ハッシュ値とコレクションの`partitions_num`プロパティに基づいてモジュロ演算を実行してターゲットパーティションIDを取得し、エンティティをターゲットパーティションに格納します。
 
-![CBlIwLuElhntQDbtL9ncOvxBnke](/img/CBlIwLuElhntQDbtL9ncOvxBnke.png)
+![IXXIwZdOYhRFXmbTMdwcaN6fnPe](/img/IXXIwZdOYhRFXmbTMdwcaN6fnPe.png)
 
-次の図は、Zilliz Cloudが、パーティションキー機能を有効にしているかどうかにかかわらず、コレクション内の検索リクエストを処理する方法を示しています。
+以下の図は、Zilliz Cloudがパーティションキー機能を有効にしたコレクションまたは無効にしたコレクションで検索リクエストを処理する方法を示しています。
 
-- パーティションキーが無効になっている場合、Zilliz Cloudは、コレクション内のクエリベクトルに最も類似したエンティティを検索します。最も関連性の高い結果を含むパーティションがわかっている場合は、検索範囲を狭めることができます。
+- パーティションキーが無効になっている場合、Zilliz Cloudはコレクション内でクエリベクトルに最も類似したエンティティを検索します。最も関連性の高い結果を含むパーティションがわかっている場合は、検索範囲を絞り込むことができます。
 
-- パーティションキーが有効になっている場合、Zilliz Cloudは、検索フィルターで指定されたパーティションキーの値に基づいて検索範囲を決定し、一致するパーティション内のエンティティのみをスキャンします。
+- パーティションキーが有効になっている場合、Zilliz Cloudは検索フィルターで指定されたパーティションキーベースに基づいて検索範囲を決定し、一致するパーティション内のエンティティのみをスキャンします。
 
-![SMKhwOsK0hu7mrbLc9LcTexdnVc](/img/SMKhwOsK0hu7mrbLc9LcTexdnVc.png)
+![RTaqwdaWXhRWPTb4uJTc9Uknn5c](/img/RTaqwdaWXhRWPTb4uJTc9Uknn5c.png)
 
-## パーティションキーを使う{#use-partition-key}
+## パーティションキーの使用\{#use-partition-key}
 
-パーティションキーを使用するには、
+パーティションキーを使用するには、以下を行う必要があります。
 
-- パーティションキーを設定します。
+- [パーティションキーの設定](./use-partition-key#set-partition-key)、
 
-- 作成するパーティションの数を設定します（オプション）。
+- [作成するパーティション数の設定](./use-partition-key#set-partition-numbers)（オプション）、および
 
-- パーティションキーに基づいてフィルタリング条件を作成してください。
+- [パーティションキーに基づくフィルタリング条件の作成](./use-partition-key#create-filtering-condition)。
 
-### パーティションキーを設定{#set-partition-key}
+### パーティションキーの設定\{#set-partition-key}
 
-スカラーフィールドをパーティションキーとして指定するには、スカラーフィールドを追加するときにその`is_artition_key`属性を`true`に設定する必要があります。
+スカラーフィールドをパーティションキーとして指定するには、スカラーフィールドを追加する際にその`is_partition_key`属性を`true`に設定する必要があります。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Admonition type="info" icon="📘" title="注意">
+
+<p>スカラーフィールドをパーティションキーとして設定する場合、フィールド値を空またはnullにすることはできません。</p>
+
+</Admonition>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -76,10 +85,18 @@ client = MilvusClient(
 
 schema = client.create_schema()
 
-# Add the partition key
+schema.add_field(field_name="id",
+    datatype=DataType.INT64,
+    is_primary=True)
+
+schema.add_field(field_name="vector",
+    datatype=DataType.FLOAT_VECTOR,
+    dim=5)
+
+# パーティションキーを追加
 schema.add_field(
-    field_name="my_varchar", 
-    datatype=DataType.VARCHAR, 
+    field_name="my_varchar",
+    datatype=DataType.VARCHAR,
     max_length=512,
     # highlight-next-line
     is_partition_key=True,
@@ -102,10 +119,22 @@ MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
         .token("YOUR_CLUSTER_TOKEN")
         .build());
 
-// Create schema
+// スキーマを作成
 CreateCollectionReq.CollectionSchema schema = client.createSchema();
 
-// Add the partition key
+schema.addField(AddFieldReq.builder()
+        .fieldName("id")
+        .dataType(DataType.Int64)
+        .isPrimaryKey(true)
+        .build());
+
+schema.addField(AddFieldReq.builder()
+        .fieldName("vector")
+        .dataType(DataType.FloatVector)
+        .dimension(5)
+        .build());
+
+// パーティションキーを追加
 schema.addField(AddFieldReq.builder()
         .fieldName("my_varchar")
         .dataType(DataType.VarChar)
@@ -113,6 +142,51 @@ schema.addField(AddFieldReq.builder()
         // highlight-next-line
         .isPartitionKey(true)
         .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/column"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/index"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    fmt.Println(err.Error())
+    // エラー処理
+}
+defer client.Close(ctx)
+
+schema := entity.NewSchema().WithDynamicFieldEnabled(false)
+schema.WithField(entity.NewField().
+    WithName("id").
+    WithDataType(entity.FieldTypeInt64).
+    WithIsPrimaryKey(true),
+).WithField(entity.NewField().
+    WithName("my_varchar").
+    WithDataType(entity.FieldTypeVarChar).
+    WithIsPartitionKey(true).
+    WithMaxLength(512),
+).WithField(entity.NewField().
+    WithName("vector").
+    WithDataType(entity.FieldTypeFloatVector).
+    WithDim(5),
+)
 ```
 
 </TabItem>
@@ -126,8 +200,8 @@ const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
-// 3. Create a collection in customized setup mode
-// 3.1 Define fields
+// 3. カスタマイズ設定モードでコレクションを作成
+// 3.1 フィールドを定義
 const fields = [
     {
         name: "my_varchar",
@@ -149,12 +223,12 @@ export schema='{
         "enabledDynamicField": false,
         "fields": [
             {
-                "fieldName": "my_id",
+                "fieldName": "id",
                 "dataType": "Int64",
                 "isPrimary": true
             },
             {
-                "fieldName": "my_vector",
+                "fieldName": "vector",
                 "dataType": "FloatVector",
                 "elementTypeParams": {
                     "dim": "5"
@@ -175,13 +249,13 @@ export schema='{
 </TabItem>
 </Tabs>
 
-### パーティション番号を設定する{#set-partition-numbers}
+### パーティション数の設定\{#set-partition-numbers}
 
-コレクション内のスカラーフィールドをパーティションキーとして指定すると、Zilliz Cloudは自動的にコレクション内に16のパーティションを作成します。エンティティを受け取ると、Zilliz Cloudはこのエンティティのパーティションキー値に基づいてパーティションを選択し、エンティティをパーティションに保存します。その結果、いくつかまたはすべてのパーティションに異なるパーティションキー値を持つエンティティが保持されます。
+コレクション内のスカラーフィールドをパーティションキーとして指定すると、Zilliz Cloudは自動的にコレクション内に16個のパーティションを作成します。エンティティを受信すると、Zilliz Cloudはこのエンティティのパーティションキーベースに基づいてパーティションを選択し、エンティティをパーティションに格納します。これにより、一部またはすべてのパーティションが異なるパーティションキーベースを持つエンティティを保持します。
 
-コレクションと一緒に作成するパーティションの数を決定することもできます。これは、パーティションキーとして指定されたスカラーフィールドがある場合にのみ有効です。
+コレクションとともに作成するパーティション数も決定できます。これは、パーティションキーとして指定されたスカラーフィールドがある場合にのみ有効です。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -189,7 +263,7 @@ client.create_collection(
     collection_name="my_collection",
     schema=schema,
     # highlight-next-line
-    num_partitions=1024
+    num_partitions=128
 )
 ```
 
@@ -203,9 +277,23 @@ import io.milvus.v2.service.collection.request.CreateCollectionReq;
 CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
                 .collectionName("my_collection")
                 .collectionSchema(schema)
-                .numPartitions(1024)
+                .numPartitions(128)
                 .build();
         client.createCollection(createCollectionReq);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("my_collection", schema).
+        WithNumPartitions(128))
+if err != nil {
+    fmt.Println(err.Error())
+    // エラー処理
+}
 ```
 
 </TabItem>
@@ -216,7 +304,7 @@ CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
 await client.create_collection({
     collection_name: "my_collection",
     schema: schema,
-    num_partitions: 1024
+    num_partitions: 128
 })
 ```
 
@@ -226,7 +314,7 @@ await client.create_collection({
 
 ```bash
 export params='{
-    "partitionsNum": 1024
+    "partitionsNum": 128
 }'
 
 export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
@@ -237,7 +325,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d "{
-    \"collectionName\": \"myCollection\",
+    \"collectionName\": \"my_collection\",
     \"schema\": $schema,
     \"params\": $params
 }"
@@ -246,22 +334,22 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### フィルタリング条件の作成{#create-filtering-condition}
+### フィルタリング条件の作成\{#create-filtering-condition}
 
-パーティションキー機能を有効にしてコレクション内でANN検索を実行する場合、検索要求にパーティションキーを含むフィルタリング式を含める必要があります。フィルタリング式では、Zilliz Cloudが対応するパーティション内の検索範囲を制限するように、パーティションキーの値を特定の範囲内に制限できます。
+パーティションキー機能を有効にしたコレクションでANN検索を実行する際、検索リクエストにパーティションキーを含むフィルタリング式を含める必要があります。フィルタリング式では、パーティションキーベースを特定の範囲内に制限して、Zilliz Cloudが対応するパーティション内での検索範囲を制限できるようにします。
 
-削除操作を実行する場合、より効率的な削除を実現するために、単一のパーティションキーを指定するフィルタ式を含めることをお勧めします。このアプローチでは、削除操作を特定のパーティションに制限し、圧縮中の書き込み増幅を減らし、圧縮とインデックスのためのリソースを節約します。
+削除操作を実行する際は、より効率的な削除を実現するために、単一のパーティションキーを指定するフィルター式を含めることをお勧めします。このアプローチにより、削除操作は特定のパーティションに限定され、コンパクション中の書き込み増幅を削減し、コンパクションおよびインデックス作成のためのリソースを節約します。
 
-次の例は、特定のパーティションキー値と一連のパーティションキー値に基づくパーティションキーベースのフィルタリングを示しています。
+以下の例では、特定のパーティションキーベース値およびパーティションキーベース値のセットに基づくパーティションキーベースのフィルタリングを示しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# Filter based on a single partition key value, or
+# 単一のパーティションキーベース値に基づくフィルター、または
 filter='partition_key == "x" && <other conditions>'
 
-# Filter based on multiple partition key values
+# 複数のパーティションキーベース値に基づくフィルター
 filter='partition_key in ["x", "y", "z"] && <other conditions>'
 ```
 
@@ -270,11 +358,23 @@ filter='partition_key in ["x", "y", "z"] && <other conditions>'
 <TabItem value='java'>
 
 ```java
-// Filter based on a single partition key value, or
+// 単一のパーティションキーベース値に基づくフィルター、または
 String filter = "partition_key == 'x' && <other conditions>";
 
-// Filter based on multiple partition key values
+// 複数のパーティションキーベース値に基づくフィルター
 String filter = "partition_key in ['x', 'y', 'z'] && <other conditions>";
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// 単一のパーティションキーベース値に基づくフィルター、または
+filter = "partition_key == 'x' && <other conditions>"
+
+// 複数のパーティションキーベース値に基づくフィルター
+filter = "partition_key in ['x', 'y', 'z'] && <other conditions>"
 ```
 
 </TabItem>
@@ -282,10 +382,10 @@ String filter = "partition_key in ['x', 'y', 'z'] && <other conditions>";
 <TabItem value='javascript'>
 
 ```javascript
-// Filter based on a single partition key value, or
+// 単一のパーティションキーベース値に基づくフィルター、または
 const filter = 'partition_key == "x" && <other conditions>'
 
-// Filter based on multiple partition key values
+// 複数のパーティションキーベース値に基づくフィルター
 const filter = 'partition_key in ["x", "y", "z"] && <other conditions>'
 ```
 
@@ -294,40 +394,37 @@ const filter = 'partition_key in ["x", "y", "z"] && <other conditions>'
 <TabItem value='bash'>
 
 ```bash
-# Filter based on a single partition key value, or
+# 単一のパーティションキーベース値に基づくフィルター、または
 export filter='partition_key == "x" && <other conditions>'
 
-# Filter based on multiple partition key values
+# 複数のパーティションキーベース値に基づくフィルター
 export filter='partition_key in ["x", "y", "z"] && <other conditions>'
 ```
 
 </TabItem>
 </Tabs>
 
-\<ターゲットを含める="zilliz">
+<Admonition type="info" icon="📘" title="注意">
 
-## パーティションキーの分離を使用する{#use-partition-key-isolation}
-
-マルチテナントシナリオでは、テナントIDに関連するスカラーフィールドをパーティションキーとして指定し、このスカラーフィールドの特定の値に基づいてフィルタを作成できます。同様のシナリオで検索パフォーマンスをさらに向上させるために、Zilliz Cloudにはパーティションキー分離機能が導入されています。
-
-![SYAKwuWqThNNg0banPLcqkhhn3e](/img/SYAKwuWqThNNg0banPLcqkhhn3e.png)
-
-上記の図に示すように、Zilliz Cloudは、パーティションキーの値に基づいてエンティティをグループ化し、これらのグループごとに別々のインデックスを作成します。検索リクエストを受け取ると、Zilliz Cloudは、フィルタリング条件で指定されたパーティションキーの値に基づいてインデックスを検索し、インデックスに含まれるエンティティ内で検索範囲を制限するため、検索中に関係のないエンティティをスキャンすることを回避し、検索パフォーマンスを大幅に向上させます。
-
-パーティションキーの分離を有効にすると、パーティションキーベースのフィルターに特定の値のみを含めることができます。これにより、Zilliz Cloudは、一致するインデックスに含まれるエンティティ内の検索範囲を制限できます。
-
-<Admonition type="info" icon="📘" title="ノート">
-
-<p>この機能は、Milvus v 2.4. xと互換性があり、Performance-optimizedCUを使用するクラスターで使用できます。</p>
-<p>他のCUタイプのクラスターとすべてのサブスクリプションプランについては、この機能を使用する前にMilvus v 2.5. xとの互換性を確認してください。</p>
+<p><code>partition_key</code>をパーティションキーとして指定されたフィールドの名前に置き換える必要があります。</p>
 
 </Admonition>
 
-### パーティションキーの分離を有効にする{#enable-partition-key-isolation}
+## パーティションキー分離の使用\{#use-partition-key-isolation}
 
-次のコード例は、パーティションキー分離を有効にする方法を示しています。
+マルチテナントのシナリオでは、テナントIDに関連するスカラーフィールドをパーティションキーとして指定し、このスカラーフィールドの特定の値に基づいてフィルターを作成できます。同様のシナリオでの検索パフォーマンスをさらに向上させるために、Zilliz Cloudはパーティションキー分離機能を導入しています。
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+![BVotwv5BvhBWXXbvotUccowZnng](/img/BVotwv5BvhBWXXbvotUccowZnng.png)
+
+上図に示すように、Zilliz Cloudはパーティションキーベース値に基づいてエンティティをグループ化し、各グループに個別のインデックスを作成します。検索リクエストを受信すると、Zilliz Cloudはフィルタリング条件で指定されたパーティションキーベース値に基づいてインデックスを特定し、インデックスに含まれるエンティティ内での検索範囲を制限します。これにより、検索中の無関係なエンティティのスキャンを回避し、検索パフォーマンスを大幅に向上させます。
+
+パーティションキー分離を有効にした後、検索範囲を一致するインデックスに含まれるエンティティ内に制限するために、パーティションキーベースのフィルターに1つの特定の値のみを含める必要があります。
+
+### パーティションキー分離の有効化\{#enable-partition-key-isolation}
+
+以下のコード例は、パーティションキー分離を有効にする方法を示しています。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -352,10 +449,23 @@ properties.put("partitionkey.isolation", "true");
 CreateCollectionReq createCollectionReq = CreateCollectionReq.builder()
         .collectionName("my_collection")
         .collectionSchema(schema)
-        .numPartitions(1024)
         .properties(properties)
         .build();
 client.createCollection(createCollectionReq);
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.CreateCollection(ctx,
+    milvusclient.NewCreateCollectionOption("my_collection", schema).
+        WithProperty("partitionkey.isolation", true))
+if err != nil {
+    fmt.Println(err.Error())
+    // エラー処理
+}
 ```
 
 </TabItem>
@@ -388,7 +498,7 @@ curl --request POST \
 --header "Authorization: Bearer ${TOKEN}" \
 --header "Content-Type: application/json" \
 -d "{
-    \"collectionName\": \"myCollection\",
+    \"collectionName\": \"my_collection\",
     \"schema\": $schema,
     \"params\": $params
 }"
@@ -397,6 +507,4 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-「パーティションキーの分離」を有効にした後でも、「[パーティション番号を設定する](./use-partition-key#set-partition-numbers)」で説明されているように、パーティションキーとパーティション数を設定できます。パーティションキーベースのフィルタには、特定のパーティションキー値のみを含める必要があることに注意してください。
-
-\</include>
+パーティションキー分離を有効にした後も、[パーティション数の設定](./use-partition-key#set-partition-numbers)で説明されているように、パーティションキーとパーティション数を設定できます。パーティションキーベースのフィルターには、特定のパーティションキーベース値のみを含める必要があることに注意してください。

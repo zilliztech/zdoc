@@ -1,34 +1,35 @@
 ---
 title: "ネットワークとセキュリティ | Cloud"
 slug: /network-and-security
-sidebar_label: "ネットワークとセキュリティ"
+sidebar_label: "ネットワークアクセス"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud上のデータへのアクセスを保護するために、ホワイトリストとプライベートリンクを設定する方法について詳しく学びましょう。 | Cloud"
+description: "Zilliz Cloud上のデータへのアクセスを保護するために、ホワイトリストとプライベートリンクを設定する方法について詳しく学びます。 | Cloud"
 type: origin
-token: Sn0DwMXwuieTHEk7xpacEihJnVc
+token: WVcuwmMQ8iKlrKk7Kwacu9w1nCZ
 sidebar_position: 4
-keywords: 
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - network
-  - security
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - ベクターデータベース
+  - クラウド
+  - ネネット
+  - セキュリティ
+  - ベクトル検索
+  - knnアルゴリズム
+  - HNSW
+  - 構造化データとは
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# ネットワークとセキュリティ
+# ネネットとセキュリティ
 
-Zilliz Cloud上のデータへのアクセスを保護するために、ホワイトリストとプライベートリンクを設定する方法について詳しく学びましょう。
-
-
+Zilliz Cloud上のデータへのアクセスを保護するために、ホワイトリストとプライベートリンクを設定する方法について詳しく学びます。
 
 import DocCardList from '@theme/DocCardList';
 

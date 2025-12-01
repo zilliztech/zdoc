@@ -1,53 +1,50 @@
 ---
-title: "Prometheusと統合する | BYOC"
+title: "Prometheusとの統合 | BYOC"
 slug: /prometheus-monitoring
-sidebar_label: "Prometheusと統合する"
+sidebar_label: "Prometheus"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Prometheusは、指定された間隔で設定されたターゲットからメトリックを収集し、ルール式を評価し、結果を表示し、特定の条件に基づいてアラートをトリガーできる監視システムです。 | BYOC"
+description: "Prometheusは、設定されたターゲットから指定された間隔でメトリクスを収集し、ルール式を評価して結果を表示し、特定の条件に基づいてアラートをトリガーできる監視システムです。 | BYOC"
 type: origin
-token: Xw77wFha7i8uqJkmnsJcLMO2nkg
-sidebar_position: 3
-keywords: 
+token: Ex99woZlsico4FkfwxGckjRRnqf
+sidebar_position: 5
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - third-party
-  - services
+  - ベクトルデータベース
+  - クラウド
+  - サードパーティ
+  - サービス
   - prometheus
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - 次元削減
+  - hnswアルゴリズム
+  - ベクトル類似検索
+  - 近似最近傍検索
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Prometheusと統合する
+# Prometheusとの統合
 
-[Prometheus](https://prometheus.io/)は、指定された間隔で設定されたターゲットからメトリックを収集し、ルール式を評価し、結果を表示し、特定の条件に基づいてアラートをトリガーできる監視システムです。
+[Prometheus](https://prometheus.io/)は、設定されたターゲットから指定された間隔でメトリクスを収集し、ルール式を評価して結果を表示し、特定の条件に基づいてアラートをトリガーできる監視システムです。
 
-Zilliz CloudをPrometheusと統合することで、Zilliz Cloudの展開に関連するメトリックを収集し、監視することができます。
+Zilliz CloudをPrometheusと統合することで、Zilliz Cloudの展開に関連するメトリクスを収集および監視できます。
 
-<Admonition type="info" icon="📘" title="ノート">
+## Zilliz Cloudメトリクスを収集するようにPrometheusを設定\{#configure-prometheus-to-scrape-zilliz-cloud-metrics}
 
-<p><a href="https://prometheus.io/">Prometheus</a>の統合は、<strong>Dedicated-Enterprise</strong>または<strong>BYOC</strong>プランを実行しているZilliz Cloudクラスターでのみサポートされています。</p>
+Prometheusを使用してZilliz Cloudクラスターを監視するには、以下の手順に従います：
 
-</Admonition>
+1. Prometheusサーバー上の`Prometheus.yml`設定ファイルにアクセスします。詳細については、[設定](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#configuration)を参照してください。
 
-## Zilliz CloudメトリクスをスクレイピングするためにPrometheusを設定する{#configure-prometheus-to-scrape-zilliz-cloud-metrics}
+1. `Prometheus.yml`ファイルの`scrape_configs`セクションに以下のスニペットを追加します。プレースホルダーを適切な値に置き換えてください：
 
-PrometheusでZilliz Cloudクラスタを監視するには、次の手順に従ってください:
+    - `{{apiKey}}`：クラスターメトリクスにアクセスするためのZilliz Cloud APIキー。
 
-1. Prometheusサーバー上の`Prometheus`. yml設定ファイルにアクセスします。詳細については、[設定](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#configuration)を参照してください。
-
-1. Prometheus. ymlファイルの`scrape_configs`セクションに次のスニペットを追加し`ま`す。プレースホルダを適切な値に置き換えます。
-
-    - `{{apiKey}}:`クラスタメトリクスにアクセスするためのZilliz Cloud APIキー。
-
-    - `{{cluster terId}}`:監視したいZilliz CloudクラスタのID。
+    - `{{clusterId}}`：監視対象のZilliz CloudクラスターのID。
 
     ```yaml
     scrape_configs:
@@ -57,7 +54,7 @@ PrometheusでZilliz Cloudクラスタを監視するには、次の手順に従�
         authorization:
           type: Bearer
           credentials: {{apiKey}}
-        
+
         static_configs:
             - targets: ["api.cloud.zilliz.com"]
     ```
@@ -65,53 +62,53 @@ PrometheusでZilliz Cloudクラスタを監視するには、次の手順に従�
     <table>
        <tr>
          <th><p>パラメータ</p></th>
-         <th><p>説明する</p></th>
+         <th><p>説明</p></th>
        </tr>
        <tr>
          <td><p><code>job_name</code></p></td>
-         <td><p>スクレイピングされたメトリックに割り当てられた人間が読めるラベル。</p></td>
+         <td><p>収集されたメトリクスに割り当てられた人間が読めるラベル。</p></td>
        </tr>
        <tr>
-         <td><p><code>schema</code></p></td>
-         <td><p>Zilliz Cloudエンドポイントからメトリックをスクレイピングするために使用されるプロトコルスキームは<code>https</code>に設定されています。</p></td>
+         <td><p><code>scheme</code></p></td>
+         <td><p>Zilliz Cloudエンドポイントからメトリクスを収集するために使用されるプロトコルスキームで、<code>https</code>に設定されています。</p></td>
        </tr>
        <tr>
          <td><p><code>metrics_path</code></p></td>
-         <td><p>メトリックデータを提供するターゲットサービス上のパス。</p></td>
+         <td><p>メトリクスデータを提供するターゲットサービスのパス。</p></td>
        </tr>
        <tr>
          <td><p><code>authorization.type</code></p></td>
-         <td><p>Zilliz Cloudのメトリックにアクセスするために使用される認証タイプ。値を<code>Bearer</code>に設定してください。</p></td>
+         <td><p>Zilliz Cloudメトリクスにアクセスするために使用される認証タイプ。値は<code>Bearer</code>に設定してください。</p></td>
        </tr>
        <tr>
          <td><p><code>authorization.credentials</code></p></td>
-         <td><p>Zilliz Cloudメトリクスエンドポイントにアクセスするために使用されるAPIキー。</p></td>
+         <td><p>Zilliz Cloudメトリクスエンドポイントにアクセスするための認証に使用されるAPIキー。</p></td>
        </tr>
        <tr>
          <td><p><code>static_configs.targets</code></p></td>
-         <td><p>Prometheusがスクレイピングする静的ターゲットは、Zilliz Cloud RESTful APIのホストアドレスを<code>api.cloud.zilliz.com</code>する必要があります。</p></td>
+         <td><p>Prometheusが収集する静的ターゲットで、Zilliz Cloud RESTful APIのホストアドレスである<code>api.cloud.zilliz.com</code>である必要があります。</p></td>
        </tr>
     </table>
 
-1. 変更をPrometheus. ymlファイルに保存`し`ます。
+1. `Prometheus.yml`ファイルへの変更を保存します。
 
 詳細については、[Prometheus公式ドキュメント](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config)を参照してください。
 
-## スクレイピングされたメトリックの例{#example-scraped-metrics}
+## 収集されたメトリクスの例\{#example-scraped-metrics}
 
-以下は、Zilliz Cloud`/metrics/export`エンドポイントからスクレイピングされたPrometheusメトリクスの例です。
+以下は、Zilliz Cloudの`/metrics/export`エンドポイントから収集されたPrometheusメトリクスの例です：
 
 ```plaintext
-# HELP zilliz_cluster_capacity Cluster capacity ratio
+# HELP zilliz_cluster_capacity クラスタ容量比率
 # TYPE zilliz_cluster_capacity gauge
 zilliz_cluster_capacity 0.88
-# HELP zilliz_cluster_computation Cluster computation ratio
+# HELP zilliz_cluster_computation クラスタ計算比率
 # TYPE zilliz_cluster_computation gauge
 zilliz_cluster_computation 0.1
-# HELP zilliz_cluster_storage_bytes Cluster storage usage
+# HELP zilliz_cluster_storage_bytes クラスタストレージ使用量
 # TYPE zilliz_cluster_storage_bytes gauge
 zilliz_cluster_storage_bytes 8.9342782E7
-# HELP zilliz_request_vectors_total Total number of vectors in requests
+# HELP zilliz_request_vectors_total リクエスト内のベクトル総数
 # TYPE zilliz_request_vectors_total counter
 zilliz_request_vectors_total{request_type="bulk_insert"} 1.0
 zilliz_request_vectors_total{request_type="delete"} 1.0
@@ -120,19 +117,19 @@ zilliz_request_vectors_total{request_type="search"} 1.0
 zilliz_request_vectors_total{request_type="upsert"} 1.0
 ```
 
-## Zilliz Cloudのメトリックラベル{#zilliz-cloud-metric-labels}
+## Zilliz Cloudメトリクスラベル\{#zilliz-cloud-metric-labels}
 
-Zilliz Cloudによって公開されるメトリックは、以下の識別子でラベル付けされています。
+Zilliz Cloudによって公開されるメトリクスは、以下の識別子でラベル付けされています。
 
 <table>
    <tr>
-     <th><p>レーベル名</p></th>
-     <th><p>説明する</p></th>
-     <th><p>価値観</p></th>
+     <th><p>ラベル名</p></th>
+     <th><p>説明</p></th>
+     <th><p>値</p></th>
    </tr>
    <tr>
      <td><p><code>cluster_id</code></p></td>
-     <td><p>メトリックが含まれるZilliz CloudクラスターのID。</p></td>
+     <td><p>メトリクスが属するZilliz CloudクラスターのID。</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
@@ -147,12 +144,12 @@ Zilliz Cloudによって公開されるメトリックは、以下の識別子�
    </tr>
    <tr>
      <td><p><code>collection_name</code></p></td>
-     <td><p>監視されているコレクションの名前。</p></td>
+     <td><p>監視対象のコレクション名。</p></td>
      <td><p>-</p></td>
    </tr>
    <tr>
      <td><p><code>request_type</code></p></td>
-     <td><p>データに対して実行される操作の種類。</p></td>
+     <td><p>データに対して実行された操作の種類。</p></td>
      <td><p><code>insert</code>, <code>upsert</code>, <code>delete</code>, <code>bulk_insert</code>, <code>flush</code>, <code>search</code>, <code>query</code></p></td>
    </tr>
    <tr>
@@ -162,33 +159,33 @@ Zilliz Cloudによって公開されるメトリックは、以下の識別子�
    </tr>
 </table>
 
-## 利用可能なメトリック{#available-metrics}
+## 利用可能なメトリクス\{#available-metrics}
 
-以下の表は、Zilliz Cloudで利用可能なメトリクス、その種類、説明、および関連するラベルをリストしています。
+以下は、Zilliz Cloudで利用可能なメトリクスとその種類、説明、および関連するラベルをリストしています。
 
 <table>
    <tr>
-     <th><p>メトリック名</p></th>
-     <th><p>タイプ</p></th>
-     <th><p>説明する</p></th>
+     <th><p>メトリクス名</p></th>
+     <th><p>種類</p></th>
+     <th><p>説明</p></th>
      <th><p>ラベル</p></th>
    </tr>
    <tr>
      <td><p><code>zilliz_cluster_computation</code></p></td>
      <td><p>Gauge</p></td>
-     <td><p>現在の計算容量の利用率。</p></td>
+     <td><p>現在の計算容量使用率。</p></td>
      <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
    </tr>
    <tr>
      <td><p><code>zilliz_cluster_capacity</code></p></td>
      <td><p>Gauge</p></td>
-     <td><p>現在のストレージ容量の利用率。</p></td>
+     <td><p>現在のストレージ容量使用率。</p></td>
      <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
    </tr>
    <tr>
      <td><p><code>zilliz_storage_bytes</code></p></td>
      <td><p>Gauge</p></td>
-     <td><p>使用された総ストレージスペース。</p></td>
+     <td><p>使用された合計ストレージ容量。</p></td>
      <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
    </tr>
    <tr>
@@ -206,25 +203,25 @@ Zilliz Cloudによって公開されるメトリックは、以下の識別子�
    <tr>
      <td><p><code>zilliz_request_vectors_total</code></p></td>
      <td><p>Counter</p></td>
-     <td><p>すべての要求で操作されたベクトルの総数。</p></td>
+     <td><p>すべてのリクエストで操作されたベクトルの総数。</p></td>
      <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>request_type</code></p></td>
    </tr>
    <tr>
      <td><p><code>zilliz_request_duration_seconds_bucket</code></p></td>
      <td><p>Histogram</p></td>
-     <td><p>処理されたリクエストのレイテンシ分布。</p></td>
+     <td><p>処理されたリクエストの遅延分布。</p></td>
      <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>request_type</code></p></td>
    </tr>
    <tr>
      <td><p><code>zilliz_slow_queries_total</code></p></td>
      <td><p>Counter</p></td>
-     <td><p>遅延のしきい値を超えるクエリの数。</p></td>
+     <td><p>遅延しきい値を超えたクエリの数。</p></td>
      <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code></p></td>
    </tr>
    <tr>
      <td><p><code>zilliz_entities</code></p></td>
      <td><p>Gauge</p></td>
-     <td><p>格納されているエンティティの総数。</p></td>
+     <td><p>保存されたエンティティの総数。</p></td>
      <td><p><code>cluster_id</code>, <code>org_id</code>, <code>project_id</code>, <code>collection_name</code></p></td>
    </tr>
    <tr>
@@ -253,34 +250,34 @@ Zilliz Cloudによって公開されるメトリックは、以下の識別子�
    </tr>
 </table>
 
-## Prometheusクエリの例{#example-prometheus-queries}
+## Prometheusクエリの例\{#example-prometheus-queries}
 
-以下は、Prometheusを使用してZilliz Cloudメトリックスを分析するために使用できるクエリの例です。
+以下は、Prometheusを使用してZilliz Cloudメトリクスを分析するために使用できるクエリの例です：
 
-- インサートQPSを計算する
+- insert QPSを計算
 
     ```plaintext
     rate(zilliz_requests_total{cluster_id='in01-xxxxx',request_type='insert'}[$__rate_interval])
     ```
 
-- インサートVPSを計算する
+- insert VPSを計算
 
     ```plaintext
     rate(zilliz_request_vectors_total{cluster_id='in01-xxxxx',request_type='insert'}[$__rate_interval])
     ```
 
-- 70パーセンタイルの挿入レイテンシを計算する
+- 70パーセンタイルinsert遅延を計算
 
     ```plaintext
     histogram_quantile(
-        0.70, 
+        0.70,
         sum(
             rate(zilliz_request_duration_seconds_bucket{cluster_id='in01-xxxxx',request_type='insert'}[$__rate_interval])
-        ) by (le) 
+        ) by (le)
     )
     ```
 
-- 挿入要求の失敗率を計算する
+- insertリクエスト失敗率を計算
 
     ```plaintext
     rate(zilliz_requests_total{cluster_id=?,status!='success'}[$__rate_interval])
@@ -288,16 +285,14 @@ Zilliz Cloudによって公開されるメトリックは、以下の識別子�
     rate(zilliz_requests_total{cluster_id=?}[$__rate_interval])
     ```
 
-- 1分あたりの遅いクエリ数を計算する
+- 1分あたりの低速クエリ数を計算
 
     ```plaintext
     sum(increase(zilliz_slow_queries_total{cluster_id=?}[1m]))
     ```
 
-- 5分あたりの遅いクエリの数を計算してください
+- 5分あたりの低速クエリ数を計算
 
     ```plaintext
     sum(increase(zilliz_slow_queries_total{cluster_id=?}[5m]))
     ```
-
-    

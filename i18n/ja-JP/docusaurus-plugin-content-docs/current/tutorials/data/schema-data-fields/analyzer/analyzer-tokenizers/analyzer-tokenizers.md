@@ -1,14 +1,17 @@
 ---
-title: "トークナイザーリファレンス | Cloud"
+title: "Tokenizer Reference | Cloud"
 slug: /analyzer-tokenizers
-sidebar_label: "トークナイザーリファレンス"
+sidebar_label: "Tokenizer"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "このセクションでは、トークナイザーの詳細なリファレンスを提供します。 | Cloud"
+description: "このセクションでは、トークナイザーの詳細リファレンスを提供します。| Cloud"
 type: origin
-token: SZT7wSD7FiTKmPk8NWbccHT8npc
+token: Zu6vw6Aifi1gvNkqqO5cDjmtngh
 sidebar_position: 3
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
@@ -16,19 +19,19 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# トークナイザーリファレンス
+# Tokenizer Reference
 
-このセクションでは、トークナイザーの詳細なリファレンスを提供します。
+このセクションでは、トークナイザーの詳細リファレンスを提供します。
 
 import DocCardList from '@theme/DocCardList';
 

@@ -1,29 +1,26 @@
 ---
-title: "FAQ:認証について | CLOUD"
+title: "FAQ：認証 | CLOUD"
 slug: /faq-authentication
-sidebar_label: "FAQ:認証について"
+sidebar_label: "FAQ：認証"
 beta: FALSE
 notebook: FALSE
-description: "このトピックでは、Zilliz CloudでIDを認証する際に発生する可能性のある問題と、それに対応する解決策をリストアップしています。 | CLOUD"
+description: "このトピックでは、Zilliz Cloudで認証情報を確認する際に遭遇する可能性のある問題と、それに対応する解決策をリストアップしています。 | CLOUD"
 type: origin
-token: LKxiwykkhi5VyLkTfAGcE3LinBe
-sidebar_position: 12
+token: EV41wG08BiOWW8kbo9xcTGoPnKd
+sidebar_position: 11
 
 ---
 
-# FAQ:認証について
+# FAQ：認証
 
-このトピックでは、Zilliz CloudでIDを認証する際に発生する可能性のある問題と、それに対応する解決策をリストアップしています。
+このトピックでは、Zilliz Cloudで認証情報を確認する際に遭遇する可能性のある問題と、それに対応する解決策をリストアップしています。
 
-## Contents
+## 目次
 
-- [Zilliz Cloudクラスタへの接続に使用したパスワードを忘れた場合、どうすればよいですか?](#what-can-i-do-if-i-forget-the-password-used-to-connect-to-my-zilliz-cloud-cluster)
+- [Zilliz Cloudクラスターに接続するために使用するパスワードを忘れた場合、どうすればよいですか？](#what-can-i-do-if-i-forget-the-password-used-to-connect-to-my-zilliz-cloud-cluster)
 
-## FAQs
+## FAQ
 
+### Zilliz Cloudクラスターに接続するために使用するパスワードを忘れた場合、どうすればよいですか？\{#what-can-i-do-if-i-forget-the-password-used-to-connect-to-my-zilliz-cloud-cluster}
 
-
-
-### Zilliz Cloudクラスタへの接続に使用したパスワードを忘れた場合、どうすればよいですか?{#what-can-i-do-if-i-forget-the-password-used-to-connect-to-my-zilliz-cloud-cluster}
-
-パスワードを忘れた場合は、パスワードをリセットすることができます。ただし、デフォルトユーザーのパスワードを忘れた場合は、新しいパスワードで新しいユーザーを作成することができます。詳細については、[クラスタの認証情報(コンソール)](./cluster-credentials)とクラスタ資格情報(SDK)を参照してください。
+パスワードを忘れた場合は、パスワードをリセットできます。ただし、デフォルトユーザーのパスワードを忘れてしまった場合は、新しいパスワードで新しいユーザーを作成できます。詳しくは、[クラスタ認証情報（コンソール）](./cluster-credentials)およびクラスタ認証情報（SDK）を参照してください。
