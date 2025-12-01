@@ -17,10 +17,10 @@ keywords:
   - クラウド
   - コレクション
   - コレクションの説明
-  - Annoyベクトル検索
-  - milvus
-  - Zilliz
-  - milvusベクトルデータベース
+  - Faissベクトルデータベース
+  - Chromaベクトルデータベース
+  - nlp検索
+  - 幻象化llm
 
 ---
 
@@ -37,7 +37,7 @@ Zilliz Cloudでは、複数のコレクションを作成してデータを管�
 
 以下のチャートは、8つの列と6つのエンティティを持つコレクションを示しています。
 
-![BitLbgzN4oYspwxM4vQcAmg2n9f](/img/BitLbgzN4oYspwxM4vQcAmg2n9f.png)
+![BitLbgzN4oYspwxM4vQcAmg2n9f](/img/bitlbgzn4oyspwxm4vqcamg2n9f.png "BitLbgzN4oYspwxM4vQcAmg2n9f")
 
 ## スキーマとフィールド\{#schema-and-fields}
 
