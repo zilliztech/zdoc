@@ -16,10 +16,10 @@ keywords:
   - ベクターデータベース
   - クラウド
   - プロジェクト
-  - ベクトル類似検索
-  - 近似最近傍検索
-  - DiskANN
-  - スパースベクトル
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 
@@ -56,7 +56,7 @@ Zilliz CloudウェブコンソールまたはRESTful APIを使用してプロジ
 
     <Supademo id="cmhivxhnz5zctfatifx1jw34l?utm_source=link" title=""  />
 
-    ![create-project](/img/create-project.png)
+    ![create-project](/img/create-project.png "create-project")
 
 - **RESTful API経由**
 
@@ -134,7 +134,7 @@ Zilliz CloudウェブコンソールまたはRESTful APIを使用してプロジ
 
 - **ウェブコンソール経由**
 
-    ![view-projects-saas](/img/view-projects-saas.png)
+    ![view-projects-saas](/img/view-projects-saas.png "view-projects-saas")
 
 - **RESTful API経由**
 
@@ -175,7 +175,7 @@ Zilliz CloudウェブコンソールまたはRESTful APIを使用してプロジ
 
     **プロジェクト**ページで、プロジェクト名、プラン、作成時刻、およびプロジェクト内のクラスター数を確認できます。特定のプロジェクトをクリックして、そのクラスターをさらに表示することもできます。
 
-    ![NoSTbfMVjoPp99x5cjcc0cwWnbd](/img/NoSTbfMVjoPp99x5cjcc0cwWnbd.png)
+    ![NoSTbfMVjoPp99x5cjcc0cwWnbd](/img/NoSTbfMVjoPp99x5cjcc0cwWnbd.png "NoSTbfMVjoPp99x5cjcc0cwWnbd")
 
 - **RESTful API経由**
 
@@ -215,6 +215,8 @@ Zilliz CloudウェブコンソールまたはRESTful APIを使用してプロジ
 ## プロジェクトの削除\{#delete-a-project}
 
 プロジェクトを削除するには、[組織オーナー](./organization-users)である必要があります。
+
+プロジェクトを削除する前に、プロジェクト内のすべての[クラスター](./manage-cluster#drop-cluster)と[ボリューム](./manage-volumes-via-console#delete-a-volume)を削除する必要があります。
 
 プロジェクトが削除されると、関連するすべてのデータとリソースも不可逆的に削除されます。
 

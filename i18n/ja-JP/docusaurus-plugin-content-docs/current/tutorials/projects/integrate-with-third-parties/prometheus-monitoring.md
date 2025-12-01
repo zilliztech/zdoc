@@ -18,10 +18,10 @@ keywords:
   - サードパーティ
   - サービス
   - prometheus
-  - hnswアルゴリズム
-  - ベクトル類似検索
-  - 近似最近傍検索
-  - DiskANN
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

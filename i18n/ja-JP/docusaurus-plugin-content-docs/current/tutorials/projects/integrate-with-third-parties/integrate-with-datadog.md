@@ -18,10 +18,10 @@ keywords:
   - サードパーティ
   - サービス
   - datadog
-  - ミルヴスベンチマーク
-  - マネージドミルヴス
-  - サーバーレスベクターデータベース
-  - オープンソースミルヴス
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 
@@ -115,7 +115,7 @@ import Admonition from '@theme/Admonition';
 
     1. **作成**をクリックします。
 
-![integrate-with-datadog-1](/img/integrate-with-datadog-1.png)
+![integrate-with-datadog-1](/img/integrate-with-datadog-1.png "integrate-with-datadog-1")
 
 ## 統合進捗の監視\{#monitor-integration-progress}
 
@@ -123,7 +123,7 @@ import Admonition from '@theme/Admonition';
 
 統合の横にある外部リンクアイコンをクリックすると、関連するDatadogダッシュボードを開き、選択したZilliz Cloudクラスターからプッシュされたクラスターメトリクスを表示できます。
 
-![integrate-with-datadog-2](/img/integrate-with-datadog-2.png)
+![integrate-with-datadog-2](/img/integrate-with-datadog-2.png "integrate-with-datadog-2")
 
 ## 統合の管理\{#manage-integrations}
 
@@ -133,7 +133,7 @@ Datadog統合を管理するには、**アクション**列を使用します：
 
 - **削除**：不要になった場合は統合を削除します。
 
-![integrate-with-datadog-3](/img/integrate-with-datadog-3.png)
+![integrate-with-datadog-3](/img/integrate-with-datadog-3.png "integrate-with-datadog-3")
 
 ## Datadogで利用可能なパフォーマンスメトリクス\{#performance-metrics-available-to-datadog}
 

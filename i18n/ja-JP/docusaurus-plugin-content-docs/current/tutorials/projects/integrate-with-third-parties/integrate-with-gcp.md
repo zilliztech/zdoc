@@ -20,10 +20,10 @@ keywords:
   - google
   - クラウド
   - ストレージ
-  - ベクトル埋め込みとは
-  - ベクターデータベースチュートリアル
-  - ベクターデータベースの仕組み
-  - ベクターデータベース比較
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 
@@ -158,7 +158,7 @@ Google Cloud Storageは、監査ログまたはバックアップファイルを
 
 統合が追加されると、その詳細を表示したり、必要に応じて統合を削除したりできます。
 
-![FKLYbB02LoDDA9xENiYccBTun5e](/img/FKLYbB02LoDDA9xENiYccBTun5e.png)
+![FKLYbB02LoDDA9xENiYccBTun5e](/img/FKLYbB02LoDDA9xENiYccBTun5e.png "FKLYbB02LoDDA9xENiYccBTun5e")
 
 ## FAQ\{#faq}
 

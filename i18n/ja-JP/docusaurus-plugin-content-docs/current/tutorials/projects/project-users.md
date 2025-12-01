@@ -16,10 +16,10 @@ keywords:
   - ベクターデータベース
   - クラウド
   - プロジェクトユーザー
-  - 音声検索
-  - セマンティック検索とは
-  - 埋め込みモデル
-  - 画像類似検索
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 
@@ -55,8 +55,8 @@ Zilliz Cloudは3つのプロジェクト役割を提供します。これらの�
          <th><p><strong>データプレーンRESTful API（V2）権限</strong></p></th>
        </tr>
        <tr>
-         <td><ul><li><p>プロジェクト内の<a href="./cluster">クラスター</a>を管理</p></li><li><p><a href="./collection">コレクション</a>と<a href="./manage-indexes">インデックス</a>を管理</p></li><li><p><a href="./project-users">プロジェクトユーザー</a>を管理</p></li><li><p><a href="./network-and-security">IPアクセスリストとプライベートリンク</a>を管理</p></li><li><p><a href="./manage-project-alerts">プロジェクトアラート</a>を管理</p></li><li><p><a href="./backup-and-restore">バックアップ</a>を管理</p></li><li><p>データ<a href="./migrations">移行</a>を管理</p></li><li><p><a href="./job-center">プロジェクトジョブ</a>を管理</p></li><li><p>統合を管理</p></li><li><p><a href="./cluster-roles#built-in-cluster-roles">クラスター管理者</a>権限をすべて含む</p></li></ul></td>
-         <td><ul><li><p><a href="/reference/restful/cloud-meta-v2">すべてのクラウドメタ操作</a></p></li><li><p><a href="/reference/restful/cluster-operations-v2">すべてのクラスタ操作</a></p></li><li><p><a href="/reference/restful/import-operations-v2">すべてのインポート操作</a></p></li><li><p><a href="/reference/restful/backup-and-restore-v2">すべてのバックアップおよび復元操作</a></p></li><li><p><a href="/reference/restful/cloud-migration-v2">すべてのクラウド移行操作</a></p></li><li><p><a href="/reference/restful/cloud-job-v2">すべてのクラウドジョブ操作</a></p></li></ul></td>
+         <td><ul><li><p>プロジェクト内の<a href="./cluster">クラスター</a>を管理</p></li><li><p>プロジェクト内の<a href="./volume-explained">ボリューム</a>を管理</p></li><li><p><a href="./collection">コレクション</a>と<a href="./manage-indexes">インデックス</a>を管理</p></li><li><p><a href="./project-users">プロジェクトユーザー</a>を管理</p></li><li><p><a href="./network-and-security">IPアクセスリストとプライベートリンク</a>を管理</p></li><li><p><a href="./manage-project-alerts">プロジェクトアラート</a>を管理</p></li><li><p><a href="./backup-and-restore">バックアップ</a>を管理</p></li><li><p>データ<a href="./migrations">移行</a>を管理</p></li><li><p><a href="./job-center">プロジェクトジョブ</a>を管理</p></li><li><p>統合を管理</p></li><li><p><a href="./cluster-roles#built-in-cluster-roles">クラスター管理者</a>権限をすべて含む</p></li></ul></td>
+         <td><ul><li><p><a href="/reference/restful/cloud-meta-v2">すべてのクラウドメタ操作</a></p></li><li><p><a href="/reference/restful/cluster-operations-v2">すべてのクラスタ操作</a></p></li><li><p><a href="/reference/restful/volume-operations-v2">すべてのボリューム操作</a></p></li><li><p><a href="/reference/restful/import-operations-v2">すべてのインポート操作</a></p></li><li><p><a href="/reference/restful/backup-and-restore-v2">すべてのバックアップおよび復元操作</a></p></li><li><p><a href="/reference/restful/cloud-migration-v2">すべてのクラウド移行操作</a></p></li><li><p><a href="/reference/restful/cloud-job-v2">すべてのクラウドジョブ操作</a></p></li></ul></td>
          <td><ul><li><p><a href="/reference/restful/collection-operations-v2">すべてのコレクション操作</a></p></li><li><p><a href="/reference/restful/index-operations-v2">すべてのインデックス操作</a></p></li><li><p><a href="/reference/restful/partition-operations-v2">すべてのパーティション操作</a></p></li><li><p><a href="/reference/restful/vector-operations-v2">すべてのベクトル操作</a></p></li><li><p><a href="/reference/restful/alias-operations-v2">すべてのエイリアス操作</a></p></li><li><p><a href="/reference/restful/role-operations-v2">すべての役割操作</a></p></li><li><p><a href="/reference/restful/user-operations-v2">すべてのユーザ操作</a></p></li></ul></td>
        </tr>
     </table>
@@ -72,8 +72,8 @@ Zilliz Cloudは3つのプロジェクト役割を提供します。これらの�
          <th><p><strong>データプレーンRESTful API（V2）権限</strong></p></th>
        </tr>
        <tr>
-         <td><ul><li><p>プロジェクト内の<a href="./cluster">クラスター</a>を表示できますが、作成および管理はできません</p></li><li><p><a href="./collection">コレクション</a>と<a href="./manage-indexes">インデックス</a>を管理</p></li><li><p><a href="null">バックアップ</a>を表示できますが、バックアップファイルの作成や復元はできません</p></li><li><p><a href="./job-center">プロジェクトジョブ</a>を表示できますが、ジョブのキャンセルや失敗したジョブの再試行はできません</p></li></ul></td>
-         <td><ul><li><p><a href="/reference/restful/cloud-meta-v2">すべてのクラウドメタ操作</a></p></li><li><p>一部のクラスタ操作</p><ul><li><p><a href="/reference/restful/list-projects-v2">プロジェクトのリスト</a></p></li><li><p><a href="/reference/restful/list-clusters-v2">クラスターのリスト</a></p></li><li><p><a href="/reference/restful/describe-cluster-v2">クラスターの説明</a></p></li><li><p><a href="/reference/restful/query-cluster-metrics-v2">クラスターメトリクスの照会</a></p></li><li><p><a href="/docs/prometheus-monitoring">メトリクスのエクスポート</a></p></li></ul></li><li><p><a href="/reference/restful/import-operations-v2">すべてのインポート操作</a></p></li><li><p>一部のバックアップおよび復元操作</p><ul><li><p><a href="/reference/restful/list-backups-v2">バックアップのリスト</a></p></li><li><p><a href="/reference/restful/describe-backup-v2">バックアップの説明</a></p></li><li><p><a href="/reference/restful/get-backup-policy-v2">バックアップポリシーの取得</a></p></li></ul></li><li><p><a href="/reference/restful/cloud-job-v2">すべてのクラウドジョブ操作</a></p></li></ul></td>
+         <td><ul><li><p>プロジェクト内の<a href="./cluster">クラスター</a>を表示できますが、作成および管理はできません</p></li><li><p>プロジェクト内の<a href="./volume-explained">ボリューム</a>を表示できますが、作成および管理はできません</p></li><li><p>ボリュームからファイル/フォルダを削除</p></li><li><p><a href="./collection">コレクション</a>と<a href="./manage-indexes">インデックス</a>を管理</p></li><li><p><a href="null">バックアップ</a>を表示できますが、バックアップファイルの作成や復元はできません</p></li><li><p><a href="./job-center">プロジェクトジョブ</a>を表示できますが、ジョブのキャンセルや失敗したジョブの再試行はできません</p></li></ul></td>
+         <td><ul><li><p><a href="/reference/restful/cloud-meta-v2">すべてのクラウドメタ操作</a></p></li><li><p>一部のクラスタ操作</p><ul><li><p><a href="/reference/restful/list-projects-v2">プロジェクトのリスト</a></p></li><li><p><a href="/reference/restful/list-clusters-v2">クラスターのリスト</a></p></li><li><p><a href="/reference/restful/describe-cluster-v2">クラスターの説明</a></p></li><li><p><a href="/reference/restful/query-cluster-metrics-v2">クラスターメトリクスの照会</a></p></li><li><p><a href="/docs/prometheus-monitoring">メトリクスのエクスポート</a></p></li></ul></li><li><p>一部のボリューム操作</p><ul><li><a href="/reference/restful/list-volumes-v2">ボリュームのリスト</a></li></ul></li><li><p><a href="/reference/restful/import-operations-v2">すべてのインポート操作</a></p></li><li><p>一部のバックアップおよび復元操作</p><ul><li><p><a href="/reference/restful/list-backups-v2">バックアップのリスト</a></p></li><li><p><a href="/reference/restful/describe-backup-v2">バックアップの説明</a></p></li><li><p><a href="/reference/restful/get-backup-policy-v2">バックアップポリシーの取得</a></p></li></ul></li><li><p><a href="/reference/restful/cloud-job-v2">すべてのクラウドジョブ操作</a></p></li></ul></td>
          <td><ul><li><p><a href="/reference/restful/collection-operations-v2">すべてのコレクション操作</a></p></li><li><p><a href="/reference/restful/index-operations-v2">すべてのインデックス操作</a></p></li><li><p><a href="/reference/restful/partition-operations-v2">すべてのパーティション操作</a></p></li><li><p><a href="/reference/restful/vector-operations-v2">すべてのベクトル操作</a></p></li><li><p><a href="/reference/restful/alias-operations-v2">すべてのエイリアス操作</a></p></li></ul></td>
        </tr>
     </table>
@@ -89,13 +89,13 @@ Zilliz Cloudは3つのプロジェクト役割を提供します。これらの�
          <th><p><strong>データプレーンRESTful API（V2）権限</strong></p></th>
        </tr>
        <tr>
-         <td><ul><li><p>プロジェクト内の<a href="./cluster">クラスター</a>を表示できますが、作成および管理はできません</p></li><li><p><a href="./collection">コレクション</a>と<a href="./manage-indexes">インデックス</a>を表示のみ</p></li><li><p><a href="null">バックアップ</a>を表示できますが、バックアップファイルの作成や復元はできません</p></li><li><p><a href="./job-center">プロジェクトジョブ</a>を表示できますが、ジョブのキャンセルや失敗したジョブの再試行はできません</p></li></ul></td>
-         <td><ul><li><p><a href="/reference/restful/cloud-meta-v2">すべてのクラウドメタ操作</a></p></li><li><p>一部のクラスタ操作</p><ul><li><p><a href="/reference/restful/list-projects-v2">プロジェクトのリスト</a></p></li><li><p><a href="/reference/restful/list-clusters-v2">クラスターのリスト</a></p></li><li><p><a href="/reference/restful/describe-cluster-v2">クラスターの説明</a></p></li><li><p><a href="/reference/restful/query-cluster-metrics-v2">クラスターメトリクスの照会</a></p></li><li><p><a href="/docs/prometheus-monitoring">メトリクスのエクスポート</a></p></li></ul></li><li><p>一部のインポート操作</p><ul><li><p><a href="/reference/restful/get-import-job-progress-v2">インポートジョブの進行状況の取得</a></p></li><li><p><a href="/reference/restful/list-import-jobs-v2">インポートジョブのリスト</a></p></li></ul></li><li><p>一部のバックアップおよび復元操作</p><ul><li><p><a href="/reference/restful/list-backups-v2">バックアップのリスト</a></p></li><li><p><a href="/reference/restful/describe-backup-v2">バックアップの説明</a></p></li><li><p><a href="/reference/restful/get-backup-policy-v2">バックアップポリシーの取得</a></p></li></ul></li><li><p><a href="/reference/restful/cloud-job-v2">すべてのクラウドジョブ操作</a></p></li></ul></td>
+         <td><ul><li><p>プロジェクト内の<a href="./cluster">クラスター</a>を表示できますが、作成および管理はできません</p></li><li><p>プロジェクト内の<a href="./volume-explained">ボリューム</a>を表示できますが、作成および管理はできません</p></li><li><p><a href="./collection">コレクション</a>と<a href="./manage-indexes">インデックス</a>を表示のみ</p></li><li><p><a href="null">バックアップ</a>を表示できますが、バックアップファイルの作成や復元はできません</p></li><li><p><a href="./job-center">プロジェクトジョブ</a>を表示できますが、ジョブのキャンセルや失敗したジョブの再試行はできません</p></li></ul></td>
+         <td><ul><li><p><a href="/reference/restful/cloud-meta-v2">すべてのクラウドメタ操作</a></p></li><li><p>一部のクラスタ操作</p><ul><li><p><a href="/reference/restful/list-projects-v2">プロジェクトのリスト</a></p></li><li><p><a href="/reference/restful/list-clusters-v2">クラスターのリスト</a></p></li><li><p><a href="/reference/restful/describe-cluster-v2">クラスターの説明</a></p></li><li><p><a href="/reference/restful/query-cluster-metrics-v2">クラスターメトリクスの照会</a></p></li><li><p><a href="/docs/prometheus-monitoring">メトリクスのエクスポート</a></p></li></ul></li><li><p>一部のボリューム操作</p><ul><li><a href="/reference/restful/list-volumes-v2">ボリュームのリスト</a></li></ul></li><li><p>一部のインポート操作</p><ul><li><p><a href="/reference/restful/get-import-job-progress-v2">インポートジョブの進行状況の取得</a></p></li><li><p><a href="/reference/restful/list-import-jobs-v2">インポートジョブのリスト</a></p></li></ul></li><li><p>一部のバックアップおよび復元操作</p><ul><li><p><a href="/reference/restful/list-backups-v2">バックアップのリスト</a></p></li><li><p><a href="/reference/restful/describe-backup-v2">バックアップの説明</a></p></li><li><p><a href="/reference/restful/get-backup-policy-v2">バックアップポリシーの取得</a></p></li></ul></li><li><p><a href="/reference/restful/cloud-job-v2">すべてのクラウドジョブ操作</a></p></li></ul></td>
          <td><ul><li><p>一部のコレクション操作</p><ul><li><p><a href="/reference/restful/describe-collection-v2">コレクションの説明</a></p></li><li><p><a href="/reference/restful/get-collection-load-state-v2">コレクションロード状態の取得</a></p></li><li><p><a href="/reference/restful/get-collection-stats-v2">コレクション統計の取得</a></p></li><li><p><a href="/reference/restful/has-collection-v2">コレクションの有無</a></p></li><li><p><a href="/reference/restful/list-collections-v2">コレクションのリスト</a></p></li></ul></li><li><p>一部のインデックス操作</p><ul><li><p><a href="/reference/restful/describe-index-v2">インデックスの説明</a></p></li><li><p><a href="/reference/restful/list-indexes-v2">インデックスのリスト</a></p></li></ul></li><li><p>一部のパーティション操作</p><ul><li><p><a href="/reference/restful/get-partition-statistics-v2">パーティション統計の取得</a></p></li><li><p><a href="/reference/restful/has-partition-v2">パーティションの有無</a></p></li><li><p><a href="/reference/restful/list-partitions-v2">パーティションのリスト</a></p></li></ul></li><li><p>一部のエイリアス操作</p><ul><li><p><a href="/reference/restful/describe-alias-v2">エイリアスの説明</a></p></li><li><p><a href="/reference/restful/list-aliases-v2">エイリアスのリスト</a></p></li></ul></li></ul></td>
        </tr>
     </table>
 
-招待されたユーザーはメールで招待を受け取り、48時間以内に承諾してプロジェクトに参加する必要があります。または、ウェブコンソールから招待リンクをコピーして招待されたユーザーと共有することもできます。
+招待されたユーザーはメールで招待を受け取り、48時間以内に承諾してプロジェクトに参加する必要があります。また、ウェブコンソールから招待リンクをコピーして招待されたユーザーと共有することもできます。
 
 ユーザーがプロジェクトに参加すると、このユーザーは自動的にプロジェクトが所属する組織の組織メンバーになります。
 
@@ -105,7 +105,7 @@ Zilliz Cloudは3つのプロジェクト役割を提供します。これらの�
 
 </Admonition>
 
-![invite-user-to-project](/img/invite-user-to-project.png)
+![invite-user-to-project](/img/invite-user-to-project.png "invite-user-to-project")
 
 ## 招待の取り消しまたは再送\{#revoke-or-resend-an-invitation}
 
@@ -119,7 +119,7 @@ Zilliz Cloudは3つのプロジェクト役割を提供します。これらの�
 
 </Admonition>
 
-![revoke-or-cancel-invitation-to-project](/img/revoke-or-cancel-invitation-to-project.png)
+![revoke-or-cancel-invitation-to-project](/img/revoke-or-cancel-invitation-to-project.png "revoke-or-cancel-invitation-to-project")
 
 ## 協力者役割の編集または協力者の削除\{#edit-a-collaborators-role-or-remove-a-collaborator}
 
@@ -127,7 +127,7 @@ Zilliz Cloudは3つのプロジェクト役割を提供します。これらの�
 
 協力者の役割を編集またはプロジェクト協力者を削除するには、**組織オーナー**または**プロジェクト管理者**である必要があります。
 
-![edit-user-role-or-remove-project-user](/img/edit-user-role-or-remove-project-user.png)
+![edit-user-role-or-remove-project-user](/img/edit-user-role-or-remove-project-user.png "edit-user-role-or-remove-project-user")
 
 ## プロジェクトを退出\{#leave-a-project}
 
@@ -141,4 +141,4 @@ Zilliz Cloudは3つのプロジェクト役割を提供します。これらの�
 
 </Admonition>
 
-![leave-project](/img/leave-project.png)
+![leave-project](/img/leave-project.png "leave-project")

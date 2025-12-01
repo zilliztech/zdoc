@@ -16,10 +16,10 @@ keywords:
   - ベクターデータベース
   - クラウド
   - プロジェクトサードパーティ
-  - 画像類似検索
-  - コンテキストウィンドウ
-  - 自然言語検索
-  - 類似検索
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 

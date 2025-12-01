@@ -20,10 +20,10 @@ keywords:
   - azure
   - blob
   - ストレージ
-  - 拡張性を活用した検索
-  - 大規模言語モデル
-  - ベクトル化
-  - k最近傍アルゴリズム
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 
@@ -58,7 +58,7 @@ Zilliz Cloudでは、[Azure Blob Storage](https://azure.microsoft.com/en-us/prod
 
 1. **Azure Blob Storage**セクションで、**+ 統合**をクリックします。
 
-    ![Pxw7bG0keosOCDxfVdmcCC1rnBg](/img/Pxw7bG0keosOCDxfVdmcCC1rnBg.png)
+    ![Pxw7bG0keosOCDxfVdmcCC1rnBg](/img/Pxw7bG0keosOCDxfVdmcCC1rnBg.png "Pxw7bG0keosOCDxfVdmcCC1rnBg")
 
 1. 表示されるダイアログボックスで、**基本設定**を完了します：
 
@@ -74,15 +74,15 @@ Zilliz Cloudでは、[Azure Blob Storage](https://azure.microsoft.com/en-us/prod
 
 1. 検索バーに**ストレージアカウント**と入力し、オプションを選択します。
 
-    ![integrate-with-azure-blob-1](/img/integrate-with-azure-blob-1.png)
+    ![integrate-with-azure-blob-1](/img/integrate-with-azure-blob-1.png "integrate-with-azure-blob-1")
 
 1. **ストレージアカウント**ページで、既存のストレージアカウントを選択するか、**+ 作成**をクリックして新しいアカウントを設定します。**注：**ストレージアカウントは、Zilliz Cloudクラスターと同じリージョンにある必要があります。
 
-    ![integrate-with-azure-blob-2](/img/integrate-with-azure-blob-2.png)
+    ![integrate-with-azure-blob-2](/img/integrate-with-azure-blob-2.png "integrate-with-azure-blob-2")
 
 1. ストレージアカウントの詳細ページで、**データストレージ** > **コンテナー**に移動し、**+ コンテナー**をクリックします。
 
-    ![S3Evbdfp1o5JWnxhCkEcUZktnme](/img/S3Evbdfp1o5JWnxhCkEcUZktnme.png)
+    ![S3Evbdfp1o5JWnxhCkEcUZktnme](/img/S3Evbdfp1o5JWnxhCkEcUZktnme.png "S3Evbdfp1o5JWnxhCkEcUZktnme")
 
 1. 表示されるパネルで、コンテナー名を入力します。Zilliz Cloudコンソールでこのコンテナー名が必要になるため、メモを取っておいてください。
 
@@ -96,25 +96,25 @@ Zilliz Cloudでは、[Azure Blob Storage](https://azure.microsoft.com/en-us/prod
 
     次に、**次へ**をクリックして続行します。
 
-    ![integrate-with-azure-blob-3](/img/integrate-with-azure-blob-3.png)
+    ![integrate-with-azure-blob-3](/img/integrate-with-azure-blob-3.png "integrate-with-azure-blob-3")
 
 ## ステップ3：アプリケーションを登録し、資格情報を追加\{#step-3-register-an-application-and-add-credential}
 
 1. [Azureポータル](https://portal.azure.com/#home)に戻り、**アプリ登録**を検索して選択します。
 
-    ![integrate-with-azure-blob-4](/img/integrate-with-azure-blob-4.png)
+    ![integrate-with-azure-blob-4](/img/integrate-with-azure-blob-4.png "integrate-with-azure-blob-4")
 
 1. **アプリケーションの登録**ページで、**+ 新しい登録**をクリックします。
 
-    ![integrate-with-azure-blob-5](/img/integrate-with-azure-blob-5.png)
+    ![integrate-with-azure-blob-5](/img/integrate-with-azure-blob-5.png "integrate-with-azure-blob-5")
 
 1. **アプリケーションの登録**パネルで、アプリケーションの名前を入力し、他のフィールドはデフォルト設定のままにして、**登録**をクリックします。
 
-    ![RLaubwh94oRrLqxf8R4cd3xvnPg](/img/RLaubwh94oRrLqxf8R4cd3xvnPg.png)
+    ![RLaubwh94oRrLqxf8R4cd3xvnPg](/img/RLaubwh94oRrLqxf8R4cd3xvnPg.png "RLaubwh94oRrLqxf8R4cd3xvnPg")
 
 1. アプリケーションの**概要**ページで、**アプリケーション（クライアント）ID**と**ディレクトリ（テナント）ID**をコピーします。これらの値はZilliz Cloudコンソールで必要になります。
 
-    ![Dgwnbb77ToK38Vx8WHdcN2ylnSh](/img/Dgwnbb77ToK38Vx8WHdcN2ylnSh.png)
+    ![Dgwnbb77ToK38Vx8WHdcN2ylnSh](/img/Dgwnbb77ToK38Vx8WHdcN2ylnSh.png "Dgwnbb77ToK38Vx8WHdcN2ylnSh")
 
 1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)に戻り、コピーした**アプリケーション（クライアント）ID**と**ディレクトリ（テナント）ID**を**新規アプリケーションの登録**ステップに入力します。
 
@@ -122,7 +122,7 @@ Zilliz Cloudでは、[Azure Blob Storage](https://azure.microsoft.com/en-us/prod
 
 1. [Azureポータル](https://portal.azure.com/#home)のアプリケーションページに戻ります。**管理** > **証明書とシークレット** > **連携クレデンシャル**に移動し、**+ 資格情報の追加**をクリックします。
 
-    ![UGgmb9dKnoPlk9xtrFvcDl3Dnfd](/img/UGgmb9dKnoPlk9xtrFvcDl3Dnfd.png)
+    ![UGgmb9dKnoPlk9xtrFvcDl3Dnfd](/img/UGgmb9dKnoPlk9xtrFvcDl3Dnfd.png "UGgmb9dKnoPlk9xtrFvcDl3Dnfd")
 
 1. **資格情報の追加**パネルで、資格情報設定を構成します：
 
@@ -140,7 +140,7 @@ Zilliz Cloudでは、[Azure Blob Storage](https://azure.microsoft.com/en-us/prod
 
     次に、**追加**をクリックしてクレデンシャルを保存します。
 
-    ![integrate-with-azure-blob-7](/img/integrate-with-azure-blob-7.png)
+    ![integrate-with-azure-blob-7](/img/integrate-with-azure-blob-7.png "integrate-with-azure-blob-7")
 
 1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)に戻り、**次へ**をクリックして続行します。
 
@@ -148,15 +148,15 @@ Zilliz Cloudでは、[Azure Blob Storage](https://azure.microsoft.com/en-us/prod
 
 1. [Azureポータル](https://portal.azure.com/#home)で、**アクセス制御（IAM）** > **+ 追加** > **ロールの割り当ての追加**に移動します。
 
-    ![integrate-with-azure-blob-6](/img/integrate-with-azure-blob-6.png)
+    ![integrate-with-azure-blob-6](/img/integrate-with-azure-blob-6.png "integrate-with-azure-blob-6")
 
 1. **ロールのタブ**ページで、**ストレージBLOBデータ共同作成者**ロールを選択します。
 
-    ![CXjcbs7q9oitdRxKzkhcrhnznh0](/img/CXjcbs7q9oitdRxKzkhcrhnznh0.png)
+    ![CXjcbs7q9oitdRxKzkhcrhnznh0](/img/CXjcbs7q9oitdRxKzkhcrhnznh0.png "CXjcbs7q9oitdRxKzkhcrhnznh0")
 
 1. **メンバー**タブで、ロールを割り当てる登録済みアプリケーションを選択します。
 
-    ![SbSgbe9tzo45z3xtKLicm64ingc](/img/SbSgbe9tzo45z3xtKLicm64ingc.png)
+    ![SbSgbe9tzo45z3xtKLicm64ingc](/img/SbSgbe9tzo45z3xtKLicm64ingc.png "SbSgbe9tzo45z3xtKLicm64ingc")
 
 1. **レビュー + 割り当て**タブで、**レビュー + 割り当て**をクリックして確認します。
 
@@ -172,7 +172,7 @@ Azure Blob Storageは、バックアップファイルをエクスポートす�
 
 統合が追加されると、その詳細を表示したり、必要に応じて統合を削除したりできます。
 
-![DN2GbaT6momqNzxZeLwc0fe2nuh](/img/DN2GbaT6momqNzxZeLwc0fe2nuh.png)
+![DN2GbaT6momqNzxZeLwc0fe2nuh](/img/DN2GbaT6momqNzxZeLwc0fe2nuh.png "DN2GbaT6momqNzxZeLwc0fe2nuh")
 
 ## トラブルシューティング\{#troubleshooting}
 

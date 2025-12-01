@@ -16,27 +16,18 @@ Currently, there are two document sets that need to be translated:
     Source language: English (./docs/versioned_docs/version-byoc/tutorials)
     Target languages: Japanese (./i18n/ja-JP/docusaurus-plugin-content-docs/version-byoc/tutorials)
 
-
-Currently, the Target folders contains the Japanese translation of the legacy documents. The latest source documents may have updates that are not reflected in the Target folders. Therefore, the translation process may have the following steps:
-
-1. Use `git diff v2.22.0 v2.21.0 -- {target_folder}/**/*.md` to find the changes made to the source documents since the last translation.
-2. Use the identified changes as a reference to update the corresponding translated documents in the Target folders. For documents that only have keyword changes, keep them as-is.
-3. Use `npx docusaurus mdx-parse` to validate the translated documents.
-
 ## Translation Process
 
-To translate the documents, follow these steps:
+You should translate the documents in the given folder one after another. For each document, follow these steps:
 
-1. Clone the repository and create a new branch for the translation.
-2. Use `git diff v2.22.0 v2.21.0 -- {target_folder}/**/*.md` to find the changes made to the source documents since the last translation. 
-    - For any new file, create a new translation file in the Target folder.
-    - For any updated file, update the corresponding translation file in the Target folder.
-    - For any deleted file, delete the corresponding translation file from the Target folder.
-    - Ignore all keyword changes, and leave them as-is.
-3. Use the identified changes as a reference to update the corresponding translated documents in the Target folders.
-4. Use `npx docusaurus mdx-parse` to validate the translated documents.
-5. Commit the changes to the Target folders.
-6. Create a pull request to merge the changes into the main branch.
+1. Use `git diff v2.22.0...v2.21.0 -- {target_document}` to compare the target document with its previous version to identify any changes.
+2. Describe the identified changes explicitly and note any changes that need to be translated.
+3. Translate the changes into the target language.
+4. Update the translated content in the target document.
+5. Verify that all image alt text descriptions are present and correctly translated.
+6. Ensure that frontmatter fields are consistent with the English version (e.g., sidebar_position, added_since, last_modified, deprecate_since).
+7. Check that keywords in the frontmatter match the English version.
+8. Verify that all formatting, tables, and special characters are properly maintained in the translation.
 
 During the translation, ensure：
 

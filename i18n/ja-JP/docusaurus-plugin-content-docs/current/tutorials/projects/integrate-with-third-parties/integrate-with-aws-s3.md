@@ -20,10 +20,10 @@ keywords:
   - 統合
   - オブジェクト
   - ストレージ
-  - Chroma vs Milvus
-  - Annoyベクトル検索
-  - ミルヴス
-  - Zilliz
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

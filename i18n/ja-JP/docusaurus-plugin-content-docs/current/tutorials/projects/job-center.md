@@ -16,10 +16,10 @@ keywords:
   - ベクターデータベース
   - クラウド
   - プロジェクトジョブ
-  - 情報検索
-  - 次元削減
-  - hnswアルゴリズム
-  - ベクトル類似検索
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 
@@ -110,7 +110,7 @@ Zilliz Cloudは、同じプロジェクト内のすべての履歴的および�
 
 ジョブの詳細を表示するには、**アクション**列の**...**をクリックし、**詳細を表示**を選択します。または、[ジョブの詳細取得](/reference/restful/describe-job-v2)APIを使用してプログラムで詳細を取得することもできます。
 
-![view_job_details](/img/view_job_details.png)
+![view_job_details](/img/view_job_details.png "view_job_details")
 
 ## ジョブのキャンセル\{#cancel-job}
 
@@ -128,7 +128,7 @@ Zilliz Cloudは、同じプロジェクト内のすべての履歴的および�
 
 </Admonition>
 
-![cancel_job](/img/cancel_job.png)
+![cancel_job](/img/cancel_job.png "cancel_job")
 
 ## 失敗したジョブの再試行\{#retry-failed-job}
 
@@ -143,4 +143,4 @@ Zilliz Cloudは、同じプロジェクト内のすべての履歴的および�
 
 インポートに失敗したファイルに対して調整を行った場合は、ジョブを再試行できます。
 
-![retry_failed_job](/img/retry_failed_job.png)
+![retry_failed_job](/img/retry_failed_job.png "retry_failed_job")
