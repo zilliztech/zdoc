@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 
@@ -45,9 +45,9 @@ import Admonition from '@theme/Admonition';
 
      コレクションの作成方法の詳細については、[コレクションの管理（コンソール）](./manage-collections-console)を参照してください。
 
-## ステージを介したデータのインポート | PRIVATE\{#import-data-via-stage}
+## ボリュームを介したデータのインポート\{#import-data-via-volume}
 
-ファイルからデータをステージを介してインポートするには、まずステージを作成し、そこにファイルをアップロードする必要があります。完了したら、ステージ内のファイルパスを取得します。詳細については、[ステージの管理](./manage-stages)を参照してください。
+ファイルからデータをボリュームを介してインポートするには、まずボリュームを作成し、そこにファイルをアップロードする必要があります。完了したら、ボリューム内のファイルパスを取得します。詳細については、[ボリュームの管理（SDK）](./manage-stages)を参照してください。
 
 その後、アップロードされたデータを特定のコレクションに以下のようにインポートできます：
 
@@ -61,10 +61,10 @@ curl --request POST \
     "dbName": "default",
     "collectionName": "medium_articles",
     "partitionName": "",
-    "stageName": "my_stage",
+    "volumeName": "my_volume",
     "dataPaths": [
         [
-            "1.parquet"
+            "json-folder/1.json"
         ]
     ]
 }'

@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 
@@ -33,7 +33,13 @@ import Admonition from '@theme/Admonition';
 
 `.npy`形式は、[NumPyの標準バイナリ形式](https://numpy.org/devdocs/reference/generated/numpy.lib.format.html)で、単一の配列を形状およびdtype情報を含めて保存し、異なるマシン上で正しく再構築できることを保証します。生データをParquetファイルに準備するには[BulkWriterツール](./use-bulkwriter)の使用を推奨します。以下の図は、生データが`.npy`ファイルセットにどのようにマッピングされるかを示しています。
 
-![numpy_file_structure](/img/numpy_file_structure.png)
+<Admonition type="danger" icon="🚧" title="警告">
+
+<p>この機能は非推奨になりました。本番環境での使用は推奨されません。</p>
+
+</Admonition>
+
+![numpy_file_structure](/img/numpy_file_structure.png "numpy_file_structure")
 
 <Admonition type="info" icon="📘" title="注意">
 

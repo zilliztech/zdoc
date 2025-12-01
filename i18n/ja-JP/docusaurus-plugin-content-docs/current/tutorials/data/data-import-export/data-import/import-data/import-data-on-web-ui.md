@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - console
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 
@@ -79,6 +79,14 @@ Zilliz Cloudは、ローカルJSONファイルまたはParquetファイルから
 </Admonition>
 
 <Supademo id="cme7xfbw40096xf0irz21196r?utm_source=link" title=""  />
+
+### ボリュームにアップロードされたファイル\{#files-uploaded-to-a-volume}
+
+ローカルファイルが非常に大きい（1GB超）場合は、最初に[ファイルをボリュームにアップロード](./manage-stages#upload-data-into-a-volume)してから、そこからインポートできます。
+
+準備したファイルをボリュームにアップロードしたら、ファイルパスをコピーしてコレクションにファイルをインポートし続行します。
+
+<Supademo id="cmidzr662adilb7b4d7l45rnf?utm_source=link" title=""  />
 
 ## 結果の確認\{#verify-results}
 

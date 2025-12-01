@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

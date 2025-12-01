@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 
@@ -163,13 +163,13 @@ while (results.hasNext()) {
 
 ## データのインポート\{#import-data}
 
-データとコレクションの準備ができたら、ステージ経由またはオブジェクトストレージバケットやブロックストレージblobコンテナなどの外部ストレージ経由で、特定のコレクションにデータをインポートできます。
+データとコレクションの準備ができたら、ボリューム経由またはオブジェクトストレージバケットやブロックストレージblobコンテナなどの外部ストレージ経由で、特定のコレクションにデータをインポートできます。
 
-### ステージを介したデータのインポート | PRIVATE\{#import-data-via-stage}
+### ボリュームを介したデータのインポート\{#import-data-via-volume}
 
-ステージ経由でデータをインポートするには、事前にストレージを作成し、データをステージにアップロードする必要があります。詳細については、[データのマージ](./merge-data)を参照してください。
+ボリューム経由でデータをインポートするには、事前にストレージを作成し、データをボリュームにアップロードする必要があります。詳細については、[データのマージ](./merge-data)を参照してください。
 
-ステージの準備ができ、ソースデータファイルが配置されたら、以下のようにステージからデータをインポートできます：
+ボリュームの準備ができ、ソースデータファイルが配置されたら、以下のようにボリュームからデータをインポートできます：
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -184,7 +184,7 @@ def cloud_bulkinsert():
     url = "https://api.cloud.zilliz.com"
     api_key = ""
     cluster_id = "inxx-xxxxxxxxxxxxxxx"
-    stage_name = "my-first-stage"
+    volume_name = "my-first-volume"
     data_path = "dataPath"
 
     print(f"\n===================== クラウドベクトルDBにファイルをインポート ====================")
@@ -194,7 +194,7 @@ def cloud_bulkinsert():
         api_key=api_key,
         cluster_id=cluster_id,
         collection_name='quick_setup',
-        stage_name=stage_name,
+        volume_name=volume_name,
         data_paths=[[data_path]]
     )
     print(resp.json())
@@ -217,15 +217,15 @@ private static String bulkImport() throws InterruptedException {
     String CLOUD_API_ENDPOINT = "https://api.cloud.zilliz.com";
     String CLUSTER_ID = "inxx-xxxxxxxxxxxxxxx";
     String API_KEY = "";
-    String STAGE_NAME = "my-first-stage";
+    String VOLUME_NAME = "my-first-volume";
     List<String> DATA_PATH = Lists.newArrayList("dataPath");
 
-    StageImportRequest stageImportRequest = StageImportRequest.builder()
+    VolumeImportRequest volumeImportRequest = VolumeImportRequest.builder()
             .apiKey(API_KEY)
             .clusterId(CLUSTER_ID).collectionName("quick_setup")
-            .stageName(STAGE_NAME).dataPaths(Lists.newArrayList(Collections.singleton(DATA_PATH)))
+            .volumeName(VOLUME_NAME).dataPaths(Lists.newArrayList(Collections.singleton(DATA_PATH)))
             .build();
-    String bulkImportResult = BulkImportUtils.bulkImport(CLOUD_API_ENDPOINT, stageImportRequest);
+    String bulkImportResult = BulkImportUtils.bulkImport(CLOUD_API_ENDPOINT, volumeImportRequest);
     System.out.println(bulkImportResult);
 
     JsonObject bulkImportObject = new Gson().fromJson(bulkImportResult, JsonObject.class);

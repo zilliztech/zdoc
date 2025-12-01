@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

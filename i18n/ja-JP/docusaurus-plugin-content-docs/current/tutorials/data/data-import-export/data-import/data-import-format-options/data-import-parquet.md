@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 
@@ -35,7 +35,7 @@ import Admonition from '@theme/Admonition';
 
 生データをParquetファイルに準備するには、[BulkWriterツール](./use-bulkwriter)の使用を推奨します。以下の図は、生データがParquetファイルにどのようにマッピングされるかを示しています。
 
-![parquet_file_structure_en](/img/parquet_file_structure_en.png)
+![parquet_file_structure_en](/img/parquet_file_structure_en.png "parquet_file_structure_en")
 
 <Admonition type="info" icon="📘" title="注意">
 

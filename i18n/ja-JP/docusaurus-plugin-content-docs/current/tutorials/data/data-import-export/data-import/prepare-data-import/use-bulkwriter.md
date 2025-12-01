@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

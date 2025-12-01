@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - json
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 
@@ -35,7 +35,7 @@ import Admonition from '@theme/Admonition';
 
 生データをJSONファイルに準備するには、[BulkWriterツール](./use-bulkwriter)の使用を推奨します。以下の図は、生データがJSONファイルにどのようにマッピングされるかを示しています。
 
-![json_data_structure](/img/json_data_structure.png)
+![json_data_structure](/img/json_data_structure.png "json_data_structure")
 
 <Admonition type="info" icon="📘" title="注意">
 
