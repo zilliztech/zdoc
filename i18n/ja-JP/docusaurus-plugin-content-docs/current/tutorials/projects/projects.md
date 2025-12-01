@@ -10,7 +10,7 @@ notebook: FALSE
 description: "この章では、プロジェクト操作と関連設定について説明します。 | Cloud"
 type: origin
 token: QHzrwVlEOipspAkPiyucWezqneC
-sidebar_position: 9
+sidebar_position: 10
 keywords:
   - zilliz
   - ベクターデータベース
