@@ -11,16 +11,16 @@ description: "ワークロードが増加し、より多くのデータが書き
 type: origin
 token: ExUFwDY1siCa2Bkp4incCvxFnlh
 sidebar_position: 4
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - クラスター
-  - 管理
-  - ベクトル化
-  - k最近傍アルゴリズム
-  - ANNS
-  - ベクター検索
+  - vector database
+  - cloud
+  - cluster
+  - manage
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

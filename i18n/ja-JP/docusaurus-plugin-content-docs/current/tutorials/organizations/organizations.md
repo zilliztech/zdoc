@@ -7,19 +7,19 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "この章では組織操作および関連設定に焦点を当てています。 | Cloud"
+description: "この章では、組織の操作と関連設定について説明します。 | Cloud"
 type: origin
 token: Dh6vwCrzYimC7skvDRUcvPi4n2c
-sidebar_position: 8
-keywords: 
+sidebar_position: 9
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 組織
-  - Chroma vs Milvus
-  - Annoyベクター検索
-  - milvus
-  - Zilliz
+  - vector database
+  - cloud
+  - organizations
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 
@@ -28,7 +28,7 @@ import Admonition from '@theme/Admonition';
 
 # 組織
 
-この章では組織操作および関連設定に焦点を当てています。
+この章では、組織の操作と関連設定について説明します。
 
 import DocCardList from '@theme/DocCardList';
 

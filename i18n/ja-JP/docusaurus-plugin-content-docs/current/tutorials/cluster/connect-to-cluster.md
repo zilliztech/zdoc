@@ -11,16 +11,16 @@ description: "この記事では、クラスターに接続するための体系
 type: origin
 token: IVFfws0lJi8gIVkRvrvc9aXvnNe
 sidebar_position: 2
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - クラスター
-  - 接続
-  - llm-as-a-judge
-  - ハイブリッドベクター検索
-  - ビデオ重複排除
-  - ビデオ類似検索
+  - vector database
+  - cloud
+  - cluster
+  - connect
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

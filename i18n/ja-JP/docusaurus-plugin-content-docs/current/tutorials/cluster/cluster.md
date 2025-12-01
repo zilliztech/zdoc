@@ -11,15 +11,15 @@ description: "Zilliz Cloudでクラスターを管理するために必要なす
 type: origin
 token: BIy4we6qXiq8NpkHfXgcxuONngb
 sidebar_position: 4
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - クラスター
-  - milvus ベンチマーク
-  - マネージドmilvus
-  - サーバーレスベクターデータベース
-  - milvus オープンソース
+  - vector database
+  - cloud
+  - cluster
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

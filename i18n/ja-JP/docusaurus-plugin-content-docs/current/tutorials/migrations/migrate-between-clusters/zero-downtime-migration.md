@@ -11,17 +11,17 @@ description: "ゼロダウンタイム移行により、データベースサー
 type: origin
 token: XDoSwZodyigAEVkjkWfc9nsfnCg
 sidebar_position: 2
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 移行
-  - クラスター
-  - ゼロダウンタイム
-  - 機械学習
-  - RAG
-  - NLP
-  - ニューラルネットワーク
+  - vector database
+  - cloud
+  - migrations
+  - clusters
+  - zero downtime
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

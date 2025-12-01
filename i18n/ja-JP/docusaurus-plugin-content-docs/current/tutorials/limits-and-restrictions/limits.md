@@ -13,14 +13,14 @@ token: PuxkwMWvbiHxvTkHsVkcMZP9n5f
 sidebar_position: 1
 keywords:
   - zilliz
-  - ベクトルデータベース
-  - クラウド
+  - vector database
+  - cloud
   - milvus
-  - 制限
-  - milvus ベクトルDB
-  - Zilliz Cloud
-  - milvusとは
-  - milvus データベース
+  - limits
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 
@@ -95,7 +95,7 @@ import Admonition from '@theme/Admonition';
    </tr>
 </table>
 
-## ステージ\{#stages}
+## ボリューム\{#volumes}
 
 <table>
    <tr>
@@ -104,9 +104,9 @@ import Admonition from '@theme/Admonition';
      <th><p><strong>備考</strong></p></th>
    </tr>
    <tr>
-     <td><p>ステージ</p></td>
+     <td><p>ボリューム</p></td>
      <td><p>100</p></td>
-     <td><p>各組織は最大100個のステージを含むことができます。</p></td>
+     <td><p>各組織は最大100個のボリュームを含むことができます。</p></td>
    </tr>
 </table>
 
@@ -543,7 +543,7 @@ Zilliz Cloudでは、コレクションおよびパーティションのデー�
 
 ### 削除\{#delete}
 
-各削除要求/応答は、**64MB**を超えてはなりません。
+各削除要求/応答は、**64** MBを超えてはなりません。
 
 削除要求のレート制限は**0.5** MB/s / クラスターです。
 

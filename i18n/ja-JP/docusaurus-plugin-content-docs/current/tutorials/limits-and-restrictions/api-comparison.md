@@ -13,14 +13,14 @@ token: DAk8w3GCJiuUTTkms6IcMtnAnMf
 sidebar_position: 2
 keywords:
   - zilliz
-  - ベクトルデータベース
-  - クラウド
+  - vector database
+  - cloud
   - milvus
-  - api利用可能性
-  - レコメンダシステム
-  - 情報検索
-  - 次元削減
-  - hnsw アルゴリズム
+  - api availability
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 
@@ -44,7 +44,7 @@ MilvusからZilliz Cloudに移行を計画している場合、既存のコー�
      <th><p><strong>コンソール</strong></p></th>
      <th><p><strong>フリープラン</strong></p></th>
      <th><p><strong>サーバーレス</strong></p></th>
-     <th><p><strong>専用</strong></p></th>
+     <th><p><strong>専用 / BYOC</strong></p></th>
    </tr>
    <tr>
      <td rowspan="5"><p>エイリアス</p></td>

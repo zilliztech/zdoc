@@ -11,17 +11,17 @@ description: "Zilliz Cloudは、インフラストラクチャ管理を自分で
 type: origin
 token: PlX3wo82Di6oWVkg2ercRWCUnvV
 sidebar_position: 1
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 移行
+  - vector database
+  - cloud
+  - migrations
   - milvus
-  - エンドポイント
-  - ベクターデータベースとは
-  - ベクターデータベースの比較
-  - Faiss
-  - ビデオ検索
+  - endpoint
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

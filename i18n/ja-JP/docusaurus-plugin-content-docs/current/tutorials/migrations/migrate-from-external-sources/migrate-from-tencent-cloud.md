@@ -11,16 +11,16 @@ description: "このトピックでは、Zilliz CloudがTencent Cloud VectorDB�
 type: origin
 token: SwgXwdHG6iqpbUknXrHcOPd7nRe
 sidebar_position: 6
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 移行
-  - tencentクラウド
-  - ベクターデータベースチュートリアル
-  - ベクターデータベースの動作方法
-  - ベクターデータベース比較
-  - openaiベクターデータベース
+  - vector database
+  - cloud
+  - migrations
+  - tencent cloud
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

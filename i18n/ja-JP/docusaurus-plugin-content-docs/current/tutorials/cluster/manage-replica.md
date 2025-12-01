@@ -11,16 +11,16 @@ description: "Zilliz Cloudはクラスターレベルのレプリケーション
 type: origin
 token: W8Mhwa4faiQqtRkH4t9cdexCnlf
 sidebar_position: 5
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - クラスター
-  - 管理
-  - コサイン距離
-  - ベクターデータベースとは
-  - vectordb
-  - マルチモーダルベクターデータベース検索
+  - vector database
+  - cloud
+  - cluster
+  - manage
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

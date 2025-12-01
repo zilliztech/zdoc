@@ -11,17 +11,17 @@ description: "Zilliz Cloudは、クラスター固有のメトリクスを観察
 type: origin
 token: DbPIw4jLOiEabCk5uptc6EZ1nbf
 sidebar_position: 2
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - メトリクス
-  - アラート
-  - 表示
-  - Faissベクターデータベース
-  - Chromaベクターデータベース
-  - nlp検索
-  - ハルシネーションllm
+  - vector database
+  - cloud
+  - metrics
+  - alerts
+  - view
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 
@@ -38,7 +38,7 @@ Zilliz Cloudは、クラスター固有のメトリクスを観察するため�
 
 </Admonition>
 
-![view_metric_charts](/img/view_metric_charts.png)
+![view_metric_charts](/img/view_metric_charts.png "view_metric_charts")
 
 ## クラスターメトリクスチャートにアクセス\{#access-cluster-metric-charts}
 
@@ -60,19 +60,19 @@ Zilliz Cloudのメトリクスチャートは、リソース使用量、1秒あ�
 
 - **相対範囲**: 現在の時間に対する事前定義された時間期間から選択します。相対時間範囲を使用すると、特定の開始時間と終了時間を入力する必要なく、期間的に便利な方法でメトリクスを確認できます。選択肢：
 
-    - 遫分前
+    - 直近10分
 
-    - 遫時間前
+    - 直近1時間
 
-    - 遫6時間前
+    - 直近6時間
 
-    - 火12時間前
+    - 直近12時間
 
-    - 火日前
+    - 直近1日
 
-    - 火週間前
+    - 直近1週間
 
-    - 火月間前
+    - 直近1か月
 
 - **絶対範囲**: 精確な開始時間と終了時間を入力します。絶対範囲を使用すると、より細かく調整された方法で確認するメトリクスを制御できます。
 

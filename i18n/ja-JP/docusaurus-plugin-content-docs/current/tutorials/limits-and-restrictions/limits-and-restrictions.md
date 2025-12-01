@@ -10,17 +10,17 @@ notebook: FALSE
 description: "Zilliz Cloudでの操作について知っておくべき制限と制約について学びます。| Cloud"
 type: origin
 token: Tve5wxmTHio0LPk50jgcKHe1nWg
-sidebar_position: 13
+sidebar_position: 14
 keywords:
   - zilliz
-  - ベクトルデータベース
-  - クラウド
+  - vector database
+  - cloud
   - milvus
-  - 制限
-  - Retrieval Augmented Generation
-  - 大規模言語モデル
-  - ベクトル化
-  - k nearest neighbor algorithm
+  - limits
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

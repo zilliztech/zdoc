@@ -11,16 +11,16 @@ description: "プロジェクトアラートは、指定された条件が満た
 type: origin
 token: NvDLw4kFji0xeWkc4Hpc9wUfnRh
 sidebar_position: 4
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - プロジェクト
-  - アラート
-  - ベクター検索
-  - 音相似検索
-  - エラスティックベクターデータベース
-  - Pinecone vs Milvus
+  - vector database
+  - cloud
+  - project
+  - alerts
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 
@@ -152,7 +152,7 @@ curl --request POST \
      --header "Content-type: application/json" \
      --data-raw '{
        "projectId": "'"${PROJECT_ID}"'",
-       "ruleName": "高CU計算量",
+       "ruleName": "High CU Computation",
        "level": "CRITICAL",
        "metricName": "CU_COMPUTATION",
        "metricUnit": "percent",

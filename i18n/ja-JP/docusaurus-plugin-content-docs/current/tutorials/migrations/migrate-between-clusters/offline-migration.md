@@ -11,17 +11,17 @@ description: "オフライン移行は、既存のすべてのデータをソー
 type: origin
 token: MTqjwwUKhiyns4kGV7Lc7PRlnwb
 sidebar_position: 1
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 移行
-  - クラスター
-  - オフライン
-  - オープンソースベクターデータベース
-  - オープンソースベクターデータベース
-  - ベクターデータベースの例
-  - ragベクターデータベース
+  - vector database
+  - cloud
+  - migrations
+  - clusters
+  - offline
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

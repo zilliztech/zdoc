@@ -11,16 +11,16 @@ description: "このトピックでは、Zilliz CloudがQdrantからの移行時
 type: origin
 token: LqMIw1DXyiHUjAk9TEAcqHp6nDd
 sidebar_position: 3
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 移行
+  - vector database
+  - cloud
+  - migrations
   - qdrant
-  - DiskANN
-  - スパースベクター
-  - ベクター次元
-  - ANN検索
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

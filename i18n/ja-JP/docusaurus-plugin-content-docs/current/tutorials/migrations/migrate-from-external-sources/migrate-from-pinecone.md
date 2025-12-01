@@ -11,16 +11,16 @@ description: "このトピックでは、Zilliz CloudがPineconeからの移行�
 type: origin
 token: R33EwQchxiO3HKk4vPnce6vkntc
 sidebar_position: 2
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 移行
+  - vector database
+  - cloud
+  - migrations
   - pinecone
-  - ベクターインデックス
-  - オープンソースベクターデータベース
-  - オープンソースベクターデータベース
-  - ベクターデータベースの例
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

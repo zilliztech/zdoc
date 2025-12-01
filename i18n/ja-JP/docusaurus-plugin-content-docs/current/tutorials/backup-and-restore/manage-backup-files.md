@@ -11,16 +11,16 @@ description: "このガイドでは、既存のバックアップファイルを
 type: origin
 token: Ml6dwBPTfiQOY9koK24cT1Sznge
 sidebar_position: 6
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - バックアップ
-  - 管理
-  - 埋め込みモデル
-  - 画像類似検索
-  - コンテキストウィンドウ
-  - 自然言語検索
+  - vector database
+  - cloud
+  - backup
+  - manage
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

@@ -11,16 +11,16 @@ description: "このガイドではクラスターのライフサイクルにつ
 type: origin
 token: PharwAysCiBzvgkuqqecmNzunQf
 sidebar_position: 3
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - クラスター
-  - 管理
-  - Zillizベクターデータベース
-  - Zillizデータベース
-  - 非構造化データ
-  - ベクターデータベース
+  - vector database
+  - cloud
+  - cluster
+  - manage
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

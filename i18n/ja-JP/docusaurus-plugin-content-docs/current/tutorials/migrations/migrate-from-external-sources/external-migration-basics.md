@@ -11,18 +11,18 @@ description: "外部移行は、ベクターデータベースおよび検索シ
 type: origin
 token: WZe4w7lNji6RVHkR5alcrTw8nQ2
 sidebar_position: 1
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 移行
-  - 外部
-  - データソース
-  - 基本
-  - ベクターデータベースの仕組み
-  - ベクターデータベース比較
-  - openaiベクターデータベース
-  - 自然言語処理データベース
+  - vector database
+  - cloud
+  - migrations
+  - external
+  - data source
+  - basics
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

@@ -11,16 +11,16 @@ description: "組織アラートは、Zilliz Cloud組織全体の課金および
 type: origin
 token: UPg7wiU71ioeELk8I8KcLDYqncb
 sidebar_position: 3
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 組織
-  - アラート
-  - 情報検索
-  - 次元削減
-  - hnswアルゴリズム
-  - ベクター類似検索
+  - vector database
+  - cloud
+  - organization
+  - alerts
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

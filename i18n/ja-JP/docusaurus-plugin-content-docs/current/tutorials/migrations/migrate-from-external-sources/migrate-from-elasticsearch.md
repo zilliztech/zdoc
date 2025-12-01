@@ -11,16 +11,16 @@ description: "このトピックでは、Zilliz Cloudがデータ型マッピン
 type: origin
 token: Y8nwwbi0KiwtVZkMaSQcsPcwnkf
 sidebar_position: 4
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 移行
+  - vector database
+  - cloud
+  - migrations
   - elasticsearch
-  - 安価なベクターデータベース
-  - 管理型ベクターデータベース
-  - Pinecone ベクターデータベース
-  - 音声検索
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

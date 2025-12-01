@@ -10,17 +10,17 @@ notebook: FALSE
 description: "Zilliz Cloudクラスターに保存されたデータのバックアップとリストア。 | Cloud"
 type: origin
 token: VvikwOKc9iZ5vBkgMnycrXKmnId
-sidebar_position: 7
-keywords: 
+sidebar_position: 8
+keywords:
   - zilliz
   - ベクターデータベース
   - クラウド
   - バックアップ
   - リストア
-  - llm eval
-  - スパース vs デンス
-  - デンスベクター
-  - ヒエラルキカル・ナビゲーブル・スモール・ワールド
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

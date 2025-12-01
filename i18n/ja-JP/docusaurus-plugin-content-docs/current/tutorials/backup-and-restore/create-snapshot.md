@@ -11,15 +11,15 @@ description: "Zilliz Cloudでは、バックアップはデータのコピーで
 type: origin
 token: HHXewT7wTiM1zqkySjHcMNX5n9b
 sidebar_position: 1
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - バックアップ
-  - オープンソースベクターデータベース
-  - ベクターインデックス
-  - オープンソースベクターデータベース
-  - オープンソースベクターデータベース
+  - vector database
+  - cloud
+  - backup
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

@@ -11,17 +11,17 @@ description: "Zilliz Cloudのクロスリージョンバックアップは、バ
 type: origin
 token: ESVGwTkn8iLfUakSSrkc5dWJnye
 sidebar_position: 3
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - バックアップ
-  - ファイル
-  - 表示
-  - 知識ベース
-  - 自然言語処理
-  - AIチャットボット
-  - コサイン距離
+  - vector database
+  - cloud
+  - backup
+  - files
+  - view
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

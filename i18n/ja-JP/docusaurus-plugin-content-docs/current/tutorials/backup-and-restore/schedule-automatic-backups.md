@@ -11,16 +11,16 @@ description: "Zilliz Cloudでは、クラスターの自動バックアップを
 type: origin
 token: HDmKwGeGLi2P67kGdNXcigXDn3e
 sidebar_position: 2
-keywords: 
+keywords:
   - zilliz
   - ベクターデータベース
   - クラウド
   - バックアップ
-  - 自動
-  - DiskANN
-  - スパースベクター
-  - ベクター次元
-  - ANN検索
+  - automatic
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

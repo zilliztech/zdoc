@@ -11,19 +11,19 @@ description: "Zilliz Cloudコンソールを使用して、バックアップフ
 type: origin
 token: QUTDwkbTTiA2UlkWYDlc796ensf
 sidebar_position: 5
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - バックアップ
-  - エクスポート
-  - 統合
-  - オブジェクト
-  - ストレージ
-  - milvusベクターデータベース
-  - milvus db
-  - milvusベクターデータベース
-  - Zilliz Cloud
+  - vector database
+  - cloud
+  - backup
+  - export
+  - integrate
+  - object
+  - storage
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

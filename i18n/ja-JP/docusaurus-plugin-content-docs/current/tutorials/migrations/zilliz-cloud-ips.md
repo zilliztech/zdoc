@@ -11,16 +11,16 @@ description: "Zilliz Cloudは、データソースからデータを取得し、
 type: origin
 token: KfgvwJKPDi8uDekl2aHcPOvgnSb
 sidebar_position: 4
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 移行
-  - ipアドレス
-  - デンス埋め込み
-  - Faissベクターデータベース
-  - Chromaベクターデータベース
-  - nlp検索
+  - vector database
+  - cloud
+  - migrations
+  - ips
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

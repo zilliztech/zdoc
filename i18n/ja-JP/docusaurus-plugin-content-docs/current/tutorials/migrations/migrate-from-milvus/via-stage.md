@@ -1,37 +1,37 @@
 ---
-title: "ステージ経由でMilvusからZilliz Cloudに移行 | Cloud"
+title: "バックアップツール経由でMilvusからZilliz Cloudに移行 | Cloud"
 slug: /via-stage
-sidebar_label: "ステージ経由"
-beta: PRIVATE
+sidebar_label: "バックアップツール経由"
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudは内部ステージ機能を提供し、Milvusからのデータ移行中にバックアップデータの保存場所として機能します。この機能により、ユーザーは手動で複雑な詳細を処理する必要なく、より簡単かつ効率的にデータ移行を実行できるようになり、ユーザビリティと成功率が大幅に向上します。 | Cloud"
+description: "Zilliz Cloudは、Milvusからのデータ移行用にバックアップツールを提供します。このバックアップツールにより、ユーザーは手動で複雑な詳細を処理することなく、より簡単かつ効率的にデータ移行を実行できるようになり、ユーザビリティと成功率が大幅に向上します。 | Cloud"
 type: origin
 token: IxO5wZ1meiYrTckUPkQca9JOnbS
 sidebar_position: 3
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 移行
+  - vector database
+  - cloud
+  - migrations
   - milvus
-  - バックアップファイル
-  - ステージ
-  - llm幻覚
-  - ハイブリッド検索
-  - レキシカル検索
-  - 最近傍検索
+  - backup files
+  - volume
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# ステージ経由でMilvusからZilliz Cloudに移行
+# バックアップツール経由でMilvusからZilliz Cloudに移行
 
-Zilliz Cloudは内部ステージ機能を提供し、Milvusからのデータ移行中にバックアップデータの保存場所として機能します。この機能により、ユーザーは手動で複雑な詳細を処理する必要なく、より簡単かつ効率的にデータ移行を実行できるようになり、ユーザビリティと成功率が大幅に向上します。
+Zilliz Cloudは、Milvusからのデータ移行用にバックアップツールを提供します。このバックアップツールにより、ユーザーは手動で複雑な詳細を処理することなく、より簡単かつ効率的にデータ移行を実行できるようになり、ユーザビリティと成功率が大幅に向上します。
 
 この機能は、以下のようなさまざまな移行情報シナリオの運用の複雑さを排除します：
 
@@ -41,21 +41,15 @@ Zilliz Cloudは内部ステージ機能を提供し、Milvusからのデータ�
 
 - エンドポイントベースの移行を実行する際にMilvusインスタンスエンドポイントのネットワークアクセシビリティを確保する。
 
-<Admonition type="info" icon="📘" title="注意">
-
-<p>ステージ経由の移行は<strong>プライベートプレビュ</strong>中です。ご興味がある場合、問題が発生した場合、または関連コストを知りたい場合は、<a href="https://support.zilliz.com/hc/en-us/requests/new">Zilliz Cloudサポート</a>までお問い合わせください。</p>
-
-</Admonition>
-
 ## 始める前に\{#before-you-start}
 
-- **組織オーナー**または**プロジェクト管理者**ロールが付与されていること。必要な権限がない場合は、Zilliz Cloud組織オーナーに連絡してください。
+- あなたは**組織オーナー**または**プロジェクト管理者**ロールが付与されていること。必要な権限がない場合は、Zilliz Cloud組織オーナーに連絡してください。
 
-- ターゲットクラスターのCUサイズがソースデータを収容できることを確認してください。必要なCUサイズを推定するには、[計算機](https://zilliz.com/pricing?_gl=1*qro801*_ga=MzkzNTY1NDM0LjE3Mjk1MDExNzQ.*_ga_Q1F8R2NWDP*MTc0NTQ4MzY1Ni4zMDEuMS4xNzQ1NDg0MTEzLjAuMC4w*_ga_KKMVYG8YF2*MTc0NTQ4MzY1Ni4yNTIuMS4xNzQ1NDg0MTEzLjAuMC4w#calculator)を使用してください。
+- ターゲットクラスターのクエリCU数がソースデータを収容できることを確認してください。必要なクエリCU数を推定するには、[計算機](https://zilliz.com/pricing?_gl=1*qro801*_ga=MzkzNTY1NDM0LjE3Mjk1MDExNzQ.*_ga_Q1F8R2NWDP*MTc0NTQ4MzY1Ni4zMDEuMS4xNzQ1NDg0MTEzLjAuMC4w*_ga_KKMVYG8YF2*MTc0NTQ4MzY1Ni4yNTIuMS4xNzQ1NDg0MTEzLjAuMC4w#calculator)を使用してください。
 
 ## 手順\{#procedure}
 
-この手順では、Milvusバックアップを使用してバックアップファイルを準備し、それらをZilliz Cloud内部ステージにアップロードして、指定されたターゲットZilliz Cloudクラスターに移行します。
+この手順では、Milvusバックアップを使用してバックアップファイルを準備し、それらをZilliz Cloudにアップロードして、指定されたターゲットZilliz Cloudクラスターに移行します。
 
 1. **[milvus-backup](https://github.com/zilliztech/milvus-backup/releases)**をダウンロードします。常に最新のリリースを使用してください。
 
@@ -150,7 +144,7 @@ Zilliz Cloudは内部ステージ機能を提供し、Milvusからのデータ�
 
     <Admonition type="info" icon="📘" title="注意">
 
-    <p>内部ステージにアップロードされたバックアップファイルは、アップロード後<strong>3日間</strong>ステージに保持され、その後削除されます。</p>
+    <p>Zilliz Cloud プラットフォームにアップロードされたバックアップファイルは、アップロード後<strong>3日間</strong>保持され、その後削除されます。</p>
 
     </Admonition>
 
@@ -172,7 +166,7 @@ Zilliz Cloudは内部ステージ機能を提供し、Milvusからのデータ�
 
 - **インデックス作成**: 移行プロセスでは、移行されたコレクションに対して[AUTOINDEX](./autoindex-explained)が自動的に作成されます。
 
-- **手動ロードが必要**: 自動インデックス作成にもかかわらず、移行されたコレクションは検索またはクエリ操作に対してすぐに使用可能にはなりません。検索およびクエリ機能を有効にするには、Zilliz Cloudでコレクションを手動でロードする必要があります。詳細については、[ロードとリリース](./load-release-collections)を参照してください。
+- **手動でのロードが必要**: 自動インデックス作成にもかかわらず、移行されたコレクションは検索またはクエリ操作に対してすぐに使用可能にはなりません。検索およびクエリ機能を有効にするには、Zilliz Cloudでコレクションを手動でロードする必要があります。詳細については、[ロードとリリース](./load-release-collections)を参照してください。
 
 ## 移行ジョブをキャンセル\{#cancel-migration-job}
 

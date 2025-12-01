@@ -11,16 +11,16 @@ description: "Zilliz Cloudの復元機能は、誤ってデータが失われた
 type: origin
 token: Dd6jwYIGiiz6HWkEPJqcpMA3n6g
 sidebar_position: 4
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - バックアップ
-  - 復元
-  - NLP
-  - ニューラルネットワーク
-  - ディープラーニング
-  - 知識ベース
+  - vector database
+  - cloud
+  - backup
+  - restore
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

@@ -11,16 +11,16 @@ description: "Zilliz Cloudは、さまざまなビジネスニーズに対応す
 type: origin
 token: KrbjwFhy3iojF3k97XmcvvXMnW7
 sidebar_position: 1
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - クラスター
-  - 作成
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - vector database
+  - cloud
+  - cluster
+  - create
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

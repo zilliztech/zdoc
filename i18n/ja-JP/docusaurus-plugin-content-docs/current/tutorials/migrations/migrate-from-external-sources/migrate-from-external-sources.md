@@ -11,17 +11,17 @@ description: "Zilliz Cloudは、改善されたデータ型サポート、動的
 type: origin
 token: OpQHwQrMki9brIkTsAGcq93Zndf
 sidebar_position: 3
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 移行
-  - 外部
-  - データソース
-  - マルチモーダルRAG
-  - llmハルシネーション
-  - ハイブリッド検索
-  - レキシカル検索
+  - vector database
+  - cloud
+  - migrations
+  - external
+  - data source
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

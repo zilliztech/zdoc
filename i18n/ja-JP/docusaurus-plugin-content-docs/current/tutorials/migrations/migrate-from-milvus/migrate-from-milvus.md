@@ -11,16 +11,16 @@ description: "Milvusは、スケーラブルな類似検索およびAIアプリ�
 type: origin
 token: TDkbwhwMyi7bPykZAoUc5PFfnIb
 sidebar_position: 2
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 移行
+  - vector database
+  - cloud
+  - migrations
   - milvus
-  - ベクターストア
-  - オープンソースベクターデータベース
-  - ベクターインデックス
-  - ベクターデータベースオープンソース
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

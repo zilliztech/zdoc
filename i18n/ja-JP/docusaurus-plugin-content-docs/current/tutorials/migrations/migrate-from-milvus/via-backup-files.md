@@ -11,17 +11,17 @@ description: "Zilliz Cloudは、インフラストラクチャの管理を自分
 type: origin
 token: IO4fwm5fJiroaoktKeIcbdkDnRb
 sidebar_position: 2
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 移行
+  - vector database
+  - cloud
+  - migrations
   - milvus
-  - バックアップファイル
-  - milvusベクターデータベース
-  - Zilliz Cloud
-  - milvusとは何か
-  - milvusデータベース
+  - backup files
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

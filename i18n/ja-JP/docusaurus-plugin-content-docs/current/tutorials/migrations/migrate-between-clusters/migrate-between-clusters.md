@@ -11,16 +11,16 @@ description: "ZillizからZillizへの移行により、同じ組織内または
 type: origin
 token: CEJrwt9sYizQgtkPlBBcJXvRnff
 sidebar_position: 1
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 移行
-  - クラスター
-  - 異常検出
-  - 文章変換器
-  - レコメンダーシステム
-  - 情報検索
+  - vector database
+  - cloud
+  - migrations
+  - clusters
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

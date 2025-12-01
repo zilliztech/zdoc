@@ -11,15 +11,15 @@ description: "Zilliz Cloudはクラスターとコレクションの間にデー
 type: origin
 token: Z0oiwVpsliiW1zksnlFc3ZsVnxf
 sidebar_position: 6
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
+  - vector database
+  - cloud
   - milvus
-  - ハルシネーションllm
-  - マルチモーダル検索
-  - ベクター検索アルゴリズム
-  - 問答システム
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

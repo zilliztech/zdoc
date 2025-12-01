@@ -11,16 +11,16 @@ description: "このトピックでは、Zilliz CloudがPostgreSQLからの移�
 type: origin
 token: CiVHwbwPwipX5SkFkqVcLpESnfe
 sidebar_position: 5
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 移行
+  - vector database
+  - cloud
+  - migrations
   - postgresql
-  - ニューラルネットワーク
-  - ディープラーニング
-  - 知識ベース
-  - 自然言語処理
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

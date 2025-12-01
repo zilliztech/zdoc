@@ -10,16 +10,16 @@ notebook: FALSE
 description: "Zilliz Cloudは、Milvus、Elasticsearch、PostgreSQLなどの外部ソースからの移行オプションを提供し、同じ組織内または異なる組織内のクラスター間移行も提供します。これにより、効率的なデータ統合と管理が可能になります。 | Cloud"
 type: origin
 token: IeNswy8ySiutKAkdphRc4lfynsf
-sidebar_position: 5
-keywords: 
+sidebar_position: 6
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 移行
-  - Milvusとは何か
-  - milvusデータベース
-  - milvusライト
-  - milvusベンチマーク
+  - vector database
+  - cloud
+  - migrations
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

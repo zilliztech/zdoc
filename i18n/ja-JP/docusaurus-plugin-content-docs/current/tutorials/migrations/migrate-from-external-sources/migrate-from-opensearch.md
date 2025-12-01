@@ -11,17 +11,17 @@ description: "このトピックでは、Zilliz CloudがOpenSearchからの移�
 type: origin
 token: VFMLwxpsniVGKYkE3DecmpQ2nrg
 sidebar_position: 7
-keywords: 
+keywords:
   - zilliz
-  - ベクターデータベース
-  - クラウド
-  - 移行
+  - vector database
+  - cloud
+  - migrations
   - amazon
   - opensearch
-  - ANN検索
-  - ベクター埋め込みとは
-  - ベクターデータベースチュートリアル
-  - ベクターデータベースの仕組み
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 
