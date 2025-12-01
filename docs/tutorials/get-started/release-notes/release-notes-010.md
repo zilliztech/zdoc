@@ -3,20 +3,23 @@ title: "Release Notes (Jan 10, 2023) | Cloud"
 slug: /release-notes-010
 sidebar_label: "Release Notes (Jan 10, 2023)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "We are pleased to announce the general availability of a significant update to Zilliz Cloud. This release adds the data preview feature and a demo dataset that can be easily imported into your collection on the console. | Cloud"
 type: origin
 token: UIaAwGay9iJHhlkxx8VcxfZ3nvb
-sidebar_position: 25
+sidebar_position: 29
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

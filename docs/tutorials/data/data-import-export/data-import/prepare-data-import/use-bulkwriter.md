@@ -3,21 +3,24 @@ title: "Use BulkWriter | Cloud"
 slug: /use-bulkwriter
 sidebar_label: "Use BulkWriter"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "If your data format does not meet the requirements, you can use BulkWriter, a data processing tool in pymilvus and Milvus' Java SDK, to prepare your data. | Cloud"
 type: origin
 token: QyjpwAaKuihAeJkNBUJcdFesn9e
-sidebar_position: 0
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
   - cloud
   - data import
   - bulk writer
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 
@@ -29,7 +32,7 @@ import TabItem from '@theme/TabItem';
 
 If your data format does not meet the requirements, you can use **BulkWriter**, a data processing tool in pymilvus and Milvus' Java SDK, to prepare your data.
 
-## Overview{#overview}
+## Overview\{#overview}
 
 **BulkWriter** is a script designed to convert raw datasets into a format suitable for importing via various methods such as the Zilliz Cloud console, the **BulkInsert** APIs of Milvus SDKs, or the **Import** API in RESTful flavor. It offers two types of writers:
 
@@ -37,9 +40,9 @@ If your data format does not meet the requirements, you can use **BulkWriter**, 
 
 - **RemoteBulkWriter**: Performs the same task as the **LocalBulkWriter** but additionally transfers the converted data files to a specified remote object storage bucket.
 
-## Procedure{#procedure}
+## Procedure\{#procedure}
 
-### Set up dependencies{#set-up-dependencies}
+### Set up dependencies\{#set-up-dependencies}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 
@@ -75,7 +78,7 @@ compile 'io.milvus:milvus-sdk-java:2.4.8'
 
 </Tabs>
 
-### Set up a collection schema{#set-up-a-collection-schema}
+### Set up a collection schema\{#set-up-a-collection-schema}
 
 Decide on the schema for the collection you wish to import your dataset into. This involves selecting which fields to include from the dataset.
 
@@ -222,7 +225,7 @@ private static byte[] genBinaryVector() {
 </TabItem>
 </Tabs>
 
-### Create a BulkWriter{#create-a-bulkwriter}
+### Create a BulkWriter\{#create-a-bulkwriter}
 
 There are two types of **BulkWriter**s available.
 
@@ -261,8 +264,8 @@ There are two types of **BulkWriter**s available.
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>Only JSON files generated using <strong>LocalBulkWriter</strong> can be directly imported into Zilliz Cloud. </p>
-    <p>For files of other types, upload them to one of your buckets in the same cloud region as that of your target cluster before the import.</p>
+    <p>The JSON files and Parquet files generated using <strong>LocalBulkWriter</strong> can be directly imported into Zilliz Cloud on the Zilliz Cloud console.</p>
+    <p>For files of other types, upload them to one of your buckets before importing. It is recommended that you upload the files to a bucket in the same cloud region as your target cluster.</p>
 
     </Admonition>
 
@@ -480,7 +483,7 @@ There are two types of **BulkWriter**s available.
 
     The parameters for creating a **RemoteBulkWriter** are barely the same as those for a **LocalBulkWriter**, except **connect_param**.  For details on parameter settings, refer to **RemoteBulkWriter** and **ConnectParam** in the SDK reference.
 
-### Start writing{#start-writing}
+### Start writing\{#start-writing}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 
@@ -708,7 +711,7 @@ private static List<Long> genIntArray(int length) {
 
 </Tabs>
 
-## Dynamic schema support{#dynamic-schema-support}
+## Dynamic schema support\{#dynamic-schema-support}
 
 In [the previous section](./use-bulkwriter#set-up-a-collection-schema), we referenced a schema that permits dynamic fields in the writer, allowing undefined fields to be included when appending rows.
 
@@ -794,7 +797,7 @@ private static String generateString(length) {
 </TabItem>
 </Tabs>
 
-## Verify the result{#verify-the-result}
+## Verify the result\{#verify-the-result}
 
 To check the results, you can get the actual output path by printing the **data_path** property of the writer.
 
@@ -857,15 +860,15 @@ Possible folder structures are as follows:
        </tr>
        <tr>
          <td><p><strong>JSON</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</code></p></td>
+         <td><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</em></p><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.json</em></p></td>
        </tr>
        <tr>
          <td><p><strong>Parquet</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet</code></p></td>
+         <td><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</em></p><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/1.parquet</em></p></td>
        </tr>
        <tr>
          <td><p><strong>NumPy</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy</code></p></td>
+         <td><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</em></p><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</em>.npy*</p></td>
        </tr>
     </table>
 
@@ -910,23 +913,23 @@ Possible folder structures are as follows:
        </tr>
        <tr>
          <td><p><strong>JSON</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p></td>
+         <td><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</em></p></td>
        </tr>
        <tr>
          <td><p><strong>Parquet</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p></td>
+         <td><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</em></p></td>
        </tr>
        <tr>
          <td><p><strong>NumPy</strong></p></td>
-         <td><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</code></p><p><code>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/*.npy</code></p></td>
+         <td><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</em></p><p><em>s3://remote_bucket/folder/45ae1139-1d87-4aff-85f5-0039111f9e6b/</em>.npy*</p></td>
        </tr>
     </table>
 
-## Related topics{#related-topics}
+## Related topics\{#related-topics}
 
-- Import Data on Web UI
+- [Import Data on Web UI](./import-data-on-web-ui)
 
-- Import Data via RESTful API
+- [Import Data via RESTful API](./import-data-via-restful-api)
 
-- Import Data via SDKs
+- [Import Data via SDKs](./import-data-via-sdks)
 

@@ -3,6 +3,9 @@ title: "Set Collection TTL | Cloud"
 slug: /set-collection-ttl
 sidebar_label: "Set Collection TTL"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Once data is inserted into a collection, it remains there by default. However, in some scenarios, you may want to remove or clean up data after a certain period. In such cases, you can configure the collection’s Time-to-Live (TTL) property so that Zilliz Cloud automatically deletes the data once the TTL expires. | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - collection ttl
   - time-to-live
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
@@ -30,7 +33,7 @@ import TabItem from '@theme/TabItem';
 
 Once data is inserted into a collection, it remains there by default. However, in some scenarios, you may want to remove or clean up data after a certain period. In such cases, you can configure the collection’s Time-to-Live (TTL) property so that Zilliz Cloud automatically deletes the data once the TTL expires.
 
-## Overview{#overview}
+## Overview\{#overview}
 
 Time-to-Live (TTL) is commonly used in databases for scenarios where data should only remain valid or accessible for a certain period after any insertion or modification. Then, the data can be automatically removed. 
 
@@ -46,7 +49,7 @@ The TTL property in a Zilliz Cloud collection is specified as an integer in seco
 
 Because the deletion process is asynchronous, data might not be removed from search results exactly once the specified TTL has elapsed. Instead, there may be a delay, as the removal depends on the garbage collection (GC) and compaction processes, which occur at non-deterministic intervals.
 
-## Set TTL{#set-ttl}
+## Set TTL\{#set-ttl}
 
 You can set the TTL property when you
 
@@ -54,7 +57,7 @@ You can set the TTL property when you
 
 - [Alter the TTL property of an existing collection.](./set-collection-ttl#set-ttl-for-an-existing-collection)
 
-### Set TTL when creating a collection{#set-ttl-when-creating-a-collection}
+### Set TTL when creating a collection\{#set-ttl-when-creating-a-collection}
 
 The following code snippet demonstrates how to set the TTL property when you create a collection.
 
@@ -152,7 +155,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Set TTL for an existing collection{#set-ttl-for-an-existing-collection}
+### Set TTL for an existing collection\{#set-ttl-for-an-existing-collection}
 
 The following code snippet demonstrates how to alter the TTL property in an existing collection.
 
@@ -228,7 +231,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Drop TTL setting{#drop-ttl-setting}
+## Drop TTL setting\{#drop-ttl-setting}
 
 If you decide to keep the data in a collection indefinitely, you can simply drop the TTL setting from that collection.
 

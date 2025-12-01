@@ -3,6 +3,9 @@ title: "Import & Export | Cloud"
 slug: /data-import-export
 sidebar_label: "Import & Export"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This chapter covers the common procedures for you to import data into and export data from Zilliz Cloud clusters. | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - data import
   - export
   - milvus
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

@@ -3,6 +3,9 @@ title: "Import from a Parquet File | BYOC"
 slug: /data-import-parquet
 sidebar_label: "Parquet (Recommended)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Apache Parquet is an open-source, column-oriented data file format designed for efficient data storage and retrieval. It offers high-performance compression and encoding schemes to manage complex data in bulk and is supported in various programming languages and analytics tools tools. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 
@@ -32,7 +35,7 @@ import Admonition from '@theme/Admonition';
 
 You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your raw data into Parquet files. The following figure demonstrates how your raw data can be mapped into a Parquet file.
 
-![parquet_file_structure_en](/img/parquet_file_structure_en.png)
+![parquet_file_structure_en](/img/parquet_file_structure_en.png "parquet_file_structure_en")
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -43,7 +46,7 @@ You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your r
 <ul>
 <li><strong>Whether to enable dynamic fields</strong></li>
 </ul>
-<p>When the target collection enables dynamic fields, if you need to store fields that are not included in the pre-defined schema, you can specify the <strong>$meta</strong> column during the write operation and provide the corresponding key-value data.</p>
+<p>When the target collection enables dynamic fields, if you need to store fields that are not included in the pre-defined schema, you can specify the <strong>&#36;meta</strong> column during the write operation and provide the corresponding key-value data.</p>
 <ul>
 <li><strong>Case-sensitive</strong></li>
 </ul>
@@ -51,7 +54,7 @@ You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your r
 
 </Admonition>
 
-## Directory structure{#directory-structure}
+## Directory structure\{#directory-structure}
 
 If you prefer to prepare your data into Parquet files, place all Parquet files directly into the source data folder as shown in the tree diagram below.
 
@@ -61,7 +64,7 @@ If you prefer to prepare your data into Parquet files, place all Parquet files d
 │       └── 2.parquet 
 ```
 
-## Import data{#import-data}
+## Import data\{#import-data}
 
 Once your data is ready, you can use either of the following methods to import them into your Zilliz Cloud collection.
 
@@ -79,7 +82,7 @@ Once your data is ready, you can use either of the following methods to import t
 
 You can also import your data on the Zilliz Cloud console using Milvus SDKs. For details, refer to [Import Data (Console)](./import-data-on-web-ui) and [Import Data (SDK)](./import-data-via-sdks).
 
-### Import files from multiple paths (Recommended){#import-files-from-multiple-paths-recommended}
+### Import files from multiple paths (Recommended)\{#import-files-from-multiple-paths-recommended}
 
 When importing files from multiple paths, include each Parquet file path in a separate list, then group all the lists into a higher-level list as in the following code example.
 
@@ -103,7 +106,7 @@ curl --request POST \
     }'
 ```
 
-### Import files from a folder{#import-files-from-a-folder}
+### Import files from a folder\{#import-files-from-a-folder}
 
 If the source folder contains only the Parquet files to import, you can simply include the source folder in the request as follows:
 
@@ -125,7 +128,7 @@ curl --request POST \
     }'
 ```
 
-### Import a single file{#import-a-single-file}
+### Import a single file\{#import-a-single-file}
 
 If your prepared data file is a single Parquet file, import it as demonstrated in the following code example.
 
@@ -147,7 +150,7 @@ curl --request POST \
     }'
 ```
 
-## Storage paths{#storage-paths}
+## Storage paths\{#storage-paths}
 
 Zilliz Cloud supports data import from your cloud storage. The table below lists the possible storage paths for your data files.
 
@@ -170,26 +173,28 @@ Zilliz Cloud supports data import from your cloud storage. The table below lists
    </tr>
 </table>
 
-## Limits{#limits}
+## Limits\{#limits}
 
-There are some limits you need to observe when you import data in the Parquet format from your cloud storage.
+There are some limits you need to observe when you import data in a local Parquet file or Parquet files from your cloud storage.
 
 <table>
    <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>Import Method</strong></p></th>
+     <th><p><strong>Max Files per Import</strong></p></th>
+     <th><p><strong>Max File Size</strong></p></th>
+     <th><p><strong>Max Total Import Size</strong></p></th>
    </tr>
    <tr>
-     <td><p><strong>Multiple files per import</strong></p></td>
-     <td><p>Yes.</p><p>Each import allows up to 100,000 files.</p></td>
+     <td><p>From local file</p></td>
+     <td><p>1 File</p></td>
+     <td><p>1 GB</p></td>
+     <td><p>1 GB</p></td>
    </tr>
    <tr>
-     <td><p><strong>Maximum file size per import</strong></p></td>
-     <td><p>Free cluster: 512 MB in total</p><p>Serverless &amp; Dedicated cluster</p><ul><li><p>Individual file size: 10 GB</p></li><li><p>Total file size: 1 TB</p></li></ul></td>
-   </tr>
-   <tr>
-     <td><p><strong>Applicable data file locations</strong></p></td>
-     <td><p>Remote files only</p></td>
+     <td><p>From object storage</p></td>
+     <td><p>1,000 Files</p></td>
+     <td><p>10 GB</p></td>
+     <td><p>1 TB</p></td>
    </tr>
 </table>
 

@@ -3,11 +3,14 @@ title: "Metric Types | Cloud"
 slug: /search-metrics-explained
 sidebar_label: "Metric Types"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Similarity metrics are used to measure similarities among vectors. Choosing an appropriate distance metric helps improve classification and clustering performance significantly. | Cloud"
 type: origin
 token: EOxmwUDxMiy2cpkOfIsc1dYzn4c
-sidebar_position: 18
+sidebar_position: 19
 keywords: 
   - zilliz
   - vector database
@@ -20,10 +23,10 @@ keywords:
   - IP
   - COSINE
   - Jaccard
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 
@@ -64,6 +67,12 @@ The table below summarizes the mapping between different field types and their c
      <td><p><code>COSINE</code></p></td>
    </tr>
    <tr>
+     <td><p><code>INT8_VECTOR</code></p></td>
+     <td><p>2-32,768</p></td>
+     <td><p><code>COSINE</code>, <code>L2</code>, <code>IP</code></p></td>
+     <td><p><code>COSINE</code></p></td>
+   </tr>
+   <tr>
      <td><p><code>SPARSE\_FLOAT\_VECTOR</code></p></td>
      <td><p>No need to specify the dimension.</p></td>
      <td><p><code>IP</code>, <code>BM25</code> (used only for full text search)</p></td>
@@ -72,7 +81,7 @@ The table below summarizes the mapping between different field types and their c
    <tr>
      <td><p><code>BINARY_VECTOR</code></p></td>
      <td><p>8-32,768*8</p></td>
-     <td><p><code>HAMMING</code>, <code>JACCARD</code>,</p></td>
+     <td><p><code>HAMMING</code>, <code>JACCARD</code>, <code>MHJACCARD</code></p></td>
      <td><p><code>HAMMING</code></p></td>
    </tr>
 </table>
@@ -115,6 +124,11 @@ The table below summarizes the characteristics of the similarity distance values
      <td><p>[0, 1]</p></td>
    </tr>
    <tr>
+     <td><p><code>MHJACCARD</code></p></td>
+     <td><p>Estimates Jaccard similarity from MinHash signature bits; smaller distance = more similar</p></td>
+     <td><p>[0, 1]</p></td>
+   </tr>
+   <tr>
      <td><p><code>HAMMING</code></p></td>
      <td><p>A smaller value indicates a greater similarity.</p></td>
      <td><p>[0, dim(vector)]</p></td>
@@ -126,13 +140,13 @@ The table below summarizes the characteristics of the similarity distance values
    </tr>
 </table>
 
-## Euclidean distance (L2){#euclidean-distance-l2}
+## Euclidean distance (L2)\{#euclidean-distance-l2}
 
 Essentially, Euclidean distance measures the length of a segment that connects 2 points.
 
 The formula for Euclidean distance is as follows:
 
-![C8gHbw8dSozNslx9wXbcyt2hnLe](/img/C8gHbw8dSozNslx9wXbcyt2hnLe.png)
+![C8gHbw8dSozNslx9wXbcyt2hnLe](/img/c8ghbw8dsoznslx9wxbcyt2hnle.png "C8gHbw8dSozNslx9wXbcyt2hnLe")
 
 where **a = (a<sub>0</sub>, a<sub>1</sub>,..., a<sub>n-1</sub>)** and **b = (b<sub>0</sub>, b<sub>1</sub>,..., b<sub>n-1</sub>)** are two points in n-dimensional Euclidean space.
 
@@ -144,11 +158,11 @@ It's the most commonly used distance metric and is very useful when the data are
 
 </Admonition>
 
-## Inner product (IP){#inner-product-ip}
+## Inner product (IP)\{#inner-product-ip}
 
 The IP distance between two embeddings is defined as follows:
 
-![Dqp4b8OP3oaQWgxZqoycL3ainwg](/img/Dqp4b8OP3oaQWgxZqoycL3ainwg.png)
+![Dqp4b8OP3oaQWgxZqoycL3ainwg](/img/dqp4b8op3oaqwgxzqoycl3ainwg.png "Dqp4b8OP3oaQWgxZqoycL3ainwg")
 
 IP is more useful if you need to compare non-normalized data or when you care about magnitude and angle.
 
@@ -160,35 +174,61 @@ IP is more useful if you need to compare non-normalized data or when you care ab
 
 Suppose X' is normalized from embedding X:
 
-![U23obWPTJoID9KxeGyjc1HAXn9d](/img/U23obWPTJoID9KxeGyjc1HAXn9d.png)
+![U23obWPTJoID9KxeGyjc1HAXn9d](/img/u23obwptjoid9kxegyjc1haxn9d.png "U23obWPTJoID9KxeGyjc1HAXn9d")
 
 The correlation between the two embeddings is as follows:
 
-![SHDAb6UUgo7qR6xLXb5cv4bKnke](/img/SHDAb6UUgo7qR6xLXb5cv4bKnke.png)
+![SHDAb6UUgo7qR6xLXb5cv4bKnke](/img/shdab6uugo7qr6xlxb5cv4bknke.png "SHDAb6UUgo7qR6xLXb5cv4bKnke")
 
-## Cosine similarity{#cosine-similarity}
+## Cosine similarity\{#cosine-similarity}
 
 Cosine similarity uses the cosine of the angle between two sets of vectors to measure how similar they are. You can think of the two sets of vectors as line segments starting from the same point, such as [0,0,...], but pointing in different directions.
 
 To calculate the cosine similarity between two sets of vectors **A = (a<sub>0</sub>, a<sub>1</sub>,..., a<sub>n-1</sub>)** and **B = (b<sub>0</sub>, b<sub>1</sub>,..., b<sub>n-1</sub>)**, use the following formula:
 
-![R1iNbuEDDoz8RdxtA4RcM706nMc](/img/R1iNbuEDDoz8RdxtA4RcM706nMc.png)
+![R1iNbuEDDoz8RdxtA4RcM706nMc](/img/r1inbueddoz8rdxta4rcm706nmc.png "R1iNbuEDDoz8RdxtA4RcM706nMc")
 
 The cosine similarity is always in the interval **[-1, 1]**. For example, two proportional vectors have a cosine similarity of **1**, two orthogonal vectors have a similarity of **0**, and two opposite vectors have a similarity of **-1**. The larger the cosine, the smaller the angle between the two vectors, indicating that these two vectors are more similar to each other.
 
 By subtracting their cosine similarity from 1, you can get the cosine distance between two vectors.
 
-## JACCARD distance{#jaccard-distance}
+## JACCARD distance\{#jaccard-distance}
 
 JACCARD distance coefficient measures the similarity between two sample sets and is defined as the cardinality of the intersection of the defined sets divided by the cardinality of the union of them. It can only be applied to finite sample sets.
 
-![Sl4dbmQRVoIf1yx55mRcibZ3nAg](/img/Sl4dbmQRVoIf1yx55mRcibZ3nAg.png)
+![Sl4dbmQRVoIf1yx55mRcibZ3nAg](/img/sl4dbmqrvoif1yx55mrcibz3nag.png "Sl4dbmQRVoIf1yx55mRcibZ3nAg")
 
 JACCARD distance measures the dissimilarity between data sets and is obtained by subtracting the JACCARD similarity coefficient from 1. For binary variables, JACCARD distance is equivalent to the Tanimoto coefficient.
 
-![Kj2kbpNmHoTUUixjDC1ccTntnnV](/img/Kj2kbpNmHoTUUixjDC1ccTntnnV.png)
+![Kj2kbpNmHoTUUixjDC1ccTntnnV](/img/kj2kbpnmhotuuixjdc1cctntnnv.png "Kj2kbpNmHoTUUixjDC1ccTntnnV")
 
-## HAMMING distance{#hamming-distance}
+## MHJACCARD\{#mhjaccard}
+
+**MinHash Jaccard** (`MHJACCARD`) is a metric type used for efficient, approximate similarity search over large sets—such as document word sets, user tag sets, or genomic k-mer sets. Instead of comparing raw sets directly, MHJACCARD compares **MinHash signatures**, which are compact representations designed to estimate Jaccard similarity efficiently.
+
+This approach is significantly faster than computing exact Jaccard similarity and is especially useful in large-scale or high-dimensional scenarios.
+
+**Applicable vector type**
+
+- `BINARY_VECTOR`, where each vector stores a MinHash signature. Each element corresponds to the minimum hash value under one of the independent hash functions applied to the original set.
+
+**Distance definition**
+
+MHJACCARD measures how many positions in two MinHash signatures match. The higher the match ratio, the more similar the underlying sets are.
+
+Zilliz Cloud reports:
+
+- **Distance = 1 - estimated similarity (match ratio)**
+
+The distance value ranges from 0 to 1:
+
+- **0** means the MinHash signatures are identical (estimated Jaccard similarity = 1)
+
+- **1** means no matches at any position (estimated Jaccard similarity = 0)
+
+For information on technical details, refer to [MINHASH_LSH](./minhash-lsh).
+
+## HAMMING distance\{#hamming-distance}
 
 HAMMING distance measures binary data strings. The distance between two strings of equal length is the number of bit positions at which the bits are different.
 
@@ -196,7 +236,7 @@ For example, suppose there are two strings, 1101 1001 and 1001 1101.
 
 11011001 ⊕ 10011101 = 01000100. Since, this contains two 1s, the HAMMING distance, d (11011001, 10011101) = 2.
 
-## BM25 similarity{#bm25-similarity}
+## BM25 similarity\{#bm25-similarity}
 
 BM25 is a widely used text relevance measurement method, specifically designed for [full text search](./full-text-search). It combines the following three key factors:
 
@@ -209,7 +249,7 @@ BM25 is a widely used text relevance measurement method, specifically designed f
 The BM25 scoring is calculated as follows:
 
 $$
-score(D, Q)=\sum_{i=1}^{n}IDF(q_i)\cdot {{TF(q_i,D)\cdot(k_1+1)}\over{TF(q_i, D)+k_1\cdot(1-b+b\cdot {{|D|}\over{avgdl}})}}
+score(D, Q)=\sum_{i=1}^{n}IDF(q_i)\cdot \{\{TF(q_i,D)\cdot(k_1+1)}\over\{TF(q_i, D)+k_1\cdot(1-b+b\cdot \{\{|D|}\over{avgdl}})}}
 $$
 
 Parameter description:
@@ -223,7 +263,7 @@ Parameter description:
 - $IDF(q_i)$: Inverse document frequency, calculated as:
 
     $$
-    IDF(q_i)=\log({N-n(q_i)+0.5\over n(q_i)+0.5} + 1)
+    IDF(q_i)=\log(\{N-n(q_i)+0.5\over n(q_i)+0.5} + 1)
     $$
 
     where $N$ is the total number of documents in the corpus, and$n(q_i)$ is the number of documents containing term $q_i$.
@@ -235,4 +275,49 @@ Parameter description:
 - $k_1$: Controls the influence of term frequency on the score. Higher values increase the importance of term frequency. The typical range is [1.2, 2.0], while Zilliz Cloud allows a range of [0, 3].
 
 - $b$: Controls the degree of length normalization, ranging from 0 to 1. When the value is 0, no normalization is applied; when the value is 1, full normalization is applied.
+
+## Maximum similarity\{#maximum-similarity}
+
+The **maximum similarity**, also known as **MAX_SIM**, measures the similarity between vector embedding lists instead of plain vector embeddings. The main idea is to split each document into contextual chunks or tokens, create vector embeddings for each of them, and store them as a list of embeddings per document. When a query is received, it is also divided into tokens, and an embedding list is generated accordingly. 
+
+$$
+score(Q, D) = \sum_{i=1}^m\max_{j=1}^ncos(e_{q_i}, e_{d_j})
+$$
+
+The distance or similarity score between the query and the documents is calculated using the above formula, known as the maximum similarity (**MAX_SIM**). The arguments in the formula are as follows:
+
+- $Q$: The query text provided by the user, which has been split into a vector embedding list, like $E_Q = [e_{q_1}, ..., e_{q_m} ]$.
+
+- $D$: A document being evaluated, which has been divided into a vector embedding list, like $E_D = [e_{d_1}, ... e_{d_n}]$.
+
+- $e_{q_i}$: The *i-th* vector embedding in the query embedding list.
+
+- $e_{d_j}$: The *j-th* vector embedding in the document.
+
+To determine the similarity score between the query and a document, the vector embeddings of each query token are compared with those in the document to get a list of similarity scores. Then the highest scores from all score lists are summed to produce the final score.
+
+![BqBlwM4OOh6hM9bmNwbc2xUUnxc](/img/BqBlwM4OOh6hM9bmNwbc2xUUnxc.png)
+
+In Zilliz Cloud, you can use **MAX_SIM** to measure the similarity between the query and the documents stored in arrays of structs. 
+
+The following table lists the applicable metric types in the **MAX_SIM** series:
+
+<table>
+   <tr>
+     <th><p>Metric type</p></th>
+     <th><p>Description</p></th>
+   </tr>
+   <tr>
+     <td><p>MAX_SIM_L2</p></td>
+     <td><p><strong>L2</strong> is used to calculate the distance between each query token and each document token, generating multiple score lists, while <strong>MAX_SIM</strong> determines the final score by summing the highest scores across all score lists.</p></td>
+   </tr>
+   <tr>
+     <td><p>MAX_SIM_IP</p></td>
+     <td><p><strong>IP</strong> is used to calculate the distance between each query token and each document token, generating multiple score lists, while <strong>MAX_SIM</strong> determines the final score by summing the highest scores from all score lists.</p></td>
+   </tr>
+   <tr>
+     <td><p>MAX_SIM_COSINE</p></td>
+     <td><p><strong>COSINE</strong> is used to calculate the distance between each query token and each document token, generating multiple score lists, while <strong>MAX_SIM</strong> determines the final score by summing the highest scores from all score lists.</p></td>
+   </tr>
+</table>
 

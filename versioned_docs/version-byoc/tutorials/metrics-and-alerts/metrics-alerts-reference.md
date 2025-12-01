@@ -1,10 +1,13 @@
 ---
-title: "Metrics & Alerts Reference | BYOC"
+title: "Metrics Reference | BYOC"
 slug: /metrics-alerts-reference
-sidebar_label: "Metrics & Alerts Reference"
+sidebar_label: "Metrics Reference"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "In this reference, you can find descriptions of monitoring metrics for Zilliz Cloud clusters, as well as alert targets that you can set up at organization and project levels. | BYOC"
+description: "Zilliz Cloud categorizes metrics in two levels - Organization and Project | BYOC"
 type: origin
 token: KnnBwce9JifxvXkd070cvgUPnag
 sidebar_position: 1
@@ -14,405 +17,303 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Metrics & Alerts Reference
+# Metrics Reference
 
-In this reference, you can find descriptions of monitoring metrics for Zilliz Cloud clusters, as well as alert targets that you can set up at organization and project levels.
+Zilliz Cloud categorizes metrics in two levels - **Organization** and **Project**:
 
-## Cluster metrics{#cluster-metrics}
+- **Organization-level metrics**: Reflect account-wide status (e.g., license credits, usage) across all projects.
 
-The **Metrics** tab in the Zilliz Cloud console presents various graphical representations.
-
-The table provides a description of each metric and the actions that you are advised to perform when the usage of your cluster resource exceeds a threshold.
+- **Project-level metrics**: Reflect cluster resources, capacity, performance, and data within a single project.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>To unlock a range of advanced metrics, <a href="./manage-cluster">upgrade your plan tier</a>.</p>
+<p>Most metrics support alerts. An alert evaluates a metric against a condition (operator + threshold) over a time window and notifies you when it’s met. For configuration, refer to <a href="./manage-organization-alerts">Manage Organization Alerts</a> and <a href="./manage-project-alerts">Manage Project Alerts</a>.</p>
 
 </Admonition>
 
+## Organization-level metrics\{#organization-level-metrics}
+
+Organization-level metrics help you track license-related issues across all projects in an organization.
+
 <table>
    <tr>
-     <th><p>Metric Name</p></th>
+     <th><p>Metric</p></th>
      <th><p>Unit</p></th>
      <th><p>Description</p></th>
-     <th><p>Recommended Action</p></th>
+     <th><p>Recommended action</p></th>
    </tr>
    <tr>
-     <td colspan="4"><p><strong>Pod Resources</strong></p></td>
+     <td><p>License Validity</p></td>
+     <td><p>day</p></td>
+     <td><p>Remaining days before the organization license expires.</p></td>
+     <td><ul><li><p><strong>< 60 days</strong>: start renewal process.</p></li><li><p><strong>Expired</strong>: renew/upgrade immediately to restore full functionality (e.g., cluster creation/scale-up).</p></li></ul></td>
+   </tr>
+   <tr>
+     <td><p>License Core Usage</p></td>
+     <td><p>%</p></td>
+     <td><p>Percentage of used CPU cores vs. total licensed cores.</p></td>
+     <td><ul><li><p><strong>></strong> <strong>70%</strong>: assess future needs and plan renewal/upgrade.</p></li><li><p><strong>100%</strong>: renew/upgrade immediately to avoid disruption.</p></li></ul></td>
+   </tr>
+</table>
+
+## Project-level metrics (cluster metrics)\{#project-level-metrics-cluster-metrics}
+
+These metrics describe resource usage and performance within a project’s clusters.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>In this section, <strong>Availability</strong> refers to the project plan &amp; deployment options. For detailed plan comparison, refer to <a href="./select-zilliz-cloud-service-plans">Detailed Plan Comparison</a>.</p>
+
+</Admonition>
+
+### Pod & container resources\{#pod-and-container-resources}
+
+<table>
+   <tr>
+     <th><p>Metric</p></th>
+     <th><p>Unit</p></th>
+     <th><p>Description</p></th>
+     <th><p>Recommended action</p></th>
+     <th><p>Availability</p></th>
    </tr>
    <tr>
      <td><p>CPU Usage</p></td>
-     <td><p>Core</p></td>
+     <td><p>core</p></td>
      <td><p>The number of CPU cores used by pods.</p></td>
-     <td><p>Regularly monitor and log resource usage to identify trends and potential bottlenecks.</p></td>
+     <td><p>Track trends; investigate sustained growth or spikes.</p></td>
+     <td><p>BYOC</p></td>
    </tr>
    <tr>
      <td><p>CPU Usage Rate for Limit</p></td>
      <td><p>%</p></td>
      <td><p>The percentage of the pod CPU usage in the value of limit.</p></td>
-     <td><p>Monitor the workload and consider optimizing resource usage or increasing the CPU limit if the usage trend continues to rise.</p></td>
+     <td><p>If trending up, optimize workloads or increase limits.</p></td>
+     <td><p>BYOC</p></td>
    </tr>
    <tr>
      <td><p>Memory Usage</p></td>
      <td><p>MB</p></td>
      <td><p>The memory usage of containers in the pod (with cache excluded).</p></td>
-     <td><p>Regularly monitor and log resource usage to identify trends and potential bottlenecks.</p></td>
+     <td><p>Investigate steady growth or suspected leaks.</p></td>
+     <td><p>BYOC</p></td>
    </tr>
    <tr>
      <td><p>Memory Usage Rate for Limit</p></td>
      <td><p>%</p></td>
      <td><p>The percentage of the pod memory usage in the value of limit.</p></td>
-     <td><p>Monitor the memory usage and identify any potential memory leaks or inefficient memory usage in the application.</p></td>
+     <td><p>Optimize memory or raise limits if consistently high.</p></td>
+     <td><p>BYOC</p></td>
    </tr>
    <tr>
      <td><p>Network Inbound Flow</p></td>
      <td><p>Mbps</p></td>
      <td><p>The network inbound flow of pod.</p></td>
-     <td><p>Track and analyze the amount of data being received from external sources, helping you monitor network performance and identify potential network congestion or bandwidth issues.</p></td>
+     <td><p>Watch for congestion; validate bandwidth sizing.</p></td>
+     <td><p>BYOC</p></td>
    </tr>
    <tr>
      <td><p>Network Outbound Flow</p></td>
      <td><p>Mbps</p></td>
      <td><p>The network outbound flow of pod.</p></td>
-     <td><p>Track and analyze the amount of data being sent to external sources, helping you monitor network performance and identify potential network congestion or bandwidth issues.</p></td>
+     <td><p>Watch for congestion; validate bandwidth sizing.</p></td>
+     <td><p>BYOC</p></td>
+   </tr>
+</table>
+
+### Resources\{#resources}
+
+<table>
+   <tr>
+     <th><p>Metric</p></th>
+     <th><p>Unit</p></th>
+     <th><p>Description</p></th>
+     <th><p>Recommended action</p></th>
+     <th><p>Availability</p></th>
    </tr>
    <tr>
-     <td colspan="4"><p><strong>Resources</strong></p></td>
-   </tr>
-   <tr>
-     <td><p>CU Computation</p></td>
+     <td><p>Query CU Computation</p></td>
      <td><p>%</p></td>
-     <td><p>A measure of the utilized computational power relative to the total computational capacity of the CU.</p><p>This metric is available only for <strong>Dedicated</strong> or <strong>BYOC</strong> clusters.</p></td>
-     <td><p><strong>70%-80%</strong>: Check service status and prepare for <a href="./manage-cluster">scaling up</a>.</p><p><strong>> 90%</strong>: <a href="./manage-cluster">Scale up</a> immediately to avoid service interruption.</p></td>
+     <td><p>A measure of the utilized computational power relative to the total computational capacity of the CU.</p></td>
+     <td><ul><li><p>70–80%: check service status &amp; prep <a href="./scale-cluster">scale-up</a>.</p></li><li><p>&gt;90%: <a href="./scale-cluster">scale up</a> to avoid interruption.</p></li></ul></td>
+     <td><p>Dedicated / BYOC</p></td>
    </tr>
    <tr>
-     <td><p>CU Capacity</p></td>
+     <td><p>Query CU Capacity</p></td>
      <td><p>%</p></td>
-     <td><p>A measure of the used capacity relative to the total capacity of the CU.</p><p>This metric is available for <strong>Free</strong>, <strong>Dedicated</strong> or <strong>BYOC</strong> clusters.</p></td>
-     <td><p><strong>70%-80%</strong>: Check service status and prepare for scaling up.</p><p><strong>> 90%</strong>: <a href="./manage-cluster">Scale up</a> immediately to avoid service interruption.</p><p><strong>100%</strong>: When CU capacity reaches 100%, you will be unable to write data into the cluster. Please <a href="./manage-cluster">scale up</a> immediately to avoid service interruption.</p></td>
+     <td><p>A measure of the used capacity relative to the total capacity of the CU.</p></td>
+     <td><ul><li><p>70–80%: prep <a href="./scale-cluster">scale up</a>.</p></li><li><blockquote>  <p>90%: <a href="./scale-cluster">scale up</a>.</p></blockquote></li><li><p><strong>100%:</strong> writes are blocked—<a href="./scale-cluster">scale up</a> immediately.</p></li></ul></td>
+     <td><p>Dedicated / BYOC</p></td>
+   </tr>
+   <tr>
+     <td><p>Total Query CU</p></td>
+     <td><p>count</p></td>
+     <td><p>The total query CU in the current cluster. It is calculated as the product of the numbers of cluster query CU and replica. (Eg. If your cluster has 2 Query CUs and 2 Replicas, the Total Query CU displayed here is 4.)</p></td>
+     <td><p>Track to identify query-CU scaling events.</p></td>
+     <td><p>Dedicated / BYOC</p></td>
+   </tr>
+   <tr>
+     <td><p>Replica</p></td>
+     <td><p>count</p></td>
+     <td><p>The number of cluster replicas.</p></td>
+     <td><p>Track to identify replica scaling events.</p></td>
+     <td><p>Dedicated / BYOC</p></td>
    </tr>
    <tr>
      <td><p>Storage</p></td>
      <td><p>GB</p></td>
-     <td><p>The total amount of persistent storage consumed by data and indexes. </p></td>
+     <td><p>The total amount of persistent storage consumed by data and indexes.</p></td>
      <td><p><a href="./manage-project-alerts">Configure alerts</a> for monitoring storage usage.</p></td>
+     <td><p>All</p></td>
+   </tr>
+</table>
+
+### Performance\{#performance}
+
+<table>
+   <tr>
+     <th><p>Metric</p></th>
+     <th><p>Unit</p></th>
+     <th><p>Description</p></th>
+     <th><p>Recommended action</p></th>
+     <th><p>Availability</p></th>
    </tr>
    <tr>
-     <td colspan="4"><p><strong>Performance</strong></p></td>
-   </tr>
-   <tr>
-     <td><p>QPS/VPS (Read)</p></td>
-     <td><p>QPS/VPS</p></td>
-     <td><p><strong>QPS</strong>: The number of read requests (search and query) per second.</p><p><strong>VPS</strong>: The number of read requests (search) on vectors per second. VPS is not available for query requests as query operations do not involve vectors.</p></td>
+     <td><p>QPS (Read)</p></td>
+     <td><p>-</p></td>
+     <td><p>The number of read requests (search and query) per second.</p></td>
      <td><p>Refer to <a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> for system performance monitoring.</p></td>
+     <td><p>All</p></td>
    </tr>
    <tr>
-     <td><p>QPS/VPS (Write)</p></td>
-     <td><p>QPS/VPS</p></td>
-     <td><p><strong>QPS</strong>: The number of write requests (insert, bulk insert, upsert, and delete) per second.</p><p><strong>VPS</strong>: The number of write requests (insert, bulk insert, upsert, and delete) on vectors per second.</p></td>
+     <td><p>QPS (Write)</p></td>
+     <td><p>-</p></td>
+     <td><p>The number of write requests (insert, bulk insert, upsert, and delete) per second.</p></td>
      <td><p>Refer to <a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> for system performance monitoring.</p></td>
+     <td><p>All</p></td>
+   </tr>
+   <tr>
+     <td><p>Search NQ per Second</p></td>
+     <td><p>-</p></td>
+     <td><p>The number of query vectors that each search request carries per second.</p></td>
+     <td><p>Refer to <a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> for system performance monitoring.</p></td>
+     <td><p>All</p></td>
+   </tr>
+   <tr>
+     <td><p>Write Throughput (Entities/sec)</p></td>
+     <td><p>-</p></td>
+     <td><p>Measures the number of entities written per second across all write operations (insert, upsert, bulk insert, and delete).</p></td>
+     <td><p>Refer to <a href="https://zilliz.com/vector-database-benchmark-tool">benchmark</a> for system performance monitoring.</p></td>
+     <td><p>All</p></td>
    </tr>
    <tr>
      <td><p>Latency (Read)</p></td>
      <td><p>ms</p></td>
-     <td><p>The time elapsed between a client sending a read request (search and query) to a server and the client receiving a response. </p><p>Selecting <strong>Average</strong> or <strong>P99</strong> from the expanded dropdown menu on the right displays an average or P99 latency.</p></td>
+     <td><p>The time elapsed between a client sending a read request (search and query request) to a server and the client receiving a response. It includes an average latency and a P99 latency.</p></td>
      <td><p>-</p></td>
+     <td><p>All</p></td>
    </tr>
    <tr>
      <td><p>Latency (Write)</p></td>
      <td><p>ms</p></td>
-     <td><p>The time elapsed between a client sending a write request (insert, upsert, and delete) to a server and the client receiving a response. </p><p>Selecting <strong>Average</strong> or <strong>P99</strong> from the expanded dropdown menu on the right displays an average or P99 latency.</p></td>
+     <td><p>The time elapsed between a client sending a write request (insert and upsert request) to a server and the client receiving a response. It includes an average latency and a P99 latency.</p></td>
      <td><p>-</p></td>
+     <td><p>All</p></td>
    </tr>
    <tr>
      <td><p>Request Failure Rate (Read)</p></td>
      <td><p>%</p></td>
-     <td><p>The percentage of failed read requests (search and query) in all read requests per second.</p></td>
-     <td><p><a href="./manage-project-alerts">Configure alerts</a> to monitor read request failure rate.</p></td>
+     <td><p>The percentage of all failed read requests in all requests per second.</p></td>
+     <td><p><a href="./manage-project-alerts">Configure alerts</a> for monitoring read request failure rate.</p></td>
+     <td><p>All</p></td>
    </tr>
    <tr>
      <td><p>Request Failure Rate (Write)</p></td>
      <td><p>%</p></td>
-     <td><p>The percentage of failed write requests (insert, bulk insert, upsert, and delete) in all write requests per second.</p></td>
-     <td><p><a href="./manage-project-alerts">Configure alerts</a> to monitor write request failure rate.</p></td>
+     <td><p>The percentage of all failed write requests in all requests per second.</p></td>
+     <td><p><a href="./manage-project-alerts">Configure alerts</a> for monitoring write request failure rate.</p></td>
+     <td><p>All</p></td>
    </tr>
    <tr>
      <td><p>Slow Query Count</p></td>
-     <td><p>count/min</p></td>
-     <td><p>The number of slow query operations, including all search and query requests. By default, all requests whose latency is 5 seconds are considered slow queries.</p><p>This metric type is available only for <strong>Dedicated</strong> clusters of the <strong>Enterprise</strong> edition or <strong>BYOC</strong> clusters.</p></td>
+     <td><p>counts/min</p></td>
+     <td><p>The number of queries that take an unusually long time to execute.</p></td>
      <td><p>Identify problematic queries and tune performance by adjusting cluster configuration as necessary.</p></td>
+     <td><p>Dedicated (Enterprise or  Business Critical) / BYOC</p></td>
    </tr>
    <tr>
      <td><p>Cluster Write Performance Capacity</p></td>
      <td><p>%</p></td>
-     <td><p>The current rate of write operations/write rate limit.</p><p>This metric type is available only for <strong>Dedicated</strong> clusters of the <strong>Enterprise</strong> edition or <strong>BYOC</strong> clusters.</p></td>
+     <td><p>Cluster write performance capacity = Current rate of write operations/write rate limit. When it exceeds 80%, it is recommended to reduce the rate of your write operations (insert and upsert).</p></td>
      <td><p>If the current rate is too high (suggested to be over 80%), it is recommended that you lower the write rate.</p></td>
+     <td><p>Dedicated (Enterprise or  Business Critical) / BYOC</p></td>
    </tr>
    <tr>
      <td><p>Number of Flush Operations</p></td>
-     <td><p>count/min</p></td>
-     <td><p>The number of flush operations on a cluster.</p><p>This metric type is available only for <strong>Dedicated</strong> clusters of the <strong>Enterprise</strong> edition or <strong>BYOC</strong> clusters.</p></td>
-     <td><p>Performing flush operations too frequently can negatively impact the overall performance of the cluster. For more information, refer to <a href="./limits#flush">Zilliz Cloud Limits</a>.</p></td>
+     <td><p>counts/min</p></td>
+     <td><p>The number of flush operations on a cluster.</p></td>
+     <td><p>Performing flush operations too frequently can negatively impact the overall performance of the cluster. For more information, refer to <a href="https://docs.cloud-uat3.zilliz.com/docs/limits#flush">Zilliz Cloud Limits</a>.</p></td>
+     <td><p>Dedicated (Enterprise or  Business Critical) / BYOC</p></td>
    </tr>
    <tr>
-     <td colspan="4"><p><strong>Data</strong></p></td>
+     <td><p>Cache Hit Rate</p></td>
+     <td><p>%</p></td>
+     <td><p>The average cache hit rate of all queries in the cluster, calculated as: Cache hit rate per query = (Total scanned data − Cold data scanned) / Total scanned data.</p></td>
+     <td><p>Track to identify cluster query performance.</p></td>
+     <td><p>Dedicated (Tiered-storage) / BYOC</p><p>*<em>This metric is only available to tiered-storage clusters compatible with Milvus 2.6.x. To access this metric, <a href="http://support.zilliz.com">contact us</a> to upgrade your cluster Milvus version.</em></p></td>
+   </tr>
+</table>
+
+### Data\{#data}
+
+<table>
+   <tr>
+     <th><p>Metric</p></th>
+     <th><p>Unit</p></th>
+     <th><p>Description</p></th>
+     <th><p>Recommended action</p></th>
+     <th><p>Availability</p></th>
    </tr>
    <tr>
      <td><p>Collection Count</p></td>
      <td><p>count</p></td>
      <td><p>The number of collections created in a cluster.</p></td>
-     <td><p>-</p></td>
+     <td><p>Monitor growth; enforce per-project limits if needed.</p></td>
+     <td><p>All</p></td>
    </tr>
    <tr>
      <td><p>Entity Count</p></td>
      <td><p>count</p></td>
-     <td><p>The number of entities inserted into a cluster.</p><p>Selecting a specific collection from the expanded dropdown menu on the right displays the number of entities at the collection level.</p></td>
-     <td><p>-</p></td>
+     <td><p>The total number of entities inserted into the cluster, including both single inserts and bulk inserts.</p></td>
+     <td><p>Investigate unexpected growth; plan storage and indexing.</p></td>
+     <td><p>All</p></td>
    </tr>
    <tr>
-     <td><p>Loaded Entities</p></td>
+     <td><p>Loaded Entities (Approx.)</p></td>
      <td><p>count</p></td>
-     <td><p>The number of entities loaded (actively served) by a cluster.</p><p>Selecting a specific collection from the expanded dropdown menu on the right displays the number of loaded entities at the collection level.</p><p>This metric is available only for <strong>Dedicated</strong> or <strong>BYOC</strong> clusters.</p></td>
-     <td><p>-</p></td>
+     <td><p>The approximate number of entities loaded (actively served).</p></td>
+     <td><p>For a more accurate and real-time value, please refer to the 'Loaded Entities' value on the collection overview page or use <a href="./single-vector-search">count(*)</a>.</p></td>
+     <td><p>Dedicated / BYOC</p></td>
    </tr>
    <tr>
      <td><p>Number of Unloaded Collections</p></td>
      <td><p>count</p></td>
-     <td><p>The number of unloaded collections in a cluster.</p><p>This metric type is available only for <strong>Dedicated</strong> clusters of the <strong>Enterprise</strong> edition or <strong>BYOC</strong> clusters.</p></td>
-     <td></td>
+     <td><p>The number of unloaded collections in a cluster.</p></td>
+     <td><p>Load critical collections; review memory headroom.</p></td>
+     <td><p>Dedicated (Enterprise or  Business Critical) / BYOC</p></td>
    </tr>
 </table>
 
-## Organization alerts{#organization-alerts}
-
-Organization alerts keep you informed about license-related issues such as the license cores and validity period.
-
-<table>
-   <tr>
-     <th><p>Alert Target</p></th>
-     <th><p>Unit</p></th>
-     <th><p>Description</p></th>
-     <th><p>Recommended Action</p></th>
-     <th><p>Default Trigger Condition</p></th>
-   </tr>
-   <tr>
-     <td><p>License (Core Usage)</p></td>
-     <td><p>%</p></td>
-     <td><p>Monitor the percentage of used CPU cores against the total licensed cores.</p></td>
-     <td><p><strong>> 70%</strong>: Assess future needs and prepare to renew or upgrade the license.</p><p><strong>> 100%</strong>: Renew or upgrade the license immediately to avoid operational disruptions.</p></td>
-     <td><p><strong>WARNING</strong>: Trigger alerts when the number of used CPU cores reaches or exceeds 70% of the total.</p><p><strong>CRITICAL</strong>: Trigger alerts when the number of used CPU cores reaches or exceeds 100% of the total.</p></td>
-   </tr>
-   <tr>
-     <td><p>License (Validity Period)</p></td>
-     <td><p>Day</p></td>
-     <td><p>Track the remaining days of license validity.</p></td>
-     <td><p><strong>< 60 days</strong>: Start preparing to renew or upgrade the license. </p><p><strong>< 0 day</strong> (expired): Renew or upgrade the license immediately to avoid restrictions like the inability to create new clusters or scale up.</p></td>
-     <td><p><strong>WARNING</strong>: Trigger alerts when the license validity is 60 days or less.</p><p><strong>CRITICAL</strong>: Trigger alerts when the license expires.</p></td>
-   </tr>
-</table>
-
-## Project alerts{#project-alerts}
-
-Project alerts focus on the operational aspects of your clusters, including notifications on the CU usage, QPS thresholds, latency issues, and request anomalies, ensuring you maintain optimal cluster performance.
-
-For each project alert target, the trigger condition includes a threshold value and a duration value that must be met for the alert to be triggered. The condition can be set to one of the following operators: >, >=, \<, \<=, =. The threshold value can be a numeric value, such as a number for metrics like query latency, query QPS, search QPS, CU Capacity, and CU Computation. The duration specifies how long the threshold must be exceeded, which is set to a minimum of 1 minute and a maximum of 30 minutes.
-
-### Default alert targets{#default-alert-targets}
-
-Zilliz Cloud predefines common alert targets to ensure that critical issues are quickly identified and addressed with the appropriate actions.
-
-For more information about recommended actions, refer to [Cluster metrics](./metrics-alerts-reference#cluster-metrics).
-
-<table>
-   <tr>
-     <th><p>Alert Target</p></th>
-     <th><p>Unit</p></th>
-     <th><p>Default Trigger Condition</p></th>
-   </tr>
-   <tr>
-     <td><p>CU Computation</p></td>
-     <td><p>%</p></td>
-     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized computational power for 10+ minutes.</p><p><strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized computational power for 10+ minutes.</p></td>
-   </tr>
-   <tr>
-     <td><p>CU Capacity</p></td>
-     <td><p>%</p></td>
-     <td><p><strong>WARNING</strong>: Trigger alerts at &gt;70% utilized CU capacity for 10+ minutes.</p><p><strong>CRITICAL</strong>: Trigger alerts at &gt;90% utilized CU capacity for 10+ minutes.</p></td>
-   </tr>
-   <tr>
-     <td><p>Search (QPS)</p></td>
-     <td><p>QPS</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts at &gt;50 search operations per second for 10+ minutes.</p></td>
-   </tr>
-   <tr>
-     <td><p>Query (QPS)</p></td>
-     <td><p>QPS</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts at &gt;50 query operations per second for 10+ minutes.</p></td>
-   </tr>
-   <tr>
-     <td><p>Search Latency (P99)</p></td>
-     <td><p>ms</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts at P99 latency &gt;1,000ms for 10+ minutes.</p></td>
-   </tr>
-   <tr>
-     <td><p>Query Latency (P99)</p></td>
-     <td><p>ms</p></td>
-     <td><p>Trigger <strong>WARNING</strong> alerts at P99 latency &gt;1,000ms for 10+ minutes.</p></td>
-   </tr>
-</table>
-
-### Custom alert targets{#custom-alert-targets}
-
-In addition to the predefined default project alerts , you can also configure custom alert targets as needed.
-
-<table>
-   <tr>
-     <th><p>Alert Target</p></th>
-     <th><p>Description</p></th>
-   </tr>
-   <tr>
-     <td colspan="2"><p><strong>Resource</strong></p></td>
-   </tr>
-   <tr>
-     <td><p>Storage</p></td>
-     <td><p>Monitor storage usage and send notifications if the usage exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td colspan="2"><p><strong>Performance (read/write)</strong></p></td>
-   </tr>
-   <tr>
-     <td><p>Bulk Insert (QPS)</p></td>
-     <td><p>Monitor the rate of bulk insert operations and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete (QPS)</p></td>
-     <td><p>Monitor the rate of delete operations and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Insert (QPS)</p></td>
-     <td><p>Monitor the rate of insert operations and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Insert (VPS)</p></td>
-     <td><p>Monitor the rate of vector insert operations and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Search (VPS)</p></td>
-     <td><p>Monitor the rate of vector search operations and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Upsert (QPS)</p></td>
-     <td><p>Monitor the rate of upsert operations and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Upsert (VPS)</p></td>
-     <td><p>Monitor the rate of vector upsert operations and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Writes to Cluster Are Disabled</p></td>
-     <td><p>Monitor the write operations to the cluster to ensure they are not prohibited. Please scale out immediately if write prohibition has been triggered.</p></td>
-   </tr>
-   <tr>
-     <td colspan="2"><p><strong>Performance (latency)</strong></p></td>
-   </tr>
-   <tr>
-     <td><p>Delete Latency (Average)</p></td>
-     <td><p>Monitor the average latency for delete requests and send notifications if the latency exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete Latency (P99)</p></td>
-     <td><p>Monitor the P99 latency for delete requests and send notifications if the latency exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Insert Latency (Average)</p></td>
-     <td><p>Monitor the average latency for insert requests and send notifications if the latency exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Insert Latency (P99)</p></td>
-     <td><p>Monitor the P99 latency for insert requests and send notifications if the latency exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Query Latency (Average)</p></td>
-     <td><p>Monitor the average latency for query requests and send notifications if the latency exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Search Request Latency (Average)</p></td>
-     <td><p>Monitor the average latency for search requests and send notifications if the latency exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Upsert Latency (Average)</p></td>
-     <td><p>Monitor the average latency for upsert requests and send notifications if the latency exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Upsert Latency (P99)</p></td>
-     <td><p>Monitor the P99 latency for upsert requests and send notifications if the latency exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td colspan="2"><p><strong>Performance (request failure rate)</strong></p></td>
-   </tr>
-   <tr>
-     <td><p>Bulk Insert Failure Rate</p></td>
-     <td><p>Monitor the failure rate of bulk insert requests and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Delete Failure Rate</p></td>
-     <td><p>Monitor the failure rate of delete requests and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Insert Failure Rate</p></td>
-     <td><p>Monitor the failure rate of insert requests and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Query Failure Rate</p></td>
-     <td><p>Monitor the failure rate of query requests and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Search Failure Rate</p></td>
-     <td><p>Monitor the failure rate of search requests and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Slow Query Count</p></td>
-     <td><p>Monitor the number of slow queries and send notifications if the value exceeds a threshold for a certain duration.</p><p>By default, all requests whose latency is 5 seconds are considered slow queries.</p></td>
-   </tr>
-   <tr>
-     <td><p>Upsert Failure Rate</p></td>
-     <td><p>Monitor the failure rate of upsert requests and send notifications if the rate exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td colspan="2"><p><strong>Data</strong></p></td>
-   </tr>
-   <tr>
-     <td><p>Loaded Entities</p></td>
-     <td><p>Monitor the number of loaded entities and send notifications if the count exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Total Collections</p></td>
-     <td><p>Monitor the number of total collections and send notifications if the count exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td><p>Total Entities</p></td>
-     <td><p>Monitor the number of total entities and send notifications if the count exceeds a threshold for a certain duration.</p></td>
-   </tr>
-   <tr>
-     <td colspan="2"><p><strong>Others</strong></p></td>
-   </tr>
-   <tr>
-     <td><p>Cluster Is Abnormal</p></td>
-     <td><p>Monitor the status of a cluster to ensure it is functioning properly. This includes checking the cluster load and usage.</p></td>
-   </tr>
-</table>
-
-## Related topics{#related-topics}
+## Related topics\{#related-topics}
 
 - [View Cluster Metric Charts](./view-cluster-metric-charts)
 

@@ -1,8 +1,11 @@
 ---
-title: "Audit Log Reference | Cloud"
+title: "VectorDB Audit Logs Reference | Cloud"
 slug: /audit-logs-ref
-sidebar_label: "Audit Log Reference"
-beta: PRIVATE
+sidebar_label: "VectorDB Audit Logs Reference"
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "On Zilliz Cloud, audit logs have the following syntax | Cloud"
 type: origin
@@ -14,17 +17,17 @@ keywords:
   - cloud
   - auditing
   - log
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Audit Log Reference
+# VectorDB Audit Logs Reference
 
 On Zilliz Cloud, audit logs have the following syntax:
 
@@ -117,11 +120,11 @@ On Zilliz Cloud, audit logs have the following syntax:
    </tr>
 </table>
 
-## List of actions{#list-of-actions}
+## List of actions\{#list-of-actions}
 
 The following tables summarize actions on the data plane that can be logged for auditing.
 
-### Connection{#connection}
+### Connection\{#connection}
 
 <table>
    <tr>
@@ -134,7 +137,7 @@ The following tables summarize actions on the data plane that can be logged for 
    </tr>
 </table>
 
-### Database{#database}
+### Database\{#database}
 
 <table>
    <tr>
@@ -163,7 +166,7 @@ The following tables summarize actions on the data plane that can be logged for 
    </tr>
 </table>
 
-### Collection{#collection}
+### Collection\{#collection}
 
 <table>
    <tr>
@@ -252,7 +255,7 @@ The following tables summarize actions on the data plane that can be logged for 
    </tr>
 </table>
 
-### Partition{#partition}
+### Partition\{#partition}
 
 <table>
    <tr>
@@ -289,7 +292,7 @@ The following tables summarize actions on the data plane that can be logged for 
    </tr>
 </table>
 
-### Index{#index}
+### Index\{#index}
 
 <table>
    <tr>
@@ -326,7 +329,7 @@ The following tables summarize actions on the data plane that can be logged for 
    </tr>
 </table>
 
-### Entity{#entity}
+### Entity\{#entity}
 
 <table>
    <tr>
@@ -359,7 +362,7 @@ The following tables summarize actions on the data plane that can be logged for 
    </tr>
 </table>
 
-### RBAC{#rbac}
+### RBAC\{#rbac}
 
 <table>
    <tr>
@@ -412,7 +415,7 @@ The following tables summarize actions on the data plane that can be logged for 
    </tr>
 </table>
 
-### Others{#others}
+### Others\{#others}
 
 <table>
    <tr>

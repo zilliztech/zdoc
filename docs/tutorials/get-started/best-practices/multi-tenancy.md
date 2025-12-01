@@ -3,6 +3,9 @@ title: "Implement Multi-tenancy | Cloud"
 slug: /multi-tenancy
 sidebar_label: "Implement Multi-tenancy"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, multi-tenancy means multiple customers or teams—referred to as tenants— share the same cluster while maintaining isolated data environments. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - multi-tenancy
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 
@@ -30,17 +33,17 @@ In Zilliz Cloud, multi-tenancy means multiple customers or teams—referred to a
 
 Zilliz Cloud supports four multi-tenancy strategies, each offering a different trade-off between scalability, data isolation, and flexibility. This guide walks you through each option, helping you choose the most suitable strategy for your use case.
 
-## Multi-tenancy strategies{#multi-tenancy-strategies}
+## Multi-tenancy strategies\{#multi-tenancy-strategies}
 
 Zilliz Cloud supports multi-tenancy at four levels: **Database**, **Collection**, **Partition**, and **Partition Key**. 
 
-### Database-level multi-tenancy{#database-level-multi-tenancy}
+### Database-level multi-tenancy\{#database-level-multi-tenancy}
 
 With database-level multi-tenancy, each tenant receives a corresponding [database](./database) containing one or more collections. 
 
 ![NVV9w0w49hZJ61bNzG4cdi9gn6C](/img/NVV9w0w49hZJ61bNzG4cdi9gn6C.png)
 
-- **Scalability**: The database-level multi-tenancy strategy is only available on Zilliz Cloud’s Dedicated cluster plans and supports a maximum of 1,024 tenants .
+- **Scalability**: The database-level multi-tenancy strategy is only available to Zilliz Cloud’s Dedicated clusters and supports a maximum of 1,024 tenants .
 
 - **Data isolation**: The data in each database is fully separated, offering enterprise-grade data isolation ideal for regulated environments or customers with strict compliance needs.
 
@@ -48,7 +51,7 @@ With database-level multi-tenancy, each tenant receives a corresponding [databas
 
 - **Others**: This strategy also supports RBAC, enabling fine-grained control over user access per tenant. Additionally, you can flexibly load or release data for specific tenants to manage hot and cold data effectively.
 
-### Collection-level multi-tenancy{#collection-level-multi-tenancy}
+### Collection-level multi-tenancy\{#collection-level-multi-tenancy}
 
 With collection-level multi-tenancy, each tenant is assigned a [collection](./manage-collections), offering strong data isolation. 
 
@@ -62,7 +65,7 @@ With collection-level multi-tenancy, each tenant is assigned a [collection](./ma
 
 - **Others**: This strategy also supports RBAC, allowing for granular access control over tenants. Additionally, you can flexibly load or release data for specific tenants to manage hot and cold data effectively.
 
-### Partition-level multi-tenancy{#partition-level-multi-tenancy}
+### Partition-level multi-tenancy\{#partition-level-multi-tenancy}
 
 In partition-level multi-tenancy, each tenant is assigned to a manually created [partition](./manage-partitions) within a shared collection. 
 
@@ -76,7 +79,7 @@ In partition-level multi-tenancy, each tenant is assigned to a manually created 
 
 - **Others**: RBAC is not supported on the partition level. Tenants can be queried either individually or across multiple partitions, which makes this approach well-suited for scenarios involving aggregated queries or analytics across tenant segments. Additionally, you can flexibly load or release data for specific tenants to manage hot and cold data effectively.
 
-### Partition key-level multi-tenancy{#partition-key-level-multi-tenancy}
+### Partition key-level multi-tenancy\{#partition-key-level-multi-tenancy}
 
 With this strategy, all tenants share a single collection and schema, but each tenant's data is automatically routed into 16 physically isolated partitions based on the [partition key](./use-partition-key) value. Although each physical partition can contain multiple tenants, the data from different tenants remains logically separated. 
 
@@ -90,7 +93,7 @@ With this strategy, all tenants share a single collection and schema, but each t
 
 - **Others**: RBAC is not supported on the partition-key level. Tenants can be queried either individually or across multiple partitions, which makes this approach well-suited for scenarios involving aggregated queries or analytics across tenant segments.
 
-## Choosing the right multi-tenancy strategy{#choosing-the-right-multi-tenancy-strategy}
+## Choosing the right multi-tenancy strategy\{#choosing-the-right-multi-tenancy-strategy}
 
 The table below offers a comprehensive comparison between the four levels of multi-tenancy strategies.
 
@@ -103,11 +106,11 @@ The table below offers a comprehensive comparison between the four levels of mul
      <th><p><strong>Partition key-level</strong></p></th>
    </tr>
    <tr>
-     <td><p><strong>Plan availability</strong></p></td>
-     <td><p>Dedicated plans only</p></td>
-     <td><p>All plans</p></td>
-     <td><p>All plans</p></td>
-     <td><p>All plans</p></td>
+     <td><p><strong>Cluster deployment option</strong></p></td>
+     <td><p>Dedicated only</p></td>
+     <td><p>All deployment options</p></td>
+     <td><p>All deployment options</p></td>
+     <td><p>All deployment options</p></td>
    </tr>
    <tr>
      <td><p><strong>Data Isolation</strong></p></td>
@@ -119,8 +122,8 @@ The table below offers a comprehensive comparison between the four levels of mul
    <tr>
      <td><p><strong>Max. number of tenants</strong></p></td>
      <td><p>1024</p></td>
-     <td><p>Up to 16,384 depending on the cluster plan. </p><p>See <a href="./limits#collections">Zilliz Cloud Limits</a></p></td>
-     <td><p>Up to 1,024 per collection depending on the cluster plan. </p><p>See <a href="./limits">Zilliz Cloud Limits</a></p></td>
+     <td><p>Up to 16,384 depending on the cluster deployment option and project plan. </p><p>See <a href="./limits#collections">Zilliz Cloud Limits</a></p></td>
+     <td><p>Up to 1,024 per collection depending on the cluster deployment option and project plan. </p><p>See <a href="./limits">Zilliz Cloud Limits</a></p></td>
      <td><p>Millions</p></td>
    </tr>
    <tr>

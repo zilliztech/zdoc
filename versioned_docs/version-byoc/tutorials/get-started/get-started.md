@@ -3,6 +3,9 @@ title: "Get Started with Zilliz Cloud | BYOC"
 slug: /get-started
 sidebar_label: "Get Started"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This chapter provides materials for you to get started with Zilliz Cloud. | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

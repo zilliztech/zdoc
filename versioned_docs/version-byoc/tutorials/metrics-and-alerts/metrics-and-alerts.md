@@ -3,21 +3,24 @@ title: "Metrics & Alerts | BYOC"
 slug: /metrics-and-alerts
 sidebar_label: "Metrics & Alerts"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides handy metric charts and alerts for you to know what is happening in your organization and clusters. | BYOC"
 type: origin
 token: Xma9w6Ne9ihcsZkFkSmcHidEnZg
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - metrics
   - alerts
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

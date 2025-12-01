@@ -3,6 +3,9 @@ title: "Create Cloud Storage Bucket and Service Account | BYOC"
 slug: /create-bucket-and-service-account
 sidebar_label: "Create Cloud Storage Bucket and Service Account"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This page describes the procedure for creating and configuring the root storage for your Bring-Your-Own-Cloud (BYOC) project with proper permissions. | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 
@@ -39,7 +42,7 @@ This page describes the procedure for creating and configuring the root storage 
 
 </Admonition>
 
-## Best practices for the Cloud Storage bucket{#best-practices-for-the-cloud-storage-bucket}
+## Best practices for the Cloud Storage bucket\{#best-practices-for-the-cloud-storage-bucket}
 
 The bucket you specify during the project deployment will be used as the root storage for the clusters created in the project. Before you create a Cloud Storage bucket, review the following best practices:
 
@@ -47,11 +50,11 @@ The bucket you specify during the project deployment will be used as the root st
 
 - All clusters in a project share the Cloud Storage bucket created during the project deployment. Zilliz Cloud recommends using a Cloud Storage bucket dedicated to the project and not sharing it with other services and resources.
 
-## Procedure{#procedure}
+## Procedure\{#procedure}
 
 You can use the GCP dashboard to create the bucket and service account. Alternatively, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on GCP. For details, refer to [Terraform Provider](./terraform-provider).
 
-### Step 1: Create a Cloud Storage bucket{#step-1-create-a-cloud-storage-bucket}
+### Step 1: Create a Cloud Storage bucket\{#step-1-create-a-cloud-storage-bucket}
 
 In this step, you will create a Cloud Storage bucket on GCP for the BYOC project deployment. If you prefer to use an existing bucket, ensure that the bucket is in the same region as the BYOC project. Once it is created, enter the bucket name in **Storage settings** on the Zilliz Cloud console.
 
@@ -81,7 +84,7 @@ The steps to create a bucket are as follows:
 
 1. Click **Confirm** in the prompted dialog box to confirm the prevention of public access to the bucket to create.
 
-### Step 2: Create a service account to access the bucket{#step-2-create-a-service-account-to-access-the-bucket}
+### Step 2: Create a service account to access the bucket\{#step-2-create-a-service-account-to-access-the-bucket}
 
 In this step, you will create a service account, associate several roles with the service account, and provide the service account to Zilliz Cloud so that Zilliz Cloud can access the bucket created above.
 

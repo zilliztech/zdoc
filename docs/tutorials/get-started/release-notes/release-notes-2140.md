@@ -3,20 +3,23 @@ title: "Release Notes (Mar. 27, 2025) | Cloud"
 slug: /release-notes-2140
 sidebar_label: "Release Notes (Mar. 27, 2025)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This release introduces two new features in PRIVATE PREVIEW a new BYOC deployment option called BYOC-I and a data plane audit logging feature. The former is designed to ensure complete data sovereignty without any cross-account IAM authorization, while the latter aims to enhance data security by providing detailed logs of actions performed on the data plane. In addition to launching these features, Zilliz Cloud has also revised its credit strategies. | Cloud"
 type: origin
 token: FSUqwEEIii9k2sklkcLcIFJJnbf
-sidebar_position: 4
+sidebar_position: 8
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 
@@ -27,15 +30,15 @@ import Admonition from '@theme/Admonition';
 
 This release introduces two new features in **PRIVATE PREVIEW**: a new BYOC deployment option called BYOC-I and a data plane audit logging feature. The former is designed to ensure complete data sovereignty without any cross-account IAM authorization, while the latter aims to enhance data security by providing detailed logs of actions performed on the data plane. In addition to launching these features, Zilliz Cloud has also revised its credit strategies.
 
-## Milvus Compatibility{#milvus-compatibility}
+## Milvus Compatibility\{#milvus-compatibility}
 
 This release is compatible with **Milvus v2.4.x**.
 
 If you prefer to upgrade your clusters to **Public Preview**, **Milvus 2.5.x** features are available after the upgrade. You can click **Try Preview Features** on the **Cluster Details** page on the Zilliz Cloud console to learn more about the features in **Public Preview**.
 
-![Koy0bfMhuoaJ2ZxtVJfcUSl9n6d](/img/Koy0bfMhuoaJ2ZxtVJfcUSl9n6d.png)
+![Koy0bfMhuoaJ2ZxtVJfcUSl9n6d](/img/koy0bfmhuoaj2zxtvjfcusl9n6d.png "Koy0bfMhuoaJ2ZxtVJfcUSl9n6d")
 
-## BYOC-I: A New Deployment Option That Provides Complete Data Sovereignty with Enhanced Project Management Capabilities{#byoc-i-a-new-deployment-option-that-provides-complete-data-sovereignty-with-enhanced-project-management-capabilities}
+## BYOC-I: A New Deployment Option That Provides Complete Data Sovereignty with Enhanced Project Management Capabilities\{#byoc-i-a-new-deployment-option-that-provides-complete-data-sovereignty-with-enhanced-project-management-capabilities}
 
 With the addition of BYOC-I, Zilliz BYOC now provides two deployment options, namely the standard **BYOC** and **BYOC-I**. 
 
@@ -49,7 +52,7 @@ In this release, Zilliz BYOC is generally available. [Contact us](https://suppor
 
 For details about Zilliz BYOC deployment options, refer to [BYOC Overview](/docs/byoc/byoc-intro). For the deployment procedures and the enhanced project management capabilities, refer to [Deploy BYOC on AWS](/docs/byoc/deploy-byoc-aws) and [Deploy BYOC-I on AWS](/docs/byoc/deploy-byoc-i-aws). 
 
-## Data Plane Audit Logs: Protect Your Data Operations with Comprehensive Action Logs for Auditing{#data-plane-audit-logs-protect-your-data-operations-with-comprehensive-action-logs-for-auditing}
+## Data Plane Audit Logs: Protect Your Data Operations with Comprehensive Action Logs for Auditing\{#data-plane-audit-logs-protect-your-data-operations-with-comprehensive-action-logs-for-auditing}
 
 Audit logging enables administrators to monitor and track user-driven operations and API calls on Zilliz Cloud clusters. This feature offers a comprehensive record of **Data Plane** activities, such as vector searches, query execution, index management, and various data manipulation operations. It also provides insights and visibility into how data is accessed and managed for security audits, compliance reviews, and issue resolution.
 
@@ -61,7 +64,7 @@ For details about the procedure to enable audit logging in your clusters, refer 
 
 Zilliz Cloud now supports logging over 70 types of actions and events related to Collections, Databases, Entities (Search, HybridSearch, Insert, Upsert, Delete), Indexes, Partitions, and Aliases. More events will be included in future releases. For details on applicable actions and events, refer to [Audit Log Reference](./audit-logs-ref).
 
-## Other Enhancements{#other-enhancements}
+## Other Enhancements\{#other-enhancements}
 
 Since this release, Zilliz Cloud has adjusted its credit strategies. For details on the new credit strategies, refer to [Try Zilliz Cloud For Free](./free-trials).
 

@@ -3,6 +3,9 @@ title: "Manage Replica | Cloud"
 slug: /manage-replica
 sidebar_label: "Manage Replica"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud supports cluster-level replication. Each replica is an exact copy of the resources and data in a cluster. Using replicas can increase query throughput and availability. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 
@@ -32,17 +35,17 @@ Zilliz Cloud supports cluster-level replication. Each replica is an exact copy o
 
 For users with small datasets experiencing QPS bottlenecks, adding replicas can distribute the query workload, enhancing overall query throughput. However, adding replicas will not increase the cluster capacity because the capacity is only determined by the CU size of each cluster. If you want to increase the cluster capacity, please refer to [Scale Cluster](./scale-cluster).
 
-Configuring replicas will affect the cluster's monthly CU cost. The storage cost of the cluster will remain unchanged. For more information, refer to [Estimate Cost](./understand-cost).
+Configuring replicas will affect the cluster's monthly CU cost. The storage cost of the cluster will remain unchanged. For more information, refer to [Dedicated Cluster Cost](./dedicated-cluster-cost).
 
 This guide outlines the procedures of configuring replicas for a cluster in Zilliz Cloud.
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is currently exclusively available to Dedicated (Enterprise) clusters. </p>
+<p>This feature is available only to <strong>Dedicated</strong> clusters in an <strong>Enterprise</strong> project.</p>
 
 </Admonition>
 
-## Limits{#limits}
+## Limits\{#limits}
 
 You can configure replicas for an existing Dedicated cluster as long as the following conditions are met:
 
@@ -58,17 +61,17 @@ Note that the product of the cluster CU size x replica count should not exceed 2
 
 </Admonition>
 
-## Configure replicas manually{#configure-replicas-manually}
+## Configure replicas manually\{#configure-replicas-manually}
 
 You can adjust the number of replicas for an existing Dedicated cluster either manually on the console or programmatically.
 
-### Via web console{#via-web-console}
+### Via web console\{#via-web-console}
 
 The following demo shows how to configure replicas on the Zilliz Cloud web console.
 
 <Supademo id="cmd2rwczv35ktc4kjyxwa5xwr" title=""  />
 
-### Via RESTful API{#via-restful-api}
+### Via RESTful API\{#via-restful-api}
 
 You can use the RESTful API to manually adjust the number of replicas in a cluster. 
 
@@ -89,7 +92,7 @@ curl --request POST \
       }'
 ```
 
-## Auto-scale replicas{#auto-scale-replicas}
+## Auto-scale replicas\{#auto-scale-replicas}
 
 Currently, you can only auto-scales replicas based on a predefined time schedule via the Zilliz Cloud web console. 
 

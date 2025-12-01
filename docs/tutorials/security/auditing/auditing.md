@@ -1,8 +1,11 @@
 ---
-title: "Auditing | Cloud"
+title: "Auditing Logs | Cloud"
 slug: /auditing
-sidebar_label: "Auditing"
-beta: PRIVATE
+sidebar_label: "Auditing Logs"
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Learn how to configure auditing for your Zilliz Cloud cluster. | Cloud"
 type: origin
@@ -14,17 +17,17 @@ keywords:
   - cloud
   - auditing
   - log
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Auditing
+# Auditing Logs
 
 Learn how to configure auditing for your Zilliz Cloud cluster.
 

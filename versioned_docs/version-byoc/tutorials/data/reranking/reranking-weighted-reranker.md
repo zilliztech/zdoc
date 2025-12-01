@@ -3,6 +3,9 @@ title: "Weighted Ranker | BYOC"
 slug: /reranking-weighted-reranker
 sidebar_label: "Weighted Ranker"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Weighted Ranker intelligently combines and prioritizes results from multiple search paths by assigning different importance weights to each. Similar to how a skilled chef balances multiple ingredients to create the perfect dish, Weighted Ranker balances different search results to deliver the most relevant combined outcomes. This approach is ideal when searching across multiple vector fields or modalities where certain fields should contribute more significantly to the final ranking than others. | BYOC"
 type: origin
@@ -32,7 +35,7 @@ import TabItem from '@theme/TabItem';
 
 Weighted Ranker intelligently combines and prioritizes results from multiple search paths by assigning different importance weights to each. Similar to how a skilled chef balances multiple ingredients to create the perfect dish, Weighted Ranker balances different search results to deliver the most relevant combined outcomes. This approach is ideal when searching across multiple vector fields or modalities where certain fields should contribute more significantly to the final ranking than others.
 
-## When to use Weighted Ranker{#when-to-use-weighted-ranker}
+## When to use Weighted Ranker\{#when-to-use-weighted-ranker}
 
 Weighted Ranker is specifically designed for hybrid search scenarios where you need to combine results from multiple vector search paths. It's particularly effective for:
 
@@ -61,7 +64,7 @@ Weighted Ranker is specifically designed for hybrid search scenarios where you n
 
 If your hybrid search application requires combining multiple search paths while controlling their relative importance, Weighted Ranker is your ideal choice.
 
-## Mechanism of Weighted Ranker{#mechanism-of-weighted-ranker}
+## Mechanism of Weighted Ranker\{#mechanism-of-weighted-ranker}
 
 The main workflow of the WeightedRanker strategy is as follows:
 
@@ -75,173 +78,180 @@ The main workflow of the WeightedRanker strategy is as follows:
 
 ![GdmNwbkN8haZO8bpQkOc2NIWnqF](/img/GdmNwbkN8haZO8bpQkOc2NIWnqF.png)
 
-## Example of Weighted Ranker{#example-of-weighted-ranker}
+## Example of Weighted Ranker\{#example-of-weighted-ranker}
 
 This example demonstrates a multimodal Hybrid Search (topK=5) involving images and text and illustrates how the WeightedRanker strategy reranks the results from two ANN searches.
 
 - Results of ANN search on images （topK=5)：
 
-<table>
-   <tr>
-     <th><p><strong>ID</strong></p></th>
-     <th><p><strong>Score (image)</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>101</p></td>
-     <td><p>0.92</p></td>
-   </tr>
-   <tr>
-     <td><p>203</p></td>
-     <td><p>0.88</p></td>
-   </tr>
-   <tr>
-     <td><p>150</p></td>
-     <td><p>0.85</p></td>
-   </tr>
-   <tr>
-     <td><p>198</p></td>
-     <td><p>0.83</p></td>
-   </tr>
-   <tr>
-     <td><p>175</p></td>
-     <td><p>0.8</p></td>
-   </tr>
-</table>
+    <table>
+       <tr>
+         <th><p><strong>ID</strong></p></th>
+         <th><p><strong>Score (image)</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>101</p></td>
+         <td><p>0.92</p></td>
+       </tr>
+       <tr>
+         <td><p>203</p></td>
+         <td><p>0.88</p></td>
+       </tr>
+       <tr>
+         <td><p>150</p></td>
+         <td><p>0.85</p></td>
+       </tr>
+       <tr>
+         <td><p>198</p></td>
+         <td><p>0.83</p></td>
+       </tr>
+       <tr>
+         <td><p>175</p></td>
+         <td><p>0.8</p></td>
+       </tr>
+    </table>
 
 - Results of ANN search on texts （topK=5)：
 
-<table>
-   <tr>
-     <th><p><strong>ID</strong></p></th>
-     <th><p><strong>Score (text)</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>198</p></td>
-     <td><p>0.91</p></td>
-   </tr>
-   <tr>
-     <td><p>101</p></td>
-     <td><p>0.87</p></td>
-   </tr>
-   <tr>
-     <td><p>110</p></td>
-     <td><p>0.85</p></td>
-   </tr>
-   <tr>
-     <td><p>175</p></td>
-     <td><p>0.82</p></td>
-   </tr>
-   <tr>
-     <td><p>250</p></td>
-     <td><p>0.78</p></td>
-   </tr>
-</table>
+    <table>
+       <tr>
+         <th><p><strong>ID</strong></p></th>
+         <th><p><strong>Score (text)</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>198</p></td>
+         <td><p>0.91</p></td>
+       </tr>
+       <tr>
+         <td><p>101</p></td>
+         <td><p>0.87</p></td>
+       </tr>
+       <tr>
+         <td><p>110</p></td>
+         <td><p>0.85</p></td>
+       </tr>
+       <tr>
+         <td><p>175</p></td>
+         <td><p>0.82</p></td>
+       </tr>
+       <tr>
+         <td><p>250</p></td>
+         <td><p>0.78</p></td>
+       </tr>
+    </table>
 
 - Use WeightedRanker assign weights to image and text search results. Suppose the weight for the image ANN search is 0.6 and the weight for the text search is 0.4.
 
-<table>
-   <tr>
-     <th><p><strong>ID</strong></p></th>
-     <th><p><strong>Score (image)</strong></p></th>
-     <th><p><strong>Score (text)</strong></p></th>
-     <th><p><strong>Weighted Score</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>101</p></td>
-     <td><p>0.92</p></td>
-     <td><p>0.87</p></td>
-     <td><p>0.6×0.92+0.4×0.87=0.90</p></td>
-   </tr>
-   <tr>
-     <td><p>203</p></td>
-     <td><p>0.88</p></td>
-     <td><p>N/A</p></td>
-     <td><p>0.6×0.88+0.4×0=0.528</p></td>
-   </tr>
-   <tr>
-     <td><p>150</p></td>
-     <td><p>0.85</p></td>
-     <td><p>N/A</p></td>
-     <td><p>0.6×0.85+0.4×0=0.51</p></td>
-   </tr>
-   <tr>
-     <td><p>198</p></td>
-     <td><p>0.83</p></td>
-     <td><p>0.91</p></td>
-     <td><p>0.6×0.83+0.4×0.91=0.86</p></td>
-   </tr>
-   <tr>
-     <td><p>175</p></td>
-     <td><p>0.80</p></td>
-     <td><p>0.82</p></td>
-     <td><p>0.6×0.80+0.4×0.82=0.81</p></td>
-   </tr>
-   <tr>
-     <td><p>110</p></td>
-     <td><p>Not in Image</p></td>
-     <td><p>0.85</p></td>
-     <td><p>0.6×0+0.4×0.85=0.34</p></td>
-   </tr>
-   <tr>
-     <td><p>250</p></td>
-     <td><p>Not in Image</p></td>
-     <td><p>0.78</p></td>
-     <td><p>0.6×0+0.4×0.78=0.312</p></td>
-   </tr>
-</table>
+    <table>
+       <tr>
+         <th><p><strong>ID</strong></p></th>
+         <th><p><strong>Score (image)</strong></p></th>
+         <th><p><strong>Score (text)</strong></p></th>
+         <th><p><strong>Weighted Score</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>101</p></td>
+         <td><p>0.92</p></td>
+         <td><p>0.87</p></td>
+         <td><p>0.6×0.92+0.4×0.87=0.90</p></td>
+       </tr>
+       <tr>
+         <td><p>203</p></td>
+         <td><p>0.88</p></td>
+         <td><p>N/A</p></td>
+         <td><p>0.6×0.88+0.4×0=0.528</p></td>
+       </tr>
+       <tr>
+         <td><p>150</p></td>
+         <td><p>0.85</p></td>
+         <td><p>N/A</p></td>
+         <td><p>0.6×0.85+0.4×0=0.51</p></td>
+       </tr>
+       <tr>
+         <td><p>198</p></td>
+         <td><p>0.83</p></td>
+         <td><p>0.91</p></td>
+         <td><p>0.6×0.83+0.4×0.91=0.86</p></td>
+       </tr>
+       <tr>
+         <td><p>175</p></td>
+         <td><p>0.80</p></td>
+         <td><p>0.82</p></td>
+         <td><p>0.6×0.80+0.4×0.82=0.81</p></td>
+       </tr>
+       <tr>
+         <td><p>110</p></td>
+         <td><p>Not in Image</p></td>
+         <td><p>0.85</p></td>
+         <td><p>0.6×0+0.4×0.85=0.34</p></td>
+       </tr>
+       <tr>
+         <td><p>250</p></td>
+         <td><p>Not in Image</p></td>
+         <td><p>0.78</p></td>
+         <td><p>0.6×0+0.4×0.78=0.312</p></td>
+       </tr>
+    </table>
 
 - The final results after reranking（topK=5)：
 
-<table>
-   <tr>
-     <th><p><strong>Rank</strong></p></th>
-     <th><p><strong>ID</strong></p></th>
-     <th><p><strong>Final Score</strong></p></th>
-   </tr>
-   <tr>
-     <td><p>1</p></td>
-     <td><p>101</p></td>
-     <td><p>0.90</p></td>
-   </tr>
-   <tr>
-     <td><p>2</p></td>
-     <td><p>198</p></td>
-     <td><p>0.86</p></td>
-   </tr>
-   <tr>
-     <td><p>3</p></td>
-     <td><p>175</p></td>
-     <td><p>0.81</p></td>
-   </tr>
-   <tr>
-     <td><p>4</p></td>
-     <td><p>203</p></td>
-     <td><p>0.528</p></td>
-   </tr>
-   <tr>
-     <td><p>5</p></td>
-     <td><p>150</p></td>
-     <td><p>0.51</p></td>
-   </tr>
-</table>
+    <table>
+       <tr>
+         <th><p><strong>Rank</strong></p></th>
+         <th><p><strong>ID</strong></p></th>
+         <th><p><strong>Final Score</strong></p></th>
+       </tr>
+       <tr>
+         <td><p>1</p></td>
+         <td><p>101</p></td>
+         <td><p>0.90</p></td>
+       </tr>
+       <tr>
+         <td><p>2</p></td>
+         <td><p>198</p></td>
+         <td><p>0.86</p></td>
+       </tr>
+       <tr>
+         <td><p>3</p></td>
+         <td><p>175</p></td>
+         <td><p>0.81</p></td>
+       </tr>
+       <tr>
+         <td><p>4</p></td>
+         <td><p>203</p></td>
+         <td><p>0.528</p></td>
+       </tr>
+       <tr>
+         <td><p>5</p></td>
+         <td><p>150</p></td>
+         <td><p>0.51</p></td>
+       </tr>
+    </table>
 
-## Usage of Weighted Ranker{#usage-of-weighted-ranker}
+## Usage of Weighted Ranker\{#usage-of-weighted-ranker}
 
 When using the WeightedRanker strategy, it is necessary to input weight values. The number of weight values to input should correspond to the number of basic ANN search requests in the Hybrid Search. The input weight values should fall in the range of [0,1], with values closer to 1 indicating greater importance.
 
-### Create a Weighted Ranker{#create-a-weighted-ranker}
+### Create a Weighted Ranker\{#create-a-weighted-ranker}
 
 For example, suppose there are two basic ANN search requests in a Hybrid Search: text search and image search. If the text search is considered more important, it should be assigned a greater weight.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-from pymilvus import WeightedRanker
+from pymilvus import Function, FunctionType
 
-# Create a Weighted Ranker for multimodal search 
-# Weight for first search path (0.8) and second search path (0.3)
-rerank= WeightedRanker(0.8, 0.3) 
+rerank = Function(
+    name="weight",
+    input_field_names=[], # Must be an empty list
+    function_type=FunctionType.RERANK,
+    params={
+        "reranker": "weighted", 
+        "weights": [0.1, 0.9],
+        "norm_score": True  # Optional
+    }
+)
 ```
 
 </TabItem>
@@ -249,19 +259,16 @@ rerank= WeightedRanker(0.8, 0.3)
 <TabItem value='java'>
 
 ```java
-import io.milvus.v2.service.vector.request.ranker.WeightedRanker;
+import io.milvus.common.clientenum.FunctionType;
+import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
-WeightedRanker rerank = new WeightedRanker(Arrays.asList(0.8f, 0.3f))
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-import "github.com/milvus-io/milvus/client/v2/milvusclient"
-
-reranker := milvusclient.NewWeightedReranker([]float64{0.8, 0.3})
+CreateCollectionReq.Function rerank = CreateCollectionReq.Function.builder()
+                .name("weight")
+                .functionType(FunctionType.RERANK)
+                .param("reranker", "weighted")
+                .param("weights", "[0.1, 0.9]")
+                .param("norm_score", "true")
+                .build();
 ```
 
 </TabItem>
@@ -269,7 +276,26 @@ reranker := milvusclient.NewWeightedReranker([]float64{0.8, 0.3})
 <TabItem value='javascript'>
 
 ```javascript
-rerank: WeightedRanker(0.8, 0.3)
+import { FunctionType } from '@zilliz/milvus2-sdk-node';
+
+const rerank = {
+    name: "weight",
+    input_field_names: [],
+    function_type: FunctionType.RERANK,
+    params: {
+        reranker: "weighted",
+        weights: [0.1, 0.9],
+        norm_score: true
+    }
+};
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// Go
 ```
 
 </TabItem>
@@ -277,16 +303,58 @@ rerank: WeightedRanker(0.8, 0.3)
 <TabItem value='bash'>
 
 ```bash
-export rerank='{
-        "strategy": "ws",
-        "params": {"weights": [0.8,0.3]}
-    }'
+# Restful
 ```
 
 </TabItem>
 </Tabs>
 
-### Apply to hybrid search{#apply-to-hybrid-search}
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Required?</p></th>
+     <th><p>Description</p></th>
+     <th><p>Value/Example</p></th>
+   </tr>
+   <tr>
+     <td><p><code>name</code></p></td>
+     <td><p>Yes</p></td>
+     <td><p>Unique identifier for this Function</p></td>
+     <td><p><code>"weight"</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>input_field_names</code></p></td>
+     <td><p>Yes</p></td>
+     <td><p>List of vector fields to apply the function to (must be empty for Weighted Ranker)</p></td>
+     <td><p>[]</p></td>
+   </tr>
+   <tr>
+     <td><p><code>function_type</code></p></td>
+     <td><p>Yes</p></td>
+     <td><p>The type of Function to invoke; use <code>RERANK</code> to specify a reranking strategy</p></td>
+     <td><p><code>FunctionType.RERANK</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>params.reranker</code></p></td>
+     <td><p>Yes</p></td>
+     <td><p>Specifies the reranking method to use.</p><p>Must be set to <code>weighted</code> to use Weighted Ranker.</p></td>
+     <td><p><code>"weighted"</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>params.weights</code></p></td>
+     <td><p>Yes</p></td>
+     <td><p>Array of weights corresponding to each search path; values ∈ [0,1].</p><p>For details, refer to <a href="./reranking-weighted-reranker#mechanism-of-weighted-ranker">Mechanism of Weighted Ranker</a>.</p></td>
+     <td><p><code>[0.1, 0.9]</code></p></td>
+   </tr>
+   <tr>
+     <td><p><code>params.norm_score</code></p></td>
+     <td><p>No</p></td>
+     <td><p>Whether to normalize raw scores (using arctan) before weighting.</p><p>For details, refer to <a href="./reranking-weighted-reranker#mechanism-of-weighted-ranker">Mechanism of Weighted Ranker</a>.</p></td>
+     <td><p><code>True</code></p></td>
+   </tr>
+</table>
+
+### Apply to hybrid search\{#apply-to-hybrid-search}
 
 Weighted Ranker is designed specifically for hybrid search operations that combine multiple vector fields. When performing hybrid search, you must specify the weights for each search path:
 
@@ -334,7 +402,38 @@ hybrid_results = milvus_client.hybrid_search(
 <TabItem value='java'>
 
 ```java
-// java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.AnnSearchReq;
+import io.milvus.v2.service.vector.request.HybridSearchReq;
+import io.milvus.v2.service.vector.response.SearchResp;
+import io.milvus.v2.service.vector.request.data.EmbeddedText;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .build());
+        
+List<AnnSearchReq> searchRequests = new ArrayList<>();
+searchRequests.add(AnnSearchReq.builder()
+        .vectorFieldName("text_vector")
+        .vectors(Collections.singletonList(new EmbeddedText("\"modern dining table\"")))
+        .limit(10)
+        .build());
+searchRequests.add(AnnSearchReq.builder()
+        .vectorFieldName("image_vector")
+        .vectors(Collections.singletonList(new FloatVec(imageEmbedding)))
+        .limit(10)
+        .build());
+        
+HybridSearchReq hybridSearchReq = HybridSearchReq.builder()
+                .collectionName(COLLECTION_NAME)
+                .searchRequests(searchRequests)
+                .ranker(ranker)
+                .limit(10)
+                .outputFields(Arrays.asList("product_name", "price", "category"))
+                .build();
+SearchResp searchResp = client.hybridSearch(hybridSearchReq);
 ```
 
 </TabItem>
@@ -342,7 +441,42 @@ hybrid_results = milvus_client.hybrid_search(
 <TabItem value='javascript'>
 
 ```javascript
-// nodejs
+import { MilvusClient, FunctionType } from "@zilliz/milvus2-sdk-node";
+
+const milvusClient = new MilvusClient({ address: "YOUR_CLUSTER_ENDPOINT" });
+
+const text_search = {
+  data: ["modern dining table"],
+  anns_field: "text_vector",
+  param: {},
+  limit: 10,
+};
+
+const image_search = {
+  data: [image_embedding],
+  anns_field: "image_vector",
+  param: {},
+  limit: 10,
+};
+
+const rerank = {
+  name: "weight",
+  input_field_names: [],
+  function_type: FunctionType.RERANK,
+  params: {
+    reranker: "weighted",
+    weights: [0.1, 0.9],
+    norm_score: true,
+  },
+};
+
+const search = await milvusClient.search({
+  collection_name: collection_name,
+  limit: 10,
+  data: [text_search, image_search],
+  rerank: rerank,
+  output_fields = ["product_name", "price", "category"],
+});
 ```
 
 </TabItem>

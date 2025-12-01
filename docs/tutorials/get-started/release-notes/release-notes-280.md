@@ -3,20 +3,23 @@ title: "Release Notes (May 15, 2024) | Cloud"
 slug: /release-notes-280
 sidebar_label: "Release Notes (May 15, 2024)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This update to Zilliz Cloud introduces the Serverless plan in BETA. It is designed for applications with variable query volumes, requiring minimal configuration and offering seamless scalability. This plan is now available on GCP us-west1 (Oregon) and includes a free trial during the BETA period. Additionally, new regions are supported for dedicated clusters Germany West Central (Frankfurt) for Azure, and europe-west3 (Frankfurt) and us-east-4 (Virginia) for GCP. This release also introduces several enhancements to monitoring metrics, search precision control, and import jobs. | Cloud"
 type: origin
 token: EL8jwqHsPikz2okhYzXcuLscnhf
-sidebar_position: 12
+sidebar_position: 16
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 
@@ -27,11 +30,11 @@ import Admonition from '@theme/Admonition';
 
 This update to Zilliz Cloud introduces the Serverless plan in BETA. It is designed for applications with variable query volumes, requiring minimal configuration and offering seamless scalability. This plan is now available on **GCP us-west1 (Oregon)** and includes a free trial during the BETA period. Additionally, new regions are supported for dedicated clusters: **Germany West Central (Frankfurt)** for Azure, and **europe-west3 (Frankfurt)** and **us-east-4 (Virginia)** for GCP. This release also introduces several enhancements to monitoring metrics, search precision control, and import jobs.
 
-### Milvus Compatibility{#milvus-compatibility}
+### Milvus Compatibility\{#milvus-compatibility}
 
 This release is compatible with **Milvus 2.3.x**.
 
-## Serverless Beta{#serverless-beta}
+## Serverless Beta\{#serverless-beta}
 
 The Serverless plan is tailored for applications with variable or sporadic query volumes, offering minimal configuration and optimization burden, and seamless scalability.  It features a serverless cluster that auto-scales to meet your workload demands, ensuring ease of use and quick setup.
 
@@ -39,7 +42,7 @@ Serverless is now provided in **BETA** and available on **GCP us-west1 (Oregon)*
 
 Refer to [Severless Plan](./free-trials) to get more details.
 
-## More Available regions{#more-available-regions}
+## More Available regions\{#more-available-regions}
 
 New Azure region:  
 
@@ -53,19 +56,19 @@ New GCP region：
 
 For all available cloud regions, refer to [Cloud Providers & Regions](./cloud-providers-and-regions).
 
-## Pipelines{#pipelines}
+## Pipelines\{#pipelines}
 
 - Text pipelines
 
-    In addition to ingesting documents as a whole, it now supports ingesting text strings such as product description or document chunks for search. This gives more flexibility in developing RAG or semantic search. For details, please refer to [Text Data](./pipelines-text-data) and [Doc Data](./pipelines-doc-data).
+    In addition to ingesting documents as a whole, it now supports ingesting text strings such as product description or document chunks for search. This gives more flexibility in developing RAG or semantic search. 
 
 - Image pipelines
 
-    To unlock image search use cases, the newly added image pipelines can generate vector embeddings and take image URLs as query input. This allows for the implementation of applications that need to search image by image. For details, please refer to [Image Data](./pipelines-image-data).
+    To unlock image search use cases, the newly added image pipelines can generate vector embeddings and take image URLs as query input. This allows for the implementation of applications that need to search image by image.
 
-- Now pipelines can be used with existing collections. In the REST API, the create pipeline request can specify an existing vector collection as destination, as long as the pipeline's logic matches the schema of the existing collection (e.g. if pipelines specifies PRESERVE a field called "publish_date" that field must also exist in the collection schema. For details, refer to the [pipeline reference](/reference/restful/pipeline-operations) docs.
+- Now pipelines can be used with existing collections. In the REST API, the create pipeline request can specify an existing vector collection as destination, as long as the pipeline's logic matches the schema of the existing collection (e.g. if pipelines specifies PRESERVE a field called "publish_date" that field must also exist in the collection schema.
 
-## Enhancements{#enhancements}
+## Enhancements\{#enhancements}
 
 This release also includes a series of enhancements:
 

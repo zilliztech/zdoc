@@ -3,20 +3,23 @@ title: "Release Notes (Oct 17, 2023) | Cloud"
 slug: /release-notes-230
 sidebar_label: "Release Notes (Oct 17, 2023)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "We're pleased to announce the launch of our AWS Frankfurt region in the EU. Accompanying this expansion, we introduce beta features Range Search, Upsert, and Cosine Metric Type, enhancing search capabilities and data management efficiency. Additional functionalities include API Key Access, Retrieve Raw Vectors, JSONCONTAINS Filter, and Entity Count. Noteworthy improvements in RBAC, billing, pricing calculation, account management, and service stability have also been implemented for an enhanced user experience. | Cloud"
 type: origin
 token: MocQwCCItiHYEbkkJtOcROPTnod
-sidebar_position: 17
+sidebar_position: 21
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 
@@ -27,15 +30,15 @@ import Admonition from '@theme/Admonition';
 
 We're pleased to announce the launch of our AWS Frankfurt region in the EU. Accompanying this expansion, we introduce beta features: Range Search, Upsert, and Cosine Metric Type, enhancing search capabilities and data management efficiency. Additional functionalities include API Key Access, Retrieve Raw Vectors, JSON_CONTAINS Filter, and Entity Count. Noteworthy improvements in RBAC, billing, pricing calculation, account management, and service stability have also been implemented for an enhanced user experience. 
 
-## Milvus Compatibility{#milvus-compatibility}
+## Milvus Compatibility\{#milvus-compatibility}
 
 This release is compatible with **Milvus 2.2.x** and **Milvus 2.3.x (Beta)**.
 
-## New AWS Region: Frankfurt (aws-eu-central-1) - Now Live{#new-aws-region-frankfurt-aws-eu-central-1-now-live}
+## New AWS Region: Frankfurt (aws-eu-central-1) - Now Live\{#new-aws-region-frankfurt-aws-eu-central-1-now-live}
 
 We're delighted to unveil our new AWS Frankfurt region, designed to better cater to our European user base. This region not only provides enhanced support but also offers the convenience of AWS Marketplace payment options. For all available cloud regions, refer to [Cloud Providers & Regions](./cloud-providers-and-regions).
 
-## Innovative Beta Features{#innovative-beta-features}
+## Innovative Beta Features\{#innovative-beta-features}
 
 Explore the future with our latest beta features, available for dedicated clusters. Upgrade now to experience these enhancements:
 
@@ -67,7 +70,7 @@ Explore the future with our latest beta features, available for dedicated cluste
 
     Get a quick overview of [the total number of entities within loaded collections](./single-vector-search#use-output-fields) for better data management.
 
-## Enhancements{#enhancements}
+## Enhancements\{#enhancements}
 
 We've also implemented several enhancements to improve your overall experience:
 

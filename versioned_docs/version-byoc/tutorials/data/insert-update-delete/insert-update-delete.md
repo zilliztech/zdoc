@@ -3,6 +3,9 @@ title: "Insert & Delete | BYOC"
 slug: /insert-update-delete
 sidebar_label: "Insert & Delete"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This chapter focuses on the insert, upsert, and delete operations. | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

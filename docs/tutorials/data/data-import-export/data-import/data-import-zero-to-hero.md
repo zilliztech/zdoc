@@ -3,6 +3,9 @@ title: "Data Import Hands-On | Cloud"
 slug: /data-import-zero-to-hero
 sidebar_label: "Zero to Hero"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This is a fast-track course to help you quickly start importing data on Zilliz Cloud, from data preparation and collection setup to the actual data import process. Throughout this tutorial, you will learn | Cloud"
 type: origin
@@ -35,17 +38,17 @@ This is a fast-track course to help you quickly start importing data on Zilliz C
 
 - How to import data by calling bulk-import APIs
 
-## Before you start{#before-you-start}
+## Before you start\{#before-you-start}
 
 To ensure a smooth experience, make sure you have completed the following setups:
 
-### Set up your Zilliz Cloud cluster{#set-up-your-zilliz-cloud-cluster}
+### Set up your Zilliz Cloud cluster\{#set-up-your-zilliz-cloud-cluster}
 
 - If you have not already, [create a cluster](./create-cluster).
 
 - Gather these details: **Cluster Endpoint**, **API Key**, **Cluster ID**.
 
-### Install dependencies{#install-dependencies}
+### Install dependencies\{#install-dependencies}
 
 Currently, you can use data-import-related APIs in Python or Java.
 
@@ -83,7 +86,7 @@ compile 'io.milvus:milvus-sdk-java:2.4.8'
 
 </Tabs>
 
-### Configure your remote storage bucket{#configure-your-remote-storage-bucket}
+### Configure your remote storage bucket\{#configure-your-remote-storage-bucket}
 
 - Set up a remote bucket using AWS S3, Google GCS, or Azure Blob.
 
@@ -141,7 +144,7 @@ String SECRET_KEY = "";
 </TabItem>
 </Tabs>
 
-## Set up target collection schema{#set-up-target-collection-schema}
+## Set up target collection schema\{#set-up-target-collection-schema}
 
 Based on the output above, we can work out a schema for our target collection.
 
@@ -207,7 +210,7 @@ The parameters in the above code are described as follows:
 
 - `enable_dynamic_field=True`
 
-    The value defaults to **False**. Setting this to **True** allows **BulkWriter** to include undefined fields and their values from the generated files as key-value pairs and place them in a reserved JSON field named **$meta**. 
+    The value defaults to **False**. Setting this to **True** allows **BulkWriter** to include undefined fields and their values from the generated files as key-value pairs and place them in a reserved JSON field named **&#36;meta**. 
 
 </TabItem>
 
@@ -453,11 +456,11 @@ milvusClient.createCollection(request);
 </TabItem>
 </Tabs>
 
-## Prepare source data{#prepare-source-data}
+## Prepare source data\{#prepare-source-data}
 
 **BulkWriter** can rewrite your dataset into JSON, Parquet, or NumPy files. We will create a **RemoteBulkWriter** and use the writer to rewrite your data into these formats.
 
-### Create RemoteBulkWriter{#create-remotebulkwriter}
+### Create RemoteBulkWriter\{#create-remotebulkwriter}
 
 Once the schema is ready, you can use the schema to create a **RemoteBulkWriter**. A **RemoteBulkWriter** asks for permission to access a remote bucket. You should set up connection parameters to access the remote bucket in a **ConnectParam** object and reference it in the **RemoteBulkWriter**.
 
@@ -654,7 +657,7 @@ The above writer generates files in Parquet format and uploads them to the root 
 
 </Tabs>
 
-### Use the writer{#use-the-writer}
+### Use the writer\{#use-the-writer}
 
 A writer has two methods: one is for appending rows from the source dataset, and the other is for committing data to remote files.
 
@@ -949,11 +952,11 @@ System.out.println(batchFiles);
 
 For details, refer to [Use BulkWriter](./use-bulkwriter#verify-the-result).
 
-## Import prepared data{#import-prepared-data}
+## Import prepared data\{#import-prepared-data}
 
 Before this step, ensure that the prepared data has already been uploaded to the desired bucket.
 
-### Start importing{#start-importing}
+### Start importing\{#start-importing}
 
 To import the prepared source data, you need to call the **bulk_import()** function as follows:
 
@@ -1021,7 +1024,7 @@ System.out.println(jobId);
 
 </Admonition>
 
-### Check task progress{#check-task-progress}
+### Check task progress\{#check-task-progress}
 
 The following code checks the bulk-import progress every 5 seconds and outputs the progress in percentage. 
 
@@ -1157,7 +1160,7 @@ System.out.println(listImportJobsResult);
 </TabItem>
 </Tabs>
 
-## Recaps{#recaps}
+## Recaps\{#recaps}
 
 In this course, we have covered the entire process of importing data, and here are some ideas to recap:
 

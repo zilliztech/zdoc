@@ -3,8 +3,11 @@ title: "Migrate from Milvus to Zilliz Cloud Via Endpoint | Cloud"
 slug: /via-endpoint
 sidebar_label: "Via Endpoint"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud offers Milvus as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. To enable smooth migration, you can migrate data from Milvus to Zilliz Cloud in these ways - connecting to source Milvus via database endpoint or uploading backup files directly. | Cloud"
+description: "Zilliz Cloud offers Milvus as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. This topic describes how to migrate from Milvus via the database endpoint. | Cloud"
 type: origin
 token: PlX3wo82Di6oWVkg2ercRWCUnvV
 sidebar_position: 1
@@ -15,10 +18,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 
@@ -29,15 +32,13 @@ import Supademo from '@site/src/components/Supademo';
 
 # Migrate from Milvus to Zilliz Cloud Via Endpoint
 
-Zilliz Cloud offers [Milvus](https://milvus.io/) as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. To enable smooth migration, you can migrate data from Milvus to Zilliz Cloud in these ways - connecting to source Milvus via database endpoint or uploading backup files directly.
+Zilliz Cloud offers [Milvus](https://milvus.io/) as a fully managed, cloud-hosted solution for users who want to use the Milvus vector database without the need to manage the infrastructure themselves. This topic describes how to migrate from Milvus via the database endpoint. 
 
-This topic describes how to migrate from Milvus via the database endpoint. For information on how to upload backup files, refer to [Via Backup Files](./via-backup-files).
-
-## Prerequisites{#prerequisites}
+## Prerequisites\{#prerequisites}
 
 Before starting your Milvus to Zilliz Cloud migration, ensure you meet these requirements:
 
-### Milvus requirements{#milvus-requirements}
+### Milvus requirements\{#milvus-requirements}
 
 <table>
    <tr>
@@ -58,7 +59,7 @@ Before starting your Milvus to Zilliz Cloud migration, ensure you meet these req
    </tr>
 </table>
 
-### Zilliz Cloud requirements{#zilliz-cloud-requirements}
+### Zilliz Cloud requirements\{#zilliz-cloud-requirements}
 
 <table>
    <tr>
@@ -79,19 +80,28 @@ Before starting your Milvus to Zilliz Cloud migration, ensure you meet these req
    </tr>
 </table>
 
-## Getting started{#getting-started}
+## Getting started\{#getting-started}
 
 The following demo walks you through how to start migrating from Milvus via endpoint:
 
 <Supademo id="cmbkiuxw98p13sn1rc65tt6b0" title="Zilliz Cloud - Migrate from Milvus via Endpoint" />
 
-## Monitor the migration process{#monitor-the-migration-process}
+<Admonition type="info" icon="📘" title="Notes">
+
+<ul>
+<li><p>If full text search is already enabled for the source collection, Zilliz Cloud will preserve its Function settings in the target collection after migration. These inherited settings cannot be modified.</p></li>
+<li><p>You can also enable full text search for other VARCHAR fields during migration. For details, refer to <a href="./full-text-search">Full Text Search</a>.</p></li>
+</ul>
+
+</Admonition>
+
+## Monitor the migration process\{#monitor-the-migration-process}
 
 Once you click **Migrate**, a migration job will be generated. You can check the migration progress on the [Jobs](./job-center) page. When the job status switches from **In Progress** to **Successful**, the migration is complete.
 
-![RGsvb7oFpo7uzbxjSSFc6owNn0c](/img/RGsvb7oFpo7uzbxjSSFc6owNn0c.png)
+![RGsvb7oFpo7uzbxjSSFc6owNn0c](/img/rgsvb7ofpo7uzbxjssfc6ownn0c.png "RGsvb7oFpo7uzbxjSSFc6owNn0c")
 
-## Post-migration{#post-migration}
+## Post-migration\{#post-migration}
 
 After the migration job is completed, note the following:
 
@@ -105,7 +115,7 @@ After the migration job is completed, note the following:
 
 </Admonition>
 
-## Cancel migration job{#cancel-migration-job}
+## Cancel migration job\{#cancel-migration-job}
 
 If the migration process encounters any issues, you can take the following steps to troubleshoot and resume the migration:
 

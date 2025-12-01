@@ -2,7 +2,10 @@
 title: "Import from NumPy Files | BYOC"
 slug: /data-import-numpy
 sidebar_label: "NumPy"
-beta: FALSE
+beta: NEAR DEPRECATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The `.npy` format is NumPy's standard binary format](https//numpy.org/devdocs/reference/generated/numpy.lib.format.html) for saving a single array, including its shape and dtype information, ensuring it can be correctly reconstructed on different machines.  You are advised to use [the BulkWriter tool to prepare your raw data into Parquet files. The following figure demonstrates how your raw data can be mapped into a set of `.npy` file. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 
@@ -30,7 +33,13 @@ import Admonition from '@theme/Admonition';
 
 The `.npy` format is [NumPy's standard binary format](https://numpy.org/devdocs/reference/generated/numpy.lib.format.html) for saving a single array, including its shape and dtype information, ensuring it can be correctly reconstructed on different machines.  You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your raw data into Parquet files. The following figure demonstrates how your raw data can be mapped into a set of `.npy` file.
 
-![numpy_file_structure](/img/numpy_file_structure.png)
+<Admonition type="danger" icon="🚧" title="Caution">
+
+<p>This feature has been deprecated. You are not recommended to use it in production.</p>
+
+</Admonition>
+
+![numpy_file_structure](/img/numpy_file_structure.png "numpy_file_structure")
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -41,7 +50,7 @@ The `.npy` format is [NumPy's standard binary format](https://numpy.org/devdocs/
 <ul>
 <li><strong>Whether to enable dynamic fields</strong></li>
 </ul>
-<p>When the target collection enables dynamic fields, if you need to store fields that are not included in the pre-defined schema, you can specify the <strong>$meta</strong> column during the write operation and provide the corresponding key-value data.</p>
+<p>When the target collection enables dynamic fields, if you need to store fields that are not included in the pre-defined schema, you can specify the <strong>&#36;meta</strong> column during the write operation and provide the corresponding key-value data.</p>
 <ul>
 <li><strong>Case-sensitive</strong></li>
 </ul>
@@ -49,7 +58,7 @@ The `.npy` format is [NumPy's standard binary format](https://numpy.org/devdocs/
 
 </Admonition>
 
-## Directory structure{#directory-structure}
+## Directory structure\{#directory-structure}
 
 To prepare your data as NumPy files, place all files from the same subset into a folder, then group these folders within the source folder, as shown in the tree diagram below.
 
@@ -69,7 +78,7 @@ To prepare your data as NumPy files, place all files from the same subset into a
 │           └── $meta.npy  
 ```
 
-## Import data{#import-data}
+## Import data\{#import-data}
 
 Once your data is ready, you can use either of the following methods to import them into your Zilliz Cloud collection.
 
@@ -85,7 +94,7 @@ Once your data is ready, you can use either of the following methods to import t
 
 You can also import your data on the Zilliz Cloud console using Milvus SDKs. For details, refer to [Import Data (Console)](./import-data-on-web-ui) and [Import Data (SDK)](./import-data-via-sdks).
 
-### Import files from a list of NumPy file folders (Recommended){#import-files-from-a-list-of-numpy-file-folders-recommended}
+### Import files from a list of NumPy file folders (Recommended)\{#import-files-from-a-list-of-numpy-file-folders-recommended}
 
 When importing files from multiple paths, include each NumPy file folder path in a separate list, then group all the lists into a higher-level list as in the following code example.
 
@@ -109,7 +118,7 @@ curl --request POST \
     }'
 ```
 
-### Import files from a NumPy file folder{#import-files-from-a-numpy-file-folder}
+### Import files from a NumPy file folder\{#import-files-from-a-numpy-file-folder}
 
 If the source folder contains only the NumPy file folder to import, you can simply include the source folder in the request as follows:
 
@@ -131,7 +140,7 @@ curl --request POST \
     }'
 ```
 
-## Storage paths{#storage-paths}
+## Storage paths\{#storage-paths}
 
 Zilliz Cloud supports data import from your cloud storage. The table below lists the possible storage paths for your data files.
 
@@ -154,34 +163,32 @@ Zilliz Cloud supports data import from your cloud storage. The table below lists
    </tr>
 </table>
 
-## Limits{#limits}
+## Limits\{#limits}
 
-A valid set of NumPy files should be named after the fields in the schema of the target collection, and the data in them should match the corresponding field definitions.
+There are some limits you need to observe when you import data in NumPy files from your cloud storage. 
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>A valid set of NumPy files should be named after the fields in the schema of the target collection, and the data in them should match the corresponding field definitions.</p>
+
+</Admonition>
 
 <table>
    <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>Import Method</strong></p></th>
+     <th><p><strong>Max Subdirectories per Import</strong></p></th>
+     <th><p><strong>Max Size per Subdirectory</strong></p></th>
+     <th><p><strong>Max Total Import Size</strong></p></th>
    </tr>
    <tr>
-     <td><p><strong>Multiple files per import</strong></p></td>
-     <td><p>Yes</p></td>
+     <td><p>From local file</p></td>
+     <td colspan="3"><p>Not supported</p></td>
    </tr>
    <tr>
-     <td><p><strong>Data import from first-level subfolders</strong></p></td>
-     <td><p>Yes</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Maximum number of first-level subfolders</strong></p></td>
-     <td><p>100,000</p></td>
-   </tr>
-   <tr>
-     <td><p><strong>Maximum file size per import</strong></p></td>
-     <td><p>Free cluster: 512 MB in total</p><p>Serverless &amp; Dedicated cluster:</p><ul><li><p>Total file size in each first-level subfolder: 10 GB</p></li><li><p>Total file size: 1 TB</p></li></ul></td>
-   </tr>
-   <tr>
-     <td><p><strong>Applicable data file locations</strong></p></td>
-     <td><p>Remote files only</p></td>
+     <td><p>From object storage</p></td>
+     <td><p>1,000 subdirectories</p></td>
+     <td><p>10 GB</p></td>
+     <td><p>1 TB</p></td>
    </tr>
 </table>
 

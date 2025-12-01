@@ -3,11 +3,14 @@ title: "Alter Collection Field | BYOC"
 slug: /alter-collection-field
 sidebar_label: "Alter Collection Field"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "You can alter the properties of a collection field to change column constraints or enforce stricter data integrity rules. | BYOC"
 type: origin
 token: PLjFwlcT8ilFBakYXyfcg6S2n7d
-sidebar_position: 13
+sidebar_position: 16
 keywords: 
   - zilliz
   - vector database
@@ -40,13 +43,13 @@ You can alter the properties of a collection field to change column constraints 
 
 </Admonition>
 
-## Alter VarChar field{#alter-varchar-field}
+## Alter VarChar field\{#alter-varchar-field}
 
 A VarChar field has a property named `max_length`, which constrains the maximum number of characters the field values can contain. You can change the `max_length` property.
 
 The following example assumes the collection has a VarChar field named `varchar` and sets its `max_length` property.
 
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
@@ -89,9 +92,7 @@ client.alterCollectionField(AlterCollectionFieldReq.builder()
 ```
 
 </TabItem>
-</Tabs>
 
-<Tabs groupId="code" defaultValue='javascript' values={[{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='javascript'>
 
 ```javascript
@@ -160,7 +161,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Alter ARRAY field{#alter-array-field}
+## Alter ARRAY field\{#alter-array-field}
 
 An array field has two properties, namely `element_type` and `max_capacity`. The former determines the data type of the elements in an array, while the latter constrains the maximum number of elements in the array. You can change the `max_capacity` property only.
 
@@ -240,7 +241,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Alter field-level mmap settings{#alter-field-level-mmap-settings}
+## Alter field-level mmap settings\{#alter-field-level-mmap-settings}
 
 Memory mapping (Mmap) enables direct memory access to large files on disk, allowing Zilliz Cloud to store indexes and data in both memory and hard drives. This approach helps optimize data placement policy based on access frequency, expanding storage capacity for collections without impacting search performance.
 

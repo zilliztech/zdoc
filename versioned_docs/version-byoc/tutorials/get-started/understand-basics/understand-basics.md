@@ -3,6 +3,9 @@ title: "Understand Basics | BYOC"
 slug: /understand-basics
 sidebar_label: "Concepts"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Explanations about the common terms we use when discussing how to use Zilliz Cloud. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - basics
   - milvus
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

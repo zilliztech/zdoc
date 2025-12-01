@@ -3,6 +3,9 @@ title: "Query | BYOC"
 slug: /get-and-scalar-query
 sidebar_label: "Query"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In addition to ANN searches, Zilliz Cloud also supports metadata filtering through queries. This page introduces how to use Query, Get, and QueryIterators to perform metadata filtering. | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
@@ -32,7 +35,7 @@ import TabItem from '@theme/TabItem';
 
 In addition to ANN searches, Zilliz Cloud also supports metadata filtering through queries. This page introduces how to use Query, Get, and QueryIterators to perform metadata filtering.
 
-## Overview{#overview}
+## Overview\{#overview}
 
 A Collection can store various types of scalar fields. You can have Zilliz Cloud filter Entities based on one or more scalar fields. Zilliz Cloud offers three types of queries: Query, Get, and QueryIterator. The table below compares these three query types.
 
@@ -77,9 +80,9 @@ A Collection can store various types of scalar fields. You can have Zilliz Cloud
 
 For more on metadata filtering, refer to [Filtering](./filtering)[Filtering Explained](./filtering-overview).
 
-## Use Get{#use-get}
+## Use Get\{#use-get}
 
-When you need to find entities by their primary keys, you can use the **Get** method. The following code examples assume that there are three fields named `id`, `vector`, and `color` in your collection and return the entities with primary keys `1`, `2`, and `3`.
+When you need to find entities by their primary keys, you can use the **Get** method. The following code examples assume that there are three fields named `id`, `vector`, and `color` in your collection.
 
 ```python
 [
@@ -237,7 +240,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Use Query{#use-query}
+## Use Query\{#use-query}
 
 When you need to find entities by custom filtering conditions, use the **Query** method. The following code examples assume there are three fields named `id`, `vector`, and `color` and return the specified number of entities that hold a `color` value starting with `red`.
 
@@ -350,7 +353,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Use QueryIterator{#use-queryiterator}
+## Use QueryIterator\{#use-queryiterator}
 
 When you need to find entities by custom filtering conditions through paginated queries, create a **QueryIterator** and use its **next()** method to iterate over all entities to find those meeting the filtering conditions. The following code examples assume that there are three fields named `id`, `vector`, and `color` and return all entities that hold a `color` value starting with `red`.
 
@@ -462,7 +465,7 @@ for await (const value of iterator) {
 </TabItem>
 </Tabs>
 
-## Queries in Partitions{#queries-in-partitions}
+## Queries in Partitions\{#queries-in-partitions}
 
 You can also perform queries within one or multiple partitions by including the partition names in the Get, Query, or QueryIterator request. The following code examples assume that there is a partition named **PartitionA** in the collection.
 
@@ -677,6 +680,151 @@ curl --request POST \
     "outputFields": ["vector", "color"],
     "id": [0, 1, 2]
 }'
+```
+
+</TabItem>
+</Tabs>
+
+## Random Sampling with Query\{#random-sampling-with-query}
+
+To extract a representative subset of data from your collection for data exploration or development testing, use the `RANDOM_SAMPLE(sampling_factor)` expression, where the `sampling_factor` is a float between 0 and 1 representing the percentage of data to sample.
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>For detailed usage, advanced examples, and best practices, refer to <a href="./ramdom-sampling">Random Sampling</a>.</p>
+
+</Admonition>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient
+
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT",
+    token="YOUR_CLUSTER_TOKEN"
+)
+
+# Sample 1% of the entire collection
+res = client.query(
+    collection_name="my_collection",
+    # highlight-next-line
+    filter="RANDOM_SAMPLE(0.01)",
+    output_fields=["vector", "color"]
+)
+
+print(f"Sampled {len(res)} entities from collection")
+
+# Combine with other filters - first filter, then sample
+res = client.query(
+    collection_name="my_collection", 
+    # highlight-next-line
+    filter="color like \"red%\" AND RANDOM_SAMPLE(0.005)",
+    output_fields=["vector", "color"],
+    limit=10
+)
+
+print(f"Found {len(res)} red items in sample")
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.client.ConnectConfig;
+import io.milvus.v2.client.MilvusClientV2;
+import io.milvus.v2.service.vector.request.GetReq
+import io.milvus.v2.service.vector.request.GetResp
+import io.milvus.v2.service.vector.request.QueryReq
+import io.milvus.v2.service.vector.request.QueryResp
+import java.util.*;
+
+MilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
+        .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
+        .build());
+
+QueryReq queryReq = QueryReq.builder()
+        .collectionName("my_collection")
+        .filter("RANDOM_SAMPLE(0.01)")
+        .outputFields(Arrays.asList("vector", "color"))
+        .build();
+
+QueryResp getResp = client.query(queryReq);
+for (QueryResp.QueryResult result : getResp.getQueryResults()) {
+    System.out.println(result.getEntity());
+}
+
+queryReq = QueryReq.builder()
+        .collectionName("my_collection")
+        .filter("color like \"red%\" AND RANDOM_SAMPLE(0.005)")
+        .outputFields(Arrays.asList("vector", "color"))
+        .limit(10)
+        .build();
+
+getResp = client.query(queryReq);
+for (QueryResp.QueryResult result : getResp.getQueryResults()) {
+    System.out.println(result.getEntity());
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/column"
+    "github.com/milvus-io/milvus/client/v2/entity"
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+ctx, cancel := context.WithCancel(context.Background())
+defer cancel()
+
+milvusAddr := "YOUR_CLUSTER_ENDPOINT"
+client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
+    Address: milvusAddr,
+})
+if err != nil {
+    return err
+}
+
+resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("RANDOM_SAMPLE(0.01)").
+    WithOutputFields("vector", "color"))
+if err != nil {
+    return err
+}
+
+resultSet, err = client.Query(ctx, milvusclient.NewQueryOption("my_collection").
+    WithFilter("color like \"red%\" AND RANDOM_SAMPLE(0.005)").
+    WithLimit(10).
+    WithOutputFields("vector", "color"))
+if err != nil {
+    return err
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// node
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
 ```
 
 </TabItem>

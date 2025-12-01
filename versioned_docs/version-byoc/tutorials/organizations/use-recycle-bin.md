@@ -3,20 +3,23 @@ title: "Use Recycle Bin | BYOC"
 slug: /use-recycle-bin
 sidebar_label: "Use Recycle Bin"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of all Serverless and Dedicated clusters that have been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration. | BYOC"
+description: "Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of all clusters that have been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration. | BYOC"
 type: origin
 token: JQvjwCDxhiMcj0kpaWicqXsTn1e
-sidebar_position: 4
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
   - cloud
   - recycle bin
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 
@@ -25,11 +28,11 @@ import Admonition from '@theme/Admonition';
 
 # Use Recycle Bin
 
-Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of all Serverless and Dedicated clusters that have been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration.
+Zilliz Cloud's Recycle Bin feature safeguards your data by keeping a record of all clusters that have been dropped, whether intentionally or as a result of trial expiration or service suspension. If you have changed your mind or dropped a cluster by mistake, the recycle bin offers a 30-day grace period for cluster restoration.
 
 To use recycle bin, you must be an **Organization Owner**.
 
-## Restore a dropped cluster in the recycle bin{#restore-a-dropped-cluster-in-the-recycle-bin}
+## Restore a dropped cluster in the recycle bin\{#restore-a-dropped-cluster-in-the-recycle-bin}
 
 1. Navigate to the organization the dropped cluster belongs to.
 
@@ -41,7 +44,7 @@ To use recycle bin, you must be an **Organization Owner**.
 
     1. You can restore the cluster to a different project under this organization, but not in a different cloud region.
 
-    1. You can rename the cluster and reset its size and password for connection.
+    1. You can rename the cluster and reset its number of query CUs.
 
     <Admonition type="info" icon="📘" title="Notes">
 
@@ -53,5 +56,5 @@ To use recycle bin, you must be an **Organization Owner**.
 
 1. A new restoration job will be generated. You can check the cluster restoration progress on the [Jobs](./job-center) page. When the job status switches from **IN PROGRESS** to **SUCCESSFUL**, the restoration is complete.
 
-![byoc-use-recycle-bin](/img/byoc-use-recycle-bin.png)
+![byoc-use-recycle-bin](/img/byoc-use-recycle-bin.png "byoc-use-recycle-bin")
 

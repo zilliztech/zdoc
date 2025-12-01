@@ -3,11 +3,14 @@ title: "Set up a Private Endpoint | Cloud"
 slug: /setup-a-private-link
 sidebar_label: "Set up a Private Endpoint"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud offers private access to your cluster through a private link. This is useful if you do not want your cluster traffic to go over the Internet. | Cloud"
 type: origin
 token: O5W3wHvmbiVSoLkzKgHcvB9XnUb
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
@@ -18,10 +21,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

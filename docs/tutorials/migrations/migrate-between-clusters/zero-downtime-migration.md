@@ -3,6 +3,9 @@ title: "Zero Downtime Migration | Cloud"
 slug: /zero-downtime-migration
 sidebar_label: "Zero Downtime Migration"
 beta: PRIVATE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zero Downtime Migration allows database services to remain operational throughout the migration, providing uninterrupted access to the database. It consists of these stages | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - zero downtime
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 
@@ -45,16 +48,16 @@ Zero Downtime Migration allows database services to remain operational throughou
 
 </Admonition>
 
-## Migration capabilities{#migration-capabilities}
+## Migration capabilities\{#migration-capabilities}
 
-### Cluster compatibility{#cluster-compatibility}
+### Cluster compatibility\{#cluster-compatibility}
 
-The following table outlines the migration capabilities and constraints between clusters of different plans:
+The following table outlines the migration capabilities and constraints between clusters:
 
 <table>
    <tr>
-     <th><p>Source Cluster Plan</p></th>
-     <th><p>Target Cluster Plan</p></th>
+     <th><p>Source Cluster</p></th>
+     <th><p>Target Cluster</p></th>
      <th><p>Migration Scope</p></th>
    </tr>
    <tr>
@@ -75,7 +78,7 @@ The following table outlines the migration capabilities and constraints between 
 
 </Admonition>
 
-### Migration scope options{#migration-scope-options}
+### Migration scope options\{#migration-scope-options}
 
 <table>
    <tr>
@@ -95,7 +98,7 @@ The following table outlines the migration capabilities and constraints between 
    </tr>
 </table>
 
-### Direct data transfer{#direct-data-transfer}
+### Direct data transfer\{#direct-data-transfer}
 
 Zero Downtime Migration performs direct data replication between Zilliz Cloud clusters with the following characteristics:
 
@@ -105,7 +108,7 @@ Zero Downtime Migration performs direct data replication between Zilliz Cloud cl
 
 - **Automatic indexing**: AUTOINDEX automatically created for vector fields in target cluster
 
-### Limits{#limits}
+### Limits\{#limits}
 
 - During migration, you cannot perform any of the following operations on the source cluster: **AlterCollection**, **AlterCollectionField**, **CreateAlias**, **DropAlias**, **AlterAlias**, **RenameCollection**, **AlterDatabase**, **Import**.
 
@@ -113,11 +116,11 @@ Zero Downtime Migration performs direct data replication between Zilliz Cloud cl
 
 - Zero Downtime Migration requires approximately 10 seconds of downtime for data sync to stop and the cluster transition to complete.
 
-## Prerequisites{#prerequisites}
+## Prerequisites\{#prerequisites}
 
 Before starting your offline migration, ensure you meet these requirements:
 
-### General requirements{#general-requirements}
+### General requirements\{#general-requirements}
 
 <table>
    <tr>
@@ -138,7 +141,7 @@ Before starting your offline migration, ensure you meet these requirements:
    </tr>
 </table>
 
-### Cross-project or organization migration requirements{#cross-project-or-organization-migration-requirements}
+### Cross-project or organization migration requirements\{#cross-project-or-organization-migration-requirements}
 
 <table>
    <tr>
@@ -155,11 +158,11 @@ Before starting your offline migration, ensure you meet these requirements:
    </tr>
 </table>
 
-## Getting started{#getting-started}
+## Getting started\{#getting-started}
 
 The zero downtime migration process consists of three main phases that require your attention and action:
 
-### Phase 1: Initialize{#phase-1-initialize}
+### Phase 1: Initialize\{#phase-1-initialize}
 
 The following demo shows how to set up and start your zero downtime migration:
 
@@ -167,7 +170,7 @@ The following demo shows how to set up and start your zero downtime migration:
 
 Once you click **Migrate**, the source cluster will enter **Locked** state and cannot be deleted during migration.
 
-### Phase 2: Monitor{#phase-2-monitor}
+### Phase 2: Monitor\{#phase-2-monitor}
 
 After starting the migration, you'll be taken to the target cluster details page where you need to actively monitor the migration progress.
 
@@ -207,7 +210,7 @@ During this stage, the system continuously syncs new data inserted into the sour
 
     </Admonition>
 
-### Phase 3: Switch{#phase-3-switch}
+### Phase 3: Switch\{#phase-3-switch}
 
 When you receive the email notification that the sync lag has dropped below 10 seconds, you're ready for the final switchover. For instructions on connecting to a cluster, refer to [Connect to Cluster](./connect-to-cluster).
 

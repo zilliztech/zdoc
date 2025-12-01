@@ -3,21 +3,24 @@ title: "Manage Backup Files | Cloud"
 slug: /manage-backup-files
 sidebar_label: "Manage Backup Files"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide walks you through how to view, rename, and delete existing backup files. | Cloud"
 type: origin
 token: Ml6dwBPTfiQOY9koK24cT1Sznge
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
   - cloud
   - backup
   - manage
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 
@@ -32,25 +35,25 @@ This guide walks you through how to view, rename, and delete existing backup fil
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The backup and restore feature is exclusively available to <strong>Dedicated</strong> clusters. </p>
+<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
 
 </Admonition>
 
-## Limits{#limits}
+## Limits\{#limits}
 
 - **Access Control**: You must be a project admin, organization owner, or have a custom role with backup privileges.
 
-## View backup files{#view-backup-files}
+## View backup files\{#view-backup-files}
 
 You can view a list of all backup files—either completed or in progress—and inspect their details.
 
-### Via web console{#via-web-console}
+### Via web console\{#via-web-console}
 
 To view all backups files and their details on the Zilliz Cloud web console, click on "Backups" in the left navigation.
 
-![Cdf2b3by2o6SlOxUhKXcbMrMnth](/img/Cdf2b3by2o6SlOxUhKXcbMrMnth.png)
+![Cdf2b3by2o6SlOxUhKXcbMrMnth](/img/cdf2b3by2o6sloxuhkxcbmrmnth.png "Cdf2b3by2o6SlOxUhKXcbMrMnth")
 
-### Via RESTful API{#via-restful-api}
+### Via RESTful API\{#via-restful-api}
 
 - View all backup files
 
@@ -99,7 +102,7 @@ The following is an example output.
     }
     ```
 
-## Rename backup files{#rename-backup-files}
+## Rename backup files\{#rename-backup-files}
 
 Currently, renaming backup files is supported only via the web console.
 
@@ -107,7 +110,7 @@ The following demo shows how to rename a backup file on the Zilliz Cloud web con
 
 <Supademo id="cmcsspyv70hpq9st8rz5ro3qa" title=""  />
 
-## Delete backup files{#delete-backup-files}
+## Delete backup files\{#delete-backup-files}
 
 Zilliz Cloud handles deletion differently based on how the backup was created:
 
@@ -115,13 +118,13 @@ Zilliz Cloud handles deletion differently based on how the backup was created:
 
 - **Automatic backups** are deleted automatically after their retention period ends or when the associated cluster is deleted. You can also delete them manually at any time.
 
-### Via web console{#via-web-console}
+### Via web console\{#via-web-console}
 
 The following demo shows how to delete a back file on the Zilliz Cloud web console.
 
 <Supademo id="cmcst9z5t0ics9st8bbvsrqkk" title=""  />
 
-### Via RESTful API{#via-restful-api}
+### Via RESTful API\{#via-restful-api}
 
 The following example deletes a backup file. For details about the RESTful API, see [Delete Backup](/reference/restful/delete-backup-v2).
 

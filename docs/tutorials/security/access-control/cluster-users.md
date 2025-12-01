@@ -3,6 +3,9 @@ title: "Manage Cluster Users (Console) | Cloud"
 slug: /cluster-users
 sidebar_label: "Manage Cluster Users (Console)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, you can create cluster users and assign them cluster roles to define the privileges, achieving data security. | Cloud"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - rbac
   - users
   - overview
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 
@@ -37,11 +40,11 @@ To manage cluster users, you must be an **Organization Owner** or a **Project Ad
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>This feature is exclusively available to Dedicated clusters.</p>
+<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
 
 </Admonition>
 
-## Create a cluster user{#create-a-cluster-user}
+## Create a cluster user\{#create-a-cluster-user}
 
 When creating a cluster user, you need to:
 
@@ -51,7 +54,7 @@ When creating a cluster user, you need to:
 
 - Set the password for this cluster user. This password will be used for [authentication](./cluster-credentials).
 
-![add-cluster-user](/img/add-cluster-user.png)
+![add-cluster-user](/img/add-cluster-user.png "add-cluster-user")
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -59,11 +62,11 @@ When creating a cluster user, you need to:
 
 </Admonition>
 
-## Edit the role of a cluster user{#edit-the-role-of-a-cluster-user}
+## Edit the role of a cluster user\{#edit-the-role-of-a-cluster-user}
 
-![edit-cluster-user-role](/img/edit-cluster-user-role.png)
+![edit-cluster-user-role](/img/edit-cluster-user-role.png "edit-cluster-user-role")
 
-## Drop a cluster user{#drop-a-cluster-user}
+## Drop a cluster user\{#drop-a-cluster-user}
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -71,5 +74,5 @@ When creating a cluster user, you need to:
 
 </Admonition>
 
-![drop-cluster-user](/img/drop-cluster-user.png)
+![drop-cluster-user](/img/drop-cluster-user.png "drop-cluster-user")
 

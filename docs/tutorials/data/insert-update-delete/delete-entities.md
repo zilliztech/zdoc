@@ -3,11 +3,14 @@ title: "Delete Entities | Cloud"
 slug: /delete-entities
 sidebar_label: "Delete Entities"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "You can delete the entities that are no longer needed by filtering conditions or their primary keys. | Cloud"
 type: origin
 token: RhKcwNACpi3WihkTzo8cr4BCnee
-sidebar_position: 3
+sidebar_position: 4
 keywords: 
   - zilliz
   - vector database
@@ -16,10 +19,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 
@@ -31,7 +34,7 @@ import TabItem from '@theme/TabItem';
 
 You can delete the entities that are no longer needed by filtering conditions or their primary keys.
 
-## Delete Entities by Filtering Conditions{#delete-entities-by-filtering-conditions}
+## Delete Entities by Filtering Conditions\{#delete-entities-by-filtering-conditions}
 
 When deleting multiple entities that share some attributes in a batch, you can use filter expressions. The example code below uses the **in** operator to bulk delete all Entities with their **color** field set to the values of **red** and **purple**. You can also use other operators to construct filter expressions that meet your requirements. For more information about filter expressions, please refer to [Filtering Explained](./filtering-overview).
 
@@ -75,7 +78,7 @@ ilvusClientV2 client = new MilvusClientV2(ConnectConfig.builder()
 
 DeleteResp deleteResp = client.delete(DeleteReq.builder()
         .collectionName("quick_setup")
-        .filter("color in ['red_7025', 'purple_4976]")
+        .filter("color in ['red_7025', 'purple_4976']")
         .build());
 
 ```
@@ -161,7 +164,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Delete Entities by Primary Keys{#delete-entities-by-primary-keys}
+## Delete Entities by Primary Keys\{#delete-entities-by-primary-keys}
 
 In most cases, a primary key uniquely identifies an Entity. You can delete Entities by setting their primary keys in the delete request. The example code below demonstrates how to delete two entities with primary keys **18** and **19**.
 
@@ -252,7 +255,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Delete Entities from Partitions{#delete-entities-from-partitions}
+## Delete Entities from Partitions\{#delete-entities-from-partitions}
 
 You can also delete entities stored in specific partitions. The following code snippets assume that you have a partition named **PartitionA** in your collection. 
 

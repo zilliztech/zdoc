@@ -3,6 +3,9 @@ title: "Create Collection | Cloud"
 slug: /manage-collections-sdks
 sidebar_label: "Create Collection"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "You can create a collection by defining its schema, index parameters, metric type, and whether to load it upon creation. This page introduces how to create a collection from scratch. | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 
@@ -37,7 +40,7 @@ You can create a collection by defining its schema, index parameters, metric typ
 
 </Admonition>
 
-## Overview{#overview}
+## Overview\{#overview}
 
 A collection is a two-dimensional table with fixed columns and variant rows. Each column represents a field, and each row represents an entity. A schema is required to implement such structural data management. Every entity to insert has to meet the constraints defined in the schema.
 
@@ -51,7 +54,7 @@ To create a collection, you need to
 
 - [Create collection](./manage-collections-sdks#create-a-collection)
 
-## Create Schema{#create-schema}
+## Create Schema\{#create-schema}
 
 A schema defines the data structure of a collection. When creating a collection, you need to design the schema based on your requirements. For details, refer to [Schema Explained](./schema-explained).
 
@@ -236,7 +239,7 @@ export schema='{
 </TabItem>
 </Tabs>
 
-## (Optional) Set Index Parameters{#optional-set-index-parameters}
+## (Optional) Set Index Parameters\{#optional-set-index-parameters}
 
 Creating an index on a specific field accelerates the search against this field. An index records the order of entities within a collection. As shown in the following code snippets, you can use `metric_type` and `index_type` to select appropriate ways for Zilliz Cloud to index a field and measure similarities between vector embeddings.
 
@@ -348,7 +351,7 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-## Create a Collection{#create-a-collection}
+## Create a Collection\{#create-a-collection}
 
 If you have created a collection with index parameters, Zilliz Cloud automatically loads the collection upon its creation. In this case, all fields mentioned in the index parameters are indexed.
 
@@ -604,11 +607,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Set Collection Properties{#set-collection-properties}
+## Set Collection Properties\{#set-collection-properties}
 
 You can set properties for the collection to create to make it fit into your service. The applicable properties are as follows.
 
-### Set Shard Number{#set-shard-number}
+### Set Shard Number\{#set-shard-number}
 
 Shards are horizontal slices of a collection, and each shard corresponds to a data input channel. By default, every collection has one shard. You can specify the number of shards when creating a collection to better suit your data volume and workload.
 
@@ -698,7 +701,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Enable mmap{#enable-mmap}
+### Enable mmap\{#enable-mmap}
 
 Zilliz Cloud enables mmap on all collections by default, allowing Zilliz Cloud to map raw field data into memory instead of fully loading them. This reduces memory footprints and increases collection capacity. For details on mmap, refer to [Use mmap](./use-mmap).
 
@@ -782,7 +785,7 @@ curl --request POST \
 }"
 ```
 
-### Set Collection TTL{#set-collection-ttl}
+### Set Collection TTL\{#set-collection-ttl}
 
 If the data in a collection needs to be dropped for a specific period, consider setting its Time-To-Live (TTL) in seconds. Once the TTL times out, Zilliz Cloud deletes entities in the collection. The deletion is asynchronous, indicating that searches and queries are still possible before the deletion is complete.
 
@@ -877,7 +880,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Set Consistency Level{#set-consistency-level}
+### Set Consistency Level\{#set-consistency-level}
 
 When creating a collection, you can set the consistency level for searches and queries in the collection. You can also change the consistency level of the collection during a specific search or query.
 
@@ -969,8 +972,8 @@ curl --request POST \
 
 For more on consistency levels, see [Consistency Level](./consistency-level).
 
-### Enable Dynamic Field{#enable-dynamic-field}
+### Enable Dynamic Field\{#enable-dynamic-field}
 
-The dynamic field in a collection is a reserved JavaScript Object Notation (JSON) field named **\$meta**. Once you have enabled this field, Zilliz Cloud saves all non-schema-defined fields carried in each entity and their values as key-value pairs in the reserved field.
+The dynamic field in a collection is a reserved JavaScript Object Notation (JSON) field named **\&#36;meta**. Once you have enabled this field, Zilliz Cloud saves all non-schema-defined fields carried in each entity and their values as key-value pairs in the reserved field.
 
 For details on how to use the dynamic field, refer to [Dynamic Field](./enable-dynamic-field).

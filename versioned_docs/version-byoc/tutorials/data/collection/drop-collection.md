@@ -3,6 +3,9 @@ title: "Drop Collection | BYOC"
 slug: /drop-collection
 sidebar_label: "Drop Collection"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "You can drop a collection if it is no longer needed. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 
@@ -31,7 +34,7 @@ import TabItem from '@theme/TabItem';
 
 You can drop a collection if it is no longer needed.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 The following code snippets assume that you have a collection named **my_collection**.
 

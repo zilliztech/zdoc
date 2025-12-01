@@ -3,6 +3,9 @@ title: "Migrate from PostgreSQL to Zilliz Cloud | Cloud"
 slug: /migrate-from-pgvector
 sidebar_label: "PostgreSQL"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This topic describes how Zilliz Cloud handles data type mapping, collection naming rules, and considerations when migrating from PostgreSQL. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - postgresql
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 
@@ -28,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 This topic describes how Zilliz Cloud handles data type mapping, collection naming rules, and considerations when migrating from [PostgreSQL](https://www.postgresql.org/).
 
-## Prerequisites{#prerequisites}
+## Prerequisites\{#prerequisites}
 
 Before starting your PostgreSQL to Zilliz Cloud migration, ensure you meet these requirements:
 
-### PostgreSQL requirements{#postgresql-requirements}
+### PostgreSQL requirements\{#postgresql-requirements}
 
 <table>
    <tr>
@@ -61,7 +64,7 @@ Before starting your PostgreSQL to Zilliz Cloud migration, ensure you meet these
    </tr>
 </table>
 
-### Zilliz Cloud requirements{#zilliz-cloud-requirements}
+### Zilliz Cloud requirements\{#zilliz-cloud-requirements}
 
 <table>
    <tr>
@@ -82,7 +85,7 @@ Before starting your PostgreSQL to Zilliz Cloud migration, ensure you meet these
    </tr>
 </table>
 
-## Data type mapping{#data-type-mapping}
+## Data type mapping\{#data-type-mapping}
 
 Understanding how PostgreSQL data types map to Zilliz Cloud is crucial for planning your migration:
 
@@ -149,9 +152,9 @@ Understanding how PostgreSQL data types map to Zilliz Cloud is crucial for plann
    </tr>
 </table>
 
-## PostgreSQL-specific handling rules{#postgresql-specific-handling-rules}
+## PostgreSQL-specific handling rules\{#postgresql-specific-handling-rules}
 
-### Collection naming rules{#collection-naming-rules}
+### Collection naming rules\{#collection-naming-rules}
 
 PostgreSQL table names are transferred to Zilliz Cloud with the following considerations:
 
@@ -178,7 +181,7 @@ PostgreSQL table names are transferred to Zilliz Cloud with the following consid
    </tr>
 </table>
 
-### Migration considerations{#migration-considerations}
+### Migration considerations\{#migration-considerations}
 
 The following features are **not supported** for PostgreSQL migration:
 

@@ -3,6 +3,9 @@ title: "Register with Zilliz Cloud | Cloud"
 slug: /register-with-zilliz-cloud
 sidebar_label: "Register with Zilliz Cloud"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide provides comprehensive instructions on how to create an account for accessing Zilliz Cloud services. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - register
   - cloud
   - milvus
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 
@@ -28,13 +31,13 @@ import Admonition from '@theme/Admonition';
 
 This guide provides comprehensive instructions on how to create an account for accessing Zilliz Cloud services.
 
-## Before you start{#before-you-start}
+## Before you start\{#before-you-start}
 
 You are welcome to visit Zilliz Cloud to [sign up](https://cloud.zilliz.com/signup).
 
-![sign_up](/img/sign_up.png)
+![sign_up](/img/sign_up.png "sign_up")
 
-## Registration options{#registration-options}
+## Registration options\{#registration-options}
 
 You can use one and only one of the following options to register with and log in to Zilliz Cloud.
 
@@ -46,7 +49,7 @@ You can use one and only one of the following options to register with and log i
 
 Maintain consistency with your chosen registration method for login purposes. If necessary, you can alter your login method at a later stage. For further details, refer to [Manage Your Account](./email-accounts#switch-login-method).
 
-### With work email and password{#with-work-email-and-password}
+### With work email and password\{#with-work-email-and-password}
 
 Follow the steps below to create a Zilliz Cloud account using your work email and password:
 
@@ -62,7 +65,7 @@ Follow the steps below to create a Zilliz Cloud account using your work email an
 
     - Numbers (0–9)
 
-    - Special characters (e.g., !@#&#36;%^&*)
+    - Special characters (e.g., !@#$%^&*)
 
 1. Check the box next to **I agree to the [Terms of Service](https://zilliz.com/terms-and-conditions) and [Privacy Policy](https://zilliz.com/privacy-policy)**.
 
@@ -78,7 +81,7 @@ Follow the steps below to create a Zilliz Cloud account using your work email an
 
 </Admonition>
 
-### Linking to Google account{#linking-to-google-account}
+### Linking to Google account\{#linking-to-google-account}
 
 To link your Google account with Zilliz Cloud, follow the steps below.
 
@@ -96,9 +99,9 @@ To link your Google account with Zilliz Cloud, follow the steps below.
 
 </Admonition>
 
-### Linking to GitHub account{#linking-to-github-account}
+### Linking to GitHub account\{#linking-to-github-account}
 
-#### Prerequisites{#prerequisites}
+#### Prerequisites\{#prerequisites}
 
 If you try to register with Github, you must have a public email address associated with your GitHub account. Follow the steps below to set your email address public on GitHub:
 
@@ -112,7 +115,7 @@ If you try to register with Github, you must have a public email address associa
 
 1. Click **Update profile** to save the changes.
 
-#### Procedures{#procedures}
+#### Procedures\{#procedures}
 
 To link your GitHub account with us, follow the steps below.
 
@@ -130,7 +133,11 @@ To link your GitHub account with us, follow the steps below.
 
 </Admonition>
 
-### Log in to your Zilliz Cloud account{#log-in-to-your-zilliz-cloud-account}
+### Log in to your Zilliz Cloud account\{#log-in-to-your-zilliz-cloud-account}
 
 Always use the same method you chose for registration when logging in to your Zilliz Cloud account.
 
+## FAQ\{#faq}
+
+**Why did my registration fail?**
+You may have already registered an account with this email address. Please try logging in directly. If the issue persists, please [create a support ticket](http://support.zilliz.com).

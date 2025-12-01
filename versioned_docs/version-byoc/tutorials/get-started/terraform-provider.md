@@ -3,21 +3,24 @@ title: "Terraform Provider | BYOC"
 slug: /terraform-provider
 sidebar_label: "Terraform Provider"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz offers a fully managed Milvus service, streamlining the deployment and scaling of vector search applications with security in mind, and eliminating the need to build and maintain complex infrastructure, including both the cloud infrastructure Zilliz provides and your own. | BYOC"
 type: origin
 token: BX6iwjUzLi7udfksJoxc7jK1nsW
-sidebar_position: 13
+sidebar_position: 14
 keywords: 
   - zilliz
   - vector database
   - cloud
   - terraform provider
   - terraform
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 
@@ -30,7 +33,7 @@ Zilliz offers a fully managed Milvus service, streamlining the deployment and sc
 
 The [Zilliz Cloud Terraform Provider](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest) is an open-source Infrastructure as Code (IaC) solution that enables you to dynamically build, change, and version your Zilliz Cloud resources. Before using it, you must configure the provider with proper credentials, such as a Zilliz Cloud API key with appropriate permissions. 
 
-## Authentication{#authentication}
+## Authentication\{#authentication}
 
 Before you begin a resource deployment using Terraform, you must authenticate Terraform with the Zilliz Cloud platform. You must use a Zilliz Cloud API key with the appropriate permissions to complete authentication before any operations with this Terraform provider. To create a Zilliz Cloud API key, follow these steps:
 
@@ -44,11 +47,11 @@ Before you begin a resource deployment using Terraform, you must authenticate Te
 
 For more information about managing API keys, refer to [API Keys](/docs/byoc/manage-api-keys).
 
-## Manageable Resources{#manageable-resources}
+## Manageable Resources\{#manageable-resources}
 
 Currently, you can use this provider to manage the following types of resources:
 
-### Clusters{#clusters}
+### Clusters\{#clusters}
 
 A [Zilliz Cloud cluster](/docs/manage-cluster) is a Milvus instance that operates on Zilliz Cloud. Zilliz Cloud categorizes its clusters into various offerings, including **Free**, **Serverless**, **Dedicated (Standard)**, **Dedicated (Enterprise)**, and **Bring Your Own Cloud (BYOC)**. For details on these offerings, refer to the [Detailed Plan Comparison](/docs/select-zilliz-cloud-service-plans).
 
@@ -64,7 +67,7 @@ You can use the Zilliz Cloud Terraform Provider to create and manage clusters of
 
 - [Import Existing Clusters into Terraform Management](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/guides/import-cluster)
 
-### Database{#database}
+### Database\{#database}
 
 In Zilliz Cloud, a [database](/docs/database) serves as a logical unit for organizing and managing data. It is available only in dedicated clusters. Upon the creation of a cluster, a default database will be created. For details about how to manage database using Zilliz Cloud Terraform Provider, refer to the resources and data sources below:
 
@@ -72,15 +75,19 @@ In Zilliz Cloud, a [database](/docs/database) serves as a logical unit for organ
 
 - [Databases (Data Source)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/data-sources/databases)
 
-### Collection{#collection}
+### Collection & Aliases\{#collection-and-aliases}
 
 A [collection](/docs/manage-collections) is a two-dimensional table with fixed columns and variant rows. Each column represents a field, and each row represents an entity. For details about how to manage collections using Zilliz Cloud Terraform Provider, refer to the following resources and data sources below:
 
+- [Aliases (Resource)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/resources/alias)
+
 - [Collection (Resource)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/resources/collection)
+
+- [Aliases (Data Source)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/data-sources/aliases)
 
 - [Collections (Data Source)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/data-sources/collections)
 
-### Partition{#partition}
+### Partition\{#partition}
 
 A partition is a subset of a collection. Each partition shares the same data structure with its parent collection but contains only a subset of the data in the collection. This page helps you understand how to manage partitions. For details on how to manage partitions using Zilliz Cloud Terraform Provider, refer to the following resources and data sources below:
 
@@ -88,7 +95,7 @@ A partition is a subset of a collection. Each partition shares the same data str
 
 - [Partitions (Data Source)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/data-sources/partitions)
 
-### Index{#index}
+### Index\{#index}
 
 Zilliz Cloud employs [AUTOINDEX](/docs/autoindex-explained) to enable efficient similarity searches. It also offers these [metric types](/docs/search-metrics-explained): **Cosine Similarity** (COSINE), **Euclidean Distance** (L2), **Inner Product** (IP), **JACCARD**, and **HAMMING** to measure the distances between vector embeddings. AUTOINDEX also applies to scalar fields to accelerate metadata filtering. For details about how to manage indexes using Zilliz Cloud Terraform Provider, refer to the following resources and data sources below:
 
@@ -96,7 +103,7 @@ Zilliz Cloud employs [AUTOINDEX](/docs/autoindex-explained) to enable efficient 
 
 - [Indexes (Data Source)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/data-sources/indexes)
 
-### Users & Roles{#users-and-roles}
+### Users & Roles\{#users-and-roles}
 
 In Zilliz Cloud, you can create cluster users and assign them cluster roles to define the privileges, achieving data security. A user represents a database user with properly configured credentials and is assigned a set of roles, while a role is an entity that encapsulates a set of privileges and can be assigned to users. You can use this section's resources and data sources to implement role-based access control (RBAC). For details, refer to the resource and data sources below:
 
@@ -108,7 +115,7 @@ In Zilliz Cloud, you can create cluster users and assign them cluster roles to d
 
 - [Roles (Data Source)](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/data-sources/roles)
 
-### BYOC projects{#byoc-projects}
+### BYOC projects\{#byoc-projects}
 
 Zilliz Cloud also offers a BYOC solution that enables organizations to host applications and data in their own cloud accounts rather than relying on Zilliz Cloud's infrastructure. The BYOC solution can be deployed in either BYOC or BYOC-I mode, depending on whether you permit Zilliz Cloud to manage your infrastructure resources on your behalf through cross-account permissions. For details, refer to [BYOC Overview](/docs/byoc/byoc-intro).
 
@@ -119,4 +126,6 @@ You can use the Zilliz Cloud Terraform Provider to create a BYOC or BYOC-I proje
 - [Create a BYOC Project using Terraform](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/guides/create-a-byoc-project)
 
 - [Create a BYOC-I Project using Terraform](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/guides/create-a-byoc-i-project)
+
+- [Manage Milvus Cluster in BYOC Environments](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/guides/managing-milvus-in-byoc)
 

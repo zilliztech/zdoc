@@ -3,6 +3,9 @@ title: "API Availability | BYOC"
 slug: /api-comparison
 sidebar_label: "API Availability"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud operates slightly differently from Milvus in order to provide a better user experience. This article aims to clarify the differences between the two platforms in terms of APIs. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 
@@ -30,7 +33,7 @@ Zilliz Cloud operates slightly differently from Milvus in order to provide a bet
 
 If you are planning to migrate from Milvus to Zilliz Cloud, you may need to make some necessary changes to your legacy code.
 
-## Scenario-specific privileges{#scenario-specific-privileges}
+## Scenario-specific privileges\{#scenario-specific-privileges}
 
 The table below provides a comparison of API availability across various service tiers. Note that the availability of the API for the [Bring Your Own Cloud (BYOC)](/docs/byoc/byoc-intro) solution is consistent with that of the **Standard and Enterprise** tiers.
 
@@ -41,15 +44,15 @@ The table below provides a comparison of API availability across various service
      <th><p><strong>Console</strong></p></th>
      <th><p><strong>Free</strong></p></th>
      <th><p><strong>Serverless</strong></p></th>
-     <th><p><strong>Dedicated</strong></p></th>
+     <th><p><strong>Dedicated / BYOC</strong></p></th>
    </tr>
    <tr>
      <td rowspan="5"><p>Alias</p></td>
      <td><p>alterAlias()</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
    </tr>
    <tr>
      <td><p>createAlias()</p></td>
@@ -85,28 +88,28 @@ The table below provides a comparison of API availability across various service
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
    </tr>
    <tr>
      <td><p>deleteCredential()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
    </tr>
    <tr>
      <td><p>listCredUsers()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
    </tr>
    <tr>
      <td><p>updateCredential()</p></td>
      <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
    </tr>
    <tr>
      <td rowspan="3"><p>BulkInsert</p></td>
@@ -160,7 +163,7 @@ The table below provides a comparison of API availability across various service
      <td><p>✔︎</p></td>
    </tr>
    <tr>
-     <td><p>alterCollection()</p></td>
+     <td><p>alterCollectionProperties()</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
@@ -319,9 +322,9 @@ The table below provides a comparison of API availability across various service
    <tr>
      <td><p>getFlushState()</p></td>
      <td><p>✘</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
-     <td><p>✔︎</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
+     <td><p>✘</p></td>
    </tr>
    <tr>
      <td><p>getMetrics()</p></td>
@@ -347,28 +350,28 @@ The table below provides a comparison of API availability across various service
    <tr>
      <td rowspan="7"><p>Partition</p></td>
      <td><p>createPartition()</p></td>
-     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
      <td><p>dropPartition()</p></td>
-     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
      <td><p>getPartitionStatistics()</p></td>
-     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
    </tr>
    <tr>
      <td><p>hasPartiotion()</p></td>
-     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
@@ -389,7 +392,7 @@ The table below provides a comparison of API availability across various service
    </tr>
    <tr>
      <td><p>showPartitions()</p></td>
-     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
@@ -404,7 +407,7 @@ The table below provides a comparison of API availability across various service
    </tr>
    <tr>
      <td><p>query()</p></td>
-     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
      <td><p>✔︎</p></td>
@@ -433,7 +436,7 @@ The table below provides a comparison of API availability across various service
    </tr>
    <tr>
      <td><p>grantRolePrivilege()</p></td>
-     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
@@ -447,7 +450,7 @@ The table below provides a comparison of API availability across various service
    </tr>
    <tr>
      <td><p>revokeRolePrivilege()</p></td>
-     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
@@ -461,7 +464,7 @@ The table below provides a comparison of API availability across various service
    </tr>
    <tr>
      <td><p>selectGrantForRoleAndObject()</p></td>
-     <td><p>✘</p></td>
+     <td><p>✔︎</p></td>
      <td><p>✘</p></td>
      <td><p>✘</p></td>
      <td><p>✔︎</p></td>

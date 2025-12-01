@@ -3,6 +3,9 @@ title: "Data Export | Cloud"
 slug: /data-export
 sidebar_label: "Data Export"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide offers examples of how to export data from Zilliz Cloud using various methods. | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

@@ -3,6 +3,9 @@ title: "Cluster Credentials | BYOC"
 slug: /cluster-credentials
 sidebar_label: "Cluster Credentials"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud authenticates your identity using a token. A token can be either the cluster credential or an API key. This guide introduces authentication with cluster credentials. | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster credentials
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 
@@ -34,13 +37,13 @@ When setting up a cluster, Zilliz Cloud creates the default cluster user `db_adm
 
 Beyond the default `db_admin` user, you can also [create](./cluster-users#create-a-cluster-user) more cluster users with corresponding password for authentication.
 
-## Reset Password{#reset-password}
+## Reset Password\{#reset-password}
 
 If you forget a user's password or suspect it has been leaked, you can reset the password.
 
 - **Reset user password on the console**
 
-    ![reset-cluster-user-password](/img/reset-cluster-user-password.png)
+    ![reset-cluster-user-password](/img/reset-cluster-user-password.png "reset-cluster-user-password")
 
 - **Reset user password programmatically**
 

@@ -3,6 +3,9 @@ title: "Filter Templating | BYOC"
 slug: /filtering-templating
 sidebar_label: "Filter Templating"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, complex filter expressions with numerous elements, especially those involving non-ASCII characters like CJK characters, can significantly affect query performance. To address this, Zilliz Cloud introduces a filter expression templating mechanism designed to improve efficiency by reducing the time spent parsing complex expressions. This page explains using filter expression templating in search, query, and delete operations. | BYOC"
 type: origin
@@ -18,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - filtering templating
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 
@@ -32,7 +35,7 @@ import Admonition from '@theme/Admonition';
 
 In Zilliz Cloud, complex filter expressions with numerous elements, especially those involving non-ASCII characters like CJK characters, can significantly affect query performance. To address this, Zilliz Cloud introduces a filter expression templating mechanism designed to improve efficiency by reducing the time spent parsing complex expressions. This page explains using filter expression templating in search, query, and delete operations.
 
-## Overview{#overview}
+## Overview\{#overview}
 
 Filter expression templating allows you to create filter expressions with placeholders, which can be dynamically substituted with values during query execution. Using templating, you avoid embedding large arrays or complex expressions directly into the filter, reducing parsing time and improving query performance.
 
@@ -53,7 +56,7 @@ Using filter expression templating in Zilliz Cloud has several key advantages:
 
 - **Scalability**: As your datasets grow and filter expressions become more complex, templating ensures that performance remains efficient and scalable.
 
-## Search Operations{#search-operations}
+## Search Operations\{#search-operations}
 
 For search operations in Zilliz Cloud, the `filter` expression is used to define the filtering condition, and the `filter_params` parameter is used to specify the values for the placeholders. The `filter_params` dictionary contains the dynamic values that Zilliz Cloud will use to substitute into the filter expression.
 
@@ -73,7 +76,7 @@ res = client.search(
 
 In this example, Zilliz Cloud will dynamically replace `{age}` with `25` and `{city}` with `["北京", "上海"]` when executing the search.
 
-## Query Operations{#query-operations}
+## Query Operations\{#query-operations}
 
 The same templating mechanism can be applied to query operations in Zilliz Cloud. In the `query` function, you define the filter expression and use the `filter_params` to specify the values to substitute.
 
@@ -90,7 +93,7 @@ res = client.query(
 
 By using `filter_params`, Zilliz Cloud efficiently handles the dynamic insertion of values, improving the speed of query execution.
 
-## Delete Operations{#delete-operations}
+## Delete Operations\{#delete-operations}
 
 You can also use filter expression templating in delete operations. Similar to search and query, the `filter` expression defines the conditions, and the `filter_params` provides the dynamic values for the placeholders.
 
@@ -106,6 +109,6 @@ res = client.delete(
 
 This approach improves the performance of delete operations, especially when dealing with complex filter conditions.
 
-## Conclusion{#conclusion}
+## Conclusion\{#conclusion}
 
 Filter expression templating is an essential tool for optimizing query performance in Zilliz Cloud. By using placeholders and the `filter_params` dictionary, you can significantly reduce the time spent parsing complex filter expressions. This leads to faster query execution and better overall performance.

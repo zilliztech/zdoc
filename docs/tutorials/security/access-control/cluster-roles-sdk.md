@@ -3,6 +3,9 @@ title: "Manage Cluster Roles (SDK) | Cloud"
 slug: /cluster-roles-sdk
 sidebar_label: "Manage Cluster Roles (SDK)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A cluster role defines the privileges that a user has within the cluster. More specifically, the cluster role controls a cluster user's privileges on the cluster, database, and collection level. | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 
@@ -39,7 +42,7 @@ This guide walks you through how to create a role, grant built-in privilege grou
 
 </Admonition>
 
-## Create a role{#create-a-role}
+## Create a role\{#create-a-role}
 
 The following example demonstrates how to create a role named `role_a`. 
 
@@ -98,7 +101,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## List roles{#list-roles}
+## List roles\{#list-roles}
 
 After creating several roles, you can list and view all existing roles.
 
@@ -152,7 +155,7 @@ Below is an example output. `role_a` is the new role that is just created.
 ['role_a']
 ```
 
-## Grant a privilege or a privilege group to a role{#grant-a-privilege-or-a-privilege-group-to-a-role}
+## Grant a privilege or a privilege group to a role\{#grant-a-privilege-or-a-privilege-group-to-a-role}
 
 In Zilliz Cloud, you can grant the followings to a role:
 
@@ -347,7 +350,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Describe a role{#describe-a-role}
+## Describe a role\{#describe-a-role}
 
 The following example demonstrates how to view the privileges granted to the role `role_a` using the `describe_role` method.
 
@@ -423,7 +426,7 @@ Below is an example output.
 }
 ```
 
-## Revoke a privilege or a privilege group from a role{#revoke-a-privilege-or-a-privilege-group-from-a-role}
+## Revoke a privilege or a privilege group from a role\{#revoke-a-privilege-or-a-privilege-group-from-a-role}
 
 The following example demonstrates how to revoke the privilege `PrivilegeSearch` on `collection_01` under the `default` database as well as the privilege group `privilege_group_1` that have been granted to the role `role_a`.
 
@@ -579,7 +582,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Drop a role{#drop-a-role}
+## Drop a role\{#drop-a-role}
 
 The following example demonstrates how to drop the role `role_a`.
 

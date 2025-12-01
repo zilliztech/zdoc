@@ -3,6 +3,9 @@ title: "Modify Collection | BYOC"
 slug: /modify-collections
 sidebar_label: "Modify Collection"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "You can rename a collection or change its settings. This page focuses on how to modify a collection. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 
@@ -29,7 +32,7 @@ import TabItem from '@theme/TabItem';
 
 You can rename a collection or change its settings. This page focuses on how to modify a collection.
 
-## Rename Collection{#rename-collection}
+## Rename Collection\{#rename-collection}
 
 You can rename a collection as follows.
 
@@ -151,7 +154,36 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Set Collection Properties{#set-collection-properties}
+## Set Collection Properties\{#set-collection-properties}
+
+You can modify collection-level properties after a collection is created.
+
+### Supported properties\{#supported-properties}
+
+<table>
+   <tr>
+     <th><p>Property</p></th>
+     <th><p>Description</p></th>
+   </tr>
+   <tr>
+     <td><p><code>collection.ttl.seconds</code></p></td>
+     <td><p>If the data of a collection needs to be deleted after a specific period, consider setting its Time-To-Live (TTL) in seconds. Once the TTL times out, Zilliz Cloud deletes all entities from the collection. </p><p>The deletion is asynchronous, indicating that searches and queries are still possible before the deletion is complete.</p><p>For details, refer to <a href="./set-collection-ttl">Set Collection TTL</a>.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>mmap.enabled</code></p></td>
+     <td><p>Memory mapping (Mmap) enables direct memory access to large files on disk, allowing Zilliz Cloud to store indexes and data in both memory and hard drives. This approach helps optimize data placement policy based on access frequency, expanding storage capacity for collections without impacting search performance.</p><p>Zilliz Cloud implements <a href="./use-mmap#global-mmap-strategy">global mmap settings</a> for your clusters. You can change the settings on a specific field or its index.</p><p>For details, refer to Use mmap.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>partitionkey.isolation</code></p></td>
+     <td><p>With Partition Key Isolation enabled, Zilliz Cloud groups entities based on the Partition Key value and creates a separate index for each of these groups. Upon receiving a search request, Zilliz Cloud locates the index based on the Partition Key value specified in the filtering condition and restricts the search scope within the entities included in the index, thus avoiding scanning irrelevant entities during the search and greatly enhancing the search performance.</p><p>For details, refer to <a href="./use-partition-key#use-partition-key-isolation">Use Partition Key Isolation</a>.</p></td>
+   </tr>
+   <tr>
+     <td><p><code>dynamicfield.enabled</code></p></td>
+     <td><p>Enables the dynamic field for collections that were created without enabling it. Once enabled, you can insert entities with fields not defined in the original schema. For details, refer to <a href="./enable-dynamic-field">Dynamic Field</a>.</p></td>
+   </tr>
+</table>
+
+### Example 1: Set collection TTL\{#example-1-set-collection-ttl}
 
 The following code snippet demonstrates how to set collection TTL.
 
@@ -235,28 +267,237 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-The applicable collection properties are as follows:
+### Example 2: Enable mmap\{#example-2-enable-mmap}
 
-<table>
-   <tr>
-     <th><p>Property</p></th>
-     <th><p>When to Use</p></th>
-   </tr>
-   <tr>
-     <td><p><code>collection.ttl.seconds</code></p></td>
-     <td><p>If the data of a collection needs to be deleted after a specific period, consider setting its Time-To-Live (TTL) in seconds. Once the TTL times out, Zilliz Cloud deletes all entities from the collection. </p><p>The deletion is asynchronous, indicating that searches and queries are still possible before the deletion is complete.</p><p>For details, refer to <a href="./set-collection-ttl">Set Collection TTL</a>.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>mmap.enabled</code></p></td>
-     <td><p>Memory mapping (Mmap) enables direct memory access to large files on disk, allowing Zilliz Cloud to store indexes and data in both memory and hard drives. This approach helps optimize data placement policy based on access frequency, expanding storage capacity for collections without impacting search performance.</p><p>Zilliz Cloud implements <a href="./use-mmap#global-mmap-strategy">global mmap settings</a> for your clusters. You can change the settings on a specific field or its index.</p><p>For details, refer to Use mmap.</p></td>
-   </tr>
-   <tr>
-     <td><p><code>partitionkey.isolation</code></p></td>
-     <td><p>With Partition Key Isolation enabled, Zilliz Cloud groups entities based on the Partition Key value and creates a separate index for each of these groups. Upon receiving a search request, Zilliz Cloud locates the index based on the Partition Key value specified in the filtering condition and restricts the search scope within the entities included in the index, thus avoiding scanning irrelevant entities during the search and greatly enhancing the search performance.</p><p>For details, refer to <a href="./use-partition-key#use-partition-key-isolation">Use Partition Key Isolation</a>.</p></td>
-   </tr>
-</table>
+The following code snippet demonstrates how to enable mmap.
 
-## Drop Collection Properties{#drop-collection-properties}
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient
+
+client.alter_collection_properties(
+    collection_name="my_collection",
+    properties={"mmap.enabled": True}
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+Map<String, String> properties = new HashMap<>();
+properties.put("mmap.enabled", "True");
+
+AlterCollectionReq alterCollectionReq = AlterCollectionReq.builder()
+        .collectionName("my_collection")
+        .properties(properties)
+        .build();
+
+client.alterCollection(alterCollectionReq);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.alterCollectionProperties({
+    collection_name: "my_collection",
+    properties: {
+        "mmap.enabled": true
+    }
+});
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.MmapEnabledKey, true))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/alter_properties" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "collectionName": "my_collection",
+    "properties": {
+      "mmap.enabled": "true"
+    }
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+### Example 3: Enable partition key\{#example-3-enable-partition-key}
+
+The following code snippet demonstrates how to enable the partition key.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient
+
+client.alter_collection_properties(
+    collection_name="my_collection",
+    properties={"partitionkey.isolation": True}
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+Map<String, String> properties = new HashMap<>();
+properties.put("partitionkey.isolation", "True");
+
+AlterCollectionReq alterCollectionReq = AlterCollectionReq.builder()
+        .collectionName("my_collection")
+        .properties(properties)
+        .build();
+
+client.alterCollection(alterCollectionReq);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.alterCollectionProperties({
+    collection_name: "my_collection",
+    properties: {
+        "partitionkey.isolation": true
+    }
+});
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.PartitionKeyIsolationKey, true))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/alter_properties" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "collectionName": "my_collection",
+    "properties": {
+      "partitionkey.isolation": "true"
+    }
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+### Example 4: Enable dynamic field\{#example-4-enable-dynamic-field}
+
+The following code snippet demonstrates how to enable the dynamic field.
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus import MilvusClient
+
+client.alter_collection_properties(
+    collection_name="my_collection",
+    properties={"dynamicfield.enabled": True}
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+Map<String, String> properties = new HashMap<>();
+properties.put("dynamicfield.enabled", "True");
+
+AlterCollectionReq alterCollectionReq = AlterCollectionReq.builder()
+        .collectionName("my_collection")
+        .properties(properties)
+        .build();
+
+client.alterCollection(alterCollectionReq);
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+await client.alterCollectionProperties({
+    collection_name: "my_collection",
+    properties: {
+        "dynamicfield.enabled": true
+    }
+});
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+err = client.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.EnableDynamicSchemaKey, true))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/alter_properties" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer <token>" \
+  -d '{
+    "collectionName": "my_collection",
+    "properties": {
+      "dynamicfield.enabled": "true"
+    }
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+## Drop Collection Properties\{#drop-collection-properties}
 
 You can also reset a collection property by dropping it as follows. 
 

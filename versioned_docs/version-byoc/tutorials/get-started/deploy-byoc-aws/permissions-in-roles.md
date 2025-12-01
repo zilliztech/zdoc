@@ -3,6 +3,9 @@ title: "Permissions in Roles | BYOC"
 slug: /permissions-in-roles
 sidebar_label: "Permissions in Roles"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This page lists all IAM permissions that Zilliz Cloud requires to perform operations on your behalf. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 
@@ -36,7 +39,7 @@ This page lists all IAM permissions that Zilliz Cloud requires to perform operat
 
 </Admonition>
 
-## Storage role permissions{#storage-role-permissions}
+## Storage role permissions\{#storage-role-permissions}
 
 You have created an S3 bucket and a storage role. Zilliz Cloud assumes this role with the following permissions.
 
@@ -68,11 +71,11 @@ You have created an S3 bucket and a storage role. Zilliz Cloud assumes this role
    </tr>
 </table>
 
-## EKS role permissions{#eks-role-permissions}
+## EKS role permissions\{#eks-role-permissions}
 
 You have created an EKS role with the following permissions for Zilliz Cloud to manage the EKS cluster.
 
-### AWS-managed permissions{#aws-managed-permissions}
+### AWS-managed permissions\{#aws-managed-permissions}
 
 These permissions are managed by AWS and you can attach them to the EKS role. For details on each of these permissions, you can click the item in the **Permissions** column to learn more.
 
@@ -109,7 +112,7 @@ These permissions are managed by AWS and you can attach them to the EKS role. Fo
    </tr>
 </table>
 
-### Permissions from Kubernetes SIGs{#permissions-from-kubernetes-sigs}
+### Permissions from Kubernetes SIGs\{#permissions-from-kubernetes-sigs}
 
 These permissions are managed by contributors in the [Kubernetes SIGs](https://github.com/kubernetes-sigs) repository. Zilliz Cloud references the permissions to install AWS Load Balancer Controller, Amazon EBS CSI driver, and Cluster AutoScaler. 
 
@@ -138,7 +141,7 @@ The following tables list the specific sets of permissions. For details on each 
    </tr>
 </table>
 
-## Cross-account role permissions{#cross-account-role-permissions}
+## Cross-account role permissions\{#cross-account-role-permissions}
 
 You have created a cross-account role with the following permissions for Zilliz Cloud to deploy the BYOC solution in your EKS cluster.
 

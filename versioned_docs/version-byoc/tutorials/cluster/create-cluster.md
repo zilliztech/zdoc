@@ -3,6 +3,9 @@ title: "Create Cluster | BYOC"
 slug: /create-cluster
 sidebar_label: "Create Cluster"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This topic describes how to create a cluster. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 
@@ -29,7 +32,7 @@ import TabItem from '@theme/TabItem';
 
 This topic describes how to create a cluster.
 
-## Prerequisites{#prerequisites}
+## Prerequisites\{#prerequisites}
 
 Ensure:
 
@@ -37,7 +40,7 @@ Ensure:
 
 - Ownership of the organization or project where the cluster is to be established. For details on roles and permissions, see [Access Control](./access-control).
 
-## Create a cluster{#create-a-cluster}
+## Create a cluster\{#create-a-cluster}
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
@@ -49,21 +52,19 @@ Ensure:
 
 1. Click **Create Cluster**.
 
-    ![create-cluster-byoc](/img/create-cluster-byoc.png)
+    ![create-cluster-byoc](/img/create-cluster-byoc.png "create-cluster-byoc")
 
 1. On the **Create New Cluster** page, fill out the relevant parameters.
 
-    ![cluster-cluster-byoc](/img/cluster-cluster-byoc.png)
+    ![cluster-cluster-byoc](/img/cluster-cluster-byoc.png "cluster-cluster-byoc")
 
     - **Cluster Name**: Assign a unique identifier for your cluster.
 
-    - **Cloud Provider Settings**: Choose the cloud service provider and the specific region where your cluster will be deployed. With the BYOC license, only the AWS **us-west-2** region is currently supported. To request more cloud regions, [contact us](https://zilliz.com/cloud-region-request?firstname=Li&lastname=Yun&company=zilliz&name=zilliz&email=leryn.li@zilliz.com&fullname=Li%20Yun&phone=--&country=China&requested_csp_provider=AWS).
+    - **Cluster Settings**:
 
-    - **CU Settings**:
+        - **Cluster Type**: Select a cluster type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right CU](./cu-types-explained).
 
-        - **CU Type**: Select a CU Type that aligns with your cluster's performance requirements. For more information, refer to [Select the Right CU](./cu-types-explained).
-
-        - **CU Size**: Select the total size of the cluster in terms of CUs.
+        - **Query CU**: Select the number of query CUs of the cluster.
 
         - **Topology**: A graphical representation showing the structure of your cluster. This includes the designation of roles and compute resources for various nodes:
 
@@ -75,15 +76,25 @@ Ensure:
 
             - **Data Node**: Handles data mutations and log-to-snapshot conversions for persistence.
 
-            <Admonition type="info" icon="📘" title="Notes">
+    - (Optional) **Backup Policy**: Decide the backup frequency for the cluster to create. Zilliz Cloud will create a backup immediately after the cluster is created. Subsequent backups will follow the specified schedule.
 
-            <p>Clusters with <strong>1-8 CUs</strong> typically use a single-node setup suitable for smaller datasets. Clusters with more than <strong>8 CUs</strong> adopt a distributed multi-server node architecture to improve performance and scalability.</p>
+1. Click **Create Cluster**. 
 
-            </Admonition>
+    You will be prompted to check the resource quota for your project. If the resources are sufficient, the dialog box will disappear after the check is complete. Otherwise, you can 
 
-    - **Cloud Backup**: Decide whether to enable automatic cloud backup for safeguarding the data stored within your cluster, ensuring data persistence and recovery capabilities in case of failures.
+    - Click **Go To Project Resource Settings** to edit resource settings for the project, or
 
-1. Click **Create Cluster**. You'll be redirected to a dialog showcasing the public endpoint and token for your cluster access. Keep these details safe.
+    - Click **Back to Last Step** to change your cluster settings.
+
+    ![ZHZqbofKioaBqNxkeSYcXgtnnwc](/img/zhzqbofkioabqnxkesycxgtnnwc.png "ZHZqbofKioaBqNxkeSYcXgtnnwc")
+
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>Some additional resources will be required for rolling; these resources will be released after use.</p>
+
+    </Admonition>
+
+    Then, you'll be redirected to a dialog showcasing the public endpoint and token for your cluster access. Keep these details safe.
 
 </TabItem>
 
@@ -91,7 +102,7 @@ Ensure:
 
 Your request should resemble the following example, where  `{API_KEY}` is your API key used for authentication.
 
-The following `POST` request takes a request body and creates a cluster named `cluster-02` with one Performance-optimized [CU](./cu-types-explained).
+The following `POST` request takes a request body and creates a Performance-optimized  cluster named `cluster-02` with one query [CU](./cu-types-explained).
 
 ```bash
 curl --request POST \
@@ -129,16 +140,12 @@ In the command above,
 
 - `regionId`: The ID of the cloud region where you want to create a cluster. To obtain available cloud region IDs, call the [List Cloud Regions](/reference/restful/list-cloud-regions-v2) operation.
 
-- `plan`: The plan tier of the Zilliz Cloud service you subscribe to. Valid values: **Standard** and **Enterprise**.
+- `cuType`: The type of the cluster. Valid values: Performance-optimized, Capacity-optimized.
 
-- `cuType`: The type of the CU used for the cluster. Valid values: **Performance-optimized and **Capacity-optimized**.
+- `cuSize`: The number of query CUs used for the cluster. Value range: 1 to 256.
 
-- `cuSize`: The size of the CU used for the cluster. Value range: 1 to 256. By calling `Create Cluster`, you can create a cluster with up to 32 CUs. To create a cluster with more than 32 CUs, [contact us](https://zilliz.com/contact-sales).
+For further details, see [Create Dedicated Cluster](/reference/restful/create-dedicated-cluster-v2).
 
 </TabItem>
 
 </Tabs>
-
-## Verification{#verification}
-
-After you create the cluster, you can check its status on the cluster list page. A cluster in the **Running** state indicates successful creation.

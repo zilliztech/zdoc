@@ -3,6 +3,9 @@ title: "Email Accounts | Cloud"
 slug: /email-accounts
 sidebar_label: "Email Accounts"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Once you have registered an account with Zilliz Cloud, you can manage your account information, switch your login method, and unlink from your Google or GitHub account. | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
+  - llm hallucinations
   - hybrid search
   - lexical search
   - nearest neighbor search
-  - Agentic RAG
 
 ---
 
@@ -27,7 +30,7 @@ import Admonition from '@theme/Admonition';
 
 Once you have [registered an account](./register-with-zilliz-cloud) with Zilliz Cloud, you can manage your account information, switch your login method, and unlink from your Google or GitHub account.
 
-## Modify your profile information{#modify-your-profile-information}
+## Modify your profile information\{#modify-your-profile-information}
 
 1. Go to your **Profile** and click **Account Settings**.
 
@@ -39,11 +42,11 @@ Once you have [registered an account](./register-with-zilliz-cloud) with Zilliz 
 
     - Country
 
-![modify_account_info](/img/modify_account_info.png)
+![modify_account_info](/img/modify_account_info.png "modify_account_info")
 
-## Update account email address{#update-account-email-address}
+## Update account email address\{#update-account-email-address}
 
-![update_email_address](/img/update_email_address.png)
+![update_email_address](/img/update_email_address.png "update_email_address")
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -51,9 +54,9 @@ Once you have [registered an account](./register-with-zilliz-cloud) with Zilliz 
 
 </Admonition>
 
-## Change account password{#change-account-password}
+## Change account password\{#change-account-password}
 
-![change_password](/img/change_password.png)
+![change_password](/img/change_password.png "change_password")
 
 Your password must be at least 8 characters long and include at least 3 of the following character types:
 
@@ -63,13 +66,13 @@ Your password must be at least 8 characters long and include at least 3 of the f
 
 - Numbers (0–9)
 
-- Special characters (e.g., !@#&#36;%^&*)
+- Special characters (e.g., !@#$%^&*)
 
-## Enable and disable MFA{#enable-and-disable-mfa}
+## Enable and disable MFA\{#enable-and-disable-mfa}
 
 Refer to [MFA](./multi-factor-auth) for more information.
 
-## Switch login method{#switch-login-method}
+## Switch login method\{#switch-login-method}
 
 Maintaining a consistent login method with your initial registration is required, but Zilliz Cloud offers flexibility if you need to switch your login method.
 
@@ -79,15 +82,15 @@ Maintaining a consistent login method with your initial registration is required
 
 </Admonition>
 
-### Switch from password login to third-party login{#switch-from-password-login-to-third-party-login}
+### Switch from password login to third-party login\{#switch-from-password-login-to-third-party-login}
 
 To switch from password to third-party (Google or GitHub) login, follow the same steps for [linking your Zilliz Cloud account to a third-party service](./register-with-zilliz-cloud#linking-to-google-account), ensuring that [MFA is disabled](./multi-factor-auth#disable-mfa) beforehand.
 
-### Switch from third-party login to password login{#switch-from-third-party-login-to-password-login}
+### Switch from third-party login to password login\{#switch-from-third-party-login-to-password-login}
 
 To revert to using an email and password for login after linking your Zilliz Cloud account to a third-party account, simply [unlink your Zilliz Cloud account from the third-party service](./email-accounts#unlink-from-third-party-authentication).
 
-### Switch between third-party logins{#switch-between-third-party-logins}
+### Switch between third-party logins\{#switch-between-third-party-logins}
 
 If you have already linked your Zilliz Cloud account with a third-party account and wish to switch to another third-party login, you can follow the following instructions.
 
@@ -95,9 +98,9 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
 1. [Link your Zilliz Cloud account to the new desired third-party account](./register-with-zilliz-cloud).
 
-## Unlink from third-party authentication{#unlink-from-third-party-authentication}
+## Unlink from third-party authentication\{#unlink-from-third-party-authentication}
 
-### Unlink from your Google account{#unlink-from-your-google-account}
+### Unlink from your Google account\{#unlink-from-your-google-account}
 
 1. Go to your **Profile** and click **Account Settings**.
 
@@ -109,9 +112,9 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
     - If you have not set a password yet, set a new password via the link sent to your email. Once the password is set, your login method is changed to your work email and the new password.
 
-![unlink_from_google](/img/unlink_from_google.png)
+![unlink_from_google](/img/unlink_from_google.png "unlink_from_google")
 
-### Unlink from your GitHub account{#unlink-from-your-github-account}
+### Unlink from your GitHub account\{#unlink-from-your-github-account}
 
 1. Go to your **Profile** and click **Account Settings**.
 
@@ -123,9 +126,9 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
     - If you have not set a password yet, set a new password via the link sent to your email. Once the password is set, your login method is changed to your work email and the new password.
 
-![unlink_from_github](/img/unlink_from_github.png)
+![unlink_from_github](/img/unlink_from_github.png "unlink_from_github")
 
-## Close your account{#close-your-account}
+## Close your account\{#close-your-account}
 
 <Admonition type="caution" icon="🚧" title="Warning">
 
@@ -133,7 +136,7 @@ If you have already linked your Zilliz Cloud account with a third-party account 
 
 </Admonition>
 
-### Before you start{#before-you-start}
+### Before you start\{#before-you-start}
 
 Ensure you meet the following criteria before proceeding:
 
@@ -141,7 +144,7 @@ Ensure you meet the following criteria before proceeding:
 
 - If you are the only organization owner, delete the organization.
 
-### Procedures{#procedures}
+### Procedures\{#procedures}
 
 1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
@@ -155,4 +158,4 @@ Ensure you meet the following criteria before proceeding:
 
 1. You will receive an email notification when your account is successfully deleted.
 
-![delete-account-en](/img/delete-account-en.png)
+![delete-account-en](/img/delete-account-en.png "delete-account-en")

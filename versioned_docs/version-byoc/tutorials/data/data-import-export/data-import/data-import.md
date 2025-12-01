@@ -3,6 +3,9 @@ title: "Data Import | BYOC"
 slug: /data-import
 sidebar_label: "Data Import"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud supports data import from various storage options, including AWS S3, GCP Storage, and Azure Blob Storage, as well as formats such as Parquet (recommended), JSON, and NumPy files. In this chapter, you will find the procedure for importing data in the supported formats from these storage options. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

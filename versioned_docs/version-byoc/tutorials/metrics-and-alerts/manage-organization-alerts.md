@@ -3,6 +3,9 @@ title: "Manage Organization Alerts | BYOC"
 slug: /manage-organization-alerts
 sidebar_label: "Manage Organization Alerts"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Organization alerts monitor billing and account-related metrics across your entire Zilliz Cloud organization. Unlike project alerts that focus on cluster performance, organization alerts help you track credit balances, payment methods, and usage patterns to ensure uninterrupted service and prevent unexpected billing issues. Stay informed about account health and avoid service disruptions by receiving timely notifications about credit depletion, payment failures, and usage thresholds. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - organization
   - alerts
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
 
 ---
 
@@ -30,23 +33,23 @@ import Supademo from '@site/src/components/Supademo';
 
 Organization alerts monitor billing and account-related metrics across your entire Zilliz Cloud organization. Unlike project alerts that focus on cluster performance, organization alerts help you track credit balances, payment methods, and usage patterns to ensure uninterrupted service and prevent unexpected billing issues. Stay informed about account health and avoid service disruptions by receiving timely notifications about credit depletion, payment failures, and usage thresholds.
 
-## Before you start{#before-you-start}
+## Before you start\{#before-you-start}
 
 Before viewing or managing organization alerts, ensure you have:
 
 - **Organization Owner** role access
 
-## View organization alerts{#view-organization-alerts}
+## View organization alerts\{#view-organization-alerts}
 
 Navigate to **Organization Alerts** in the left sidebar to access your organization alert dashboard and monitor your account's financial health.
 
 <Supademo id="cmb66uk3u3fadppkplclhnmdd" title="Zilliz Cloud - View Organization Alerts Demo" />
 
-### Alert history{#alert-history}
+### Alert history\{#alert-history}
 
 Use the **History** tab to investigate past alert activities and understand billing patterns. This is useful for analyzing spending trends, reviewing credit usage, or demonstrating account management to stakeholders.
 
-### Alert settings{#alert-settings}
+### Alert settings\{#alert-settings}
 
 Use the **Settings** tab to monitor the current status of all billing-related alerts. Check here when you need to verify which alerts are protecting your organization and review their configuration.
 
@@ -87,13 +90,13 @@ When viewing alerts, you'll encounter the following configuration items:
    </tr>
 </table>
 
-## Manage organization alerts{#manage-organization-alerts}
+## Manage organization alerts\{#manage-organization-alerts}
 
 Modify and maintain your existing alerts to ensure effective billing monitoring that matches your organization's needs and notification preferences.
 
 <Supademo id="cmb67wl2i00ys1b0i2hcg3ls7" title="Manage Organization Alerts" isShowcase="true" />
 
-### Disable or enable an alert{#disable-or-enable-an-alert}
+### Disable or enable an alert\{#disable-or-enable-an-alert}
 
 Control active monitoring without losing alert configuration.
 
@@ -101,21 +104,23 @@ Control active monitoring without losing alert configuration.
 
 - **Enabled alerts:** Actively monitor billing metrics and send notifications when conditions are met
 
-### Edit an alert{#edit-an-alert}
+### Edit an alert\{#edit-an-alert}
 
 Customize notification recipients and modify trigger conditions for existing alerts.
 
-### Clone an alert{#clone-an-alert}
+### Clone an alert\{#clone-an-alert}
 
 Create similar alerts with different notification settings or threshold modifications.
 
-## Configure alert receiver settings{#configure-alert-receiver-settings}
+## Configure alert receiver settings\{#configure-alert-receiver-settings}
 
 Set organization-wide default notification settings that automatically apply to new alerts, ensuring consistent billing notification practices across your organization.
 
 <Supademo id="cmb67pjbs3g31ppkpfd4l8mcv" title="Configure Alert Receiver Settings"/>
 
-### How often will I receive alert notifications when an alert is triggered?{#how-often-will-i-receive-alert-notifications-when-an-alert-is-triggered}
+## FAQ\{#faq}
+
+### How often will I receive alert notifications when an alert is triggered?\{#how-often-will-i-receive-alert-notifications-when-an-alert-is-triggered}
 
 Alert notifications follow an automatic frequency pattern:
 

@@ -3,6 +3,9 @@ title: "Text Match | BYOC"
 slug: /text-match
 sidebar_label: "Text Match"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Text match in Zilliz Cloud enables precise document retrieval based on specific terms. This feature is primarily used for filtered search to satisfy specific conditions and can incorporate scalar filtering to refine query results, allowing similarity searches within vectors that meet scalar criteria. | BYOC"
 type: origin
@@ -18,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - text-match
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 
@@ -41,7 +44,7 @@ Text match in Zilliz Cloud enables precise document retrieval based on specific 
 
 Zilliz Cloud supports enabling text match programmatically or via the web console. This page focuses on how to enable text match programmatically. For details about operations on the web console, refer to [Manage Collections (Console)](./manage-collections-console#text-match).
 
-## Overview{#overview}
+## Overview\{#overview}
 
 Zilliz Cloud integrates [Tantivy](https://github.com/quickwit-oss/tantivy) to power its underlying inverted index and term-based text search. For each text entry, Zilliz Cloud indexes it following the procedure:
 
@@ -53,11 +56,11 @@ When a user performs a text match, the inverted index is used to quickly retriev
 
 ![N43zw7HuGhmCHRbYDDmctO1bnkd](/img/N43zw7HuGhmCHRbYDDmctO1bnkd.png)
 
-## Enable text match{#enable-text-match}
+## Enable text match\{#enable-text-match}
 
-Text match works on the `VARCHAR` field type, which is essentially the string data type in Zilliz Cloud. To enable text match, set both `enable_analyzer` and `enable_match` to `True` and then optionally configure an [analyzer](./analyzer-overview) for text analysis when defining your collection schema.
+Text match works on the [`VARCHAR`](./use-string-field) field type, which is essentially the string data type in Zilliz Cloud. To enable text match, set both `enable_analyzer` and `enable_match` to `True` and then optionally configure an [analyzer](./analyzer-overview) for text analysis when defining your collection schema.
 
-### Set `enable_analyzer` and `enable_match`{#set-enableanalyzer-and-enablematch}
+### Set `enable_analyzer` and `enable_match`\{#set-enableanalyzer-and-enablematch}
 
 To enable text match for a specific `VARCHAR` field, set both the `enable_analyzer` and `enable_match` parameters to `True` when defining the field schema. This instructs Zilliz Cloud to tokenize text and create an inverted index for the specified field, allowing fast and efficient text matches.
 
@@ -209,7 +212,7 @@ export schema='{
 </TabItem>
 </Tabs>
 
-### Optional: Configure an analyzer{#optional-configure-an-analyzer}
+### Optional: Configure an analyzer\{#optional-configure-an-analyzer}
 
 The performance and accuracy of keyword matching depend on the selected analyzer. Different analyzers are tailored to various languages and text structures, so choosing the right one can significantly impact search results for your specific use case.
 
@@ -334,11 +337,11 @@ export schema='{
 
 Zilliz Cloud also provides various other analyzers suited to different languages and scenarios. For more details, refer to [Analyzer Overview](./analyzer-overview).
 
-## Use text match{#use-text-match}
+## Use text match\{#use-text-match}
 
 Once you have enabled text match for a VARCHAR field in your collection schema, you can perform text matches using the `TEXT_MATCH` expression.
 
-### TEXT_MATCH expression syntax{#textmatch-expression-syntax}
+### TEXT_MATCH expression syntax\{#textmatch-expression-syntax}
 
 The `TEXT_MATCH` expression is used to specify the field and the terms to search for. Its syntax is as follows:
 
@@ -484,7 +487,7 @@ You can also combine multiple `TEXT_MATCH` expressions using logical operators t
     </TabItem>
     </Tabs>
 
-### Search with text match{#search-with-text-match}
+### Search with text match\{#search-with-text-match}
 
 Text match can be used in combination with vector similarity search to narrow the search scope and improve search performance. By filtering the collection using text match before vector similarity search, you can reduce the number of documents that need to be searched, resulting in faster query times.
 
@@ -502,6 +505,7 @@ result = client.search(
     collection_name="my_collection", # Your collection name
     anns_field="embeddings", # Vector field name
     data=[query_vector], # Query vector
+    # highlight-next-line
     filter=filter,
     search_params={"params": {"nprobe": 10}},
     limit=10, # Max. number of results to return
@@ -520,6 +524,7 @@ SearchResp searchResp = client.search(SearchReq.builder()
         .collectionName("my_collection")
         .annsField("embeddings")
         .data(Collections.singletonList(queryVector)))
+        // highlight-next-line
         .filter(filter)
         .topK(10)
         .outputFields(Arrays.asList("id", "text"))
@@ -559,6 +564,7 @@ const result = await client.search(
     collection_name: "my_collection", // Your collection name
     anns_field: "embeddings", // Vector field name
     data: [query_vector], // Query vector
+    // highlight-next-line
     filter: filter,
     params: {"nprobe": 10},
     limit: 10, // Max. number of results to return
@@ -598,7 +604,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Query with text match{#query-with-text-match}
+### Query with text match\{#query-with-text-match}
 
 Text match can also be used for scalar filtering in query operations. By specifying a `TEXT_MATCH` expression in the `expr` parameter of the `query()` method, you can retrieve documents that match the given terms.
 
@@ -613,6 +619,7 @@ filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')"
 
 result = client.query(
     collection_name="my_collection",
+    # highlight-next-line
     filter=filter, 
     output_fields=["id", "text"]
 )
@@ -627,6 +634,7 @@ String filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')";
 
 QueryResp queryResp = client.query(QueryReq.builder()
         .collectionName("my_collection")
+        // highlight-next-line
         .filter(filter)
         .outputFields(Arrays.asList("id", "text"))
         .build()
@@ -659,6 +667,7 @@ const filter = "TEXT_MATCH(text, 'keyword1') and TEXT_MATCH(text, 'keyword2')";
 
 const result = await client.query(
     collection_name: "my_collection",
+    // highlight-next-line
     filter: filter, 
     output_fields: ["id", "text"]
 )
@@ -688,7 +697,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Considerations{#considerations}
+## Considerations\{#considerations}
 
 - Enabling term matching for a field triggers the creation of an inverted index, which consumes storage resources. Consider storage impact when deciding to enable this feature, as it varies based on text size, unique tokens, and the analyzer used.
 
@@ -696,9 +705,9 @@ curl --request POST \
 
 - Escape rules in `filter` expressions:
 
-    - Characters enclosed in double quotes or single quotes within expressions are interpreted as string constants. If the string constant includes escape characters, the escape characters must be represented with escape sequence. For example, use `\` to represent `\`, `\t` to represent a tab `\t`, and `\n` to represent a newline.
+    - Characters enclosed in double quotes or single quotes within expressions are interpreted as string constants. If the string constant includes escape characters, the escape characters must be represented with escape sequence. For example, use `\\` to represent `\`, `\\t` to represent a tab `\t`, and `\\n` to represent a newline.
 
-    - If a string constant is enclosed by single quotes, a single quote within the constant should be represented as `\'` while a double quote can be represented as either `"` or `\"`. Example: `'It\'s milvus'`.
+    - If a string constant is enclosed by single quotes, a single quote within the constant should be represented as `\\'` while a double quote can be represented as either `"` or `\\"`. Example: `'It\\'s milvus'`.
 
-    - If a string constant is enclosed by double quotes, a double quote within the constant should be represented as `\"` while a single quote can be represented as either `'` or `\'`. Example: `"He said \"Hi\""`.
+    - If a string constant is enclosed by double quotes, a double quote within the constant should be represented as `\\"` while a single quote can be represented as either `'` or `\\'`. Example: `"He said \\"Hi\\""`.
 

@@ -3,6 +3,9 @@ title: "Basic Vector Search | BYOC"
 slug: /single-vector-search
 sidebar_label: "Basic Vector Search"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Based on an index file recording the sorted order of vector embeddings, the Approximate Nearest Neighbor (ANN) search locates a subset of vector embeddings based on the query vector carried in a received search request, compares the query vector with those in the subgroup, and returns the most similar results. With ANN search, Zilliz Cloud provides an efficient search experience. This page helps you to learn how to conduct basic ANN searches. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - data
   - vector search
   - ann
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 
@@ -31,7 +34,7 @@ import TabItem from '@theme/TabItem';
 
 Based on an index file recording the sorted order of vector embeddings, the Approximate Nearest Neighbor (ANN) search locates a subset of vector embeddings based on the query vector carried in a received search request, compares the query vector with those in the subgroup, and returns the most similar results. With ANN search, Zilliz Cloud provides an efficient search experience. This page helps you to learn how to conduct basic ANN searches.
 
-## Overview{#overview}
+## Overview\{#overview}
 
 The ANN and the k-Nearest Neighbors (kNN) search are the usual methods in vector similarity searches. In a kNN search, you must compare all vectors in a vector space with the query vector carried in the search request before figuring out the most similar ones, which is time-consuming and resource-intensive.
 
@@ -59,7 +62,7 @@ For details on AUTOINDEX and applicable metric types, refer to [AUTOINDEX Explai
 
 - [Enhancing ANN search](./single-vector-search#enhancing-ann-search)
 
-## Single-Vector Search{#single-vector-search}
+## Single-Vector Search\{#single-vector-search}
 
 In ANN searches, a single-vector search refers to a search that involves only one query vector. Based on the pre-built index and the metric type carried in the search request, Zilliz Cloud will find the top-K vectors most similar to the query vector.
 
@@ -133,6 +136,7 @@ FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.60234957
 SearchReq searchReq = SearchReq.builder()
         .collectionName("quick_setup")
         .data(Collections.singletonList(queryVector))
+        .annsField("vector")
         .topK(3)
         .build();
 
@@ -310,7 +314,7 @@ The following table lists the applicable metric types and the corresponding dist
    </tr>
 </table>
 
-## Bulk-Vector Search{#bulk-vector-search}
+## Bulk-Vector Search\{#bulk-vector-search}
 
 Similarly, you can include multiple query vectors in a search request. Zilliz Cloud will conduct ANN searches for the query vectors in parallel and return two sets of results.
 
@@ -542,7 +546,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## ANN Search in Partition{#ann-search-in-partition}
+## ANN Search in Partition\{#ann-search-in-partition}
 
 Suppose you have created multiple partitions in a collection, and you can narrow the search scope to a specific number of partitions. In that case, you can include the target partition names in the search request to restrict the search scope within the specified partitions. Reducing the number of partitions involved in the search improves search performance.
 
@@ -717,7 +721,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Use Output Fields{#use-output-fields}
+## Use Output Fields\{#use-output-fields}
 
 In a search result, Zilliz Cloud includes the primary field values and similarity distances/scores of the entities that contain the top-K vector embeddings by default. You can include the names of the target fields, including both the vector and scalar fields, in a search request as the output fields to make the search results carry the values from other fields in these entities.
 
@@ -899,107 +903,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Use `count(*)` as Output Field{#use-count-as-output-field}
-
-You can also use `count(*)` as the output field to determine the total number of entities within a collection or combine a filtering condition to find the number of entities that meet the condition in the current collection.
-
-<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
-<TabItem value='python'>
-
-```python
-res = client.query(
-    collection_name="quick_setup",
-    filter="",
-    output_fields=['count(*)']
-)
-print(res[0]['count(*)'])
-# Output
-# 20
-```
-
-</TabItem>
-
-<TabItem value='java'>
-
-```java
-import io.milvus.v2.service.vector.request.QueryReq
-import io.milvus.v2.service.vector.request.QueryResp
-
-QueryReq queryReq = QueryReq.builder()
-        .collectionName("my_collection")
-        .filter("")
-        .outputFields(Arrays.asList("count(*)"))
-        .build();
-
-QueryResp queryResp = client.query(queryReq);
-
-List<QueryResp.QueryResult> results = queryResp.getQueryResults();
-for (QueryResp.QueryResult result : results) {
-    System.out.println(result.getEntity());
-}
-
-// Output
-// {}
-```
-
-</TabItem>
-
-<TabItem value='go'>
-
-```go
-resultSet, err := client.Query(ctx, milvusclient.NewQueryOption("my_collection").
-    WithFilter("").
-    WithOutputFields("count(*)"))
-if err != nil {
-    fmt.Println(err.Error())
-    // handle error
-}
-
-fmt.Println("count: ", resultSet.GetColumn("count").FieldData().GetScalars())
-
-```
-
-</TabItem>
-
-<TabItem value='javascript'>
-
-```javascript
-import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
-
-const address = "YOUR_CLUSTER_ENDPOINT";
-const token = "YOUR_CLUSTER_TOKEN";
-const client = new MilvusClient({address, token});
-
-const res = await client.query({
-    collection_name: "my_collection",
-    output_fields: ["count(*)"]
-});
-```
-
-</TabItem>
-
-<TabItem value='bash'>
-
-```bash
-export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
-export TOKEN="YOUR_CLUSTER_TOKEN"
-
-curl --request POST \
---url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/query" \
---header "Authorization: Bearer ${TOKEN}" \
---header "Content-Type: application/json" \
--d '{
-    "collectionName": "my_collection",
-    "filter": "",
-    "outputFields": ["count(*)"]
-}'
-#{"code":0,"cost":0,"data":[{count: 20}]}
-```
-
-</TabItem>
-</Tabs>
-
-## Use Limit and Offset{#use-limit-and-offset}
+## Use Limit and Offset\{#use-limit-and-offset}
 
 You may notice that the parameter `limit` carried in the search requests determines the number of entities to include in the search results. This parameter specifies the maximum number of entities to return in a single search, and it is usually termed **top-K**.
 
@@ -1158,7 +1062,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Use Level{#use-level}
+## Use Level\{#use-level}
 
 To optimize ANN searches, Zilliz Cloud provides a parameter named `level` to control the search precision with simplified search optimization.
 
@@ -1303,7 +1207,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Get Recall Rate{#get-recall-rate}
+## Get Recall Rate\{#get-recall-rate}
 
 You can set `enable_recall_calculation` to `true`when you tweek the `level` parameter so that you can evaluate the precisions of your search with different `level` values.
 
@@ -1450,7 +1354,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Enhancing ANN Search{#enhancing-ann-search}
+## Enhancing ANN Search\{#enhancing-ann-search}
 
 AUTOINDEX considerably flattens the learning curve of ANN searches. However, the search results may not always be correct as the top-K increases. By reducing the search scope, improving search result relevancy, and diversifying the search results, Zilliz Cloud works out the following search enhancements.
 
@@ -1474,9 +1378,11 @@ AUTOINDEX considerably flattens the learning curve of ANN searches. However, the
 
 - Hybrid Search
 
-    A collection can include up to four vector fields to save the vector embeddings generated using different embedding models. By doing so, you can use a hybrid search to rerank the search results from these vector fields, improving the recall rate.
+    A collection can include multiple vector fields to save the vector embeddings generated using different embedding models. By doing so, you can use a hybrid search to rerank the search results from these vector fields, improving the recall rate.
 
     For more about hybrid search, refer to [Hybrid Search](./hybrid-search).
+
+    For details about the limit on the number of vector fields allowed in a collection, see [Zilliz Cloud Limits](./limits#fields).
 
 - Search Iterator
 
@@ -1490,9 +1396,9 @@ AUTOINDEX considerably flattens the learning curve of ANN searches. However, the
 
     For details on full-text search, refer to [Full Text Search](./full-text-search).
 
-- Keyword Match
+- Text Match
 
-    Keyword match in Milvus enables precise document retrieval based on specific terms. This feature is primarily used for filtered search to satisfy specific conditions and can incorporate scalar filtering to refine query results, allowing similarity searches within vectors that meet scalar criteria.
+    Keyword match in Zilliz Cloud enables precise document retrieval based on specific terms. This feature is primarily used for filtered search to satisfy specific conditions and can incorporate scalar filtering to refine query results, allowing similarity searches within vectors that meet scalar criteria.
 
     For details on keyword match, refer to [Keyword Match](./text-match).
 

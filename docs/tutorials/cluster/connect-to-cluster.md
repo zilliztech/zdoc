@@ -3,6 +3,9 @@ title: "Connect to Cluster | Cloud"
 slug: /connect-to-cluster
 sidebar_label: "Connect to Cluster"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This article offers a systematic guide on connecting to a cluster. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
@@ -29,7 +32,7 @@ import TabItem from '@theme/TabItem';
 
 This article offers a systematic guide on connecting to a cluster.
 
-## Before you start{#before-you-start}
+## Before you start\{#before-you-start}
 
 Ensure the following prerequisites are met before proceeding:
 
@@ -45,13 +48,13 @@ Ensure the following prerequisites are met before proceeding:
 
 </Admonition>
 
-## Connect to a cluster{#connect-to-a-cluster}
+## Connect to a cluster\{#connect-to-a-cluster}
 
 Once your cluster is operational, connect to it utilizing its public endpoint and an authentication token. 
 
 - **Cluster public endpoint:** You can obtain this on the Zilliz Cloud web console. Navigate to the **Cluster Details** page of the target cluster. On the **Connect** card, you can copy the cluster public endpoint.
 
-    ![connection-info](/img/connection-info.png)
+    ![connection-info](/img/connection-info.png "connection-info")
 
 - **Token:** This token can be  an [API key](./manage-api-keys) or a [cluster credential](./cluster-credentials) that consists of a username and password pair.
 

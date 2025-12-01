@@ -3,6 +3,9 @@ title: "Filtered Search | BYOC"
 slug: /filtered-search
 sidebar_label: "Filtered Search"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "An ANN search finds vector embeddings most similar to specified vector embeddings. However, the search results may not always be correct. You can include filtering conditions in a search request so that Zilliz Cloud conducts metadata filtering before conducting ANN searches, reducing the search scope from the whole collection to only the entities matching the specified filtering conditions. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 
@@ -31,11 +34,11 @@ import TabItem from '@theme/TabItem';
 
 An ANN search finds vector embeddings most similar to specified vector embeddings. However, the search results may not always be correct. You can include filtering conditions in a search request so that Zilliz Cloud conducts metadata filtering before conducting ANN searches, reducing the search scope from the whole collection to only the entities matching the specified filtering conditions.
 
-## Overview{#overview}
+## Overview\{#overview}
 
 In Zilliz Cloud, filtered searches are categorized into two types — **standard filtering** and **iterative filtering** — depending on the stage at which the filtering is applied.
 
-### Standard filtering{#standard-filtering}
+### Standard filtering\{#standard-filtering}
 
 If a collection contains both vector embeddings and their metadata, you can filter metadata before ANN search to improve the relevancy of the search result. Once Zilliz Cloud receives a search request carrying a filtering condition, it restricts the search scope within the entities matching the specified filtering condition.
 
@@ -49,7 +52,7 @@ As shown in the above diagram, the search request carries `chunk like "%red%"` a
 
 - Returns top-K entities.
 
-### Iterative filtering{#iterative-filtering}
+### Iterative filtering\{#iterative-filtering}
 
 The standard filtering process effectively narrows the search scope to a small range. However, overly complex filtering expressions may result in very high search latency. In such cases, iterative filtering can serve as an alternative, helping to reduce the workload of scalar filtering.
 
@@ -61,7 +64,7 @@ This method significantly reduces the number of entities subjected to scalar fil
 
 However, it’s important to note that the iterator processes entities one at a time. This sequential approach can lead to longer processing times or potential performance issues, especially when a large number of entities are subjected to scalar filtering.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 This section demonstrates how to conduct a filtered search. Code snippets in this section assume  you already have the following entities in your collection. Each entity has four fields, namely **id**, **vector**, **color**, and **likes**.
 
@@ -80,7 +83,7 @@ This section demonstrates how to conduct a filtered search. Code snippets in thi
 ]
 ```
 
-### Search with standard filtering{#search-with-standard-filtering}
+### Search with standard filtering\{#search-with-standard-filtering}
 
 The following code snippets demonstrate a search with standard filtering, and the request in the following code snippet carries a filtering condition and several output fields.
 
@@ -286,7 +289,7 @@ The filtering condition carried in the search request reads `color like "red%" a
 
 For more information on the operators you can use in metadata filtering, refer to [Filtering](./filtering).
 
-### Search with iterative filtering{#search-with-iterative-filtering}
+### Search with iterative filtering\{#search-with-iterative-filtering}
 
 To conduct a filtered search with iterative filtering, you can do as follows:
 

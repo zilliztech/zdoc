@@ -3,6 +3,9 @@ title: "Manage Aliases | BYOC"
 slug: /manage-aliases
 sidebar_label: "Manage Aliases"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, an alias is a secondary, mutable name for a collection. Using aliases provides a layer of abstraction that allows you to dynamically switch between collections without modifying your application code. This is particularly useful in production environments for seamless data updates, A/B testing, and other operational tasks. | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 
@@ -32,15 +35,15 @@ In Zilliz Cloud, an alias is a secondary, mutable name for a collection. Using a
 
 This page demonstrates how to create, list, reassign, and drop collection aliases.
 
-## Why Use an Alias{#why-use-an-alias}
+## Why Use an Alias\{#why-use-an-alias}
 
 The primary benefit of using an alias is to decouple your client application from a specific, physical collection name.
 
-Imagine you have a live application that queries a collection named `prod_data`. When you need to update the underlying data, you can perform the update without any service interruption. The workflow would be:
+Imagine you have a live application that queries a collection with an alias named `prod_data`. When you need to update the underlying data, you can perform the update without any service interruption. The workflow would be:
 
 1. **Create a New Collection**: Create a new collection, for instance, `prod_data_v2`.
 
-1. **Prepare Data**: Load and index the new data in `prod_data_v2`.
+1. **Prepare Data**: Index and load the new data in `prod_data_v2`.
 
 1. **Switch the Alias**: Once the new collection is ready for service, atomically reassign the alias `prod_data` from the old collection to `prod_data_v2`.
 
@@ -54,7 +57,7 @@ Your application continues to send requests to the alias `prod_data`, experienci
 
 - When processing a request, Zilliz Cloud first checks if a collection with the provided name exists. If not, it then checks if the name is an alias for a collection.
 
-## Create Alias{#create-alias}
+## Create Alias\{#create-alias}
 
 The following code snippet demonstrates how to create an alias for a collection.
 
@@ -235,7 +238,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## List Aliases{#list-aliases}
+## List Aliases\{#list-aliases}
 
 The following code snippet demonstrates the procedure to list the aliases allocated to a specific collection.
 
@@ -340,7 +343,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Describe Alias{#describe-alias}
+## Describe Alias\{#describe-alias}
 
 The following code snippet describes a specific alias in detail, including the name of the collection to which it has been allocated.
 
@@ -458,7 +461,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Alter Alias{#alter-alias}
+## Alter Alias\{#alter-alias}
 
 You can reallocate the alias already allocated to a specific collection to another.
 
@@ -668,7 +671,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Drop Alias{#drop-alias}
+## Drop Alias\{#drop-alias}
 
 The following code snippet demonstrates the procedure to drop an alias.
 

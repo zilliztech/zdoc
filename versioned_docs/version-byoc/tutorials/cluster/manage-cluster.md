@@ -3,6 +3,9 @@ title: "Manage Cluster | BYOC"
 slug: /manage-cluster
 sidebar_label: "Manage Cluster"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 
@@ -31,19 +34,15 @@ import Supademo from '@site/src/components/Supademo';
 
 This guide describes the lifecycle of a cluster so that you can make full use of your Zilliz Cloud console to achieve your goals.
 
-## Rename cluster{#rename-cluster}
+## Rename cluster\{#rename-cluster}
 
 Navigate to the **Cluster Details** page of your target cluster and then follow the instructions below to rename your cluster.
 
 <Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title=""  />
 
-## Suspend cluster{#suspend-cluster}
+## Suspend cluster\{#suspend-cluster}
 
-For a running Dedicated cluster, you are billed for both CU and storage. To reduce costs, consider suspending the cluster. Only storage charges apply when a Dedicated cluster is suspended.
-
-Please note that during suspension, you cannot perform other actions on the cluster.
-
-You can suspend a Dedicated cluster via the web console or programmatically.
+You can suspend a cluster via the web console or programmatically.
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
@@ -51,7 +50,7 @@ You can suspend a Dedicated cluster via the web console or programmatically.
 
 Navigate to the **Cluster Details** page of your target cluster and then follow the instructions below to suspend your Dedicated cluster.
 
-<Supademo id="cm9tqgxt30snl11m7twwj7xia" title="Zilliz Cloud - Suspend Cluster Demo" />
+<Supademo id="cm9tqgxt30snl11m7twwj7xia" title=""  />
 
 </TabItem>
 
@@ -89,11 +88,9 @@ For details, refer to [Suspend Cluster](/reference/restful/suspend-cluster-v2).
 
 </Tabs>
 
-## Resume cluster{#resume-cluster}
+Once the suspend operation is successful, a job record will be generated. You can check the progress on the [Jobs](./job-center) page.
 
-Free and Serverless clusters are automatically suspended after 7 days of inactivity and can be resumed anytime.
-
-Suspended Dedicated clusters can also be resumed manually when needed.
+## Resume cluster\{#resume-cluster}
 
 Please note that during resuming, you cannot perform other actions on the cluster.
 
@@ -105,7 +102,18 @@ You can resume a cluster via the web console or programmatically.
 
 Navigate to the **Cluster Details** page of your target cluster and then follow the instruction below to resume your cluster.
 
-<Supademo id="cm9tr2hze0t1j11m7ijth1pr5" title="Zilliz Cloud - Resume Cluster Demo" />
+<Supademo id="cm9tr2hze0t1j11m7ijth1pr5" title=""  />
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>When clicking <strong>Resume</strong> in the <strong>Resume Cluster</strong> dialog box, you will be prompted to check the resource quota for your project. If the resources are sufficient, the dialog box will disappear after the check is complete, otherwise, you can </p>
+<ul>
+<li><p>Click <strong>Go To Project Resource Settings</strong> to edit resource settings for the project, or</p></li>
+<li><p>Click <strong>Back to Last Step</strong> to change your cluster settings.</p></li>
+</ul>
+<p>During the process, some additional resources will be required for rolling; these resources will be released after use.</p>
+
+</Admonition>
 
 </TabItem>
 
@@ -143,7 +151,9 @@ For details, refer to [Resume Cluster](/reference/restful/resume-cluster-v2).
 
 </Tabs>
 
-## Drop cluster{#drop-cluster}
+Once the resume operation is successful, a job record will be generated. You can check the progress on the [Jobs](./job-center) page.
+
+## Drop cluster\{#drop-cluster}
 
 When a cluster is no longer needed, you can drop it. You can drop a cluster via the web console or programatically.
 
@@ -153,7 +163,7 @@ When a cluster is no longer needed, you can drop it. You can drop a cluster via 
 
 Navigate to the **Cluster Details** page of your target cluster and then follow the instruction below to drop your cluster.
 
-<Supademo id="cm9trwi5n0txr11m7otr902sk" title="Zilliz Cloud - Drop Cluster Demo" />
+<Supademo id="cm9trwi5n0txr11m7otr902sk" title=""  />
 
 </TabItem>
 

@@ -3,6 +3,9 @@ title: "String Field | BYOC"
 slug: /use-string-field
 sidebar_label: "String Field"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud clusters, `VARCHAR` is the data type used for storing string data. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 
@@ -43,7 +46,7 @@ When you define a `VARCHAR` field, two parameters are mandatory:
 
 </Admonition>
 
-## Add VARCHAR field{#add-varchar-field}
+## Add VARCHAR field\{#add-varchar-field}
 
 To store string data in Zilliz Cloud clusters, define a `VARCHAR` field in your collection schema. Below is an example of defining a collection schema with two `VARCHAR` fields:
 
@@ -268,7 +271,7 @@ export schema="{
 </TabItem>
 </Tabs>
 
-## Set index params{#set-index-params}
+## Set index params\{#set-index-params}
 
 Indexing helps improve search and query performance. In Zilliz Cloud clusters, indexing is mandatory for vector fields but optional for scalar fields.
 
@@ -379,7 +382,7 @@ export indexParams='[
 </TabItem>
 </Tabs>
 
-## Create collection{#create-collection}
+## Create collection\{#create-collection}
 
 Once the schema and index are defined, create a collection that includes string fields.
 
@@ -454,7 +457,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Insert data{#insert-data}
+## Insert data\{#insert-data}
 
 After creating the collection, insert entities that match the schema.
 
@@ -598,7 +601,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Query with filter expressions{#query-with-filter-expressions}
+## Query with filter expressions\{#query-with-filter-expressions}
 
 After inserting entities, use the `query` method to retrieve entities that match the specified filter expressions.
 
@@ -898,7 +901,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Vector search with filter expressions{#vector-search-with-filter-expressions}
+## Vector search with filter expressions\{#vector-search-with-filter-expressions}
 
 In addition to basic scalar field filtering, you can combine vector similarity searches with scalar field filters. For example, the following code shows how to add a scalar field filter to a vector search:
 

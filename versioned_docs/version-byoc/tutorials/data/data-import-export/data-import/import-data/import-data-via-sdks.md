@@ -3,6 +3,9 @@ title: "Import Data (SDK) | BYOC"
 slug: /import-data-via-sdks
 sidebar_label: "SDKs"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This guide helps you learn how to use our SDKs to import data into a collection with the bulk-writer and bulk-import APIs. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 
@@ -31,7 +34,7 @@ This guide helps you learn how to use our SDKs to import data into a collection 
 
 Alternatively, you can also refer to [our fast-track end-to-end course](./data-import-zero-to-hero) which covers both data preparations and data import to Zilliz Cloud collections.
 
-## Install dependencies{#install-dependencies}
+## Install dependencies\{#install-dependencies}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 
@@ -74,7 +77,7 @@ compile 'io.minio:minio:8.5.9'
 
 </Tabs>
 
-## Check prepared data{#check-prepared-data}
+## Check prepared data\{#check-prepared-data}
 
 Once you have prepared your data using [the BulkWriter tool](./use-bulkwriter) and got the path to the prepared files. You are ready to import them to a Zilliz Cloud collection. To check whether they are ready, do as follows:
 
@@ -158,9 +161,13 @@ while (results.hasNext()) {
 </TabItem>
 </Tabs>
 
-## Import data{#import-data}
+## Import data\{#import-data}
 
-Once your data and collection are ready, you can start the import process as follows:
+Once your data and collection are ready, you can import your data into a specific collection via an external storage, such as an object storage bucket and a block storage blob container.
+
+### Import data\{#import-data}
+
+If you prefer to import data via external storage, do as follows:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"}]}>
 <TabItem value='python'>
@@ -247,7 +254,7 @@ public static void main(String[] args) throws Exception {
 
 </Admonition>
 
-### Check import progress{#check-import-progress}
+### Check import progress\{#check-import-progress}
 
 You can check the progress of a specified bulk-import job.
 
@@ -304,7 +311,7 @@ public static void main(String[] args) throws Exception {
 </TabItem>
 </Tabs>
 
-### List all import jobs{#list-all-import-jobs}
+### List all import jobs\{#list-all-import-jobs}
 
 If you also want to know about all bulk-import tasks, you can call the list-import-jobs API as follows:
 
@@ -358,7 +365,7 @@ public static void main(String[] args) throws Exception {
 </TabItem>
 </Tabs>
 
-## Related topics{#related-topics}
+## Related topics\{#related-topics}
 
 - [Storage Options](./data-import-storage-options)
 
