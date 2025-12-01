@@ -19,7 +19,7 @@ sidebar_position: 12
 
 - [マーケットプレイス経由で登録する際、AWS、GCP、またはAzureのクレジットを使用してZilliz Cloudの使用料を相殺できますか？](#can-i-use-aws-gcp-or-azure-credits-to-offset-zilliz-cloud-usage-when-subscribed-via-their-respective-marketplaces)
 - [クレジットカードを追加した後、アカウントに残っている期限切れのクレジットを引き続き使用できますか？](#after-adding-a-credit-card-can-i-continue-to-use-the-expired-credits-left-in-my-account)
-- [$100のクレジットは期限切れになりますか？無料クレジットの有効期限を延長するにはどうすればよいですか？](#will-my-and36100-credits-expire-how-can-i-extend-the-expiration-of-the-free-credits)
+- [&#36;100のクレジットは期限切れになりますか？無料クレジットの有効期限を延長するにはどうすればよいですか？](#will-my-and36100-credits-expire-how-can-i-extend-the-expiration-of-the-free-credits)
 - [ごみ箱内のデータには課金されますか？](#is-data-in-the-recycle-bin-charged)
 
 ## FAQ
@@ -42,9 +42,9 @@ Zilliz Cloudの使用量は、各クラウドプロバイダーのマーケッ�
 
 はい。アカウントにまだ残っているクレジットがあり、支払い方法を追加した場合、残りのクレジットの有効期限は1年間延長されます。
 
-### $100のクレジットは期限切れになりますか？無料クレジットの有効期限を延長するにはどうすればよいですか？\{#will-my-and36100-credits-expire-how-can-i-extend-the-expiration-of-the-free-credits}
+### &#36;100のクレジットは期限切れになりますか？無料クレジットの有効期限を延長するにはどうすればよいですか？\{#will-my-and36100-credits-expire-how-can-i-extend-the-expiration-of-the-free-credits}
 
-ビジネスメールで初めてアカウントを登録すると、30日以内に使用できる$100のクレジットを受け取ります。クレジットが期限切れになる際、支払い方法を追加することで有効期限を延長できます。その後、1年間使用できる追加の$100のクレジットを受け取ります。
+ビジネスメールで初めてアカウントを登録すると、30日以内に使用できる&#36;100のクレジットを受け取ります。クレジットが期限切れになる際、支払い方法を追加することで有効期限を延長できます。その後、1年間使用できる追加の&#36;100のクレジットを受け取ります。
 
 ### ごみ箱内のデータには課金されますか？\{#is-data-in-the-recycle-bin-charged}
 

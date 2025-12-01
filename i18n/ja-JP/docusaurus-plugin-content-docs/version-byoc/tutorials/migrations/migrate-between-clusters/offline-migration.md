@@ -3,81 +3,123 @@ title: "オフライン移行 | BYOC"
 slug: /offline-migration
 sidebar_label: "オフライン移行"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "オフライン移行は、ソースクラスタからターゲットクラスタにすべての既存データを転送します。この方法は、同じ組織内および異なる組織間の移行をサポートします。計画されたメンテナンス中や小規模なデータベース移行中など、一時的な書き込み中断が許容されるシナリオに最適です。中断のない書き込み操作が必要な移行については、「ゼロダウンタイム移行」を参照してください。 | BYOC"
+description: "オフライン移行は、既存のすべてのデータをソースZilliz CloudクラスターからターゲットZilliz Cloudクラスターに転送します。この方法は、同じ組織内および異なる組織にまたがる移行をサポートします。これは、計画メンテナンス中や小規模データベース移行など、一時的な書き込み中断が許容されるシナリオに最適です。 | BYOC"
 type: origin
-token: NR7FwgMcyiRS9Vk7ZVCc9Q5Sn7c
+token: MTqjwwUKhiyns4kGV7Lc7PRlnwb
 sidebar_position: 1
-keywords: 
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - migrations
-  - clusters
-  - offline
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - ベクターデータベース
+  - クラウド
+  - 移行
+  - クラスター
+  - オフライン
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 # オフライン移行
 
-オフライン移行は、ソースクラスタからターゲットクラスタにすべての既存データを転送します。この方法は、同じ組織内および異なる組織間の移行をサポートします。計画されたメンテナンス中や小規模なデータベース移行中など、一時的な書き込み中断が許容されるシナリオに最適です。中断のない書き込み操作が必要な移行については、「[ゼロダウンタイム移行](./zero-downtime-migration)」を参照してください。
+オフライン移行は、既存のすべてのデータをソースZilliz CloudクラスターからターゲットZilliz Cloudクラスターに転送します。この方法は、同じ組織内および異なる組織間の移行をサポートします。これは、計画メンテナンスや小規模データベース移行など、一時的な書き込み中断が許容されるシナリオに最適です。
 
-## 始める前に{#before-you-start}
+## 移行機能\{#migration-capabilities}
 
-- ソースのZilliz Cloudクラスターは、パブリックインターネットからアクセスできます。
+### 移行範囲オプション\{#migration-scope-options}
 
-- 組織オーナーまたはプロジェクト管理者の役割が付与されています。必要な権限がない場合は、Zilliz Cloudの管理者にお問い合わせください。
+<table>
+   <tr>
+     <th><p>移行タイプ</p></th>
+     <th><p>説明</p></th>
+     <th><p>ユースケース</p></th>
+   </tr>
+   <tr>
+     <td><p>同一プロジェクト内</p></td>
+     <td><p>同じZilliz Cloudプロジェクト内の既存クラスター間で移行</p></td>
+     <td><p>クラスターのアップグレード、パフォーマンスの最適化、データの統合</p></td>
+   </tr>
+   <tr>
+     <td><p>プロジェクトまたは組織間</p></td>
+     <td><p>異なるZilliz Cloudプロジェクトまたは組織内の既存クラスター間で移行</p></td>
+     <td><p>会社の合併、部署の移管、マルチテナントシナリオ</p></td>
+   </tr>
 
-<Admonition type="info" icon="📘" title="ノート">
+</table>
 
-<p>Zilliz Cloudは、プログラムによってクラスタ間でデータを移行するためのRESTful APIエンドポイントも提供しています。詳細については、「<a href="/reference/restful/migrate-to-existing-cluster-v2">既存クラスタへの移行</a>」と「<a href="/reference/restful/migrate-to-new-dedicated-cluster-v2">新しい専用クラスタへ</a>の移行」を参照してください。</p>
+### 直接データ転送\{#direct-data-transfer}
+
+オフライン移行は、以下の特性を持つZilliz Cloudクラスター間で直接データレプリケーションを実行します：
+
+- **スキーマ保持**：ソーススキーマが変更なしにターゲットクラスターに転送されます
+
+- **フィールド変更不可**：移行中にフィールド名の変更、データ型の変更、またはフィールド属性の変更はできません
+
+- **自動インデックス作成**：ターゲットクラスターのベクターフールにAUTOINDEXが自動的に作成されます
+
+## 前提条件\{#prerequisites}
+
+オフライン移行を開始する前に、以下の要件を満たしていることを確認してください：
+
+### 一般要件\{#general-requirements}
+
+<table>
+   <tr>
+     <th><p>要件</p></th>
+     <th><p>詳細</p></th>
+   </tr>
+   <tr>
+     <td><p>ユーザー権限</p></td>
+     <td><p>組織オーナーまたはプロジェクト管理者ロール</p></td>
+   </tr>
+   <tr>
+     <td><p>ソースクラスターアクセス</p></td>
+     <td><p>ソースクラスターにパプリックインターネットからアクセス可能である必要があります</p></td>
+   </tr>
+   <tr>
+     <td><p>ターゲットクラスターキャパシティ</p></td>
+     <td><p>ソースデータを収容するのに十分なCUサイズ（<a href="https://zilliz.com/pricing#calculator">CU計算機</a>を使用）</p></td>
+   </tr>
+
+</table>
+
+### プロジェクトまたは組織間移行要件\{#cross-project-or-organization-migration-requirements}
+
+<table>
+   <tr>
+     <th><p>要件</p></th>
+     <th><p>詳細</p></th>
+   </tr>
+   <tr>
+     <td><p>接続資格情報</p></td>
+     <td><p>ソースクラスターのパプリックエンドポイント、APIキー、またはクラスターのユーザー名とパスワード</p></td>
+   </tr>
+   <tr>
+     <td><p>ネットワークアクセス</p></td>
+     <td><p>ターゲット組織からソースクラスターへの接続機能</p></td>
+   </tr>
+
+</table>
+
+## はじめに\{#getting-started}
+
+以下のデモでは、完全なオフライン移行プロセスを説明します：
+
+<Supademo id="cmb91ow5v0me4sn1rzlbzqi8x" title="Zilliz Cloud - オフライン移行デモ" />
+
+<Admonition type="info" icon="📘" title="注意">
+
+<p>移行されたコレクションは、検索またはクエリ操作ですぐには利用できません。検索およびクエリ機能を有効にするには、Zilliz Cloudでコレクションを手動でロードする必要があります。詳細については、<a href="./load-release-collections">ロードとリリース</a>を参照してください。</p>
 
 </Admonition>
-
-## 同じ組織内でデータを移行する{#migrate-data-within-the-same-organization}
-
-同じ組織内の新しいクラスターまたは既存のクラスターにデータを移行できます。
-
-1. [Zilliz Cloudコンソール](https://cloud.zilliz.com/login)にログインします。
-
-1. ターゲットプロジェクトに移動し、**移行**>**現在の組織内**を選択してください。
-
-1. [**移行設定**]ダイアログボックスで、ソースクラスターとデータベース、およびターゲットクラスターを構成し、[**確認**]をクリックします。
-
-    <Admonition type="info" icon="📘" title="ノート">
-
-    <p>データを移行する際には、新しいターゲットクラスタを作成するか、同じ組織内の既存のクラスタを使用するオプションがあります。ソースクラスタは、現在のプロジェクトで利用可能なクラスタから選択する必要があります。</p>
-
-    </Admonition>
-
-1. [**移行**]をクリックします。
-
-![cross_cluster_migration_1](/img/cross_cluster_migration_1.png)
-
-## 移行過程を監視する{#monitor-the-migration-process}
-
-「**移行**」をクリックすると、移行ジョブが生成されます。[ジョブ](./job-center)ページで移行の進捗状況を確認できます。ジョブのステータスが「**IN PROGRESS**」から「**SUCCESS FUL**」に切り替わると、移行が完了します。
-
-<Admonition type="info" icon="📘" title="ノート">
-
-<p>移行後、ターゲットクラスタ内のコレクションとエンティティの数がデータソースと一致していることを確認してください。不一致が見つかった場合は、エンティティが欠落しているコレクションを削除して再移行してください。</p>
-
-</Admonition>
-
-![verify_collection](/img/verify_collection.png)
-
-## 移行ジョブをキャンセル{#cancel-migration-job}
-
-移行過程で問題が発生した場合は、次の手順に従ってトラブルシューティングを行い、移行を再開できます。
-
-1. [[ジョブ](./job-center)]ページで、失敗した移行ジョブを特定してキャンセルします。
-
-1. [アクション]列の[**詳細**を**表示**]をクリックして、エラーログにアクセスします。
 

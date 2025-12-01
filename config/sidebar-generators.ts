@@ -44,7 +44,7 @@ export async function tutorialsItemsGenerator({
             })
         }
 
-        if (item.label === '開始方法') {
+        if (item.label === 'はじめに') {
             item.items = item.items.map(subItem => {
                 if (subItem.label === 'API & SDK') {
                     subItem.items.push(...[

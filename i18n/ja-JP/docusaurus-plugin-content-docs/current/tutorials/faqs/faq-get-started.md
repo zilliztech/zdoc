@@ -87,11 +87,11 @@ sidebar_position: 1
 
 ### より多くのクレジットを申請できますか？\{#can-i-apply-for-more-credits}
 
-Zilliz Cloudで勤務先のメールアドレスで登録すると、$100の無料クレジットが付与されます。[マーケットプレイス](./subscribe-on-aws-marketplace)でZilliz Cloudを登録することで、追加の$100クレジットを獲得できます。追加のクレジットと割引については、[営業担当にお問い合わせ](https://zilliz.com/contact-sales)ください。
+Zilliz Cloudで勤務先のメールアドレスで登録すると、&#36;100の無料クレジットが付与されます。[マーケットプレイス](./subscribe-on-aws-marketplace)でZilliz Cloudを登録することで、追加の$100クレジットを獲得できます。追加のクレジットと割引については、[営業担当にお問い合わせ](https://zilliz.com/contact-sales)ください。
 
 ### 無料トライアルを延長できますか？\{#can-i-extend-my-free-trial}
 
-はい、可能です。Zilliz Cloudに登録すると、30日間有効な$100のクレジットを受け取ることができます。[支払い方法を追加](./payment-billing)することで、これらのクレジットの有効期間を1年間延長できます。
+はい、可能です。Zilliz Cloudに登録すると、30日間有効な&#36;100のクレジットを受け取ることができます。[支払い方法を追加](./payment-billing)することで、これらのクレジットの有効期間を1年間延長できます。
 
 ### さらに技術的なサポートを受けるにはどうすればよいですか？\{#how-can-i-get-further-technical-support}
 

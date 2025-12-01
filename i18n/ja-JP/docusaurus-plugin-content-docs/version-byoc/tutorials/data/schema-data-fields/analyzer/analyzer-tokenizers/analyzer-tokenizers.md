@@ -1,14 +1,17 @@
 ---
-title: "トークナイザーリファレンス | BYOC"
+title: "トークナイザー参照 | BYOC"
 slug: /analyzer-tokenizers
-sidebar_label: "トークナイザーリファレンス"
+sidebar_label: "Tokenizer"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "このセクションでは、トークナイザーの詳細なリファレンスを提供します。 | BYOC"
+description: "このセクションは、トークナイザーの詳細なリファレンスを提供します。| BYOC"
 type: origin
-token: SZT7wSD7FiTKmPk8NWbccHT8npc
+token: Zu6vw6Aifi1gvNkqqO5cDjmtngh
 sidebar_position: 3
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
@@ -16,19 +19,19 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# トークナイザーリファレンス
+# トークナイザー参照
 
-このセクションでは、トークナイザーの詳細なリファレンスを提供します。
+このセクションは、トークナイザーの詳細なリファレンスを提供します。
 
 import DocCardList from '@theme/DocCardList';
 

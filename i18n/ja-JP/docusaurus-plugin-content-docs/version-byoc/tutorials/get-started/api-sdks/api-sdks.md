@@ -1,14 +1,17 @@
 ---
-title: "APIとSDK | BYOC"
+title: "API および SDK | BYOC"
 slug: /api-sdks
-sidebar_label: "APIとSDK"
+sidebar_label: "API および SDK"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "この章では、RESTful APIとSDKを使用またはインストールする手順と、それらのリファレンスドキュメントにアクセスできます。 | BYOC"
+description: "この章では、RESTful API および SDK の使用方法またはインストール手順とそのリファレンスドキュメントへのアクセスを提供します。 | BYOC"
 type: origin
-token: AiLpwtyT3ieHFikJsUDc9kgunUb
-sidebar_position: 11
-keywords: 
+token: Ecwpw6cImiFV0gkkusgcQhvBnLe
+sidebar_position: 12
+keywords:
   - zilliz
   - milvus
   - vector database
@@ -20,19 +23,19 @@ keywords:
   - go
   - node
   - nodejs
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# APIとSDK
+# API および SDK
 
-この章では、RESTful APIとSDKを使用またはインストールする手順と、それらのリファレンスドキュメントにアクセスできます。
+この章では、RESTful API および SDK の使用方法またはインストール手順とそのリファレンスドキュメントへのアクセスを提供します。
 
 import DocCardList from '@theme/DocCardList';
 

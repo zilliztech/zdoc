@@ -1,47 +1,50 @@
 ---
-title: "API の可用性 | BYOC"
+title: "API利用可能性 | BYOC"
 slug: /api-comparison
-sidebar_label: "API の可用性"
+sidebar_label: "API利用可能性"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudは、より良いユーザーエクスペリエンスを提供するために、Milvusとはやや異なる方法で動作します。この記事では、APIに関する2つのプラットフォームの違いを明確にすることを目的としています。 | BYOC"
+description: "Zilliz Cloudは、より良いユーザーエクスペリエンスを提供するためにMilvusとは若干異なる動作をします。この記事は、APIの観点から両プラットフォームの違いを明確にすることを目的としています。 | BYOC"
 type: origin
-token: LlLcwvH1FirFu7k0dhXcL3AZnCb
+token: DAk8w3GCJiuUTTkms6IcMtnAnMf
 sidebar_position: 2
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
   - milvus
   - api availability
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# API の可用性
+# API利用可能性
 
-Zilliz Cloudは、より良いユーザーエクスペリエンスを提供するために、Milvusとはやや異なる方法で動作します。この記事では、APIに関する2つのプラットフォームの違いを明確にすることを目的としています。
+Zilliz Cloudは、より良いユーザーエクスペリエンスを提供するためにMilvusとは若干異なる動作をします。この記事は、APIの観点から両プラットフォームの違いを明確にすることを目的としています。
 
-MilvusからZilliz Cloudへの移行を計画している場合は、レガシーコードに必要な変更を加える必要があります。
+MilvusからZilliz Cloudに移行する予定がある場合は、レガシーコードにいくつかの変更を加える必要があるかもしれません。
 
-## シナリオ固有の権限{#scenario-specific-privileges}
+## シナリオ固有の権限\{#scenario-specific-privileges}
 
-以下の表では、さまざまなサービスレベルでのAPIの可用性を比較しています。[Bring Your Own Cloud (BYOC)](/ja-JP/docs/byoc/byoc-intro) ソリューションのAPIの可用性は、StandardおよびEnterpriseレベルと一致しています。
+以下の表は、さまざまなサービスティア間でのAPI利用可能性の比較を示しています。[Bring Your Own Cloud（BYOC）](/docs/byoc/byoc-intro)ソリューションのAPI利用可能性は、**StandardおよびEnterprise**ティアと一致していることに注意してください。
 
 <table>
    <tr>
-     <th><p><strong>カテゴリー</strong></p></th>
+     <th><p><strong>カテゴリ</strong></p></th>
      <th><p><strong>API</strong></p></th>
-     <th><p><strong>Console</strong></p></th>
-     <th><p><strong>Free</strong></p></th>
-     <th><p><strong>Serverless</strong></p></th>
-     <th><p><strong>Dedicated</strong></p></th>
+     <th><p><strong>コンソール</strong></p></th>
+     <th><p><strong>無料</strong></p></th>
+     <th><p><strong>サーバーレス</strong></p></th>
+     <th><p><strong>専用 / BYOC</strong></p></th>
    </tr>
    <tr>
      <td rowspan="5"><p>Alias</p></td>

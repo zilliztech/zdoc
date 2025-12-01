@@ -1,23 +1,26 @@
 ---
-title: "クラスタ管理 | BYOC"
+title: "クラスターの管理 | BYOC"
 slug: /manage-cluster
-sidebar_label: "クラスタ管理"
+sidebar_label: "クラスターの管理"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "このガイドでは、Zilliz Cloudコンソールを最大限に活用して目標を達成するためのクラスタのライフサイクルについて説明します。 | BYOC"
+description: "このガイドは、クラスターのライフサイクルについて説明し、Zilliz Cloudコンソールを最大限に活用して目標を達成できるようにします。 | BYOC"
 type: origin
-token: Py5VwaHKnirdQQkJBxXcmfrunfg
+token: PharwAysCiBzvgkuqqecmNzunQf
 sidebar_position: 3
-keywords: 
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - cluster
-  - manage
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - ベクトルデータベース
+  - クラウド
+  - クラスター
+  - 管理
+  - 知識ベース
+  - 自然言語処理
+  - AIチャットボット
+  - コサイン距離
 
 ---
 
@@ -27,39 +30,35 @@ import TabItem from '@theme/TabItem';
 
 import Supademo from '@site/src/components/Supademo';
 
-# クラスタ管理
+# クラスターの管理
 
-このガイドでは、Zilliz Cloudコンソールを最大限に活用して目標を達成するためのクラスタのライフサイクルについて説明します。
+このガイドは、クラスターのライフサイクルについて説明し、Zilliz Cloudコンソールを最大限に活用して目標を達成できるようにします。
 
-## クラスタ名の変更{#rename-cluster}
+## クラスター名の変更\{#rename-cluster}
 
-ターゲットクラスタの[**クラスタの詳細**]ページに移動し、以下の手順に従ってクラスタ名を変更します。
+ターゲットクラスターの**クラスターデータils**ページに移動し、以下の手順に従ってクラスター名を変更します。
 
-<Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title="Zilliz Cloud - Rename Cluster Demo" />
+<Supademo id="cm9tp57ye0ri911m7ljrn1yg6" title=""  />
 
-## クラスタを一時停止する{#suspend-cluster}
+## クラスターの停止\{#suspend-cluster}
 
-実行中の専用クラスターについては、CUとストレージの両方に対して請求されます。コストを削減するには、クラスターを一時停止することを検討してください。専用クラスターが一時停止された場合は、ストレージ料金のみが適用されます。
-
-一時停止中は、クラスターに対して他のアクションを実行できないことに注意してください。
-
-専用クラスタは、Webコンソールまたはプログラムから一時停止できます。
+クラスターの停止はウェブコンソールまたはプログラム経由で行えます。
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-ターゲットクラスタの[**クラスタの詳細**]ページに移動し、以下の手順に従って専用クラスタをサスペンドします。
+ターゲットクラスターの**クラスターデータils**ページに移動し、以下の手順に従ってDedicatedクラスターを停止します。
 
-<Supademo id="cm9tqgxt30snl11m7twwj7xia" title="Zilliz Cloud - Suspend Cluster Demo" />
+<Supademo id="cm9tqgxt30snl11m7twwj7xia" title=""  />
 
 </TabItem>
 
 <TabItem value="Bash">
 
-リクエストは次の例のようになります。`{API_KEY}`は認証に使用するAPIキーです。
+以下の例のように、`{API_KEY}`は認証に使用されるAPIキーです。
 
-次の`POST`要求はリクエストボディを受け取り、専用クラスターを一時停止します。
+以下の `POST` リクエストはリクエストボディを受け取り、Dedicatedクラスターを停止します。
 
 ```bash
 curl --request POST \
@@ -72,48 +71,57 @@ curl --request POST \
 #     "code": 0,
 #     "data": {
 #         "clusterId": "inxx-xxxxxxxxxxxxxxx",
-#         "prompt": "Successfully Submitted. The cluster will not incur any computing costs when suspended. You will only be billed for the storage costs during this time."
+#         "prompt": "正常に送信されました。クラスターが停止している間は、コンピューティングコストは発生しません。この期間中はストレージコストのみが課金されます。"
 #     }
-# }     
+# }
 ```
 
-上記のコマンドで、
+上記のコマンドでは、
 
-- `{API_KEY}`: APIリクエストを認証するために使用される資格情報。値を自分のものに置き換えてください。
+- `{API_KEY}`: APIリクエストの認証に使用される資格情報。値を自分のものに置き換えてください。
 
-- `{CLUSTER_ID}`:サスペンドする専用クラスタのID。
+- `{CLUSTER_ID}`: 停止するDedicatedクラスターのID。
 
-詳細は、クラスタの一時停止を参照してください。
+詳細については、[Suspend Cluster](/reference/restful/suspend-cluster-v2)を参照してください。
 
 </TabItem>
 
 </Tabs>
 
-## クラスタを再開{#resume-cluster}
+停止操作が成功すると、ジョブレコードが生成されます。進行状況は[Jobs](./job-center)ページで確認できます。
 
-無料およびサーバーレスクラスターは、非アクティブ状態が7日間続くと自動的に一時停止され、いつでも再開できます。
+## クラスターの再開\{#resume-cluster}
 
-一時停止された専用クラスタは、必要に応じて手動で再開することもできます。
+再開中はクラスター上で他の操作を行うことができませんのでご注意ください。
 
-再開中は、クラスターに対して他のアクションを実行できないことに注意してください。
-
-Webコンソールまたはプログラムからクラスタを再開できます。
+クラスターの再開はウェブコンソールまたはプログラム経由で行えます。
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-ターゲットクラスタの[**クラスタの詳細**]ページに移動し、以下の手順に従ってクラスタを再開します。
+ターゲットクラスターの**クラスターデータils**ページに移動し、以下の手順に従ってクラスターを再開します。
 
-<Supademo id="cm9tr2hze0t1j11m7ijth1pr5" title="Zilliz Cloud - Resume Cluster Demo" />
+<Supademo id="cm9tr2hze0t1j11m7ijth1pr5" title=""  />
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p><strong>再開</strong>を<strong>クラスター再開</strong>ダイアログボックスでクリックする際、プロジェクトのリソースクォータを確認するように求められます。リソースが十分であれば、チェックが完了した後にダイアログボックスは消えます。そうでない場合は、以下が可能です。</p>
+<ul>
+<li><p><strong>Go To Project Resource Settings</strong>をクリックしてプロジェクトのリソース設定を編集するか、または</p></li>
+<li><p><strong>Back to Last Step</strong>をクリックしてクラスタ設定を変更します。</p></li>
+</ul>
+<p>プロセス中、ローリングには追加リソースが必要になります。これらのリソースは使用後に解放されます。</p>
+
+</Admonition>
 
 </TabItem>
 
 <TabItem value="Bash">
 
-リクエストは次の例のようになります。`{API_KEY}`は認証に使用するAPIキーです。
+以下の例のように、`{API_KEY}`は認証に使用されるAPIキーです。
 
-次の`POST`要求はリクエストボディを受け取り、専用クラスターを一時停止します。
+以下の `POST` リクエストはリクエストボディを受け取り、クラスターを再開します。
 
 ```bash
 curl --request POST \
@@ -126,42 +134,44 @@ curl --request POST \
 #     "code": 0,
 #     "data": {
 #         "clusterId": "inxx-xxxxxxxxxxxxxxx",
-#         "prompt": "successfully Submitted. Cluster is being resumed, which is expected to takes several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK."
+#         "prompt": "正常に送信されました。クラスターは再開中で、数分かかる見込みです。DescribeCluster APIを使用して、クラスターの作成進行状況とステータスに関するデータにアクセスできます。クラスターのステータスがRUNNINGになると、SDKを使用してベクトルデータベースにアクセスできます。"
 #     }
-# }     
+# }
 ```
 
-上記のコマンドで、
+上記のコマンドでは、
 
-- `{API_KEY}`: APIリクエストを認証するために使用される資格情報。値を自分のものに置き換えてください。
+- `{API_KEY}`: APIリクエストの認証に使用される資格情報。値を自分のものに置き換えてください。
 
-- `{CLUSTER_ID}`:再開するクラスタのID。
+- `{CLUSTER_ID}`: 再開するクラスターのID。
 
-詳細については、クラスタの再開を参照してください。
+詳細については、[Resume Cluster](/reference/restful/resume-cluster-v2)を参照してください。
 
 </TabItem>
 
 </Tabs>
 
-## クラスタを削除{#drop-cluster}
+再開操作が成功すると、ジョブレコードが生成されます。進行状況は[Jobs](./job-center)ページで確認できます。
 
-クラスタが不要になったら、削除できます。Webコンソールまたはプログラムからクラスタを削除できます。
+## クラスターの削除\{#drop-cluster}
+
+クラスターが不要になったときに削除できます。クラスターの削除はウェブコンソールまたはプログラム経由で行えます。
 
 <Tabs groupId="cluster" defaultValue="Cloud Console" values={[{"label":"Cloud Console","value":"Cloud Console"},{"label":"cURL","value":"Bash"}]}>
 
 <TabItem value="Cloud Console">
 
-ターゲットクラスタの[**クラスタの詳細**]ページに移動し、以下の手順に従ってクラスタを削除します。
+ターゲットクラスターの**クラスターデータils**ページに移動し、以下の手順に従ってクラスターを削除します。
 
-<Supademo id="cm9trwi5n0txr11m7otr902sk" title="Zilliz Cloud - Drop Cluster Demo" />
+<Supademo id="cm9trwi5n0txr11m7otr902sk" title=""  />
 
 </TabItem>
 
 <TabItem value="Bash">
 
-リクエストは次の例のようになります。`{API_KEY}`は認証に使用するAPIキーです。
+以下の例のように、`{API_KEY}`は認証に使用されるAPIキーです。
 
-次の`POST`要求はリクエストボディを受け取り、クラスタを削除します。
+以下の `DELETE` リクエストはリクエストボディを受け取り、クラスターを削除します。
 
 ```bash
 curl --request POST \
@@ -174,18 +184,18 @@ curl --request POST \
 #     "code": 0,
 #     "data": {
 #         "clusterId": "inxx-xxxxxxxxxxxxxxx",
-#         "prompt": "The cluster has been deleted. If you consider this action to be an error, you have the option to restore the deleted cluster from the recycle bin within a 30-day period. Kindly note, this recovery feature does not apply to free clusters."
+#         "prompt": "クラスターが削除されました。この操作がエラーであると判断した場合は、30日間の期間内にごみ箱から削除されたクラスターを復元するオプションがあります。この回復機能は無料クラスターには適用されません。"
 #     }
-# }     
+# }
 ```
 
-上記のコマンドで、
+上記のコマンドでは、
 
-- `{API_KEY}`: APIリクエストを認証するために使用される資格情報。値を自分のものに置き換えてください。
+- `{API_KEY}`: APIリクエストの認証に使用される資格情報。値を自分のものに置き換えてください。
 
-- `{CLUSTER_ID}`:削除する専用クラスタのID。
+- `{CLUSTER_ID}`: 削除するDedicatedクラスターのID。
 
-詳細は、ドロップクラスタを参照してください。
+詳細については、[Drop Cluster](/reference/restful/drop-cluster-v2)を参照してください。
 
 </TabItem>
 

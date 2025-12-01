@@ -1,13 +1,13 @@
 ---
-title: "基本的なベクトル検索 | Cloud"
+title: "基本ベクトル検索 | Cloud"
 slug: /single-vector-search
-sidebar_label: "基本的なベクトル検索"
+sidebar_label: "基本ベクトル検索"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "インデックスファイルがベクトル埋め込みのソート順序を記録するという前提に基づき、近似最近傍（ANN）検索は受信した検索リクエストに含まれるクエリベクトルに基づいてベクトル埋め込みのサブセットを特定し、クエリベクトルとサブグループ内のベクトルを比較して最も類似した結果を返します。ANN検索により、Zilliz Cloudは効率的な検索体験を提供します。このページでは基本的なANN検索の方法について学びます。 | Cloud"
+description: "ソートされたベクトル埋め込みの順序を記録したインデックスファイルに基づいて、近似最近傍（ANN）検索は、受信した検索リクエストに含まれるクエリーベクトルに基づいてベクトル埋め込みのサブセットを特定し、クエリーベクトルをサブグループ内のベクトルと比較し、最も類似する結果を返します。ANN検索により、Zilliz Cloudは効率的な検索体験を提供します。このページでは、基本的なANN検索の実施方法を学ぶことができます。 | Cloud"
 type: origin
 token: BaGlwzDmyiyVvVk6NurcFclInCd
 sidebar_position: 1
@@ -30,25 +30,25 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# 基本的なベクトル検索
+# 基本ベクトル検索
 
-インデックスファイルがベクトル埋め込みのソート順序を記録するという前提に基づき、近似最近傍（ANN）検索は受信した検索リクエストに含まれるクエリベクトルに基づいてベクトル埋め込みのサブセットを特定し、クエリベクトルとサブグループ内のベクトルを比較して最も類似した結果を返します。ANN検索により、Zilliz Cloudは効率的な検索体験を提供します。このページでは基本的なANN検索の方法について学びます。
+ソートされたベクトル埋め込みの順序を記録したインデックスファイルに基づいて、近似最近傍（ANN）検索は、受信した検索リクエストに含まれるクエリーベクトルに基づいてベクトル埋め込みのサブセットを特定し、クエリーベクトルをサブグループ内のベクトルと比較し、最も類似する結果を返します。ANN検索により、Zilliz Cloudは効率的な検索体験を提供します。このページでは、基本的なANN検索の実施方法を学ぶことができます。
 
 ## 概要\{#overview}
 
-ANN検索とk近傍法（kNN）検索は、ベクトル類似性検索における一般的な方法です。kNN検索では、検索リクエストに含まれるクエリベクトルとベクトル空間内のすべてのベクトルを比較して最も類似したものを特定する必要があるため、時間がかかりリソースを消費します。
+ANNおよびk近傍法（kNN）検索は、ベクトル類似度検索の一般的な手法です。kNN検索では、検索リクエストに含まれるクエリーベクトルとベクトル空間内のすべてのベクトルを比較して最も類似するものを見つける必要があり、時間がかかりリソースを消費します。
 
-kNN検索とは異なり、ANN検索アルゴリズムはベクトル埋め込みのソート順序を記録した**インデックス**ファイルを要求します。検索リクエストが来ると、インデックスファイルを参照として使用して、クエリベクトルに最も類似したベクトル埋め込みを含む可能性のあるサブグループをすばやく特定できます。次に、指定された**メトリックタイプ**を使用して、クエリベクトルとサブグループ内のベクトル間の類似性を測定し、クエリベクトルに対する類似性に基づいてグループメンバーをソートし、**top-K**グループメンバーを特定できます。
+kNN検索とは異なり、ANN検索アルゴリズムでは、ベクトル埋め込みのソート順序を記録した**インデックス**ファイルを要求します。検索リクエストが入ると、インデックスファイルを参照として使用し、クエリーベクトルに最も類似するベクトル埋め込みを含む可能性のあるサブグループを素早く特定できます。その後、指定された**メトリックタイプ**を使用してクエリーベクトルとサブグループ内のベクトルとの類似度を測定し、クエリーベクトルとの類似度に基づいてグループメンバーをソートし、**top-K**グループメンバーを決定します。
 
-ANN検索は事前構築されたインデックスに依存し、選択するインデックスタイプによって検索スループット、メモリ使用量、検索の正確性が異なります。検索パフォーマンスと正確性のバランスを取る必要があります。
+ANN検索は事前に構築されたインデックスに依存しており、検索スループット、メモリ使用量、検索の正確性は選択するインデックスタイプによって異なります。検索性能と正確性のバランスを取る必要があります。
 
-学習曲線を低減するために、Zilliz Cloudは**AUTOINDEX**を提供しています。**AUTOINDEX**により、Zilliz Cloudはインデックスの構築中にコレクション内のデータ分布を分析し、パフォーマンスと正確性のバランスをとるために分析に基づいて最適化されたインデックスパラメータを設定できます。
+学習曲線を低減するため、Zilliz Cloudは**AUTOINDEX**を提供しています。**AUTOINDEX**により、Zilliz Cloudはインデックス構築時にコレクション内のデータ分布を分析し、分析に基づいて検索性能と正確性のバランスを取る最も最適化されたインデックスパラメータを設定できます。
 
-AUTOINDEXおよび適用可能なメトリックタイプの詳細については、[AUTOINDEXの説明](./autoindex-explained)と[メトリックタイプ](./search-metrics-explained)を参照してください。このセクションでは、以下のトピックについて詳細情報を提供します。
+AUTOINDEXおよび適用可能なメトリックタイプの詳細については、[AUTOINDEXの説明](./autoindex-explained)および[メトリックタイプ](./search-metrics-explained)を参照してください。このセクションでは、以下のトピックに関する詳細情報を確認できます：
 
-- [シングルベクトル検索](./single-vector-search#single-vector-search)
+- [単一ベクトル検索](./single-vector-search#single-vector-search)
 
-- [バルクベクトル検索](./single-vector-search#bulk-vector-search)
+- [複数ベクトル検索](./single-vector-search#bulk-vector-search)
 
 - [パーティション内でのANN検索](./single-vector-search#ann-search-in-partition)
 
@@ -56,17 +56,17 @@ AUTOINDEXおよび適用可能なメトリックタイプの詳細について�
 
 - [limitとoffsetの使用](./single-vector-search#use-limit-and-offset)
 
-- [レベルの使用](./single-vector-search#use-level)
+- [levelの使用](./single-vector-search#use-level)
 
 - [再現率の取得](./single-vector-search#get-recall-rate)
 
 - [ANN検索の強化](./single-vector-search#enhancing-ann-search)
 
-## シングルベクトル検索\{#single-vector-search}
+## 単一ベクトル検索\{#single-vector-search}
 
-ANN検索では、シングルベクトル検索とは1つのクエリベクトルしか含まない検索を指します。事前構築されたインデックスと検索リクエストに含まれるメトリックタイプに基づき、Zilliz Cloudはクエリベクトルに最も類似した上位K個のベクトルを検索します。
+ANN検索において、単一ベクトル検索は1つのクエリーベクトルのみを含む検索を指します。事前に構築されたインデックスと検索リクエストに含まれるメトリックタイプに基づき、Zilliz Cloudはクエリーベクトルに最も類似するtop-Kベクトルを見つけます。
 
-このセクションでは、シングルベクトル検索の実行方法について学びます。検索リクエストは1つのクエリベクトルを含み、Zilliz Cloudに内部積（IP）を使用させてクエリベクトルとコレクション内のベクトルとの類似性を計算させ、最も類似した3個を返すよう指示します。
+このセクションでは、単一ベクトル検索の実施方法を学びます。検索リクエストは単一のクエリーベクトルを持ち、Zilliz Cloudが内積（IP）を使用してクエリーベクトルとコレクション内のベクトルとの類似度を計算し、最も類似する3つを返すように要求します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -79,7 +79,7 @@ client = MilvusClient(
     token="YOUR_CLUSTER_TOKEN"
 )
 
-# 4. シングルベクトル検索
+# 4. 単一ベクトル検索
 query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
 res = client.search(
     collection_name="quick_setup",
@@ -150,7 +150,7 @@ for (List<SearchResp.SearchResult> results : searchResults) {
     }
 }
 
-// 出力
+// Output
 // TopK results:
 // SearchResp.SearchResult(entity={}, score=0.95944905, id=5)
 // SearchResp.SearchResult(entity={}, score=0.8689616, id=1)
@@ -182,7 +182,7 @@ client, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
 })
 if err != nil {
     fmt.Println(err.Error())
-    // エラー処理
+    // handle error
 }
 defer client.Close(ctx)
 
@@ -195,7 +195,7 @@ resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
 ).WithANNSField("vector"))
 if err != nil {
     fmt.Println(err.Error())
-    // エラー処理
+    // handle error
 }
 
 for _, resultSet := range resultSets {
@@ -216,7 +216,7 @@ const address = "YOUR_CLUSTER_ENDPOINT";
 const token = "YOUR_CLUSTER_TOKEN";
 const client = new MilvusClient({address, token});
 
-// 4. シングルベクトル検索
+// 4. 単一ベクトル検索
 var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
 
 res = await client.search({
@@ -277,15 +277,15 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-Milvusは検索結果をクエリベクトルとの類似性スコアで降順にランク付けします。類似性スコアはクエリベクトルとの距離とも呼ばれます。値の範囲は使用するメトリックタイプによって異なります。
+Milvusは、検索結果をクエリーベクトルとの類似度スコアの降順でランク付けします。類似度スコアはクエリーベクトルとの距離とも呼ばれます。その値の範囲は使用中のメトリックタイプによって異なります。
 
-以下の表は、適用可能なメトリックタイプと対応する距離の範囲を示しています。
+以下の表は、使用可能なメトリックタイプと対応する距離の範囲を示しています。
 
 <table>
    <tr>
      <th><p>メトリックタイプ</p></th>
      <th><p>特徴</p></th>
-     <th><p>距離範囲</p></th>
+     <th><p>距離の範囲</p></th>
    </tr>
    <tr>
      <td><p><code>L2</code></p></td>
@@ -314,16 +314,16 @@ Milvusは検索結果をクエリベクトルとの類似性スコアで降順�
    </tr>
 </table>
 
-## バルクベクトル検索\{#bulk-vector-search}
+## 複数ベクトル検索\{#bulk-vector-search}
 
-同様に、検索リクエストに複数のクエリベクトルを含めることができます。Zilliz Cloudはクエリベクトルに対して並列にANN検索を実行し、2つの結果セットを返します。
+同様に、検索リクエストに複数のクエリーベクトルを含めることができます。Zilliz Cloudはクエリーベクトルに対して並列でANN検索を実行し、2つの結果セットを返します。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
 # 7. 複数ベクトルでの検索
-# 7.1. クエリベクトルの準備
+# 7.1. クエリーベクトルの準備
 query_vectors = [
     [0.041732933, 0.013779674, -0.027564144, -0.013061441, 0.009748648],
     [0.0039737443, 0.003020432, -0.0006188639, 0.03913546, -0.00089768134]
@@ -341,7 +341,7 @@ for hits in res:
     for hit in hits:
         print(hit)
 
-# 出力
+# Output
 #
 # [
 #     [
@@ -406,13 +406,13 @@ SearchResp searchResp = client.search(searchReq);
 
 List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
 for (List<SearchResp.SearchResult> results : searchResults) {
-    System.out.println("TopK results:");
+    System.out.println("TopK results:")
     for (SearchResp.SearchResult result : results) {
-        System.out.println(result);
+        System.out.println(result)
     }
 }
 
-// 出力
+// Output
 // TopK results:
 // SearchResp.SearchResult(entity={}, score=0.49548206, id=1)
 // SearchResp.SearchResult(entity={}, score=0.320147, id=3)
@@ -441,7 +441,7 @@ resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     WithANNSField("vector"))
 if err != nil {
     fmt.Println(err.Error())
-    // エラー処理
+    // handle error
 }
 
 for _, resultSet := range resultSets {
@@ -469,7 +469,7 @@ res = await client.search({
 
 console.log(res.results)
 
-// 出力
+// Output
 //
 // [
 //   [
@@ -548,15 +548,15 @@ curl --request POST \
 
 ## パーティション内でのANN検索\{#ann-search-in-partition}
 
-コレクション内に複数のパーティションを作成し、検索範囲を特定の数のパーティションに絞り込める場合があります。その場合、検索リクエストにターゲットパーティション名を含めることで、指定されたパーティション内の検索範囲を制限できます。検索に含まれるパーティション数を減らすことで検索パフォーマンスが向上します。
+コレクションに複数のパーティションを作成した場合、検索範囲を特定の数のパーティションに制限することができます。この場合、検索リクエストにターゲットパーティション名を含め、指定されたパーティション内での検索範囲を制限できます。検索に含まれるパーティション数を減らすことで検索性能が向上します。
 
-以下のコードスニペットでは、コレクション内に**PartitionA**という名前のパーティションがあると想定しています。
+以下のコードスニペットでは、コレクション内に**PartitionA**という名前のパーティションが存在すると仮定しています。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# 4. シングルベクトル検索
+# 4. 単一ベクトル検索
 query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
 res = client.search(
     collection_name="quick_setup",
@@ -613,13 +613,13 @@ SearchResp searchResp = client.search(searchReq);
 
 List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
 for (List<SearchResp.SearchResult> results : searchResults) {
-    System.out.println("TopK results:");
+    System.out.println("TopK results:")
     for (SearchResp.SearchResult result : results) {
-        System.out.println(result);
+        System.out.println(result)
     }
 }
 
-// 出力
+// Output
 // TopK results:
 // SearchResp.SearchResult(entity={}, score=0.6395302, id=13)
 // SearchResp.SearchResult(entity={}, score=0.5408028, id=12)
@@ -642,7 +642,7 @@ resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     WithANNSField("vector"))
 if err != nil {
     fmt.Println(err.Error())
-    // エラー処理
+    // handle error
 }
 
 for _, resultSet := range resultSets {
@@ -656,12 +656,12 @@ for _, resultSet := range resultSets {
 <TabItem value='javascript'>
 
 ```javascript
-// 4. シングルベクトル検索
+// 4. 単一ベクトル検索
 var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
 
 res = await client.search({
     collection_name: "quick_setup",
-    // highlight-next-line
+    # highlight-next-line
     partition_names: ["partitionA"],
     data: query_vector,
     limit: 3, // 返す結果の数
@@ -669,11 +669,11 @@ res = await client.search({
 
 console.log(res.results)
 
-// [
-//   { score: 0.08821295201778412, id: '551' },
-//   { score: 0.0800950899720192, id: '296' },
-//   { score: 0.07794742286205292, id: '43' }
-// ]
+# [
+#   { score: 0.08821295201778412, id: '551' },
+#   { score: 0.0800950899720192, id: '296' },
+#   { score: 0.07794742286205292, id: '43' }
+# ]
 ```
 
 </TabItem>
@@ -723,13 +723,13 @@ curl --request POST \
 
 ## 出力フィールドの使用\{#use-output-fields}
 
-検索結果には、Zilliz Cloudがデフォルトで上位K個のベクトル埋め込みを含むエンティティの主フィールド値と類似性の距離/スコアが含まれます。検索リクエストにベクトルフィールドとスカラーフィールドの両方を含むターゲットフィールド名を出力フィールドとして含めることで、これらのエンティティ内の他のフィールドからの値を検索結果に含めることができます。
+検索結果において、Zilliz Cloudはデフォルトでtop-Kベクトル埋め込みを含むエンティティの主キー値と類似度の距離/スコアを含めます。検索リクエストで出力フィールドとしてターゲットフィールド（ベクトルフィールドとスカラー フィールドの両方）の名前を含めることで、検索結果がこれらのエンティティの他のフィールドの値を含むようにできます。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
 
 ```python
-# 4. シングルベクトル検索
+# 4. 単一ベクトル検索
 query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
 
 res = client.search(
@@ -791,13 +791,13 @@ SearchResp searchResp = client.search(searchReq);
 
 List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
 for (List<SearchResp.SearchResult> results : searchResults) {
-    System.out.println("TopK results:");
+    System.out.println("TopK results:")
     for (SearchResp.SearchResult result : results) {
-        System.out.println(result);
+        System.out.println(result)
     }
 }
 
-// 出力
+// Output
 // TopK results:
 // SearchResp.SearchResult(entity={color=black_9955}, score=0.95944905, id=5)
 // SearchResp.SearchResult(entity={color=red_7319}, score=0.8689616, id=1)
@@ -820,13 +820,13 @@ resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
     WithOutputFields("color"))
 if err != nil {
     fmt.Println(err.Error())
-    // エラー処理
+    // handle error
 }
 
 for _, resultSet := range resultSets {
     fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
     fmt.Println("Scores: ", resultSet.Scores)
-    fmt.Println("Color Field: ", resultSet.Fields.Get("color"))
+    fmt.Println("color: ", resultSet.GetColumn("color").FieldData().GetScalars())
 }
 ```
 
@@ -835,25 +835,24 @@ for _, resultSet := range resultSets {
 <TabItem value='javascript'>
 
 ```javascript
-// 4. シングルベクトル検索
+// 4. 単一ベクトル検索
 var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
 
 res = await client.search({
     collection_name: "quick_setup",
     data: query_vector,
-    limit: 3, // 返す結果の数
-    search_params: {"metric_type": "IP"},
-    // highlight-next-line
+    limit: 3, # 返す結果の数
+    # highlight-next-line
     output_fields: ["color"]
 })
 
 console.log(res.results)
 
-// [
-//   { score: 0.08821295201778412, id: '551', color: 'orange_6781' },
-//   { score: 0.0800950899720192, id: '296', color: 'red_4794' },
-//   { score: 0.07794742286205292, id: '43', color: 'grey_8510' }
-// ]
+# [
+#   { score: 0.08821295201778412, id: '551', entity: {"color": "orange_6781"}},
+#   { score: 0.0800950899720192, id: '296' entity: {"color": "red_4794"}},
+#   { score: 0.07794742286205292, id: '43' entity: {"color": "grey_8510"}}
+# ]
 ```
 
 </TabItem>
@@ -875,7 +874,7 @@ curl --request POST \
     ],
     "annsField": "vector",
     "limit": 3,
-    "output_fields": ["color"]
+    "outputFields": ["color"]
 }'
 
 # {
@@ -893,7 +892,7 @@ curl --request POST \
 #         },
 #         {
 #             "distance": 0.07794742286205292,
-#             "id": 43,
+#             "id": 43
 #             "color": "grey_8510"
 #         }
 #     ],
@@ -906,22 +905,181 @@ curl --request POST \
 
 ## limitとoffsetの使用\{#use-limit-and-offset}
 
-limitを使用すると、クエリで返されるエンティティの最大数を指定できます。offsetを使用すると、クエリで返されるエンティティを指定された数だけスキップできます。
+検索リクエストに含まれるパラメータ`limit`は、検索結果に含めるエンティティの数を決定します。このパラメータは単一検索で返すエンティティの最大数を指定し、通常**top-K**と呼ばれます。
 
-limitとoffsetの使用例については、[ページネーション](./pagination)を参照してください。
+ページネーションされたクエリを実行したい場合、ループを使用して複数の検索リクエストを送信できます。各クエリリクエストには**Limit**および**Offset**パラメータを含めます。具体的には、**Limit**パラメータを現在のクエリ結果に含めたいエンティティの数に設定し、**Offset**を既に返されたエンティティの総数に設定します。
 
-## レベルの使用\{#use-level}
+以下の表は、1回に100エンティティを返す場合のページネーションクエリにおける**Limit**および**Offset**パラメータの設定方法を示しています。
 
-Zilliz Cloudは検索パラメータとして`level`を導入し、ユーザーが検索の再現率とパフォーマンスをバランスさせるのを可能にします。現在の検索の推定再現率をユーザーに提供するために、別の検索パラメータ`enable_recall_calculation`も導入されています。これらの2つのパラメータを組み合わせて、ベクトル検索の再現率を調整できます。
+<table>
+   <tr>
+     <th><p>クエリ</p></th>
+     <th><p>クエリごとの返却エンティティ数</p></th>
+     <th><p>これまでに返された合計エンティティ数</p></th>
+   </tr>
+   <tr>
+     <td><p><strong>第1</strong>クエリ</p></td>
+     <td><p>100</p></td>
+     <td><p>0</p></td>
+   </tr>
+   <tr>
+     <td><p><strong>第2</strong>クエリ</p></td>
+     <td><p>100</p></td>
+     <td><p>100</p></td>
+   </tr>
+   <tr>
+     <td><p><strong>第3</strong>クエリ</p></td>
+     <td><p>100</p></td>
+     <td><p>200</p></td>
+   </tr>
+   <tr>
+     <td><p><strong>第n</strong>クエリ</p></td>
+     <td><p>100</p></td>
+     <td><p>100 x (n-1)</p></td>
+   </tr>
+</table>
 
-再現率の調整の詳細については、[再現率の調整](./tune-recall-rate)を参照してください。
+単一のANN検索における`limit`と`offset`の合計は16,384未満である必要があります。
 
-## 再現率の取得\{#get-recall-rate}
-
-Zilliz Cloudは再現率の計算を可能にする別の検索パラメータ`enable_recall_calculation`も導入しています。このパラメータを`True`に設定すると、Zilliz Cloudが現在の検索の再現率を推定し、検索結果とともに推定された再現率を含めます。
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
 
 ```python
-query_vector = [0.3580376395471989, ..., 0.9029438446296592],
+# 4. 単一ベクトル検索
+query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
+
+res = client.search(
+    collection_name="quick_setup",
+    data=[query_vector],
+    limit=3, # 返す結果の数
+    search_params={
+        "metric_type": "IP",
+        # highlight-next-line
+        "offset": 10 # スキップするレコード
+    }
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.vector.request.SearchReq
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp
+
+FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
+SearchReq searchReq = SearchReq.builder()
+        .collectionName("quick_setup")
+        .data(Collections.singletonList(queryVector))
+        .topK(3)
+        .offset(10)
+        .build();
+
+SearchResp searchResp = client.search(searchReq);
+
+List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
+for (List<SearchResp.SearchResult> results : searchResults) {
+    System.out.println("TopK results:")
+    for (SearchResp.SearchResult result : results) {
+        System.out.println(result)
+    }
+}
+
+// Output
+// TopK results:
+// SearchResp.SearchResult(entity={}, score=0.24120237, id=16)
+// SearchResp.SearchResult(entity={}, score=0.22559784, id=9)
+// SearchResp.SearchResult(entity={}, score=-0.09906838, id=2)
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
+
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "quick_setup", // collectionName
+    3,               // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithConsistencyLevel(entity.ClStrong).
+    WithANNSField("vector").
+    WithOffset(10))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 4. 単一ベクトル検索
+var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
+
+res = await client.search({
+    collection_name: "quick_setup",
+    data: query_vector,
+    limit: 3, # 返す結果の数,
+    # highlight-next-line
+    offset: 10 # スキップするレコード。
+})
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "quick_setup",
+    "data": [
+        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592]
+    ],
+    "annsField": "vector",
+    "limit": 3,
+    "offset": 10
+}'
+```
+
+</TabItem>
+</Tabs>
+
+## levelの使用\{#use-level}
+
+ANN検索を最適化するため、Zilliz Cloudは検索精度を制御するために`level`という名前のパラメータを提供し、簡略化された検索最適化を実現します。
+
+このパラメータは`1`から`10`の範囲で、デフォルトは`1`です。値を大きくすると検索の再現率が向上しますが、検索性能は低下します。一般的なケースでは、デフォルト値で最大90%の再現率を達成できます。必要に応じて値を大きくすることができます。
+
+<Admonition type="info" icon="📘" title="注意">
+
+<p>`level`パラメータは現在も<strong>パブリックプレビュー</strong>中です。`5`より大きい値に設定できない場合、クラスターがこの機能を完全にサポートしていない可能性があります。回避策として、代わりに`1`から`5`の範囲内の値に設定するか、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>までお問い合わせください。</p>
+
+</Admonition>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+# 4. 単一ベクトル検索
+query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
 
 res = client.search(
     collection_name="quick_setup",
@@ -929,44 +1087,327 @@ res = client.search(
     limit=3, # 返す結果の数
     search_params={
         "params": {
-            "level": 6 # 精度制御
             # highlight-next-line
-            "enable_recall_calculation": True # 再現率計算の要求
+            "level": 10 # 精度制御
         }
     }
 )
 ```
 
-上記の検索リクエストを使用すると、現在の検索の推定再現率を以下のように取得できます：
+</TabItem>
 
-```python
-# data: [...], recalls: [0.98]
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.vector.request.SearchReq
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp
+
+FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
+Map<String, Object> params = new HashMap<>();
+params.put("level", 10);
+SearchReq searchReq = SearchReq.builder()
+        .collectionName("quick_setup")
+        .data(Collections.singletonList(queryVector))
+        .topK(3)
+        .searchParams(params)
+        .build();
+
+SearchResp searchResp = client.search(searchReq);
+
+List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
+for (List<SearchResp.SearchResult> results : searchResults) {
+    System.out.println("TopK results:")
+    for (SearchResp.SearchResult result : results) {
+        System.out.println(result)
+    }
+}
+
+// Output
+// TopK results:
+// SearchResp.SearchResult(entity={}, score=0.95944905, id=5)
+// SearchResp.SearchResult(entity={}, score=0.8689616, id=1)
+// SearchResp.SearchResult(entity={}, score=0.866088, id=7)
 ```
 
-推定プロセス中、Zilliz Cloudは以下の処理を行います：
+</TabItem>
 
-1. `level`パラメータを使用してユーザー定義の値に設定した検索を実行し、
-2. 内部の高精度モードで別の検索を実行します。
-3. 2番目の検索を基準として使用して再現率を推定します。
+<TabItem value='go'>
 
-`enable_recall_calculation`を`True`に設定すると、`level`パラメータの値を調整して複数の再現率を取得できます。これらの推定値と各検索の期間を考慮することで、適切なレベル設定を概算できます。
+```go
+queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
+
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "quick_setup", // collectionName
+    3,               // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithConsistencyLevel(entity.ClStrong).
+    WithANNSField("vector").
+    WithSearchParam("level", "10"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 4. 単一ベクトル検索
+var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
+
+res = await client.search({
+    collection_name: "quick_setup",
+    data: query_vector,
+    limit: 3, # 返す結果の数,
+    params: {
+        # highlight-next-line
+        "level": 10 # 精度制御
+    }
+})
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "quick_setup",
+    "data": [
+        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
+        [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104]
+    ],
+    "annsField": "vector",
+    "limit": 3,
+    "searchParams":{
+        "params":{
+            "level":10
+        }
+    }
+}'
+
+# {"code":0,"cost":0,"data":[{"distance":1,"id":0},{"distance":0.6290165,"id":1},{"distance":0.5975797,"id":4},{"distance":0.9999999,"id":1},{"distance":0.7408552,"id":7},{"distance":0.6290165,"id":0}],"topks":[3]}
+```
+
+</TabItem>
+</Tabs>
+
+## 再現率の取得\{#get-recall-rate}
+
+`level`パラメータを調整するときに`enable_recall_calculation`を`true`に設定すると、異なる`level`値を持つ検索の精度を評価できます。
 
 <Admonition type="info" icon="📘" title="注意">
 
-<p><code>enable_recall_calculation</code>を有効にすると検索パフォーマンスに影響を与える可能性があるため、本番環境では推奨されません。</p>
+<p>`enable_recall_calculation`パラメータは現在も<strong>パブリックプレビュー</strong>中であり、互換性の問題により使用できない場合があります。支援が必要な場合は、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>までお問い合わせください。</p>
 
 </Admonition>
 
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+# 4. 単一ベクトル検索
+query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
+
+res = client.search(
+    collection_name="quick_setup",
+    data=[query_vector],
+    limit=3, # 返す結果の数
+    search_params={
+        "params": {
+            # highlight-next-line
+            "level": 10 # 精度制御,
+            "enable_recall_calculation": True # 再現率の返却を要求
+        }
+    }
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.vector.request.SearchReq
+import io.milvus.v2.service.vector.request.data.FloatVec;
+import io.milvus.v2.service.vector.response.SearchResp
+
+FloatVec queryVector = new FloatVec(new float[]{0.3580376395471989f, -0.6023495712049978f, 0.18414012509913835f, -0.26286205330961354f, 0.9029438446296592f});
+Map<String, Object> params = new HashMap<>();
+params.put("level", 10);
+params.put("enable_recall_calculation", true)
+SearchReq searchReq = SearchReq.builder()
+        .collectionName("quick_setup")
+        .data(Collections.singletonList(queryVector))
+        .topK(3)
+        .searchParams(params)
+        .build();
+
+SearchResp searchResp = client.search(searchReq);
+
+List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
+for (List<SearchResp.SearchResult> results : searchResults) {
+    System.out.println("TopK results:")
+    for (SearchResp.SearchResult result : results) {
+        System.out.println(result)
+    }
+}
+
+// Output
+// TopK results:
+// SearchResp.SearchResult(entity={}, score=0.95944905, id=5)
+// SearchResp.SearchResult(entity={}, score=0.8689616, id=1)
+// SearchResp.SearchResult(entity={}, score=0.866088, id=7)
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}
+
+resultSets, err := client.Search(ctx, milvusclient.NewSearchOption(
+    "quick_setup", // collectionName
+    3,               // limit
+    []entity.Vector{entity.FloatVector(queryVector)},
+).WithConsistencyLevel(entity.ClStrong).
+    WithANNSField("vector").
+    WithSearchParam("enable_recall_calculation", "true"))
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+
+for _, resultSet := range resultSets {
+    fmt.Println("IDs: ", resultSet.IDs.FieldData().GetScalars())
+    fmt.Println("Scores: ", resultSet.Scores)
+}
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// 4. 単一ベクトル検索
+var query_vector = [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
+
+res = await client.search({
+    collection_name: "quick_setup",
+    data: query_vector,
+    limit: 3, # 返す結果の数,
+    params: {
+        # highlight-next-line
+        "level": 10 # 精度制御
+        "enable_recall_calculation": true # 再現率の返却を要求
+    }
+})
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+export CLUSTER_ENDPOINT="YOUR_CLUSTER_ENDPOINT"
+export TOKEN="YOUR_CLUSTER_TOKEN"
+
+curl --request POST \
+--url "${CLUSTER_ENDPOINT}/v2/vectordb/entities/search" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "collectionName": "quick_setup",
+    "data": [
+        [0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592],
+        [0.19886812562848388, 0.06023560599112088, 0.6976963061752597, 0.2614474506242501, 0.838729485096104]
+    ],
+    "annsField": "vector",
+    "limit": 3,
+    "searchParams":{
+        "params":{
+            "level":10,
+            "enable_recall_calculation": true
+        }
+    }
+}'
+
+# {"code":0,"cost":0,"data":[{"distance":1,"id":0},{"distance":0.6290165,"id":1},{"distance":0.5975797,"id":4},{"distance":0.9999999,"id":1},{"distance":0.7408552,"id":7},{"distance":0.6290165,"id":0}],"topks":[3]}
+```
+
+</TabItem>
+</Tabs>
+
 ## ANN検索の強化\{#enhancing-ann-search}
 
-### フィルタリング条件の使用\{#use-filtering-condition}
+AUTOINDEXはANN検索の学習曲線を大幅に低減します。ただし、top-Kを増加させると検索結果が常に正確であるとは限りません。検索範囲を縮小し、検索結果の関連性を向上させ、検索結果を多様化させることで、Zilliz Cloudは以下の検索強化機能を実現しています。
 
-検索リクエストでフィルタリング条件を使用してクエリを絞り込むことができます。詳細については、[フィルタリング検索](./filtered-search)を参照してください。
+- フィルタリング検索
 
-### 類似性スコアの制限\{#limit-similarity-score}
+    検索リクエストにフィルタリング条件を含めることで、Zilliz CloudがANN検索の前にメタデータフィルタリングを実行し、検索範囲をコレクション全体から指定されたフィルタリング条件に一致するエンティティのみに削減できます。
 
-検索リクエストで類似性スコアの範囲を指定できます。詳細については、[範囲検索](./range-search)を参照してください。
+    メタデータフィルタリングおよびフィルタリング条件の詳細については、[フィルタリング検索](./filtered-search)および[フィルタリング](./filtering)を参照してください。
 
-### イテレーターを使用した検索\{#search-with-iterators}
+- 範囲検索
 
-1回のクエリで取得できるエンティティ数には最大制限があるため、基本的なANN検索のみでは大規模な検索の要求を満たせない場合があります。topKが16,384を超えるANN検索リクエストについては、SearchIteratorの使用を検討してください。詳細については、[イテレーターを使用した検索](./with-iterators)を参照してください。
+    返されるエンティティの距離またはスコアを特定の範囲内に制限することで、検索結果の関連性を向上できます。Zilliz Cloudでは、範囲検索はクエリーベクトルに最も類似するベクトル埋め込みを中心として2つの同心円を描くことによって行われます。検索リクエストは両方の円の半径を指定し、Zilliz Cloudは外側の円内にあり内側の円にはないすべてのベクトル埋め込みを返します。
+
+    範囲検索の詳細については、[範囲検索](./range-search)を参照してください。
+
+- グループ検索
+
+    返されるエンティティが特定のフィールドで同じ値を持つ場合、検索結果がベクトル空間内のすべてのベクトル埋め込みの分布を表さない可能性があります。検索結果の多様化を図るには、グループ検索の使用を検討してください。
+
+    グループ検索の詳細については、[グループ検索](./grouping-search)を参照してください。
+
+- ハイブリッド検索
+
+    コレクションには、異なる埋め込みモデルを使用して生成されたベクトル埋め込みを保存するために複数のベクトルフィールドを含めることができます。これにより、ハイブリッド検索を使用してこれらのベクトルフィールドからの検索結果を再ランク付けし、再現率を向上させることができます。
+
+    ハイブリッド検索の詳細については、[ハイブリッド検索](./hybrid-search)を参照してください。
+
+    コレクションで許可されるベクトルフィールド数の制限については、[Zilliz Cloudの制限](./limits#fields)を参照してください。
+
+- 検索イテレータ
+
+    単一のANN検索は最大16,384個のエンティティを返します。単一検索でより多くのエンティティを返す必要がある場合は、検索イテレータの使用を検討してください。
+
+    検索イテレータの詳細については、[検索イテレータ](./with-iterators)を参照してください。
+
+- フルテキスト検索
+
+    フルテキスト検索は、テキストデータセット内の特定の用語や語句を含むドキュメントを検索し、関連性に基づいて結果をランク付けする機能です。この機能により、セマンティック検索の限界（正確な用語を見逃す可能性がある）を克服し、最も正確で文脈に即した結果を得ることができます。また、生のテキスト入力を受け入れ、手動でベクトル埋め込みを生成する必要なく、自動的にテキストデータをスパース埋め込みに変換することで、ベクトル検索を簡略化します。
+
+    フルテキスト検索の詳細については、[全文検索](./full-text-search)を参照してください。
+
+- テキストマッチ
+
+    Zilliz Cloudのキーワードマッチは、特定の用語に基づいてドキュメントを正確に検索します。この機能は主に特定の条件を満たすためのフィルタリング検索で使用され、スカラー フィルタリングを組み合わせてクエリ結果を絞り込み、スカラー基準を満たすベクトル内の類似性検索を可能にします。
+
+    キーワードマッチの詳細については、[キーワードマッチ](./text-match)を参照してください。
+
+- パーティションキーの使用
+
+    メタデータフィルタリングに複数のスカラーフィールドを含め、複雑なフィルタリング条件を使用すると検索効率に影響を与える可能性があります。スカラーフィールドをパーティションキーとして設定し、検索リクエストでパーティションキーを含むフィルタリング条件を使用すると、指定されたパーティションキー値に対応するパーティション内に検索範囲を制限できます。
+
+    パーティションキーの詳細については、[パーティションキーの使用](./use-partition-key)を参照してください。
+
+- mmapの使用
+
+    mmap設定の詳細については、[mmapの使用](./use-mmap)を参照してください。

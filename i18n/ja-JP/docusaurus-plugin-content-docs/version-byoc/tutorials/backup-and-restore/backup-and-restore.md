@@ -1,32 +1,35 @@
 ---
-title: "バックアップと復元 | BYOC"
+title: "バックアップとリストア | BYOC"
 slug: /backup-and-restore
-sidebar_label: "バックアップと復元"
+sidebar_label: "バックアップとリストア"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudクラスターに保存されたデータのバックアップと復元。 | BYOC"
+description: "Zilliz Cloudクラスターに保存されたデータのバックアップとリストア。 | BYOC"
 type: origin
-token: AXmzw3QBKixR0skM8LWc39jwnAe
+token: VvikwOKc9iZ5vBkgMnycrXKmnId
 sidebar_position: 7
-keywords: 
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - backup
-  - restore
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - ベクトルデータベース
+  - クラウド
+  - バックアップ
+  - リストア
+  - オープンソースベクトルデータベース
+  - ベクトルインデックス
+  - オープンソースベクトルデータベース
+  - オープンソースベクトルDB
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# バックアップと復元
+# バックアップとリストア
 
-Zilliz Cloudクラスターに保存されたデータのバックアップと復元。
+Zilliz Cloudクラスターに保存されたデータのバックアップとリストア。
 
 
 

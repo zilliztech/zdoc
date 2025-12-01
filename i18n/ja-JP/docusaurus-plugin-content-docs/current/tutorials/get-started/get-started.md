@@ -1,7 +1,7 @@
 ---
 title: "Zilliz Cloudの開始 | Cloud"
 slug: /get-started
-sidebar_label: "開始方法"
+sidebar_label: "はじめに"
 beta: FALSE
 added_since: FALSE
 last_modified: FALSE

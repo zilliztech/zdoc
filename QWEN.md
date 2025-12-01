@@ -41,6 +41,7 @@ During the translation, ensure：
   - Ensure all HTML elements are properly nested within each other without cross-closing
 - Code-like content in regular text (e.g., `List<String>`) should be preserved exactly as-is to avoid being misinterpreted as HTML tags
 - In the frontmatter, notice that the `title` and `description` fields should be translated as well. In common cases, the `title` field should be the same as the actual title of the doc in a hash symbol (e.g., `# Title`), while the `description` field should be the content of the first paragraph of the document.
+- When translate the docs in `versioned_docs`, compare it with its counterpart in `docs` to identify the differences and translate them accordingly based on the translation in `docs`.
 
 Once the translation is complete, submit a pull request to the `master` branch of the `zdoc` repository.
 

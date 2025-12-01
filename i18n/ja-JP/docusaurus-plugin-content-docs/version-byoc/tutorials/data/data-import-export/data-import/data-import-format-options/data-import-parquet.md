@@ -1,14 +1,17 @@
 ---
-title: "Parquetファイルからインポート | BYOC"
+title: "Parquetファイルからのインポート | BYOC"
 slug: /data-import-parquet
-sidebar_label: "Parquetファイルからインポート"
+sidebar_label: "Parquet（推奨）"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Apache Parquetは、効率的なデータストレージと検索のために設計されたオープンソースの列指向データファイル形式です。複雑なデータを大量に管理するための高性能な圧縮およびエンコーディングスキームを提供し、さまざまなプログラミング言語や分析ツールでサポートされています。 | BYOC"
+description: "Apache Parquetは、効率的なデータストレージと取得を目的としたオープンソースの列指向データファイル形式です。複雑なデータを一括して管理するための高性能な圧縮およびエンコーディング方式を提供し、さまざまなプログラミング言語およびアナリティクスツールでサポートされています。| BYOC"
 type: origin
-token: TVgYwqTGHivSODk5AbhcfLFjntc
+token: WtkSwXgDdiB0eTkEkorcDCFlnme
 sidebar_position: 1
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
@@ -16,72 +19,72 @@ keywords:
   - milvus
   - format options
   - parquet
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Parquetファイルからインポート
+# Parquetファイルからのインポート
 
-[Apache Parquet](https://parquet.apache.org/docs/overview/)は、効率的なデータストレージと検索のために設計されたオープンソースの列指向データファイル形式です。複雑なデータを大量に管理するための高性能な圧縮およびエンコーディングスキームを提供し、さまざまなプログラミング言語や分析ツールでサポートされています。
+[Apache Parquet](https://parquet.apache.org/docs/overview/)は、効率的なデータストレージと取得を目的としたオープンソースの列指向データファイル形式です。複雑なデータを一括して管理するための高性能な圧縮およびエンコーディング方式を提供し、さまざまなプログラミング言語およびアナリティクスツールでサポートされています。
 
-生データをParquetファイルに準備するには、[BulkWriterツール](./use-bulkwriter)を使用することをお勧めします。次の図は、生データをParquetファイルにマッピングする方法を示しています。
+[バッチライターツール](./use-bulkwriter)を使用して、生データをParquetファイルに変換することをお勧めします。以下の図は、生データをParquetファイルにどのようにマッピングできるかを示しています。
 
 ![parquet_file_structure_en](/img/parquet_file_structure_en.png)
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注意">
 
 <ul>
 <li><strong>AutoIDを有効にするかどうか</strong></li>
 </ul>
-<p>「<strong>id</strong>」フィールドは、コレクションのプライマリフィールドとして機能します。プライマリフィールドを自動的にインクリメントするには、スキーマで「<strong>AutoID</strong>」を有効にします。この場合、ソースデータの各行から「<strong>id</strong>」フィールドを除外する必要があります。</p>
+<p><strong>id</strong>フィールドはコレクションの主フィールドとして機能します。主フィールドを自動的にインクリメントするには、スキーマで<strong>AutoID</strong>を有効にできます。この場合、ソースデータの各行から<strong>id</strong>フィールドを除外する必要があります。</p>
 <ul>
 <li><strong>動的フィールドを有効にするかどうか</strong></li>
 </ul>
-<p>ターゲットコレクションで動的フィールドが有効になっている場合、定義済みスキーマに含まれていないフィールドを格納する必要がある場合は、書き込み操作中に<strong>$meta</strong>列を指定し、対応するキー値データを指定できます。</p>
+<p>ターゲットコレクションで動的フィールドが有効になっている場合、事前定義されたスキーマに含まれていないフィールドを保存する必要がある場合は、書き込み操作中に<strong>&#36;meta</strong>列を指定し、対応するキーと値のデータを提供できます。</p>
 <ul>
-<li><strong>大文字と小文字を区別する</strong></li>
+<li><strong>大文字と小文字の区別</strong></li>
 </ul>
-<p>ディクショナリのキーとコレクションのフィールド名は大文字と小文字を区別します。データ内のディクショナリのキーがターゲットコレクションのフィールド名と完全に一致するようにしてください。ターゲットコレクションに<strong>id</strong>という名前のフィールドがある場合、各エンティティディクショナリにはidという名前のキーが必要です<strong>。ID</strong>または<strong>Idを使用するとエラーが発生します。</strong></p>
+<p>辞書キーとコレクションフィールド名は大文字と小文字を区別します。データ内の辞書キーがターゲットコレクションのフィールド名と正確に一致していることを確認してください。ターゲットコレクションに<strong>id</strong>という名前のフィールドがある場合、各エンティティ辞書には<strong>id</strong>という名前のキーが含まれている必要があります。<strong>ID</strong>や<strong>Id</strong>を使用するとエラーになります。</p>
 
 </Admonition>
 
-## ディレクトリ構造{#directory-structure}
+## ディレクトリ構造\{#directory-structure}
 
-Parquetファイルにデータを準備する場合は、以下のツリー図に示すように、すべてのParquetファイルをソースデータフォルダに直接置くことができます。
+データをParquetファイルに変換することを選択した場合、以下のツリー図に示すように、すべてのParquetファイルをソースデータフォルダに直接配置します。
 
 ```plaintext
 ├── parquet-folder
 │       ├── 1.parquet
-│       └── 2.parquet 
+│       └── 2.parquet
 ```
 
-## データのインポート{#import-data}
+## データのインポート\{#import-data}
 
-データの準備ができたら、次のいずれかの方法を使用して、Zilliz Cloudコレクションにデータをインポートできます。
+データの準備ができたら、以下のいずれかの方法を使用してZilliz Cloudコレクションにインポートできます。
 
-- [複数のパスからファイルをインポートする（推奨）](./data-import-parquet#import-files-from-multiple-paths-recommended)
+- [複数のパスからのファイルインポート（推奨）](./data-import-parquet#import-files-from-multiple-paths-recommended)
 
-- [ソースフォルダからファイルをインポートする](./data-import-parquet#import-files-from-a-folder)
+- [ソースフォルダからのファイルインポート](./data-import-parquet#import-files-from-a-folder)
 
-- [単一のファイルをインポート](./data-import-parquet#import-a-single-file)
+- [単一ファイルのインポート](./data-import-parquet#import-a-single-file)
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="注意">
 
-<p>ファイルが比較的小さい場合は、フォルダまたは複数パスの方法を使用して一度にすべてをインポートすることをお勧めします。このアプローチにより、インポート過程で内部最適化が可能になり、後でリソースの消費を減らすことができます。</p>
+<p>ファイルが比較的小さな場合は、フォルダまたは複数パスの方法を使用して一度にすべてをインポートすることをお勧めします。この方法により、インポートプロセス中に内部的な最適化が可能になり、後のリソース消費を減らすのに役立ちます。</p>
 
 </Admonition>
 
-Milvus SDKを使用して、Zilliz Cloudコンソールからデータをインポートすることもできます。詳細については、「[データのインポート(コンソール)](./import-data-on-web-ui)」および「[データのインポート(RESTful API)](./import-data-via-restful-api)」を参照してください。
+Zilliz CloudコンソールまたはMilvus SDKを使用してデータをインポートすることもできます。詳細については、[データのインポート（コンソール）](./import-data-on-web-ui) および [データのインポート（SDK）](./import-data-via-sdks) を参照してください。
 
-### 複数のパスからファイルをインポートする（推奨）{#import-files-from-multiple-paths-recommended}
+### 複数のパスからのファイルインポート（推奨）\{#import-files-from-multiple-paths-recommended}
 
-複数のパスからファイルをインポートする場合は、各Parquetファイルパスを個別のリストに含め、次のコード例のようにすべてのリストを上位レベルのリストにグループ化します。
+複数のパスからファイルをインポートする場合は、各Parquetファイルパスを別々のリストに含め、その後ですべてのリストをより上位のリストにグループ化します。以下のコード例を参照してください。
 
 ```python
 curl --request POST \
@@ -103,9 +106,9 @@ curl --request POST \
     }'
 ```
 
-### フォルダからファイルをインポートする{#import-files-from-a-folder}
+### フォルダからのファイルインポート\{#import-files-from-a-folder}
 
-ソースフォルダにインポートするParquetファイルのみが含まれている場合は、次のようにソースフォルダをリクエストに含めることができます。
+ソースフォルダにインポートするParquetファイルのみが含まれている場合は、以下のようにリクエストにソースフォルダを単純に含めることができます。
 
 ```python
 curl --request POST \
@@ -125,9 +128,9 @@ curl --request POST \
     }'
 ```
 
-### 単一のファイルをインポート{#import-a-single-file}
+### 単一ファイルのインポート\{#import-a-single-file}
 
-準備したデータファイルが1つのParquetファイルである場合は、次のコード例に示すようにインポートします。
+準備したデータファイルが単一のParquetファイルの場合は、以下のコード例に示すようにインポートします。
 
 ```python
 curl --request POST \
@@ -147,50 +150,52 @@ curl --request POST \
     }'
 ```
 
-## ストレージパス{#storage-paths}
+## ストレージパス\{#storage-paths}
 
-Zilliz Cloudは、クラウドストレージからのデータインポートをサポートしています。以下の表は、データファイルの可能なストレージパスを示しています。
+Zilliz Cloudはクラウドストレージからのデータインポートをサポートしています。以下の表は、データファイルの可能性のあるストレージパスを示しています。
 
 <table>
    <tr>
      <th><p><strong>クラウド</strong></p></th>
-     <th><p><strong>クイックな例</strong></p></th>
+     <th><p><strong>クイック例</strong></p></th>
    </tr>
    <tr>
      <td><p><strong>AWS S3</strong></p></td>
-     <td><p><code>s3://bucket-name/parquet-folder/</code></p><p><code>s3://bucket-name/parquet-folder/data.parquet</code></p></td>
+     <td><p>s3://<em>bucket-name</em>/<em>parquet-folder</em>/</p><p>s3://<em>bucket-name</em>/<em>parquet-folder</em>/<em>data.parquet</em></p></td>
    </tr>
    <tr>
      <td><p><strong>Google Cloud Storage</strong></p></td>
-     <td><p><code>gs://bucket-name/parquet-folder/</code></p><p><code>gs://bucket-name/parquet-folder/data.parquet</code></p></td>
+     <td><p>gs://<em>bucket-name</em>/<em>parquet-folder</em>/</p><p>gs://<em>bucket-name</em>/<em>parquet-folder</em>/<em>data.parquet</em></p></td>
    </tr>
    <tr>
-     <td><p><strong>Azure Bolb</strong></p></td>
-     <td><p><code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/</code></p><p><code>https://myaccount.blob.core.windows.net/bucket-name/parquet-folder/data.parquet</code></p></td>
+     <td><p><strong>Azure Blob</strong></p></td>
+     <td><p><em>https:</em>//<em>myaccount</em>.blob.core.windows.net/<em>bucket-name</em>/<em>parquet-folder</em>/</p><p><em>https:</em>//myaccount.blob.core.windows.net/<em>bucket-name</em>/<em>parquet-folder</em>/<em>data.parquet</em></p></td>
    </tr>
 </table>
 
-## 限界{#limits}
+## 制限事項\{#limits}
 
-クラウドストレージからParquet形式のデータをインポートする際には、いくつかの制限を守る必要があります。
+ローカルParquetファイルまたはクラウドストレージからParquetファイルでデータをインポートする際には、いくつかの制限事項に注意する必要があります。
 
 <table>
    <tr>
-     <th><p><strong>アイテム</strong></p></th>
-     <th><p><strong>説明する</strong></p></th>
+     <th><p><strong>インポート方法</strong></p></th>
+     <th><p><strong>1回のインポートあたりの最大ファイル数</strong></p></th>
+     <th><p><strong>最大ファイルサイズ</strong></p></th>
+     <th><p><strong>最大合計インポートサイズ</strong></p></th>
    </tr>
    <tr>
-     <td><p><strong>一度に複数のファイルをインポートする</strong></p></td>
-     <td><p>はい</p></td>
+     <td><p>ローカルファイルから</p></td>
+     <td><p>1ファイル</p></td>
+     <td><p>1 GB</p></td>
+     <td><p>1 GB</p></td>
    </tr>
    <tr>
-     <td><p><strong>インポートごとの最大ファイル体格</strong></p></td>
-     <td><p>クラスタの空き容量:合計512 MB</p><p>サーバーレス&amp;専用クラスター</p><ul><li><p>ファイルの体格: 10 GB</p></li><li><p>ファイルの体格: 100 GB</p></li></ul></td>
-   </tr>
-   <tr>
-     <td><p><strong>使用可能なデータファイルの場所</strong></p></td>
-     <td><p>リモートファイルのみ</p></td>
+     <td><p>オブジェクトストレージから</p></td>
+     <td><p>1,000ファイル</p></td>
+     <td><p>10 GB</p></td>
+     <td><p>1 TB</p></td>
    </tr>
 </table>
 
-生データをパルケファイルに準備するは[BulkWriterツール](./use-bulkwriter)を使用することをお勧めします。[上の図のスキーマに基づいて準備されたサンプルデータをダウンロードするにはここをクリック](https://assets.zilliz.com/prepared_parquet_data.parquet)してください。
+[バッチライターツール](./use-bulkwriter)を使用して、生データをparquetファイルに変換することをお勧めします。[上記図のスキーマに基づいて準備されたサンプルデータをダウンロードするにはこちらをクリックしてください](https://assets.zilliz.com/prepared_parquet_data.parquet)。

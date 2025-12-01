@@ -1,32 +1,35 @@
 ---
-title: "監査する | BYOC"
+title: "監査ログ | BYOC"
 slug: /auditing
-sidebar_label: "監査する"
-beta: PRIVATE
+sidebar_label: "監査ログ"
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudクラスターの監査を構成する方法を学びましょう。 | BYOC"
+description: "Zilliz Cloudクラスターの監査を構成する方法を学びます。 | BYOC"
 type: origin
-token: Q9mywCJmpiFcyUkkgEkcJDLpnDd
+token: UfGkwPQIPiJi6OkEu47cH3Umnvb
 sidebar_position: 5
-keywords: 
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - auditing
-  - log
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - ベクトルデータベース
+  - クラウド
+  - 監査
+  - ログ
+  - 深層学習
+  - 知識ベース
+  - 自然言語処理
+  - AIチャットボット
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# 監査する
+# 監査ログ
 
-Zilliz Cloudクラスターの監査を構成する方法を学びましょう。
+Zilliz Cloudクラスターの監査を構成する方法を学びます。
 
 import DocCardList from '@theme/DocCardList';
 

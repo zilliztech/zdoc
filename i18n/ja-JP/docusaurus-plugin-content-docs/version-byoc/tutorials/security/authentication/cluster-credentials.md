@@ -1,22 +1,25 @@
 ---
-title: "クラスタの認証情報 | BYOC"
+title: "クラスターコンテナ | BYOC"
 slug: /cluster-credentials
-sidebar_label: "クラスタの認証情報"
+sidebar_label: "クラスターコンテナ"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudは、クラスター資格情報またはAPIキーを使用してあなたのアイデンティティを認証します。このガイドでは、クラスター資格情報を使用した認証について説明します。 | BYOC"
+description: "Zilliz Cloudは、トークンを使用してユーザーの識別情報を認証します。トークンにはクラスターコンテナまたはAPIキーのいずれかを使用できます。このガイドでは、クラスターコンテナによる認証について説明します。 | BYOC"
 type: origin
-token: EEZPwviJYiSOCukPZI6cvQiRnkA
+token: YmsVwIzOBinv4OklCfmc2nyznAe
 sidebar_position: 3
-keywords: 
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - cluster credentials
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - ベクトルデータベース
+  - クラウド
+  - クラスターコンテナ
+  - 近似最近傍検索
+  - DiskANN
+  - スパースベクトル
+  - ベクトル次元
 
 ---
 
@@ -24,27 +27,27 @@ import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
 
-# クラスタの認証情報
+# クラスターコンテナ
 
-Zilliz Cloudは、クラスター資格情報またはAPIキーを使用してあなたのアイデンティティを認証します。このガイドでは、クラスター資格情報を使用した認証について説明します。
+Zilliz Cloudは、トークンを使用してユーザーの識別情報を認証します。トークンにはクラスターコンテナまたはAPIキーのいずれかを使用できます。このガイドでは、クラスターコンテナによる認証について説明します。
 
-クラスターの資格情報は、ユーザー名とパスワードのペア(`ユーザー:パスワード`)で構成されており、クラスターとのやり取りの要求の認証と承認に使用されます。
+クラスターコンテナは、ユーザー名とパスワードのペア（`user:password`）で構成され、クラスターとのやり取りのためのリクエストを認証および承認するために使用されます。
 
-クラスタを設定する際、Zilliz Cloudはデフォルトのクラスタユーザー`db_admin`を`Admin`ロールで作成し、完全なクラスタアクセスを許可します。デフォルトユーザーのパスワードはクラスタ作成時に一度だけ表示されるため、メモして適切な場所に安全に保存することが重要です。
+クラスターの設定時に、Zilliz Cloudは`Admin`ロールを持つデフォルトクラスターユーザー`db_admin`を作成し、完全なクラスターアクセスを付与します。デフォルトユーザーのパスワードは、クラスター作成時に一度だけ表示されるため、必ずメモし、適切な場所に安全に保管してください。
 
-デフォルトの`db_admin`ユーザ以外にも、認証用の対応するパスワードを持つクラスタユーザ[を作成](./cluster-users#create-a-cluster-user)することもできます。
+デフォルトの`db_admin`ユーザーに加えて、認証用にパスワードに対応する[さらにクラスターユーザーを作成](./cluster-users#create-a-cluster-user)することもできます。
 
-## パスワードのリセット{#reset-password}
+## パスワードのリセット\{#reset-password}
 
-ユーザーのパスワードを忘れた場合や漏洩の疑いがある場合は、パスワードをリセットできます。
+ユーザーのパスワードを忘れた場合や漏洩した疑いがある場合は、パスワードをリセットできます。
 
-- **コンソールでユーザーパスワードをリセットする**
+- **コンソールでユーザーのパスワードをリセット**
 
     ![reset-cluster-user-password](/img/reset-cluster-user-password.png)
 
-- **プログラムでユーザーパスワードをリセットする**
+- **プログラムでユーザーのパスワードをリセット**
 
-    RESTful APIまたはSDKを使用して、プログラムでユーザーパスワードをリセットできます。
+    RESTful APIまたはSDKを使用して、プログラムでユーザーのパスワードをリセットできます。
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -55,7 +58,7 @@ Zilliz Cloudは、クラスター資格情報またはAPIキーを使用して�
         uri="https://inxx-xxxxxxxxxxxx.api.gcp-us-west1.zillizcloud.com:19530",
         token="user:password"
     )
-    
+
     client.update_password(
         user_name="user_1",
         old_password="P@ssw0rd",
@@ -98,12 +101,12 @@ Zilliz Cloudは、クラスター資格情報またはAPIキーを使用して�
        "google.golang.org/grpc"
        "github.com/milvus-io/milvus/v2/milvusclient"
     )
-    
+
     userName := "user_1"
     oldpass := "P@ssw0rd"
     newpass := "NewP@ssw0rd"
     opts := client.NewUpdatePasswordOption(userName, oldpass, newpass)
-    
+
     onFinish := func(ctx context.Context, err error) {
         if err != nil {
             fmt.Printf("gRPC call finished with error: %v\n", err)
@@ -111,9 +114,9 @@ Zilliz Cloudは、クラスター資格情報またはAPIキーを使用して�
             fmt.Printf("gRPC call finished successfully")
         }
     }
-    
+
     callOption := grpc.OnFinish(onFinish)
-    
+
     err := mclient.UpdatePassword(context.Background(), opts, callOpts)
     ```
 

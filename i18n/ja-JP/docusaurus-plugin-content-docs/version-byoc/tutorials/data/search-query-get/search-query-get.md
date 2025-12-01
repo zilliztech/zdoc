@@ -1,33 +1,38 @@
 ---
-title: "検索&ランク | BYOC"
+title: "検索 | BYOC"
 slug: /search-query-get
-sidebar_label: "検索&ランク"
+sidebar_label: "検索"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudはベクトルベースの類似検索を実装し、検索効率とパフォーマンスを向上させるための複数の最適化を提供します。この章では、Zilliz Cloudで利用可能なさまざまなベクトル検索方法の原則とチュートリアルを学びます。 | BYOC"
+description: "Zilliz Cloudはベクトルベースの類似検索を実装しており、検索効率とパフォーマンスを向上させるための複数の最適化を提供します。この章では、Zilliz Cloudで利用可能なさまざまなベクトル検索方法の原理とチュートリアルについて学びます。 | BYOC"
 type: origin
-token: N9D5wwK8eiB7tbkeeVyc9QDXnVd
+token: CSYrwhK4Gigk07kd6ufcNTGMnZf
 sidebar_position: 5
-keywords: 
+keywords:
   - zilliz
-  - vector database
-  - cloud
-  - collection
-  - data
+  - ベクトルデータベース
+  - クラウド
+  - コレクション
+  - データ
   - DML
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - ベクトルデータベース比較
+  - openaiベクトルデータベース
+  - 自然言語処理データベース
+  - 安価なベクトルデータベース
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# 検索&ランク
+# 検索
 
-Zilliz Cloudはベクトルベースの類似検索を実装し、検索効率とパフォーマンスを向上させるための複数の最適化を提供します。この章では、Zilliz Cloudで利用可能なさまざまなベクトル検索方法の原則とチュートリアルを学びます。
+Zilliz Cloudはベクトルベースの類似検索を実装しており、検索効率とパフォーマンスを向上させるための複数の最適化を提供します。この章では、Zilliz Cloudで利用可能なさまざまなベクトル検索方法の原理とチュートリアルについて学びます。
+
+
 
 import DocCardList from '@theme/DocCardList';
 

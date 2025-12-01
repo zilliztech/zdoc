@@ -1,32 +1,35 @@
 ---
-title: "データを変換する | BYOC"
+title: "データの変換 | BYOC"
 slug: /prepare-data-import
-sidebar_label: "データを変換する"
+sidebar_label: "データの変換"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "インポートする前にデータを準備し、ソースデータの要件を満たしていることを確認する必要があります。この章では、ソースデータの要件と、データの準備を支援する使いやすいツールについて説明します。 | BYOC"
+description: "インポートする前にデータを準備し、ソースデータ要件を満たしていることを確認する必要があります。この章では、ソースデータ要件とデータ準備を支援する使いやすいツールを提供します。| BYOC"
 type: origin
-token: KyR6wBH1ZiIuEgk7zktc4zK7nDf
+token: YNbGwiEjAinaQfkSdNlcTehwn8I
 sidebar_position: 3
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
   - data import
   - prepare
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# データを変換する
+# データの変換
 
-インポートする前にデータを準備し、ソースデータの要件を満たしていることを確認する必要があります。この章では、ソースデータの要件と、データの準備を支援する使いやすいツールについて説明します。
+インポートする前にデータを準備し、ソースデータ要件を満たしていることを確認する必要があります。この章では、ソースデータ要件とデータ準備を支援する使いやすいツールを提供します。
 
 import DocCardList from '@theme/DocCardList';
 

@@ -1,61 +1,63 @@
 ---
-title: "FAQ:リソースプランニング | BYOC"
+title: "FAQ: リソースプランニング | BYOC"
 slug: /faq-resource-planning
-sidebar_label: "FAQ:リソースプランニング"
+sidebar_label: "FAQ: リソースプランニング"
 beta: FALSE
 notebook: FALSE
-description: "このトピックでは、Zilliz Cloudでリソースを計画する際に発生する可能性のある問題とそれに対応する解決策をリストアップしています。 | BYOC"
+description: "Zilliz Cloudでリソースを計画する際に遭遇する可能性のある問題とその解決方法についてこのトピックで紹介します。 | BYOC"
 type: origin
-token: LKxiwykkhi5VyLkTfAGcE3LinBe
+token: EV41wG08BiOWW8kbo9xcTGoPnKd
 sidebar_position: 6
 
 ---
 
-# FAQ:リソースプランニング
+# FAQ: リソースプランニング
 
-このトピックでは、Zilliz Cloudでリソースを計画する際に発生する可能性のある問題とそれに対応する解決策をリストアップしています。
+このトピックでは、Zilliz Cloudでリソースを計画する際に遭遇する可能性のある問題とその解決方法について紹介します。
 
-## Contents
+## 目次
 
-- [コンピューティングユニット（CU）とは何ですか?](#what-is-a-compute-unit-cu)
-- [使用されていないクラスタの費用を回避するにはどうすればよいですか?](#how-can-i-avoid-expenses-on-unused-clusters)
-- [与えられたコレクションには何個のCUが必要ですか?](#how-many-cus-do-i-need-for-a-given-collection)
-- [どのタイプのCUを選べばいいですか?](#which-type-of-cu-should-i-pick)
-- [「Performance-optimizedCU」と「容量最適化CU」の違いは何ですか?](#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu)
+- [コンピュートユニット（CU）とは何ですか？](#what-is-a-compute-unit-cu)
+- [使用していないクラスターの費用をどのように回避できますか？](#how-can-i-avoid-expenses-on-unused-clusters)
+- [特定のコレクションに必要なクエリCU数はいくつですか？](#how-many-query-cus-do-i-need-for-a-given-collection)
+- [どのタイプのクラスターを選択すべきですか？](#which-type-of-cluster-should-i-pick)
+- [パフォーマンス最適化型CUと容量最適化型CUの違いは何ですか？](#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu)
 
-## FAQs
-
-
+## よくある質問
 
 
-### コンピューティングユニット（CU）とは何ですか?{#what-is-a-compute-unit-cu}
 
-コンピューティングユニット（CU）は、インデックスや検索リクエストを処理するためのハードウェアリソースのグループです。CUは、検索サービスをデプロイするための完全に管理された物理ノードとして考えることができます。
 
-詳細については、「[適切なCUを選択](./cu-types-explained)」を参照してください。
+### コンピュートユニット（CU）とは何ですか？\{#what-is-a-compute-unit-cu}
 
-### 使用されていないクラスタの費用を回避するにはどうすればよいですか?{#how-can-i-avoid-expenses-on-unused-clusters}
+コンピュートユニット（CU）は、インデックスと検索リクエストを処理するためのハードウェアリソースのグループです。検索サービスを展開するための完全に管理された物理ノードとしてCUをシンプルに考えることができます。
 
-コンピューティングコストを節約するために、未使用のクラスタを一時停止することをお勧めします。必要に応じて後で再開できます。
+詳細については、[適切なCUの選択](./cu-types-explained)を参照してください。
 
-### 与えられたコレクションには何個のCUが必要ですか?{#how-many-cus-do-i-need-for-a-given-collection}
+### 使用していないクラスターの費用をどのように回避できますか？\{#how-can-i-avoid-expenses-on-unused-clusters}
 
-1つのPerformance-optimizedCUは、750万個の128次元ベクトルまたは150万個の768次元ベクトルを処理できます。
+コンピューティングコストを節約するために、使用していないクラスターを一時停止することをお勧めします。必要時に再開できます。
 
-容量最適化されたCUは、2,500万個の128次元ベクトルまたは5,000,000個の768次元ベクトルを処理できます。
+### 特定のコレクションに必要なクエリCU数はいくつですか？\{#how-many-query-cus-do-i-need-for-a-given-collection}
 
-あなたのコレクションのスキーマは上記の簡単なガイドと異なる場合があるため、実際の要件を異なるCUタイプに対してテストすることを強くお勧めします。
+- パフォーマンス最適化型: 最大150万個の768次元ベクトルをサポートします。
 
-### どのタイプのCUを選べばいいですか?{#which-type-of-cu-should-i-pick}
+- 容量最適化型: 最大500万個の768次元ベクトルをサポートします。
 
-要求の厳しいユースケースに対して高スループットと低レイテンシーが必要な場合は、Performance-optimizedCUを選択してください。また、スループットとレイテンシーに対する懸念が少なく、大量のデータをホストすることが優先事項である場合は、パフォーマンスとコストのバランスがより良いキャパシティ最適化CUを選択してください。
+- レイヤードストレージ: 最大2000万個の768次元ベクトルをサポートします。
 
-詳細については、「[適切なCUを選択](./cu-types-explained)」を参照してください。
+これらの推定値は、主キーのみを持つベクトルに基づいています。IDやラベルなどの追加のスカラー値フィールドがあると容量が減少する可能性があります。正確な評価のために独自のテストを実施することをお勧めします。
 
-### 「Performance-optimizedCU」と「容量最適化CU」の違いは何ですか?{#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu}
+### どのタイプのクラスターを選択すべきですか？\{#which-type-of-cluster-should-i-pick}
 
-「Performance-optimizedCompute Unit」は、低レイテンシーまたは高スループットの類似検索に適しています。このオプションは、高い検索パフォーマンスのシナリオに最適です。
+リアルタイムアプリケーションで即時検索結果と高同時通信量が必要な場合はパフォーマンス最適化型を選択してください。
+信頼性の高い検索速度を維持しながら大規模なベクトルデータセットを処理する必要がある場合は容量最適化型を選択してください。
+ホットデータとコールドデータの明確なパターンを持つ超大規模でコストに敏感なワークロードを処理する必要がある場合は、レイヤードストレージクラスターを選択してください。レイヤードストレージクラスターを選択するには、クラスターに少なくとも8つのクエリCUが必要です。
 
-「容量最適化コンピューティングユニット」は、performance-optimizedCUオプションの5倍のデータボリュームに適しています。このオプションは、ストレージ容量の増加シナリオに最適です。
+### パフォーマンス最適化型CUと容量最適化型CUの違いは何ですか？\{#whats-the-difference-between-performance-optimized-cu-and-capacity-optimized-cu}
 
-詳細については、「[適切なCUを選択](./cu-types-explained)」を参照してください。
+「パフォーマンス最適化型CU」は、低レイテンシまたは高スループットの類似性検索に適しています。このオプションは、検索パフォーマンスが高いシナリオに最適です。
+
+「容量最適化型CU」は、パフォーマンス最適化型CUオプションの5倍のデータ容量に適しています。このオプションは、ストレージ容量を拡大するシナリオに最適です。
+
+詳細については、[適切なCUの選択](./cu-types-explained)を参照してください。
