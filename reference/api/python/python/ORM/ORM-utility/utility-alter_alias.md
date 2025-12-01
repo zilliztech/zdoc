@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "alter_alias() | Python | ORM"
 slug: /python/python/utility-alter_alias
 sidebar_label: "alter_alias()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation reassigns the alias of one collection to another. | Python | ORM"
 type: docx
 token: MfTsdrbGcoO9JqxjgPtcMZTvncc
 sidebar_position: 1
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - alter_alias()
-  - pymilvus25
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - pymilvus26
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -35,7 +38,7 @@ import TabItem from '@theme/TabItem';
 
 This operation reassigns the alias of one collection to another.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 alter_alias(
@@ -113,7 +116,7 @@ alter_alias(
 
     This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections, Collection, utility
@@ -140,7 +143,7 @@ utility.list_aliases(collection_name="collection_1") # []
 utility.list_aliases(collection_name="collection_2") # ['bob']
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `alter_alias()`:
 

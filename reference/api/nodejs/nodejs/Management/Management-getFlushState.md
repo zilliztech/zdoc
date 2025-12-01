@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "getFlushState() | Node.js"
 slug: /node/node/Management-getFlushState
 sidebar_label: "getFlushState()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation returns the flush status of a specific segment. | Node.js"
 type: docx
 token: X8qWdMHg5oQQK6xZdBYcGNOnn3c
-sidebar_position: 8
+sidebar_position: 10
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - getFlushState()
-  - nodejs25
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - nodejs26
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -44,7 +47,7 @@ getFlushState(data): Promise<GetFlushStateResponse>
 
 </Admonition>
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.getFlushState({
@@ -102,7 +105,7 @@ This method returns a promise that resolves to a **GetFlushStateResponse** objec
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

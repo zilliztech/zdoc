@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "Partition | Python | ORM"
 slug: /python/python/ORM-Partition
 sidebar_label: "Partition"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "A Partition instance represents a partition within a collection. | Python | ORM"
 type: docx
 token: X9scdVMmxoBTuUxlKhecJXEunHd
 sidebar_position: 7
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - Partition
-  - pymilvus25
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - pymilvus26
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ A **Partition** instance represents a partition within a collection.
 class pymilvus.Partition
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs a partition in a collection by name, description, and other parameters. 
 
@@ -97,7 +100,7 @@ A **Partition** object.
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import Collection, Partition
@@ -109,7 +112,7 @@ collection = Collection("book")
 partition = Partition(collection, "novel", "")
 ```
 
-## Members{#members}
+## Members\{#members}
 
 The following are the members of the `Partition` class:
 

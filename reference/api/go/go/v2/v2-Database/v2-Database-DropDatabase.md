@@ -3,6 +3,9 @@ title: "DropDatabase() | Go | v2"
 slug: /go/v2-Database-DropDatabase
 sidebar_label: "DropDatabase()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method drops a database. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method drops a database.
 func (c *Client) DropDatabase(ctx context.Context, option DropDatabaseOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) DropDatabase(ctx context.Context, option DropDatabaseOption, ca
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DropDatabaseOption</code></p></td>
+     <td><p><a href="./v2-Database-DropDatabase#dropdatabaseoption"><code>DropDatabaseOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) DropDatabase(ctx context.Context, option DropDatabaseOption, ca
    </tr>
 </table>
 
-## DropDatabaseOption{#dropdatabaseoption}
+## DropDatabaseOption\{#dropdatabaseoption}
 
 This is an interface type. The `dropDatabaseOption` struct type implements this interface type. 
 
 You can use the `NewDropDatabaseOption()` function to get the concrete implementation.
 
-### NewDropDatabaseOption{#newdropdatabaseoption}
+### NewDropDatabaseOption\{#newdropdatabaseoption}
 
 The signature of this method is as follows:
 
@@ -75,11 +78,11 @@ func NewDropDatabaseOption(dbName string) *dropDatabaseOption
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 err = cli.DropDatabase(ctx, milvusclient.NewDropDatabaseOption(dbName))

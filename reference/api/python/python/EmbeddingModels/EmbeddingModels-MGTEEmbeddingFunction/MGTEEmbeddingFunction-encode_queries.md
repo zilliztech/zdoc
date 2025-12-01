@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "encode_queries() | Python"
 slug: /python/python/MGTEEmbeddingFunction-encode_queries
 sidebar_label: "encode_queries()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation takes in a list of query strings and encodes each query into a vector embedding. | Python"
 type: docx
 token: HEWIdid9BoFMyNxN8Bbc0P3nn6g
 sidebar_position: 2
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - zilliz
-  - zilliz cloud
-  - cloud
-  - encode_queries()
-  - pymilvus25
   - IVF
   - knn
   - Image Search
   - LLMs
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - encode_queries()
+  - pymilvus26
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation takes in a list of query strings and encodes each query into a vector embedding.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 encode_queries(
@@ -60,7 +63,7 @@ A dictionary that contains the encoded embeddings, both dense and sparse.
 
 *None*
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus.model.hybrid import MGTEEmbeddingFunction

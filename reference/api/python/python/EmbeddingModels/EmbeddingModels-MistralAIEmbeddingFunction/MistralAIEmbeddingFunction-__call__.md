@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "\_\_call\_\_() | Python"
 slug: /python/python/MistralAIEmbeddingFunction-__call__
 sidebar_label: "__call__()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation in MistralAIEmbeddingFunction takes a list of text strings and directly encodes them into vector embeddings. | Python"
 type: docx
 token: Z23IddhHhom7AyxDMXecLORVnDh
 sidebar_position: 4
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
-  - pymilvus25
+  - pymilvus26
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -36,7 +39,7 @@ This operation in [MistralAIEmbeddingFunction](./EmbeddingModels-MistralAIEmbedd
 
 The **\_\_call\_\_()** method of MistralAIEmbeddingFunction shares the same functionality as [encode_documents()](./MistralAIEmbeddingFunction-encode_documents) and [encode_queries()](./MistralAIEmbeddingFunction-encode_queries).
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 # Instance created
@@ -69,7 +72,7 @@ A list where each element is a NumPy array.
 
     This exception will be raised when `api_key` is not provided and the `MISTRALAI_API_KEY` environment variable is also not set.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus.model.dense import MistralAIEmbeddingFunction

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "create_partition() | Python | MilvusClient"
 slug: /python/python/Partitions-create_partition
 sidebar_label: "create_partition()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation creates a partition in the target collection. | Python | MilvusClient"
 type: docx
 token: I6hvdlYUuoUaw3xWqSnce4Fin9g
 sidebar_position: 1
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - create_partition()
-  - pymilvus25
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - pymilvus26
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation creates a partition in the target collection.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 create_partition(
@@ -78,7 +81,7 @@ A partition object.
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```python
 from pymilvus import MilvusClient
@@ -99,7 +102,7 @@ client.create_partition(
 )
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [drop_partition()](./Partitions-drop_partition)
 

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "get_load_state() | Python | MilvusClient"
 slug: /python/python/Management-get_load_state
 sidebar_label: "get_load_state()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation displays whether a specified collection or partition is loaded or not. | Python | MilvusClient"
 type: docx
 token: KEPYdKup1o3nHdxKbjvcQUzwnnd
 sidebar_position: 8
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - get_load_state()
-  - pymilvus25
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - pymilvus26
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation displays whether a specified collection or partition is loaded or not.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 get_load_state(
@@ -80,7 +83,7 @@ A dictionary that contains the status of the specified collection or partition.
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```python
 from pymilvus import MilvusClient
@@ -129,7 +132,7 @@ client.get_load_state(
 # {'state': <LoadState: Loaded>}
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [load_collection()](./Management-load_collection)
 

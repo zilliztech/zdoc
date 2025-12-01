@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "getIndexBuildProgress() | Node.js"
 slug: /node/node/Management-getIndexBuildProgress
 sidebar_label: "getIndexBuildProgress()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation gets the build progress of the specified index. | Node.js"
 type: docx
 token: G6CGdbM4QoNgr5xS1ZAc94lhnFd
-sidebar_position: 9
+sidebar_position: 11
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - getIndexBuildProgress()
-  - nodejs25
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - nodejs26
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation gets the build progress of the specified index.
 getIndexBuildProgress(data): Promise<GetIndexBuildProgressResponse>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.getIndexBuildProgress({
@@ -120,7 +123,7 @@ This method returns a promise that resolves to a **GetIndexBuildProgressResponse
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new MilvusClient(MILUVS_ADDRESS);

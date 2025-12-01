@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "hybrid_search() | Python | ORM"
 slug: /python/python/Collection-hybrid_search
 sidebar_label: "hybrid_search()"
 beta: NEAR DEPRECATE
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation performs multi-vector search on a collection and returns search results after reranking. | Python | ORM"
 type: docx
 token: QqOSdTDaLoOKGRxiKEtcuuiAnrf
 sidebar_position: 17
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - hybrid_search()
-  - pymilvus25
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - pymilvus26
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation performs multi-vector search on a collection and returns search results after reranking.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 hybrid_search(
@@ -195,7 +198,7 @@ A **SearchResult** object that contains a list of **Hits** objects.
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 collection = Collection(name='{your_collection_name}') # Replace with the actual name of your collection

@@ -3,6 +3,9 @@ title: "DropDatabaseProperties() | Go | v2"
 slug: /go/v2-Database-DropDatabaseProperties
 sidebar_label: "DropDatabaseProperties()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method resets the specified property of a database to its default value. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method resets the specified property of a database to its default value.
 func (c *Client) DropDatabaseProperties(ctx context.Context, option DropDatabasePropertiesOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) DropDatabaseProperties(ctx context.Context, option DropDatabase
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DropDatabasePropertiesOption</code></p></td>
+     <td><p><a href="./v2-Database-DropDatabaseProperties#dropdatabasepropertiesoption"><code>DropDatabasePropertiesOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) DropDatabaseProperties(ctx context.Context, option DropDatabase
    </tr>
 </table>
 
-## DropDatabasePropertiesOption{#dropdatabasepropertiesoption}
+## DropDatabasePropertiesOption\{#dropdatabasepropertiesoption}
 
 This is an interface type. The `dropDatabasePropertiesOption` struct type implements this interface type. 
 
 You can use the `NewDropDatabasePropertiesOption()` function to get the concrete implementation.
 
-### NewDropDatabasePropertiesOption{#newdropdatabasepropertiesoption}
+### NewDropDatabasePropertiesOption\{#newdropdatabasepropertiesoption}
 
 The signature of this method is as follows:
 
@@ -80,11 +83,11 @@ func NewDropDatabasePropertiesOption(dbName string, propertyKeys ...string) *dro
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 dbName := `test_db`

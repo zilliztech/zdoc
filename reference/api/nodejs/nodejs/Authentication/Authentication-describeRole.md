@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "describeRole() | Node.js"
 slug: /node/node/Authentication-describeRole
 sidebar_label: "describeRole()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation describes a specific role. | Node.js"
 type: docx
 token: ItZPd1o4uoodqtx1sxIcq38hn7e
-sidebar_position: 7
+sidebar_position: 9
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
-  - nodejs25
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - nodejs26
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation describes a specific role.
 describeRole(data): Promise<SelectRoleResponse>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.describeRole({
@@ -141,7 +144,7 @@ This method returns a promise that resolves to a **SelectRoleResponse** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 milvusClient.describeRole({roleName: 'myrole'});

@@ -3,6 +3,9 @@ title: "DropRole() | Go | v2"
 slug: /go/v2-Authentication-DropRole
 sidebar_label: "DropRole()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method drops a role. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method drops a role.
 func (c *Client) DropRole(ctx context.Context, opt DropRoleOption, callOpts ...grpc.CallOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) DropRole(ctx context.Context, opt DropRoleOption, callOpts ...g
    <tr>
      <td><p><code>opt</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DropRoleOption</code></p></td>
+     <td><p><a href="./v2-Authentication-DropRole#droproleoption"><code>DropRoleOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) DropRole(ctx context.Context, opt DropRoleOption, callOpts ...g
    </tr>
 </table>
 
-## DropRoleOption{#droproleoption}
+## DropRoleOption\{#droproleoption}
 
 This is an interface type. The `dropRoleOption` struct type implements this interface type. 
 
 You can use the `NewDropRoleOption()` function to get the concrete implementation.
 
-### NewDropRoleOption{#newdroproleoption}
+### NewDropRoleOption\{#newdroproleoption}
 
 The signature of the `NewDropRoleOption()` is as follows:
 
@@ -75,15 +78,15 @@ func NewDropRoleOption(roleName string) *dropRoleOption
    </tr>
 </table>
 
-## grpc.CallOption{#grpccalloption}
+## grpc.CallOption\{#grpccalloption}
 
 This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_connections() | Python | ORM"
 slug: /python/python/Connections-list_connections
 sidebar_label: "list_connections()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation returns a list of all connection names and handler objects. | Python | ORM"
 type: docx
 token: DyPldeRNXo4nMqxQeE0cMnd2nEf
 sidebar_position: 7
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - list_connections()
-  - pymilvus25
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - pymilvus26
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation returns a list of all connection names and handler objects.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 list_connections()
@@ -56,7 +59,7 @@ A list of all connection names and handler objects.
 
 None
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections
@@ -71,7 +74,7 @@ connections.list_connections()
 # [('default', <pymilvus.client.grpc_handler.GrpcHandler at 0x14713b940>)]
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `list_connections()`:
 

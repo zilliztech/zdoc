@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "create_resource_group() | Python | ORM"
 slug: /python/python/utility-create_resource_group
 sidebar_label: "create_resource_group()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation creates a new resource group. | Python | ORM"
 type: docx
 token: X5qsdhFQ5oOhkcxOprzcOZq4nMc
 sidebar_position: 4
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - create_resource_group()
-  - pymilvus25
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - pymilvus26
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -42,7 +45,7 @@ This operation creates a new resource group.
 
 </Admonition>
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 create_resource_group(
@@ -115,7 +118,7 @@ None
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections, utility
@@ -145,7 +148,7 @@ except Exception:
 
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `create_resource_group()`:
 

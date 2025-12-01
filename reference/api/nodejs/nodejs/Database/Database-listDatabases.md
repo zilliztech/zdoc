@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listDatabases() | Node.js"
 slug: /node/node/Database-listDatabases
 sidebar_label: "listDatabases()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation lists all existing databases. | Node.js"
 type: docx
 token: Kp9Dd2dIgoxyDixuqtqctPZXnFb
 sidebar_position: 5
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
-  - nodejs25
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - nodejs26
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation lists all existing databases.
 listDatabases(data?): Promise<ListDatabasesResponse>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.listDatabases({
@@ -91,7 +94,7 @@ This method returns a promise that resolves to a **ListDatabaseResponse** object
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```javascript
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

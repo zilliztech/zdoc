@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "\_\_call\_\_() | Python"
 slug: /python/python/InstructorEmbeddingFunction-__call__
 sidebar_label: "__call__()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation in InstructorEmbeddingFunction takes a list of text strings and directly encodes them into vector embeddings. | Python"
 type: docx
 token: VmAIdW9J2oH6iWxDh2PcJYfRnne
 sidebar_position: 4
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
-  - pymilvus25
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - pymilvus26
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -36,7 +39,7 @@ This operation in [InstructorEmbeddingFunction](./EmbeddingModels-InstructorEmbe
 
 The **\_\_call\_\_()** method of InstructorEmbeddingFunction shares the same functionality as [encode_documents()](./InstructorEmbeddingFunction-encode_documents) and [encode_queries()](./InstructorEmbeddingFunction-encode_queries).
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 # Instance created
@@ -67,7 +70,7 @@ A list where each element is a NumPy array.
 
 *None*
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus.model.dense import InstructorEmbeddingFunction

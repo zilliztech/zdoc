@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "IndexParam | Java | v2"
 slug: /java/java/v2-Management-IndexParam
 sidebar_label: "IndexParam"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation prepares index parameters to build indexes for a specific collection. | Java | v2"
 type: docx
 token: FUNwdQQqAon41YxMWiIcHIBmned
-sidebar_position: 7
+sidebar_position: 10
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - IndexParam
-  - javaV225
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - javaV226
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation prepares index parameters to build indexes for a specific collect
 io.milvus.v2.common.IndexParam
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 IndexParam.builder()
@@ -60,11 +63,11 @@ IndexParam.builder()
 
     The name of the index field generated after this **IndexParam** object has been applied.
 
-- `indexType(IndexParam.IndexType indexType)`
+- `indexType(IndexParam.[IndexType](./v2-Management-IndexType) indexType)`
 
     The name of the algorithm used to arrange data in the specific field. On Zilliz Cloud, the index type is always **AUTOINDEX**. For details, refer to [AUTOINDEX Explained](/docs/autoindex-explained).
 
-- `metricType(IndexParam.MetricType metricType)`
+- `metricType(IndexParam.[MetricType](./v2-Management-MetricType) metricType)`
 
     The algorithm that is used to measure similarity between vectors. Possible values: `IP`, `L2`, `COSINE`, `HAMMING`, `JACCARD`, `BM25` (used only for full text search). For more information, refer to [Metric Types](https://milvus.io/docs/metric.md).
 
@@ -88,7 +91,7 @@ An **IndexParam** object.
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 // define index param for field "vector"

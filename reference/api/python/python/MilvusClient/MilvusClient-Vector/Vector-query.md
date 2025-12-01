@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "query() | Python | MilvusClient"
 slug: /python/python/Vector-query
 sidebar_label: "query()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation conducts a scalar filtering with a specified boolean expression. | Python | MilvusClient"
 type: docx
-token: LkmSddW2NolgitxLhy9cx22Dnpe
+token: Edrcdw34jofMbNxK5HncdDT5n8e
 sidebar_position: 4
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - query()
-  - pymilvus25
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - pymilvus26
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation conducts a scalar filtering with a specified boolean expression.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 query(
@@ -61,7 +64,7 @@ query(
 
     A scalar filtering condition to filter matching entities. 
 
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
+    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Filtering Overview](/docs/filtering-overview). 
 
 - **output_fields** (*list[str]* | *None*) -
 
@@ -142,7 +145,7 @@ query(
 
         You can use this parameter in combination with `offset` to enable pagination.
 
-        The sum of this value and `offset` should be less than 16,384. 
+        The sum of this value and `offset` should be less than 16,384.
 
 **RETURN TYPE:**
 
@@ -168,7 +171,7 @@ A list of dictionaries with each dictionary representing a queried entity.
 
     This exception will be raised when a parameter value doesn't match the required data type.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
@@ -366,16 +369,4 @@ res = client.query(
 
 # [{'count(*)': 3}]
 ```
-
-## Related methods{#related-methods}
-
-- [delete()](./Vector-delete)
-
-- [get()](./Vector-get)
-
-- [insert()](./Vector-insert)
-
-- [search()](./Vector-search)
-
-- [upsert()](./Vector-upsert)
 

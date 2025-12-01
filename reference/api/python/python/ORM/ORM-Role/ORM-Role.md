@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "Role | Python | ORM"
 slug: /python/python/ORM-Role
 sidebar_label: "Role"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "A Role instance represents a role with specific privileges to access your . | Python | ORM"
 type: docx
 token: LZL1d0kckouPXNxJLCmcwbCTnkG
 sidebar_position: 11
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - Role
-  - pymilvus25
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - pymilvus26
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ A **Role** instance represents a role with specific privileges to access your .
 class pymilvus.Role
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs a role by name and other parameters.
 
@@ -83,7 +86,7 @@ A role object.
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import Role
@@ -94,7 +97,7 @@ role = Role(
 )
 ```
 
-## Methods{#methods}
+## Methods\{#methods}
 
 The following are the methods of the `Role` class:
 

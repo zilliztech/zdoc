@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "verify() | Python | ORM"
 slug: /python/python/CollectionSchema-verify
 sidebar_label: "verify()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation performs final validation checks on the CollectionSchema to detect any obvious problems. | Python | ORM"
 type: docx
 token: KSECdBDcUoIkL7xI4KOc29Ukn1g
 sidebar_position: 5
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - verify()
-  - pymilvus25
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - pymilvus26
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation performs final validation checks on the CollectionSchema to detect any obvious problems.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 verify()
@@ -58,7 +61,7 @@ None
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import CollectionSchema, FieldSchema, DataType  
@@ -85,18 +88,4 @@ schema = CollectionSchema(
 # Call verify() to validate the schema 
 schema.verify()
 ```
-
-## Related operations{#related-operations}
-
-The following operations are related to `verify()`:
-
-- [FieldSchema](./ORM-FieldSchema)
-
-- [DataType](./Collections-DataType)
-
-- [add_field()](./CollectionSchema-add_field)
-
-- [construct_from_dict()](./CollectionSchema-construct_from_dict)
-
-- [to_dict()](./CollectionSchema-to_dict)
 

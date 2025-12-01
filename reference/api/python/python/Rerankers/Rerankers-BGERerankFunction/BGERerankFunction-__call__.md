@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "\_\_call\_\_() | Python"
 slug: /python/python/BGERerankFunction-__call__
 sidebar_label: "__call__()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation in BGERerankFunction takes in a query and document strings and returns a list of `RerankResult` objects with the top k documents ranked by score. | Python"
 type: docx
 token: C2AbdIReZos7HwxiZXIcyW8nnm1
 sidebar_position: 2
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
-  - pymilvus25
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - pymilvus26
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation in [BGERerankFunction](./Rerankers-BGERerankFunction) takes in a query and document strings and returns a list of `RerankResult` objects with the top k documents ranked by score.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 # Instance created
@@ -91,7 +94,7 @@ Each `RerankResult` object contains:
 
     This exception will be raised when the FlagEmbedding module is not installed.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus.model.reranker import BGERerankFunction

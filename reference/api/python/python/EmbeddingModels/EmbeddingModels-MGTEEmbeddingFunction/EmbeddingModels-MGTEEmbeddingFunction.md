@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "MGTEEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-MGTEEmbeddingFunction
 sidebar_label: "MGTEEmbeddingFunction"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "MGTEEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using MGTE embedding models to support embedding retrieval in Milvus. | Python"
 type: docx
 token: OF1mdh4tSo8ZQQxxVgEcdITRndb
 sidebar_position: 3
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - MGTEEmbeddingFunction
-  - pymilvus25
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - pymilvus26
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ MGTEEmbeddingFunction is a class in pymilvus that handles encoding text into emb
 pymilvus.model.hybrid.MGTEEmbeddingFunction
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs a MGTEEmbeddingFunction for common use cases.
 
@@ -94,7 +97,7 @@ MGTEEmbeddingFunction(
 
     Allows additional keyword arguments to be passed to the model initialization.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus.model.hybrid import MGTEEmbeddingFunction

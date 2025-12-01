@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "getCollectionStatistics() | Node.js"
 slug: /node/node/Collections-getCollectionStatistics
 sidebar_label: "getCollectionStatistics()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists the statistics collected on a specific collection. | Node.js"
 type: docx
 token: LQMGdRHjKogdeMxekCtcdBLqnNf
-sidebar_position: 13
+sidebar_position: 12
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStatistics()
-  - nodejs25
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - nodejs26
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation lists the statistics collected on a specific collection.
 getCollectionStatistics(data): Promise<StatisticsResponse>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.getCollectionStatistics({ 
@@ -98,7 +101,7 @@ This method returns a promise that resolves to a **StatisticsResponse** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

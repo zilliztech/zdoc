@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "has_collection() | Python | MilvusClient"
 slug: /python/python/Collections-has_collection
 sidebar_label: "has_collection()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation checks whether a specific collection exists. | Python | MilvusClient"
 type: docx
 token: SSQ6dFGdxouy7hxRwCOcatnEn0e
 sidebar_position: 14
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - has_collection()
-  - pymilvus25
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - pymilvus26
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation checks whether a specific collection exists.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 has_collection(
@@ -71,7 +74,7 @@ A boolean value indicating whether the specified collection exists.
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
@@ -96,7 +99,7 @@ client.has_collection(collection_name="test_collection_2")
 # False
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [create_collection()](./Collections-create_collection)
 

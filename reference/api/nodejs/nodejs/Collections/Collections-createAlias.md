@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "createAlias() | Node.js"
 slug: /node/node/Collections-createAlias
 sidebar_label: "createAlias()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation creates an alias for an existing collection. | Node.js"
 type: docx
 token: MPuIdwujBoXM6rx7Okfc3lhZnUd
-sidebar_position: 5
+sidebar_position: 4
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - createAlias()
-  - nodejs25
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - nodejs26
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation creates an alias for an existing collection.
 createAlias(data): Promise<ResStatus>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.createAlias({
@@ -115,7 +118,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

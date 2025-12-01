@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "drop_index_properties() | Python | MilvusClient"
 slug: /python/python/Management-drop_index_properties
 sidebar_label: "drop_index_properties()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation drops the specified index properties. | Python | MilvusClient"
 type: docx
 token: M2kXd5zWSoMIOnxXWamcgCkznih
 sidebar_position: 15
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - drop_index_properties()
-  - pymilvus25
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - pymilvus26
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation drops the specified index properties.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 drop_index_properties(
@@ -83,7 +86,7 @@ None
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient

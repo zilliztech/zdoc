@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "listPartitions() | Java | v2"
 slug: /java/java/v2-Partitions-listPartitions
 sidebar_label: "listPartitions()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation lists the partitions in a specified collection. | Java | v2"
 type: docx
-token: RJcgdJpGDouomlxPTqZc5S8Lngc
+token: Bjs5dej7ZoBKhXxZzMjclPCynmd
 sidebar_position: 5
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - listPartitions()
-  - javaV225
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - javaV226
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,16 +41,21 @@ This operation lists the partitions in a specified collection.
 public List<String> listPartitions(ListPartitionsReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 listPartitions(ListPartitionsReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .build()
 )
 ```
 
 **BUILDER METHODS:**
+
+- `databaseName(String databaseName)`
+
+    The name of the database to which the target collection belongs.
 
 - `collectionName(String collectionName)`
 
@@ -67,7 +75,7 @@ A list of partition names.
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

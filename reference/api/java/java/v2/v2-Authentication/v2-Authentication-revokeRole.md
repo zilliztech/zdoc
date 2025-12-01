@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "revokeRole() | Java | v2"
 slug: /java/java/v2-Authentication-revokeRole
 sidebar_label: "revokeRole()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation revokes the role assigned to a user. | Java | v2"
 type: docx
 token: Znb7dcNoeobIkkxGLGfcpVfUnIX
 sidebar_position: 19
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - revokeRole()
-  - javaV225
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - javaV226
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation revokes the role assigned to a user.
 public void revokeRole(RevokeRoleReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 revokeRole(RevokeRoleReq.builder()
@@ -68,7 +71,7 @@ revokeRole(RevokeRoleReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

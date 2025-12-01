@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "\_\_call\_\_() | Python"
 slug: /python/python/SentenceTransformerEmbeddingFunction-__call__
 sidebar_label: "__call__()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation in SentenceTransformerEmbeddingFunction takes a list of text strings and directly encodes them into vector embeddings. | Python"
 type: docx
 token: ZWLCdBWwOo4OSVxfnNRcDrv5nhe
 sidebar_position: 4
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
-  - pymilvus25
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - pymilvus26
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -36,7 +39,7 @@ This operation in [SentenceTransformerEmbeddingFunction](./EmbeddingModels-Sente
 
 To prevent potential errors when directly using the **\_\_call()\_\_** method, avoid using **query_instruction** or **doc_instruction** for SentenceTransformerEmbeddingFunction initialization. For more information, refer to [SentenceTransformerEmbeddingFunction](./EmbeddingModels-SentenceTransformerEmbeddingFunction).
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 # Instance created
@@ -68,7 +71,7 @@ A list where each element is a NumPy array.
 
     This exception will be raised when the necessary sentence-transformers module is not installed.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import model

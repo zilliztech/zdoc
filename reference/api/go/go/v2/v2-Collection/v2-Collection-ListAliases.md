@@ -3,6 +3,9 @@ title: "ListAliases() | Go | v2"
 slug: /go/v2-Collection-ListAliases
 sidebar_label: "ListAliases()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method lists all existing aliases associated with the specified collection. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method lists all existing aliases associated with the specified collection.
 func (c *Client) ListAliases(ctx context.Context, option ListAliasesOption, callOptions ...grpc.CallOption) ([]string, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) ListAliases(ctx context.Context, option ListAliasesOption, call
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>ListAliasesOption</code></p></td>
+     <td><p><a href="./v2-Collection-ListAliases#listaliasesoption"><code>ListAliasesOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) ListAliases(ctx context.Context, option ListAliasesOption, call
    </tr>
 </table>
 
-## ListAliasesOption{#listaliasesoption}
+## ListAliasesOption\{#listaliasesoption}
 
 This is an interface type. The `listAliasesOption` struct type implements this interface type. 
 
 You can use the `NewListAliasesOption()` function to get the concrete implementation.
 
-### NewListAliasesOption{#newlistaliasesoption}
+### NewListAliasesOption\{#newlistaliasesoption}
 
 The signature of this method is as follows:
 
@@ -75,11 +78,11 @@ func NewListAliasesOption(collectionName string) *listAliasesOption
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 `[]string`
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 aliases, err := cli.ListAliases(ctx, milvusclient.NewListAliasesOption("customized_setup_2"))

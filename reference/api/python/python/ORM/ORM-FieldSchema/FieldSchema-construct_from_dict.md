@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "construct_from_dict() | Python | ORM"
 slug: /python/python/FieldSchema-construct_from_dict
 sidebar_label: "construct_from_dict()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation constructs a FieldSchema object from a dictionary representation. | Python | ORM"
 type: docx
 token: DCLUdOpVjohl8HxPUx1cGjokngf
 sidebar_position: 1
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dict()
-  - pymilvus25
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - pymilvus26
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation constructs a FieldSchema object from a dictionary representation.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 construct_from_dict(
@@ -69,7 +72,7 @@ A FieldSchema object.
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import FieldSchema, DataType  
@@ -89,10 +92,4 @@ print(field)
 # Output
 # {'name': 'primary_key', 'description': 'test_field_schema', 'type': <DataType.INT64: 5>}
 ```
-
-## Related operations{#related-operations}
-
-The following operations are related to `construct_from_dict()`:
-
-- [to_dict()](./FieldSchema-to_dict)
 

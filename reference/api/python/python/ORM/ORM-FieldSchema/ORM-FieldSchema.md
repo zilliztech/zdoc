@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "FieldSchema | Python | ORM"
 slug: /python/python/ORM-FieldSchema
 sidebar_label: "FieldSchema"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "A FieldSchema instance defines the data type and related attributes of a specific field in a collection. | Python | ORM"
 type: docx
 token: EVKhdy0vwoSLSux2RW2c660unjh
 sidebar_position: 2
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - FieldSchema
-  - pymilvus25
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - pymilvus26
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ A **FieldSchema** instance defines the data type and related attributes of a spe
 class pymilvus.FieldSchema
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs the schema of a field by defining the field name, data type, and other parameters.
 
@@ -154,6 +157,6 @@ A **FieldSchema** object.
 
     This exception will be raised when any error occurs during this operation.
 
-## Methods{#methods}
+## Methods\{#methods}
 
 The following are the methods of the `FieldSchema` class:

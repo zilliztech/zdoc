@@ -3,6 +3,9 @@ title: "RunAnalyzer() | Go | v2"
 slug: /go/v2-Collection-RunAnalyzer
 sidebar_label: "RunAnalyzer()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: v2.6.x
+deprecate_since: FALSE
 notebook: FALSE
 description: "This operation processes the input data and generates tokenized output. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This operation processes the input data and generates tokenized output.
 func (c *Client) RunAnalyzer(ctx context.Context, option RunAnalyzerOption, callOptions ...grpc.CallOption) ([]*entity.AnalyzerResult, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) RunAnalyzer(ctx context.Context, option RunAnalyzerOption, call
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>RunAnalyzerOption</code></p></td>
+     <td><p><a href="./v2-Collection-RunAnalyzer#runanalyzeroption"><code>RunAnalyzerOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,7 +51,7 @@ func (c *Client) RunAnalyzer(ctx context.Context, option RunAnalyzerOption, call
    </tr>
 </table>
 
-## RunAnalyzerOption{#runanalyzeroption}
+## RunAnalyzerOption\{#runanalyzeroption}
 
 This is an interface type. The `runAnalyzerOption` struct type implements this interface. You can use `NewRunAnalyzerOption()` to get its concrete implementation.
 
@@ -71,19 +74,19 @@ func NewRunAnalyzerOption(text []string) *runAnalyzerOption
 
 You can chain the following methods to append extra settings to the current `RunAnalyzerOption` struct.
 
-- WithAnalyzerParamsStr
+- [WithAnalyzerParamsStr](./v2-Collection-RunAnalyzer#withanalyzerparamsstr)
 
 - [WithAnalyzerParams](./v2-Collection-RunAnalyzer#withanalyzername)
 
-- WithDetail
+- [WithDetail](./v2-Collection-RunAnalyzer#withdetail)
 
-- WithHash
+- [WithHash](./v2-Collection-RunAnalyzer#withhash)
 
 - [WithField](./v2-Collection-RunAnalyzer#withfield)
 
-- WithAnalyzerName
+- [WithAnalyzerName](./v2-Collection-RunAnalyzer#withanalyzername)
 
-### WithAnalyzerParamsStr{#withanalyzerparamsstr}
+### WithAnalyzerParamsStr\{#withanalyzerparamsstr}
 
 This method appends the parameter settings for the current `RunAnalyzerOption` struct. The signature is as follows:
 
@@ -104,7 +107,7 @@ func (opt *runAnalyzerOption) WithAnalyzerParamsStr(params string) *runAnalyzerO
    </tr>
 </table>
 
-### WithAnalyzerParams{#withanalyzerparams}
+### WithAnalyzerParams\{#withanalyzerparams}
 
 This method appends the parameter settings for the current `RunAnalyzerOption` struct.
 
@@ -125,7 +128,7 @@ func (opt *runAnalyzerOption) WithAnalyzerParams(params map[string]any) *runAnal
    </tr>
 </table>
 
-### WithDetail{#withdetail}
+### WithDetail\{#withdetail}
 
 This method appends the parameter setting regarding whether to include hash-based processing.
 
@@ -135,7 +138,7 @@ func (opt *runAnalyzerOption) WithDetail() *runAnalyzerOption
 
 This method has no parameters. Using this parameter indicates that hash-based processing will be included.
 
-### WithHash{#withhash}
+### WithHash\{#withhash}
 
 This method appends the parameter setting regarding whether to return detailed analysis output.
 
@@ -145,7 +148,7 @@ func (opt *runAnalyzerOption) WithHash() *runAnalyzerOption
 
 This method has no parameters. Using this parameter indicates that detailed analysis output will be returned.
 
-### WithField{#withfield}
+### WithField\{#withfield}
 
 This method specifies a scalar field for the current `RunAnalyzerOption` struct.
 
@@ -171,7 +174,7 @@ func (opt *runAnalyzerOption) WithField(collectionName, fieldName string) *runAn
    </tr>
 </table>
 
-### WithAnalyzerName{#withanalyzername}
+### WithAnalyzerName\{#withanalyzername}
 
 This method appends the parameter settings regarding the analyzer names.
 
@@ -192,7 +195,7 @@ func (opt *runAnalyzerOption) WithAnalyzerName(names ...string) *runAnalyzerOpti
    </tr>
 </table>
 
-## entity.AnalyzerResult{#entityanalyzerresult}
+## entity.AnalyzerResult\{#entityanalyzerresult}
 
 The `entity.AnalzyerResult` struct type is as follows:
 
@@ -206,7 +209,7 @@ The struct type that appears above is as follows:
 
 - [entity.Token](./v2-Collection-RunAnalyzer#entitytoken)
 
-## entity.Token{#entitytoken}
+## entity.Token\{#entitytoken}
 
 The `entity.Token` struct type is as follows:
 
@@ -221,11 +224,11 @@ type Token struct {
 }
 ```
 
-## Return{#return}
+## Return\{#return}
 
-`*entity.AnalyzerResult`
+`*[entity](./v2-Collection-RunAnalyzer#entityanalyzerresult)[.](./v2-Collection-RunAnalyzer#entityanalyzerresult)[AnalyzerResult`](./v2-Collection-RunAnalyzer#entityanalyzerresult)
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 package main

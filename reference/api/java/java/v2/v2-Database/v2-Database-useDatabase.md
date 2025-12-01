@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "useDatabase() | Java | v2"
 slug: /java/java/v2-Database-useDatabase
 sidebar_label: "useDatabase()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation changes the database in use. | Java | v2"
 type: docx
 token: LAJHdQKQQoPjmYxcfQgcvjvLnqh
 sidebar_position: 7
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - useDatabase()
-  - javaV225
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - javaV226
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation changes the database in use.
 public void useDatabase(String dbName)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 useDatabase(String dbName)
@@ -60,7 +63,7 @@ useDatabase(String dbName)
 
     This exception will be raised when any error occurs during disconnection from Milvus.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

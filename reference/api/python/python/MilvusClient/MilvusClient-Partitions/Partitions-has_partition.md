@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "has_partition() | Python | MilvusClient"
 slug: /python/python/Partitions-has_partition
 sidebar_label: "has_partition()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation checks whether the specified partition exists in the specified collection. | Python | MilvusClient"
 type: docx
 token: MxTAd0haboKnRrxQvoOckGghn1T
 sidebar_position: 4
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - has_partition()
-  - pymilvus25
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - pymilvus26
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation checks whether the specified partition exists in the specified collection.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 has_partition(
@@ -78,7 +81,7 @@ A boolean value indicating whether the specified partition exists.
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```python
 from pymilvus import MilvusClient
@@ -107,7 +110,7 @@ client.has_partition(
 # True
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [create_partition()](./Partitions-create_partition)
 

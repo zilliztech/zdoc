@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropUser() | Java | v2"
 slug: /java/java/v2-Authentication-dropUser
 sidebar_label: "dropUser()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation drops a user. | Java | v2"
 type: docx
 token: RFv2dtZ1qoP9XQxJEGqcgLGUnhc
 sidebar_position: 9
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
   - dropUser()
-  - javaV225
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - javaV226
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation drops a user.
 public void dropUser(DropUserReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 dropUser(DropUserReq.builder()
@@ -63,7 +66,7 @@ dropUser(DropUserReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

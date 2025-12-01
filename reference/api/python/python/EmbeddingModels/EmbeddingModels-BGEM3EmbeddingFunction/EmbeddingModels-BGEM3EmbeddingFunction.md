@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "BGEM3EmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-BGEM3EmbeddingFunction
 sidebar_label: "BGEM3EmbeddingFunction"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "BGEM3EmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using the BGE M3 model to support embedding retrieval in Milvus. | Python"
 type: docx
 token: XYSVdCqCDoJ9Y5xqKEAceYkpnnh
 sidebar_position: 1
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - BGEM3EmbeddingFunction
-  - pymilvus25
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - pymilvus26
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ import Admonition from '@theme/Admonition';
 pymilvus.model.hybrid.BGEM3EmbeddingFunction
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs a BGEM3EmbeddingFunction for common use cases.
 
@@ -94,7 +97,7 @@ BGEM3EmbeddingFunction(
 
     Allows additional keyword arguments to be passed to the model initialization. For more information, refer to [bge_m3](https://github.com/FlagOpen/FlagEmbedding/blob/master/FlagEmbedding/bge_m3.py).
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import model

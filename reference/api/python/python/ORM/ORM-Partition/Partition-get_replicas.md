@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "get_replicas() | Python | ORM"
 slug: /python/python/Partition-get_replicas
 sidebar_label: "get_replicas()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation gets information about the current loaded replica. | Python | ORM"
 type: docx
 token: YKwldu59qosZBsxdRdSc0l9Hnoe
 sidebar_position: 4
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - get_replicas()
-  - pymilvus25
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - pymilvus26
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation gets information about the current loaded replica.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 get_replicas(
@@ -94,7 +97,7 @@ A **Replica** object that contains the following fields:
 
 None
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import Collection, Partition
@@ -108,7 +111,7 @@ partition = Partition(collection, name="test_partition")
 partition.get_replicas()
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `get_replicas()`:
 

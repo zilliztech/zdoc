@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "delete() | Java | v2"
 slug: /java/java/v2-Vector-delete
 sidebar_label: "delete()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation deletes entities by their IDs or with a boolean expression. | Java | v2"
 type: docx
 token: NOX7dAR3zodEH3xinMecMjq5n4S
 sidebar_position: 1
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
-  - javaV225
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - javaV226
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation deletes entities by their IDs or with a boolean expression.
 public DeleteResp delete(DeleteReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 delete(DeleteReq.builder()
@@ -92,7 +95,7 @@ A **DeleteResp** object contains the number of deleted entities.
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

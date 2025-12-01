@@ -3,21 +3,24 @@ title: "Collections | Node.js"
 slug: /node/Collections
 beta: false
 notebook: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 description: "Methods for you to manage collections. | Node.js"
 type: folder
-token: SU7xfa1bal8yS0dioBmcCncYn5c
-sidebar_position: 1
+token: LOD4fz3qilpPyOdlfencoVEJnwd
+sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - Collections
-  - nodejs25
+  - nodejs26
 displayed_sidebar: nodeSidebar
 ---
 

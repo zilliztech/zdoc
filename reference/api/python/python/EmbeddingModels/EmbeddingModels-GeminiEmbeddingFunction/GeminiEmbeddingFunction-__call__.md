@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "\_\_call\_\_() | Python"
 slug: /python/python/GeminiEmbeddingFunction-__call__
 sidebar_label: "__call__()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation in Model2VecEmbeddingFunction takes a list of text strings and directly encodes them into vector embeddings. | Python"
 type: docx
 token: Pvdhdb8IrozdCgx3N4fcTWdWnPg
 sidebar_position: 4
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
-  - pymilvus25
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - pymilvus26
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -36,7 +39,7 @@ This operation in [Model2VecEmbeddingFunction](./EmbeddingModels-Model2VecEmbedd
 
 The **GeminiEmbeddingFunction()** method of Model2VecEmbeddingFunction shares the same functionality as [encode_documents()](./Model2VecEmbeddingFunction-encode_documents) and [encode_queries()](./Model2VecEmbeddingFunction-encode_queries).
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 # Instance created
@@ -68,7 +71,7 @@ A list where each element is a NumPy array.
 
     This exception will be raised when the model2vec module is not installed.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import model

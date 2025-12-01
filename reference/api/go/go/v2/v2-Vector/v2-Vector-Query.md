@@ -3,6 +3,9 @@ title: "Query() | Go | v2"
 slug: /go/v2-Vector-Query
 sidebar_label: "Query()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method performs a scalar-filtering query. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method performs a scalar-filtering query.
 func (c *Client) Query(ctx context.Context, option QueryOption, callOptions ...grpc.CallOption) (ResultSet, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) Query(ctx context.Context, option QueryOption, callOptions ...g
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>QueryOption</code></p></td>
+     <td><p><a href="./v2-Vector-Query#queryoption"><code>QueryOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) Query(ctx context.Context, option QueryOption, callOptions ...g
    </tr>
 </table>
 
-## QueryOption{#queryoption}
+## QueryOption\{#queryoption}
 
 This is an interface type. The `queryOption` struct types implement this interface type. 
 
 You can use the `NewQueryOption` function to get the concrete implementation.
 
-### NewQueryOption{#newqueryoption}
+### NewQueryOption\{#newqueryoption}
 
 The signature of this method is as follows:
 
@@ -75,11 +78,11 @@ func NewQueryOption(collectionName string) *queryOption
    </tr>
 </table>
 
-## ResultSet{#resultset}
+## ResultSet\{#resultset}
 
 This is a struct type. You can use the `GetColumn` method to get the result values in a specific field.
 
-### GetColumn{#getcolumn}
+### GetColumn\{#getcolumn}
 
 This method returns the query result in a specific column. The signature is as follows:
 
@@ -100,11 +103,11 @@ func (rs *ResultSet) GetColumn(fieldName string) column.Column
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 `ResultSet`
 
-## Example{#example}
+## Example\{#example}
 
 ```plaintext
 rs, err := cli.Query(ctx, milvusclient.NewQueryOption("quick_setup").

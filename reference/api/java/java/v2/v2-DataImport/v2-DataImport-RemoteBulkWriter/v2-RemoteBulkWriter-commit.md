@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "commit() | Java | v2"
 slug: /java/java/v2-RemoteBulkWriter-commit
 sidebar_label: "commit()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation commits the appended data. | Java | v2"
 type: docx
 token: SJ3ndk2d7oQbAOxP5iHcGtr1nrb
 sidebar_position: 3
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - commit()
-  - javaV225
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - javaV226
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation commits the appended data.
  public void commit(boolean async)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 remoteBulkWriter.commit(
@@ -56,7 +59,7 @@ remoteBulkWriter.commit(
 
 *void*
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```java
 remoteBulkWriter.commit(false);

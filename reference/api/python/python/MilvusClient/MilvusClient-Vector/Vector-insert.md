@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "insert() | Python | MilvusClient"
 slug: /python/python/Vector-insert
 sidebar_label: "insert()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation inserts data into a specific collection. | Python | MilvusClient"
 type: docx
 token: QI87dhVnioL9JLxnNKxcM8jWnkh
 sidebar_position: 3
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
-  - pymilvus25
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - pymilvus26
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation inserts data into a specific collection.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 insert(
@@ -131,7 +134,7 @@ A dictionary contains information about the number of inserted entities.
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
@@ -192,7 +195,7 @@ res = client.insert(
 # {'insert_count': 2}
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [delete()](./Vector-delete)
 

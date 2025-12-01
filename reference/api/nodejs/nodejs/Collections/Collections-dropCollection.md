@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "dropCollection() | Node.js"
 slug: /node/node/Collections-dropCollection
 sidebar_label: "dropCollection()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation drops a collection. | Node.js"
 type: docx
 token: KLknda2VtocQSBx7PKVc6F9Nnug
-sidebar_position: 11
+sidebar_position: 10
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollection()
-  - nodejs25
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - nodejs26
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation drops a collection.
 dropCollection(data): Promise<ResStatus>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.dropCollection({ 
@@ -92,7 +95,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

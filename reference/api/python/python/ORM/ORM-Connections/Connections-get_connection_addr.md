@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "get_connection_addr() | Python | ORM"
 slug: /python/python/Connections-get_connection_addr
 sidebar_label: "get_connection_addr()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation retrieves the configuration of the specified connection by alias. | Python | ORM"
 type: docx
 token: H2zBdRHVtovNQGxvb0xcwpSKnBd
 sidebar_position: 5
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - get_connection_addr()
-  - pymilvus25
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - pymilvus26
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation retrieves the configuration of the specified connection by alias.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 get_connection_addr(alias: str)
@@ -62,7 +65,7 @@ A dictionary containing the connection configuration.
 
     This exception will be raised when the connection configuration is invalid.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections
@@ -73,7 +76,7 @@ connections.get_connection_addr(alias="default")
 # {'address': 'in03-**************.api.gcp-us-west1.cloud-uat3.zilliz.com:443', 'user': ''}
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `get_connection_addr()`:
 

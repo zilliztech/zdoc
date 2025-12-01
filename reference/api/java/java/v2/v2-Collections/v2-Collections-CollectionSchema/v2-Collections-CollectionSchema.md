@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "CollectionSchema | Java | v2"
 slug: /java/java/v2-Collections-CollectionSchema
 sidebar_label: "CollectionSchema"
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "A CollectionSchema instance represents the schema of a collection. A schema sketches the structure of a collection. | Java | v2"
 type: docx
 token: FxUxdWGz2oUh1ixyquZcAndBnAf
 sidebar_position: 2
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - CollectionSchema
-  - javaV225
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - javaV226
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ A **CollectionSchema** instance represents the schema of a collection. A schema 
 io.milvus.v2.service.collection.request.CreateCollectionReq.CollectionSchema
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs the schema of a collection by defining fields, data types, and other parameters.
 
@@ -74,7 +77,7 @@ A **CollectionSchema** object.
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.common.DataType;
@@ -82,13 +85,13 @@ import io.milvus.v2.service.collection.request.AddFieldReq;
 import io.milvus.v2.service.collection.request.CreateCollectionReq;
 
 // define a Collection Schema
-CreateCollectionReq.CollectionSchema collectionSchema = client.createSchema();
+CreateCollectionReq.CollectionSchema collectionSchema = client.CreateSchema();
 // add two fileds, id and vector
 collectionSchema.addField(AddFieldReq.builder().fieldName("id").dataType(DataType.Int64).isPrimaryKey(Boolean.TRUE).autoID(Boolean.FALSE).description("id").build());
 collectionSchema.addField(AddFieldReq.builder().fieldName("vector").dataType(DataType.FloatVector).dimension(dim).build());
 ```
 
-## Methods{#methods}
+## Methods\{#methods}
 
 The following are the methods of the `CollectionSchema` class:
 

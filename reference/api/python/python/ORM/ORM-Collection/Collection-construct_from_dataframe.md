@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "construct_from_dataframe() | Python | ORM"
 slug: /python/python/Collection-construct_from_dataframe
 sidebar_label: "construct_from_dataframe()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation creates a collection with the specified dataframe. | Python | ORM"
 type: docx
 token: ISZadjHwyopWr5xRdJ2cqxVanEg
 sidebar_position: 3
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - zilliz
-  - zilliz cloud
-  - cloud
-  - construct_from_dataframe()
-  - pymilvus25
   - Zilliz Cloud
   - what is milvus
   - milvus database
   - milvus lite
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - construct_from_dataframe()
+  - pymilvus26
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation creates a collection with the specified dataframe. 
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 construct_from_dataframe(
@@ -131,7 +134,7 @@ A **MutationResult** object contains the following fields:
 
     This exception will be raised when the specified primary field is not valid.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 import pandas as pd
@@ -153,7 +156,7 @@ collection, results = Collection.construct_from_dataframe(
 )
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `construct_from_dataframe()`:
 

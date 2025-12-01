@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "removeUserFromRole() | Node.js"
 slug: /node/node/Authentication-removeUserFromRole
 sidebar_label: "removeUserFromRole()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation removes a user from a specific role. | Node.js"
 type: docx
 token: XmyMdqvDLosr6oxzvhWcw8H2ntg
-sidebar_position: 21
+sidebar_position: 23
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - removeUserFromRole()
-  - nodejs25
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - nodejs26
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation removes a user from a specific role.
 removeUserFromRole(data): Promise<ResStatus>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.removeUserFromRole({
@@ -94,7 +97,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 milvusClient.removeUserFromRole({

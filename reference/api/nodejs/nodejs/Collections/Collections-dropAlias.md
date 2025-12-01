@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "dropAlias() | Node.js"
 slug: /node/node/Collections-dropAlias
 sidebar_label: "dropAlias()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation drops a specified collection alias. | Node.js"
 type: docx
 token: FubcdxJ0LoyQiJxmUMjcZnbjnbc
-sidebar_position: 10
+sidebar_position: 9
 keywords: 
+  - vector search algorithms
+  - Question answering system
   - llm-as-a-judge
   - hybrid vector search
-  - Video deduplication
-  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - dropAlias()
-  - nodejs25
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - nodejs26
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation drops a specified collection alias.
 dropAlias(data): Promise<ResStatus>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.dropAlias({
@@ -99,7 +102,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "insert() | Node.js"
 slug: /node/node/Vector-insert
 sidebar_label: "insert()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation inserts data into a specific collection. | Node.js"
 type: docx
-token: WUZwdRNXIoS0tSxCrw6coaa2nzf
-sidebar_position: 4
+token: SZNQds74zoKniRxtJwdcfdz1nCh
+sidebar_position: 5
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
-  - nodejs25
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - nodejs26
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation inserts data into a specific collection.
 insert(data): Promise<MutationResult>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.insert({
@@ -142,35 +145,35 @@ This method returns a promise that resolves to a **MutationResult** object.
 
 - **IDs** (*NumberArrayId* | *StringArrayId*) -
 
-    A list of the IDs of the upserted entities.
+    A list of the IDs of the inserted entities.
 
 - **acknowledged** (*boolean*) -
 
-    A boolean value indicating whether the upsert operation of the entity is successful.
+    A boolean value indicating whether the insert operation is successful.
 
 - **delete_cnt** (*string*) -
 
-    The deleted entities
+    The deleted entities. The value stays `0` in this operation.
 
 - **err_index** (Number[]) -
 
-    The number of entities involved in the upsert operation that fails to be indexed.
+    The number of entities involved in the insert operation that fails.
 
 - **insert_cnt** (*string*) -
 
-    The new entities that are inserted.
+    The new entities that are inserted. 
 
 - **succ_index** (*list[number]*) -
 
-    The number of entities involved in the upsert operation that have been successfully indexed.
+    The number of entities involved in the insert operation that have been successfully indexed.
 
 - **timestamp** (*string*) -
 
-    The timestamp indicating the time when the upsert operation occurs.
+    The timestamp at which the upsert operation occurs.
 
 - **upsert_cnt** (*string*) -
 
-    The entities that have been updated.
+    The entities that have been updated. The value stays `0` in this operation.
 
 - **status** (*object*) -
 
@@ -186,9 +189,12 @@ This method returns a promise that resolves to a **MutationResult** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
-```java
-
+```javascript
+const milvusClient = new milvusClient(MILUVS_ADDRESS);
+const res = await milvusClient.listAliases({
+   collection_name: 'my_collection',
+});
 ```
 

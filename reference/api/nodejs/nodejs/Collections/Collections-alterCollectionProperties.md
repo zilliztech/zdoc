@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "alterCollectionProperties() | Node.js"
 slug: /node/node/Collections-alterCollectionProperties
 sidebar_label: "alterCollectionProperties()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation modifies the properties of a specified collection. | Node.js"
 type: docx
 token: EHPGdbCP5o7UzCxlDnRc6y5Pn1c
 sidebar_position: 3
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionProperties()
-  - nodejs25
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - nodejs26
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,12 +41,13 @@ This operation modifies the properties of a specified collection.
 alterCollectionProperties(data): Promise<ResStatus>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.alterCollectionProperties({
    db_name?: string
    collection_name: string,
+   delete_keys?: string[],
    properties: Properties,
    timeout?: number
  })
@@ -60,6 +64,10 @@ milvusClient.alterCollectionProperties({
     **[REQUIRED]**
 
     The name of the target collection to reassign an alias to.
+
+- **delete_keys** (*string[]*) -
+
+    The properties to delete.
 
 - **properties** (*Properties*) -
 
@@ -107,7 +115,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

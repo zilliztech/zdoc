@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "delete() | Python | MilvusClient"
 slug: /python/python/Vector-delete
 sidebar_label: "delete()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation deletes entities by their IDs or with a boolean expression. | Python | MilvusClient"
 type: docx
 token: DWLXdSCYnoPT4ExktRKceEqLnAd
 sidebar_position: 1
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
-  - pymilvus25
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - pymilvus26
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation deletes entities by their IDs or with a boolean expression.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 delete(
@@ -117,7 +120,7 @@ A dictionary contains the number of deleted entities.
 
     This exception will be raised when a parameter value doesn't match the required data type.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
@@ -169,7 +172,7 @@ client.delete(
 # {'delete_count': 2}
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [get()](./Vector-get)
 

@@ -3,6 +3,9 @@ title: "AlterAlias() | Go | v2"
 slug: /go/v2-Collection-AlterAlias
 sidebar_label: "AlterAlias()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method changes the alias associated with the specified collection. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method changes the alias associated with the specified collection.
 func (c *Client) AlterAlias(ctx context.Context, option AlterAliasOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) AlterAlias(ctx context.Context, option AlterAliasOption, callOp
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>AlterAliasOption</code></p></td>
+     <td><p><a href="./v2-Collection-AlterAlias#alteraliasoption"><code>AlterAliasOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) AlterAlias(ctx context.Context, option AlterAliasOption, callOp
    </tr>
 </table>
 
-## AlterAliasOption{#alteraliasoption}
+## AlterAliasOption\{#alteraliasoption}
 
 This is an interface type. The `alterAliasOption` struct type implements this interface type. 
 
 You can use the `NewAlterAliasOption()` function to get the concrete implementation.
 
-### NewAlterAliasOption{#newalteraliasoption}
+### NewAlterAliasOption\{#newalteraliasoption}
 
 The signature of this method is as follows:
 
@@ -80,11 +83,11 @@ func NewAlterAliasOption(alias, collectionName string) *alterAliasOption
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```plaintext
 err = cli.AlterAlias(ctx, milvusclient.NewAlterAliasOption("alice", "customized_setup_1"))

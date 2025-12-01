@@ -3,6 +3,9 @@ title: "AlterDatabaseProperties() | Go | v2"
 slug: /go/v2-Database-AlterDatabaseProperties
 sidebar_label: "AlterDatabaseProperties()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method changes the specified properties of a database. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method changes the specified properties of a database.
 func (c *Client) AlterDatabaseProperies(ctx context.Context, option AlterDatabasePropertiesOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) AlterDatabaseProperies(ctx context.Context, option AlterDatabas
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>AlterDatabasePropertiesOption</code></p></td>
+     <td><p><a href="./v2-Database-AlterDatabaseProperties#alterdatabasepropertiesoption"><code>AlterDatabasePropertiesOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) AlterDatabaseProperies(ctx context.Context, option AlterDatabas
    </tr>
 </table>
 
-## AlterDatabasePropertiesOption{#alterdatabasepropertiesoption}
+## AlterDatabasePropertiesOption\{#alterdatabasepropertiesoption}
 
 This is an interface type. The `alterDatabasePropertiesOption` struct type implements this interface type. 
 
 You can use the `NewAlterDatabasePropertiesOption()` function to get the concrete implementation.
 
-### NewAlterDatabasePropertiesOption{#newalterdatabasepropertiesoption}
+### NewAlterDatabasePropertiesOption\{#newalterdatabasepropertiesoption}
 
 The signature of this method is as follows:
 
@@ -75,11 +78,11 @@ func NewAlterDatabasePropertiesOption(dbName string) *alterDatabasePropertiesOpt
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 dbName := `test_db`

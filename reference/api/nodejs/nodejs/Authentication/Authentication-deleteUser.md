@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "deleteUser() | Node.js"
 slug: /node/node/Authentication-deleteUser
 sidebar_label: "deleteUser()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation drops a user. | Node.js"
 type: docx
 token: Cl5PdhU5jouHnrxyYXLcOQAZneb
-sidebar_position: 6
+sidebar_position: 8
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - deleteUser()
-  - nodejs25
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - nodejs26
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation drops a user.
 deleteUser(data): Promise<ResStatus>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 This method has the following alternatives.
 
@@ -89,7 +92,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 milvusClient.deleteUser({

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "encode_documents() | Python"
 slug: /python/python/SpladeEmbeddingFunction-encode_documents
 sidebar_label: "encode_documents()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation takes in documents and encodes them into vector embeddings. | Python"
 type: docx
 token: PwL1dndmVoxP98xp0pXcOci4nSe
 sidebar_position: 1
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
-  - pymilvus25
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - pymilvus26
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation takes in documents and encodes them into vector embeddings.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 encode_documents(
@@ -62,7 +65,7 @@ Compressed sparse row matrices representing the document embeddings.
 
     This exception will be raised when the transformers library is not installed.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import model

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "query() | Node.js"
 slug: /node/node/Vector-query
 sidebar_label: "query()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation conducts a scalar filtering with a specified boolean expression. | Node.js"
 type: docx
-token: AJ96d6Aguos3FAxWMDxcjzqpnSg
-sidebar_position: 5
+token: P66Mdx2aaooL9px9CnQcS2eTnng
+sidebar_position: 6
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - query()
-  - nodejs25
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - nodejs26
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,21 +41,21 @@ This operation conducts a scalar filtering with a specified boolean expression.
 query(data): Promise<ResStatus>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
  milvusClient.query({
-   db_name: string,
-   collection_name: string,
-   consistency_level?: ConsistencyLevelEnum,
-   filter: string,
-   ids?: string[] | number[],
-   limit?: number,
-   offset?: number,
-   output_fields?: string[],
-   partition_names?: string[],
-   timeout?: number
- })
+    db_name: string,
+    collection_name: string,
+    partition_names?: string[];
+    output_fields?: string[];
+    ids?: string[] | number[];
+    filter?: string;
+    offset?: number;
+    limit?: number;
+    consistency_level?: ConsistencyLevelEnum;
+    exprValues?: keyValueObj;
+})
 ```
 
 **PARAMETERS:**
@@ -67,11 +70,9 @@ query(data): Promise<ResStatus>
 
     The name of an existing collection.
 
-- **filter** (*string*) -
+- **partition_names** (*string[]*) -
 
-    A scalar filtering condition to filter matching entities. 
-
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
+    The name of the partitions to query.
 
 - **output_fields** (*string[]*) -
 
@@ -79,23 +80,15 @@ query(data): Promise<ResStatus>
 
     The value defaults to **None**. If left unspecified, all fields are selected as the output fields.
 
-- **timeout** (*number*) -
+- **ids** (*string[]* | *number[]*) - 
 
-    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
+    The IDs of the entities to query.
 
-- **consistency_level** (*ConsistencyLevelEnum*) -
+- **filter** (*string*) -
 
-    The consistency level of the target collection.
+    A scalar filtering condition to filter matching entities. 
 
-    The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
-
-    <Admonition type="info" icon="📘" title="What is the consistency level?">
-
-    <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
-    <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
-    <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
-
-    </Admonition>
+    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
 
 - **offset** (*number*) -
 
@@ -113,9 +106,23 @@ query(data): Promise<ResStatus>
 
     The sum of this value and `offset` should be less than 16,384. 
 
-- **partition_names** (*string[]*) -
+- **consistency_level** (*ConsistencyLevelEnum*) -
 
-    The name of the partitions to query.
+    The consistency level of the target collection.
+
+    The value defaults to the one specified when you create the current collection, with options of **Strong** (**0**), **Bounded** (**1**), **Session** (**2**), and **Eventually** (**3**).
+
+    <Admonition type="info" icon="📘" title="What is the consistency level?">
+
+    <p>Consistency in a distributed database specifically refers to the property that ensures every node or replica has the same view of data when writing or reading data at a given time.</p>
+    <p>Zilliz Cloud provides three consistency levels: <strong>Strong</strong>, <strong>Bounded Staleness</strong>, and <strong>Eventually</strong>, with <strong>Bounded Staleness</strong> set as the default.</p>
+    <p>You can easily tune the consistency level when conducting a vector similarity search or query to make it best suit your application.</p>
+
+    </Admonition>
+
+- **timeout** (*number*) -
+
+    The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
 **RETURNS** *Promise\<QueryResults>*
 
@@ -150,7 +157,7 @@ This method returns a promise that resolves to a **QueryResults** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

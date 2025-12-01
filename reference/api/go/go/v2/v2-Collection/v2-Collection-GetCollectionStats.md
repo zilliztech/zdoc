@@ -3,6 +3,9 @@ title: "GetCollectionStats() | Go | v2"
 slug: /go/v2-Collection-GetCollectionStats
 sidebar_label: "GetCollectionStats()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method collects the statistics on the specified collections. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method collects the statistics on the specified collections.
 func (c *Client) GetCollectionStats(ctx context.Context, opt GetCollectionOption) (map[string]string, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,17 +42,17 @@ func (c *Client) GetCollectionStats(ctx context.Context, opt GetCollectionOption
    <tr>
      <td><p><code>opt</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>GetCollectionOption</code></p></td>
+     <td><p><a href="./v2-Collection-GetCollectionStats#getcollectionoption"><code>GetCollectionOption</code></a></p></td>
    </tr>
 </table>
 
-## GetCollectionOption{#getcollectionoption}
+## GetCollectionOption\{#getcollectionoption}
 
 This is an interface type. The `getCollectionStatsOption` struct type implements this interface type. 
 
 You can use the `NewGetCollectionStatsOption()` function to get the concrete implementation.
 
-### NewGetCollectionStatsOption{#newgetcollectionstatsoption}
+### NewGetCollectionStatsOption\{#newgetcollectionstatsoption}
 
 The signature of this method is as follows:
 
@@ -70,11 +73,11 @@ func NewGetCollectionStatsOption(collectionName string) *getCollectionStatsOptio
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 `map[string]string`
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

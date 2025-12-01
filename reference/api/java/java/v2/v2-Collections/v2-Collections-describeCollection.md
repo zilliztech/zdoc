@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "describeCollection() | Java | v2"
 slug: /java/java/v2-Collections-describeCollection
 sidebar_label: "describeCollection()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation lists detailed information about a specific collection. | Java | v2"
 type: docx
-token: Lc03dk5YVo8Ilvx4XINcv5KBn9e
+token: F8lCdDCa3oD48WxWyURcmfoznYt
 sidebar_position: 12
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
-  - javaV225
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - javaV226
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,16 +41,21 @@ This operation lists detailed information about a specific collection.
 public DescribeCollectionResp describeCollection(DescribeCollectionReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 describeCollection(DescribeCollectionReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .build()
 )
 ```
 
 **BUILDER METHODS:**
+
+- `databaseName(String databaseName)`
+
+    The name of the database to which the target collection belongs.
 
 - `collectionName(String collectionName)`
 
@@ -65,9 +73,17 @@ A **DescribeCollectionResp** object that contains detailed information about the
 
 **PARAMETERS:**
 
-- **collection_name** (*String*)
+- **collectionName** (*String*)
 
     The name of the current collection.
+
+- **collectionID** (*Long*)
+
+    The ID of the collection.
+
+- **databaseName** (*String*)
+
+    The name of the database to which the current collection belongs.
 
 - **description** (*String*)
 
@@ -91,7 +107,7 @@ A **DescribeCollectionResp** object that contains detailed information about the
 
 - **enableDynamicField** (*Boolean*)
 
-    Whether to use the reserved JSON field **$meta** to save non-schema-defined fields and their values as key-value pairs.
+    Whether to use the reserved JSON field **&#36;meta** to save non-schema-defined fields and their values as key-value pairs.
 
 - **autoID** (*Boolean*)
 
@@ -117,13 +133,17 @@ A **DescribeCollectionResp** object that contains detailed information about the
 
     The number of shards in the collection.
 
+- **properties** (*Map\<String, String>*) -
+
+    The properties of the current collection. 
+
 **EXCEPTIONS:**
 
 - **MilvusClientExceptions**
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

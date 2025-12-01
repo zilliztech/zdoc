@@ -3,10 +3,13 @@ title: "HybridSearch() | Go | v2"
 slug: /go/v2-Vector-HybridSearch
 sidebar_label: "HybridSearch()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: v2.6.x
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method performs a vector search. | Go | v2"
 type: origin
-token: YlmowwyO3ibj9KkQ3JHc9RpAnrd
+token: GEZLwYkdGigwnEkCmudc1K1Ln2e
 sidebar_position: 8
 displayed_sidebar: goSidebar
 
@@ -23,7 +26,7 @@ This method performs a vector search.
 func (c *Client) HybridSearch(ctx context.Context, option HybridSearchOption, callOptions ...grpc.CallOption) ([]ResultSet, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) HybridSearch(ctx context.Context, option HybridSearchOption, ca
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>HybridSearchOption</code></p></td>
+     <td><p><a href="./v2-Vector-HybridSearch#hybridsearchoption"><code>HybridSearchOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) HybridSearch(ctx context.Context, option HybridSearchOption, ca
    </tr>
 </table>
 
-## HybridSearchOption{#hybridsearchoption}
+## HybridSearchOption\{#hybridsearchoption}
 
 This is an interface type. The `hybridSearchOption` struct types implement this interface type. 
 
 You can use the `NewHybridSearchOption` function to get the concrete implementation.
 
-### NewHybridSearchOption{#newhybridsearchoption}
+### NewHybridSearchOption\{#newhybridsearchoption}
 
 The signature of this method is as follows:
 
@@ -81,15 +84,155 @@ func NewHybridSearchOption(collectionName string, limit int, annRequests ...*Ann
    <tr>
      <td><p><code>annRequests</code></p></td>
      <td><p>One or multiple search requests.</p></td>
-     <td><p><code>...*AnnRequest</code></p></td>
+     <td><p><a href="./v2-Vector-HybridSearch#annrequest"><code>...*AnnRequest</code></a></p></td>
    </tr>
 </table>
 
-## AnnRequest{#annrequest}
+This method provides the following chainable methods:
 
-This is a struct type. The `index.CustomAnnParam` struct type implements this interface. You can use the `NewAnnRequest` method to create a search request.
+- [WithConsistencyLevel](./v2-Vector-HybridSearch#withconsistencylevel)
 
-### NewAnnRequest{#newannrequest}
+- [WithPartitions](./v2-Vector-HybridSearch#withpartitions)
+
+- [WithOutputFields](./v2-Vector-HybridSearch#withoutputfields)
+
+- [WithReranker](./v2-Vector-HybridSearch#withreranker)
+
+- [WithOffset](./v2-Vector-HybridSearch#withoffset)
+
+- [WithFunctionReranker](./v2-Vector-HybridSearch#withfunctionreranker)
+
+### WithConsistencyLevel\{#withconsistencylevel}
+
+This method appends the settings regarding the `consistencyLevel` parameter to the `hybridSearchOption` struct. The signature of this method is as follows:
+
+```go
+func (opt *hybridSearchOption) WithConsistencyLevel(cl entity.ConsistencyLevel) *hybridSearchOption
+```
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>consistencyLevel</code></p></td>
+     <td><p>Consistency level for the search.</p><p>For details, refer to <a href="/docs/consistency-level">Consistency Level</a>.</p></td>
+     <td><p><code>entity.ConsistencyLevel</code></p></td>
+   </tr>
+</table>
+
+### WithPartitions\{#withpartitions}
+
+This method appends the settings regarding the `partitionNames` parameter to the `hybridSearchOption` struct. The signature of this method is as follows:
+
+```go
+func (opt *hybridSearchOption) WithPartitions(partitions ...string) *hybridSearchOption
+```
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>partitionNames</code></p></td>
+     <td><p>The names of the target partitions</p></td>
+     <td><p><code>...string</code></p></td>
+   </tr>
+</table>
+
+### WithOutputFields\{#withoutputfields}
+
+This method appends the settings regarding the `outputFields` parameter to the `hybridSearchOption` struct. The signature of this method is as follows:
+
+```go
+func (opt *hybridSearchOption) WithOutputFields(outputFields ...string) *hybridSearchOption
+```
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>outputFields</code></p></td>
+     <td><p>The names of fields to include in the search results</p></td>
+     <td><p><code>...string</code></p></td>
+   </tr>
+</table>
+
+### WithReranker\{#withreranker}
+
+This method appends the settings regarding the `reranker` parameter to the `hybridSearchOption` struct. The signature of this method is as follows:
+
+```go
+func (opt *hybridSearchOption) WithReranker(reranker Reranker) *hybridSearchOption
+```
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>reranker</code></p></td>
+     <td><p>The reranker that used to reorder the entities in the search results.</p></td>
+     <td><p><code>Reranker</code></p></td>
+   </tr>
+</table>
+
+### WithOffset\{#withoffset}
+
+This method appends the settings regarding the `offset` parameter to the `hybridSearchOption` struct. The signature of this method is as follows:
+
+```go
+func (opt *hybridSearchOption) WithOffset(offset int) *hybridSearchOption
+```
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>offset</code></p></td>
+     <td><p>The number of entities to skip before the search results are returned.</p></td>
+     <td><p><code>int</code></p></td>
+   </tr>
+</table>
+
+### WithFunctionReranker\{#withfunctionreranker}
+
+This method sets a reranker in the function style to the current `AnnRequest` struct. The signature of the method is as follows:
+
+```go
+func (opt *hybridSearchOption) WithFunctionRerankers(functionReranker *entity.Function) *hybridSearchOption
+```
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>fr</code></p></td>
+     <td><p>A function that serves as the reranker that reorders the entities in the search results.</p></td>
+     <td><p><code>entity.Function</code></p></td>
+   </tr>
+</table>
+
+## AnnRequest\{#annrequest}
+
+This is a struct type. The [`index.CustomAnnParam`](./v2-Vector-HybridSearch#indexcustomannparam) struct type implements this interface. You can use the `NewAnnRequest` method to create a search request.
+
+### NewAnnRequest\{#newannrequest}
 
 This method prepares a search request. The signature is as follows:
 
@@ -116,7 +259,7 @@ func NewAnnRequest(annField string, limit int, vectors ...entity.Vector) *annReq
    <tr>
      <td><p><code>vectors</code></p></td>
      <td><p>Query vectors</p></td>
-     <td><p><code>[]entity.Vector</code></p></td>
+     <td><p><a href="./v2-Vector-Search"><code>...entity.Vector</code></a></p></td>
    </tr>
 </table>
 
@@ -142,7 +285,9 @@ You can chain the following methods to append extra parameter settings to the `a
 
 - [WithTemplateParam](./v2-Vector-HybridSearch#withtemplateparam)
 
-### WithANNSField{#withannsfield}
+- WithFunctionReranker
+
+### WithANNSField\{#withannsfield}
 
 This method appends the settings regarding the vector field to use in the current `AnnRequest` struct. The signature of the method is as follows:
 
@@ -163,7 +308,7 @@ func (r *AnnRequest) WithANNSField(annsField string) *AnnRequest
    </tr>
 </table>
 
-### WithAnnParam{#withannparam}
+### WithAnnParam\{#withannparam}
 
 This method appends the settings regarding the search parameters to the current `AnnRequest` struct. The signature of this method is as follows:
 
@@ -180,11 +325,11 @@ func (r *AnnRequest) WithAnnParam(ap index.AnnParam) *AnnRequest
    <tr>
      <td><p><code>ap</code></p></td>
      <td><p>The index-specific search parameter settings.</p></td>
-     <td><p><code>index.AnnParam</code></p></td>
+     <td><p><a href="./v2-Vector-HybridSearch#indexannparam"><code>index.AnnParam</code></a></p></td>
    </tr>
 </table>
 
-### WithFilter{#withfilter}
+### WithFilter\{#withfilter}
 
 This method appends the settings regarding the filter to use in the current `AnnRequest` struct. The signature of the method is as follows:
 
@@ -205,7 +350,7 @@ func (r *AnnRequest) WithFilter(expr string) *AnnRequest
    </tr>
 </table>
 
-### WithGroupByField{#withgroupbyfield}
+### WithGroupByField\{#withgroupbyfield}
 
 This method appends the settings regarding the group-by field to use in the current `AnnRequest` struct. The signature of the method is as follows:
 
@@ -226,7 +371,7 @@ func (r *AnnRequest) WithGroupByField(groupByField string) *AnnRequest
    </tr>
 </table>
 
-### WithGroupSize{#withgroupsize}
+### WithGroupSize\{#withgroupsize}
 
 This method appends the settings regarding the group size to use in the current `AnnRequest` struct. The signature of the method is as follows:
 
@@ -247,7 +392,7 @@ func (r *AnnRequest) WithGroupSize(groupSize int) *AnnRequest
    </tr>
 </table>
 
-### WithIgnoreGrowing{#withignoregrowing}
+### WithIgnoreGrowing\{#withignoregrowing}
 
 This method appends the settings regarding whether to ignore growing segments to the current `AnnRequest` struct. The signature of the method is as follows:
 
@@ -268,7 +413,7 @@ func (r *AnnRequest) WithIgnoreGrowing(ignoreGrowing bool) *AnnRequest
    </tr>
 </table>
 
-### WIthOffset{#withoffset}
+### WIthOffset\{#withoffset}
 
 This method appends the settings regarding the offset to the current `AnnRequest` struct. The signature of the method is as follows:
 
@@ -289,7 +434,7 @@ func (r *AnnRequest) WithOffset(offset int) *AnnRequest
    </tr>
 </table>
 
-### WithSearchParam{#withsearchparam}
+### WithSearchParam\{#withsearchparam}
 
 This method appends the settings regarding the search parameters to the current `AnnRequest` struct. The signature of the method is as follows:
 
@@ -315,7 +460,7 @@ func (r *AnnRequest) WithSearchParam(key, value string) *AnnRequest
    </tr>
 </table>
 
-### WithStrictGroupSize{#withstrictgroupsize}
+### WithStrictGroupSize\{#withstrictgroupsize}
 
 This method appends the settings regarding whether to strictly abide by the specified group size to the current `AnnRequest` struct. The signature of the method is as follows:
 
@@ -336,7 +481,7 @@ func (r *AnnRequest) WithStrictGroupSize(strictGroupSize bool) *AnnRequest
    </tr>
 </table>
 
-### WithTemplateParam{#withtemplateparam}
+### WithTemplateParam\{#withtemplateparam}
 
 This method appends the settings regarding the template parameters to the current `AnnRequest` struct. The signature of the method is as follows:
 
@@ -362,15 +507,36 @@ func (r *AnnRequest) WithTemplateParam(key string, val any) *AnnRequest
    </tr>
 </table>
 
-## index.AnnParam{#indexannparam}
+### WithFunctionReranker\{#withfunctionreranker}
+
+This method sets a reranker in the function style to the current `AnnRequest` struct. The signature of the method is as follows:
+
+```go
+func (r *AnnRequest) WithFunctionReranker(fr *entity.Function) *AnnRequest
+```
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>fr</code></p></td>
+     <td><p>A function that serves as the reranker that reorders the entities in the search results.</p></td>
+     <td><p><code>entity.Function</code></p></td>
+   </tr>
+</table>
+
+## index.AnnParam\{#indexannparam}
 
 This is an interface type. The following struct types implement this interface.
 
-### autoAnnParam{#autoannparam}
+### autoAnnParam\{#autoannparam}
 
 This is a struct type that implements the `index.AnnParam` interface. You can use `NewAutoAnnParam()` to get its concrete implementation.
 
-### NewAutoAnnParam{#newautoannparam}
+### NewAutoAnnParam\{#newautoannparam}
 
 This method prepares the search parameters specific to AUTOINDEX. The signature is as follows:
 
@@ -391,7 +557,7 @@ func NewAutoAnnParam(level int) autoAnnParam
    </tr>
 </table>
 
-### diskANNParam{#diskannparam}
+### diskANNParam\{#diskannparam}
 
 This method prepares the search parameters specific to DiskANN. The signature is as follows:
 
@@ -412,7 +578,7 @@ func NewDiskAnnParam(searchList int) diskANNParam
    </tr>
 </table>
 
-### hsnwAnnParam{#hsnwannparam}
+### hsnwAnnParam\{#hsnwannparam}
 
 This method prepares the search parameters specific to HNSW. The signature is as follows:
 
@@ -433,7 +599,7 @@ func NewHNSWAnnParam(ef int) hsnwAnnParam
    </tr>
 </table>
 
-### ivfAnnParam{#ivfannparam}
+### ivfAnnParam\{#ivfannparam}
 
 This method prepares the search parameters specific to IVF. The signature is as follows:
 
@@ -454,7 +620,7 @@ func NewIvfAnnParam(nprobe int) ivfAnnParam
    </tr>
 </table>
 
-### scannAnnParam{#scannannparam}
+### scannAnnParam\{#scannannparam}
 
 This method prepares the search parameters specific to SCANN. The signature is as follows:
 
@@ -475,7 +641,7 @@ func NewSCANNAnnParam(nprobe int, reorderK int) scannAnnParam
    </tr>
 </table>
 
-### sparseAnnParam{#sparseannparam}
+### sparseAnnParam\{#sparseannparam}
 
 This method prepares the search parameters specific to SPARSE_INVERTED. The signature is as follows:
 
@@ -485,11 +651,11 @@ func NewSparseAnnParam() sparseAnnParam
 
 This method has no mandatory parameters.
 
-## index.CustomAnnParam{#indexcustomannparam}
+## index.CustomAnnParam\{#indexcustomannparam}
 
-This is a struct type that implements the `AnnRequest` interface. You can use `NewCustomAnnParam()` to get its concrete implementation.
+This is a struct type that implements the [`AnnRequest`](./v2-Vector-HybridSearch#annrequest) interface. You can use `NewCustomAnnParam()` to get its concrete implementation.
 
-### NewCustomAnnParam{#newcustomannparam}
+### NewCustomAnnParam\{#newcustomannparam}
 
 This method prepares the custom ANN search parameters for the hybrid search request. The signature of this method is as follows:
 
@@ -507,7 +673,7 @@ You can chain the following methods to append extra settings to the `CustomAnnPa
 
 - [WithRangeFilter](./v2-Vector-HybridSearch#withrangefilter)
 
-### WithExtraParam{#withextraparam}
+### WithExtraParam\{#withextraparam}
 
 This method appends extra search parameters to the current `AnnRequest` struct. The signature is as follows:
 
@@ -533,7 +699,7 @@ func (b CustomAnnParam) WithExtraParam(key string, value any)
    </tr>
 </table>
 
-### WithRadius{#withradius}
+### WithRadius\{#withradius}
 
 This method appends the radius parameters to the current `AnnRequest` struct. The signature is as follows:
 
@@ -554,7 +720,7 @@ func (b CustomAnnParam) WithRadius(radius float64)
    </tr>
 </table>
 
-### WithRangeFilter{#withrangefilter}
+### WithRangeFilter\{#withrangefilter}
 
 This method appends the range filter parameters to the current `AnnRequest` struct. The signature is as follows:
 
@@ -575,11 +741,11 @@ func (b CustomAnnParam) WithRangeFilter(rangeFilter float64)
    </tr>
 </table>
 
-## ResultSet{#resultset}
+## ResultSet\{#resultset}
 
 This is a struct type. You can use the `GetColumn` method to get the result values in a specific field.
 
-### GetColumn{#getcolumn}
+### GetColumn\{#getcolumn}
 
 This method returns the query result in a specific column. The signature is as follows:
 
@@ -600,11 +766,11 @@ func (rs *ResultSet) GetColumn(fieldName string) column.Column
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 `[]ResultSet`
 
-## Example{#example}
+## Example\{#example}
 
 ```plaintext
 queryVector := []float32{0.3580376395471989, -0.6023495712049978, 0.18414012509913835, -0.26286205330961354, 0.9029438446296592}

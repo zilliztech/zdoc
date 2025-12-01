@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "BulkFileType | Java | v2"
 slug: /java/java/v2-DataImport-BulkFileType
 sidebar_label: "BulkFileType"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This is an enumeration that provides the following constants. | Java | v2"
 type: docx
 token: FGZadH85KoLEhRxkbLxcc1zbn4c
 sidebar_position: 1
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - BulkFileType
-  - javaV225
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - javaV226
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This is an enumeration that provides the following constants.
 
-## Constants{#constants}
+## Constants\{#constants}
 
 - **PARQUET**
 

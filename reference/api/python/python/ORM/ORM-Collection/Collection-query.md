@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "query() | Python | ORM"
 slug: /python/python/Collection-query
 sidebar_label: "query()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation conducts a scalar filtering with a specified boolean expression. | Python | ORM"
 type: docx
 token: JzcYdBQ5zoU4KpxPqUHcPLQonKd
 sidebar_position: 22
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - query()
-  - pymilvus25
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - pymilvus26
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation conducts a scalar filtering with a specified boolean expression.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 query(
@@ -148,7 +151,7 @@ A list of dictionaries with each dictionary representing a queried entity.
 
     This exception will be raised when a parameter value doesn't match the required data type.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -223,7 +226,7 @@ res = collection.query(
 )
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `query()`:
 

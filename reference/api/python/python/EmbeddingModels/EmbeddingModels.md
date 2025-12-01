@@ -3,21 +3,24 @@ title: "EmbeddingModels | Python"
 slug: /python/EmbeddingModels
 beta: false
 notebook: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 description: "Embedding models for you to embed unstrucctured data into vector embeddings. | Python"
 type: folder
 token: A6atfZDQxl1INud6VYGcX54zngf
 sidebar_position: 2
 sidebar_label: "EmbeddingModels"
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - EmbeddingModels
-  - pymilvus25
+  - pymilvus26
 displayed_sidebar: pythonSidebar
 ---
 

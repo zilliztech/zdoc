@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "wait_for_index_building_complete() | Python | ORM"
 slug: /python/python/utility-wait_for_index_building_complete
 sidebar_label: "wait_for_index_building_complete()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation blocks the current process until the specified index has been built. | Python | ORM"
 type: docx
 token: MfR8dw5TioPvw3xvrstcgYixnUb
 sidebar_position: 43
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - wait_for_index_building_complete()
-  - pymilvus25
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - pymilvus26
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation blocks the current process until the specified index has been built.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 wait_for_index_building_complete(
@@ -95,7 +98,7 @@ None
 
     This exception will be raised if multiple indexes exist but the index name is left unspecified.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import (
@@ -152,7 +155,7 @@ utility.wait_for_index_building_complete(
 )
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `wait_for_index_building_complete()`
 

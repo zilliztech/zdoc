@@ -3,6 +3,9 @@ title: "AlterCollectionProperties() | Go | v2"
 slug: /go/v2-Collection-AlterCollectionProperties
 sidebar_label: "AlterCollectionProperties()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method changes the specified properties of a collection. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method changes the specified properties of a collection.
 func (c *Client) AlterCollectionProperties(ctx context.Context, option AlterCollectionPropertiesOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) AlterCollectionProperties(ctx context.Context, option AlterColl
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>AlterCollectionFieldPropertiesOption</code></p></td>
+     <td><p><a href="./v2-Collection-AlterCollectionProperties#altercollectionpropertiesoption"><code>AlterCollectionFieldPropertiesOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) AlterCollectionProperties(ctx context.Context, option AlterColl
    </tr>
 </table>
 
-## AlterCollectionPropertiesOption{#altercollectionpropertiesoption}
+## AlterCollectionPropertiesOption\{#altercollectionpropertiesoption}
 
 This is an interface type. The `alterCollectionPropertiesOption` struct type implements this interface type. 
 
 You can use the `NewAlterCollectionPropertiesOption()` function to get the concrete implementation.
 
-### NewAlterCollectionPropertiesOption{#newaltercollectionpropertiesoption}
+### NewAlterCollectionPropertiesOption\{#newaltercollectionpropertiesoption}
 
 The signature of this method is as follows:
 
@@ -75,11 +78,11 @@ func NewAlterCollectionPropertiesOption(collection string) *alterCollectionPrope
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```plaintext
 err = cli.AlterCollectionProperties(ctx, milvusclient.NewAlterCollectionPropertiesOption("my_collection").WithProperty(common.CollectionTTLConfigKey, 60))

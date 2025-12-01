@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "alterCollectionField() | Java | v2"
 slug: /java/java/v2-Collections-alterCollectionField
 sidebar_label: "alterCollectionField()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation modifies the properties of a specified collection field. | Java | v2"
 type: docx
 token: OtrZdy7OtoC9N9xb8TjcCtM7nfc
 sidebar_position: 2
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionField()
-  - javaV225
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - javaV226
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation modifies the properties of a specified collection field.
 public Void alterCollectionField(AlterCollectionFieldReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 alterCollectionField(AlterCollectionFieldReq.builder()
@@ -100,7 +103,7 @@ alterCollectionField(AlterCollectionFieldReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

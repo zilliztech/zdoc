@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "encode_documents() | Python"
 slug: /python/python/Model2VecEmbeddingFunction-encode_documents
 sidebar_label: "encode_documents()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation takes in documents and encodes them into vector embeddings. | Python"
 type: docx
 token: WJY1dMUO5owB1gxkOlLcaB2Rn7g
 sidebar_position: 1
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
-  - pymilvus25
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - pymilvus26
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation takes in documents and encodes them into vector embeddings.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 encode_documents(
@@ -62,7 +65,7 @@ A list where each element is a NumPy array.
 
     This exception will be raised when the model2vec module is not installed.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import model

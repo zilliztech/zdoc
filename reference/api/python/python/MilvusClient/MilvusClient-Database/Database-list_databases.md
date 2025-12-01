@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_databases() | Python | MilvusClient"
 slug: /python/python/Database-list_databases
 sidebar_label: "list_databases()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists all existing databases. | Python | MilvusClient"
 type: docx
 token: FZuddXocNopEufxRFGdcbvkRnnb
 sidebar_position: 6
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - list_databases()
-  - pymilvus25
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - pymilvus26
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -40,7 +43,7 @@ This operation lists all existing databases.
 
 </Admonition>
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 list_databases(
@@ -73,7 +76,7 @@ A list of database names.
 
 - `MilvusException` - Raised if any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient

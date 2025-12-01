@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "releaseCollection() | Java | v2"
 slug: /java/java/v2-Management-releaseCollection
 sidebar_label: "releaseCollection()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation releases the data of a specific collection from memory. | Java | v2"
 type: docx
-token: BA9edMrWMosYWFxwTBAcl2WOnff
-sidebar_position: 13
+token: KJArdiXZvoBtdIxumpocfe5knJc
+sidebar_position: 16
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - releaseCollection()
-  - javaV225
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - javaV226
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,10 +41,11 @@ This operation releases the data of a specific collection from memory.
 public void releaseCollection(ReleaseCollectionReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 releaseCollection(ReleaseCollectionReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .async(Boolean async)
     .timeout(Long timeout)
@@ -50,6 +54,10 @@ releaseCollection(ReleaseCollectionReq.builder()
 ```
 
 **BUILDER METHODS:**
+
+- `databaseName(String databaseName)`
+
+    The name of the database to which the target collection belongs.
 
 - `collectionName(String collectionName)`
 
@@ -77,7 +85,7 @@ releaseCollection(ReleaseCollectionReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

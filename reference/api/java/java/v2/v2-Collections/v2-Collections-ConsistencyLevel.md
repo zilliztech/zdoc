@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "ConsistencyLevel | Java | v2"
 slug: /java/java/v2-Collections-ConsistencyLevel
 sidebar_label: "ConsistencyLevel"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This is an enumeration that provides the following constants. | Java | v2"
 type: docx
 token: Q8IidbqKMopplgxSxaicS2o9nwc
 sidebar_position: 5
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - ConsistencyLevel
-  - javaV225
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - javaV226
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This is an enumeration that provides the following constants.
 
-## Constants{#constants}
+## Constants\{#constants}
 
 - **STRONG**
 

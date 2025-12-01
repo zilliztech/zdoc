@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "listIndexes() | Java | v2"
 slug: /java/java/v2-Management-listIndexes
 sidebar_label: "listIndexes()"
 beta: false
+added_since: v2.4.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation lists the indexes of a field in a specific collection. | Java | v2"
 type: docx
-token: OyWwdNBG1o2pTQxNDD1cLHcTnwc
-sidebar_position: 9
+token: LxwIdeFiGoYaRAxKS72cdjNkneh
+sidebar_position: 12
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - listIndexes()
-  - javaV225
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - javaV226
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,10 +41,11 @@ This operation lists the indexes of a field in a specific collection.
 public List<String> listIndexes(ListIndexesReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 listIndexes(ListIndexesReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .fieldName(String fieldName)
     .build()
@@ -49,6 +53,10 @@ listIndexes(ListIndexesReq.builder()
 ```
 
 **BUILDER METHODS:**
+
+- `databaseName(String databaseName)`
+
+    The name of the database to which the target collection belongs.
 
 - `collectionName(String collectionName)`
 
@@ -68,7 +76,7 @@ listIndexes(ListIndexesReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

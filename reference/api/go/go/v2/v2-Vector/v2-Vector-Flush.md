@@ -3,6 +3,9 @@ title: "Flush() | Go | v2"
 slug: /go/v2-Vector-Flush
 sidebar_label: "Flush()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method flushes data into storage. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method flushes data into storage.
 func (c *Client) Flush(ctx context.Context, option FlushOption, callOptions ...grpc.CallOption) (*FlushTask, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) Flush(ctx context.Context, option FlushOption, callOptions ...g
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>FlushOption</code></p></td>
+     <td><p><a href="./v2-Vector-Flush#flushoption"><code>FlushOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) Flush(ctx context.Context, option FlushOption, callOptions ...g
    </tr>
 </table>
 
-## FlushOption{#flushoption}
+## FlushOption\{#flushoption}
 
 This is an interface type. The `flushOption` struct types implement this interface type. 
 
 You can use the `NewFlushOption` function to get the concrete implementation.
 
-### NewFlushOption{#newflushoption}
+### NewFlushOption\{#newflushoption}
 
 The signature of this method is as follows:
 
@@ -75,11 +78,11 @@ func NewFlushOption(collName string) *flushOption
    </tr>
 </table>
 
-## FlushTask{#flushtask}
+## FlushTask\{#flushtask}
 
 The is a struct type. It provides the following methods.
 
-### Await{#await}
+### Await\{#await}
 
 This method awaits the current flush task to complete. The signature is as follows:
 
@@ -89,7 +92,7 @@ func (t *FlushTask) Await(ctx context.Context) error
 
 This method does not take any input parameters.
 
-### GetFlushStats{#getflushstats}
+### GetFlushStats\{#getflushstats}
 
 This method returns the statistics on the current flush tasks. The signature is as follows:
 
@@ -127,11 +130,11 @@ This method does not take any input parameters. The following table lists the va
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 `*FlushTask`
 
-## Example{#example}
+## Example\{#example}
 
 ```plaintext
 collectionName := `customized_setup_1`

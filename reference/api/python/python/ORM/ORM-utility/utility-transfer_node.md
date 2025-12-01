@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "transfer_node() | Python | ORM"
 slug: /python/python/utility-transfer_node
 sidebar_label: "transfer_node()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation moves a specific number of query nodes from the source resource group to the target resource group. | Python | ORM"
 type: docx
 token: QHcpd1aJzo5aYbxJtMXc58een4f
 sidebar_position: 39
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - transfer_node()
-  - pymilvus25
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - pymilvus26
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation moves a specific number of query nodes from the source resource group to the target resource group.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 transfer_node(
@@ -133,7 +136,7 @@ res = utility.describe_resource_group(name="rg_01")
 res.num_available_node # 1
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `transfer_node()`:
 

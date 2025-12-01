@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "CohereRerankFunction | Python"
 slug: /python/python/Rerankers-CohereRerankFunction
 sidebar_label: "CohereRerankFunction"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "CohereRerankFunction is a class in milvusmodel that takes a query and document as input and directly returns a similarity score instead of embeddings. This functionality uses the underlying Cohere reranking model. | Python"
 type: docx
 token: GAWOdft83oZPvHxtxzZcjrQunGg
 sidebar_position: 1
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - CohereRerankFunction
-  - pymilvus25
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - pymilvus26
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ import Admonition from '@theme/Admonition';
 pymilvus.model.reranker.CohereRerankFunction
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs a CohereRerankFunction for common use cases.
 
@@ -59,7 +62,7 @@ CohereRerankFunction(
 
     The API key for accessing the Cohere API. For information on how to create an API key, refer to [Cohere dashboard](https://dashboard.cohere.com/api-keys).
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus.model.reranker import CohereRerankFunction

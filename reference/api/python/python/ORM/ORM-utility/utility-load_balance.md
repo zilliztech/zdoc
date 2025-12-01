@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "load_balance() | Python | ORM"
 slug: /python/python/utility-load_balance
 sidebar_label: "load_balance()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation sets up a load-balancing group between two query nodes for a specific collection. | Python | ORM"
 type: docx
 token: XYNMdg3Vpo3SE7xTRVqcJNvrn0d
 sidebar_position: 32
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - load_balance()
-  - pymilvus25
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - pymilvus26
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation sets up a load-balancing group between two query nodes for a specific collection.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 load_balance(
@@ -88,7 +91,7 @@ None
 
 N/A
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections, utility

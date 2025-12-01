@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "renameCollection() | Java | v2"
 slug: /java/java/v2-Collections-renameCollection
 sidebar_label: "renameCollection()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation renames an existing collection. | Java | v2"
 type: docx
-token: CtTvdQVMoo2ec5xbWTPcSzjNnQc
+token: JCutdOT9Polf2dxej0mcoP24n9c
 sidebar_position: 21
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - renameCollection()
-  - javaV225
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - javaV226
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,10 +41,11 @@ This operation renames an existing collection.
 public void renameCollection(RenameCollectionReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 renameCollection(RenameCollectionReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .newCollectionName(String newCollectionName)
     .build()
@@ -49,6 +53,10 @@ renameCollection(RenameCollectionReq.builder()
 ```
 
 **BUILDER METHODS:**
+
+- `databaseName(String databaseName)`
+
+    The name of the database to which the target collection belongs.
 
 - `collectionName(String collectionName)`
 
@@ -72,7 +80,7 @@ renameCollection(RenameCollectionReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

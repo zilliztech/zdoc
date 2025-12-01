@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "describe_resource_group() | Python | ORM"
 slug: /python/python/utility-describe_resource_group
 sidebar_label: "describe_resource_group()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation describes the details of a specific resource group. | Python | ORM"
 type: docx
 token: HScCdxLNJotPCcxb4AZcxsNJn9c
 sidebar_position: 7
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - describe_resource_group()
-  - pymilvus25
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - pymilvus26
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation describes the details of a specific resource group.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 describe_resource_group(
@@ -150,7 +153,7 @@ A **ResourceGroupInfo** object contains the following fields:
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections, utility
@@ -207,7 +210,7 @@ print(f"Resource group rg description: {info}")
 # <hostname:doc-test1-axjfu-milvus-querynode-776bb5768-v2dqh>]>
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `describe_resource_group()`:
 

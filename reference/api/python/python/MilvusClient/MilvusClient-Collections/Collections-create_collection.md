@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "create_collection() | Python | MilvusClient"
 slug: /python/python/Collections-create_collection
 sidebar_label: "create_collection()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation supports creating a collection in two distinct ways quick setup or custom setup. | Python | MilvusClient"
 type: docx
 token: H7eOdq9hOo7so7xes5LchIVwnrb
 sidebar_position: 5
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - create_collection()
-  - pymilvus25
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - pymilvus26
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation supports creating a collection in two distinct ways: quick setup or custom setup. 
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 create_collection(
@@ -130,9 +133,9 @@ create_collection(
 
     - **enable_dynamic_field** (*bool*) -
 
-        Whether to use a reserved JSON field named **$meta** to store undefined fields and their values in key-value pairs.
+        Whether to use a reserved JSON field named **&#36;meta** to store undefined fields and their values in key-value pairs.
 
-        The value defaults to **True**, indicating that the **$meta** field is used.
+        The value defaults to **True**, indicating that the **&#36;meta** field is used.
 
         This parameter is ignored if **schema** is not **None**.
 
@@ -162,6 +165,10 @@ create_collection(
         <p>For details, refer to <a href="/docs/use-partition-key">Use Partition Key</a> and <a href="https://milvus.io/docs/multi_tenancy.md">Multi-tenancy</a>.</p>
 
         </Admonition>
+
+    - **partition_key_isolation** (*bool*) -
+
+        Whether to enable partition key isolation to improve further search performance in scalar filtering on the partition key. For details, refer to [Use Partition Key Isolation](/docs/use-partition-key#use-partition-key-isolation).
 
     - **num_partitions** (*int*) -
 
@@ -217,9 +224,9 @@ None
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
-### Set up a Milvus client{#set-up-a-milvus-client}
+### Set up a Milvus client\{#set-up-a-milvus-client}
 
 ```python
 from pymilvus import MilvusClient
@@ -230,7 +237,7 @@ client = MilvusClient(
 )
 ```
 
-### Create a collection{#create-a-collection}
+### Create a collection\{#create-a-collection}
 
 You can choose between a quick setup or a customized setup as follows:
 
@@ -253,7 +260,7 @@ You can choose between a quick setup or a customized setup as follows:
 
     - The primary field accepts integers and does not automatically increments.
 
-    - The reserved JSON field named **$meta** is used to store non-schema-defined fields and their values.
+    - The reserved JSON field named **&#36;meta** is used to store non-schema-defined fields and their values.
 
     You can modify the names of the primary and vector fields and change the metric type. Additionally, the primary field can be set to increment automatically.
 
@@ -338,22 +345,3 @@ You can choose between a quick setup or a customized setup as follows:
     ```
 
     In the above code, the collection will also be created. However, without `index_param`, data in the collection will not be indexed and loaded into memory.
-
-## Related methods{#related-methods}
-
-- [create_schema()](./Collections-create_schema)
-
-- [describe_collection()](./Collections-describe_collection)
-
-- [drop_collection()](./Collections-drop_collection)
-
-- [get_collection_stats()](./Collections-get_collection_stats)
-
-- [has_collection()](./Collections-has_collection)
-
-- [list_collections()](./Collections-list_collections)
-
-- [rename_collection()](./Collections-rename_collection)
-
-- [DataType](./Collections-DataType)
-

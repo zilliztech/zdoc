@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "getPartitionStatistics() | Node.js"
 slug: /node/node/Partitions-getPartitionStatistics
 sidebar_label: "getPartitionStatistics()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation displays the statistics collected on a specific partition. | Node.js"
 type: docx
 token: XDXid6aZ8oCHnVxxFpPcKAB9n0c
 sidebar_position: 3
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - getPartitionStatistics()
-  - nodejs25
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - nodejs26
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation displays the statistics collected on a specific partition.
 getPartitionStatistics(data): Promise<StatisticsResponse>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.getPartitionStatistics({
@@ -109,7 +112,7 @@ This method returns a promise that resolves to a **StatisticsResponse** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 new milvusClient(MILUVS_ADDRESS).getPartitionStatistics({

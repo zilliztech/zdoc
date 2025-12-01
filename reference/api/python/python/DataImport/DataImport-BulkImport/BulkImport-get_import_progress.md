@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "get_import_progress() | Python"
 slug: /python/python/BulkImport-get_import_progress
 sidebar_label: "get_import_progress()"
 beta: false
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation gets the progress of the specified bulk-import job. | Python"
 type: docx
 token: MkWNdU1tvoqlBRxI05Rcu09cnEc
 sidebar_position: 2
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - get_import_progress()
-  - pymilvus25
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - pymilvus26
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation gets the progress of the specified bulk-import job.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 pymilvus.get_import_progress(
@@ -225,7 +228,7 @@ pymilvus.get_import_progress(
 
 None
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 import json
@@ -273,7 +276,7 @@ print(json.dumps(resp.json(), indent=4))
 
 For details, refer to [Import Data (SDK)](/docs/import-data-via-sdks) in our user guides.
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [bulk_import()](./BulkImport-bulk_import)
 

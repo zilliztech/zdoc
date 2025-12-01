@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "disconnect() | Python | ORM"
 slug: /python/python/Connections-disconnect
 sidebar_label: "disconnect()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation disconnects the client from the specified connection. | Python | ORM"
 type: docx
 token: IpSBdcabbosobvxQkAEcv6CvnJd
 sidebar_position: 4
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - disconnect()
-  - pymilvus25
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - pymilvus26
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation disconnects the client from the specified connection.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 disconnect(alias: str)
@@ -62,7 +65,7 @@ None
 
     This exception will be raised when the connection configuration is invalid.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections
@@ -70,7 +73,7 @@ from pymilvus import connections
 connections.disconnect(alias="default")
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `disconnect()`:
 

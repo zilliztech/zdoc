@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listIndexes() | Node.js"
 slug: /node/node/Management-listIndexes
 sidebar_label: "listIndexes()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists the indexes of a specific collection | Node.js"
 type: docx
 token: N1fldMqhtoWBJPxh8VccivqxnZd
-sidebar_position: 13
+sidebar_position: 16
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - listIndexes()
-  - nodejs25
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - nodejs26
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation lists the indexes of a specific collection
 listIndexes(data): Promise<ListIndexResponse>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.listIndexes({

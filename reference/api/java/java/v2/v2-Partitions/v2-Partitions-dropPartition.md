@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropPartition() | Java | v2"
 slug: /java/java/v2-Partitions-dropPartition
 sidebar_label: "dropPartition()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation drops a specified partition from the current collection. | Java | v2"
 type: docx
-token: JTdSdyToooA6Srx2HolcmTPunoe
+token: CSaVdr3zao9zFpxaJBgcCTCYnPd
 sidebar_position: 2
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - dropPartition()
-  - javaV225
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - javaV226
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -40,10 +43,11 @@ Before dropping a partition, you must first release it.
 public void dropPartition(DropPartitionReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 dropPartition(DropPartitionReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .partitionName(String partitionName)
     .build()
@@ -51,6 +55,10 @@ dropPartition(DropPartitionReq.builder()
 ```
 
 **BUILDER METHODS:**
+
+- `databaseName(String databaseName)`
+
+    The name of the database to which the target collection belongs.
 
 - `collectionName(String collectionName)`
 
@@ -70,7 +78,7 @@ dropPartition(DropPartitionReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

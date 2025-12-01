@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "revoke_privilege_v2() | Python | MilvusClient"
 slug: /python/python/Authentication-revoke_privilege_v2
 sidebar_label: "revoke_privilege_v2()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation revokes the specified privilege or privilege group from the specified role. | Python | MilvusClient"
 type: docx
 token: WazKdTlcOoYoBWxIJEEc7gFMnfC
 sidebar_position: 18
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
   - revoke_privilege_v2()
-  - pymilvus25
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - pymilvus26
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation revokes the specified privilege or privilege group from the specified role.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 revoke_privilege_v2(
@@ -100,7 +103,7 @@ None
 
     This exception will be raised when this operation fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```python
 from pymilvus import MilvusClient

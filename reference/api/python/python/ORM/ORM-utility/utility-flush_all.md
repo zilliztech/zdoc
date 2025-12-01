@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "flush_all() | Python | ORM"
 slug: /python/python/utility-flush_all
 sidebar_label: "flush_all()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation seals all segments. | Python | ORM"
 type: docx
 token: Uwsfd443boKKgyx2zZTcYDqKnCe
 sidebar_position: 12
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - flush_all()
-  - pymilvus25
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - pymilvus26
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation seals all segments.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 flush_all(
@@ -68,7 +71,7 @@ None
 
 N/A
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import (
@@ -102,7 +105,7 @@ future = utility.flush_all(_async=True)
 future.done() # flush_all finished
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to the `flush_all()` method:
 

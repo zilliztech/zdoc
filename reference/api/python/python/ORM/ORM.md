@@ -3,21 +3,24 @@ title: "ORM | Python | ORM"
 slug: /python/ORM
 beta: NEAR DEPRECATE
 notebook: false
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 description: "PyMilvus ORM modules, classes, and methods | Python | ORM"
 type: folder
 token: QYo4fSeVFlex8ZdeGZ4cAlmcnof
 sidebar_position: 4
 sidebar_label: "ORM"
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - ORM
-  - pymilvus25
+  - pymilvus26
 displayed_sidebar: pythonSidebar
 ---
 

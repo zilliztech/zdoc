@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "mkts_from_datetime() | Python | ORM"
 slug: /python/python/utility-mkts_from_datetime
 sidebar_label: "mkts_from_datetime()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation makes a hybrid timestamp from a Python's datetime.datetime object. | Python | ORM"
 type: docx
 token: LCQTdebkConhUqxwnk7c3EbPnWh
 sidebar_position: 34
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_datetime()
-  - pymilvus25
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - pymilvus26
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation makes a hybrid timestamp from a Python's **datetime.datetime** object.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 mkts_from_datetime(
@@ -55,7 +58,7 @@ An incremental time interval in milliseconds.
 
 - **delta** (*Optional[timedelta]*) -
 
-    A **datetime.timedelta** object that represents the duration expressing the difference between two `date`, `time`, or `datetime` instances to microsecond resolution.
+    A **datetime.timedelta** object that represents the duration expressing the difference between two [`date`](https://docs.python.org/3/library/datetime.html#datetime.date), [`time`](https://docs.python.org/3/library/datetime.html#datetime.time), or [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) instances to microsecond resolution.
 
 **RETURN TYPE:**
 
@@ -64,7 +67,7 @@ An incremental time interval in milliseconds.
 **RETURNS:**
 A hybrid timestamp, which is a non-negative integer ranging from **0** to **18446744073709551615**.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from datetime import datetime, timedelta
@@ -77,7 +80,7 @@ ts = mkts_from_datetime(
 )
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `mkts_from_datetime()`:
 

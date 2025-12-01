@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "upsert() | Python | ORM"
 slug: /python/python/Partition-upsert
 sidebar_label: "upsert()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation inserts new records into the database or updates existing ones. | Python | ORM"
 type: docx
 token: MQMzddDnao5Zz0xmSRncZM2nn5b
 sidebar_position: 11
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
-  - pymilvus25
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - pymilvus26
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -41,7 +44,7 @@ This operation inserts new records into the database or updates existing ones.
 
 </Admonition>
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 upsert(
@@ -185,7 +188,7 @@ A **MutationResult** object that contains the following fields:
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import Collection, Partition, FieldSchema, CollectionSchema, DataType
@@ -216,7 +219,7 @@ res.upsert_count
 10
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `upsert()`:
 

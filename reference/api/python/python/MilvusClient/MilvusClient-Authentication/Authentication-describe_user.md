@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "describe_user() | Python | MilvusClient"
 slug: /python/python/Authentication-describe_user
 sidebar_label: "describe_user()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation describes a specific user. | Python | MilvusClient"
 type: docx
 token: Wz3HdtvPCoEquvxFY7PcDHxcnEe
 sidebar_position: 6
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - describe_user()
-  - pymilvus25
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - pymilvus26
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation describes a specific user.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 describe_user(
@@ -90,7 +93,7 @@ A dictionary containing detailed information about the specified users.
 
     This exception will be raised when this operation fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```python
 from pymilvus import MilvusClient
@@ -113,7 +116,7 @@ client.describe_user(user_name="user_1")
 # {'user_name': 'user_1', 'roles': ('db_ro',)}
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [create_user()](./Authentication-create_user)
 

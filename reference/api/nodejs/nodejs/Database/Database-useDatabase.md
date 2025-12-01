@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "useDatabase() | Node.js"
 slug: /node/node/Database-useDatabase
 sidebar_label: "useDatabase()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation sets the active database for the gRPC client. | Node.js"
 type: docx
 token: NDcldy9OLo62DLxw1a9cFSLsnYb
 sidebar_position: 6
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - useDatabase()
-  - nodejs25
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - nodejs26
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation sets the active database for the gRPC client.
 useDatabase(data?): Promise<ResStatus>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.useDatabase({
@@ -80,7 +83,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```javascript
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

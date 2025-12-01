@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_aliases() | Python | ORM"
 slug: /python/python/utility-list_aliases
 sidebar_label: "list_aliases()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists all existing aliases for a specific collection. | Python | ORM"
 type: docx
 token: XBwxdP96Go8ITyx7UuNcL7EonPd
 sidebar_position: 22
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - list_aliases()
-  - pymilvus25
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - pymilvus26
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation lists all existing aliases for a specific collection.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 list_aliases(
@@ -80,7 +83,7 @@ A list of aliases for the specified collection. If the collection has no aliases
 
     This exception will be raised when this operation fails.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections, Collection, utility
@@ -104,7 +107,7 @@ utility.create_alias(collection_name="collection_1", alias="tom")
 utility.list_aliases(collection_name="collection_1") # ['bob', 'tom']
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `drop_alias()`:
 

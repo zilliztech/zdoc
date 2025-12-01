@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "\_\_call\_\_() | Python"
 slug: /python/python/VoyageEmbeddingFunction-__call__
 sidebar_label: "__call__()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation in VoyageEmbeddingFunction takes a list of text strings and directly encodes them into vector embeddings. | Python"
 type: docx
 token: DQFbdMhfcodFuxxhYFeccDzEnkf
 sidebar_position: 4
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
-  - pymilvus25
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - pymilvus26
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -36,7 +39,7 @@ This operation in [VoyageEmbeddingFunction](./EmbeddingModels-VoyageEmbeddingFun
 
 The **\_\_call\_\_()** method of VoyageEmbeddingFunction shares the same functionality as [encode_documents()](./VoyageEmbeddingFunction-encode_documents) and [encode_queries()](./VoyageEmbeddingFunction-encode_queries).
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 # Instance created
@@ -69,7 +72,7 @@ A list where each element is a NumPy array.
 
     This exception will be raised when the Voyage module is not installed.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus.model.dense import VoyageEmbeddingFunction

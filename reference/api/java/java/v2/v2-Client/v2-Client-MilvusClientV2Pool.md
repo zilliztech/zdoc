@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "MilvusClientV2Pool | Java | v2"
 slug: /java/java/v2-Client-MilvusClientV2Pool
 sidebar_label: "MilvusClientV2Pool"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "A MilvusClientV2Pool instance is a connection pool for MilvusClientV2 objects. The number of MilvusClientV2 objects automatically increases or decreases to avoid frequent opening and closing connections, improving your application's performance. | Java | v2"
 type: docx
 token: UrjHd9KZKo1Rlfxfj8AcmXNinlg
 sidebar_position: 2
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClientV2Pool
-  - javaV225
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - javaV226
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ A **MilvusClientV2Pool** instance is a connection pool for MilvusClientV2 object
 io.milvus.pool.MilvusClientV2Pool
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs a client pool for common use cases.
 
@@ -94,7 +97,7 @@ MilvusClientV2Pool(PoolConfig poolConfig, ConnectConfig connectConfig);
 
     Release/disconnect all clients of all key groups, and close the pool.
 
-## PoolConfig{#poolconfig}
+## PoolConfig\{#poolconfig}
 
 **PoolConfig** allows you to do specific configurations for the pool.
 
@@ -150,11 +153,11 @@ PoolConfig poolConfig = PoolConfig.builder()
 
     If this flag is set to true, the pool will check if the grpc connection of a client is terminated or closed each time the returnClient() is called.
 
-## ConnectConfig{#connectconfig}
+## ConnectConfig\{#connectconfig}
 
 Read the description on the **[MilvusClientV2](./v2-Client-MilvusClientV2)** page.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

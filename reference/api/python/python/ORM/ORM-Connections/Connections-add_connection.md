@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "add_connection() | Python | ORM"
 slug: /python/python/Connections-add_connection
 sidebar_label: "add_connection()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation adds connections to multiple Zilliz Cloud clusters for different purposes in a batch. | Python | ORM"
 type: docx
 token: C37ldNLbFog6ThxA23ScMldnnmb
 sidebar_position: 1
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - add_connection()
-  - pymilvus25
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - pymilvus26
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation adds connections to multiple Zilliz Cloud clusters for different purposes in a batch. 
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 add_connection(
@@ -128,7 +131,7 @@ None
 
     This exception will be raised when the connection configuration is invalid.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections
@@ -145,7 +148,7 @@ connections.add_connection(
 )
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `add_connection()`:
 

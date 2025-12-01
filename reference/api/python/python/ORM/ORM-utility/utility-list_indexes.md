@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_indexes() | Python | ORM"
 slug: /python/python/utility-list_indexes
 sidebar_label: "list_indexes()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists all indexes of a specific collection. | Python | ORM"
 type: docx
 token: XLepdUCcTow6rpx5vxxcbLXZnyb
 sidebar_position: 25
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - list_indexes()
-  - pymilvus25
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - pymilvus26
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation lists all indexes of a specific collection.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 list_indexes(
@@ -86,7 +89,7 @@ The names of all built indexes in a list.
 
     This exception will be raised if the specified collection does not exist.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import (
@@ -138,7 +141,7 @@ utility.list_indexes(
 
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `list_indexes()`
 

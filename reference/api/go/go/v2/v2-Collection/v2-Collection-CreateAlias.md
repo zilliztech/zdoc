@@ -3,6 +3,9 @@ title: "CreateAlias() | Go | v2"
 slug: /go/v2-Collection-CreateAlias
 sidebar_label: "CreateAlias()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method creates an alias and associates it with the specified collection. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method creates an alias and associates it with the specified collection.
 func (c *Client) CreateAlias(ctx context.Context, option CreateAliasOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) CreateAlias(ctx context.Context, option CreateAliasOption, call
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>CreateAliasOption</code></p></td>
+     <td><p><a href="./v2-Collection-CreateAlias#createaliasoption"><code>CreateAliasOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) CreateAlias(ctx context.Context, option CreateAliasOption, call
    </tr>
 </table>
 
-## CreateAliasOption{#createaliasoption}
+## CreateAliasOption\{#createaliasoption}
 
 This is an interface type. The `createAliasOption` struct type implements this interface type. 
 
 You can use the `NewCreateAliasOption()` function to get the concrete implementation.
 
-### NewCreateAliasOption{#newcreatealiasoption}
+### NewCreateAliasOption\{#newcreatealiasoption}
 
 The signature of this method is as follows:
 
@@ -80,11 +83,11 @@ func NewCreateAliasOption(collectionName, alias string) *createAliasOption
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

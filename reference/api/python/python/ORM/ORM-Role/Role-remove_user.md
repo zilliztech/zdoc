@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "remove_user() | Python | ORM"
 slug: /python/python/Role-remove_user
 sidebar_label: "remove_user()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation removes a user from the current role. Once removed, the user will lose the permissions allowed for the current role. | Python | ORM"
 type: docx
 token: SlmSdaD7rocMJsxThNHcOtEknVd
 sidebar_position: 9
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - remove_user()
-  - pymilvus25
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - pymilvus26
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation removes a user from the current role. Once removed, the user will lose the permissions allowed for the current role.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 remove_user(
@@ -64,7 +67,7 @@ remove_user(
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import Role
@@ -79,7 +82,7 @@ role.remove_user(username)
 users = role.get_users()
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `add_user()`:
 

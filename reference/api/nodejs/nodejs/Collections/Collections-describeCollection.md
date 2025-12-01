@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "describeCollection() | Node.js"
 slug: /node/node/Collections-describeCollection
 sidebar_label: "describeCollection()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists detailed information about a specific collection. | Node.js"
 type: docx
-token: TjqHdZqO1oSwwYxuny2cchWzn6S
-sidebar_position: 9
+token: FEnwdB0eCotS7wxpPXmcwgQwn8g
+sidebar_position: 8
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
-  - nodejs25
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - nodejs26
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation lists detailed information about a specific collection.
 describeCollection(data): Promise<DescribeCollectionResponse>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.describeCollection({ 
@@ -73,16 +76,21 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
 {
     aliases: string,
     collectionID: string,
+    collectionName: string,
     consistency_level: string,
     created_timestamp: string,
     created_utc_timestamp: string,
     db_name: string,
+    functions: FunctionObject[],
     num_partitions: string,
     physical_channel_names: string,
+    properties: KeyValuePair<string, string | number>[],
     schema: object,
     shards_num: int,
     start_positions: string,
     status: object,
+    update_timestamp: number,
+    update_timestamp_str: string,
     virtual_channel_names: string  
 }
 ```
@@ -96,6 +104,10 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
 - **collectionID** (*string*)-
 
     The ID of the collection.
+
+- **collectionName** (*string*) -
+
+    The name of the collection.
 
 - **consistency_level** (*string*)-
 
@@ -113,6 +125,10 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
 
     The name of the cluster to which the collection belongs.
 
+- **functions** (*FunctionObject[]*) -
+
+    The list of functions configured in the collection.
+
 - **num_partitions** (*string*)-
 
     The number of partitions in the collection.
@@ -120,6 +136,10 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
 - **physical_channel_names** (*string*)-
 
     A list of the names of the physical channels in this collection.
+
+- **properties** (*KeyValuePair\<string, string | number>*) -
+
+    The collection properties in key-value pairs. 
 
 - **schema** (*object*)-
 
@@ -135,7 +155,7 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
 
     - **enable_dynamic_field** (*boolean*) -
 
-        Whether the reserved JSON field **$meta** is used to store non-schema-defined fields in key-value pairs.
+        Whether the reserved JSON field **&#36;meta** is used to store non-schema-defined fields in key-value pairs.
 
     - **fields** (*FieldSchema[]*) -
 
@@ -149,9 +169,9 @@ This method returns a promise that resolves to a **DescribeCollectionResponse** 
 
     The number of shards in the collection.
 
-- **virtual_channel_names** (*string*)-
+- **start_positions** (*string[]*) -
 
-A list of the names of the virtual channels in this collection.
+    A list of start positions.
 
 - **status** (*object*)-
 
@@ -167,11 +187,19 @@ A list of the names of the virtual channels in this collection.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-- **shards_num** (*string*)-
+- **update_timestamp** (*number*) -
 
-    The number of shards in the collection.
+    The timestamp at which the collection has been updated.
 
-## Example{#example}
+- **update_timestamp_str** (*string*) -
+
+    The update timestamp in string format.
+
+- **virtual_channel_names** (*string[]*) -
+
+    A list of the names of the virtual channels in this collection.
+
+## Example\{#example}
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

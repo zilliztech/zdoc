@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "bulk_import() | Python"
 slug: /python/python/BulkImport-bulk_import
 sidebar_label: "bulk_import()"
 beta: false
+added_since: Inherit
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read Prepare Data Import. | Python"
 type: docx
 token: RFSCdiUYGouQrtx8c1RczPVvnmf
 sidebar_position: 1
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - bulk_import()
-  - pymilvus25
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - pymilvus26
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation imports the prepared data files to Zilliz Cloud. To learn how to prepare your data files, read [Prepare Data Import](/docs/prepare-data-import).
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 bulk_import(
@@ -133,7 +136,7 @@ bulk_import(
 
 None
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus.bulk_writer import bulk_import
@@ -170,7 +173,7 @@ print(res.json())
 
 For details, refer to [Import Data (SDK)](/docs/import-data-via-sdks) in our user guides.
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [get_import_progress()](./BulkImport-get_import_progress)
 

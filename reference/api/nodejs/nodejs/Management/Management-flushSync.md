@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "flushSync() | Node.js"
 slug: /node/node/Management-flushSync
 sidebar_label: "flushSync()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation manually seals a segment and persists the data on disk. It is recommended that this operation be called after all the data has been inserted into a collection. This is the synchronous function that ensures the flush operation is complete before the function returns. | Node.js"
 type: docx
 token: QsTwdUbgyoZPV1xzCBxchX8Fnid
-sidebar_position: 7
+sidebar_position: 8
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - flushSync()
-  - nodejs25
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - nodejs26
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -44,7 +47,7 @@ flushSync(data): Promise<GetFlushStateResponse>
 
 </Admonition>
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.flushSync({
@@ -107,7 +110,7 @@ This method returns a promise that resolves to a **GetFlushStateResponse** objec
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

@@ -3,21 +3,24 @@ title: "Client | Python | MilvusClient"
 slug: /python/MilvusClient-Client
 beta: false
 notebook: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 description: "Classes and methods for you to manage the MilvusClient instances. | Python | MilvusClient"
 type: folder
-token: M0pgf1TX3lTotndwA7Vc3gJsnAd
+token: ZEQZf4BtildBijdf1T6cdDnmnZb
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud
   - Client
-  - pymilvus25
+  - pymilvus26
 displayed_sidebar: pythonSidebar
 ---
 

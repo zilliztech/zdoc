@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "get_bulk_insert_state() | Python | ORM"
 slug: /python/python/utility-get_bulk_insert_state
 sidebar_label: "get_bulk_insert_state()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation returns the state of a specified bulk-insert task. | Python | ORM"
 type: docx
 token: XzHhd3AdCo9DCsxawYycr69CnAb
 sidebar_position: 13
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - get_bulk_insert_state()
-  - pymilvus25
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - pymilvus26
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -35,7 +38,7 @@ import TabItem from '@theme/TabItem';
 
 This operation returns the state of a specified bulk-insert task.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 get_bulk_insert_state(
@@ -213,7 +216,7 @@ A **BulkInsertState** object has the following fields
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections, utility
@@ -240,7 +243,7 @@ res = utility.get_bulk_insert_state(task_id=task_id)
 # >
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `get_bulk_insert_state()`:
 

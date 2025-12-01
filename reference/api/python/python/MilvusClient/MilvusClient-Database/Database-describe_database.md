@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "describe_database() | Python | MilvusClient"
 slug: /python/python/Database-describe_database
 sidebar_label: "describe_database()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists detailed information about the specified database. | Python | MilvusClient"
 type: docx
 token: LEaYdk179oZn0vxqa0lcn4mnnrg
 sidebar_position: 3
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - describe_database()
-  - pymilvus25
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - pymilvus26
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -40,7 +43,7 @@ This operation lists detailed information about the specified database.
 
 </Admonition>
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 describe_database(
@@ -74,7 +77,7 @@ A dictionary that contains detailed information about the specified database.
 
 - `MilvusException` - Raised if any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient

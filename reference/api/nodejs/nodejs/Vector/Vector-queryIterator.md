@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "queryIterator() | Node.js"
 slug: /node/node/Vector-queryIterator
 sidebar_label: "queryIterator()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation conducts a scalar filtering with a specified boolean expression. | Node.js"
 type: docx
 token: Ru8IdsrG8oayAWxly1PcqMGFnxd
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - queryIterator()
-  - nodejs25
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - nodejs26
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation conducts a scalar filtering with a specified boolean expression.
 queryIterator(data): Promise<any>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
  milvusClient.query({
@@ -154,7 +157,7 @@ This method returns a promise that resolves to an asynchronous iterator that yie
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const queryData = {

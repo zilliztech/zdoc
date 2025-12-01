@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "getLoadState() | Java | v2"
 slug: /java/java/v2-Management-getLoadState
 sidebar_label: "getLoadState()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation displays whether a specified collection or partition is loaded or not. | Java | v2"
 type: docx
-token: QcaFdMJE9oHX1Axe11rcqfiynEd
-sidebar_position: 6
+token: PAs7dwIIrop4OixCUr8ctHVLnXc
+sidebar_position: 9
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadState()
-  - javaV225
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - javaV226
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,10 +41,11 @@ This operation displays whether a specified collection or partition is loaded or
 public Boolean getLoadState(GetLoadStateReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 getLoadState(GetLoadStateReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .partitionName(String partitionName)
     .build()
@@ -49,6 +53,10 @@ getLoadState(GetLoadStateReq.builder()
 ```
 
 **BUILDER METHODS:**
+
+- `databaseName(String databaseName)`
+
+    The name of the database to which the target collection belongs.
 
 - `collectionName(String collectionName)`
 
@@ -78,7 +86,7 @@ A Boolean value that indicates the status of the specified collection or partiti
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

@@ -3,6 +3,9 @@ title: "HasCollection() | Go | v2"
 slug: /go/v2-Collection-HasCollection
 sidebar_label: "HasCollection()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method checks whether the specified collection exists. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method checks whether the specified collection exists.
 func (c *Client) HasCollection(ctx context.Context, option HasCollectionOption, callOptions ...grpc.CallOption) (has bool, err error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) HasCollection(ctx context.Context, option HasCollectionOption, 
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>HasCollectionOption</code></p></td>
+     <td><p><a href="./v2-Collection-HasCollection#hascollectionoption"><code>HasCollectionOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) HasCollection(ctx context.Context, option HasCollectionOption, 
    </tr>
 </table>
 
-## HasCollectionOption{#hascollectionoption}
+## HasCollectionOption\{#hascollectionoption}
 
 This is an interface type. The `hasCollectionOption` struct type implements this interface type. 
 
 You can use the `NewHasCollectionOption()` function to get the concrete implementation.
 
-### NewHasCollectionOption{#newhascollectionoption}
+### NewHasCollectionOption\{#newhascollectionoption}
 
 The signature of this method is as follows:
 
@@ -75,11 +78,11 @@ func NewHasCollectionOption(name string) HasCollectionOption
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 `bool`
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

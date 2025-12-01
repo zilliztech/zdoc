@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "release() | Python | ORM"
 slug: /python/python/Collection-release
 sidebar_label: "release()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation releases the data of the current collection from memory. | Python | ORM"
 type: docx
 token: CBwkdDs7MoKkVKx0kJgcPUNxn6s
 sidebar_position: 24
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - release()
-  - pymilvus25
+  - pymilvus26
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation releases the data of the current collection from memory.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 release(
@@ -48,7 +51,7 @@ release(
 
     The timeout duration for this operation. Setting this to **None** indicates that this operation timeouts when any response arrives or any error occurs.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -71,7 +74,7 @@ collection.load()
 collection.release()
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `release()`:
 

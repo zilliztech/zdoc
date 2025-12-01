@@ -3,6 +3,9 @@ title: "RenameCollection() | Go | v2"
 slug: /go/v2-Collection-RenameCollection
 sidebar_label: "RenameCollection()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method renames the specified collection. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method renames the specified collection.
 func (c *Client) RenameCollection(ctx context.Context, option RenameCollectionOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) RenameCollection(ctx context.Context, option RenameCollectionOp
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>RenameCollectionOption</code></p></td>
+     <td><p><a href="./v2-Collection-RenameCollection#renamecollectionoption"><code>RenameCollectionOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) RenameCollection(ctx context.Context, option RenameCollectionOp
    </tr>
 </table>
 
-## RenameCollectionOption{#renamecollectionoption}
+## RenameCollectionOption\{#renamecollectionoption}
 
 This is an interface type. The `renameCollectionOption` struct type implements this interface type. 
 
 You can use the `NewRenameCollectionOption()` function to get the concrete implementation.
 
-### NewRenameCollectionOption{#newrenamecollectionoption}
+### NewRenameCollectionOption\{#newrenamecollectionoption}
 
 The signature of this method is as follows:
 
@@ -80,11 +83,11 @@ func NewRenameCollectionOption(oldName, newName string) *renameCollectionOption
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

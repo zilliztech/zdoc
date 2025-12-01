@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "release_collection() | Python | MilvusClient"
 slug: /python/python/Management-release_collection
 sidebar_label: "release_collection()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation releases the data of a specific collection from memory. | Python | MilvusClient"
 type: docx
 token: PRR7dRfi8o1s61xFRovccAdRnHe
 sidebar_position: 13
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - release_collection()
-  - pymilvus25
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - pymilvus26
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation releases the data of a specific collection from memory.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 release_collection(
@@ -71,7 +74,7 @@ None
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient, DataType
@@ -181,7 +184,7 @@ client.get_load_state(
 # {'state': <LoadState: NotLoad>}
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [get_load_state()](./Management-get_load_state)
 

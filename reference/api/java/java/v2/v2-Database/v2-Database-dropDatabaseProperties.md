@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropDatabaseProperties() | Java | v2"
 slug: /java/java/v2-Database-dropDatabaseProperties
 sidebar_label: "dropDatabaseProperties()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation resets the database properties to their default values. | Java | v2"
 type: docx
 token: CzC6dm9N8oBvQZxRMyocNfTpn9f
 sidebar_position: 5
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabaseProperties()
-  - javaV225
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - javaV226
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation resets the database properties to their default values.
 public Void dropDatabaseProperties(DropDatabasePropertiesReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 dropDatabaseProperties(DropDatabasePropertiesReq.builder()
@@ -92,7 +95,7 @@ dropDatabaseProperties(DropDatabasePropertiesReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

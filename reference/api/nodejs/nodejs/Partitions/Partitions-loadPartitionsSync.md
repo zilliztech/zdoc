@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "loadPartitionsSync() | Node.js"
 slug: /node/node/Partitions-loadPartitionsSync
 sidebar_label: "loadPartitionsSync()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation loads the data of specific partitions into memory. This is the synchronous function that helps to ensure that the specified partitions have been loaded. | Node.js"
 type: docx
 token: VGofdSRi0o6EagxNkokc9Iinndf
 sidebar_position: 7
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitionsSync()
-  - nodejs25
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - nodejs26
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation loads the data of specific partitions into memory. This is the sy
 loadPartitionsSync(data): Promise<ResStatus>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.loadPartitionsSync({ 
@@ -107,7 +110,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 new milvusClient(MILUVS_ADDRESS).loadPartitionsSync({

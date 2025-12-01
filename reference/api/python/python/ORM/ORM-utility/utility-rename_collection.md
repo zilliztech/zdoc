@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "rename_collection() | Python | ORM"
 slug: /python/python/utility-rename_collection
 sidebar_label: "rename_collection()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation renames an existing collection and optionally moves the collection to a new database. | Python | ORM"
 type: docx
 token: M0qRdF1cLokrxvxyrXScJ64FnEe
 sidebar_position: 37
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - rename_collection()
-  - pymilvus25
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - pymilvus26
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -40,7 +43,7 @@ This operation renames an existing collection and optionally moves the collectio
 
 </Admonition>
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 rename_collection(
@@ -101,7 +104,7 @@ None
 
     This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections, utility
@@ -123,7 +126,7 @@ utility.rename_collection(
 )
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `rename_collection()`:
 

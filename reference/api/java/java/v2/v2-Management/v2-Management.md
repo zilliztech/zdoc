@@ -3,21 +3,24 @@ title: "Management | Java | v2"
 slug: /java/v2-Management
 beta: false
 notebook: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 description: "Methods for you to index, load, and release a collection. | Java | v2"
 type: folder
-token: MTBuf5wQ7lardCddEtCc4R2uncb
-sidebar_position: 4
+token: ALDZfPYy3lNm8ZdotPecBX7rnNd
+sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - Management
-  - javaV225
+  - javaV226
 displayed_sidebar: javaSidebar
 ---
 

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "LocalBulkWriter | Python"
 slug: /python/python/DataImport-LocalBulkWriter
 sidebar_label: "LocalBulkWriter"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "A LocalBulkWriter instance rewrites your raw data locally in a format that Zilliz Cloud understands. | Python"
 type: docx
 token: RcvXdmCVBog9M8xNyUFcwefnneh
 sidebar_position: 3
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
   - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - LocalBulkWriter
-  - pymilvus25
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - pymilvus26
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ A LocalBulkWriter instance rewrites your raw data locally in a format that Zilli
 class pymilvus.LocalBulkWriter
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs a LocalBulkWriter object by schema, output path, segment size, and file type.
 
@@ -130,7 +133,7 @@ A **LocalBulkWriter** object.
 
     This exception will be raised when the provided schema is invalid.
 
-## Properties{#properties}
+## Properties\{#properties}
 
 - **uuid** (*str*) -
 
@@ -144,7 +147,7 @@ A **LocalBulkWriter** object.
 
     A list of the generated file names.
 
-## Methods{#methods}
+## Methods\{#methods}
 
 The following are the methods of the **LocalBulkWriter** class:
 

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "updateUser() | Node.js"
 slug: /node/node/Authentication-updateUser
 sidebar_label: "updateUser()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation updates the password of a specific user. | Node.js"
 type: docx
 token: BCGKdCttdotF32xUJTec8UFlndg
-sidebar_position: 26
+sidebar_position: 28
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - updateUser()
-  - nodejs25
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - nodejs26
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation updates the password of a specific user.
 updateUser(data): Promise<ResStatus>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.updateUser({
@@ -101,7 +104,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 milvusClient.updateUser({

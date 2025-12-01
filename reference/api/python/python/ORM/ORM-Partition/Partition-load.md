@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "load() | Python | ORM"
 slug: /python/python/Partition-load
 sidebar_label: "load()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation loads the data of the current partition into memory. | Python | ORM"
 type: docx
 token: TWxddf6iboyM15xK4Kzc8ASknRb
 sidebar_position: 6
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - zilliz
-  - zilliz cloud
-  - cloud
-  - load()
-  - pymilvus25
   - information retrieval
   - dimension reduction
   - hnsw algorithm
   - vector similarity search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - load()
+  - pymilvus26
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -40,7 +43,7 @@ This operation loads the data of the current partition into memory.
 
 </Admonition>
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 load(
@@ -73,7 +76,7 @@ load(
 
     This arises when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import Collection, Partition, CollectionSchema, FieldSchema, DataType
@@ -104,7 +107,7 @@ partition.load(
 )
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `load()`:
 

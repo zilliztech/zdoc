@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "load_state() | Python | ORM"
 slug: /python/python/utility-load_state
 sidebar_label: "load_state()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation returns the load status of a specific collection. | Python | ORM"
 type: docx
 token: BJysdlj1MoksHZxNRxicHn9fnSh
 sidebar_position: 33
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - zilliz
-  - zilliz cloud
-  - cloud
-  - load_state()
-  - pymilvus25
   - Audio search
   - what is semantic search
   - Embedding model
   - image similarity search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - load_state()
+  - pymilvus26
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation returns the load status of a specific collection.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 load_state(
@@ -102,7 +105,7 @@ The possible states are as follows:
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import (
@@ -168,7 +171,7 @@ utility.load_state(
 ) # <LoadState: NotLoad>
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `load_state()`:
 
