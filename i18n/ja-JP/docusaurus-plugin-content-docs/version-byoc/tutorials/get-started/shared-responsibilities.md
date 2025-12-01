@@ -1,154 +1,151 @@
 ---
-title: "責任の共有 | BYOC"
+title: "共有責任 | BYOC"
 slug: /shared-responsibilities
-sidebar_label: "責任の共有"
+sidebar_label: "共有責任"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "このページでは、Zilliz CloudとBYOCのユーザーが、クラウド管理、アップグレード、セキュリティ、アクセス制御、サービスの可用性、技術サポートに関するタスクの分担を明確にし、安全で効率的な運用環境を維持しながらスムーズなコラボレーションを実現するための責任を概説しています。 | BYOC"
+description: "このページでは、Zilliz Cloud と BYOC ユーザーの責任を概説し、クラウド管理、アップグレード、セキュリティ、アクセス制御、サービス可用性、技術サポートに関連するタスクの役割分担を明確にし、安全で効率的な運用環境を維持しながらスムーズな協力を確保します。 | BYOC"
 type: origin
-token: X0MBwUNIqipdMvkTbqDcN3LHnNh
-sidebar_position: 10
-keywords: 
+token: QqtGwq7lSimnHJk6IuXcM9synWg
+sidebar_position: 11
+keywords:
   - zilliz
   - byoc
   - milvus
   - vector database
   - shared responsibilities
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# 責任の共有
+# 共有責任
 
-このページでは、Zilliz CloudとBYOCのユーザーが、クラウド管理、アップグレード、セキュリティ、アクセス制御、サービスの可用性、技術サポートに関するタスクの分担を明確にし、安全で効率的な運用環境を維持しながらスムーズなコラボレーションを実現するための責任を概説しています。
+このページでは、Zilliz Cloud と BYOC ユーザーの責任を概説し、クラウド管理、アップグレード、セキュリティ、アクセス制御、サービス可用性、技術サポートに関連するタスクの役割分担を明確にし、安全で効率的な運用環境を維持しながらスムーズな協力を確保します。
 
-<Admonition type="info" icon="📘" title="ノート">
-
-<p>Zilliz BYOCは現在<strong>一般提供</strong>中です。アクセスと実装の詳細については、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポート</a>にお問い合わせください。</p>
-
-</Admonition>
-
-## クラウド管理{#cloud-management}
+## クラウド管理\{#cloud-management}
 
 <table>
    <tr>
      <th><p>タスク</p></th>
-     <th><p>ジリズBYOC</p></th>
-     <th><p>お客様</p></th>
+     <th><p>Zilliz BYOC</p></th>
+     <th><p>顧客</p></th>
    </tr>
    <tr>
-     <td><p>VPCの設定</p></td>
+     <td><p>VPC の設定</p></td>
      <td></td>
      <td><p>✔</p></td>
    </tr>
    <tr>
-     <td><p>EC 2インスタンスの管理</p></td>
+     <td><p>EC2 インスタンスの管理</p></td>
      <td><p>✔</p></td>
      <td></td>
    </tr>
    <tr>
-     <td><p>Kubernetesクラスタの管理</p></td>
+     <td><p>Kubernetes クラスターの管理</p></td>
      <td><p>✔</p></td>
      <td></td>
    </tr>
    <tr>
-     <td><p>S 3バケットの管理</p></td>
+     <td><p>S3 バケットの管理</p></td>
      <td></td>
      <td><p>✔</p></td>
    </tr>
    <tr>
-     <td><p>Milvusインスタンスのプロビジョニング</p></td>
+     <td><p>Milvus インスタンスのプロビジョニング</p></td>
      <td><p>✔</p></td>
      <td></td>
    </tr>
 </table>
 
-## アップグレードとセキュリティ{#upgrade-and-security}
+## アップグレードとセキュリティ\{#upgrade-and-security}
 
 <table>
    <tr>
      <th><p>タスク</p></th>
-     <th><p>ジリズBYOC</p></th>
-     <th><p>お客様</p></th>
+     <th><p>Zilliz BYOC</p></th>
+     <th><p>顧客</p></th>
    </tr>
    <tr>
-     <td><p>Milvusインスタンスをアップグレードする</p></td>
+     <td><p>Milvus インスタンスのアップグレード</p></td>
      <td><p>✔</p></td>
      <td></td>
    </tr>
    <tr>
-     <td><p>パッチソフトウェアの脆弱性</p></td>
+     <td><p>ソフトウェアの脆弱性パッチ適用</p></td>
      <td><p>✔</p></td>
      <td></td>
    </tr>
    <tr>
-     <td><p>インフラストラクチャの脆弱性を修正する</p></td>
+     <td><p>インフラストラクチャの脆弱性パッチ適用</p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>
    </tr>
    <tr>
-     <td><p>スケールリソース</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-</table>
-
-## アクセス制御{#access-control}
-
-<table>
-   <tr>
-     <th><p>タスク</p></th>
-     <th><p>ジリズBYOC</p></th>
-     <th><p>お客様</p></th>
-   </tr>
-   <tr>
-     <td><p>IAMロールとサービスアカウントを管理する</p></td>
-     <td><p>✔</p></td>
-     <td><p>✔</p></td>
-   </tr>
-   <tr>
-     <td><p>アクセス制御と監査を実装する</p></td>
+     <td><p>リソースのスケーリング</p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>
    </tr>
 </table>
 
-## サービスの可用性{#service-availability}
+## アクセス制御\{#access-control}
 
 <table>
    <tr>
      <th><p>タスク</p></th>
-     <th><p>ジリズBYOC</p></th>
-     <th><p>お客様</p></th>
+     <th><p>Zilliz BYOC</p></th>
+     <th><p>顧客</p></th>
    </tr>
    <tr>
-     <td><p>ディザスタリカバリ(DR)</p></td>
+     <td><p>IAM ロールおよびサービスアカウントの管理</p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>
    </tr>
    <tr>
-     <td><p>サービスレベル契約（SLA）</p></td>
+     <td><p>アクセス制御および監査の実装</p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>
    </tr>
 </table>
 
-## 技術サポート{#technical-support}
+## サービス可用性\{#service-availability}
 
 <table>
    <tr>
      <th><p>タスク</p></th>
-     <th><p>ジリズBYOC</p></th>
-     <th><p>お客様</p></th>
+     <th><p>Zilliz BYOC</p></th>
+     <th><p>顧客</p></th>
    </tr>
    <tr>
-     <td><p>ロギング</p></td>
+     <td><p>ディザスタリカバリー (DR)</p></td>
+     <td><p>✔</p></td>
+     <td><p>✔</p></td>
+   </tr>
+   <tr>
+     <td><p>サービスレベルアグリーメント (SLA)</p></td>
+     <td><p>✔</p></td>
+     <td><p>✔</p></td>
+   </tr>
+</table>
+
+## 技術サポート\{#technical-support}
+
+<table>
+   <tr>
+     <th><p>タスク</p></th>
+     <th><p>Zilliz BYOC</p></th>
+     <th><p>顧客</p></th>
+   </tr>
+   <tr>
+     <td><p>ログ記録</p></td>
      <td></td>
      <td><p>✔</p></td>
    </tr>
@@ -158,14 +155,13 @@ import Admonition from '@theme/Admonition';
      <td><p>✔</p></td>
    </tr>
    <tr>
-     <td><p>モニタリング</p></td>
+     <td><p>監視</p></td>
      <td><p>✔</p></td>
      <td></td>
    </tr>
    <tr>
-     <td><p>ブレイクグラスアクセス</p></td>
+     <td><p>緊急アクセス</p></td>
      <td><p>✔</p></td>
      <td><p>✔</p></td>
    </tr>
 </table>
-

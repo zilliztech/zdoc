@@ -1,14 +1,17 @@
 ---
-title: "AWSでBYOC-Iをデプロイする | BYOC"
+title: "AWS に BYOC-I を展開 | BYOC"
 slug: /deploy-byoc-i-aws
-sidebar_label: "AWSでBYOC-Iをデプロイする"
+sidebar_label: "AWS に BYOC-I を展開"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "このページでは、AWS Virtual Private Cloud(VPC)でBYOCエージェントを使用してBring-Your-Own-Cloud(BYOC)データプレーンを作成する方法について説明します。 | BYOC"
+description: "このページでは、AWS Virtual Private Cloud (VPC) に BYOC エージェントを含む Bring-Your-Own-Cloud (BYOC) データプレーンを展開する方法について説明します。 | BYOC"
 type: origin
-token: RMhbwx7ewiGxfUkiaDDc9PC6nWh
+token: D1E4wLr5xiuHoFkJgblcHZ1FnLb
 sidebar_position: 4
-keywords: 
+keywords:
   - zilliz
   - byoc
   - byoc-i
@@ -17,139 +20,151 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# AWSでBYOC-Iをデプロイする
+# AWS に BYOC-I を展開
 
-このページでは、AWS Virtual Private Cloud(VPC)でBYOCエージェントを使用してBring-Your-Own-Cloud(BYOC)データプレーンを作成する方法について説明します。
+このページでは、AWS Virtual Private Cloud (VPC) に BYOC エージェントを含む Bring-Your-Own-Cloud (BYOC) データプレーンを展開する方法について説明します。
 
-<Admonition type="info" icon="📘" title="ノート">
+<Admonition type="info" icon="📘" title="Notes">
 
-<p>Zilliz BYOCは現在<strong>一般提供中</strong>です。アクセスと実装の詳細については、<a href="https://zilliz.com/contact-sales">Zilliz Cloudサポートに</a>お問い合わせください。</p>
+<ul>
+<li><p>Zilliz BYOC は現在、<strong>一般提供</strong>されています。アクセスおよび実装の詳細については、<a href="https://zilliz.com/contact-sales">Zilliz Cloud サポート</a>にお問い合わせください。</p></li>
+<li><p>このガイドでは、AWS コンソールで必要なリソースをステップバイステップで作成する方法を示しています。インフラストラクチャをプロビジョニングするために Terraform スクリプトを使用する場合は、<a href="./terraform-provider">Terraform プロバイダー</a>を参照してください。</p></li>
+</ul>
 
 </Admonition>
 
-## 前提条件{#prerequisites}
+## 前提条件\{#prerequisites}
 
-- あなたはBYOC組織のオーナーでなければなりません。
+以下のことを確認してください：
 
-## 手続き{#procedure}
+- BYOC-I 組織の所有者であること。
 
-### ステップ1:デプロイ環境を準備する{#step-1-prepare-the-deployment-environment}
+## 手順\{#procedures}
 
-デプロイ環境とは、Terraformの設定ファイルを実行し、BYOC-Iプロジェクトのデータプレーンをデプロイするために設定されたローカルマシン、仮想マシン（VM）、またはCI/CDパイプラインのことです。このステップでは、 
+### ステップ1: 展開環境を準備\{#step-1-prepare-the-deployment-environment}
 
-- **AWSの認証情報（AWSプロファイルまたはアクセスキー）を設定します。**
+展開環境は、Terraform 設定ファイルを実行して BYOC-I プロジェクトのデータプレーンを展開するように構成されたローカルマシン、仮想マシン (VM)、または CI/CD パイプラインです。このステップでは、以下のことを行う必要があります：
 
-    AWSの認証情報の設定方法の詳細については、[このドキュメント](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html)を参照してください。
+- **AWS 認証情報 (AWS プロファイルまたはアクセスキー) を構成します。**
 
-- **最新のTerraformバイナリをインストールします。**
+    AWS 認証情報を構成する方法の詳細については、[このドキュメント](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html)を参照してください。
 
-    Terraformのインストール方法については、[このドキュメント](https://developer.hashicorp.com/terraform/install?product_intent=terraform)を参照してください。
+- **最新の Terraform バイナリをインストールします。**
 
-### ステップ2:プロジェクトを作成する{#step-2-create-a-project}
+    Terraform をインストールする方法の詳細については、[このドキュメント](https://developer.hashicorp.com/terraform/install?product_intent=terraform)を参照してください。
 
-BYOC-I組織内で、[**プロジェクトの作成とデータプレーンのデプロイ**]ボタンをクリックしてデプロイを開始します。
+### ステップ2: プロジェクトを作成\{#step-2-create-a-project}
 
-![TzN1b6TOSoGfJ9xrQV8c6rqznNf](/img/TzN1b6TOSoGfJ9xrQV8c6rqznNf.png)
+BYOC-I 組織内で、**プロジェクトを作成してデータプレーンを展開** ボタンをクリックして展開を開始します。
 
-### ステップ3:一般的な設定を行う{#step-3-set-up-the-general-settings}
+![Xd4ObksJao97jdxSFVTclO4Fno6](/img/Xd4ObksJao97jdxSFVTclO4Fno6.png)
 
-一般設定では、プロジェクト名を設定し、Zilliz Cloudがプロジェクトのデータプレーンをデプロイするクラウドプロバイダーとリージョンを決定する必要があります。
+### ステップ3: 全般設定を構成\{#step-3-set-up-the-general-settings}
 
-![TJw1bLl1colGw6x5B38cUQ6InDh](/img/TJw1bLl1colGw6x5B38cUQ6InDh.png)
+**全般設定** で、プロジェクト名を設定し、Zilliz Cloud がプロジェクト用のデータプレーンを展開するクラウドプロバイダーとリージョンを決定する必要があります。
 
-1. **プロジェクト名**を設定します。
+![Xejfbdz6PockHsxn5uacw3OTnVc](/img/Xejfbdz6PockHsxn5uacw3OTnVc.png)
 
-1. **クラウドプロバイダー**と**リージョン**を選択します。
+1. **プロジェクト名** を設定します。
 
-1. (オプション)**インスタンス設定**を構成します。 
+1. **クラウドプロバイダー** および **リージョン** を選択します。
 
-    BYOCプロジェクトでは、検索サービス、基本的なデータベースコンポーネント、およびコアサポートサービスが異なるインスタンスを使用します。これらのサービスとコンポーネントのインスタンスタイプを設定できます。 
+1. **AWS PrivateLink** を有効にするかどうかを決定します。
 
-    詳細については、[インスタンス設定](./deploy-byoc-i-aws#instance-settings)を参照してください。
+    このオプションにより、現在のプロジェクト内のクラスターへのプライベート接続が可能になります。このオプションを有効にする場合は、プライベート接続用に VPC エンドポイントを作成する必要があります。
 
-1. **AWS PrivateLink**を有効にするかどうかを決定します。
+1. **アーキテクチャ** で、アプリケーションに一致するアーキテクチャタイプを選択します。
 
-    このオプションを有効にすると、現在のプロジェクト内のクラスターへのプライベート接続が可能になります。このオプションを有効にする場合は、プライベート接続用のVPCエンドポイントを作成する必要があります。
+    これにより、使用する Zilliz BYOC イメージのアーキテクチャタイプが決定されます。利用可能なオプションは **X86** および **ARM** です。
 
-1. **作成して次へ**をクリックします。
+1.  **リソース設定** では、以下を行う必要があります：
 
-### ステップ4:データプレーンをデプロイする{#step-4-deploy-the-data-plane}
+    1. **自動スケーリング** を有効または無効にして、Zilliz Cloud がプロジェクトワークロードに基づいて定義された範囲内で EC2 インスタンスの数を自動的に調整できるようにし、効率的なリソース使用を確保できます。
 
-ダイアログに表示される手順に従って、現在作成されているプロジェクトのデータプレーンをデプロイします。
+    1. **初期プロジェクトサイズ** を構成します。
 
-![X8K3bwWlcoakPIxEqZJcfWSQnEg](/img/X8K3bwWlcoakPIxEqZJcfWSQnEg.png)
+        BYOC プロジェクトでは、クエリノード、インデックスサービス、Milvus コンポーネント、および依存関係が異なるタイプの EC2 インスタンスを使用します。これらのサービスおよびコンポーネントに対してインスタンスタイプと数を個別に設定できます。
 
-上記のTerraformスクリプトの実行方法の詳細については、[Zilliz Cloud BYOC-Iプロジェクトセットアップガイド](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/guides/create-a-byoc-i-project)を参照してください。
+        **自動スケーリング** が無効になっている場合は、対応する **数** フィールドに各プロジェクトコンポーネントに必要な EC2 インスタンスの数を単純に指定します。
 
-## プロジェクトを管理する{#manage-projects}
+        ![VHLHbZrT1oNG03xAJMgcFVKAnCh](/img/VHLHbZrT1oNG03xAJMgcFVKAnCh.png)
 
-![NCD9bER2hovY5pxsAdPc7UwPn9Z](/img/NCD9bER2hovY5pxsAdPc7UwPn9Z.png)
+        **自動スケーピング** が有効になると、実際のプロジェクトワークロードに基づいて EC2 インスタンス数を自動的にスケーリングするために、対応する **最小** および **最大** フィールドを設定して Zilliz Cloud が使用する範囲を指定する必要があります。
 
-### Undeployタグのあるプロジェクト{#undeploy}
+        ![VVjXbGaS3ovyZdxEPcacd6Vnnkh](/img/VVjXbGaS3ovyZdxEPcacd6Vnnkh.png)
 
-プロジェクトカードの右隅にあるステータスタグに「**展開解除**」と表示されている場合は、プロジェクトカードの「**データプレーンを展開**」ボタンをクリックして再度開くことができます。プロジェクトの名前を変更または削除するには、をクリックしてください... プロジェクトカードのボタンをクリックし、ドロップダウンメニューから**名前の変更**または**削除**を選択してください。  
+        リソース設定を容易にするために、4つの事前定義されたプロジェクトサイズオプションがあります。以下の表は、これらのプロジェクトサイズオプションとプロジェクトで作成できるクラスター数、およびこれらのクラスターに含まれるエンティティ数との対応を示しています。
 
-### Deployingタグのあるプロジェクト{#deploying}
+        <table>
+           <tr>
+             <th rowspan="2"><p>サイズ</p></th>
+             <th rowspan="2"><p>最大クラスター数</p></th>
+             <th colspan="2"><p>最大エンティティ数 (百万)</p></th>
+           </tr>
+           <tr>
+             <td><p>パフォーマンス最適化 CU</p></td>
+             <td><p>容量最適化 CU</p></td>
+           </tr>
+           <tr>
+             <td><p>小</p></td>
+             <td><p>8〜16 CU の 3 クラスター</p></td>
+             <td><p>1000万 - 2500万</p></td>
+             <td><p>4000万 - 8000万</p></td>
+           </tr>
+           <tr>
+             <td><p>中</p></td>
+             <td><p>16〜64 CU の 7 クラスター</p></td>
+             <td><p>2500万 - 1億</p></td>
+             <td><p>8000万 - 3.5億</p></td>
+           </tr>
+           <tr>
+             <td><p>大</p></td>
+             <td><p>64〜192 CU の 12 クラスター</p></td>
+             <td><p>1億 - 3億</p></td>
+             <td><p>3.5億 - 10億</p></td>
+           </tr>
+           <tr>
+             <td><p>特大</p></td>
+             <td><p>192〜576 CU の 17 クラスター</p></td>
+             <td><p>3億 - 9億</p></td>
+             <td><p>10億 - 30億</p></td>
+           </tr>
+        </table>
 
-デプロイ環境を準備し、表示されたコマンドを実行したら、BYOCエージェントがアクティブになるのを待つ必要があります。プロジェクトカードのステータスタグが「**デプロイ中**」と表示され、進捗率が表示される場合、データプレーンがインになるまでプロジェクトの名前を変更または削除することはできません。
+        **初期プロジェクトサイズ** で **カスタム** を選択し、すべてのデータプレーンコンポーネントの EC2 インスタンスタイプと数を調整することで、設定をカスタマイズすることもできます。希望する EC2 インスタンスタイプがリストにない場合は、追加の支援のために[Zilliz サポート](https://zilliz.com/contact)までお問い合わせください。
 
-### Runningタグのあるプロジェクト{#running}
+1. **次へ** をクリックします。
 
-プロジェクトカードのステータスタグに「**実行中**」と表示されたら、プロジェクト内でクラスターの作成を開始できます。実行中のプロジェクトの名前を変更または削除するには、プロジェクトにクラスターがないことを確認します。
+### ステップ4: データプレーンを展開\{#step-4-deploy-the-data-plane}
 
-## インスタンス設定{#instance-settings}
+ダイアログに表示される手順に従って、現在作成されたプロジェクトのデータプレーンを展開します。
 
-Zilliz BYOCプロジェクトのデータプレーンには、**Search Services**、**Fundamental Database Components**、**Core Support Services**の3種類のコンポーネントがあり、それぞれ異なるEC 2インスタンスを使用しています。 
+![GHGqbw4UroKPu7xoEWmcDQaDnEd](/img/GHGqbw4UroKPu7xoEWmcDQaDnEd.png)
 
-![ZJyhbVpVioi2M2xDmVFc07SCn4c](/img/ZJyhbVpVioi2M2xDmVFc07SCn4c.png)
+上記の Terraform スクリプトを実行する方法の詳細については、[Zilliz Cloud BYOC-I プロジェクトセットアップガイド](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/guides/create-a-byoc-i-project)を参照してください。
 
-**一般設定**では、上記の3つのデータプレーンコンポーネントのEC 2インスタンスタイプを決定する必要があります。さらに、Core Support ServicesのEC 2インスタンス数を指定する必要があります。これにより、プロジェクト内で作成できるクラスターの最大数が決定されます。
+## プロジェクトの管理\{#manage-projects}
 
-定義済みのプロジェクト体格オプションは4つあります。
+![AHEybTRhto0gcKxnKIucbm3inte](/img/AHEybTRhto0gcKxnKIucbm3inte.png)
 
-<table>
-   <tr>
-     <th rowspan="2"><p>サイズ</p></th>
-     <th rowspan="2"><p>最大クラスタ数</p></th>
-     <th colspan="2"><p>エンティティの最大数（百万）</p></th>
-   </tr>
-   <tr>
-     <td><p>Performance-optimized CU</p></td>
-     <td><p>Capacity-optimized CU</p></td>
-   </tr>
-   <tr>
-     <td><p>Small</p></td>
-     <td><p>8～16個のCUを持つ3つのクラスタ</p></td>
-     <td><p>10百万-25百万の</p></td>
-     <td><p>40百万-80百万の</p></td>
-   </tr>
-   <tr>
-     <td><p>Medium</p></td>
-     <td><p>16～64個のCUを持つ7つのクラスタ</p></td>
-     <td><p>25百万-100百万の</p></td>
-     <td><p>80百万-350百万の</p></td>
-   </tr>
-   <tr>
-     <td><p>Large</p></td>
-     <td><p>64～192個のCUを持つ12つのクラスタ</p></td>
-     <td><p>100百万-300百万の</p></td>
-     <td><p>350百万-10億</p></td>
-   </tr>
-   <tr>
-     <td><p>X-Large</p></td>
-     <td><p>192～576個のCUを持つ17つのクラスタ</p></td>
-     <td><p>300百万-900百万の</p></td>
-     <td><p>10億-30億</p></td>
-   </tr>
-</table>
+### 「Undeploy」タグ付きプロジェクト\{#projects-with-an-undeploy-tag}
 
+プロジェクトカードの右隅のステータスタグが **Undeploy** である場合、プロジェクトカードの **データプレーンを展開** ボタンをクリックして常に戻すことができます。プロジェクトの名前変更または削除を行うには、プロジェクトカードの **...** ボタンをクリックし、ドロップダウンメニューから **名前の変更** または **削除** を選択します。
+
+### 「Deploying」タグ付きプロジェクト\{#projects-with-a-deploying-tag}
+
+展開環境を準備して表示されたコマンドを実行すると、BYOC エージェントがアクティブになるまで待つ必要があります。プロジェクトカードのステータスタグが **Deploying** になり、進行状況のパーセンテージが表示されている間は、データプレーンが配置されるまでプロジェクトの名前変更や削除はできません。
+
+### 「Running」タグ付きプロジェクト\{#projects-with-a-running-tag}
+
+プロジェクトカードのステータスタグが **Running** になったら、プロジェクト内でクラスターを作成し始めることができます。実行中のプロジェクトの名前変更や削除を行うには、プロジェクト内にクラスターがないことを確認してください。

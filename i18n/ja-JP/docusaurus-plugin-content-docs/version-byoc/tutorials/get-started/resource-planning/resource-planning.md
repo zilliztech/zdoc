@@ -1,32 +1,35 @@
 ---
-title: "リソースプランニング | BYOC"
+title: "リソース計画 | BYOC"
 slug: /resource-planning
-sidebar_label: "リソースプランニング"
+sidebar_label: "リソース計画"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloudにデータを移動する前のリソースプランニングに関するトピック。 | BYOC"
+description: "データを Zilliz Cloud に移行する前に行う、リソース計画に関連するトピック。 | BYOC"
 type: origin
-token: QShBwEVusiPyWDkfnjfc8yxFnHe
-sidebar_position: 8
-keywords: 
+token: NM2OwCcfVijX8DkNsIxcdajEnr7
+sidebar_position: 9
+keywords:
   - zilliz
   - vector database
   - cloud
   - resource
   - planning
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# リソースプランニング
+# リソース計画
 
-Zilliz Cloudにデータを移動する前のリソースプランニングに関するトピック。
+データを Zilliz Cloud に移行する前に行う、リソース計画に関連するトピック。
 
 import DocCardList from '@theme/DocCardList';
 
