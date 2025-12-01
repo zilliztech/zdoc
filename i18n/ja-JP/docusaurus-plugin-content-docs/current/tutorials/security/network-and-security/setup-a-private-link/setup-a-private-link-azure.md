@@ -13,19 +13,19 @@ token: W2fZwrrhVibvpGkd0MbcQGJQnib
 sidebar_position: 3
 keywords:
   - zilliz
-  - vector database
-  - cloud
-  - private link
+  - ベクターデータベース
+  - クラウド
+  - プライベートリンク
   - privatelink
-  - private endpoint
+  - プライベートエンドポイント
   - private service connect
   - aws
   - gcp
   - azure
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

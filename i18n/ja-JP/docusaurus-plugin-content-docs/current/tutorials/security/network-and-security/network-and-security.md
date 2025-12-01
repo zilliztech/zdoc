@@ -17,10 +17,10 @@ keywords:
   - クラウド
   - ネネット
   - セキュリティ
-  - ベクトル検索
-  - knnアルゴリズム
-  - HNSW
-  - 構造化データとは
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 

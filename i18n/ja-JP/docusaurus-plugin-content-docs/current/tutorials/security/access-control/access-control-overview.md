@@ -18,10 +18,10 @@ keywords:
   - クラスター
   - アクセス制御
   - rbac
-  - 階層的ナビgableスモールワールド
-  - 密埋め込み
-  - Faissベクターデータベース
-  - Chromaベクターデータベース
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

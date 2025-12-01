@@ -1,5 +1,5 @@
 ---
-title: "Okta（OIDC） | Cloud"
+title: "Okta (OIDC) | Cloud"
 slug: /openid-connect
 sidebar_label: "Okta（OIDC）"
 beta: FALSE
@@ -16,10 +16,10 @@ keywords:
   - ベクターデータベース
   - クラウド
   - sso
-  - 密埋め込み
-  - Faissベクターデータベース
-  - Chromaベクターデータベース
-  - nlp検索
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

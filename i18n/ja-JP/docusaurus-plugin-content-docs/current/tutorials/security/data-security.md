@@ -17,10 +17,10 @@ keywords:
   - クラウド
   - データ
   - セキュリティ
-  - Elasticベクターデータベース
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoyベクトル検索
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

@@ -22,10 +22,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoyベクトル検索
-  - ミルヴス
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

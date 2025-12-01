@@ -20,10 +20,10 @@ keywords:
   - rbac
   - ユーザー
   - 概要
-  - Annoyベクトル検索
-  - ミルヴス
-  - Zilliz
-  - ミルヴスベクターデータベース
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 
@@ -54,7 +54,7 @@ Zilliz Cloudでは、クラスターユーザーを作成し、権限を定義�
 
 - このクラスターユーザーのパスワードを設定します。このパスワードは[認証](./cluster-credentials)に使用されます。
 
-![add-cluster-user](/img/add-cluster-user.png)
+![add-cluster-user](/img/add-cluster-user.png "add-cluster-user")
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -64,7 +64,7 @@ Zilliz Cloudでは、クラスターユーザーを作成し、権限を定義�
 
 ## クラスターユーザーのロールを編集\{#edit-the-role-of-a-cluster-user}
 
-![edit-cluster-user-role](/img/edit-cluster-user-role.png)
+![edit-cluster-user-role](/img/edit-cluster-user-role.png "edit-cluster-user-role")
 
 ## クラスターユーザーを削除\{#drop-a-cluster-user}
 
@@ -74,4 +74,4 @@ Zilliz Cloudでは、クラスターユーザーを作成し、権限を定義�
 
 </Admonition>
 
-![drop-cluster-user](/img/drop-cluster-user.png)
+![drop-cluster-user](/img/drop-cluster-user.png "drop-cluster-user")

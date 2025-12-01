@@ -16,10 +16,10 @@ keywords:
   - ベクターデータベース
   - クラウド
   - クラスターロredentials
-  - マルチモーダl RAG
-  - llm ハルシネーション
-  - ハイブリッド検索
-  - レクシカル検索
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 
@@ -43,7 +43,7 @@ Zilliz Cloudは、トークンを使用してユーザーの身元を認証し�
 
 - **コンソールでユーザーパスワードをリセット**
 
-    ![reset-cluster-user-password](/img/reset-cluster-user-password.png)
+    ![reset-cluster-user-password](/img/reset-cluster-user-password.png "reset-cluster-user-password")
 
 - **プログラムでユーザーパスワードをリセット**
 

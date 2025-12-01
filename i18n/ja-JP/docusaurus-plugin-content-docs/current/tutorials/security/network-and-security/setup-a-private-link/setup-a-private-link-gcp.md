@@ -13,19 +13,19 @@ token: IojuwADAwiRK0hkl4pgcvC2QnQd
 sidebar_position: 2
 keywords:
   - zilliz
-  - vector database
-  - cloud
-  - private link
+  - ベクターデータベース
+  - クラウド
+  - プライベートリンク
   - privatelink
-  - private endpoint
+  - プライベートエンドポイント
   - private service connect
   - aws
   - gcp
   - azure
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

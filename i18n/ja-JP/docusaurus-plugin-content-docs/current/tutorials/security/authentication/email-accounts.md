@@ -16,10 +16,10 @@ keywords:
   - ベクターデータベース
   - クラウド
   - 電子メールアカウント
-  - 靟構造化データとは
-  - ベクトル埋め込み
-  - ベクトルストア
-  - オープンソースベクターデータベース
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 
@@ -42,11 +42,11 @@ Zilliz Cloudに[アカウントを登録](./register-with-zilliz-cloud)した後
 
     - 国
 
-![modify_account_info](/img/modify_account_info.png)
+![modify_account_info](/img/modify_account_info.png "modify_account_info")
 
 ## アカウントのメールアドレスを更新\{#update-account-email-address}
 
-![update_email_address](/img/update_email_address.png)
+![update_email_address](/img/update_email_address.png "update_email_address")
 
 <Admonition type="info" icon="📘" title="ノート">
 
@@ -56,7 +56,7 @@ Zilliz Cloudに[アカウントを登録](./register-with-zilliz-cloud)した後
 
 ## アカウントパスワードを変更\{#change-account-password}
 
-![change_password](/img/change_password.png)
+![change_password](/img/change_password.png "change_password")
 
 パスワードは少なくとも8文字以上で、以下の文字タイプの中から少なくとも3つを含める必要があります：
 
@@ -112,7 +112,7 @@ Zilliz Cloudアカウントをサードパーティアカウントに連携し�
 
     - まだパスワードを設定していない場合は、メールに送信されたリンクから新しいパスワードを設定します。パスワードが設定されると、ログイン方法は業務用メールと新しいパスワードに変更されます。
 
-![unlink_from_google](/img/unlink_from_google.png)
+![unlink_from_google](/img/unlink_from_google.png "unlink_from_google")
 
 ### GitHubアカウントから連携解除\{#unlink-from-your-github-account}
 
@@ -126,7 +126,7 @@ Zilliz Cloudアカウントをサードパーティアカウントに連携し�
 
     - まだパスワードを設定していない場合は、メールに送信されたリンクから新しいパスワードを設定します。パスワードが設定されると、ログイン方法は業務用メールと新しいパスワードに変更されます。
 
-![unlink_from_github](/img/unlink_from_github.png)
+![unlink_from_github](/img/unlink_from_github.png "unlink_from_github")
 
 ## アカウントを閉鎖\{#close-your-account}
 
@@ -158,4 +158,4 @@ Zilliz Cloudアカウントをサードパーティアカウントに連携し�
 
 1. アカウントが正常に削除されると、メール通知が届きます。
 
-![delete-account-en](/img/delete-account-en.png)
+![delete-account-en](/img/delete-account-en.png "delete-account-en")

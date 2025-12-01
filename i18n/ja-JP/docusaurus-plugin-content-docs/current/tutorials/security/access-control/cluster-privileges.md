@@ -19,10 +19,10 @@ keywords:
   - アクセス制御
   - rbac
   - 権限
-  - ビデオの重複排除
-  - ビデオ類似検索
-  - ベクトル検索
-  - 音声類似検索
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Zilliz Cloudは、プライベートリンクを通じてクラスターへのプライベートアクセスを提供します。クラスタートラフィックをインターネット経由にしたくない場合に便利です。 | Cloud"
 type: origin
 token: O5W3wHvmbiVSoLkzKgHcvB9XnUb
-sidebar_position: 2
+sidebar_position: 3
 keywords:
   - zilliz
   - ベクターデータベース
@@ -21,10 +21,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Pineconeベクターデータベース
-  - 音声検索
-  - 意味検索とは
-  - 埋め込みモデル
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

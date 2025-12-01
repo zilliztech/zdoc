@@ -17,10 +17,10 @@ keywords:
   - クラウド
   - クラスターロredentials
   - apiキー
-  - Chroma vs Milvus
-  - Annoyベクトル検索
-  - ミルヴス
-  - Zilliz
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 
@@ -56,24 +56,24 @@ Zilliz Cloudは、さまざまなユーザーの要求に応えるために2種�
    </tr>
    <tr>
      <td colspan="2"><p>組織オーナー</p></td>
-     <td><p>プロジェクトおよびクラスターを含む、組織内のすべてのリソースへの完全な管理者アクセス。</p></td>
+     <td><p>プロジェクト、クラスター、およびボリュームを含む、組織内のすべてのリソースへの完全な管理者アクセス。</p></td>
    </tr>
    <tr>
      <td colspan="2"><p>組織請求管理者</p></td>
-     <td><p>組織請求への管理者アクセスのみ。組織内のプロジェクトおよびクラスターにはアクセスできません。</p></td>
+     <td><p>組織請求への管理者アクセスのみ。組織内のプロジェクト、クラスター、およびボリュームにはアクセスできません。</p></td>
    </tr>
    <tr>
      <td rowspan="3"><p>組織メンバー</p></td>
      <td><p>プロジェクト管理者</p></td>
-     <td><p>指定されたプロジェクトへの完全な管理者アクセス、およびデフォルトでプロジェクト内のすべてのクラスターへの完全な管理者アクセス。</p></td>
+     <td><p>指定されたプロジェクトへの完全な管理者アクセス、およびデフォルトでプロジェクト内のすべてのクラスターおよびボリュームへの完全な管理者アクセス。</p></td>
    </tr>
    <tr>
      <td><p>プロジェクト読み書き</p></td>
-     <td><p>指定されたプロジェクトへの読み書きアクセス、およびデフォルトでプロジェクト内のすべてのクラスターへの読み書きアクセス。</p></td>
+     <td><p>指定されたプロジェクトへの読み書きアクセス、およびデフォルトでプロジェクト内のすべてのクラスターおよびボリュームへの読み書きアクセス。</p></td>
    </tr>
    <tr>
      <td><p>プロジェクト読み取り専用</p></td>
-     <td><p>指定されたプロジェクトへの読み取り専用アクセス、およびデフォルトでプロジェクト内のすべてのクラスターへの読み取り専用アクセス。</p></td>
+     <td><p>指定されたプロジェクトへの読み取り専用アクセス、およびデフォルトでプロジェクト内のすべてのクラスターおよびボリュームへの読み取り専用アクセス。</p></td>
    </tr>
 </table>
 
@@ -240,15 +240,15 @@ Zilliz Cloudが各組織ユーザーのために自動的に生成する個人�
 
 1. 組織の**APIキー**ページに移動します。**+ APIキー**をクリックします。
 
-    ![create-api-key](/img/create-api-key.png)
+    ![create-api-key](/img/create-api-key.png "create-api-key")
 
 1. **APIキー名**を入力し、**APIキーのアクセス**を構成します。
 
-    ![BSdPbaXHdoIPp0xBsA0chg0onfL](/img/BSdPbaXHdoIPp0xBsA0chg0onfL.png)
+    ![Nwd5bLDAuolLrUxo8nWcAHU5nub](/img/nwd5bldauollruxo8nwcahu5nub.png "Nwd5bLDAuolLrUxo8nWcAHU5nub")
 
     - **APIキー名**： 名前は64文字を超えないでください。
 
-    - **APIキーのアクセス**： 遻切な組織およびプロジェクトロールを割り当てることで、現在のカスタマイズされたAPIキーのアクセススコープを定義します。きめ細かいアクセス制御のためには、**特定のクラスタへのアクセスを制限**にチェックを入れて、キーがアクセスできるクラスタを制限できます。
+    - **APIキーのアクセス**： 適切な組織およびプロジェクトロールを割り当てることで、現在のカスタマイズされたAPIキーのアクセススコープを定義します。きめ細かいアクセス制御のためには、**特定のクラスタおよびボリュームへのアクセスを制限**にチェックを入れて、キーがアクセスできるクラスタおよびボリュームを制限できます。
 
         <Admonition type="info" icon="📘" title="ノート">
 
@@ -268,7 +268,7 @@ Zilliz Cloudが各組織ユーザーのために自動的に生成する個人�
 
 以下のスクリーンショットは、**組織オーナー**のAPIキー表示を示しています。
 
-![KKONbcCa3o4qr9xJlhlcQMwinRd](/img/KKONbcCa3o4qr9xJlhlcQMwinRd.png)
+![KKONbcCa3o4qr9xJlhlcQMwinRd](/img/kkonbcca3o4qr9xjlhlcqmwinrd.png "KKONbcCa3o4qr9xJlhlcQMwinRd")
 
 ## APIキーを編集\{#edit-an-api-key}
 
@@ -278,15 +278,15 @@ Zilliz Cloudが各組織ユーザーのために自動的に生成する個人�
 
 1. 組織の**APIキー**ページに移動します。アクション列の**...**をクリックし、**編集**をクリックします。
 
-    ![edit-api-key](/img/edit-api-key.png)
+    ![edit-api-key](/img/edit-api-key.png "edit-api-key")
 
 1. APIキーの**APIキー名**および**APIキーのアクセス**を編集します。
 
-    ![YqNtbRsyroP2cGxGLObcQgb7njh](/img/YqNtbRsyroP2cGxGLObcQgb7njh.png)
+    ![JXeubHidbokaTax90eZcrmA9nIg](/img/jxeubhidbokatax90ezcrma9nig.png "JXeubHidbokaTax90eZcrmA9nIg")
 
     - **APIキー名**： 名前は64文字を超えないでください。
 
-    - **APIキーのアクセス**： 遻切な組織およびプロジェクトロールを割り当てることで、現在のカスタマイズされたAPIキーのアクセススコープを定義します。きめ細かいアクセス制御のためには、**特定のクラスタへのアクセスを制限**にチェックを入れて、キーがアクセスできるクラスタを制限できます。
+    - **APIキーのアクセス**： 適切な組織およびプロジェクトロールを割り当てることで、現在のカスタマイズされたAPIキーのアクセススコープを定義します。きめ細かいアクセス制御のためには、**特定のクラスタおよびボリュームへのアクセスを制限**にチェックを入れて、キーがアクセスできるクラスタおよびボリュームを制限できます。
 
         <Admonition type="info" icon="📘" title="ノート">
 
@@ -308,11 +308,11 @@ Zilliz Cloudが各組織ユーザーのために自動的に生成する個人�
 
 - **個人用APIキーをリセット**： 自分の個人用APIキーのみをリセットできます（ロールに関係なく）。
 
-    ![reset-personal-api-keys](/img/reset-personal-api-keys.png)
+    ![reset-personal-api-keys](/img/reset-personal-api-keys.png "reset-personal-api-keys")
 
 - **カスタマイズされたAPIキーをリセット**： 組織オーナーおよびプロジェクト管理者のみがカスタマイズされたAPIキーをリセットできます。
 
-    ![reset-customized-api-keys](/img/reset-customized-api-keys.png)
+    ![reset-customized-api-keys](/img/reset-customized-api-keys.png "reset-customized-api-keys")
 
 ## APIキーを削除\{#delete-an-api-key}
 
@@ -328,4 +328,4 @@ Zilliz Cloudが各組織ユーザーのために自動的に生成する個人�
 
 </Admonition>
 
-![delete-customized-api-keys](/img/delete-customized-api-keys.png)
+![delete-customized-api-keys](/img/delete-customized-api-keys.png "delete-customized-api-keys")

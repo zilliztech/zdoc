@@ -16,10 +16,10 @@ keywords:
   - ベクターデータベース
   - クラウド
   - 認証
-  - k最近傍アルゴリズム
-  - ANNS
-  - ベクトル検索
-  - knnアルゴリズム
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

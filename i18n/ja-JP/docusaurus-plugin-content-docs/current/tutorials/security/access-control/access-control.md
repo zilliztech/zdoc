@@ -18,10 +18,10 @@ keywords:
   - クラスター
   - アクセス制御
   - rbac
-  - rag llmアーキテクチャ
-  - プライベートllms
-  - nn検索
-  - llm評価
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

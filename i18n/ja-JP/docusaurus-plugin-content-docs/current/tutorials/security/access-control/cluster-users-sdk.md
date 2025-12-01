@@ -19,10 +19,10 @@ keywords:
   - アクセス制御
   - rbac
   - ユーザー
-  - knnアルゴリズム
-  - HNSW
-  - 非構造化データとは
-  - ベクトル埋め込み
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

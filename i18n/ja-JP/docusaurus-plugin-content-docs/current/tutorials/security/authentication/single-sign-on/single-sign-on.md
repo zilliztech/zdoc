@@ -16,10 +16,10 @@ keywords:
   - ベクターデータベース
   - クラウド
   - sso
-  - Vector store
-  - オープンソースベクターデータベース
-  - ベクトルインデックス
-  - ベクトルデータベースオープンソース
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

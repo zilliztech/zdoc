@@ -19,10 +19,10 @@ keywords:
   - アクセス制御
   - rbac
   - ロール
-  - マルチモーダl RAG
-  - llm ホルシネーション
-  - ハイブリッド検索
-  - レクシカル検索
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

@@ -10,16 +10,16 @@ notebook: FALSE
 description: "この章では、認証、ロールベースアクセス制御（RBAC）、プライベートエンドポイント、ホワイトリストなどのセキュリティ関連対策について説明します。 | Cloud"
 type: origin
 token: HAF7wZny2ip5BRky4zmcK446nOe
-sidebar_position: 10
+sidebar_position: 11
 keywords:
   - zilliz
   - ベクターデータベース
   - クラウド
   - セキュリティ
-  - HNSW
-  - 靟構造化データとは
-  - ベクトル埋め込み
-  - ベクトルストア
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - クラウド
   - 監査
   - ロッグ
-  - 次元削減
-  - hnswアルゴリズム
-  - ベクトル類似検索
-  - 近似最近傍検索
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

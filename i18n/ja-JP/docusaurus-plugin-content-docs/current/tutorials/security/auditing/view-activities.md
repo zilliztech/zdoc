@@ -17,10 +17,10 @@ keywords:
   - クラウド
   - アクティビティ
   - 表示
-  - ベクターデータベース
-  - マルチモーダlベクターデータベース検索
-  - 検索拡張生成
-  - 大規模言語モデル
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 
@@ -35,7 +35,7 @@ Zilliz Cloud**プラットフォーム監査ログ**機能は、特定のZilliz 
 
 組織ページで、左側のナビゲーションペインの**プラットフォーム監査ログ**をクリックします。ここでは、プラットフォームログの概要、各ログが記録された時刻、および関与した演算子の識別を表示できます。
 
-![view-activities-saas](/img/view-activities-saas.png)
+![view-activities-saas](/img/view-activities-saas.png "view-activities-saas")
 
 ## プラットフォーム監査ログをフィルタ\{#filter-platform-audit-logs}
 
@@ -51,7 +51,7 @@ Zilliz Cloud**プラットフォーム監査ログ**機能は、特定のZilliz 
 
     </Admonition>
 
-    ![filter-by-time-range](/img/filter-by-time-range.png)
+    ![filter-by-time-range](/img/filter-by-time-range.png "filter-by-time-range")
 
 - **タイプでフィルタ**
 
@@ -76,8 +76,8 @@ Zilliz Cloud**プラットフォーム監査ログ**機能は、特定のZilliz 
        </tr>
     </table>
 
-    ![filter-by-activity-type](/img/filter-by-activity-type.png)
+    ![filter-by-activity-type](/img/filter-by-activity-type.png "filter-by-activity-type")
 
 - **監査ログでフィルタ**
 
-    ![filter-by-activity](/img/filter-by-activity.png)
+    ![filter-by-activity](/img/filter-by-activity.png "filter-by-activity")

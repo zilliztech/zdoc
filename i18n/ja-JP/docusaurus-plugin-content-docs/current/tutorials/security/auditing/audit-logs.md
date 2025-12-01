@@ -18,10 +18,10 @@ keywords:
   - 監査
   - ロッグ
   - 構成
-  - ANNS
-  - ベクトル検索
-  - knnアルゴリズム
-  - HNSW
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 
@@ -180,7 +180,7 @@ Zilliz Cloudの監査ログは、監査ログを直接ストレージバケッ�
 
 監査ログが有効化されると、必要に応じて構成を編集したり、無効化したりできます。
 
-![XyvNb9sf1oGSKox0XxWc2BFAnrg](/img/XyvNb9sf1oGSKox0XxWc2BFAnrg.png)
+![XyvNb9sf1oGSKox0XxWc2BFAnrg](/img/xyvnb9sf1ogskox0xxwc2bfanrg.png "XyvNb9sf1oGSKox0XxWc2BFAnrg")
 
 ## FAQ\{#faq}
 

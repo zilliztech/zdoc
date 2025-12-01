@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "認証はログインプロセス中に本人を確認するためのゲートウェイとして機能します。Zilliz Cloudはマルチファクタ認証（MFA）を提供することで、このセキュリティを強化しています。MFAはパスワード以外の追加の検証を要求する高度なログイン方法です。MFAは不正アクセスへの有効な対策であり、すべてのユーザーにお勧めします。現在のところ、業務用メールアドレスとパスワードで登録したユーザーのみがWebコンソールでMFAを管理できます。MFAが有効な場合、追加のセキュリティのために各ログイン試行時にパスワードとメール検証コードの両方を入力する必要があります。 | Cloud"
+description: "認証は、Zilliz Cloudにサインインする際に本人確認を行うためのものです。このプロセスを強化するために、Zilliz Cloudは多要素認証（MFA）をサポートしています。 | Cloud"
 type: origin
 token: KHAMwm0HUiU6qdkH2LOcu0FFnug
 sidebar_position: 4
@@ -16,56 +16,108 @@ keywords:
   - ベクターデータベース
   - クラウド
   - mfa
-  - 密ベクトル
-  - 階層的ナビgableスモールワールド
-  - 密埋め込み
-  - Faissベクターデータベース
+  - Knowledge base
+  - 自然言語処理
+  - AIチャットボット
+  - コサイン距離
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 # MFA
 
-認証はログインプロセス中に本人を確認するためのゲートウェイとして機能します。Zilliz Cloudはマルチファクタ認証（MFA）を提供することで、このセキュリティを強化しています。MFAはパスワード以外の追加の検証を要求する高度なログイン方法です。MFAは不正アクセスへの有効な対策であり、すべてのユーザーにお勧めします。現在のところ、業務用メールアドレスとパスワードで登録したユーザーのみがWebコンソールでMFAを管理できます。MFAが有効な場合、追加のセキュリティのために各ログイン試行時にパスワードとメール検証コードの両方を入力する必要があります。
+認証は、Zilliz Cloudにサインインする際に本人確認を行うためのものです。このプロセスを強化するために、Zilliz Cloudは多要素認証（MFA）をサポートしています。
 
-### MFAを有効化\{#enable-mfa}
+MFAが有効化されている場合、ログイン時に以下の2つの要素を提供する必要があります：
 
-1. **プロフィール**に移動し、**アカウント設定**を選択します。
+- アカウントパスワード
 
-1. マルチファクタ認証トグルを有効化します。
-
-1. ダアログボックスで、アカウントパスワードを入力して確認します。
-
-1. 登録したメールアドレスに送信された検証コードを入力して本人確認を行います。
-
-1. ロギンページにリダイレクトされます。MFAが正常に有効化されたことを通知するプロンプトが表示されます。
+- 認証アプリ（例：Google認証システム、Microsoft認証システムなど）から生成されたTOTP（時間ベースのワンタイムパスワード）
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>Googleに連携されたアカウントを持つユーザーは、Google自身のMFA設定の対象となります。詳しくは、<a href="https://support.google.com/accounts/answer/185839?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP">2段階認証を有効化</a>を参照してください。</p>
-<p>同様に、GitHubに連携されたアカウントのMFA設定はGitHubによって管理されます。詳しくは、<a href="https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication">二要素認証の設定</a>を参照してください。</p>
+<p>Zilliz Cloudは、アカウントセキュリティ強化のためにMFAをアップグレードしました。<strong>2025年11月25日</strong>以降、メールベースのMFAは廃止されます。以前メールベースのMFAを使用していたユーザーは、TOTP認証アプリに切り替える必要があります。</p>
 
 </Admonition>
 
-![enable_mfa_en](/img/enable_mfa_en.png)
+## 注意事項\{#considerations}
 
-### MFAを無効化\{#disable-mfa}
+- **SSO互換性**： あなたの組織が[SSO](./single-sign-on)を有効にしている場合、MFAはアイデンティティプロバイダー（IdP）によって管理されます。この場合、IdPアカウントでMFAを設定するか、組織オーナーに相談して支援を求めてください。
 
-1. **プロフィール**に移動し、**アカウント設定**を選択します。
+- **ログイン方式の互換性**： Zilliz Cloudの内蔵MFA機能は、メールアドレスとパスワードで[Zilliz Cloudに登録](./register-with-zilliz-cloud#registration-options)したユーザーにのみ使用できます。
 
-1. マルチファクタ認証トグルを無効化します。
+    - アカウントがGoogleにリンクされている場合、MFAはGoogleによって管理されます。詳しくは、[2段階認証を有効にする](https://support.google.com/accounts/answer/185839?hl=ja&ref_topic=7189195&sjid=2449417013251062800-AP)を参照してください。
 
-1. ダアログボックスで、**無効化**をクリックしてアクションを確認します。
+    - アカウントがGitHubにリンクされている場合、MFAはGitHubによって管理されます。詳しくは、[2段階認証の設定](https://docs.github.com/ja/authentication/securing-your-account-with-two-factor-authentication-2fa/configuring-two-factor-authentication)を参照してください。
 
-1. メールアドレスに送信された検証コードを入力して本人確認を行います。<b>無効化</b>をクリックします。
+## MFAを有効化\{#enable-mfa}
 
-1. MFAが正常に無効化されたことを通知するプロンプトが表示されます。
+以下のデモでは、自分のアカウントでMFAを有効にする方法を示しています。デモではMicrosoft認証システムを使用していますが、TOTP互換の認証アプリであればどれでも使用できます。
+
+<Supademo id="cmi72ns5s4jwob7b4ul2t1zz5?utm_source=link" title=""  />
+
+## MFAを無効化\{#disable-mfa}
 
 <Admonition type="info" icon="📘" title="ノート">
 
-<p>Googleに連携されたアカウントを持つユーザーは、Google自身のMFA設定の対象となります。詳しくは、<a href="https://support.google.com/accounts/answer/1064203?hl=en&ref_topic=7189195&sjid=2449417013251062800-AP">2段階認証を無効化</a>を参照してください。</p>
-<p>同様に、GitHubに連携されたアカウントのMFA設定はGitHubによって管理されます。詳しくは、<a href="https://docs.github.com/en/authentication/securing-your-account-with-two-factor-authentication-2fa/disabling-two-factor-authentication-for-your-personal-account">個人アカウントの二要素認証を無効化</a>を参照してください。</p>
+<p>あなたの組織が<a href="./multi-factor-auth#enforce-mfa-for-all-organization-users">MFA強制</a>を有効にしている場合、自分のアカウントのMFAを無効にすることはできません。</p>
 
 </Admonition>
+
+以下のデモでは、自分のアカウントのMFAを無効にする方法を示しています。
+
+<Supademo id="cmi7297fo4jq8b7b448ydxlhk?utm_source=link" title=""  />
+
+## 組織ユーザー全員に対してMFAを強制\{#enforce-mfa-for-all-organization-users}
+
+この機能を利用するには、組織オーナーである必要があります。
+
+有効課金方法、**エンタープライズ**プロジェクト、および**専用**クラスターが必要です。
+
+組織レベルのMFA強制が有効になっている場合：
+
+- 組織内のすべてのユーザーが[MFAの設定](./multi-factor-auth#enable-mfa)を行い、サインインする必要があります。
+
+- MFAをまだ有効にしていないユーザーは、次回ログイン時に設定を促されます。
+
+- MFAの設定を完了しないユーザーは、組織にアクセスできません。
+
+以下のデモでは、組織に対してMFAを強制する方法を示しています。
+
+<Supademo id="cmi71danb4is0b7b4eogo3s07?utm_source=link" title=""  />
+
+## 組織のMFA強制を無効化\{#disable-mfa-enforcement-for-organization}
+
+この機能にアクセスするには、組織オーナーである必要があります。
+
+組織レベルのMFA強制が無効になっている場合：
+
+- ユーザーはMFAを設定して組織にアクセスする必要がなくなりました。
+
+- MFAを既に有効にしているユーザーは、既存の設定を維持し、自分のアカウントの[MFAをオフにする](./multi-factor-auth#disable-mfa)ことができます。
+
+以下のデモでは、組織のMFA強制を無効にする方法を示しています。
+
+<Supademo id="cmi71q0gk4j6hb7b4xiywity3?utm_source=link" title=""  />
+
+## トラブルシューティング\{#troubleshooting}
+
+1. **認証アプリへのアクセスを失った場合はどうすればよいですか？**
+
+    認証アプリにアクセスできないためMFAを完了できない、またはログインできない場合は、組織オーナーに連絡するか、[Zilliz Cloudサポートに連絡](http://support.zilliz.com)してください。
+
+2. **アカウントがSSOを使用しています。MFAはどのように処理されますか？**
+
+    組織がSSOを有効にしている場合、MFAはZilliz Cloudではなくアイデンティティプロバイダー（IdP）によって管理されます。IdPアカウントでMFAを設定するか、組織オーナーに相談してください。
+
+3. **なぜMFAを無効にできないのですか？**
+
+    組織がMFA強制を有効にしている場合、自分のアカウントのMFAをオフにすることはできません。
+
+4. **組織オーナーですが、MFA強制後に一部のユーザーがロックアウトされています。どうすればよいですか？**
+
+    それらのユーザーに、ログイン時に表示されるプロンプトに従ってMFAの設定を完了するように指示してください。それでも組織にアクセスできない場合は、[Zilliz Cloudサポートに連絡](http://support.zilliz.com)してください。

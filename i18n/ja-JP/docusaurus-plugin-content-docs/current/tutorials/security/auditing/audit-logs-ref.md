@@ -17,10 +17,10 @@ keywords:
   - クラウド
   - 監査
   - ロッグ
-  - milvus lite
-  - ミルヴスベンチマーク
-  - マネージドミルヴス
-  - サーバーレスベクターデータベース
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

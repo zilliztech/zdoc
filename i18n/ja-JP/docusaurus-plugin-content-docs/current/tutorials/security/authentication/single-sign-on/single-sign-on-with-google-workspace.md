@@ -18,10 +18,10 @@ keywords:
   - sso
   - google
   - workspace
-  - 最近傍検索
-  - エゼントRAG
-  - rag llmアーキテクチャ
-  - プライベートllms
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 
