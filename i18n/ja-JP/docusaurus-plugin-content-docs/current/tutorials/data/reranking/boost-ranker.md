@@ -2,7 +2,7 @@
 title: "ブーストレランカー | Cloud"
 slug: /boost-ranker
 sidebar_label: "ブーストレランカー"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -13,18 +13,18 @@ token: Qa60w2vDuiqNk0kclKLcZ0uQnkg
 sidebar_position: 3
 keywords:
   - zilliz
-  - ベクトルデータベース
-  - クラウド
-  - コレクション
-  - データ
-  - 検索結果の再ランク付け
-  - 結果の再ランク付け
-  - ブースト
-  - ブーストレランカー
-  - 異常検知
-  - センテンストランスフォーマー
-  - レコメンデーションシステム
-  - 情報検索
+  - vector database
+  - cloud
+  - collection
+  - data
+  - search result reranking
+  - result reranking
+  - boost
+  - boost ranker
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

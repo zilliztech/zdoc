@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Last updated Nov 6, 2025 | Cloud"
+description: "Last updated Dec 1, 2025 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
 sidebar_position: 16
@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - changelogs
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 
@@ -30,7 +30,7 @@ import Grid from '@site/src/components/Grid';
 
 # Changelogs
 
-**Last updated:** Nov 6, 2025
+**Last updated:** Dec 1, 2025
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -61,10 +61,6 @@ import Grid from '@site/src/components/Grid';
     </div>
 
     <div>
-
-        - 🔥  Milvus v2.6.x becomes generally available (GA)
-
-        - 👏  Tiered storage becomes GA, and [billing starts](./storage-cost)
 
         - 😘  Stage has been renamed to [Volume](./volume-explained), and becomes GA
 

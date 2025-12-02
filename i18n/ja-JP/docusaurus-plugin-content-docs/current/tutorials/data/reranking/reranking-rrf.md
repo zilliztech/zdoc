@@ -13,17 +13,17 @@ token: Nqguwf6ikiKrHEkGKgAc8g7Lnnh
 sidebar_position: 2
 keywords:
   - zilliz
-  - ベクトルデータベース
-  - クラウド
-  - コレクション
-  - データ
-  - 検索結果の再ランク付け
-  - 結果の再ランク付け
+  - vector database
+  - cloud
+  - collection
+  - data
+  - search result reranking
+  - result reranking
   - rrf
-  - セマンティック検索とは
-  - 埋め込みモデル
-  - 画像類似度検索
-  - コンテキストウィンドウ
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

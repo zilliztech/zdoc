@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - cnalphanumonly
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - cncharonly
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

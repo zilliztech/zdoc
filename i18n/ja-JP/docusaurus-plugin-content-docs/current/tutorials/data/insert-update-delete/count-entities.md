@@ -20,10 +20,10 @@ keywords:
   - upsert
   - update
   - count
+  - Anomaly Detection
   - sentence transformers
   - Recommender systems
   - information retrieval
-  - dimension reduction
 
 ---
 

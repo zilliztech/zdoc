@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

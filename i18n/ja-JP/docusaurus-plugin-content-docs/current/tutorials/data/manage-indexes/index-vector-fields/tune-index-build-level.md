@@ -2,7 +2,7 @@
 title: "インデックス構築レベルの調整 | Cloud"
 slug: /tune-index-build-level
 sidebar_label: "インデックス構築レベルの調整"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -11,17 +11,17 @@ description: "Zilliz Cloudは`buildlevel`というパラメータを導入して
 type: origin
 token: WQvUw9c9lifskGkgz0fcmUWvnFb
 sidebar_position: 1
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
   - vector field
   - index
   - index build level
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

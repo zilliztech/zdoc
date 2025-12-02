@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in analyzer
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

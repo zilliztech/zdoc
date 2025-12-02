@@ -2,7 +2,7 @@
 title: "Lindera | Cloud"
 slug: /lindera-tokenizer
 sidebar_label: "Lindera"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - lindera-tokenizer
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

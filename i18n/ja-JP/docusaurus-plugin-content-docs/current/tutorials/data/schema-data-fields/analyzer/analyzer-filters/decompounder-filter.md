@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - decompounder
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

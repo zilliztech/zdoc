@@ -11,16 +11,16 @@ description: "このガイドでは、コレクション内のベクトルフィ
 type: origin
 token: Qc0SwFomWiEXvMkDAH9cMAhlnIh
 sidebar_position: 1
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
   - vector field
   - index
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

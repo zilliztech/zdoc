@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - analyzer
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

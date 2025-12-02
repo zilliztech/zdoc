@@ -13,17 +13,17 @@ token: Oyy6w5DYJiVCMYkdduEc6eD9nZg
 sidebar_position: 1
 keywords:
   - zilliz
-  - ベクトルデータベース
-  - クラウド
-  - コレクション
-  - データ
-  - 検索結果の再ランク付け
-  - 結果の再ランク付け
-  - 重み付き再ランカー
-  - スパースvsデンス
-  - デンスベクトル
-  - 階層的ナビゲーション可能な小世界
-  - デンス埋め込み
+  - vector database
+  - cloud
+  - collection
+  - data
+  - search result reranking
+  - result reranking
+  - weighted reranker
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

@@ -2,7 +2,7 @@
 title: "ガウス減衰 | Cloud"
 slug: /gaussian-decay
 sidebar_label: "ガウス減衰"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -13,20 +13,20 @@ token: G39mw621Yi3iICkv69JcQ0J5nHf
 sidebar_position: 2
 keywords:
   - zilliz
-  - ベクトルデータベース
-  - クラウド
-  - コレクション
-  - データ
-  - 検索結果の再ランク付け
-  - 結果の再ランク付け
-  - 減衰
-  - 減衰ランカー
-  - ガウス減衰
+  - vector database
+  - cloud
+  - collection
+  - data
+  - search result reranking
+  - result reranking
+  - decay
+  - decay ranker
+  - gaussian decay
   - gauss
-  - how does milvus work
-  - Zilliz ベクトルデータベース
-  - Zilliz データベース
-  - 非構造化データ
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

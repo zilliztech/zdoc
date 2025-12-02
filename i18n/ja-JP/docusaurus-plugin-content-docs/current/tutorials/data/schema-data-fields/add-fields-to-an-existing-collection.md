@@ -2,7 +2,7 @@
 title: "既存のコレクションにフィールドを追加 | Cloud"
 slug: /add-fields-to-an-existing-collection
 sidebar_label: "既存のコレクションにフィールドを追加"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - add collection fields
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 
@@ -48,7 +48,7 @@ Milvusでは、既存のコレクションに新しいフィールドを動的�
 
 - フィールド名は静的フィールド内で一意である必要があります。
 
-- 元から`enable_dynamic_field=True`で作成されていないコレクションに、動的フィールド機能を有効にするために`#meta`フィールドを追加することはできません。
+- 元から`enable_dynamic_field=True`で作成されていないコレクションに、動的フィールド機能を有効にするために`$meta`フィールドを追加することはできません。
 
 ## 前提条件\{#prerequisites}
 
@@ -426,9 +426,9 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
 
 ## FAQ\{#faq}
 
-### `#meta`フィールドを追加して動的スキーマ機能を有効にすることはできますか？\{#can-i-enable-dynamic-schema-functionality-by-adding-a-meta-field}
+### `$meta`フィールドを追加して動的スキーマ機能を有効にすることはできますか？\{#can-i-enable-dynamic-schema-functionality-by-adding-a-dollarmeta-field}
 
-いいえ、`add_collection_field`を使用して`#meta`フィールドを追加して動的フィールド機能を有効にすることはできません。たとえば、以下のコードは機能しません。
+いいえ、`add_collection_field`を使用して`$meta`フィールドを追加して動的フィールド機能を有効にすることはできません。たとえば、以下のコードは機能しません。
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -509,7 +509,7 @@ curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/fields/add" \
 
 ### 同じ名前の動的フィールドキーを持つフィールドを追加するとどうなりますか？\{#what-happens-when-i-add-a-field-with-the-same-name-as-a-dynamic-field-key}
 
-コレクションに動的フィールドが有効（`#meta`が存在）になっている場合、既存の動的フィールドキーと同じ名前の静的フィールドを追加できます。新しい静的フィールドは動的フィールドキーをマスクしますが、元の動的データは保持されます。
+コレクションに動的フィールドが有効（`$meta`が存在）になっている場合、既存の動的フィールドキーと同じ名前の静的フィールドを追加できます。新しい静的フィールドは動的フィールドキーをマスクしますが、元の動的データは保持されます。
 
 フィールド名での競合を回避するには、実際に追加する前に既存のフィールドと動的フィールドキーを参照してフィールド名を検討してください。
 
@@ -698,7 +698,7 @@ curl -X POST "http://${MILVUS_HOST}/v2/vectordb/entities/insert" \
 
 - **新しいエンティティ**は静的フィールドのデータ型（`INT64`）を使用しなければならない
 
-- **元の動的フィールドキー値**は保持され、`#meta`構文でアクセス可能
+- **元の動的フィールドキー値**は保持され、`$meta`構文でアクセス可能
 
 - **静的フィールドは通常のクエリで動的フィールドキーをマスク**
 

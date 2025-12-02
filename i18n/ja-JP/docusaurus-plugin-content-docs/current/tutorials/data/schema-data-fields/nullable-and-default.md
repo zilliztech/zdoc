@@ -19,10 +19,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

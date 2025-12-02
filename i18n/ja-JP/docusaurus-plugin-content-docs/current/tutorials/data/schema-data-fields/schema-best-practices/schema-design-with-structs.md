@@ -2,7 +2,7 @@
 title: "構造体の配列によるデータモデル設計 | Cloud"
 slug: /schema-design-with-structs
 sidebar_label: "構造体によるデータモデル"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -21,10 +21,10 @@ keywords:
   - hands-on
   - structs
   - array of structs
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

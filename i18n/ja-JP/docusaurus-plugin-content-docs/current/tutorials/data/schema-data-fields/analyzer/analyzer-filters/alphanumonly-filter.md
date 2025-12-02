@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - alphanumonly
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 
