@@ -166,7 +166,7 @@ SPとして、Zilliz CloudはOktaでSAMLアプリを設定する際に必要な*
 
 ### SSOで初めてログインするユーザーにはどのようなロールが割り当てられますか？\{#what-role-is-assigned-to-users-who-log-in-via-sso-for-the-first-time}
 
-既にZilliz Cloudアカウントがない新規ユーザーは、最初のSSOログイン時に自動的に作成されます。これらのユーザーにはデフォルトで**組織メンバー**ロールが割り当てられます。Zilliz Cloudコンソールで後からロールを変更できます。詳細手順については、[プロジェクトユーザーの管理](./project-users#コラボレーターのロールを編集または削除)を参照してください。
+既にZilliz Cloudアカウントがない新規ユーザーは、最初のSSOログイン時に自動的に作成されます。これらのユーザーにはデフォルトで**組織メンバー**ロールが割り当てられます。Zilliz Cloudコンソールで後からロールを変更できます。詳細手順については、[プロジェクトユーザーの管理](./project-users#edit-a-collaborators-role-or-remove-a-collaborator)を参照してください。
 
 ### SSOログイン後にユーザーはプロジェクトにどのようにアクセスできますか？\{#how-do-users-access-projects-after-sso-login}
 
