@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 
@@ -41,12 +41,6 @@ Volume GA Email
     </div>
 
     <div>
-
-        ## Milvus v2.6 GA\{#milvus-v26-ga}
-
-        This release marks the GA milestone for the Milvus v2.6.x, bringing production-ready stability and full feature support on Zilliz Cloud, including Geometry, Struct, and TimestampTz data types, field addition without downtime, enhanced full-text search, accelerated JSON filtering, new reranking functions, INT8 vector support, partial upserts, and the MINHASH_LSH index.
-
-        Tiered Storage also reaches GA, introducing the upgraded hot/warm/cold architecture and beginning cold data-access billing. See [Storage Cost](./storage-cost#cold-data-access) for full details.
 
         ## Volume GA (formerly Stage)\{#volume-ga-formerly-stage}
 

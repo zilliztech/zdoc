@@ -19,10 +19,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 
@@ -97,16 +97,16 @@ const client = new MilvusClient({address, token});
 // 7. エンティティを削除
 res = await client.delete({
     collection_name: "quick_setup",
-    # highlight-next-line
+    // highlight-next-line
     filter: "color in ['red_7025', 'purple_4976]"
 })
 
 console.log(res.delete_cnt)
 
-# 出力
-#
-# 3
-#
+// Output
+//
+// 3
+//
 ```
 
 </TabItem>

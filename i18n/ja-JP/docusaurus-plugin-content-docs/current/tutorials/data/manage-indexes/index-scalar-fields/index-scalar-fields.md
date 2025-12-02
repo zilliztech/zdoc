@@ -11,16 +11,16 @@ description: "Zilliz Cloudは、特に大規模なデータセットにおいて
 type: origin
 token: XCCwwOLqKi2nYGkfy5Gc0Vnfnpb
 sidebar_position: 2
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
   - scalar field
   - index
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 
@@ -45,27 +45,31 @@ Zilliz Cloudは、以下のフィールドタイプに対して`AUTOINDEX`をサ
    </tr>
    <tr>
      <td><p><code>VARCHAR</code></p></td>
-     <td><p>文字列</p></td>
+     <td><p>文字列データ型。詳細については、<a href="./use-string-field">文字列フィールド</a>を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>INT8</code>, <code>INT32</code>, <code>INT64</code></p></td>
-     <td><p>整数</p></td>
+     <td><p>整数。詳細については、<a href="./use-number-field">ブール値と数値</a>を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>FLOAT</code>, <code>DOUBLE</code></p></td>
-     <td><p>浮動小数点数</p></td>
+     <td><p>浮動小数点。詳細については、<a href="./use-number-field">ブール値と数値</a>を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>BOOL</code></p></td>
-     <td><p>ブール値</p></td>
+     <td><p>ブール値。詳細については、<a href="./use-number-field">ブール値と数値</a>を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>ARRAY</code></p></td>
-     <td><p>スカラー値の同種配列</p></td>
+     <td><p>スカラー値の同種配列。詳細については、<a href="./use-array-fields">配列フィールド</a>を参照してください。</p></td>
    </tr>
    <tr>
      <td><p><code>GEOMETRY</code></p></td>
-     <td><p>空間情報を格納するジオメトリックデータ</p></td>
+     <td><p>空間情報を格納するジオメトリックデータ。詳細については、<a href="./use-geometry-field">ジオメトリフィールド</a>を参照してください。</p></td>
+   </tr>
+   <tr>
+     <td><p><code>TIMESTAMPTZ</code></p></td>
+     <td><p>タイムゾーン対応のISO 8601入力。複数のタイムゾーン間での一貫したフィルタリングと並べ替えのためにUTCとして保存されます。詳細については、<a href="./undefined">TIMESTAMPTZフィールド</a>を参照してください。</p></td>
    </tr>
 </table>
 
@@ -505,7 +509,13 @@ console.log(JSON.stringify(res.index_descriptions, null, 2))
 
 ## インデックスを削除\{#drop-an-index}
 
-必要なくなった場合、簡単にインデックスを削除できます。
+`drop_index()`メソッドを使用して、コレクションから既存のインデックスを削除します。
+
+<Admonition type="info" icon="📘" title="注意">
+
+<p><strong>Milvus v2.6.x</strong>互換のクラスターでは、スカラーインデックスが不要になった時点で直接削除できます。まずコレクションを解放する必要はありません。</p>
+
+</Admonition>
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"}]}>
 <TabItem value='python'>

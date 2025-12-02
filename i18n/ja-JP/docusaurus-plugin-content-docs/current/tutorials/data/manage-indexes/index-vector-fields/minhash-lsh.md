@@ -2,7 +2,7 @@
 title: "MINHASH_LSH | Cloud"
 slug: /minhash-lsh
 sidebar_label: "MINHASH_LSH"
-beta: PRIVATE
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -11,17 +11,17 @@ description: "効率的な重複除去と類似性検索は、大規模機械学
 type: origin
 token: BYtDwHuOXiG7imkyIjHcWa6fnlb
 sidebar_position: 2
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
   - vector field
   - index
   - minhash
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

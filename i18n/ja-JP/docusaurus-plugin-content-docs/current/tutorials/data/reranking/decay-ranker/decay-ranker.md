@@ -2,7 +2,7 @@
 title: "減衰ランカー | Cloud"
 slug: /decay-ranker
 sidebar_label: "減衰ランカー"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -13,19 +13,19 @@ token: HPP3wBq1xiuGWYk4QfKcZ2PrnHf
 sidebar_position: 4
 keywords:
   - zilliz
-  - ベクトルデータベース
-  - クラウド
-  - コレクション
-  - データ
-  - 検索結果の再ランク付け
-  - 結果の再ランク付け
-  - 減衰
-  - 減衰ランカー
-  - 減衰ランカー
-  - ベクトル類似度検索
-  - 近似最近傍検索
-  - DiskANN
-  - スパースベクトル
+  - vector database
+  - cloud
+  - collection
+  - data
+  - search result reranking
+  - result reranking
+  - decay
+  - decay ranker
+  - decay rankers
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

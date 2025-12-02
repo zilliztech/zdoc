@@ -2,7 +2,7 @@
 title: "線形減衰 | Cloud"
 slug: /linear-decay
 sidebar_label: "線形減衰"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -13,20 +13,20 @@ token: M7xHwZSIuiAP4Fkfm67cBU7Pn8g
 sidebar_position: 4
 keywords:
   - zilliz
-  - ベクトルデータベース
-  - クラウド
-  - コレクション
-  - データ
-  - 検索結果の再ランク付け
-  - 結果の再ランク付け
-  - 減衰
-  - 減衰ランカー
-  - 線形減衰
+  - vector database
+  - cloud
+  - collection
+  - data
+  - search result reranking
+  - result reranking
+  - decay
+  - decay ranker
+  - linear decay
   - linear
-  - Vector store
-  - オープンソースベクトルデータベース
-  - Vector index
-  - ベクトルデータベースオープンソース
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

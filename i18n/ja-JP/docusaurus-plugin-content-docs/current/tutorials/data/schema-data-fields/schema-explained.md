@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 
@@ -40,7 +40,7 @@ Zilliz Cloudでは、コレクションスキーマはリレーショナルデ�
 
 コレクションスキーマには、主キー、少なくとも1つのベクトルフィールド、およびいくつかのスカラーフィールドが含まれます。以下の図は、記事をスキーマフィールドのリストにマッピングする方法を示しています。
 
-![RoJFbyTsuoY8mHxoBBicgBH9nTc](/img/RoJFbyTsuoY8mHxoBBicgBH9nTc.png)
+![RoJFbyTsuoY8mHxoBBicgBH9nTc](/img/rojfbytsuoy8mhxobbicgbh9ntc.png)
 
 検索システムのデータモデル設計には、ビジネスニーズの分析と情報をスキーマで表現されたデータモデルに抽象化することが含まれます。たとえば、テキストの一部を検索するには、リテラル文字列を「埋め込み」によってベクトルに変換し、ベクトル検索を有効にすることによって「インデックス」されなければなりません。この基本的な要件に加えて、公開タイムスタンプや著者などの他のプロパティを保存することが必要な場合があります。このようなメタデータにより、セマンティック検索をフィルタリングによって洗練させ、特定の日付以降に公開されたテキストや特定の著者によるテキストのみを返すことができます。また、アプリケーションで検索結果を表示する際に、メインタイトルとともにこれらのスカラー値を取得することもできます。さらに、これらのテキスト断片を整理するために、各断片に整数または文字列で表される一意の識別子を割り当てる必要があります。これらの要素は、高度な検索ロジックを実現するために不可欠です。
 

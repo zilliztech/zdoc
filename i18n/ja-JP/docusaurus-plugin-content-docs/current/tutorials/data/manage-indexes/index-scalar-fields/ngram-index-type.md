@@ -11,17 +11,17 @@ description: "Zilliz Cloudの`NGRAM`インデックスは、`VARCHAR`フィー�
 type: origin
 token: Q0wpw4xZiimaUsk4GvScAg2un1d
 sidebar_position: 1
-keywords: 
+keywords:
   - zilliz
   - vector database
   - cloud
   - scalar field
   - varchar
   - ngram
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 
@@ -256,6 +256,12 @@ NGRAMインデックスが適用されるには:
 ## インデックスの削除\{#drop-an-index}
 
 `drop_index()`メソッドを使用して、コレクションから既存のインデックスを削除します。
+
+<Admonition type="info" icon="📘" title="注意">
+
+<p><strong>Milvus v2.6.x</strong>互換のクラスターでは、スカラーインデックスが不要になった時点で直接削除できます。まずコレクションを解放する必要はありません。</p>
+
+</Admonition>
 
 ```python
 client.drop_index(

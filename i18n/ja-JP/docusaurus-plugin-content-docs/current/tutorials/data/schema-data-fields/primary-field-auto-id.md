@@ -20,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

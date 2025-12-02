@@ -2,7 +2,7 @@
 title: "Regex | Cloud"
 slug: /regex-filter
 sidebar_label: "Regex"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - regex
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

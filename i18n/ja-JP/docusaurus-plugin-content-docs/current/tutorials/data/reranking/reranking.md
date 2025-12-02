@@ -13,16 +13,16 @@ token: M4IYwThFKiatBkk0Cp3c9p4QnZc
 sidebar_position: 6
 keywords:
   - zilliz
-  - ベクトルデータベース
-  - クラウド
-  - コレクション
-  - データ
-  - 検索結果の再ランク付け
-  - 結果の再ランク付け
-  - AIチャットボット
-  - コサイン距離
-  - ベクトルデータベースとは
-  - vectordb
+  - vector database
+  - cloud
+  - collection
+  - data
+  - search result reranking
+  - result reranking
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

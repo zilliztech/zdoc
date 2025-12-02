@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - what are vector databases
-  - vector databases comparison
   - Faiss
   - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

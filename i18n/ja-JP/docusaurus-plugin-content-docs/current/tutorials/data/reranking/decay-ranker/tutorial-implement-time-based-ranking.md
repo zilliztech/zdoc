@@ -2,7 +2,7 @@
 title: "チュートリアル：時間ベースのランク付けの実装 | Cloud"
 slug: /tutorial-implement-time-based-ranking
 sidebar_label: "チュートリアル：時間ベースのランク付けの実装"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -13,20 +13,20 @@ token: Dj2NwrlqTiYlmDkwfAbcJNWSntd
 sidebar_position: 5
 keywords:
   - zilliz
-  - ベクトルデータベース
-  - クラウド
-  - コレクション
-  - データ
-  - 検索結果の再ランク付け
-  - 結果の再ランク付け
-  - 減衰
-  - 減衰ランカー
-  - チュートリアル
-  - 時間ベースのランク付け
-  - 情報検索
-  - 次元削減
-  - hnsw アルゴリズム
-  - ベクトル類似度検索
+  - vector database
+  - cloud
+  - collection
+  - data
+  - search result reranking
+  - result reranking
+  - decay
+  - decay ranker
+  - tutorial
+  - time-based ranking
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

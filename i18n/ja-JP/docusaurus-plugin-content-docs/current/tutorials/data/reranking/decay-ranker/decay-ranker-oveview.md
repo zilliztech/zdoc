@@ -2,7 +2,7 @@
 title: "減衰ランカー概要 | Cloud"
 slug: /decay-ranker-oveview
 sidebar_label: "減衰ランカー概要"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -13,19 +13,19 @@ token: QZYhwcQhWigYTVkLnHeczkwYnZb
 sidebar_position: 1
 keywords:
   - zilliz
-  - ベクトルデータベース
-  - クラウド
-  - コレクション
-  - データ
-  - 検索結果の再ランク付け
-  - 結果の再ランク付け
-  - 減衰
-  - 減衰ランカー
-  - 減衰ランカー概要
-  - Chroma ベクトルデータベース
-  - nlp 検索
-  - hallucinations llm
-  - マルチモーダル検索
+  - vector database
+  - cloud
+  - collection
+  - data
+  - search result reranking
+  - result reranking
+  - decay
+  - decay ranker
+  - decay ranker overview
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

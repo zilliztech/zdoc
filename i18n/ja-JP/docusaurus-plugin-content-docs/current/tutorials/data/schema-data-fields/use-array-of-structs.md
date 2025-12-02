@@ -2,7 +2,7 @@
 title: "構造体の配列 | Cloud"
 slug: /use-array-of-structs
 sidebar_label: "構造体の配列"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -20,10 +20,10 @@ keywords:
   - array field
   - array of structs
   - structs
-  - RAG
-  - NLP
   - Neural Network
   - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 
@@ -62,6 +62,20 @@ import TabItem from '@theme/TabItem';
 ```
 
 上記の例では、`chunks` フィールドが構造体の配列フィールドであり、各構造体要素には `text`、`text_vector`、`chapter` というフィールドが含まれています。
+
+## 使用タイミング\{#when-to-use}
+
+Modern AI applications, from autonomous driving to multimodal retrieval, increasingly rely on nested, heterogeneous data. Traditional flat data models struggle to represent complex relationships like "**one document with many annotated chunks**" or "**one driving scene with multiple observed maneuvers**". This is where the Array of Structs data type in Zilliz Cloud shines.
+
+To quickly determine if the Array of Structs suits your application scenarios, consider whether:
+
+- Your data is in a hierarchical structure, such as one document with many annotated chunks.
+
+- The search result should be the document, rather than the chunks, as in the above example.
+
+- The search results contain massive duplicate entities, and you struggle to retrieve the final results using techniques such as grouping, deduplication, and reranking.
+
+If your answers to the questions above are yes, you should use the Array of Structs.
 
 ## 制限事項\{#limits}
 

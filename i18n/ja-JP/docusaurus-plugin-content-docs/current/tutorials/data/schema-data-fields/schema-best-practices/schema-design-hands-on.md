@@ -19,10 +19,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

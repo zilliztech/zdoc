@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - standard-analyzer
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

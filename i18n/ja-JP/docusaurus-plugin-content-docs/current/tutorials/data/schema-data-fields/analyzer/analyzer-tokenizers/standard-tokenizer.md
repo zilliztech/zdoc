@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - standard-tokenizer
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

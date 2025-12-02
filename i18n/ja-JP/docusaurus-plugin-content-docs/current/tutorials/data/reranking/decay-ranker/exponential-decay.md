@@ -2,7 +2,7 @@
 title: "指数減衰 | Cloud"
 slug: /exponential-decay
 sidebar_label: "指数減衰"
-beta: PUBLIC
+beta: FALSE
 added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
@@ -13,20 +13,20 @@ token: FbVmwmuaei9WkIkIWJmcs3ManEd
 sidebar_position: 3
 keywords:
   - zilliz
-  - ベクトルデータベース
-  - クラウド
-  - コレクション
-  - データ
-  - 検索結果の再ランク付け
-  - 結果の再ランク付け
-  - 減衰
-  - 減衰ランカー
-  - 指数減衰
+  - vector database
+  - cloud
+  - collection
+  - data
+  - search result reranking
+  - result reranking
+  - decay
+  - decay ranker
+  - exponential decay
   - exp
-  - ベクトル検索アルゴリズム
-  - 質問応答システム
-  - llm-as-a-judge
-  - ハイブリッドベクトル検索
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 
