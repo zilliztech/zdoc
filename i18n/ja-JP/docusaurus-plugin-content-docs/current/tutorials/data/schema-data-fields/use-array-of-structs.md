@@ -65,17 +65,17 @@ import TabItem from '@theme/TabItem';
 
 ## 使用タイミング\{#when-to-use}
 
-Modern AI applications, from autonomous driving to multimodal retrieval, increasingly rely on nested, heterogeneous data. Traditional flat data models struggle to represent complex relationships like "**one document with many annotated chunks**" or "**one driving scene with multiple observed maneuvers**". This is where the Array of Structs data type in Zilliz Cloud shines.
+現代のAIアプリケーションは、自律走行からマルチモーダル検索まで、ますますネスト化された異種データに依存しています。伝統的なフラットなデータモデルは、「**多数の注釈付きチャンクを持つ1つの文書**」や「**複数の観測された操作を持つ1つの運転シーン**」のような複雑な関係性を表現するのに苦労します。ここがZilliz Cloudの構造体の配列データ型が輝く場所です。
 
-To quickly determine if the Array of Structs suits your application scenarios, consider whether:
+構造体の配列がアプリケーションのシナリオに適しているかどうかを迅速に判断するには、以下のような点を考慮してください：
 
-- Your data is in a hierarchical structure, such as one document with many annotated chunks.
+- データが階層構造になっており、多数の注釈付きチャンクを持つ1つの文書などです。
 
-- The search result should be the document, rather than the chunks, as in the above example.
+- 上記の例のように、検索結果はチャンクではなく文書そのものであるべきです。
 
-- The search results contain massive duplicate entities, and you struggle to retrieve the final results using techniques such as grouping, deduplication, and reranking.
+- 検索結果には多数の重複エンティティが含まれており、グルーピング、重複排除、リランキングなどの技術を使用して最終的な結果を取得するのが難しい状況です。
 
-If your answers to the questions above are yes, you should use the Array of Structs.
+上記の質問に「はい」と答える場合は、構造体の配列を使用する必要があります。
 
 ## 制限事項\{#limits}
 
@@ -1736,3 +1736,352 @@ SCHEMA='{
 
 </TabItem>
 </Tabs>
+
+## 構造体の配列フィールドに対するベクトル検索\{#vector-search-against-an-array-of-structs-field}
+
+コレクションのベクトルフィールドと構造体の配列内のベクトル検索を実行できます。
+
+具体的には、検索要求の`anns_field`パラメータの値として、構造体の配列フィールドの名前と構造体要素内のターゲットベクトルフィールドの名前を連結し、`EmbeddingList`を使用してクエリベクトルを整理します。
+
+<Admonition type="info" icon="📘" title="ノート">
+
+<p>Zilliz Cloudは<code>EmbeddingList</code>を提供しており、構造体の配列内の埋め込みリストに対する検索のためのクエリベクトルをより整理して配置できます。<code>EmbeddingList</code>には少なくとも1つのベクトル埋め込みが含まれ、返されるtopKエンティティ数が期待されます。</p>
+<p>ただし、<code>EmbeddingList</code>は範囲検索またはグループ化検索のパラメータなしの<code>search()</code>要求でのみ使用でき、<code>search_iterator()</code>要求では使用できません。</p>
+
+</Admonition>
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+from pymilvus.client.embedding_list import EmbeddingList
+
+# 各クエリ埋め込みリストは単一の検索をトリガー
+embeddingList1 = EmbeddingList()
+embeddingList1.add([0.2, 0.9, 0.4, -0.3, 0.2])
+
+embeddingList2 = EmbeddingList()
+embeddingList2.add([-0.2, -0.2, 0.5, 0.6, 0.9])
+embeddingList2.add([-0.4, 0.3, 0.5, 0.8, 0.2])
+
+# 単一の埋め込みリストを使用した検索
+results = client.search(
+    collection_name="my_collection",
+    data=[ embeddingList1 ],
+    anns_field="chunks[text_vector]",
+    search_params={"metric_type": "MAX_SIM_COSINE"},
+    limit=3,
+    output_fields=["chunks[text]"]
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.vector.request.data.EmbeddingList;
+import io.milvus.v2.service.vector.request.data.FloatVec;
+
+EmbeddingList embeddingList1 = new EmbeddingList();
+embeddingList1.add(new FloatVec(new float[]{0.2f, 0.9f, 0.4f, -0.3f, 0.2f}));
+
+EmbeddingList embeddingList2 = new EmbeddingList();
+embeddingList2.add(new FloatVec(new float[]{-0.2f, -0.2f, 0.5f, 0.6f, 0.9f}));
+embeddingList2.add(new FloatVec(new float[]{-0.4f, 0.3f, 0.5f, 0.8f, 0.2f}));
+
+Map<String, Object> params = new HashMap<>();
+params.put("metric_type", "MAX_SIM_COSINE");
+SearchResp searchResp = client.search(SearchReq.builder()
+        .collectionName("my_collection")
+        .annsField("chunks[text_vector]")
+        .data(Collections.singletonList(embeddingList1))
+        .searchParams(params)
+        .limit(3)
+        .outputFields(Collections.singletonList("chunks[text]"))
+        .build());
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const embeddingList1 = [[0.2, 0.9, 0.4, -0.3, 0.2]];
+const embeddingList2 = [
+  [-0.2, -0.2, 0.5, 0.6, 0.9],
+  [-0.4, 0.3, 0.5, 0.8, 0.2],
+];
+const results = await milvusClient.search({
+  collection_name: "books",
+  data: embeddingList1,
+  anns_field: "chunks[text_vector]",
+  search_params: { metric_type: "MAX_SIM_COSINE" },
+  limit: 3,
+  output_fields: ["chunks[text]"],
+});
+
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+embeddingList1='[[0.2,0.9,0.4,-0.3,0.2]]'
+embeddingList2='[[-0.2,-0.2,0.5,0.6,0.9],[-0.4,0.3,0.5,0.8,0.2]]'
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"collectionName\": \"my_collection\",
+    \"data\": [$embeddingList1],
+    \"annsField\": \"chunks[text_vector]\",
+    \"searchParams\": {\"metric_type\": \"MAX_SIM_COSINE\"},
+    \"limit\": 3,
+    \"outputFields\": [\"chunks[text]\"]
+  }"
+```
+
+</TabItem>
+</Tabs>
+
+上記の検索リクエストでは、`chunks[text_vector]`を使用して構造体要素内の`text_vector`フィールドを参照しています。この構文を使用して`anns_field`および`output_fields`パラメータを設定できます。
+
+出力は最も類似した3つのエンティティのリストになります。
+
+<details>
+
+<summary>出力</summary>
+
+```python
+# [
+#     [
+#         {
+#             'id': 461417939772144945,
+#             'distance': 0.9675756096839905,
+#             'entity': {
+#                 'chunks': [
+#                     {'text': 'The world is too much with us; late and soon, getting and spending...'},
+#                     {'text': 'All happy families are alike; each unhappy family is unhappy in its own way.'}
+#                 ]
+#             }
+#         },
+#         {
+#             'id': 461417939772144965,
+#             'distance': 0.9555778503417969,
+#             'entity': {
+#                 'chunks': [
+#                     {'text': 'Call me Ishmael. Some years ago—never mind how long precisely...'},
+#                     {'text': 'He was an old man who fished alone in a skiff in the Gulf Stream...'},
+#                     {'text': 'When I wrote the following pages, or rather the bulk of them...'},
+#                     {'text': 'It was the best of times, it was the worst of times...'},
+#                     {'text': 'The world is too much with us; late and soon, getting and spending...'}
+#                 ]
+#             }
+#         },
+#         {
+#             'id': 461417939772144962,
+#             'distance': 0.9469035863876343,
+#             'entity': {
+#                 'chunks': [
+#                     {'text': 'Call me Ishmael. Some years ago—never mind how long precisely...'},
+#                     {'text': 'The world is too much with us; late and soon, getting and spending...'},
+#                     {'text': 'He was an old man who fished alone in a skiff in the Gulf Stream...'},
+#                     {'text': 'Call me Ishmael. Some years ago—never mind how long precisely...'},
+#                     {'text': 'The world is too much with us; late and soon, getting and spending...'}
+#                 ]
+#             }
+#         }
+#     ]
+# ]
+```
+
+</details>
+
+`data`パラメータに複数の埋め込みリストを含めることも可能で、これらの埋め込みリストそれぞれの検索結果を取得できます。
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+# 複数の埋め込みリストを使用した検索
+results = client.search(
+    collection_name="my_collection",
+    data=[ embeddingList1, embeddingList2 ],
+    anns_field="chunks[text_vector]",
+    search_params={"metric_type": "MAX_SIM_COSINE"},
+    limit=3,
+    output_fields=["chunks[text]"]
+)
+
+print(results)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+Map<String, Object> params = new HashMap<>();
+params.put("metric_type", "MAX_SIM_COSINE");
+SearchResp searchResp = client.search(SearchReq.builder()
+        .collectionName("my_collection")
+        .annsField("chunks[text_vector]")
+        .data(Arrays.asList(embeddingList1, embeddingList2))
+        .searchParams(params)
+        .limit(3)
+        .outputFields(Collections.singletonList("chunks[text]"))
+        .build());
+
+List<List<SearchResp.SearchResult>> searchResults = searchResp.getSearchResults();
+for (int i = 0; i < searchResults.size(); i++) {
+    System.out.println("No." + i + " 埋め込みリストの結果");
+    List<SearchResp.SearchResult> results = searchResults.get(i);
+    for (SearchResp.SearchResult result : results) {
+        System.out.println(result);
+    }
+}
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+// go
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+const results2 = await milvusClient.search({
+  collection_name: "books",
+  data: [embeddingList1, embeddingList2],
+  anns_field: "chunks[text_vector]",
+  search_params: { metric_type: "MAX_SIM_COSINE" },
+  limit: 3,
+  output_fields: ["chunks[text]"],
+});
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/entities/search" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"collectionName\": \"my_collection\",
+    \"data\": [$embeddingList1, $embeddingList2],
+    \"annsField\": \"chunks[text_vector]\",
+    \"searchParams\": {\"metric_type\": \"MAX_SIM_COSINE\"},
+    \"limit\": 3,
+    \"outputFields\": [\"chunks[text]\"]
+  }"
+```
+
+</TabItem>
+</Tabs>
+
+出力は各埋め込みリストに対して最も類似した3つのエンティティのリストになります。
+
+<details>
+
+<summary>出力</summary>
+
+```python
+# [
+#   [
+#     {
+#       'id': 461417939772144945,
+#       'distance': 0.9675756096839905,
+#       'entity': {
+#         'chunks': [
+#           {'text': 'The world is too much with us; late and soon, getting and spending...'},
+#           {'text': 'All happy families are alike; each unhappy family is unhappy in its own way.'}
+#         ]
+#       }
+#     },
+#     {
+#       'id': 461417939772144965,
+#       'distance': 0.9555778503417969,
+#       'entity': {
+#         'chunks': [
+#           {'text': 'Call me Ishmael. Some years ago—never mind how long precisely...'},
+#           {'text': 'He was an old man who fished alone in a skiff in the Gulf Stream...'},
+#           {'text': 'When I wrote the following pages, or rather the bulk of them...'},
+#           {'text': 'It was the best of times, it was the worst of times...'},
+#           {'text': 'The world is too much with us; late and soon, getting and spending...'}
+#         ]
+#       }
+#     },
+#     {
+#       'id': 461417939772144962,
+#       'distance': 0.9469035863876343,
+#       'entity': {
+#         'chunks': [
+#           {'text': 'Call me Ishmael. Some years ago—never mind how long precisely...'},
+#           {'text': 'The world is too much with us; late and soon, getting and spending...'},
+#           {'text': 'He was an old man who fished alone in a skiff in the Gulf Stream...'},
+#           {'text': 'Call me Ishmael. Some years ago—never mind how long precisely...'},
+#           {'text': 'The world is too much with us; late and soon, getting and spending...'}
+#         ]
+#       }
+#     }
+#   ],
+#   [
+#     {
+#       'id': 461417939772144663,
+#       'distance': 1.9761409759521484,
+#       'entity': {
+#         'chunks': [
+#           {'text': 'It was the best of times, it was the worst of times...'},
+#           {'text': 'It is a truth universally acknowledged, that a single man in possession...'},
+#           {'text': 'Whether I shall turn out to be the hero of my own life, or whether that station...'},
+#           {'text': 'He was an old man who fished alone in a skiff in the Gulf Stream...'}
+#         ]
+#       }
+#     },
+#     {
+#       'id': 461417939772144692,
+#       'distance': 1.974656581878662,
+#       'entity': {
+#         'chunks': [
+#           {'text': 'It is a truth universally acknowledged, that a single man in possession...'},
+#           {'text': 'Call me Ishmael. Some years ago—never mind how long precisely...'}
+#         ]
+#       }
+#     },
+#     {
+#       'id': 461417939772144662,
+#       'distance': 1.9406685829162598,
+#       'entity': {
+#         'chunks': [
+#           {'text': 'It is a truth universally acknowledged, that a single man in possession...'}
+#         ]
+#       }
+#     }
+#   ]
+# ]
+```
+
+</details>
+
+上記のコード例では、`embeddingList1`は1つのベクトルを持つ埋め込みリストであり、`embeddingList2`は2つのベクトルを含んでいます。それぞれが個別の検索リクエストをトリガーし、top-Kに類似したエンティティのリストを期待します。
+
+## 次のステップ\{#next-steps}
+
+ネイティブな構造体の配列データ型の開発は、Zilliz Cloudが複雑なデータ構造を処理する能力における大きな進歩を表しています。その使用例をよりよく理解し、この新機能を最大限に活用するために、[構造体の配列を使用したスキーマ設計](./schema-design-with-structs)を読むことをお勧めします。

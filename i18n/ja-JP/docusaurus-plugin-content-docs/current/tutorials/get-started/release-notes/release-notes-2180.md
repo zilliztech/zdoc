@@ -60,7 +60,7 @@ Stageは、非構造化データのための管理されたクラウドネイテ
 
 この初期リリース（**プライベートプレビュー**）では、ユーザーは以下を実行できます：
 
-- [Create](/reference/restful/create-stage-v2)、[list](/reference/restful/list-stages-v2)、および[delete](/reference/restful/delete-stage-v2)ステージを含むRESTful APIを介して**ステージを管理**
+- [Create](/reference/restful/create-volume-v2)、[list](/reference/restful/list-volumes-v2)、および[delete](/reference/restful/delete-volume-v2)ステージを含むRESTful APIを介して**ステージを管理**
 
 - **Migration**および**Import**サービスの両方のための**共有ステージングレイヤーとしてStageを使用**してデータオンボーディングを合理化：
 

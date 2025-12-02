@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "最終更新日: 2025年11月6日 | Cloud"
+description: "最終更新日: 2025年12月1日 | Cloud"
 type: origin
 token: MUL3wkn7Yi3YoFkYk59csf8bnNc
 sidebar_position: 16
@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - changelogs
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 
@@ -30,7 +30,7 @@ import Grid from '@site/src/components/Grid';
 
 # 変更履歴
 
-**最終更新日:** 2025年11月6日
+**最終更新日:** 2025年12月1日
 
 <Grid columnSize="2" widthRatios="25,74">
 
@@ -53,6 +53,26 @@ import Grid from '@site/src/components/Grid';
 </Grid>
 
 ## 2025\{#2025}
+
+<Grid columnSize="2" widthRatios="25,74">
+
+    <div>
+
+        **2025年12月1日**
+
+    </div>
+
+    <div>
+
+        - 😘  ステージは[ボリューム](./volume-explained)に名称変更され、GAになりました
+
+        - [🔔  組織レベルのIPホワイトリスト](./setup-console-ip-allowlist)が利用可能になりました
+
+        - [🚀  ](./multi-factor-auth)[TOTPベースのMFA](./multi-factor-auth)が利用可能になりました
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="24,75">
 

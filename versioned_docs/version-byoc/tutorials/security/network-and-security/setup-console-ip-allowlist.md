@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 
@@ -33,7 +33,7 @@ import Supademo from '@site/src/components/Supademo';
 
 By default, your organization’s web console is accessible from any IP address. To restrict access and enhance security, configure a console IP allowlist so that uses can access the web console only from specified addresses, such as the IP of your office network.
 
-The console IP allowlist applies only to the organization web console. It does not control access to project clusters. To restrict access to clusters, see [Set up Cluster IP Allowlist](./setup-whitelist).
+The console IP allowlist applies only to the organization web console. It does not control access to project clusters.
 
 ## Limits\{#limits}
 
@@ -106,7 +106,7 @@ The following demo shows how to delete an IP address from the allowlist.
 
 1. **Does the organization console IP allowlist affect cluster access?**
 
-    No. The console IP allowlist only restricts access to the web console. To restrict access to clusters, configure the [cluster IP allowlist](./setup-whitelist).
+    No. The console IP allowlist only restricts access to the web console. 
 
 1. **What if I am using dynamic IPs?**
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - Zilliz
-  - milvus vector database
-  - milvus db
   - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 
@@ -120,7 +120,7 @@ To rename a project, you must be an [Organization Owner](./organization-users). 
 
 To delete a project, you must be an [Organization Owner](./organization-users). 
 
-Before you delete a project, you must drop all [clusters](./manage-cluster#drop-cluster) and [volumes](./manage-volumes-via-console#delete-a-volume) within the project.
+Before you delete a project, you must drop all [clusters](./manage-cluster#drop-cluster) within the project.
 
 Once a project is deleted, all its associated data and resources will be irreversibly cleaned as well.
 

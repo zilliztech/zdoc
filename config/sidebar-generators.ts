@@ -44,7 +44,7 @@ export async function tutorialsItemsGenerator({
             })
         }
 
-        if (item.label === '始める') {
+        if (item.label === 'はじめに') {
             item.items = item.items.map(subItem => {
                 if (subItem.label === 'APIとSDK') {
                     subItem.items.push(...[
@@ -74,6 +74,10 @@ export async function tutorialsItemsGenerator({
                             href: '/ja-JP/reference/restful'
                         }
                     ])
+                }
+
+                if (subItem.label === 'ベストプラクティス') {
+                    subItem.key = 'best-practices-get-started'
                 }
 
                 return subItem;

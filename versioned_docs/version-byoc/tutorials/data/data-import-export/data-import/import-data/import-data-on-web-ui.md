@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - console
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 
@@ -71,14 +71,6 @@ For more information about using short-term tokens, refer to [this FAQ](/docs/fa
 </Admonition>
 
 <Supademo id="cme7xfbw40096xf0irz21196r?utm_source=link" title=""  />
-
-### Files uploaded to a volume\{#files-uploaded-to-a-volume}
-
-If your local file is extremely large (> 1GB), you can [upload the file to a volume](./manage-stages#upload-data-into-a-volume) first and them import from the volume.
-
-Once you have uploaded the prepared files to a volume, copy the file path and continue to import the file into a collection.
-
-<Supademo id="cmidzr662adilb7b4d7l45rnf?utm_source=link" title=""  />
 
 ## Verify results\{#verify-results}
 

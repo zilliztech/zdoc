@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 
@@ -60,7 +60,7 @@ Stage provides a managed, cloud-native staging area for unstructured data. It is
 
 In this initial release (**Private Preview**), users can:
 
-- **Manage stages** via RESTful APIs, including [Create](/reference/restful/create-stage-v2), [list](/reference/restful/list-stages-v2), and [delete](/reference/restful/delete-stage-v2) stages
+- **Manage stages** via RESTful APIs, including [Create](/reference/restful/create-volume-v2), [list](/reference/restful/list-volumes-v2), and [delete](/reference/restful/delete-volume-v2) stages
 
 - **Use Stage as a shared staging layer** for both **Migration** and **Import** services to streamline data onboarding:
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 
@@ -82,8 +82,6 @@ To change the system maintenance window hours, click **Edit** to open the Edit S
 Before you start, make sure the following conditions are met:
 
 - All clusters in the current organization are [deleted](./manage-cluster).
-
-- All volumes in the current organization are [deleted](./manage-volumes-via-console#delete-a-volume).
 
 - You are granted the [Organization Owner](./organization-users) role in the target organization.
 
