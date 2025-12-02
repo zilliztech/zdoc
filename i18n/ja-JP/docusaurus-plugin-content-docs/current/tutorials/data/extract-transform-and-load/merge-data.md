@@ -21,10 +21,10 @@ keywords:
   - load
   - data merging
   - merge data
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 
@@ -47,13 +47,13 @@ import Admonition from '@theme/Admonition';
 
 データマージ操作は、リレーショナルデータベースのLEFT JOIN操作に似ており、コレクションのデータと指定されたデータソースからのすべての一致するレコードを結合し、マージされたデータを新しいコレクションに格納します。
 
-データソースは、Zilliz Cloudステージまたはオブジェクトストレージバケットに格納されたPARQUETファイルのセットである必要があります。
+データソースは、Zilliz Cloudボリュームまたはオブジェクトストレージバケットに格納されたPARQUETファイルのセットである必要があります。
 
 次の図に示すように、3つのフィールドを含むコレクションがあり、`id`フィールドが主キーとして機能します。さらに、`id`と`date`という2つのフィールドを持つPARQUETファイルがあります。`id`フィールドはマージキーとして機能し、その値はソースコレクションの値と一致する必要があります。`date`フィールドは追加されるフィールドです。
 
 ![Gfduwu9hGh8CGkbcJ1JccREunRf](/img/Gfduwu9hGh8CGkbcJ1JccREunRf.png)
 
-PARQUETファイルをZilliz Cloudステージまたはオブジェクトストレージバケットにアップロードすると、[マージデータAPI](/reference/restful/merge-data-v2)を使用して、両方のソースからデータを格納するターゲットコレクションを作成できます。
+PARQUETファイルをZilliz Cloudボリュームまたはオブジェクトストレージバケットにアップロードすると、[マージデータAPI](/reference/restful/merge-data-v2)を使用して、両方のソースからデータを格納するターゲットコレクションを作成できます。
 
 データソースはオプションです。データソースを指定せずにマージデータAPIを使用して、既存のコレクションにフィールドを追加する回避策として使用することもできます。
 
@@ -63,13 +63,13 @@ PARQUETファイルをZilliz Cloudステージまたはオブジェクトスト�
 
 データのあるフィールドを追加するには、ソースコレクション、データソース、およびターゲットコレクションに追加する新しいフィールドを指定する必要があります。
 
-データソースは、Zilliz CloudステージまたはAWS S3バケットのいずれかにあるPARQUETファイルのセットである必要があります。
+データソースは、Zilliz CloudボリュームまたはAWS S3バケットのいずれかにあるPARQUETファイルのセットである必要があります。
 
-### ステージの使用\{#use-stage}
+### ボリュームの使用\{#use-volume}
 
-ステージを使用してデータマージ操作を実行するには、まずステージを作成し、ローカルファイルシステムからデータをアップロードします。その後、データマージ操作を実行して、既存のコレクションとステージのデータを組み合わせた新しいコレクションを作成できます。
+ボリュームを使用してデータマージ操作を実行するには、まずボリュームを作成し、ローカルファイルシステムからデータをアップロードします。その後、データマージ操作を実行して、既存のコレクションとボリュームのデータを組み合わせた新しいコレクションを作成できます。
 
-次のコードスニペットは、ステージを使用してデータマージ操作を実行する方法を示しています。ステージの作成方法とデータのアップロード方法の詳細については、[ステージの管理](./manage-stages)を参照してください。
+次のコードスニペットは、ボリュームを使用してデータマージ操作を実行する方法を示しています。ボリュームの作成方法とデータのアップロード方法の詳細については、[ボリュームの管理](./manage-stages)を参照してください。
 
 ```bash
 export BASE_URL="https://api.cloud.zilliz.com"
@@ -86,8 +86,8 @@ curl --request POST \
     "destDbName": "my_database",
     "destCollectionName": "my_merged_collection",
     "dataSource": {
-        "type": "stage",
-        "stageName": "my_stage",
+        "type": "volume",
+        "volumeName": "my_volume",
         "dataPath": "path/to/your/parquet.parquet"
     },
     "mergeField": "id",
@@ -117,12 +117,12 @@ curl --request POST \
 
     このパラメータはオプションで、データソースタイプやソースコレクションからのデータとマージされ、ターゲットコレクションに保存される列方向データを含むParquetファイルのパスなどのデータソース設定を含みます。
 
-    中間ストレージとしてステージを使用する場合は、`type`を`stage`に設定した後に`stageName`と`dataPath`を設定する必要があります。
+    中間ストレージとしてボリュームを使用する場合は、`type`を`volume`に設定した後に`volumeName`と`dataPath`を設定する必要があります。
 
     <Admonition type="info" icon="📘" title="注意">
 
     <ul>
-    <li><code>dataPath</code>パラメータの値は、ステージのルートに対するファイルの絶対パス、または複数のParquetファイルを格納するステージ内のフォルダにすることができます。値がフォルダを指す場合は、フォルダ内のParquetファイルが同じデータ構造を持っていることを確認してください。</li>
+    <li><code>dataPath</code>パラメータの値は、ボリュームのルートに対するファイルの絶対パス、または複数のParquetファイルを格納するボリューム内のフォルダにすることができます。値がフォルダを指す場合は、フォルダ内のParquetファイルが同じデータ構造を持っていることを確認してください。</li>
     </ul>
     <p>たとえば、値は<code>path/to/your/file.parquet</code>（ファイル）または<code>path/to/your/folder/</code>（フォルダ）にすることができます。</p>
     <ul>
