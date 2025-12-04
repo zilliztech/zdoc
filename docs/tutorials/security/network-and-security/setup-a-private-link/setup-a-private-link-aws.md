@@ -22,10 +22,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Video search
-  - AI Hallucination
   - AI Agent
   - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 
@@ -62,7 +62,7 @@ Zilliz Cloud offers you an intuitive web console to add a private endpoint. Navi
 
 ![I02ibsAgioWpuLxwzHDcp1c2nge](/img/i02ibsagiowpulxwzhdcp1c2nge.png "I02ibsAgioWpuLxwzHDcp1c2nge")
 
-### Select a cloud provider and region\{#select-a-cloud-provider-and-region}
+### Step 1: Select a cloud provider and region\{#step-1-select-a-cloud-provider-and-region}
 
 To create a private endpoint for a cluster deployed in an AWS region, select **AWS** from the **Cloud Provider** drop-down list. In **Region**, select the region that accommodates the cluster you want to access privately. Click **Next**. 
 
@@ -70,7 +70,7 @@ For more information on available cloud providers and regions, see [Cloud Provid
 
 ![NxuFbXh41oA53VxB4sPcfR9snVg](/img/nxufbxh41oa53vxb4spcfr9snvg.png "NxuFbXh41oA53VxB4sPcfR9snVg")
 
-### Create an Endpoint\{#create-an-endpoint}
+### Step 2: Create an Endpoint\{#step-2-create-an-endpoint}
 
 You need to complete this step on your cloud provider console using either the UI console or CLI.
 
@@ -80,7 +80,17 @@ You need to complete this step on your cloud provider console using either the U
 
     1. Switch to the **Via UI Console** tab, and copy the **Service Name**.
 
-    1. Navigate to the AWS console page. On the AWS console, check if the cloud region corresponds to the cloud region you selected in [Step 1](./setup-a-private-link-aws#select-a-cloud-provider-and-region). Click **Endpoints** in the left navigation. Click **Create Endpoint**.
+    1. Navigate to the AWS console and select the region where your service runs in the upper-right corner. Then, click **Endpoints** in the left navigation. Click **Create Endpoint**.
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <p>You should always use the region where your service that needs access to your Zilliz Cloud cluster is located.</p>
+        <ul>
+        <li><p>If your service runs in the same region as the one hosting your Zilliz Cloud cluster, use the region.</p></li>
+        <li><p>If your service runs in a different region than the one hosting your Zilliz Cloud cluster, use the region where your service runs.</p></li>
+        </ul>
+
+        </Admonition>
 
         ![setup_private_link_window_aws](/img/setup_private_link_window_aws.png "setup_private_link_window_aws")
 
@@ -91,6 +101,14 @@ You need to complete this step on your cloud provider console using either the U
     1. Switch to the AWS console. In **Service Settings**, paste the **Service Name** you copied from the Zilliz Cloud web console into the **Service Name** field. Then click **Verify service**.
 
         ![enter_service_name_gcp](/img/enter_service_name_gcp.png "enter_service_name_gcp")
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <p>If your service operates in a different region than where your Zilliz Cloud cluster is hosted, ensure you select <strong>Enable Cross Region endpoint</strong> and choose the region where your Zilliz Cloud cluster runs. Then click <strong>Verify service</strong>. </p>
+        <p>In the following diagram, your Zilliz Cloud cluster is assumed to be running in <strong>Europe (Frankfurt)</strong>, and your service is running in another region.</p>
+        <p><img src="/img/nx2abfqbfokf1axbn4lchjfznqs.png" alt="NX2AbfqBfokf1axbn4LchJfZnqS" title="NX2AbfqBfokf1axbn4LchJfZnqS" /></p>
+
+        </Admonition>
 
     1. When the service name is verified, complete network settings, subnet, security groups, and click **Create**.
 
@@ -145,7 +163,7 @@ You need to complete this step on your cloud provider console using either the U
 
         In the returned message, copy the VpcEndpointId (starting with "vpce-") of the created VPC endpoint.
 
-### Authorize your endpoint\{#authorize-your-endpoint}
+### Step 3: Authorize your endpoint\{#step-3-authorize-your-endpoint}
 
 Paste the endpoint ID you obtained from the AWS console into the **Endpoint ID** box on Zilliz Cloud. Click **Create**.
 
