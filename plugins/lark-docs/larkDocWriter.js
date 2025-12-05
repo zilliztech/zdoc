@@ -7,12 +7,22 @@ const fetch = require('node-fetch')
 const node_path = require('node:path')
 const cheerio = require('cheerio')
 const showdown = require('showdown')
-const Jimp = require("jimp");
 const _ = require('lodash')
 // MDX compilation will be loaded dynamically as it's an ES module
 
+const IMAGE_BED_URL = process.env.IMAGE_BED_URL || 'https://zdoc-images.s3.us-west-2.amazonaws.com'
+
 class larkDocWriter {
-    constructor(root_token, base_token, displayedSidebar, docSourceDir='plugins/lark-docs/meta/sources', imageDir='static/img', targets='zilliz.saas', skip_image_download=false) {
+    constructor(
+        root_token, 
+        base_token, 
+        displayedSidebar, 
+        docSourceDir='plugins/lark-docs/meta/sources', 
+        imageDir='static/img', 
+        targets='zilliz.saas', 
+        skip_image_download=false,
+        upload_to_s3=false
+    ) {
         this.root_token = root_token
         this.base_token = base_token
         this.displayedSidebar = displayedSidebar
@@ -27,6 +37,7 @@ class larkDocWriter {
         this.code_langs = this.__code_langs()
         this.tokenFetcher = new larkTokenFetcher()
         this.downloader = new Downloader({}, imageDir)
+        this.upload_to_s3 = upload_to_s3
     }
 
     __fetch_doc_source (type, value, slug="") {
@@ -1146,17 +1157,22 @@ class larkDocWriter {
     }  
     
     async __image(image) {
-        const root = this.imageDir.replace(/^static\//g, '')
+        const root = this.upload_to_s3 ? IMAGE_BED_URL : `/${this.imageDir.replace(/^static\//g, '')}`
         const caption = image.caption?.content ? image.caption.content.trim() : image.token;
         const slug = slugify(caption, {lower: true, strict: true})
 
         if (this.skip_image_download) {
-            return `![${caption}](/${root}/${slug}.png "${caption}")`;
+            return `![${caption}](${root}/${slug}.png "${caption}")`;
         }
 
         try {
             const result = await this.downloader.__downloadImage(image.token)
-            result.body.pipe(fs.createWriteStream(`${this.downloader.target_path}/${slug}.png`));
+            const buffer = await result.buffer();
+            if (this.upload_to_s3) {
+                await this.downloader.__uploadToS3(buffer, `${slug}.png`);
+            } else {
+                result.body.pipe(fs.createWriteStream(`${this.downloader.target_path}/${slug}.png`));
+            }
         } catch (error) {
             console.log(error)
             console.log("-------------- A retry is needed -----------------");
@@ -1165,87 +1181,60 @@ class larkDocWriter {
             this.__image(image)
         }
 
-        return `![${caption}](/${root}/${slug}.png "${caption}")`;
+        return `![${caption}](${root}/${slug}.png "${caption}")`;
     }
 
     async __board(board, indent) {
-        const root = this.imageDir.replace(/^static\//g, '')
+        const root = this.upload_to_s3 ? IMAGE_BED_URL : `/${ this.imageDir.replace(/^static\//g, '')}`
 
         if (this.skip_image_download) {
-            return `![${board.token}](/${root}/${board["token"]}.png)`;
+            return `![${board.token}](${root}/${board["token"]}.png)`;
         }
 
         const result = await this.downloader.__downloadBoardPreview(board.token)
-        const writeStream = fs.createWriteStream(`${this.downloader.target_path}/${board["token"]}.png`);
-        result.body.pipe(writeStream);
-
-        writeStream.on('finish', async () => {
-            try {
-                const image = await Jimp.read(`${this.downloader.target_path}/${board["token"]}.png`);
-                this.__crop_image_border(image)
-                image.write(`${this.downloader.target_path}/${board["token"]}.png`);
-            } catch (error) {
-                console.log(error)
-                console.log("-------------- A retry is needed -----------------");
-                console.log("Sleeping for 5 seconds")
-                await new Promise(resolve => setTimeout(resolve, 5000));
-                this.__board(board, indent)                             
+        var buffers = [];
+        result.body.on('data', (chunk) => {
+            buffers.push(chunk);
+        });
+        result.body.on('end', async () => {
+            const buffer = Buffer.concat(buffers);
+            const trimmedBuffer = await this.__trim_white_borders(buffer);
+            if (this.upload_to_s3) {
+                await this.downloader.__uploadToS3(trimmedBuffer, `${board["token"]}.png`);
+            } else {
+                fs.writeFileSync(`${this.downloader.target_path}/${board["token"]}.png`, trimmedBuffer);
             }
-        });                
+        });           
 
-        return `![${board.token}](/${root}/${board["token"]}.png)`;
+        return `![${board.token}](${root}/${board["token"]}.png)`;
     }
 
-    __crop_image_border(image) {
-        const width = image.bitmap.width;
-        const height = image.bitmap.height;
+    async __trim_white_borders(image) {
+        const sharp = require('sharp');
 
-        const full_white_cols = [];
+        try {
+            // Let Sharp auto-detect background from top-left pixel (likely white)
+            const trimmedImage = await sharp(image)
+                .trim({
+                  background: { r: 255, g: 255, b: 255 },
+                  threshold: 10                    
+                }).png()
 
-        for (let i = 0; i < width; i++) {
-            const col = []
-            for (let j = 0; j < height; j++) {
-                const pixel = image.getPixelColor(i, j);
-                col.push(pixel)
-            }
+            const buffer = await trimmedImage.toBuffer();
+            return buffer;
 
-            if ([... new Set(col)].length === 1 && col[0] === 4294967295) {
-                full_white_cols.push(i)
-            }
-        }
-
-        const full_white_rows = [];
-
-        for (let j = 0; j < height; j++) {
-            const row = []
-            for (let i = 0; i < width; i++) {
-                const pixel = image.getPixelColor(i, j);
-                row.push(pixel)
-            }
-
-            if ([... new Set(row)].length === 1 && row[0] === 4294967295) {
-                full_white_rows.push(j)
-            }
-        }
-
-        
-        const reverse = full_white_rows.reverse()
-
-        for (let i=0; i<height; i++) {
-            if (reverse[i] !== height - 1 - i) {
-                image.crop(0, 0, width, reverse[i-1])
-                break;
-            }
+        } catch (error) {
+            throw new Error(`Failed to trim image borders: ${error.message}`);
         }
     }
 
     async __iframe(block) {
-        const root = this.imageDir.replace(/^static\//g, '');
+        const root = this.upload_to_s3 ? IMAGE_BED_URL : `/${ this.imageDir.replace(/^static\//g, '')}`
         const block_id = block['block_id'];
         const iframe = block['iframe'];
         const existing_iframe = this.iframes.find(x => x.block_id === block_id)
         if (existing_iframe) {
-            return `![${existing_iframe.caption}](/${root}/${existing_iframe.caption}.png "${existing_iframe.caption}")`;
+            return `![${existing_iframe.caption}](${root}/${existing_iframe.caption}.png "${existing_iframe.caption}")`;
         }
 
         if (iframe['component']['iframe_type'] !== 8) {
@@ -1259,24 +1248,27 @@ class larkDocWriter {
                 block_id,
                 caption
             })
-            return `![${caption}](/${root}/${caption}.png "${existing_iframe.caption}")`;
+            return `![${caption}](${root}/${caption}.png "${existing_iframe.caption}")`;
         } else {
             try {
                 const url = new URL(decodeURIComponent(iframe.component.url))
                 const key = url.pathname.split('/')[2]
                 const node = url.searchParams.get('node-id').split('-').join(":") 
                 const caption = (await this.downloader.__fetchCaption(key, node)).nodes[node].document.name;
-
-                if (!fs.existsSync(`${this.downloader.target_path}/${caption}.png`)) {
-                    const result = await this.downloader.__downloadIframe(key, node);
+                const result = await this.downloader.__downloadIframe(key, node);
+                const buffer = await result.buffer();
+                if (this.upload_to_s3) {
+                    await this.downloader.__uploadToS3(buffer, `${caption}.png`);
+                } else if (!fs.existsSync(`${this.downloader.target_path}/${caption}.png`)) {
                     result.body.pipe(fs.createWriteStream(`${this.downloader.target_path}/${caption}.png`));
+
                     this.iframes.push({
                         block_id,
                         caption
                     })
                 }
 
-                return `![${caption}](/${root}/${caption}.png "${caption}")`;
+                return `![${caption}](${root}/${caption}.png "${caption}")`;
             } catch (error) {
                 console.log(error)
                 console.log("-------------- A retry is needed -----------------");
