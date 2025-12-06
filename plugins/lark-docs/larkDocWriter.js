@@ -1220,7 +1220,16 @@ class larkDocWriter {
                   threshold: 10                    
                 }).png()
 
-            const buffer = await trimmedImage.toBuffer();
+            // Add a 10-pixel white border around the trimmed image
+            const borderedImage = trimmedImage.extend({
+                top: 20,
+                bottom: 20,
+                left: 20,
+                right: 20,
+                background: { r: 255, g: 255, b: 255 }
+            });
+
+            const buffer = await borderedImage.toBuffer();
             return buffer;
 
         } catch (error) {
