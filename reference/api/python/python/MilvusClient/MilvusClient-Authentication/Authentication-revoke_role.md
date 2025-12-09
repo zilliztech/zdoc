@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "revoke_role() | Python | MilvusClient"
 slug: /python/python/Authentication-revoke_role
 sidebar_label: "revoke_role()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation revokes the role assigned to a user. | Python | MilvusClient"
 type: docx
 token: JJOId59ePoMLefxz1ChcBZ6inOh
 sidebar_position: 19
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
   - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - revoke_role()
-  - pymilvus25
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - pymilvus26
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation revokes the role assigned to a user.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 revoke_role(
@@ -82,7 +85,7 @@ None
 
     This exception will be raised when this operation fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```python
 from pymilvus import MilvusClient
@@ -103,7 +106,7 @@ client.grant_role(user_name="user_1", role_name="db_ro")
 client.revoke_role(user_name="user_1", role_name="db_ro")
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [describe_role()](./Authentication-describe_role)
 

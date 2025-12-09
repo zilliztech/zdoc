@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "close() | Java | v2"
 slug: /java/java/v2-RemoteBulkWriter-close
 sidebar_label: "close()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation closes the current LocalBulkWriter instance. | Java | v2"
 type: docx
 token: ByKadzyxVodrkxxhaGuc4HtFnWh
 sidebar_position: 2
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - close()
-  - javaV225
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - javaV226
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation closes the current LocalBulkWriter instance.
 public void close()
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 remoteBulkWriter.close()
@@ -52,7 +55,7 @@ remoteBulkWriter.close()
 
 *void*
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 remoteBulkWriter.close();

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "\_\_call()\_\_ | Python"
 slug: /python/python/CohereEmbeddingFunction-__call__
 sidebar_label: "__call__()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation in CohereEmbeddingFunction takes a list of text strings and directly encodes them into vector embeddings. | Python"
 type: docx
 token: P2n8d2wQtoK8YqxnccocmNwRnKb
 sidebar_position: 4
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call()\_\_
-  - pymilvus25
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - pymilvus26
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -36,7 +39,7 @@ This operation in [CohereEmbeddingFunction](./EmbeddingModels-CohereEmbeddingFun
 
 The **\_\_call\_\_()** method of CohereEmbeddingFunction shares the same functionality as [encode_documents()](./CohereEmbeddingFunction-encode_documents) and [encode_queries()](./CohereEmbeddingFunction-encode_queries).
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 # Instance created
@@ -69,7 +72,7 @@ A list where each element is a NumPy array.
 
     This exception will be raised when you specify multiple embedding types or use the `int8` or `uint8` data type for CohereEmbeddingFunction initialization.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus.model.dense import CohereEmbeddingFunction

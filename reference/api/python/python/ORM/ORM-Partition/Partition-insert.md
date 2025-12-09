@@ -1,9 +1,11 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "insert() | Python | ORM"
 slug: /python/python/Partition-insert
 sidebar_label: "insert()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation inserts data into the current partition. | Python | ORM"
 type: docx
@@ -18,13 +20,14 @@ keywords:
   - zilliz cloud
   - cloud
   - insert()
-  - pymilvus25
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - pymilvus26
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -40,7 +43,7 @@ This operation inserts data into the current partition.
 
 </Admonition>
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 insert(
@@ -171,7 +174,7 @@ A **MutationResult** object that contains the following fields:
 
         The timestamp at which this operation is completed.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import Collection, Partition, FieldSchema, CollectionSchema, DataType
@@ -202,7 +205,7 @@ res.insert_count
 10
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `insert()`:
 

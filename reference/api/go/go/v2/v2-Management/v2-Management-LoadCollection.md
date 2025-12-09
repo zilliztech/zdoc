@@ -3,6 +3,9 @@ title: "LoadCollection() | Go | v2"
 slug: /go/v2-Management-LoadCollection
 sidebar_label: "LoadCollection()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method loads the specified collection. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method loads the specified collection.
 func (c *Client) LoadCollection(ctx context.Context, option LoadCollectionOption, callOptions ...grpc.CallOption) (LoadTask, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) LoadCollection(ctx context.Context, option LoadCollectionOption
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>LoadCollectionOption</code></p></td>
+     <td><p><a href="./v2-Management-LoadCollection#loadcollectionoption"><code>LoadCollectionOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) LoadCollection(ctx context.Context, option LoadCollectionOption
    </tr>
 </table>
 
-## LoadCollectionOption{#loadcollectionoption}
+## LoadCollectionOption\{#loadcollectionoption}
 
 This is an interface type. The `loadCollectionOption` struct type implements this interface type. 
 
 You can use the `NewLoadCollectionOption()` function to get the concrete implementation.
 
-### NewLoadCollectionOption(){#newloadcollectionoption}
+### NewLoadCollectionOption()\{#newloadcollectionoption}
 
 The signature of this method is as follows:
 
@@ -75,11 +78,11 @@ func NewLoadCollectionOption(collectionName string) *loadCollectionOption
    </tr>
 </table>
 
-## LoadTask{#loadtask}
+## LoadTask\{#loadtask}
 
 This is a struct type that contains information about the current load operation. You can use the following methods to operate this struct type.
 
-### Await(){#await}
+### Await()\{#await}
 
 A load operation is always asynchronous. You can use this method to wait until the load operation finishes.
 
@@ -87,11 +90,11 @@ A load operation is always asynchronous. You can use this method to wait until t
 func (t *LoadTask) Await(ctx context.Context) error
 ```
 
-## Return{#return}
+## Return\{#return}
 
-`LoadTask`
+[`LoadTask`](./v2-Management-LoadCollection#loadtask)
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 loadTask, err := cli.LoadCollection(ctx, milvusclient.NewLoadCollectionOption("customized_setup_1"))

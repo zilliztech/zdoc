@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "releaseCollection() | Node.js"
 slug: /node/node/Management-releaseCollection
 sidebar_label: "releaseCollection()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation releases the data of a specific collection from memory. | Node.js"
 type: docx
 token: UxOXdeKF1oOIBuxTjPhcKBtPnRb
-sidebar_position: 17
+sidebar_position: 20
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - releaseCollection()
-  - nodejs25
+  - nodejs26
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation releases the data of a specific collection from memory.
 releaseCollection(data): Promise<ResStatus>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.releaseCollection({ 
@@ -92,7 +95,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

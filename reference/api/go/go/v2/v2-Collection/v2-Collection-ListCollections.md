@@ -3,6 +3,9 @@ title: "ListCollections() | Go | v2"
 slug: /go/v2-Collection-ListCollections
 sidebar_label: "ListCollections()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method lists all existing collections. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method lists all existing collections.
 func (c *Client) ListCollections(ctx context.Context, option ListCollectionOption, callOptions ...grpc.CallOption) (collectionNames []string, err error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) ListCollections(ctx context.Context, option ListCollectionOptio
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>ListAliasesOption</code></p></td>
+     <td><p><a href="./v2-Collection-ListCollections#listcollectionoption"><code>ListAliasesOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) ListCollections(ctx context.Context, option ListCollectionOptio
    </tr>
 </table>
 
-## ListCollectionOption{#listcollectionoption}
+## ListCollectionOption\{#listcollectionoption}
 
 This is an interface type. The `listCollectionOption` struct type implements this interface type. 
 
 You can use the `NewListCollectionOption()` function to get the concrete implementation.
 
-### NewListCollectionOption{#newlistcollectionoption}
+### NewListCollectionOption\{#newlistcollectionoption}
 
 The signature of this method is as follows:
 
@@ -62,11 +65,11 @@ The signature of this method is as follows:
 func NewListCollectionOption() *listCollectionOption
 ```
 
-## Return{#return}
+## Return\{#return}
 
 `[]string`
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

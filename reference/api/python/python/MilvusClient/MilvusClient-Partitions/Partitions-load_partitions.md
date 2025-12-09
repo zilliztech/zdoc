@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "load_partitions() | Python | MilvusClient"
 slug: /python/python/Partitions-load_partitions
 sidebar_label: "load_partitions()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation loads a specific set of partitions in a specified collection into memory. | Python | MilvusClient"
 type: docx
-token: DdQ1dBNagoBa08xhEiucxZrHnzc
+token: TMq5d6wFmoT8u3xwuruc8k6wnTg
 sidebar_position: 6
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - load_partitions()
-  - pymilvus25
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - pymilvus26
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation loads a specific set of partitions in a specified collection into memory.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 load_partitions(
@@ -57,6 +60,10 @@ load_partitions(
     **[REQUIRED]**
 
     A list of the names of the partitions to load.
+
+- **priority** (*string*) -
+
+    The load priority of the current collection. The value may impact CPU usage during the load process. Possible values are `low` and `high`.
 
 - **timeout** (*float* | *None*)  
 
@@ -82,7 +89,7 @@ None
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```python
 from pymilvus import MilvusClient
@@ -125,7 +132,7 @@ client.get_load_state(
 # {'state': <LoadState: Loaded>}
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [create_partition()](./Partitions-create_partition)
 

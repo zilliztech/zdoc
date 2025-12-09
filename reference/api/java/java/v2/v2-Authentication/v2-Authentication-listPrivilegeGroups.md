@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "listPrivilegeGroups() | Java | v2"
 slug: /java/java/v2-Authentication-listPrivilegeGroups
 sidebar_label: "listPrivilegeGroups()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists all privilege groups. | Java | v2"
 type: docx
 token: TGsXduN5OoAjVyxZTvRc8HR2nse
 sidebar_position: 13
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - listPrivilegeGroups()
-  - javaV225
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - javaV226
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation lists all privilege groups.
 public ListPrivilegeGroupsResp listPrivilegeGroups(ListPrivilegeGroupsReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 listPrivilegeGroups(ListPrivilegeGroupsReq.builder()
@@ -72,7 +75,7 @@ A **ListPrivilegeGroupsResp** object contains the following fields:
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

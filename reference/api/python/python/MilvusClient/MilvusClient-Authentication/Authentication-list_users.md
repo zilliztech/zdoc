@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_users() | Python | MilvusClient"
 slug: /python/python/Authentication-list_users
 sidebar_label: "list_users()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists the names of all existing users. | Python | MilvusClient"
 type: docx
 token: EZ2YdBHoDoRTlxx91tscffm1nSb
 sidebar_position: 15
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - list_users()
-  - pymilvus25
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - pymilvus26
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation lists the names of all existing users.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 list_users(
@@ -68,7 +71,7 @@ A list of user names.
 
     This exception will be raised when this operation fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```python
 from pymilvus import MilvusClient
@@ -88,7 +91,7 @@ client.list_users()
 # ['db_admin', 'user_1']
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [create_user()](./Authentication-create_user)
 

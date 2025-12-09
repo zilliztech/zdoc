@@ -3,6 +3,9 @@ title: "DropAlias() | Go | v2"
 slug: /go/v2-Collection-DropAlias
 sidebar_label: "DropAlias()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method drops an alias. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method drops an alias.
 func (c *Client) DropAlias(ctx context.Context, option DropAliasOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) DropAlias(ctx context.Context, option DropAliasOption, callOpti
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DropAliasOption</code></p></td>
+     <td><p><a href="./v2-Collection-DropAlias#dropaliasoption"><code>DropAliasOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) DropAlias(ctx context.Context, option DropAliasOption, callOpti
    </tr>
 </table>
 
-## DropAliasOption{#dropaliasoption}
+## DropAliasOption\{#dropaliasoption}
 
 This is an interface type. The `dropAliasOption` struct type implements this interface type. 
 
 You can use the `NewDropAliasOption()` function to get the concrete implementation.
 
-### NewDropCollectionOption{#newdropcollectionoption}
+### NewDropCollectionOption\{#newdropcollectionoption}
 
 The signature of this method is as follows:
 
@@ -75,11 +78,11 @@ func NewDropAliasOption(alias string) *dropAliasOption
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

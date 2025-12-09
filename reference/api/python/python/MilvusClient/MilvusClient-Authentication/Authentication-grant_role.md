@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "grant_role() | Python | MilvusClient"
 slug: /python/python/Authentication-grant_role
 sidebar_label: "grant_role()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation grants a role to a user. | Python | MilvusClient"
 type: docx
 token: DsnpdZuDGo77TYxFuYvcDpOgnIf
 sidebar_position: 12
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - grant_role()
-  - pymilvus25
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - pymilvus26
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation grants a role to a user.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 grant_role(
@@ -82,7 +85,7 @@ None
 
     This exception will be raised when this operation fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```python
 from pymilvus import MilvusClient
@@ -103,7 +106,7 @@ client.grant_role(user_name="user_1", role_name="db_ro")
 
 </Admonition>
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [describe_role()](./Authentication-describe_role)
 

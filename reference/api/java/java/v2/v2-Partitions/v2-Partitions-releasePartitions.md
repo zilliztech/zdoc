@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "releasePartitions() | Java | v2"
 slug: /java/java/v2-Partitions-releasePartitions
 sidebar_label: "releasePartitions()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation releases the partitions in a specified collection from memory. | Java | v2"
 type: docx
 token: VsyQdDkXnoloWYxfjXNchc0dnng
 sidebar_position: 7
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - releasePartitions()
-  - javaV225
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - javaV226
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,10 +41,11 @@ This operation releases the partitions in a specified collection from memory.
 public void releasePartitions(ReleasePartitionsReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 releasePartitions(ReleasePartitionsReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .partitionNames(List<String> partitionNames)
     .build()
@@ -49,6 +53,10 @@ releasePartitions(ReleasePartitionsReq.builder()
 ```
 
 **BUILDER METHODS:**
+
+- `databaseName(String databaseName)`
+
+    The name of the database to which the collection belongs.
 
 - `collectionName(String collectionName)`
 
@@ -68,7 +76,7 @@ releasePartitions(ReleasePartitionsReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

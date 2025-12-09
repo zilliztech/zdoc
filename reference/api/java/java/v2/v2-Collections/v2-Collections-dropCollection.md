@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropCollection() | Java | v2"
 slug: /java/java/v2-Collections-dropCollection
 sidebar_label: "dropCollection()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation drops a collection. | Java | v2"
 type: docx
-token: PsAGd1CNqosvirxDJ5ncIHudnSg
+token: DMh5d1uiGolDtLxSNpCcWx9On7c
 sidebar_position: 14
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollection()
-  - javaV225
+  - javaV226
   - natural language processing database
   - cheap vector database
   - Managed vector database
   - Pinecone vector database
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,12 +41,11 @@ This operation drops a collection.
 public void dropCollection(DropCollectionReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 dropCollection(DropCollectionReq.builder()
     .collectionName(String collectionName)
-    .async(Boolean async)
     .timeout(Long timeout)
     .build()
 )
@@ -54,12 +56,6 @@ dropCollection(DropCollectionReq.builder()
 - `collectionName(String collectionName)`
 
     The name of an existing collection.
-
-- `async(Boolean async)`
-
-    Whether this operation is asynchronous.
-
-    The value defaults to `Boolean.True`, indicating immediate return while the process may still run in the background.
 
 - `timeout(Long timeout)`
 
@@ -77,7 +73,7 @@ dropCollection(DropCollectionReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

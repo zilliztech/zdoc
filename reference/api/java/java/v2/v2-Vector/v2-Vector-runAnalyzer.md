@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "runAnalyzer() | Java | v2"
 slug: /java/java/v2-Vector-runAnalyzer
 sidebar_label: "runAnalyzer()"
 beta: false
+added_since: v2.6.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation processes the input data and generates tokenized output. | Java | v2"
 type: docx
-token: HwoNd8f9Toy4n9xOn0QcJPcgnhX
+token: S2RfdHUQro7atExpfJBc6FPfnZe
 sidebar_position: 10
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - runAnalyzer()
-  - javaV225
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - javaV226
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation processes the input data and generates tokenized output.
 public RunAnalyzerResp runAnalyzer(RunAnalyzerReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 runAnalyzer(RunAnalyzerReq.builder()
@@ -71,6 +74,22 @@ runAnalyzer(RunAnalyzerReq.builder()
 - `withHash(Boolean withHash)`
 
     An optional flag indicating whether to include hash-based processing.
+
+- `databaseName(String databaseName)`
+
+    The name of the target database. The value defaults to an empty string, indicating the default database.
+
+- `collectionName(String collectionName)`
+
+    The name of the target collection in the above-specified database.
+
+- `fieldName(String fieldName)`
+
+    The name of the target field in the above-specified collection.
+
+- `analyzerNames(List<String> analyzerNames)`
+
+    The names of the analyzers to be used.
 
 **RETURN TYPE:**
 
@@ -118,7 +137,7 @@ An **AnalyzerToken** has the following attributes:
 
     The hash value of the above token.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "drop_database() | Python | ORM"
 slug: /python/python/db-drop_database
 sidebar_label: "drop_database()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation drops a database using the provided database name. | Python | ORM"
 type: docx
 token: Y7pOdKR4MoqmvVxcS1TcjqUynMc
 sidebar_position: 2
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - drop_database()
-  - pymilvus25
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - pymilvus26
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation drops a database using the provided database name.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 drop_database(
@@ -72,7 +75,7 @@ None
 
 None
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections, db
@@ -85,7 +88,7 @@ conn = connections.connect(
 db.drop_database(db_name="test")
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `drop_database()`:
 

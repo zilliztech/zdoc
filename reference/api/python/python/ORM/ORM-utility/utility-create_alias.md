@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "create_alias() | Python | ORM"
 slug: /python/python/utility-create_alias
 sidebar_label: "create_alias()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation creates an alias for an existing collection. | Python | ORM"
 type: docx
 token: DthMdlg8Lozw89xNz4TcBv1LnOe
 sidebar_position: 3
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - create_alias()
-  - pymilvus25
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - pymilvus26
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation creates an alias for an existing collection.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 create_alias(
@@ -95,7 +98,7 @@ None
 
     This exception will be raised when this operation fails.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections, Collection, utility
@@ -119,7 +122,7 @@ utility.create_alias(collection_name="collection_1", alias="tom")
 utility.list_aliases(collection_name="collection_1") # ['bob', 'tom']
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `create_alias()`:
 

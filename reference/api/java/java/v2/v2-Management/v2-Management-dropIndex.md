@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropIndex() | Java | v2"
 slug: /java/java/v2-Management-dropIndex
 sidebar_label: "dropIndex()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation drops an index from a specific collection. | Java | v2"
 type: docx
-token: KdFEdP8ZToYvZ1xmmQgcE62unUf
-sidebar_position: 4
+token: XHyydLsEAoPwB2xNhcwc9KBwn7g
+sidebar_position: 5
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndex()
-  - javaV225
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - javaV226
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,10 +41,11 @@ This operation drops an index from a specific collection.
 public void dropIndex(DropIndexReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 dropIndex(DropIndexReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .fieldName(String fieldName)
     .indexName(String indexName)
@@ -50,6 +54,10 @@ dropIndex(DropIndexReq.builder()
 ```
 
 **BUILDER METHODS:**
+
+- `databaseName(String databaseName)`
+
+    The name of the database to which the target collection belongs.
 
 - `collectionName(String collectionName)`
 
@@ -73,7 +81,7 @@ dropIndex(DropIndexReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

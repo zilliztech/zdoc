@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "list_import_jobs() | Python"
 slug: /python/python/BulkImport-list_import_jobs
 sidebar_label: "list_import_jobs()"
 beta: false
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists all bulk-import jobs of a specific cluster. | Python"
 type: docx
 token: P0vxdEVBPoTNKLxkKIzcznlYnNc
 sidebar_position: 3
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - list_import_jobs()
-  - pymilvus25
-  - Question answering system
-  - llm-as-a-judge
+  - pymilvus26
   - hybrid vector search
   - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation lists all bulk-import jobs of a specific cluster.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 list_import_jobs(
@@ -137,7 +140,7 @@ list_import_jobs(
 
 None
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 import json
@@ -183,7 +186,7 @@ print(json.dumps(resp.json(), indent=4))
 
 For details, refer to [Import Data (SDK)](/docs/import-data-via-sdks) in our user guides.
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [bulk_import()](./BulkImport-bulk_import)
 

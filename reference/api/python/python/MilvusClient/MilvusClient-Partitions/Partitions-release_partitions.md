@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "release_partitions() | Python | MilvusClient"
 slug: /python/python/Partitions-release_partitions
 sidebar_label: "release_partitions()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation releases the partitions in a specified collection from memory. | Python | MilvusClient"
 type: docx
 token: VblKdUEU4o4t31xcFiicIGtjn9g
 sidebar_position: 7
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - release_partitions()
-  - pymilvus25
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - pymilvus26
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation releases the partitions in a specified collection from memory.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 release_partitions(
@@ -84,7 +87,7 @@ None
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```python
 from pymilvus import MilvusClient
@@ -145,7 +148,7 @@ res = client.get_load_state(
 # {'state': <LoadState: Loaded>}
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [create_partition()](./Partitions-create_partition)
 

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "run_analyzer() | Python | MilvusClient"
 slug: /python/python/CollectionSchema-run_analyzer
 sidebar_label: "run_analyzer()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation processes the input data and generates tokenized output. | Python | MilvusClient"
 type: docx
 token: TWzjdJ61ho613AxKSd7clQt9nrg
 sidebar_position: 6
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - run_analyzer()
-  - pymilvus25
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - pymilvus26
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation processes the input data and generates tokenized output.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```plaintext
 run_analyzer(
@@ -84,7 +87,7 @@ A tuple containing:
 
 - `MilvusException` - Raised if any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```plaintext
 from pymilvus import MilvusClient

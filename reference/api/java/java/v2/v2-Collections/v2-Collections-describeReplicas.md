@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "describeReplicas() | Java | v2"
 slug: /java/java/v2-Collections-describeReplicas
 sidebar_label: "describeReplicas()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation returns information about the replicas of a specific collection. | Java | v2"
 type: docx
 token: WRSYdEZwroNY1Txpk2DcI1sSnVg
-sidebar_position: 24
+sidebar_position: 25
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - describeReplicas()
-  - javaV225
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - javaV226
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation returns information about the replicas of a specific collection.
 public DescribeReplicasResp describeReplicas(DescribeReplicasReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 describeReplicas(DescribeReplicasReq.builder()
@@ -68,7 +71,7 @@ A DescribeReplicasResp that contains detailed information about the replicas in 
 
 **PARAMETERS:**
 
-- **replicas** (*List/\<ReplicaInfo>*) -
+- **replicas** (*List\<ReplicaInfo>*) -
 
     A list of replicas, each of which contains the following fields:
 
@@ -80,11 +83,11 @@ A DescribeReplicasResp that contains detailed information about the replicas in 
 
         The ID of the specified collection.
 
-    - **partitionIDs** (*List/\<Long>*) -
+    - **partitionIDs** (*List\<Long>*) -
 
         The IDs of partitions associated with the current replica.
 
-    - **shardReplicas** (*List/\<ShardReplicas>*) -
+    - **shardReplicas** (*List\<ShardReplicas>*) -
 
         The shards associated with the current replica. Each of the shards contains the following information:
 
@@ -100,11 +103,11 @@ A DescribeReplicasResp that contains detailed information about the replicas in 
 
             The name of the channel associated with the current shard.
 
-        - **nodeIDs** (*List/\<Long>*) -
+        - **nodeIDs** (*List\<Long>*) -
 
             The IDs of the query nodes associated with the current shard.
 
-    - **nodeIDs** (*List/\<Long>*) -
+    - **nodeIDs** (*List\<Long>*) -
 
         The IDs of the query nodes associated with the current replica.
 
@@ -112,7 +115,7 @@ A DescribeReplicasResp that contains detailed information about the replicas in 
 
         The name of the resource group associated with the current replica.
 
-    - **numOutboundNode** (*Map/\<String, Integer>*) -
+    - **numOutboundNode** (*Map\<String, Integer>*) -
 
         The number of outbound query nodes.
 
@@ -122,7 +125,7 @@ A DescribeReplicasResp that contains detailed information about the replicas in 
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

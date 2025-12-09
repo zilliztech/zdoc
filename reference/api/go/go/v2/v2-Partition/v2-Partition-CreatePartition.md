@@ -3,6 +3,9 @@ title: "CreatePartition() | Go | v2"
 slug: /go/v2-Partition-CreatePartition
 sidebar_label: "CreatePartition()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method creates a partition in a collection. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method creates a partition in a collection.
 func (c *Client) CreatePartition(ctx context.Context, opt CreatePartitionOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) CreatePartition(ctx context.Context, opt CreatePartitionOption,
    <tr>
      <td><p><code>opt</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>CreateAliasOption</code></p></td>
+     <td><p><a href="./v2-Partition-CreatePartition#createpartitionoption"><code>CreateAliasOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) CreatePartition(ctx context.Context, opt CreatePartitionOption,
    </tr>
 </table>
 
-## CreatePartitionOption{#createpartitionoption}
+## CreatePartitionOption\{#createpartitionoption}
 
 This is an interface type. The `createPartitionOption` struct type implements this interface type. 
 
 You can use the `NewCreatePartitionOption()` function to get the concrete implementation.
 
-### NewCreatePartitionOption{#newcreatepartitionoption}
+### NewCreatePartitionOption\{#newcreatepartitionoption}
 
 The signature of this method is as follows:
 
@@ -80,11 +83,11 @@ func NewCreatePartitionOption(collectionName string, partitionName string) *crea
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

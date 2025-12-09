@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "hasCollection() | Java | v2"
 slug: /java/java/v2-Collections-hasCollection
 sidebar_label: "hasCollection()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation checks whether a specific collection exists. | Java | v2"
 type: docx
-token: Vs26d4WrYoJ3moxuLifcyP2enyh
+token: RaBJd4clVo6KX4xjGJoc3Mz7nhg
 sidebar_position: 18
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - hasCollection()
-  - javaV225
-  - cheap vector database
-  - Managed vector database
+  - javaV226
   - Pinecone vector database
   - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,16 +41,21 @@ This operation checks whether a specific collection exists.
 public Boolean hasCollection(HasCollectionReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 hasCollection(HasCollectionReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .build()
 )
 ```
 
 **BUILDER METHODS:**
+
+- `databaseName(String databaseName)`
+
+    The name of the database to which the target collection belongs.
 
 - `collectionName(String collectionName)`
 
@@ -67,7 +75,7 @@ A boolean value indicating whether the specified collection exists.
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

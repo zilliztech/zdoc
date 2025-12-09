@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "to_dict() | Python | ORM"
 slug: /python/python/CollectionSchema-to_dict
 sidebar_label: "to_dict()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation converts a CollectionSchema object to a dictionary representation. | Python | ORM"
 type: docx
 token: GfTadfqhAo64XDxc643ci4Zwnwb
 sidebar_position: 4
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - to_dict()
-  - pymilvus25
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - pymilvus26
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation converts a CollectionSchema object to a dictionary representation.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 to_dict()
@@ -58,7 +61,7 @@ The dictionary representation of the collection schema.
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import CollectionSchema, FieldSchema, DataType  
@@ -90,18 +93,4 @@ print(schema_dict)
 # Output
 # {'auto_id': False, 'description': '', 'fields': [{'name': 'id', 'description': '', 'type': <DataType.INT64: 5>, 'is_primary': True, 'auto_id': False}, {'name': 'vector', 'description': '', 'type': <DataType.FLOAT_VECTOR: 101>, 'params': {'dim': 768}}]}
 ```
-
-## Related operations{#related-operations}
-
-The following operations are related to `to_dict()`:
-
-- [FieldSchema](./ORM-FieldSchema)
-
-- [DataType](./Collections-DataType)
-
-- [add_field()](./CollectionSchema-add_field)
-
-- [construct_from_dict()](./CollectionSchema-construct_from_dict)
-
-- [verify()](./CollectionSchema-verify)
 

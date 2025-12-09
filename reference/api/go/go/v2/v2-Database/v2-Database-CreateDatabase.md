@@ -3,6 +3,9 @@ title: "CreateDatabase() | Go | v2"
 slug: /go/v2-Database-CreateDatabase
 sidebar_label: "CreateDatabase()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method creates a database. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method creates a database.
 func (c *Client) CreateDatabase(ctx context.Context, option CreateDatabaseOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) CreateDatabase(ctx context.Context, option CreateDatabaseOption
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>CreateDatabaseOption</code></p></td>
+     <td><p><a href="./v2-Database-CreateDatabase#createdatabaseoption"><code>CreateDatabaseOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) CreateDatabase(ctx context.Context, option CreateDatabaseOption
    </tr>
 </table>
 
-## CreateDatabaseOption{#createdatabaseoption}
+## CreateDatabaseOption\{#createdatabaseoption}
 
 This is an interface type. The `createDatabaseOption` struct type implements this interface type. 
 
 You can use the `NewCreateDatabaseOption()` function to get the concrete implementation.
 
-### NewCreateDatabaseOption{#newcreatedatabaseoption}
+### NewCreateDatabaseOption\{#newcreatedatabaseoption}
 
 The signature of this method is as follows:
 
@@ -75,11 +78,11 @@ func NewCreateDatabaseOption(dbName string) *createDatabaseOption
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```plaintext
 dbName := `test_db`

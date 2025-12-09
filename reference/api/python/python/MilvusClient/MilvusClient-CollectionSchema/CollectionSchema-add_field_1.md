@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "add_field() | Python | MilvusClient"
 slug: /python/python/CollectionSchema-add_field_1
 sidebar_label: "add_field()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation adds a field to the schema of a collection. | Python | MilvusClient"
 type: docx
-token: X1L2dAjDyo7yqOxqWELcBRBUndd
+token: Ehbdd1HRLoB34nxU6hQcRk2Mnug
 sidebar_position: 1
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - add_field()
-  - pymilvus25
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - pymilvus26
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation adds a field to the schema of a collection.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 add_field(
@@ -78,21 +81,15 @@ add_field(
 
         - **DataType.DOUBLE**,
 
-        - **DataType.BINARY_VECTOR**,
-
-        - **DataType.FLOAT_VECTOR**,
-
-        - **DataType.FLOAT16_VECTOR**,
-
-        - **DataType.BFLOAT16_VECTOR**,
-
         - **DataType.VARCHAR**,
 
-        - **DataType.JSON**, and
+    - Composite fields: Choose from a variety of options, including 
+
+        - **DataType.JSON**
 
         - **DataType.ARRAY**
 
-    - Vector fields: Select **DataType.FLOAT_VECTOR**, **DataType.BINARY_VECTOR** <sup>(Beta)</sup>, **DataType.FLOAT16_VECTOR** <sup>(Beta)</sup>, **DataType.BFLOAT16_VECTOR** <sup>(Beta)</sup>, or **DataType.SPARSE_FLOAT_VECTOR** <sup>(Beta)</sup>.
+    - Vector fields: Select **DataType.BINARY_VECTOR**, **DataType.FLOAT_VECTOR**, **DataType.FLOAT16_VECTOR**, **DataType.BFLOAT16_VECTOR**, **DataType.SPARSE_FLOAT_VECTOR**, or **DataType.INT8_VECTOR**.
 
 - **is_primary** (*bool*) -
 
@@ -145,7 +142,7 @@ add_field(
 
 **RETURN TYPE:**
 
-*[CollectionSchema](./ORM-CollectionSchema)*
+*[CollectionSchema](./MilvusClient-CollectionSchema)*
 
 **RETURNS:**
 
@@ -157,7 +154,7 @@ A **CollectionSchema** object contains the fields that have been added to the sc
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import DataType, FieldSchema, CollectionSchema
@@ -211,18 +208,3 @@ schema.add_field(
 #     ]
 # }
 ```
-
-## Related operations{#related-operations}
-
-The following operations are related to `add_field()`:
-
-- [FieldSchema](./ORM-FieldSchema)
-
-- [DataType](./Collections-DataType)
-
-- [construct_from_dict()](./CollectionSchema-construct_from_dict)
-
-- [to_dict()](./CollectionSchema-to_dict)
-
-- [verify()](./CollectionSchema-verify)
-

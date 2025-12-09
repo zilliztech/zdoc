@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "get() | Node.js"
 slug: /node/node/Vector-get
 sidebar_label: "get()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation gets specific entities by their IDs. | Node.js"
 type: docx
 token: IbxXdvdZlonJk9xnlk2cZlIinCh
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - get()
-  - nodejs25
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - nodejs26
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation gets specific entities by their IDs.
 get(data): Promise<QueryResults>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.get({
@@ -139,7 +142,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "getPartitionStats() | Java | v2"
 slug: /java/java/v2-Partitions-getPartitionStats
 sidebar_label: "getPartitionStats()"
 beta: false
+added_since: v2.4.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation lists the statistics collected on a specific partition. | Java | v2"
 type: docx
-token: G09ndDq8poAh24xxmr4c7oHknid
+token: ZCESd1IrfoFHByx125kcd38Zndg
 sidebar_position: 3
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
   - getPartitionStats()
-  - javaV225
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - javaV226
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,10 +41,11 @@ This operation lists the statistics collected on a specific partition.
 public GetPartitionStatsResp getPartitionStats(GetPartitionStatsReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 getPartitionStats(GetPartitionStatsReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .partitionName(String partitionName)
     .build()
@@ -49,6 +53,10 @@ getPartitionStats(GetPartitionStatsReq.builder()
 ```
 
 **BUILDER METHODS:**
+
+- `databaseName(String databaseName)`
+
+    The name of the database to which the target collection belongs.
 
 - `collectionName(String collectionName)`
 
@@ -78,7 +86,7 @@ A **GetPartitionStatsResp** object containing collected statistics on the specif
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

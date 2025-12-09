@@ -3,6 +3,9 @@ title: "RefreshLoad() | Go | v2"
 slug: /go/v2-Management-RefreshLoad
 sidebar_label: "RefreshLoad()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method refreshes the load state of the specified collection. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method refreshes the load state of the specified collection.
 func (c *Client) RefreshLoad(ctx context.Context, option RefreshLoadOption, callOptions ...grpc.CallOption) (LoadTask, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) RefreshLoad(ctx context.Context, option RefreshLoadOption, call
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>RefreshLoadOption</code></p></td>
+     <td><p><a href="./v2-Management-RefreshLoad#refreshloadoption"><code>RefreshLoadOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) RefreshLoad(ctx context.Context, option RefreshLoadOption, call
    </tr>
 </table>
 
-## RefreshLoadOption{#refreshloadoption}
+## RefreshLoadOption\{#refreshloadoption}
 
 This is an interface type. The `refreshLoadOption` struct type implements this interface type. 
 
 You can use the `NewRefreshLoadOption()` function to get the concrete implementation.
 
-### NewRefreshLoadOption(){#newrefreshloadoption}
+### NewRefreshLoadOption()\{#newrefreshloadoption}
 
 The signature of this method is as follows:
 
@@ -75,11 +78,11 @@ func NewRefreshLoadOption(collectionName string) *refreshLoadOption
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
-`LoadTask`
+[`LoadTask`](./v2-Management-LoadCollection#loadtask)
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

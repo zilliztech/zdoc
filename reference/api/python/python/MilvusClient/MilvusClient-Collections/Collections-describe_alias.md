@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "describe_alias() | Python | MilvusClient"
 slug: /python/python/Collections-describe_alias
 sidebar_label: "describe_alias()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation displays the details of an alias. | Python | MilvusClient"
 type: docx
 token: HN7nddgueo3scIxmPXAcpjkFnDf
 sidebar_position: 8
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - describe_alias()
-  - pymilvus25
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - pymilvus26
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation displays the details of an alias.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 describe_alias(
@@ -99,7 +102,7 @@ A dictionary containing the alias details.
 
     This exception will be raised when this operation fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```python
 from pymilvus import MilvusClient
@@ -126,7 +129,7 @@ client.describe_alias(alias="test")
 # }
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [alter_alias()](./Collections-alter_alias)
 

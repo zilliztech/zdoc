@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "CreateSchema() | Java | v2"
 slug: /java/java/v2-Collections-CreateSchema
 sidebar_label: "CreateSchema()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation creates a collection schema. | Java | v2"
 type: docx
 token: DAIfdXKk5oCHeNxOUvCc1KcpnNh
-sidebar_position: 23
+sidebar_position: 24
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - CreateSchema()
-  - javaV225
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - javaV226
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation creates a collection schema.
 public static CreateCollectionReq.CollectionSchema CreateSchema()
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 MilvusClientV2.createSchema()
@@ -56,7 +59,7 @@ None
 
 A **CreateCollectionReq.CollectionSchema** object.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

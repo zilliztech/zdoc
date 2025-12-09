@@ -3,6 +3,9 @@ title: "ReleaseCollection() | Go | v2"
 slug: /go/v2-Management-ReleaseCollection
 sidebar_label: "ReleaseCollection()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method releases the specified collection. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method releases the specified collection.
 func (c *Client) LoadCollection(ctx context.Context, option LoadCollectionOption, callOptions ...grpc.CallOption) (LoadTask, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) LoadCollection(ctx context.Context, option LoadCollectionOption
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>ReleaseCollectionOption</code></p></td>
+     <td><p><a href="./v2-Management-ReleaseCollection#releasecollectionoption"><code>ReleaseCollectionOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) LoadCollection(ctx context.Context, option LoadCollectionOption
    </tr>
 </table>
 
-## ReleaseCollectionOption{#releasecollectionoption}
+## ReleaseCollectionOption\{#releasecollectionoption}
 
 This is an interface type. The `releaseCollectionOption` struct type implements this interface type. 
 
 You can use the `NewReleaseCollectionOption()` function to get the concrete implementation.
 
-### NewReleaseCollectionOption(){#newreleasecollectionoption}
+### NewReleaseCollectionOption()\{#newreleasecollectionoption}
 
 The signature of this method is as follows:
 
@@ -75,11 +78,11 @@ func NewReleaseCollectionOption(collectionName string) *releaseCollectionOption
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
-`LoadTask`
+[`LoadTask`](./v2-Management-LoadCollection#loadtask)
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

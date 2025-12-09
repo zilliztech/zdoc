@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "dropPrivilegeGroup() | Node.js"
 slug: /node/node/Authentication-dropPrivilegeGroup
 sidebar_label: "dropPrivilegeGroup()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation adds a user to a specific role. | Node.js"
 type: docx
 token: I63tdWAY2ok8V1xrK4tcrkwjncd
-sidebar_position: 10
+sidebar_position: 12
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - dropPrivilegeGroup()
-  - nodejs25
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - nodejs26
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation adds a user to a specific role.
 dropPrivilegeGroup(data): Promise<ResStatus>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.dropPrivilegeGroup({
@@ -80,7 +83,7 @@ This method returns a list of promises, each of which resolves to a **ResStatus*
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 milvusClient.dropPrivilegeGroup()

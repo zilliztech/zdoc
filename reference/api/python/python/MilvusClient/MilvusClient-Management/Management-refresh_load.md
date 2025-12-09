@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "refresh_load() | Python | MilvusClient"
 slug: /python/python/Management-refresh_load
 sidebar_label: "refresh_load()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation loads the unloaded data of a loaded collection into memory. | Python | MilvusClient"
 type: docx
 token: X3NXdtC2koiAxyxhcUBcv38Wnsh
 sidebar_position: 12
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - refresh_load()
-  - pymilvus25
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - pymilvus26
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation loads the unloaded data of a loaded collection into memory.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 refresh_load(
@@ -71,7 +74,7 @@ refresh_load(
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```python
 from pymilvus import MilvusClient
@@ -94,7 +97,7 @@ client.refresh_load(
 )
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [get_load_state()](./Management-get_load_state)
 

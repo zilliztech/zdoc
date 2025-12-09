@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "has_connection() | Python | ORM"
 slug: /python/python/Connections-has_connection
 sidebar_label: "has_connection()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation checks if a connection with the given alias has already been established. | Python | ORM"
 type: docx
 token: XeZwdeK64oGD8rx9DA3ciqNinnh
 sidebar_position: 6
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - has_connection()
-  - pymilvus25
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - pymilvus26
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation checks if a connection with the given alias has already been established.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 has_connection(alias: str)
@@ -69,7 +72,7 @@ A Boolean value indicating whether the connection exists.
 
     This exception will be raised when the connection configuration is invalid.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections
@@ -80,7 +83,7 @@ connections.has_connection(alias="default")
 # True
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `has_connection()`:
 

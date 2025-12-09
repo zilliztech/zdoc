@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "rename_collection() | Python | MilvusClient"
 slug: /python/python/Collections-rename_collection
 sidebar_label: "rename_collection()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation renames an existing collection. | Python | MilvusClient"
 type: docx
 token: IeiIdJ71Pox2OjxMiOzczUTenud
 sidebar_position: 18
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - rename_collection()
-  - pymilvus25
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - pymilvus26
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation renames an existing collection.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 rename_collection(
@@ -82,7 +85,7 @@ None
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
@@ -106,7 +109,7 @@ client.rename_collection(
 )
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [create_collection()](./Collections-create_collection)
 

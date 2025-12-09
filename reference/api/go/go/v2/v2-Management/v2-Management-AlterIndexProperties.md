@@ -3,6 +3,9 @@ title: "AlterIndexProperties() | Go | v2"
 slug: /go/v2-Management-AlterIndexProperties
 sidebar_label: "AlterIndexProperties()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This operation changes the values of the specified index properties. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This operation changes the values of the specified index properties.
 func (c *Client) AlterIndexProperties(ctx context.Context, opt AlterIndexPropertiesOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameter{#request-parameter}
+## Request Parameter\{#request-parameter}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) AlterIndexProperties(ctx context.Context, opt AlterIndexPropert
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>AlterIndexPropertiesOption</code></p></td>
+     <td><p><a href="./v2-Management-AlterIndexProperties#alterindexpropertiesoption"><code>AlterIndexPropertiesOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,7 +51,7 @@ func (c *Client) AlterIndexProperties(ctx context.Context, opt AlterIndexPropert
    </tr>
 </table>
 
-## AlterIndexPropertiesOption{#alterindexpropertiesoption}
+## AlterIndexPropertiesOption\{#alterindexpropertiesoption}
 
 This is an interface type.  The `alterIndexPropertiesOption` struct type implements this interface. You can use `NewAlterIndexPropertiesOption()` to get its concrete implementation.
 
@@ -74,11 +77,11 @@ func NewAlterIndexPropertiesOption(collectionName string, indexName string) *alt
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 

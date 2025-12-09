@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "alterCollectionProperties() | Java | v2"
 slug: /java/java/v2-Collections-alterCollectionProperties
 sidebar_label: "alterCollectionProperties()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation modifies the properties of a specified collection. | Java | v2"
 type: docx
 token: JQ4QdTaadoIDSPxDJRZcSDu3n5g
 sidebar_position: 3
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionProperties()
-  - javaV225
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - javaV226
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation modifies the properties of a specified collection.
 public Void alterCollectionProperties(AlterCollectionPropertiesReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 alterCollectionProperties(AlterCollectionPropertiesReq.builder()
@@ -81,7 +84,7 @@ alterCollectionProperties(AlterCollectionPropertiesReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

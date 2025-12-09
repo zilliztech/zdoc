@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "revokePrivilegeV2() | Node.js"
 slug: /node/node/Authentication-revokePrivilegeV2
 sidebar_label: "revokePrivilegeV2()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation revokes a privilege already assigned to a role. | Node.js"
 type: docx
 token: UlAUdLNkCo1Mp8xFZYWclSL9n6b
-sidebar_position: 24
+sidebar_position: 26
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - revokePrivilegeV2()
-  - nodejs25
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - nodejs26
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation revokes a privilege already assigned to a role.
 revokePrivilegeV2(data): Promise<ResStatus>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.revokePrivilege({
@@ -110,7 +113,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 await milvusClient.revokePrivilegeV2({

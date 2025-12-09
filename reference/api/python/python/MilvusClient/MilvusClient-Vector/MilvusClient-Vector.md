@@ -3,21 +3,24 @@ title: "Vector | Python | MilvusClient"
 slug: /python/MilvusClient-Vector
 beta: false
 notebook: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 description: "Methods related to CRUD operations within a collection. | Python | MilvusClient"
 type: folder
-token: BCcWfIoxvlY1oOdsLcXcqTtcnMf
+token: N5ynfBUN2l7doCdZw7ecFSl5nqb
 sidebar_position: 7
 sidebar_label: "Vector"
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - Vector
-  - pymilvus25
+  - pymilvus26
 displayed_sidebar: pythonSidebar
 ---
 

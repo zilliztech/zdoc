@@ -3,21 +3,24 @@ title: "Management | Python | MilvusClient"
 slug: /python/MilvusClient-Management
 beta: false
 notebook: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 description: "Methods for you to index, load, and release a collection. | Python | MilvusClient"
 type: folder
-token: MvvMf16FLlVOmtdgx5UcZ8qtnyd
+token: KrK5fBnFDlG6CedvqyHcfZLynre
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - Management
-  - pymilvus25
+  - pymilvus26
 displayed_sidebar: pythonSidebar
 ---
 

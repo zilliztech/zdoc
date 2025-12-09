@@ -3,6 +3,9 @@ title: "DescribeUser() | Go | v2"
 slug: /go/v2-Authentication-DescribeUser
 sidebar_label: "DescribeUser()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method returns the detailed information about the specified user. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method returns the detailed information about the specified user.
 func (c *Client) DescribeUser(ctx context.Context, opt DescribeUserOption, callOpts ...grpc.CallOption) (*entity.User, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) DescribeUser(ctx context.Context, opt DescribeUserOption, callO
    <tr>
      <td><p><code>opt</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DescribeUserOption</code></p></td>
+     <td><p><a href="./v2-Authentication-DescribeUser#describeuseroption"><code>DescribeUserOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) DescribeUser(ctx context.Context, opt DescribeUserOption, callO
    </tr>
 </table>
 
-## DescribeUserOption{#describeuseroption}
+## DescribeUserOption\{#describeuseroption}
 
 This is an interface type. The `describeUserOption` struct type implements this interface type. 
 
 You can use the `NewDescribeUserOption()` function to get the concrete implementation.
 
-### NewDescribeUserOption{#newdescribeuseroption}
+### NewDescribeUserOption\{#newdescribeuseroption}
 
 The signature of `NewDescribeUserOption()` is as follows:
 
@@ -75,11 +78,11 @@ func NewDescribeUserOption(userName string) *describeUserOption
    </tr>
 </table>
 
-## grpc.CallOption{#grpccalloption}
+## grpc.CallOption\{#grpccalloption}
 
 This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
 
-## entity.User{#entityuser}
+## entity.User\{#entityuser}
 
 The `entity.User` struct type is as follows:
 
@@ -90,11 +93,11 @@ type User struct {
 }
 ```
 
-## Return{#return}
+## Return\{#return}
 
-`*entity.User`
+`*[entity.User`](./v2-Authentication-DescribeUser#entityuser)
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

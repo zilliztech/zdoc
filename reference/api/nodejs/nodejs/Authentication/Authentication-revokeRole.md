@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "revokeRole() | Node.js"
 slug: /node/node/Authentication-revokeRole
 sidebar_label: "revokeRole()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation revokes the role assigned to a user. | Node.js"
 type: docx
 token: W7XJdZDHnoFECDxCYoMcrZqrnnd
-sidebar_position: 25
+sidebar_position: 27
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
   - revokeRole()
-  - nodejs25
+  - nodejs26
+  - Natural language search
   - Similarity Search
   - multimodal RAG
   - llm hallucinations
-  - hybrid search
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation revokes the role assigned to a user.
 revokeRole(data): Promise<ResStatus>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.revokeRole({
@@ -94,7 +97,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 milvusClient.removeUserFromRole({

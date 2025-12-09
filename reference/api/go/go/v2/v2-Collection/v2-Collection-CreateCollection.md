@@ -3,10 +3,13 @@ title: "CreateCollection() | Go | v2"
 slug: /go/v2-Collection-CreateCollection
 sidebar_label: "CreateCollection()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: v2.6.x
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method creates a collection. | Go | v2"
 type: origin
-token: TbsowUEnFiT14Hkaf0dcgQKInFg
+token: CBu8wNbDci2KCLk06wScldmhnAf
 sidebar_position: 11
 displayed_sidebar: goSidebar
 
@@ -23,7 +26,7 @@ This method creates a collection.
 func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOp
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>CreateCollectionOption</code></p></td>
+     <td><p><a href="./v2-Collection-CreateCollection#createcollectionoption"><code>CreateCollectionOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) CreateCollection(ctx context.Context, option CreateCollectionOp
    </tr>
 </table>
 
-## CreateCollectionOption{#createcollectionoption}
+## CreateCollectionOption\{#createcollectionoption}
 
 This is an interface type. The `createCollectionOption` struct type implements this interface type. 
 
 You can use the `NewCreateCollectionOption()` or `SimpleCreateCollectionOptions()` function to get the concrete implementation.
 
-### NewCreateCollectionOption{#newcreatecollectionoption}
+### NewCreateCollectionOption\{#newcreatecollectionoption}
 
 The signature of this method is as follows:
 
@@ -90,9 +93,9 @@ You can chain the following methods to append more parameters to the `createColl
 
 - [WithConsistencyLevel](./v2-Collection-CreateCollection#withconsistencylevel)
 
-- [WithIndexOptions](./v2-Collection-CreateCollection#withindexoptions)
+- [WithNumPartitions](./v2-Collection-CreateCollection#withnumpartitions)
 
-### SimpleCreateCollectionOptions{#simplecreatecollectionoptions}
+### SimpleCreateCollectionOptions\{#simplecreatecollectionoptions}
 
 This method outputs the options for creating a collection in a quick-setup manner. The signature of this method is as follows:
 
@@ -128,7 +131,13 @@ You can chain the following methods to append more parameters to the `createColl
 
 - [WithIndexOptions](./v2-Collection-CreateCollection#withindexoptions)
 
-### WithAutoID{#withautoid}
+- [WithMetricType](./v2-Collection-CreateCollection#withmetrictype)
+
+- [WithPKFieldName](./v2-Collection-CreateCollection#withpkfieldname)
+
+- [WithVectorFieldName](./v2-Collection-CreateCollection#withvectorfieldname)
+
+### WithAutoID\{#withautoid}
 
 This method appends the settings regarding the `autoID` parameter to the `createCollectionOption` struct. The signature of the method is as follows:
 
@@ -149,7 +158,7 @@ func (opt *createCollectionOption) WithAutoID(autoID bool) *createCollectionOpti
    </tr>
 </table>
 
-### WithShardNum{#withshardnum}
+### WithShardNum\{#withshardnum}
 
 This method appends the settings regarding the `shardNum` parameter to the `createCollectionOption` struct. The signature of the method is as follows:
 
@@ -170,7 +179,7 @@ func (opt *createCollectionOption) WithShardNum(shardNum int32) *createCollectio
    </tr>
 </table>
 
-### WithDynamicSchema{#withdynamicschema}
+### WithDynamicSchema\{#withdynamicschema}
 
 This method appends the settings regarding the `enableDynamicField` parameter to the `createCollectionOption` struct. The signature of the method is as follows:
 
@@ -191,7 +200,7 @@ func (opt *createCollectionOption) WithDynamicSchema(dynamicSchema bool) *create
    </tr>
 </table>
 
-### WithVarcharPK{#withvarcharpk}
+### WithVarcharPK\{#withvarcharpk}
 
 This method appends the settings regarding the `varcharPK`  and `varcharPKMaxLength`parameters to the `createCollectionOption` struct. The signature of the method is as follows:
 
@@ -217,7 +226,7 @@ func (opt *createCollectionOption) WithVarcharPK(varcharPK bool, maxLen int) *cr
    </tr>
 </table>
 
-### WithIndexOptions{#withindexoptions}
+### WithIndexOptions\{#withindexoptions}
 
 This method appends the settings regarding the `indexOptions` parameter to the `createCollectionOption` struct. The signature of the method is as follows:
 
@@ -234,11 +243,11 @@ func (opt *createCollectionOption) WithIndexOptions(indexOpts ...CreateIndexOpti
    <tr>
      <td><p><code>indexOptions</code></p></td>
      <td><p>Index options.</p><p>This parameter applies when creating a collection with a custom schema. Once set, Milvus automatically loads the collection after it is created.</p></td>
-     <td><p><code>[]CreateIndexOption</code></p></td>
+     <td><p><a href="./v2-Management-CreateIndex#createindexoption"><code>...CreateIndexOption</code></a></p></td>
    </tr>
 </table>
 
-### WithProperty{#withproperty}
+### WithProperty\{#withproperty}
 
 This method appends the settings regarding the `properties` parameter to the `createCollectionOption` struct. The signature of the method is as follows:
 
@@ -259,7 +268,7 @@ func (opt *createCollectionOption) WithProperty(key string, value any) *createCo
    </tr>
 </table>
 
-### WithConsistencyLevel{#withconsistencylevel}
+### WithConsistencyLevel\{#withconsistencylevel}
 
 This method appends the settings regarding the `consistencyLevel` parameter to the `createCollectionOption` struct. The signature of the method is as follows:
 
@@ -280,11 +289,95 @@ func (opt *createCollectionOption) WithConsistencyLevel(cl entity.ConsistencyLev
    </tr>
 </table>
 
-## entity.Schema{#entityschema}
+### WithMetricType\{#withmetrictype}
+
+This method appends the settings regarding the metric type parameter to the `createCollectionOption` struct. The signature is as follows:
+
+```go
+func (opt *createCollectionOption) WithMetricType(metricType entity.MetricType) *createCollectionOption
+```
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>metricType</code></p></td>
+     <td><p>The metric type used to measure similarities between vector embeddings.</p></td>
+     <td><p><a href="./v2-Collection-CreateCollection#entitymetrictype"><code>entity.MetricType</code></a></p></td>
+   </tr>
+</table>
+
+### WithPKFieldName\{#withpkfieldname}
+
+This method appends the settings regarding the name of the primary key field to the `createCollectionOption` struct. The signature is as follows:
+
+```go
+func (opt *createCollectionOption) WithPKFieldName(name string) *createCollectionOption
+```
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>name</code></p></td>
+     <td><p>The name of the primary key field</p></td>
+     <td><p><code>string</code></p></td>
+   </tr>
+</table>
+
+### WithVectorFieldName\{#withvectorfieldname}
+
+This method appends the settings regarding the name of a vector field to the `createCollectionOption` struct. The signature is as follows:
+
+```go
+func (opt *createCollectionOption) WithVectorFieldName(name string) *createCollectionOption
+```
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>name</code></p></td>
+     <td><p>The name of the vector field</p></td>
+     <td><p><code>string</code></p></td>
+   </tr>
+</table>
+
+### WithNumPartitions\{#withnumpartitions}
+
+This method appends the settings regarding the `numPartitions` to the `createCollectionOption` struct. The signature is as follows:
+
+```go
+func (opt *createCollectionOption) WithNumPartitions(numPartitions int64) *createCollectionOption
+```
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>numPartitions</code></p></td>
+     <td><p>The number of partitions to create in the collection.</p><p>This parameter is applicable when you enable the partition key.</p></td>
+     <td><p><code>int64</code></p></td>
+   </tr>
+</table>
+
+## entity.Schema\{#entityschema}
 
 You can use the `entity.NewSchema` method to get the concrete implementation of the `entity.Schema` struct type.
 
-### entity.NewSchema{#entitynewschema}
+### entity.NewSchema\{#entitynewschema}
 
 This method creates an empty schema. You can chain the following methods to append corresponding parameters to the created schema.
 
@@ -300,7 +393,7 @@ This method creates an empty schema. You can chain the following methods to appe
 
 - [WithName](./v2-Collection-CreateCollection#entitywithname)
 
-### entity.WithAutoID{#entitywithautoid}
+### entity.WithAutoID\{#entitywithautoid}
 
 This method appends the settings regarding the `autoID` parameter to the `entity.Schema` struct. The signature of the method is as follows:
 
@@ -321,7 +414,7 @@ func (s *entity.Schema) WithAutoID(autoID bool) *entity.Schema
    </tr>
 </table>
 
-### entity.WithDescription{#entitywithdescription}
+### entity.WithDescription\{#entitywithdescription}
 
 This method appends the schema description to the `entity.Schema` struct. The signature of the method is as follows:
 
@@ -342,7 +435,7 @@ func (s *entity.Schema) WithDescription(desc string) *entity.Schema
    </tr>
 </table>
 
-### entity.WithDynamicFieldEnabled{#entitywithdynamicfieldenabled}
+### entity.WithDynamicFieldEnabled\{#entitywithdynamicfieldenabled}
 
 The method appends the settings regarding the `EnableDynamicField` to the `entity.Schema` struct. The signature of the method is as follows:
 
@@ -363,7 +456,7 @@ func (s *entity.Schema) WithDynamicFieldEnabled(dynamicEnabled bool) *entity.Sch
    </tr>
 </table>
 
-### entity.WithField{#entitywithfield}
+### entity.WithField\{#entitywithfield}
 
 The method appends a field object to the `entity.Schema` struct. The signature of the method is as follows:
 
@@ -380,11 +473,11 @@ func (s *entity.Schema) WithField(f *entity.Field) *entity.Schema
    <tr>
      <td><p><code>f</code></p></td>
      <td><p>An <code>entity.Field</code> object.</p></td>
-     <td><p><code>*entity.Field</code></p></td>
+     <td><p><a href="./v2-Collection-CreateCollection#entityfield"><code>*entity.Field</code></a></p></td>
    </tr>
 </table>
 
-### entity.WithFunction{#entitywithfunction}
+### entity.WithFunction\{#entitywithfunction}
 
 The method appends a function object to the `entity.Schema` struct. The signature of the method is as follows:
 
@@ -401,11 +494,11 @@ func (s *entity.Schema) WithFunction(f *entity.Function) *entity.Schema
    <tr>
      <td><p><code>f</code></p></td>
      <td><p>An <code>entity.Function</code> object.</p></td>
-     <td><p><code>*entity.Function</code></p></td>
+     <td><p><a href="./v2-Collection-CreateCollection#entityfunction"><code>*entity.Function</code></a></p></td>
    </tr>
 </table>
 
-### entity.WithName{#entitywithname}
+### entity.WithName\{#entitywithname}
 
 The method appends the schema name to the `entity.Schema` struct. The signature of the method is as follows:
 
@@ -426,11 +519,11 @@ func (s *Schema) WithName(name string) *Schema
    </tr>
 </table>
 
-## entity.Field{#entityfield}
+## entity.Field\{#entityfield}
 
 You can use the `entity.NewField` method to get the concrete implementation of the `entity.Field` struct type.
 
-### entity.NewField{#entitynewfield}
+### entity.NewField\{#entitynewfield}
 
 This method creates an empty field schema. You can chain the following methods to append corresponding parameters to the created field schema.
 
@@ -458,6 +551,8 @@ This method creates an empty field schema. You can chain the following methods t
 
 - [WithEnableAnalyzer](./v2-Collection-CreateCollection#entitywithenableanalyzer)
 
+- [WithEnableMatch](./v2-Collection-CreateCollection#entitywithenablematch)
+
 - [WithIsAutoID](./v2-Collection-CreateCollection#entitywithisautoid)
 
 - [WithIsClusteringKey](./v2-Collection-CreateCollection#entitywithisclusteringkey)
@@ -472,13 +567,15 @@ This method creates an empty field schema. You can chain the following methods t
 
 - [WithMaxLength](./v2-Collection-CreateCollection#entitywithmaxlength)
 
+- [WithMultiAnalyzerParams](./v2-Collection-CreateCollection#withmultianalyzerparams)
+
 - [WithName](./v2-Collection-CreateCollection#entitywithname)
 
 - [WithNullable](./v2-Collection-CreateCollection#entitywithnullable)
 
 - [WithTypeParams](./v2-Collection-CreateCollection#entitywithtypeparams)
 
-### entity.WithAnalyzerParams{#entitywithanalyzerparams}
+### entity.WithAnalyzerParams\{#entitywithanalyzerparams}
 
 This method appends analyzer parameters in key-value pairs to the `entity.Field` struct. The signature of the method is as follows:
 
@@ -499,7 +596,7 @@ func (f *Field) WithAnalyzerParams(params map[string]any) *Field
    </tr>
 </table>
 
-### entity.WithDataType{#entitywithdatatype}
+### entity.WithDataType\{#entitywithdatatype}
 
 This method appends the data type property to the `entity.Field` struct. The signature of the method is as follows:
 
@@ -515,12 +612,12 @@ func (f *Field) WithDataType(dataType FieldType) *Field
    </tr>
    <tr>
      <td><p><code>dataType</code></p></td>
-     <td><p>Data type of the current field. Possible values are as follows:</p><ul><li><p><code>entity.FieldTypeBool</code></p></li><li><p><code>entity.FieldTypeInt8</code></p></li><li><p><code>entity.FieldTypeInt16</code></p></li><li><p><code>entity.FieldTypeInt32</code></p></li><li><p><code>entity.FieldTypeInt64</code></p></li><li><p><code>entity.FieldTypeFloat</code></p></li><li><p><code>entity.FieldTypeDouble</code></p></li><li><p><code>entity.FieldTypeVarChar</code></p></li><li><p><code>entity.FieldTypeArray</code></p></li><li><p><code>entity.FieldTypeJSON</code></p></li><li><p><code>entity.FieldTypeBinaryVector</code></p></li><li><p><code>entity.FieldTypeFloatVector</code></p></li><li><p><code>entity.FieldTypeFloat16Vector</code></p></li><li><p><code>entity.FieldTypeBFloat16Vector</code></p></li><li><p><code>entity.FieldTypeSparseVector</code></p></li><li><p><code>entity.FieldTypeInt8Vector</code></p></li></ul></td>
+     <td><p>Data type of the current field. Possible values are as follows:</p><ul><li><p><code>entity.FieldTypeBool</code></p></li><li><p><code>entity.FieldTypeInt8</code></p></li><li><p><code>entity.FieldTypeInt16</code></p></li><li><p><code>entity.FieldTypeInt32</code></p></li><li><p><code>entity.FieldTypeInt64</code></p></li><li><p><code>entity.FieldTypeFloat</code></p></li><li><p><code>entity.FieldTypeDouble</code></p></li><li><p><code>entity.FieldTypeVarChar</code></p></li><li><p><code>entity.FieldTypeArray</code></p></li><li><p><code>entity.FieldTypeJSON</code></p></li><li><p><code>entity.FieldTypeGeometry</code></p></li><li><p><code>entity.FieldTypeBinaryVector</code></p></li><li><p><code>entity.FieldTypeFloatVector</code></p></li><li><p><code>entity.FieldTypeFloat16Vector</code></p></li><li><p><code>entity.FieldTypeBFloat16Vector</code></p></li><li><p><code>entity.FieldTypeSparseVector</code></p></li><li><p><code>entity.FieldTypeInt8Vector</code></p></li></ul></td>
      <td><p><code>entity.FieldType</code></p></td>
    </tr>
 </table>
 
-### entity.WithDefaultValueBool{#entitywithdefaultvaluebool}
+### entity.WithDefaultValueBool\{#entitywithdefaultvaluebool}
 
 This method sets the default value for the field of the `entity.FieldTypeBool` type. The signature of the method is as follows:
 
@@ -541,7 +638,7 @@ func (f *Field) WithDefaultValueBool(defaultValue bool) *Field
    </tr>
 </table>
 
-### entity.WithDefaultValueDouble{#entitywithdefaultvaluedouble}
+### entity.WithDefaultValueDouble\{#entitywithdefaultvaluedouble}
 
 This method sets the default value for the field of the `entity.FieldTypeDouble` type. The signature of the method is as follows:
 
@@ -562,7 +659,7 @@ func (f *Field) WithDefaultValueDouble(defaultValue float64) *Field
    </tr>
 </table>
 
-### entity.WithDefaultValueFloat{#entitywithdefaultvaluefloat}
+### entity.WithDefaultValueFloat\{#entitywithdefaultvaluefloat}
 
 This method sets the default value for the field of the `entity.FieldTypeFloat` type. The signature of the method is as follows:
 
@@ -583,7 +680,7 @@ func (f *Field) WithDefaultValueFloat(defaultValue float32) *Field
    </tr>
 </table>
 
-### entity.WithDefaultValueInt{#entitywithdefaultvalueint}
+### entity.WithDefaultValueInt\{#entitywithdefaultvalueint}
 
 This method sets the default value for the field of the `entity.FieldTypeLong` type. The signature of the method is as follows:
 
@@ -604,7 +701,7 @@ func (f *Field) WithDefaultValueInt(defaultValue int64) *Field
    </tr>
 </table>
 
-### entity.WithDefaultValueLong{#entitywithdefaultvaluelong}
+### entity.WithDefaultValueLong\{#entitywithdefaultvaluelong}
 
 This method sets the default value for the field of the `entity.FieldTypeInt` type. The signature of the method is as follows:
 
@@ -625,7 +722,7 @@ func (f *Field) WithDefaultValueLong(defaultValue int64) *Field
    </tr>
 </table>
 
-### entity.WithDefaultValueString{#entitywithdefaultvaluestring}
+### entity.WithDefaultValueString\{#entitywithdefaultvaluestring}
 
 This method sets the default value for the field of the `entity.FieldTypeVarChar` type. The signature of the method is as follows:
 
@@ -646,7 +743,7 @@ func (f *Field) WithDefaultValueString(defaultValue string) *Field
    </tr>
 </table>
 
-### entity.WithDescription{#entitywithdescription}
+### entity.WithDescription\{#entitywithdescription}
 
 This method sets the field description. The signature of the method is as follows:
 
@@ -667,7 +764,7 @@ func (f *Field) WithDescription(desc string) *Field
    </tr>
 </table>
 
-### entity.Dim{#entitydim}
+### entity.Dim\{#entitydim}
 
 This method sets the dimensionality for a vector field. The signature of the method is as follows:
 
@@ -688,7 +785,7 @@ func (f *Field) WithDim(dim int64) *Field
    </tr>
 </table>
 
-### entity.WithElementType{#entitywithelementtype}
+### entity.WithElementType\{#entitywithelementtype}
 
 This methods set the data type for the elements in an array field. The signature of the method is as follows:
 
@@ -709,7 +806,7 @@ func (f *Field) WithElementType(eleType FieldType) *Field
    </tr>
 </table>
 
-### entity.WithEnableAnalyzer{#entitywithenableanalyzer}
+### entity.WithEnableAnalyzer\{#entitywithenableanalyzer}
 
 This method determines whether to enable the analyzer for the current field. The signature of the method is as follows:
 
@@ -730,7 +827,28 @@ func (f *Field) WithEnableAnalyzer(enable bool) *Field
    </tr>
 </table>
 
-### entity.WithIsAutoID{#entitywithisautoid}
+### entity.WithEnableMatch\{#entitywithenablematch}
+
+This method determines whether to enable text match for the current field. The signature of the method is as follows:
+
+```go
+func (f *Field) WithEnableMatch(enable bool) *Field
+```
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>enable</code></p></td>
+     <td><p>Whether to enable the text match for the current field.</p><p>For details, refer to <a href="/docs/text-match">Text Match</a>.</p></td>
+     <td><p><code>bool</code></p></td>
+   </tr>
+</table>
+
+### entity.WithIsAutoID\{#entitywithisautoid}
 
 This method determines whether the primary key automatically increments. The signature of the method is as follows：
 
@@ -751,7 +869,7 @@ func (f *Field) WithIsAutoID(isAutoID bool) *Field
    </tr>
 </table>
 
-### entity.WithIsClusteringKey{#entitywithisclusteringkey}
+### entity.WithIsClusteringKey\{#entitywithisclusteringkey}
 
 This method determines whether the current field serves as the clustering key, which guides Milvus to implement clustering compaction. For details, refer to [Clustering Compaction](https://milvus.io/docs/clustering-compaction.md). The signature of the method is as follows:
 
@@ -772,7 +890,7 @@ func (f *Field) WithIsClusteringKey(isClusteringKey bool) *Field
    </tr>
 </table>
 
-### entity.WithIsDynamic{#entitywithisdynamic}
+### entity.WithIsDynamic\{#entitywithisdynamic}
 
 This method determines whether the current field serves as the dynamic field. 
 
@@ -797,7 +915,7 @@ func (f *Field) WithIsDynamic(isDynamic bool) *Field
    </tr>
 </table>
 
-### entity.WithIsPartitionKey{#entitywithispartitionkey}
+### entity.WithIsPartitionKey\{#entitywithispartitionkey}
 
 This method determines whether the current field serves as the partition key.
 
@@ -822,7 +940,7 @@ func (f *Field) WithIsPartitionKey(isPartitionKey bool) *Field
    </tr>
 </table>
 
-### entity.WithIsPrimaryKey{#entitywithisprimarykey}
+### entity.WithIsPrimaryKey\{#entitywithisprimarykey}
 
 This method determines whether the current field serves as the primary key. The signature of this method is as follows:
 
@@ -843,7 +961,7 @@ func (f *Field) WithIsPrimaryKey(isPrimaryKey bool) *Field
    </tr>
 </table>
 
-### entity.WithMaxCapacity{#entitywithmaxcapacity}
+### entity.WithMaxCapacity\{#entitywithmaxcapacity}
 
 This method sets the maximum number of elements in an array field. The signature of this method is as follows:
 
@@ -864,7 +982,7 @@ func (f *Field) WithMaxCapacity(maxCap int64) *Field
    </tr>
 </table>
 
-### entity.WithMaxLength{#entitywithmaxlength}
+### entity.WithMaxLength\{#entitywithmaxlength}
 
 This method sets the maximum length of a VarChar field. The signature of this method is as follows:
 
@@ -885,7 +1003,30 @@ func (f *Field) WithMaxLength(maxLen int64) *Field
    </tr>
 </table>
 
-### entity.WithName{#entitywithname}
+### WithMultiAnalyzerParams\{#withmultianalyzerparams}
+
+This method sets the parameters for a multi-language analyzer. The signature is as follows:
+
+```go
+func (f *Field) WithMultiAnalyzerParams(params map[string]any) *Field
+```
+
+For details, you can read [Multi-language Analyzer](/docs/multi-language-analyzers).
+
+<table>
+   <tr>
+     <th><p>Parameter</p></th>
+     <th><p>Description</p></th>
+     <th><p>Type</p></th>
+   </tr>
+   <tr>
+     <td><p><code>params</code></p></td>
+     <td><p>The configuration of a multi-language analyzer that automatically matches the language of your text.</p></td>
+     <td><p><code>map[string]any</code></p></td>
+   </tr>
+</table>
+
+### entity.WithName\{#entitywithname}
 
 This method sets the name of the current field. The signature of this method is as follows:
 
@@ -906,7 +1047,7 @@ func (f *Field) WithName(name string) *Field
    </tr>
 </table>
 
-### entity.WithNullable{#entitywithnullable}
+### entity.WithNullable\{#entitywithnullable}
 
 This method determines whether the current field allows null values. The signature of this method is as follows:
 
@@ -927,7 +1068,7 @@ func (f *Field) WithNullable(nullable bool) *Field
    </tr>
 </table>
 
-### entity.WithTypeParams{#entitywithtypeparams}
+### entity.WithTypeParams\{#entitywithtypeparams}
 
 This method sets additional parameters for specific data types in a key-value pair. The signature of this method is as follows:
 
@@ -953,7 +1094,7 @@ func (f *Field) WithTypeParams(key string, value string) *Field
    </tr>
 </table>
 
-## entity.Function{#entityfunction}
+## entity.Function\{#entityfunction}
 
 You can use the `entity.NewFunction` method to get the concrete implementation of the `entity.Funtion` struct type.
 
@@ -1077,7 +1218,7 @@ func (f *Function) WithType(funcType FunctionType) *Function
    <tr>
      <td><p><code>funcType</code></p></td>
      <td><p>Type of the current function.</p></td>
-     <td><p><code>FunctionType</code></p></td>
+     <td><p><a href="./v2-Collection-CreateCollection#entityfunctiontype"><code>FunctionType</code></a></p></td>
    </tr>
 </table>
 
@@ -1110,6 +1251,7 @@ const (
         SUBSTRUCTURE   MetricType = "SUBSTRUCTURE"
         SUPERSTRUCTURE MetricType = "SUPERSTRUCTURE"
         BM25           MetricType = "BM25"
+        MHJACCARD      MetricType = "MHJACCARD"
 )
 ```
 

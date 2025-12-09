@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "GeminiEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-GeminiEmbeddingFunction
 sidebar_label: "GeminiEmbeddingFunction"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "Model2VecEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using the GeminiEmbeddingFunction module to support embedding retrieval in Milvus. | Python"
 type: docx
 token: DhZRdYbfMoYIBtxrudGcwWjrngd
 sidebar_position: 3
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - GeminiEmbeddingFunction
-  - pymilvus25
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - pymilvus26
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ import Admonition from '@theme/Admonition';
 pymilvus.model.dense.GeminiEmbeddingFunction
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs an GeminiEmbeddingFunction for common use cases.
 
@@ -115,7 +118,7 @@ The API key for accessing the Gemini API.
            </tr>
         </table>
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import model

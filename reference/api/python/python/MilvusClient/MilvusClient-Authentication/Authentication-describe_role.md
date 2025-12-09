@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "describe_role() | Python | MilvusClient"
 slug: /python/python/Authentication-describe_role
 sidebar_label: "describe_role()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation describes a specific role. | Python | MilvusClient"
 type: docx
 token: JJz3dFrE2oJP3AxySWYcJlf4nMh
 sidebar_position: 5
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - describe_role()
-  - pymilvus25
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - pymilvus26
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation describes a specific role.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 describe_role(
@@ -114,7 +117,7 @@ A list of dictionaries containing the permissions assigned to the role. The stru
 
     This exception will be raised when this operation fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```python
 from pymilvus import MilvusClient
@@ -215,7 +218,7 @@ client.describe_role(role_name="db_ro")
 
 </Admonition>
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [grant_role()](./Authentication-grant_role)
 

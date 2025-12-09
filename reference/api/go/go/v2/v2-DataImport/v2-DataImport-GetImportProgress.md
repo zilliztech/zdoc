@@ -3,6 +3,9 @@ title: "GetImportProgress() | Go | v2"
 slug: /go/v2-DataImport-GetImportProgress
 sidebar_label: "GetImportProgress()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This operation gets the progress of the specified bulk-import job. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This operation gets the progress of the specified bulk-import job.
 func GetImportProgress(ctx context.Context, option *GetImportProgressOption) (*GetImportProgressResponse, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func GetImportProgress(ctx context.Context, option *GetImportProgressOption) (*G
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>GetImportProgressOption</code></p></td>
+     <td><p><a href="./v2-DataImport-GetImportProgress#getimportprogressoption"><code>GetImportProgressOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,11 +51,11 @@ func GetImportProgress(ctx context.Context, option *GetImportProgressOption) (*G
    </tr>
 </table>
 
-## GetImportProgressOption{#getimportprogressoption}
+## GetImportProgressOption\{#getimportprogressoption}
 
 This is a struct type. You can use `NewCloudGetImportProgressOption()` to get its concrete implementation.
 
-## NewCloudGetImportProgressOption{#newcloudgetimportprogressoption}
+## NewCloudGetImportProgressOption\{#newcloudgetimportprogressoption}
 
 The signature of `NewCloudGetImportProgressOption()` is as follows:
 
@@ -68,7 +71,7 @@ func NewCloudGetImportProgressOption(uri string, jobID string, apiKey string, cl
    </tr>
    <tr>
      <td><p><code>uri</code></p></td>
-     <td><p>The endpoint URL of the Zilliz Cloud Data Plane, which should be one of the follows:</p><ul><li><p><code>https://api.cloud.zilliz.com</code></p></li><li><p><code>https://api.cloud.zilliz.com.cn</code></p></li></ul></td>
+     <td><p>The endpoint URL of the Zilliz Cloud Data Plane, which should be one of the follows:</p><ul><li><p><code><i>http</i>s://api.cloud.zilliz.com</code></p></li><li><p><code>https://api.cloud.zilliz.com.cn</code></p></li></ul></td>
      <td><p><code>string</code></p></td>
    </tr>
    <tr>
@@ -92,7 +95,7 @@ You can chain the following methods to append more parameters to the `BulkImport
 
 - [WithAPIKey](./v2-DataImport-GetImportProgress#withapikey)
 
-### WithAPIKey{#withapikey}
+### WithAPIKey\{#withapikey}
 
 This method appends your Zilliz Cloud API key to the `BulkImportOption` struct. The signature of the method is as follows:
 
@@ -113,11 +116,11 @@ func (opt *BulkImportOption) WithAPIKey(key string) *BulkImportOption
    </tr>
 </table>
 
-## grpc.CallOption{#grpccalloption}
+## grpc.CallOption\{#grpccalloption}
 
 This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
 
-## GetImportProgressResponse{#getimportprogressresponse}
+## GetImportProgressResponse\{#getimportprogressresponse}
 
 The `GetImportProgressResponse` struct type is as follows:
 
@@ -133,7 +136,7 @@ The struct type that appears in the `GetImportProgressResponse` struct type is a
 
 - [ImportProgressData](./v2-DataImport-GetImportProgress#importprogressdata)
 
-## ImportProgressData{#importprogressdata}
+## ImportProgressData\{#importprogressdata}
 
 The `ImportProgressData` struct type is as follows:
 
@@ -156,7 +159,7 @@ The struct type that appears in the `ImportProgressData` struct type is as follo
 
 - [ImportProgressDetail](./v2-DataImport-GetImportProgress#importprogressdetail)
 
-## ImportProgressDetail{#importprogressdetail}
+## ImportProgressDetail\{#importprogressdetail}
 
 The `ImportProgressDetail` struct type is as follows:
 
@@ -172,11 +175,11 @@ type ImportProgressDetail struct {
 }
 ```
 
-## Return{#return}
+## Return\{#return}
 
-`*GetImportProgressResponse`
+`*[GetImportProgressResponse`](./v2-DataImport-GetImportProgress#getimportprogressresponse)
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 

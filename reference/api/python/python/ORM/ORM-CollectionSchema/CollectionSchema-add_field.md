@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "add_field() | Python | ORM"
 slug: /python/python/CollectionSchema-add_field
 sidebar_label: "add_field()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation adds a field to the schema of a collection. | Python | ORM"
 type: docx
 token: H9IFdpWWUouzXOxKlx9cImP8nnd
 sidebar_position: 1
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
   - Faiss vector database
   - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
   - add_field()
-  - pymilvus25
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - pymilvus26
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation adds a field to the schema of a collection.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 add_field(
@@ -157,7 +160,7 @@ A **CollectionSchema** object contains the fields that have been added to the sc
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import DataType, FieldSchema, CollectionSchema
@@ -211,18 +214,3 @@ schema.add_field(
 #     ]
 # }
 ```
-
-## Related operations{#related-operations}
-
-The following operations are related to `add_field()`:
-
-- [FieldSchema](./ORM-FieldSchema)
-
-- [DataType](./Collections-DataType)
-
-- [construct_from_dict()](./CollectionSchema-construct_from_dict)
-
-- [to_dict()](./CollectionSchema-to_dict)
-
-- [verify()](./CollectionSchema-verify)
-

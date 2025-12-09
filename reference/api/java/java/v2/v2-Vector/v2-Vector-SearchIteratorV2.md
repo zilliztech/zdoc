@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "SearchIteratorV2() | Java | v2"
 slug: /java/java/v2-Vector-SearchIteratorV2
 sidebar_label: "SearchIteratorV2()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation creates an iterator for you to iterate over the search results. It is useful, especially when the search result contains a large volume of data. | Java | v2"
 type: docx
 token: JxXHdFBRhoDT8MxlTvEc42IsnEh
 sidebar_position: 11
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - SearchIteratorV2()
-  - javaV225
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - javaV226
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation creates an iterator for you to iterate over the search results. I
 public SearchIteratorV2 searchIteratorV2(SearchIteratorReqV2 request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 searchIteratorV2(SearchIteratorReqV2.builder()
@@ -147,7 +150,7 @@ How many digits are reserved after the decimal point.
 
 A JSON format string for extra serach parameters.
 
-- `consistencyLevel(ConsistencyLevel consistencyLevel)`
+- `consistencyLevel([ConsistencyLevel](./v2-Collections-ConsistencyLevel) consistencyLevel)`
 
     The consistency level of the target collection.
 
@@ -199,7 +202,7 @@ A *SearchIteratorV2* object to iterate search results, which offers the followin
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.orm.iterator.SearchIteratorV2;

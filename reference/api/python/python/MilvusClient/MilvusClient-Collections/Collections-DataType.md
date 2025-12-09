@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "DataType | Python | MilvusClient"
 slug: /python/python/Collections-DataType
 sidebar_label: "DataType"
 beta: false
+added_since: Inherit
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This is an enumeration that provides the following constants. | Python | MilvusClient"
 type: docx
-token: JiN3dU8zwoPdgBxxpw6c0JkUnze
+token: KvNsd3aV4ocRNJxrZN2cg1zenqb
 sidebar_position: 7
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
-  - pymilvus25
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - pymilvus26
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,59 +37,76 @@ import Admonition from '@theme/Admonition';
 
 This is an enumeration that provides the following constants.
 
-## Constants{#constants}
+## Constants\{#constants}
 
-- NONE = 0
-Sets the data type to **NoneType**.
+- BOOL
 
-- BOOL = 1
-Sets the data type to **Boolean**.
+    Sets the data type to **Boolean**.
 
-- INT8 = 2
-Sets the data type to **Int8**.
+- INT8
 
-- INT16 = 3
-Sets the data type to **Int16**.
+    Sets the data type to **Int8**.
 
-- INT32 = 4
-Sets the data type to **Int32**.
+- INT16
 
-- INT64 = 5
-Sets the data type to **Int64**.
+    Sets the data type to **Int16**.
 
-- FLOAT = 10
-Sets the data type to **Float**.
+- INT32
 
-- DOUBLE = 11
-Sets the data type to **Double**.
+    Sets the data type to **Int32**.
 
-- VARCHAR = 21
-Sets the data type to **Varchar**.
+- INT64
 
-- ARRAY = 22
-Sets the data type to **Array**.
+    Sets the data type to **Int64**.
 
-- JSON = 23
-Sets the data type to **JSON**.
+- FLOAT
 
-- FLOAT_VECTOR = 101
-Sets the data type to **Float Vector**.
+    Sets the data type to **Float**.
 
-- BINARY_VECTOR = 100
-Sets the data type to **Binary Vector**.
+- DOUBLE
 
-- FLOAT16_VECTOR = 102
+    Sets the data type to **Double**.
+
+- VARCHAR
+
+    Sets the data type to **Varchar**.
+
+- ARRAY
+
+    Sets the data type to **Array**.
+
+- JSON
+
+    Sets the data type to **JSON**.
+
+- GEOMETRY
+
+    Sets the datatype to **Geometry**.
+
+- STRUCT
+
+    Sets the data type of the elements in an Array field to **Struct**.
+
+- FLOAT_VECTOR
+
+    Sets the data type to **Float Vector**.
+
+- BINARY_VECTOR
+
+    Sets the data type to **Binary Vector**.
+
+- FLOAT16_VECTOR
 
     Sets the data type to **Float16 Vector**.
 
-- BFLOAT16_VECTOR = 103
+- BFLOAT16_VECTOR
 
     Sets the data type to **BFloat16 Vector**.
 
-- SPARSE_FLOAT_VECTOR = 104
+- INT8_VECTOR
+
+    Sets the data type to **Int8 Vector**. This data type is designed for quantized deep learning models (e.g., ResNet, EfficientNet), which reduces model size and speeds up inference with minimal precision loss.
+
+- SPARSE_FLOAT_VECTOR
 
     Sets the data type to **Sparse Vector**.
-
-- UNKNOWN = 999
-Sets the data type to **Unknown**.
-

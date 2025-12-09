@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "alter_collection_properties() | Python | MilvusClient"
 slug: /python/python/Collections-alter_collection_properties
 sidebar_label: "alter_collection_properties()"
 beta: false
+added_since: v2.4.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation alters the specified collection properties. | Python | MilvusClient"
 type: docx
-token: Pdljdj7ysoYg2Jxu7JrcQOB8n5e
+token: Pl7Fd8C3zocPaZx3VrAcl54Dnkd
 sidebar_position: 3
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - alter_collection_properties()
-  - pymilvus25
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - pymilvus26
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation alters the specified collection properties.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 alter_collection_properties(
@@ -68,6 +71,10 @@ alter_collection_properties(
 
         Whether to enable partition key isolation. For details, refer to [Use Partition Key](/docs/use-partition-key).
 
+    - **dynamicfield.enabled** (bool) -
+
+        Whether to enable the dynamic field. For details, refer to [Dynamic Field](/docs/enable-dynamic-field).
+
 - **timeout** (*Optional[float]*) - 
 
     The timeout duration for this operation.
@@ -88,7 +95,7 @@ alter_collection_properties(
 
     This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
 
-## Example{#example}
+## Example\{#example}
 
 ```python
 from pymilvus import MilvusClient

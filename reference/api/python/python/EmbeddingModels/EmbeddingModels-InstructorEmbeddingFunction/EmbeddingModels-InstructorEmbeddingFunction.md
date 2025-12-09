@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "InstructorEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-InstructorEmbeddingFunction
 sidebar_label: "InstructorEmbeddingFunction"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "InstructorEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using the Instructor embedding model to support embedding retrieval in Milvus. | Python"
 type: docx
 token: YmnmdEeHFoctZexccqNcr8xXn8c
 sidebar_position: 3
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
   - InstructorEmbeddingFunction
-  - pymilvus25
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - pymilvus26
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ InstructorEmbeddingFunction is a class in pymilvus that handles encoding text in
 pymilvus.model.dense.InstructorEmbeddingFunction
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs a MistralAIEmbeddingFunction for common use cases.
 
@@ -84,7 +87,7 @@ InstructorEmbeddingFunction(
 
     Allows additional keyword arguments to be passed to the model initialization. For more information, refer to [instructor-embedding](https://github.com/xlang-ai/instructor-embedding?tab=readme-ov-file#the-encode-function).
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus.model.dense import InstructorEmbeddingFunction

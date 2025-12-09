@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "loadPartitions() | Java | v2"
 slug: /java/java/v2-Partitions-loadPartitions
 sidebar_label: "loadPartitions()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation releases the partitions in a specified collection from memory. | Java | v2"
 type: docx
-token: Jei2dpJMuoyOF5xTIuccfzcinOh
+token: IBTSd8lrvoAYLzxl6Z8cEVoXnMd
 sidebar_position: 6
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitions()
-  - javaV225
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - javaV226
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,17 +41,27 @@ This operation releases the partitions in a specified collection from memory.
 public void loadPartitions(LoadPartitionsReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 loadPartitions(LoadPartitionsReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .partitionNames(List<String> partitionNames)
+    .numReplicas(Interger numReplicas)
+    .sync(Boolean sync)
+    .timeout(Long timeout)
+    .refresh(Boolean refresh)
+    .loadFields(List<String> loadFields)
     .build()
 )
 ```
 
 **BUILDER METHODS:**
+
+- `databaseName(String databaseName)`
+
+    The name of the database to which the target collection belongs.
 
 - `collectionName(String collectionName)`
 
@@ -57,6 +70,28 @@ loadPartitions(LoadPartitionsReq.builder()
 - `partitionNames(List<String> partitionNames)`
 
     A list of the names of the partitions to load.
+
+- `numReplicas(Interger numReplicas)`
+
+    The number of replicas to create during the load process.
+
+- `sync(Boolean sync)`
+
+    Whether the current operation is synchronous.
+
+    The value defaults to `Boolean.True`, indicating that the operation returns only after the specified partitions are fully loaded.
+
+- `timeout(Long timeout)`
+
+    The timeout duration for this operation. The value defaults to `60000L`, indicating the operation times out after 1000 hours.
+
+- `refresh(Boolean refresh)`
+
+    Whether to refresh the data after load.
+
+- `loadFields(List<String> loadFields)`
+
+    A name list of the fields to load during the process.
 
 **RETURNS:**
 
@@ -68,7 +103,7 @@ loadPartitions(LoadPartitionsReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

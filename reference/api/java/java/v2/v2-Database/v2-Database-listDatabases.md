@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "listDatabases() | Java | v2"
 slug: /java/java/v2-Database-listDatabases
 sidebar_label: "listDatabases()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists all the database names. | Java | v2"
 type: docx
 token: IHoodknUJohFAbxMFg3c0q8un6f
 sidebar_position: 6
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
-  - javaV225
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - javaV226
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -52,7 +55,7 @@ A ListDatabasesResp object contains a list of all database names.
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

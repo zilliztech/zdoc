@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "createDatabase() | Java | v2"
 slug: /java/java/v2-Database-createDatabase
 sidebar_label: "createDatabase()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation creates a database with a name. | Java | v2"
 type: docx
 token: IqQudFVIKot4mVxWD4xclJymn8g
 sidebar_position: 2
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - createDatabase()
-  - javaV225
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - javaV226
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation creates a database with a name.
 public void createDatabase(CreateDatabaseReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 createDatabase(CreateDatabaseReq.builder()
@@ -68,7 +71,7 @@ The properties of the database, such as replica number, resource groups.
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.param.Constant;

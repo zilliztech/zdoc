@@ -3,21 +3,24 @@ title: "Partitions | Java | v2"
 slug: /java/v2-Partitions
 beta: false
 notebook: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 description: "Methods related to the manipulation of the partitions in a collection. | Java | v2"
 type: folder
-token: YkL6fqkaNlgeWXdNaWLcltkZnRc
-sidebar_position: 9
+token: JukBfPwp8luly7dRHdWc1MEBnge
+sidebar_position: 6
 sidebar_label: "Partitions"
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - Partitions
-  - javaV225
+  - javaV226
 displayed_sidebar: javaSidebar
 ---
 

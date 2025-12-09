@@ -3,6 +3,9 @@ title: "GrantPrivilegeV2() | Go | v2"
 slug: /go/v2-Authentication-GrantPrivilegeV2
 sidebar_label: "GrantPrivilegeV2()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method grants a privilege or a privilege group to a role. In Milvus, you can allocate multiple privileges or privilege groups to a role and grant the role to a user so that the user gains the privileges allocated to the role. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method grants a privilege or a privilege group to a role. In Milvus, you ca
 func (c *Client) GrantPrivilegeV2(ctx context.Context, option GrantPrivilegeV2Option, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) GrantPrivilegeV2(ctx context.Context, option GrantPrivilegeV2Op
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>GrantPrivilegeV2Option</code></p></td>
+     <td><p><a href="./v2-Authentication-GrantPrivilegeV2#grantprivilegev2option"><code>GrantPrivilegeV2Option</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) GrantPrivilegeV2(ctx context.Context, option GrantPrivilegeV2Op
    </tr>
 </table>
 
-## GrantPrivilegeV2Option{#grantprivilegev2option}
+## GrantPrivilegeV2Option\{#grantprivilegev2option}
 
 This is an interface type. The `grantPrivilegeV2Option` struct type implements this interface type. 
 
 You can use the `NewGrantPrivilegeV2Option()` function to get the concrete implementation.
 
-### NewGrantPrivilegeV2Option{#newgrantprivilegev2option}
+### NewGrantPrivilegeV2Option\{#newgrantprivilegev2option}
 
 The signature of the `NewGrantPrivilegeV2Option()` is as follows:
 
@@ -85,15 +88,15 @@ func NewGrantPrivilegeV2Option(roleName, privilegeName, collectionName string) *
    </tr>
 </table>
 
-## grpc.CallOption{#grpccalloption}
+## grpc.CallOption\{#grpccalloption}
 
 This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 ctx, cancel := context.WithCancel(context.Background())

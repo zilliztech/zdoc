@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "queryIterator() | Java | v2"
 slug: /java/java/v2-Vector-queryIterator
 sidebar_label: "queryIterator()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This method returns a query iterator to iterate data. | Java | v2"
 type: docx
 token: ByLVdf2nRocLcxxwH3Gc9CyFnbb
 sidebar_position: 6
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - queryIterator()
-  - javaV225
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - javaV226
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This method returns a query iterator to iterate data.
 public QueryIterator queryIterator(QueryIteratorReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 queryIterator(QueryIteratorReq.builder()
@@ -74,7 +77,7 @@ queryIterator(QueryIteratorReq.builder()
 
 A value to define the number of entities returned per batch.
 
-- `consistencyLevel(ConsistencyLevel consistencyLevel)`
+- `consistencyLevel([ConsistencyLevel](./v2-Collections-ConsistencyLevel) consistencyLevel)`
 
     The consistency level of the target collection.
 
@@ -128,7 +131,7 @@ Release the cache results.
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.orm.iterator.QueryIterator;

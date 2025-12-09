@@ -3,6 +3,9 @@ title: "Close() | Go | v2"
 slug: /go/v2-Client-Close
 sidebar_label: "Close()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method closes the currently connected Milvus deployment. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method closes the currently connected Milvus deployment.
 func (c *Client) Close(ctx context.Context) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -38,11 +41,11 @@ func (c *Client) Close(ctx context.Context) error
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "Function | Python | MilvusClient"
 slug: /python/python/MilvusClient-Function
 sidebar_label: "Function"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
-description: "A `Function` instance for generating vector embeddings from user-provided raw data in Milvus. | Python | MilvusClient"
+description: "A `Function` instance for generating vector embeddings from user-provided raw data or applying a reranking strategy to the search results in Milvus. | Python | MilvusClient"
 type: docx
-token: Xcl2dbLC6osEskxx87Wc1Q3rn4f
+token: RrW9dOM8do7d3ixXIP9clJJUnVg
 sidebar_position: 3
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - Function
-  - pymilvus25
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - pymilvus26
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -32,15 +35,15 @@ import Admonition from '@theme/Admonition';
 
 # Function
 
-A `Function` instance for generating vector embeddings from user-provided raw data in Milvus.
+A `Function` instance for generating vector embeddings from user-provided raw data or applying a reranking strategy to the search results in Milvus.
 
 ```python
 class pymilvus.Function
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
-This constructor initializes a new `Function` instance designed to transform user's raw data into vector embeddings. This is achieved through an automated process that simplifies similarity search operations.
+This constructor initializes a new `Function` instance designed to transform user's raw data into vector embeddings or applying a reranking strategy to the search results. This is achieved through an automated process that simplifies similarity search operations.
 
 ```python
 Function(
@@ -64,21 +67,238 @@ Function(
 
     **[REQUIRED]**
 
-    The type of function for processing raw data. Possible values:
+    The type of embedding function to use. Possible values:
 
-    - `FunctionType.BM25`: Uses the BM25 algorithm for generating sparse embeddings from a `VARCHAR` field.
+    - `FunctionType.BM25`: Generates sparse vectors based on the BM25 ranking algorithm from a `VARCHAR` field.
+
+    - `FunctionType.TEXTEMBEDDING`: Generates dense vectors that capture semantic meaning from a `VARCHAR` field.
+
+    - `FunctionType.RERANK`: Applies reranking strategies to the search results.
 
 - `input_field_names` (*Union[str, List[str]]*) -
 
     **[REQUIRED]**
 
-    The name of the field containing the raw data that requires conversion to vector representation. For functions using `FunctionType.BM25`, this parameter accepts only one field name.
+    The name of the field containing the raw data that requires conversion to a vector representation. This parameter accepts only one field name.
 
 - `output_field_names` (*Union[str, List[str]]*) -
 
-    **[REQUIRED]**
+    The name of the field where the generated embeddings will be stored. This should correspond to a vector field defined in the collection schema. This parameter accepts only one field name.
 
-    The name of the field where the generated embeddings will be stored. This should correspond to a vector field defined in the collection schema. For functions using `FunctionType.BM25`, this parameter accepts only one field name.
+    <Admonition type="info" icon="📘" title="Notes">
+
+    <p>This applies only when you set <code>function_type</code> to <code>FunctionType.BM25</code> and <code>FunctionType.TEXTEMBEDDING</code>.</p>
+
+    </Admonition>
+
+- `params` (*dict*) -
+
+    A configuration dictionary for the embedding/ranking function. Supported keys vary by `function_type`:
+
+    - `FunctionType.BM25`: No parameters required. Pass an empty dictionary or omit entirely.
+
+    - `FunctionType.TEXTEMBEDDING`:
+
+        - `provider` (*str*) -
+
+            The embedding model provider. Possible values are as follows:
+
+            - `openai` ([OpenAI](https://milvus.io/docs/openai.md))
+
+            - `azure_openai` ([Microsoft Azure OpenAI](https://milvus.io/docs/azure-openai.md))
+
+            - `dashscope` ([DashScope](https://milvus.io/docs/dashscope.md))
+
+            - `bedrock` ([Amazon Bedrock](https://milvus.io/docs/bedrock.md))
+
+            - `vertexai` ([Google Cloud Vertext AI](https://milvus.io/docs/vertex-ai.md))
+
+            - `voyageai` ([Voyage AI](https://milvus.io/docs/voyage-ai.md))
+
+            - `cohere` ([Cohere](https://milvus.io/docs/cohere.md))
+
+            - `siliconflow` ([SiliconFlow](https://milvus.io/docs/siliconflow.md))
+
+            - `TEI` ([Hugging Face Text Embedding Inference](https://milvus.io/docs/hugging-face-tei.md))
+
+        - `model_name` (*str*) -
+
+            The name of the embedding model to use. The value varies with the provider. For details, refer to their respective document page.
+
+        - `credential` (*str*) -
+
+            The label of a credential defined in the top-level `credential:` section of `milvus.yaml`. 
+
+            - When provided, Milvus retrieves the matching key pair or API token and signs the request on the server side.
+
+            - When omitted (`None`), Milvus falls back to the credential explicitly configured for the target model provider in `milvus.yaml`.
+
+            - If the label is unknown or the referenced key is missing, the call fails.
+
+        - `dim` (*str*) -
+
+            The number of dimensions for the output embeddings. For OpenAI's third-generation models, you can shorten the full vector to reduce cost and latency without a significant loss of semantic information. For more information, refer to [OpenAI announcement blog post](https://openai.com/blog/new-embedding-models-and-api-updates).
+
+            <Admonition type="info" icon="📘" title="Notes">
+
+            <p>If you shorten the vector dimension, ensure the <code>dim</code> value specified in the schema's <code>add_field</code> method for the vector field matches the final output dimension of your embedding function.</p>
+
+            </Admonition>
+
+    - `FunctionType.RERANK`: Configure `params` based on reranker type:
+
+        - **Weighted Ranker**
+
+            ```python
+            params = {
+                "reranker": "weighted", # Required
+                "weights": [0.1, 0.9], # List[float], weights per search path ∈ [0,1]
+                "norm_score": True  # Optional
+            }
+            ```
+
+            - `reranker` (*str*): Specifies the reranking method to use. Must be set to `weighted` to use Weighted Ranker.
+
+            - `weights` (*List[float]*): Array of weights corresponding to each search path; values ∈ [0,1]. For details, refer to [Mechanism of Weighted Ranker](https://milvus.io/docs/weighted-ranker.md#Mechanism-of-Weighted-Ranker).
+
+            - `norm_score` (*boolean*): Whether to normalize raw scores (using arctan) before weighting. For details, refer to [Mechanism of Weighted Ranker](https://milvus.io/docs/weighted-ranker.md#Mechanism-of-Weighted-Ranker).
+
+        - **RRF Ranker**
+
+            ```python
+            params = {
+                "reranker": "rrf", # Required
+                "k": 100  # Optional (default: 60)
+            }
+            ```
+
+            - `reranker` (*str*): Specifies the reranking method to use. Must be set to `"rrf"` to use RRF Ranker.
+
+            - `k` (*int*): Smoothing parameter that controls the impact of document ranks; higher `k` reduces sensitivity to top ranks. Value range: (0, 16384); default: `60`. For details, refer to [Mechanism of RRF Ranker](https://milvus.io/docs/rrf-ranker.md#Mechanism-of-RRF-Ranker).
+
+        - **Decay Ranker**
+
+            ```python
+            params={
+                "reranker": "decay",            # Specify decay reranker. Must be "decay"
+                "function": "gauss",            # Choose decay function type: "gauss", "exp", or "linear"
+                "origin": 1720000000,           # Reference point (e.g., Unix timestamp)
+                "scale": 7 * 24 * 60 * 60,      # 7 days in seconds
+                "offset": 24 * 60 * 60,         # 1 day no-decay zone
+                "decay": 0.5                    # Half score at scale distance
+            }
+            ```
+
+            - `reranker` (*str*): Specifies the reranking method to use. Must be set to `"decay"` to enable decay ranking functionality.
+
+            - `function` (*str*): Specifies which mathematical decay ranker to apply. Possible values: `"gauss"`, `"expr"`, `"linear"`. For details, refer to [Choose the right decay ranker](https://milvus.io/docs/decay-ranker-overview.md#Choose-the-right-decay-ranker).
+
+            - `origin` (*int*): Reference point from which decay score is calculated.
+
+            - `scale`  (*int*): Distance or time at which relevance drops to the `decay` value.
+
+            - `offset` (*int*): Creates a "no-decay zone" around the `origin` where items maintain full scores (decay score = 1.0).
+
+            - `decay` (*float*): Score value at the `scale` distance, controls curve steepness.
+
+            For details on decay ranking, refer to [Decay Ranker Overview](https://milvus.io/docs/decay-ranker-overview.md).
+
+        - **Model Ranker**
+
+            **TEI Provider**:
+
+            ```python
+            params={
+                "reranker": "model",  # Specify model reranker. Must be "model"
+                "provider": "tei",  # Choose provider: "tei" or "vllm"
+                "queries": ["machine learning for time series"],  # Query text
+                "endpoint": "http://model-service:8080",  # Model service endpoint
+                "max_client_batch_size": 32,  # Optional (default: 32)
+                "truncate": True,                # Optional: Truncate the inputs that are longer than the maximum supported size
+                "truncation_direction": "Right",    # Optional: Direction to truncate the inputs
+            }
+            ```
+
+            **vLLM Provider**:
+
+            ```python
+            params={
+                "reranker": "model",        # Specifies model-based reranking
+                "provider": "vllm",         # Specifies vLLM service
+                "queries": ["renewable energy developments"],  # Query text
+                "endpoint": "http://localhost:8080",  # vLLM service address
+                "max_client_batch_size": 64,              # Optional: batch size
+                "truncate_prompt_tokens": 256,  # Optional: Use last 256 tokens
+            }
+            ```
+
+            **Cohere Provider**:
+
+            ```python
+            params = {
+                "reranker": "model",                  # Enables model-based reranking
+                "provider": "cohere",                 # Specifies Cohere as the service provider
+                "model_name": "rerank-english-v3.0",  # Cohere rerank model to use
+                "queries": ["renewable energy developments"],  # Query text for relevance evaluation
+                "max_client_batch_size": 128,         # Optional: batch size for model service requests (default: 128)
+                "max_tokens_per_doc": 4096,           # Optional: max tokens per document (default: 4096)
+                "credential": "your-cohere-api-key" # Optional: authentication credential for Cohere API
+            }
+            ```
+
+            **Voyage AI Provider**:
+
+            ```python
+            params = {
+                "reranker": "model",                    # Enables model-based reranking
+                "provider": "voyageai",                 # Specifies Voyage AI as the service provider
+                "model_name": "rerank-2.5",             # Voyage AI reranker to use
+                "queries": ["renewable energy developments"],  # Query text for relevance evaluation
+                "max_client_batch_size": 128,           # Optional: batch size for model service requests (default: 128)
+                "truncation": True,                     # Optional: enable input truncation (default: True)
+                "credential": "your-voyage-api-key"   # Optional: if not set, uses VOYAGE_API_KEY env var
+            }
+            
+            ```
+
+            **SiliconFlow Provider**:
+
+            ```python
+            params = {
+                "reranker": "model",                        # Enables model-based reranking
+                "provider": "siliconflow",                  # Specifies SiliconFlow as the service provider
+                "model_name": "BAAI/bge-reranker-v2-m3",    # SiliconFlow reranking model to use
+                "queries": ["renewable energy developments"],  # Query text for relevance evaluation
+                "max_client_batch_size": 128,               # Optional: batch size for model service requests (default: 128)
+                "max_chunks_per_doc": 5,                    # Optional: max chunks per document for supported models
+                "overlap_tokens": 50,                       # Optional: token overlap between chunks for supported models
+                "credential": "your-siliconflow-api-key"  # Optional: if not set, uses SILICONFLOW_API_KEY env var
+            }
+            ```
+
+            - `reranker` (*str*): Must be set to `"model"` to enable model reranking.
+
+            - `provider` (*str*): The model service provider to use for reranking. Possible values: `"tei"` or `"vllm"`. For details, refer to [Choose a model provider for your needs](https://milvus.io/docs/model-ranker-overview.md#Choose-a-model-provider-for-your-needs).
+
+            - `queries` (*List[str]*): List of query strings used by the reranking model to calculate relevance scores.
+
+            - `endpoint` (*str*): URL of the model service.
+
+            - `max_client_batch_size` *(int)*: Maximum number of documents to process in a single batch. Default: 32.
+
+            - `truncate` *(bool)*: **[TEI only]** Whether to truncate inputs that exceed the maximum supported size. For details, refer to [TEI Ranker](https://milvus.io/docs/tei-ranker.md).
+
+            - `truncation_direction` (*str*): **[TEI only]** Direction for truncation (`"Left"` or `"Right"`). For details, refer to [TEI Ranker](https://milvus.io/docs/tei-ranker.md).
+
+            - `truncate_prompt_tokens` *(int)*: **[vLLM only]** Number of tokens to keep from the end of the prompt when truncating. For details, refer to [vLLM Ranker](https://milvus.io/docs/vllm-ranker.md).
+
+            - `max_tokens_per_doc` *(int)*: **[Cohere only]** Maximum number of tokens per document. Long documents will be automatically truncated to the specified number of tokens. For details, refer to [Cohere Ranker](https://milvus.io/docs/cohere-ranker.md).
+
+            - `truncation` *(bool)*: **[Voyage AI only]** Whether to truncate the input to satisfy the "context length limit" on the query and the documents. For details, refer to [Voyage AI Ranker](https://milvus.io/docs/voyage-ai-ranker.md).
+
+            - `max_chunks_per_doc` *(int)*: **[SiliconFlow only]** Maximum number of chunks generated from within a document. For details, refer to [SiliconFLow Ranker](https://milvus.io/docs/siliconflow-ranker.md).
+
+            - `overlap_tokens`  *(int)*: **[SiliconFlow only]** Number of token overlaps between adjacent chunks when documents are chunked. For details, refer to [SiliconFLow Ranker](https://milvus.io/docs/siliconflow-ranker.md).
 
 - `description` (*str*) -
 
@@ -116,15 +336,60 @@ A `Function` object that can be registered with a Milvus collection, facilitatin
 
     This exception will be raised when there is an overlap between `input_field_names` and `output_field_names`, meaning that the same field name is present in both.
 
-## Examples{#examples}
+## Examples\{#examples}
 
-```python
-from pymilvus import Function, FunctionType
+- Use `BM25`
 
-bm25_function = Function(
-    name="bm25_fn",
-    input_field_names=["document_content"],
-    output_field_names=["sparse_vector"],
-    function_type=FunctionType.BM25,
-)
-```
+    ```python
+    from pymilvus import Function, FunctionType
+    
+    # use BM25
+    bm25_function = Function(
+        name="bm25_fn",
+        input_field_names=["document_content"],
+        output_field_names=["sparse_vector"],
+        function_type=FunctionType.BM25,
+    )
+    ```
+
+- Use `TEXTEMBEDDING`
+
+    ```python
+    from pymilvus import Function, FunctionType
+    
+    # use TEXTEMBEDDING
+    text_embedding_function = Function(
+        name="openai_embedding",                        # Unique identifier for this embedding function
+        function_type=FunctionType.TEXTEMBEDDING,       # Type of embedding function
+        input_field_names=["document"],                 # Scalar field to embed
+        output_field_names=["dense"],                   # Vector field to store embeddings
+        params={                                        # Provider-specific configuration (highest priority)
+            "provider": "openai",                       # Embedding model provider
+            "model_name": "text-embedding-3-small",     # Embedding model
+            # "credential": "apikey1",                    # Optional: Credential label specified in milvus.yaml
+            # Optional parameters:
+            # "dim": "1536",                            # Optionally shorten the output vector dimension
+            # "user": "user123"                         # Optional: identifier for API tracking
+        }
+    )
+    ```
+
+- Use `RERANK`
+
+    ```python
+    from pymilvus import Function, FunctionType
+    
+    # use RERANK
+    model_ranker = Function(
+        name="semantic_ranker",  # Function identifier
+        input_field_names=["document"],  # VARCHAR field to use for reranking
+        function_type=FunctionType.RERANK,  # Must be set to RERANK
+        params={
+            "reranker": "model",  # Specify model reranker. Must be "model"
+            "provider": "tei",  # Choose provider: "tei" or "vllm"
+            "queries": ["machine learning for time series"],  # Query text
+            "endpoint": "http://model-service:8080",  # Model service endpoint
+            # "max_client_batch_size": 32  # Optional: batch size for processing
+        }
+    )
+    ```

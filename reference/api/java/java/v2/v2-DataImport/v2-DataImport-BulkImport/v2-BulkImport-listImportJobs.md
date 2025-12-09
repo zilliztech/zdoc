@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "listImportJobs() | Java | v2"
 slug: /java/java/v2-BulkImport-listImportJobs
 sidebar_label: "listImportJobs()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists all existing import jobs regarding the specified collection. | Java | v2"
 type: docx
 token: CN9sdiCicoERZpx9GhmcLa4Wn7g
 sidebar_position: 4
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - listImportJobs()
-  - javaV225
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - javaV226
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation lists all existing import jobs regarding the specified collection
 public static String listImportJobs(String url, BaseListImportJobsRequest request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 bulkImport.listImportJobs(
@@ -70,11 +73,11 @@ bulkImport.listImportJobs(
 
 A list of import job IDs of the specified collection.
 
-## BaseListImportRequest{#baselistimportrequest}
+## BaseListImportRequest\{#baselistimportrequest}
 
 A **BaseListImportRequest** instance is implemented in **CloudListImportRequest**.
 
-### CloudListImportRequest{#cloudlistimportrequest}
+### CloudListImportRequest\{#cloudlistimportrequest}
 
 ```java
 CloudListImportRequest.builder()
@@ -93,7 +96,7 @@ CloudListImportRequest.builder()
 
     The name of the target collection of this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "dropCollectionProperties() | Java | v2"
 slug: /java/java/v2-Collections-dropCollectionProperties
 sidebar_label: "dropCollectionProperties()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation resets the properties of a specified collection to their default values. | Java | v2"
 type: docx
 token: OPPHd2AabonMIzxzfupcyNS9n1a
 sidebar_position: 15
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollectionProperties()
-  - javaV225
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - javaV226
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation resets the properties of a specified collection to their default 
 public Void dropCollectionProperties(DropCollectionPropertiesReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 dropCollectionProperties(DropCollectionPropertiesReq.builder()
@@ -81,7 +84,7 @@ dropCollectionProperties(DropCollectionPropertiesReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

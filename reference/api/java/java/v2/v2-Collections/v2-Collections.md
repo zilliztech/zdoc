@@ -3,21 +3,24 @@ title: "Collections | Java | v2"
 slug: /java/v2-Collections
 beta: false
 notebook: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 description: "Methods for you to manage collections. | Java | v2"
 type: folder
-token: Sx9jfHZP8lqVhXd9UuMcERemnjd
-sidebar_position: 2
+token: LkxXfcSA7lKXqEdu8mpcHI8Fnqd
+sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - Collections
-  - javaV225
+  - javaV226
 displayed_sidebar: javaSidebar
 ---
 

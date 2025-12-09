@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "connect() | Python | ORM"
 slug: /python/python/Connections-connect
 sidebar_label: "connect()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation establishes a connection to a Zilliz Cloud cluster using the provided alias, address, and authentication parameters. | Python | ORM"
 type: docx
 token: KzCXdTVVSoOmkbxuFjsccDlXnff
 sidebar_position: 2
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - connect()
-  - pymilvus25
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - pymilvus26
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation establishes a connection to a Zilliz Cloud cluster using the provided alias, address, and authentication parameters.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 connect(
@@ -164,7 +167,7 @@ None
 
 None
 
-## Exceptions{#exceptions}
+## Exceptions\{#exceptions}
 
 - **NotImplementedError**:
 
@@ -178,7 +181,7 @@ None
 
     This exception will be raised when the server specified in the connection parameters is not reachable/ready and the client cannot connect to it.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections
@@ -209,7 +212,7 @@ connections.connect()
 connections.connect(db_name="books")
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `connect()`:
 

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "alterIndexProperties() | Java | v2"
 slug: /java/java/v2-Management-alterIndexProperties
 sidebar_label: "alterIndexProperties()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation modifies the properties of a specified index. | Java | v2"
 type: docx
 token: ITkydrfmroQyLLxusZtc6t1nnjf
 sidebar_position: 1
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
   - alterIndexProperties()
-  - javaV225
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - javaV226
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation modifies the properties of a specified index.
 public Void alterIndexProperties(AlterIndexPropertiesReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 alterIndexProperties(AlterIndexPropertiesReq.builder()
@@ -82,7 +85,7 @@ alterIndexProperties(AlterIndexPropertiesReq.builder()
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

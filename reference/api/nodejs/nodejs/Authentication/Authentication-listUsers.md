@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "listUsers() | Node.js"
 slug: /node/node/Authentication-listUsers
 sidebar_label: "listUsers()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation lists currently available users. | Node.js"
 type: docx
 token: Z0EOd1PXooNeowx4SQgcq3synBc
-sidebar_position: 19
+sidebar_position: 21
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - listUsers()
-  - nodejs25
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - nodejs26
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation lists currently available users.
 listUsers(data): Promise<ListCredUsersResponse>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.listUsers()
@@ -85,7 +88,7 @@ This method returns a promise that resolves to a **ListCredUsersResponse** objec
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 milvusClient.listUsers()

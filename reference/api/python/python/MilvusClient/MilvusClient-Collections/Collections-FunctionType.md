@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "FunctionType | Python | MilvusClient"
 slug: /python/python/Collections-FunctionType
 sidebar_label: "FunctionType"
 beta: false
+added_since: v2.5.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This is an enumeration that provides the following constants. | Python | MilvusClient"
 type: docx
-token: Y0xbd7zL2oKAVbxcA5Hc14Eznig
+token: Y2prdJqs9oEOyax1S9acKecan8e
 sidebar_position: 19
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - FunctionType
-  - pymilvus25
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - pymilvus26
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,12 +37,16 @@ import Admonition from '@theme/Admonition';
 
 This is an enumeration that provides the following constants.
 
-## Constants{#constants}
+## Constants\{#constants}
 
 -  BM25 = 1
 
     Sets the function type to **BM25**. This indicates that Milvus will utilize the BM25 algorithm to generate sparse embeddings for a designated `VARCHAR` field.
 
-- UNKNOWN = 999
+- TEXTEMBEDDING = 2
 
-    Sets the data type to **Unknown**.
+    Sets the function type to **TEXTEMBEDDING**. This indicates that Milvus will transform raw text data into vector embeddings by automatically calling external model providers.
+
+- RERANK = 3
+
+    Sets the function type to **RERANK**. This indicates that Milvus will use a ranker to rerank candidates for improved search performance.

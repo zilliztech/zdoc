@@ -3,6 +3,9 @@ title: "DescribeIndex() | Go | v2"
 slug: /go/v2-Management-DescribeIndex
 sidebar_label: "DescribeIndex()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method describes the specified index by providing its detailed information. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method describes the specified index by providing its detailed information.
 func (c *Client) DescribeIndex(ctx context.Context, opt DescribeIndexOption, callOptions ...grpc.CallOption) (IndexDescription, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) DescribeIndex(ctx context.Context, opt DescribeIndexOption, cal
    <tr>
      <td><p><code>opt</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DescribeIndexOption</code></p></td>
+     <td><p><a href="./v2-Management-DescribeIndex#describeindexoption"><code>DescribeIndexOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) DescribeIndex(ctx context.Context, opt DescribeIndexOption, cal
    </tr>
 </table>
 
-## DescribeIndexOption{#describeindexoption}
+## DescribeIndexOption\{#describeindexoption}
 
 This is an interface type. The `describeIndexOption` struct type implements this interface type. 
 
 You can use the `NewDescribeIndexOption()` function to get the concrete implementation.
 
-### NewDescribeIndexOption(){#newdescribeindexoption}
+### NewDescribeIndexOption()\{#newdescribeindexoption}
 
 The signature of this method is as follows:
 
@@ -80,7 +83,7 @@ func NewDescribeIndexOption(collectionName string, indexName string) *describeIn
    </tr>
 </table>
 
-## IndexDescription{#indexdescription}
+## IndexDescription\{#indexdescription}
 
 The `IndexDescription` struct type is as follows:
 
@@ -94,19 +97,19 @@ type IndexDescription struct {
 }
 ```
 
-## index.Index{#indexindex}
+## index.Index\{#indexindex}
 
 This is an interface type. For details, refer to [index.Index](./v2-Management-CreateIndex#indexindex).
 
-## index.IndexState{#indexindexstate}
+## index.IndexState\{#indexindexstate}
 
 Possible values are as follows:
 
-## Return{#return}
+## Return\{#return}
 
 `IndexDescription`
 
-## Example{#example}
+## Example\{#example}
 
 ```plaintext
 indexInfo, err := cli.DescribeIndex(ctx, milvusclient.NewDescribeIndexOption("my_collection", "my_index"))

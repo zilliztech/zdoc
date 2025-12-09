@@ -3,6 +3,9 @@ title: "ListIndexes() | Go | v2"
 slug: /go/v2-Management-ListIndexes
 sidebar_label: "ListIndexes()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method lists all indexes created within the specified collection. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method lists all indexes created within the specified collection.
 func (c *Client) ListIndexes(ctx context.Context, opt ListIndexOption, callOptions ...grpc.CallOption) ([]string, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) ListIndexes(ctx context.Context, opt ListIndexOption, callOptio
    <tr>
      <td><p><code>opt</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>ListIndexOption</code></p></td>
+     <td><p><a href="./v2-Management-ListIndexes#listindexoption"><code>ListIndexOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) ListIndexes(ctx context.Context, opt ListIndexOption, callOptio
    </tr>
 </table>
 
-## ListIndexOption{#listindexoption}
+## ListIndexOption\{#listindexoption}
 
 This is an interface type. The `listIndexOption` struct type implements this interface type. 
 
 You can use the `NewListIndexOption()` function to get the concrete implementation.
 
-### NewListIndexOption(){#newlistindexoption}
+### NewListIndexOption()\{#newlistindexoption}
 
 The signature of this method is as follows:
 
@@ -75,11 +78,11 @@ func NewListIndexOption(collectionName string) *listIndexOption
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 `[]string`
 
-## Example{#example}
+## Example\{#example}
 
 ```plaintext
 indexes, err := cli.ListIndexes(ctx, milvusclient.NewListIndexOption("my_collection").WithFieldName("my_vector"))

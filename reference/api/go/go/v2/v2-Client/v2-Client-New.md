@@ -3,6 +3,9 @@ title: "New() | Go | v2"
 slug: /go/v2-Client-New
 sidebar_label: "New()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method creates a Milvus client that connects to a specific Milvus deployment. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method creates a Milvus client that connects to a specific Milvus deploymen
 func New(ctx context.Context, config *ClientConfig) (*Client, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,11 +42,11 @@ func New(ctx context.Context, config *ClientConfig) (*Client, error)
    <tr>
      <td><p><code>config</code></p></td>
      <td><p>Client configurations. </p><p>For details, refer to the <a href="./v2-Client-New#clientconfig">ClientConfig</a> section.</p></td>
-     <td><p><code>ClientConfig</code></p></td>
+     <td><p><a href="./v2-Client-New#clientconfig"><code>ClientConfig</code></a></p></td>
    </tr>
 </table>
 
-### ClientConfig{#clientconfig}
+### ClientConfig\{#clientconfig}
 
 This struct type defines all possible client configuration items as follows:
 
@@ -98,11 +101,11 @@ type ClientConfig struct {
    <tr>
      <td><p><code>RetryRateLimit</code></p></td>
      <td><p>Specifies the retry rate limit in case the connection fails.</p><p>For details, refer to the <a href="./v2-Client-New#retryratelimitoption">RetryRateLimitOption</a> section.</p></td>
-     <td><p><code>*RetryRateLimitOption</code></p></td>
+     <td><p><a href="./v2-Client-New#retryratelimitoption"><code>*RetryRateLimitOption</code></a></p></td>
    </tr>
 </table>
 
-### RetryRateLimitOption{#retryratelimitoption}
+### RetryRateLimitOption\{#retryratelimitoption}
 
 This struct type defines the retry options for the connection.
 
@@ -131,11 +134,11 @@ type RetryRateLimitOption struct {
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 A `Client` object.
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "encode_queries() | Python"
 slug: /python/python/OnnxEmbeddingFunction-encode_queries
 sidebar_label: "encode_queries()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation takes in a list of query strings and encodes each query into a vector embedding. | Python"
 type: docx
 token: ZkWBdbMZkoBjT1xe4qDcTBOHnGx
 sidebar_position: 2
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
-  - pymilvus25
+  - pymilvus26
+  - ANNS
+  - Vector search
+  - knn algorithm
   - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation takes in a list of query strings and encodes each query into a vector embedding.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 encode_queries(
@@ -60,7 +63,7 @@ A list where each element is a NumPy array.
 
 *None*
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus.model.dense import OnnxEmbeddingFunction

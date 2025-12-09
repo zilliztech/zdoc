@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "describeDatabase() | Java | v2"
 slug: /java/java/v2-Database-describeDatabase
 sidebar_label: "describeDatabase()"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation gets detailed information about a specific database. | Java | v2"
 type: docx
 token: MJjHd3uGcoxEYBx0laKcAIKNnhg
 sidebar_position: 3
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - describeDatabase()
-  - javaV225
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - javaV226
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation gets detailed information about a specific database.
 public DescribeDatabaseResp describeDatabase(DescribeDatabaseReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 describeDatabase(DescribeDatabaseReq.builder()
@@ -67,7 +70,7 @@ A **DescribeDatabaseResp** object that contains detailed information about the s
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.param.Constant;

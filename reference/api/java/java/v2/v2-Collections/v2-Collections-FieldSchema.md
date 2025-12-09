@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "FieldSchema | Java | v2"
 slug: /java/java/v2-Collections-FieldSchema
 sidebar_label: "FieldSchema"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "A FieldSchema instance defines the data type and related attributes of a specific field in a collection. | Java | v2"
 type: docx
 token: WeXmdv8bioJ7AEx9sEtct6kgnUd
 sidebar_position: 16
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
   - FieldSchema
-  - javaV225
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - javaV226
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ A **FieldSchema** instance defines the data type and related attributes of a spe
 io.milvus.v2.service.collection.request.CreateCollectionReq.FieldSchema
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs the schema of a field by defining the field name, data type, and other parameters.
 
@@ -66,7 +69,7 @@ CreateCollectionReq.FieldSchema.builder()
 
     The description of the field.
 
-- `dataType(DataType dataType)`
+- `dataType([DataType](./v2-Collections-DataType) dataType)`
 
     The data type of the field.
 
@@ -124,7 +127,7 @@ A **FieldSchema** object.
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 // define a id field with autoID set to false

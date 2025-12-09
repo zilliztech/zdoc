@@ -3,6 +3,9 @@ title: "GetCompactionState() | Go | v2"
 slug: /go/v2-Management-GetCompactionState
 sidebar_label: "GetCompactionState()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method compacts segments to improve search efficiency. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method compacts segments to improve search efficiency.
 func (c *Client) GetCompactionState(ctx context.Context, option GetCompactionStateOption, callOptions ...grpc.CallOption) (entity.CompactionState, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) GetCompactionState(ctx context.Context, option GetCompactionSta
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>GetCompactStateOption</code></p></td>
+     <td><p><a href="./v2-Management-GetCompactionState#getcompactstateoption"><code>GetCompactStateOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) GetCompactionState(ctx context.Context, option GetCompactionSta
    </tr>
 </table>
 
-## GetCompactStateOption{#getcompactstateoption}
+## GetCompactStateOption\{#getcompactstateoption}
 
 This is an interface type. The `getCompactStateOption` struct type implements this interface type. 
 
 You can use the `NewGetCompactStateOption()` function to get the concrete implementation.
 
-### NewGetCompactStateOption(){#newgetcompactstateoption}
+### NewGetCompactStateOption()\{#newgetcompactstateoption}
 
 The signature of this method is as follows:
 
@@ -70,12 +73,12 @@ func NewGetCompactionStateOption(compactionID int64) *getCompactionStateOption
    </tr>
    <tr>
      <td><p><code>compactionID</code></p></td>
-     <td><p>ID of a compaction task, which is the value that the <code>compact()</code> method returns.</p></td>
+     <td><p>ID of a compaction task, which is the value that the <a href="./v2-Management-Compact"><code>compact()</code></a> method returns.</p></td>
      <td><p><code>int64</code></p></td>
    </tr>
 </table>
 
-## entity.CompactionState{#entitycompactionstate}
+## entity.CompactionState\{#entitycompactionstate}
 
 The `entity.CompactionState` is a private enum type and has the following possible values.
 
@@ -86,11 +89,11 @@ const (
 )
 ```
 
-## Return{#return}
+## Return\{#return}
 
 `entity.CompactionState`
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

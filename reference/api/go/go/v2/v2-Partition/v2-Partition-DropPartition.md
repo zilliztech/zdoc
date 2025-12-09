@@ -3,6 +3,9 @@ title: "DropPartition() | Go | v2"
 slug: /go/v2-Partition-DropPartition
 sidebar_label: "DropPartition()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method creates a partition in a collection. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method creates a partition in a collection.
 func (c *Client) DropPartition(ctx context.Context, opt DropPartitionOption, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) DropPartition(ctx context.Context, opt DropPartitionOption, cal
    <tr>
      <td><p><code>opt</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DropAliasOption</code></p></td>
+     <td><p><a href="./v2-Partition-DropPartition#droppartitionoption"><code>DropAliasOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) DropPartition(ctx context.Context, opt DropPartitionOption, cal
    </tr>
 </table>
 
-## DropPartitionOption{#droppartitionoption}
+## DropPartitionOption\{#droppartitionoption}
 
 This is an interface type. The `dropPartitionOption` struct type implements this interface type. 
 
 You can use the `NewDropPartitionOption()` function to get the concrete implementation.
 
-### NewDropPartitionOption{#newdroppartitionoption}
+### NewDropPartitionOption\{#newdroppartitionoption}
 
 The signature of this method is as follows:
 
@@ -80,11 +83,11 @@ func NewDropPartitionOption(collectionName string, partitionName string) *dropPa
    </tr>
 </table>
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

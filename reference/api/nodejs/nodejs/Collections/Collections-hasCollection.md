@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "hasCollection() | Node.js"
 slug: /node/node/Collections-hasCollection
 sidebar_label: "hasCollection()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation checks whether a specific collection exists. | Node.js"
 type: docx
 token: FhbbdNrlNouBXJxHIdKctXVKnmf
-sidebar_position: 15
+sidebar_position: 13
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud
   - hasCollection()
-  - nodejs25
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - nodejs26
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation checks whether a specific collection exists.
 hasCollection(data): Promise<BoolResponse>
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.hasCollection({ 
@@ -97,7 +100,7 @@ This method returns a promise that resolves to a **BoolResponse** object.
 
         The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

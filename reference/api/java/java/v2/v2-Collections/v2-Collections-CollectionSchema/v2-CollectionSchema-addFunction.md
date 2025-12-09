@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "addFunction() | Java | v2"
 slug: /java/java/v2-CollectionSchema-addFunction
 sidebar_label: "addFunction()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation adds a function to convert raw data into vector representations. | Java | v2"
 type: docx
 token: WI76dwejQosQWcxuhkccHOl7nXf
 sidebar_position: 4
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - addFunction()
-  - javaV225
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - javaV226
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation adds a function to convert raw data into vector representations.
 public CollectionSchema addFunction(Function function)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 addFunction(Function.builder()
@@ -88,7 +91,7 @@ A `Function` object
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.common.clientenum.FunctionType;

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "flush() | Python | ORM"
 slug: /python/python/Partition-flush
 sidebar_label: "flush()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation seals all segments in the partition. Any insertions after this operation will generate a new segment. | Python | ORM"
 type: docx
 token: VRGwdg75Ao7ZXQx7uANc9wzXnVb
 sidebar_position: 3
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
-  - pymilvus25
+  - pymilvus26
   - NLP
   - Neural Network
   - Deep Learning
   - Knowledge base
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation seals all segments in the partition. Any insertions after this operation will generate a new segment.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 flush(
@@ -70,7 +73,7 @@ flush(
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -113,7 +116,7 @@ partition.flush()
 partition.num_entities # 5
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `flush()`:
 

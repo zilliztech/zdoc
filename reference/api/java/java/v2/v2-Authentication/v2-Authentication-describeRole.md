@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "describeRole() | Java | v2"
 slug: /java/java/v2-Authentication-describeRole
 sidebar_label: "describeRole()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This operation describes a specific role. | Java | v2"
 type: docx
-token: Fs7qdzeHZo305txlj45cgqoVnUf
+token: VDKPdBJzdoAu7exEOE2czN2gnTd
 sidebar_position: 5
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
-  - javaV225
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - javaV226
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,11 +41,12 @@ This operation describes a specific role.
 public DescribeRoleResp describeRole(DescribeRoleReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 describeRole(DescribeRoleReq.builder()
     .roleName(String roleName)
+    .dbName(String dbName)
     .build()
 )
 ```
@@ -52,6 +56,10 @@ describeRole(DescribeRoleReq.builder()
 - `roleName(String roleName)`
 
     The name of the role to describe.
+
+- `dbName(String dbName)`
+
+    The name of the database associated with the role.
 
 **RETURN Type:**
 
@@ -84,7 +92,7 @@ The name of the entity (user or role) that granted the privilege.
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

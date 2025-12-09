@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "search() | Java | v2"
 slug: /java/java/v2-Vector-search
 sidebar_label: "search()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Java | v2"
 type: docx
-token: W1mxdmaelo4co4x0ruwcTWQrn5b
+token: Rz5rdpGzGoNlByxy8cVcbUy9nhd
 sidebar_position: 7
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - search()
-  - javaV225
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - javaV226
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ This operation conducts a vector similarity search with an optional scalar filte
 public SearchResp search(SearchReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 search(SearchReq.builder()
@@ -61,6 +64,8 @@ search(SearchReq.builder()
     .groupByFieldName(String fieldName)
     .groupSize(Integer groupSize)
     .strictGroupSize(Boolean strictGroupSize)
+    .ranker(CreateCollectionReq.Function ranker)
+    .functionScore(FunctionScore functionScore)
     .build()
 )
 ```
@@ -88,6 +93,8 @@ search(SearchReq.builder()
     The number of records to return in the search result. This parameter uses the same syntax as the `limit` parameter, so you should only set one of them.
 
     You can use this parameter in combination with `offset` to enable pagination.
+
+    This parameter is to be deprected soon, and you are advised to use `limit` instead.
 
     The sum of this value and `offset` should be less than 16,384. 
 
@@ -175,7 +182,15 @@ search(SearchReq.builder()
 
     - **range_filter** (float)
 
-        Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**.
+        Refines the search to vectors within a specific similarity range. When setting `metric_type` to `IP` or `COSINE`, ensure that this value is greater than that of **radius**. Otherwise, this value should be lower than that of **radius**. 
+
+    - **timezone** (String)
+
+        The timezone  of this operation.
+
+    - **time_fields** (String)
+
+        The time format that is concatenated with the information extracted from the Timestamptz field in the output fields, such as `year, month, day`.
 
     For details on other applicable search parameters, read [AUTOINDEX Explained](/docs/autoindex-explained) to get more.
 
@@ -203,7 +218,7 @@ search(SearchReq.builder()
 
     </Admonition>
 
-- `consistencyLevel(ConsistencyLevel consistencyLevel)`
+- `consistencyLevel([ConsistencyLevel](./v2-Collections-ConsistencyLevel) consistencyLevel)`
 
     The consistency level of the target collection.
 
@@ -233,6 +248,16 @@ search(SearchReq.builder()
 
     This Boolean parameter dictates whether `groupSize` should be strictly enforced. When `strictGroupSize=True`, the system will attempt to fill each group with exactly `groupSize` results, as long as sufficient data exists within each group. If there is an insufficient number of entities in a group, it will return only the available entities, ensuring that groups with adequate data meet the specified `groupSize`.
 
+- `ranker(CreateCollectionReq.Function ranker)`
+
+    The reranking strategy to use for hybrid search.
+
+    This parameter is to be deprecated soon, and you are advised to use **FunctionScore** instead.
+
+- `functionScore(FunctionScore functionScore)`
+
+    A **FunctionScore** instance that comprises one or multiple **Function** instances. The design purpose is to allow multiple rankers in a search, such as in the [Boost ranker](https://milvus.io/docs/boost-ranker.md).
+
 **RETURN TYPE:**
 
 *SearchResp*
@@ -243,11 +268,45 @@ A **SearchResp object representing specific search results with the specified ou
 
 **PARAMETERS:**
 
-- searchResults(List\<List\<SearchResult\>>)
+- searchResults(List\<List\<SearchResult\>\>)
 
-      A list of SearchResp.SearchResult, the size of searchResults equals the number of query vectors of the search. Each List\<SearchResult\> is a topK result of a query vector. Each SearchResult represents an entity hit by the search.
+    A list of *SearchResp*.*SearchResult*, the size of searchResults equals the number of query vectors of the search. Each List\<SearchResult\> is a topK result of a query vector. Each SearchResult represents an entity hit by the search. Member of *SearchResult*:
 
-      Member of SearchResult:
+    - **entity** (*Map\<String, Object\>*)
+
+        A map that stores the specific fields associated with the search result.
+
+    - **score** (*Float*)
+
+        The relevant score of the search result. The score indicates how closely the vector associated with the search result matches the query vector.
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <p>In Java SDK v2.4.1 or earlier versions, this method is named <code>distance()</code>. Since Java SDK v2.4.2, this method is renamed as <code>score()</code>.</p>
+
+        </Admonition>
+
+    - **id** (Object)
+
+        The ID of the search result, dataType is either string or int64 
+
+        <Admonition type="info" icon="📘" title="Notes">
+
+        <p>If the number of returned entities is less than expected, duplicate entities may exist in your collection.</p>
+
+        </Admonition>
+
+    - **primaryKey** (*String*) -
+
+        The name of the primary key.
+
+- **sessionTs** (*long*) -
+
+    Whether the **Eventually** consistency level applies.
+
+- **recalls** (*List\<Float>*) -
+
+    A list of recall rates corresponding to the search results that are returned.
 
 **EXCEPTIONS:**
 
@@ -255,7 +314,7 @@ A **SearchResp object representing specific search results with the specified ou
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

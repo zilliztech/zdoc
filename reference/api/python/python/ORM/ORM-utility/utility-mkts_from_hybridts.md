@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "mkts_from_hybridts() | Python | ORM"
 slug: /python/python/utility-mkts_from_hybridts
 sidebar_label: "mkts_from_hybridts()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation makes a hybrid timestamp from another hybrid timestamp. | Python | ORM"
 type: docx
 token: GRarduHPSoFY3Yx9EWRcdcTfn1g
 sidebar_position: 35
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_hybridts()
-  - pymilvus25
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - pymilvus26
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation makes a hybrid timestamp from another hybrid timestamp.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 mkts_from_hybridts(
@@ -59,7 +62,7 @@ An incremental time interval in milliseconds.
 
 - **delta** (*Optional[timedelta]*) -
 
-    A **datetime.timedelta** object that represents the duration expressing the difference between two `date`, `time`, or `datetime` instances to microsecond resolution.
+    A **datetime.timedelta** object that represents the duration expressing the difference between two [`date`](https://docs.python.org/3/library/datetime.html#datetime.date), [`time`](https://docs.python.org/3/library/datetime.html#datetime.time), or [`datetime`](https://docs.python.org/3/library/datetime.html#datetime.datetime) instances to microsecond resolution.
 
 **RETURN TYPE:**
 
@@ -68,7 +71,7 @@ An incremental time interval in milliseconds.
 **RETURNS:**
 A hybrid timestamp, which is a non-negative integer ranging from **0** to **18446744073709551615**.
 
-## **Examples**{#examples}
+## **Examples**\{#examples}
 
 ```python
 import time
@@ -100,7 +103,7 @@ mkts_from_hybridts(
 )
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `mkts_from_hybridts()`:
 

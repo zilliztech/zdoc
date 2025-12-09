@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "RemoteBulkWriter | Python"
 slug: /python/python/DataImport-RemoteBulkWriter
 sidebar_label: "RemoteBulkWriter"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "A RemoteBulkWriter instance writes your raw data in a format that Zilliz Cloud understands into an AWS-S3-compatible bucket. | Python"
 type: docx
 token: BDP4dew9to9tQoxNEMPcBR5xnZb
 sidebar_position: 4
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - RemoteBulkWriter
-  - pymilvus25
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - pymilvus26
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ A **RemoteBulkWriter** instance writes your raw data in a format that Zilliz Clo
 class pymilvus.RemoteBulkWriter
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs a **RemoteBulkWriter** object with a set of parameters, such as **schema**, **remote_path**, **connect_param** etc.
 
@@ -135,7 +138,7 @@ A **RemoteBulkWriter** object.
 
     This exception will be raised when the provided schema is invalid.
 
-## Properties{#properties}
+## Properties\{#properties}
 
 - **data_path** (*pathlib.PosixPath*) -
 
@@ -145,12 +148,12 @@ A **RemoteBulkWriter** object.
 
     A list of the generated file names.
 
-## Classes{#classes}
+## Classes\{#classes}
 
 The following are the classes of the `RemoteBulkWriter` class:
 
 - ConnectParam
 
-## Methods{#methods}
+## Methods\{#methods}
 
 The following are the methods of the `RemoteBulkWriter` class:

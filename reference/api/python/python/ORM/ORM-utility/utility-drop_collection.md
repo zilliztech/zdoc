@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "drop_collection() | Python | ORM"
 slug: /python/python/utility-drop_collection
 sidebar_label: "drop_collection()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation drops a specific collection. | Python | ORM"
 type: docx
 token: FHcYdN4apoI5TIx0LxScISvtn0f
 sidebar_position: 10
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - drop_collection()
-  - pymilvus25
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - pymilvus26
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation drops a specific collection.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 drop_collection(
@@ -74,7 +77,7 @@ None
 
 N/A
 
-### Examples{#examples}
+### Examples\{#examples}
 
 ```python
 from pymilvus import connections, utility
@@ -88,7 +91,7 @@ utility.drop_collection(
 )
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to the `drop_collection()` method:
 

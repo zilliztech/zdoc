@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "create_database() | Python | ORM"
 slug: /python/python/db-create_database
 sidebar_label: "create_database()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation creates a database using the provided database name. | Python | ORM"
 type: docx
 token: G4Ftde3kxoHAJbxVNXncI7mpngb
 sidebar_position: 1
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - zilliz
-  - zilliz cloud
-  - cloud
-  - create_database()
-  - pymilvus25
   - Embedding model
   - image similarity search
   - Context Window
   - Natural language search
+  - zilliz
+  - zilliz cloud
+  - cloud
+  - create_database()
+  - pymilvus26
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation creates a database using the provided database name.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 create_database(
@@ -72,7 +75,7 @@ None
 
 None
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections, db
@@ -85,7 +88,7 @@ conn = connections.connect(
 db.create_database(db_name="test")
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 The following operations are related to `create_database()`:
 

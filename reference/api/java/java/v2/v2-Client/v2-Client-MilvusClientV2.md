@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "MilvusClientV2 | Java | v2"
 slug: /java/java/v2-Client-MilvusClientV2
 sidebar_label: "MilvusClientV2"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "A MilvusClientV2 instance represents a Java client that connects to a specific Zilliz Cloud cluster. | Java | v2"
 type: docx
 token: IeOWd0yR2onm5Ex6XyqcrGjKnpS
 sidebar_position: 1
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClientV2
-  - javaV225
-  - dimension reduction
-  - hnsw algorithm
+  - javaV226
   - vector similarity search
   - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ A **MilvusClientV2** instance represents a Java client that connects to a specif
 io.milvus.v2.client.MilvusClientV2
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs a client for common use cases.
 
@@ -52,7 +55,7 @@ Constructs a client for common use cases.
 MilvusClientV2(ConnectConfig connectConfig);
 ```
 
-## ConnectConfig{#connectconfig}
+## ConnectConfig\{#connectconfig}
 
 **ConnectConfig** allows you to configure the connection properties in one place so that **MilvusClientV2** can reference it to create and manage the connection pool.
 
@@ -61,8 +64,24 @@ MilvusClientV2(ConnectConfig connectConfig);
 ConnectConfig.builder()
     .uri(String uri)
     .token(String token)
-    //.username(String userName)
-    //.password(String password)
+    .username(String userName)
+    .password(String password)
+    .dbName(String dbName)
+    .connectTimeoutMs(long connectTimeoutMs)
+    .keepAliveTimeMs(long keepAliveTimeMs)
+    .keepAliveTimeoutMs(long keepAliveTimeoutMs)
+    .keepAliveWithoutCalls(Boolean keeAliveWithoutCalls)
+    .rpcDeadlineMs(long rpcDeadlineMs)
+    .clientKeyPath(String clientKeyPath)
+    .clientPemPath(String clientPemPath)
+    .caPemPath(String caPemPath)
+    .serverPemPath(String serverPemPath)
+    .serverName(String serverName)
+    .proxyAddress(String proxyAddress)
+    .secure(Boolean secure)
+    .idleTimeoutMs(long idleTimeoutMs)
+    .sslContext(SSLContext sslContext)
+    .clientRequestId(ThreadLocal<String> clientRequestId)
     .build();
 ```
 
@@ -166,6 +185,12 @@ ConnectConfig.builder()
 
     The idle timeout for a connection.
 
+- `.clientRequestId(ThreadLocal<String> clientRequestId)`
+
+    The ID of a client request. You can use this parameter to maintain a map of threads, with each thread mapping to a specific request ID. 
+
+    The request ID will be passed to the server, so that you can learn about which client calls this interface from the access logs.
+
 **PUBLIC METHODS:**
 
 - `getHost()`
@@ -192,7 +217,7 @@ ConnectConfig.builder()
 
     Returns the proxy server's address specified in **ConnectConfig**.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

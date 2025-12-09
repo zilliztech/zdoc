@@ -3,6 +3,9 @@ title: "RevokeV2() | Go | v2"
 slug: /go/v2-Authentication-RevokeV2
 sidebar_label: "RevokeV2()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method revokes a privilege or a privilege group of a role. In Milvus, you can allocate multiple privileges or privilege groups to a role and grant the role to a user so that the user gains the privileges allocated to the role. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method revokes a privilege or a privilege group of a role. In Milvus, you c
 func (c *Client) RevokeV2(ctx context.Context, option RevokeV2Option, callOptions ...grpc.CallOption) error
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) RevokeV2(ctx context.Context, option RevokeV2Option, callOption
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>RevokeV2Option</code></p></td>
+     <td><p><a href="./v2-Authentication-RevokeV2#revokev2option"><code>RevokeV2Option</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOptions</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) RevokeV2(ctx context.Context, option RevokeV2Option, callOption
    </tr>
 </table>
 
-## RevokeV2Option{#revokev2option}
+## RevokeV2Option\{#revokev2option}
 
 This is an interface type. The `revokeV2Option` struct type implements this interface type. 
 
 You can use the `NewRevokeV2Option()` function to get the concrete implementation.
 
-### NewRevokeV2Option{#newrevokev2option}
+### NewRevokeV2Option\{#newrevokev2option}
 
 The signature of the `NewRevokeV2Option()` is as follows:
 
@@ -90,15 +93,15 @@ func NewRevokeV2Option(roleName, privilegeName, dbName, collectionName string) *
    </tr>
 </table>
 
-## grpc.CallOption{#grpccalloption}
+## grpc.CallOption\{#grpccalloption}
 
 This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
 
-## Return{#return}
+## Return\{#return}
 
 Null
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 // go

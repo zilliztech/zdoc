@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "BulkFileType | Python"
 slug: /python/python/DataImport-BulkFileType
 sidebar_label: "BulkFileType"
 beta: false
+added_since: Inherit
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "This is an enumeration that provides the following constants. | Python"
 type: docx
 token: NV3Ud1M9iojhaSxZY4ec8RjgnlP
 sidebar_position: 1
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - BulkFileType
-  - pymilvus25
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - pymilvus26
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This is an enumeration that provides the following constants.
 
-## Constants{#constants}
+## Constants\{#constants}
 
 - **NPY** = 1
 
@@ -52,7 +55,7 @@ This is an enumeration that provides the following constants.
 
     Sets the file type to **CSV** (*.csv*).
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import LocalBulkWriter, BulkFileType

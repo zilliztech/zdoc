@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "SpladeEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-SpladeEmbeddingFunction
 sidebar_label: "SpladeEmbeddingFunction"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "SpladeEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using SPLADE models to support embedding retrieval in Milvus. | Python"
 type: docx
 token: UdeRd0YVhoDBeVxrQaBcoikVnAI
 sidebar_position: 3
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - SpladeEmbeddingFunction
-  - pymilvus25
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - pymilvus26
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ import Admonition from '@theme/Admonition';
 pymilvus.model.sparse.SpladeEmbeddingFunction
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs a SpladeEmbeddingFunction for common use cases.
 
@@ -89,7 +92,7 @@ SpladeEmbeddingFunction(
 
     Allows additional keyword arguments to be passed to the model initialization. For more information, refer to [AutoModelForMaskedLM](https://huggingface.co/docs/transformers/model_doc/auto#transformers.AutoModelForMaskedLM).
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import model

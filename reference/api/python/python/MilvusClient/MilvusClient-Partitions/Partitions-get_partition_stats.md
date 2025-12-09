@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "get_partition_stats() | Python | MilvusClient"
 slug: /python/python/Partitions-get_partition_stats
 sidebar_label: "get_partition_stats()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation displays the statistics collected on a specific partition. | Python | MilvusClient"
 type: docx
 token: Jjbsd2I8doQ9pBxBp57ckRdZnZd
 sidebar_position: 3
 keywords: 
+  - Neural Network
   - Deep Learning
   - Knowledge base
   - natural language processing
-  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - get_partition_stats()
-  - pymilvus25
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - pymilvus26
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation displays the statistics collected on a specific partition.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 get_partition_stats(
@@ -91,7 +94,7 @@ A dictionary that contains the row count in the specified partition.
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```python
 from pymilvus import MilvusClient
@@ -140,7 +143,7 @@ client.get_partition_stats(
 
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [create_partition()](./Partitions-create_partition)
 

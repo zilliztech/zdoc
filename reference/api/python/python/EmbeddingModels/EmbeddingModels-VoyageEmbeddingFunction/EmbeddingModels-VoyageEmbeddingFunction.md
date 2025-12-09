@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "VoyageEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-VoyageEmbeddingFunction
 sidebar_label: "VoyageEmbeddingFunction"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "VoyageEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using Voyage models to support embedding retrieval in Milvus. | Python"
 type: docx
 token: HEyLd2lxzo3bl4xqVBOco8vWn1c
 sidebar_position: 3
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - VoyageEmbeddingFunction
-  - pymilvus25
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - pymilvus26
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ import Admonition from '@theme/Admonition';
 pymilvus.model.dense.VoyageEmbeddingFunction
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs an VoyageEmbeddingFunction for common use cases.
 
@@ -64,7 +67,7 @@ VoyageEmbeddingFunction(
 
     Allows additional keyword arguments to be passed to the model initialization. For more information, refer to [Python API](https://docs.voyageai.com/docs/embeddings#python-api).
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus.model.dense import VoyageEmbeddingFunction

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "get_query_segment_info() | Python | ORM"
 slug: /python/python/utility-get_query_segment_info
 sidebar_label: "get_query_segment_info()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation gets information about the sealed and growing segments in the query cluster. | Python | ORM"
 type: docx
 token: CB9edh2ySoJyWhxBoLcchPj9nxg
 sidebar_position: 14
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - get_query_segment_info()
-  - pymilvus25
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - pymilvus26
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation gets information about the sealed and growing segments in the query cluster.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 get_query_segment_info(
@@ -74,7 +77,7 @@ A list of **QuerySegmentInfo** objects, each reporting the status of a segment.
 
 N/A
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import connections, Collection, utility
@@ -98,7 +101,7 @@ print(res)
 # nodeIds: 3
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 - [drop_collection()](./utility-drop_collection)
 

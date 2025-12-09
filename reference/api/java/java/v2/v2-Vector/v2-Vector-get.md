@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "get() | Java | v2"
 slug: /java/java/v2-Vector-get
 sidebar_label: "get()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation gets specific entities by their IDs. | Java | v2"
 type: docx
-token: UcacdecoZoAyxsxJzOGcTqWzn7d
+token: DDshdoIEoo7X1BxpciBc66Rlndd
 sidebar_position: 2
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - get()
-  - javaV225
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - javaV226
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,10 +41,11 @@ This operation gets specific entities by their IDs.
 public GetResp get(GetReq request)
 ```
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```java
 get(GetReq.builder()
+    .databaseName(String databaseName)
     .collectionName(String collectionName)
     .partitionName(String partitionName)
     .ids(List<Object> ids)
@@ -51,6 +55,10 @@ get(GetReq.builder()
 ```
 
 **BUILDER METHODS:**
+
+- `databaseName(String databaseName)`
+
+    The name of the database to which the target collection belongs.
 
 - `collectionName(String collectionName)`
 
@@ -92,7 +100,7 @@ A **GetResp** object representing one or more queried entities.
 
     This exception will be raised when any error occurs during this operation.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import io.milvus.v2.client.ConnectConfig;

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "search() | Python | MilvusClient"
 slug: /python/python/Vector-search
 sidebar_label: "search()"
 beta: false
+added_since: v2.3.x
+last_modified: v2.6.x
+deprecate_since: false
 notebook: false
 description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Python | MilvusClient"
 type: docx
-token: T1npdvcRMoIjezxK021cPvfpn7c
+token: N6afdOON2o3U0YxMAt7cMiBqnXg
 sidebar_position: 6
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - search()
-  - pymilvus25
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - pymilvus26
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation conducts a vector similarity search with an optional scalar filtering expression.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```plaintext
 search(
@@ -48,6 +51,7 @@ search(
     timeout: Optional[float] = None,
     partition_names: Optional[List[str]] = None,
     anns_field: Optional[str] = None,
+    ranker: Optional[Union[Function, FunctionScore]] = None,
     **kwargs,
 ) -> List[List[dict]]
 ```
@@ -78,7 +82,7 @@ search(
 
     The value defaults to an empty string, indicating that no condition applies. 
 
-    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Boolean Expression Rules](https://milvus.io/docs/boolean.md). 
+    You can set this parameter to an empty string to skip scalar filtering. To build a scalar filtering condition, refer to [Filtering Overview](/docs/filtering-overview). 
 
 - **filter_params** (*dict*) -
 
@@ -160,11 +164,25 @@ search(
 
             This parameter applies only when you also set `radius`.
 
+    - **ignore_growing** (*str*) -
+
+        This option, when set, instructs the search to exclude data from growing segments. Utilizing this setting can potentially enhance search performance by focusing only on indexed and fully processed data.
+
+    For details on other applicable search parameters, refer to [In-memory Index](https://milvus.io/docs/index.md) and [On-disk Index](https://milvus.io/docs/disk_index.md).
+
     For details on other applicable search parameters, read [AUTOINDEX Explained](/docs/autoindex-explained) to get more.
 
 - **group_by_field** (*str*)
 
     Groups search results by a specified field to ensure diversity and avoid returning multiple results from the same group.
+
+- **group_size** (*int*)
+
+    The target number of entities to return within each group in a grouping search. For example, setting `group_size=2` instructs the system to return up to 2 of the most similar entities (e.g., document passages or vector representations) within each group. Without setting `group_size`, the system defaults to returning only 1 entity per group.
+
+- **strict_group_size** (*bool*)
+
+    This Boolean parameter dictates whether `group_size` should be strictly enforced. When `strict_group_size=True`, the system will attempt to fill each group with exactly `group_size` results, as long as sufficient data exists within each group. If there is an insufficient number of entities in a group, it will return only the available entities, ensuring that groups with adequate data meet the specified `group_size`.
 
 - **timeout** (*float* | *None*) -
 
@@ -175,6 +193,12 @@ search(
     A list of partition names.
 
     The value defaults to **None**. If specified, only the specified partitions are involved in queries.
+
+- **ranker** (*Function* | *FunctionScore*)
+
+    The ranker to use for the search.
+
+    For details, refer to [Decay Ranker Overview](/docs/decay-ranker-oveview) and .
 
 - **kwargs** -
 
@@ -205,7 +229,7 @@ A list of dictionaries that contains the searched entities with specified output
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
@@ -340,16 +364,4 @@ res = client.search(
 #   {'id': 1, 'distance': 0.2993225157260895, 'entity': {}}]]
 
 ```
-
-## Related methods{#related-methods}
-
-- [delete()](./Vector-delete)
-
-- [get()](./Vector-get)
-
-- [insert()](./Vector-insert)
-
-- [query()](./Vector-query)
-
-- [upsert()](./Vector-upsert)
 

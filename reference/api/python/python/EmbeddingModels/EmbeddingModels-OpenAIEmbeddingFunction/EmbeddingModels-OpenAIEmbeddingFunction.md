@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "OpenAIEmbeddingFunction | Python"
 slug: /python/python/EmbeddingModels-OpenAIEmbeddingFunction
 sidebar_label: "OpenAIEmbeddingFunction"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "OpenAIEmbeddingFunction is a class in pymilvus that handles encoding text into embeddings using OpenAI models to support embedding retrieval in Milvus. | Python"
 type: docx
 token: QPcodlsnAoSMvIxEFmlcMNPbntd
 sidebar_position: 3
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
   - OpenAIEmbeddingFunction
-  - pymilvus25
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - pymilvus26
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ import Admonition from '@theme/Admonition';
 pymilvus.model.dense.OpenAIEmbeddingFunction
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs an OpenAIEmbeddingFunction for common use cases.
 
@@ -74,7 +77,7 @@ OpenAIEmbeddingFunction(
 
     Allows additional keyword arguments to be passed to the model initialization. For more information, refer to [Client](https://github.com/openai/openai-python/blob/main/src/openai/_client.py).
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import model

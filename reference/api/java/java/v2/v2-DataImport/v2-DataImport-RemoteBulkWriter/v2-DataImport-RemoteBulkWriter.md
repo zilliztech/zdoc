@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: javaSidebar
 title: "RemoteBulkWriter | Java | v2"
 slug: /java/java/v2-DataImport-RemoteBulkWriter
 sidebar_label: "RemoteBulkWriter"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "A RemoteBulkWriter instance writes your raw data in a format that Milvus understands into an AWS-S3-compatible bucket. | Java | v2"
 type: docx
 token: XAIndF6XWoQzvRxDvpLcgEE1nEb
 sidebar_position: 5
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - RemoteBulkWriter
-  - javaV225
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - javaV226
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 displayed_sidebar: javaSidebar
 
+displayed_sidbar: javaSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ A **RemoteBulkWriter** instance writes your raw data in a format that Milvus und
 io.milvus.bulkwriter.RemoteBulkWriter
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs a **RemoteBulkWriter** instance with a set of parameters, such as **schema**, **remote_path**, **connect_param,** etc.
 
@@ -58,7 +61,7 @@ public RemoteBulkWriter(RemoteBulkWriterParam bulkWriterParam)
 
     A [RemoteBulkWriterParam](./v2-DataImport-RemoteBulkWriter#remotebulkwriterparam) instance.
 
-## RemoteBulkWriterParam{#remotebulkwriterparam}
+## RemoteBulkWriterParam\{#remotebulkwriterparam}
 
 **RemoteBulkWriterParam** allows you to configure properties for your **RemoteBulkWriter** instances in one place so that you can instantiate the **RemoteBulkWriter** class.
 
@@ -116,11 +119,11 @@ RemoteBulkWriterParam.newBuilder()
 
         Special string representing null value. The value defaults to empty string: `""`.
 
-## StorageConnectParam{#storageconnectparam}
+## StorageConnectParam\{#storageconnectparam}
 
 **StorageConnectParam** is implemented in **AzureConnectParam** and **S3ConnectParam**.
 
-### AzureConnectParam{#azureconnectparam}
+### AzureConnectParam\{#azureconnectparam}
 
 **AzureConnectParam** prepares the parameters to connect to a Microsoft Azure Blob Storage container.
 
@@ -145,13 +148,13 @@ AzureConnectParam.newBuilder()
 
 - `withAccountUrl(String accountUrl)`
 
-    A string in format like `https://<storage-account>.blob.core.windows.net`. Read [this link](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview) for more info.
+    A string in format like `<i>http</i>s://<storage-account>.blob.core.windows.net`. Read [this link](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-overview) for more info.
 
 - `withCredential(TokenCrendtial credential)`
 
     Account access key for the account. Read [this link](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys) for more info.
 
-### S3ConnectParam{#s3connectparam}
+### S3ConnectParam\{#s3connectparam}
 
 S3ConnectParam prepares the parameters to connect to an S3-compatible object storage bucket
 
@@ -214,7 +217,7 @@ S3ConnectParam.newBuilder()
 
     Whether to use an OkHttp client to set up a secure (TLS) connection to the AWS S3 compatible service.
 
-## Example{#example}
+## Example\{#example}
 
 ```java
 import com.google.gson.JsonObject;

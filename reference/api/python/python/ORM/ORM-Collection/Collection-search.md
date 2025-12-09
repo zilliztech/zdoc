@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "search() | Python | ORM"
 slug: /python/python/Collection-search
 sidebar_label: "search()"
 beta: NEAR DEPRECATE
+added_since: Inherit
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation conducts a vector similarity search with an optional scalar filtering expression. | Python | ORM"
 type: docx
 token: OaM5dkbPjohKhNxHvKNcfnYMnVb
 sidebar_position: 25
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - search()
-  - pymilvus25
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - pymilvus26
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation conducts a vector similarity search with an optional scalar filtering expression.
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```python
 search(
@@ -230,7 +233,7 @@ A **SearchResult** object that contains a list of **Hits** objects.
 
     This exception will be raised when any error occurs during this operation.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import Collection, CollectionSchema, FieldSchema, DataType
@@ -310,7 +313,7 @@ for hits in res:
         
 ```
 
-## Related operations{#related-operations}
+## Related operations\{#related-operations}
 
 - [delete()](./Collection-delete)
 

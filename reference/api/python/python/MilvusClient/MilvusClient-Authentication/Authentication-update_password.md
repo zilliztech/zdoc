@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "update_password() | Python | MilvusClient"
 slug: /python/python/Authentication-update_password
 sidebar_label: "update_password()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation updates the password of a specific user. | Python | MilvusClient"
 type: docx
 token: WGDod7Qehou4GWx4Co2cJ34VnKb
 sidebar_position: 20
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - update_password()
-  - pymilvus25
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - pymilvus26
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation updates the password of a specific user.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 update_password(
@@ -95,7 +98,7 @@ None
 
     This exception will be raised when this operation fails.
 
-## Example{#example}
+## Example\{#example}
 
 ```python
 from pymilvus import MilvusClient
@@ -117,7 +120,7 @@ client.update_password(
 )
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [create_user()](./Authentication-create_user)
 

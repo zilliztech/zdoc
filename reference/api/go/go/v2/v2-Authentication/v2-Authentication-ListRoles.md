@@ -3,6 +3,9 @@ title: "ListRoles() | Go | v2"
 slug: /go/v2-Authentication-ListRoles
 sidebar_label: "ListRoles()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method returns a list of existing roles. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method returns a list of existing roles.
 func (c *Client) ListRoles(ctx context.Context, opt ListRoleOption, callOpts ...grpc.CallOption) ([]string, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) ListRoles(ctx context.Context, opt ListRoleOption, callOpts ...
    <tr>
      <td><p><code>opt</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>ListRoleOption</code></p></td>
+     <td><p><a href="./v2-Authentication-ListRoles#listroleoption"><code>ListRoleOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) ListRoles(ctx context.Context, opt ListRoleOption, callOpts ...
    </tr>
 </table>
 
-## ListRoleOption{#listroleoption}
+## ListRoleOption\{#listroleoption}
 
 This is an interface type. The `listRoleOption` struct type implements this interface type. 
 
 You can use the `NewListRoleOption()` function to get the concrete implementation.
 
-### NewListRoleOption{#newlistroleoption}
+### NewListRoleOption\{#newlistroleoption}
 
 The signature of `NewListRoleOption()` is as follows:
 
@@ -62,15 +65,15 @@ The signature of `NewListRoleOption()` is as follows:
 func NewListRoleOption() *listRoleOption
 ```
 
-## grpc.CallOption{#grpccalloption}
+## grpc.CallOption\{#grpccalloption}
 
 This interface provided by the gRPC Go library allows you to specify additional options or configurations when making requests. For possible implementations of this interface, refer to [this file](https://github.com/grpc/grpc-go/blob/v1.69.4/rpc_util.go#L174).
 
-## Return{#return}
+## Return\{#return}
 
 `[]string`
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

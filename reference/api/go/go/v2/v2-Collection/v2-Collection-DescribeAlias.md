@@ -3,6 +3,9 @@ title: "DescribeAlias() | Go | v2"
 slug: /go/v2-Collection-DescribeAlias
 sidebar_label: "DescribeAlias()"
 beta: FALSE
+added_since: v2.5.x
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This method describes an alias by providing detailed information about its associated collection. | Go | v2"
 type: origin
@@ -23,7 +26,7 @@ This method describes an alias by providing detailed information about its assoc
 func (c *Client) DescribeAlias(ctx context.Context, option DescribeAliasOption, callOptions ...grpc.CallOption) (*entity.Alias, error)
 ```
 
-## Request Parameters{#request-parameters}
+## Request Parameters\{#request-parameters}
 
 <table>
    <tr>
@@ -39,7 +42,7 @@ func (c *Client) DescribeAlias(ctx context.Context, option DescribeAliasOption, 
    <tr>
      <td><p><code>option</code></p></td>
      <td><p>Optional parameters of the methods.</p></td>
-     <td><p><code>DescribeAliasOption</code></p></td>
+     <td><p><a href="./v2-Collection-DescribeAlias#describealiasoption"><code>DescribeAliasOption</code></a></p></td>
    </tr>
    <tr>
      <td><p><code>callOpts</code></p></td>
@@ -48,13 +51,13 @@ func (c *Client) DescribeAlias(ctx context.Context, option DescribeAliasOption, 
    </tr>
 </table>
 
-## DescribeAliasOption{#describealiasoption}
+## DescribeAliasOption\{#describealiasoption}
 
 This is an interface type. The `describeAliasOption` struct type implements this interface type. 
 
 You can use the `NewDescribeAliasOption()` function to get the concrete implementation.
 
-### NewDescribeAliasOption{#newdescribealiasoption}
+### NewDescribeAliasOption\{#newdescribealiasoption}
 
 The signature of this method is as follows:
 
@@ -75,7 +78,7 @@ func NewDescribeAliasOption(alias string) *describeAliasOption
    </tr>
 </table>
 
-## entity.Alias{#entityalias}
+## entity.Alias\{#entityalias}
 
 The `entity.Alias` struct type is as follows:
 
@@ -87,11 +90,11 @@ type Alias struct {
 }
 ```
 
-## Return{#return}
+## Return\{#return}
 
 `*entity.Alias`
 
-## Example{#example}
+## Example\{#example}
 
 ```go
 import (

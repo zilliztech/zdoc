@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "CollectionSchema | Python | MilvusClient"
 slug: /python/python/MilvusClient-CollectionSchema
 sidebar_label: "CollectionSchema"
 beta: false
+added_since: v2.3.x
+last_modified: v2.5.x
+deprecate_since: false
 notebook: false
 description: "A CollectionSchema instance represents the schema of a collection. A schema sketches the structure of a collection. | Python | MilvusClient"
 type: docx
-token: BqR9dyTk6oOl8BxbZOOcW2Phnsn
+token: U4Q8deNe2offXCx3OgIc9QJPnnh
 sidebar_position: 2
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - CollectionSchema
-  - pymilvus25
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - pymilvus26
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ A **CollectionSchema** instance represents the schema of a collection. A schema 
 class pymilvus.CollectionSchema
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs the schema of a collection by defining fields, data types, and other parameters.
 
@@ -71,17 +74,17 @@ CollectionSchema(
 
 - **kwargs** -
 
-    - **auto_id** (*bool*)
+    - **auto_id** (*bool*) -
 
         Whether allows the primary field to automatically increment.
 
         Setting this to **True** makes the primary field automatically increment. In this case, the primary field should not be included in the data to insert to avoid errors.
 
-    - **enable_dynamic_field** (*bool*)
+    - **enable_dynamic_field** (*bool*) -
 
         Whether allows Zilliz Cloud saves the values of undefined fields in a dynamic field if the data being inserted into the target collection includes fields that are not defined in the collection's schema.
 
-        When you set this to **True**,  and Zilliz Cloud will create a field called **$meta** to store any undefined fields and their values from the data that is inserted.
+        When you set this to **True**,  and Zilliz Cloud will create a field called **&#36;meta** to store any undefined fields and their values from the data that is inserted.
 
         <Admonition type="info" icon="📘" title="What is a dynamic field?">
 
@@ -89,7 +92,7 @@ CollectionSchema(
 
         </Admonition>
 
-    - **primary_field** (*str*)
+    - **primary_field** (*str*) -
 
         The name of the primary field.
 
@@ -97,7 +100,7 @@ CollectionSchema(
 
         As an alternative, you can set **is_primary** when creating a **FieldSchema** object.
 
-    - **partition_key_field** (*str*)
+    - **partition_key_field** (*str*) -
 
         The name of the field that serves as the partition key.
 
@@ -114,6 +117,10 @@ CollectionSchema(
         <p>As an alternative, you can set <strong>partition<em>key</em>field</strong> when creating a <strong>CollectionSchema</strong> object.</p>
 
         </Admonition>
+
+    - **partition_key_isolation** (*bool*) -
+
+        Whether to enable partition key isolation to improve further search performance in scalar filtering on the partition key. For details, refer to [Use Partition Key Isolation](/docs/use-partition-key#use-partition-key-isolation).
 
 **RETURN TYPE:**
 
@@ -153,7 +160,7 @@ A **CollectionSchema** object.
 
     - This exception will be raised if the **auto_id** parameter has been set but the value is not a boolean.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import CollectionSchema, FieldSchema, DataType
@@ -178,7 +185,7 @@ schema = CollectionSchema(
 )
 ```
 
-## Methods{#methods}
+## Methods\{#methods}
 
 The following are the methods of the `CollectionSchema` class:
 

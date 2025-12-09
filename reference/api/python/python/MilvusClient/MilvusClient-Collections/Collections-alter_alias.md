@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "alter_alias() | Python | MilvusClient"
 slug: /python/python/Collections-alter_alias
 sidebar_label: "alter_alias()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation reassigns the alias of one collection to another. | Python | MilvusClient"
 type: docx
 token: CBc3d1mrdoYqmDxe4Kcc9zxAnzh
 sidebar_position: 1
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - alter_alias()
-  - pymilvus25
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - pymilvus26
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation reassigns the alias of one collection to another.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 alter_alias(
@@ -96,7 +99,7 @@ alter_alias(
 
     This exception will be raised when any error occurs during this operation, especially when the specified alias does not exist.
 
-## Example{#example}
+## Example\{#example}
 
 ```python
 from pymilvus import MilvusClient
@@ -118,7 +121,7 @@ client.create_alias(collection_name="test_collection_1", alias="test")
 client.alter_alias(collection_name="test_collection_2", alias="test")
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [create_alias()](./Collections-create_alias)
 

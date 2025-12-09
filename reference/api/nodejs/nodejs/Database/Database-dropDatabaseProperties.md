@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: nodeSidebar
 title: "dropDatabaseProperties() | Node.js"
 slug: /node/node/Database-dropDatabaseProperties
 sidebar_label: "dropDatabaseProperties()"
 beta: false
+added_since: v2.5.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation drops the setting of the specified properties. | Node.js"
 type: docx
 token: GulFdOWMboEK9bxnzMSc8Uf8n8b
 sidebar_position: 4
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabaseProperties()
-  - nodejs25
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - nodejs26
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: nodeSidebar
 
+displayed_sidbar: nodeSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -44,7 +47,7 @@ dropDatabaseProperties(data): Promise<ResStatus>
 
 </Admonition>
 
-## Request Syntax{#request-syntax}
+## Request Syntax\{#request-syntax}
 
 ```javascript
 milvusClient.dropDatabaseProperties({
@@ -122,7 +125,7 @@ This method returns a promise that resolves to a **ResStatus** object.
 
     The reason that indicates the reason for the reported error. It remains an empty string if this operation succeeds.
 
-## Example{#example}
+## Example\{#example}
 
 ```javascript
 const milvusClient = new milvusClient(MILUVS_ADDRESS);

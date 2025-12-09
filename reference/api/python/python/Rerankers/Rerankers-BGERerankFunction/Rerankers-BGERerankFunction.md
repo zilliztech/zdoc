@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "BGERerankFunction | Python"
 slug: /python/python/Rerankers-BGERerankFunction
 sidebar_label: "BGERerankFunction"
 beta: false
+added_since: v2.4.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "BGERerankFunction is a class in milvusmodel that takes a query and document as input and directly returns a similarity score instead of embeddings. This functionality uses the underlying BGE reranking model. | Python"
 type: docx
 token: GxAZd9O9gozzhExhMHWcMnXPngh
 sidebar_position: 1
 keywords: 
+  - Machine Learning
+  - RAG
   - NLP
   - Neural Network
-  - Deep Learning
-  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
   - BGERerankFunction
-  - pymilvus25
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - pymilvus26
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -38,7 +41,7 @@ import Admonition from '@theme/Admonition';
 pymilvus.model.reranker.BGERerankFunction
 ```
 
-## Constructor{#constructor}
+## Constructor\{#constructor}
 
 Constructs a BGERerankFunction for common use cases.
 
@@ -74,7 +77,7 @@ BGERerankFunction(
 
     Optional. The device to use for running the model. If not specified, the model will be run on the CPU. You can specify `cpu` for the CPU and `cuda:n` for the nth GPU device.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus.model.reranker import BGERerankFunction

@@ -1,30 +1,33 @@
 ---
-displayed_sidbar: pythonSidebar
 title: "get() | Python | MilvusClient"
 slug: /python/python/Vector-get
 sidebar_label: "get()"
 beta: false
+added_since: v2.3.x
+last_modified: false
+deprecate_since: false
 notebook: false
 description: "This operation gets specific entities by their IDs. | Python | MilvusClient"
 type: docx
 token: TEUDde2xbo0JT7xtVvtcF53Nnub
 sidebar_position: 2
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - get()
-  - pymilvus25
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - pymilvus26
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: pythonSidebar
 
+displayed_sidbar: pythonSidebar
 ---
 
 import Admonition from '@theme/Admonition';
@@ -34,7 +37,7 @@ import Admonition from '@theme/Admonition';
 
 This operation gets specific entities by their IDs.
 
-## Request syntax{#request-syntax}
+## Request syntax\{#request-syntax}
 
 ```python
 get(
@@ -97,7 +100,7 @@ A list of dictionaries with each dictionary representing a queried entity.
 
     This exception will be raised when a parameter value doesn't match the required data type.
 
-## Examples{#examples}
+## Examples\{#examples}
 
 ```python
 from pymilvus import MilvusClient
@@ -171,7 +174,7 @@ res = client.get(
 # ]
 ```
 
-## Related methods{#related-methods}
+## Related methods\{#related-methods}
 
 - [delete()](./Vector-delete)
 
