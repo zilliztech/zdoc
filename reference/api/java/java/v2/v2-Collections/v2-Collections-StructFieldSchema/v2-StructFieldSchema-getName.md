@@ -12,19 +12,19 @@ type: docx
 token: DZcddGCD3oh29txhnB5cuxzzn4d
 sidebar_position: 6
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - getName()
   - javaV226
+  - rag vector database
   - what is vector db
   - what are vector databases
   - vector databases comparison
-  - Faiss
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

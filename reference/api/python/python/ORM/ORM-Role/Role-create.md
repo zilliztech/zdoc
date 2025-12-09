@@ -12,19 +12,19 @@ type: docx
 token: G3h4d3jx6oXFHBxFZlyc9jLKnTO
 sidebar_position: 2
 keywords: 
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - create()
   - pymilvus26
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

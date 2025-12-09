@@ -12,10 +12,10 @@ token: A6atfZDQxl1INud6VYGcX54zngf
 sidebar_position: 2
 sidebar_label: "EmbeddingModels"
 keywords: 
+  - AI chatbots
+  - cosine distance
   - what is a vector database
   - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud

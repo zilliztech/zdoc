@@ -12,19 +12,19 @@ type: docx
 token: Znb7dcNoeobIkkxGLGfcpVfUnIX
 sidebar_position: 19
 keywords: 
+  - Image Search
+  - LLMs
+  - Machine Learning
   - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - revokeRole()
   - javaV226
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: Va2Fd7J6EoKmKCxaww0caOdInpF
 sidebar_position: 4
 keywords: 
+  - how do vector databases work
   - vector db comparison
   - openai vector db
   - natural language processing database
-  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - FunctionType
   - javaV226
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
