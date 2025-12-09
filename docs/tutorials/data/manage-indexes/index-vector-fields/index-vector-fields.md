@@ -17,10 +17,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

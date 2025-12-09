@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

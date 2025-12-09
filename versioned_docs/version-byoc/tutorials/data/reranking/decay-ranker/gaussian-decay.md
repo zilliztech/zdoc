@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - gaussian decay
   - gauss
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

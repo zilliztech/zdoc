@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

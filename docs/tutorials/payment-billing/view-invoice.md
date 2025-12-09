@@ -17,10 +17,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

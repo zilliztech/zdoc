@@ -21,10 +21,10 @@ keywords:
   - hands-on
   - structs
   - array of structs
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

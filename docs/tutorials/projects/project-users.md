@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

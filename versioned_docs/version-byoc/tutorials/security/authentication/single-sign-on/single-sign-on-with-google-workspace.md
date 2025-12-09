@@ -18,10 +18,10 @@ keywords:
   - sso
   - google
   - workspace
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

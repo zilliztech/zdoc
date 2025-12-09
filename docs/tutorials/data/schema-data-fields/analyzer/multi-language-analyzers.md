@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - multi-language
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

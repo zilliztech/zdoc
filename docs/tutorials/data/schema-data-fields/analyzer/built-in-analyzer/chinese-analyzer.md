@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - chinese analyzer
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

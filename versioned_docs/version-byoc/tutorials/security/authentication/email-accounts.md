@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

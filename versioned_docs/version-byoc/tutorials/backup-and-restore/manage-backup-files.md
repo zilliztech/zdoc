@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - manage
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

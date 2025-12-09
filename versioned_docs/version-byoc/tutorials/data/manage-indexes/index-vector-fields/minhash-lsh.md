@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - minhash
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

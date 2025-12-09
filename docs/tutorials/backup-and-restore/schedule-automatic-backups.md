@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

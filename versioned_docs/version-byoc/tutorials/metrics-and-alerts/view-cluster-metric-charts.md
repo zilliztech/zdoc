@@ -18,10 +18,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

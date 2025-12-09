@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

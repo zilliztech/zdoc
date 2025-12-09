@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - overview
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

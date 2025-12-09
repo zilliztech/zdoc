@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

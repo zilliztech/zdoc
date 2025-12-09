@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - third-party
   - services
   - datadog
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

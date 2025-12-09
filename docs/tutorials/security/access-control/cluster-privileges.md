@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

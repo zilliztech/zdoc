@@ -18,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

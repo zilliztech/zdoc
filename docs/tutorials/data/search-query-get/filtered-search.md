@@ -19,10 +19,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

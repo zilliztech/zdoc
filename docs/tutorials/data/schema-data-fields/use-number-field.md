@@ -21,10 +21,10 @@ keywords:
   - int
   - integer
   - float
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

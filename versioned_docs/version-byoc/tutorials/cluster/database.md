@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

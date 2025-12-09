@@ -18,10 +18,10 @@ keywords:
   - dedicated
   - cost
   - billing
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

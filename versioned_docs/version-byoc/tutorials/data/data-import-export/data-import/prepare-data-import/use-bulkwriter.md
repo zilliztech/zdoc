@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

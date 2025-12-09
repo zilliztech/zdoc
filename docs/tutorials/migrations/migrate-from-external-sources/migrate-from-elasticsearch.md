@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - elasticsearch
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

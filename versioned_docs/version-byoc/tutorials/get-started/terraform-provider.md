@@ -17,10 +17,10 @@ keywords:
   - cloud
   - terraform provider
   - terraform
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - mcp
   - milvus
   - mcp server
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

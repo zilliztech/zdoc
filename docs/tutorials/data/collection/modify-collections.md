@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - geometry
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

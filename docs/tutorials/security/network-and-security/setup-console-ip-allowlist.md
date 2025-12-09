@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

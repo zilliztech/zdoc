@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - best
   - practice
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

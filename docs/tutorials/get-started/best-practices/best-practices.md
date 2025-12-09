@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

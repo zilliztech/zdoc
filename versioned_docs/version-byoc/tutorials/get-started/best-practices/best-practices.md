@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

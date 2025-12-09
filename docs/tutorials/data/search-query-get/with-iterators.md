@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

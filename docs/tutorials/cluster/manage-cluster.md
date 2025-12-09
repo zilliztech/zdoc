@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

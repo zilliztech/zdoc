@@ -19,10 +19,10 @@ keywords:
   - milvus
   - backup files
   - volume
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

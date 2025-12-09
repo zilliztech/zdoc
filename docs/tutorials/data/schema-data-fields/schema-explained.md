@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

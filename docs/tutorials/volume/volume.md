@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - volume
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

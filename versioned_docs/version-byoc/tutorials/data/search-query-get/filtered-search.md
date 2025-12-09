@@ -19,10 +19,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

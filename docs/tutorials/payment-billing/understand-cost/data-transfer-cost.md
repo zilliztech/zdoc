@@ -18,10 +18,10 @@ keywords:
   - data transfer
   - cost
   - billing
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 
@@ -45,13 +45,13 @@ The following table compares the different data transfer types.
      <td><p><strong>Internet egress</strong></p></td>
      <td><p>The transfer of data from Zilliz Cloud to destinations over the public internet, such as external networks, client applications, or third-party services outside the cloud provider’s private network.</p></td>
      <td><p>Returning search or query results to a client app hosted outside the cloud provider.</p></td>
-     <td><p>The most expensive. For detailed rates, see <a href="https://zilliz.com/pricing/pricing-guide">Zilliz Cloud Pricing Guide</a>.</p></td>
+     <td><p>The most expensive and the cost is determined by the source destination.</p><p>For detailed rates, see <a href="https://zilliz.com/pricing/pricing-guide">Zilliz Cloud Pricing Guide</a>.</p></td>
    </tr>
    <tr>
      <td><p><strong>Cross-region</strong></p></td>
      <td><p>The movement of data between different regions within the same cloud provider’s network, which may incur additional latency and costs compared to intra-region transfer.</p></td>
      <td><ul><li><p>Cross region backup</p></li><li><p>Data migration between Zilliz Cloud clusters deployed in different regions.</p></li></ul></td>
-     <td><ul><li><p>For AWS, the cost is determined by the source continent.</p></li><li><p>For Azure and Google Cloud, the cost is determined by both the source and destination continents - transfers to a different region within the same continent are billed at lower rates, while transfers to a different continent incur higher rates.</p><p>For detailed rates, see <a href="https://zilliz.com/pricing/pricing-guide">Zilliz Cloud Pricing Guide</a>.</p></li></ul></td>
+     <td><ul><li><p>For AWS, the cost is determined by the source continent.</p></li><li><p>For Azure and Google Cloud, the cost is determined by both the source and destination continents.</p><p>For detailed rates, see <a href="https://zilliz.com/pricing/pricing-guide">Zilliz Cloud Pricing Guide</a>.</p></li></ul></td>
    </tr>
    <tr>
      <td><p><strong>Intra-region</strong></p></td>
@@ -104,7 +104,9 @@ Suppose your cluster is deployed in AWS us-east-1 (Virginia) and you return sear
 
 - **Transfer Type**: Public Internet Egress
 
-- **Unit Price**: $0.09/GB (based on AWS us-east-1 public internet egress rate)
+- **Source Continent**: North America
+
+- **Unit Price**: $0.09/GB (based on public internet egress rate from North America)
 
 The data transfer cost is `$0.09 × 500 = $45.00`.
 
@@ -116,13 +118,17 @@ Suppose your cluster is deployed in GCP us-west1 (Oregon) and you need to back u
 
 - **Transfer Type**: Cross-region Transfer
 
+- **Source Continent**: North America
+
+- **Destination Continent**: North America & Europe
+
 - **Unit Price**: 
 
-    - Data transfer from GCP us-west1 (Oregon) to GCP us-central1 (Iowa) is billed at the same-continent cross-region rate of **&#36;0.02/GB**.
+    - Data transfer from North America (GCP us-west1) to North America (GCP us-central1) is billed at the rate of **&#36;0.02/GB**.
 
-    - Data transfer from GCP us-west1 (Oregon) to GCP europe-west3 (Frankfurt) is billed at the different-continent cross-region rate of **&#36;0.08/GB**.
+    - Data transfer from North America (GCP us-west1) to Europ (GCP europe-west3) is billed at the rate of **&#36;0.05/GB**.
 
-The data transfer cost is `$0.02 × 20 + $0.08 x 20 = $2.00`.
+The data transfer cost is `$0.02 × 20 + $0.05 x 20 = $1.40`.
 
 ### Example 3: Intra-region transfer\{#example-3-intra-region-transfer}
 

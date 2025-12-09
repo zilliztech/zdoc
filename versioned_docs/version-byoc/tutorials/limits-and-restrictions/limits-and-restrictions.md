@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

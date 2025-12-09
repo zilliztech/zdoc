@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

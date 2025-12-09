@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - changelogs
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

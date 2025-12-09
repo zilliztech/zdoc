@@ -18,10 +18,10 @@ keywords:
   - milvus
   - performance
   - benchmark
+  - what is vector db
   - what are vector databases
   - vector databases comparison
   - Faiss
-  - Video search
 
 ---
 

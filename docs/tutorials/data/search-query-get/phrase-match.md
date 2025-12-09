@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - phrase-match
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

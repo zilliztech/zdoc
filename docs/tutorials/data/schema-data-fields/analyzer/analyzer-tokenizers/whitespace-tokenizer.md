@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - whitespace-tokenizer
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

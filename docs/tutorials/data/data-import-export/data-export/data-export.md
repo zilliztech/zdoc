@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

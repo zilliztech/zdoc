@@ -19,10 +19,10 @@ keywords:
   - extract
   - transform
   - load
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

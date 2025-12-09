@@ -17,10 +17,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

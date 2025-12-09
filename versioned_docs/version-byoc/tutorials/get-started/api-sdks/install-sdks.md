@@ -17,10 +17,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

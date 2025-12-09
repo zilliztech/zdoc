@@ -22,10 +22,10 @@ keywords:
   - filtering
   - elasticsearch queries
   - query mapping
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

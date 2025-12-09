@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

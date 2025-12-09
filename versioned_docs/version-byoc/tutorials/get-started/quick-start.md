@@ -17,10 +17,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

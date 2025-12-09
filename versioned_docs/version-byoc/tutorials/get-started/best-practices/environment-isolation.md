@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - multi-tenancy
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

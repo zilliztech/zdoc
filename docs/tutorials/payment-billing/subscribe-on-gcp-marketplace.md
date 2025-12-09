@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - gcp
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

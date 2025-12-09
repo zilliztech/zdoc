@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

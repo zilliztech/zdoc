@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

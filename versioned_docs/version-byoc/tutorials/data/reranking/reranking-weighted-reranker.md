@@ -20,10 +20,10 @@ keywords:
   - search result reranking
   - result reranking
   - weighted reranker
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

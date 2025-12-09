@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

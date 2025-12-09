@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - console
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

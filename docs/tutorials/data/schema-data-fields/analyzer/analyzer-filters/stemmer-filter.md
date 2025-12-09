@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - stemmer
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

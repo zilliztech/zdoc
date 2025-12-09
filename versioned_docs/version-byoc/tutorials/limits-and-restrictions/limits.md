@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

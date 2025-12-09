@@ -18,10 +18,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

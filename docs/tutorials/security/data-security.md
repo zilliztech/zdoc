@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data
   - security
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

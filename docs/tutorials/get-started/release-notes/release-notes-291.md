@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

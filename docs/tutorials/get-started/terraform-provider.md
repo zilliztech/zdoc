@@ -17,10 +17,10 @@ keywords:
   - cloud
   - terraform provider
   - terraform
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

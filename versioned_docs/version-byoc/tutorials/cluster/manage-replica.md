@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

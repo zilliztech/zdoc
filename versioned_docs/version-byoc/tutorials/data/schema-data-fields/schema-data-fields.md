@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

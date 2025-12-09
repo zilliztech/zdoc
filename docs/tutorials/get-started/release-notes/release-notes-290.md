@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

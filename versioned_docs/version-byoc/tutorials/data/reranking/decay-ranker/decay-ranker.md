@@ -22,10 +22,10 @@ keywords:
   - decay
   - decay ranker
   - decay rankers
-  - Machine Learning
   - RAG
   - NLP
   - Neural Network
+  - Deep Learning
 
 ---
 

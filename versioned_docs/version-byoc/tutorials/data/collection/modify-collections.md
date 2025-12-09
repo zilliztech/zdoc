@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - Vector retrieval
   - Audio similarity search
   - Elastic vector database
   - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

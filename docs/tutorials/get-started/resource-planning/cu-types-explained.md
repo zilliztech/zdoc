@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cu
   - select
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

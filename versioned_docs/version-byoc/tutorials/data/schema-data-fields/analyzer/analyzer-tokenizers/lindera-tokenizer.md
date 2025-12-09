@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - lindera-tokenizer
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

@@ -21,10 +21,10 @@ keywords:
   - int
   - integer
   - float
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

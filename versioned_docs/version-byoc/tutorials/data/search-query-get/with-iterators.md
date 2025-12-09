@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

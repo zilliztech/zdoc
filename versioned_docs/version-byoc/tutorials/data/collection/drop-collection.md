@@ -19,10 +19,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

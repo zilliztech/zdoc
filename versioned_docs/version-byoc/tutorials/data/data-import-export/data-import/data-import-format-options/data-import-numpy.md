@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - data
   - grouping search
   - group
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 

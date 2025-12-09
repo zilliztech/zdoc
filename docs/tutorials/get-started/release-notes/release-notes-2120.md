@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

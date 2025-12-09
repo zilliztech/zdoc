@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - milvus
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

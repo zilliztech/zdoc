@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - ascii folding
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

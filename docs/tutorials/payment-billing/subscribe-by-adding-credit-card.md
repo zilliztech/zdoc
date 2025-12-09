@@ -17,10 +17,10 @@ keywords:
   - cloud
   - credit card
   - subscribe
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

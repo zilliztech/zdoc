@@ -19,10 +19,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - milvus vector db
-  - Zilliz Cloud
   - what is milvus
   - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

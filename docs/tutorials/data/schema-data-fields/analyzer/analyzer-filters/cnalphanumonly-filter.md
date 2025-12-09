@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - cnalphanumonly
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

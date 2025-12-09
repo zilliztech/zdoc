@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - manage
   - console
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

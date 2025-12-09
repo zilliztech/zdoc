@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

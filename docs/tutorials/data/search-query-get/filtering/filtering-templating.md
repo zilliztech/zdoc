@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - filtering templating
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

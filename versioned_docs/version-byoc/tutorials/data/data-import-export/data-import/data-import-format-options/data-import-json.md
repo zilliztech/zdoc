@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - json
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

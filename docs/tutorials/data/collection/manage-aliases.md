@@ -18,10 +18,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - console
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

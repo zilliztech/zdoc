@@ -19,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

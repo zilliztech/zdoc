@@ -19,10 +19,10 @@ keywords:
   - data
   - grouping search
   - group
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

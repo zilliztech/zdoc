@@ -19,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

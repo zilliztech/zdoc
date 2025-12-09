@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

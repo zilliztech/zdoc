@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

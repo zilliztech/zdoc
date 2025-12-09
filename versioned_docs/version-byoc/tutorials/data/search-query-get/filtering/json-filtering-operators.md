@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - json operators
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

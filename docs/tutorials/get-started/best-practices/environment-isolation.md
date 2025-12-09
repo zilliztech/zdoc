@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - multi-tenancy
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

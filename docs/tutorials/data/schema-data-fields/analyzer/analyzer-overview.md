@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

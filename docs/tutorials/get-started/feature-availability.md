@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - feature availability
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

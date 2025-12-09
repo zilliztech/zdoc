@@ -17,10 +17,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

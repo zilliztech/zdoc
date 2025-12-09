@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - DML
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

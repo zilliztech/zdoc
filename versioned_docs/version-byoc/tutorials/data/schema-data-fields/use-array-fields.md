@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - array field
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

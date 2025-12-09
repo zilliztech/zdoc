@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

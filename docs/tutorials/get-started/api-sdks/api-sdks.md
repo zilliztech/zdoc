@@ -23,10 +23,10 @@ keywords:
   - go
   - node
   - nodejs
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

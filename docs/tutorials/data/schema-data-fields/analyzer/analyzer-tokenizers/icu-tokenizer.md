@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - icu-tokenizer
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

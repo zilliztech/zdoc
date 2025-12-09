@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - multi-language
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

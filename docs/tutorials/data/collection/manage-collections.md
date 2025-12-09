@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

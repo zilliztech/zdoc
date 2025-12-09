@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster plan
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

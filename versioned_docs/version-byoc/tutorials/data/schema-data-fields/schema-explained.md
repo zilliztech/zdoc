@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

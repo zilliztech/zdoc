@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

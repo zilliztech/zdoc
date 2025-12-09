@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

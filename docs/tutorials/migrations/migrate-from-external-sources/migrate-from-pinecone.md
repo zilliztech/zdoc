@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - pinecone
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

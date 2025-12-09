@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

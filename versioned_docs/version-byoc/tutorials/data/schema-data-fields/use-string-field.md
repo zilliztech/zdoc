@@ -19,10 +19,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

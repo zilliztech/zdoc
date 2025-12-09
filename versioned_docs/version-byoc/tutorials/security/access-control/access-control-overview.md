@@ -18,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

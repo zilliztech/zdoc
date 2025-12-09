@@ -21,10 +21,10 @@ keywords:
   - result reranking
   - boost
   - boost ranker
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

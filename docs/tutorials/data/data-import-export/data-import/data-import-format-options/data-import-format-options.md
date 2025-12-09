@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

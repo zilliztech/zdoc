@@ -17,10 +17,10 @@ keywords:
   - cloud
   - activities
   - view
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

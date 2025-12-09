@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - tencent cloud
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

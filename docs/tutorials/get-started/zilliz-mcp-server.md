@@ -18,10 +18,10 @@ keywords:
   - mcp
   - milvus
   - mcp server
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - data
   - vector search
   - ann
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

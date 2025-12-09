@@ -20,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

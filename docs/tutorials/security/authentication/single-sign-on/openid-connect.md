@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

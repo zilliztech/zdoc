@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - remove punct
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

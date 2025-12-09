@@ -18,10 +18,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

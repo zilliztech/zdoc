@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster credentials
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

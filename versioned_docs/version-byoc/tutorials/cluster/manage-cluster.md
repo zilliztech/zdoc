@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

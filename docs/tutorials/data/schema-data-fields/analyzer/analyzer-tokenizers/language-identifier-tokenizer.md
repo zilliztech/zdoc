@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - language identifier
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

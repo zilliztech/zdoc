@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

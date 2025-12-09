@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - phrase-match
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

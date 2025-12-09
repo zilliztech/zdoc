@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

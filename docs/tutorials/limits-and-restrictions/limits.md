@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

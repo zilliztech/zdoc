@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

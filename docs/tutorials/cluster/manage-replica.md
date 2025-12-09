@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

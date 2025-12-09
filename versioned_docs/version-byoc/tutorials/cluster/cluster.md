@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

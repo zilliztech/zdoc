@@ -20,10 +20,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

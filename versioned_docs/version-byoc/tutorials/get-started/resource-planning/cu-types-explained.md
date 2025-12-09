@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cu
   - select
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - stemmer
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

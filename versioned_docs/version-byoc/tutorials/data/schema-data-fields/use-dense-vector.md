@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

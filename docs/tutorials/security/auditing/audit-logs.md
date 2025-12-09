@@ -18,10 +18,10 @@ keywords:
   - auditing
   - log
   - configure
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

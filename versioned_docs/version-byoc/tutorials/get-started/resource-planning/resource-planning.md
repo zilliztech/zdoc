@@ -17,10 +17,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

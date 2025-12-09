@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

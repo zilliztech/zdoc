@@ -18,10 +18,10 @@ keywords:
   - auditing
   - log
   - configure
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

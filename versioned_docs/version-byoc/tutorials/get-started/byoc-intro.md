@@ -16,10 +16,10 @@ keywords:
   - byoc
   - milvus
   - vector database
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

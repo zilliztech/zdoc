@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

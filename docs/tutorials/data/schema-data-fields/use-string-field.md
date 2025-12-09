@@ -19,10 +19,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

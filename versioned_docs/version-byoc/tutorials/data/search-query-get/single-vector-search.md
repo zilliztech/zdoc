@@ -19,10 +19,10 @@ keywords:
   - data
   - vector search
   - ann
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

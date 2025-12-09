@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - add collection fields
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

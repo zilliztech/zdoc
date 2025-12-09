@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

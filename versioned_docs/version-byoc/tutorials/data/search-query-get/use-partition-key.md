@@ -19,10 +19,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

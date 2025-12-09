@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

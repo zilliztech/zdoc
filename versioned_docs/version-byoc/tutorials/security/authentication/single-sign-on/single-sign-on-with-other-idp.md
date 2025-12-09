@@ -18,10 +18,10 @@ keywords:
   - sso
   - other
   - idp
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

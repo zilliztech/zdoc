@@ -21,10 +21,10 @@ keywords:
   - rto
   - rpo
   - cost optimzation
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

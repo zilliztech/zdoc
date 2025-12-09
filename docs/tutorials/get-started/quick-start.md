@@ -17,10 +17,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

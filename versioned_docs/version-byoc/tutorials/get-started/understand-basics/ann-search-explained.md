@@ -17,10 +17,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 

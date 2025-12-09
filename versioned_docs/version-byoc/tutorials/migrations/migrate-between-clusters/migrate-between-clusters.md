@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

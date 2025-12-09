@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - json
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

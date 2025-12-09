@@ -18,10 +18,10 @@ keywords:
   - sso
   - other
   - idp
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

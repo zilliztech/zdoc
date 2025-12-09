@@ -20,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

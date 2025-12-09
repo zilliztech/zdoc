@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
 
 ---
 

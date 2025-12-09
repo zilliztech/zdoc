@@ -18,10 +18,10 @@ keywords:
   - data import
   - export
   - milvus
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

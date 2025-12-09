@@ -21,10 +21,10 @@ keywords:
   - hands-on
   - structs
   - array of structs
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

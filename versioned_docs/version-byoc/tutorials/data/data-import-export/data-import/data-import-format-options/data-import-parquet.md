@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

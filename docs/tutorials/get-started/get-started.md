@@ -16,10 +16,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

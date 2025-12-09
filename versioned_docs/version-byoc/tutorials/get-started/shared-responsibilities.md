@@ -17,10 +17,10 @@ keywords:
   - milvus
   - vector database
   - shared responsibilities
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

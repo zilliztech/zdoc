@@ -18,10 +18,10 @@ keywords:
   - sso
   - google
   - workspace
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

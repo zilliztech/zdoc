@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

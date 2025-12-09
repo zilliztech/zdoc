@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 
