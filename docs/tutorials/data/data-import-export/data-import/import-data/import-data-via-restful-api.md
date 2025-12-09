@@ -3,6 +3,9 @@ title: "Import Data (RESTful API) | Cloud"
 slug: /import-data-via-restful-api
 sidebar_label: "RESTful API"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This page introduces how to import the prepared data via the Zilliz Cloud RESTful API. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 
@@ -28,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 This page introduces how to import the prepared data via the Zilliz Cloud RESTful API.
 
-## Before you start{#before-you-start}
+## Before you start\{#before-you-start}
 
 Make sure the following conditions are met:
 
@@ -42,9 +45,50 @@ Make sure the following conditions are met:
 
      For details on creating a collection, see [Manage Collections (Console)](./manage-collections-console).
 
-## Import data using the RESTful API{#import-data-using-the-restful-api}
+## Import data via volume\{#import-data-via-volume}
 
-To import data from files using the RESTful API, you must first upload the files to an object storage bucket, such as AWS S3 or Google Cloud Storage (GCS). Once uploaded, obtain the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket. For details on supported object paths, refer to [Storage Options](./data-import-storage-options).
+To import data from files via volume, you must first create a volume and upload the files to it. Once that's done, obtain the path to the files in the volume. For details, refer to [Manage Volumes (SDK)](./manage-stages).
+
+Then you can import the uploaded data into a specific collection as follows:
+
+```bash
+curl --request POST \
+--url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/create" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Content-Type: application/json" \
+-d '{
+    "clusterId": "inxx-xxxxxxxxxxxxxxx",
+    "dbName": "default",
+    "collectionName": "medium_articles",
+    "partitionName": "",
+    "volumeName": "my_volume",
+    "dataPaths": [
+        [
+            "json-folder/1.json"
+        ]
+    ]
+}'
+```
+
+To import data into a specific partition, you need to include `partitionName` in the request.
+
+After Zilliz Cloud processes the above request, you will receive a job ID. Use this job ID to monitor the import progress with the following command:
+
+```bash
+curl --request POST \
+     --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/getProgress" \
+     --header "Authorization: Bearer ${TOKEN}" \
+     --header "Accept: application/json" \
+     --header "Content-Type: application/json" \
+     -d '{
+        "clusterId": "inxx-xxxxxxxxxxxxxxx",
+        "jobId": "job-xxxxxxxxxxxxxxxxxxxxx"
+    }'
+```
+
+## Import data via external storage\{#import-data-via-external-storage}
+
+To import data from files via external storage, you must first upload the files to an object storage bucket, such as AWS S3 or Google Cloud Storage (GCS). Once uploaded, obtain the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket. For details on supported object paths, refer to [Storage Options](./data-import-storage-options).
 
 Based on your data security requirements, you can use either long-term or short-term credentials during data import. 
 
@@ -88,7 +132,7 @@ To import data into a specific partition, you need to include `partitionName` in
 After Zilliz Cloud processes the above request, you will receive a job ID. Use this job ID to monitor the import progress with the following command:
 
 ```bash
-curl --request GET \
+curl --request POST \
      --url "https://api.cloud.zilliz.com/v2/vectordb/jobs/import/getProgress" \
      --header "Authorization: Bearer ${TOKEN}" \
      --header "Accept: application/json" \
@@ -101,7 +145,7 @@ curl --request GET \
 
 For details, see [Import](/reference/restful/create-import-jobs-v2) and [Get Import Progress](/reference/restful/get-import-job-progress-v2).
 
-## Verify the result{#verify-the-result}
+## Verify the result\{#verify-the-result}
 
 If the command output is similar as follows, the import job is successfully submitted:
 

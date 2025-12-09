@@ -3,6 +3,9 @@ title: "Migrate from Qdrant to Zilliz Cloud | Cloud"
 slug: /migrate-from-qdrant
 sidebar_label: "Qdrant"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This topic describes how Zilliz Cloud handles data type mapping, payload field conversion, and collection naming rules when migrating from Qdrant. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - qdrant
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 
@@ -28,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 This topic describes how Zilliz Cloud handles data type mapping, payload field conversion, and collection naming rules when migrating from [Qdrant](https://qdrant.tech/).
 
-## Prerequisites{#prerequisites}
+## Prerequisites\{#prerequisites}
 
 Before starting your Qdrant to Zilliz Cloud migration, ensure you meet these requirements:
 
-### Qdrant requirements{#qdrant-requirements}
+### Qdrant requirements\{#qdrant-requirements}
 
 <table>
    <tr>
@@ -53,7 +56,7 @@ Before starting your Qdrant to Zilliz Cloud migration, ensure you meet these req
    </tr>
 </table>
 
-### Zilliz Cloud requirements{#zilliz-cloud-requirements}
+### Zilliz Cloud requirements\{#zilliz-cloud-requirements}
 
 <table>
    <tr>
@@ -74,7 +77,7 @@ Before starting your Qdrant to Zilliz Cloud migration, ensure you meet these req
    </tr>
 </table>
 
-## Data type mapping{#data-type-mapping}
+## Data type mapping\{#data-type-mapping}
 
 Understanding how Qdrant data types map to Zilliz Cloud is crucial for planning your migration:
 
@@ -106,7 +109,7 @@ Understanding how Qdrant data types map to Zilliz Cloud is crucial for planning 
    </tr>
 </table>
 
-## Payload field conversion{#payload-field-conversion}
+## Payload field conversion\{#payload-field-conversion}
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -167,7 +170,7 @@ When converting payload to fixed fields:
    </tr>
 </table>
 
-### Array type support{#array-type-support}
+### Array type support\{#array-type-support}
 
 Array types are not detected in existing payload data and cannot be converted from dynamic fields. However, most array types can be manually added as new fields during migration configuration:
 
@@ -222,9 +225,9 @@ For payload fields converted to fixed fields, you can configure additional attri
 
 - **Partition Key**: Optionally designate an INT64 or VARCHAR field as the partition key. Note that each collection supports only one partition key, and the selected field cannot be nullable. For details, refer to  [Use Partition Key](./use-partition-key).
 
-## Qdrant-specific handling rules{#qdrant-specific-handling-rules}
+## Qdrant-specific handling rules\{#qdrant-specific-handling-rules}
 
-### Collection naming rules{#collection-naming-rules}
+### Collection naming rules\{#collection-naming-rules}
 
 Qdrant collection names are transferred to Zilliz Cloud with the following considerations:
 

@@ -3,6 +3,9 @@ title: "Import Data (Console) | BYOC"
 slug: /import-data-on-web-ui
 sidebar_label: "Console"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This page introduces how to import the prepared data on the Zilliz Cloud console. | BYOC"
 type: origin
@@ -14,21 +17,23 @@ keywords:
   - cloud
   - data import
   - console
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
+import Supademo from '@site/src/components/Supademo';
+
 # Import Data (Console)
 
 This page introduces how to import the prepared data on the Zilliz Cloud console.
 
-## Import data on the web UI{#import-data-on-the-web-ui}
+## Import data on the web UI\{#import-data-on-the-web-ui}
 
 Once data files are ready, you can upload them to an object storage bucket for data imports.
 
@@ -36,18 +41,18 @@ Once data files are ready, you can upload them to an object storage bucket for d
 
 <ul>
 <li><p>You can have up to 10,000 running or pending import jobs in a collection.</p></li>
-<li><p>The web console supports uploading a local JSON file of up to 1 GB. For larger files, it is recommended to <a href="./import-data-on-web-ui#remote-files-from-an-object-storage-bucket">upload from an object storage</a> instead. If you have any difficulties with data import, please <a href="https://support.zilliz.com/hc/en-us">create a support ticket</a>.</p></li>
+<li><p>The web console supports uploading a local JSON or Parquet file of up to 1 GB. For larger files, it is recommended to <a href="./import-data-on-web-ui#remote-files-from-an-object-storage-bucket">upload from an object storage</a> instead. If you have any difficulties with data import, please <a href="https://support.zilliz.com/hc/en-us">create a support ticket</a>.</p></li>
 </ul>
 
 </Admonition>
 
-### Remote files from an object storage bucket{#remote-files-from-an-object-storage-bucket}
+### Remote files from an object storage bucket\{#remote-files-from-an-object-storage-bucket}
 
 To import remote files, you must first upload them to a remote bucket. You can easily convert your raw data into supported formats and upload the result files [using the BulkWriter tool](./use-bulkwriter). 
 
 Once you have uploaded the prepared files to a remote bucket, select the object storage service and fill in the path to the files in the remote bucket and bucket credentials for Zilliz Cloud to pull data from your bucket. 
 
-Based on your data security requirements, you can use either long-term credentials or session tokens during data import. 
+Based on your data security requirements, you can use either long-term credentials or short-term tokens during data import. 
 
 For more information about obtaining credentials, refer to:
 
@@ -57,7 +62,7 @@ For more information about obtaining credentials, refer to:
 
 - Azure Blob Storage: [View account access keys](https://learn.microsoft.com/en-us/azure/storage/common/storage-account-keys-manage?tabs=azure-portal#view-account-access-keys)
 
-For more information about using session tokens, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
+For more information about using short-term tokens, refer to [this FAQ](/docs/faq-data-import#can-i-use-short-term-credentials-when-importing-data-from-an-object-storage-service).
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -65,17 +70,17 @@ For more information about using session tokens, refer to [this FAQ](/docs/faq-d
 
 </Admonition>
 
-![byoc-data-import-on-console-remote](/img/byoc-data-import-on-console-remote.png)
+<Supademo id="cme7xfbw40096xf0irz21196r?utm_source=link" title=""  />
 
-## Verify resultes{#verify-resultes}
+## Verify results\{#verify-results}
 
 You can view the progress and status of the import job on the [Jobs](./job-center) page.
 
-## Supported object paths{#supported-object-paths}
+## Supported object paths\{#supported-object-paths}
 
 For applicable object paths, refer to [Storage Options](./data-import-storage-options) and [Format Options](./data-import-format-options).
 
-## Related topics{#related-topics}
+## Related topics\{#related-topics}
 
 - [Storage Options](./data-import-storage-options)
 

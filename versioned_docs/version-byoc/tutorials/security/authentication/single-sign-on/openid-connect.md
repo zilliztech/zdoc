@@ -1,10 +1,13 @@
 ---
-title: "OpenID Connect | BYOC"
+title: "Okta (OIDC) | BYOC"
 slug: /openid-connect
-sidebar_label: "Configure OIDC SSO"
-beta: CONTACT SALES
+sidebar_label: "Okta (OIDC)"
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "This topic describes how to configure single sign-on (SSO) with Okta using the OpenID Connect protocol. | BYOC"
+description: "This topic describes how to configure single sign-on (SSO) with Okta using the OpenID Connect (OIDC) protocol. | BYOC"
 type: origin
 token: OQ2ZwpH9ki5EZIkwK21cghexnOh
 sidebar_position: 1
@@ -13,39 +16,59 @@ keywords:
   - vector database
   - cloud
   - sso
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# OpenID Connect
+import Supademo from '@site/src/components/Supademo';
 
-This topic describes how to configure single sign-on (SSO) with Okta using the [OpenID Connect](https://openid.net/developers/how-connect-works/) (OIDC) protocol.
+# Okta (OIDC)
 
-OIDC is an authentication protocol built on top of OAuth 2.0. It allows for seamless and secure authentication between Zilliz Cloud and Okta. Choose this option if you're using Okta as your identity provider and want to take advantage of Okta-specific features and potentially simpler setup processes. For details, refer to [Okta official documentation](https://help.okta.com/en-us/Content/Topics/Apps/apps-about-oidc.htm).
+This topic describes how to configure single sign-on (SSO) with Okta using the OpenID Connect (OIDC) protocol.
 
-![EfRWwnbKNhcXEwbL7EBcB66inrd](/img/EfRWwnbKNhcXEwbL7EBcB66inrd.png)
+In this guide, Zilliz Cloud acts as the Service Provider (SP) and Okta acts as the Identity Provider (IdP). The following digram illustrates the necessary steps in Zilliz Cloud and Okta console.
 
-<Admonition type="info" icon="📘" title="Notes">
+![EfRWwnbKNhcXEwbL7EBcB66inrd](https://zdoc-images.s3.us-west-2.amazonaws.com/EfRWwnbKNhcXEwbL7EBcB66inrd.png)
 
-<p>Though the SSO feature is in <strong>General Availability</strong>, please <a href="https://zilliz.com/contact-sales">contact</a><a href="https://zilliz.com/contact-sales"> sales</a> for access.</p>
+## Before you start\{#before-you-start}
 
-</Admonition>
-
-## Before you start{#before-you-start}
-
-Before you begin the SSO configuration, make sure the following conditions are met:
-
-- You are the Organization Owner of the organization where SSO is to be configured.
+- Your Zilliz Cloud organization has at least one **Dedicated (Enterprise)** cluster.
 
 - You have Admin access to the Okta console. For more information, refer to [Okta official documentation](https://help.okta.com/en-us/content/topics/security/administrators-learn-about-admins.htm).
 
-## Step 1: Create OIDC app integration in Okta{#step-1-create-oidc-app-integration-in-okta}
+- You are the Organization Owner in the Zilliz Cloud organization where SSO is to be configured.
+
+## Configuration steps\{#configuration-steps}
+
+### Step 1: Access SP details in Zilliz Cloud console\{#step-1-access-sp-details-in-zilliz-cloud-console}
+
+As the SP, Zilliz Cloud provides the **Single sign-on URL** required when setting up your OIDC app in Okta.
+
+<Supademo id="cme89wf1w3eaoh3pytd3723ao" title="Step 1: Access service provider details in Zilliz Cloud console" />
+
+1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login) and go to the organization for which you want to configure SSO.
+
+1. In the left-side navigation pane, click **Settings**.
+
+1. On the **Settings** page, find the **Single Sign-On (SSO)** section and click **Configure**.
+
+1. In the dialog box that appears, choose **Okta (OIDC)** as your IdP and protocol.
+
+1. In the **Service Provider Details** card, copy your **Single sign-on URL**. It will be required in [Step 2](./openid-connect#step-2-set-up-an-oidc-app-in-okta-console) when creating an OIDC app in Okta console.
+
+1. Once that's done, proceed to [Step 2](./openid-connect#step-2-set-up-an-oidc-app-in-okta-console).
+
+### Step 2: Set up an OIDC app in Okta console\{#step-2-set-up-an-oidc-app-in-okta-console}
+
+In this step, you configure Okta (the IdP) with the SP details obtained from Zilliz Cloud.
+
+<Supademo id="cme8abl5c3ei3h3pywbc9z740" title="Step 1: Create SAML App in Okta Console" />
 
 1. Log in to the [Okta Admin console](https://login.okta.com/).
 
@@ -57,90 +80,86 @@ Before you begin the SSO configuration, make sure the following conditions are m
 
 1. Set up the new Web App integration with the following settings: 
 
-    - **App integration name**: Enter a name for your integration (e.g., **Zilliz Cloud**).
+    - **App integration name**: Customize your app integration name (e.g. **zilliz**).
 
-    - **Grant type**: Ensure **Authorization Code** is selected.
-
-    - **Sign-in redirect URIs**: For now, use any placeholder value. You'll need to update this config later.
+    - **Sign-in redirect URIs**: Paste the **Single sign-on URL** you copied from Zilliz Cloud console in [Step 1](./openid-connect#step-1-access-sp-details-in-zilliz-cloud-console) here.
 
     - **Controlled access**: Choose **Skip group assignment for now** unless you want to set up specific group access.
 
-1. Click **Save** to create the application. Then, you'll be taken to the application's settings page.
+1. Click **Save**. Then, you'll be redirected to the app details page.
 
-1. Find the **Client Credentials** section, and copy **Client ID** and **Secret**. You'll need these for [Step 2](./openid-connect) in Zilliz Cloud.
+1. On the app details page, get the following information:
 
-![sso-oidc-2](/img/sso-oidc-2.png)
+    - **Client ID**
 
-## Step 2: Configure Okta Workforce connection on Zilliz Cloud{#step-2-configure-okta-workforce-connection-on-zilliz-cloud}
+    - **Client Secret**
 
-1. Log in to the [Zilliz Cloud console](https://cloud.zilliz.com/login) and go to the organization for which you want to configure SSO.
+    - **Okta domain**
 
-1. In the left-side navigation pane, choose **Settings**.
+    These values will be required in Zilliz Cloud console in [Step 3](./openid-connect#step-3-configure-idp-settings-in-zilliz-cloud-console).
 
-1. On the **Settings** page, find the **Single Sign-On (SSO)** section and click **Configure**.
+### Step 3: Configure IdP settings in Zilliz Cloud console\{#step-3-configure-idp-settings-in-zilliz-cloud-console}
 
-1. In the **Configure Single Sign-On (SSO)** dialog, you will see two options - **SAML 2.0** and **Okta Workforce**. For this guide, select **Okta Workforce** to proceed with the Okta Client integration.
+In this step, you provide Okta’s IdP details back to Zilliz Cloud to complete the OIDC trust relationship.
 
-1. In the **Okta Domain** field, enter your domain name related to your organization (e.g. **yourdomain.okta.com**). For steps on how to obtain your domain name, refer to [Find your Okta domain](https://developer.okta.com/docs/guides/find-your-domain/main/).
+<Supademo id="cme8af32q3elth3pyaygkdnmo" title="Step 3: Configure Okta settings in Zilliz Cloud console" />
 
-1. Paste the **Client ID** and **Secret** you copied in [Step 1](./openid-connect) from the [Okta Admin console](https://login.okta.com/).
+1. Go back to the [Zilliz Cloud console](https://cloud.zilliz.com/login).
 
-1. Click **Save** to proceed.
+1. In the **Identity Provider Details** card of the **Configure Single Sign-On (SSO)** dialog box, configure the following:
 
-![sso-oidc-1](/img/sso-oidc-1.png)
+    - **Okta Domain**: Paste the **Okta domain** you copied from Okta console in [Step 2](./openid-connect#step-2-set-up-an-oidc-app-in-okta-console).
 
-## Step 3: Update Okta app integration{#step-3-update-okta-app-integration}
+    - **Client ID**: Paste the **Client ID** you copied from Okta console in [Step 2](./openid-connect#step-2-set-up-an-oidc-app-in-okta-console).
 
-After saving the Okta integration details on Zilliz Cloud, you'll be provided with a redirect URL:
+    - **Client Secret**: Paste the **Client Secret** you copied from Okta console in [Step 2](./openid-connect#step-2-set-up-an-oidc-app-in-okta-console).
 
-1. Copy the provided redirect URL from the [Zilliz Cloud console](https://cloud.zilliz.com/login).
+1. Once that's done, click **Save**. Then, click **OK**.
 
-1. Return to your [Okta Admin console](https://login.okta.com/) and navigate to the application you've set up for Zilliz Cloud.
+## Post-configuration tasks\{#post-configuration-tasks}
 
-1. In the **General Settings** area, edit the application settings.
+### Task 1: Assign OIDC app to users\{#task-1-assign-oidc-app-to-users}
 
-    1. In the **Sign-in redirect URIs** field, paste the redirect URL you copied from Zilliz Cloud.
+<Supademo id="cme8ahjdm3epjh3pyg6a3k93k" title="Task 1: Assign OIDC app to users" />
 
-    1. Save the changes in the [Okta Admin console](https://login.okta.com/).
+Before users can access Zilliz Cloud through SSO, you need to assign the OIDC app to them:
 
-1. Go back to the [Zilliz Cloud console](https://cloud.zilliz.com/login) and confirm that you've added the redirect URL in Okta.
+1. On the app details page of the [Okta Admin console](https://login.okta.com/), click **Assignments**.
 
-You will also see a Zilliz Cloud login URL. Save this URL as it will be used for SSO login once the setup is complete.
+1. Choose **Assign** > **Assign to People**.
 
-![sso-oidc-3](/img/sso-oidc-3.png)
+1. Assign the OIDC app to the user and save the changes.
 
-## Step 4: Assign Okta application to users{#step-4-assign-okta-application-to-users}
+1. Click **Save** **and** **Go Back**. Then, click **Done**.
 
-Before users can access Zilliz Cloud through SSO, you need to assign the Okta application to them:
+Repeat for all users as needed. See [Okta documentation](https://help.okta.com/oie/en-us/content/topics/provisioning/lcm/lcm-assign-app-groups.htm) for more.
 
-1. In the [Okta Admin console](https://login.okta.com/), go to **Directory** > **People**.
+### Task 2: Invite users to your project\{#task-2-invite-users-to-your-project}
 
-1. Select a user and go to the **Applications** tab.
+When users log in to Zilliz Cloud via SSO for the first time, they are registered as an **Organization Member** but have no access to any project by default.
 
-1. Click **Assign Applications** and find the Zilliz Cloud application.
+- The **Organization Owner** must invite them into the appropriate projects.
 
-1. Assign the application to the user and save the changes.
+- For step-by-step instructions on how to invite users to a project, refer to [Manage Project Users](./project-users#invite-a-user-to-a-project).
 
-Repeat this process for all users who need SSO access to Zilliz Cloud. For more information, refer to [Okta official documentation](https://help.okta.com/oie/en-us/content/topics/provisioning/lcm/lcm-assign-app-groups.htm).
+After being invited to a project, the **Organization** **Owner** can share the Zilliz Cloud login URL with enterprise users so they can sign in through SSO.
 
-![sso-4](/img/sso-4.png)
+If you encounter any issues during the setup or testing process, contact [Zilliz support](https://zilliz.com/contact-sales).
 
-## Test configuration{#test-configuration}
+## FAQ\{#faq}
 
-To ensure your SSO setup is functional:
+### What role is assigned to users who log in via SSO for the first time?\{#what-role-is-assigned-to-users-who-log-in-via-sso-for-the-first-time}
 
-1. Open a new browser window and navigate to the Zilliz Cloud SSO login URL provided earlier.
+New users who do not already have a Zilliz Cloud account will be automatically created upon their first SSO login. These users are assigned the **Organization Member** role by default. You can modify their roles later in the Zilliz Cloud console. For detailed steps, refer to [Manage Project Users](./project-users#edit-a-collaborators-role-or-remove-a-collaborator).
 
-1. You should be redirected to the Okta login page.
+### How do users access projects after SSO login?\{#how-do-users-access-projects-after-sso-login}
 
-1. Log in using the credentials of a user who has been assigned the Zilliz Cloud application in Okta.
+After logging in via SSO, users will have **Organization Member** role by default. To access specific projects, an **Organization Owner** or **Project Admin** must invite them to projects. For detailed steps, see [Manage Project Users](./project-users).
 
-1. If SSO is configured correctly, you will be redirected to the [Zilliz Cloud console](https://cloud.zilliz.com/login) after successful authentication.
+### What happens if a user already has a Zilliz Cloud account before logging in with SSO?\{#what-happens-if-a-user-already-has-a-zilliz-cloud-account-before-logging-in-with-sso}
 
-<Admonition type="info" icon="📘" title="Notes">
+If the user already exists in your Zilliz Cloud organization (based on their email), they will retain their original role and permissions when logging in via SSO. The system matches users by email address and does not overwrite existing accounts.
 
-<p>By default, users logging in via SSO are granted the Organization Member role. To expand their permissions, you can modify their roles in the Zilliz Cloud console.</p>
+### Can I configure multiple SSO providers for the same organization?\{#can-i-configure-multiple-sso-providers-for-the-same-organization}
 
-</Admonition>
-
-If you encounter any issues during the setup or testing process, please contact Zilliz support for assistance.
+Currently, each Zilliz Cloud organization supports only **one active SAML SSO configuration** at a time.

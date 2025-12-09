@@ -3,6 +3,9 @@ title: "Required GCP API Services | BYOC"
 slug: /required-api-services-gcp
 sidebar_label: "Required GCP API Services"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This page lists the Google Cloud Platform (GCP) API services required to create GCP resources using the Zilliz Cloud Terraform Provider and provides several ways to enable them. | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 
@@ -37,7 +40,7 @@ This page lists the Google Cloud Platform (GCP) API services required to create 
 
 </Admonition>
 
-## Required API services{#required-api-services}
+## Required API services\{#required-api-services}
 
 <table>
    <tr>
@@ -70,7 +73,7 @@ This page lists the Google Cloud Platform (GCP) API services required to create 
    </tr>
 </table>
 
-## Enable required API services{#enable-required-api-services}
+## Enable required API services\{#enable-required-api-services}
 
 You can enable these API services on the GCP console or using the gcloud CLI by referring to [this document](https://cloud.google.com/endpoints/docs/openapi/enable-api#enabling_an_api) for detailed procedures. To enable the above-listed API services using the gcloud CLI, do as follows:
 
@@ -94,11 +97,11 @@ gcloud services enable \
 
 </Admonition>
 
-## Verify the results{#verify-the-results}
+## Verify the results\{#verify-the-results}
 
 You can check whether the above-listed API services are enabled on the GCP console or using the gcloud CLI.
 
-### On the GCP console{#on-the-gcp-console}
+### On the GCP console\{#on-the-gcp-console}
 
 1. Visit the [API & Services Dashboard](https://console.cloud.google.com/apis/dashboard).
 
@@ -106,7 +109,7 @@ You can check whether the above-listed API services are enabled on the GCP conso
 
 1. Review enabled APIs in the library.
 
-### Using the gcloud CLI{#using-the-gcloud-cli}
+### Using the gcloud CLI\{#using-the-gcloud-cli}
 
 ```bash
 gcloud services list --enabled --project=PROJECT_ID

@@ -3,6 +3,9 @@ title: "Shared Responsibilities | BYOC"
 slug: /shared-responsibilities
 sidebar_label: "Shared Responsibilities"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This page outlines the responsibilities of Zilliz Cloud and BYOC users to clarify the division of tasks related to cloud management, upgrades, security, access control, service availability, and technical support, ensuring smooth collaboration while maintaining a secure and efficient operation environment. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - milvus
   - vector database
   - shared responsibilities
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 
@@ -28,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 This page outlines the responsibilities of Zilliz Cloud and BYOC users to clarify the division of tasks related to cloud management, upgrades, security, access control, service availability, and technical support, ensuring smooth collaboration while maintaining a secure and efficient operation environment.
 
-## Cloud Management{#cloud-management}
+## Cloud Management\{#cloud-management}
 
 <table>
    <tr>
@@ -63,7 +66,7 @@ This page outlines the responsibilities of Zilliz Cloud and BYOC users to clarif
    </tr>
 </table>
 
-## Upgrade and security{#upgrade-and-security}
+## Upgrade and security\{#upgrade-and-security}
 
 <table>
    <tr>
@@ -93,7 +96,7 @@ This page outlines the responsibilities of Zilliz Cloud and BYOC users to clarif
    </tr>
 </table>
 
-## Access control{#access-control}
+## Access control\{#access-control}
 
 <table>
    <tr>
@@ -113,7 +116,7 @@ This page outlines the responsibilities of Zilliz Cloud and BYOC users to clarif
    </tr>
 </table>
 
-## Service availability{#service-availability}
+## Service availability\{#service-availability}
 
 <table>
    <tr>
@@ -133,7 +136,7 @@ This page outlines the responsibilities of Zilliz Cloud and BYOC users to clarif
    </tr>
 </table>
 
-## Technical support{#technical-support}
+## Technical support\{#technical-support}
 
 <table>
    <tr>

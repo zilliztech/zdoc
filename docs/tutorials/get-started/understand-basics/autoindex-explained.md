@@ -3,6 +3,9 @@ title: "AUTOINDEX Explained | Cloud"
 slug: /autoindex-explained
 sidebar_label: "AUTOINDEX Explained"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud offers Performance-optimized and Capacity-optimized clusters. Because of their different purposes, building indexes on these clusters requires different approaches. To save users the trouble of tuning and tweaking index parameters, AUTOINDEX comes into play. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - autoindex
   - milvus
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 
@@ -30,7 +33,7 @@ Zilliz Cloud offers Performance-optimized and Capacity-optimized clusters. Becau
 
 **AUTOINDEX** is a proprietary index type available on Zilliz Cloud that can help you achieve better search performance. Whenever you want to index a vector field in your collection on Zilliz Cloud, **AUTOINDEX** applies.
 
-## Features and benefits{#features-and-benefits}
+## Features and benefits\{#features-and-benefits}
 
 **AUTOINDEX** offers a significant performance advantage over open-source Milvus, achieving up to 3x QPS on specific datasets. You can use AUTOINDEX to create indexes on all field types that Zilliz Cloud clusters support, including [Dense Vector](./use-dense-vector), [Binary Vector](./use-binary-vector), and [Binary Vector](./use-binary-vector).
 
@@ -42,11 +45,11 @@ Zilliz Cloud offers Performance-optimized and Capacity-optimized clusters. Becau
 
 - Implement a dynamic quantization strategy to reduce distance calculation costs.
 
-### Cost efficiency{#cost-efficiency}
+### Cost efficiency\{#cost-efficiency}
 
 **AUTOINDEX** supports pure in-memory, hybrid disk, and memory-mapped (MMAP) modes to meet users' varying needs for capacity and performance. In in-memory mode, **AUTOINDEX** uses dynamic quantization to significantly reduce memory usage. In hybrid disk mode, **AUTOINDEX** can dynamically cache data and use algorithms to minimize I/O operations and maintain high performance.
 
-### Autonomous tuning{#autonomous-tuning}
+### Autonomous tuning\{#autonomous-tuning}
 
 Approximate nearest neighbor (ANN) algorithms require a trade-off between recall and performance. Query parameters have a significant impact on the results. If the query parameter size is too small, the recall will be extremely low and may not meet business requirements. Conversely, if the query parameter size is excessively large, the performance will be severely degraded.
 
@@ -58,11 +61,11 @@ Choosing query parameters requires a lot of domain-specific knowledge, which gre
 
 </Admonition>
 
-## Index building and search settings{#index-building-and-search-settings}
+## Index building and search settings\{#index-building-and-search-settings}
 
 The process of building an index involves sorting out the entities in a collection in a specific order so that results can be retrieved more quickly.
 
-Indexing a floating vector on Zilliz Cloud is not an obstacle. Simply set the index type to `AUTOINDEX` and choose the metric type for Zilliz Cloud to determine the most suitable configurations for the index-building and search processes. The metric type determines how the distances between vectors are measured and is the only thing you need to consider.
+Indexing a floating vector on Zilliz Cloud is not an obstacle. Simply set the index type to **AUTOINDEX** and choose the metric type for Zilliz Cloud to determine the most suitable configurations for the index-building and search processes. The metric type determines how the distances between vectors are measured and is the only thing you need to consider.
 
 The differences between the index-building settings on Milvus and Zilliz Cloud are shown below:
 
@@ -111,7 +114,7 @@ search_params = {
 }
 ```
 
-### About the `level` parameter{#about-the-level-parameter}
+### About the `level` parameter\{#about-the-level-parameter}
 
 Tunning search performance requires adjusting different sets of parameters that vary with index types. For instance, when using HNSW, the parameter you should tune is `ef`, whereas when using IVF, the parameter to adjust is `nprobe`. To reach a balance between an optimal recall rate and search performance, it is necessary to fine-tune these parameters specific to the type of index being used.
 
@@ -127,6 +130,6 @@ You can also set `enable_recall_calculation` to `true`when you tweek the `level`
 
 </Admonition>
 
-## Conclusion{#conclusion}
+## Conclusion\{#conclusion}
 
 We hope this article has helped you better understand AUTOINDEX, a powerful tool that simplifies the process of building and optimizing indexes for vector fields in collections on Zilliz Cloud. By automatically determining the most suitable configurations for your searches and indexes, AUTOINDEX saves users time and effort when compared to traditional methods. Whether you are using a Performance-optimized or Capacity-optimized cluster, AUTOINDEX can help you achieve faster and more efficient searches with optimized indexes tailored to your needs. If you have any questions about AUTOINDEX or any other feature of Zilliz Cloud, don't hesitate to reach out to our team. We are always happy to help!

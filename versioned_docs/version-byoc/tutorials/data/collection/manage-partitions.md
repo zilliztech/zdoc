@@ -3,6 +3,9 @@ title: "Manage Partitions | BYOC"
 slug: /manage-partitions
 sidebar_label: "Manage Partitions"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A partition is a subset of a collection. Each partition shares the same data structure with its parent collection but contains only a subset of the data in the collection. This page helps you understand how to manage partitions. | BYOC"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 
@@ -30,7 +33,7 @@ import TabItem from '@theme/TabItem';
 
 A partition is a subset of a collection. Each partition shares the same data structure with its parent collection but contains only a subset of the data in the collection. This page helps you understand how to manage partitions.
 
-## Overview{#overview}
+## Overview\{#overview}
 
 When creating a collection, Zilliz Cloud also creates a partition named **_default** in the collection. If you are not going to add any other partitions, all entities inserted into the collection go into the default partition, and all searches and queries are also carried out within the default partition.
 
@@ -45,7 +48,7 @@ A collection can have a maximum of 1,024 partitions.
 
 </Admonition>
 
-## List Partitions{#list-partitions}
+## List Partitions\{#list-partitions}
 
 When creating a collection, Zilliz Cloud also creates a partition named **_default** in the collection. You can list the partitions in a collection as follows.
 
@@ -186,7 +189,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Create Partition{#create-partition}
+## Create Partition\{#create-partition}
 
 You can add more partitions to the collection and insert entities into these partitions based on certain criteria.
 
@@ -328,7 +331,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Check for a Specific Partition{#check-for-a-specific-partition}
+## Check for a Specific Partition\{#check-for-a-specific-partition}
 
 The following code snippets demonstrate how to check whether a partition exists in a specific collection.
 
@@ -428,11 +431,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Load and Release Partitions{#load-and-release-partitions}
+## Load and Release Partitions\{#load-and-release-partitions}
 
 You can separately load or release one or certain partitions.
 
-### Load Partitions{#load-partitions}
+### Load Partitions\{#load-partitions}
 
 You can separately load specific partitions in a collection. It is worth noting that the load status of a collection stays unloaded if there is an unloaded partition in the collection.
 
@@ -577,7 +580,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Release Partitions{#release-partitions}
+### Release Partitions\{#release-partitions}
 
 You can also release specific partitions.
 
@@ -715,9 +718,9 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Data Operations Within Partitions{#data-operations-within-partitions}
+## Data Operations Within Partitions\{#data-operations-within-partitions}
 
-### Insert and Delete Entities{#insert-and-delete-entities}
+### Insert and Delete Entities\{#insert-and-delete-entities}
 
 You can perform insert, upsert, and delete operations in specific operations. For details, refer to
 
@@ -727,7 +730,7 @@ You can perform insert, upsert, and delete operations in specific operations. Fo
 
 - [Delete Entities from Partition](./delete-entities#delete-entities-from-partitions)
 
-### Search and Query{#search-and-query}
+### Search and Query\{#search-and-query}
 
 You can conduct searches and queries within specific partitions. For details, refer to 
 
@@ -735,7 +738,7 @@ You can conduct searches and queries within specific partitions. For details, re
 
 - [Conduct Metadata Filtering within Partitions](./get-and-scalar-query#queries-in-partitions)
 
-## Drop Partition{#drop-partition}
+## Drop Partition\{#drop-partition}
 
 You can drop partitions that are no longer needed. Before dropping a partition, ensure that the partition has been released.
 

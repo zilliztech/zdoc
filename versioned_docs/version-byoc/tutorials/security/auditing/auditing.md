@@ -1,30 +1,33 @@
 ---
-title: "Auditing | BYOC"
+title: "Auditing Logs | BYOC"
 slug: /auditing
-sidebar_label: "Auditing"
-beta: PRIVATE
+sidebar_label: "Auditing Logs"
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Learn how to configure auditing for your Zilliz Cloud cluster. | BYOC"
 type: origin
 token: UfGkwPQIPiJi6OkEu47cH3Umnvb
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
   - cloud
   - auditing
   - log
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Auditing
+# Auditing Logs
 
 Learn how to configure auditing for your Zilliz Cloud cluster.
 

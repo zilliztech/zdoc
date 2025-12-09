@@ -3,6 +3,9 @@ title: "ARRAY Operators | Cloud"
 slug: /array-filtering-operators
 sidebar_label: "ARRAY Operators"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides powerful operators to query array fields, allowing you to filter and retrieve entities based on the contents of arrays. | Cloud"
 type: origin
@@ -18,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - array operators
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 
@@ -38,19 +41,19 @@ Zilliz Cloud provides powerful operators to query array fields, allowing you to 
 
 </Admonition>
 
-## Available ARRAY Operators{#available-array-operators}
+## Available ARRAY Operators\{#available-array-operators}
 
 The ARRAY operators allow for fine-grained querying of array fields in Zilliz Cloud clusters. These operators are:
 
-- `ARRAY_CONTAINS(identifier, expr)`: checks if a specific element exists in an array field.
+- [`ARRAY_CONTAINS(identifier, expr)`](./array-filtering-operators#arraycontains): checks if a specific element exists in an array field.
 
-- `ARRAY_CONTAINS_ALL(identifier, expr)`: ensures that all elements of the specified list are present in the array field.
+- [`ARRAY_CONTAINS_ALL(identifier, expr)`](./array-filtering-operators#arraycontainsall): ensures that all elements of the specified list are present in the array field.
 
-- `ARRAY_CONTAINS_ANY(identifier, expr)`: checks if any of the elements from the specified list are present in the array field.
+- [`ARRAY_CONTAINS_ANY(identifier, expr)`](./array-filtering-operators#arraycontainsany): checks if any of the elements from the specified list are present in the array field.
 
-- `ARRAY_LENGTH(identifier, expr)`: allows you to filter entities based on the number of elements in an array field.
+- [`ARRAY_LENGTH(identifier, expr)`](./array-filtering-operators#arraylength): allows you to filter entities based on the number of elements in an array field.
 
-## ARRAY_CONTAINS{#arraycontains}
+## ARRAY_CONTAINS\{#arraycontains}
 
 The `ARRAY_CONTAINS` operator checks if a specific element exists in an array field. It’s useful when you want to find entities where a given element is present in the array.
 
@@ -64,7 +67,7 @@ filter = 'ARRAY_CONTAINS(history_temperatures, 23)'
 
 This will return all entities where the `history_temperatures` array contains the value `23`.
 
-## ARRAY_CONTAINS_ALL{#arraycontainsall}
+## ARRAY_CONTAINS_ALL\{#arraycontainsall}
 
 The `ARRAY_CONTAINS_ALL` operator ensures that all elements of the specified list are present in the array field. This operator is useful when you want to match entities that contain multiple values in the array.
 
@@ -78,7 +81,7 @@ filter = 'ARRAY_CONTAINS_ALL(history_temperatures, [23, 24])'
 
 This will return all entities where the `history_temperatures` array contains both of the specified values.
 
-## ARRAY_CONTAINS_ANY{#arraycontainsany}
+## ARRAY_CONTAINS_ANY\{#arraycontainsany}
 
 The `ARRAY_CONTAINS_ANY` operator checks if any of the elements from the specified list are present in the array field. This is useful when you want to match entities that contain at least one of the specified values in the array.
 
@@ -92,7 +95,7 @@ filter = 'ARRAY_CONTAINS_ANY(history_temperatures, [23, 24])'
 
 This will return all entities where the `history_temperatures` array contains at least one of the values `23` or `24`.
 
-## ARRAY_LENGTH{#arraylength}
+## ARRAY_LENGTH\{#arraylength}
 
 The `ARRAY_LENGTH` operator allows you to filter entities based on the number of elements in an array field. This is useful when you need to find entities with arrays of a certain length.
 

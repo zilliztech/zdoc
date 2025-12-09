@@ -3,6 +3,9 @@ title: "Create S3 Bucket and IAM Role | BYOC"
 slug: /create-bucket-and-role
 sidebar_label: "Create S3 Bucket and IAM Role"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This page describes the procedure for creating and configuring the root storage for a Bring-Your-Own-Cloud (BYOC) project with proper permissions. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 
@@ -38,7 +41,7 @@ This page describes the procedure for creating and configuring the root storage 
 
 </Admonition>
 
-## Best practices for the S3 bucket{#best-practices-for-the-s3-bucket}
+## Best practices for the S3 bucket\{#best-practices-for-the-s3-bucket}
 
 The bucket you specify during the project deployment will be used as the root storage for the clusters created in the project. Before you create your S3 bucket, review the following best practices:
 
@@ -46,11 +49,11 @@ The bucket you specify during the project deployment will be used as the root st
 
 - All clusters in a project share the S3 bucket created during the project deployment. Zilliz Cloud recommends using an S3 bucket dedicated to the project and not sharing it with other services and resources.
 
-## Procedure{#procedure}
+## Procedure\{#procedure}
 
 You can use the AWS console to create the bucket and role. As an alternative, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on AWS. For details, refer to [Terraform Provider](./terraform-provider).
 
-### Step 1: Create the S3 bucket{#step-1-create-the-s3-bucket}
+### Step 1: Create the S3 bucket\{#step-1-create-the-s3-bucket}
 
 In this step, you will create an S3 bucket on AWS for the BYOC project deployment. If you prefer to use an existing S3 bucket, ensure that the bucket is in the same region as the BYOC project. Once it is created, enter the bucket name in **Storage settings** on the Zilliz Cloud console.
 
@@ -66,7 +69,7 @@ In this step, you will create an S3 bucket on AWS for the BYOC project deploymen
 
 1. Return to the **Zilliz Cloud console** and paste the bucket name in **Bucket** under **Storage settings**.
 
-### Step 2: Create an IAM role to access the S3 bucket{#step-2-create-an-iam-role-to-access-the-s3-bucket}
+### Step 2: Create an IAM role to access the S3 bucket\{#step-2-create-an-iam-role-to-access-the-s3-bucket}
 
 In this step, you will create an IAM role on AWS for Zilliz Cloud to access the S3 bucket that you created in the previous step on your behalf.
 
@@ -115,7 +118,7 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to access the 
 
 1. Go back to the Zilliz Cloud console, paste the role ARN in **IAM Role ARN** under **Storage settings**.
 
-### Step 3: Add permissions{#step-3-add-permissions}
+### Step 3: Add permissions\{#step-3-add-permissions}
 
 This step is solely on the AWS console. In this step, you will create an inline policy for the role created in [Step 2](./create-bucket-and-role#step-2-create-an-iam-role-to-access-the-s3-bucket).
 

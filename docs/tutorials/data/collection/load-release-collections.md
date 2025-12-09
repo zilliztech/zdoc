@@ -3,6 +3,9 @@ title: "Load & Release | Cloud"
 slug: /load-release-collections
 sidebar_label: "Load & Release"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Loading a collection is the prerequisite to conducting similarity searches and queries in collections. This page focuses on the procedures for loading and releasing a collection. | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - load
   - release
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 
@@ -30,7 +33,7 @@ import TabItem from '@theme/TabItem';
 
 Loading a collection is the prerequisite to conducting similarity searches and queries in collections. This page focuses on the procedures for loading and releasing a collection.
 
-## Load Collection{#load-collection}
+## Load Collection\{#load-collection}
 
 When you load a collection, Zilliz Cloud loads the index files and the raw data of all fields into memory for rapid response to searches and queries. Entities inserted after a collection load are automatically indexed and loaded.
 
@@ -227,7 +230,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Load Specific Fields{#load-specific-fields}
+## Load Specific Fields\{#load-specific-fields}
 
 Zilliz Cloud can load only the fields involved in searches and queries, reducing memory usage and improving search performance.
 
@@ -338,11 +341,11 @@ fmt.Println(state)
 
 If you choose to load specific fields, it is worth noting that only the fields included in `load_fields` can be used as filters and output fields in searches and queries. You should always include the names of the primary field and at least one vector field in `load_fields`.
 
-You can also use `skip_load_dynamic_field` to determine whether to load the dynamic field. The dynamic field is a reserved JSON field named **\$meta** and saves all non-schema-defined fields and their values in key-value pairs. When loading the dynamic field, all keys in the fields are loaded and available for filtering and output. If all keys in the dynamic field are not involved in metadata filtering and output, set `skip_load_dynamic_field` to `True`.
+You can also use `skip_load_dynamic_field` to determine whether to load the dynamic field. The dynamic field is a reserved JSON field named **\&#36;meta** and saves all non-schema-defined fields and their values in key-value pairs. When loading the dynamic field, all keys in the fields are loaded and available for filtering and output. If all keys in the dynamic field are not involved in metadata filtering and output, set `skip_load_dynamic_field` to `True`.
 
 To load more fields after the collection load, you need to release the collection first to avoid possible errors prompted because of index changes.
 
-## Release Collection{#release-collection}
+## Release Collection\{#release-collection}
 
 Searches and queries are memory-intensive operations. To save the cost, you are advised to release the collections that are currently not in use.
 

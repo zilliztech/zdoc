@@ -3,11 +3,14 @@ title: "Nullable & Default | Cloud"
 slug: /nullable-and-default
 sidebar_label: "Nullable & Default"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud allows you to set the `nullable` attribute and default values for scalar fields, except the primary field. For fields marked as `nullable=True`, you can skip the field when inserting data, or set it directly to a null value, and the system will treat it as null without causing an error. When a field has a default value, the system will automatically apply this value if no data is specified for the field during insertion. | Cloud"
 type: origin
 token: DjROwgK6ziCf7Rkoji6ccyEUnsg
-sidebar_position: 11
+sidebar_position: 14
 keywords: 
   - zilliz
   - vector database
@@ -16,10 +19,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 
@@ -33,7 +36,7 @@ Zilliz Cloud allows you to set the `nullable` attribute and default values for s
 
 The default value and nullable attributes streamline data migration from other database systems to Zilliz Cloud by allowing handling of datasets with null values and preserving default value settings. When creating a collection, you can also enable nullable or set default values for fields where values might be uncertain.
 
-## Limits{#limits}
+## Limits\{#limits}
 
 - Only scalar fields, excluding the primary field, support default values and the nullable attribute.
 
@@ -49,11 +52,11 @@ The default value and nullable attributes streamline data migration from other d
 
 - **JSON and ARRAY fields**: When using `IS NULL` or `IS NOT NULL` operators to filter on JSON or ARRAY fields, these operators work at the column level, which indicates they only evaluate whether the entire JSON object or array is null. For instance, if a key inside a JSON object is null, it will not be recognized by the `IS NULL` filter. For more information, refer to [Basic Operators](./basic-filtering-operators).
 
-## Nullable attribute{#nullable-attribute}
+## Nullable attribute\{#nullable-attribute}
 
 The `nullable` attribute allows you to store null values in a collection, providing flexibility when handling unknown data.
 
-### Set the nullable attribute{#set-the-nullable-attribute}
+### Set the nullable attribute\{#set-the-nullable-attribute}
 
 When creating a collection, use `nullable=True` to define nullable fields (defaults to `False`). The following example creates a collection named `my_collection` and sets the `age` field as nullable:
 
@@ -288,7 +291,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Insert entities{#insert-entities}
+### Insert entities\{#insert-entities}
 
 When you insert data into a nullable field, insert null or directly omit this field:
 
@@ -392,7 +395,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Search and query with null values{#search-and-query-with-null-values}
+### Search and query with null values\{#search-and-query-with-null-values}
 
 When using the `search` method, if a field contains `null` values, the search result will return the field as null:
 
@@ -694,11 +697,11 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Default values{#default-values}
+## Default values\{#default-values}
 
 Default values are preset values assigned to scalar fields. If you do not provide a value for a field with a default during insertion, the system automatically uses the default value.
 
-### Set default values{#set-default-values}
+### Set default values\{#set-default-values}
 
 When creating a collection, use the `default_value` parameter to define the default value for a field. The following example shows how to set the default value of `age` to `18` and `status` to `"active"`:
 
@@ -942,7 +945,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Insert entities{#insert-entities}
+### Insert entities\{#insert-entities}
 
 When inserting data, if you omit fields with a default value or set their value to null, the system uses the default value:
 
@@ -1059,7 +1062,7 @@ curl --request POST \
 
 </Admonition>
 
-### Search and query with default values{#search-and-query-with-default-values}
+### Search and query with default values\{#search-and-query-with-default-values}
 
 Entities that contain default values are treated the same as any other entities during vector searches and scalar filtering. You can include default values as part of your `search` and `query` operations.
 
@@ -1320,7 +1323,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Applicable rules{#applicable-rules}
+## Applicable rules\{#applicable-rules}
 
 The following table summarizes the behavior of nullable columns and default values under different configuration combinations. These rules determine how Zilliz Cloud handles data when attempting to insert null values or if field values are not provided.
 

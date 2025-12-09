@@ -3,6 +3,9 @@ title: "JSON Operators | BYOC"
 slug: /json-filtering-operators
 sidebar_label: "JSON Operators"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud supports advanced operators for querying and filtering JSON fields, making them perfect for managing complex, structured data. These operators enable highly effective querying of JSON documents, allowing you to retrieve entities based on specific elements, values, or conditions within the JSON fields. This section will guide you through using JSON-specific operators in Zilliz Cloud, providing practical examples to illustrate their functionality. | BYOC"
 type: origin
@@ -18,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - json operators
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 
@@ -38,19 +41,19 @@ Zilliz Cloud supports advanced operators for querying and filtering JSON fields,
 
 </Admonition>
 
-## Available JSON Operators{#available-json-operators}
+## Available JSON Operators\{#available-json-operators}
 
 Zilliz Cloud provides several powerful JSON operators that help filter and query JSON data, and these operators are:
 
-- `JSON_CONTAINS(identifier, expr)`: Filters entities where the specified JSON expression is found within the field.
+- [`JSON_CONTAINS(identifier, expr)`](./json-filtering-operators#jsoncontains): Filters entities where the specified JSON expression is found within the field.
 
-- `JSON_CONTAINS_ALL(identifier, expr)`: Ensures that all elements of the specified JSON expression are present in the field.
+- [`JSON_CONTAINS_ALL(identifier, expr)`](./json-filtering-operators#jsoncontainsall): Ensures that all elements of the specified JSON expression are present in the field.
 
-- `JSON_CONTAINS_ANY(identifier, expr)`: Filters entities where at least one member of the JSON expression exists within the field.
+- [`JSON_CONTAINS_ANY(identifier, expr)`](./json-filtering-operators#jsoncontainsany): Filters entities where at least one member of the JSON expression exists within the field.
 
 Let’s explore these operators with examples to see how they can be applied in real-world scenarios.
 
-## JSON_CONTAINS{#jsoncontains}
+## JSON_CONTAINS\{#jsoncontains}
 
 The `json_contains` operator checks if a specific element or subarray exists within a JSON field. It’s useful when you want to ensure that a JSON array or object contains a particular value.
 
@@ -65,7 +68,7 @@ filter = 'json_contains(product["tags"], "sale")'
 
 In this example, Zilliz Cloud will return all products where the `tags` field contains the element `"sale"`.
 
-## JSON_CONTAINS_ALL{#jsoncontainsall}
+## JSON_CONTAINS_ALL\{#jsoncontainsall}
 
 The `json_contains_all` operator ensures that all elements of a specified JSON expression are present in the target field. It is particularly useful when you need to match multiple values within a JSON array.
 
@@ -80,7 +83,7 @@ filter = 'json_contains_all(product["tags"], ["electronics", "sale", "new"])'
 
 This query will return all products where the `tags` array contains all three specified elements: `"electronics"`, `"sale"`, and `"new"`.
 
-## JSON_CONTAINS_ANY{#jsoncontainsany}
+## JSON_CONTAINS_ANY\{#jsoncontainsany}
 
 The `json_contains_any` operator filters entities where at least one member of the JSON expression exists within the field. This is useful when you want to match entities based on any one of several possible values.
 

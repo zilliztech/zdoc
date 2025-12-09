@@ -3,6 +3,9 @@ title: "Manage Cluster User (SDK) | Cloud"
 slug: /cluster-users-sdk
 sidebar_label: "Manage Cluster User (SDK)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In Zilliz Cloud, you can create cluster users and assign them cluster roles to define the privileges, achieving data security. | Cloud"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - access control
   - rbac
   - users
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 
@@ -33,7 +36,7 @@ In Zilliz Cloud, you can create cluster users and assign them cluster roles to d
 
 This guide will walk you through how to create a cluster user, grant a role to a user, revoke a role from a user, and finally drop a user. For details about cluster roles, refer to [Manage Cluster Roles (Console)](./cluster-roles).
 
-## Create a user{#create-a-user}
+## Create a user\{#create-a-user}
 
 The following example shows how to create a user with the username `user_1` and the password `P@ssw0rd`. The username and password for the user must follow these rules:
 
@@ -117,7 +120,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## List users{#list-users}
+## List users\{#list-users}
 
 After creating several users, you can list and view all existing users.
 
@@ -169,7 +172,7 @@ Below is an example output. `root` is the default user automatically generated. 
 ['root', 'user_1']
 ```
 
-## Grant a role to a user{#grant-a-role-to-a-user}
+## Grant a role to a user\{#grant-a-role-to-a-user}
 
 The following example demonstrates how to grant the role `role_a` to the user `user_1`.
 
@@ -251,7 +254,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Describe user{#describe-user}
+## Describe user\{#describe-user}
 
 Once you grant a role to a user, you can check if the grant operation is successful via the `describe_user()` method.
 
@@ -313,7 +316,7 @@ Below is an example output.
 {'user_name': 'user_1', 'roles': 'role_a'}
 ```
 
-## Revoke a role{#revoke-a-role}
+## Revoke a role\{#revoke-a-role}
 
 You can also revoke a role that has been assigned to a user.
 
@@ -373,7 +376,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Drop user{#drop-user}
+## Drop user\{#drop-user}
 
 The following example demonstrates how to drop the user `user_1`. 
 

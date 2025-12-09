@@ -3,6 +3,9 @@ title: "Deploy BYOC-I on AWS | BYOC"
 slug: /deploy-byoc-i-aws
 sidebar_label: "Deploy BYOC-I on AWS"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This page explains how to deploy a Bring-Your-Own-Cloud (BYOC) data plane with a BYOC agent in your AWS Virtual Private Cloud (VPC). | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 
@@ -40,15 +43,15 @@ This page explains how to deploy a Bring-Your-Own-Cloud (BYOC) data plane with a
 
 </Admonition>
 
-## Prerequisites{#prerequisites}
+## Prerequisites\{#prerequisites}
 
 Ensure that 
 
 - You are the owner of a BYOC-I organization.
 
-## Procedures{#procedures}
+## Procedures\{#procedures}
 
-### Step 1: Prepare the deployment environment{#step-1-prepare-the-deployment-environment}
+### Step 1: Prepare the deployment environment\{#step-1-prepare-the-deployment-environment}
 
 A deployment environment is a local machine, a virtual machine (VM), or a CI/CD pipeline configured to run the Terraform configuration files and deploy the data plane of your BYOC-I project. In this step, you need to 
 
@@ -60,17 +63,17 @@ A deployment environment is a local machine, a virtual machine (VM), or a CI/CD 
 
     For details on how to install Terraform, refer to [this document](https://developer.hashicorp.com/terraform/install?product_intent=terraform).
 
-### Step 2: Create a project{#step-2-create-a-project}
+### Step 2: Create a project\{#step-2-create-a-project}
 
 Within your BYOC-I organization, click the **Create Project and Deploy Data Plane** button to start the deployment.
 
-![Xd4ObksJao97jdxSFVTclO4Fno6](/img/Xd4ObksJao97jdxSFVTclO4Fno6.png)
+![Xd4ObksJao97jdxSFVTclO4Fno6](https://zdoc-images.s3.us-west-2.amazonaws.com/xd4obksjao97jdxsfvtclo4fno6.png "Xd4ObksJao97jdxSFVTclO4Fno6")
 
-### Step 3: Set up the general settings{#step-3-set-up-the-general-settings}
+### Step 3: Set up the general settings\{#step-3-set-up-the-general-settings}
 
 In **General Settings**, you need to set the project name and determine the cloud providers and regions where Zilliz Cloud deploys the data plane for the project.
 
-![WdrwbpyHMoTR5qxSth2cLfybnid](/img/WdrwbpyHMoTR5qxSth2cLfybnid.png)
+![Xejfbdz6PockHsxn5uacw3OTnVc](https://zdoc-images.s3.us-west-2.amazonaws.com/xejfbdz6pockhsxn5uacw3otnvc.png "Xejfbdz6PockHsxn5uacw3OTnVc")
 
 1. Set **Project Name**.
 
@@ -90,15 +93,15 @@ In **General Settings**, you need to set the project name and determine the clou
 
     1. Configure **Initial Project Size**. 
 
-        In a BYOC project, the search services, index services, other database components, and core support services use different types of EC2 instances. You can set instance types and counts for these services and components individually. 
+        In a BYOC project, the query node, index services, Milvus components, and dependencies use different types of EC2 instances. You can set instance types and counts for these services and components individually. 
 
         If **Auto-scaling** is disabled, simply specify the number of EC2 instances required for each project component in the corresponding **Count** field.
 
-        ![G3kCbsMnEo2BSWx6cVXcuJvRnqg](/img/G3kCbsMnEo2BSWx6cVXcuJvRnqg.png)
+        ![VHLHbZrT1oNG03xAJMgcFVKAnCh](https://zdoc-images.s3.us-west-2.amazonaws.com/vhlhbzrt1ong03xajmgcfvkanch.png "VHLHbZrT1oNG03xAJMgcFVKAnCh")
 
         Once **Auto-scaling** is enabled, you need to specify a range for Zilliz Cloud to automatically scale the number of EC2 instances based on actual project workloads by setting the corresponding **Min** and **Max** fields.
 
-        ![Grkub50kkoPJe7xeYxyczsaTnUc](/img/Grkub50kkoPJe7xeYxyczsaTnUc.png)
+        ![VVjXbGaS3ovyZdxEPcacd6Vnnkh](https://zdoc-images.s3.us-west-2.amazonaws.com/vvjxbgas3ovyzdxepcacd6vnnkh.png "VVjXbGaS3ovyZdxEPcacd6Vnnkh")
 
         To facilitate resource settings, there are four predefined project size options. The following table shows the mapping between these project size options and the number of clusters that can be created in the project, as well as the number of entities these clusters can contain.
 
@@ -142,26 +145,26 @@ In **General Settings**, you need to set the project name and determine the clou
 
 1. Click **Next**.
 
-### Step 4: Deploy the data plane{#step-4-deploy-the-data-plane}
+### Step 4: Deploy the data plane\{#step-4-deploy-the-data-plane}
 
 Follow the steps displayed in the dialog to deploy the data plane for the currently created project.
 
-![GHGqbw4UroKPu7xoEWmcDQaDnEd](/img/GHGqbw4UroKPu7xoEWmcDQaDnEd.png)
+![GHGqbw4UroKPu7xoEWmcDQaDnEd](https://zdoc-images.s3.us-west-2.amazonaws.com/ghgqbw4urokpu7xoewmcdqadned.png "GHGqbw4UroKPu7xoEWmcDQaDnEd")
 
 For details on running the above Terraform scripts, refer to the [Zilliz Cloud BYOC-I Project Setup Guide](https://registry.terraform.io/providers/zilliztech/zillizcloud/latest/docs/guides/create-a-byoc-i-project).
 
-## Manage projects{#manage-projects}
+## Manage projects\{#manage-projects}
 
-![AHEybTRhto0gcKxnKIucbm3inte](/img/AHEybTRhto0gcKxnKIucbm3inte.png)
+![AHEybTRhto0gcKxnKIucbm3inte](https://zdoc-images.s3.us-west-2.amazonaws.com/aheybtrhto0gckxnkiucbm3inte.png "AHEybTRhto0gcKxnKIucbm3inte")
 
-### Projects with an Undeploy tag{#projects-with-an-undeploy-tag}
+### Projects with an Undeploy tag\{#projects-with-an-undeploy-tag}
 
 If the status tag on the right corner of a project card reads **Undeploy**, you can always click the **Deploy Data Plane** button on the project card to reopen it. To rename or delete the project, click the **...** button in the project card and select **Rename** or **Delete** from the drop-down menu.  
 
-### Projects with a Deploying tag{#projects-with-a-deploying-tag}
+### Projects with a Deploying tag\{#projects-with-a-deploying-tag}
 
 Once you have prepared the deployment environment and executed the displayed commands, you must wait for the BYOC agent to activate. When the status tag on the project card reads **Deploying** and shows the progress percentage, you cannot rename or delete the project until the data plane is in place.
 
-### Projects with a Running tag{#projects-with-a-running-tag}
+### Projects with a Running tag\{#projects-with-a-running-tag}
 
 Once the status tag on a project card reads **Running**, you can start creating clusters in the project. To rename or delete a running project, ensure that there are no clusters in the project.

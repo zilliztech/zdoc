@@ -7,7 +7,7 @@ notebook: FALSE
 description: "This topic covers potential issues related to data security on the Zilliz Cloud platform, including certificate authority, certificate validity period, procedures for checking certificate expiration, supported Transport Layer Security (TLS) versions, and authentication methods. | CLOUD"
 type: origin
 token: EV41wG08BiOWW8kbo9xcTGoPnKd
-sidebar_position: 15
+sidebar_position: 14
 
 ---
 

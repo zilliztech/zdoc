@@ -3,6 +3,9 @@ title: "Home | Cloud"
 slug: /home
 sidebar_label: "Home"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This is the home page for the Zilliz Cloud Developer Hub. | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - developer hub
   - home page
   - home
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 hide_title: true
 hide_table_of_contents: true
@@ -49,35 +52,33 @@ import Banner from '@site/src/components/Banner';
 
 <Hero>
 
-# Welcome to Zilliz Cloud Docs!{#welcome-to-zilliz-cloud-docs}
+# Welcome to Zilliz Cloud Docs\{#welcome-to-zilliz-cloud-docs}
 
 Zilliz Cloud provides a fully managed Milvus service, simplifying the deployment and scaling of vector search applications with security in mind, eliminating the need to construct and maintain complex infrastructure. [Learn more](./get-started).
 
-![H1i9wA7f9huNQDbDat4cf813nig](/img/H1i9wA7f9huNQDbDat4cf813nig.png)
+![H1i9wA7f9huNQDbDat4cf813nig](https://zdoc-images.s3.us-west-2.amazonaws.com/H1i9wA7f9huNQDbDat4cf813nig.png)
 
 </Hero>
 
 <Bars>
 
-You can create clusters in the following plans:
+Select a project [plan](./select-zilliz-cloud-service-plans) and create clusters of different deployment options in the project.
 
-- [Free](./create-cluster#set-up-a-free-cluster)
+- [Free](./create-cluster#create-a-free-cluster)
 
-- [Serverless](./create-cluster#set-up-a-serverless-cluster)
+- [Serverless](./create-cluster#create-a-serverless-cluster)
 
 - [Dedicated](./create-cluster#create-a-dedicated-cluster)
 
-- [BYOC](/docs/byoc/byoc-intro)
-
-[Not sure what's the right plan for you?](./select-zilliz-cloud-service-plans)
+ [Not sure which deployment option to choose?](https://zilliz.com/pricing)
 
 </Bars>
 
 <Stories>
 
-# Work with Your Data in Zilliz Cloud{#work-with-your-data-in-zilliz-cloud}
+# Work with Your Data in Zilliz Cloud\{#work-with-your-data-in-zilliz-cloud}
 
-## Bring Your Own Vectors{#bring-your-own-vectors}
+## Bring Your Own Vectors\{#bring-your-own-vectors}
 
 1. Create and connect to your cluster.
 
@@ -95,7 +96,7 @@ You can create clusters in the following plans:
 
     A [basic vector similarity search](./single-vector-search) helps you find the most similar results.
 
-## Migrate From Other Data Infra{#migrate-from-other-data-infra}
+## Migrate From Other Data Infra\{#migrate-from-other-data-infra}
 
 1. Connect to your data source.
 
@@ -109,11 +110,11 @@ You can create clusters in the following plans:
 
     Set and review the mappings between the schema of the source and target data.
 
-## Backup & Restore{#backup-and-restore}
+## Backup & Restore\{#backup-and-restore}
 
 1. Create a backup for your cluster or collection.
 
-    Backups are point-of-time copies of a cluster or collection. You can create backups [manually](./create-snapshot) or [automatically](./schedule-automatic-backups).
+    Backups are point-of-time copies of a cluster or collection. You can create backups [manually](./create-snapshot) or [set backup policy](./schedule-automatic-backups) for scheduled backups. You can also [copy backup to other regions](/docs/backup-to-other-regions) for improved disaster recovery capabilities.
 
 1. (Optional) Export backups to object storage services.
 
@@ -127,7 +128,7 @@ You can create clusters in the following plans:
 
 <Cards>
 
-# Go Further with Zilliz Cloud{#go-further-with-zilliz-cloud}
+# Go Further with Zilliz Cloud\{#go-further-with-zilliz-cloud}
 
 - [Monitoring & Alerts](./metrics-and-alerts)
 
@@ -155,7 +156,7 @@ You can create clusters in the following plans:
 
 <Blocks>
 
-# Start Building with Your Preferred Language{#start-building-with-your-preferred-language}
+# Start Building with Your Preferred Language\{#start-building-with-your-preferred-language}
 
 - [Python](/reference/python)
 

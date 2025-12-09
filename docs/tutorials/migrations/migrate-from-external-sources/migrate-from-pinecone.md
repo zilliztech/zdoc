@@ -3,6 +3,9 @@ title: "Migrate from Pinecone to Zilliz Cloud | Cloud"
 slug: /migrate-from-pinecone
 sidebar_label: "Pinecone"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This topic describes how Zilliz Cloud handles data type mapping, field conversion, namespace processing, and collection naming rules when migrating from Pinecone. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - pinecone
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 
@@ -28,11 +31,11 @@ import Admonition from '@theme/Admonition';
 
 This topic describes how Zilliz Cloud handles data type mapping, field conversion, namespace processing, and collection naming rules when migrating from [Pinecone](https://www.pinecone.io/).
 
-## Prerequisites{#prerequisites}
+## Prerequisites\{#prerequisites}
 
 Before starting your Pinecone to Zilliz Cloud migration, ensure you meet these requirements:
 
-### Pinecone requirements{#pinecone-requirements}
+### Pinecone requirements\{#pinecone-requirements}
 
 <table>
    <tr>
@@ -57,7 +60,7 @@ Before starting your Pinecone to Zilliz Cloud migration, ensure you meet these r
    </tr>
 </table>
 
-### Zilliz Cloud requirements{#zilliz-cloud-requirements}
+### Zilliz Cloud requirements\{#zilliz-cloud-requirements}
 
 <table>
    <tr>
@@ -78,7 +81,7 @@ Before starting your Pinecone to Zilliz Cloud migration, ensure you meet these r
    </tr>
 </table>
 
-## Data type mapping{#data-type-mapping}
+## Data type mapping\{#data-type-mapping}
 
 Understanding how Pinecone data types map to Zilliz Cloud is crucial for planning your migration:
 
@@ -115,7 +118,7 @@ Understanding how Pinecone data types map to Zilliz Cloud is crucial for plannin
    </tr>
 </table>
 
-## Metadata field conversion{#metadata-field-conversion}
+## Metadata field conversion\{#metadata-field-conversion}
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -167,9 +170,9 @@ For metadata fields converted to fixed fields, you can configure additional attr
 
 - **Default Value**: Set fallback values when data is missing. For details, refer to [Default values](./nullable-and-default#default-values).
 
-## Pinecone-specific handling rules{#pinecone-specific-handling-rules}
+## Pinecone-specific handling rules\{#pinecone-specific-handling-rules}
 
-### Namespace processing{#namespace-processing}
+### Namespace processing\{#namespace-processing}
 
 Pinecone namespaces can be migrated using two strategies:
 
@@ -205,7 +208,7 @@ Pinecone namespaces can be migrated using two strategies:
 
 </Admonition>
 
-### Collection naming rules{#collection-naming-rules}
+### Collection naming rules\{#collection-naming-rules}
 
 Pinecone index names are automatically processed for Zilliz Cloud compatibility:
 

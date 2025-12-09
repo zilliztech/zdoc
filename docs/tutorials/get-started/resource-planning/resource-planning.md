@@ -3,6 +3,9 @@ title: "Resource Planning | Cloud"
 slug: /resource-planning
 sidebar_label: "Resource Planning"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Topics related to resource planning before you move your data to Zilliz Cloud. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

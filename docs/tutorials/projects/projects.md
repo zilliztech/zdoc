@@ -3,20 +3,23 @@ title: "Projects | Cloud"
 slug: /projects
 sidebar_label: "Projects"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The chapter focuses on project operations and related settings. | Cloud"
 type: origin
 token: QHzrwVlEOipspAkPiyucWezqneC
-sidebar_position: 9
+sidebar_position: 10
 keywords: 
   - zilliz
   - vector database
   - cloud
   - projects
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

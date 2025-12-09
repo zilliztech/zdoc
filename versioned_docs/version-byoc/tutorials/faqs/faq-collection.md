@@ -18,8 +18,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 ## Contents
 
 - [How many collections are allowed in a single cluster?](#how-many-collections-are-allowed-in-a-single-cluster)
-- [How can I know if dynamic schema is enabled for my collection?](#how-can-i-know-if-dynamic-schema-is-enabled-for-my-collection)
-- [If dynamic schema was disabled when the collection was created, can I enable it later?](#if-dynamic-schema-was-disabled-when-the-collection-was-created-can-i-enable-it-later)
+- [If dynamic field was disabled when the collection was created, can I enable it later?](#if-dynamic-field-was-disabled-when-the-collection-was-created-can-i-enable-it-later)
 - [What are the indexing metric types supported by Zilliz Cloud?](#what-are-the-indexing-metric-types-supported-by-zilliz-cloud)
 - [How to set the TTL (time to live) property of a created collection?](#how-to-set-the-ttl-time-to-live-property-of-a-created-collection)
 - [What is the concurrency for collection loading requests? How can I increase the number of concurrent requests?](#what-is-the-concurrency-for-collection-loading-requests-how-can-i-increase-the-number-of-concurrent-requests)
@@ -27,6 +26,7 @@ This topic lists the possible issues that you may encounter while you use Zilliz
 - [Is there any limit to the number of fields I can add in a collection?](#is-there-any-limit-to-the-number-of-fields-i-can-add-in-a-collection)
 - [What's the difference between partitions and partition keys?](#whats-the-difference-between-partitions-and-partition-keys)
 - [Can I modify the number of shards in a collection?](#can-i-modify-the-number-of-shards-in-a-collection)
+- [Is there any rules for partition names?](#is-there-any-rules-for-partition-names)
 
 ## FAQs
 
@@ -45,15 +45,9 @@ If you have reached the maximum number of collections allowed in a cluster, you 
 
 1. Try creating [partitions](./manage-partitions) instead of collections.
 
-### How can I know if dynamic schema is enabled for my collection?{#how-can-i-know-if-dynamic-schema-is-enabled-for-my-collection}
+### If dynamic field was disabled when the collection was created, can I enable it later?{#if-dynamic-field-was-disabled-when-the-collection-was-created-can-i-enable-it-later}
 
-You can view the status of dynamic schema via Zilliz Cloud web console. Choose the collection and navigate to the **Overview** tab. You can see if dynamic schema is enabled or not. For more details, see [Dynamic Field](./enable-dynamic-field).
-
-![faq_dynamic_schema_enabled](/img/faq_dynamic_schema_enabled.png)
-
-### If dynamic schema was disabled when the collection was created, can I enable it later?{#if-dynamic-schema-was-disabled-when-the-collection-was-created-can-i-enable-it-later}
-
-No. Once you have enabled/disabled dynamic schema when creating a collection, you cannot modify the status of dynamic schema later. For more details, see [Dynamic Field](./enable-dynamic-field).
+Yes. You can still enable dynamic field after a collection is created.  For more details, see[Modify Collection](./modify-collections).
 
 ### What are the indexing metric types supported by Zilliz Cloud?{#what-are-the-indexing-metric-types-supported-by-zilliz-cloud}
 
@@ -120,3 +114,7 @@ Yes. To change the number of shards, use the "[clone collection](./manage-collec
     - Click **Clone**.
 
 1. After the cloned collection is created, update your application code to use the newly cloned collection.
+
+### Is there any rules for partition names?{#is-there-any-rules-for-partition-names}
+
+Yes. Partition name can contain only letters, numbers, underscores (“_”), and hyphens(“-”), and cannot start with a number or a hyphen.

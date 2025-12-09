@@ -3,11 +3,14 @@ title: "Integrate with Prometheus | BYOC"
 slug: /prometheus-monitoring
 sidebar_label: "Prometheus"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Prometheus is a monitoring system that collects metrics from configured targets at specified intervals, evaluates rule expressions, displays the results, and can trigger alerts based on specific conditions. | BYOC"
 type: origin
 token: Ex99woZlsico4FkfwxGckjRRnqf
-sidebar_position: 3
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +18,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 
@@ -31,13 +34,7 @@ import Admonition from '@theme/Admonition';
 
 By integrating Zilliz Cloud with Prometheus, you can collect and monitor metrics related to your Zilliz Cloud deployment.
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p><a href="https://prometheus.io/">Prometheus</a> integration is supported only for Zilliz Cloud clusters running the <strong>Dedicated-Enterprise</strong> or <strong>BYOC</strong> plan.</p>
-
-</Admonition>
-
-## Configure Prometheus to scrape Zilliz Cloud metrics{#configure-prometheus-to-scrape-zilliz-cloud-metrics}
+## Configure Prometheus to scrape Zilliz Cloud metrics\{#configure-prometheus-to-scrape-zilliz-cloud-metrics}
 
 To monitor Zilliz Cloud clusters with Prometheus, follow these steps:
 
@@ -97,7 +94,7 @@ To monitor Zilliz Cloud clusters with Prometheus, follow these steps:
 
 For more details, refer to [Prometheus official documentation](https://prometheus.io/docs/prometheus/latest/configuration/configuration/#scrape_config).
 
-## Example scraped metrics{#example-scraped-metrics}
+## Example scraped metrics\{#example-scraped-metrics}
 
 The following are example Prometheus metrics scraped from the Zilliz Cloud `/metrics/export` endpoint:
 
@@ -120,7 +117,7 @@ zilliz_request_vectors_total{request_type="search"} 1.0
 zilliz_request_vectors_total{request_type="upsert"} 1.0
 ```
 
-## Zilliz Cloud metric labels{#zilliz-cloud-metric-labels}
+## Zilliz Cloud metric labels\{#zilliz-cloud-metric-labels}
 
 The metrics exposed by Zilliz Cloud are labeled with the following identifiers.
 
@@ -162,7 +159,7 @@ The metrics exposed by Zilliz Cloud are labeled with the following identifiers.
    </tr>
 </table>
 
-## Available metrics{#available-metrics}
+## Available metrics\{#available-metrics}
 
 The following table lists the metrics available for Zilliz Cloud, along with their types, descriptions, and associated labels.
 
@@ -253,7 +250,7 @@ The following table lists the metrics available for Zilliz Cloud, along with the
    </tr>
 </table>
 
-## Example Prometheus queries{#example-prometheus-queries}
+## Example Prometheus queries\{#example-prometheus-queries}
 
 Here are some example queries you can use to analyze Zilliz Cloud metrics with Prometheus:
 

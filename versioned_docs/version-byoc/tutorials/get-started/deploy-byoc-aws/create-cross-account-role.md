@@ -3,6 +3,9 @@ title: "Create Cross-Account IAM Role | BYOC"
 slug: /create-cross-account-role
 sidebar_label: "Create Cross-Account IAM Role"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This page describes how to create and configure a cross-account role for Zilliz Cloud to bootstrap your project data plane. This role gives Zilliz Cloud restricted permissions to manage VPC resources on your behalf. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 
@@ -38,11 +41,11 @@ This page describes how to create and configure a cross-account role for Zilliz 
 
 </Admonition>
 
-## Procedure{#procedure}
+## Procedure\{#procedure}
 
 You can use the AWS console to create the bootstrap role. As an alternative, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on AWS. For details, refer to [Terraform Provider](./terraform-provider).
 
-### Step 1: Create a cross-account IAM role{#step-1-create-a-cross-account-iam-role}
+### Step 1: Create a cross-account IAM role\{#step-1-create-a-cross-account-iam-role}
 
 In this step, you will create a cross-account IAM role for the communications between Zilliz Cloud and your VPC.
 
@@ -76,7 +79,7 @@ In this step, you will create a cross-account IAM role for the communications be
 
 1. Go back to the Zilliz Cloud console, paste the role ARN in **IAM Role ARN** under **EKS settings**.
 
-### Step 2: Add permissions{#step-2-add-permissions}
+### Step 2: Add permissions\{#step-2-add-permissions}
 
 This step is solely on the AWS console. In this step, you will create an inline policy for the role created above.
 

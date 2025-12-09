@@ -10,7 +10,7 @@ notebook: FALSE
 description: "Before importing data, it's important to understand the supported cloud storage options and their corresponding URL formats. This ensures that your requests can be properly processed without undergoing validation errors. | Cloud"
 type: origin
 token: TjxAw7lx6iNluBkR4a6czoHpn0f
-sidebar_position: 0
+sidebar_position: 1
 keywords: 
   - zilliz
   - vector database
@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

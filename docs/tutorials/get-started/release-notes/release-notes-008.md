@@ -3,20 +3,23 @@ title: "Release Notes (Nov 18, 2022) | Cloud"
 slug: /release-notes-008
 sidebar_label: "Release Notes (Nov 18, 2022)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "We're excited to announce the general availability of a major Zilliz Cloud update, now open to the public without the need for an invitation. This release introduces capacity-optimized Compute Units (CUs), allowing up to 32 CUs per database for enhanced performance. It also enables data import from local files and AWS S3 buckets, simplifies the process with auto-indexing, and adds resource monitoring for QPS and query latency. Additionally, database creation speed has been improved by five times, and the user interface has been optimized for a superior experience. | Cloud"
 type: origin
 token: Q9ZcwPZieiYoU4kwEuOcFjewneP
-sidebar_position: 27
+sidebar_position: 31
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

@@ -3,21 +3,24 @@ title: "Metrics & Alerts | Cloud"
 slug: /metrics-and-alerts
 sidebar_label: "Metrics & Alerts"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud provides handy metric charts and alerts for you to know what is happening in your organization and clusters. | Cloud"
 type: origin
 token: Xma9w6Ne9ihcsZkFkSmcHidEnZg
-sidebar_position: 6
+sidebar_position: 7
 keywords: 
   - zilliz
   - vector database
   - cloud
   - metrics
   - alerts
-  - Context Window
-  - Natural language search
-  - Similarity Search
   - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

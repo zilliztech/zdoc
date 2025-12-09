@@ -3,6 +3,9 @@ title: "Schedule Automatic Backups | Cloud"
 slug: /schedule-automatic-backups
 sidebar_label: "Schedule Automatic Backups"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud allows you to enable automatic backups for your clusters, helping ensure data recovery in case of unexpected issues. Automatic backups apply to the entire cluster—backing up individual collections automatically is not supported. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 
@@ -30,17 +33,17 @@ import Supademo from '@site/src/components/Supademo';
 
 Zilliz Cloud allows you to enable **automatic backups** for your clusters, helping ensure data recovery in case of unexpected issues. Automatic backups apply to the **entire cluster**—backing up individual collections automatically is not supported.
 
-Backup creation incurs additional [charges](/docs/understand-cost#backup-cost), with pricing based on the cloud region where the backup is stored. All backup files are stored in the same cloud region as the source cluster. For example, a cluster in `AWS us-west-2` will have its backups stored in `AWS us-west-2`.
+Backup creation incurs additional [charges](./storage-cost), with pricing based on the cloud region where the backup is stored. All backup files are stored in the same cloud region as the source cluster. For example, a cluster in `AWS us-west-2` will have its backups stored in `AWS us-west-2`.
 
 This guide walks you through how to schedule automatic backups on Zilliz Cloud. To create on-demand backups, see [Create Backup](./create-snapshot).
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>The backup and restore feature is exclusively available to <strong>Dedicated</strong> clusters. </p>
+<p>This feature is available only to <strong>Dedicated</strong> clusters.</p>
 
 </Admonition>
 
-## Limits{#limits}
+## Limits\{#limits}
 
 - **Access control**: You must be a **project admin**, **organization owner**, or have a **custom role** with backup privileges.
 
@@ -50,6 +53,8 @@ This guide walks you through how to schedule automatic backups on Zilliz Cloud. 
 
     - Password for the default user `db_admin` (a new password is generated during [restore](./restore-from-snapshot))
 
+    - Cluster dynamic and scheduled scaling settings
+
 - **Cluster shard settings**: Backed up but may be adjusted during restore if the cluster CU size is reduced, due to shard-per-CU limits. See [Zilliz Cloud Limits](./limits#shards) for details.
 
 - **Backup job restrictions**:
@@ -58,11 +63,13 @@ This guide walks you through how to schedule automatic backups on Zilliz Cloud. 
 
     - Automatic backups will still run if a manual backup is already in progress.
 
-## Enable automatic backup{#enable-automatic-backup}
+## Enable automatic backup\{#enable-automatic-backup}
 
 Automatic backup settings are cluster-specific and **disabled by default**. Because backups incur storage costs, you can control when and how Zilliz Cloud creates them. Once automatic backup is enabled, Zilliz Cloud generates an initial backup immediately, followed by recurring backups based on your specified schedule.
 
-### Via web console{#via-web-console}
+If you need to copy your backup file to other cloud regions for disaster recover, you can configure the copy policies while enabling automatic bakcup. For details, refer to [Copy To Other Regions](./backup-to-other-regions).
+
+### Via web console\{#via-web-console}
 
 When you enable automatic backup on the web console, Zilliz Cloud is configured to the followings by default:
 
@@ -76,9 +83,9 @@ You can adjust these settings to fit your needs.
 
 The following demo shows how to enable and configure automatic backups:
 
-<Supademo id="cmcsqvpfk0gns9st8bd3faaje" title=""  />
+<Supademo id="cmcsqvpfk0gns9st8bd3faaje?utm_source=link" title=""  />
 
-### Via RESTful API{#via-restful-api}
+### Via RESTful API\{#via-restful-api}
 
 The following example enables automatic backup for a cluster. For details about the RESTful API, see [Set Backup Policy](/reference/restful/set-backup-policy-v2).
 
@@ -107,17 +114,17 @@ The following is an example output. A backup job is immediately generated once a
 }
 ```
 
-## Check backup schedule{#check-backup-schedule}
+## Check backup schedule\{#check-backup-schedule}
 
 When automatic backup is enabled, you can check its schedule.
 
-### Via web console{#via-web-console}
+### Via web console\{#via-web-console}
 
 The following demo shows how to check automatic backup schedule on the Zilliz Cloud web console.
 
-<Supademo id="cmcsr43kx02umxk0ih3i31jaq" title=""  />
+<Supademo id="cmcsr43kx02umxk0ih3i31jaq?utm_source=link" title=""  />
 
-### Via RESTful API{#via-restful-api}
+### Via RESTful API\{#via-restful-api}
 
 The following example checks the automatic backup policy of a cluster. For details about the RESTful API, see [Get Backup Policy](/reference/restful/get-backup-policy-v2).
 
@@ -143,17 +150,17 @@ The following is an example output.
 }
 ```
 
-## Disable automatic backup{#disable-automatic-backup}
+## Disable automatic backup\{#disable-automatic-backup}
 
 You can also disable automatic backup for a cluster.
 
-### Via web console{#via-web-console}
+### Via web console\{#via-web-console}
 
 The following demo shows how to check automatic backup schedule on the Zilliz Cloud web console.
 
-<Supademo id="cmcsr7chx0gu29st8s0obm37l" title=""  />
+<Supademo id="cmcsr7chx0gu29st8s0obm37l?utm_source=link" title=""  />
 
-### Via RESTful API{#via-restful-api}
+### Via RESTful API\{#via-restful-api}
 
 The following example disables automatic backup for a cluster. For details about the RESTful API, see [Set Backup Policy](/reference/restful/set-backup-policy-v2).
 
@@ -179,7 +186,7 @@ The following is an example output.
 }
 ```
 
-## FAQs{#faqs}
+## FAQs\{#faqs}
 
 **How long does a backup job take?**
 Backup duration depends on the size of your data. As a reference, backing up 700 MB typically takes about 1 second. If your cluster contains more than 1,000 collections, the process may take slightly longer.

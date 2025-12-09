@@ -3,20 +3,23 @@ title: "Release Notes (June 11, 2023) | Cloud"
 slug: /release-notes-200
 sidebar_label: "Release Notes (June 11, 2023)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The release of Zilliz Cloud sets a new standard in vector database management. It significantly enhances the user experience for beginners, offers more affordable and flexible pricing options, enables seamless team collaboration, and provides flexible schema management. Key features of this update include a serverless cluster, diverse tier plans, organization and collaboration support, RBAC support, partition key, dynamic schema, and JSON type support. Try out this game-changing update today! | Cloud"
 type: origin
 token: BcXMwUYQ3iD7mEkWKFhcU5PUnB5
-sidebar_position: 21
+sidebar_position: 25
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 
@@ -27,17 +30,17 @@ import Admonition from '@theme/Admonition';
 
 The release of Zilliz Cloud sets a new standard in vector database management. It significantly enhances the user experience for beginners, offers more affordable and flexible pricing options, enables seamless team collaboration, and provides flexible schema management. Key features of this update include a serverless cluster, diverse tier plans, organization and collaboration support, RBAC support, partition key, dynamic schema, and JSON type support. Try out this game-changing update today!
 
-## Milvus Compatibility{#milvus-compatibility}
+## Milvus Compatibility\{#milvus-compatibility}
 
 This release is compatible with **Milvus 2.1.x**.
 
-## Zilliz Cloud Serverless Vector Database Service Launch{#zilliz-cloud-serverless-vector-database-service-launch}
+## Zilliz Cloud Serverless Vector Database Service Launch\{#zilliz-cloud-serverless-vector-database-service-launch}
 
 We are excited to announce the launch of Zilliz Cloud's Serverless Vector Database Service. This new offering provides an even more effortless vector data search experience compared to our dedicated cluster solutions.
 
 To support early-stage ventures, we are offering two free collections as part of our Serverless Service. Each collection has the capacity to handle 500,000 vectors on a 768-dimensional scale, providing substantial data handling capabilities without the need for extensive infrastructure. Try our innovative new feature and boost your data processing capabilities today. [Free Trials](./free-trials).
 
-## Zilliz Cloud's Plan Tiers: Starter, Standard, Enterprise, and Self-hosted{#zilliz-clouds-plan-tiers-starter-standard-enterprise-and-self-hosted}
+## Zilliz Cloud's Plan Tiers: Starter, Standard, Enterprise, and Self-hosted\{#zilliz-clouds-plan-tiers-starter-standard-enterprise-and-self-hosted}
 
 We are pleased to offer a range of plan tiers: Starter, Standard, Enterprise, and Self-hosted. Each tier is designed to balance cost, service, and security considerations, ensuring that every user has a plan that meets their needs. With Zilliz Cloud, you have the flexibility to scale and evolve your vector database management in alignment with your business growth.
 
@@ -51,7 +54,7 @@ We are pleased to offer a range of plan tiers: Starter, Standard, Enterprise, an
 
 [Learn more on the pricing page.](https://zilliz.com/pricing)
 
-## Organization, Collaboration, and RBAC{#organization-collaboration-and-rbac}
+## Organization, Collaboration, and RBAC\{#organization-collaboration-and-rbac}
 
 We are excited to announce that Zilliz Cloud now offers sophisticated organizational and member management capabilities. This allows multiple users to collaborate seamlessly across various levels, including Cluster, Project, and Organization.
 
@@ -59,13 +62,13 @@ This major update is supported by the integration of Role-Based Access Control (
 
 This enhancement not only offers greater control over project access but also streamlines the collaborative process, making it easier for teams to manage their vector database in a more secure and organized environment. Dive into this feature today and experience a new level of collaborative efficiency with Zilliz Cloud. For details, refer to [Access Control](./access-control).
 
-## Partition Key{#partition-key}
+## Partition Key\{#partition-key}
 
 Zilliz Cloud 2.0.0 introduces the Partition Key feature. This feature allows you to designate a specific field as a partition key when creating a collection. Entities are then stored into partitions based on the values of their partition keys.
 
 This feature is particularly useful during query filtering, as conditions on the partition key field can be executed significantly faster than traditional scan-based filtering methods. Essentially, entities with the same partition key are physically grouped together, thus avoiding unnecessary scans.
 
-## Dynamic Schema{#dynamic-schema}
+## Dynamic Schema\{#dynamic-schema}
 
 We are excited to announce that Zilliz Cloud now supports Dynamic Schema starting from version 2.0.0. This major enhancement significantly improves flexibility in accommodating diverse business requirements. Users can now insert entities with dynamically varied fields into a collection, rather than being limited by a pre-defined static schema.
 
@@ -73,7 +76,7 @@ For advanced users, we have incorporated a hybrid approach to collection creatio
 
 Explore this feature in Zilliz Cloud 2.0.0 and witness a significant uplift in your database schema's adaptability. [Learn more about this feature](./enable-dynamic-field).
 
-## JSON Type Support{#json-type-support}
+## JSON Type Support\{#json-type-support}
 
 We are excited to announce a major enhancement to Zilliz Cloud in our latest update - the integration of JSON data management and Approximate Nearest Neighbor (ANN) Search capabilities.
 

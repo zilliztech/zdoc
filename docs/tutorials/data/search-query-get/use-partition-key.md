@@ -3,11 +3,14 @@ title: "Use Partition Key | Cloud"
 slug: /use-partition-key
 sidebar_label: "Use Partition Key"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The Partition Key is a search optimization solution based on partitions. By designating a specific scalar field as the Partition Key and specifying filtering conditions based on the Partition Key during the search, the search scope can be narrowed down to several partitions, thereby improving search efficiency. This article will introduce how to use the Partition Key and related considerations. | Cloud"
 type: origin
 token: QWqiwrgJViA5AJkv64VcgQX2nKd
-sidebar_position: 14
+sidebar_position: 16
 keywords: 
   - zilliz
   - vector database
@@ -16,10 +19,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 
@@ -31,13 +34,13 @@ import TabItem from '@theme/TabItem';
 
 The Partition Key is a search optimization solution based on partitions. By designating a specific scalar field as the Partition Key and specifying filtering conditions based on the Partition Key during the search, the search scope can be narrowed down to several partitions, thereby improving search efficiency. This article will introduce how to use the Partition Key and related considerations.
 
-## Overview{#overview}
+## Overview\{#overview}
 
 In Zilliz Cloud, you can use partitions to implement data segregation and improve search performance by restricting the search scope to specific partitions. If you choose to manage partitions manually, you can create a maximum of 1,024 partitions in a collection, and insert entities into these partitions based on a specific rule so that you can narrow the search scope by restricting searches within a specific number of partitions.
 
 Zilliz Cloud introduces the Partition Key for you to reuse partitions in data segregation to overcome the limit on the number of partitions you can create in a collection. When creating a collection, you can use a scalar field as the Partition Key. Once the collection is ready, Zilliz Cloud creates the specified number of partitions inside the collection. Upon receiving an inserted entity, Zilliz Cloud calculates a hash value using the Partition Key value of the entity, executes a modulo operation based on the hash value and the `partitions_num` property of the collection to obtain the target partition ID, and stores the entity in the target partition.
 
-![IXXIwZdOYhRFXmbTMdwcaN6fnPe](/img/IXXIwZdOYhRFXmbTMdwcaN6fnPe.png)
+![IXXIwZdOYhRFXmbTMdwcaN6fnPe](https://zdoc-images.s3.us-west-2.amazonaws.com/IXXIwZdOYhRFXmbTMdwcaN6fnPe.png)
 
 The following figure illustrates how Zilliz Cloud processes the search requests in a collection with or without the Partition Key feature enabled. 
 
@@ -45,9 +48,9 @@ The following figure illustrates how Zilliz Cloud processes the search requests 
 
 - If the Partition Key is enabled, Zilliz Cloud determines the search scope based on the Partition Key value specified in a search filter and scans only the entities within the partitions that match.
 
-![RTaqwdaWXhRWPTb4uJTc9Uknn5c](/img/RTaqwdaWXhRWPTb4uJTc9Uknn5c.png)
+![RTaqwdaWXhRWPTb4uJTc9Uknn5c](https://zdoc-images.s3.us-west-2.amazonaws.com/RTaqwdaWXhRWPTb4uJTc9Uknn5c.png)
 
-## Use Partition Key{#use-partition-key}
+## Use Partition Key\{#use-partition-key}
 
 To use the Partition Key, you need to
 
@@ -57,7 +60,7 @@ To use the Partition Key, you need to
 
 - [Create a filtering condition based on the Partition Key](./use-partition-key#create-filtering-condition).
 
-### Set Partition Key{#set-partition-key}
+### Set Partition Key\{#set-partition-key}
 
 To designate a scalar field as the Partition Key, you need to set its `is_partition_key` attribute to `true` when you add the scalar field.
 
@@ -246,7 +249,7 @@ export schema='{
 </TabItem>
 </Tabs>
 
-### Set Partition Numbers{#set-partition-numbers}
+### Set Partition Numbers\{#set-partition-numbers}
 
 When you designate a scalar field in a collection as the Partition Key, Zilliz Cloud automatically creates 16 partitions in the collection. Upon receiving an entity, Zilliz Cloud chooses a partition based on the Partition Key value of this entity and stores the entity in the partition, resulting in some or all partitions holding entities with different Partition Key values. 
 
@@ -331,7 +334,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-### Create Filtering Condition{#create-filtering-condition}
+### Create Filtering Condition\{#create-filtering-condition}
 
 When conducting ANN searches in a collection with the Partition Key feature enabled, you need to include a filtering expression involving the Partition Key in the search request. In the filtering expression, you can restrict the Partition Key value within a specific range so that Zilliz Cloud restricts the search scope within the corresponding partitions. 
 
@@ -407,24 +410,17 @@ export filter='partition_key in ["x", "y", "z"] && <other conditions>'
 
 </Admonition>
 
-## Use Partition Key Isolation{#use-partition-key-isolation}
+## Use Partition Key Isolation\{#use-partition-key-isolation}
 
 In the multi-tenancy scenario, you can designate the scalar field related to tenant identities as the partition key and create a filter based on a specific value in this scalar field. To further improve search performance in similar scenarios, Zilliz Cloud introduces the Partition Key Isolation feature.
 
-![BVotwv5BvhBWXXbvotUccowZnng](/img/BVotwv5BvhBWXXbvotUccowZnng.png)
+![BVotwv5BvhBWXXbvotUccowZnng](https://zdoc-images.s3.us-west-2.amazonaws.com/BVotwv5BvhBWXXbvotUccowZnng.png)
 
 As shown in the above figure, Zilliz Cloud groups entities based on the Partition Key value and creates a separate index for each of these groups. Upon receiving a search request, Zilliz Cloud locates the index based on the Partition Key value specified in the filtering condition and restricts the search scope within the entities included in the index, thus avoiding scanning irrelevant entities during the search and greatly enhancing the search performance.
 
 Once you have enabled Partition Key Isolation, you must include only one specific value in the Partition-key-based filter so that Zilliz Cloud can restrict the search scope within the entities included in the index that match.
 
-<Admonition type="info" icon="📘" title="Notes">
-
-<p>This feature is available for clusters compatible with Milvus v2.4.x and using Performance-optimized CUs.
-For clusters of other CU types and all subscription plans, ensure their compatibility with Milvus v2.5.x before using this feature.</p>
-
-</Admonition>
-
-### Enable Partition Key Isolation{#enable-partition-key-isolation}
+### Enable Partition Key Isolation\{#enable-partition-key-isolation}
 
 The following code examples demonstrate how to enable Partition Key Isolation.
 

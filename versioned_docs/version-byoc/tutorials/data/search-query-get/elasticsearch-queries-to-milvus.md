@@ -3,11 +3,14 @@ title: "Elasticsearch Queries to Milvus | BYOC"
 slug: /elasticsearch-queries-to-milvus
 sidebar_label: "Elasticsearch Queries to Milvus"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Elasticsearch, built on Apache Lucene, is a leading open-source search engine. However, it faces challenges in modern AI applications, including high update costs, poor real-time performance, inefficient shard management, a non-cloud-native design, and excessive resource demands. As a cloud-native vector database, Milvus overcomes these issues with decoupled storage and computing, efficient indexing for high-dimensional data, and seamless integration with modern infrastructures. It offers superior performance and scalability for AI workloads. | BYOC"
 type: origin
 token: OFl9wHXpriM8aEkoONScpU1lnIf
-sidebar_position: 12
+sidebar_position: 14
 keywords: 
   - zilliz
   - vector database
@@ -19,10 +22,10 @@ keywords:
   - filtering
   - elasticsearch queries
   - query mapping
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 
@@ -35,7 +38,7 @@ Elasticsearch, built on Apache Lucene, is a leading open-source search engine. H
 
 This article aims to facilitate the migration of your code base from Elasticsearch to Milvus, providing various examples of converting queries in between.
 
-## Overview{#overview}
+## Overview\{#overview}
 
 In Elasticsearch, operations in the query context generate relevance scores, while those in the filter context do not. Similarly, Milvus searches produce similarity scores, whereas its filter-like queries do not. When migrating your code base from Elasticsearch to Milvus, the key principle is converting fields used in Elasticsearch's query context into vector fields to enable similarity score generation. 
 
@@ -103,11 +106,11 @@ The table below outlines some Elasticsearch query patterns and their correspondi
    </tr>
 </table>
 
-## Full-text queries{#full-text-queries}
+## Full-text queries\{#full-text-queries}
 
 In Elasticsearch, the full text queries enable you to search analyzed text fields such as the body of an email. The query string is processed using the same analyzer that was applied to the field during indexing.
 
-### Match query{#match-query}
+### Match query\{#match-query}
 
 In Elasticsearch, a match query returns documents that match a provided text, number, date, or boolean value. The provided text is analyzed before matching. 
 
@@ -141,11 +144,11 @@ In the example above, `message_sparse` is a sparse vector field derived from a V
 
 To use this functionality, you must enable the analyzer on the `message` field and define a function to derive the `message_sparse` field from it. For detailed instructions on enabling the analyzer and creating the derivative function in Milvus, refer to [Full Text Search](./full-text-search).
 
-## Term-level queries{#term-level-queries}
+## Term-level queries\{#term-level-queries}
 
 In Elasticsearch, term-level queries are used to find documents based on exact values in structured data, such as date ranges, IP addresses, prices, or product IDs. This section outlines the possible equivalents of some Elasticsearch term-level queries in Milvus. All examples in this section are adapted to operate within the filter context to align with Milvus's capabilities.
 
-### IDs{#ids}
+### IDs\{#ids}
 
 In Elasticsearch, you can find documents based on their IDs in the filter context as follows:
 
@@ -187,7 +190,7 @@ res = client.query(
 
 You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-ids-query.html). For details on query and get requests as well as the filter expressions in Milvus, refer to [Query](./get-and-scalar-query) and [Filtering](./filtering).
 
-### Prefix query{#prefix-query}
+### Prefix query\{#prefix-query}
 
 In Elasticsearch, you can find documents that contain a specific prefix in a provided field in the filter context as follows:
 
@@ -218,9 +221,9 @@ res = client.query(
 )
 ```
 
-You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html). For details on the `like` operator in Milvus, refer to [Using ](./basic-filtering-operators#example-2-using-like-for-pattern-matching)`LIKE`[ for Pattern Matching](./basic-filtering-operators#example-2-using-like-for-pattern-matching).
+You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-prefix-query.html). For details on the `like` operator in Milvus, refer to [Using ](./basic-filtering-operators#example-2-using-like-for-pattern-matching)[`LIKE`](./basic-filtering-operators#example-2-using-like-for-pattern-matching)[ for Pattern Matching](./basic-filtering-operators#example-2-using-like-for-pattern-matching).
 
-### Range query{#range-query}
+### Range query\{#range-query}
 
 In Elasticsearch, you can find documents that contain terms within a provided range as follows:
 
@@ -254,7 +257,7 @@ res = client.query(
 
 You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-range-query.html). For details on comparison operators in Milvus, see [Comparison operators](./basic-filtering-operators#comparison-operators).
 
-### Term query{#term-query}
+### Term query\{#term-query}
 
 In Elasticsearch, you can find documents that contain an **exact** term in a provided field as follows:
 
@@ -295,7 +298,7 @@ res = client.query(
 
 You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-term-query.html). For details on comparison operators in Milvus, see [Comparison operators](./basic-filtering-operators#comparison-operators).
 
-### Terms query{#terms-query}
+### Terms query\{#terms-query}
 
 In Elasticsearch, you can find documents that contain one or more **exact** terms in a provided field as follows:
 
@@ -337,7 +340,7 @@ res = client.query(
 
 You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-terms-query.html). For details on range operators in Milvus, refer to [Range operators](./basic-filtering-operators#range-operators).
 
-### Wildcard query{#wildcard-query}
+### Wildcard query\{#wildcard-query}
 
 In Elasticsearch, you can find documents that contain terms matching a wildcard pattern as follows:
 
@@ -370,7 +373,7 @@ res = client.query(
 
 You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-wildcard-query.html). For details on the range operators in Milvus, refer to [Range operators](./basic-filtering-operators#range-operators). 
 
-## Boolean query{#boolean-query}
+## Boolean query\{#boolean-query}
 
 In Elasticsearch, a boolean query is a query that matches documents matching boolean combinations of other queries. 
 
@@ -410,11 +413,11 @@ res = client.query(
 
 The above example assumes that you have a `user` field of the **VarChar** type and a `tags` field of the **Array** type, in the target collection. The query will return users with `kimchy` in their names with a `production` tag.
 
-## Vector queries{#vector-queries}
+## Vector queries\{#vector-queries}
 
 In Elasticsearch, vector queries are specialized queries that work on vector fields to efficiently perform semantic search.
 
-### Knn query{#knn-query}
+### Knn query\{#knn-query}
 
 Elasticsearch supports both approximate kNN queries and exact, brute-force kNN queries. You can find the *k* nearest vectors to a query vector in either way, as measured by a similarity metric, as follows:
 
@@ -452,7 +455,7 @@ res = client.search(
 
 You can find the Elasticsearch example on [this page](https://www.elastic.co/guide/en/elasticsearch/reference/current/query-dsl-knn-query.html). For details on ANN searches in Milvus, read [Basic ANN Search](./single-vector-search).
 
-### Reciprocal Rank Fusion{#reciprocal-rank-fusion}
+### Reciprocal Rank Fusion\{#reciprocal-rank-fusion}
 
 Elasticsearch provides Reciprocal Rank Fusion (RRF) to combine multiple result sets with different relevance indicators into a single ranked result set.
 
@@ -510,7 +513,7 @@ search_params_dense = {
     "anns_field": "vector",
     "param": {
         "metric_type": "IP",
-        "params": {"nprobe": 10}, 
+        
     },
     "limit": 100
 }
@@ -538,7 +541,7 @@ res = client.hybrid_search(
 
 This example demonstrates a hybrid search in Milvus that combines:
 
-1. **Dense vector search**: Using the inner product (IP) metric with `nprobe` set to 10 for approximate nearest neighbor (ANN) search on the `vector` field.
+1. **Dense vector search**: Using the inner product (IP) metric for approximate nearest neighbor (ANN) search on the `vector` field.
 
 1. **Sparse vector search**: Using the BM25 similarity metric with a `drop_ratio_search` parameter of 0.2 on the `text_sparse` field.
 
@@ -546,6 +549,6 @@ The results from these searches are executed separately, combined, and reranked 
 
 Unlike Elasticsearch's RRF ranking, which merges results from standard text-based queries and kNN searches, Milvus combines results from sparse and dense vector searches, providing a unique hybrid search capability optimized for multimodal data.
 
-## Recap{#recap}
+## Recap\{#recap}
 
 In this article, we covered the conversions of typical Elasticsearch queries to their Milvus equivalents, including term-level queries, boolean queries, full-text queries, and vector queries. If you have further questions about converting other Elasticsearch queries, feel free to reach out to us.

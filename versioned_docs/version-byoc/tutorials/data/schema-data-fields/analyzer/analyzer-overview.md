@@ -3,6 +3,9 @@ title: "Analyzer Overview | BYOC"
 slug: /analyzer-overview
 sidebar_label: "Overview"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "In text processing, an analyzer is a crucial component that converts raw text into a structured, searchable format. Each analyzer typically consists of two core elements tokenizer and filter. Together, they transform input text into tokens, refine these tokens, and prepare them for efficient indexing and retrieval. | BYOC"
 type: origin
@@ -15,16 +18,18 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
 import Admonition from '@theme/Admonition';
 import Tabs from '@theme/Tabs';
 import TabItem from '@theme/TabItem';
+
+import Supademo from '@site/src/components/Supademo';
 
 # Analyzer Overview
 
@@ -42,7 +47,7 @@ In Zilliz Cloud, analyzers are configured during collection creation when you ad
 
 </Admonition>
 
-## Anatomy of an analyzer{#anatomy-of-an-analyzer}
+## Anatomy of an analyzer\{#anatomy-of-an-analyzer}
 
 An analyzer in Zilliz Cloud consists of exactly one **tokenizer** and **zero or more** filters.
 
@@ -58,9 +63,9 @@ An analyzer in Zilliz Cloud consists of exactly one **tokenizer** and **zero or 
 
 The workflow below shows how an analyzer processes text.
 
-![Ke6jw8437hjR8hbZCvEcQtIIn1e](/img/Ke6jw8437hjR8hbZCvEcQtIIn1e.png)
+![Ke6jw8437hjR8hbZCvEcQtIIn1e](https://zdoc-images.s3.us-west-2.amazonaws.com/Ke6jw8437hjR8hbZCvEcQtIIn1e.png)
 
-## Analyzer types{#analyzer-types}
+## Analyzer types\{#analyzer-types}
 
 Zilliz Cloud provides two types of analyzers to meet different text processing needs:
 
@@ -72,12 +77,12 @@ Zilliz Cloud provides two types of analyzers to meet different text processing n
 
 <ul>
 <li><p>If you omit analyzer configurations during collection creation, Zilliz Cloud uses the <code>standard</code> analyzer for all text processing by default. For details, refer to <a href="./standard-analyzer">Standard</a>.</p></li>
-<li><p>For optimal search and query performance, choose an analyzer that matches the language of your text data. For instance, while the <code>standard</code> analyzer is versatile, it may not be the best choice for languages with unique grammatical structures, such as Chinese, Japanese, or Korean. In such cases, using a language-specific analyzer like <code>chinese</code> or custom analyzers with specialized tokenizers (such as <code>lindera</code>, <code>icu</code>) and filters is highly recommended to ensure accurate tokenization and better search results.</p></li>
+<li><p>For optimal search and query performance, choose an analyzer that matches the language of your text data. For instance, while the <code>standard</code> analyzer is versatile, it may not be the best choice for languages with unique grammatical structures, such as Chinese, Japanese, or Korean. In such cases, using a language-specific analyzer like <a href="./chinese-analyzer"><code>chinese</code></a> or custom analyzers with specialized tokenizers (such as <a href="./lindera-tokenizer"><code>lindera</code></a>, <a href="./icu-tokenizer"><code>icu</code></a>) and filters is highly recommended to ensure accurate tokenization and better search results.</p></li>
 </ul>
 
 </Admonition>
 
-### Built-in analyzer{#built-in-analyzer}
+### Built-in analyzer\{#built-in-analyzer}
 
 Built-in analyzers in Zilliz Cloud clusters are pre-configured with specific tokenizers and filters, allowing you to use them immediately without needing to define these components yourself. Each built-in analyzer serves as a template that includes a preset tokenizer and filters, with optional parameters for customization.
 
@@ -135,6 +140,107 @@ export analyzerParams='{
 
 </TabItem>
 </Tabs>
+
+To check the execution result of an analyzer, use the `run_analyzer` method:
+
+<Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
+<TabItem value='python'>
+
+```python
+# Sample text to analyze
+text = "An efficient system relies on a robust analyzer to correctly process text for various applications."
+
+# Run analyzer
+result = client.run_analyzer(
+    text,
+    analyzer_params
+)
+```
+
+</TabItem>
+
+<TabItem value='java'>
+
+```java
+import io.milvus.v2.service.vector.request.RunAnalyzerReq;
+import io.milvus.v2.service.vector.response.RunAnalyzerResp;
+
+List<String> texts = new ArrayList<>();
+texts.add("An efficient system relies on a robust analyzer to correctly process text for various applications.");
+
+RunAnalyzerResp resp = client.runAnalyzer(RunAnalyzerReq.builder()
+        .texts(texts)
+        .analyzerParams(analyzerParams)
+        .build());
+List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
+```
+
+</TabItem>
+
+<TabItem value='javascript'>
+
+```javascript
+// javascrip# Sample text to analyze
+const text = "An efficient system relies on a robust analyzer to correctly process text for various applications."
+
+// Run analyzer
+const result = await client.run_analyzer({
+    text,
+    analyzer_params
+});
+```
+
+</TabItem>
+
+<TabItem value='go'>
+
+```go
+import (
+    "context"
+    "encoding/json"
+    "fmt"
+
+    "github.com/milvus-io/milvus/client/v2/milvusclient"
+)
+
+bs, _ := json.Marshal(analyzerParams)
+texts := []string{"An efficient system relies on a robust analyzer to correctly process text for various applications."}
+option := milvusclient.NewRunAnalyzerOption(texts).
+    WithAnalyzerParams(string(bs))
+
+result, err := client.RunAnalyzer(ctx, option)
+if err != nil {
+    fmt.Println(err.Error())
+    // handle error
+}
+```
+
+</TabItem>
+
+<TabItem value='bash'>
+
+```bash
+# restful
+export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
+export TEXT_TO_ANALYZE="An efficient system relies on a robust analyzer to correctly process text for various applications."
+curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
+  -H "Content-Type: application/json" \
+  -d '{
+    "text": ["'"${TEXT_TO_ANALYZE}"'"],
+    "analyzerParams": "{\"type\":\"standard\",\"stop_words\":[\"a\",\"an\",\"for\"]}"
+  }'
+```
+
+</TabItem>
+</Tabs>
+
+The output will be:
+
+```plaintext
+['efficient', 'system', 'relies', 'on', 'robust', 'analyzer', 'to', 'correctly', 'process', 'text', 'various', 'applications']
+```
+
+This demonstrates that the analyzer properly tokenizes the input text by filtering out the stop words `"a"`, `"an"`, and `"for"`, while returning the remaining meaningful tokens.
 
 The configuration of the `standard` built-in analyzer above is equivalent to setting up a [custom analyzer](./analyzer-overview#custom-analyzer) with the following parameters, where `tokenizer` and `filter` options are explicitly defined to achieve similar functionality:
 
@@ -226,11 +332,11 @@ Zilliz Cloud offers the following built-in analyzers, each designed for specific
 
 - `chinese`: Specialized for processing Chinese text, including tokenization adapted for Chinese language structures.
 
-### Custom analyzer{#custom-analyzer}
+### Custom analyzer\{#custom-analyzer}
 
 For more advanced text processing, custom analyzers in Zilliz Cloud allow you to build a tailored text-handling pipeline by specifying both a **tokenizer** and **filters**. This setup is ideal for specialized use cases where precise control is required.
 
-#### Tokenizer{#tokenizer}
+#### Tokenizer\{#tokenizer}
 
 The **tokenizer** is a **mandatory** component for a custom analyzer, which initiates the analyzer pipeline by breaking down input text into discrete units or **tokens**. Tokenization follows specific rules, such as splitting by whitespace or punctuation, depending on the tokenizer type. This process allows for more precise and independent handling of each word or phrase.
 
@@ -291,7 +397,7 @@ export analyzerParams='{
 </TabItem>
 </Tabs>
 
-#### Filter{#filter}
+#### Filter\{#filter}
 
 **Filters** are **optional** components working on the tokens produced by the tokenizer, transforming or refining them as needed. For example, after applying a `lowercase` filter to the tokenized terms `["Vector", "Database", "Built", "for", "Scale"]`, the result might be:
 
@@ -455,7 +561,7 @@ Filters in a custom analyzer can be either **built-in** or **custom**, depending
     </TabItem>
     </Tabs>
 
-## Example use{#example-use}
+## Example use\{#example-use}
 
 In this example, you will create a collection schema that includes:
 
@@ -467,7 +573,9 @@ In this example, you will create a collection schema that includes:
 
     - The other uses a custom analyzer.
 
-### Step 1: Initialize MilvusClient and create schema{#step-1-initialize-milvusclient-and-create-schema}
+Before incorporating these configurations into your collection, you'll verify each analyzer using the `run_analyzer` method.
+
+### Step 1: Initialize MilvusClient and create schema\{#step-1-initialize-milvusclient-and-create-schema}
 
 Begin by setting up the Milvus client and creating a new schema.
 
@@ -478,7 +586,10 @@ Begin by setting up the Milvus client and creating a new schema.
 from pymilvus import MilvusClient, DataType
 
 # Set up a Milvus client
-client = MilvusClient(uri="YOUR_CLUSTER_ENDPOINT")
+client = MilvusClient(
+    uri="YOUR_CLUSTER_ENDPOINT"，
+    token="YOUR_CLUSTER_TOKEN"
+)
 
 # Create a new schema
 schema = client.create_schema(auto_id=True, enable_dynamic_field=False)
@@ -499,6 +610,7 @@ import io.milvus.v2.service.collection.request.CreateCollectionReq;
 // Set up a Milvus client
 ConnectConfig config = ConnectConfig.builder()
         .uri("YOUR_CLUSTER_ENDPOINT")
+        .token("YOUR_CLUSTER_TOKEN")
         .build();
 MilvusClientV2 client = new MilvusClientV2(config);
 
@@ -516,7 +628,10 @@ CreateCollectionReq.CollectionSchema schema = CreateCollectionReq.CollectionSche
 import { MilvusClient, DataType } from "@zilliz/milvus2-sdk-node";
 
 // Set up a Milvus client
-const client = new MilvusClient("YOUR_CLUSTER_ENDPOINT");
+const client = new MilvusClient({
+    address: "YOUR_CLUSTER_ENDPOINT",
+    token: "YOUR_CLUSTER_TOKEN"
+);
 ```
 
 </TabItem>
@@ -539,6 +654,7 @@ defer cancel()
 
 cli, err := milvusclient.New(ctx, &milvusclient.ClientConfig{
     Address: "YOUR_CLUSTER_ENDPOINT",
+    token: "YOUR_CLUSTER_TOKEN"
 })
 if err != nil {
     fmt.Println(err.Error())
@@ -555,16 +671,31 @@ schema := entity.NewSchema().WithAutoID(true).WithDynamicFieldEnabled(false)
 
 ```bash
 # restful
+export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
+export MILVUS_TOKEN="YOUR_CLUSTER_TOKEN"
+curl -X POST "http://${MILVUS_HOST}/v2/vectordb/collections/create" \
+  -H "Content-Type: application/json" \
+  -H "Authorization: Bearer ${MILVUS_TOKEN}" \
+  -d '{
+    "collectionName": "my_collection",
+    "dimension": 768,
+    "schema": {
+      "autoId": true,
+      "enableDynamicField": false
+    }
+  }'
 ```
 
 </TabItem>
 </Tabs>
 
-### Step 2: Define and verify analyzer configurations{#step-2-define-and-verify-analyzer-configurations}
+### Step 2: Define and verify analyzer configurations\{#step-2-define-and-verify-analyzer-configurations}
 
 1. **Configure and verify a built-in analyzer** (`english`)**:**
 
     - **Configuration:** Define the analyzer parameters for the built-in English analyzer.
+
+    - **Verification:** Use `run_analyzer` to check that the configuration produces the expected tokenization.
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -574,7 +705,13 @@ schema := entity.NewSchema().WithAutoID(true).WithDynamicFieldEnabled(false)
     analyzer_params_built_in = {
         "type": "english"
     }
+    # Verify built-in analyzer configuration
+    sample_text = "Milvus simplifies text analysis for search."
+    result = client.run_analyzer(sample_text, analyzer_params_built_in)
+    print("Built-in analyzer output:", result)
     
+    # Expected output:
+    # Built-in analyzer output: ['milvus', 'simplifi', 'text', 'analysi', 'search']
     ```
 
     </TabItem>
@@ -584,7 +721,17 @@ schema := entity.NewSchema().WithAutoID(true).WithDynamicFieldEnabled(false)
     ```java
     Map<String, Object> analyzerParamsBuiltin = new HashMap<>();
     analyzerParamsBuiltin.put("type", "english");
-
+    
+    List<String> texts = new ArrayList<>();
+    texts.add("Milvus simplifies text ana
+    
+    lysis for search.");
+    
+    RunAnalyzerResp resp = client.runAnalyzer(RunAnalyzerReq.builder()
+            .texts(texts)
+            .analyzerParams(analyzerParams)
+            .build());
+    List<RunAnalyzerResp.AnalyzerResult> results = resp.getResults();
     ```
 
     </TabItem>
@@ -596,7 +743,12 @@ schema := entity.NewSchema().WithAutoID(true).WithDynamicFieldEnabled(false)
     const analyzerParamsBuiltIn = {
       type: "english",
     };
-
+    
+    const sample_text = "Milvus simplifies text analysis for search.";
+    const result = await client.run_analyzer({
+        text: sample_text, 
+        analyzer_params: analyzer_params_built_in
+    });
     ```
 
     </TabItem>
@@ -605,7 +757,17 @@ schema := entity.NewSchema().WithAutoID(true).WithDynamicFieldEnabled(false)
 
     ```go
     analyzerParams := map[string]any{"type": "english"}
-
+    
+    bs, _ := json.Marshal(analyzerParams)
+    texts := []string{"Milvus simplifies text analysis for search."}
+    option := milvusclient.NewRunAnalyzerOption(texts).
+        WithAnalyzerParams(string(bs))
+    
+    result, err := client.RunAnalyzer(ctx, option)
+    if err != nil {
+        fmt.Println(err.Error())
+        // handle error
+    }
     ```
 
     </TabItem>
@@ -614,6 +776,14 @@ schema := entity.NewSchema().WithAutoID(true).WithDynamicFieldEnabled(false)
 
     ```bash
     # restful
+    export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
+    export SAMPLE_TEXT="Milvus simplifies text analysis for search."
+    curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "text": ["'"${SAMPLE_TEXT}"'"],
+        "analyzerParams": "{\"type\":\"english\"}"
+      }'
     ```
 
     </TabItem>
@@ -622,6 +792,8 @@ schema := entity.NewSchema().WithAutoID(true).WithDynamicFieldEnabled(false)
 1. **Configure and verify a custom analyzer:**
 
     - **Configuration:** Define a custom analyzer that uses a standard tokenizer along with a built-in lowercase filter and custom filters for token length and stop words.
+
+    - **Verification:** Use `run_analyzer` to ensure the custom configuration processes text as intended.
 
     <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
     <TabItem value='python'>
@@ -643,6 +815,13 @@ schema := entity.NewSchema().WithAutoID(true).WithDynamicFieldEnabled(false)
         ]
     }
     
+    # Verify custom analyzer configuration
+    sample_text = "Milvus provides flexible, customizable analyzers for robust text processing."
+    result = client.run_analyzer(sample_text, analyzer_params_custom)
+    print("Custom analyzer output:", result)
+    
+    # Expected output:
+    # Custom analyzer output: ['milvus', 'provides', 'flexible', 'customizable', 'analyzers', 'robust', 'text', 'processing']
     ```
 
     </TabItem>
@@ -736,12 +915,22 @@ schema := entity.NewSchema().WithAutoID(true).WithDynamicFieldEnabled(false)
 
     ```bash
     # curl
+    export MILVUS_HOST="YOUR_CLUSTER_ENDPOINT"
+    export SAMPLE_TEXT="Milvus provides flexible, customizable analyzers for robust text processing."
+    
+    # 使用自定义分析器配置
+    curl -X POST "http://${MILVUS_HOST}/v2/vectordb/common/run_analyzer" \
+      -H "Content-Type: application/json" \
+      -d '{
+        "text": ["'"${SAMPLE_TEXT}"'"],
+        "analyzerParams": "{\"tokenizer\":\"standard\",\"filter\":[\"lowercase\",{\"type\":\"length\",\"max\":40},{\"type\":\"stop\",\"stop_words\":[\"of\",\"for\"]}]}"
+      }'
     ```
 
     </TabItem>
     </Tabs>
 
-### Step 3: Add fields to the schema{#step-3-add-fields-to-the-schema}
+### Step 3: Add analyzer to schema field\{#step-3-add-analyzer-to-schema-field}
 
 Now that you have verified your analyzer configurations, add them to your schema fields:
 
@@ -874,12 +1063,51 @@ schema.WithField(entity.NewField().
 
 ```bash
 # restful
+export SCHEMA_CONFIG='{
+  "autoId": false,
+  "enableDynamicField": false,
+  "fields": [
+    {
+      "fieldName": "id",
+      "dataType": "Int64",
+      "isPrimary": true
+    },
+    {
+      "fieldName": "title_en",
+      "dataType": "VarChar",
+      "elementTypeParams": {
+        "max_length": "1000",
+        "enable_analyzer": true,
+        "analyzer_params": "{\"type\":\"english\"}",
+        "enable_match": true
+      }
+    },
+    {
+      "fieldName": "title",
+      "dataType": "VarChar",
+      "elementTypeParams": {
+        "max_length": "1000",
+        "enable_analyzer": true,
+        "analyzer_params": "{\"tokenizer\":\"standard\",\"filter\":[\"lowercase\",{\"type\":\"length\",\"max\":40},{\"type\":\"stop\",\"stop_words\":[\"of\",\"for\"]}]}",
+        "enable_match": true
+      }
+    },
+    {
+      "fieldName": "embedding",
+      "dataType": "FloatVector",
+      "elementTypeParams": {
+        "dim": "3"
+      }
+    }
+  ]
+}'
+
 ```
 
 </TabItem>
 </Tabs>
 
-### Step 4: Prepare index parameters and create the collection{#step-4-prepare-index-parameters-and-create-the-collection}
+### Step 4: Prepare index parameters and create the collection\{#step-4-prepare-index-parameters-and-create-the-collection}
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"NodeJS","value":"javascript"},{"label":"Go","value":"go"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -965,13 +1193,31 @@ if err != nil {
 <TabItem value='bash'>
 
 ```bash
+export INDEX_PARAMS='[{"fieldName": "embedding", "metricType": "COSINE", "indexType": "AUTOINDEX"}]'
 # restful
+curl -X POST "YOUR_CLUSTER_ENDPOINT/v2/vectordb/collections/create" \
+  -H "Content-Type: application/json" \
+  -d "{
+    \"collectionName\": \"my_collection\",
+    \"schema\": ${SCHEMA_CONFIG},
+    \"indexParams\": ${INDEX_PARAMS}
+  }"
 ```
 
 </TabItem>
 </Tabs>
 
-## What's next{#whats-next}
+## Example use on the Zilliz Cloud console\{#example-use-on-the-zilliz-cloud-console}
+
+You can also use the Zilliz Cloud console to perform the above operations. For details, play the demo below.
+
+<Supademo id="cmfxfue5c41ld10k86la66x1v" title=""  />
+
+## What's next\{#whats-next}
+
+When configuring an analyzer, we recommend reading the following best practice article to determine the most suitable configurations for your use case:
+
+- [Choose the Right Analyzer for Your Use Case](./choose-the-right-analyzer-for-your-use-case)
 
 After configuring an analyzer, you can integrate with text retrieval features provided by Zilliz Cloud. For details:
 

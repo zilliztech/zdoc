@@ -3,11 +3,14 @@ title: "Dynamic Field | BYOC"
 slug: /enable-dynamic-field
 sidebar_label: "Dynamic Field"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud allows you to insert entities with flexible, evolving structures through a special feature called the dynamic field. This field is implemented as a hidden JSON field named `$meta`, which automatically stores any fields in your data that are not explicitly defined in the collection schema. | BYOC"
 type: origin
 token: OVxRwZWxNi4pYrkdKxCcOuY2nf1
-sidebar_position: 10
+sidebar_position: 13
 keywords: 
   - zilliz
   - vector database
@@ -15,10 +18,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 
@@ -30,7 +33,7 @@ import TabItem from '@theme/TabItem';
 
 Zilliz Cloud allows you to insert entities with flexible, evolving structures through a special feature called the **dynamic field**. This field is implemented as a hidden JSON field named `$meta`, which automatically stores any fields in your data that are **not explicitly defined** in the collection schema.
 
-## How it works{#how-it-works}
+## How it works\{#how-it-works}
 
 When the dynamic field is enabled, Zilliz Cloud adds a hidden `$meta` field to each entity. This field is of JSON type, which means it can store any JSON-compatible data structure and can be indexed using JSON path syntax.
 
@@ -74,9 +77,9 @@ Common use cases include:
 
 - Supporting flexible filtering via indexes on specific dynamic field keys
 
-## Supported data types{#supported-data-types}
+## Supported data types\{#supported-data-types}
 
-The dynamic field supports all scalar data types provided by Zilliz Cloud, including both simple and complex values. These data types apply to the **values of keys stored in `$meta`.
+The dynamic field supports all scalar data types provided by Zilliz Cloud, including both simple and complex values. These data types apply to the **values of keys stored in &#36;meta**.
 
 **Supported types include:**
 
@@ -109,7 +112,7 @@ The dynamic field supports all scalar data types provided by Zilliz Cloud, inclu
 
 Each of the above keys and values would be stored inside the `$meta` field.
 
-## Enable dynamic field{#enable-dynamic-field}
+## Enable dynamic field\{#enable-dynamic-field}
 
 To use the dynamic field feature, set `enable_dynamic_field=True` when creating the collection schema:
 
@@ -293,7 +296,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Insert entities to the collection{#insert-entities-to-the-collection}
+## Insert entities to the collection\{#insert-entities-to-the-collection}
 
 The dynamic field allows you to insert extra fields not defined in the schema. These fields will be stored automatically in `$meta`.
 
@@ -440,7 +443,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Index keys in the dynamic field{#index-keys-in-the-dynamic-field}
+## Index keys in the dynamic field\{#index-keys-in-the-dynamic-field}
 
 Zilliz Cloud allows you to use **JSON path indexing** to create indexes on specific keys inside the dynamic field. These can be scalar values or nested values in JSON objects.
 
@@ -450,7 +453,7 @@ Zilliz Cloud allows you to use **JSON path indexing** to create indexes on speci
 
 </Admonition>
 
-### JSON path indexing syntax{#json-path-indexing-syntax}
+### JSON path indexing syntax\{#json-path-indexing-syntax}
 
 To create a JSON path index, specify:
 
@@ -464,9 +467,9 @@ To create a JSON path index, specify:
 
     - This type must match the actual data type of the field being indexed.
 
-    - For a complete list, refer to [Supported JSON cast types](./use-json-fields#supported-json-cast-types).
+    - For a complete list, refer to [Supported JSON cast types](./use-json-fields).
 
-### Use JSON path to index dynamic field keys{#use-json-path-to-index-dynamic-field-keys}
+### Use JSON path to index dynamic field keys\{#use-json-path-to-index-dynamic-field-keys}
 
 Since the dynamic field is a JSON field, you can index any key within it using JSON path syntax. This works for both simple scalar values and complex nested structures.
 
@@ -716,7 +719,7 @@ export nestedIndex='{
 </TabItem>
 </Tabs>
 
-### Use JSON cast functions for type conversion{#use-json-cast-functions-for-type-conversion}
+### Use JSON cast functions for type conversion\{#use-json-cast-functions-for-type-conversion}
 
 If a dynamic field key contains values in an incorrect format, (e.g. numbers stored as strings), you can use a cast function to convert it:
 
@@ -811,12 +814,12 @@ export stringPriceIndex='{
 
 <ul>
 <li><p>If type conversion fails (e.g. value <code>"not_a_number"</code> cannot be converted to a number), the value is skipped and unindexed.</p></li>
-<li><p>For details on cast function parameters, refer to <a href="./use-json-fields#use-json-cast-functions-for-type-conversion">JSON Field</a>.</p></li>
+<li><p>For details on cast function parameters, refer to <a href="./use-json-fields">JSON Field</a>.</p></li>
 </ul>
 
 </Admonition>
 
-### Apply indexes to the collection{#apply-indexes-to-the-collection}
+### Apply indexes to the collection\{#apply-indexes-to-the-collection}
 
 After defining the index parameters, you can apply them to the collection using `create_index()`:
 
@@ -906,7 +909,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Filter by dynamic field keys{#filter-by-dynamic-field-keys}
+## Filter by dynamic field keys\{#filter-by-dynamic-field-keys}
 
 After inserting entities with dynamic field keys, you can filter them using standard filter expressions.
 
@@ -1121,7 +1124,7 @@ curl --request POST \
 
 For a full list of supported operators and filter expressions, refer to [Filtered Search](./filtered-search).
 
-## Put it all together{#put-it-all-together}
+## Put it all together\{#put-it-all-together}
 
 By now, you’ve learned how to use the dynamic field to flexibly store and index keys that are not defined in the schema. Once a dynamic field key is inserted, you can use it just like any other field in filter expressions—no special syntax required.
 
@@ -1139,9 +1142,9 @@ To complete the workflow in a real-world application, you’ll also need to:
 
     Refer to [Filtered Search](./filtered-search) and [JSON Operators](./json-filtering-operators)
 
-## FAQ{#faq}
+## FAQ\{#faq}
 
-### When should I define a field explicitly in the schema instead of using a dynamic field key?{#when-should-i-define-a-field-explicitly-in-the-schema-instead-of-using-a-dynamic-field-key}
+### When should I define a field explicitly in the schema instead of using a dynamic field key?\{#when-should-i-define-a-field-explicitly-in-the-schema-instead-of-using-a-dynamic-field-key}
 
 You should define a field explicitly in the schema instead of using a dynamic field key when:
 
@@ -1153,11 +1156,11 @@ You should define a field explicitly in the schema instead of using a dynamic fi
 
 - **You want to avoid indexing inconsistencies**: Data in dynamic field keys is more prone to inconsistency in type or structure. Using a fixed schema helps ensure data quality, especially if you plan to use indexing or casting.
 
-### Can I create multiple indexes on the same dynamic field key with different data types?{#can-i-create-multiple-indexes-on-the-same-dynamic-field-key-with-different-data-types}
+### Can I create multiple indexes on the same dynamic field key with different data types?\{#can-i-create-multiple-indexes-on-the-same-dynamic-field-key-with-different-data-types}
 
 No, you can create **only one index per JSON path**. Even if a dynamic field key contains mixed-type values (e.g., some strings and some numbers), you must choose a single `json_cast_type` when indexing that path. Multiple indexes on the same key with different types are not supported at this time.
 
-### When indexing a dynamic field key, what if the data casting fails?{#when-indexing-a-dynamic-field-key-what-if-the-data-casting-fails}
+### When indexing a dynamic field key, what if the data casting fails?\{#when-indexing-a-dynamic-field-key-what-if-the-data-casting-fails}
 
 If you’ve created an index on a dynamic field key and the data casting fails—e.g., a value meant to be cast to `double` is a non-numeric string like `"abc"`—those specific values will be **silently skipped during index creation**. They won’t appear in the index and therefore **won’t be returned in filter-based search or query results** that rely on the index.
 
@@ -1169,6 +1172,6 @@ This has a few important implications:
 
 - **Use cast functions cautiously**: If you use a `json_cast_function` to convert strings to numbers during indexing, ensure the string values are reliably convertible. A mismatch between `json_cast_type` and the actual converted type will result in errors or skipped entries.
 
-### What happens if my query uses a different data type than the indexed cast type?{#what-happens-if-my-query-uses-a-different-data-type-than-the-indexed-cast-type}
+### What happens if my query uses a different data type than the indexed cast type?\{#what-happens-if-my-query-uses-a-different-data-type-than-the-indexed-cast-type}
 
 If your query compares a dynamic field key using a **different data type** than what was used in the index (e.g., querying with a string comparison when the index was cast to `double`), the system will **not use the index**, and may fall back to a full scan *only if possible*. For best performance and accuracy, ensure your query type matches the `json_cast_type` used during index creation.

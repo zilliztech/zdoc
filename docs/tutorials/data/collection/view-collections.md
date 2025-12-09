@@ -3,6 +3,9 @@ title: "View Collections | Cloud"
 slug: /view-collections
 sidebar_label: "View Collections"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "You can obtain the name list of all the collections in the currently connected database, and check the details of a specific collection. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 
@@ -29,7 +32,7 @@ import TabItem from '@theme/TabItem';
 
 You can obtain the name list of all the collections in the currently connected database, and check the details of a specific collection.
 
-## List Collections{#list-collections}
+## List Collections\{#list-collections}
 
 The following example demonstrates how to obtain the name list of all collections in the currently connected database.
 
@@ -142,7 +145,7 @@ If you have already created a collection named `quick_setup`, the result of the 
 ["quick_setup"]
 ```
 
-## Describe Collection{#describe-collection}
+## Describe Collection\{#describe-collection}
 
 You can also obtain the details of a specific collection. The following example assumes that you have already created a collection named quick_setup.
 

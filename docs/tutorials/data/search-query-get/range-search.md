@@ -3,6 +3,9 @@ title: "Range Search | Cloud"
 slug: /range-search
 sidebar_label: "Range Search"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A range search improves search result relevancy by restricting the distance or score of the returned entities within a specific range. This page helps you understand what range search is and the procedures to conduct a range search. | Cloud"
 type: origin
@@ -15,10 +18,10 @@ keywords:
   - collection
   - data
   - range search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 
@@ -30,11 +33,11 @@ import TabItem from '@theme/TabItem';
 
 A range search improves search result relevancy by restricting the distance or score of the returned entities within a specific range. This page helps you understand what range search is and the procedures to conduct a range search.
 
-## Overview{#overview}
+## Overview\{#overview}
 
 When executing a Range Search request, Zilliz Cloud uses the most similar vectors to the query vector from the ANN Search results as the center, with the **radius** specified in the Search request as the outer circle's radius, and the **range_filter** as the inner circle's radius to draw two concentric circles. All vectors with similarity scores that fall within the annular region formed by these two concentric circles will be returned. Here, the **range_filter** can be set to **0**, indicating that all entities within the specified similarity score (radius) will be returned.
 
-![Sewjwp5DShFgKAbC1Mwcrr7enOD](/img/Sewjwp5DShFgKAbC1Mwcrr7enOD.png)
+![Sewjwp5DShFgKAbC1Mwcrr7enOD](https://zdoc-images.s3.us-west-2.amazonaws.com/Sewjwp5DShFgKAbC1Mwcrr7enOD.png)
 
 The above diagram shows that a range search request carries two parameters: **radius** and **range_filter**. Upon receiving a range search request, Zilliz Cloud does the following:
 
@@ -79,7 +82,7 @@ The way to set **radius** and **range_filter** varies with the metric type of th
    </tr>
 </table>
 
-## Examples{#examples}
+## Examples\{#examples}
 
 This section demonstrates how to conduct a range search. The search requests in the following code snippets do not carry a metric type, indicating the default metric type **COSINE** applies. In this case, ensure that the **radius** value is smaller than the **range_filter** value.
 

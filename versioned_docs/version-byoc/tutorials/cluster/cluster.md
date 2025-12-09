@@ -3,6 +3,9 @@ title: "Cluster | BYOC"
 slug: /cluster
 sidebar_label: "Cluster"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Everything you need to know about managing clusters on Zilliz Cloud. | BYOC"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

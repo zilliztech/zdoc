@@ -3,6 +3,9 @@ title: "Built-in Analyzer Reference | BYOC"
 slug: /built-in-analyzer
 sidebar_label: "Built-in Analyzer"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This section provides detailed information about built-in analyzers. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in analyzer
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

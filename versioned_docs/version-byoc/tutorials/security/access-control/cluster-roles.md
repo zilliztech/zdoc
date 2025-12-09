@@ -3,6 +3,9 @@ title: "Manage Cluster Roles (Console) | BYOC"
 slug: /cluster-roles
 sidebar_label: "Manage Cluster Roles (Console)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A cluster role defines the privileges that a user has within the cluster. More specifically, the cluster role controls a cluster user's privileges on the cluster, database, and collection level. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 
@@ -34,7 +37,7 @@ Zilliz Cloud provides two types of cluster roles: built-in roles and customs rol
 
 To manage cluster roles, you must be an **Organization Owner** or a **Project Admin** or have a role with **Cluster_Admin** privileges.
 
-## Built-in cluster roles{#built-in-cluster-roles}
+## Built-in cluster roles\{#built-in-cluster-roles}
 
 Zilliz Cloud provides three built-in cluster roles with different privileges commonly needed in a vector database system. The built-in roles cannot be edited or dropped.
 
@@ -83,7 +86,7 @@ Zilliz Cloud provides three built-in cluster roles with different privileges com
        </tr>
     </table>
 
-## Custom cluster roles{#custom-cluster-roles}
+## Custom cluster roles\{#custom-cluster-roles}
 
 Custom roles provide the flexibility to grant tailored privileges at the cluster, database, and collection levels, unlike built-in roles which offer predefined access. 
 
@@ -96,11 +99,11 @@ For collection-level access control, it is recommended to create custom roles.
 
 </Admonition>
 
-## Create a custom cluster role{#create-a-custom-cluster-role}
+## Create a custom cluster role\{#create-a-custom-cluster-role}
 
 1. Navigate to the **Roles** tab of the target cluster. Click **+ Cluster Role**.
 
-    ![add-cluster-role](/img/add-cluster-role.png)
+    ![add-cluster-role](https://zdoc-images.s3.us-west-2.amazonaws.com/add-cluster-role.png "add-cluster-role")
 
 1. Enter the role name.
 
@@ -122,33 +125,33 @@ For collection-level access control, it is recommended to create custom roles.
 
     For details about the specific privileges in each built-in privilege group, refer to [Privileges & Privilege Groups](./cluster-privileges#built-in-privilege-groups).
 
-    ![add-cluster-role-form](/img/add-cluster-role-form.png)
+    ![add-cluster-role-form](https://zdoc-images.s3.us-west-2.amazonaws.com/add-cluster-role-form.png "add-cluster-role-form")
 
 1. Click **Create**. Each cluster can have up to 20 custom cluster roles.
 
-## Grant a role to a user{#grant-a-role-to-a-user}
+## Grant a role to a user\{#grant-a-role-to-a-user}
 
 Once a cluster role is created, you can grant it to users. Navigate to the Users tab, grant the role either when you [create a new cluster user](./cluster-users#create-a-cluster-user) or when you [edit the role of an existing cluster user](./cluster-users#edit-the-role-of-a-cluster-user).
 
-![grant-role-to-user](/img/grant-role-to-user.png)
+![grant-role-to-user](https://zdoc-images.s3.us-west-2.amazonaws.com/grant-role-to-user.png "grant-role-to-user")
 
-## Revoke a role from a user{#revoke-a-role-from-a-user}
+## Revoke a role from a user\{#revoke-a-role-from-a-user}
 
 When a cluster role is no longer fit for a user, you can revoke the role. Navigate to the Users tab, find the target user, and click [edit role](./cluster-users#edit-the-role-of-a-cluster-user). Select a different role in the dialog box. 
 
-![revoke-role-from-user](/img/revoke-role-from-user.png)
+![revoke-role-from-user](https://zdoc-images.s3.us-west-2.amazonaws.com/revoke-role-from-user.png "revoke-role-from-user")
 
-## Edit a custom cluster role{#edit-a-custom-cluster-role}
+## Edit a custom cluster role\{#edit-a-custom-cluster-role}
 
 You can adjust the privileges of a custom cluster role. The adjustment will be applied to all users who are granted this role.
 
-![edit-custom-role](/img/edit-custom-role.png)
+![edit-custom-role](https://zdoc-images.s3.us-west-2.amazonaws.com/edit-custom-role.png "edit-custom-role")
 
-## Delete a custom cluster role{#delete-a-custom-cluster-role}
+## Delete a custom cluster role\{#delete-a-custom-cluster-role}
 
 When a role is no longer necessary, you can delete a custom cluster role.
 
 Roles that have been granted to users cannot be delete. You need to first identify the users who are granted the target role, and then assign them a different role. 
 
-![delete-cluster-role](/img/delete-cluster-role.png)
+![delete-cluster-role](https://zdoc-images.s3.us-west-2.amazonaws.com/delete-cluster-role.png "delete-cluster-role")
 

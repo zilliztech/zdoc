@@ -3,6 +3,9 @@ title: "Data Security | Cloud"
 slug: /data-security
 sidebar_label: "Data Security"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Data security is integral to Zilliz Cloud. This document summarizes key measures and policies that Zilliz Cloud implements to safeguard your data comprehensively. | Cloud"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - data
   - security
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 
@@ -28,7 +31,7 @@ import Admonition from '@theme/Admonition';
 
 Data security is integral to Zilliz Cloud. This document summarizes key measures and policies that Zilliz Cloud implements to safeguard your data comprehensively.
 
-## Account and Privacy Protection{#account-and-privacy-protection}
+## Account and Privacy Protection\{#account-and-privacy-protection}
 
 Zilliz Cloud protects user data from registration onwards by:
 
@@ -36,7 +39,7 @@ Zilliz Cloud protects user data from registration onwards by:
 
 - Adhering to strict policies against internal storage of usernames and passwords.
 
-## Data Isolation & Residency{#data-isolation-and-residency}
+## Data Isolation & Residency\{#data-isolation-and-residency}
 
 Zilliz Cloud provides robust isolation and protection for your clusters:
 
@@ -48,7 +51,7 @@ Zilliz Cloud provides robust isolation and protection for your clusters:
 
 - **Distinct VPC or subnet:** The **Control Plane** (administrative tasks) and **Data Plane** (operational handling) reside in separate, isolated VPC or subnet.
 
-## Authentication{#authentication}
+## Authentication\{#authentication}
 
 Zilliz Cloud utilizes OAuth0 for secure user authentication:
 
@@ -60,7 +63,7 @@ Zilliz Cloud utilizes OAuth0 for secure user authentication:
 
 For details, refer to [Authentication](./authentication).
 
-## Access Control{#access-control}
+## Access Control\{#access-control}
 
 Granular and role-based access control:
 
@@ -72,7 +75,7 @@ Granular and role-based access control:
 
 For details, refer to [Access Control](./access-control).
 
-## Secure Network Access{#secure-network-access}
+## Secure Network Access\{#secure-network-access}
 
 Zilliz Cloud secures your network interactions through:
 
@@ -82,19 +85,19 @@ Zilliz Cloud secures your network interactions through:
 
 For details, refer to [Set up Whitelist](./setup-whitelist) and [Set up a Private Endpoint](./setup-a-private-link).
 
-## Data Encryption{#data-encryption}
+## Data Encryption\{#data-encryption}
 
-### In Transit{#in-transit}
+### In Transit\{#in-transit}
 
 - HTTPS/gRPC with TLS 1.2+.
 
 - AES-256 encryption ensures secure data transfers.
 
-### At Rest{#at-rest}
+### At Rest\{#at-rest}
 
-- The stored data on Disk/Object Storage is encrypted using the AES-256 (256-bit Advanced Encryption Standard ) encryption algorithm
+- The stored data on Disk/Object Storage is encrypted using the AES-256 (256-bit Advanced Encryption Standard ) encryption algorithm.
 
-## Audit Logging and Monitoring{#audit-logging-and-monitoring}
+## Audit Logging and Monitoring\{#audit-logging-and-monitoring}
 
 Maintain visibility and accountability through audit logs:
 
@@ -106,7 +109,7 @@ Maintain visibility and accountability through audit logs:
 
 For details, refer to [Auditing](./auditing).
 
-## Data Integrity and Backup{#data-integrity-and-backup}
+## Data Integrity and Backup\{#data-integrity-and-backup}
 
 Ensure data availability and recovery:
 
@@ -116,7 +119,7 @@ Ensure data availability and recovery:
 
 For details, refer to [Backup & Restore](./backup-and-restore) and [Use Recycle Bin](./use-recycle-bin).
 
-## Certificates and TLS{#certificates-and-tls}
+## Certificates and TLS\{#certificates-and-tls}
 
 Zilliz Cloud ensures secure connections:
 
@@ -132,6 +135,6 @@ Zilliz Cloud ensures secure connections:
 
 </Admonition>
 
-## Summary{#summary}
+## Summary\{#summary}
 
 Zilliz Cloud always places data security as its top priority. It emphasizes data security through comprehensive encryption, rigorous authentication, robust access control, private networking, and consistent auditing practices to maintain data confidentiality, integrity, and availability.

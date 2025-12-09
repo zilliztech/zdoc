@@ -3,6 +3,9 @@ title: "Import from a JSON File | BYOC"
 slug: /data-import-json
 sidebar_label: "JSON"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "JSON is a lightweight, human-readable data format that machines can parse and generate easily. Language-independent, it follows conventions familiar to C-family language programmers, making it an ideal data interchange format. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - milvus
   - format options
   - json
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 
@@ -32,7 +35,7 @@ import Admonition from '@theme/Admonition';
 
 You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your raw data into JSON files. The following figure demonstrates how your raw data can be mapped into a JSON file.
 
-![json_data_structure](/img/json_data_structure.png)
+![json_data_structure](https://zdoc-images.s3.us-west-2.amazonaws.com/json_data_structure.png "json_data_structure")
 
 <Admonition type="info" icon="📘" title="Notes">
 
@@ -43,7 +46,7 @@ You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your r
 <ul>
 <li><strong>Whether to enable dynamic fields</strong></li>
 </ul>
-<p>When the target collection enables dynamic fields, if you need to store fields that are not included in the pre-defined schema, you can specify the <strong>$meta</strong> column during the write operation and provide the corresponding key-value data.</p>
+<p>When the target collection enables dynamic fields, if you need to store fields that are not included in the pre-defined schema, you can specify the <strong>&#36;meta</strong> column during the write operation and provide the corresponding key-value data.</p>
 <ul>
 <li><strong>Case-sensitive</strong></li>
 </ul>
@@ -51,7 +54,7 @@ You are advised to use [the BulkWriter tool](./use-bulkwriter) to prepare your r
 
 </Admonition>
 
-## Directory structure{#directory-structure}
+## Directory structure\{#directory-structure}
 
 If you prefer to prepare your data into JSON files, place all JSON files directly into the source data folder as shown in the tree diagram below.
 
@@ -61,7 +64,7 @@ If you prefer to prepare your data into JSON files, place all JSON files directl
 │       └── 2.json 
 ```
 
-## Import data{#import-data}
+## Import data\{#import-data}
 
 Once your data is ready, you can use either of the following methods to import them into your Zilliz Cloud collection.
 
@@ -79,7 +82,7 @@ Once your data is ready, you can use either of the following methods to import t
 
 You can also import your data on the Zilliz Cloud console using Milvus SDKs. For details, refer to [Import Data (Console)](./import-data-on-web-ui) and [Import Data (SDK)](./import-data-via-sdks).
 
-### Import files from multiple paths (Recommended){#import-files-from-multiple-paths-recommended}
+### Import files from multiple paths (Recommended)\{#import-files-from-multiple-paths-recommended}
 
 When importing files from multiple paths, include each JSON file path in a separate list, then group all the lists into a higher-level list as in the following code example.
 
@@ -103,7 +106,7 @@ curl --request POST \
     }'
 ```
 
-### Import files from a folder{#import-files-from-a-folder}
+### Import files from a folder\{#import-files-from-a-folder}
 
 If the source folder contains only the JSON files to import, you can simply include the source folder in the request as follows:
 
@@ -125,7 +128,7 @@ curl --request POST \
     }'
 ```
 
-### Import a single file{#import-a-single-file}
+### Import a single file\{#import-a-single-file}
 
 If your prepared data file is a single JSON file, import it as demonstrated in the following code example.
 
@@ -147,7 +150,7 @@ curl --request POST \
     }'
 ```
 
-## Storage paths{#storage-paths}
+## Storage paths\{#storage-paths}
 
 Zilliz Cloud supports data import from your cloud storage. The table below lists the possible storage paths for your data files.
 
@@ -170,27 +173,36 @@ Zilliz Cloud supports data import from your cloud storage. The table below lists
    </tr>
 </table>
 
-## Limits{#limits}
+## Limits\{#limits}
 
-There are some limits you need to observe when you import data in the JSON format from your cloud storage. Note that a valid JSON file has a root key named **rows**, the corresponding value of which is a list of dictionaries, each representing an entity that matches the schema of the target collection.
+There are some limits you need to observe when you import data in a local JSON file or JSON files from your cloud storage. 
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>A valid JSON file has a root key named <strong>rows</strong>, the corresponding value of which is a list of dictionaries, each representing an entity that matches the schema of the target collection.</p>
+
+</Admonition>
 
 <table>
    <tr>
-     <th><p><strong>Item</strong></p></th>
-     <th><p><strong>Description</strong></p></th>
+     <th><p><strong>Import Method</strong></p></th>
+     <th><p><strong>Max Files per Import</strong></p></th>
+     <th><p><strong>Max File Size</strong></p></th>
+     <th><p><strong>Max Total Import Size</strong></p></th>
    </tr>
    <tr>
-     <td><p><strong>Multiple files per import</strong></p></td>
-     <td><p>Yes.</p><p>Each import allows up to 100,000 files.</p></td>
+     <td><p>From local file</p></td>
+     <td><p>1 File</p></td>
+     <td><p>1 GB</p></td>
+     <td><p>1 GB</p></td>
    </tr>
    <tr>
-     <td><p><strong>Maximum file size per import</strong></p></td>
-     <td><p>Free cluster: 512 MB in total</p><p>Serverless &amp; Dedicated cluster</p><ul><li><p>Individual file size: 10 GB</p></li><li><p>Total file size: 1 TB</p></li></ul></td>
-   </tr>
-   <tr>
-     <td><p><strong>Applicable data file locations</strong></p></td>
-     <td><p>Local and remote files</p></td>
+     <td><p>From object storage</p></td>
+     <td><p>1,000 Files</p></td>
+     <td><p>10 GB</p></td>
+     <td><p>1 TB</p></td>
    </tr>
 </table>
 
 You can either rebuild your data on your own by referring to [Prepare the data file](https://milvus.io/docs/bulk_insert.md#Prepare-the-data-file) or use [the BulkWriter tool](./use-bulkwriter) to generate the source data file. [Click here to download the prepared sample data based on the schema in the above diagram](https://assets.zilliz.com/prepared_json_data.json).
+

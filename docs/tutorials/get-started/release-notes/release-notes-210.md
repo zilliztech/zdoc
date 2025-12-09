@@ -3,20 +3,23 @@ title: "Release Notes (Aug 16, 2023) | Cloud"
 slug: /release-notes-210
 sidebar_label: "Release Notes (Aug 16, 2023)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "We are excited to announce the launch of Zilliz Cloud. This release includes a variety of enhancements and features, including expanded region support and enhanced usability features, such as migration and serverless instance management. In addition, we have enhanced the RESTful API with Bulk-insert and Dedicated Cluster support. | Cloud"
 type: origin
 token: Ti5uwysf0iZhuyk4xvjcFmsSnhG
-sidebar_position: 20
+sidebar_position: 24
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 
@@ -27,17 +30,17 @@ import Admonition from '@theme/Admonition';
 
 We are excited to announce the launch of Zilliz Cloud. This release includes a variety of enhancements and features, including expanded region support and enhanced usability features, such as migration and serverless instance management. In addition, we have enhanced the RESTful API with Bulk-insert and Dedicated Cluster support.
 
-## Milvus Compatibility{#milvus-compatibility}
+## Milvus Compatibility\{#milvus-compatibility}
 
 This release is compatible with **Milvus 2.1.x**.
 
-## Expanded Regional Support{#expanded-regional-support}
+## Expanded Regional Support\{#expanded-regional-support}
 
 Zilliz Cloud has expanded its services to include public cloud regions in Singapore, specifically **ap-southeast-1** of AWS and **asia-southeast-1** of GCP. This expansion ensures that our users in Southeast Asia have a broader reach and better performance.
 
 For all supported public cloud regions, refer to [Cloud Providers & Regions](./cloud-providers-and-regions).
 
-## Enhanced Usability Features{#enhanced-usability-features}
+## Enhanced Usability Features\{#enhanced-usability-features}
 
 - Migration support:
 
@@ -51,7 +54,7 @@ For all supported public cloud regions, refer to [Cloud Providers & Regions](./c
 
 For details, refer to [Manage Cluster](./manage-cluster).
 
-## RESTful API Enhancements{#restful-api-enhancements}
+## RESTful API Enhancements\{#restful-api-enhancements}
 
 - Bulk Insert
 

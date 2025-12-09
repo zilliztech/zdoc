@@ -3,6 +3,9 @@ title: "Configure a Customer-Managed VPC on GCP | BYOC"
 slug: /configure-vpc-gcp
 sidebar_label: "Configure a Customer-Managed VPC on GCP"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The Zilliz Cloud Bring-Your-Own-Cloud (BYOC) solution enables you to set up a project within your own Virtual Private Cloud (VPC). With a Zilliz Cloud project running in a customer-managed VPC, you gain greater control over your network configurations, allowing you to meet specific cloud security and governance standards required by your organization. | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 
@@ -41,11 +44,25 @@ This page enumerates the minimum requirements for hosting a Zilliz Cloud BYOC pr
 
 </Admonition>
 
-## VPC requirements{#vpc-requirements}
+## VPC requirements\{#vpc-requirements}
 
 Your VPC must meet the requirements enumerated in this section to host a Zilliz Cloud project. If you prefer to use an existing VPC for your BYOC project, ensure that your VPC meets these requirements. 
 
-### VPC regions{#vpc-regions}
+**Requirements**
+
+- [VPC regions](./configure-vpc-gcp#vpc-regions)
+
+- [VPC IP address ranges](./configure-vpc-gcp#vpc-ip-address-ranges)
+
+- [Subnets](./configure-vpc-gcp#subnets)
+
+- [Cloud Router and NAT](./configure-vpc-gcp#cloud-router-and-nat)
+
+- [Firewall Rules](./configure-vpc-gcp#firewall-rules)
+
+- [Private Service Connect (PSC)](./configure-vpc-gcp#private-service-connect-psc-endpoint)
+
+### VPC regions\{#vpc-regions}
 
 The following table lists the Google Cloud Platform (GCP) regions the Zilliz Cloud BYOC solution supports. If you cannot find your cloud regions on the Zilliz Cloud console, please contact us at support@zilliz.com.
 
@@ -60,7 +77,7 @@ The following table lists the Google Cloud Platform (GCP) regions the Zilliz Clo
    </tr>
 </table>
 
-### VPC IP address ranges{#vpc-ip-address-ranges}
+### VPC IP address ranges\{#vpc-ip-address-ranges}
 
 Zilliz Cloud recommends using the **/18** netmask in IPv4 CIDR settings for the VPC, allowing a public subnet and three private subnets to be created from the CIDR block.
 
@@ -70,27 +87,27 @@ Zilliz Cloud recommends using the **/18** netmask in IPv4 CIDR settings for the 
 
 </Admonition>
 
-### Subnets{#subnets}
+### Subnets\{#subnets}
 
 A Zilliz Cloud BYOC project requires one primary subnet with a primary IPv4 range and two secondary IPv4 ranges, along with a separate load balancing subnet.
 
-### Cloud Router and NAT{#cloud-router-and-nat}
+### Cloud Router and NAT\{#cloud-router-and-nat}
 
 A Google Cloud Router is required to allow dynamic route exchange between your VPC and other networks. You must also add a NAT gateway to allow the VMs and container pods on your VPC to communicate with Zilliz Cloud's VPC network.
 
-### Firewall Rules{#firewall-rules}
+### Firewall Rules\{#firewall-rules}
 
 You need to create two ingress firewall rules: One is for Zilliz Cloud to perform health checks against the clusters within your BYOC project, and the other is for the VM instances within your VPC network to communicate with each other.
 
-### Private Service Connect (PSC) endpoint{#private-service-connect-psc-endpoint}
+### Private Service Connect (PSC) endpoint\{#private-service-connect-psc-endpoint}
 
 The PSC endpoint is optional and will be used when you configure private endpoints for your BYOC clusters. 
 
-## Procedure{#procedure}
+## Procedure\{#procedure}
 
 On the GCP dashboard, you can create the VPC and related resources enumerated in [VPC requirements](./configure-vpc-gcp#vpc-requirements). Alternatively, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on GCP. For details, refer to [Terraform Provider](./terraform-provider).
 
-### Step 1: Create a VPC network and add the primary subnet{#step-1-create-a-vpc-network-and-add-the-primary-subnet}
+### Step 1: Create a VPC network and add the primary subnet\{#step-1-create-a-vpc-network-and-add-the-primary-subnet}
 
 You will create a VPC network and add the primary subnet in this step. The primary subnet includes a primary IPv4 address range and two secondary IPv4 address ranges for container pods and services.
 
@@ -112,11 +129,11 @@ The steps to create a VPC network and add the primary subnet are as follows:
 
 1. Set the primary IPv4 range for the primary subnet.
 
-    In this demo, you can set it to `10.7.0.0/18` or use the planned network segment.
+    In this demo, you can set it to `10.7.0.0/18` or use the planned network segment. You are advised to remember the name and IPv4 range for further reference.
 
 1. Set the name and IPv4 address range of the secondary IPv4 range for container pods.
 
-    In this demo, you can set the name to `pod-subnet` and range to `10.7.64.0/18`, or follow your naming conventions and networking plan.
+    In this demo, you can set the name to `pod-subnet` and range to `10.7.64.0/18`, or follow your naming conventions and networking plan. You are advised to remember the name and IPv4 range for further reference.
 
 1. Click **Add a Secondary IPv4 range** to add a secondary IPv4 range for services, and set its name and range.
 
@@ -124,7 +141,7 @@ The steps to create a VPC network and add the primary subnet are as follows:
 
 1. Leave the rest in default settings and click **Create**.
 
-### Step 2: Add the load-balancing subnet{#step-2-add-the-load-balancing-subnet}
+### Step 2: Add the load-balancing subnet\{#step-2-add-the-load-balancing-subnet}
 
 You will add a proxy-only subnet reserved for the regional Application Load Balancer in this step.
 
@@ -158,7 +175,7 @@ The steps for adding this subnet are as follows:
 
 1. Click **Add**.
 
-### Step 3: Set up the Cloud Router and NAT gateway{#step-3-set-up-the-cloud-router-and-nat-gateway}
+### Step 3: Set up the Cloud Router and NAT gateway\{#step-3-set-up-the-cloud-router-and-nat-gateway}
 
 You will configure a Cloud Router and a NAT gateway to enable network address translation for the traffic between your VPC and that of Zilliz Cloud.
 
@@ -206,7 +223,7 @@ The steps to set up the Cloud Router and NAT gateway are as follows:
 
 1. Once the new IP address has been reserved for the NAT gateway, click **Create**.
 
-### Step 4: Add firewall rules{#step-4-add-firewall-rules}
+### Step 4: Add firewall rules\{#step-4-add-firewall-rules}
 
 You will add two firewall rules in this step. The first rule is to enable health checks against BYOC clusters deployed on your VPC network, and the second is to enable communications between all VMs with the target tag `zilliz-byoc`.
 
@@ -266,7 +283,7 @@ The steps to add these firewall rules are as follows:
            </tr>
            <tr>
              <td><p><strong>Source IPv4 ranges</strong></p></td>
-             <td><p><a href="./configure-vpc-gcp#step-1-create-a-vpc-network-and-add-the-primary-subnet">IPv4 address range of the primary subnet</a></p></td>
+             <td><p><code>10.7.0.0/18</code> (or use your planned one by referring to step 5 in <a href="./configure-vpc-gcp#step-1-create-a-vpc-network-and-add-the-primary-subnet">this section</a>.)</p></td>
            </tr>
            <tr>
              <td><p><strong>Protocols and ports</strong></p></td>
@@ -274,7 +291,7 @@ The steps to add these firewall rules are as follows:
            </tr>
         </table>
 
-### Step 5: (Optional) Create a PSC endpoint{#step-5-optional-create-a-psc-endpoint}
+### Step 5: (Optional) Create a PSC endpoint\{#step-5-optional-create-a-psc-endpoint}
 
 You will add a PSC endpoint to ensure that communications between your VPC and Zilliz Cloud are off the Internet.
 

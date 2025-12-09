@@ -3,11 +3,14 @@ title: "Set up a Private Endpoint | Cloud"
 slug: /setup-a-private-link
 sidebar_label: "Set up a Private Endpoint"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud offers private access to your cluster through a private link. This is useful if you do not want your cluster traffic to go over the Internet. | Cloud"
 type: origin
 token: O5W3wHvmbiVSoLkzKgHcvB9XnUb
-sidebar_position: 2
+sidebar_position: 3
 keywords: 
   - zilliz
   - vector database
@@ -18,10 +21,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 
@@ -36,7 +39,7 @@ To enable private client access to clusters on Zilliz Cloud, you must create an 
 
 The following figure demonstrates how it works.
 
-![BkbRwb8YhhqePCbZn2Kc8lWknNc](/img/BkbRwb8YhhqePCbZn2Kc8lWknNc.png)
+![BkbRwb8YhhqePCbZn2Kc8lWknNc](https://zdoc-images.s3.us-west-2.amazonaws.com/BkbRwb8YhhqePCbZn2Kc8lWknNc.png)
 
 This guide walks you through setting up a private endpoint for a cluster.
 

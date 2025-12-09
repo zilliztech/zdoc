@@ -3,6 +3,9 @@ title: "Full Text Search | BYOC"
 slug: /full-text-search
 sidebar_label: "Full Text Search"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Full text search is a feature that retrieves documents containing specific terms or phrases in text datasets, then ranking the results based on relevance. This feature overcomes semantic search limitations, which might overlook precise terms, ensuring you receive the most accurate and contextually relevant results. Additionally, it simplifies vector searches by accepting raw text input, automatically converting your text data into sparse embeddings without the need to manually generate vector embeddings. | BYOC"
 type: origin
@@ -19,10 +22,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 
@@ -44,43 +47,45 @@ Using the BM25 algorithm for relevance scoring, this feature is particularly val
 
 Zilliz Cloud supports enabling full text search programmatically or via the web console. This page focuses on how to enable full text search programmatically. For details about operations on the web console, refer to [Manage Collections (Console)](./manage-collections-console#full-text-search).
 
-## Overview{#overview}
+## BM25 implementation\{#bm25-implementation}
 
-Full text search simplifies the process of text-based searching by eliminating the need for manual embedding. This feature operates through the following workflow:
+Zilliz Cloud provides full text search powered by the BM25 relevance algorithm, a widely adopted scoring function in information retrieval systems, and Zilliz Cloud integrates it into the search workflow to deliver accurate, relevance-ranked text results.
 
-1. **Text input**: You insert raw text documents or provide query text without any need for manual embedding.
+Full text search in Zilliz Cloud follows the workflow below:
 
-1. **Text analysis**: Zilliz Cloud uses an [analyzer](./analyzer-overview) to tokenize input text into individual, searchable terms.
+1. **Raw text input**: You insert text documents or provide a query using plain text, no embedding models required.
 
-1. **Function processing**: The built-in function receives tokenized terms and converts them into sparse vector representations.
+1. **Text analysis**: Zilliz Cloud uses an [analyzer](./analyzer-overview) to process your text into meaningful terms that can be indexed and searched.
 
-1. **Collection store**: Zilliz Cloud stores these sparse embeddings in a collection for efficient retrieval.
+1. **BM25 function processing**: A built-in function transforms these terms into sparse vector representations optimized for BM25 scoring.
 
-1. **BM25 scoring**: During a search, Zilliz Cloud applies the BM25 algorithm to calculate scores for the stored documents and ranks matched results based on relevance to the query text.
+1. **Collection store**: Zilliz Cloud stores the resulting sparse embeddings in a collection for fast retrieval and ranking.
 
-![DfPMwP6ZahhHlLbIN0gcG9d7nQM](/img/DfPMwP6ZahhHlLbIN0gcG9d7nQM.png)
+1. **BM25 relevance scoring**: At search time, Zilliz Cloud applies the BM25 scoring function to compute document relevance and return ranked results that best match the query terms.
+
+![DfPMwP6ZahhHlLbIN0gcG9d7nQM](https://zdoc-images.s3.us-west-2.amazonaws.com/DfPMwP6ZahhHlLbIN0gcG9d7nQM.png)
 
 To use full text search, follow these main steps:
 
-1. [Create a collection](./full-text-search#create-a-collection-for-full-text-search): Set up a collection with necessary fields and define a function to convert raw text into sparse embeddings.
+1. [Create a collection](./full-text-search#create-a-collection-for-bm25-full-text-search): Set up the required fields and define a BM25 function that converts raw text into sparse embeddings.
 
 1. [Insert data](./full-text-search#insert-text-data): Ingest your raw text documents to the collection.
 
-1. [Perform searches](./full-text-search#perform-full-text-search): Use query texts to search through your collection and retrieve relevant results.
+1. [Perform searches](./full-text-search#perform-full-text-search): Use natural-language query text to retrieve ranked results based on BM25 relevance.
 
-## Create a collection for full text search{#create-a-collection-for-full-text-search}
+## Create a collection for BM25 full text search\{#create-a-collection-for-bm25-full-text-search}
 
-To enable full text search, create a collection with a specific schema. This schema must include three necessary fields:
+To enable BM25-powered full text search, you must prepare a collection with the required fields, define a BM25 function to generate sparse vectors, configure an index, and then create the collection.
 
-- The primary field that uniquely identifies each entity in a collection.
+### Define schema fields\{#define-schema-fields}
 
-- A `VARCHAR` field that stores raw text documents, with the `enable_analyzer` attribute set to `True`. This allows Zilliz Cloud to tokenize text into specific terms for function processing.
+Your collection schema must include at least three required fields:
 
-- A `SPARSE_FLOAT_VECTOR` field reserved to store sparse embeddings that Zilliz Cloud will automatically generate for the `VARCHAR` field.
+- **Primary field**: Uniquely identifies each entity in the collection.
 
-### Define the collection schema{#define-the-collection-schema}
+- **Text field** (`VARCHAR`): Stores raw text documents. Must set `enable_analyzer=True` so Zilliz Cloud can process the text for BM25 relevance ranking. By default, Zilliz Cloud uses the [`standard`](./standard-analyzer)[ analyzer](./standard-analyzer) for text analysis. To configure a different analyzer, refer to [Analyzer Overview](./analyzer-overview).
 
-First, create the schema and add the necessary fields:
+- **Sparse vector field** (`SPARSE_FLOAT_VECTOR`): Stores sparse embeddings automatically generated by the BM25 function.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -95,9 +100,11 @@ client = MilvusClient(
 
 schema = client.create_schema()
 
-schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True, auto_id=True)
-schema.add_field(field_name="text", datatype=DataType.VARCHAR, max_length=1000, enable_analyzer=True)
-schema.add_field(field_name="sparse", datatype=DataType.SPARSE_FLOAT_VECTOR)
+schema.add_field(field_name="id", datatype=DataType.INT64, is_primary=True, auto_id=True) # Primary field
+# highlight-start
+schema.add_field(field_name="text", datatype=DataType.VARCHAR, max_length=1000, enable_analyzer=True) # Text field
+schema.add_field(field_name="sparse", datatype=DataType.SPARSE_FLOAT_VECTOR) # Sparse vector field; no dim required for sparse vectors
+# highlight-end
 ```
 
 </TabItem>
@@ -239,15 +246,19 @@ export schema='{
 </TabItem>
 </Tabs>
 
-In this configuration,
+In the preceding config,
 
 - `id`: serves as the primary key and is automatically generated with `auto_id=True`.
 
-- `text`: stores your raw text data for full text search operations. The data type must be `VARCHAR`, as `VARCHAR` is Zilliz Cloud string data type for text storage. Set `enable_analyzer=True` to allow Zilliz Cloud to tokenize the text. By default, Zilliz Cloud uses the `standard`[ analyzer](./standard-analyzer) for text analysis. To configure a different analyzer, refer to [Analyzer Overview](./analyzer-overview).
+- `text`: stores your raw text data for full text search operations. The data type must be `VARCHAR`, as `VARCHAR` is Zilliz Cloud string data type for text storage.
 
 - `sparse`: a vector field reserved to store internally generated sparse embeddings for full text search operations. The data type must be `SPARSE_FLOAT_VECTOR`.
 
-Now, define a function that will convert your text into sparse vector representations and then add it to the schema:
+### Define the BM25 function\{#define-the-bm25-function}
+
+The BM25 function converts tokenized text into sparse vectors that support BM25 scoring.
+
+Define the function and add it to your schema:
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -257,6 +268,7 @@ bm25_function = Function(
     name="text_bm25_emb", # Function name
     input_field_names=["text"], # Name of the VARCHAR field containing raw text data
     output_field_names=["sparse"], # Name of the SPARSE_FLOAT_VECTOR field reserved to store generated embeddings
+    # highlight-next-line
     function_type=FunctionType.BM25, # Set to `BM25`
 )
 
@@ -360,7 +372,7 @@ export schema='{
    </tr>
    <tr>
      <td><p><code>name</code></p></td>
-     <td><p>The name of the function. This function converts your raw text from the <code>text</code> field into searchable vectors that will be stored in the <code>sparse</code> field.</p></td>
+     <td><p>The name of the function. This function converts your raw text from the <code>text</code> field into BM25-compatible sparse vectors that will be stored in the <code>sparse</code> field.</p></td>
    </tr>
    <tr>
      <td><p><code>input_field_names</code></p></td>
@@ -372,19 +384,19 @@ export schema='{
    </tr>
    <tr>
      <td><p><code>function_type</code></p></td>
-     <td><p>The type of the function to use. Set the value to <code>FunctionType.BM25</code>.</p></td>
+     <td><p>The type of the function to use. Must be <code>FunctionType.BM25</code>.</p></td>
    </tr>
 </table>
 
 <Admonition type="info" icon="📘" title="Notes">
 
-<p>For collections with multiple <code>VARCHAR</code> fields requiring text-to-sparse-vector conversion, add separate functions to the collection schema, ensuring each function has a unique name and <code>output_field_names</code> value.</p>
+<p>If multiple <code>VARCHAR</code> fields require BM25 processing, define <strong>one BM25 function per field</strong>, each with a unique name and output field.</p>
 
 </Admonition>
 
-### Configure the index{#configure-the-index}
+### Configure the index\{#configure-the-index}
 
-After defining the schema with necessary fields and the built-in function, set up the index for your collection. To simplify this process, use `AUTOINDEX` as the `index_type`, an option that allows Zilliz Cloud to choose and configure the most suitable index type based on the structure of your data.
+After defining the schema with necessary fields and the built-in function, set up the index for your collection. \<inclcude target="zilliz">To simplify this process, use `AUTOINDEX` as the `index_type`, an option that allows Zilliz Cloud to choose and configure the most suitable index type based on the structure of your data.
 
 <Tabs groupId="code" defaultValue='python' values={[{"label":"Python","value":"python"},{"label":"Java","value":"java"},{"label":"Go","value":"go"},{"label":"NodeJS","value":"javascript"},{"label":"cURL","value":"bash"}]}>
 <TabItem value='python'>
@@ -409,9 +421,9 @@ index_params.add_index(
 import io.milvus.v2.common.IndexParam;
 
 Map<String,Object> params = new HashMap<>();
-fvParams.put("inverted_index_algo", "DAAT_MAXSCORE");
-fvParams.put("bm25_k1", 1.2);
-fvParams.put("bm25_b", 0.75);
+params.put("inverted_index_algo", "DAAT_MAXSCORE");
+params.put("bm25_k1", 1.2);
+params.put("bm25_b", 0.75);
 
 List<IndexParam> indexes = new ArrayList<>();
 indexes.add(IndexParam.builder()
@@ -510,7 +522,7 @@ export indexParams='[
    </tr>
 </table>
 
-### Create the collection{#create-the-collection}
+### Create the collection\{#create-the-collection}
 
 Now create the collection using the schema and index parameters defined.
 
@@ -589,7 +601,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Insert text data{#insert-text-data}
+## Insert text data\{#insert-text-data}
 
 After setting up your collection and index, you're ready to insert text data. In this process, you need only to provide the raw text. The built-in function we defined earlier automatically generates the corresponding sparse vector for each text entry.
 
@@ -672,7 +684,7 @@ curl --request POST \
 </TabItem>
 </Tabs>
 
-## Perform full text search{#perform-full-text-search}
+## Perform full text search\{#perform-full-text-search}
 
 Once you've inserted data into your collection, you can perform full text searches using raw text queries. Zilliz Cloud automatically converts your query into a sparse vector and ranks the matched search results using the BM25 algorithm, and then returns the topK (`limit`) results.
 
@@ -800,11 +812,11 @@ curl --request POST \
    </tr>
    <tr>
      <td><p><code>params.level</code></p></td>
-     <td><p>Controls the search precision with simplified search optimization. For details, refer to <a href="./single-vector-search">Use Level</a>.</p></td>
+     <td><p>Controls the search precision with simplified search optimization. For details, refer to <a href="./tune-recall-rate">Tune Recall Rate</a>.</p></td>
    </tr>
    <tr>
      <td><p><code>data</code></p></td>
-     <td><p>Raw query text in natural language. Milvus automatically converts your text query into sparse vectors using the BM25 function - do not provide pre-computed vectors.</p></td>
+     <td><p>Raw query text in natural language. Zilliz Cloud automatically converts your text query into sparse vectors using the BM25 function - do not provide pre-computed vectors.</p></td>
    </tr>
    <tr>
      <td><p><code>anns_field</code></p></td>
@@ -820,9 +832,9 @@ curl --request POST \
    </tr>
 </table>
 
-## FAQ{#faq}
+## FAQ\{#faq}
 
-### Can I output or access the sparse vectors generated by the BM25 function in full text search?{#can-i-output-or-access-the-sparse-vectors-generated-by-the-bm25-function-in-full-text-search}
+### Can I output or access the sparse vectors generated by the BM25 function in full text search?\{#can-i-output-or-access-the-sparse-vectors-generated-by-the-bm25-function-in-full-text-search}
 
 No, the sparse vectors generated by the BM25 function are not directly accessible or outputable in full text search. Here are the details:
 
@@ -858,7 +870,7 @@ client.search(
 )
 ```
 
-### Why do I need to define a sparse vector field if I can't access it?{#why-do-i-need-to-define-a-sparse-vector-field-if-i-cant-access-it}
+### Why do I need to define a sparse vector field if I can't access it?\{#why-do-i-need-to-define-a-sparse-vector-field-if-i-cant-access-it}
 
 The sparse vector field serves as an internal search index, similar to database indexes that users don't directly interact with.
 

@@ -3,20 +3,23 @@ title: "Release Notes (Feb 13, 2023) | Cloud"
 slug: /release-notes-011
 sidebar_label: "Release Notes (Feb 13, 2023)"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "We are pleased to announce the general availability of a significant update to Zilliz Cloud. This release adds email notifications and inline guidance for beginners. | Cloud"
 type: origin
 token: E76ywex6GiUKUKkgbFAc95Q0nxe
-sidebar_position: 24
+sidebar_position: 28
 keywords: 
   - zilliz
   - vector database
   - cloud
   - release notes
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

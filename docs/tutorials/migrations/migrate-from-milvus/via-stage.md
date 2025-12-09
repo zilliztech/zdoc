@@ -1,10 +1,13 @@
 ---
-title: "Migrate from Milvus to Zilliz Cloud Via Stage | Cloud"
+title: "Migrate from Milvus to Zilliz Cloud Via Backup Tool | Cloud"
 slug: /via-stage
-sidebar_label: "Via Stage"
-beta: PRIVATE
+sidebar_label: "Via Backup Tool"
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
-description: "Zilliz Cloud provides an internal stage feature that serves as a storage spot for backup data during data migration from Milvus. This feature allows users to perform data migration more easily and efficiently, without needing to handle complex details manually, thus greatly enhancing usability and success rates. | Cloud"
+description: "Zilliz Cloud provides a backup tool for data migration from Milvus. This backup tool allows users to perform data migration more easily and efficiently, without needing to handle complex details manually, thus greatly enhancing usability and success rates. | Cloud"
 type: origin
 token: IxO5wZ1meiYrTckUPkQca9JOnbS
 sidebar_position: 3
@@ -15,20 +18,20 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - stage
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - volume
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Migrate from Milvus to Zilliz Cloud Via Stage
+# Migrate from Milvus to Zilliz Cloud Via Backup Tool
 
-Zilliz Cloud provides an internal stage feature that serves as a storage spot for backup data during data migration from Milvus. This feature allows users to perform data migration more easily and efficiently, without needing to handle complex details manually, thus greatly enhancing usability and success rates.
+Zilliz Cloud provides a backup tool for data migration from Milvus. This backup tool allows users to perform data migration more easily and efficiently, without needing to handle complex details manually, thus greatly enhancing usability and success rates.
 
 This feature eliminates the operational complexity across various migration scenarios, such as:
 
@@ -38,21 +41,15 @@ This feature eliminates the operational complexity across various migration scen
 
 - Ensuring network accessibility of the Milvus instance endpoint when performing endpoint-based migrations.
 
-<Admonition type="info" icon="📘" title="Notes">
+## Before you start\{#before-you-start}
 
-<p>Migration via stage is in <strong>Private Preview</strong>. If you are interested, encounter any issues, or would like to learn about associated costs, contact <a href="https://support.zilliz.com/hc/en-us/requests/new">Zilliz Cloud support</a>.</p>
+- You have been granted the **Organization Owner** or **Project Admin** role. If you do not have the necessary permissions, contact your Zilliz Cloud Organization Owner.
 
-</Admonition>
+- Make sure the number of query CUs of the target cluster can accommodate your source data. To estimate the required number of query CUs, use the [calculator](https://zilliz.com/pricing?_gl=1*qro801*_ga*MzkzNTY1NDM0LjE3Mjk1MDExNzQ.*_ga_Q1F8R2NWDP*MTc0NTQ4MzY1Ni4zMDEuMS4xNzQ1NDg0MTEzLjAuMC4w*_ga_KKMVYG8YF2*MTc0NTQ4MzY1Ni4yNTIuMS4xNzQ1NDg0MTEzLjAuMC4w#calculator).
 
-## Before you start{#before-you-start}
+## Procedure\{#procedure}
 
-- You have been granted the **Organization Owner** or **Project Admin** role. If you do not have the necessary permissions, contact your Zilliz Cloud administrator.
-
-- Make sure the CU size of the target cluster can accommodate your source data. To estimate the required CU size, use the [calculator](https://zilliz.com/pricing?_gl=1*qro801*_ga*MzkzNTY1NDM0LjE3Mjk1MDExNzQ.*_ga_Q1F8R2NWDP*MTc0NTQ4MzY1Ni4zMDEuMS4xNzQ1NDg0MTEzLjAuMC4w*_ga_KKMVYG8YF2*MTc0NTQ4MzY1Ni4yNTIuMS4xNzQ1NDg0MTEzLjAuMC4w#calculator).
-
-## Procedure{#procedure}
-
-In this procedure, you will use Milvus Backup to prepare the backup files, upload them to the Zilliz Cloud internal stage, and migrate them to the specified target Zilliz Cloud cluster.
+In this procedure, you will use Milvus Backup to prepare the backup files, upload them to Zilliz Cloud, and migrate them to the specified target Zilliz Cloud cluster.
 
 1. Download **[milvus-backup](https://github.com/zilliztech/milvus-backup/releases)**. Always use the latest release.
 
@@ -73,6 +70,14 @@ In this procedure, you will use Milvus Backup to prepare the backup files, uploa
 
     1. Set the following configuration items:
 
+        ```yaml
+        ...
+        cloud:
+          address: https://api.cloud.zilliz.com
+          apikey: <your-api-key>
+        ...
+        ```
+
         - `cloud.address`
 
             The Zilliz Cloud Control Plane endpoint, which is `https://api.cloud.zilliz.com`.
@@ -83,19 +88,26 @@ In this procedure, you will use Milvus Backup to prepare the backup files, uploa
 
     1. Check whether the following configuration items are correct:
 
-        - `milvus.address`
-
-        - `mivlus.port`
-
-        - `minio.address`
-
-        - `minio.port`
-
-        - `minio.bucketName`
-
-        - `minio.backupBucketName`
-
-        - `rootPath`
+        ```yaml
+        ...
+        # milvus proxy address, compatible to milvus.yaml
+        milvus:
+          address: localhost
+          port: 19530
+          ...
+          
+        # Related configuration of minio, which is responsible for data persistence for Milvus.
+        minio:
+          # Milvus storage configs, make them the same with milvus config
+          storageType: "minio" # support storage type: local, minio, s3, aws, gcp, ali(aliyun), azure, tc(tencent), gcpnative
+          # You can use "gcpnative" for the Google Cloud Platform provider. Uses service account credentials for authentication.
+          address: localhost # Address of MinIO/S3
+          port: 9000   # Port of MinIO/S3
+          bucketName: "a-bucket" # Milvus Bucket name in MinIO/S3, make it the same as your milvus instance
+          backupBucketName: "a-bucket" # Bucket name to store backup data. Backup data will store to backupBucketName/backupRootPath
+          rootPath: "files" # Milvus storage root path in MinIO/S3, make it the same as your milvus instance
+          ...
+        ```
 
     <Admonition type="info" icon="📘" title="Notes">
 
@@ -128,15 +140,15 @@ In this procedure, you will use Milvus Backup to prepare the backup files, uploa
     # You can check the progress of the migration job in Zilliz Cloud console.
     ```
 
-    Upon executing this command, Milvus Backup uploads the prepared backup files to the Zilliz Cloud internal stage, creates a migration job, and returns the job ID as the command output.
+    Upon executing this command, Milvus Backup uploads the prepared backup files to the Zilliz Cloud platform, creates a migration job, and returns the job ID as the command output.
 
     <Admonition type="info" icon="📘" title="Notes">
 
-    <p>The backup files uploaded to the internal stage will stay in the stage for <strong>3</strong> days after the upload and will then be deleted.</p>
+    <p>The backup files uploaded to the Zilliz Cloud platform will be retained for <strong>3</strong> days after the upload and will then be deleted.</p>
 
     </Admonition>
 
-## Monitor the migration process{#monitor-the-migration-process}
+## Monitor the migration process\{#monitor-the-migration-process}
 
 Once you click **Migrate**, a migration job will be generated. You can check the migration progress on the [Jobs](./job-center) page. When the job status switches from **In Progress** to **Successful**, the migration is complete.
 
@@ -146,9 +158,9 @@ Once you click **Migrate**, a migration job will be generated. You can check the
 
 </Admonition>
 
-![verify_collection](/img/verify_collection.png)
+![verify_collection](https://zdoc-images.s3.us-west-2.amazonaws.com/verify_collection.png "verify_collection")
 
-## Post-migration{#post-migration}
+## Post-migration\{#post-migration}
 
 After the migration job is completed, note the following:
 
@@ -156,7 +168,7 @@ After the migration job is completed, note the following:
 
 - **Manual Loading Required**: Despite automatic indexing, the migrated collections are not immediately available for search or query operations. You must manually load the collections in Zilliz Cloud to enable search and query functionalities. For details, refer to [Load & Release](./load-release-collections).
 
-## Cancel migration job{#cancel-migration-job}
+## Cancel migration job\{#cancel-migration-job}
 
 If the migration process encounters any issues, you can take the following steps to troubleshoot and resume the migration:
 

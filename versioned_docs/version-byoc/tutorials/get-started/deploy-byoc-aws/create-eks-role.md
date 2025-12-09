@@ -3,6 +3,9 @@ title: "Create EKS IAM Role | BYOC"
 slug: /create-eks-role
 sidebar_label: "Create EKS IAM Role"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This page describes how to create and configure an IAM role for Zilliz Cloud to deploy an EKS cluster for your Zilliz Cloud project. | BYOC"
 type: origin
@@ -16,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 
@@ -38,11 +41,11 @@ This page describes how to create and configure an IAM role for Zilliz Cloud to 
 
 </Admonition>
 
-## Procedure{#procedure}
+## Procedure\{#procedure}
 
 You can use the AWS console to create the EKS role. As an alternative, you can use the Terraform script Zilliz Cloud provides to bootstrap the infrastructure for your Zilliz Cloud project on AWS. For details, refer to [Terraform Provider](./terraform-provider).
 
-### Step 1: Create an IAM role{#step-1-create-an-iam-role}
+### Step 1: Create an IAM role\{#step-1-create-an-iam-role}
 
 In this step, you will create an IAM role on AWS for Zilliz Cloud to manage EKS clusters on your behalf and paste the ARN of the role back to Zilliz Cloud console.
 
@@ -136,13 +139,13 @@ In this step, you will create an IAM role on AWS for Zilliz Cloud to manage EKS 
 
 1. Go back to the Zilliz Cloud console, paste the role ARN in **IAM Role ARN** under **EKS settings**.
 
-### Step 2: Add permissions{#step-2-add-permissions}
+### Step 2: Add permissions\{#step-2-add-permissions}
 
 In this step, you are going to add several permissions to the EKS role. On the role's details page, click the **Permissions** tab.  In the **Permissions policies** section, click **Add permissions**. In this step, you need to select **Attach policies** and then **Create inline policy** to add multiple policies from different sources .
 
 <Supademo id="cmb7nj2tb4u69ppkptf3is7bo" title=""  />
 
-#### Attach AWS-managed policies{#attach-aws-managed-policies}
+#### Attach AWS-managed policies\{#attach-aws-managed-policies}
 
 The following table lists the permissions to add as attached policies. Click the item in the **Permissions** column of the table to view the required permissions.
 
@@ -189,7 +192,7 @@ You will find that these policies are listed in the **Permissions** policies lis
 
 </Admonition>
 
-#### Create inline policies{#create-inline-policies}
+#### Create inline policies\{#create-inline-policies}
 
 The following table lists the policies that need to be added as customer inline policies. Click the item in the **Permissions** column of the table to view the required permissions.
 

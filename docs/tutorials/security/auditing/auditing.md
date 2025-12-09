@@ -1,30 +1,33 @@
 ---
-title: "Auditing | Cloud"
+title: "Auditing Logs | Cloud"
 slug: /auditing
-sidebar_label: "Auditing"
-beta: PRIVATE
+sidebar_label: "Auditing Logs"
+beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Learn how to configure auditing for your Zilliz Cloud cluster. | Cloud"
 type: origin
 token: UfGkwPQIPiJi6OkEu47cH3Umnvb
-sidebar_position: 5
+sidebar_position: 6
 keywords: 
   - zilliz
   - vector database
   - cloud
   - auditing
   - log
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 
 import Admonition from '@theme/Admonition';
 
 
-# Auditing
+# Auditing Logs
 
 Learn how to configure auditing for your Zilliz Cloud cluster.
 

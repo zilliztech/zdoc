@@ -3,20 +3,23 @@ title: "Organizations | BYOC"
 slug: /organizations
 sidebar_label: "Organizations"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "The chapter focuses on organization operations and related settings. | BYOC"
 type: origin
 token: Dh6vwCrzYimC7skvDRUcvPi4n2c
-sidebar_position: 8
+sidebar_position: 9
 keywords: 
   - zilliz
   - vector database
   - cloud
   - organizations
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

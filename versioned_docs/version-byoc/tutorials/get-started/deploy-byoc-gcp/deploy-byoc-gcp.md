@@ -3,6 +3,9 @@ title: "Deploy BYOC on GCP | BYOC"
 slug: /deploy-byoc-gcp
 sidebar_label: "Deploy BYOC on GCP"
 beta: CONTACT SALES
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "This page describes how to manually create a fully managed Bring-Your-Own-Cloud (BYOC) data plane in your Google Cloud Platform (GCP) Virtual Private Cloud (VPC) using the Zilliz Cloud console and custom GCP configurations. | BYOC"
 type: origin
@@ -17,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 
@@ -40,25 +43,25 @@ This page describes how to manually create a fully managed Bring-Your-Own-Cloud 
 
 </Admonition>
 
-## Prerequisites{#prerequisites}
+## Prerequisites\{#prerequisites}
 
 - You must be a BYOC organization owner.
 
 - You have enabled the [required GCP API services](./required-api-services-gcp).
 
-## Procedure{#procedure}
+## Procedure\{#procedure}
 
 To deploy BYOC on GCP, Zilliz Cloud needs to assume specific roles to access the Cloud Storage bucket and the GKE cluster within a customer-managed VPC on your behalf. Consequently, Zilliz Cloud needs to gather information about your Cloud Storage bucket, GKE cluster, and VPC, along with the roles necessary for accessing these infrastructure resources.
 
 Within your BYOC organization, click the **Create Project and Deploy Data Plane** button to start the deployment.
 
-![Cl50bi7eVoxSoHxk4jrcclh6n5O](/img/Cl50bi7eVoxSoHxk4jrcclh6n5O.png)
+![Cl50bi7eVoxSoHxk4jrcclh6n5O](https://zdoc-images.s3.us-west-2.amazonaws.com/cl50bi7evoxsohxk4jrcclh6n5o.png "Cl50bi7eVoxSoHxk4jrcclh6n5O")
 
-### Step 1: Create a project{#step-1-create-a-project}
+### Step 1: Create a project\{#step-1-create-a-project}
 
 In this step, you need to set the Zilliz BYOC project name, determine the cloud providers and regions, and the initial project size of your deployment.
 
-![S3a5behpSoDdj5xrphzcjoYdnEe](/img/S3a5behpSoDdj5xrphzcjoYdnEe.png)
+![A8VVbPbJgobXzzxEdumcpxJ4nMg](https://zdoc-images.s3.us-west-2.amazonaws.com/a8vvbpbjgobxzzxedumcpxj4nmg.png "A8VVbPbJgobXzzxEdumcpxJ4nMg")
 
 1. Set **Zilliz BYOC Project Name**.
 
@@ -78,15 +81,15 @@ In this step, you need to set the Zilliz BYOC project name, determine the cloud 
 
     1. Configure **Initial Project Size**. 
 
-        In a BYOC project, the search service, other database components, and core support services use different Google Compute Engine (GCE) instances. You can set instance types for these services and components. 
+        In a BYOC project, the query node, index services, Milvus components, and dependencies use different Google Compute Engine (GCE) instances. You can set instance types for these services and components. 
 
         If **Auto-scaling** is disabled, simply specify the number of GCE instances required for each project component in the corresponding **Count** field.
 
-        ![SKYfbLW76oEudZxyng2cT2Xmnsh](/img/SKYfbLW76oEudZxyng2cT2Xmnsh.png)
+        ![CxACbbwtYo2dMNxG33qcMIyinBe](https://zdoc-images.s3.us-west-2.amazonaws.com/cxacbbwtyo2dmnxg33qcmiyinbe.png "CxACbbwtYo2dMNxG33qcMIyinBe")
 
         Once **Auto-scaling** is enabled, you need to specify a range for Zilliz Cloud to automatically scale the number of GCE instances based on actual project workloads by setting the corresponding **Min** and **Max** fields.
 
-        ![GjUvb2NGwoenR7xqxvSccaMdnMc](/img/GjUvb2NGwoenR7xqxvSccaMdnMc.png)
+        ![QzCHbFIFRoyCUex6u8vcoEZMn6f](https://zdoc-images.s3.us-west-2.amazonaws.com/qzchbfifroycuex6u8vcoezmn6f.png "QzCHbFIFRoyCUex6u8vcoEZMn6f")
 
         To facilitate resource settings, there are four predefined project size options. The following table shows the mapping between these project size options and the number of clusters that can be created in the project, as well as the number of entities these clusters can contain.
 
@@ -130,11 +133,11 @@ In this step, you need to set the Zilliz BYOC project name, determine the cloud 
 
 1. Click **Next** to set up credentials.
 
-### Step 2: Set up credentials{#step-2-set-up-credentials}
+### Step 2: Set up credentials\{#step-2-set-up-credentials}
 
 In **Credential Settings**, you must set up the storage and several service accounts for storage access, GKE cluster management, and data-plane deployment.
 
-![BbOOboWZAo5eu2xplJWcXyLonph](/img/BbOOboWZAo5eu2xplJWcXyLonph.png)
+![BbOOboWZAo5eu2xplJWcXyLonph](https://zdoc-images.s3.us-west-2.amazonaws.com/bboobowzao5eu2xpljwcxylonph.png "BbOOboWZAo5eu2xplJWcXyLonph")
 
 1. In **Google Cloud Platform Project ID**, enter the ID of your GCP project.
 
@@ -158,11 +161,11 @@ In **Credential Settings**, you must set up the storage and several service acco
 
 1. Click **Next** to configure network settings.
 
-### Step 3: Configure network settings{#step-3-configure-network-settings}
+### Step 3: Configure network settings\{#step-3-configure-network-settings}
 
 In **Network Settings**, create a VPC and several types of resources, such as subnet names and an optional Private Service Connect Endpoint in the VPC.
 
-![YVPNbLCjOoCkDTx9TEMcbV9LnPd](/img/YVPNbLCjOoCkDTx9TEMcbV9LnPd.png)
+![YVPNbLCjOoCkDTx9TEMcbV9LnPd](https://zdoc-images.s3.us-west-2.amazonaws.com/yvpnblcjoockdtx9temcbv9lnpd.png "YVPNbLCjOoCkDTx9TEMcbV9LnPd")
 
 1. In **Network Settings**, set the **VPC Name**, **Subnet Names**, and the optional **Private Service Connect Endpoint**.
 
@@ -182,27 +185,27 @@ In **Network Settings**, create a VPC and several types of resources, such as su
 
 1. Click **Create** if everything is as expected.
 
-## View deployment details{#view-deployment-details}
+## View deployment details\{#view-deployment-details}
 
 After you create a project, you can view its status on the project page.
 
-![DS61bOBm9oC0b1xdLT9cuEUsnmh](/img/DS61bOBm9oC0b1xdLT9cuEUsnmh.png)
+![BE13bnOpGo9ZAVxTx3acX2J8nEe](https://zdoc-images.s3.us-west-2.amazonaws.com/be13bnopgo9zavxtx3acx2j8nee.png "BE13bnOpGo9ZAVxTx3acX2J8nEe")
 
-## Suspend & Resume{#suspend-and-resume}
+## Suspend & Resume\{#suspend-and-resume}
 
 Suspending a project halts the data plane and terminates all GCE instances associated with the GKE cluster supporting the project. This action does not impact the suspended Zilliz Cloud clusters within the project, which can be resumed once the data plane is restored.
 
-![YC2YbM9oyo6IcUxDQ5Bc3AzDnPc](/img/YC2YbM9oyo6IcUxDQ5Bc3AzDnPc.png)
+![YC2YbM9oyo6IcUxDQ5Bc3AzDnPc](https://zdoc-images.s3.us-west-2.amazonaws.com/yc2ybm9oyo6icuxdq5bc3azdnpc.png "YC2YbM9oyo6IcUxDQ5Bc3AzDnPc")
 
 You can only suspend a running project if there are no clusters in the project or all clusters have already been suspended.
 
-![SVLQbgURIoRqHBx2tWwc5caWnx7](/img/SVLQbgURIoRqHBx2tWwc5caWnx7.png)
+![SVLQbgURIoRqHBx2tWwc5caWnx7](https://zdoc-images.s3.us-west-2.amazonaws.com/svlqbguriorqhbx2twwc5cawnx7.png "SVLQbgURIoRqHBx2tWwc5caWnx7")
 
 Once the status tag on a project card reads **Suspended**, you cannot manipulate clusters in the project. In such a case, you can click **Resume** to resume the project. Once the status tag turns to **Running** again, you can continue manipulating clusters in the project.
 
-![EQKqbumOxoT1tVxw1ZRcZahXnDd](/img/EQKqbumOxoT1tVxw1ZRcZahXnDd.png)
+![EQKqbumOxoT1tVxw1ZRcZahXnDd](https://zdoc-images.s3.us-west-2.amazonaws.com/eqkqbumoxot1tvxw1zrczahxndd.png "EQKqbumOxoT1tVxw1ZRcZahXnDd")
 
-## Procedures{#procedures}
+## Procedures\{#procedures}
 
 
 

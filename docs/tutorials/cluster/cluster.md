@@ -3,6 +3,9 @@ title: "Cluster | Cloud"
 slug: /cluster
 sidebar_label: "Cluster"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Everything you need to know about managing clusters on Zilliz Cloud. | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

@@ -3,6 +3,9 @@ title: "Schema Explained | BYOC"
 slug: /schema-explained
 sidebar_label: "Schema Explained"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "A schema defines the data structure of a collection. Before creating a collection, you need to work out a design of its schema. This page helps you understand the collection schema and design an example schema on your own. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 
@@ -29,21 +32,21 @@ import TabItem from '@theme/TabItem';
 
 A schema defines the data structure of a collection. Before creating a collection, you need to work out a design of its schema. This page helps you understand the collection schema and design an example schema on your own.
 
-## Overview{#overview}
+## Overview\{#overview}
 
 On Zilliz Cloud, a collection schema assembles a table in a relational database, which defines how Zilliz Cloud organizes data in the collection. 
 
 A well-designed schema is essential as it abstracts the data model and decides if you can achieve the business objectives through a search. Furthermore, since every row of data inserted into the collection must follow the schema, it helps maintain data consistency and long-term quality. From a technical perspective, a well-defined schema leads to well-organized column data storage and a cleaner index structure, boosting search performance.
 
-A collection schema has a primary key, a maximum of four vector fields, and several scalar fields. The following diagram illustrates how to map an article to a list of schema fields.
+A collection schema has a primary key, at least one vector field, and several scalar fields. The following diagram illustrates how to map an article to a list of schema fields.
 
-![RoJFbyTsuoY8mHxoBBicgBH9nTc](/img/RoJFbyTsuoY8mHxoBBicgBH9nTc.png)
+![RoJFbyTsuoY8mHxoBBicgBH9nTc](https://zdoc-images.s3.us-west-2.amazonaws.com/rojfbytsuoy8mhxobbicgbh9ntc.png "RoJFbyTsuoY8mHxoBBicgBH9nTc")
 
 The data model design of a search system involves analyzing business needs and abstracting information into a schema-expressed data model. For instance, searching a piece of text must be "indexed" by converting the literal string into a vector through "embedding" and enabling vector search. Beyond this essential requirement, storing other properties such as publication timestamp and author may be necessary. This metadata allows for semantic searches to be refined through filtering, returning only texts published after a specific date or by a particular author. You can also retrieve these scalars with the main text to render the search result in the application. Each should be assigned a unique identifier to organize these text pieces, expressed as an integer or string. These elements are essential for achieving sophisticated search logic.
 
 Refer to [Schema Design Hands-On](./schema-design-hands-on) to figure out how to make a well-designed schema.
 
-## Create Schema{#create-schema}
+## Create Schema\{#create-schema}
 
 The following code snippet demonstrates how to create a schema.
 
@@ -99,7 +102,7 @@ export schema='{
 </TabItem>
 </Tabs>
 
-## Add Primary Field{#add-primary-field}
+## Add Primary Field\{#add-primary-field}
 
 The primary field in a collection uniquely identifies an entity. It only accepts **Int64** or **VarChar** values. The following code snippets demonstrate how to add the primary field.
 
@@ -192,7 +195,7 @@ You can also set the `autoId` properties to `True` to make Zilliz Cloud automati
 
 For details, refer to [Primary Field & AutoId](./primary-field-auto-id).
 
-## Add Vector Fields{#add-vector-fields}
+## Add Vector Fields\{#add-vector-fields}
 
 Vector fields accept various sparse and dense vector embeddings. On Zilliz Cloud, you can add four vector fields to a collection. The following code snippets demonstrate how to add a vector field.
 
@@ -289,11 +292,11 @@ The `dim` paramter in the above code snippets indicates the dimensionality of th
 
     A vector field of this type holds a list of non-zero numbers and their sequence numbers to represent sparse vector embeddings.
 
-## Add Scalar Fields{#add-scalar-fields}
+## Add Scalar Fields\{#add-scalar-fields}
 
-In common cases, you can use scalar fields to store the metadata of the vector embeddings stored in Zilliz Cloud clusters, and conduct ANN searches with metadata filtering to improve the correctness of the search results. Zilliz Cloud supports multiple scalar field types, including **VarChar**, **Boolean**, **Int**, **Float**, **Double**, **Array**, and **JSON**.
+In common cases, you can use scalar fields to store the metadata of the vector embeddings stored in Zilliz Cloud clusters, and conduct ANN searches with metadata filtering to improve the correctness of the search results. Zilliz Cloud supports multiple scalar field types, including **VarChar**, **Boolean**, **Int**, **Float**, and **Double**.
 
-### Add String Fields{#add-string-fields}
+### Add String Fields\{#add-string-fields}
 
 In Zilliz Cloud clusters, you can use VarChar fields to store strings. For more on the VarChar field, refer to [String Field](./use-string-field).
 
@@ -372,7 +375,7 @@ export schema="{
 </TabItem>
 </Tabs>
 
-### Add Number Fields{#add-number-fields}
+### Add Number Fields\{#add-number-fields}
 
 The types of numbers that Zilliz Cloud supports are `Int8`, `Int16`, `Int32`, `Int64`, `Float`, and `Double`. For more on the number fields, refer to [Number Field](./use-number-field).
 
@@ -442,7 +445,7 @@ export schema="{
 </TabItem>
 </Tabs>
 
-### Add Boolean Fields{#add-boolean-fields}
+### Add Boolean Fields\{#add-boolean-fields}
 
 Zilliz Cloud supports boolean fields. The following code snippets demonstrate how to add a boolean field.
 
@@ -513,7 +516,11 @@ export schema="{
 </TabItem>
 </Tabs>
 
-### Add JSON fields{#add-json-fields}
+## Add Composite Fields\{#add-composite-fields}
+
+In Milvus, a composite field is a field that can be divided into smaller sub-fields, such as the keys in a JSON field or the indices in an Array field.
+
+### Add JSON fields\{#add-json-fields}
 
 A JSON field usually stores half-structured JSON data. For more on the JSON fields, refer to [JSON Field](./use-json-fields).
 
@@ -585,7 +592,7 @@ export schema="{
 </TabItem>
 </Tabs>
 
-### Add Array Fields{#add-array-fields}
+### Add Array Fields\{#add-array-fields}
 
 An array field stores a list of elements. The data types of all elements in an array field should be the same. For more on the array fields, refer to [Array Field](./use-array-fields).
 

@@ -3,6 +3,9 @@ title: "Environment Isolation | BYOC"
 slug: /environment-isolation
 sidebar_label: "Environment Isolation"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Proper environment isolation and access control are essential in enterprise application development and deployment. Zilliz Cloud offers flexible isolation through a hierarchical structure of Organizations, Projects, and Clusters. This guide helps you select the most appropriate strategy based on your operational, security, and financial requirements. | BYOC"
 type: origin
@@ -14,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - multi-tenancy
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 
@@ -28,35 +31,11 @@ import Admonition from '@theme/Admonition';
 
 Proper environment isolation and access control are essential in enterprise application development and deployment. Zilliz Cloud offers flexible isolation through a hierarchical structure of **Organizations**, **Projects**, and **Clusters**. This guide helps you select the most appropriate strategy based on your operational, security, and financial requirements.
 
-## Organization-level isolation{#organization-level-isolation}
-
-Organization-level isolation is the most secure option.
-
-**Best suited for:**
-
-- Separate billing accounts (e.g., multiple different AWS subscription accounts)
-
-- Independent invoice and cost management
-
-- Strict user access boundaries across environments
-
-**How to implement:**
-
-- Create a distinct [organization](./organizations) for each environment (e.g., production, development, testing)
-
-- Each organization can be linked to a unique [payment method](/docs/payment-billing)
-
-- By default, only one single organization is supported by Zilliz Cloud. If you need multiple organizations, please submit a request in the [Support Portal](https://support.zilliz.com/hc/en-us).
-
-## Project-level isolation{#project-level-isolation}
+## Project-level isolation\{#project-level-isolation}
 
 This option is recommended for most enterprise-grade production deployments where billing separation is not a requirement.
 
 **Best suited for:**
-
-- Shared billing across environments under a single payment method
-
-- Tracking resource [usage](/docs/analyze-cost) by environment
 
 - Managing user [roles](./project-users#project-roles) with moderate isolation
 
@@ -68,7 +47,7 @@ This option is recommended for most enterprise-grade production deployments wher
 
 - Sufficient isolation for most enterprise use cases
 
-## Cluster-level isolation{#cluster-level-isolation}
+## Cluster-level isolation\{#cluster-level-isolation}
 
 This is the most agile and lightweight option.
 
@@ -88,7 +67,7 @@ This is the most agile and lightweight option.
 
 - Centralized [monitoring](./metrics-and-alerts) for easier operation and management
 
-## Choosing the right isolation strategy{#choosing-the-right-isolation-strategy}
+## Choosing the right isolation strategy\{#choosing-the-right-isolation-strategy}
 
 Use the following flow to guide your decision:
 

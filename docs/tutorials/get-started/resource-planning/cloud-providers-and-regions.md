@@ -3,21 +3,24 @@ title: "Cloud Providers & Regions | Cloud"
 slug: /cloud-providers-and-regions
 sidebar_label: "Cloud Providers & Regions"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Zilliz Cloud is a cloud-based service that offers vector database clusters on public clouds. With our service, you can easily create and manage your own vector database clusters on the public cloud platform of your choice. | Cloud"
 type: origin
 token: CPLrwghdWiSvGBkdeEecGjgLnSb
-sidebar_position: 0
+sidebar_position: 5
 keywords: 
   - zilliz
   - vector database
   - cloud
   - providers
   - regions
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 
@@ -30,25 +33,25 @@ Zilliz Cloud is a cloud-based service that offers vector database clusters on pu
 
 Zilliz Cloud provides clusters across various regions on Amazon Web Services (AWS), Google Cloud Platform (GCP), and Microsoft Azure. To request a new region, feel free to [contact us](https://zilliz.com/cloud-region-request?).
 
-## AWS{#aws}
+## AWS\{#aws}
 
-Zilliz Cloud supports deploying dedicated clusters on AWS.
+Zilliz Cloud supports deploying free, serverless, and dedicated clusters on AWS.
 
 <table>
    <tr>
-     <th><p><strong>AWS Region</strong></p></th>
+     <th><p><strong>Continent</strong></p></th>
+     <th><p><strong>Region</strong></p></th>
      <th><p><strong>Location</strong></p></th>
      <th><p><strong>Free Cluster</strong></p></th>
      <th><p><strong>Serverless Cluster</strong></p></th>
-     <th><p><strong>Dedicated Cluster (Standard)</strong></p></th>
-     <th><p><strong>Dedicated Cluster (Enterprise)</strong></p></th>
+     <th><p><strong>Dedicated Cluster</strong></p></th>
    </tr>
    <tr>
+     <td rowspan="4"><p>North America</p></td>
      <td><p>us-east-1</p></td>
      <td><p>N. Virginia, USA</p></td>
      <td><p>No</p></td>
      <td><p>No</p></td>
-     <td><p>Yes</p></td>
      <td><p>Yes</p></td>
    </tr>
    <tr>
@@ -57,14 +60,12 @@ Zilliz Cloud supports deploying dedicated clusters on AWS.
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
      <td><p>us-west-2</p></td>
      <td><p>Oregon, USA</p></td>
      <td><p>No</p></td>
      <td><p>No</p></td>
-     <td><p>Yes</p></td>
      <td><p>Yes</p></td>
    </tr>
    <tr>
@@ -73,22 +74,21 @@ Zilliz Cloud supports deploying dedicated clusters on AWS.
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
+     <td><p>Europe</p></td>
      <td><p>eu-central-1</p></td>
      <td><p>Frankfurt, Germany</p></td>
      <td><p>Yes</p></td>
      <td><p>Yes</p></td>
      <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
+     <td rowspan="2"><p>Asia</p></td>
      <td><p>ap-northeast-1</p></td>
      <td><p>Tokyo, Japan</p></td>
      <td><p>No</p></td>
      <td><p>No</p></td>
-     <td><p>Yes</p></td>
      <td><p>Yes</p></td>
    </tr>
    <tr>
@@ -97,37 +97,36 @@ Zilliz Cloud supports deploying dedicated clusters on AWS.
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
+     <td><p>Oceania</p></td>
      <td><p>ap-southeast-2</p></td>
      <td><p>Sydney, Australia</p></td>
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
    </tr>
 </table>
 
-For more information on cluster types, see Select Cluster Plans.
+For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
 
-## GCP{#gcp}
+## GCP\{#gcp}
 
 Free, serverless, and dedicated clusters can be deployed on GCP.
 
 <table>
    <tr>
-     <th><p><strong>GCP Region</strong></p></th>
+     <th><p><strong>Continent</strong></p></th>
+     <th><p><strong>Region</strong></p></th>
      <th><p><strong>Location</strong></p></th>
      <th><p><strong>Free Cluster</strong></p></th>
      <th><p><strong>Serverless Cluster</strong></p></th>
-     <th><p><strong>Dedicated Cluster (Standard)</strong></p></th>
-     <th><p><strong>Dedicated Cluster (Enterprise)</strong></p></th>
+     <th><p><strong>Dedicated Cluster</strong></p></th>
    </tr>
    <tr>
+     <td rowspan="3"><p>North America</p></td>
      <td><p>us-west1</p></td>
      <td><p>Oregon, USA</p></td>
-     <td><p>Yes</p></td>
      <td><p>Yes</p></td>
      <td><p>Yes</p></td>
      <td><p>Yes</p></td>
@@ -138,7 +137,6 @@ Free, serverless, and dedicated clusters can be deployed on GCP.
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
      <td><p>us-central1</p></td>
@@ -146,47 +144,46 @@ Free, serverless, and dedicated clusters can be deployed on GCP.
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
+     <td><p>Europe</p></td>
      <td><p>europe-west3</p></td>
      <td><p>Frankfurt, Germany</p></td>
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
+     <td><p>Asia</p></td>
      <td><p>asia-southeast1</p></td>
      <td><p>Singapore</p></td>
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
    </tr>
 </table>
 
-For more information on cluster types, see Select Cluster Plans.
+For more information on cluster types, see [Select Cluster Plans](./select-zilliz-cloud-service-plans).
 
-## Microsoft Azure{#microsoft-azure}
+## Microsoft Azure\{#microsoft-azure}
 
 Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
 
 <table>
    <tr>
-     <th><p><strong>Azure Region</strong></p></th>
+     <th><p><strong>Continent</strong></p></th>
+     <th><p><strong>Region</strong></p></th>
      <th><p><strong>Location</strong></p></th>
      <th><p><strong>Free Cluster</strong></p></th>
      <th><p><strong>Serverless Cluster</strong></p></th>
-     <th><p><strong>Dedicated Cluster (Standard)</strong></p></th>
-     <th><p><strong>Dedicated Cluster (Enterprise)</strong></p></th>
+     <th><p><strong>Dedicated Cluster</strong></p></th>
    </tr>
    <tr>
+     <td rowspan="3"><p>North America</p></td>
      <td><p>East US</p></td>
      <td><p>Virginia, USA</p></td>
      <td><p>No</p></td>
      <td><p>No</p></td>
-     <td><p>Yes</p></td>
      <td><p>Yes</p></td>
    </tr>
    <tr>
@@ -195,7 +192,6 @@ Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
      <td><p>Central US</p></td>
@@ -203,31 +199,37 @@ Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
    </tr>
    <tr>
+     <td rowspan="2"><p>Europe</p></td>
      <td><p>Germany West Central</p></td>
      <td><p>Frankfurt, Germany</p></td>
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>
+   </tr>
+   <tr>
+     <td><p>North Europe</p></td>
+     <td><p>Ireland</p></td>
+     <td><p>No</p></td>
+     <td><p>No</p></td>
      <td><p>Yes</p></td>
    </tr>
    <tr>
+     <td><p>Asia</p></td>
      <td><p>Central India</p></td>
      <td><p>Pune, India</p></td>
      <td><p>No</p></td>
      <td><p>No</p></td>
      <td><p>Yes</p></td>
-     <td><p>Yes</p></td>
    </tr>
 </table>
 
-For more information on cluster plans, see Select the Right Cluster Plan.
+For more information on cluster plans, see [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans).
 
-## Related topics{#related-topics}
+## Related topics\{#related-topics}
 
-- Select the Right Cluster Plan
+- [Select the Right Cluster Plan](./select-zilliz-cloud-service-plans)
 
-- Select the Right CU
+- [Select the Right CU](./cu-types-explained)
 

@@ -3,6 +3,9 @@ title: "Authentication | Cloud"
 slug: /authentication
 sidebar_label: "Authentication"
 beta: FALSE
+added_since: FALSE
+last_modified: FALSE
+deprecate_since: FALSE
 notebook: FALSE
 description: "Learn more about the management of email accounts, API keys, cluster credentials, and multi-factor authentication (MFA) measures. | Cloud"
 type: origin
@@ -13,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 
