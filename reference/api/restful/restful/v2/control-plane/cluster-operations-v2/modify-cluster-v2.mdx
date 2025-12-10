@@ -24,6 +24,303 @@ import RestSpecs from '@site/src/components/RestSpecs';
 
 <RestSpecs specs={specs} endpoint={endpoint} method={method} target="zilliz" lang="en-US" />
 
-export const specs = {"summary":"Modify Cluster","deprecated":false,"description":"Modify a dedicated cluster. You can increase or reduce the number of CUs allocated to the cluster. ","x-i18n":{"zh-CN":{"summary":"修改集群配置","description":"修改指定 Dedicated 集群的配置。您可以根据需要增加或减少分配给指定集群的 CUs 的数量。"}},"tags":["Cluster Operations (V2)"],"parameters":[{"name":"CLUSTER_ID","in":"path","description":"ID of the cluster to modify.","required":true,"example":"inxx-xxxxxxxxxxxxxxx","schema":{"type":"string"}},{"name":"Authorization","in":"header","description":"The authentication token should be an API key with appropriate privileges.","required":true,"example":"Bearer {{TOKEN}}","schema":{"type":"string"},"x-i18n":{"zh-CN":{"description":"认证令牌，应为具备适当权限的 API 密钥。"}}},{"name":"Accept","in":"header","description":"Use `application/json`.","required":false,"example":"application/json","schema":{"type":"string"}}],"requestBody":{"content":{"application/json":{"schema":{"type":"object","properties":{"cuSize":{"type":"integer","description":"Number of CUs allocated to this cluster after the modification.","minimum":1,"maximum":256,"exclusiveMinimum":true}},"required":["cuSize"]},"example":{"cuSize":2}}}},"responses":{"200":{"description":"Returns the ID of the modified cluster.","content":{"application/json":{"schema":{"anyOf":[{"x-tab-label":"success","type":"object","properties":{"code":{"type":"integer","description":"Response code."},"data":{"type":"object","properties":{"clusterId":{"type":"string","description":"ID of the cluster that has been modified."},"prompt":{"type":"string","description":"Prompt message returned."}},"description":"Response payload."}}},{"x-tab-label":"failure","description":"Returns an error message.","x-i18n":{"zh-CN":{"description":"返回错误消息。"}},"x-i18n-langs":["zh-CN"],"type":"object","properties":{"code":{"type":"integer","description":"Response code.","x-i18n":{"zh-CN":{"description":"响应码。"}}},"message":{"type":"string","description":"Error message.","x-i18n":{"zh-CN":{"description":"错误描述。"}}}}}]},"examples":{"1":{"summary":"success","x-target-response":"OPTION 1","value":{"code":0,"data":{"clusterId":"inxx-xxxxxxxxxxxxxxx","prompt":"successfully submitted. Cluster is being upgraded, which is expected to take several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK."}}},"2":{"summary":"failure","x-target-response":"OPTION 2","value":{"code":21119,"message":"The apikey is illegal."}}}}}}},"security":[]}
+export const specs = {
+	"summary": "Modify Cluster",
+	"deprecated": false,
+	"description": "Modify a dedicated cluster. You can increase or reduce the number of CUs allocated to the cluster. ",
+	"x-i18n": {
+		"zh-CN": {
+			"summary": "修改集群配置",
+			"description": "修改指定 Dedicated 集群的配置。您可以根据需要增加或减少分配给指定集群的 CUs 的数量。"
+		}
+	},
+	"tags": [
+		"Cluster Operations (V2)"
+	],
+	"parameters": [
+		{
+			"name": "CLUSTER_ID",
+			"in": "path",
+			"description": "ID of the cluster to modify.",
+			"x-i18n": {
+				"zh-CN": {
+					"description": "待修改集群 ID。"
+				}
+			},
+			"required": true,
+			"example": "inxx-xxxxxxxxxxxxxxx",
+			"schema": {
+				"type": "string"
+			}
+		},
+		{
+			"name": "Authorization",
+			"in": "header",
+			"description": "The authentication token should be an API key with appropriate privileges.",
+			"required": true,
+			"example": "Bearer {{TOKEN}}",
+			"schema": {
+				"type": "string"
+			},
+			"x-i18n": {
+				"zh-CN": {
+					"description": "认证令牌，应为具备适当权限的 API 密钥。"
+				}
+			}
+		},
+		{
+			"name": "Accept",
+			"in": "header",
+			"description": "Use `application/json`.",
+			"x-i18n": {
+				"zh-CN": {
+					"description": "使用 `application/json`。"
+				}
+			},
+			"required": false,
+			"example": "application/json",
+			"schema": {
+				"type": "string"
+			}
+		}
+	],
+	"requestBody": {
+		"content": {
+			"application/json": {
+				"schema": {
+					"type": "object",
+					"properties": {
+						"cuSize": {
+							"type": "integer",
+							"description": "Number of CUs allocated to this cluster after the modification. This parameter and `autoscaling.cu` are mutually exclusive; you can specify only one of them. The product of this parameter should not exceed 256.",
+							"x-i18n": {
+								"zh-CN": {
+									"description": "修改后分配给指定集群的 CU 数量。此参数与 `autoscaling.cu` 互斥；您只能指定其中一个。此参数不得超过 256。"
+								}
+							},
+							"minimum": 1,
+							"maximum": 256,
+							"exclusiveMinimum": true
+						},
+						"autoscaling": {
+							"type": "object",
+							"description": "Auto-scaling configuration for the cluster. This parameter and `cuSize` are mutually exclusive; you can specify only one of them.",
+							"x-i18n": {
+								"zh-CN": {
+									"description": "集群的自动扩缩容配置。此参数与 `cuSize` 互斥；您只能指定其中一个。"
+								}
+							},
+							"properties": {
+								"cu": {
+									"type": "object",
+									"description": "Auto-scaling configuration for CUs. This is unavailable if you have already set `cuSize`. The product of the maximum number of CUs and the maximum number of replicas should not exceed 256.",
+									"x-i18n": {
+										"zh-CN": {
+											"description": "CU 的自动扩缩容配置。如果您已设置 `cuSize`，则无法使用此配置。最大 CU 数量与最大副本数量的乘积不得超过 256。"
+										}
+									},
+									"properties": {
+										"min": {
+											"type": "integer",
+											"description": "Minimum number of CUs for auto-scaling. This parameter and `schedules` are mutually exclusive; you can specify only one of them.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "自动扩缩容的最小 CU 数量。此参数与 `schedules` 互斥；您只能指定其中一个。"
+												}
+											},
+											"minimum": 1,
+											"maximum": 256,
+											"exclusiveMinimum": true
+										},
+										"max": {
+											"type": "integer",
+											"description": "Maximum number of CUs for auto-scaling. This parameter and `schedules` are mutually exclusive; you can specify only one of them.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "自动扩缩容的最大 CU 数量。此参数与 `schedules` 互斥；您只能指定其中一个。"
+												}
+											},
+											"minimum": 1,
+											"maximum": 256,
+											"exclusiveMinimum": true
+										},
+										"schedules": {
+											"type": "array",
+											"description": "Auto-scaling schedules. This parameter and `min`/`max` are mutually exclusive; you can specify only one of them.",
+											"x-i18n": {
+												"zh-CN": {
+													"description": "自动扩缩容的时间表。此参数与 `min`/`max` 互斥；您只能指定其中一个。"
+												}
+											},
+											"items": {
+												"type": "object",
+												"description": "An auto-scaling schedule.",
+												"x-i18n": {
+													"zh-CN": {
+														"description": "自动扩缩容时间表。"
+													}
+												},
+												"properties": {
+													"cron": {
+														"type": "string",
+														"description": "Cron expression defining the schedule.",
+														"x-i18n": {
+															"zh-CN": {
+																"description": "定义时间表的 Cron 表达式。"
+															}
+														},
+														"example": "0 0 * * *"
+													},
+													"target": {
+														"type": "integer",
+														"description": "Target number of CUs for this schedule.",
+														"x-i18n": {
+															"zh-CN": {
+																"description": "此时间表的目标 CU 数量。"
+															}
+														}
+													}
+												}
+											}
+										}
+									}
+								}
+							}
+						}
+					}
+				},
+				"examples": {
+					"1": {
+						"summary": "Manual Scaling",
+						"value": {
+							"cuSize": 2
+						}
+					},
+					"2": {
+						"summary": "Dynamic Scaling",
+						"value": {
+							"autoscaling": {
+								"cu": {
+									"min": 1,
+									"max": 2
+								}
+							}
+						}
+					},
+					"3": {
+						"summary": "Scheduled Scaling",
+						"value": {
+							"autoscaling": {
+								"cu": {
+									"schedules": [
+										{
+											"cron": "10 0 0 0 0 ?",
+											"target": 2
+										}
+									]
+								}
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"responses": {
+		"200": {
+			"description": "Returns the ID of the modified cluster.",
+			"content": {
+				"application/json": {
+					"schema": {
+						"anyOf": [
+							{
+								"x-tab-label": "success",
+								"type": "object",
+								"properties": {
+									"code": {
+										"type": "integer",
+										"description": "Response code."
+									},
+									"data": {
+										"type": "object",
+										"properties": {
+											"clusterId": {
+												"type": "string",
+												"description": "ID of the cluster that has been modified."
+											},
+											"prompt": {
+												"type": "string",
+												"description": "Prompt message returned."
+											}
+										},
+										"description": "Response payload."
+									}
+								}
+							},
+							{
+								"x-tab-label": "failure",
+								"description": "Returns an error message.",
+								"x-i18n": {
+									"zh-CN": {
+										"description": "返回错误消息。"
+									}
+								},
+								"x-i18n-langs": [
+									"zh-CN"
+								],
+								"type": "object",
+								"properties": {
+									"code": {
+										"type": "integer",
+										"description": "Response code.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "响应码。"
+											}
+										}
+									},
+									"message": {
+										"type": "string",
+										"description": "Error message.",
+										"x-i18n": {
+											"zh-CN": {
+												"description": "错误描述。"
+											}
+										}
+									}
+								}
+							}
+						]
+					},
+					"examples": {
+						"1": {
+							"summary": "success",
+							"x-target-response": "OPTION 1",
+							"value": {
+								"code": 0,
+								"data": {
+									"clusterId": "inxx-xxxxxxxxxxxxxxx",
+									"prompt": "successfully submitted. Cluster is being upgraded, which is expected to take several minutes. You can access data about the creation progress and status of your cluster by DescribeCluster API. Once the cluster status is RUNNING, you may access your vector database using the SDK."
+								}
+							}
+						},
+						"2": {
+							"summary": "failure",
+							"x-target-response": "OPTION 2",
+							"value": {
+								"code": 21119,
+								"message": "The apikey is illegal."
+							}
+						}
+					}
+				}
+			}
+		}
+	},
+	"security": [
+
+	]
+}
+
 export const endpoint = "/v2/clusters/{CLUSTER_ID}/modify"
 export const method = "post"
