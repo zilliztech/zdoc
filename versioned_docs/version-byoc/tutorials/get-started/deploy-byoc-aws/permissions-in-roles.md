@@ -19,10 +19,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

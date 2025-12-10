@@ -20,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

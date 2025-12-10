@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - array field
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

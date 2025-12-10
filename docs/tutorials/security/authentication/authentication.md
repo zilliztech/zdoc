@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

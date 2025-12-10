@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

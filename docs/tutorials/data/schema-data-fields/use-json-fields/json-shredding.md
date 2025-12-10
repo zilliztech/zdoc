@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - json shredding
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

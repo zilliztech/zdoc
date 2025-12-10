@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

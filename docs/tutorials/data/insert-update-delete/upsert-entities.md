@@ -20,10 +20,10 @@ keywords:
   - upsert
   - update
   - insert
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

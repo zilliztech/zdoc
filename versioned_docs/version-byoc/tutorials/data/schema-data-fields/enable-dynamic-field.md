@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

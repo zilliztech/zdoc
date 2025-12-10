@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

@@ -23,10 +23,10 @@ keywords:
   - IP
   - COSINE
   - Jaccard
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 

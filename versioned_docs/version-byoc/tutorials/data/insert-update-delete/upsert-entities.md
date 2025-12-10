@@ -20,10 +20,10 @@ keywords:
   - upsert
   - update
   - insert
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

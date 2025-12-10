@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - aws
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

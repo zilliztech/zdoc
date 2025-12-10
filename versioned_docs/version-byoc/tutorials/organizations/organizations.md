@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

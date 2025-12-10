@@ -21,10 +21,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

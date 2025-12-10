@@ -18,10 +18,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

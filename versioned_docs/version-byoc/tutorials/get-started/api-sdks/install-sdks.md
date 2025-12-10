@@ -17,10 +17,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

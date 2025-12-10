@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

@@ -22,10 +22,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

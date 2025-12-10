@@ -21,10 +21,10 @@ keywords:
   - load
   - data merging
   - merge data
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

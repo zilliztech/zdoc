@@ -17,10 +17,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

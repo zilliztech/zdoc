@@ -20,10 +20,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

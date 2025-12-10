@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

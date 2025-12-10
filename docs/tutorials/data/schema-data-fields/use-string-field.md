@@ -19,10 +19,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

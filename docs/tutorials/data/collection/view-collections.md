@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

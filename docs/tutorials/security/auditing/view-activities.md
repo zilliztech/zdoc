@@ -17,10 +17,10 @@ keywords:
   - cloud
   - activities
   - view
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

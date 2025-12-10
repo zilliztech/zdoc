@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

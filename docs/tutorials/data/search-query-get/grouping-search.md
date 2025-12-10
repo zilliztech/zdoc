@@ -19,10 +19,10 @@ keywords:
   - data
   - grouping search
   - group
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

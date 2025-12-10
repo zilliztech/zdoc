@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

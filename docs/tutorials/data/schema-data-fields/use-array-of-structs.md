@@ -20,10 +20,10 @@ keywords:
   - array field
   - array of structs
   - structs
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

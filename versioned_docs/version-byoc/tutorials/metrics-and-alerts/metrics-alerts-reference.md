@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

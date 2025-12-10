@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

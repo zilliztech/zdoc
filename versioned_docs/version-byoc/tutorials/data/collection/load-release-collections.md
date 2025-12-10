@@ -18,10 +18,10 @@ keywords:
   - collection
   - load
   - release
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

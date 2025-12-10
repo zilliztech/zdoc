@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - collection
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

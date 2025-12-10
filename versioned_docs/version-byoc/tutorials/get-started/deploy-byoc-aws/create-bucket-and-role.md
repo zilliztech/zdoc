@@ -19,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

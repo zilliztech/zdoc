@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - console
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

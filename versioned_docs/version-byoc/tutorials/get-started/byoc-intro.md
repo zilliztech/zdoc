@@ -16,10 +16,10 @@ keywords:
   - byoc
   - milvus
   - vector database
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

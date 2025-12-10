@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

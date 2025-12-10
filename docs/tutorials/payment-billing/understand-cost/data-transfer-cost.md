@@ -18,10 +18,10 @@ keywords:
   - data transfer
   - cost
   - billing
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 
@@ -31,6 +31,12 @@ import Admonition from '@theme/Admonition';
 # Data Transfer Cost
 
 Data transfer can be traffic coming into Zilliz Cloud, leaving Zilliz Cloud out into the internet, or in between two resources within Zilliz Cloud. Data transfer costs in Zilliz Cloud are billed based on the amount of data transferred. 
+
+<Admonition type="info" icon="📘" title="Notes">
+
+<p>Each organization receives a $10 monthly data transfer discount, covering the first 100 GB.</p>
+
+</Admonition>
 
 The following table compares the different data transfer types.
 
@@ -44,7 +50,7 @@ The following table compares the different data transfer types.
    <tr>
      <td><p><strong>Internet egress</strong></p></td>
      <td><p>The transfer of data from Zilliz Cloud to destinations over the public internet, such as external networks, client applications, or third-party services outside the cloud provider’s private network.</p></td>
-     <td><p>Returning search or query results to a client app hosted outside the cloud provider.</p></td>
+     <td><p>Returning search or query results to a client app hosted locally or outside the cloud provider.</p></td>
      <td><p>The most expensive and the cost is determined by the source destination.</p><p>For detailed rates, see <a href="https://zilliz.com/pricing/pricing-guide">Zilliz Cloud Pricing Guide</a>.</p></td>
    </tr>
    <tr>

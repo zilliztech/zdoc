@@ -18,10 +18,10 @@ keywords:
   - dedicated
   - cost
   - billing
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

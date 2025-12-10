@@ -17,10 +17,10 @@ keywords:
   - cloud
   - terraform provider
   - terraform
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - ips
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

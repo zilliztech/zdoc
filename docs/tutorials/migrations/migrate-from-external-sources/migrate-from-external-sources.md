@@ -18,10 +18,10 @@ keywords:
   - migrations
   - external
   - data source
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

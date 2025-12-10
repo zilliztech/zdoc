@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

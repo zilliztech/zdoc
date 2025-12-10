@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - gcp
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

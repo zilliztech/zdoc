@@ -18,10 +18,10 @@ keywords:
   - scalar field
   - varchar
   - ngram
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

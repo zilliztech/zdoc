@@ -18,10 +18,10 @@ keywords:
   - serverless
   - cost
   - billing
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

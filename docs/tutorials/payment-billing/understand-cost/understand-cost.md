@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cost
   - billing
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

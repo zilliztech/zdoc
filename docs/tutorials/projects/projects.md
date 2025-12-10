@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

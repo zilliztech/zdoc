@@ -17,10 +17,10 @@ keywords:
   - cloud
   - whitelist
   - setup
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

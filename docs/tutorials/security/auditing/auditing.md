@@ -17,10 +17,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

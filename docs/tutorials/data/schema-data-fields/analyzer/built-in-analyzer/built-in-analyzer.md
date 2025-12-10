@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in analyzer
-  - Machine Learning
   - RAG
   - NLP
   - Neural Network
+  - Deep Learning
 
 ---
 

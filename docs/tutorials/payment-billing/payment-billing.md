@@ -18,10 +18,10 @@ keywords:
   - private link
   - payment
   - billing
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
 
 ---
 

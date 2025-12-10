@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

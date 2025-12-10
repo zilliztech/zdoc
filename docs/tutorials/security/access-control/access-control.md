@@ -18,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

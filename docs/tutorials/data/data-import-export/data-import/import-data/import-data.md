@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

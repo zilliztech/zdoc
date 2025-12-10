@@ -17,10 +17,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

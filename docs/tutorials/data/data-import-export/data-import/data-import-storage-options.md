@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

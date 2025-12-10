@@ -18,10 +18,10 @@ keywords:
   - mcp
   - milvus
   - mcp server
-  - Faiss
-  - Video search
-  - AI Hallucination
   - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

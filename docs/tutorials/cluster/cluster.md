@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

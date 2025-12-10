@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

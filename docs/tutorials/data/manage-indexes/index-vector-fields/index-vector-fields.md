@@ -17,10 +17,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

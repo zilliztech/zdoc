@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 

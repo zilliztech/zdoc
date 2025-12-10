@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

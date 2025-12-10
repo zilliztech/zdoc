@@ -19,10 +19,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

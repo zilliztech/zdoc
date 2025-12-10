@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

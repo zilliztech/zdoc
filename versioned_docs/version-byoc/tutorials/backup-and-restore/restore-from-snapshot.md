@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

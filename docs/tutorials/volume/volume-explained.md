@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - volume
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

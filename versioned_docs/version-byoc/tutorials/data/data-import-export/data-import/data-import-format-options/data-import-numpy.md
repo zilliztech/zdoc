@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

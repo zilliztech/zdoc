@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

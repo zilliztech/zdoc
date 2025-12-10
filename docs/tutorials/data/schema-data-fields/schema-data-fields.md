@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

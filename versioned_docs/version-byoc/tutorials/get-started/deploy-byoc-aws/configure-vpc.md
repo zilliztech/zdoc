@@ -21,10 +21,10 @@ keywords:
   - subnet
   - milvus
   - vector database
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

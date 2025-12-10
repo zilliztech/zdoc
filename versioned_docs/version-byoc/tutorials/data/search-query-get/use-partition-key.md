@@ -19,10 +19,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

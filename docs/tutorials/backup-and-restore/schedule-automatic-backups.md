@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

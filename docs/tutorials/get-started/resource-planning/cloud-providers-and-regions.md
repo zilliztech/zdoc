@@ -17,10 +17,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

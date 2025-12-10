@@ -18,10 +18,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - collection
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

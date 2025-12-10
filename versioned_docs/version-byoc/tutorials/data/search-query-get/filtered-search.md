@@ -19,10 +19,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

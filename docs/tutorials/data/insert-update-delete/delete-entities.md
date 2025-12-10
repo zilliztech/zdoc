@@ -19,10 +19,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

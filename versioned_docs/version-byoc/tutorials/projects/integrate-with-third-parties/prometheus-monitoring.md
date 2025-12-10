@@ -18,10 +18,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

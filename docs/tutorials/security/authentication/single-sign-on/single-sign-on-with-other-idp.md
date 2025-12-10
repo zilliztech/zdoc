@@ -18,10 +18,10 @@ keywords:
   - sso
   - other
   - idp
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

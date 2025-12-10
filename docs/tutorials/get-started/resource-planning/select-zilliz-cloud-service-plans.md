@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster plan
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

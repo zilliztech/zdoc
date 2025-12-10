@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - range search
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

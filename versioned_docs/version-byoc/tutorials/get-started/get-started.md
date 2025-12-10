@@ -16,10 +16,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

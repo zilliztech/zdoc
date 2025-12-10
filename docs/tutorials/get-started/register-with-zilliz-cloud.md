@@ -17,10 +17,10 @@ keywords:
   - register
   - cloud
   - milvus
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

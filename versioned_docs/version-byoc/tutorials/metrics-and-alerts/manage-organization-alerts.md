@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

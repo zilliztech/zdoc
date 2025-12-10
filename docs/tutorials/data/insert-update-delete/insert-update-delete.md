@@ -18,10 +18,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

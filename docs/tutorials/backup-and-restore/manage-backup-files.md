@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - manage
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - cncharonly
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

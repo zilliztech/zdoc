@@ -18,10 +18,10 @@ keywords:
   - collection
   - alias
   - aliases
+  - milvus db
   - milvus vector db
   - Zilliz Cloud
   - what is milvus
-  - milvus database
 
 ---
 

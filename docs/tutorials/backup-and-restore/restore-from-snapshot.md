@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - Serverless vector database
   - milvus open source
   - how does milvus work
   - Zilliz vector database
+  - Zilliz database
 
 ---
 

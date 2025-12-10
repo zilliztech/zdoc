@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

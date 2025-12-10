@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - multi-language
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

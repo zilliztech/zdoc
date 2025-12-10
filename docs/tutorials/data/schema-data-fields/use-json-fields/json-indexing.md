@@ -21,10 +21,10 @@ keywords:
   - index
   - path index
   - flat index
-  - milvus open source
-  - how does milvus work
   - Zilliz vector database
   - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

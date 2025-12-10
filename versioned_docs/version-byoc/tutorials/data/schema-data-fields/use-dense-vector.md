@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

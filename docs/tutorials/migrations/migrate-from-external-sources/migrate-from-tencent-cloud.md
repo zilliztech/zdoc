@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - tencent cloud
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

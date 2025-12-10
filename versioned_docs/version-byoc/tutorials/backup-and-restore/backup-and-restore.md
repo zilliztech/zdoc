@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

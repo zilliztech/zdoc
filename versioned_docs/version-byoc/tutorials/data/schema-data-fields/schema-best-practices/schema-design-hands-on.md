@@ -19,10 +19,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

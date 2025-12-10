@@ -21,10 +21,10 @@ keywords:
   - index
   - path index
   - flat index
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

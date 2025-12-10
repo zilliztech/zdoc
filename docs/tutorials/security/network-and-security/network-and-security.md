@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

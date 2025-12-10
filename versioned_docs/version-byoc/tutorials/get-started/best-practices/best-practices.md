@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

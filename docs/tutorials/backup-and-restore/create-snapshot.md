@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

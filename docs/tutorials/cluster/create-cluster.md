@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

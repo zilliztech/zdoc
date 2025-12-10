@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

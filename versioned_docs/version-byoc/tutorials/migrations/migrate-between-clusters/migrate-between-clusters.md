@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

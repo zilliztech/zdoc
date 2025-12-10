@@ -18,10 +18,10 @@ keywords:
   - sso
   - microsoft
   - entra
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

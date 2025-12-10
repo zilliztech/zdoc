@@ -17,10 +17,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - Anomaly Detection
   - sentence transformers
   - Recommender systems
   - information retrieval
+  - dimension reduction
 
 ---
 

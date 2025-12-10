@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - minhash
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

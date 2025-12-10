@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

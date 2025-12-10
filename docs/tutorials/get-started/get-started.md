@@ -16,10 +16,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

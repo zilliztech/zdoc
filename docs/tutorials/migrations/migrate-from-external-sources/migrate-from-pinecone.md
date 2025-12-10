@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - pinecone
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

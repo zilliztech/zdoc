@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cu
   - select
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

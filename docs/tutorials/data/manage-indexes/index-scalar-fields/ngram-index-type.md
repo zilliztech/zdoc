@@ -18,10 +18,10 @@ keywords:
   - scalar field
   - varchar
   - ngram
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

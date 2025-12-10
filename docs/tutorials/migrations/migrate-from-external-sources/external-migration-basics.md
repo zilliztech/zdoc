@@ -19,10 +19,10 @@ keywords:
   - external
   - data source
   - basics
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

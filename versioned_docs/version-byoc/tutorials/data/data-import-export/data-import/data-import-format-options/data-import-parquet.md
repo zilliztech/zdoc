@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

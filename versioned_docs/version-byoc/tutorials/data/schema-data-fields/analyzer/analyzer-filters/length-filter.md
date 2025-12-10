@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

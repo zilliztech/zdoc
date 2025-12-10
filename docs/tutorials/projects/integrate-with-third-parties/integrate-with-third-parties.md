@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

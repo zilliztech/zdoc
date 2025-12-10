@@ -18,10 +18,10 @@ keywords:
   - sso
   - google
   - workspace
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

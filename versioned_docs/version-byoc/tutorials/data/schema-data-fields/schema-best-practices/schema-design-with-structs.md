@@ -21,10 +21,10 @@ keywords:
   - hands-on
   - structs
   - array of structs
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

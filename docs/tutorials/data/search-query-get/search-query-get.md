@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - DML
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

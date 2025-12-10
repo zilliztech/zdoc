@@ -17,10 +17,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

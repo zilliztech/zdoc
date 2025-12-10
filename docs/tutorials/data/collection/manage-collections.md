@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

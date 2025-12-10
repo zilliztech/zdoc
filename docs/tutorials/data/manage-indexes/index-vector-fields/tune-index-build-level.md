@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - index build level
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

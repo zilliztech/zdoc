@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

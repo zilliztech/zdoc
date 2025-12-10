@@ -18,10 +18,10 @@ keywords:
   - data import
   - export
   - milvus
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

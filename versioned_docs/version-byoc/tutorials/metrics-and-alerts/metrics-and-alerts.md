@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

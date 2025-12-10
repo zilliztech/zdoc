@@ -18,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - zero downtime
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

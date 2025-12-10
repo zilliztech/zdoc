@@ -19,10 +19,10 @@ keywords:
   - schema
   - best practices
   - schema design
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

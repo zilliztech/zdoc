@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data
   - security
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 
