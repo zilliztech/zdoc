@@ -23702,7 +23702,166 @@
 																"Serverless",
 																"Dedicated"
 															]
-														}
+														},
+														"autoscaling": {
+															"type": "object",
+															"description": "Auto-scaling configuration for the cluster. ",
+															"x-i18n": {
+																"zh-CN": {
+																	"description": "集群的自动扩缩容配置。"
+																}
+															},
+															"properties": {
+																"cu": {
+																	"type": "object",
+																	"description": "Auto-scaling configuration for CUs. ",
+																	"x-i18n": {
+																		"zh-CN": {
+																			"description": "CU 的自动扩缩容配置。"
+																		}
+																	},
+																	"properties": {
+																		"min": {
+																			"type": "integer",
+																			"description": "Minimum number of CUs for auto-scaling. This parameter and `schedules` are mutually exclusive.",
+																			"x-i18n": {
+																				"zh-CN": {
+																					"description": "自动扩缩容的最小 CU 数量。此参数与 `schedules` 互斥。"
+																				}
+																			},
+																			"minimum": 1,
+																			"maximum": 256,
+																			"exclusiveMinimum": true
+																		},
+																		"max": {
+																			"type": "integer",
+																			"description": "Maximum number of CUs for auto-scaling. This parameter and `schedules` are mutually exclusive.",
+																			"x-i18n": {
+																				"zh-CN": {
+																					"description": "自动扩缩容的最大 CU 数量。此参数与 `schedules` 互斥。"
+																				}
+																			},
+																			"minimum": 1,
+																			"maximum": 256,
+																			"exclusiveMinimum": true
+																		},
+																		"schedules": {
+																			"type": "array",
+																			"description": "Auto-scaling schedules. This parameter and `min`/`max` are mutually exclusive.",
+																			"x-i18n": {
+																				"zh-CN": {
+																					"description": "自动扩缩容的时间表。此参数与 `min`/`max` 互斥。"
+																				}
+																			},
+																			"items": {
+																				"type": "object",
+																				"description": "An auto-scaling schedule.",
+																				"x-i18n": {
+																					"zh-CN": {
+																						"description": "自动扩缩容时间表。"
+																					}
+																				},
+																				"properties": {
+																					"cron": {
+																						"type": "string",
+																						"description": "Cron expression defining the schedule.",
+																						"x-i18n": {
+																							"zh-CN": {
+																								"description": "定义时间表的 Cron 表达式。"
+																							}
+																						},
+																						"example": "0 0 * * *"
+																					},
+																					"target": {
+																						"type": "integer",
+																						"description": "Target number of CUs for this schedule.",
+																						"x-i18n": {
+																							"zh-CN": {
+																								"description": "此时间表的目标 CU 数量。"
+																							}
+																						}
+																					}
+																				}
+																			}
+																		}
+																	}
+																},
+																"replica": {
+																	"type": "object",
+																	"description": "Auto-scaling configuration for replicas. ",
+																	"x-i18n": {
+																		"zh-CN": {
+																			"description": "Replica 的自动扩缩容配置。"
+																		}
+																	},
+																	"properties": {
+																		"min": {
+																			"type": "integer",
+																			"description": "Minimum number of replicas for auto-scaling. This parameter and `schedules` are mutually exclusive.",
+																			"x-i18n": {
+																				"zh-CN": {
+																					"description": "自动扩缩容的最小 Replica 数量。此参数与 `schedules` 互斥。"
+																				}
+																			},
+																			"minimum": 1,
+																			"maximum": 10,
+																			"exclusiveMinimum": true
+																		},
+																		"max": {
+																			"type": "integer",
+																			"description": "Maximum number of replicas for auto-scaling. This parameter and `schedules` are mutually exclusive.",
+																			"x-i18n": {
+																				"zh-CN": {
+																					"description": "自动扩缩容的最大 Replica 数量。此参数与 `schedules` 互斥。"
+																				}
+																			},
+																			"minimum": 1,
+																			"maximum": 10,
+																			"exclusiveMinimum": true
+																		},
+																		"schedules": {
+																			"type": "array",
+																			"description": "Auto-scaling schedules. This parameter and `min`/`max` are mutually exclusive.",
+																			"x-i18n": {
+																				"zh-CN": {
+																					"description": "自动扩缩容的时间表。此参数与 `min`/`max` 互斥。"
+																				}
+																			},
+																			"items": {
+																				"type": "object",
+																				"description": "An auto-scaling schedule.",
+																				"x-i18n": {
+																					"zh-CN": {
+																						"description": "自动扩缩容时间表。"
+																					}
+																				},
+																				"properties": {
+																					"cron": {
+																						"type": "string",
+																						"description": "Cron expression defining the schedule.",
+																						"x-i18n": {
+																							"zh-CN": {
+																								"description": "定义时间表的 Cron 表达式。"
+																							}
+																						},
+																						"example": "0 0 * * *"
+																					},
+																					"target": {
+																						"type": "integer",
+																						"description": "Target number of replicas for this schedule.",
+																						"x-i18n": {
+																							"zh-CN": {
+																								"description": "此时间表的目标 Replica 数量。"
+																							}
+																						}
+																					}
+																				}
+																			}
+																		}
+																	}
+																}
+															}
+														}														
 													},
 													"description": "Response payload.",
 													"x-i18n": {
