@@ -17,10 +17,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - mcp
   - milvus
   - mcp server
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

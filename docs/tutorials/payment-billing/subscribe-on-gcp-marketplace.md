@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - gcp
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

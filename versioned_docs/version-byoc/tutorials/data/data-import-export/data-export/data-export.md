@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

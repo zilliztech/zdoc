@@ -22,10 +22,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

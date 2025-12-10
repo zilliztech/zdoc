@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - vector databases comparison
   - Faiss
   - Video search
   - AI Hallucination
+  - AI Agent
 
 ---
 

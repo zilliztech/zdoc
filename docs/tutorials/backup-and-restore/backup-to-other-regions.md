@@ -18,10 +18,10 @@ keywords:
   - backup
   - files
   - view
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

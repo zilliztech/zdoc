@@ -17,10 +17,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

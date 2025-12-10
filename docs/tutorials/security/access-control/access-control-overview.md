@@ -18,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 

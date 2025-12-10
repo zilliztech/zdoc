@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

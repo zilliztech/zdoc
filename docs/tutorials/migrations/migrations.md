@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

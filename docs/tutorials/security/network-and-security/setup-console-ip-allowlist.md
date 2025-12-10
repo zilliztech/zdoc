@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

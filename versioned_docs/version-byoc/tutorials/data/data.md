@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

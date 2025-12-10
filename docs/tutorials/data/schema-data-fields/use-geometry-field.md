@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - geometry field
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

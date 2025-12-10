@@ -18,10 +18,10 @@ keywords:
   - storage
   - cost
   - billing
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

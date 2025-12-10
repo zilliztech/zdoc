@@ -20,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

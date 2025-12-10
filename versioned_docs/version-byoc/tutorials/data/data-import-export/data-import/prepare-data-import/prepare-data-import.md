@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

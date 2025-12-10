@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - range search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

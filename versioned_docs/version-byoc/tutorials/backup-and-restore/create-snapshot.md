@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

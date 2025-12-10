@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

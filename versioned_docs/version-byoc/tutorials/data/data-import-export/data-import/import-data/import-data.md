@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

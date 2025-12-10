@@ -18,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

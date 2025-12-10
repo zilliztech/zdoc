@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

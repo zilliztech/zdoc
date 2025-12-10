@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

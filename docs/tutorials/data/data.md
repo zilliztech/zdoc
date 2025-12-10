@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

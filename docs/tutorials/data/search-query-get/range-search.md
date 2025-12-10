@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - range search
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

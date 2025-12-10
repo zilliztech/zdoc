@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - changelogs
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

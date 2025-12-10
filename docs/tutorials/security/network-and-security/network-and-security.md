@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

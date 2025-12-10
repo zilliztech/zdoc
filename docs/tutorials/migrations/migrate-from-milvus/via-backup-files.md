@@ -18,10 +18,10 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

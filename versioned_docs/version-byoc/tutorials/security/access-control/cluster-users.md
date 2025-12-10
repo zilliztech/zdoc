@@ -20,10 +20,10 @@ keywords:
   - rbac
   - users
   - overview
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

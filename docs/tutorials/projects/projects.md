@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

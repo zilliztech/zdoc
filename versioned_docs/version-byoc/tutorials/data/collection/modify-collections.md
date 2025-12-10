@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

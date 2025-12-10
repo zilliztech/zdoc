@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - console
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

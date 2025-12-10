@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - aws
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

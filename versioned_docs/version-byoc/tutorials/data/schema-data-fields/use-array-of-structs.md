@@ -20,10 +20,10 @@ keywords:
   - array field
   - array of structs
   - structs
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

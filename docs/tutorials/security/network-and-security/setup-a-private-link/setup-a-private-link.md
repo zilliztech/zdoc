@@ -21,10 +21,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

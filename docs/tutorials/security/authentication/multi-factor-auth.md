@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

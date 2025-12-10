@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

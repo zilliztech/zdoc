@@ -18,10 +18,10 @@ keywords:
   - sso
   - google
   - workspace
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

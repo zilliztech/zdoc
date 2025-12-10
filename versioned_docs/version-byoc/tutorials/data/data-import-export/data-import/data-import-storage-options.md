@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

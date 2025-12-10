@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - pinecone
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

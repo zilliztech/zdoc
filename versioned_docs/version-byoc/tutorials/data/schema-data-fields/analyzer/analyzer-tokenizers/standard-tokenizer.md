@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - standard-tokenizer
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

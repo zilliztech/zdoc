@@ -18,10 +18,10 @@ keywords:
   - sso
   - other
   - idp
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

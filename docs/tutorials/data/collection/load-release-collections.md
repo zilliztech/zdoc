@@ -18,10 +18,10 @@ keywords:
   - collection
   - load
   - release
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

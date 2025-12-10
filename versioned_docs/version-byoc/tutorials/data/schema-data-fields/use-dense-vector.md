@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

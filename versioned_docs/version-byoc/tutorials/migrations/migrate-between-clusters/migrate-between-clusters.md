@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

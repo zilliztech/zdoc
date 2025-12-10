@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

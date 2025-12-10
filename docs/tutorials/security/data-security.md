@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data
   - security
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

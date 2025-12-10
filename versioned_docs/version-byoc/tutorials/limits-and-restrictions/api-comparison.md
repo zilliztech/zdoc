@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

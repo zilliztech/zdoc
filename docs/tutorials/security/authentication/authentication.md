@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

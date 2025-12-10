@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - manage
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

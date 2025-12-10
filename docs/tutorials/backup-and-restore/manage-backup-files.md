@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - manage
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

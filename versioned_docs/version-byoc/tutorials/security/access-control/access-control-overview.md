@@ -18,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

@@ -23,10 +23,10 @@ keywords:
   - go
   - node
   - nodejs
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

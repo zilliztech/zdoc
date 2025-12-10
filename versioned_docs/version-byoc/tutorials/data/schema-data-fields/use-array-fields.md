@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - array field
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

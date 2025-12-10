@@ -18,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

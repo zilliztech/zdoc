@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - ips
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

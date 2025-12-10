@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

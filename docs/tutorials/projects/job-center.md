@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

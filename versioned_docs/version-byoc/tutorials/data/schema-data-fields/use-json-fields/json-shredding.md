@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - json shredding
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

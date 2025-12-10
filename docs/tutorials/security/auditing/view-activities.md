@@ -17,10 +17,10 @@ keywords:
   - cloud
   - activities
   - view
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

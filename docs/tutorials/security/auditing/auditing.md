@@ -17,10 +17,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

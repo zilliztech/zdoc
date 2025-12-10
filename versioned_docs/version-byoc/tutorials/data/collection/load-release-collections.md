@@ -18,10 +18,10 @@ keywords:
   - collection
   - load
   - release
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

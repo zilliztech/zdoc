@@ -18,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

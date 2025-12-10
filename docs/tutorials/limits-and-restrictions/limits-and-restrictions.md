@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

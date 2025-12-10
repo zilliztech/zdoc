@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

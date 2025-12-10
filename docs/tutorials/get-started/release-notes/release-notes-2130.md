@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

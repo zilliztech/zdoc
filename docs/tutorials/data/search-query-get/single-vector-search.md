@@ -19,10 +19,10 @@ keywords:
   - data
   - vector search
   - ann
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

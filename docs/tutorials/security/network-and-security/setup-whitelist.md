@@ -17,10 +17,10 @@ keywords:
   - cloud
   - whitelist
   - setup
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

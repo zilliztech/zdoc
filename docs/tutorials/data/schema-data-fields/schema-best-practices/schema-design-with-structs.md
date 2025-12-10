@@ -21,10 +21,10 @@ keywords:
   - hands-on
   - structs
   - array of structs
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

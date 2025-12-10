@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - minhash
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

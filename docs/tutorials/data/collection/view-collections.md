@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

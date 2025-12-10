@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - array field
+  - Unstructured Data
   - vector database
   - IVF
   - knn
-  - Image Search
 
 ---
 

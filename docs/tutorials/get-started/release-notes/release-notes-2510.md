@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

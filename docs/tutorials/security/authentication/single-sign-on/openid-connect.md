@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

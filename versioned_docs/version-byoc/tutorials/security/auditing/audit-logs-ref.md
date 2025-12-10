@@ -17,10 +17,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

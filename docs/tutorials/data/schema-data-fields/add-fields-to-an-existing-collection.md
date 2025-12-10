@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - add collection fields
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

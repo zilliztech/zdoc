@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

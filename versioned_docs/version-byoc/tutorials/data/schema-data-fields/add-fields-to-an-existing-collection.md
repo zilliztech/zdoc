@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - add collection fields
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

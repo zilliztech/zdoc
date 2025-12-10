@@ -19,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

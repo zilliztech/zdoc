@@ -18,10 +18,10 @@ keywords:
   - developer hub
   - home page
   - home
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 hide_title: true
 hide_table_of_contents: true

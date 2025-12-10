@@ -17,10 +17,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

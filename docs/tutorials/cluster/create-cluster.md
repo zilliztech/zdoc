@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

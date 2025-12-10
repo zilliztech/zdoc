@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

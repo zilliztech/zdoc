@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

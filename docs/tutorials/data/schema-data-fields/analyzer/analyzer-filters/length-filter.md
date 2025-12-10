@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

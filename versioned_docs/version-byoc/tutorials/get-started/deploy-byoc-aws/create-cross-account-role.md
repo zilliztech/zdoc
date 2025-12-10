@@ -19,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

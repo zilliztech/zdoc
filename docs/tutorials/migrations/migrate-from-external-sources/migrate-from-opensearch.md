@@ -18,10 +18,10 @@ keywords:
   - migrations
   - amazon
   - opensearch
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

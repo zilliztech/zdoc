@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - DML
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

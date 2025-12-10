@@ -19,10 +19,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

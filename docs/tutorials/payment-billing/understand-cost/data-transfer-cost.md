@@ -18,10 +18,10 @@ keywords:
   - data transfer
   - cost
   - billing
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - migrations
   - external
   - data source
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

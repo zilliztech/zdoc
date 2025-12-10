@@ -18,10 +18,10 @@ keywords:
   - sso
   - microsoft
   - entra
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

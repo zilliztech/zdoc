@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - multi-language
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

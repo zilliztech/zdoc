@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

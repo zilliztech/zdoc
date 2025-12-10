@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - index build level
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

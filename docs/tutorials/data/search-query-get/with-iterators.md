@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

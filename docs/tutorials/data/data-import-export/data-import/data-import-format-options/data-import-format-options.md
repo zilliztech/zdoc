@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

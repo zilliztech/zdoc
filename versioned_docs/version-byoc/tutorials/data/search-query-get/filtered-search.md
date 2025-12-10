@@ -19,10 +19,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

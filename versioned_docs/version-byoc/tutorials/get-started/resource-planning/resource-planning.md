@@ -17,10 +17,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

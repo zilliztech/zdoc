@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - json
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

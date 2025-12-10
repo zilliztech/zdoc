@@ -18,10 +18,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - basics
   - milvus
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

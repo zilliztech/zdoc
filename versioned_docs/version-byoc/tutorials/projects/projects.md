@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

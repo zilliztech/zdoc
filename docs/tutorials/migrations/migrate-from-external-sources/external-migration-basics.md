@@ -19,10 +19,10 @@ keywords:
   - external
   - data source
   - basics
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

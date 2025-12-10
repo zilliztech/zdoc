@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cu
   - select
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 

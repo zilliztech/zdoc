@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

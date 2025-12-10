@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - users
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

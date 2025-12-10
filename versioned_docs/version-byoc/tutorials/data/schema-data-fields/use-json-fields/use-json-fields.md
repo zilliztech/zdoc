@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - json field
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

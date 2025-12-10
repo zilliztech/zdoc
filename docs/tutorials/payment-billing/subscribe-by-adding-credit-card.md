@@ -17,10 +17,10 @@ keywords:
   - cloud
   - credit card
   - subscribe
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

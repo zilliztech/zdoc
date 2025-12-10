@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - collection
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

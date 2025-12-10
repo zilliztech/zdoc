@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

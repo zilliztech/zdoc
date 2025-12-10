@@ -18,10 +18,10 @@ keywords:
   - scalar field
   - varchar
   - ngram
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

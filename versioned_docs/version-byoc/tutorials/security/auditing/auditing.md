@@ -17,10 +17,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

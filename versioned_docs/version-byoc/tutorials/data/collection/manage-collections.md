@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

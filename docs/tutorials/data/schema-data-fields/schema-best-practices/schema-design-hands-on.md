@@ -19,10 +19,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

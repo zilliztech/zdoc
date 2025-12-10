@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

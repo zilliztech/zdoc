@@ -20,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

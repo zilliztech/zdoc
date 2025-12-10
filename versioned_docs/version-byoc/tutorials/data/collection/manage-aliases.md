@@ -18,10 +18,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

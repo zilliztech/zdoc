@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - alphanumonly
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

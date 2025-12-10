@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - overview
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

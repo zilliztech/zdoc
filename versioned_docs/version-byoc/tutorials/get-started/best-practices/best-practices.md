@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

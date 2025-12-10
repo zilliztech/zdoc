@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - decompounder
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

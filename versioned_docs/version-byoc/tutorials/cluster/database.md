@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

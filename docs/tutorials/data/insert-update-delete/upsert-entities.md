@@ -20,10 +20,10 @@ keywords:
   - upsert
   - update
   - insert
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

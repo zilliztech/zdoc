@@ -17,10 +17,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

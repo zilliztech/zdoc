@@ -19,10 +19,10 @@ keywords:
   - data
   - grouping search
   - group
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

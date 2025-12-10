@@ -17,10 +17,10 @@ keywords:
   - cloud
   - index
   - manage
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

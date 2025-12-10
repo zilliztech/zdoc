@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - Faiss vector database
   - Chroma vector database
   - nlp search
   - hallucinations llm
+  - Multimodal search
 
 ---
 

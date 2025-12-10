@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

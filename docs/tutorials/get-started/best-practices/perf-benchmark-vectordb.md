@@ -18,10 +18,10 @@ keywords:
   - milvus
   - performance
   - benchmark
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

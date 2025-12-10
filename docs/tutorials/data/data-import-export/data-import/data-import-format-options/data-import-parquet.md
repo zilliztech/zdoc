@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

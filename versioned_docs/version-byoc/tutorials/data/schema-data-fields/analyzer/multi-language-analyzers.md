@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - multi-language
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

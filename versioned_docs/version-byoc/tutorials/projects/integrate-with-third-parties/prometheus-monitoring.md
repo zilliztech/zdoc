@@ -18,10 +18,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

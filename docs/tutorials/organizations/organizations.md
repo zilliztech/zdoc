@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 
