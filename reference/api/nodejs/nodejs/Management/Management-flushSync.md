@@ -12,19 +12,19 @@ type: docx
 token: QsTwdUbgyoZPV1xzCBxchX8Fnid
 sidebar_position: 8
 keywords: 
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - flushSync()
   - nodejs26
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

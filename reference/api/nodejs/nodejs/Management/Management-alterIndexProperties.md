@@ -12,19 +12,19 @@ type: docx
 token: PcQcdDwthoSEZaxI6GncpUpGnBh
 sidebar_position: 1
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - alterIndexProperties()
   - nodejs26
+  - hybrid search
+  - lexical search
   - nearest neighbor search
   - Agentic RAG
-  - rag llm architecture
-  - private llms
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
