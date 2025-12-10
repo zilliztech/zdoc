@@ -12,19 +12,19 @@ type: docx
 token: JJOId59ePoMLefxz1ChcBZ6inOh
 sidebar_position: 19
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - revoke_role()
   - pymilvus26
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

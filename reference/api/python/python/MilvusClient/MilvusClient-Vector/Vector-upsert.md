@@ -12,19 +12,19 @@ type: docx
 token: UjjpdBwaooRDdlxFHScc6dKwnTg
 sidebar_position: 8
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - pymilvus26
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

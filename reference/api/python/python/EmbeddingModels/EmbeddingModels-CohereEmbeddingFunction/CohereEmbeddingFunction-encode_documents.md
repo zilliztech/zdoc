@@ -12,19 +12,19 @@ type: docx
 token: FIyedc51So0onWxtPAjcHFkmnHe
 sidebar_position: 2
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus26
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

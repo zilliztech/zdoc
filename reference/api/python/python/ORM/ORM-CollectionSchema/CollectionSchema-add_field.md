@@ -12,19 +12,19 @@ type: docx
 token: H9IFdpWWUouzXOxKlx9cImP8nnd
 sidebar_position: 1
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - add_field()
   - pymilvus26
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

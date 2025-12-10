@@ -12,19 +12,19 @@ type: docx
 token: DyPldeRNXo4nMqxQeE0cMnd2nEf
 sidebar_position: 7
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - list_connections()
   - pymilvus26
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

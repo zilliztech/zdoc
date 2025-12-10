@@ -12,19 +12,19 @@ type: docx
 token: XXUAdI8T2oOmw2x7iITc8vJgnjm
 sidebar_position: 18
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollectionSync()
   - nodejs26
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

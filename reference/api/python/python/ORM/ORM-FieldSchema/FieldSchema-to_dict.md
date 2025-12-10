@@ -12,19 +12,19 @@ type: docx
 token: G1gsdGWwuoPOPrxJdABcfa76nUd
 sidebar_position: 3
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - to_dict()
   - pymilvus26
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

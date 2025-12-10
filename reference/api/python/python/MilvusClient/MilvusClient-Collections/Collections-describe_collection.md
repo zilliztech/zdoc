@@ -12,19 +12,19 @@ type: docx
 token: LXASdPs6KoRfCJx11A1cl2Ssngg
 sidebar_position: 9
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - describe_collection()
   - pymilvus26
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

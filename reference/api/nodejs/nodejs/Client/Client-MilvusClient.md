@@ -12,19 +12,19 @@ type: docx
 token: ZxPXdeBXGopnvMxl7v6c9DSanFL
 sidebar_position: 5
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
   - milvus
   - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClient
   - nodejs26
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: OVfodiKa6o3qTGxadYicI975nhh
 sidebar_position: 21
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - index_building_progress()
   - pymilvus26
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

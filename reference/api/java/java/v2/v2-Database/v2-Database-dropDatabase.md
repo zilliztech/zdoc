@@ -12,19 +12,19 @@ type: docx
 token: LwqSdN6s5oZBhAxzQsxcnXswnah
 sidebar_position: 4
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
   - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabase()
   - javaV226
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

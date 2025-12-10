@@ -12,19 +12,19 @@ type: docx
 token: BpqpdBWdyoxbmzx0GGCcQxksnBc
 sidebar_position: 8
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - do_bulk_insert()
   - pymilvus26
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

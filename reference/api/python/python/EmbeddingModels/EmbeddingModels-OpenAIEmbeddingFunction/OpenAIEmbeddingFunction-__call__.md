@@ -12,19 +12,19 @@ type: docx
 token: FieTdj7WDoVbBVxp5xjcqO02nrh
 sidebar_position: 4
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus26
+  - private llms
+  - nn search
+  - llm eval
   - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

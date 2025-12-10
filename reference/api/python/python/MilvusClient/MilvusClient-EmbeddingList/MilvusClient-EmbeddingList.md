@@ -12,19 +12,19 @@ type: docx
 token: Ve2WdUAfwoz456xwBIJcGvltn6b
 sidebar_position: 4
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - EmbeddingList
   - pymilvus26
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

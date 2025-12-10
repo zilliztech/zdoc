@@ -12,19 +12,19 @@ type: docx
 token: X6JXdPN7IoRffJxnaZccBvRanIM
 sidebar_position: 19
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - listAliases()
   - javaV226
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

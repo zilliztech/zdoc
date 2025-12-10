@@ -12,19 +12,19 @@ type: docx
 token: FHcYdN4apoI5TIx0LxScISvtn0f
 sidebar_position: 10
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - drop_collection()
   - pymilvus26
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

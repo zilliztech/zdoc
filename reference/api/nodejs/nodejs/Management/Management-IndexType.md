@@ -12,19 +12,19 @@ type: docx
 token: SI3Td00AroRtx8xXQcUce8i2nrb
 sidebar_position: 15
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - IndexType
   - nodejs26
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

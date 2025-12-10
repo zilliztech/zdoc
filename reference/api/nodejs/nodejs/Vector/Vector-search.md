@@ -12,19 +12,19 @@ type: docx
 token: C8kgdOn3pozkrtxCBMLcqcSTnTb
 sidebar_position: 8
 keywords: 
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - nodejs26
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: S0ITdsnpYoDpH9xKv9fcBhe5nWA
 sidebar_position: 2
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - bulkImport()
   - javaV226
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

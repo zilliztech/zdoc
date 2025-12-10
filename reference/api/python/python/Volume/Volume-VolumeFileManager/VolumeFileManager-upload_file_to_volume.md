@@ -12,10 +12,10 @@ type: docx
 token: Fr3rdPTuXoC0Lzx7urIcwBqWnDb
 sidebar_position: 1
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud

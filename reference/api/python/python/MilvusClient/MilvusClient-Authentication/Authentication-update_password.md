@@ -12,19 +12,19 @@ type: docx
 token: WGDod7Qehou4GWx4Co2cJ34VnKb
 sidebar_position: 20
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - update_password()
   - pymilvus26
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

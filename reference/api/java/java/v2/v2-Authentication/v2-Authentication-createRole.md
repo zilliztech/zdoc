@@ -12,19 +12,19 @@ type: docx
 token: V0xwdLOrhog7OBxTX76cQGQknSb
 sidebar_position: 3
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - createRole()
   - javaV226
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

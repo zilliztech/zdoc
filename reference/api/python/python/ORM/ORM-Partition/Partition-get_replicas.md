@@ -12,19 +12,19 @@ type: docx
 token: YKwldu59qosZBsxdRdSc0l9Hnoe
 sidebar_position: 4
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - get_replicas()
   - pymilvus26
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

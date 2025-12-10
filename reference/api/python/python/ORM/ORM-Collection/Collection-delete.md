@@ -12,19 +12,19 @@ type: docx
 token: TJMVdi4U2oBFnAxO95jctzVAnzg
 sidebar_position: 6
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - pymilvus26
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

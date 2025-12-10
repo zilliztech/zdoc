@@ -12,19 +12,19 @@ type: docx
 token: BJysdlj1MoksHZxNRxicHn9fnSh
 sidebar_position: 33
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud
   - load_state()
   - pymilvus26
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

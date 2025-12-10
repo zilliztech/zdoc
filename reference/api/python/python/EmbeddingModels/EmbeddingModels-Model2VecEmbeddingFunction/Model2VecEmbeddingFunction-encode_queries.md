@@ -12,19 +12,19 @@ type: docx
 token: Px9Ydg6KSoNFV2xBumpcGBNqn8d
 sidebar_position: 2
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus26
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

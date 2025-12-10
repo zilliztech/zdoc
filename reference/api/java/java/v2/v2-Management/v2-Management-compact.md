@@ -12,19 +12,19 @@ type: docx
 token: Df6GdjeIXoThhVxM6dMcvDqenSe
 sidebar_position: 2
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - compact()
   - javaV226
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

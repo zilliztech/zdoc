@@ -12,19 +12,19 @@ type: docx
 token: FxUxdWGz2oUh1ixyquZcAndBnAf
 sidebar_position: 2
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - CollectionSchema
   - javaV226
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

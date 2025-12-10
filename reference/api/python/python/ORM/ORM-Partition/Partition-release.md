@@ -12,19 +12,19 @@ type: docx
 token: ZQ2RdE2AOoH9bfx4k3Sc3Ny0ngb
 sidebar_position: 9
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - release()
   - pymilvus26
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

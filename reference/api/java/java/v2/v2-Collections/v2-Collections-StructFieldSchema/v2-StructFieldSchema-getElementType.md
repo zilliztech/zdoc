@@ -12,19 +12,19 @@ type: docx
 token: PvRGdribPou7PHxcoSWcRK3unUc
 sidebar_position: 3
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - getElementType()
   - javaV226
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

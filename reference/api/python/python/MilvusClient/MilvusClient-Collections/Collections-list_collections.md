@@ -12,19 +12,19 @@ type: docx
 token: BHyidrVcyoPwxexHLrnceOSAnRe
 sidebar_position: 17
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - list_collections()
   - pymilvus26
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

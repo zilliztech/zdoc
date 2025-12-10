@@ -12,19 +12,19 @@ type: docx
 token: HScCdxLNJotPCcxb4AZcxsNJn9c
 sidebar_position: 7
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - describe_resource_group()
   - pymilvus26
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

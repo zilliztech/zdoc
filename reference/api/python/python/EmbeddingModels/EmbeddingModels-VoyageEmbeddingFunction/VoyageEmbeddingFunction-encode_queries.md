@@ -12,19 +12,19 @@ type: docx
 token: CHnGdE7XlosONPxsVDDc6Fv5n8c
 sidebar_position: 2
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus26
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

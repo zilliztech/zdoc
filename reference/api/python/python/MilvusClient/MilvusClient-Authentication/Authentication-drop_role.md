@@ -12,19 +12,19 @@ type: docx
 token: Vmxpd3MttodOE3x3V11cVTeunDh
 sidebar_position: 8
 keywords: 
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
   - drop_role()
   - pymilvus26
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

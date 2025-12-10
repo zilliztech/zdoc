@@ -12,19 +12,19 @@ type: docx
 token: S2RfdHUQro7atExpfJBc6FPfnZe
 sidebar_position: 10
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - runAnalyzer()
   - javaV226
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

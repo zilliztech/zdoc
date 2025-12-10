@@ -12,10 +12,10 @@ token: HR9xfgwXylmfqOdKmJ7c9xCqnQb
 sidebar_position: 1
 sidebar_label: "Authentication"
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud

@@ -12,19 +12,19 @@ type: docx
 token: PAs7dwIIrop4OixCUr8ctHVLnXc
 sidebar_position: 9
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadState()
   - javaV226
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

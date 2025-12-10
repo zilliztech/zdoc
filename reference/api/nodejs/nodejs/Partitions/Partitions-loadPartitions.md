@@ -12,19 +12,19 @@ type: docx
 token: Pyh3dttWKoBqcBx8FGhcArhAnqg
 sidebar_position: 6
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitions()
   - nodejs26
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

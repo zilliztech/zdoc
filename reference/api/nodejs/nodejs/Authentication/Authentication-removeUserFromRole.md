@@ -12,19 +12,19 @@ type: docx
 token: XmyMdqvDLosr6oxzvhWcw8H2ntg
 sidebar_position: 23
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - removeUserFromRole()
   - nodejs26
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

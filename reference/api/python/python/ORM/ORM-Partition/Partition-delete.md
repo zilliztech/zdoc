@@ -12,19 +12,19 @@ type: docx
 token: V9BidASNqoWYrmxo11ecuN99neg
 sidebar_position: 1
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - pymilvus26
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

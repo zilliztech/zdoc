@@ -12,19 +12,19 @@ type: docx
 token: JqOJdOA6Dooy2cxAXTkcQpBEnyk
 sidebar_position: 19
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - addCollectionField()
   - nodejs26
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

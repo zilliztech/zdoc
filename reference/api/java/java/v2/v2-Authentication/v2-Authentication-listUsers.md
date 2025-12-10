@@ -12,19 +12,19 @@ type: docx
 token: EfM3drSXlo4Yzyxq2GpcmvoHnTm
 sidebar_position: 15
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - listUsers()
   - javaV226
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

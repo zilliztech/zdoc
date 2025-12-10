@@ -12,19 +12,19 @@ type: docx
 token: CmFKd9eG2oE6xmx9dIGcVPycnth
 sidebar_position: 2
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - CollectionSchema
   - pymilvus26
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

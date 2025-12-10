@@ -12,19 +12,19 @@ type: docx
 token: EeAfdukBNoIIgCxX248c6VULnOb
 sidebar_position: 22
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - removePrivilegesFromGroup()
   - nodejs26
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

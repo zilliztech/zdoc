@@ -12,19 +12,19 @@ type: docx
 token: OSehdj15Ao3AUvxOIJucXzU8nWW
 sidebar_position: 1
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - Collection
   - pymilvus26
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

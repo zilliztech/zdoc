@@ -12,19 +12,19 @@ type: docx
 token: Tjq5dE0wdodKcgxH0yZcmNdrnSg
 sidebar_position: 1
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus26
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

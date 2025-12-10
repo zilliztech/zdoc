@@ -12,19 +12,19 @@ type: docx
 token: PcQcdDwthoSEZaxI6GncpUpGnBh
 sidebar_position: 1
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - alterIndexProperties()
   - nodejs26
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

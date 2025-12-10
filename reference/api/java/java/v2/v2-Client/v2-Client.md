@@ -12,10 +12,10 @@ token: QW8NfURhvl0NtOdmS3DcvQYCnFh
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud

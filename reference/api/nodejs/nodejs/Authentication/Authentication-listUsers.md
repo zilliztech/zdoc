@@ -12,19 +12,19 @@ type: docx
 token: Z0EOd1PXooNeowx4SQgcq3synBc
 sidebar_position: 21
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - listUsers()
   - nodejs26
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

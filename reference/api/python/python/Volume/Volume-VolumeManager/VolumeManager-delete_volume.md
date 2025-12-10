@@ -12,19 +12,19 @@ type: docx
 token: FbzLd0f5ToAPRdxa8XWcWfUwnwe
 sidebar_position: 2
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - delete_volume()
   - pymilvus26
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: H7eOdq9hOo7so7xes5LchIVwnrb
 sidebar_position: 5
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - create_collection()
   - pymilvus26
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

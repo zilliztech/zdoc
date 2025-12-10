@@ -12,19 +12,19 @@ type: docx
 token: DK7ZdxRCyoepyxx0odzcH66xnu3
 sidebar_position: 2
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - VolumeFileManager
   - javaV226
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

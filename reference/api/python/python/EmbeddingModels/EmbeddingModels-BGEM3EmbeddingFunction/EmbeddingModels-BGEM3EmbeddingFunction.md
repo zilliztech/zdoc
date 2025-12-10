@@ -12,19 +12,19 @@ type: docx
 token: XYSVdCqCDoJ9Y5xqKEAceYkpnnh
 sidebar_position: 1
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - BGEM3EmbeddingFunction
   - pymilvus26
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

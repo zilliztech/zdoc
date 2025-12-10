@@ -12,19 +12,19 @@ type: docx
 token: VsyQdDkXnoloWYxfjXNchc0dnng
 sidebar_position: 7
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - releasePartitions()
   - javaV226
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

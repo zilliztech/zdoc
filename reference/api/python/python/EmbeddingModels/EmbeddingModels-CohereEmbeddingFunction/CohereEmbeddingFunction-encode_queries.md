@@ -12,19 +12,19 @@ type: docx
 token: BqtYdPHHPoNhyKxhSnEcVOKenFb
 sidebar_position: 3
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus26
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

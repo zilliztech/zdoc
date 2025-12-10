@@ -12,19 +12,19 @@ type: docx
 token: UOIddRBUXotHvyx4Yyocer0mnId
 sidebar_position: 15
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - get_server_type()
   - pymilvus26
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

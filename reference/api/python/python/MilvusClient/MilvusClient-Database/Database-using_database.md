@@ -12,19 +12,19 @@ type: docx
 token: OCfid8DdPo1ga1x24JZcV92xnwd
 sidebar_position: 7
 keywords: 
+  - Vector store
+  - open source vector database
   - Vector index
   - vector database open source
-  - open source vector db
-  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - using_database()
   - pymilvus26
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

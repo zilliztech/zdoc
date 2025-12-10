@@ -12,19 +12,19 @@ type: docx
 token: G7F9dQ8DwoZsaVxExdnc7K6an3g
 sidebar_position: 5
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - LocalBulkWriter
   - javaV226
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

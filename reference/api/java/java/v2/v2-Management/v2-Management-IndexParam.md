@@ -12,19 +12,19 @@ type: docx
 token: FUNwdQQqAon41YxMWiIcHIBmned
 sidebar_position: 10
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - IndexParam
   - javaV226
+  - what is a vector database
+  - vectordb
   - multimodal vector database retrieval
   - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

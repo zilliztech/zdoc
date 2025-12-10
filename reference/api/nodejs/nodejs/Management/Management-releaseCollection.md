@@ -12,19 +12,19 @@ type: docx
 token: UxOXdeKF1oOIBuxTjPhcKBtPnRb
 sidebar_position: 20
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - releaseCollection()
   - nodejs26
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

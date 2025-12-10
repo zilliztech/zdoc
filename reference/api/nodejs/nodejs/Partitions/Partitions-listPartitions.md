@@ -12,19 +12,19 @@ type: docx
 token: IvnLd6nXooRR6NxM9jdcDxCHnhh
 sidebar_position: 5
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - listPartitions()
   - nodejs26
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

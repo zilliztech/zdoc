@@ -12,19 +12,19 @@ type: docx
 token: DDvudeY20o6tV5xwwo4cKovjnHf
 sidebar_position: 2
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - checkHealth()
   - nodejs26
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

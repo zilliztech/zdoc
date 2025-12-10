@@ -12,19 +12,19 @@ type: docx
 token: WY4idJdzCozGGnxmLoFcIjC2ndw
 sidebar_position: 29
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - ListCollectionsV2()
   - javaV226
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

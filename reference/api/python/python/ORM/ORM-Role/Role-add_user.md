@@ -12,19 +12,19 @@ type: docx
 token: W7GJdpYrYoYhSaxW6uzcVAZinYf
 sidebar_position: 1
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - add_user()
   - pymilvus26
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

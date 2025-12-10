@@ -12,19 +12,19 @@ type: docx
 token: TWOxdwDYRo4CCHxDdZbc7IOznCg
 sidebar_position: 17
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - has_collection()
   - pymilvus26
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

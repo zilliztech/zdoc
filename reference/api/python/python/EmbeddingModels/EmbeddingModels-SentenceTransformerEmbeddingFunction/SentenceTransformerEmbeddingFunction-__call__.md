@@ -12,19 +12,19 @@ type: docx
 token: ZWLCdBWwOo4OSVxfnNRcDrv5nhe
 sidebar_position: 4
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus26
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

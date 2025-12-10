@@ -12,19 +12,19 @@ type: docx
 token: G6CGdbM4QoNgr5xS1ZAc94lhnFd
 sidebar_position: 11
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - getIndexBuildProgress()
   - nodejs26
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

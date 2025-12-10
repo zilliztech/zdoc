@@ -12,19 +12,19 @@ type: docx
 token: OUz3drncZo1Er8xyITZcYz66nWE
 sidebar_position: 3
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - create_role()
   - pymilvus26
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: G4Ftde3kxoHAJbxVNXncI7mpngb
 sidebar_position: 1
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
   - zilliz
   - zilliz cloud
   - cloud
   - create_database()
   - pymilvus26
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

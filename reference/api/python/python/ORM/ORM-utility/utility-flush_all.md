@@ -12,19 +12,19 @@ type: docx
 token: Uwsfd443boKKgyx2zZTcYDqKnCe
 sidebar_position: 12
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - flush_all()
   - pymilvus26
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

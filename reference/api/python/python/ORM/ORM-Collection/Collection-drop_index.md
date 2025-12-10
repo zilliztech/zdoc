@@ -12,19 +12,19 @@ type: docx
 token: AtkDdtMAWodFzExARxnco5xLnsg
 sidebar_position: 9
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - drop_index()
   - pymilvus26
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

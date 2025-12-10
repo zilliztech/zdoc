@@ -12,19 +12,19 @@ type: docx
 token: KBujdxXhko2zJjx4hFmcsHGhn4g
 sidebar_position: 2
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus26
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: WI76dwejQosQWcxuhkccHOl7nXf
 sidebar_position: 4
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - addFunction()
   - javaV226
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

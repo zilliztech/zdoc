@@ -12,19 +12,19 @@ type: docx
 token: TGsXduN5OoAjVyxZTvRc8HR2nse
 sidebar_position: 13
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - listPrivilegeGroups()
   - javaV226
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

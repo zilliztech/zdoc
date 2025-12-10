@@ -12,10 +12,10 @@ token: DFjqfW5yclNaqWdpjpqckLM2nud
 sidebar_position: 7
 sidebar_label: "Vector"
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud

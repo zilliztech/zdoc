@@ -12,19 +12,19 @@ type: docx
 token: GulFdOWMboEK9bxnzMSc8Uf8n8b
 sidebar_position: 4
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabaseProperties()
   - nodejs26
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

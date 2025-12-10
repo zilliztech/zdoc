@@ -12,19 +12,19 @@ type: docx
 token: XBwxdP96Go8ITyx7UuNcL7EonPd
 sidebar_position: 22
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - list_aliases()
   - pymilvus26
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

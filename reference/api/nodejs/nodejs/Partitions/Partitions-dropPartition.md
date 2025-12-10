@@ -12,19 +12,19 @@ type: docx
 token: BBmsddqZEozxWyxkoADcFfzpncW
 sidebar_position: 2
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - dropPartition()
   - nodejs26
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
   - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

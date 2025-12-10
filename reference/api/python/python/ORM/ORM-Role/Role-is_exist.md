@@ -12,19 +12,19 @@ type: docx
 token: F8WOdIoz4okn5OxMEymcXNuRnkb
 sidebar_position: 6
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - is_exist()
   - pymilvus26
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

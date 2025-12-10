@@ -12,19 +12,19 @@ type: docx
 token: MFv3drbbXouqVxxE1OicBBl5ndf
 sidebar_position: 11
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - grantPrivilegeV2()
   - javaV226
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

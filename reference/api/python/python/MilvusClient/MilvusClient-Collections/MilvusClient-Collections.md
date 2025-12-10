@@ -12,10 +12,10 @@ token: CqXrfDyXZlkNSrdh5eJcI0Fznjh
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud

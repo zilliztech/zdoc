@@ -12,19 +12,19 @@ type: docx
 token: BLFEde4BuoCjTSxjYSUcZerEnOb
 sidebar_position: 4
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - getBatchFiles()
   - javaV226
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

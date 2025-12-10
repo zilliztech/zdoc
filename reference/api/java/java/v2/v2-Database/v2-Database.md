@@ -12,10 +12,10 @@ token: TOZmfXZa3luWIMdjXUycMbaanCd
 sidebar_position: 4
 sidebar_label: "Database"
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud

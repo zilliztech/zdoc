@@ -12,19 +12,19 @@ type: docx
 token: HVGNdMYOvojQoXxvDmEcnHYanMh
 sidebar_position: 1
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - CrossEncoderRerankFunction
   - pymilvus26
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: TWxddf6iboyM15xK4Kzc8ASknRb
 sidebar_position: 6
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - load()
   - pymilvus26
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

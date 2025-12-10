@@ -12,19 +12,19 @@ type: docx
 token: TJundbM8FoU8UKxczaMcix3QnHb
 sidebar_position: 2
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - add_batch()
   - pymilvus26
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

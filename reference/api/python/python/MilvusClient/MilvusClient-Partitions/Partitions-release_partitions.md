@@ -12,19 +12,19 @@ type: docx
 token: VblKdUEU4o4t31xcFiicIGtjn9g
 sidebar_position: 7
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
   - release_partitions()
   - pymilvus26
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

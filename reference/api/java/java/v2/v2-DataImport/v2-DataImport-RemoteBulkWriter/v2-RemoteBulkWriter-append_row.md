@@ -12,19 +12,19 @@ type: docx
 token: L115dnbLyoXAVSxkUKxcuK4gncf
 sidebar_position: 1
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - append_row()
   - javaV226
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

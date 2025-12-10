@@ -12,19 +12,19 @@ type: docx
 token: WjNRdifU9o3xl5xG0W7ch4Fjnme
 sidebar_position: 12
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - drop_collection_properties()
   - pymilvus26
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

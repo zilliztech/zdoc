@@ -12,19 +12,19 @@ type: docx
 token: QI87dhVnioL9JLxnNKxcM8jWnkh
 sidebar_position: 3
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
   - pymilvus26
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

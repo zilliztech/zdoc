@@ -12,19 +12,19 @@ type: docx
 token: OUhTdWnXBoHqKdxTA0HcdMY5n4b
 sidebar_position: 3
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - commit()
   - javaV226
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

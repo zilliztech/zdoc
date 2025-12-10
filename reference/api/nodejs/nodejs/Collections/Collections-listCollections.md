@@ -12,19 +12,19 @@ type: docx
 token: Djg7dlb5NoINz9xOAs1cyY67nsh
 sidebar_position: 15
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - listCollections()
   - nodejs26
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: MQxvdwd7QoUu5zxyHTjc0MUKnhe
 sidebar_position: 6
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
   - createAlias()
   - javaV226
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

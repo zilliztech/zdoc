@@ -12,19 +12,19 @@ type: docx
 token: ByLVdf2nRocLcxxwH3Gc9CyFnbb
 sidebar_position: 6
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - queryIterator()
   - javaV226
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: U4Q8deNe2offXCx3OgIc9QJPnnh
 sidebar_position: 2
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - CollectionSchema
   - pymilvus26
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

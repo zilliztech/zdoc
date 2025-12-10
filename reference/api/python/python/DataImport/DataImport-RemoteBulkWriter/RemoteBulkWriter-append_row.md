@@ -12,19 +12,19 @@ type: docx
 token: F1MFdP8VvoMu17x4Vg9cH6ztnqb
 sidebar_position: 1
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - append_row()
   - pymilvus26
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

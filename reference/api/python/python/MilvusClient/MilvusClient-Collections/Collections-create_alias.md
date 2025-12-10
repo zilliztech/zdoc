@@ -12,19 +12,19 @@ type: docx
 token: Kqlodu0AWoefKvxczcxc1c36nlf
 sidebar_position: 4
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - create_alias()
   - pymilvus26
+  - Vector store
+  - open source vector database
+  - Vector index
   - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

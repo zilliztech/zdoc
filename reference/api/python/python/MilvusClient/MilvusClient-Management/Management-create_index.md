@@ -12,19 +12,19 @@ type: docx
 token: B3n3db0idoia02xXxJfcONK8nRh
 sidebar_position: 3
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - create_index()
   - pymilvus26
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

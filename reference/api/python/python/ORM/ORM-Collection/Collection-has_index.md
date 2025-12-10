@@ -12,19 +12,19 @@ type: docx
 token: WDk4dXY8IoV3SJxp9e7c3aq1nBh
 sidebar_position: 15
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - has_index()
   - pymilvus26
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

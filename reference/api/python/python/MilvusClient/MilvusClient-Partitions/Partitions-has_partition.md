@@ -12,19 +12,19 @@ type: docx
 token: MxTAd0haboKnRrxQvoOckGghn1T
 sidebar_position: 4
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - has_partition()
   - pymilvus26
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

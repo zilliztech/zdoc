@@ -12,19 +12,19 @@ type: docx
 token: Bjs5dej7ZoBKhXxZzMjclPCynmd
 sidebar_position: 5
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
   - listPartitions()
   - javaV226
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

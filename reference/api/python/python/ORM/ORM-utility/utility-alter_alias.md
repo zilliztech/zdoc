@@ -12,19 +12,19 @@ type: docx
 token: MfTsdrbGcoO9JqxjgPtcMZTvncc
 sidebar_position: 1
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - alter_alias()
   - pymilvus26
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

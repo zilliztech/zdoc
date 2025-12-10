@@ -12,19 +12,19 @@ type: docx
 token: DCK5d56UZop0kGxpQu8cLqlvndg
 sidebar_position: 2
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - compact()
   - nodejs26
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: MQMzddDnao5Zz0xmSRncZM2nn5b
 sidebar_position: 11
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - pymilvus26
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

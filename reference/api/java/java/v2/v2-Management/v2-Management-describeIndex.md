@@ -12,19 +12,19 @@ type: docx
 token: Lp8AdBebwoF7bLx7Q8Jc3Qz0nF9
 sidebar_position: 4
 keywords: 
+  - Machine Learning
   - RAG
   - NLP
   - Neural Network
-  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
   - javaV226
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: Y2prdJqs9oEOyax1S9acKecan8e
 sidebar_position: 19
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - FunctionType
   - pymilvus26
+  - vector database
   - IVF
   - knn
   - Image Search
-  - LLMs
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

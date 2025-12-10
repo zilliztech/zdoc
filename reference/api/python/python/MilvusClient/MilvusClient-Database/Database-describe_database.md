@@ -12,19 +12,19 @@ type: docx
 token: LEaYdk179oZn0vxqa0lcn4mnnrg
 sidebar_position: 3
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
   - describe_database()
   - pymilvus26
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

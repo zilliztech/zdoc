@@ -12,19 +12,19 @@ type: docx
 token: MfR8dw5TioPvw3xvrstcgYixnUb
 sidebar_position: 43
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - wait_for_index_building_complete()
   - pymilvus26
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

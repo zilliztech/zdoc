@@ -12,19 +12,19 @@ type: docx
 token: KJArdiXZvoBtdIxumpocfe5knJc
 sidebar_position: 16
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - releaseCollection()
   - javaV226
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

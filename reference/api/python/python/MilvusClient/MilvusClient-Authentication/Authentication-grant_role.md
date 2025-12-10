@@ -12,19 +12,19 @@ type: docx
 token: DsnpdZuDGo77TYxFuYvcDpOgnIf
 sidebar_position: 12
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - grant_role()
   - pymilvus26
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

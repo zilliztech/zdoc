@@ -12,19 +12,19 @@ type: docx
 token: FpWXdmIuforYz9xUCsqclyCXnLe
 sidebar_position: 10
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - drop_alias()
   - pymilvus26
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

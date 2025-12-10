@@ -12,10 +12,10 @@ token: I5i9f86n4lsy9IddsDocMOsfnXg
 sidebar_position: 2
 sidebar_label: "BulkImport"
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud

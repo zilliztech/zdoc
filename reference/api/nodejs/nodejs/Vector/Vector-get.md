@@ -12,19 +12,19 @@ type: docx
 token: IbxXdvdZlonJk9xnlk2cZlIinCh
 sidebar_position: 3
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - get()
   - nodejs26
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

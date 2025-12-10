@@ -12,19 +12,19 @@ type: docx
 token: E5rYdw3EWo2WKZxEyGac049an3e
 sidebar_position: 11
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - dropAllRoles()
   - nodejs26
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

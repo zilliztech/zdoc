@@ -12,19 +12,19 @@ type: docx
 token: WCxIdVwCpoIaMUxbabWcSRCkn2g
 sidebar_position: 1
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
   - append_row()
   - pymilvus26
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

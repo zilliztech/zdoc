@@ -12,19 +12,19 @@ type: docx
 token: S9zrdw1etovCFKx0gcic6AiVn0e
 sidebar_position: 1
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus26
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

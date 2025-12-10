@@ -12,19 +12,19 @@ type: docx
 token: IpSBdcabbosobvxQkAEcv6CvnJd
 sidebar_position: 4
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - disconnect()
   - pymilvus26
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

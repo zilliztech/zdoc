@@ -12,19 +12,19 @@ type: docx
 token: MVLRdU9nPonUeExs7ogctwZ1n4c
 sidebar_position: 3
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - OnnxEmbeddingFunction
   - pymilvus26
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

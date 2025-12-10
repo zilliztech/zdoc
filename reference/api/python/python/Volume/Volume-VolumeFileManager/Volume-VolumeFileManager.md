@@ -12,19 +12,19 @@ type: docx
 token: IbWgdAwWOoTa1exF2LicP9henJJ
 sidebar_position: 2
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - VolumeFileManager
   - pymilvus26
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

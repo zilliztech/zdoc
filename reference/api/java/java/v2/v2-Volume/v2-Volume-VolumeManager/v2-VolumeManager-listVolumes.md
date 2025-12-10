@@ -12,19 +12,19 @@ type: docx
 token: Cde1dlUbDosa86xjuShcoKgQnvg
 sidebar_position: 3
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - listVolumes()
   - javaV226
+  - Video deduplication
   - Video similarity search
   - Vector retrieval
   - Audio similarity search
-  - Elastic vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

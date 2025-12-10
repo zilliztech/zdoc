@@ -12,19 +12,19 @@ type: docx
 token: CvxodXz8OoWXrlxD7OVcqqJLn8e
 sidebar_position: 3
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - MistralAIEmbeddingFunction
   - pymilvus26
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

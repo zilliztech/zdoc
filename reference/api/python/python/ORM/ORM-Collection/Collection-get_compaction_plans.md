@@ -12,19 +12,19 @@ type: docx
 token: D6Q7dq4USotLS3xxMP0cFiGLnsf
 sidebar_position: 12
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - get_compaction_plans()
   - pymilvus26
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: HEWIdid9BoFMyNxN8Bbc0P3nn6g
 sidebar_position: 2
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus26
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: E2XJd4ZHvoc7QlxyrEJcrOJOn9f
 sidebar_position: 7
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - nodejs26
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

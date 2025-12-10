@@ -12,19 +12,19 @@ type: docx
 token: JmlKdBz7Io91Ffx9rpKce3vUnMc
 sidebar_position: 2
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - createDatabase()
   - nodejs26
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

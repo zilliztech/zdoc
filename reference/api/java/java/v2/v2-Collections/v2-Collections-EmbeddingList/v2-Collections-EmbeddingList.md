@@ -12,19 +12,19 @@ type: docx
 token: EXcNdtZrro7Ufkxp3G6cUArOn7b
 sidebar_position: 2
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
   - EmbeddingList
   - javaV226
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: SlmSdaD7rocMJsxThNHcOtEknVd
 sidebar_position: 9
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - remove_user()
   - pymilvus26
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

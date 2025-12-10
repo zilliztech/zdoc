@@ -12,10 +12,10 @@ token: JT0gfXjE3lCqEAdn6jPcFbHgnnd
 sidebar_position: 8
 sidebar_label: "Database"
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud

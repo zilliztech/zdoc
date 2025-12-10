@@ -12,10 +12,10 @@ token: CEYUfuKoYlVIfod63clcDaS9nxc
 sidebar_position: 4
 sidebar_label: "Database"
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud

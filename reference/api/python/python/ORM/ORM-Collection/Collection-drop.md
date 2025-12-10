@@ -12,19 +12,19 @@ type: docx
 token: L8UTdDNkPoeew0x6LoDcfHx4nof
 sidebar_position: 8
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
   - drop()
   - pymilvus26
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

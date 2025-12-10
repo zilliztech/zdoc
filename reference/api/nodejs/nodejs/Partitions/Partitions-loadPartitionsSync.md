@@ -12,19 +12,19 @@ type: docx
 token: VGofdSRi0o6EagxNkokc9Iinndf
 sidebar_position: 7
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitionsSync()
   - nodejs26
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

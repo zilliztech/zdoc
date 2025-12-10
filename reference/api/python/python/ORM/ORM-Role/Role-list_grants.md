@@ -12,19 +12,19 @@ type: docx
 token: YRoGdgQmWoIEaJx84ICcHTILnMe
 sidebar_position: 8
 keywords: 
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
   - list_grants()
   - pymilvus26
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

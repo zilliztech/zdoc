@@ -12,19 +12,19 @@ type: docx
 token: DMh5d1uiGolDtLxSNpCcWx9On7c
 sidebar_position: 14
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollection()
   - javaV226
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

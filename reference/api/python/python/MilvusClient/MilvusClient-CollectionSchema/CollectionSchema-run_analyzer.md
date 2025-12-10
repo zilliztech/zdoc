@@ -12,19 +12,19 @@ type: docx
 token: TWzjdJ61ho613AxKSd7clQt9nrg
 sidebar_position: 6
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - run_analyzer()
   - pymilvus26
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

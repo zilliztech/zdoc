@@ -12,19 +12,19 @@ type: docx
 token: KEPYdKup1o3nHdxKbjvcQUzwnnd
 sidebar_position: 8
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - get_load_state()
   - pymilvus26
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

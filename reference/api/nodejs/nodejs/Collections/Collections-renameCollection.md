@@ -12,19 +12,19 @@ type: docx
 token: LSwVdMg4SorzZ5xSHHVcQeVDnfh
 sidebar_position: 16
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - renameCollection()
   - nodejs26
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: Z76PdoAJkoGaMPxG4CFcCmShnwh
 sidebar_position: 5
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - to_flat_array()
   - pymilvus26
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

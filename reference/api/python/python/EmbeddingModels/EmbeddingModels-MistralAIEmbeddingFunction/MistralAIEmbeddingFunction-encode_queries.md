@@ -12,19 +12,19 @@ type: docx
 token: SptWdOyFqoGM5VxVS16cofqfnDg
 sidebar_position: 2
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus26
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

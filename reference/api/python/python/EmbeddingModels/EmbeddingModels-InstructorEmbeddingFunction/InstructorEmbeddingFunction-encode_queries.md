@@ -12,19 +12,19 @@ type: docx
 token: LrvhdFR5Vo1ZnExohgicdi58njc
 sidebar_position: 2
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus26
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

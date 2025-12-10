@@ -12,10 +12,10 @@ token: LOD4fz3qilpPyOdlfencoVEJnwd
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud

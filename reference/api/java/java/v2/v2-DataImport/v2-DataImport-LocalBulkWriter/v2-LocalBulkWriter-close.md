@@ -12,19 +12,19 @@ type: docx
 token: OEcUdoX1yoc94axfwpjcdA2jnEf
 sidebar_position: 2
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - close()
   - javaV226
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

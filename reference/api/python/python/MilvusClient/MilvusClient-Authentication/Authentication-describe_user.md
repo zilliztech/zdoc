@@ -12,19 +12,19 @@ type: docx
 token: Wz3HdtvPCoEquvxFY7PcDHxcnEe
 sidebar_position: 6
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - describe_user()
   - pymilvus26
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

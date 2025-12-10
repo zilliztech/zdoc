@@ -12,19 +12,19 @@ type: docx
 token: RZ8idPxaho5yMoxJzGdc7QAcnNf
 sidebar_position: 10
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
   - javaV226
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

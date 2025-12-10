@@ -12,19 +12,19 @@ type: docx
 token: XfxvdiIdOokuN1xiVBWct34Wnre
 sidebar_position: 1
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus26
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

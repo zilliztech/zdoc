@@ -12,19 +12,19 @@ type: docx
 token: X6MudyTkmoIsE5x0XiKcbwPdntq
 sidebar_position: 1
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - addField()
   - javaV226
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

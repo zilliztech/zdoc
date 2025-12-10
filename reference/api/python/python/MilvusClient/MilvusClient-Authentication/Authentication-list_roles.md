@@ -12,19 +12,19 @@ type: docx
 token: MApVdDl17oU8OixzbMPcgceKnOh
 sidebar_position: 14
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - list_roles()
   - pymilvus26
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

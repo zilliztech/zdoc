@@ -12,19 +12,19 @@ type: docx
 token: Znb7dcNoeobIkkxGLGfcpVfUnIX
 sidebar_position: 19
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - revokeRole()
   - javaV226
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

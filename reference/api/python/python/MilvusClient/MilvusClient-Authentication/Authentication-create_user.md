@@ -12,19 +12,19 @@ type: docx
 token: BDupd28JqoNY9HxVOTfcv86enRe
 sidebar_position: 4
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - create_user()
   - pymilvus26
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

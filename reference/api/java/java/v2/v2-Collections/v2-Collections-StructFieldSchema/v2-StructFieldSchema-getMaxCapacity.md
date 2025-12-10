@@ -12,10 +12,10 @@ type: docx
 token: PSdEdxU7ZoTxelx7sLzcAAXsnQH
 sidebar_position: 5
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud

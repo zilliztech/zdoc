@@ -12,19 +12,19 @@ type: docx
 token: KeoKdlitaog6n1xpX8McIIIrnWb
 sidebar_position: 14
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - listAliases()
   - nodejs26
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

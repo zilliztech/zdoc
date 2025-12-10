@@ -12,19 +12,19 @@ type: docx
 token: XzHhd3AdCo9DCsxawYycr69CnAb
 sidebar_position: 13
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - get_bulk_insert_state()
   - pymilvus26
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

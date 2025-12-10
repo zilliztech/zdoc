@@ -12,19 +12,19 @@ type: docx
 token: HQDndiGwloWKIexgPCUcEZGenOh
 sidebar_position: 20
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - load()
   - pymilvus26
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

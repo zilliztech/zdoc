@@ -12,19 +12,19 @@ type: docx
 token: IdNAdlMhjoM40pxjpKecpc7inbd
 sidebar_position: 6
 keywords: 
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndexProperties()
   - javaV226
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

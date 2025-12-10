@@ -12,19 +12,19 @@ type: docx
 token: UrjHd9KZKo1Rlfxfj8AcmXNinlg
 sidebar_position: 2
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClientV2Pool
   - javaV226
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

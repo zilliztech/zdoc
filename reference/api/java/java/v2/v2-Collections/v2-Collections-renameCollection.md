@@ -12,19 +12,19 @@ type: docx
 token: JCutdOT9Polf2dxej0mcoP24n9c
 sidebar_position: 21
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
   - renameCollection()
   - javaV226
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

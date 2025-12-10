@@ -12,19 +12,19 @@ type: docx
 token: Vjd7dE5OyoGvYaxd7OCcubBWnLd
 sidebar_position: 4
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
   - drop_database()
   - pymilvus26
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

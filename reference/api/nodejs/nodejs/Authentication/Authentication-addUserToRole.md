@@ -12,19 +12,19 @@ type: docx
 token: Qc72dTKgroNdHjxIG2xcwNdmnHb
 sidebar_position: 2
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - addUserToRole()
   - nodejs26
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

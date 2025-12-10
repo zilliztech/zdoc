@@ -12,19 +12,19 @@ type: docx
 token: Jjbsd2I8doQ9pBxBp57ckRdZnZd
 sidebar_position: 3
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - get_partition_stats()
   - pymilvus26
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

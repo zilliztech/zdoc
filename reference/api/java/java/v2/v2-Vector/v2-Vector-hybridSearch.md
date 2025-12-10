@@ -12,19 +12,19 @@ type: docx
 token: EOsTdGbQxouZjpxP4Wbc5MXkneh
 sidebar_position: 3
 keywords: 
-  - Zilliz
   - milvus vector database
   - milvus db
   - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
   - javaV226
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

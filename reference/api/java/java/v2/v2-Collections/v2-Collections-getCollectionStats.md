@@ -12,19 +12,19 @@ type: docx
 token: E27SdesNPoKA8zx6jHkcejt0nWg
 sidebar_position: 17
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStats()
   - javaV226
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

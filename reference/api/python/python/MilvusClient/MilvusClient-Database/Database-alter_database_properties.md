@@ -12,19 +12,19 @@ type: docx
 token: HCWBdorQdoONw2xaawacJWQkn1e
 sidebar_position: 1
 keywords: 
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - alter_database_properties()
   - pymilvus26
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

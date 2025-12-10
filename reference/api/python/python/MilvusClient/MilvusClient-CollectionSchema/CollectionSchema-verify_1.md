@@ -12,19 +12,19 @@ type: docx
 token: TfV3dOYPyoKVSMxShrTc9SZ2nqh
 sidebar_position: 5
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - verify()
   - pymilvus26
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

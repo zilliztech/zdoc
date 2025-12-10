@@ -12,19 +12,19 @@ type: docx
 token: AtLEdt0ZWoUbHoxkfvHcq1ZunUg
 sidebar_position: 6
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - DataType
   - nodejs26
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

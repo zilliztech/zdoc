@@ -12,19 +12,19 @@ type: docx
 token: HSIDdxQGEoPdyaxkMDjcAWGQnpd
 sidebar_position: 17
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - listGrant()
   - nodejs26
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

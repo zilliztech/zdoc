@@ -12,19 +12,19 @@ type: docx
 token: RcvXdmCVBog9M8xNyUFcwefnneh
 sidebar_position: 3
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - LocalBulkWriter
   - pymilvus26
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

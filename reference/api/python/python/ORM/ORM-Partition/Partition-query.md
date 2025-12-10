@@ -12,19 +12,19 @@ type: docx
 token: N97pdfkjlo9j61xrtL2cbB79nKe
 sidebar_position: 8
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - pymilvus26
-  - Image Search
-  - LLMs
   - Machine Learning
   - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

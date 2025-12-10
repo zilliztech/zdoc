@@ -12,19 +12,19 @@ type: docx
 token: YCzNdg5yWoeZVrxj7jGcb1UXnBd
 sidebar_position: 7
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud
   - describeAlias()
   - nodejs26
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

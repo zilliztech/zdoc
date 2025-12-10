@@ -12,19 +12,19 @@ type: docx
 token: RQH5dhSenoDGjYxyBb2c3n1rnie
 sidebar_position: 2
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionFieldProperties()
   - nodejs26
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

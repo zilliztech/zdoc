@@ -12,19 +12,19 @@ type: docx
 token: ItZPd1o4uoodqtx1sxIcq38hn7e
 sidebar_position: 9
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
   - nodejs26
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

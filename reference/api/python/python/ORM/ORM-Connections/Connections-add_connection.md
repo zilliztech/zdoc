@@ -12,19 +12,19 @@ type: docx
 token: C37ldNLbFog6ThxA23ScMldnnmb
 sidebar_position: 1
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - add_connection()
   - pymilvus26
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

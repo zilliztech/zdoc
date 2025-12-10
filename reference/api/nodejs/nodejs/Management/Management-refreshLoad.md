@@ -12,19 +12,19 @@ type: docx
 token: Jc43d397doxCRkxal2XcQ1Wyn2g
 sidebar_position: 19
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - refreshLoad()
   - nodejs26
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

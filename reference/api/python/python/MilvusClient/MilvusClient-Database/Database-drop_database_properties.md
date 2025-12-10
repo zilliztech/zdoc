@@ -12,19 +12,19 @@ type: docx
 token: UPVjdLtz1ogFeKxP45wcqyKincc
 sidebar_position: 5
 keywords: 
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - drop_database_properties()
   - pymilvus26
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: XDXid6aZ8oCHnVxxFpPcKAB9n0c
 sidebar_position: 3
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - getPartitionStatistics()
   - nodejs26
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

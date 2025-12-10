@@ -12,19 +12,19 @@ type: docx
 token: OF1mdh4tSo8ZQQxxVgEcdITRndb
 sidebar_position: 3
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - MGTEEmbeddingFunction
   - pymilvus26
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

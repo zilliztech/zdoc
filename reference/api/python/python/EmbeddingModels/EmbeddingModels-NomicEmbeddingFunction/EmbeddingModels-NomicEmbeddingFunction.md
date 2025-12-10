@@ -12,19 +12,19 @@ type: docx
 token: OOQvdXDqdoqKfmxEkTecfuVMnsb
 sidebar_position: 3
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - NomicEmbeddingFunction
   - pymilvus26
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

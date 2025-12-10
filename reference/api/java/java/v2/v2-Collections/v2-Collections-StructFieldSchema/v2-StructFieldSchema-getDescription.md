@@ -12,19 +12,19 @@ type: docx
 token: QbfPdyw7EoXpGwxSkGgcytBBnAb
 sidebar_position: 2
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - getDescription()
   - javaV226
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: UdeRd0YVhoDBeVxrQaBcoikVnAI
 sidebar_position: 3
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - SpladeEmbeddingFunction
   - pymilvus26
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

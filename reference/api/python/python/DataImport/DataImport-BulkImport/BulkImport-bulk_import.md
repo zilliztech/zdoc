@@ -12,19 +12,19 @@ type: docx
 token: RFSCdiUYGouQrtx8c1RczPVvnmf
 sidebar_position: 1
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - bulk_import()
   - pymilvus26
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

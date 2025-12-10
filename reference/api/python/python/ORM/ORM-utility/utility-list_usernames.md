@@ -12,19 +12,19 @@ type: docx
 token: RXi3dgtNYogU0cxmTsgcdT72nsc
 sidebar_position: 29
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - list_usernames()
   - pymilvus26
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: BapSdVXjQoQXnbxnRYScCagAn1f
 sidebar_position: 5
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - grant()
   - pymilvus26
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

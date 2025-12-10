@@ -12,19 +12,19 @@ type: docx
 token: U7NJd5eKAo0c1TxYZndcgPj2nlc
 sidebar_position: 3
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - JinaEmbeddingFunction
   - pymilvus26
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: CB9edh2ySoJyWhxBoLcchPj9nxg
 sidebar_position: 14
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - get_query_segment_info()
   - pymilvus26
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: SAAmdJbZxoYTlNxKrX7cDLvAnFy
 sidebar_position: 13
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollection()
   - javaV226
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

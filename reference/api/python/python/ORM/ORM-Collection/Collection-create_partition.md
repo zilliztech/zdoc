@@ -12,19 +12,19 @@ type: docx
 token: Sh7HdgJOIoJipXx5AoNcicjMnyd
 sidebar_position: 5
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - create_partition()
   - pymilvus26
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

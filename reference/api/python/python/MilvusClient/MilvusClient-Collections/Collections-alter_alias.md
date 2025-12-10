@@ -12,19 +12,19 @@ type: docx
 token: CBc3d1mrdoYqmDxe4Kcc9zxAnzh
 sidebar_position: 1
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - alter_alias()
   - pymilvus26
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

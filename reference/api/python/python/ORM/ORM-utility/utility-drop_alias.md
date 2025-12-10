@@ -21,10 +21,10 @@ keywords:
   - cloud
   - drop_alias()
   - pymilvus26
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

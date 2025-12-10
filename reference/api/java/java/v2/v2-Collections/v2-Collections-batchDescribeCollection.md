@@ -12,19 +12,19 @@ type: docx
 token: SRI6dEn82oNe4Uxro8hcyFV3n1d
 sidebar_position: 30
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - batchDescribeCollection()
   - javaV226
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

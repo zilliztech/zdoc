@@ -12,19 +12,19 @@ type: docx
 token: V9YUdnfxDoc5Gmx80Wec9P6Sn2d
 sidebar_position: 7
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - WeightedRanker
   - javaV226
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

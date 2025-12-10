@@ -12,19 +12,19 @@ type: docx
 token: EiTMdIbTgoc9vVxDHUQc1zPpnch
 sidebar_position: 11
 keywords: 
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - grant_privilege_v2()
   - pymilvus26
+  - Recommender systems
   - information retrieval
   - dimension reduction
   - hnsw algorithm
-  - vector similarity search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

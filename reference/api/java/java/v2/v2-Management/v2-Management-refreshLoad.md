@@ -12,19 +12,19 @@ type: docx
 token: CAmHdisseogwBkx8XWUcM6aHnfe
 sidebar_position: 15
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - refreshLoad()
   - javaV226
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

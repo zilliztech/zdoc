@@ -12,19 +12,19 @@ type: docx
 token: WeXmdv8bioJ7AEx9sEtct6kgnUd
 sidebar_position: 16
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - FieldSchema
   - javaV226
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

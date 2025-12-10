@@ -12,19 +12,19 @@ type: docx
 token: NDcldy9OLo62DLxw1a9cFSLsnYb
 sidebar_position: 6
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - useDatabase()
   - nodejs26
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

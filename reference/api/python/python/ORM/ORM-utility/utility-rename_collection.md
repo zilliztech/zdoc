@@ -12,19 +12,19 @@ type: docx
 token: M0qRdF1cLokrxvxyrXScJ64FnEe
 sidebar_position: 37
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - rename_collection()
   - pymilvus26
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

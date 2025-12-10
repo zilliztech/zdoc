@@ -12,19 +12,19 @@ type: docx
 token: OTMXd9uNWoMwe4xvg70cg49Pnmh
 sidebar_position: 4
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - createUser()
   - javaV226
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: BDP4dew9to9tQoxNEMPcBR5xnZb
 sidebar_position: 4
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - RemoteBulkWriter
   - pymilvus26
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

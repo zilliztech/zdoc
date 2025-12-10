@@ -12,19 +12,19 @@ type: docx
 token: DCszdG9rCoZxhfxfAuOcNsXRnOc
 sidebar_position: 7
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - StructFieldSchema
   - javaV226
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

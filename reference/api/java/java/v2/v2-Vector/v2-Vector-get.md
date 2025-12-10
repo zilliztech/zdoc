@@ -12,19 +12,19 @@ type: docx
 token: DDshdoIEoo7X1BxpciBc66Rlndd
 sidebar_position: 2
 keywords: 
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - get()
   - javaV226
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: NIm8dRx2Aozt4Qxv1Q6cAm3Fn97
 sidebar_position: 1
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - BulkImport
   - javaV226
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

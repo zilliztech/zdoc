@@ -12,19 +12,19 @@ type: docx
 token: Arn1dIKgwoISFoxT7xVc3UrBnAf
 sidebar_position: 2
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - BulkInsertState
   - pymilvus26
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

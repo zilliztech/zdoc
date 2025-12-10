@@ -12,19 +12,19 @@ type: docx
 token: PlzSdJTGnoFVH6xSlS6cYBHZnph
 sidebar_position: 4
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus26
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

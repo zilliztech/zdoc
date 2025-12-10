@@ -12,19 +12,19 @@ type: docx
 token: FuSTdeSCdojDu0xSBEmcYgv9n4g
 sidebar_position: 6
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - RRFRanker
   - javaV226
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

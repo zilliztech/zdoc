@@ -12,19 +12,19 @@ type: docx
 token: SVbSdttVjoTGJrxdLiIcr9VLnPg
 sidebar_position: 11
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - IndexType
   - javaV226
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

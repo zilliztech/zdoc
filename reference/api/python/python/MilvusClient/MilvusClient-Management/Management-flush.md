@@ -12,19 +12,19 @@ type: docx
 token: JnPrdOiPyo2e5gxzzFycbnvwnSd
 sidebar_position: 6
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - pymilvus26
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

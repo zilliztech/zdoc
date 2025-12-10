@@ -12,19 +12,19 @@ type: docx
 token: GQH8dgqlPoRY1sxFhCRcLlgInNc
 sidebar_position: 20
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - updatePassword()
   - javaV226
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

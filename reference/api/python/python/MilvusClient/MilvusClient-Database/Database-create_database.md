@@ -12,19 +12,19 @@ type: docx
 token: S278drWUVoRZ5fx8XkfcWaZfnwh
 sidebar_position: 2
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - create_database()
   - pymilvus26
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: PPLtdSbtfomgF1x5MHncKPgPnSf
 sidebar_position: 1
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - createPartition()
   - nodejs26
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

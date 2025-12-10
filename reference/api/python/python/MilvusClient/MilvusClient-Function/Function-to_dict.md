@@ -12,19 +12,19 @@ type: docx
 token: AmwJdW0z6opMPcxhMlBcYPIWn2M
 sidebar_position: 4
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - to_dict()
   - pymilvus26
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

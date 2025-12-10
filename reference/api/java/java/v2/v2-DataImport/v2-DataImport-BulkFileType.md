@@ -12,19 +12,19 @@ type: docx
 token: FGZadH85KoLEhRxkbLxcc1zbn4c
 sidebar_position: 1
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - BulkFileType
   - javaV226
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

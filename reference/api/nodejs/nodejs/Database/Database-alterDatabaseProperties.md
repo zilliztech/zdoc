@@ -21,10 +21,10 @@ keywords:
   - cloud
   - alterDatabaseProperties()
   - nodejs26
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

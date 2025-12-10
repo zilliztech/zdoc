@@ -12,19 +12,19 @@ type: docx
 token: IqQudFVIKot4mVxWD4xclJymn8g
 sidebar_position: 2
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - createDatabase()
   - javaV226
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

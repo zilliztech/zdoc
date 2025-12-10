@@ -12,19 +12,19 @@ type: docx
 token: M6mrdinAjo8CwrxirOQcR6E1nUc
 sidebar_position: 3
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - clear()
   - pymilvus26
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

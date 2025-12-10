@@ -12,19 +12,19 @@ type: docx
 token: XYNMdg3Vpo3SE7xTRVqcJNvrn0d
 sidebar_position: 32
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - load_balance()
   - pymilvus26
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

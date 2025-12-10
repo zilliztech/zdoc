@@ -12,10 +12,10 @@ token: W9SBfQfXUlZAXDdK6nTcop4rnFd
 sidebar_position: 1
 sidebar_label: "Authentication"
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud

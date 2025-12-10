@@ -12,19 +12,19 @@ type: docx
 token: J76vdPHNgoyp2wxAiTcceIVJnOe
 sidebar_position: 4
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - create_index()
   - pymilvus26
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

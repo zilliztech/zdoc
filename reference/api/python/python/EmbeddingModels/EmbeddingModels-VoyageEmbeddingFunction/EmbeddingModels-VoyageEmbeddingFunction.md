@@ -12,19 +12,19 @@ type: docx
 token: HEyLd2lxzo3bl4xqVBOco8vWn1c
 sidebar_position: 3
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
   - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - VoyageEmbeddingFunction
   - pymilvus26
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

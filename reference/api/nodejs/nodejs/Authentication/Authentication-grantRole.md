@@ -12,19 +12,19 @@ type: docx
 token: LPJsdEnvwo6apcxjhZgc3rpDnuc
 sidebar_position: 16
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - grantRole()
   - nodejs26
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

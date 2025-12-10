@@ -12,19 +12,19 @@ type: docx
 token: CJ9DdmU1ooquOnxcK5AciA3sn3g
 sidebar_position: 18
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - listGrants()
   - nodejs26
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

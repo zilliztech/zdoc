@@ -12,19 +12,19 @@ type: docx
 token: ZqmudJWyFonUKGxAxXncYrLZn2e
 sidebar_position: 9
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
   - list_indexes()
   - pymilvus26
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

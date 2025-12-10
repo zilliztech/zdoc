@@ -12,19 +12,19 @@ type: docx
 token: LoNvdRK80oWllFxV0H6co0HrnBe
 sidebar_position: 17
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollection()
   - nodejs26
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

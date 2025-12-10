@@ -12,19 +12,19 @@ type: docx
 token: PUOBd229uoQGUIxnHLWcMSidnQh
 sidebar_position: 1
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - add()
   - javaV226
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

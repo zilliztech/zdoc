@@ -12,19 +12,19 @@ type: docx
 token: Smobd2lIho2yQPxtRhLcLcKznCf
 sidebar_position: 1
 keywords: 
-  - Sparse vs Dense
   - Dense vector
   - Hierarchical Navigable Small Worlds
   - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - VoyageRerankFunction
   - pymilvus26
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

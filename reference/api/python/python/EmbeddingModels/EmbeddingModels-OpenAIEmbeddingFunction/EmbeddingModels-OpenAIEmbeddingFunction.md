@@ -12,19 +12,19 @@ type: docx
 token: QPcodlsnAoSMvIxEFmlcMNPbntd
 sidebar_position: 3
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - OpenAIEmbeddingFunction
   - pymilvus26
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

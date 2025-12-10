@@ -12,19 +12,19 @@ type: docx
 token: LJqud2x3AojxV4xKONocTe4YnFb
 sidebar_position: 4
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus26
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

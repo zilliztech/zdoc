@@ -12,19 +12,19 @@ type: docx
 token: Nu0Id3wzGoJIFyxkC7IcmjAznNf
 sidebar_position: 3
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
   - nodejs26
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

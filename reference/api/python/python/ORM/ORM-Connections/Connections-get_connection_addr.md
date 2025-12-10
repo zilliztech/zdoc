@@ -12,19 +12,19 @@ type: docx
 token: H2zBdRHVtovNQGxvb0xcwpSKnBd
 sidebar_position: 5
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - get_connection_addr()
   - pymilvus26
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

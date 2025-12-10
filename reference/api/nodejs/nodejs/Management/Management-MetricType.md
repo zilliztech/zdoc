@@ -12,19 +12,19 @@ type: docx
 token: KQDEdcccXozuKpxDg78cSmxYnQg
 sidebar_position: 21
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - MetricType
   - nodejs26
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: VFKIdx0tDoeAzSx4Ud6c3u5Snsf
 sidebar_position: 29
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - wait_for_compaction_completed()
   - pymilvus26
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

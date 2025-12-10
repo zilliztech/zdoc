@@ -12,19 +12,19 @@ type: docx
 token: Vq2VdsWJaoufsGx5stJcTuyPnDb
 sidebar_position: 17
 keywords: 
-  - Knowledge base
   - natural language processing
   - AI chatbots
   - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - FunctionType
   - nodejs26
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

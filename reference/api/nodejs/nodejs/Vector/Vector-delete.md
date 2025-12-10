@@ -12,19 +12,19 @@ type: docx
 token: KOZHdyeQvo4htOxhO8BcbEudnNd
 sidebar_position: 2
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - nodejs26
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

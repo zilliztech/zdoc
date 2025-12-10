@@ -12,19 +12,19 @@ type: docx
 token: CWZGd48FJoFHXYx40NMcTd2FnKc
 sidebar_position: 1
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - close()
   - pymilvus26
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

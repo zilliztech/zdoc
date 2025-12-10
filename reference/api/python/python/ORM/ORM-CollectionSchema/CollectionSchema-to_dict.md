@@ -12,19 +12,19 @@ type: docx
 token: GfTadfqhAo64XDxc643ci4Zwnwb
 sidebar_position: 4
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - to_dict()
   - pymilvus26
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

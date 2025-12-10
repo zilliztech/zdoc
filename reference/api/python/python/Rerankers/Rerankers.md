@@ -12,10 +12,10 @@ token: Ph7xfldrplFoihdiSAkciCuenyh
 sidebar_position: 5
 sidebar_label: "Rerankers"
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - zilliz
   - zilliz cloud
   - cloud

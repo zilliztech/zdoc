@@ -12,19 +12,19 @@ type: docx
 token: MOPzdeyjzoO8DlxAlL0clX00nBc
 sidebar_position: 1
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus26
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

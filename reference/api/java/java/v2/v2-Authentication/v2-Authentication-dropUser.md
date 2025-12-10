@@ -12,19 +12,19 @@ type: docx
 token: RFv2dtZ1qoP9XQxJEGqcgLGUnhc
 sidebar_position: 9
 keywords: 
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - dropUser()
   - javaV226
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

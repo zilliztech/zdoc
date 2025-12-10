@@ -12,19 +12,19 @@ type: docx
 token: QsOsda2lRoJP32xNSLWcbgMOnKI
 sidebar_position: 16
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - has_partition()
   - pymilvus26
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

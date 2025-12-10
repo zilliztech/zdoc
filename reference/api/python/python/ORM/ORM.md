@@ -12,10 +12,10 @@ token: QYo4fSeVFlex8ZdeGZ4cAlmcnof
 sidebar_position: 4
 sidebar_label: "ORM"
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud

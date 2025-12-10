@@ -12,19 +12,19 @@ type: docx
 token: SZNQds74zoKniRxtJwdcfdz1nCh
 sidebar_position: 5
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
   - nodejs26
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

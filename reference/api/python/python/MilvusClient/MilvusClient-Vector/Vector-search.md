@@ -12,19 +12,19 @@ type: docx
 token: N6afdOON2o3U0YxMAt7cMiBqnXg
 sidebar_position: 6
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - pymilvus26
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

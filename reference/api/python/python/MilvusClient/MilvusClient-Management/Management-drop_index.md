@@ -12,19 +12,19 @@ type: docx
 token: NPnQdZCJ7oF002xTntecdI2ini8
 sidebar_position: 5
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - drop_index()
   - pymilvus26
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

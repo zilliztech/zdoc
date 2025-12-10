@@ -12,19 +12,19 @@ type: docx
 token: P0XRd2Mgfo1uG6xk47icWRd4n6b
 sidebar_position: 4
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
   - javaV226
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

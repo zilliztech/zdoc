@@ -12,19 +12,19 @@ type: docx
 token: VccVd4MTgoPzCixDVtgcEoKWnPf
 sidebar_position: 3
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - commit()
   - pymilvus26
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

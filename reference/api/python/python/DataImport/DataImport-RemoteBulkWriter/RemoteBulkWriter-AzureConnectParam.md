@@ -12,19 +12,19 @@ type: docx
 token: C2YSddNqZoDNmNxWqqEcuzhKn4f
 sidebar_position: 2
 keywords: 
-  - NLP
-  - Neural Network
   - Deep Learning
   - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - AzureConnectParam
   - pymilvus26
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: CCOhd671iog6rRxu8aOcaPncnLK
 sidebar_position: 4
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - get_users()
   - pymilvus26
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

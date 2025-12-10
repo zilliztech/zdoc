@@ -12,19 +12,19 @@ type: docx
 token: Rz5rdpGzGoNlByxy8cVcbUy9nhd
 sidebar_position: 7
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - javaV226
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

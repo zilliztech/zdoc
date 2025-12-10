@@ -12,19 +12,19 @@ type: docx
 token: PePIdiq9po6cplxAoF6ca5C2ntb
 sidebar_position: 4
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
   - nodejs26
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

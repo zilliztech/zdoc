@@ -12,19 +12,19 @@ type: docx
 token: HTx1dgoAloCELUxWLGxc0GPlno6
 sidebar_position: 2
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus26
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

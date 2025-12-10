@@ -12,19 +12,19 @@ type: docx
 token: YLQJdvVA8odibAx7mQscYwMVn8g
 sidebar_position: 6
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - describeUser()
   - javaV226
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

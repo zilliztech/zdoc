@@ -12,19 +12,19 @@ type: docx
 token: FZN8dtlIRoMSGBxF7b1cWX48n0b
 sidebar_position: 18
 keywords: 
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - revokePrivilegeV2()
   - javaV226
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

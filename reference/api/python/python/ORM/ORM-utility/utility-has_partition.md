@@ -12,19 +12,19 @@ type: docx
 token: KsmadNcXRoElO2xJi5HcJO57nwb
 sidebar_position: 18
 keywords: 
-  - nlp search
   - hallucinations llm
   - Multimodal search
   - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - has_partition()
   - pymilvus26
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: FubcdxJ0LoyQiJxmUMjcZnbjnbc
 sidebar_position: 9
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - dropAlias()
   - nodejs26
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

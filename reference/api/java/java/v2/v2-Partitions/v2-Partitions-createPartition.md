@@ -12,19 +12,19 @@ type: docx
 token: WE4gduIjooCgQUxcKyLcwQe1n3g
 sidebar_position: 1
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - createPartition()
   - javaV226
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

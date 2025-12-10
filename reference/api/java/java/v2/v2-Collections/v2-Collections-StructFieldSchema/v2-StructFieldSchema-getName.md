@@ -12,19 +12,19 @@ type: docx
 token: DZcddGCD3oh29txhnB5cuxzzn4d
 sidebar_position: 6
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - getName()
   - javaV226
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: HrnndnWtKoPuenxvsXBchF1wnnh
 sidebar_position: 26
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - search_iterator()
   - pymilvus26
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: DAIfdXKk5oCHeNxOUvCc1KcpnNh
 sidebar_position: 24
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
   - CreateSchema()
   - javaV226
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

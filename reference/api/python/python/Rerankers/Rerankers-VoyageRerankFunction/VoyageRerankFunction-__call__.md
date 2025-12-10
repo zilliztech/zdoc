@@ -12,19 +12,19 @@ type: docx
 token: N2aHdla1Uohk1HxGyPHcdG4lnnb
 sidebar_position: 2
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus26
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: MJjHd3uGcoxEYBx0laKcAIKNnhg
 sidebar_position: 3
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - describeDatabase()
   - javaV226
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

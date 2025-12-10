@@ -12,19 +12,19 @@ type: docx
 token: WiT4dJ1SJod0fdx4z23cwFbAn7c
 sidebar_position: 3
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud
   - Model2VecEmbeddingFunction
   - pymilvus26
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

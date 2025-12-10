@@ -12,19 +12,19 @@ type: docx
 token: CRFLdvgkhoeRikxMcMAcJk3qnIc
 sidebar_position: 9
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - getCompactionState()
   - nodejs26
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

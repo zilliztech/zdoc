@@ -12,19 +12,19 @@ type: docx
 token: X5qsdhFQ5oOhkcxOprzcOZq4nMc
 sidebar_position: 4
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - create_resource_group()
   - pymilvus26
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

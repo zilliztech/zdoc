@@ -12,19 +12,19 @@ type: docx
 token: Kp9Dd2dIgoxyDixuqtqctPZXnFb
 sidebar_position: 5
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
   - nodejs26
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

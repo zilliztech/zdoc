@@ -12,19 +12,19 @@ type: docx
 token: N1fldMqhtoWBJPxh8VccivqxnZd
 sidebar_position: 16
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - listIndexes()
   - nodejs26
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: Dxgqdvlk5o2VScxqmL1ctc1Inqb
 sidebar_position: 5
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - list_partitions()
   - pymilvus26
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

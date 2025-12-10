@@ -12,19 +12,19 @@ type: docx
 token: AnkUdEHXmob3Vwx9GIWcDOQanng
 sidebar_position: 13
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - dropRole()
   - nodejs26
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

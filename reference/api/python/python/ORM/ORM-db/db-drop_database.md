@@ -12,19 +12,19 @@ type: docx
 token: Y7pOdKR4MoqmvVxcS1TcjqUynMc
 sidebar_position: 2
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - drop_database()
   - pymilvus26
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

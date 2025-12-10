@@ -12,19 +12,19 @@ type: docx
 token: X3NXdtC2koiAxyxhcUBcv38Wnsh
 sidebar_position: 12
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - refresh_load()
   - pymilvus26
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

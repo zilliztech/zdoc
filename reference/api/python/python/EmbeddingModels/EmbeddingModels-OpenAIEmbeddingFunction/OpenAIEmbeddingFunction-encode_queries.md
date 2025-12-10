@@ -12,19 +12,19 @@ type: docx
 token: Sf9UdzL3rolQNAxDm8Ecga3snhg
 sidebar_position: 2
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus26
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

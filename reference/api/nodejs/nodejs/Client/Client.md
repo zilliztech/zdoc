@@ -12,10 +12,10 @@ token: ABk9fhVMTlQb0MdGuOrck8a8n7f
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud

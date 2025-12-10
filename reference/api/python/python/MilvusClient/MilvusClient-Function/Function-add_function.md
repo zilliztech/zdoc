@@ -12,19 +12,19 @@ type: docx
 token: XhcVd1JXvoAgUfxSEpQcL2H6nVg
 sidebar_position: 1
 keywords: 
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - add_function()
   - pymilvus26
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

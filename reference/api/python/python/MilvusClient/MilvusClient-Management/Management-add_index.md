@@ -12,19 +12,19 @@ type: docx
 token: SM7ld0ZsEoYLqaxVMZxcSH82n9f
 sidebar_position: 1
 keywords: 
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - add_index()
   - pymilvus26
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

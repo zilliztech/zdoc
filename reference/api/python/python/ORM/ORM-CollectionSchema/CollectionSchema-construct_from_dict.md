@@ -12,19 +12,19 @@ type: docx
 token: DYuUdc503o1TANxuGozcXhCmnRN
 sidebar_position: 3
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dict()
   - pymilvus26
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

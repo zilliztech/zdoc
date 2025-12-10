@@ -12,19 +12,19 @@ type: docx
 token: Ld10d5YWJofvgGxtwYscGlWunDg
 sidebar_position: 3
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dict()
   - pymilvus26
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: EZwsd887JojFjLxbMByckhW0nxg
 sidebar_position: 7
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - describe()
   - pymilvus26
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

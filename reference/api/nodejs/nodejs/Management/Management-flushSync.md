@@ -12,19 +12,19 @@ type: docx
 token: QsTwdUbgyoZPV1xzCBxchX8Fnid
 sidebar_position: 8
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - flushSync()
   - nodejs26
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

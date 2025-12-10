@@ -12,19 +12,19 @@ type: docx
 token: FZuddXocNopEufxRFGdcbvkRnnb
 sidebar_position: 6
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
   - list_databases()
   - pymilvus26
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

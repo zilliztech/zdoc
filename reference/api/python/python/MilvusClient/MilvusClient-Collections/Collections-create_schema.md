@@ -12,19 +12,19 @@ type: docx
 token: RxU7dBjGlop0e1xZShYcZ4qCnnh
 sidebar_position: 6
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
   - zilliz
   - zilliz cloud
   - cloud
   - create_schema()
   - pymilvus26
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

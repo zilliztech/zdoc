@@ -12,19 +12,19 @@ type: docx
 token: EjnFdC5EfoIkoExSBOxcEC2hnbg
 sidebar_position: 3
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - getImportProgress()
   - javaV226
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

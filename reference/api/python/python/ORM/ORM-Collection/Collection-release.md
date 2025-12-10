@@ -12,19 +12,19 @@ type: docx
 token: CBwkdDs7MoKkVKx0kJgcPUNxn6s
 sidebar_position: 24
 keywords: 
-  - Retrieval Augmented Generation
   - Large language model
   - Vectorization
   - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - release()
   - pymilvus26
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

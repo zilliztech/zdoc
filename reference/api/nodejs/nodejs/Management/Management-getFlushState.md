@@ -12,19 +12,19 @@ type: docx
 token: X8qWdMHg5oQQK6xZdBYcGNOnn3c
 sidebar_position: 10
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - getFlushState()
   - nodejs26
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

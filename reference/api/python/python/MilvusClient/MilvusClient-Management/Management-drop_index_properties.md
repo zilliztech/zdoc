@@ -12,19 +12,19 @@ type: docx
 token: M2kXd5zWSoMIOnxXWamcgCkznih
 sidebar_position: 15
 keywords: 
+  - Deep Learning
   - Knowledge base
   - natural language processing
   - AI chatbots
-  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - drop_index_properties()
   - pymilvus26
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

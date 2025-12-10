@@ -12,19 +12,19 @@ type: docx
 token: P66Mdx2aaooL9px9CnQcS2eTnng
 sidebar_position: 6
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - nodejs26
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

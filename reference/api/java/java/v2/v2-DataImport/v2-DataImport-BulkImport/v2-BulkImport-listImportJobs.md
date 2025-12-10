@@ -12,10 +12,10 @@ type: docx
 token: CN9sdiCicoERZpx9GhmcLa4Wn7g
 sidebar_position: 4
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud

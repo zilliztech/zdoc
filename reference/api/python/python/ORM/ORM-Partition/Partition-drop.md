@@ -12,19 +12,19 @@ type: docx
 token: D3sndK8DgoqDkUxaNGcctwcSnuE
 sidebar_position: 2
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - drop()
   - pymilvus26
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

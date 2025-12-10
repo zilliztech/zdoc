@@ -12,19 +12,19 @@ type: docx
 token: OtrZdy7OtoC9N9xb8TjcCtM7nfc
 sidebar_position: 2
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionField()
   - javaV226
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: F8lCdDCa3oD48WxWyURcmfoznYt
 sidebar_position: 12
 keywords: 
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
   - javaV226
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

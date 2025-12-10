@@ -12,19 +12,19 @@ type: docx
 token: LxwIdeFiGoYaRAxKS72cdjNkneh
 sidebar_position: 12
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - listIndexes()
   - javaV226
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

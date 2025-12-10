@@ -12,19 +12,19 @@ type: docx
 token: QHcpd1aJzo5aYbxJtMXc58een4f
 sidebar_position: 39
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - transfer_node()
   - pymilvus26
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

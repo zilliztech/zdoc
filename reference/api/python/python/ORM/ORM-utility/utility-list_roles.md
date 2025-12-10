@@ -12,19 +12,19 @@ type: docx
 token: ClLXdDs64oixJBxlIrCcEB2dngb
 sidebar_position: 27
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - list_roles()
   - pymilvus26
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

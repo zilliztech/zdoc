@@ -12,19 +12,19 @@ type: docx
 token: HGpSdc7AOo7AV3xKCmOcWaIEnrd
 sidebar_position: 19
 keywords: 
+  - Question answering system
+  - llm-as-a-judge
   - hybrid vector search
   - Video deduplication
-  - Video similarity search
-  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - listPrivilegeGroups()
   - nodejs26
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

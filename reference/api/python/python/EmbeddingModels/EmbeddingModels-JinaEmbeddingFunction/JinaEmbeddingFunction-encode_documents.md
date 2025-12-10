@@ -12,19 +12,19 @@ type: docx
 token: ZMs1dJJOGobyBjxRo7icXtE8nPe
 sidebar_position: 1
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus26
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

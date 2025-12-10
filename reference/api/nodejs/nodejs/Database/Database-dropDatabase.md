@@ -12,19 +12,19 @@ type: docx
 token: Ja99dnnaOoncwbx2zIPc4PjunXx
 sidebar_position: 3
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabase()
   - nodejs26
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

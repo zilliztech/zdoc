@@ -12,19 +12,19 @@ type: docx
 token: EVKhdy0vwoSLSux2RW2c660unjh
 sidebar_position: 2
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - FieldSchema
   - pymilvus26
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

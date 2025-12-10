@@ -12,19 +12,19 @@ type: docx
 token: FXTZd5FgNo9ta0xvjaIclEM1nPf
 sidebar_position: 26
 keywords: 
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - list_resource_groups()
   - pymilvus26
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

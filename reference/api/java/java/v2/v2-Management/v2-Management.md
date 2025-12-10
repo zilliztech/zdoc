@@ -12,10 +12,10 @@ token: ALDZfPYy3lNm8ZdotPecBX7rnNd
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud

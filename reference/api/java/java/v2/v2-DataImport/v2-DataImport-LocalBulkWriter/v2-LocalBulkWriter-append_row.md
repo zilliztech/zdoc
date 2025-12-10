@@ -12,19 +12,19 @@ type: docx
 token: HofVdjV0koj42QxX0iHcQb05nab
 sidebar_position: 1
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - append_row()
   - javaV226
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

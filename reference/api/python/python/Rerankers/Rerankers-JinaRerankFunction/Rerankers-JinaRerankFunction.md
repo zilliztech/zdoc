@@ -12,19 +12,19 @@ type: docx
 token: E3opdXwZCoY8igxMjQ1cwsTbnzh
 sidebar_position: 1
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - zilliz
   - zilliz cloud
   - cloud
   - JinaRerankFunction
   - pymilvus26
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

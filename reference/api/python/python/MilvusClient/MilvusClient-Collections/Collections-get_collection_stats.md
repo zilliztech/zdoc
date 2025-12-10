@@ -12,19 +12,19 @@ type: docx
 token: VVyNdx038oECxNxMQavc9vssnoh
 sidebar_position: 13
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - get_collection_stats()
   - pymilvus26
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

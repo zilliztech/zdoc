@@ -12,19 +12,19 @@ type: docx
 token: ZdKEd2ua6o9AHHxKq25ctNSdncb
 sidebar_position: 36
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_unixtime()
   - pymilvus26
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

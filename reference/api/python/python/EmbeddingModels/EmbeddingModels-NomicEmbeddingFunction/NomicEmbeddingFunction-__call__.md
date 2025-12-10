@@ -12,19 +12,19 @@ type: docx
 token: Dsl1dDLBeoGixjxt2lpcFP5ynSA
 sidebar_position: 4
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus26
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

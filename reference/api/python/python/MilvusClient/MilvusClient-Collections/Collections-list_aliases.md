@@ -12,19 +12,19 @@ type: docx
 token: Cpynd2OFJoIXhLx3dQNct7Wgn6f
 sidebar_position: 16
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - list_aliases()
   - pymilvus26
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

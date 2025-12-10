@@ -12,10 +12,10 @@ token: LkxXfcSA7lKXqEdu8mpcHI8Fnqd
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud

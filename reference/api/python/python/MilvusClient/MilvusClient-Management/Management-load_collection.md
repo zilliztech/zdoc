@@ -12,19 +12,19 @@ type: docx
 token: YtiQdxTYzoCaYDxEMZcc8TEenQb
 sidebar_position: 10
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - load_collection()
   - pymilvus26
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

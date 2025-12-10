@@ -12,19 +12,19 @@ type: docx
 token: DkFxdDBvaoUPQRxzudxcDtTXnue
 sidebar_position: 7
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
   - javaV226
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

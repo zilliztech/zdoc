@@ -12,19 +12,19 @@ type: docx
 token: EofGdftYjoQ9E6x8mxLcpbG1nhc
 sidebar_position: 11
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - drop_resource_group()
   - pymilvus26
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

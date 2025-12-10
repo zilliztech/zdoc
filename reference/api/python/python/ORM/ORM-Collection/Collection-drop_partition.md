@@ -12,19 +12,19 @@ type: docx
 token: Aym2dpBuIo81mExCqyLcSWhunBe
 sidebar_position: 10
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - zilliz
   - zilliz cloud
   - cloud
   - drop_partition()
   - pymilvus26
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

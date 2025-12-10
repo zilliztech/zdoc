@@ -12,19 +12,19 @@ type: docx
 token: QXDxdv36FoVgjcxDV1gcDwWXnsd
 sidebar_position: 5
 keywords: 
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - insert()
   - pymilvus26
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

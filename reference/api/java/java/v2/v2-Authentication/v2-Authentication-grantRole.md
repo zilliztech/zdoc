@@ -21,10 +21,10 @@ keywords:
   - cloud
   - grantRole()
   - javaV226
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

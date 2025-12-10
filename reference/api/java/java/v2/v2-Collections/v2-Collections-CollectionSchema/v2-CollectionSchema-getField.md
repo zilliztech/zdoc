@@ -12,19 +12,19 @@ type: docx
 token: AXWod56QkoprlXxOXkwcPXfonHg
 sidebar_position: 3
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - getField()
   - javaV226
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

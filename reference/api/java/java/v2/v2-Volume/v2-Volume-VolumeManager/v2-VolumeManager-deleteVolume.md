@@ -12,19 +12,19 @@ type: docx
 token: OalndLUMRoUqpMxr2QscYTCenre
 sidebar_position: 2
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - deleteVolume()
   - javaV226
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

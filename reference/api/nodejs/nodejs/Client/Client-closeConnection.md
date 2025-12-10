@@ -12,19 +12,19 @@ type: docx
 token: HtOGdjTpOoG0RcxpGv1cCBcEnAh
 sidebar_position: 3
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - closeConnection()
   - nodejs26
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

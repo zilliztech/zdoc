@@ -12,19 +12,19 @@ type: docx
 token: DhZRdYbfMoYIBtxrudGcwWjrngd
 sidebar_position: 3
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
   - zilliz
   - zilliz cloud
   - cloud
   - GeminiEmbeddingFunction
   - pymilvus26
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

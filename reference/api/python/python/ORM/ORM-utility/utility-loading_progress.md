@@ -12,19 +12,19 @@ type: docx
 token: HQiHd82orov0XvxAzLWcl5xRnzc
 sidebar_position: 31
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - loading_progress()
   - pymilvus26
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

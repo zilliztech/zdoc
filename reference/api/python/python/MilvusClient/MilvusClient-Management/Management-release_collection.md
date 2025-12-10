@@ -12,19 +12,19 @@ type: docx
 token: PRR7dRfi8o1s61xFRovccAdRnHe
 sidebar_position: 13
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - release_collection()
   - pymilvus26
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

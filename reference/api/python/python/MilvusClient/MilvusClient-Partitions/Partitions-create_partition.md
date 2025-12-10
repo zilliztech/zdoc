@@ -12,19 +12,19 @@ type: docx
 token: I6hvdlYUuoUaw3xWqSnce4Fin9g
 sidebar_position: 1
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - create_partition()
   - pymilvus26
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

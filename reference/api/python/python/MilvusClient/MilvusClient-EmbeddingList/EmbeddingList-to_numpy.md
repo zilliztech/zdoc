@@ -12,19 +12,19 @@ type: docx
 token: XQAQd2tPKon4JgxKEoAc0CCHnUg
 sidebar_position: 6
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - to_numpy()
   - pymilvus26
-  - Zilliz vector database
-  - Zilliz database
   - Unstructured Data
   - vector database
+  - IVF
+  - knn
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

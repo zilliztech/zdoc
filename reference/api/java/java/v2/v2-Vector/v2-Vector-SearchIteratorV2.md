@@ -12,19 +12,19 @@ type: docx
 token: JxXHdFBRhoDT8MxlTvEc42IsnEh
 sidebar_position: 11
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - SearchIteratorV2()
   - javaV226
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

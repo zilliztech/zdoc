@@ -12,10 +12,10 @@ token: XkwkfO0XUlwfQzd6cficDg8enoh
 sidebar_position: 8
 sidebar_label: "Vector"
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud

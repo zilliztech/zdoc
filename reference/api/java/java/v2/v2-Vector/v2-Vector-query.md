@@ -12,19 +12,19 @@ type: docx
 token: DI5tdxM92oBdXHxk0LFcsBSInVe
 sidebar_position: 5
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - javaV226
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: DWLXdSCYnoPT4ExktRKceEqLnAd
 sidebar_position: 1
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - pymilvus26
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

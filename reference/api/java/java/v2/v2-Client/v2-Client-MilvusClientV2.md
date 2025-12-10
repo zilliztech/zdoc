@@ -12,19 +12,19 @@ type: docx
 token: IeOWd0yR2onm5Ex6XyqcrGjKnpS
 sidebar_position: 1
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClientV2
   - javaV226
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

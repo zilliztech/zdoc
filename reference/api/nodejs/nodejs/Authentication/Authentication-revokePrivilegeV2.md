@@ -12,19 +12,19 @@ type: docx
 token: UlAUdLNkCo1Mp8xFZYWclSL9n6b
 sidebar_position: 26
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - revokePrivilegeV2()
   - nodejs26
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

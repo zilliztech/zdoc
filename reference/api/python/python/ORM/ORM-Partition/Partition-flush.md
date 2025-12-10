@@ -12,19 +12,19 @@ type: docx
 token: VRGwdg75Ao7ZXQx7uANc9wzXnVb
 sidebar_position: 3
 keywords: 
-  - llm-as-a-judge
   - hybrid vector search
   - Video deduplication
   - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - pymilvus26
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

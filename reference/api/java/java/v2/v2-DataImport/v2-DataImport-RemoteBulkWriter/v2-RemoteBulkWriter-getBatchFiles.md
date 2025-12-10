@@ -12,19 +12,19 @@ type: docx
 token: YlpQdEUnKoFR3xxizt2cCV8UnZb
 sidebar_position: 4
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - getBatchFiles()
   - javaV226
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
   - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

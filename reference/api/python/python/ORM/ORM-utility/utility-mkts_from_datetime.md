@@ -12,19 +12,19 @@ type: docx
 token: LCQTdebkConhUqxwnk7c3EbPnWh
 sidebar_position: 34
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_datetime()
   - pymilvus26
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
   - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

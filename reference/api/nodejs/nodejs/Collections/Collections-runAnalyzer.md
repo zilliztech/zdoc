@@ -12,19 +12,19 @@ type: docx
 token: LsMldPd8GodoVqxCAZUcWYjdnwh
 sidebar_position: 18
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - runAnalyzer()
   - nodejs26
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

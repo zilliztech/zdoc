@@ -12,19 +12,19 @@ type: docx
 token: IquldHhyGo9s4IxF3cicOXGnnNf
 sidebar_position: 20
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - add_collection_field()
   - pymilvus26
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

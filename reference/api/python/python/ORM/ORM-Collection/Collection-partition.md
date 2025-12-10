@@ -12,19 +12,19 @@ type: docx
 token: SvCrdEJIdosGQYxQZhrc2OAXnpd
 sidebar_position: 21
 keywords: 
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - partition()
   - pymilvus26
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: Efi4dCKhFoYpEZxRfWRcvFEXnBg
 sidebar_position: 1
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - createVolume()
   - javaV226
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

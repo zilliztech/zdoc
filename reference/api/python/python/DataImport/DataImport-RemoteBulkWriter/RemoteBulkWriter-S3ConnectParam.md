@@ -12,19 +12,19 @@ type: docx
 token: CSpOd0XgWoVAhzx5xbVcpCVfnPg
 sidebar_position: 5
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - S3ConnectParam
   - pymilvus26
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

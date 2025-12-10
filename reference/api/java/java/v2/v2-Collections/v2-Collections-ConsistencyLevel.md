@@ -12,19 +12,19 @@ type: docx
 token: Q8IidbqKMopplgxSxaicS2o9nwc
 sidebar_position: 5
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - ConsistencyLevel
   - javaV226
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

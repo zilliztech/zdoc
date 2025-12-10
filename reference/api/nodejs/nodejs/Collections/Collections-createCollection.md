@@ -12,19 +12,19 @@ type: docx
 token: Al8Pdbn4fomlIBxxYi0chTsgnWg
 sidebar_position: 5
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
   - nodejs26
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

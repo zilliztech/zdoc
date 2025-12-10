@@ -12,19 +12,19 @@ type: docx
 token: P0vxdEVBPoTNKLxkKIzcznlYnNc
 sidebar_position: 3
 keywords: 
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - list_import_jobs()
   - pymilvus26
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

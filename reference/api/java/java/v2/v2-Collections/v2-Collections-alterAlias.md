@@ -12,19 +12,19 @@ type: docx
 token: Fv8EdYIt4oThstxgpzqcm7C0nug
 sidebar_position: 1
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - alterAlias()
   - javaV226
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,10 +12,10 @@ token: Hg5PfTIHll3FK4dbYdxcaURHn2n
 sidebar_position: 6
 sidebar_label: "Partitions"
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud

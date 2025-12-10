@@ -12,19 +12,19 @@ type: docx
 token: RaBJd4clVo6KX4xjGJoc3Mz7nhg
 sidebar_position: 18
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - hasCollection()
   - javaV226
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

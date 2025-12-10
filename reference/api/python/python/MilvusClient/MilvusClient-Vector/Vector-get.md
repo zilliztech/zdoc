@@ -12,19 +12,19 @@ type: docx
 token: TEUDde2xbo0JT7xtVvtcF53Nnub
 sidebar_position: 2
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - get()
   - pymilvus26
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

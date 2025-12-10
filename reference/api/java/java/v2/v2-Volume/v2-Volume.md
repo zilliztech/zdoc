@@ -12,10 +12,10 @@ token: O6ngfC8y5lIhIWdEGDAcXHzcntl
 sidebar_position: 10
 sidebar_label: "Volume"
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud

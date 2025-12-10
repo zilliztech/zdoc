@@ -12,19 +12,19 @@ type: docx
 token: R0E9dLzIAoYGCcxRVj6cjJmWnPe
 sidebar_position: 1
 keywords: 
+  - Vector index
   - vector database open source
   - open source vector db
   - vector database example
-  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - add()
   - pymilvus26
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

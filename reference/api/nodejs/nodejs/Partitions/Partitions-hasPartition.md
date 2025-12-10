@@ -12,19 +12,19 @@ type: docx
 token: TVWPdTw2WoPAJYxsbGMc7MX6nEf
 sidebar_position: 4
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - hasPartition()
   - nodejs26
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

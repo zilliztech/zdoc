@@ -12,19 +12,19 @@ type: docx
 token: ISZadjHwyopWr5xRdJ2cqxVanEg
 sidebar_position: 3
 keywords: 
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dataframe()
   - pymilvus26
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

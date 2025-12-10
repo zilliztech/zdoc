@@ -12,19 +12,19 @@ type: docx
 token: GxAZd9O9gozzhExhMHWcMnXPngh
 sidebar_position: 1
 keywords: 
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - BGERerankFunction
   - pymilvus26
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

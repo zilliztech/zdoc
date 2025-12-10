@@ -12,19 +12,19 @@ type: docx
 token: Cl5PdhU5jouHnrxyYXLcOQAZneb
 sidebar_position: 8
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - deleteUser()
   - nodejs26
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: WJY1dMUO5owB1gxkOlLcaB2Rn7g
 sidebar_position: 1
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus26
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

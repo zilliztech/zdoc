@@ -21,10 +21,10 @@ keywords:
   - cloud
   - flush()
   - pymilvus26
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: T9KhdDJQColJEuxZ7YOcV2zdnlb
 sidebar_position: 7
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - search_iterator()
   - pymilvus26
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

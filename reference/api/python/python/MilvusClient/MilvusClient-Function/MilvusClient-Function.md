@@ -12,19 +12,19 @@ type: docx
 token: RrW9dOM8do7d3ixXIP9clJJUnVg
 sidebar_position: 3
 keywords: 
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - Function
   - pymilvus26
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: KLknda2VtocQSBx7PKVc6F9Nnug
 sidebar_position: 10
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollection()
   - nodejs26
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

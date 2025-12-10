@@ -12,19 +12,19 @@ type: docx
 token: UehMdosTGoZVzaxdTcUcpy1ynef
 sidebar_position: 3
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus26
+  - milvus database
   - milvus lite
   - milvus benchmark
   - managed milvus
-  - Serverless vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

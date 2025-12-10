@@ -12,10 +12,10 @@ token: BvYKfbpMUlczBxdyBvEc5Gb3nfb
 sidebar_position: 8
 sidebar_label: "utility"
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud

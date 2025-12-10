@@ -12,10 +12,10 @@ token: UJtvfGYb4lKoF1dy7iicFwcAnWr
 sidebar_position: 6
 sidebar_label: "Volume"
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud

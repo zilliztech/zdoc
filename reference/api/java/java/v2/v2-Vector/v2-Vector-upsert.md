@@ -12,19 +12,19 @@ type: docx
 token: Ei2hd8dE4oGCvJxKbEvcamxTnke
 sidebar_position: 9
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - javaV226
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

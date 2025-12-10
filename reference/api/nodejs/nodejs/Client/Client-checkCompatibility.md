@@ -12,19 +12,19 @@ type: docx
 token: Tq1Md4GuIoNbfuxK03ncIa7onMc
 sidebar_position: 1
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - checkCompatibility()
   - nodejs26
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

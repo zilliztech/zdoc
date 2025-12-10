@@ -12,19 +12,19 @@ type: docx
 token: AQ1ydMXbOog5VJxITgUc4GFvnVe
 sidebar_position: 28
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - pymilvus26
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

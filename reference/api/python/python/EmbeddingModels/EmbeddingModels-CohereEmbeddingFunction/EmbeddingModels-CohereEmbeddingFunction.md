@@ -12,19 +12,19 @@ type: docx
 token: JzDLdkv3QoCY8OxKpBjc5zsmnId
 sidebar_position: 1
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - CohereEmbeddingFunction
   - pymilvus26
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

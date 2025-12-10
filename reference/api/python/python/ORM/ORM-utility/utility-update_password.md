@@ -12,19 +12,19 @@ type: docx
 token: SGjed7w9toewDlxmXHKc7BFancf
 sidebar_position: 41
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - update_password()
   - pymilvus26
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
   - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

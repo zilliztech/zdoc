@@ -12,19 +12,19 @@ type: docx
 token: EMI8dM8uooIAFPxVfffcoqRwnZf
 sidebar_position: 2
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - drop_partition()
   - pymilvus26
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

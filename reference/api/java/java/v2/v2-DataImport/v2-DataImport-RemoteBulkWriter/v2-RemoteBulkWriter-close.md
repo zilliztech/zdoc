@@ -12,19 +12,19 @@ type: docx
 token: ByKadzyxVodrkxxhaGuc4HtFnWh
 sidebar_position: 2
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - close()
   - javaV226
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

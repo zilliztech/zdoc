@@ -12,19 +12,19 @@ type: docx
 token: CAzpdAw3wo4ZqrxhjTLcEGBBn1S
 sidebar_position: 11
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - prepare_index_params()
   - pymilvus26
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

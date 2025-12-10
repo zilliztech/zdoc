@@ -12,19 +12,19 @@ type: docx
 token: LAJHdQKQQoPjmYxcfQgcvjvLnqh
 sidebar_position: 7
 keywords: 
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - useDatabase()
   - javaV226
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

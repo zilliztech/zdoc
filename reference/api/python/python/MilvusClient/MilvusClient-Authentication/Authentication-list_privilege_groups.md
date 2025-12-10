@@ -12,19 +12,19 @@ type: docx
 token: N6kjdex5Ao0lRqxPXBhcxq4AnNh
 sidebar_position: 13
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - list_privilege_groups()
   - pymilvus26
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

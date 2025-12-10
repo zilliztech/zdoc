@@ -12,19 +12,19 @@ type: docx
 token: QHyGdm4FyoFwCzxDgUUc9yQrnPf
 sidebar_position: 4
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - VolumeManager
   - javaV226
+  - AI Agent
+  - semantic search
   - Anomaly Detection
   - sentence transformers
-  - Recommender systems
-  - information retrieval
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

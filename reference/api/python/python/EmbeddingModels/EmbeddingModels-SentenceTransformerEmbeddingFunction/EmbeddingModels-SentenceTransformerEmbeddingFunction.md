@@ -12,19 +12,19 @@ type: docx
 token: JOFedA4h8otTjHxsYQ7cnjsunHd
 sidebar_position: 3
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - SentenceTransformerEmbeddingFunction
   - pymilvus26
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

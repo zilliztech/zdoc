@@ -12,19 +12,19 @@ type: docx
 token: SuePdciB0o4du5xtpIhcMVyYnPb
 sidebar_position: 40
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - transfer_replica()
   - pymilvus26
+  - ANNS
+  - Vector search
+  - knn algorithm
   - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

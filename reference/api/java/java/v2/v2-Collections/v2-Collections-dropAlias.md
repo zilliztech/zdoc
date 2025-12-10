@@ -12,19 +12,19 @@ type: docx
 token: ARw0dIb0hojCNbxKkOacs1K7nQf
 sidebar_position: 13
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - dropAlias()
   - javaV226
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: SeFLdfKVjoGX8Xx11e3cmkY4n7g
 sidebar_position: 1
 keywords: 
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus26
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

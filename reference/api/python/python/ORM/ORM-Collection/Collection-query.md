@@ -12,19 +12,19 @@ type: docx
 token: JzcYdBQ5zoU4KpxPqUHcPLQonKd
 sidebar_position: 22
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - pymilvus26
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

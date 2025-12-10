@@ -12,19 +12,19 @@ type: docx
 token: IHoodknUJohFAbxMFg3c0q8un6f
 sidebar_position: 6
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
   - javaV226
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

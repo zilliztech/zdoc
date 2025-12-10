@@ -12,19 +12,19 @@ type: docx
 token: Sqoed1lkwo8umixJJO1cvKIxnZc
 sidebar_position: 8
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - releasePartitions()
   - nodejs26
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

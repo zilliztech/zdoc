@@ -12,19 +12,19 @@ type: docx
 token: WaAvdBOvCoeLeCxKXtQct12gnGh
 sidebar_position: 11
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
   - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - searchIterator()
   - nodejs26
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

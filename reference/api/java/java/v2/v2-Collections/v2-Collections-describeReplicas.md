@@ -12,19 +12,19 @@ type: docx
 token: WRSYdEZwroNY1Txpk2DcI1sSnVg
 sidebar_position: 25
 keywords: 
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - describeReplicas()
   - javaV226
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

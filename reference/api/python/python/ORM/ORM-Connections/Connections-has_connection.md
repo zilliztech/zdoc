@@ -12,19 +12,19 @@ type: docx
 token: XeZwdeK64oGD8rx9DA3ciqNinnh
 sidebar_position: 6
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - has_connection()
   - pymilvus26
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

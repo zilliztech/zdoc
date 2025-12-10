@@ -12,19 +12,19 @@ type: docx
 token: DCLUdOpVjohl8HxPUx1cGjokngf
 sidebar_position: 1
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dict()
   - pymilvus26
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

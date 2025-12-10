@@ -12,19 +12,19 @@ type: docx
 token: BCGKdCttdotF32xUJTec8UFlndg
 sidebar_position: 28
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - updateUser()
   - nodejs26
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

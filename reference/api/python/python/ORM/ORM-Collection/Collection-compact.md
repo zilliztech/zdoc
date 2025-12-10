@@ -12,19 +12,19 @@ type: docx
 token: BHx6dnSmPoaqHAxKCvncbuk9nWb
 sidebar_position: 2
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - compact()
   - pymilvus26
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

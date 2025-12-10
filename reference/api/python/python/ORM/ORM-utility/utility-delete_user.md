@@ -12,19 +12,19 @@ type: docx
 token: E7zOdU2JpoqaU5xNYXvcAjgPnNh
 sidebar_position: 6
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - delete_user()
   - pymilvus26
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

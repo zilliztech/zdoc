@@ -12,19 +12,19 @@ type: docx
 token: ZkWBdbMZkoBjT1xe4qDcTBOHnGx
 sidebar_position: 2
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus26
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

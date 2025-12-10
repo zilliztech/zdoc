@@ -12,19 +12,19 @@ type: docx
 token: LQMGdRHjKogdeMxekCtcdBLqnNf
 sidebar_position: 12
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStatistics()
   - nodejs26
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

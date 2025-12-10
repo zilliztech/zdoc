@@ -12,19 +12,19 @@ type: docx
 token: PmHrdRirloGrFExMMfcc5un0n1g
 sidebar_position: 7
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - javaV226
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

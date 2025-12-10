@@ -12,19 +12,19 @@ type: docx
 token: I63tdWAY2ok8V1xrK4tcrkwjncd
 sidebar_position: 12
 keywords: 
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - dropPrivilegeGroup()
   - nodejs26
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

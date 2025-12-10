@@ -12,19 +12,19 @@ type: docx
 token: Mp7CdNfJnoBF2DxscRNc6RO0n7d
 sidebar_position: 1
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
   - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus26
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

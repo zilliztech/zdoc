@@ -12,19 +12,19 @@ type: docx
 token: HbMMdqtQGoQqwixsyrjcTTh0nu5
 sidebar_position: 20
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - hybridts_to_unixtime()
   - pymilvus26
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

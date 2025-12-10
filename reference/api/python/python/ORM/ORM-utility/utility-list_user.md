@@ -12,19 +12,19 @@ type: docx
 token: JeG6d5Sg2oPmXPxEhnyciq4snNd
 sidebar_position: 28
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - list_user()
   - pymilvus26
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: XLepdUCcTow6rpx5vxxcbLXZnyb
 sidebar_position: 25
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - list_indexes()
   - pymilvus26
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

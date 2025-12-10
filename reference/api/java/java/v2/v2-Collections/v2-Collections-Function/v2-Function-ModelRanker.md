@@ -12,19 +12,19 @@ type: docx
 token: IW5SdBOhUop0P8xBslCc6OHLnse
 sidebar_position: 5
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - ModelRanker
   - javaV226
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

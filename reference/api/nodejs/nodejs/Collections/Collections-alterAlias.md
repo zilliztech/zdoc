@@ -12,19 +12,19 @@ type: docx
 token: DXTLdtFCso7fo6xJHShc7XLpngh
 sidebar_position: 1
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - alterAlias()
   - nodejs26
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

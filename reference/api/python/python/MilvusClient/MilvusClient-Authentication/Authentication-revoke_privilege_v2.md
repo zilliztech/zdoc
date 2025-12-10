@@ -12,19 +12,19 @@ type: docx
 token: WazKdTlcOoYoBWxIJEEc7gFMnfC
 sidebar_position: 18
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
   - revoke_privilege_v2()
   - pymilvus26
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: L4KSdOVTEotaiyxjTddcVRDhn3E
 sidebar_position: 8
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - remove_connection()
   - pymilvus26
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

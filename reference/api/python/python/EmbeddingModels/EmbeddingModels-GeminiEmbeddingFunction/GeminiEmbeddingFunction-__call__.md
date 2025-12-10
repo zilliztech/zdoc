@@ -12,19 +12,19 @@ type: docx
 token: Pvdhdb8IrozdCgx3N4fcTWdWnPg
 sidebar_position: 4
 keywords: 
-  - milvus vector database
-  - milvus db
   - milvus vector db
   - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus26
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

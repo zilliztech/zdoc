@@ -12,10 +12,10 @@ token: H1JWfZh74lkVhgdfGiKcQfsinPg
 sidebar_position: 1
 sidebar_label: "Authentication"
 keywords: 
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
   - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud

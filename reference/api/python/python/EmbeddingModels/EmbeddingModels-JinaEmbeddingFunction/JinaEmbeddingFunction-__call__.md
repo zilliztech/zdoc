@@ -12,19 +12,19 @@ type: docx
 token: Yf9GddNheoKrFCxcUeYc7NHjnVb
 sidebar_position: 4
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus26
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

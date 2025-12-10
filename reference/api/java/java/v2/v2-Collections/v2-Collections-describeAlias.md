@@ -12,19 +12,19 @@ type: docx
 token: RWaHdvzdvoxGdbxj44cc5SmBnzd
 sidebar_position: 11
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
   - describeAlias()
   - javaV226
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

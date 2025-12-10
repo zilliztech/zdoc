@@ -12,19 +12,19 @@ type: docx
 token: GEcrdVWnboOetOx08RrcRHVhn3g
 sidebar_position: 14
 keywords: 
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - MetricType
   - javaV226
-  - hybrid search
   - lexical search
   - nearest neighbor search
   - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

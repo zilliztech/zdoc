@@ -12,19 +12,19 @@ type: docx
 token: IBTSd8lrvoAYLzxl6Z8cEVoXnMd
 sidebar_position: 6
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitions()
   - javaV226
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

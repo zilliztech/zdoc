@@ -12,19 +12,19 @@ type: docx
 token: DkImdRkJwoUmdqxzqn1cpQr9nhy
 sidebar_position: 13
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadingProgress()
   - nodejs26
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: XW72dhBuNoqNWhxUQLtcfa6Fnwd
 sidebar_position: 10
 keywords: 
-  - NLP
   - Neural Network
   - Deep Learning
   - Knowledge base
+  - natural language processing
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - pymilvus26
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

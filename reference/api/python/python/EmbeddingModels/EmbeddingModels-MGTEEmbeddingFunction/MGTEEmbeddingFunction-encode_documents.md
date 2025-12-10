@@ -12,19 +12,19 @@ type: docx
 token: GyrmdRjGZoOFKdxsYyCcvNG7npg
 sidebar_position: 1
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus26
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

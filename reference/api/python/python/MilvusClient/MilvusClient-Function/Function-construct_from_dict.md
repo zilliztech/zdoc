@@ -12,19 +12,19 @@ type: docx
 token: Ulypd24byoDBOpxGnnJcbF3Nnkb
 sidebar_position: 2
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dict()
   - pymilvus26
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

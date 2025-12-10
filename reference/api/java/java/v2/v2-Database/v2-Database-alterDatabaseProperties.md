@@ -12,19 +12,19 @@ type: docx
 token: PBYIdLALvoHd0pxwI8Ec4JsTnBX
 sidebar_position: 1
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
   - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - alterDatabaseProperties()
   - javaV226
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

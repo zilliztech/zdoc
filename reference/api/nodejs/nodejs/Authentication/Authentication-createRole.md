@@ -12,19 +12,19 @@ type: docx
 token: SDoYdccLWo1W3PxkNFncibwDnch
 sidebar_position: 6
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - createRole()
   - nodejs26
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

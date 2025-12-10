@@ -12,19 +12,19 @@ type: docx
 token: UUJWdoEnjoXx69xahsScdMVSnzf
 sidebar_position: 10
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
   - zilliz
   - zilliz cloud
   - cloud
   - revoke()
   - pymilvus26
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

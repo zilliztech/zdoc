@@ -12,19 +12,19 @@ type: docx
 token: GAWOdft83oZPvHxtxzZcjrQunGg
 sidebar_position: 1
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - CohereRerankFunction
   - pymilvus26
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

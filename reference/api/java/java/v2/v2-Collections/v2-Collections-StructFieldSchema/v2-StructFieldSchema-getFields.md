@@ -12,19 +12,19 @@ type: docx
 token: FIzIdKrRNooFttxaf3Pc1vOlnnc
 sidebar_position: 4
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - getFields()
   - javaV226
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

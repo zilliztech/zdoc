@@ -12,19 +12,19 @@ type: docx
 token: Vv4NdWVa5o5BSrx11OZcNVnQnbh
 sidebar_position: 20
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - listCollections()
   - javaV226
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: X9scdVMmxoBTuUxlKhecJXEunHd
 sidebar_position: 7
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - Partition
   - pymilvus26
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

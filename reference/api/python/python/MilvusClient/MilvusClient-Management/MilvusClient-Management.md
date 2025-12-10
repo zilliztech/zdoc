@@ -12,10 +12,10 @@ token: KrK5fBnFDlG6CedvqyHcfZLynre
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud

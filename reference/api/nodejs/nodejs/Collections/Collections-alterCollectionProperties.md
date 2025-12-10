@@ -12,19 +12,19 @@ type: docx
 token: EHPGdbCP5o7UzCxlDnRc6y5Pn1c
 sidebar_position: 3
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionProperties()
   - nodejs26
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

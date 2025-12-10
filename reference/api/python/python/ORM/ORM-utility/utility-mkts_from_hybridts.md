@@ -12,19 +12,19 @@ type: docx
 token: GRarduHPSoFY3Yx9EWRcdcTfn1g
 sidebar_position: 35
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - mkts_from_hybridts()
   - pymilvus26
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

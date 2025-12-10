@@ -12,19 +12,19 @@ type: docx
 token: K1Npdj5Ddod6UWxRN2ecf6K4nxf
 sidebar_position: 38
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud
   - reset_password()
   - pymilvus26
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

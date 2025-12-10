@@ -12,19 +12,19 @@ type: docx
 token: EtBDdoGaFo3bOExKxCHcKgpenib
 sidebar_position: 2
 keywords: 
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - commit()
   - pymilvus26
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

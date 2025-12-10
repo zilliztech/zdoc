@@ -12,19 +12,19 @@ type: docx
 token: EjFMdRFz0ofehXxxCPqc6raSnAg
 sidebar_position: 11
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollectionProperties()
   - nodejs26
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

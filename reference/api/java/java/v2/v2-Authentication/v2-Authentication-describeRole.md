@@ -12,19 +12,19 @@ type: docx
 token: VDKPdBJzdoAu7exEOE2czN2gnTd
 sidebar_position: 5
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
   - javaV226
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

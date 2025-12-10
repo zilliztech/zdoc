@@ -12,19 +12,19 @@ type: docx
 token: PwL1dndmVoxP98xp0pXcOci4nSe
 sidebar_position: 1
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus26
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

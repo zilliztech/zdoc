@@ -12,19 +12,19 @@ type: docx
 token: SlrCd1GEbooMh2xLylZc6Oirnrc
 sidebar_position: 15
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
   - zilliz
   - zilliz cloud
   - cloud
   - IndexType
   - pymilvus26
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

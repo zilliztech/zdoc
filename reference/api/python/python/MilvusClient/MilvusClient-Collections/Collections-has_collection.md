@@ -12,19 +12,19 @@ type: docx
 token: SSQ6dFGdxouy7hxRwCOcatnEn0e
 sidebar_position: 14
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud
   - has_collection()
   - pymilvus26
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

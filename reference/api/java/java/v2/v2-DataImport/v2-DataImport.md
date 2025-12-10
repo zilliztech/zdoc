@@ -12,10 +12,10 @@ token: AtkCfVN4Ll6GqMdVJfxcybHanDf
 sidebar_position: 9
 sidebar_label: "Data Import"
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud

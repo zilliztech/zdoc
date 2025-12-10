@@ -12,19 +12,19 @@ type: docx
 token: AImudC3YNoa1PZxj4zNckcvsnXc
 sidebar_position: 23
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - addCollectionField()
   - javaV226
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: CSaVdr3zao9zFpxaJBgcCTCYnPd
 sidebar_position: 2
 keywords: 
-  - open source vector db
-  - vector database example
   - rag vector database
   - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - dropPartition()
   - javaV226
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

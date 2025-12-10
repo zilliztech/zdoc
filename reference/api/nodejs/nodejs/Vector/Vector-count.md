@@ -12,19 +12,19 @@ type: docx
 token: NaOadUNSpo1EsIxPMSfc0R4Hnfb
 sidebar_position: 1
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - count()
   - nodejs26
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

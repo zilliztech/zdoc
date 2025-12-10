@@ -12,19 +12,19 @@ type: docx
 token: BQKPdDd5xo8OPgxoXorcMxk0nVb
 sidebar_position: 14
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - get_replicas()
   - pymilvus26
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

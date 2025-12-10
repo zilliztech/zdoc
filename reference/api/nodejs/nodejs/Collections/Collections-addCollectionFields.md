@@ -12,19 +12,19 @@ type: docx
 token: FmG6dw3O1ouzgbxnl4jc5T7cnXf
 sidebar_position: 20
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - addCollectionFields()
   - nodejs26
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

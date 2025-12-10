@@ -12,19 +12,19 @@ type: docx
 token: OPPHd2AabonMIzxzfupcyNS9n1a
 sidebar_position: 15
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollectionProperties()
   - javaV226
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

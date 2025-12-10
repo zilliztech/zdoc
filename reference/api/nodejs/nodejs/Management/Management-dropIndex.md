@@ -12,19 +12,19 @@ type: docx
 token: UBbndftiQo2HdOxUNtocIISnnVh
 sidebar_position: 5
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndex()
   - nodejs26
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

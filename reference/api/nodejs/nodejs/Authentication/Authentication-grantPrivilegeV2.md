@@ -12,19 +12,19 @@ type: docx
 token: R618dfeMYo9GdmxMwe9cQLclncs
 sidebar_position: 15
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - grantPrivilegeV2()
   - nodejs26
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

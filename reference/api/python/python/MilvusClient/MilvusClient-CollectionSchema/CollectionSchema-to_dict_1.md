@@ -12,19 +12,19 @@ type: docx
 token: NnIxd6VYso9IBPx6bJDcJJmUnNd
 sidebar_position: 4
 keywords: 
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - to_dict()
   - pymilvus26
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

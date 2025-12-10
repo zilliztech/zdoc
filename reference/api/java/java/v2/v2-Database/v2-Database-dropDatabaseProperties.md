@@ -12,19 +12,19 @@ type: docx
 token: CzC6dm9N8oBvQZxRMyocNfTpn9f
 sidebar_position: 5
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabaseProperties()
   - javaV226
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: KSECdBDcUoIkL7xI4KOc29Ukn1g
 sidebar_position: 5
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - verify()
   - pymilvus26
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

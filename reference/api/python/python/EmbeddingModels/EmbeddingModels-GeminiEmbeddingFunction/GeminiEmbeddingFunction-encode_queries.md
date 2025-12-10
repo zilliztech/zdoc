@@ -12,19 +12,19 @@ type: docx
 token: KtyxdkxpSoTvacxJp27cOXwCnhe
 sidebar_position: 2
 keywords: 
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus26
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

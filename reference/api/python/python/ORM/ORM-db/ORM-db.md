@@ -12,10 +12,10 @@ token: E2Zlf8PdXlx097dT2sNchgqpnbF
 sidebar_position: 4
 sidebar_label: "db"
 keywords: 
+  - rag llm architecture
+  - private llms
   - nn search
   - llm eval
-  - Sparse vs Dense
-  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud

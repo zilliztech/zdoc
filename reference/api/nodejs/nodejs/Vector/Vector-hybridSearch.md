@@ -12,19 +12,19 @@ type: docx
 token: X8BVdD5I2oCUaZxFKGxcMoionnh
 sidebar_position: 4
 keywords: 
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
   - nodejs26
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

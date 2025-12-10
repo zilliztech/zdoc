@@ -12,19 +12,19 @@ type: docx
 token: YXPSdlp3JoP82qxhFMYc5GRnn4g
 sidebar_position: 3
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
   - javaV226
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

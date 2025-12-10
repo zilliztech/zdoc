@@ -12,19 +12,19 @@ type: docx
 token: DthMdlg8Lozw89xNz4TcBv1LnOe
 sidebar_position: 3
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - create_alias()
   - pymilvus26
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

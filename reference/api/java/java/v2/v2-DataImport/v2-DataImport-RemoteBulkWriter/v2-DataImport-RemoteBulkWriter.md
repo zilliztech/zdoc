@@ -12,19 +12,19 @@ type: docx
 token: XAIndF6XWoQzvRxDvpLcgEE1nEb
 sidebar_position: 5
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - RemoteBulkWriter
   - javaV226
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

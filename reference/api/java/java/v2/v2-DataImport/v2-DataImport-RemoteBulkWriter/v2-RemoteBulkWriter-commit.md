@@ -12,19 +12,19 @@ type: docx
 token: SJ3ndk2d7oQbAOxP5iHcGtr1nrb
 sidebar_position: 3
 keywords: 
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - commit()
   - javaV226
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

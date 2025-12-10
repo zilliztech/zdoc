@@ -12,19 +12,19 @@ type: docx
 token: M4IqdsRCNotiM4xdOA0cWSnUngb
 sidebar_position: 8
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud
   - searchIterator()
   - javaV226
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

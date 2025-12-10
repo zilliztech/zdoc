@@ -12,19 +12,19 @@ type: docx
 token: XHyydLsEAoPwB2xNhcwc9KBwn7g
 sidebar_position: 5
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndex()
   - javaV226
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

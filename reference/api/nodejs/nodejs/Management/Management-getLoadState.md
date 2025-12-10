@@ -12,19 +12,19 @@ type: docx
 token: J17ZdPNwqo4nt3x5b8pc0H5Nnph
 sidebar_position: 14
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadState()
   - nodejs26
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

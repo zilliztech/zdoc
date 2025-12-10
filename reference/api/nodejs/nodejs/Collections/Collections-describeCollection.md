@@ -12,19 +12,19 @@ type: docx
 token: FEnwdB0eCotS7wxpPXmcwgQwn8g
 sidebar_position: 8
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
   - nodejs26
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: YmnmdEeHFoctZexccqNcr8xXn8c
 sidebar_position: 3
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
   - zilliz
   - zilliz cloud
   - cloud
   - InstructorEmbeddingFunction
   - pymilvus26
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

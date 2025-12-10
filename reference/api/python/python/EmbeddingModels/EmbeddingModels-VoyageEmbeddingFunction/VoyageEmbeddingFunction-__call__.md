@@ -12,19 +12,19 @@ type: docx
 token: DQFbdMhfcodFuxxhYFeccDzEnkf
 sidebar_position: 4
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus26
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,10 +12,10 @@ token: UmOafcFDglyFe3dayhAcRA0RnEd
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud

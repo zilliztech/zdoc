@@ -12,19 +12,19 @@ type: docx
 token: S9zPdiLkpokjfkxfZ68cWIFynnd
 sidebar_position: 2
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - encode_queries()
   - pymilvus26
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

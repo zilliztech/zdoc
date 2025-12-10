@@ -12,19 +12,19 @@ type: docx
 token: CW06d3MZQo2AzuxIv2ycCFpsn4b
 sidebar_position: 3
 keywords: 
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - Function
   - javaV226
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

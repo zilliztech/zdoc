@@ -12,19 +12,19 @@ type: docx
 token: G3h4d3jx6oXFHBxFZlyc9jLKnTO
 sidebar_position: 2
 keywords: 
+  - vector similarity search
+  - approximate nearest neighbor search
   - DiskANN
   - Sparse vector
-  - Vector Dimension
-  - ANN Search
   - zilliz
   - zilliz cloud
   - cloud
   - create()
   - pymilvus26
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

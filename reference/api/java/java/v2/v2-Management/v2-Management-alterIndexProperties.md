@@ -12,19 +12,19 @@ type: docx
 token: ITkydrfmroQyLLxusZtc6t1nnjf
 sidebar_position: 1
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - alterIndexProperties()
   - javaV226
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

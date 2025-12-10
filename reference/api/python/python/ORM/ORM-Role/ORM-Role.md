@@ -12,19 +12,19 @@ type: docx
 token: LZL1d0kckouPXNxJLCmcwbCTnkG
 sidebar_position: 11
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
   - zilliz
   - zilliz cloud
   - cloud
   - Role
   - pymilvus26
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

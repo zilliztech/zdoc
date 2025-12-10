@@ -12,19 +12,19 @@ type: docx
 token: MPuIdwujBoXM6rx7Okfc3lhZnUd
 sidebar_position: 4
 keywords: 
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - createAlias()
   - nodejs26
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

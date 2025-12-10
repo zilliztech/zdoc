@@ -12,19 +12,19 @@ type: docx
 token: WEsjdspGLokueRxggM1cNFgknze
 sidebar_position: 7
 keywords: 
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - get_compact_state()
   - pymilvus26
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

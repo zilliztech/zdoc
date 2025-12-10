@@ -12,19 +12,19 @@ type: docx
 token: OLVbdsTOAoQwybx7oLPcZE3wnCf
 sidebar_position: 8
 keywords: 
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - dropRole()
   - javaV226
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

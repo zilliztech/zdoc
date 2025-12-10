@@ -12,10 +12,10 @@ token: JukBfPwp8luly7dRHdWc1MEBnge
 sidebar_position: 6
 sidebar_label: "Partitions"
 keywords: 
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud

@@ -12,19 +12,19 @@ type: docx
 token: QgxEdfBMSodYo6xCg24cH3hInr4
 sidebar_position: 24
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - list_collections()
   - pymilvus26
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

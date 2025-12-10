@@ -12,19 +12,19 @@ type: docx
 token: MIKkdpGuuoEaGWx1m7Fcw52inKg
 sidebar_position: 3
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - AsyncMilvusClient
   - pymilvus26
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

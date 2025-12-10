@@ -12,19 +12,19 @@ type: docx
 token: A96udk9seoF5x5xywQZcLasanIe
 sidebar_position: 3
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
   - Connections
   - pymilvus26
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar
