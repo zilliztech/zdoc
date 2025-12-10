@@ -12,19 +12,19 @@ type: docx
 token: ItZPd1o4uoodqtx1sxIcq38hn7e
 sidebar_position: 9
 keywords: 
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
   - nodejs26
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

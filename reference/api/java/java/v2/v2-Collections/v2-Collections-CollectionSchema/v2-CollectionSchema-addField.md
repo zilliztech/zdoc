@@ -12,19 +12,19 @@ type: docx
 token: X6MudyTkmoIsE5x0XiKcbwPdntq
 sidebar_position: 1
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - addField()
   - javaV226
+  - Zilliz database
+  - Unstructured Data
   - vector database
   - IVF
-  - knn
-  - Image Search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

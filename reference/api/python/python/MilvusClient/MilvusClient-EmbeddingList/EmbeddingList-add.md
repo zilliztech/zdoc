@@ -12,19 +12,19 @@ type: docx
 token: R0E9dLzIAoYGCcxRVj6cjJmWnPe
 sidebar_position: 1
 keywords: 
+  - cosine distance
+  - what is a vector database
   - vectordb
   - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - add()
   - pymilvus26
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

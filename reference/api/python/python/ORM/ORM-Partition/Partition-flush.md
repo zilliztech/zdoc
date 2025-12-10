@@ -12,19 +12,19 @@ type: docx
 token: VRGwdg75Ao7ZXQx7uANc9wzXnVb
 sidebar_position: 3
 keywords: 
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - pymilvus26
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: HSIDdxQGEoPdyaxkMDjcAWGQnpd
 sidebar_position: 17
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - listGrant()
   - nodejs26
+  - vector database tutorial
+  - how do vector databases work
   - vector db comparison
   - openai vector db
-  - natural language processing database
-  - cheap vector database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

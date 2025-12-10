@@ -12,19 +12,19 @@ type: docx
 token: Dsl1dDLBeoGixjxt2lpcFP5ynSA
 sidebar_position: 4
 keywords: 
-  - vector db comparison
   - openai vector db
   - natural language processing database
   - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - \_\_call\_\_()
   - pymilvus26
+  - nearest neighbor search
   - Agentic RAG
   - rag llm architecture
   - private llms
-  - nn search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

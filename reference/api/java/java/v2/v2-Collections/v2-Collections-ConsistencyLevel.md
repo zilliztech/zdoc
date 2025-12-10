@@ -12,19 +12,19 @@ type: docx
 token: Q8IidbqKMopplgxSxaicS2o9nwc
 sidebar_position: 5
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - ConsistencyLevel
   - javaV226
+  - Faiss
   - Video search
   - AI Hallucination
   - AI Agent
-  - semantic search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
