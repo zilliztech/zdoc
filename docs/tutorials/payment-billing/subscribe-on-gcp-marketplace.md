@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - gcp
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

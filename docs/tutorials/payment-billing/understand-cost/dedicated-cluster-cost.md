@@ -18,10 +18,10 @@ keywords:
   - dedicated
   - cost
   - billing
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

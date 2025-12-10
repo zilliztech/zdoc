@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

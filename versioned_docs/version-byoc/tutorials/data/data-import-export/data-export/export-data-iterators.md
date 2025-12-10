@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

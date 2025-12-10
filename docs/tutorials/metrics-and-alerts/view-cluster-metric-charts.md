@@ -18,10 +18,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

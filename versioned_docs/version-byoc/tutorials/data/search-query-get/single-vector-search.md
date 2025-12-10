@@ -19,10 +19,10 @@ keywords:
   - data
   - vector search
   - ann
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

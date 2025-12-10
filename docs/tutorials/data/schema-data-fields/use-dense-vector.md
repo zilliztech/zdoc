@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 

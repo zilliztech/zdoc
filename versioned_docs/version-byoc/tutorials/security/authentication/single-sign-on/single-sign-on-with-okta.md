@@ -17,10 +17,10 @@ keywords:
   - cloud
   - sso
   - okta
-  - image similarity search
-  - Context Window
   - Natural language search
   - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

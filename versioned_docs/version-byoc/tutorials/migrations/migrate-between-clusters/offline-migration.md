@@ -18,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

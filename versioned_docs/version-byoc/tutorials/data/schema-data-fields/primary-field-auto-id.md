@@ -20,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

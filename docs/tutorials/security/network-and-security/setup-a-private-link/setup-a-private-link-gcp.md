@@ -22,10 +22,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

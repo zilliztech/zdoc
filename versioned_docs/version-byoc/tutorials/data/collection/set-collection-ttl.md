@@ -18,10 +18,10 @@ keywords:
   - collection
   - collection ttl
   - time-to-live
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

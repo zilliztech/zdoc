@@ -18,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

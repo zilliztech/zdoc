@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - cnalphanumonly
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

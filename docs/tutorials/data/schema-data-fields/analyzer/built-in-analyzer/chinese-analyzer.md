@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - chinese analyzer
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

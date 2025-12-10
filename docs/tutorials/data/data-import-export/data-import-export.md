@@ -18,10 +18,10 @@ keywords:
   - data import
   - export
   - milvus
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

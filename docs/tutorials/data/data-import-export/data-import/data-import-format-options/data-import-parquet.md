@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - tutorial
   - time-based ranking
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

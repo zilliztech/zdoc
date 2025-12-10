@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

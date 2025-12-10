@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

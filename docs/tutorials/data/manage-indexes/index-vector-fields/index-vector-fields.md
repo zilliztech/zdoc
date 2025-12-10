@@ -17,10 +17,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

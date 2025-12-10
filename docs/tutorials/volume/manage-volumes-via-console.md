@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - volume
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

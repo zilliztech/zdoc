@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster credentials
   - api key
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - cncharonly
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
   - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
 
 ---
 

@@ -21,10 +21,10 @@ keywords:
   - rto
   - rpo
   - cost optimzation
-  - ANNS
-  - Vector search
   - knn algorithm
   - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

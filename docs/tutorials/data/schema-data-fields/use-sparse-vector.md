@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

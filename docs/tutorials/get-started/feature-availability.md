@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - feature availability
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

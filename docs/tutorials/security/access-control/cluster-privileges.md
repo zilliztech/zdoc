@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

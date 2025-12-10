@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

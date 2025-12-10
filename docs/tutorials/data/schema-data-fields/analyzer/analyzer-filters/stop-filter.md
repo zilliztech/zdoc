@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - stop
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

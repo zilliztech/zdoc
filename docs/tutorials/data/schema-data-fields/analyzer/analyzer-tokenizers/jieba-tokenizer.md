@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - jieba-tokenizer
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

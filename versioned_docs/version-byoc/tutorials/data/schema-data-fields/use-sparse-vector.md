@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

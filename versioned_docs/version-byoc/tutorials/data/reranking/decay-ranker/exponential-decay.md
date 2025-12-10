@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - exponential decay
   - exp
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - gaussian decay
   - gauss
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

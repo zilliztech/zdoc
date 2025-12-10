@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

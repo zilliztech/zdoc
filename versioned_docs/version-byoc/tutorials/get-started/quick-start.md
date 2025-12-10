@@ -17,10 +17,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

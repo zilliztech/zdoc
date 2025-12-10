@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

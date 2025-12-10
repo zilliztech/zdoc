@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - best
   - practice
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

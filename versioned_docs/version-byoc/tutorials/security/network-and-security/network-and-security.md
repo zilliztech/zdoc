@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

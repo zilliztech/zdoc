@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - phrase-match
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

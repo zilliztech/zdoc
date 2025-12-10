@@ -18,10 +18,10 @@ keywords:
   - scalar field
   - varchar
   - ngram
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

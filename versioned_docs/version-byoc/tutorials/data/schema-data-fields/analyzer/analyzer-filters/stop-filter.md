@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - stop
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

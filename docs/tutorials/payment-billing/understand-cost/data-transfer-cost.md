@@ -18,10 +18,10 @@ keywords:
   - data transfer
   - cost
   - billing
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

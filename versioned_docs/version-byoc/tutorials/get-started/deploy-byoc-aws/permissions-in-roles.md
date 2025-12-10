@@ -19,10 +19,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

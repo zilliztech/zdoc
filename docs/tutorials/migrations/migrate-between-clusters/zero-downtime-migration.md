@@ -18,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - zero downtime
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

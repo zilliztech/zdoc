@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - elasticsearch
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

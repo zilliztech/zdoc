@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - random sampling
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

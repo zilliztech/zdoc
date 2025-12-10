@@ -17,10 +17,10 @@ keywords:
   - aws
   - milvus
   - vector database
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

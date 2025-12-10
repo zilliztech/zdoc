@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

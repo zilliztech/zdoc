@@ -18,10 +18,10 @@ keywords:
   - private link
   - payment
   - billing
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
 
 ---
 

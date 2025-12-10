@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

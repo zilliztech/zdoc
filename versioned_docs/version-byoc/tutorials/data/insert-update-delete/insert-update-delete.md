@@ -18,10 +18,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

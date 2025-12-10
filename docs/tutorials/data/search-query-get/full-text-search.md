@@ -22,10 +22,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

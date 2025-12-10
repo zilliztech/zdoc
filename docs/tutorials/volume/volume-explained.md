@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - volume
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

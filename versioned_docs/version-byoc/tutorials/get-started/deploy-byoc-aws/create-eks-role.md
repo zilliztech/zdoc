@@ -19,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

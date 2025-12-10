@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - manage
   - console
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

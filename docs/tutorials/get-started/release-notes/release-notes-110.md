@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

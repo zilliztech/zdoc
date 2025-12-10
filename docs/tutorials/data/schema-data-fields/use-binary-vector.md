@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

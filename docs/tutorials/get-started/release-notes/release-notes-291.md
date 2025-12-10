@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

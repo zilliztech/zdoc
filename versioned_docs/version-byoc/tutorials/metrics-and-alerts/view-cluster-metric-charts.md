@@ -18,10 +18,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

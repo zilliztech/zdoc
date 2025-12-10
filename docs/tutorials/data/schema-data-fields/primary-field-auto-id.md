@@ -20,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

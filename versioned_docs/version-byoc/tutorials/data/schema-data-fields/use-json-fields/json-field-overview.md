@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - overview
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

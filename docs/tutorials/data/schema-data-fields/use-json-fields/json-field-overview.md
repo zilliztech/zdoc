@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - overview
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

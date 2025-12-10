@@ -16,10 +16,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

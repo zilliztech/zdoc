@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

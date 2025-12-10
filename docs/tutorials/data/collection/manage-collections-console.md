@@ -18,10 +18,10 @@ keywords:
   - collection
   - manage
   - console
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

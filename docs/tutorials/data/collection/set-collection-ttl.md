@@ -18,10 +18,10 @@ keywords:
   - collection
   - collection ttl
   - time-to-live
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

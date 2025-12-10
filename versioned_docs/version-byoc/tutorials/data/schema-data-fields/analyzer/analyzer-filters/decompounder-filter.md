@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - decompounder
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - tencent cloud
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

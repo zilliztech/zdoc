@@ -19,10 +19,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

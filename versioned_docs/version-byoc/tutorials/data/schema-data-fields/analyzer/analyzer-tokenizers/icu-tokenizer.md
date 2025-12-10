@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - icu-tokenizer
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

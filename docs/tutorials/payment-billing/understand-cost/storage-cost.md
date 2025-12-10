@@ -18,10 +18,10 @@ keywords:
   - storage
   - cost
   - billing
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

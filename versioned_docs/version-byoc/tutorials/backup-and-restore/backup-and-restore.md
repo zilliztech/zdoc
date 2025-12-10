@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

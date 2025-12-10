@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

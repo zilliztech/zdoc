@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - text-match
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

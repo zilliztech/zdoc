@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - geometry
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

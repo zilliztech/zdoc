@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

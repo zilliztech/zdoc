@@ -19,10 +19,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

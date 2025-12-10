@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - lowercase
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

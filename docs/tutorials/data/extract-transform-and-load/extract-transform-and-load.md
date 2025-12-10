@@ -19,10 +19,10 @@ keywords:
   - extract
   - transform
   - load
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

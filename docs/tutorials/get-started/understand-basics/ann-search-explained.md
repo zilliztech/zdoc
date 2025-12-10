@@ -17,10 +17,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

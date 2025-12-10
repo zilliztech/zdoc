@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

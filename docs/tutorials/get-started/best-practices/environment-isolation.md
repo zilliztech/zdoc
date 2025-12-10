@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - multi-tenancy
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

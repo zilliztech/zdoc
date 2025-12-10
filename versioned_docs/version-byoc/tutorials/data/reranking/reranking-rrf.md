@@ -20,10 +20,10 @@ keywords:
   - search result reranking
   - result reranking
   - rrf
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

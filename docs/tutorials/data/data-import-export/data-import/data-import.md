@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - milvus
   - backup files
   - volume
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

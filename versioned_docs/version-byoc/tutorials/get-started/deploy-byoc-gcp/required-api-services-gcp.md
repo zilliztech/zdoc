@@ -20,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

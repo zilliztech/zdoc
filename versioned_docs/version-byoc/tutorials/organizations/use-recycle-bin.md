@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

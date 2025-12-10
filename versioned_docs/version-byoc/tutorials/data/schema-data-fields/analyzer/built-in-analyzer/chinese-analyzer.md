@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - chinese analyzer
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

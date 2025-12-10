@@ -17,10 +17,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

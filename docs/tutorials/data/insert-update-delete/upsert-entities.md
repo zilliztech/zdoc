@@ -20,10 +20,10 @@ keywords:
   - upsert
   - update
   - insert
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

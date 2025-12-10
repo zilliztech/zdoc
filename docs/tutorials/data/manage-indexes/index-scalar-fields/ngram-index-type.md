@@ -18,10 +18,10 @@ keywords:
   - scalar field
   - varchar
   - ngram
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

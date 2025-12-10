@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

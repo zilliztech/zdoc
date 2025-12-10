@@ -22,10 +22,10 @@ keywords:
   - filtering
   - elasticsearch queries
   - query mapping
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

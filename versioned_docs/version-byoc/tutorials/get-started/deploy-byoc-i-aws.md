@@ -20,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

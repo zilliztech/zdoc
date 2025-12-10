@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - DML
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

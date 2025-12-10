@@ -17,10 +17,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

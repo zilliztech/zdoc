@@ -18,10 +18,10 @@ keywords:
   - sso
   - google
   - workspace
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

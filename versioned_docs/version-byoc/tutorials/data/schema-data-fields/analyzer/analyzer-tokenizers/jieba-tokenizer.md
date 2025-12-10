@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - jieba-tokenizer
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

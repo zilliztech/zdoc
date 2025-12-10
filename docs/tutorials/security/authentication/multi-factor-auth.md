@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

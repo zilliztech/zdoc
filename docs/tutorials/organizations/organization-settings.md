@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

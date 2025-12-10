@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 

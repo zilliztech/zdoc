@@ -23,10 +23,10 @@ keywords:
   - IP
   - COSINE
   - Jaccard
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

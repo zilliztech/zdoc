@@ -17,10 +17,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

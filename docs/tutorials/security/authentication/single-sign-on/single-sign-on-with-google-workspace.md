@@ -18,10 +18,10 @@ keywords:
   - sso
   - google
   - workspace
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

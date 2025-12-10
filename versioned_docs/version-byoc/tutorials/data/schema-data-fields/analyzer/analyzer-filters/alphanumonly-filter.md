@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - alphanumonly
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

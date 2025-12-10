@@ -19,10 +19,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

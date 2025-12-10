@@ -17,10 +17,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

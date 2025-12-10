@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - analyzer
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

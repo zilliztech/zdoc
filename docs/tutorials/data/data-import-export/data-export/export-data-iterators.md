@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

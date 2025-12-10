@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - add collection fields
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

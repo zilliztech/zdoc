@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - whitespace-tokenizer
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

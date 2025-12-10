@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

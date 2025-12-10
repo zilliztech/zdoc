@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - array operators
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

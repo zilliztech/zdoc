@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

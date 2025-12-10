@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - collection
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

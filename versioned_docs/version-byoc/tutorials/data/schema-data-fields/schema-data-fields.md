@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

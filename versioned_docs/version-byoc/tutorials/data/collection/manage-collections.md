@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

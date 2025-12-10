@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - json
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 

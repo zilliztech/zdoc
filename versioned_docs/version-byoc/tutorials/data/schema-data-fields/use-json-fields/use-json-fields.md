@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - json field
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

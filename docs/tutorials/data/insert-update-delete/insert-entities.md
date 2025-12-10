@@ -19,10 +19,10 @@ keywords:
   - data
   - insert
   - insert entities
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - integrate
   - object
   - storage
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

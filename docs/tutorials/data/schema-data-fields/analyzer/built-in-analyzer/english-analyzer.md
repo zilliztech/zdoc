@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - english analyzer
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

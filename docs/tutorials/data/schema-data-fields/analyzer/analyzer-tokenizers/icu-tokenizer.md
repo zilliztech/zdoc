@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - icu-tokenizer
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

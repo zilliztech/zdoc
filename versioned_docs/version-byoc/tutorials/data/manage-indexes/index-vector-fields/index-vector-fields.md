@@ -17,10 +17,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

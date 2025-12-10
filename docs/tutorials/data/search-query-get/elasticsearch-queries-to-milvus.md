@@ -22,10 +22,10 @@ keywords:
   - filtering
   - elasticsearch queries
   - query mapping
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

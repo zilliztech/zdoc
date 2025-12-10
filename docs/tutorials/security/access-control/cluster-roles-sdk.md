@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

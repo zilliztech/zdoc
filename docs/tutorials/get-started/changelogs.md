@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - changelogs
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

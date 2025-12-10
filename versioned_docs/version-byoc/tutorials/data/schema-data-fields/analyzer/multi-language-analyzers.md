@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - multi-language
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

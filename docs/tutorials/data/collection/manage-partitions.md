@@ -18,10 +18,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

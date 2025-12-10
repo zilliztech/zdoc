@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

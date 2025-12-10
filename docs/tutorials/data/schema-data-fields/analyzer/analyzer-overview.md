@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

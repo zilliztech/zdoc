@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

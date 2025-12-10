@@ -17,10 +17,10 @@ keywords:
   - cloud
   - activities
   - view
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

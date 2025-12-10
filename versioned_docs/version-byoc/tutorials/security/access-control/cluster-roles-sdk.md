@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

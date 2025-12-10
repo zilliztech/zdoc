@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - regex
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

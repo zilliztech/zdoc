@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

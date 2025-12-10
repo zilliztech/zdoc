@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

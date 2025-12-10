@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - filtering templating
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

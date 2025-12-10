@@ -20,10 +20,10 @@ keywords:
   - search result reranking
   - result reranking
   - weighted reranker
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 

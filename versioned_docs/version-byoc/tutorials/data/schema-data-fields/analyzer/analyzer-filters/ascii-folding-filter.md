@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - ascii folding
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

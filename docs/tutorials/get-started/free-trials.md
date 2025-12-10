@@ -17,10 +17,10 @@ keywords:
   - cloud
   - free trial
   - milvus
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

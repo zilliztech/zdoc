@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

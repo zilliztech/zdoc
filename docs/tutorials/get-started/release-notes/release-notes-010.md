@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

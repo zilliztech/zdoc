@@ -17,10 +17,10 @@ keywords:
   - cloud
   - index
   - manage
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

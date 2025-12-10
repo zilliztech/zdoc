@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

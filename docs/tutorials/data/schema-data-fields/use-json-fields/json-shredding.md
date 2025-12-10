@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - json shredding
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

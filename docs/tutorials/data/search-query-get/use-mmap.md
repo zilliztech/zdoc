@@ -17,10 +17,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

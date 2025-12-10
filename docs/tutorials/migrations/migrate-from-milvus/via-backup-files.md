@@ -18,10 +18,10 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

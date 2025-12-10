@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

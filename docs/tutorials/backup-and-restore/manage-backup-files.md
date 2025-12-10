@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - manage
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

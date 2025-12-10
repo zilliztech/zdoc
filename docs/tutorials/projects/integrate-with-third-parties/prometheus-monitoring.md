@@ -18,10 +18,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

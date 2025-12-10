@@ -17,10 +17,10 @@ keywords:
   - cloud
   - whitelist
   - setup
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

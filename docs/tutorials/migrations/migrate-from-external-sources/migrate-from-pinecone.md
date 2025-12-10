@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - pinecone
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

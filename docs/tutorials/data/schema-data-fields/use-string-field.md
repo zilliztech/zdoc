@@ -19,10 +19,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

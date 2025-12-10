@@ -18,10 +18,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

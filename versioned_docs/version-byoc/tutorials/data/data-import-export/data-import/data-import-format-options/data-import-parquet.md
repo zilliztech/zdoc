@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

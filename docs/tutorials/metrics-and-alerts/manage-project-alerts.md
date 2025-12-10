@@ -17,10 +17,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

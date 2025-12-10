@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

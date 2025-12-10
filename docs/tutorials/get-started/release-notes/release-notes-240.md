@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

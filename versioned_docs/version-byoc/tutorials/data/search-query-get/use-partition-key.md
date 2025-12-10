@@ -19,10 +19,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

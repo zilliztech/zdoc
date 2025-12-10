@@ -17,10 +17,10 @@ keywords:
   - milvus
   - vector database
   - shared responsibilities
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

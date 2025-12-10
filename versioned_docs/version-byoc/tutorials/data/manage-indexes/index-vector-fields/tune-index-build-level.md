@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - index build level
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

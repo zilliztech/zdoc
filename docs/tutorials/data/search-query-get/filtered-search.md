@@ -19,10 +19,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

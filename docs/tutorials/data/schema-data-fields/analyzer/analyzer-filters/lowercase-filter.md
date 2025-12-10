@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - lowercase
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - schema
   - best practices
   - schema design
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

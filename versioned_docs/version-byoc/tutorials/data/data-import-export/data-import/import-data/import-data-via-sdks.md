@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

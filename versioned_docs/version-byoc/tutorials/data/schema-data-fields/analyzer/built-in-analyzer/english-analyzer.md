@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - english analyzer
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

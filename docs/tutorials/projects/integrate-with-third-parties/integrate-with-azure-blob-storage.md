@@ -20,10 +20,10 @@ keywords:
   - azure
   - blob
   - storage
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

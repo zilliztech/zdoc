@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

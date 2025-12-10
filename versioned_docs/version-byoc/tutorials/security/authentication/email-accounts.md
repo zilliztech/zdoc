@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster credentials
   - api key
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
   - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

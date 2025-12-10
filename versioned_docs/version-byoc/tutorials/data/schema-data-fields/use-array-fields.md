@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - array field
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

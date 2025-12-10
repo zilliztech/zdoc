@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - language identifier
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

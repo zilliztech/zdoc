@@ -21,10 +21,10 @@ keywords:
   - hands-on
   - structs
   - array of structs
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - developer hub
   - home page
   - home
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 hide_title: true
 hide_table_of_contents: true

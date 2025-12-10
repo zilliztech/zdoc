@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

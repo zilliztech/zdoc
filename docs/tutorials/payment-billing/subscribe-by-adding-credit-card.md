@@ -17,10 +17,10 @@ keywords:
   - cloud
   - credit card
   - subscribe
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

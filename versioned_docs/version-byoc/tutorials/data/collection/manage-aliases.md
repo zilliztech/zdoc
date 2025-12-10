@@ -18,10 +18,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

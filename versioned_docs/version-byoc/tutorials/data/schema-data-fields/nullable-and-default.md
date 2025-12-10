@@ -19,10 +19,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

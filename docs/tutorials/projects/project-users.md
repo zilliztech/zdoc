@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

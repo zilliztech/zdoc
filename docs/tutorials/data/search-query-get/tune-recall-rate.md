@@ -21,10 +21,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

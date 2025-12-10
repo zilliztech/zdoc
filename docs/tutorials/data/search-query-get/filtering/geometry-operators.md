@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - geometry
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

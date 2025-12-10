@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - random sampling
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

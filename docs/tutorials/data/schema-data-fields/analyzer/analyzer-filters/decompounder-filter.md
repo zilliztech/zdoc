@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - decompounder
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

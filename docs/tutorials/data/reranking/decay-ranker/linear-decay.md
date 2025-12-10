@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - linear decay
   - linear
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

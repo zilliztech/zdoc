@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

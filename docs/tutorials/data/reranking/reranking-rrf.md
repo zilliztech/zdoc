@@ -20,10 +20,10 @@ keywords:
   - search result reranking
   - result reranking
   - rrf
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

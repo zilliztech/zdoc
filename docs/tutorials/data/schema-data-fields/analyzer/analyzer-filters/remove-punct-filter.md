@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - remove punct
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

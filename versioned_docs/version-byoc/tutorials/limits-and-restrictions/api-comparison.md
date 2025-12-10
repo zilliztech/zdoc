@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

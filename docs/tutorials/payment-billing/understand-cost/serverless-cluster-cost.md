@@ -18,10 +18,10 @@ keywords:
   - serverless
   - cost
   - billing
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

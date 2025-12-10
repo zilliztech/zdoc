@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - qdrant
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

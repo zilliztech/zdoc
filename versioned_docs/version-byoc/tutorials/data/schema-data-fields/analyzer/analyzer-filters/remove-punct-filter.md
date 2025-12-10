@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - remove punct
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

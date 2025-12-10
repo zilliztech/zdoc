@@ -22,10 +22,10 @@ keywords:
   - decay
   - decay ranker
   - decay ranker overview
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

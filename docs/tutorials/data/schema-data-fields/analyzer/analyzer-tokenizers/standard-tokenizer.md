@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - standard-tokenizer
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

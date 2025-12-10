@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - text-match
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

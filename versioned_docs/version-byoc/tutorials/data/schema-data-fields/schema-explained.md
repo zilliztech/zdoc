@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

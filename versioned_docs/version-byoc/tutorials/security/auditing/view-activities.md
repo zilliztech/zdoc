@@ -17,10 +17,10 @@ keywords:
   - cloud
   - activities
   - view
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

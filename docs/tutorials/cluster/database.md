@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

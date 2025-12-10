@@ -18,10 +18,10 @@ keywords:
   - mcp
   - milvus
   - mcp server
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

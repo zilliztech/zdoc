@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - aws
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

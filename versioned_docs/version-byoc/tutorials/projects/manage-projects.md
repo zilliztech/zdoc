@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

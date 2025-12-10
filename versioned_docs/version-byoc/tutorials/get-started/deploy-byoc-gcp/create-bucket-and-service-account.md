@@ -20,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

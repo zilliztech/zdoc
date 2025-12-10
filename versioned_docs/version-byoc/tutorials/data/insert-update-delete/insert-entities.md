@@ -19,10 +19,10 @@ keywords:
   - data
   - insert
   - insert entities
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

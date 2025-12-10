@@ -17,10 +17,10 @@ keywords:
   - cloud
   - basics
   - milvus
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

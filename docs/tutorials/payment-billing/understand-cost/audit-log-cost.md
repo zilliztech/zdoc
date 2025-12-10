@@ -18,10 +18,10 @@ keywords:
   - audit log
   - cost
   - billing
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

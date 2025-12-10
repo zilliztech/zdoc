@@ -21,10 +21,10 @@ keywords:
   - rto
   - rpo
   - cost optimzation
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - Large language model
   - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
 
 ---
 

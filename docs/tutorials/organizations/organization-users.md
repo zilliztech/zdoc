@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - users
+  - natural language processing
+  - AI chatbots
   - cosine distance
   - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
 
 ---
 

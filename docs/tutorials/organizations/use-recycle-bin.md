@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

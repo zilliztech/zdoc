@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

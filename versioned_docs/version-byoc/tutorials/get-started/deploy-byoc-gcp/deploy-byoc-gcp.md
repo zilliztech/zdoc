@@ -20,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

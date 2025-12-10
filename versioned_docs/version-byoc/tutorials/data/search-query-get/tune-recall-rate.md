@@ -21,10 +21,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

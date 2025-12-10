@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - minhash
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

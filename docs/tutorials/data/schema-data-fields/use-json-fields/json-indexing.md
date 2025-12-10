@@ -21,10 +21,10 @@ keywords:
   - index
   - path index
   - flat index
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

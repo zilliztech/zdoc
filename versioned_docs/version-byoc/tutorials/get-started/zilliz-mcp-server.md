@@ -18,10 +18,10 @@ keywords:
   - mcp
   - milvus
   - mcp server
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

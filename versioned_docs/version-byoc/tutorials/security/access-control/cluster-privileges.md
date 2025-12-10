@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

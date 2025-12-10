@@ -18,10 +18,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

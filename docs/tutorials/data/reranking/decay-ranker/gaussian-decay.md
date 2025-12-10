@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - gaussian decay
   - gauss
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

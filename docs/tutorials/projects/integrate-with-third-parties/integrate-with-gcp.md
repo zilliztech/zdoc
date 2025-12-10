@@ -20,10 +20,10 @@ keywords:
   - google
   - cloud
   - storage
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

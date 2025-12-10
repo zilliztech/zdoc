@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - stemmer
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

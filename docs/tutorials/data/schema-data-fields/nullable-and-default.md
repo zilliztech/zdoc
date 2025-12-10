@@ -19,10 +19,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - tutorial
   - time-based ranking
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

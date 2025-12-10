@@ -18,10 +18,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

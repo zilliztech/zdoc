@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - Zilliz database
-  - Unstructured Data
   - vector database
   - IVF
+  - knn
+  - Image Search
 
 ---
 

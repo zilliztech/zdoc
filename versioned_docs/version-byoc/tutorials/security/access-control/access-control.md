@@ -18,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

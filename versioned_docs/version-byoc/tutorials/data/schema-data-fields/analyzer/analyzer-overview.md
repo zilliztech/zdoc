@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

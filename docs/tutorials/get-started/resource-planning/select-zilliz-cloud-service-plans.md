@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster plan
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

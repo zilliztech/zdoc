@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

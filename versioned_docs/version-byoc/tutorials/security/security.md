@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

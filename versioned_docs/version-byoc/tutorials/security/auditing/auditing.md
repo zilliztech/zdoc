@@ -17,10 +17,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

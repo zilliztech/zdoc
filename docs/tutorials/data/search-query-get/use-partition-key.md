@@ -19,10 +19,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 
