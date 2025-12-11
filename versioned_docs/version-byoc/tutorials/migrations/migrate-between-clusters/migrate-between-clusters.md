@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

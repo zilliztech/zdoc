@@ -18,10 +18,10 @@ keywords:
   - data transfer
   - cost
   - billing
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 
@@ -44,25 +44,21 @@ The following table compares the different data transfer types.
    <tr>
      <th><p><strong>Data Transfer Type</strong></p></th>
      <th><p><strong>Description</strong></p></th>
-     <th><p><strong>Common Scenarios</strong></p></th>
      <th><p><strong>Pricing</strong></p></th>
    </tr>
    <tr>
      <td><p><strong>Internet egress</strong></p></td>
-     <td><p>The transfer of data from Zilliz Cloud to destinations over the public internet, such as external networks, client applications, or third-party services outside the cloud provider’s private network.</p></td>
-     <td><p>Returning search or query results to a client app hosted locally or outside the cloud provider.</p></td>
+     <td><p>Public Internet egress is outbound traffic from a Zilliz Cloud cluster to the public Internet or to another cloud provider when accessed through the public endpoint. </p><p>This occurs when read, write, query, or migration traffic through the public endpoint leaves the current cloud provider’s network. </p><p>Traffic that remains within the same cloud provider’s backbone (e.g., cross-region) is billed separately as cross-region data transfer, not Internet egress.</p></td>
      <td><p>The most expensive and the cost is determined by the source destination.</p><p>For detailed rates, see <a href="https://zilliz.com/pricing/pricing-guide">Zilliz Cloud Pricing Guide</a>.</p></td>
    </tr>
    <tr>
      <td><p><strong>Cross-region</strong></p></td>
-     <td><p>The movement of data between different regions within the same cloud provider’s network, which may incur additional latency and costs compared to intra-region transfer.</p></td>
-     <td><ul><li><p>Cross region backup</p></li><li><p>Data migration between Zilliz Cloud clusters deployed in different regions.</p></li></ul></td>
+     <td><p>Cross-region data transfer refers to data moved between different regions of the same cloud provider. This includes:</p><ul><li><p>Cross-region cluster migration</p></li><li><p>Cross-region backup</p><p>Traffic to clusters in other regions of the same cloud provider when accessed via the public endpoint.</p></li></ul></td>
      <td><ul><li><p>For AWS, the cost is determined by the source continent.</p></li><li><p>For Azure and Google Cloud, the cost is determined by both the source and destination continents.</p><p>For detailed rates, see <a href="https://zilliz.com/pricing/pricing-guide">Zilliz Cloud Pricing Guide</a>.</p></li></ul></td>
    </tr>
    <tr>
      <td><p><strong>Intra-region</strong></p></td>
-     <td><p>The transfer of data between within the same region of a cloud provider, typically incurring lower latency and cost than cross-region transfers.</p></td>
-     <td><ul><li><p>Forwarding audit logs to intra-region cloud object storage</p></li><li><p>Data migration between Zilliz Cloud clusters deployed in the same region.</p></li></ul></td>
+     <td><p>Intra-region data transfer refers to the transfer of data between within the same region of a cloud provider. This includes:</p><ul><li><p>Forwarding audit logs to intra-region cloud object storage</p></li><li><p>Data migration between Zilliz Cloud clusters deployed in the same region.</p></li></ul></td>
      <td><p>Free</p></td>
    </tr>
 </table>

@@ -17,10 +17,10 @@ keywords:
   - aws
   - milvus
   - vector database
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 
@@ -223,6 +223,8 @@ You can only suspend a running project if there are no clusters in the project o
 Once the status tag on a project card reads **Suspended**, you cannot manipulate clusters in the project. In such a case, you can click **Resume** to resume the project. Once the status tag turns to **Running** again, you can continue manipulating clusters in the project.
 
 ## Procedures\{#procedures}
+
+
 
 import DocCardList from '@theme/DocCardList';
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

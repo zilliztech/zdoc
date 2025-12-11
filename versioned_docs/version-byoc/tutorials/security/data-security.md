@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data
   - security
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

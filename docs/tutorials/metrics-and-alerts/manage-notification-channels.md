@@ -17,10 +17,10 @@ keywords:
   - cloud
   - notification
   - channels
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

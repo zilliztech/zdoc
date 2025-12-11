@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - what is milvus
-  - milvus database
-  - milvus lite
   - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

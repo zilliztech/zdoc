@@ -18,10 +18,10 @@ keywords:
   - storage
   - cost
   - billing
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

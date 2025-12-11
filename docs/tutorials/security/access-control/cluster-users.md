@@ -20,10 +20,10 @@ keywords:
   - rbac
   - users
   - overview
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

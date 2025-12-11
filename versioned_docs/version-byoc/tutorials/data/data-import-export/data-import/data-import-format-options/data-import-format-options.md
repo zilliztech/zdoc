@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

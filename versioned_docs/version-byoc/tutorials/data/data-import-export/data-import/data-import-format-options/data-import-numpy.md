@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

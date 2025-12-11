@@ -18,10 +18,10 @@ keywords:
   - backup
   - files
   - view
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

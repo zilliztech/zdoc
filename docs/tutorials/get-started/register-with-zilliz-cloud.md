@@ -17,10 +17,10 @@ keywords:
   - register
   - cloud
   - milvus
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

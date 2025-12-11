@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

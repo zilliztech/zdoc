@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

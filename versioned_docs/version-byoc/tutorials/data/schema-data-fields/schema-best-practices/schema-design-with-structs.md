@@ -21,10 +21,10 @@ keywords:
   - hands-on
   - structs
   - array of structs
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

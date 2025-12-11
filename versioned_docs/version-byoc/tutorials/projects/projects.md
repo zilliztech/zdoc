@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

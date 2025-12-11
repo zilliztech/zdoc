@@ -21,10 +21,10 @@ keywords:
   - rto
   - rpo
   - cost optimzation
-  - multimodal RAG
-  - llm hallucinations
   - hybrid search
   - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - rbac
   - users
   - overview
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

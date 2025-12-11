@@ -17,10 +17,10 @@ keywords:
   - cloud
   - autoindex
   - milvus
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

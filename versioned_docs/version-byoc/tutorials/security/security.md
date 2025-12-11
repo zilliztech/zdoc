@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - security
+  - hybrid search
+  - lexical search
   - nearest neighbor search
   - Agentic RAG
-  - rag llm architecture
-  - private llms
 
 ---
 

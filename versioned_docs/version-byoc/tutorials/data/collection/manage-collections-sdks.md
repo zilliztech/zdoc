@@ -18,10 +18,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

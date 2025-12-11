@@ -19,10 +19,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

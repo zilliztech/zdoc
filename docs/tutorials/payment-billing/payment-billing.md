@@ -18,10 +18,10 @@ keywords:
   - private link
   - payment
   - billing
-  - knn algorithm
   - HNSW
   - What is unstructured data
   - Vector embeddings
+  - Vector store
 
 ---
 

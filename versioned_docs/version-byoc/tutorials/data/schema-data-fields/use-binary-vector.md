@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

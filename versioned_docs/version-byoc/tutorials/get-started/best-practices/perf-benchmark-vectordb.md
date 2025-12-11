@@ -18,10 +18,10 @@ keywords:
   - milvus
   - performance
   - benchmark
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

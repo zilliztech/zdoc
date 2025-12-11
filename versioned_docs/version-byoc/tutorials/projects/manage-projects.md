@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

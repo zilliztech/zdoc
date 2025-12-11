@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - azure
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

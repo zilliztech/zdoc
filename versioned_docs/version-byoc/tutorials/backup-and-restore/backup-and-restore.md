@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

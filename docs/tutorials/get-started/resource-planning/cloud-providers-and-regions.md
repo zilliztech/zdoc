@@ -17,10 +17,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - range search
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

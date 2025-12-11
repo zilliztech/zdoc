@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

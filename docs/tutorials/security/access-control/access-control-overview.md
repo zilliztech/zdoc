@@ -18,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - Elastic vector database
   - Pinecone vs Milvus
   - Chroma vs Milvus
   - Annoy vector search
+  - milvus
 
 ---
 

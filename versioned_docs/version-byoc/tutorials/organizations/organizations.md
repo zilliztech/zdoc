@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - sentence transformers
   - Recommender systems
   - information retrieval
   - dimension reduction
+  - hnsw algorithm
 
 ---
 

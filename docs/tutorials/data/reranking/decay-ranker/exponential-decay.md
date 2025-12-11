@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - exponential decay
   - exp
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

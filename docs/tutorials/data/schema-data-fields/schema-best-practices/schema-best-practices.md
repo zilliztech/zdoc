@@ -19,10 +19,10 @@ keywords:
   - schema
   - best practices
   - schema design
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

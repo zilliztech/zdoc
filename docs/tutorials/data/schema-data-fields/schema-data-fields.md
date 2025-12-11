@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

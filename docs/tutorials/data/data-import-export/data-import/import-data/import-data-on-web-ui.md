@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - console
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

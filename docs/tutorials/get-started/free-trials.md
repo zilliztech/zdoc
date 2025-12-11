@@ -17,10 +17,10 @@ keywords:
   - cloud
   - free trial
   - milvus
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

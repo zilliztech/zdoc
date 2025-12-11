@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

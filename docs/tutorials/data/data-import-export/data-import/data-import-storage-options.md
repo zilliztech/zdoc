@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

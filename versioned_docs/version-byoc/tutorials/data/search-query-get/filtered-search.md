@@ -19,10 +19,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

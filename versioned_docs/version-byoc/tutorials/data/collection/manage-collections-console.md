@@ -18,10 +18,10 @@ keywords:
   - collection
   - manage
   - console
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

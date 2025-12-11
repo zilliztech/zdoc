@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

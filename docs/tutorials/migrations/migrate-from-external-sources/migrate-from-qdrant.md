@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - qdrant
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

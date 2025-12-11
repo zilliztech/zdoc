@@ -19,10 +19,10 @@ keywords:
   - data
   - insert
   - insert entities
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

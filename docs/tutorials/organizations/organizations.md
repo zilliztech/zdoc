@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

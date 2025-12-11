@@ -19,10 +19,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

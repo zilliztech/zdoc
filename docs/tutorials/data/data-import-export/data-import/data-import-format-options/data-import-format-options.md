@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

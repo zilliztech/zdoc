@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

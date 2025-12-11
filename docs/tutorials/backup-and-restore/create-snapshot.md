@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

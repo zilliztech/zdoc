@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

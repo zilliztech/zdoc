@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

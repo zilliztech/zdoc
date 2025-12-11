@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - json
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

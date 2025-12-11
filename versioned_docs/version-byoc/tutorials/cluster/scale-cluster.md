@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 
@@ -71,7 +71,7 @@ This guide explains how to resize a cluster to suit your changing workload.
 
 ## Manual scaling\{#manual-scaling}
 
-You can manually scale your cluster up or down via the Zilliz Cloud console or RESTful API. Note that scheduled scaling is only available on the web console.
+You can manually scale your cluster up or down via the Zilliz Cloud console or RESTful API.
 
 ### Via web console\{#via-web-console}
 
@@ -95,6 +95,9 @@ The following demo shows how to manually scale up and down a cluster on the Zill
 The following example scales an existing cluster to 2 CU. For details, see [Modify Cluster](/reference/restful/modify-cluster-v2).
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
+
 curl --request POST \
 --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/modify" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -102,6 +105,31 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "cuSize": 2
+}'
+```
+
+You can also enable scheduled scaling as follows.
+
+```bash
+export TOKEN="YOUR_API_KEY"
+export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
+
+curl --request POST \
+--url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/modify" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Accept: application/json" \
+--header "Content-Type: application/json" \
+-d '{
+    "autoscaling": {
+        "cu": {
+            "schedules": [
+                {
+                    "cron": "10 0 0 0 0 ?",
+                    "target": 2
+                }
+            ]
+        }
+    }
 }'
 ```
 

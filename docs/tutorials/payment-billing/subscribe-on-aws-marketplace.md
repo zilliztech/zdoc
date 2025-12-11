@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - aws
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

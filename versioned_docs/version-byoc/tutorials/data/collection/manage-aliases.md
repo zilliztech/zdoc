@@ -18,10 +18,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

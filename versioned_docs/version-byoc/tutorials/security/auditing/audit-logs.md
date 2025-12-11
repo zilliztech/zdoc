@@ -18,10 +18,10 @@ keywords:
   - auditing
   - log
   - configure
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

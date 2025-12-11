@@ -20,10 +20,10 @@ keywords:
   - upsert
   - update
   - insert
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

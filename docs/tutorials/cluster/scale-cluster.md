@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 
@@ -87,7 +87,7 @@ Zilliz Cloud offers several ways to scale your cluster:
 
 ## Manual scaling\{#manual-scaling}
 
-You can manually scale your cluster up or down via the Zilliz Cloud console or RESTful API. Note that scheduled scaling is only available on the web console.
+You can manually scale your cluster up or down via the Zilliz Cloud console or RESTful API.
 
 ### Via web console\{#via-web-console}
 
@@ -100,6 +100,9 @@ The following demo shows how to manually scale up and down a cluster on the Zill
 The following example scales an existing cluster to 2 CU. For details, see [Modify Cluster](/reference/restful/modify-cluster-v2).
 
 ```bash
+export TOKEN="YOUR_API_KEY"
+export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
+
 curl --request POST \
 --url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/modify" \
 --header "Authorization: Bearer ${TOKEN}" \
@@ -107,6 +110,31 @@ curl --request POST \
 --header "Content-Type: application/json" \
 -d '{
     "cuSize": 2
+}'
+```
+
+You can also enable scheduled scaling as follows.
+
+```bash
+export TOKEN="YOUR_API_KEY"
+export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
+
+curl --request POST \
+--url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/modify" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Accept: application/json" \
+--header "Content-Type: application/json" \
+-d '{
+    "autoscaling": {
+        "cu": {
+            "schedules": [
+                {
+                    "cron": "10 0 0 0 0 ?",
+                    "target": 2
+                }
+            ]
+        }
+    }
 }'
 ```
 
@@ -199,6 +227,27 @@ This value is then rounded up to the next available CU number, resulting in a ne
 The following demo shows how to configure dynamic auto-scaling on the Zilliz Cloud web console. 
 
 <Supademo id="cmd2r7eqb34nbc4kj3wly357s?utm_source=link" title=""  />
+
+In addition, you can configure dynamic scaling using RESTful API as follows:
+
+```bash
+export TOKEN="YOUR_API_KEY"
+export CLUSTER_ID="inxx-xxxxxxxxxxxxxxx"
+
+curl --request POST \
+--url "${BASE_URL}/v2/clusters/${CLUSTER_ID}/modify" \
+--header "Authorization: Bearer ${TOKEN}" \
+--header "Accept: application/json" \
+--header "Content-Type: application/json" \
+-d '{
+    "autoscaling": {
+        "cu": {
+            "min": 1,
+            "max": 2
+        }
+    }
+}'
+```
 
 ## View scaling progress\{#view-scaling-progress}
 

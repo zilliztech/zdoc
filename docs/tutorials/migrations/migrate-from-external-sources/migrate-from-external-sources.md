@@ -18,10 +18,10 @@ keywords:
   - migrations
   - external
   - data source
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

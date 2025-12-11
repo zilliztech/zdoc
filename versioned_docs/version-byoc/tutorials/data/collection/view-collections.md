@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

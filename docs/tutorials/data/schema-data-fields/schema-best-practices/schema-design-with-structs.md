@@ -21,10 +21,10 @@ keywords:
   - hands-on
   - structs
   - array of structs
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

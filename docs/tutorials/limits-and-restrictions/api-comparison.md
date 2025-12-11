@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

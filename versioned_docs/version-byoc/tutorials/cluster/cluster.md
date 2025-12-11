@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

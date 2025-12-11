@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

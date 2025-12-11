@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

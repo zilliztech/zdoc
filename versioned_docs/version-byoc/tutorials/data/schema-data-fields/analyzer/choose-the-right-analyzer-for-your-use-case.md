@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - best
   - practice
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

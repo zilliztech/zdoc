@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

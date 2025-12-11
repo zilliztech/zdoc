@@ -19,10 +19,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

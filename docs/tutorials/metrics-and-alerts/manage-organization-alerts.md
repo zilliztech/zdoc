@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

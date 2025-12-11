@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

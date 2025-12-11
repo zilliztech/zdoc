@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

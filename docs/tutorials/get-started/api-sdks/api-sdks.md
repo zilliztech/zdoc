@@ -23,10 +23,10 @@ keywords:
   - go
   - node
   - nodejs
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

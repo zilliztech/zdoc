@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

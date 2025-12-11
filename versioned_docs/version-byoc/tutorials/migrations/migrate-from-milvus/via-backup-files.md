@@ -18,10 +18,10 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

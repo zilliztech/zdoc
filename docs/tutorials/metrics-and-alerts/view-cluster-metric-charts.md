@@ -18,10 +18,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

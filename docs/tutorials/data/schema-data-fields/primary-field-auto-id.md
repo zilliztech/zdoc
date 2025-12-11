@@ -20,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

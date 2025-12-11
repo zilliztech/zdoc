@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

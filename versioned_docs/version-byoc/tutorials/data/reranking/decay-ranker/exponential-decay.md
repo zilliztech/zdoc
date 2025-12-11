@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - exponential decay
   - exp
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

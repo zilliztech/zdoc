@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

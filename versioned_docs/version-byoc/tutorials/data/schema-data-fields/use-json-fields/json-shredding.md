@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - json shredding
-  - LLMs
-  - Machine Learning
-  - RAG
   - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

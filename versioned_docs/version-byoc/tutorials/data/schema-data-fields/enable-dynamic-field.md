@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

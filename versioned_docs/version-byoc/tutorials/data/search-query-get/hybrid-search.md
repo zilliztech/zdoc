@@ -19,10 +19,10 @@ keywords:
   - data
   - hybrid search
   - combine sparse and dense vectors
-  - rag vector database
   - what is vector db
   - what are vector databases
   - vector databases comparison
+  - Faiss
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

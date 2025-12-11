@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

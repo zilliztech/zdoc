@@ -16,10 +16,10 @@ keywords:
   - byoc
   - milvus
   - vector database
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

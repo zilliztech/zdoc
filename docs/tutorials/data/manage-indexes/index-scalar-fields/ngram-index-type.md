@@ -18,10 +18,10 @@ keywords:
   - scalar field
   - varchar
   - ngram
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

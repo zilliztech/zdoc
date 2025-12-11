@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - milvus
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

@@ -21,10 +21,10 @@ keywords:
   - index
   - path index
   - flat index
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

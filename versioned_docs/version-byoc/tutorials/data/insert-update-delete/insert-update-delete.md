@@ -18,10 +18,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

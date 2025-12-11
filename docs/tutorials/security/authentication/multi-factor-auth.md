@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

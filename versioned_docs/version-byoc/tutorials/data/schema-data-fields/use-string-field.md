@@ -19,10 +19,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

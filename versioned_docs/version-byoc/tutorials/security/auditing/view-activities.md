@@ -17,10 +17,10 @@ keywords:
   - cloud
   - activities
   - view
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

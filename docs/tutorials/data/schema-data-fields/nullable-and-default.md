@@ -19,10 +19,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

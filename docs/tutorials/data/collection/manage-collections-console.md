@@ -18,10 +18,10 @@ keywords:
   - collection
   - manage
   - console
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

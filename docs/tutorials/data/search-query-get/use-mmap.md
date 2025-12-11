@@ -17,10 +17,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

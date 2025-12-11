@@ -20,10 +20,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

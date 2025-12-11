@@ -18,10 +18,10 @@ keywords:
   - developer hub
   - home page
   - home
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 hide_title: true
 hide_table_of_contents: true

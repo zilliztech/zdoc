@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

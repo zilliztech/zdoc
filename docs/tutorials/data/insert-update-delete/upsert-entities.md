@@ -20,10 +20,10 @@ keywords:
   - upsert
   - update
   - insert
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

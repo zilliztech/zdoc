@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

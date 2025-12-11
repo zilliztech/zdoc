@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 
@@ -259,3 +259,4 @@ For further details, see [Create Dedicated Cluster](/reference/restful/create-de
 </TabItem>
 
 </Tabs>
+

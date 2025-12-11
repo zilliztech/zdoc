@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - migrations
   - amazon
   - opensearch
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

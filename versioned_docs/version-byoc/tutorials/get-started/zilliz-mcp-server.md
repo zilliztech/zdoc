@@ -18,10 +18,10 @@ keywords:
   - mcp
   - milvus
   - mcp server
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

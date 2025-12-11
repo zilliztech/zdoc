@@ -18,10 +18,10 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

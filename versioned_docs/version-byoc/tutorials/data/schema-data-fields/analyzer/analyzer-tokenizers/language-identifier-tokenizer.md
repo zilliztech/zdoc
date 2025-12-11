@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - language identifier
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
   - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

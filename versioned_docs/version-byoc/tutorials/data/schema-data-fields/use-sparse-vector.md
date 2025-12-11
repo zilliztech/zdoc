@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

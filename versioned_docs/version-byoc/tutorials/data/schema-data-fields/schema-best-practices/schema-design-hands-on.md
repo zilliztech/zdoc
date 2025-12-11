@@ -19,10 +19,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - array field
-  - Zilliz Cloud
-  - what is milvus
   - milvus database
   - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

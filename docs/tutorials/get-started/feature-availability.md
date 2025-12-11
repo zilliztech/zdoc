@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - feature availability
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

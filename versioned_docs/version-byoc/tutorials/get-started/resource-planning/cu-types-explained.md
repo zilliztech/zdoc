@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cu
   - select
-  - image similarity search
-  - Context Window
   - Natural language search
   - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

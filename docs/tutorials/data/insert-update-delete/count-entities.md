@@ -20,10 +20,10 @@ keywords:
   - upsert
   - update
   - count
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

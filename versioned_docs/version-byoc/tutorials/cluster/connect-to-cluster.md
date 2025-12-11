@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

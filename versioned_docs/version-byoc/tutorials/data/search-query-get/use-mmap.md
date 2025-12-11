@@ -17,10 +17,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

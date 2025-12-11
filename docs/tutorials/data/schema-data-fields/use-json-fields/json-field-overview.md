@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - overview
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

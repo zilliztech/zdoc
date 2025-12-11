@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - index build level
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

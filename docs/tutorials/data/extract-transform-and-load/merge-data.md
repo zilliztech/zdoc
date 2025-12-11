@@ -21,10 +21,10 @@ keywords:
   - load
   - data merging
   - merge data
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

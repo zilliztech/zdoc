@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

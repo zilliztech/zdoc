@@ -19,10 +19,10 @@ keywords:
   - schema
   - best practices
   - schema design
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

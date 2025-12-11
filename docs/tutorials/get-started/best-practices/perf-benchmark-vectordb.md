@@ -18,10 +18,10 @@ keywords:
   - milvus
   - performance
   - benchmark
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 
