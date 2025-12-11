@@ -21,10 +21,10 @@ keywords:
   - cloud
   - createPartition()
   - nodejs26
+  - Natural language search
+  - Similarity Search
   - multimodal RAG
   - llm hallucinations
-  - hybrid search
-  - lexical search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

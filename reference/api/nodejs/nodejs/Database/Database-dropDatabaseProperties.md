@@ -12,19 +12,19 @@ type: docx
 token: GulFdOWMboEK9bxnzMSc8Uf8n8b
 sidebar_position: 4
 keywords: 
-  - Video similarity search
-  - Vector retrieval
   - Audio similarity search
   - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabaseProperties()
   - nodejs26
+  - Chroma vs Milvus
+  - Annoy vector search
   - milvus
   - Zilliz
-  - milvus vector database
-  - milvus db
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

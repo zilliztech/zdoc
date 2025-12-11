@@ -12,10 +12,10 @@ token: Hg5PfTIHll3FK4dbYdxcaURHn2n
 sidebar_position: 6
 sidebar_label: "Partitions"
 keywords: 
+  - Context Window
   - Natural language search
   - Similarity Search
   - multimodal RAG
-  - llm hallucinations
   - zilliz
   - zilliz cloud
   - cloud

@@ -12,19 +12,19 @@ type: docx
 token: AImudC3YNoa1PZxj4zNckcvsnXc
 sidebar_position: 23
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - addCollectionField()
   - javaV226
+  - vector database
   - IVF
   - knn
   - Image Search
-  - LLMs
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

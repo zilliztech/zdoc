@@ -12,19 +12,19 @@ type: docx
 token: EOsTdGbQxouZjpxP4Wbc5MXkneh
 sidebar_position: 3
 keywords: 
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
   - javaV226
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

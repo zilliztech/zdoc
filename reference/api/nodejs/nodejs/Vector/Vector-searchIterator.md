@@ -21,10 +21,10 @@ keywords:
   - cloud
   - searchIterator()
   - nodejs26
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

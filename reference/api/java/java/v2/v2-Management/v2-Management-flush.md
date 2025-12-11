@@ -12,19 +12,19 @@ type: docx
 token: PmHrdRirloGrFExMMfcc5un0n1g
 sidebar_position: 7
 keywords: 
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - javaV226
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

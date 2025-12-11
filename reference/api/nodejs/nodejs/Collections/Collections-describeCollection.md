@@ -12,19 +12,19 @@ type: docx
 token: FEnwdB0eCotS7wxpPXmcwgQwn8g
 sidebar_position: 8
 keywords: 
+  - Multimodal search
+  - vector search algorithms
   - Question answering system
   - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
   - nodejs26
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

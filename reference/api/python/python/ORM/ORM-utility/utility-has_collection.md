@@ -12,19 +12,19 @@ type: docx
 token: TWOxdwDYRo4CCHxDdZbc7IOznCg
 sidebar_position: 17
 keywords: 
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
   - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
   - zilliz
   - zilliz cloud
   - cloud
   - has_collection()
   - pymilvus26
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

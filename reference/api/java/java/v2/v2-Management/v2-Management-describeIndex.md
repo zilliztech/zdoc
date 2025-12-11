@@ -12,19 +12,19 @@ type: docx
 token: Lp8AdBebwoF7bLx7Q8Jc3Qz0nF9
 sidebar_position: 4
 keywords: 
+  - Recommender systems
+  - information retrieval
   - dimension reduction
   - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
   - javaV226
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

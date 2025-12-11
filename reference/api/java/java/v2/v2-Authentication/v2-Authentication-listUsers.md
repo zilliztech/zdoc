@@ -12,19 +12,19 @@ type: docx
 token: EfM3drSXlo4Yzyxq2GpcmvoHnTm
 sidebar_position: 15
 keywords: 
+  - milvus lite
+  - milvus benchmark
   - managed milvus
   - Serverless vector database
-  - milvus open source
-  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - listUsers()
   - javaV226
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

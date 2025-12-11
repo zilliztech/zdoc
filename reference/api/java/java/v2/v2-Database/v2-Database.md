@@ -12,10 +12,10 @@ token: TOZmfXZa3luWIMdjXUycMbaanCd
 sidebar_position: 4
 sidebar_label: "Database"
 keywords: 
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud

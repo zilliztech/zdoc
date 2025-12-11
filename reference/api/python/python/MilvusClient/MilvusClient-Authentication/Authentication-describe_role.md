@@ -12,19 +12,19 @@ type: docx
 token: JJz3dFrE2oJP3AxySWYcJlf4nMh
 sidebar_position: 5
 keywords: 
+  - hallucinations llm
+  - Multimodal search
   - vector search algorithms
   - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - describe_role()
   - pymilvus26
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar
