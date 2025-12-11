@@ -87,21 +87,20 @@ export async function tutorialsItemsGenerator({
         if (item.label === 'Security') {
             item.items = item.items.map(subItem => {
                 if (subItem.label === 'Access Control') {
-                subItem.items.splice(1, 0, ...[
-                    {
-                        type: 'link',
-                        label: 'Manage Organization Roles',
-                        description: "Manage organization roles and permissions.",
-                        href: '/docs/organization-users#organization-roles'
-                    },
-                    {
-                        type: 'link',
-                        label: 'Manage Project Roles',
-                        description: "Manage project roles and permissions.",
-                        href: '/docs/project-users#project-roles'
-                    },
-                ])
-
+                    subItem.items.splice(1, 0, ...[
+                        {
+                            type: 'link',
+                            label: 'Manage Organization Roles',
+                            href: './organization-users#organization-roles',
+                            description: 'Zilliz Cloud provides three organization roles: Organization Owner, Organization Billing Admin, and Organization Member. These roles cannot be modified or deleted.'
+                        },
+                        {
+                            type: 'link',
+                            label: 'Manage Project Roles',
+                            href: './project-users#project-roles',
+                            description: 'Zilliz Cloud provides three project roles: Project Admin, Project Read-Write, and Project Read-Only. These roles cannot be modified or deleted.'
+                        },
+                    ])
                 }
 
                 return subItem;
@@ -128,6 +127,28 @@ export async function tutorialsItemsGenerator({
 
                 return subItem;
             })
+        }
+
+        if (item.label === 'Metrics & Alerts') {
+            item.items.push(...[
+                {
+                    type: 'link',
+                    label: 'Monitor with Prometheus',
+                    href: './prometheus-monitoring',
+                    description: 'Prometheus is a monitoring system that collects metrics from configured targets at specified intervals, evaluates rule expressions, displays the results, and can trigger alerts based on specific conditions.'
+                }
+            ])
+        }
+
+        if (item.label === 'メトリクスとアラート') {
+            item.items.push(...[
+                {
+                    type: 'link',
+                    label: 'Prometheusで監視',
+                    href: './prometheus-monitoring',
+                    description: 'Prometheusは、設定されたターゲットから指定された間隔でメトリクスを収集し、ルール式を評価し、結果を表示し、特定の条件に基づいてアラートをトリガーできる監視システムです。'
+                }
+            ])
         }
 
         return item;
