@@ -12,10 +12,10 @@ token: O6ngfC8y5lIhIWdEGDAcXHzcntl
 sidebar_position: 10
 sidebar_label: "Volume"
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud

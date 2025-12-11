@@ -12,19 +12,19 @@ type: docx
 token: FubcdxJ0LoyQiJxmUMjcZnbjnbc
 sidebar_position: 9
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - dropAlias()
   - nodejs26
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

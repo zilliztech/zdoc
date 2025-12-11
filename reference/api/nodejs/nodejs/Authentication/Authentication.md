@@ -12,10 +12,10 @@ token: H1JWfZh74lkVhgdfGiKcQfsinPg
 sidebar_position: 1
 sidebar_label: "Authentication"
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud

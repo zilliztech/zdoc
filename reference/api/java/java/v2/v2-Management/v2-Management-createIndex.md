@@ -12,19 +12,19 @@ type: docx
 token: YXPSdlp3JoP82qxhFMYc5GRnn4g
 sidebar_position: 3
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
   - javaV226
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

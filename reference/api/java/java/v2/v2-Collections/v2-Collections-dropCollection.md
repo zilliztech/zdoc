@@ -12,19 +12,19 @@ type: docx
 token: DMh5d1uiGolDtLxSNpCcWx9On7c
 sidebar_position: 14
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollection()
   - javaV226
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

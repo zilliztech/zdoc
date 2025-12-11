@@ -21,10 +21,10 @@ keywords:
   - cloud
   - dropPrivilegeGroup()
   - nodejs26
+  - Agentic RAG
   - rag llm architecture
   - private llms
   - nn search
-  - llm eval
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

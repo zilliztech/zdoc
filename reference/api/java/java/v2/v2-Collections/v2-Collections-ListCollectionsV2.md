@@ -12,19 +12,19 @@ type: docx
 token: WY4idJdzCozGGnxmLoFcIjC2ndw
 sidebar_position: 29
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - ListCollectionsV2()
   - javaV226
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

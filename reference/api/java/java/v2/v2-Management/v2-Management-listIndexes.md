@@ -12,19 +12,19 @@ type: docx
 token: LxwIdeFiGoYaRAxKS72cdjNkneh
 sidebar_position: 12
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
   - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - listIndexes()
   - javaV226
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

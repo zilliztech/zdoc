@@ -12,19 +12,19 @@ type: docx
 token: X8qWdMHg5oQQK6xZdBYcGNOnn3c
 sidebar_position: 10
 keywords: 
+  - milvus open source
+  - how does milvus work
   - Zilliz vector database
   - Zilliz database
-  - Unstructured Data
-  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - getFlushState()
   - nodejs26
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

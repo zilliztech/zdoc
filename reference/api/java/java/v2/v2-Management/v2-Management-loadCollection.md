@@ -12,19 +12,19 @@ type: docx
 token: SAAmdJbZxoYTlNxKrX7cDLvAnFy
 sidebar_position: 13
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollection()
   - javaV226
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

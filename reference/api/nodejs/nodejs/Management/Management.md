@@ -12,10 +12,10 @@ token: UmOafcFDglyFe3dayhAcRA0RnEd
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - Deep Learning
   - Knowledge base
   - natural language processing
   - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud

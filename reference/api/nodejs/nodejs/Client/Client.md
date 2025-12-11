@@ -12,10 +12,10 @@ token: ABk9fhVMTlQb0MdGuOrck8a8n7f
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud

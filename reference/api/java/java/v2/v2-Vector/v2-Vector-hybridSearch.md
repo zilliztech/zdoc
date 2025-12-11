@@ -12,19 +12,19 @@ type: docx
 token: EOsTdGbQxouZjpxP4Wbc5MXkneh
 sidebar_position: 3
 keywords: 
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
   - javaV226
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,10 +12,10 @@ token: TOZmfXZa3luWIMdjXUycMbaanCd
 sidebar_position: 4
 sidebar_label: "Database"
 keywords: 
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud

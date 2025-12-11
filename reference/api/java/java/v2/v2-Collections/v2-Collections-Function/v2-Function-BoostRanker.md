@@ -21,10 +21,10 @@ keywords:
   - cloud
   - BoostRanker
   - javaV226
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

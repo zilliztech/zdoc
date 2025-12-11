@@ -21,10 +21,10 @@ keywords:
   - cloud
   - upsert()
   - javaV226
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

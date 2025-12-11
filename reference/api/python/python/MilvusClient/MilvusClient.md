@@ -12,10 +12,10 @@ token: B2fdfjb1nl9Pjidkaa9cM6lAngd
 sidebar_position: 3
 sidebar_label: "MilvusClient"
 keywords: 
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud

@@ -12,19 +12,19 @@ type: docx
 token: MpW0dmPAao1SWkx7HGkcT16dnvb
 sidebar_position: 9
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - nodejs26
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

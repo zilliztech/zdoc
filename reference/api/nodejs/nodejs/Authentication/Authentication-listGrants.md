@@ -12,19 +12,19 @@ type: docx
 token: CJ9DdmU1ooquOnxcK5AciA3sn3g
 sidebar_position: 18
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - listGrants()
   - nodejs26
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

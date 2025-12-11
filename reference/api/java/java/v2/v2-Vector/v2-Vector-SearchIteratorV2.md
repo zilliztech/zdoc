@@ -12,19 +12,19 @@ type: docx
 token: JxXHdFBRhoDT8MxlTvEc42IsnEh
 sidebar_position: 11
 keywords: 
-  - vector similarity search
   - approximate nearest neighbor search
   - DiskANN
   - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - SearchIteratorV2()
   - javaV226
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

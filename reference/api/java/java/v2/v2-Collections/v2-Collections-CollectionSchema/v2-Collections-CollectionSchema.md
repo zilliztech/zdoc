@@ -12,19 +12,19 @@ type: docx
 token: FxUxdWGz2oUh1ixyquZcAndBnAf
 sidebar_position: 2
 keywords: 
-  - Agentic RAG
   - rag llm architecture
   - private llms
   - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - CollectionSchema
   - javaV226
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

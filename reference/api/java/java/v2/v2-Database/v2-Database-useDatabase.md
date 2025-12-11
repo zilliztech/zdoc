@@ -12,19 +12,19 @@ type: docx
 token: LAJHdQKQQoPjmYxcfQgcvjvLnqh
 sidebar_position: 7
 keywords: 
+  - ANNS
   - Vector search
   - knn algorithm
   - HNSW
-  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - useDatabase()
   - javaV226
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

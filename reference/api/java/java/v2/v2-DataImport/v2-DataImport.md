@@ -12,10 +12,10 @@ token: AtkCfVN4Ll6GqMdVJfxcybHanDf
 sidebar_position: 9
 sidebar_label: "Data Import"
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud

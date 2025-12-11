@@ -12,19 +12,19 @@ type: docx
 token: N6kjdex5Ao0lRqxPXBhcxq4AnNh
 sidebar_position: 13
 keywords: 
+  - vector databases comparison
+  - Faiss
+  - Video search
   - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud
   - list_privilege_groups()
   - pymilvus26
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

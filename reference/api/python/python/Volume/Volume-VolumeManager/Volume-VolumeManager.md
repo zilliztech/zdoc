@@ -12,19 +12,19 @@ type: docx
 token: XdZ6dFzA3oUu4dxWh7Kcz4dhnQg
 sidebar_position: 4
 keywords: 
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - VolumeManager
   - pymilvus26
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

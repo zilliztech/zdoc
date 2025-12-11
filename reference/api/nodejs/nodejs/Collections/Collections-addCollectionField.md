@@ -12,19 +12,19 @@ type: docx
 token: JqOJdOA6Dooy2cxAXTkcQpBEnyk
 sidebar_position: 19
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - addCollectionField()
   - nodejs26
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: MQxvdwd7QoUu5zxyHTjc0MUKnhe
 sidebar_position: 6
 keywords: 
+  - cosine distance
+  - what is a vector database
   - vectordb
   - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - createAlias()
   - javaV226
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

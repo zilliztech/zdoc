@@ -12,19 +12,19 @@ type: docx
 token: Djg7dlb5NoINz9xOAs1cyY67nsh
 sidebar_position: 15
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - listCollections()
   - nodejs26
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

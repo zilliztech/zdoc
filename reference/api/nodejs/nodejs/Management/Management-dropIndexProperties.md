@@ -12,19 +12,19 @@ type: docx
 token: Acvxd7t9poXj6nxb0vMco0wsngh
 sidebar_position: 6
 keywords: 
+  - Knowledge base
+  - natural language processing
   - AI chatbots
   - cosine distance
-  - what is a vector database
-  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndexProperties()
   - nodejs26
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

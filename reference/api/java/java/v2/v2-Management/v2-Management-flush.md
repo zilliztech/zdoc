@@ -12,19 +12,19 @@ type: docx
 token: PmHrdRirloGrFExMMfcc5un0n1g
 sidebar_position: 7
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - javaV226
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

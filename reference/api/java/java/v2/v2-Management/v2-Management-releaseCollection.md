@@ -12,19 +12,19 @@ type: docx
 token: KJArdiXZvoBtdIxumpocfe5knJc
 sidebar_position: 16
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud
   - releaseCollection()
   - javaV226
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

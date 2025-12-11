@@ -12,19 +12,19 @@ type: docx
 token: Vv4NdWVa5o5BSrx11OZcNVnQnbh
 sidebar_position: 20
 keywords: 
+  - vector databases comparison
+  - Faiss
   - Video search
   - AI Hallucination
-  - AI Agent
-  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - listCollections()
   - javaV226
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

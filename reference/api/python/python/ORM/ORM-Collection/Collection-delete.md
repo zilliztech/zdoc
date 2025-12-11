@@ -12,19 +12,19 @@ type: docx
 token: TJMVdi4U2oBFnAxO95jctzVAnzg
 sidebar_position: 6
 keywords: 
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - pymilvus26
+  - Audio similarity search
+  - Elastic vector database
   - Pinecone vs Milvus
   - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

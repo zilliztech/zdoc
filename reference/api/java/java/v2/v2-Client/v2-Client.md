@@ -12,10 +12,10 @@ token: QW8NfURhvl0NtOdmS3DcvQYCnFh
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud

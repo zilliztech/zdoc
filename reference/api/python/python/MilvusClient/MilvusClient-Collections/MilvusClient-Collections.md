@@ -12,10 +12,10 @@ token: CqXrfDyXZlkNSrdh5eJcI0Fznjh
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud

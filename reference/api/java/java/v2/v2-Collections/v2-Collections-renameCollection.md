@@ -12,19 +12,19 @@ type: docx
 token: JCutdOT9Polf2dxej0mcoP24n9c
 sidebar_position: 21
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - renameCollection()
   - javaV226
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

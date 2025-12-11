@@ -12,19 +12,19 @@ type: docx
 token: HWYXdlaGIoTNVUx34GycfwjAnrb
 sidebar_position: 1
 keywords: 
+  - Knowledge base
+  - natural language processing
   - AI chatbots
   - cosine distance
-  - what is a vector database
-  - vectordb
   - zilliz
   - zilliz cloud
   - cloud
   - create_volume()
   - pymilvus26
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

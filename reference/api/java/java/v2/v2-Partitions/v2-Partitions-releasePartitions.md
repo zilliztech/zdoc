@@ -12,19 +12,19 @@ type: docx
 token: VsyQdDkXnoloWYxfjXNchc0dnng
 sidebar_position: 7
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - releasePartitions()
   - javaV226
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

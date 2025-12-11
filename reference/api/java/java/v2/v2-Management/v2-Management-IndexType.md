@@ -12,19 +12,19 @@ type: docx
 token: SVbSdttVjoTGJrxdLiIcr9VLnPg
 sidebar_position: 11
 keywords: 
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - IndexType
   - javaV226
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
