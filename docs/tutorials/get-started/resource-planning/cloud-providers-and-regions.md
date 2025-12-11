@@ -17,10 +17,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 
@@ -39,13 +39,15 @@ Zilliz Cloud supports deploying free, serverless, and dedicated clusters on AWS.
 
 <table>
    <tr>
-     <th><p><strong>AWS Region</strong></p></th>
+     <th><p><strong>Continent</strong></p></th>
+     <th><p><strong>Region</strong></p></th>
      <th><p><strong>Location</strong></p></th>
      <th><p><strong>Free Cluster</strong></p></th>
      <th><p><strong>Serverless Cluster</strong></p></th>
      <th><p><strong>Dedicated Cluster</strong></p></th>
    </tr>
    <tr>
+     <td rowspan="4"><p>North America</p></td>
      <td><p>us-east-1</p></td>
      <td><p>N. Virginia, USA</p></td>
      <td><p>No</p></td>
@@ -74,6 +76,7 @@ Zilliz Cloud supports deploying free, serverless, and dedicated clusters on AWS.
      <td><p>Yes</p></td>
    </tr>
    <tr>
+     <td><p>Europe</p></td>
      <td><p>eu-central-1</p></td>
      <td><p>Frankfurt, Germany</p></td>
      <td><p>Yes</p></td>
@@ -81,6 +84,7 @@ Zilliz Cloud supports deploying free, serverless, and dedicated clusters on AWS.
      <td><p>Yes</p></td>
    </tr>
    <tr>
+     <td rowspan="2"><p>Asia</p></td>
      <td><p>ap-northeast-1</p></td>
      <td><p>Tokyo, Japan</p></td>
      <td><p>No</p></td>
@@ -95,6 +99,7 @@ Zilliz Cloud supports deploying free, serverless, and dedicated clusters on AWS.
      <td><p>Yes</p></td>
    </tr>
    <tr>
+     <td><p>Oceania</p></td>
      <td><p>ap-southeast-2</p></td>
      <td><p>Sydney, Australia</p></td>
      <td><p>No</p></td>
@@ -111,13 +116,15 @@ Free, serverless, and dedicated clusters can be deployed on GCP.
 
 <table>
    <tr>
-     <th><p><strong>GCP Region</strong></p></th>
+     <th><p><strong>Continent</strong></p></th>
+     <th><p><strong>Region</strong></p></th>
      <th><p><strong>Location</strong></p></th>
      <th><p><strong>Free Cluster</strong></p></th>
      <th><p><strong>Serverless Cluster</strong></p></th>
      <th><p><strong>Dedicated Cluster</strong></p></th>
    </tr>
    <tr>
+     <td rowspan="3"><p>North America</p></td>
      <td><p>us-west1</p></td>
      <td><p>Oregon, USA</p></td>
      <td><p>Yes</p></td>
@@ -139,6 +146,7 @@ Free, serverless, and dedicated clusters can be deployed on GCP.
      <td><p>Yes</p></td>
    </tr>
    <tr>
+     <td><p>Europe</p></td>
      <td><p>europe-west3</p></td>
      <td><p>Frankfurt, Germany</p></td>
      <td><p>No</p></td>
@@ -146,6 +154,7 @@ Free, serverless, and dedicated clusters can be deployed on GCP.
      <td><p>Yes</p></td>
    </tr>
    <tr>
+     <td><p>Asia</p></td>
      <td><p>asia-southeast1</p></td>
      <td><p>Singapore</p></td>
      <td><p>No</p></td>
@@ -162,13 +171,15 @@ Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
 
 <table>
    <tr>
-     <th><p><strong>Azure Region</strong></p></th>
+     <th><p><strong>Continent</strong></p></th>
+     <th><p><strong>Region</strong></p></th>
      <th><p><strong>Location</strong></p></th>
      <th><p><strong>Free Cluster</strong></p></th>
      <th><p><strong>Serverless Cluster</strong></p></th>
      <th><p><strong>Dedicated Cluster</strong></p></th>
    </tr>
    <tr>
+     <td rowspan="3"><p>North America</p></td>
      <td><p>East US</p></td>
      <td><p>Virginia, USA</p></td>
      <td><p>No</p></td>
@@ -190,6 +201,7 @@ Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
      <td><p>Yes</p></td>
    </tr>
    <tr>
+     <td rowspan="2"><p>Europe</p></td>
      <td><p>Germany West Central</p></td>
      <td><p>Frankfurt, Germany</p></td>
      <td><p>No</p></td>
@@ -204,6 +216,7 @@ Zilliz Cloud supports deploying dedicated clusters on Microsoft Azure.
      <td><p>Yes</p></td>
    </tr>
    <tr>
+     <td><p>Asia</p></td>
      <td><p>Central India</p></td>
      <td><p>Pune, India</p></td>
      <td><p>No</p></td>

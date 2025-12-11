@@ -18,10 +18,10 @@ keywords:
   - dedicated
   - cost
   - billing
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 
@@ -38,9 +38,15 @@ The total cost of a Dedicated cluster is the sum of the following components:
 
 - [Storage costs](./dedicated-cluster-cost#storage-cost)
 
-- [Other costs](./dedicated-cluster-cost#other-costs) (eg. Audit log costs and data transfer costs)
+In addition to the two primary billing items above, the following optional add-on charges may apply:
+
+- [Data transfer cost](./data-transfer-cost)
+
+- [Audit log cost](./audit-log-cost)
 
 ## Vector database cost\{#vector-database-cost}
+
+The vector database cost includes charges for using computing resources of a Dedicated cluster.
 
 ### Cost calculation\{#cost-calculation}
 
@@ -99,16 +105,6 @@ Storage costs are charged separately from CU costs and depend on:
 - Storage usage
 
 For details, see [Storage](./storage-cost).
-
-## Other costs\{#other-costs}
-
-Add-on features are billed separately. The following is the sources of add-on costs:
-
-- **Audit Log Cost**: Charged based on the **CU usage for log data**.
-
-- **Data Transfer Cost**: Charged for data egress over public internet, intra-region and cross-region data transfer.
-
-For details, see [Audit Log](./audit-log-cost) and [Data Transfer](./data-transfer-cost).
 
 ## FAQs\{#faqs}
 

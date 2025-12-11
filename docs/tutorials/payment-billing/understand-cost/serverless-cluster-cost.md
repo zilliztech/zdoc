@@ -18,10 +18,10 @@ keywords:
   - serverless
   - cost
   - billing
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 
@@ -38,7 +38,11 @@ The total cost of a Serverless cluster is the sum of the following components:
 
 - [Storage costs](./serverless-cluster-cost#storage-cost)
 
-- [Other costs](./serverless-cluster-cost#other-costs) (eg. Data transfer costs)
+In addition to the two primary billing items above, the following optional add-on charges may apply:
+
+- [Data transfer cost](./data-transfer-cost)
+
+- [Audit log cost](./audit-log-cost)
 
 ## Vector database costs (write)\{#vector-database-costs-write}
 
@@ -223,12 +227,4 @@ Storage costs are charged separately from vector database costs and depend on:
 - Storage usage
 
 For details, see [Storage](./storage-cost).
-
-## Other costs\{#other-costs}
-
-Add-on features are billed separately. The following is the sources of add-on costs:
-
-- **Data Transfer Cost**: Charged for data egress over public internet and cross-region data transfer.
-
-For details, see [Data Transfer](./data-transfer-cost).
 

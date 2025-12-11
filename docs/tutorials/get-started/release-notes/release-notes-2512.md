@@ -7,7 +7,7 @@ added_since: FALSE
 last_modified: FALSE
 deprecate_since: FALSE
 notebook: FALSE
-description: "Volume GA Email | Cloud"
+description: "December 2025 Release Notes | Cloud"
 type: origin
 token: LX0RwtoEEihhNukmt1DcSQGfnjb
 sidebar_position: 1
@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 
@@ -30,7 +30,31 @@ import Grid from '@site/src/components/Grid';
 
 # December 2025 Release Notes
 
-Volume GA Email
+<Grid columnSize="2" widthRatios="16,83">
+
+    <div>
+
+        **2025-12-10**
+
+    </div>
+
+    <div>
+
+        ## Enhancements\{#enhancements}
+
+        - Milvus Endpoint migration now supports Geometry and Struct data types, enabling seamless migration of collections with spatial shapes and deeply nested attributes.
+
+        - The billing console now displays your Advance balance, offering clearer visibility into prepaid usage and remaining balance.
+
+        - RESTful APIs now support Auto Scaling configuration, allowing programmatic management of cluster elasticity policies.
+
+        - Job Center provides more detailed progress updates, giving users clearer insights into job status and execution stages.
+
+        - The registration flow has been optimized with a simplified form, improving onboarding efficiency and overall user experience.
+
+    </div>
+
+</Grid>
 
 <Grid columnSize="2" widthRatios="16,83">
 
@@ -72,7 +96,7 @@ Volume GA Email
 
             The Organization owner can define trusted IPv4 addresses or CIDR ranges for console access; traffic from unapproved sources is blocked.
 
-        - **Comprehensive Auditing 
+        - **Comprehensive Auditing** 
 
             All allowlist lifecycle events (enable, disable, rule changes) are recorded in Platform Audit Logs.
 
