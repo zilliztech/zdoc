@@ -12,19 +12,19 @@ type: docx
 token: C8kgdOn3pozkrtxCBMLcqcSTnTb
 sidebar_position: 8
 keywords: 
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - Unstructured Data
-  - vector database
-  - IVF
-  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - nodejs26
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

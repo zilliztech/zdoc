@@ -12,19 +12,19 @@ type: docx
 token: Ulypd24byoDBOpxGnnJcbF3Nnkb
 sidebar_position: 2
 keywords: 
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - construct_from_dict()
   - pymilvus26
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
   - Unstructured Data
-  - vector database
-  - IVF
-  - knn
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: VVyNdx038oECxNxMQavc9vssnoh
 sidebar_position: 13
 keywords: 
+  - vector database tutorial
   - how do vector databases work
   - vector db comparison
   - openai vector db
-  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud
   - get_collection_stats()
   - pymilvus26
+  - vector search algorithms
   - Question answering system
   - llm-as-a-judge
   - hybrid vector search
-  - Video deduplication
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,10 +12,10 @@ token: I5i9f86n4lsy9IddsDocMOsfnXg
 sidebar_position: 2
 sidebar_label: "BulkImport"
 keywords: 
+  - Vector index
+  - vector database open source
   - open source vector db
   - vector database example
-  - rag vector database
-  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud

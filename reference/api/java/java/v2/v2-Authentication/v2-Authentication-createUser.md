@@ -12,19 +12,19 @@ type: docx
 token: OTMXd9uNWoMwe4xvg70cg49Pnmh
 sidebar_position: 4
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - createUser()
   - javaV226
+  - open source vector database
+  - Vector index
+  - vector database open source
   - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
