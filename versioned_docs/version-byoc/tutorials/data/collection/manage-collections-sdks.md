@@ -18,10 +18,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

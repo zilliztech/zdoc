@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

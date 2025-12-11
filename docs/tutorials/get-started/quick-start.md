@@ -17,10 +17,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

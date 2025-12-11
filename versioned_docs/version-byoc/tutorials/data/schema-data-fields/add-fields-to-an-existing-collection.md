@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - add collection fields
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

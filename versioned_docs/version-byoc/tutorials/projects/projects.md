@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

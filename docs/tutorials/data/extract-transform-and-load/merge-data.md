@@ -21,10 +21,10 @@ keywords:
   - load
   - data merging
   - merge data
-  - what are vector databases
-  - vector databases comparison
   - Faiss
   - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

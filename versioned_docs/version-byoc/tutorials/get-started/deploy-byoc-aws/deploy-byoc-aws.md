@@ -17,10 +17,10 @@ keywords:
   - aws
   - milvus
   - vector database
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

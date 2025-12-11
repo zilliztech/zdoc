@@ -19,10 +19,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

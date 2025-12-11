@@ -21,10 +21,10 @@ keywords:
   - int
   - integer
   - float
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

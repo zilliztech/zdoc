@@ -18,10 +18,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

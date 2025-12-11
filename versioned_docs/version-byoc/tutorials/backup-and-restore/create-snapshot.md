@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 

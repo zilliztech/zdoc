@@ -18,10 +18,10 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

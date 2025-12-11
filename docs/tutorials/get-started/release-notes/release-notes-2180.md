@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

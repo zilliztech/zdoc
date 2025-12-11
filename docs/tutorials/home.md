@@ -18,10 +18,10 @@ keywords:
   - developer hub
   - home page
   - home
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 hide_title: true
 hide_table_of_contents: true

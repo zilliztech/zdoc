@@ -18,10 +18,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

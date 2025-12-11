@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

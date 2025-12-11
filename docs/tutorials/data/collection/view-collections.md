@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

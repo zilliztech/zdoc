@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - Chroma vector database
   - nlp search
   - hallucinations llm
   - Multimodal search
+  - vector search algorithms
 
 ---
 

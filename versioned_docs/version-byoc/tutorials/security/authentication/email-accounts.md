@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - Annoy vector search
   - milvus
   - Zilliz
   - milvus vector database
+  - milvus db
 
 ---
 

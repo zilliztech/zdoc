@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

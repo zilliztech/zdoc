@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

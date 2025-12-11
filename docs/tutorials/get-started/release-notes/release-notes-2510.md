@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

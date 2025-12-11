@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - azure
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 
@@ -349,7 +349,7 @@ Please refer to [Payment & Billing](./payment-billing#marketplace-pricing-terms)
 
         This can happen when all your organizations are already linked to Marketplace subscriptions. You will see a **"Marketplace Linked"** tag next to the unavailable organization.
 
-        undefined
+        ![marketplace-already-linked-subscription](https://zdoc-images.s3.us-west-2.amazonaws.com/marketplace-already-linked-subscription.png "marketplace-already-linked-subscription")
 
         In this case,
 

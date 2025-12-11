@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 

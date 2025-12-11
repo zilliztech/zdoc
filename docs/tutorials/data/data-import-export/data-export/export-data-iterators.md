@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

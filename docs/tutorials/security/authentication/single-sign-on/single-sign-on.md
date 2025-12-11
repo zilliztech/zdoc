@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

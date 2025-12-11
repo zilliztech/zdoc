@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

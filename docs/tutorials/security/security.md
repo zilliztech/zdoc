@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

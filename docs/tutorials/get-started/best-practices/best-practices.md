@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

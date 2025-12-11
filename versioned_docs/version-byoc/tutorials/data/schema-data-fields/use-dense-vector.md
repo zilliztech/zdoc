@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

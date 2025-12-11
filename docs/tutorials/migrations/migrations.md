@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

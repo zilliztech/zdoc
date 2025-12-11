@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

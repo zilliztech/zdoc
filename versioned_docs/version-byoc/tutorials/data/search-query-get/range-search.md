@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - range search
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

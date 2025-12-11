@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - gcp
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

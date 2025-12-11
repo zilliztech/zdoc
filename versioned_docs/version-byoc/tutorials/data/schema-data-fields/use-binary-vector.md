@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

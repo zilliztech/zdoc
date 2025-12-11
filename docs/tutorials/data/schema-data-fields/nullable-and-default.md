@@ -19,10 +19,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

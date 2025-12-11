@@ -17,10 +17,10 @@ keywords:
   - cloud
   - notification
   - channels
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

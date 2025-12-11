@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

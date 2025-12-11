@@ -21,10 +21,10 @@ keywords:
   - index
   - path index
   - flat index
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

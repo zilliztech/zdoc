@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - alphanumonly
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

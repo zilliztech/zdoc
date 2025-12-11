@@ -18,10 +18,10 @@ keywords:
   - migrations
   - milvus
   - backup files
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
 
 ---
 

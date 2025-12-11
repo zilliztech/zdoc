@@ -19,10 +19,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

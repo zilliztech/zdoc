@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

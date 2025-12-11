@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

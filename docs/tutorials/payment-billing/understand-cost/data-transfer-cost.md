@@ -18,10 +18,10 @@ keywords:
   - data transfer
   - cost
   - billing
+  - Image Search
+  - LLMs
   - Machine Learning
   - RAG
-  - NLP
-  - Neural Network
 
 ---
 

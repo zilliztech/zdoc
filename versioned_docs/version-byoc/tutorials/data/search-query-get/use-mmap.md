@@ -17,10 +17,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

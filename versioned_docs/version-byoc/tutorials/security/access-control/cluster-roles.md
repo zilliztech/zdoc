@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

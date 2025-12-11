@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - multi-tenancy
+  - milvus
+  - Zilliz
   - milvus vector database
   - milvus db
-  - milvus vector db
-  - Zilliz Cloud
 
 ---
 

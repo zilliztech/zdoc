@@ -19,10 +19,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
   - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

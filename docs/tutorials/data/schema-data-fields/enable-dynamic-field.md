@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

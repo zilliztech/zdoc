@@ -18,10 +18,10 @@ keywords:
   - sso
   - microsoft
   - entra
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

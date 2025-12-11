@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

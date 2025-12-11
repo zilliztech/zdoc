@@ -19,10 +19,10 @@ keywords:
   - milvus
   - backup files
   - volume
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

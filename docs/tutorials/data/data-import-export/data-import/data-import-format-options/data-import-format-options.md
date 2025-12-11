@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

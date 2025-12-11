@@ -17,10 +17,10 @@ keywords:
   - register
   - cloud
   - milvus
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

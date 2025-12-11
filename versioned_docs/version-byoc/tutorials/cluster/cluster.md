@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

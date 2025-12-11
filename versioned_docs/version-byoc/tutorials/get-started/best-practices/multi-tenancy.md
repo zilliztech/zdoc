@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - multi-tenancy
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - invoice
   - view
+  - vector databases comparison
   - Faiss
   - Video search
   - AI Hallucination
-  - AI Agent
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 

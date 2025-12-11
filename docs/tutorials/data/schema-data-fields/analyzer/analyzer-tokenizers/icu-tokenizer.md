@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - icu-tokenizer
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

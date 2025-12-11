@@ -17,10 +17,10 @@ keywords:
   - cloud
   - whitelist
   - setup
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

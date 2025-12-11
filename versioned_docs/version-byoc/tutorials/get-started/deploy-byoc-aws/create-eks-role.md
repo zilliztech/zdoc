@@ -19,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

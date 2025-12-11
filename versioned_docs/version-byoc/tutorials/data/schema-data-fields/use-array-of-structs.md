@@ -20,10 +20,10 @@ keywords:
   - array field
   - array of structs
   - structs
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

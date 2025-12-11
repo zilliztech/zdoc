@@ -18,10 +18,10 @@ keywords:
   - collection
   - load
   - release
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

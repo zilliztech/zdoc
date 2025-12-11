@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

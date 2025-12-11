@@ -22,10 +22,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
   - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

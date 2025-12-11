@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - index build level
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

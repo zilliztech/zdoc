@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

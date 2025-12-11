@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - overview
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

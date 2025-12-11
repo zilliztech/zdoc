@@ -18,10 +18,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

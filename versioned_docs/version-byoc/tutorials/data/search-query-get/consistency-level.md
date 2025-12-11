@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

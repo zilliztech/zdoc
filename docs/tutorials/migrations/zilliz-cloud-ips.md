@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - ips
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

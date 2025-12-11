@@ -19,10 +19,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

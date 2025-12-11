@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - advance pay
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

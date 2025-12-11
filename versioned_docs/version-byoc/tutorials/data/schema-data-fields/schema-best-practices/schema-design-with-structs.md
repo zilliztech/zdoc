@@ -21,10 +21,10 @@ keywords:
   - hands-on
   - structs
   - array of structs
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

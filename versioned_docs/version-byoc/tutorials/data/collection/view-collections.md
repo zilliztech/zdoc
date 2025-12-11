@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

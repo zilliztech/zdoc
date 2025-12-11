@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - aws
-  - vector databases comparison
-  - Faiss
-  - Video search
   - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

@@ -21,10 +21,10 @@ keywords:
   - hands-on
   - structs
   - array of structs
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

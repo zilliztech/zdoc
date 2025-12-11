@@ -22,10 +22,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

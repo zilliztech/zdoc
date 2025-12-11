@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

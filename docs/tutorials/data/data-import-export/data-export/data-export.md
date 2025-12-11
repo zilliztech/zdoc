@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

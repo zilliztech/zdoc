@@ -20,10 +20,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - milvus db
-  - milvus vector db
   - Zilliz Cloud
   - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

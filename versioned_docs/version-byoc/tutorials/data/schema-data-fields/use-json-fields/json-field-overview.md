@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - overview
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

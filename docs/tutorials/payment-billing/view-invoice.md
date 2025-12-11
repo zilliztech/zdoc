@@ -17,10 +17,10 @@ keywords:
   - cloud
   - invoice
   - view
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - Large language model
   - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
 
 ---
 

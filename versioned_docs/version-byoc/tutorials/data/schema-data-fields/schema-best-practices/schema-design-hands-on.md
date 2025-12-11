@@ -19,10 +19,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

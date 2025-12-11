@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

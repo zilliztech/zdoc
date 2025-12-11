@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

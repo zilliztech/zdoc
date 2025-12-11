@@ -18,10 +18,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

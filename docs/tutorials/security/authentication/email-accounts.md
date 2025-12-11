@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

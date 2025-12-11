@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
+  - Natural language search
   - Similarity Search
   - multimodal RAG
   - llm hallucinations
-  - hybrid search
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

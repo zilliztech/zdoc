@@ -17,10 +17,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

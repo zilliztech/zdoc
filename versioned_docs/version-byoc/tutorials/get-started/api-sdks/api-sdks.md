@@ -23,10 +23,10 @@ keywords:
   - go
   - node
   - nodejs
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

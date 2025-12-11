@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

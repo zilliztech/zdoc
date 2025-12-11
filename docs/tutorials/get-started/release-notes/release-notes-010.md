@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

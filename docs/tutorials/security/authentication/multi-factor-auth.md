@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

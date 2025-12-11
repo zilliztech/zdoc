@@ -18,10 +18,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

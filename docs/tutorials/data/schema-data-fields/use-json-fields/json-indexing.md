@@ -21,10 +21,10 @@ keywords:
   - index
   - path index
   - flat index
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

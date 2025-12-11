@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

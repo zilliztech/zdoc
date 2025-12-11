@@ -18,10 +18,10 @@ keywords:
   - auditing
   - log
   - configure
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

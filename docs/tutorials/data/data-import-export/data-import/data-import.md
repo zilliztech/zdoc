@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - activities
   - view
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

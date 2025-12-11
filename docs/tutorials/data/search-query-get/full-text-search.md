@@ -22,10 +22,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

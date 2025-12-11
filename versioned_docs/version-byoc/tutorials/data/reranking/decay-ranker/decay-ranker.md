@@ -22,10 +22,10 @@ keywords:
   - decay
   - decay ranker
   - decay rankers
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

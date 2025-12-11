@@ -17,10 +17,10 @@ keywords:
   - cloud
   - credit card
   - subscribe
-  - milvus vector db
   - Zilliz Cloud
   - what is milvus
   - milvus database
+  - milvus lite
 
 ---
 

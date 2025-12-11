@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - multi-language
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

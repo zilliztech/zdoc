@@ -20,10 +20,10 @@ keywords:
   - integrate
   - object
   - storage
-  - Large language model
-  - Vectorization
   - k nearest neighbor algorithm
   - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

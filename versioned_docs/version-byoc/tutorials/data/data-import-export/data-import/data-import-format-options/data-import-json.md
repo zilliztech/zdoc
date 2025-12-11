@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - json
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

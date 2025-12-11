@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

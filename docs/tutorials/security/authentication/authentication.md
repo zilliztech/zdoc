@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

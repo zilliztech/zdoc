@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

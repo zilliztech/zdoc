@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - sso
+  - information retrieval
+  - dimension reduction
   - hnsw algorithm
   - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
 
 ---
 

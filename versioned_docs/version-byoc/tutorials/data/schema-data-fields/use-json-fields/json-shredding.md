@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - json shredding
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

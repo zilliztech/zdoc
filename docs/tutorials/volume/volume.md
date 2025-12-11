@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - volume
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

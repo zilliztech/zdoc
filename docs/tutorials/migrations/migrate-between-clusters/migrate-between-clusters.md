@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

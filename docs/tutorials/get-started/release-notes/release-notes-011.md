@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
+  - semantic search
   - Anomaly Detection
   - sentence transformers
   - Recommender systems
-  - information retrieval
 
 ---
 

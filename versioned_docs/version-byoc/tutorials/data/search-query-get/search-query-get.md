@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - DML
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

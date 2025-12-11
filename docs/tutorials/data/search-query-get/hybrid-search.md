@@ -19,10 +19,10 @@ keywords:
   - data
   - hybrid search
   - combine sparse and dense vectors
-  - ANNS
-  - Vector search
-  - knn algorithm
   - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

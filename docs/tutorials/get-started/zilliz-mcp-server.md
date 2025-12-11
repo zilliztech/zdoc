@@ -18,10 +18,10 @@ keywords:
   - mcp
   - milvus
   - mcp server
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

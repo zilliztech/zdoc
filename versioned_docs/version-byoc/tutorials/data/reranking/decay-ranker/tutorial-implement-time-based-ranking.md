@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - tutorial
   - time-based ranking
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

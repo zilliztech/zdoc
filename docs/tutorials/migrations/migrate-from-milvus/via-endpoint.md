@@ -18,10 +18,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

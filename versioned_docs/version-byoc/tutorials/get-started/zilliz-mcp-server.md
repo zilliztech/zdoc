@@ -18,10 +18,10 @@ keywords:
   - mcp
   - milvus
   - mcp server
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

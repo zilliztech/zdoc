@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

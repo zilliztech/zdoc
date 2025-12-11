@@ -18,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - zero downtime
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

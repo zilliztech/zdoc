@@ -18,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

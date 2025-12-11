@@ -19,10 +19,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

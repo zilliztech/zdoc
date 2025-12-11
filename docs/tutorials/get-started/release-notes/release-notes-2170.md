@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Recommender systems
   - information retrieval
   - dimension reduction
   - hnsw algorithm
+  - vector similarity search
 
 ---
 

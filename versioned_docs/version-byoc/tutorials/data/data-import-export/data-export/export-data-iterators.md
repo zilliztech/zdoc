@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

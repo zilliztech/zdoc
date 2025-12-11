@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

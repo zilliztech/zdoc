@@ -17,10 +17,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

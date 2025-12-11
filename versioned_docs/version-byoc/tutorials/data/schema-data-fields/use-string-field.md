@@ -19,10 +19,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

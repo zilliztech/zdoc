@@ -19,10 +19,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

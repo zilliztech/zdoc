@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

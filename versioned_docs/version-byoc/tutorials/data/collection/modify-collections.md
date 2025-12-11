@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

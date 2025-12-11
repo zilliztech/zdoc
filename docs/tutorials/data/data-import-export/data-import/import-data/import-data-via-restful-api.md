@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

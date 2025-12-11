@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

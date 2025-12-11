@@ -18,10 +18,10 @@ keywords:
   - backup
   - files
   - view
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

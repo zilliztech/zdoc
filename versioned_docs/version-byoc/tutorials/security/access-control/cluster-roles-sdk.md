@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 
