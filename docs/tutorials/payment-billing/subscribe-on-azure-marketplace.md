@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - azure
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

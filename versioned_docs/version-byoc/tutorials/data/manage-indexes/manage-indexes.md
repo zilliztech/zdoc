@@ -17,10 +17,10 @@ keywords:
   - cloud
   - index
   - manage
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

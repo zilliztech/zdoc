@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

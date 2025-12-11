@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - Vector index
   - vector database open source
   - open source vector db
   - vector database example
+  - rag vector database
 
 ---
 

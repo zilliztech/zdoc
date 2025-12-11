@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

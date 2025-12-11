@@ -17,10 +17,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

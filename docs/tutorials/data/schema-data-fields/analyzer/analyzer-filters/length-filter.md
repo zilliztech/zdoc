@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

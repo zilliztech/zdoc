@@ -20,10 +20,10 @@ keywords:
   - upsert
   - update
   - insert
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

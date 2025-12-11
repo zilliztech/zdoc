@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - stemmer
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

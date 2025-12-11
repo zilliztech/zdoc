@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

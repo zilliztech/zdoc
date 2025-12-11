@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

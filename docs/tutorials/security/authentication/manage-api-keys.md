@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster credentials
   - api key
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

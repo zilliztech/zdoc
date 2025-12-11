@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster credentials
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

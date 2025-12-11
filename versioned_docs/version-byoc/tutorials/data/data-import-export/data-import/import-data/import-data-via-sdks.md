@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - Question answering system
-  - llm-as-a-judge
   - hybrid vector search
   - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

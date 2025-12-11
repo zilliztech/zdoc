@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

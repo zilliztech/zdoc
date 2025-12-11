@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

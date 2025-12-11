@@ -18,10 +18,10 @@ keywords:
   - collection
   - load
   - release
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

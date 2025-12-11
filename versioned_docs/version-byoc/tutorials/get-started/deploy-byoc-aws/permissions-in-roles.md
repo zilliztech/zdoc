@@ -19,10 +19,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

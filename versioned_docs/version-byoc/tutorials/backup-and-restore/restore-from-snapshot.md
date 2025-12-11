@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - sso
   - other
   - idp
-  - Dense embedding
-  - Faiss vector database
   - Chroma vector database
   - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

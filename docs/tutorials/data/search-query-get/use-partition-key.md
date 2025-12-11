@@ -19,10 +19,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

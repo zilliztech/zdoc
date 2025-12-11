@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

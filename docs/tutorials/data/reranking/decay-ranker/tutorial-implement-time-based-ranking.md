@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - tutorial
   - time-based ranking
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

@@ -21,10 +21,10 @@ keywords:
   - result reranking
   - boost
   - boost ranker
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

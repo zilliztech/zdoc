@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

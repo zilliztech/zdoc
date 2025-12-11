@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - range search
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

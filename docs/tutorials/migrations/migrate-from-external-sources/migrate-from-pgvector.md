@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - postgresql
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

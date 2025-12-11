@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

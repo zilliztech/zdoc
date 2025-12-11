@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

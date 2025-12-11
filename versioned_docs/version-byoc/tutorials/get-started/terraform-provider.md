@@ -17,10 +17,10 @@ keywords:
   - cloud
   - terraform provider
   - terraform
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

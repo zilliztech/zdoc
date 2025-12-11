@@ -20,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

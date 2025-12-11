@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - array operators
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

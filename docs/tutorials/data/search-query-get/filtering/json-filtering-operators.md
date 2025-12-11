@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - json operators
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

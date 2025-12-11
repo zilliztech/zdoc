@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

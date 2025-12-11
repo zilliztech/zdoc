@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - collection
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

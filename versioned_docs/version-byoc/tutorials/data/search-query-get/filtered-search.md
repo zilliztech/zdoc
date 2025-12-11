@@ -19,10 +19,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

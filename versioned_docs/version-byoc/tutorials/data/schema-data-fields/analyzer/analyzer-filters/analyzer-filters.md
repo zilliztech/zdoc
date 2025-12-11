@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

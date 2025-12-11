@@ -18,10 +18,10 @@ keywords:
   - scalar field
   - varchar
   - ngram
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

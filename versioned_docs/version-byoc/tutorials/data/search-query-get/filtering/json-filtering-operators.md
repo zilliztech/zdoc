@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - json operators
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

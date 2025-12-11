@@ -17,10 +17,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

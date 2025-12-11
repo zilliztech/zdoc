@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - azure
   - blob
   - storage
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

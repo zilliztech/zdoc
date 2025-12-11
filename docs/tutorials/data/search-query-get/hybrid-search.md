@@ -19,10 +19,10 @@ keywords:
   - data
   - hybrid search
   - combine sparse and dense vectors
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

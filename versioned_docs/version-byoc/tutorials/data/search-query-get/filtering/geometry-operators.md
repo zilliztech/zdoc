@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - geometry
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

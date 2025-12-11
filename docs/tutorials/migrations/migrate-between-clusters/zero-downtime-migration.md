@@ -18,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - zero downtime
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

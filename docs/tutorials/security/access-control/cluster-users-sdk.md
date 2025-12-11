@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - users
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

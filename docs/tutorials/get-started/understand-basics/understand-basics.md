@@ -17,10 +17,10 @@ keywords:
   - cloud
   - basics
   - milvus
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

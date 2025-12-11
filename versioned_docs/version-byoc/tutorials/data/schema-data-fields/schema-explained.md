@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

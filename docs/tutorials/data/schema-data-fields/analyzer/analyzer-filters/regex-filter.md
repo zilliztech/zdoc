@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - regex
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

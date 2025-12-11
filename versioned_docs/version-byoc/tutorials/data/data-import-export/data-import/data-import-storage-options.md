@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 

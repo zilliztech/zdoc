@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

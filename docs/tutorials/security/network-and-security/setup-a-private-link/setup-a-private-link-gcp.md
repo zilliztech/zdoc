@@ -22,10 +22,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

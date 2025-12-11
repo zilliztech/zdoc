@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - ascii folding
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

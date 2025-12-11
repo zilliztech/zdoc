@@ -20,10 +20,10 @@ keywords:
   - upsert
   - update
   - insert
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

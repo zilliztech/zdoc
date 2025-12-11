@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - array field
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

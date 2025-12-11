@@ -20,10 +20,10 @@ keywords:
   - search result reranking
   - result reranking
   - rrf
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

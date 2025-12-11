@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

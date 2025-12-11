@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - phrase-match
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

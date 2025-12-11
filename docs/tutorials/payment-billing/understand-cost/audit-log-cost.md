@@ -18,10 +18,10 @@ keywords:
   - audit log
   - cost
   - billing
+  - Embedding model
   - image similarity search
   - Context Window
   - Natural language search
-  - Similarity Search
 
 ---
 

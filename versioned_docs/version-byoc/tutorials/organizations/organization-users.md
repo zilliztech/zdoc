@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

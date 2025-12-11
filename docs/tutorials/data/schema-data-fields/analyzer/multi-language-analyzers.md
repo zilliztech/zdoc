@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - multi-language
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

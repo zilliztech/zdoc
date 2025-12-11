@@ -18,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

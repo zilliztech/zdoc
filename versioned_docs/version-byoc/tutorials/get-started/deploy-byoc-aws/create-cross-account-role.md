@@ -19,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

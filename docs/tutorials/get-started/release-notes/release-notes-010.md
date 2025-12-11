@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

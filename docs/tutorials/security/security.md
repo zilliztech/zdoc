@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

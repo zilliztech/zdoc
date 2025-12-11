@@ -17,10 +17,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
   - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

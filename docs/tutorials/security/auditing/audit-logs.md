@@ -18,10 +18,10 @@ keywords:
   - auditing
   - log
   - configure
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

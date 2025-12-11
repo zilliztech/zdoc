@@ -18,10 +18,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

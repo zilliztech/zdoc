@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data
   - security
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - json shredding
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

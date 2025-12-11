@@ -20,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
+  - approximate nearest neighbor search
+  - DiskANN
   - Sparse vector
   - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
 
 ---
 

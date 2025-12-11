@@ -17,10 +17,10 @@ keywords:
   - cloud
   - whitelist
   - setup
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
   - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

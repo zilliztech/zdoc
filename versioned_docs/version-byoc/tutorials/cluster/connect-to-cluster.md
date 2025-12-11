@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

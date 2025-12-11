@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - linear decay
   - linear
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

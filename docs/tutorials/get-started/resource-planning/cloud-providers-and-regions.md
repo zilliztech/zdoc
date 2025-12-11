@@ -17,10 +17,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - milvus vector db
-  - Zilliz Cloud
   - what is milvus
   - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

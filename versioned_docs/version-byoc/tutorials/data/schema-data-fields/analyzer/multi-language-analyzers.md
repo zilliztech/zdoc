@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - multi-language
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

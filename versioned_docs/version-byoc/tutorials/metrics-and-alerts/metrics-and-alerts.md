@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

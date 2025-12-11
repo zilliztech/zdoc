@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - volume
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

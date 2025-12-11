@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
+  - Faiss
+  - Video search
   - AI Hallucination
   - AI Agent
-  - semantic search
-  - Anomaly Detection
 
 ---
 

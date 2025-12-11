@@ -21,10 +21,10 @@ keywords:
   - rto
   - rpo
   - cost optimzation
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

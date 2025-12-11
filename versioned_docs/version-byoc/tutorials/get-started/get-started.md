@@ -16,10 +16,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

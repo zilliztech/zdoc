@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

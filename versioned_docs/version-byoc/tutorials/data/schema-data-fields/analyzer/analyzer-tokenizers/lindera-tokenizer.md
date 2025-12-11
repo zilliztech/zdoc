@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - lindera-tokenizer
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

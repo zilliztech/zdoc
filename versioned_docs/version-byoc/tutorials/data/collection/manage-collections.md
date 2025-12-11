@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

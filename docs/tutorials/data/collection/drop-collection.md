@@ -19,10 +19,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

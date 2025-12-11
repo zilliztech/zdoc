@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - aws
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

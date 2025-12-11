@@ -20,10 +20,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

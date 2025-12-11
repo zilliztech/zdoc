@@ -21,10 +21,10 @@ keywords:
   - subnet
   - milvus
   - vector database
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

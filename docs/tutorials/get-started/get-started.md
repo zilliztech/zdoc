@@ -16,10 +16,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - index
   - manage
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

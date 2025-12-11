@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

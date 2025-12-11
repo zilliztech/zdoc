@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

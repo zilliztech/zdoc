@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - qdrant
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

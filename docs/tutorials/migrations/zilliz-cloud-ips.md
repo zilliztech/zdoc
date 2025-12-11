@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - ips
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

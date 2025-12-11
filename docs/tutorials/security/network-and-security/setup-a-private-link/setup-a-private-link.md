@@ -21,10 +21,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

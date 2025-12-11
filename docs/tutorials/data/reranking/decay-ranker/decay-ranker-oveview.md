@@ -22,10 +22,10 @@ keywords:
   - decay
   - decay ranker
   - decay ranker overview
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

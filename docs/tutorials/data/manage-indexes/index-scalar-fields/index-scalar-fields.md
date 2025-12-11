@@ -17,10 +17,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

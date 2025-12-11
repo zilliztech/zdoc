@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

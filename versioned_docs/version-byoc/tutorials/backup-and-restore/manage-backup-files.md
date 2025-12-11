@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - manage
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

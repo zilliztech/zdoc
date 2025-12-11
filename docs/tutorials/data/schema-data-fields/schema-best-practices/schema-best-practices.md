@@ -19,10 +19,10 @@ keywords:
   - schema
   - best practices
   - schema design
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

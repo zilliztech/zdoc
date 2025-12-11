@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

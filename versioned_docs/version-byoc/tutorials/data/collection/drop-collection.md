@@ -19,10 +19,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

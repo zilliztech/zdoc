@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - consistency level
+  - Video search
   - AI Hallucination
   - AI Agent
   - semantic search
-  - Anomaly Detection
 
 ---
 

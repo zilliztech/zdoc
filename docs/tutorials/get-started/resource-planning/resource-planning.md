@@ -17,10 +17,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 

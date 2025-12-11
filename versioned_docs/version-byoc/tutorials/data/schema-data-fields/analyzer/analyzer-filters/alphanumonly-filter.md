@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - alphanumonly
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

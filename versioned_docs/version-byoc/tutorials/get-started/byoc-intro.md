@@ -16,10 +16,10 @@ keywords:
   - byoc
   - milvus
   - vector database
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

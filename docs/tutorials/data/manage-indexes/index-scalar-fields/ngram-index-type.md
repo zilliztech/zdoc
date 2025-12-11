@@ -18,10 +18,10 @@ keywords:
   - scalar field
   - varchar
   - ngram
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

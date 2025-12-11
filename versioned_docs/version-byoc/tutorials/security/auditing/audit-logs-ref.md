@@ -17,10 +17,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

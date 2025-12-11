@@ -17,10 +17,10 @@ keywords:
   - aws
   - milvus
   - vector database
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

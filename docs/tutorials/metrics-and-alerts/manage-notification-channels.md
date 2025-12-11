@@ -17,10 +17,10 @@ keywords:
   - cloud
   - notification
   - channels
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

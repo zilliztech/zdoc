@@ -21,10 +21,10 @@ keywords:
   - load
   - data merging
   - merge data
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

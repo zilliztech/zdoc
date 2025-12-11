@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - remove punct
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

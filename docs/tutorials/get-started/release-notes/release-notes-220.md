@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

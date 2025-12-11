@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

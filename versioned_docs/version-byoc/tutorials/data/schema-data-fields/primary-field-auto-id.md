@@ -20,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

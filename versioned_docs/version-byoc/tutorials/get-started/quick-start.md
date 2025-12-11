@@ -17,10 +17,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

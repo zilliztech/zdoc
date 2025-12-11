@@ -18,10 +18,10 @@ keywords:
   - migrations
   - external
   - data source
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

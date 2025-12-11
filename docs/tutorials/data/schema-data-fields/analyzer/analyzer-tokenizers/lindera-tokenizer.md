@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - lindera-tokenizer
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

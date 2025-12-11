@@ -18,10 +18,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

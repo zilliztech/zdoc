@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - json field
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

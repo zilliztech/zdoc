@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - advance pay
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

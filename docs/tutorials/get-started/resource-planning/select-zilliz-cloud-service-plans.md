@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster plan
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

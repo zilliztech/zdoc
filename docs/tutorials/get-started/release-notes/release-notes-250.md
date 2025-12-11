@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

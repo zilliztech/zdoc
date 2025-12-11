@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - DML
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

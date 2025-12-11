@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - exponential decay
   - exp
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

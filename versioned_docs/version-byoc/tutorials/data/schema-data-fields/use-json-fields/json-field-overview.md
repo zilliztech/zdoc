@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - overview
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

@@ -21,10 +21,10 @@ keywords:
   - int
   - integer
   - float
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

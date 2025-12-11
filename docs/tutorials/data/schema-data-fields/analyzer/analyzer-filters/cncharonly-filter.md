@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - cncharonly
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

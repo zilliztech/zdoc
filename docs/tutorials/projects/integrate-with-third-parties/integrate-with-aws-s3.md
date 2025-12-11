@@ -20,10 +20,10 @@ keywords:
   - integrate
   - object
   - storage
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

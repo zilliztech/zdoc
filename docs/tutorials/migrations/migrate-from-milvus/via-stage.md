@@ -19,10 +19,10 @@ keywords:
   - milvus
   - backup files
   - volume
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

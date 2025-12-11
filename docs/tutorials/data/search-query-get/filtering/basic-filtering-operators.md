@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

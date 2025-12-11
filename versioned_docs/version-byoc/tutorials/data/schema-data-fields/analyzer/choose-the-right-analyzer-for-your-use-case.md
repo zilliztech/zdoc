@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - best
   - practice
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

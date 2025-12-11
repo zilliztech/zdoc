@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - standard-tokenizer
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

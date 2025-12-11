@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 

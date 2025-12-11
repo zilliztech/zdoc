@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - phrase-match
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - sso
   - okta
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

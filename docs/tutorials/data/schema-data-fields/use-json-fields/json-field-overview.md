@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - overview
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

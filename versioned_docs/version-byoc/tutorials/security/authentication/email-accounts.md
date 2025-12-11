@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

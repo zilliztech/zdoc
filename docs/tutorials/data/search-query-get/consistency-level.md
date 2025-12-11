@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

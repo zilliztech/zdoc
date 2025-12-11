@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

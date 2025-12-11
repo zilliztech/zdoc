@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - stemmer
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - free trial
   - milvus
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

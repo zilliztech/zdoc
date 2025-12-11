@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - linear decay
   - linear
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

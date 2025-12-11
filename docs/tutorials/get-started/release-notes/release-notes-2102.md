@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

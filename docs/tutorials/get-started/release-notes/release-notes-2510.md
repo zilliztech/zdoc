@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

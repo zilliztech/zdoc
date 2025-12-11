@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

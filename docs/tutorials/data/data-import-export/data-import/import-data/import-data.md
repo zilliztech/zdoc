@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

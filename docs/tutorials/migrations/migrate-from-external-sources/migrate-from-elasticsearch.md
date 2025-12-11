@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - elasticsearch
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

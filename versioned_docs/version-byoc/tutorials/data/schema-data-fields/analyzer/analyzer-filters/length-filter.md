@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

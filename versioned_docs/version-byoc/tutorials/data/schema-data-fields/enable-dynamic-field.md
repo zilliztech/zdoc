@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

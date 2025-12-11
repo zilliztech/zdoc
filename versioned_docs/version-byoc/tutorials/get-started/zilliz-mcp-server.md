@@ -18,10 +18,10 @@ keywords:
   - mcp
   - milvus
   - mcp server
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

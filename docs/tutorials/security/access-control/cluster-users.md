@@ -20,10 +20,10 @@ keywords:
   - rbac
   - users
   - overview
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

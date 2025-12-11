@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

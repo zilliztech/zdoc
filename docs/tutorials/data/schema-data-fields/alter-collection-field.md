@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

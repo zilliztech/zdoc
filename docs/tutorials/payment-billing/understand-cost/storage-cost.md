@@ -18,10 +18,10 @@ keywords:
   - storage
   - cost
   - billing
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

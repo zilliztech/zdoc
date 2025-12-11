@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

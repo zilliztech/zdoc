@@ -20,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

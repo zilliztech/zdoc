@@ -19,10 +19,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

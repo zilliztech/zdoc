@@ -20,10 +20,10 @@ keywords:
   - search result reranking
   - result reranking
   - rrf
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

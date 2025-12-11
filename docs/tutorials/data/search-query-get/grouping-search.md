@@ -19,10 +19,10 @@ keywords:
   - data
   - grouping search
   - group
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

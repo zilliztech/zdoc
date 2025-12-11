@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - minhash
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

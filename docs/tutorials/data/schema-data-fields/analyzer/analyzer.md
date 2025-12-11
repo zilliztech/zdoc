@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - analyzer
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - schema
   - nullable
   - default value
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
 
 ---
 

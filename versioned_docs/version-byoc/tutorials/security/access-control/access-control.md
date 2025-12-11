@@ -18,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
   - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 

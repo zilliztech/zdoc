@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - rag vector database
   - what is vector db
   - what are vector databases
   - vector databases comparison
+  - Faiss
 
 ---
 

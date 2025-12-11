@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - filtering templating
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

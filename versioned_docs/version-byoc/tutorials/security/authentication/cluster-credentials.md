@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster credentials
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - register
   - cloud
   - milvus
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

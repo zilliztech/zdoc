@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - add collection fields
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

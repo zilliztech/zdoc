@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
   - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

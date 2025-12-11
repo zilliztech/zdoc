@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

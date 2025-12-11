@@ -19,10 +19,10 @@ keywords:
   - schema
   - best practices
   - schema design
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

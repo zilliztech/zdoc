@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - regex
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

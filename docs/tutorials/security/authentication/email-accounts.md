@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

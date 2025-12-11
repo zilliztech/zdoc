@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - volume
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

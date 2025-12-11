@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

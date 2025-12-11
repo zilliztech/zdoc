@@ -18,10 +18,10 @@ keywords:
   - developer hub
   - home page
   - home
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 hide_title: true
 hide_table_of_contents: true

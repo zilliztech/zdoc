@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - index build level
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

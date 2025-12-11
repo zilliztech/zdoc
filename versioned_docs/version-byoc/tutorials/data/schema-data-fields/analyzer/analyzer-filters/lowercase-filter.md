@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - lowercase
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

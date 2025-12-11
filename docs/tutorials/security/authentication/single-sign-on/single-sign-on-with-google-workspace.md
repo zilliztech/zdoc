@@ -18,10 +18,10 @@ keywords:
   - sso
   - google
   - workspace
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

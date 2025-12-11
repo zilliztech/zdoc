@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - lowercase
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

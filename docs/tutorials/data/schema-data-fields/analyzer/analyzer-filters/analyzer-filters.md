@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - search result reranking
   - result reranking
   - weighted reranker
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

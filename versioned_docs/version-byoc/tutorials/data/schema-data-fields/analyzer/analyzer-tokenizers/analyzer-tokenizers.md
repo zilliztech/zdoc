@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 
