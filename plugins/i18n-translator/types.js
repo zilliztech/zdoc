@@ -29,7 +29,7 @@ const Textual = z.object({
     style: Style
 }),
 
-const Page = z.object({
+export const Page = z.object({
     block_id: z.string(),
     block_type: z.literal(1),
     children: z.array(z.string()),
@@ -37,49 +37,49 @@ const Page = z.object({
     parent_id: z.string()
 });
 
-const Text = z.object({
+export const Text = z.object({
     block_id: z.string(),
     block_type: z.literal(2),
     parent_id: z.string(),
     text: Textual
 });
 
-const Heading2 = z.object({
+export const Heading2 = z.object({
     block_id: z.string(),
     block_type: z.literal(4),
     parent_id: z.string(),
     heading2: Textual
 });
 
-const Heading3 = z.object({
+export const Heading3 = z.object({
     block_id: z.string(),
     block_type: z.literal(5),
     parent_id: z.string(),
     heading3: Textual
 });
 
-const Heading4 = z.object({
+export const Heading4 = z.object({
     block_id: z.string(),
     block_type: z.literal(6),
     parent_id: z.string(),
     heading4: Textual
 });
 
-const Heading5 = z.object({
+export const Heading5 = z.object({
     block_id: z.string(),
     block_type: z.literal(7),
     parent_id: z.string(),
     heading5: Textual
 });
 
-const Heading6 = z.object({
+export const Heading6 = z.object({
     block_id: z.string(),
     block_type: z.literal(8),
     parent_id: z.string(),
     heading6: Textual
 });
 
-const Figma = z.object({
+export const Figma = z.object({
     block_id: z.string(),
     block_type: z.literal(26),
     parent_id: z.string(),
@@ -91,24 +91,23 @@ const Figma = z.object({
     })
 });
 
-const Bullet = z.object({
+export const Bullet = z.object({
     block_id: z.string(),
     block_type: z.literal(12),
     parent_id: z.string(),
     bullet: Textual
 });
 
-const ordered = z.object({
+export const ordered = z.object({
     block_id: z.string(),
     block_type: z.literal(13),
     parent_id: z.string(),
     ordered: Textual
 });
 
-const code = z.object({
+export const code = z.object({
     block_id: z.string(),
     block_type: z.literal(14),
     parent_id: z.string(),
     code: Textual
 });
-
