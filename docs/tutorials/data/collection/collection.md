@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - collection
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - data transfer
   - cost
   - billing
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

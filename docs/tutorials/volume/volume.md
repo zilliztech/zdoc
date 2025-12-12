@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - volume
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 

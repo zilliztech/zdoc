@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

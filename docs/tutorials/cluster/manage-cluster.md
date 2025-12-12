@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 

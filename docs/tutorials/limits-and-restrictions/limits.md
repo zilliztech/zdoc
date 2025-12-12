@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

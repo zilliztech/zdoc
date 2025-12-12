@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

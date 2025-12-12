@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

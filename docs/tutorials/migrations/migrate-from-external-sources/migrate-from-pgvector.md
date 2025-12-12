@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - postgresql
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

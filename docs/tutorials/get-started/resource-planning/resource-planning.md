@@ -17,10 +17,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

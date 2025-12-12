@@ -21,10 +21,10 @@ keywords:
   - int
   - integer
   - float
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

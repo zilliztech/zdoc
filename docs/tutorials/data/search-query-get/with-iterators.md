@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

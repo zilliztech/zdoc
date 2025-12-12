@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

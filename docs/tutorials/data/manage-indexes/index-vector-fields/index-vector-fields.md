@@ -17,10 +17,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

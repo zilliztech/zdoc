@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - add collection fields
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

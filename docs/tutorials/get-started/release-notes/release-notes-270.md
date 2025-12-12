@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

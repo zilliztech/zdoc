@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

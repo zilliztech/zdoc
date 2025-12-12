@@ -18,10 +18,10 @@ keywords:
   - developer hub
   - home page
   - home
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 hide_title: true
 hide_table_of_contents: true

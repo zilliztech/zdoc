@@ -17,10 +17,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

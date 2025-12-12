@@ -19,10 +19,10 @@ keywords:
   - external
   - data source
   - basics
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

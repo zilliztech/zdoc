@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - manage
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

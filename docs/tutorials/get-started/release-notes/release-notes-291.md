@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

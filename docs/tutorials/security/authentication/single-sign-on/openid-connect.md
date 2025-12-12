@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

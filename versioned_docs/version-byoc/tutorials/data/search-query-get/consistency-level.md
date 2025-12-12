@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

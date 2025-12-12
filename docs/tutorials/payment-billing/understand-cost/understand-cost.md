@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cost
   - billing
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

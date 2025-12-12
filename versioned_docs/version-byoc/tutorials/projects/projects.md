@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

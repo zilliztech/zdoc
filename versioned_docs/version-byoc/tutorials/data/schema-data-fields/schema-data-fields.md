@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - natural language processing
   - AI chatbots
   - cosine distance
   - what is a vector database
+  - vectordb
 
 ---
 

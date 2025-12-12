@@ -21,10 +21,10 @@ keywords:
   - hands-on
   - structs
   - array of structs
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

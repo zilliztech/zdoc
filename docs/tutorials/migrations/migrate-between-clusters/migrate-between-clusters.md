@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - multi-tenancy
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

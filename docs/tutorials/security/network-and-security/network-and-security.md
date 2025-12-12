@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

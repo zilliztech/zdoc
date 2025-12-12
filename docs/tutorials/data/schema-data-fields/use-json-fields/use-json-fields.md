@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - json field
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

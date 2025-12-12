@@ -23,10 +23,10 @@ keywords:
   - IP
   - COSINE
   - Jaccard
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

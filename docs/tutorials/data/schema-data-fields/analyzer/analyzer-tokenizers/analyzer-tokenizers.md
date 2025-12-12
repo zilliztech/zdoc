@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - Image Search
-  - LLMs
   - Machine Learning
   - RAG
+  - NLP
+  - Neural Network
 
 ---
 

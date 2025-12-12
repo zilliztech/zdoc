@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

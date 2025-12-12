@@ -17,10 +17,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

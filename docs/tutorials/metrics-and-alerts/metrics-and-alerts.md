@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

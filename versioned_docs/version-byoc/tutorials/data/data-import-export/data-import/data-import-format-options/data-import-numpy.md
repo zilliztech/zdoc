@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

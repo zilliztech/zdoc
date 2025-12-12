@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - ips
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 

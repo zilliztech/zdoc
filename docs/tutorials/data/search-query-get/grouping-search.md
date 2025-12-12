@@ -19,10 +19,10 @@ keywords:
   - data
   - grouping search
   - group
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

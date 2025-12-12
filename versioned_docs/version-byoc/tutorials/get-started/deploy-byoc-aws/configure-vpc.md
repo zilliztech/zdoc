@@ -21,10 +21,10 @@ keywords:
   - subnet
   - milvus
   - vector database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

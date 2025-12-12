@@ -20,10 +20,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

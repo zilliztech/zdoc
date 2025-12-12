@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - add collection fields
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

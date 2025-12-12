@@ -21,10 +21,10 @@ keywords:
   - index
   - path index
   - flat index
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

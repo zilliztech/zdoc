@@ -21,10 +21,10 @@ keywords:
   - hands-on
   - structs
   - array of structs
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

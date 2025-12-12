@@ -19,10 +19,10 @@ keywords:
   - data
   - hybrid search
   - combine sparse and dense vectors
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

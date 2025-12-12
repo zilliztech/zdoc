@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - DML
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

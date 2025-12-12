@@ -20,10 +20,10 @@ keywords:
   - upsert
   - update
   - insert
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

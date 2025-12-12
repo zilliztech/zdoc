@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

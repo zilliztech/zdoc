@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

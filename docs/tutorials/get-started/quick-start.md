@@ -17,10 +17,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

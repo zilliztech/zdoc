@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

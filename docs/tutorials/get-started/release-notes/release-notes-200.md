@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

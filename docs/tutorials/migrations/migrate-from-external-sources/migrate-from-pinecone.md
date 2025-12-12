@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - pinecone
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

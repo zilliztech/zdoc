@@ -17,10 +17,10 @@ keywords:
   - cloud
   - credit card
   - subscribe
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

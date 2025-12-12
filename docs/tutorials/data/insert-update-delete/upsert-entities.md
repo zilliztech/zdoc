@@ -20,10 +20,10 @@ keywords:
   - upsert
   - update
   - insert
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 

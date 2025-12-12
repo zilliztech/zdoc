@@ -19,10 +19,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

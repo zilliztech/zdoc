@@ -21,10 +21,10 @@ keywords:
   - index
   - path index
   - flat index
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

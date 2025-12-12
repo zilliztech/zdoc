@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - rbac
   - users
   - overview
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

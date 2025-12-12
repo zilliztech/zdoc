@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - basic operators
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

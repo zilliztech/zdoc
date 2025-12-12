@@ -19,10 +19,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

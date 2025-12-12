@@ -17,10 +17,10 @@ keywords:
   - cloud
   - free trial
   - milvus
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

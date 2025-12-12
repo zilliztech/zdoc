@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - ips
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

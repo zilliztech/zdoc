@@ -18,10 +18,10 @@ keywords:
   - scalar field
   - varchar
   - ngram
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

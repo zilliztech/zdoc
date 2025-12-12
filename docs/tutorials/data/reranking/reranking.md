@@ -19,10 +19,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

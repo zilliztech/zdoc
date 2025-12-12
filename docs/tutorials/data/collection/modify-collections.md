@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

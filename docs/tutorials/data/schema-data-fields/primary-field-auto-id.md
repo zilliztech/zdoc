@@ -20,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

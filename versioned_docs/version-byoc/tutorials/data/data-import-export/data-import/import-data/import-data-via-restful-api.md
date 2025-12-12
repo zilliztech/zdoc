@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

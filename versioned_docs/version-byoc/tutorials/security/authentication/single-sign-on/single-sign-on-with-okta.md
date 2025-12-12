@@ -17,10 +17,10 @@ keywords:
   - cloud
   - sso
   - okta
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

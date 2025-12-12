@@ -23,10 +23,10 @@ keywords:
   - go
   - node
   - nodejs
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

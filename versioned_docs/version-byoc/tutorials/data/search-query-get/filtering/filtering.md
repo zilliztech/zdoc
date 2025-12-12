@@ -20,10 +20,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

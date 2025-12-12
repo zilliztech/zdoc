@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - overview
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

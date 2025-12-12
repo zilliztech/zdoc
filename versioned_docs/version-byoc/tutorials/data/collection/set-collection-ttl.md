@@ -18,10 +18,10 @@ keywords:
   - collection
   - collection ttl
   - time-to-live
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

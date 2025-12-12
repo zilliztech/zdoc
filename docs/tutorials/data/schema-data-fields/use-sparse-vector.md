@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

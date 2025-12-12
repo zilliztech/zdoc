@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - milvus
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

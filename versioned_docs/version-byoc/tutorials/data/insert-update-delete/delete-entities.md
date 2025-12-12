@@ -19,10 +19,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
 
 ---
 

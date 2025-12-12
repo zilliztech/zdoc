@@ -20,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

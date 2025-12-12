@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - HNSW
   - What is unstructured data
   - Vector embeddings
   - Vector store
+  - open source vector database
 
 ---
 

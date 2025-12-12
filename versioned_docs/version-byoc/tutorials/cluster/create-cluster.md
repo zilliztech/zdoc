@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

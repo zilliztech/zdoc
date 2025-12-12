@@ -20,10 +20,10 @@ keywords:
   - integrate
   - object
   - storage
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

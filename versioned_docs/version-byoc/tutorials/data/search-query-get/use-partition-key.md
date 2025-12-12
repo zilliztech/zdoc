@@ -19,10 +19,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

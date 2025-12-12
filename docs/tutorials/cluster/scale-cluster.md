@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

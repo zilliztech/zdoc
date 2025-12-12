@@ -18,10 +18,10 @@ keywords:
   - mcp
   - milvus
   - mcp server
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

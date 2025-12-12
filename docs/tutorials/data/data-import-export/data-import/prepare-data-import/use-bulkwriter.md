@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

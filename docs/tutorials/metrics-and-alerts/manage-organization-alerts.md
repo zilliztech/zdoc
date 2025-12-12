@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

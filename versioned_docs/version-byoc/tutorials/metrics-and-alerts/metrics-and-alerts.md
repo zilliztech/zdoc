@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

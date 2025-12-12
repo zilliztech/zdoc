@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - users
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

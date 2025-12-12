@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

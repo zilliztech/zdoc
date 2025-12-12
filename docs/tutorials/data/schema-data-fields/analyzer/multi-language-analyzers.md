@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - multi-language
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

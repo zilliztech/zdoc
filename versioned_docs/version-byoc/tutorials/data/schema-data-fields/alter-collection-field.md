@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

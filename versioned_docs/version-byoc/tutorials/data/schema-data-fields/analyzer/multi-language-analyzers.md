@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - multi-language
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

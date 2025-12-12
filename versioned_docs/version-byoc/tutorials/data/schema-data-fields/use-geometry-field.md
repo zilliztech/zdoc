@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - geometry field
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - milvus
   - backup files
   - volume
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

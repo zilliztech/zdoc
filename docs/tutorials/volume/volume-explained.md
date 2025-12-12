@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - volume
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

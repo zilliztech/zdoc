@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - json
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

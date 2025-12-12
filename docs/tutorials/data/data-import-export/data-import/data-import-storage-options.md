@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

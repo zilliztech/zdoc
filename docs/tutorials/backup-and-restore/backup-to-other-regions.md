@@ -18,10 +18,10 @@ keywords:
   - backup
   - files
   - view
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

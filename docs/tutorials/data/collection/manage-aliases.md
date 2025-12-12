@@ -18,10 +18,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

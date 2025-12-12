@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - array field
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

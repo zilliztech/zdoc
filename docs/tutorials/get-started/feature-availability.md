@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - feature availability
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

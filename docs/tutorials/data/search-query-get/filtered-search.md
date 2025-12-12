@@ -19,10 +19,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

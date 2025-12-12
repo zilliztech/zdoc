@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

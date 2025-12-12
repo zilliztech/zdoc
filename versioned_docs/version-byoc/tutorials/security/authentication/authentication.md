@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

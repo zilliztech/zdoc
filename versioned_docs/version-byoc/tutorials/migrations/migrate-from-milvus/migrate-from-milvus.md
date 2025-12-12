@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - milvus
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

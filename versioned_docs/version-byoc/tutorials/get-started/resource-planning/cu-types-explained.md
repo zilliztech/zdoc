@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cu
   - select
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

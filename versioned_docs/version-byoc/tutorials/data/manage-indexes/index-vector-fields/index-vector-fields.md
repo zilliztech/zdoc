@@ -17,10 +17,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

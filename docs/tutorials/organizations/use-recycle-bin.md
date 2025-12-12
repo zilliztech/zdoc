@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

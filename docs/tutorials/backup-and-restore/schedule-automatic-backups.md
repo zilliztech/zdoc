@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

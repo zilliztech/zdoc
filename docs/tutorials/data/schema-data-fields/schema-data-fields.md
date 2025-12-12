@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

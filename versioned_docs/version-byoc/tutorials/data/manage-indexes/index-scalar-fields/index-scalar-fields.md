@@ -17,10 +17,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

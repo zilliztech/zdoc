@@ -19,10 +19,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

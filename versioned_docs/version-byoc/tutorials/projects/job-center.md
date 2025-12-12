@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

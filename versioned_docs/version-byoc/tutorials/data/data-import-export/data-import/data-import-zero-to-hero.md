@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

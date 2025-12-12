@@ -18,10 +18,10 @@ keywords:
   - sso
   - other
   - idp
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

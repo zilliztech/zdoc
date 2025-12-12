@@ -18,10 +18,10 @@ keywords:
   - auditing
   - log
   - configure
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

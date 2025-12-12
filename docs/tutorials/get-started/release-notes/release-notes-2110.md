@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

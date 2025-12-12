@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

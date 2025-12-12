@@ -18,10 +18,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

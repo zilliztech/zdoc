@@ -17,10 +17,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

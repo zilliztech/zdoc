@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - exponential decay
   - exp
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

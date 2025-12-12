@@ -18,10 +18,10 @@ keywords:
   - private link
   - payment
   - billing
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - serverless
   - cost
   - billing
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

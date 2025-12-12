@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

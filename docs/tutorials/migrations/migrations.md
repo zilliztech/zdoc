@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

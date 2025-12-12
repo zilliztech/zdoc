@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

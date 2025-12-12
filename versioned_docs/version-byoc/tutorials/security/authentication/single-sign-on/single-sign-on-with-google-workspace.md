@@ -18,10 +18,10 @@ keywords:
   - sso
   - google
   - workspace
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

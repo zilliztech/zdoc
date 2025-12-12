@@ -19,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

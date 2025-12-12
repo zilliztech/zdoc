@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - minhash
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

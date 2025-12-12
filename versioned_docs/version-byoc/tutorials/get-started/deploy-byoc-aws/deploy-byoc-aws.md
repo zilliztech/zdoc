@@ -17,10 +17,10 @@ keywords:
   - aws
   - milvus
   - vector database
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 
