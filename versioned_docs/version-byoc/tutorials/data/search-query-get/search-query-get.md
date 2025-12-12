@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - DML
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

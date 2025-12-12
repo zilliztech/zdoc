@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

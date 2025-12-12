@@ -18,10 +18,10 @@ keywords:
   - collection
   - load
   - release
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

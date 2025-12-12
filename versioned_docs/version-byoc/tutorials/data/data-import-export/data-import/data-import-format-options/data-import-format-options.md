@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

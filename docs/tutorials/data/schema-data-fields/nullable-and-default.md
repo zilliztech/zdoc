@@ -19,10 +19,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

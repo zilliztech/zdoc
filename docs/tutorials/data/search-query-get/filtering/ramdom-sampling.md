@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - random sampling
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

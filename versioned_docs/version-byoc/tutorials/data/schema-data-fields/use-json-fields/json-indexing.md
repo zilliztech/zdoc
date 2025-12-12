@@ -21,10 +21,10 @@ keywords:
   - index
   - path index
   - flat index
-  - What is unstructured data
-  - Vector embeddings
   - Vector store
   - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

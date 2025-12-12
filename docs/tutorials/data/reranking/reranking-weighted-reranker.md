@@ -20,10 +20,10 @@ keywords:
   - search result reranking
   - result reranking
   - weighted reranker
-  - vector search algorithms
   - Question answering system
   - llm-as-a-judge
   - hybrid vector search
+  - Video deduplication
 
 ---
 

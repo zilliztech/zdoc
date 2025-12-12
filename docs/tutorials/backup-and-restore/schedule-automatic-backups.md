@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

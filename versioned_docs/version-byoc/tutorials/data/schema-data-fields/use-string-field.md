@@ -19,10 +19,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

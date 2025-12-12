@@ -18,10 +18,10 @@ keywords:
   - data import
   - export
   - milvus
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

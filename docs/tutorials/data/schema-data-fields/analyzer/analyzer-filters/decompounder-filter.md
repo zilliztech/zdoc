@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - decompounder
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

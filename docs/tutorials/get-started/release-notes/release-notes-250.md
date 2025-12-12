@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

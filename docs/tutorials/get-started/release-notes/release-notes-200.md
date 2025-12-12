@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

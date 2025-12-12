@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - geometry field
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

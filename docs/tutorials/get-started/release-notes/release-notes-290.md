@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

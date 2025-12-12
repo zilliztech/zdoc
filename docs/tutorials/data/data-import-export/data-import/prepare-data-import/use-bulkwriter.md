@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

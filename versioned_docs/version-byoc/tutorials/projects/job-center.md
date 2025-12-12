@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

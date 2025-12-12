@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

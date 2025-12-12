@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - data
   - insert
   - insert entities
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

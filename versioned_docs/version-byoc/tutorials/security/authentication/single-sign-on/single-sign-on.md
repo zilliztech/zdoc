@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

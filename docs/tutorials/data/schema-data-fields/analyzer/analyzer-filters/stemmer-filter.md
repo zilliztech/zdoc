@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - stemmer
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

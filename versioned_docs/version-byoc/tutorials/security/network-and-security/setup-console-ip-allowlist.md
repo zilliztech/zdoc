@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - Vector embeddings
   - Vector store
   - open source vector database
   - Vector index
+  - vector database open source
 
 ---
 

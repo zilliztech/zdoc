@@ -19,10 +19,10 @@ keywords:
   - schema
   - nullable
   - default value
+  - Sparse vector
   - Vector Dimension
   - ANN Search
   - What are vector embeddings
-  - vector database tutorial
 
 ---
 

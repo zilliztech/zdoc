@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

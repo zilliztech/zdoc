@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - ips
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

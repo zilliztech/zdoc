@@ -20,10 +20,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

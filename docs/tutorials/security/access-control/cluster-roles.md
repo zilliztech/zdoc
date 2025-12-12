@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

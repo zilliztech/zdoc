@@ -17,10 +17,10 @@ keywords:
   - cloud
   - notification
   - channels
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - sso
   - google
   - workspace
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - IVF
-  - knn
-  - Image Search
-  - LLMs
 
 ---
 

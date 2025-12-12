@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in analyzer
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

@@ -22,10 +22,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

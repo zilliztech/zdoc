@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

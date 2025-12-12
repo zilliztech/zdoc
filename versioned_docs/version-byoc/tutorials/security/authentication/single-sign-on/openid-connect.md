@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

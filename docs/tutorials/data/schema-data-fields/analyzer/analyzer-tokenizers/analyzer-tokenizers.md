@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

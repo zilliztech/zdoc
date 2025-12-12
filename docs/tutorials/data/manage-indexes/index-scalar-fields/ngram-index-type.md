@@ -18,10 +18,10 @@ keywords:
   - scalar field
   - varchar
   - ngram
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

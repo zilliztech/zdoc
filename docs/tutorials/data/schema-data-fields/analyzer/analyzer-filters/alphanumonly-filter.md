@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - alphanumonly
+  - what is milvus
   - milvus database
   - milvus lite
   - milvus benchmark
-  - managed milvus
 
 ---
 

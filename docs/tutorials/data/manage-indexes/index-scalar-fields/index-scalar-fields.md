@@ -17,10 +17,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

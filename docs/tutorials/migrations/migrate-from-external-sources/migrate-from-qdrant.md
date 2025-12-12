@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - qdrant
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

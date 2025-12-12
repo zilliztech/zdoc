@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

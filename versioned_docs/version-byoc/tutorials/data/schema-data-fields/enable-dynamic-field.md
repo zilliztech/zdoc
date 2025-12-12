@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

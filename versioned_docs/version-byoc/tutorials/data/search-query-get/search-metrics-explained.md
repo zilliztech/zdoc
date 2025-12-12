@@ -23,10 +23,10 @@ keywords:
   - IP
   - COSINE
   - Jaccard
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

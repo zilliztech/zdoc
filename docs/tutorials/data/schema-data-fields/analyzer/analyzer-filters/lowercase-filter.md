@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - lowercase
+  - Chroma vector database
   - nlp search
   - hallucinations llm
   - Multimodal search
-  - vector search algorithms
 
 ---
 

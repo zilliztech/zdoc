@@ -18,10 +18,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

@@ -21,10 +21,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

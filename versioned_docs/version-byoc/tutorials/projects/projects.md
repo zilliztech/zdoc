@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

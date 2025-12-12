@@ -18,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

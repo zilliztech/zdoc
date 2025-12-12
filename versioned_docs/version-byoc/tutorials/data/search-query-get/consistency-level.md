@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

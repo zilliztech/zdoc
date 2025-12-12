@@ -18,10 +18,10 @@ keywords:
   - developer hub
   - home page
   - home
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 hide_title: true
 hide_table_of_contents: true

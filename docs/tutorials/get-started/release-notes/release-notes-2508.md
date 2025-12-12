@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

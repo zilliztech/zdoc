@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

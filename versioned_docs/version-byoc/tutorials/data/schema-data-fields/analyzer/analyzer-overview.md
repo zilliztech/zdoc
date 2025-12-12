@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

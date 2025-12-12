@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - ascii folding
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

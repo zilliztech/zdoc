@@ -17,10 +17,10 @@ keywords:
   - cloud
   - free trial
   - milvus
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

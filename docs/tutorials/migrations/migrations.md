@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - audit log
   - cost
   - billing
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

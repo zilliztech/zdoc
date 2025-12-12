@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - minhash
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

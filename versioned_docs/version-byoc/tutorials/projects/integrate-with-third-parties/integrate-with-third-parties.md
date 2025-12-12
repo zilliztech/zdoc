@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

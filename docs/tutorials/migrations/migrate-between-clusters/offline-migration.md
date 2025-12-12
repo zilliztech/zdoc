@@ -18,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

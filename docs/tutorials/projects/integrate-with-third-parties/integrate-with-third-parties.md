@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

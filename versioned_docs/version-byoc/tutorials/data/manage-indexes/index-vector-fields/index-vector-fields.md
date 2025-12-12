@@ -17,10 +17,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

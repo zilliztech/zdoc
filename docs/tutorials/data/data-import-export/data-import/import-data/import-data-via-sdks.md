@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

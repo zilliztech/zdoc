@@ -21,10 +21,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

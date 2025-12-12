@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

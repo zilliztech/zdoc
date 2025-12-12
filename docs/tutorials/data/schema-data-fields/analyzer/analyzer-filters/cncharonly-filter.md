@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - cncharonly
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
   - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
 
 ---
 

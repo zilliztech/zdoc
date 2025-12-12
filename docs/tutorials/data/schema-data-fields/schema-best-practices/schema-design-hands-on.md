@@ -19,10 +19,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

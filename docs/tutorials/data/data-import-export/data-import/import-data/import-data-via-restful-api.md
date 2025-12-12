@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

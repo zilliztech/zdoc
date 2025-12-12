@@ -18,10 +18,10 @@ keywords:
   - data import
   - export
   - milvus
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

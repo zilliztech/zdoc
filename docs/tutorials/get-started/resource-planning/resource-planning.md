@@ -17,10 +17,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

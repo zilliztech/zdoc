@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

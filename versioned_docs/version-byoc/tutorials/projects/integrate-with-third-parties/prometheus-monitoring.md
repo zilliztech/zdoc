@@ -18,10 +18,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

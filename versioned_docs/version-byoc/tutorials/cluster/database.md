@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

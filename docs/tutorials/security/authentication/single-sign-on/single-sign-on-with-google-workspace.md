@@ -18,10 +18,10 @@ keywords:
   - sso
   - google
   - workspace
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

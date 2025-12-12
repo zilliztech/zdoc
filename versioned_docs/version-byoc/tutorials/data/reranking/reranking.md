@@ -19,10 +19,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

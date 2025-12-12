@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

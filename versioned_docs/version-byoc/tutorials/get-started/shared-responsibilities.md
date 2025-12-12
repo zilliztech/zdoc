@@ -17,10 +17,10 @@ keywords:
   - milvus
   - vector database
   - shared responsibilities
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

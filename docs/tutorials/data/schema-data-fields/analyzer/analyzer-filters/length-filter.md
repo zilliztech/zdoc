@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

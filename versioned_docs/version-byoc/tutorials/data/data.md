@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

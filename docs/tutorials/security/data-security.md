@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data
   - security
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

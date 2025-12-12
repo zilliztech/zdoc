@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - phrase-match
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

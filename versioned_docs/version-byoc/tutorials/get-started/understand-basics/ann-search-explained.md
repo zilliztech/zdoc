@@ -17,10 +17,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

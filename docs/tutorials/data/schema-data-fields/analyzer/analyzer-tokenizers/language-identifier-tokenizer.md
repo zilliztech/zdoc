@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - language identifier
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
 
 ---
 

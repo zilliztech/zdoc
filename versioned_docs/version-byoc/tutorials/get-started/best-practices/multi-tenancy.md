@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - multi-tenancy
+  - vector databases comparison
   - Faiss
   - Video search
   - AI Hallucination
-  - AI Agent
 
 ---
 

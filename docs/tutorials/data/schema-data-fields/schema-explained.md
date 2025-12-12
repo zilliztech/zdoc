@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

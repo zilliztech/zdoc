@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

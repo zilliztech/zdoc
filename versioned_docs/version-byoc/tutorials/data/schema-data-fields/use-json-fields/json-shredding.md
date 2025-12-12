@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - json shredding
-  - Zilliz
-  - milvus vector database
   - milvus db
   - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

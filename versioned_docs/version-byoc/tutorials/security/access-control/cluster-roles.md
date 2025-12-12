@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

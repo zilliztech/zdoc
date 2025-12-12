@@ -18,10 +18,10 @@ keywords:
   - milvus
   - performance
   - benchmark
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

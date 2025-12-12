@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - manage
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

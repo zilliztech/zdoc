@@ -17,10 +17,10 @@ keywords:
   - aws
   - milvus
   - vector database
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

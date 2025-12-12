@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

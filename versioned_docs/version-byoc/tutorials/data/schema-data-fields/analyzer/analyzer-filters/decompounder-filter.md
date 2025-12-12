@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - decompounder
-  - what is semantic search
-  - Embedding model
   - image similarity search
   - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

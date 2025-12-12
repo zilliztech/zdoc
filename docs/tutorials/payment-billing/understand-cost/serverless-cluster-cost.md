@@ -18,10 +18,10 @@ keywords:
   - serverless
   - cost
   - billing
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

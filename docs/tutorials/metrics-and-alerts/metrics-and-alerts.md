@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

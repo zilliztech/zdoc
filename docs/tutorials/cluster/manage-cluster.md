@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

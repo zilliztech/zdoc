@@ -17,10 +17,10 @@ keywords:
   - cloud
   - credit card
   - subscribe
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

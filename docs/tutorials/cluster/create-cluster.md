@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 

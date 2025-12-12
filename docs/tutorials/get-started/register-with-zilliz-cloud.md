@@ -17,10 +17,10 @@ keywords:
   - register
   - cloud
   - milvus
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

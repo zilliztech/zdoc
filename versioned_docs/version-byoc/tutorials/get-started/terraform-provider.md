@@ -17,10 +17,10 @@ keywords:
   - cloud
   - terraform provider
   - terraform
+  - information retrieval
   - dimension reduction
   - hnsw algorithm
   - vector similarity search
-  - approximate nearest neighbor search
 
 ---
 

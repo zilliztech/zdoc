@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

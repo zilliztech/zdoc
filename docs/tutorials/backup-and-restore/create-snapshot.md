@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

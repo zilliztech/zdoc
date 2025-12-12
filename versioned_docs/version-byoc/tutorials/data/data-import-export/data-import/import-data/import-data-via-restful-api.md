@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

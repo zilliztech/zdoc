@@ -17,10 +17,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

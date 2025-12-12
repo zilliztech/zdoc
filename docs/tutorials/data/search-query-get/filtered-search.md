@@ -19,10 +19,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

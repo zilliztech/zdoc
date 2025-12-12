@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - standard-analyzer
+  - Question answering system
   - llm-as-a-judge
   - hybrid vector search
   - Video deduplication
-  - Video similarity search
 
 ---
 

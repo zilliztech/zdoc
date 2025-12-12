@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - aws
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

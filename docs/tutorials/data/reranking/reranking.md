@@ -19,10 +19,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

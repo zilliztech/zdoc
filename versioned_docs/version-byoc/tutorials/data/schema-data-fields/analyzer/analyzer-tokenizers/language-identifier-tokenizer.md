@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - language identifier
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

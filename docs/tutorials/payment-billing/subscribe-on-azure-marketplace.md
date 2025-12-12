@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - azure
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

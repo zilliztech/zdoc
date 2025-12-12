@@ -19,10 +19,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

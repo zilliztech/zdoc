@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

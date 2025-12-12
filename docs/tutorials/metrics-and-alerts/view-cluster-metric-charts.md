@@ -18,10 +18,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

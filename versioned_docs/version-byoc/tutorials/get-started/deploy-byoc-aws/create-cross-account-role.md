@@ -19,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

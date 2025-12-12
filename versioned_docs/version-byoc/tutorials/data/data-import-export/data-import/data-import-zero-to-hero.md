@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - add collection fields
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

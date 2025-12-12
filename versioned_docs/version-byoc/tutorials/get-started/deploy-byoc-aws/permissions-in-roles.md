@@ -19,10 +19,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

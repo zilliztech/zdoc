@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

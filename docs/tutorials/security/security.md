@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

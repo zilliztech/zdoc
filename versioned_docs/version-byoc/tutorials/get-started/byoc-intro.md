@@ -16,10 +16,10 @@ keywords:
   - byoc
   - milvus
   - vector database
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

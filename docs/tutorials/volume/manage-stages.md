@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - volume
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

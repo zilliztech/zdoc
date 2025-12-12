@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - autoindex
   - milvus
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

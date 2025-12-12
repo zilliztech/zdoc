@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
 
 ---
 

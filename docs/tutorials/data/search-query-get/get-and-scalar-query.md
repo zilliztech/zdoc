@@ -20,10 +20,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

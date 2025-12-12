@@ -19,10 +19,10 @@ keywords:
   - data
   - vector search
   - ann
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

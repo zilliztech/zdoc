@@ -19,10 +19,10 @@ keywords:
   - schema
   - best practices
   - schema design
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

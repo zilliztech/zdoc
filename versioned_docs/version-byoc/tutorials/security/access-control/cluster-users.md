@@ -20,10 +20,10 @@ keywords:
   - rbac
   - users
   - overview
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

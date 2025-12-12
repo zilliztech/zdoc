@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

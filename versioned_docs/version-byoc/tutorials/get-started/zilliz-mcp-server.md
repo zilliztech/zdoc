@@ -18,10 +18,10 @@ keywords:
   - mcp
   - milvus
   - mcp server
+  - Similarity Search
+  - multimodal RAG
   - llm hallucinations
   - hybrid search
-  - lexical search
-  - nearest neighbor search
 
 ---
 

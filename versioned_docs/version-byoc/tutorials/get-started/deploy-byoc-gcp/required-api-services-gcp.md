@@ -20,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - Vector Dimension
   - ANN Search
   - What are vector embeddings
   - vector database tutorial
+  - how do vector databases work
 
 ---
 

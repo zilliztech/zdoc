@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
 
 ---
 

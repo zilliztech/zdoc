@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

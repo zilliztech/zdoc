@@ -21,10 +21,10 @@ keywords:
   - subnet
   - milvus
   - vector database
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

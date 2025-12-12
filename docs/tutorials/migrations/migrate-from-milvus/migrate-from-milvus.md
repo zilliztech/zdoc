@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - milvus
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

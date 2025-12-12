@@ -17,10 +17,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

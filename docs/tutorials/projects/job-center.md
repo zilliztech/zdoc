@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

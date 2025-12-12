@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

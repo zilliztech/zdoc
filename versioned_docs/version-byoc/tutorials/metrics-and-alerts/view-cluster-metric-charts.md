@@ -18,10 +18,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

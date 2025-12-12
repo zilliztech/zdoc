@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

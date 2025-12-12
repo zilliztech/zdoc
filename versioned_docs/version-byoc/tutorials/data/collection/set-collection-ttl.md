@@ -18,10 +18,10 @@ keywords:
   - collection
   - collection ttl
   - time-to-live
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

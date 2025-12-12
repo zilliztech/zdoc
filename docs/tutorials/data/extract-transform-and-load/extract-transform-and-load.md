@@ -19,10 +19,10 @@ keywords:
   - extract
   - transform
   - load
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

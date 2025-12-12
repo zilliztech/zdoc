@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

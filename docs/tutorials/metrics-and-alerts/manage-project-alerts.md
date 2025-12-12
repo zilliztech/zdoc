@@ -17,10 +17,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

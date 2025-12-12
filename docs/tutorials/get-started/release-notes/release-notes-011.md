@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
+  - cosine distance
   - what is a vector database
   - vectordb
   - multimodal vector database retrieval
-  - Retrieval Augmented Generation
 
 ---
 

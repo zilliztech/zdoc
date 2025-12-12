@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - gcp
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

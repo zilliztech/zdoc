@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 
 ---
 

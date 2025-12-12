@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

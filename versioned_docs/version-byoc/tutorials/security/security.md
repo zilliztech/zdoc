@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 

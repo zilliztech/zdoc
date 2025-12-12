@@ -18,10 +18,10 @@ keywords:
   - collection
   - alias
   - aliases
+  - Image Search
   - LLMs
   - Machine Learning
   - RAG
-  - NLP
 
 ---
 

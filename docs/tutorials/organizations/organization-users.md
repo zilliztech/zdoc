@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

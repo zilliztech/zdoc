@@ -22,10 +22,10 @@ keywords:
   - filtering
   - elasticsearch queries
   - query mapping
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

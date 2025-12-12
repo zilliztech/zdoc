@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

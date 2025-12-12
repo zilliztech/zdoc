@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

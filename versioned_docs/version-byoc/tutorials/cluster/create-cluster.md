@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

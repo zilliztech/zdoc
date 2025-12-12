@@ -22,10 +22,10 @@ keywords:
   - filtering
   - elasticsearch queries
   - query mapping
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

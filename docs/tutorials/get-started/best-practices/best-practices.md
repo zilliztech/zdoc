@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

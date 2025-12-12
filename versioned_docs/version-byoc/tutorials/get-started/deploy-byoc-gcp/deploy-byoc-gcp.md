@@ -20,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

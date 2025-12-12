@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - json operators
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

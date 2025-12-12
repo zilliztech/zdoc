@@ -17,10 +17,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

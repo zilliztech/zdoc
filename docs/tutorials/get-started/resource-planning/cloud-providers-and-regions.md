@@ -17,10 +17,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

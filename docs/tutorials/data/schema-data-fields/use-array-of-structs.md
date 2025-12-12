@@ -20,10 +20,10 @@ keywords:
   - array field
   - array of structs
   - structs
+  - what are vector databases
   - vector databases comparison
   - Faiss
   - Video search
-  - AI Hallucination
 
 ---
 

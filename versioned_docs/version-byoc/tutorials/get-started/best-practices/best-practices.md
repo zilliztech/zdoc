@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

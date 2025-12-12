@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - ips
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 
