@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

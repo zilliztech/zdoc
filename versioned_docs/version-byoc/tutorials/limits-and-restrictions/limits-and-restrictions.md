@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - json field
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

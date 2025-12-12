@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - geometry field
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

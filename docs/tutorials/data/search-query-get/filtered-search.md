@@ -19,10 +19,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

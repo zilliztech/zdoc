@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - add collection fields
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

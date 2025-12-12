@@ -20,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

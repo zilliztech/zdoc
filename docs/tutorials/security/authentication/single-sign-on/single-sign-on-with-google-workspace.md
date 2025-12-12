@@ -18,10 +18,10 @@ keywords:
   - sso
   - google
   - workspace
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

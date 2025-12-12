@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - postgresql
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

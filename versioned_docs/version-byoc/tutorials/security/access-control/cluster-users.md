@@ -20,10 +20,10 @@ keywords:
   - rbac
   - users
   - overview
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

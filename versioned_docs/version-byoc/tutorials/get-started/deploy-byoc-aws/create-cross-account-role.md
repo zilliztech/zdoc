@@ -19,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

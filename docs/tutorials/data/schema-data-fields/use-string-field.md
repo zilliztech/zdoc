@@ -19,10 +19,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

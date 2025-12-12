@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

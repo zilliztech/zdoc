@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

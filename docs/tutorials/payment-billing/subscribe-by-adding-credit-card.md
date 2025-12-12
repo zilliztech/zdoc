@@ -17,10 +17,10 @@ keywords:
   - cloud
   - credit card
   - subscribe
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

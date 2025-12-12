@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - pinecone
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

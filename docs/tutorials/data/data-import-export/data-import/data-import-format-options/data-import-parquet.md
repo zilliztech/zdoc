@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

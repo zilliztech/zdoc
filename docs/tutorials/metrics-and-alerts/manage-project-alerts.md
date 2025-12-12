@@ -17,10 +17,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

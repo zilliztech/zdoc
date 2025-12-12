@@ -18,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

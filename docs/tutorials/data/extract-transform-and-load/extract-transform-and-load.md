@@ -19,10 +19,10 @@ keywords:
   - extract
   - transform
   - load
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

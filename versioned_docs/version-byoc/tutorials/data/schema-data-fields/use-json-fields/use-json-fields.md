@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - json field
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

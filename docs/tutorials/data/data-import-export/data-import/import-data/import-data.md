@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

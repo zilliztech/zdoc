@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

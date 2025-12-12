@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

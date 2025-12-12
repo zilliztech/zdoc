@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - binary vector
+  - vector databases comparison
+  - Faiss
   - Video search
   - AI Hallucination
-  - AI Agent
-  - semantic search
 
 ---
 

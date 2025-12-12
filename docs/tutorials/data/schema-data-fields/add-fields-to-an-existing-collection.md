@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - add collection fields
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

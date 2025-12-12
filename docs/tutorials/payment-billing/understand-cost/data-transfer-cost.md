@@ -18,10 +18,10 @@ keywords:
   - data transfer
   - cost
   - billing
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

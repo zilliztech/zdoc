@@ -16,10 +16,10 @@ keywords:
   - byoc
   - milvus
   - vector database
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

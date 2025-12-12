@@ -20,10 +20,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

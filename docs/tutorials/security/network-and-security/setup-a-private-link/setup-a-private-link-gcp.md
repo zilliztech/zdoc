@@ -22,10 +22,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

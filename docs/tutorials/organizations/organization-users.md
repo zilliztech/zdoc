@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

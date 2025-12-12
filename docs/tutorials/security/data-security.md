@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data
   - security
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

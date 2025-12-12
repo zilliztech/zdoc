@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - json shredding
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

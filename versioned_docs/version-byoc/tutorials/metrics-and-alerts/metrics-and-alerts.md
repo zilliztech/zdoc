@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

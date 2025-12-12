@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

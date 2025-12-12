@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

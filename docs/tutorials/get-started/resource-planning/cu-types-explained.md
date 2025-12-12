@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cu
   - select
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

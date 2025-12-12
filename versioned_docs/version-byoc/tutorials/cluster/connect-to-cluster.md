@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

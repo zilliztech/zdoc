@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

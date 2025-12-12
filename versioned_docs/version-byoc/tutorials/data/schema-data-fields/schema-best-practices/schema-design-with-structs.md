@@ -21,10 +21,10 @@ keywords:
   - hands-on
   - structs
   - array of structs
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

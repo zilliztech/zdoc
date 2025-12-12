@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - Chroma vector database
   - nlp search
   - hallucinations llm
   - Multimodal search
+  - vector search algorithms
 
 ---
 

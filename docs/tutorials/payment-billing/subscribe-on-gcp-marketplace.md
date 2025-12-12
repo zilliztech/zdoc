@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - gcp
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

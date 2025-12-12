@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - multi-language
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - icu-tokenizer
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - azure
   - blob
   - storage
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

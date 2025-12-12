@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - milvus vector db
   - Zilliz Cloud
   - what is milvus
   - milvus database
+  - milvus lite
 
 ---
 

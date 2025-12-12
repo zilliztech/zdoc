@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

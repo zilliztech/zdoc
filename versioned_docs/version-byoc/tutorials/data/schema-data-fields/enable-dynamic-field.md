@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

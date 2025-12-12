@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - range search
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

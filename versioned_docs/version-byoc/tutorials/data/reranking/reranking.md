@@ -19,10 +19,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

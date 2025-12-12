@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - json
+  - Chroma vector database
+  - nlp search
   - hallucinations llm
   - Multimodal search
-  - vector search algorithms
-  - Question answering system
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

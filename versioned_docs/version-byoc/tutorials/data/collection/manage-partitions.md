@@ -18,10 +18,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - dimension reduction
   - hnsw algorithm
   - vector similarity search
   - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

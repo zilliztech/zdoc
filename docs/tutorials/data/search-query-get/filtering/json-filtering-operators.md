@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - json operators
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

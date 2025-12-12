@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project jobs
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

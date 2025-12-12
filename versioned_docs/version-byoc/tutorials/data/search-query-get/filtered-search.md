@@ -19,10 +19,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

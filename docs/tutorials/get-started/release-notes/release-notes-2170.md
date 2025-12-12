@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

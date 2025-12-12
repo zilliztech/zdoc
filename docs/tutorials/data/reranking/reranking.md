@@ -19,10 +19,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

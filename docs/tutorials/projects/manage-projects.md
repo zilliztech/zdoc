@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
 
 ---
 

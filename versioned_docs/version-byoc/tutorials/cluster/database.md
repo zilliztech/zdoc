@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - free trial
   - milvus
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

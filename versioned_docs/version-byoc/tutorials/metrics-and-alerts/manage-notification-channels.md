@@ -17,10 +17,10 @@ keywords:
   - cloud
   - notification
   - channels
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

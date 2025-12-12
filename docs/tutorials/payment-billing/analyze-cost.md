@@ -17,10 +17,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

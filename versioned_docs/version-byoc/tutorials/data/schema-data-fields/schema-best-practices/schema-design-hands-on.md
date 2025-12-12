@@ -19,10 +19,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

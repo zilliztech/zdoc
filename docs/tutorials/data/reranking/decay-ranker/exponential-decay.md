@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - exponential decay
   - exp
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

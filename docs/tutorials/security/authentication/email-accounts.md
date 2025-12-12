@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

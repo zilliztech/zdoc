@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
   - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

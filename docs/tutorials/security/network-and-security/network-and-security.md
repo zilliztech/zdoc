@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

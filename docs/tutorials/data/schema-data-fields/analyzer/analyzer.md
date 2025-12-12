@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - analyzer
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

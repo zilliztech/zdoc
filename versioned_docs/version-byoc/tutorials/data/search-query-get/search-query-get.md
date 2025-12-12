@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - DML
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - manage
   - console
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

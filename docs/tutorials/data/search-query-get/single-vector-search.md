@@ -19,10 +19,10 @@ keywords:
   - data
   - vector search
   - ann
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

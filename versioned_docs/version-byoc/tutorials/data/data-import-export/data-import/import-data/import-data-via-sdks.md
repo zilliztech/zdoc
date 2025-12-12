@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

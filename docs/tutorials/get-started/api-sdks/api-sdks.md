@@ -23,10 +23,10 @@ keywords:
   - go
   - node
   - nodejs
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

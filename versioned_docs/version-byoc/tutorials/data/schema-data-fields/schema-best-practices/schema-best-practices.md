@@ -19,10 +19,10 @@ keywords:
   - schema
   - best practices
   - schema design
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

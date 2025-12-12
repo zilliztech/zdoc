@@ -19,10 +19,10 @@ keywords:
   - data
   - hybrid search
   - combine sparse and dense vectors
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

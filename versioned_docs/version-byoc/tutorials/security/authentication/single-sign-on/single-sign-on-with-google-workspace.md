@@ -18,10 +18,10 @@ keywords:
   - sso
   - google
   - workspace
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

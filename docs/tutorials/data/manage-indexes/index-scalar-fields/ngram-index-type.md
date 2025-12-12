@@ -18,10 +18,10 @@ keywords:
   - scalar field
   - varchar
   - ngram
-  - multimodal RAG
-  - llm hallucinations
   - hybrid search
   - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

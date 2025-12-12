@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

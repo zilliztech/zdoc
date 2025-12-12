@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - users
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

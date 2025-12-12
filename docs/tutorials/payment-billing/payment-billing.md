@@ -18,10 +18,10 @@ keywords:
   - private link
   - payment
   - billing
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

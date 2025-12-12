@@ -18,10 +18,10 @@ keywords:
   - auditing
   - log
   - configure
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

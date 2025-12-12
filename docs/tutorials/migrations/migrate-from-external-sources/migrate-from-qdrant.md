@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - qdrant
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

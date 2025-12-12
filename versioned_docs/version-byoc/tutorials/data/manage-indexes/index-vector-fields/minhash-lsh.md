@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - minhash
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

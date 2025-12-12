@@ -19,10 +19,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

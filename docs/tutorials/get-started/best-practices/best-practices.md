@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 

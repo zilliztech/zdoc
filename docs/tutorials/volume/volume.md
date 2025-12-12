@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - volume
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

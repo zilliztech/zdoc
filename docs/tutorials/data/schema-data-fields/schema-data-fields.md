@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

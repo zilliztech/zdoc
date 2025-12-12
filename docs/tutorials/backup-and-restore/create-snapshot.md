@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

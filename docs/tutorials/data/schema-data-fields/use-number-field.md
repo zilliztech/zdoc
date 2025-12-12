@@ -21,10 +21,10 @@ keywords:
   - int
   - integer
   - float
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

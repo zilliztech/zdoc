@@ -17,10 +17,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - RAG
   - NLP
   - Neural Network
   - Deep Learning
+  - Knowledge base
 
 ---
 

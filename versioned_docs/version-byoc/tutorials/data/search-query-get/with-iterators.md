@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

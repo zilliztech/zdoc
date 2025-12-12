@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

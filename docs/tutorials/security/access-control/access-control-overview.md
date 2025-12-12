@@ -18,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

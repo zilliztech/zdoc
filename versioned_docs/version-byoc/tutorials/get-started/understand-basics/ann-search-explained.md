@@ -17,10 +17,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

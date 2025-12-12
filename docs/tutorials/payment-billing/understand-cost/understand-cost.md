@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cost
   - billing
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

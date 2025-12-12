@@ -17,10 +17,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

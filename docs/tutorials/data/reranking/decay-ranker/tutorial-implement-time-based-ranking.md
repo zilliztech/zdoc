@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - tutorial
   - time-based ranking
-  - rag llm architecture
   - private llms
   - nn search
   - llm eval
+  - Sparse vs Dense
 
 ---
 

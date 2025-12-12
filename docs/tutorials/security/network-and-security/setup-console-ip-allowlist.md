@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

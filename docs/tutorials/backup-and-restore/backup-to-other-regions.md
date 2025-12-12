@@ -18,10 +18,10 @@ keywords:
   - backup
   - files
   - view
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

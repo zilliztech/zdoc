@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

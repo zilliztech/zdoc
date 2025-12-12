@@ -18,10 +18,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

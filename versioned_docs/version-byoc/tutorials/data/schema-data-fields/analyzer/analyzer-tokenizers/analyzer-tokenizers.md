@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

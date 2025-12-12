@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - aws
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
 
 ---
 

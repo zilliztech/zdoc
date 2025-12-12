@@ -18,10 +18,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

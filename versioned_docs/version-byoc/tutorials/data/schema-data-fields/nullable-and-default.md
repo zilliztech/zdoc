@@ -19,10 +19,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

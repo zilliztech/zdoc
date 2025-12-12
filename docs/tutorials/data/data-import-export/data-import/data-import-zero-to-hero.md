@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

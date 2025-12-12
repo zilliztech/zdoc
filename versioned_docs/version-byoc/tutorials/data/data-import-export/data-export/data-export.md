@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

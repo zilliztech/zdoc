@@ -17,10 +17,10 @@ keywords:
   - cloud
   - index
   - manage
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

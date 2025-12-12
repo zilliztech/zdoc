@@ -18,10 +18,10 @@ keywords:
   - mcp
   - milvus
   - mcp server
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

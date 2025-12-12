@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

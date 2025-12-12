@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - console
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 

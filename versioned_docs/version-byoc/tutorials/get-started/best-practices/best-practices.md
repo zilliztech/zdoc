@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

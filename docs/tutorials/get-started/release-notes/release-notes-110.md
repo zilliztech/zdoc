@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

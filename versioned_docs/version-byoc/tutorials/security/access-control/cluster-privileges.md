@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

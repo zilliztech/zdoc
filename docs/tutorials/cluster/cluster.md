@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 

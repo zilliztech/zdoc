@@ -17,10 +17,10 @@ keywords:
   - cloud
   - autoindex
   - milvus
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

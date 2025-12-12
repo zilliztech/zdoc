@@ -18,10 +18,10 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

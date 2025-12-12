@@ -18,10 +18,10 @@ keywords:
   - developer hub
   - home page
   - home
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 hide_title: true
 hide_table_of_contents: true

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

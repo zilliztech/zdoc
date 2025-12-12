@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

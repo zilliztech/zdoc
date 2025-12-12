@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

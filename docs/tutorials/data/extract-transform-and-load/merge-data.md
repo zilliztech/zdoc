@@ -21,10 +21,10 @@ keywords:
   - load
   - data merging
   - merge data
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 
