@@ -12,10 +12,10 @@ token: HR9xfgwXylmfqOdKmJ7c9xCqnQb
 sidebar_position: 1
 sidebar_label: "Authentication"
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud

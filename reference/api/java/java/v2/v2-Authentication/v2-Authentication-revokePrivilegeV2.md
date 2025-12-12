@@ -12,19 +12,19 @@ type: docx
 token: FZN8dtlIRoMSGBxF7b1cWX48n0b
 sidebar_position: 18
 keywords: 
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
   - zilliz
   - zilliz cloud
   - cloud
   - revokePrivilegeV2()
   - javaV226
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

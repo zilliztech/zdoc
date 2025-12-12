@@ -12,19 +12,19 @@ type: docx
 token: FhbbdNrlNouBXJxHIdKctXVKnmf
 sidebar_position: 13
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - hasCollection()
   - nodejs26
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

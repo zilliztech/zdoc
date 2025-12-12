@@ -12,19 +12,19 @@ type: docx
 token: Ei2hd8dE4oGCvJxKbEvcamxTnke
 sidebar_position: 9
 keywords: 
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - javaV226
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

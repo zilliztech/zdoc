@@ -12,19 +12,19 @@ type: docx
 token: DkImdRkJwoUmdqxzqn1cpQr9nhy
 sidebar_position: 13
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - getLoadingProgress()
   - nodejs26
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

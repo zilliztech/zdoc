@@ -12,19 +12,19 @@ type: docx
 token: T9KhdDJQColJEuxZ7YOcV2zdnlb
 sidebar_position: 7
 keywords: 
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
   - zilliz
   - zilliz cloud
   - cloud
   - search_iterator()
   - pymilvus26
-  - Vector embeddings
   - Vector store
   - open source vector database
   - Vector index
+  - vector database open source
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

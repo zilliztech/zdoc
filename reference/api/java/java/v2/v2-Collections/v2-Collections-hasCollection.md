@@ -12,19 +12,19 @@ type: docx
 token: RaBJd4clVo6KX4xjGJoc3Mz7nhg
 sidebar_position: 18
 keywords: 
+  - Zilliz Cloud
+  - what is milvus
   - milvus database
   - milvus lite
-  - milvus benchmark
-  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
   - hasCollection()
   - javaV226
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: FIzIdKrRNooFttxaf3Pc1vOlnnc
 sidebar_position: 4
 keywords: 
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - getFields()
   - javaV226
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

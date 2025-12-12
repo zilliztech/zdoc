@@ -12,19 +12,19 @@ type: docx
 token: NaOadUNSpo1EsIxPMSfc0R4Hnfb
 sidebar_position: 1
 keywords: 
+  - DiskANN
+  - Sparse vector
   - Vector Dimension
   - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - count()
   - nodejs26
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

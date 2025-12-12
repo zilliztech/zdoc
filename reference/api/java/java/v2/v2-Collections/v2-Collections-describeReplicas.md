@@ -12,19 +12,19 @@ type: docx
 token: WRSYdEZwroNY1Txpk2DcI1sSnVg
 sidebar_position: 25
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describeReplicas()
   - javaV226
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

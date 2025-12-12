@@ -12,10 +12,10 @@ token: N5ynfBUN2l7doCdZw7ecFSl5nqb
 sidebar_position: 7
 sidebar_label: "Vector"
 keywords: 
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud

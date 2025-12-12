@@ -12,19 +12,19 @@ type: docx
 token: XAIndF6XWoQzvRxDvpLcgEE1nEb
 sidebar_position: 5
 keywords: 
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - RemoteBulkWriter
   - javaV226
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,10 +12,10 @@ token: H1JWfZh74lkVhgdfGiKcQfsinPg
 sidebar_position: 1
 sidebar_label: "Authentication"
 keywords: 
+  - milvus
+  - Zilliz
   - milvus vector database
   - milvus db
-  - milvus vector db
-  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud

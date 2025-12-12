@@ -12,19 +12,19 @@ type: docx
 token: CAmHdisseogwBkx8XWUcM6aHnfe
 sidebar_position: 15
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - refreshLoad()
   - javaV226
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

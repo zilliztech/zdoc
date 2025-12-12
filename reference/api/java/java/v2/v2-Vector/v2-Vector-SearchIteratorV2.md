@@ -12,19 +12,19 @@ type: docx
 token: JxXHdFBRhoDT8MxlTvEc42IsnEh
 sidebar_position: 11
 keywords: 
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - SearchIteratorV2()
   - javaV226
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

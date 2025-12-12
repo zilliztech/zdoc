@@ -12,19 +12,19 @@ type: docx
 token: V9YUdnfxDoc5Gmx80Wec9P6Sn2d
 sidebar_position: 7
 keywords: 
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - WeightedRanker
   - javaV226
+  - Anomaly Detection
+  - sentence transformers
   - Recommender systems
   - information retrieval
-  - dimension reduction
-  - hnsw algorithm
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

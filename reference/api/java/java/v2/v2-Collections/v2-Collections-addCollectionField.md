@@ -12,19 +12,19 @@ type: docx
 token: AImudC3YNoa1PZxj4zNckcvsnXc
 sidebar_position: 23
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - addCollectionField()
   - javaV226
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

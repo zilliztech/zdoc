@@ -12,19 +12,19 @@ type: docx
 token: AXWod56QkoprlXxOXkwcPXfonHg
 sidebar_position: 3
 keywords: 
-  - vector database
   - IVF
   - knn
   - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud
   - getField()
   - javaV226
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

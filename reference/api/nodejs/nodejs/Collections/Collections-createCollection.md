@@ -12,19 +12,19 @@ type: docx
 token: Al8Pdbn4fomlIBxxYi0chTsgnWg
 sidebar_position: 5
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
   - nodejs26
+  - NLP
+  - Neural Network
+  - Deep Learning
   - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

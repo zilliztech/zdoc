@@ -12,19 +12,19 @@ type: docx
 token: GQH8dgqlPoRY1sxFhCRcLlgInNc
 sidebar_position: 20
 keywords: 
+  - hnsw algorithm
   - vector similarity search
   - approximate nearest neighbor search
   - DiskANN
-  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - updatePassword()
   - javaV226
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

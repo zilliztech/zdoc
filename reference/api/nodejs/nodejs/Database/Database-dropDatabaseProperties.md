@@ -12,19 +12,19 @@ type: docx
 token: GulFdOWMboEK9bxnzMSc8Uf8n8b
 sidebar_position: 4
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud
   - dropDatabaseProperties()
   - nodejs26
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

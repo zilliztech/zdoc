@@ -12,19 +12,19 @@ type: docx
 token: YXPSdlp3JoP82qxhFMYc5GRnn4g
 sidebar_position: 3
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - createIndex()
   - javaV226
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

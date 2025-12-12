@@ -12,19 +12,19 @@ type: docx
 token: DI5tdxM92oBdXHxk0LFcsBSInVe
 sidebar_position: 5
 keywords: 
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - javaV226
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

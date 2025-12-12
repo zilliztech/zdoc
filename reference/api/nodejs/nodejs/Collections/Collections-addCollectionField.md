@@ -12,19 +12,19 @@ type: docx
 token: JqOJdOA6Dooy2cxAXTkcQpBEnyk
 sidebar_position: 19
 keywords: 
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - addCollectionField()
   - nodejs26
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

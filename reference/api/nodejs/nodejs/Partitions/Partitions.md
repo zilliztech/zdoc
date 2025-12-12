@@ -12,10 +12,10 @@ token: Hg5PfTIHll3FK4dbYdxcaURHn2n
 sidebar_position: 6
 sidebar_label: "Partitions"
 keywords: 
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud

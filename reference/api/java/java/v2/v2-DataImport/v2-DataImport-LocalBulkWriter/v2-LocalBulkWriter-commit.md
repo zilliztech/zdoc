@@ -21,10 +21,10 @@ keywords:
   - cloud
   - commit()
   - javaV226
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

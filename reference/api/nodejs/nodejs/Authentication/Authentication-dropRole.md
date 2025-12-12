@@ -21,10 +21,10 @@ keywords:
   - cloud
   - dropRole()
   - nodejs26
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

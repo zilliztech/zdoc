@@ -12,19 +12,19 @@ type: docx
 token: DCszdG9rCoZxhfxfAuOcNsXRnOc
 sidebar_position: 7
 keywords: 
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - StructFieldSchema
   - javaV226
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

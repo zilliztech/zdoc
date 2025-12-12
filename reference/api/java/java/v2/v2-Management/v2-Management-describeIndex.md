@@ -12,19 +12,19 @@ type: docx
 token: Lp8AdBebwoF7bLx7Q8Jc3Qz0nF9
 sidebar_position: 4
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
   - javaV226
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

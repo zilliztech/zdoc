@@ -12,10 +12,10 @@ token: LkxXfcSA7lKXqEdu8mpcHI8Fnqd
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud

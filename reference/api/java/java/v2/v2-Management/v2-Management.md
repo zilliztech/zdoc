@@ -12,10 +12,10 @@ token: ALDZfPYy3lNm8ZdotPecBX7rnNd
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
   - Vector store
   - open source vector database
+  - Vector index
+  - vector database open source
   - zilliz
   - zilliz cloud
   - cloud

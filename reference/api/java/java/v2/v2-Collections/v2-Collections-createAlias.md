@@ -12,19 +12,19 @@ type: docx
 token: MQxvdwd7QoUu5zxyHTjc0MUKnhe
 sidebar_position: 6
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
   - zilliz
   - zilliz cloud
   - cloud
   - createAlias()
   - javaV226
-  - Unstructured Data
-  - vector database
   - IVF
   - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

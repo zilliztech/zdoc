@@ -12,19 +12,19 @@ type: docx
 token: IBTSd8lrvoAYLzxl6Z8cEVoXnMd
 sidebar_position: 6
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitions()
   - javaV226
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

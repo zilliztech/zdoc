@@ -12,19 +12,19 @@ type: docx
 token: SRI6dEn82oNe4Uxro8hcyFV3n1d
 sidebar_position: 30
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - batchDescribeCollection()
   - javaV226
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

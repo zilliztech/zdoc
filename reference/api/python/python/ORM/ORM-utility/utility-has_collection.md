@@ -12,19 +12,19 @@ type: docx
 token: TWOxdwDYRo4CCHxDdZbc7IOznCg
 sidebar_position: 17
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
   - zilliz
   - zilliz cloud
   - cloud
   - has_collection()
   - pymilvus26
+  - llm hallucinations
   - hybrid search
   - lexical search
   - nearest neighbor search
-  - Agentic RAG
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

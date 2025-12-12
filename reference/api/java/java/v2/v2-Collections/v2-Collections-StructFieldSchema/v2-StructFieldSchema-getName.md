@@ -12,19 +12,19 @@ type: docx
 token: DZcddGCD3oh29txhnB5cuxzzn4d
 sidebar_position: 6
 keywords: 
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
   - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - getName()
   - javaV226
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

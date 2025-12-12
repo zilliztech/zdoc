@@ -12,10 +12,10 @@ token: CqXrfDyXZlkNSrdh5eJcI0Fznjh
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud

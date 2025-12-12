@@ -12,19 +12,19 @@ type: docx
 token: IHoodknUJohFAbxMFg3c0q8un6f
 sidebar_position: 6
 keywords: 
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - listDatabases()
   - javaV226
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

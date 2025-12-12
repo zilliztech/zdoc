@@ -12,19 +12,19 @@ type: docx
 token: Znb7dcNoeobIkkxGLGfcpVfUnIX
 sidebar_position: 19
 keywords: 
+  - Large language model
   - Vectorization
   - k nearest neighbor algorithm
   - ANNS
-  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - revokeRole()
   - javaV226
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

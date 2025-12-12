@@ -12,10 +12,10 @@ token: QW8NfURhvl0NtOdmS3DcvQYCnFh
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud

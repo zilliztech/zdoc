@@ -12,19 +12,19 @@ type: docx
 token: WaAvdBOvCoeLeCxKXtQct12gnGh
 sidebar_position: 11
 keywords: 
+  - AI Agent
   - semantic search
   - Anomaly Detection
   - sentence transformers
-  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud
   - searchIterator()
   - nodejs26
-  - vectordb
   - multimodal vector database retrieval
   - Retrieval Augmented Generation
   - Large language model
+  - Vectorization
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

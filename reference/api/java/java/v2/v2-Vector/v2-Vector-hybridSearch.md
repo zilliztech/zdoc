@@ -12,19 +12,19 @@ type: docx
 token: EOsTdGbQxouZjpxP4Wbc5MXkneh
 sidebar_position: 3
 keywords: 
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
   - javaV226
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

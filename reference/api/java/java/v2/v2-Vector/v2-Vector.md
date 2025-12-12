@@ -12,10 +12,10 @@ token: XkwkfO0XUlwfQzd6cficDg8enoh
 sidebar_position: 8
 sidebar_label: "Vector"
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
   - zilliz
   - zilliz cloud
   - cloud

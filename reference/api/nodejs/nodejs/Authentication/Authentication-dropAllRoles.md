@@ -12,19 +12,19 @@ type: docx
 token: E5rYdw3EWo2WKZxEyGac049an3e
 sidebar_position: 11
 keywords: 
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
   - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
   - zilliz
   - zilliz cloud
   - cloud
   - dropAllRoles()
   - nodejs26
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

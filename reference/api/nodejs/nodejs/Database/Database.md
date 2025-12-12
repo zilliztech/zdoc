@@ -12,10 +12,10 @@ token: CEYUfuKoYlVIfod63clcDaS9nxc
 sidebar_position: 4
 sidebar_label: "Database"
 keywords: 
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
   - zilliz
   - zilliz cloud
   - cloud

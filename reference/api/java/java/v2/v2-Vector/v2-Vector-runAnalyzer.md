@@ -12,19 +12,19 @@ type: docx
 token: S2RfdHUQro7atExpfJBc6FPfnZe
 sidebar_position: 10
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
   - zilliz
   - zilliz cloud
   - cloud
   - runAnalyzer()
   - javaV226
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

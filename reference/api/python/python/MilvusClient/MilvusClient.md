@@ -12,10 +12,10 @@ token: B2fdfjb1nl9Pjidkaa9cM6lAngd
 sidebar_position: 3
 sidebar_label: "MilvusClient"
 keywords: 
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud

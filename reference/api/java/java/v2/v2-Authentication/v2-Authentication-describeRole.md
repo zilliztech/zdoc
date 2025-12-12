@@ -12,19 +12,19 @@ type: docx
 token: VDKPdBJzdoAu7exEOE2czN2gnTd
 sidebar_position: 5
 keywords: 
-  - Chroma vector database
   - nlp search
   - hallucinations llm
   - Multimodal search
+  - vector search algorithms
   - zilliz
   - zilliz cloud
   - cloud
   - describeRole()
   - javaV226
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: MtF2dkZcso4XduxM194cUaiinqb
 sidebar_position: 30
 keywords: 
+  - Video search
+  - AI Hallucination
   - AI Agent
   - semantic search
-  - Anomaly Detection
-  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud
   - list_users()
   - pymilvus26
-  - vector database open source
-  - open source vector db
-  - vector database example
   - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

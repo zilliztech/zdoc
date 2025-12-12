@@ -12,19 +12,19 @@ type: docx
 token: ZCESd1IrfoFHByx125kcd38Zndg
 sidebar_position: 3
 keywords: 
+  - Dense vector
   - Hierarchical Navigable Small Worlds
   - Dense embedding
   - Faiss vector database
-  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - getPartitionStats()
   - javaV226
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

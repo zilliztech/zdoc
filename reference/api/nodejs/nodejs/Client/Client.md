@@ -12,10 +12,10 @@ token: ABk9fhVMTlQb0MdGuOrck8a8n7f
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
