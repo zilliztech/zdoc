@@ -12,10 +12,10 @@ token: N5ynfBUN2l7doCdZw7ecFSl5nqb
 sidebar_position: 7
 sidebar_label: "Vector"
 keywords: 
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud

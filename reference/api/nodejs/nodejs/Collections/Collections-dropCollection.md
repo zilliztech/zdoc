@@ -12,19 +12,19 @@ type: docx
 token: KLknda2VtocQSBx7PKVc6F9Nnug
 sidebar_position: 10
 keywords: 
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
   - Large language model
   - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollection()
   - nodejs26
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: E27SdesNPoKA8zx6jHkcejt0nWg
 sidebar_position: 17
 keywords: 
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - getCollectionStats()
   - javaV226
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

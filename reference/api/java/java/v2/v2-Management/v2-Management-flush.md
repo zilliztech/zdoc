@@ -12,19 +12,19 @@ type: docx
 token: PmHrdRirloGrFExMMfcc5un0n1g
 sidebar_position: 7
 keywords: 
-  - hallucinations llm
   - Multimodal search
   - vector search algorithms
   - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - javaV226
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

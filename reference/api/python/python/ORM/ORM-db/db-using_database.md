@@ -12,19 +12,19 @@ type: docx
 token: GXXTd7JIgoUKhzxiI6ncWtwjnVc
 sidebar_position: 4
 keywords: 
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
   - zilliz
   - zilliz cloud
   - cloud
   - using_database()
   - pymilvus26
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

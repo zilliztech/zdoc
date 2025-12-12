@@ -12,19 +12,19 @@ type: docx
 token: CBwkdDs7MoKkVKx0kJgcPUNxn6s
 sidebar_position: 24
 keywords: 
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
   - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
   - release()
   - pymilvus26
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: KVSUdHV0ho7nnwxeQKMcEL47nKe
 sidebar_position: 4
 keywords: 
+  - open source vector database
+  - Vector index
   - vector database open source
   - open source vector db
-  - vector database example
-  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - hasPartition()
   - javaV226
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

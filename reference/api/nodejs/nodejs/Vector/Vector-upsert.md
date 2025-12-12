@@ -12,19 +12,19 @@ type: docx
 token: MpW0dmPAao1SWkx7HGkcT16dnvb
 sidebar_position: 9
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - nodejs26
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

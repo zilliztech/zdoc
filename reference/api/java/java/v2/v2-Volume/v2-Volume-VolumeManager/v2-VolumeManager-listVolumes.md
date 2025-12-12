@@ -21,10 +21,10 @@ keywords:
   - cloud
   - listVolumes()
   - javaV226
-  - Pinecone vector database
   - Audio search
   - what is semantic search
   - Embedding model
+  - image similarity search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
