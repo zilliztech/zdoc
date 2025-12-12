@@ -12,19 +12,19 @@ type: docx
 token: ByLVdf2nRocLcxxwH3Gc9CyFnbb
 sidebar_position: 6
 keywords: 
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
   - zilliz
   - zilliz cloud
   - cloud
   - queryIterator()
   - javaV226
+  - What is unstructured data
   - Vector embeddings
   - Vector store
   - open source vector database
-  - Vector index
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

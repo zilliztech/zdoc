@@ -12,19 +12,19 @@ type: docx
 token: Djg7dlb5NoINz9xOAs1cyY67nsh
 sidebar_position: 15
 keywords: 
-  - milvus benchmark
   - managed milvus
   - Serverless vector database
   - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - listCollections()
   - nodejs26
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

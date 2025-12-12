@@ -12,19 +12,19 @@ type: docx
 token: UxOXdeKF1oOIBuxTjPhcKBtPnRb
 sidebar_position: 20
 keywords: 
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
   - zilliz
   - zilliz cloud
   - cloud
   - releaseCollection()
   - nodejs26
+  - Chroma vector database
   - nlp search
   - hallucinations llm
   - Multimodal search
-  - vector search algorithms
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

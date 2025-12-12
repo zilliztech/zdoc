@@ -12,19 +12,19 @@ type: docx
 token: KOZHdyeQvo4htOxhO8BcbEudnNd
 sidebar_position: 2
 keywords: 
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - nodejs26
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

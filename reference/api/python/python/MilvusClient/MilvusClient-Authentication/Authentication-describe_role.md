@@ -12,19 +12,19 @@ type: docx
 token: JJz3dFrE2oJP3AxySWYcJlf4nMh
 sidebar_position: 5
 keywords: 
+  - Chroma vector database
+  - nlp search
   - hallucinations llm
   - Multimodal search
-  - vector search algorithms
-  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - describe_role()
   - pymilvus26
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

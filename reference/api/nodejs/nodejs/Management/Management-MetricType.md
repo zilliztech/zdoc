@@ -12,19 +12,19 @@ type: docx
 token: KQDEdcccXozuKpxDg78cSmxYnQg
 sidebar_position: 21
 keywords: 
+  - milvus
+  - Zilliz
   - milvus vector database
   - milvus db
-  - milvus vector db
-  - Zilliz Cloud
   - zilliz
   - zilliz cloud
   - cloud
   - MetricType
   - nodejs26
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

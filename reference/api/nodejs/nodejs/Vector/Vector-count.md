@@ -12,19 +12,19 @@ type: docx
 token: NaOadUNSpo1EsIxPMSfc0R4Hnfb
 sidebar_position: 1
 keywords: 
+  - Vector Dimension
   - ANN Search
   - What are vector embeddings
   - vector database tutorial
-  - how do vector databases work
   - zilliz
   - zilliz cloud
   - cloud
   - count()
   - nodejs26
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: Smobd2lIho2yQPxtRhLcLcKznCf
 sidebar_position: 1
 keywords: 
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - VoyageRerankFunction
   - pymilvus26
+  - Faiss
   - Video search
   - AI Hallucination
   - AI Agent
-  - semantic search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

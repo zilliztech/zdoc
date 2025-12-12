@@ -12,19 +12,19 @@ type: docx
 token: RXi3dgtNYogU0cxmTsgcdT72nsc
 sidebar_position: 29
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
   - zilliz
   - zilliz cloud
   - cloud
   - list_usernames()
   - pymilvus26
+  - IVF
+  - knn
+  - Image Search
   - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar
