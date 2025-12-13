@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - icu-tokenizer
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

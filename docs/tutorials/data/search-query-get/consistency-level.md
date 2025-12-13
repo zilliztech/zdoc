@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

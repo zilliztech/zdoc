@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

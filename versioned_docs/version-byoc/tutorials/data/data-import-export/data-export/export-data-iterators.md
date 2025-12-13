@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

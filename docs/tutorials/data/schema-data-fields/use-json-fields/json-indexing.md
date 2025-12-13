@@ -21,10 +21,10 @@ keywords:
   - index
   - path index
   - flat index
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

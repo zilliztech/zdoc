@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - array field
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

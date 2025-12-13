@@ -20,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

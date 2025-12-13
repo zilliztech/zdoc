@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - collection ttl
   - time-to-live
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

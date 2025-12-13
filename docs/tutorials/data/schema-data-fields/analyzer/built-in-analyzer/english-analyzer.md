@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - english analyzer
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

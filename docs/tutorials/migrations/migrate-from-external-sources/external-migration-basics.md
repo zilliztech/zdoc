@@ -19,10 +19,10 @@ keywords:
   - external
   - data source
   - basics
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

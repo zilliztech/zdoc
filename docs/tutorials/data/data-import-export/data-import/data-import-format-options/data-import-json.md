@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - json
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

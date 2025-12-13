@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - lindera-tokenizer
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

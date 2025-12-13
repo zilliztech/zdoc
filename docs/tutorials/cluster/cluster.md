@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

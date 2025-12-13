@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

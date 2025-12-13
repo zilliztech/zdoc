@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - standard-analyzer
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

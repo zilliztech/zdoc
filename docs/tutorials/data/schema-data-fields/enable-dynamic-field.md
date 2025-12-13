@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

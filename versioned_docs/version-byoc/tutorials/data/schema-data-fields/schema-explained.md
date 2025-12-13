@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

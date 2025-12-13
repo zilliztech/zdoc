@@ -20,10 +20,10 @@ keywords:
   - upsert
   - update
   - count
-  - nn search
-  - llm eval
-  - Sparse vs Dense
   - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

@@ -23,10 +23,10 @@ keywords:
   - go
   - node
   - nodejs
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

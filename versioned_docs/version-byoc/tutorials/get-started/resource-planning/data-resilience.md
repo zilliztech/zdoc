@@ -21,10 +21,10 @@ keywords:
   - rto
   - rpo
   - cost optimzation
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

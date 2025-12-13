@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - multi-language
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

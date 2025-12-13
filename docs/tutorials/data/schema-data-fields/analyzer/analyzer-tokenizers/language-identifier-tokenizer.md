@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - language identifier
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

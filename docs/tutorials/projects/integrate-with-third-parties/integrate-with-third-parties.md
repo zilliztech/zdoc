@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

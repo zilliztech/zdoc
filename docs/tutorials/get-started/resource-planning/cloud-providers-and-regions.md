@@ -17,10 +17,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

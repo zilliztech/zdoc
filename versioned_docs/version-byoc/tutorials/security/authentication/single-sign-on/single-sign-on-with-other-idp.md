@@ -18,10 +18,10 @@ keywords:
   - sso
   - other
   - idp
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

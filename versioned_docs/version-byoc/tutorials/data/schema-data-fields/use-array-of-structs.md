@@ -20,10 +20,10 @@ keywords:
   - array field
   - array of structs
   - structs
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 

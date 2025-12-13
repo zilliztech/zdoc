@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

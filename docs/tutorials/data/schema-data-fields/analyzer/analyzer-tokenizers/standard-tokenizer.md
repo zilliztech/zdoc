@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - standard-tokenizer
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

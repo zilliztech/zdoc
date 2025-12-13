@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

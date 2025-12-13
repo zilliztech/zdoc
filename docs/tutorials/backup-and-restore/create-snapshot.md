@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

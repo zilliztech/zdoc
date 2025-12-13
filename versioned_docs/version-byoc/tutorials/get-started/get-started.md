@@ -16,10 +16,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

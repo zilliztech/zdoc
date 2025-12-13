@@ -20,10 +20,10 @@ keywords:
   - rbac
   - users
   - overview
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

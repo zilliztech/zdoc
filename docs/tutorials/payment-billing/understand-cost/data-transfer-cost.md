@@ -18,10 +18,10 @@ keywords:
   - data transfer
   - cost
   - billing
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - gaussian decay
   - gauss
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

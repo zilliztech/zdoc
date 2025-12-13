@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

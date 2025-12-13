@@ -19,10 +19,10 @@ keywords:
   - data
   - insert
   - insert entities
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

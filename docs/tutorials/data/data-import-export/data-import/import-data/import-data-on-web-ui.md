@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - console
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

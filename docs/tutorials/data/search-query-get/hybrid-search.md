@@ -19,10 +19,10 @@ keywords:
   - data
   - hybrid search
   - combine sparse and dense vectors
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

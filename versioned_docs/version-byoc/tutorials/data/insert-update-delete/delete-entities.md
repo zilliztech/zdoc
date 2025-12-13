@@ -19,10 +19,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

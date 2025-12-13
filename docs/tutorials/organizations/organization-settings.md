@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
 
 ---
 

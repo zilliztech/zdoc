@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - overview
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - tutorial
   - time-based ranking
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

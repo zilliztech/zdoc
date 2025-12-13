@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

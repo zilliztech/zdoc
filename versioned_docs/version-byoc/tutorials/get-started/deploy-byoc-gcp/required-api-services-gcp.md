@@ -20,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

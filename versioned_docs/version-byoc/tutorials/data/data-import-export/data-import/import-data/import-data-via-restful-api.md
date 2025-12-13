@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

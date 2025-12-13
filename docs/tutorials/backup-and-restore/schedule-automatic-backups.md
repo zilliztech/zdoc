@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

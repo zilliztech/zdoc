@@ -18,10 +18,10 @@ keywords:
   - migrations
   - amazon
   - opensearch
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

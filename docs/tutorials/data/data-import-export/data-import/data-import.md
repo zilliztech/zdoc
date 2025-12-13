@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

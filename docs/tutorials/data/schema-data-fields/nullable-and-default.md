@@ -19,10 +19,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

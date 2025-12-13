@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster credentials
   - api key
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - alphanumonly
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

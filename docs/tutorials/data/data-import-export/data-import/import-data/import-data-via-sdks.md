@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 
 ---
 

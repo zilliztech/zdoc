@@ -18,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

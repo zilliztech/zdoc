@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

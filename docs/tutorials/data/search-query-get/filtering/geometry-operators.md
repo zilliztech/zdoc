@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - geometry
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

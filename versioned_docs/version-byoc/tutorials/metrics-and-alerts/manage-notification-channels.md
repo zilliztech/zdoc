@@ -17,10 +17,10 @@ keywords:
   - cloud
   - notification
   - channels
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

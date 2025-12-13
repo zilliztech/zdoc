@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

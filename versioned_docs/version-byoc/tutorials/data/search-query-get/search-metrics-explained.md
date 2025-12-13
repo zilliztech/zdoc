@@ -23,10 +23,10 @@ keywords:
   - IP
   - COSINE
   - Jaccard
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

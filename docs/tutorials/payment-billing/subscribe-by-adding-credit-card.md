@@ -17,10 +17,10 @@ keywords:
   - cloud
   - credit card
   - subscribe
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

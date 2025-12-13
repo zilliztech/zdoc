@@ -18,10 +18,10 @@ keywords:
   - data import
   - export
   - milvus
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

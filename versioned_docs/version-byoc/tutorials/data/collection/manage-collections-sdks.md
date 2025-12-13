@@ -18,10 +18,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

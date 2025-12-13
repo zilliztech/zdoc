@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - multi-tenancy
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

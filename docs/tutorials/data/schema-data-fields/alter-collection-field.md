@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

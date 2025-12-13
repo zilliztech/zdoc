@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

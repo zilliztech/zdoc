@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

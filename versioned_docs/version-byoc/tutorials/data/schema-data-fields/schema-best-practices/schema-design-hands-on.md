@@ -19,10 +19,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

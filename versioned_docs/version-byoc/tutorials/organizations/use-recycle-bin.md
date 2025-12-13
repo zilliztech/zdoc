@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

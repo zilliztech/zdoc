@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

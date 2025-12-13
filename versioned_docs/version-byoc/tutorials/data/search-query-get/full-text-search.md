@@ -22,10 +22,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

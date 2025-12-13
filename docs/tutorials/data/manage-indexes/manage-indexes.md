@@ -17,10 +17,10 @@ keywords:
   - cloud
   - index
   - manage
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

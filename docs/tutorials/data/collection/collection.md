@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - collection
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

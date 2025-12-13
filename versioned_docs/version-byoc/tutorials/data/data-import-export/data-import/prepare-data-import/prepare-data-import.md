@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

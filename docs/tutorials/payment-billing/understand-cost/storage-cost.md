@@ -18,10 +18,10 @@ keywords:
   - storage
   - cost
   - billing
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

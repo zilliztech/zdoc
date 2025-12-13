@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

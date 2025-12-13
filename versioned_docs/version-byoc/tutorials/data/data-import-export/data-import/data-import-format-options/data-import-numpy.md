@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - numpy
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

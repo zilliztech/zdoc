@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

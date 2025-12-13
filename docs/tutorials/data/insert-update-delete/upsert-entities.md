@@ -20,10 +20,10 @@ keywords:
   - upsert
   - update
   - insert
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

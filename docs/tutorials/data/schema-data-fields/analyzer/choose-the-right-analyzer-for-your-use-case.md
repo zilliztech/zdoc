@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - best
   - practice
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

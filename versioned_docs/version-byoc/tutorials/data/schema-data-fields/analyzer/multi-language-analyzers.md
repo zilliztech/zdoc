@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - multi-language
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

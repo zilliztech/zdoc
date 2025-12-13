@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

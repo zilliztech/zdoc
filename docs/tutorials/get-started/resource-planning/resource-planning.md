@@ -17,10 +17,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

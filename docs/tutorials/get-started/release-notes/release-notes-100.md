@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

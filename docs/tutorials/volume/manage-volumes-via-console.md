@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - volume
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

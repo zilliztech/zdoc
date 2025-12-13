@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

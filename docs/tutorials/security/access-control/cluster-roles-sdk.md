@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

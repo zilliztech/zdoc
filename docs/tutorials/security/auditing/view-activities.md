@@ -17,10 +17,10 @@ keywords:
   - cloud
   - activities
   - view
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

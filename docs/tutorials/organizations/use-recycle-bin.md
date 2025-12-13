@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
 
 ---
 

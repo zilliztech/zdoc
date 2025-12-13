@@ -19,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

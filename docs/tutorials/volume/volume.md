@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - volume
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

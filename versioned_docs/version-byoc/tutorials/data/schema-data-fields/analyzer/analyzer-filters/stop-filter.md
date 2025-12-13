@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - stop
+  - milvus open source
+  - how does milvus work
   - Zilliz vector database
   - Zilliz database
-  - Unstructured Data
-  - vector database
 
 ---
 

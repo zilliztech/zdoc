@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - parquet
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

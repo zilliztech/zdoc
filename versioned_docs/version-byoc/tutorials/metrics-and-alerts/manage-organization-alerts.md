@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

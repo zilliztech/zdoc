@@ -17,10 +17,10 @@ keywords:
   - cloud
   - free trial
   - milvus
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

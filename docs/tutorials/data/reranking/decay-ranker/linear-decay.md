@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - linear decay
   - linear
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

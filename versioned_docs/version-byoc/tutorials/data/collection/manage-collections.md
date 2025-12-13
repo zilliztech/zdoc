@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

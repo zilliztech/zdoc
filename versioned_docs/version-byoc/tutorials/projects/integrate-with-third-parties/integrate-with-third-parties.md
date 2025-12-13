@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project third-party
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

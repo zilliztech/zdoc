@@ -17,10 +17,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

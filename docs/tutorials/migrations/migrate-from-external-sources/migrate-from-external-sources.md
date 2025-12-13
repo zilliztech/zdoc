@@ -18,10 +18,10 @@ keywords:
   - migrations
   - external
   - data source
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

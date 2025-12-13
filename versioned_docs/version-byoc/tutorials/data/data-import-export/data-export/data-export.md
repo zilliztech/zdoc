@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - text-match
-  - milvus vector database
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

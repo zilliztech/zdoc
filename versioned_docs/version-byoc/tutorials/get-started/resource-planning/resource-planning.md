@@ -17,10 +17,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - range search
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

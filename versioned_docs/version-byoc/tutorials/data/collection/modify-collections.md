@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

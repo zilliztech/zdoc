@@ -22,10 +22,10 @@ keywords:
   - decay
   - decay ranker
   - decay ranker overview
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data
   - security
+  - Sparse vector
   - Vector Dimension
   - ANN Search
   - What are vector embeddings
-  - vector database tutorial
 
 ---
 

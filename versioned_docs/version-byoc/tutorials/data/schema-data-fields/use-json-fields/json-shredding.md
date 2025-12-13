@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - json shredding
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

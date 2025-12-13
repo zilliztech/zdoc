@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - pinecone
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

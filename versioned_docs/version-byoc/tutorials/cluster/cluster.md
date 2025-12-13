@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

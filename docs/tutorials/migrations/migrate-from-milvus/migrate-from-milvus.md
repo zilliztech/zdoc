@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - milvus
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

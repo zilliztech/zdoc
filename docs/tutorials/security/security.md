@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

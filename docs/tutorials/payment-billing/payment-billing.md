@@ -18,10 +18,10 @@ keywords:
   - private link
   - payment
   - billing
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
 
 ---
 

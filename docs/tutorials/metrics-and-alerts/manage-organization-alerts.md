@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

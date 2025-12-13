@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster plan
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

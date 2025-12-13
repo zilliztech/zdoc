@@ -18,10 +18,10 @@ keywords:
   - migrations
   - milvus
   - backup files
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

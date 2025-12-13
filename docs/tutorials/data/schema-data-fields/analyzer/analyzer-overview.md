@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - analyzer explained
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

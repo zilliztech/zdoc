@@ -19,10 +19,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

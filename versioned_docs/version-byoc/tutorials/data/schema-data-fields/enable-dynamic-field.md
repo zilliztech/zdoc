@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dynamic field
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

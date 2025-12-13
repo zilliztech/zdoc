@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

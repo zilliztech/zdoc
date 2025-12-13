@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - lindera-tokenizer
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

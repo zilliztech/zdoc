@@ -18,10 +18,10 @@ keywords:
   - backup
   - files
   - view
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

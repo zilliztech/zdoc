@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - minhash
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

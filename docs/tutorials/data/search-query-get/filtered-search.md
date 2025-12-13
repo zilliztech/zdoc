@@ -19,10 +19,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - sso
   - google
   - workspace
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
 
 ---
 

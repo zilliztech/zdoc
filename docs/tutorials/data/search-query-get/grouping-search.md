@@ -19,10 +19,10 @@ keywords:
   - data
   - grouping search
   - group
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

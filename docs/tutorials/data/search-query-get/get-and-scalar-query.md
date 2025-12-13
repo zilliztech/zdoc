@@ -20,10 +20,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

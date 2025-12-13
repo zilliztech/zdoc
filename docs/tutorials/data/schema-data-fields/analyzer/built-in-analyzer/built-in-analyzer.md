@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in analyzer
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

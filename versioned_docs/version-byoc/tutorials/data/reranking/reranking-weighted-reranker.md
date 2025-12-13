@@ -20,10 +20,10 @@ keywords:
   - search result reranking
   - result reranking
   - weighted reranker
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - extract
   - transform
   - load
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

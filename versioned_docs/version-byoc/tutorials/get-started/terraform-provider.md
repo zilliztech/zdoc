@@ -17,10 +17,10 @@ keywords:
   - cloud
   - terraform provider
   - terraform
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

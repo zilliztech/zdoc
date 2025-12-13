@@ -18,10 +18,10 @@ keywords:
   - collection
   - load
   - release
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

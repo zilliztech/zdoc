@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - cncharonly
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

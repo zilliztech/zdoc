@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

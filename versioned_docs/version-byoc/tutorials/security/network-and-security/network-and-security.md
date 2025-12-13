@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

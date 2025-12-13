@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - volume
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

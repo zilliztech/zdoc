@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

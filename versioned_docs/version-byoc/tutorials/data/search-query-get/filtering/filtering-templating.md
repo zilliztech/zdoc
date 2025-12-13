@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - filtering templating
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - milvus
   - vector database
   - shared responsibilities
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

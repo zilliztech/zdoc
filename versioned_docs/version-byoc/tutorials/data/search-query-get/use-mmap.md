@@ -17,10 +17,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

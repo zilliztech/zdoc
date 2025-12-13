@@ -17,10 +17,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

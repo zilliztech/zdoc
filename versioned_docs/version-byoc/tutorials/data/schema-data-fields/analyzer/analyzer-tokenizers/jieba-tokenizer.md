@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - jieba-tokenizer
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

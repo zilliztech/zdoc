@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - stop
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

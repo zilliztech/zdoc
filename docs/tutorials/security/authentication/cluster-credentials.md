@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster credentials
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

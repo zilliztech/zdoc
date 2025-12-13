@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - best
   - practice
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

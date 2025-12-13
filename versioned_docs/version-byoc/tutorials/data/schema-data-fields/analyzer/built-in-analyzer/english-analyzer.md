@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - english analyzer
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

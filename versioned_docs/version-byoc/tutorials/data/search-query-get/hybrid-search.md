@@ -19,10 +19,10 @@ keywords:
   - data
   - hybrid search
   - combine sparse and dense vectors
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

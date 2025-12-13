@@ -18,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - zero downtime
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

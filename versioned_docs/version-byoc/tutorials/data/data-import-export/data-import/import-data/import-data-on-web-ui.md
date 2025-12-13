@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - console
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

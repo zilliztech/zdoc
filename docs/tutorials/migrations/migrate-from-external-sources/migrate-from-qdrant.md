@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - qdrant
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

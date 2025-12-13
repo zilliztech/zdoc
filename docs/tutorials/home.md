@@ -18,10 +18,10 @@ keywords:
   - developer hub
   - home page
   - home
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 hide_title: true
 hide_table_of_contents: true

@@ -18,10 +18,10 @@ keywords:
   - collection
   - data insertions
   - DDL
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

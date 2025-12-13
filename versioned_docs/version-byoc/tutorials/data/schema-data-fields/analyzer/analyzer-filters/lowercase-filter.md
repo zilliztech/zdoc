@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - lowercase
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

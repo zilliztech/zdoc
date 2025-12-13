@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

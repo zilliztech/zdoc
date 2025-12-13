@@ -20,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

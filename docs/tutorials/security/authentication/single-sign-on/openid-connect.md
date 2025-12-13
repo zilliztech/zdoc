@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

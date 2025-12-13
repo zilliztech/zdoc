@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - elasticsearch
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

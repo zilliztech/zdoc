@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

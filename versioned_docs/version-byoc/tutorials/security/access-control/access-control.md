@@ -18,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

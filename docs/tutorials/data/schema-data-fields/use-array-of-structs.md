@@ -20,10 +20,10 @@ keywords:
   - array field
   - array of structs
   - structs
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

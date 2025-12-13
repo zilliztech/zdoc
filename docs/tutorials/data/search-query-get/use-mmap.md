@@ -17,10 +17,10 @@ keywords:
   - cloud
   - mmap
   - search optimization
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

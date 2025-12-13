@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

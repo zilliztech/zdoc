@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in tokenizer
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

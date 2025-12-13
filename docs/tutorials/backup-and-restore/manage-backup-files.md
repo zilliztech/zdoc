@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - manage
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

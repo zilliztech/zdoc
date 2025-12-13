@@ -20,10 +20,10 @@ keywords:
   - rbac
   - users
   - overview
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

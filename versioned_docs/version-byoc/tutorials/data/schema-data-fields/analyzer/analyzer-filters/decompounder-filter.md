@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - decompounder
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

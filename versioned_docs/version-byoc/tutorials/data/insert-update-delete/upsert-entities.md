@@ -20,10 +20,10 @@ keywords:
   - upsert
   - update
   - insert
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

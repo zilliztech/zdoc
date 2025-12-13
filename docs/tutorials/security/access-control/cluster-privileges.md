@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

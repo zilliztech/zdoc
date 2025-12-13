@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - standard-analyzer
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

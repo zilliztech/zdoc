@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - changelogs
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - integrate
   - object
   - storage
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

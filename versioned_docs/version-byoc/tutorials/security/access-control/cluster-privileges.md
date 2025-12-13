@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

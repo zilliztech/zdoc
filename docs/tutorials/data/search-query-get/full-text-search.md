@@ -22,10 +22,10 @@ keywords:
   - filtering
   - full-text search
   - data in data out
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

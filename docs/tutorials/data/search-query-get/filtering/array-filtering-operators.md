@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - array operators
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

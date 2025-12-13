@@ -21,10 +21,10 @@ keywords:
   - result reranking
   - boost
   - boost ranker
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

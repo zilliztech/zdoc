@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

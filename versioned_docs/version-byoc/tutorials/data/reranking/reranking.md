@@ -19,10 +19,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

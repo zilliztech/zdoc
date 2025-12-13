@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - minhash
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

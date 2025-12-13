@@ -17,10 +17,10 @@ keywords:
   - cloud
   - basics
   - milvus
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

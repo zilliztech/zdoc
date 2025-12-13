@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

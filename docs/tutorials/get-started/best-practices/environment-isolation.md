@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - multi-tenancy
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

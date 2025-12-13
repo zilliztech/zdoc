@@ -23,10 +23,10 @@ keywords:
   - IP
   - COSINE
   - Jaccard
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - index build level
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

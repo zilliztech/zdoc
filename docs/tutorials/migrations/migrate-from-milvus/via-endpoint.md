@@ -18,10 +18,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

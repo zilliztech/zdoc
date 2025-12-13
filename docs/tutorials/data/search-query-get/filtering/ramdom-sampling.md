@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - random sampling
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

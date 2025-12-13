@@ -18,10 +18,10 @@ keywords:
   - collection
   - manage
   - console
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

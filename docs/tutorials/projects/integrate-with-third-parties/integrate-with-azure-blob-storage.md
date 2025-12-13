@@ -20,10 +20,10 @@ keywords:
   - azure
   - blob
   - storage
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

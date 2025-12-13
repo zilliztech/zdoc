@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

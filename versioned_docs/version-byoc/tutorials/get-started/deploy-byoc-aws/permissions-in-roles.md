@@ -19,10 +19,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

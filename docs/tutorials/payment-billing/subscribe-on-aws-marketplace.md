@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - aws
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

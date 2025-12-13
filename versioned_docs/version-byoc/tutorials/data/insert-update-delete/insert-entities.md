@@ -19,10 +19,10 @@ keywords:
   - data
   - insert
   - insert entities
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

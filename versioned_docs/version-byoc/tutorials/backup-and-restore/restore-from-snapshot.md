@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
 
 ---
 

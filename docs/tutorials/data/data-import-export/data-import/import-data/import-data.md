@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

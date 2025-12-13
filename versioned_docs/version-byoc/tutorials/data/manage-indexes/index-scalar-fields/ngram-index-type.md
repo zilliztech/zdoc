@@ -18,10 +18,10 @@ keywords:
   - scalar field
   - varchar
   - ngram
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - What are vector embeddings
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
 
 ---
 

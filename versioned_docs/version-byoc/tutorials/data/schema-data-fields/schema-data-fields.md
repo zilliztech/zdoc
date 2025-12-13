@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
+  - open source vector database
 
 ---
 

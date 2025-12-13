@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - filtering templating
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

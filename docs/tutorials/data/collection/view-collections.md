@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

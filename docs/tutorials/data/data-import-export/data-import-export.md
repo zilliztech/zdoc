@@ -18,10 +18,10 @@ keywords:
   - data import
   - export
   - milvus
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

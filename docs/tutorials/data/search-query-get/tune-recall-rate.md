@@ -21,10 +21,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
 
 ---
 

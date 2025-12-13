@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - notification
   - channels
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

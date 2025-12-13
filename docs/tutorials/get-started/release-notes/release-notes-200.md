@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

@@ -21,10 +21,10 @@ keywords:
   - int
   - integer
   - float
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
 
 ---
 

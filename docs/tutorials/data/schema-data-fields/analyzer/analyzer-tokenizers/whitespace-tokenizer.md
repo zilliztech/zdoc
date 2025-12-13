@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - whitespace-tokenizer
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

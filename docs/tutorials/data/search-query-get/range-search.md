@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - range search
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

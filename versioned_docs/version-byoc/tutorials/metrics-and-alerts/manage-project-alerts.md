@@ -17,10 +17,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

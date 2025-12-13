@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

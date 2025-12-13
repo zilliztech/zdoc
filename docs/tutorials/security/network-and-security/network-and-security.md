@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

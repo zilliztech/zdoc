@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - language identifier
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
 
 ---
 

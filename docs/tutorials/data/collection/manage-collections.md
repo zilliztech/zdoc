@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

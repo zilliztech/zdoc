@@ -22,10 +22,10 @@ keywords:
   - decay
   - decay ranker
   - decay rankers
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

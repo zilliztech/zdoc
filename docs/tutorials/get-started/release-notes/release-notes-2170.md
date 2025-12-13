@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

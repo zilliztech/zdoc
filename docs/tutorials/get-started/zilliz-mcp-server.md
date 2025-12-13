@@ -18,10 +18,10 @@ keywords:
   - mcp
   - milvus
   - mcp server
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - overview
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

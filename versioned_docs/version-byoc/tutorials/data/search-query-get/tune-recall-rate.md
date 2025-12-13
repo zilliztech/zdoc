@@ -21,10 +21,10 @@ keywords:
   - ann
   - recall rate
   - tune recall rate
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

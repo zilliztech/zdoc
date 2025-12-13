@@ -20,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

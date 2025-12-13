@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - analyzer
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

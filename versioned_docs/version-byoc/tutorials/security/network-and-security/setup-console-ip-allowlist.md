@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

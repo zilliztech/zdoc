@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - exponential decay
   - exp
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

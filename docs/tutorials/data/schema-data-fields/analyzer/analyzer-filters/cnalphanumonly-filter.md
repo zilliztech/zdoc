@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - cnalphanumonly
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

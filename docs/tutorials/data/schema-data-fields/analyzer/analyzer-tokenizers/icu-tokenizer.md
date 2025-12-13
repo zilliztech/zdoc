@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - icu-tokenizer
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

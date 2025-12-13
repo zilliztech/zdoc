@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
-  - Embedding model
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 
 ---
 

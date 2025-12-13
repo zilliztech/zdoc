@@ -19,10 +19,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

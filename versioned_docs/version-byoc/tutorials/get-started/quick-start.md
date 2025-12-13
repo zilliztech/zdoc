@@ -17,10 +17,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - search result reranking
   - result reranking
   - weighted reranker
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

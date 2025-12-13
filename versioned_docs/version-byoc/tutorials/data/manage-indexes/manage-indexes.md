@@ -17,10 +17,10 @@ keywords:
   - cloud
   - index
   - manage
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

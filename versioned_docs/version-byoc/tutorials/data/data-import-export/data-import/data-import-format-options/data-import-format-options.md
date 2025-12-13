@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - sso
   - okta
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 
 ---
 

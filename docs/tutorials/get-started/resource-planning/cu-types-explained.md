@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cu
   - select
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

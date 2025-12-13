@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - decompounder
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
 
 ---
 

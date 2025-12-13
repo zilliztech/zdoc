@@ -18,10 +18,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

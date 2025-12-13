@@ -21,10 +21,10 @@ keywords:
   - hands-on
   - structs
   - array of structs
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

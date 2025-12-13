@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - remove punct
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
   - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

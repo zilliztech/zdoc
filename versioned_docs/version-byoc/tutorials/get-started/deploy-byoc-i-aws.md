@@ -20,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

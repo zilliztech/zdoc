@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - manage
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

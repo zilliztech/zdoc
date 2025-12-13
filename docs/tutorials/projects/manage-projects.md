@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

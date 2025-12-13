@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - postgresql
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

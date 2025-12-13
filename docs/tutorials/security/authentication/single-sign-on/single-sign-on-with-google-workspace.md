@@ -18,10 +18,10 @@ keywords:
   - sso
   - google
   - workspace
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

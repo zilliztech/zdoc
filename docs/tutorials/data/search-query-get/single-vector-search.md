@@ -19,10 +19,10 @@ keywords:
   - data
   - vector search
   - ann
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

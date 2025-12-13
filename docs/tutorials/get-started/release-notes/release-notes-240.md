@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

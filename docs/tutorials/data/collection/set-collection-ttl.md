@@ -18,10 +18,10 @@ keywords:
   - collection
   - collection ttl
   - time-to-live
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

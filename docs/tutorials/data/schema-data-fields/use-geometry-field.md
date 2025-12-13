@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - geometry field
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

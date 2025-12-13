@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

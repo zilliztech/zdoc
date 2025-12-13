@@ -18,10 +18,10 @@ keywords:
   - scalar field
   - varchar
   - ngram
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

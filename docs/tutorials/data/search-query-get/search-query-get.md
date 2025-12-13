@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - DML
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

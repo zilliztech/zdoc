@@ -18,10 +18,10 @@ keywords:
   - mcp
   - milvus
   - mcp server
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

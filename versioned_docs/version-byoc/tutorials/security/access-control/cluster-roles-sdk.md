@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

@@ -21,10 +21,10 @@ keywords:
   - subnet
   - milvus
   - vector database
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

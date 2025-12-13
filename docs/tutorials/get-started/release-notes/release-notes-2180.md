@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

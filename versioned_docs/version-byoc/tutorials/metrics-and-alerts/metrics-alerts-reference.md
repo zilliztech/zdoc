@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

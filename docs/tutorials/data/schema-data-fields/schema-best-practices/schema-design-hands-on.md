@@ -19,10 +19,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

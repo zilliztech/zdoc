@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cost
   - billing
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

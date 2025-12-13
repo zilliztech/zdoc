@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

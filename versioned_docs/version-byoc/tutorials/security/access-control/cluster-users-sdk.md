@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - users
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

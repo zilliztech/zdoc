@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in analyzer
   - chinese analyzer
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

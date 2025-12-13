@@ -18,10 +18,10 @@ keywords:
   - sso
   - microsoft
   - entra
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

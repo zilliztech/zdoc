@@ -17,10 +17,10 @@ keywords:
   - cloud
   - basics
   - milvus
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

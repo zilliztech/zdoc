@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - dense vector
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

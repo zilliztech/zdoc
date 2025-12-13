@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in analyzer
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

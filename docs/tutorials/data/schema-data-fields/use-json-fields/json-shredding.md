@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - json shredding
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

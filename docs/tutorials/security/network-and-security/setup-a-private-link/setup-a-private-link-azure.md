@@ -22,10 +22,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

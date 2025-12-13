@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

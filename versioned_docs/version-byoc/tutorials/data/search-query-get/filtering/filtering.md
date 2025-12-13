@@ -20,10 +20,10 @@ keywords:
   - filter
   - filtering expressions
   - filtering
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

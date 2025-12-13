@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

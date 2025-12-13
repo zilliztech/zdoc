@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

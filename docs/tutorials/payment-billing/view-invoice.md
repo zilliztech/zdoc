@@ -17,10 +17,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

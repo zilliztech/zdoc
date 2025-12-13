@@ -23,10 +23,10 @@ keywords:
   - decay ranker
   - tutorial
   - time-based ranking
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 
 ---
 

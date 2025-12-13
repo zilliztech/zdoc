@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - multi-tenancy
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
 
 ---
 

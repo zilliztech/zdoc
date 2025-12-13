@@ -18,10 +18,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
 
 ---
 

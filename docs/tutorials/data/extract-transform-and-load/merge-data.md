@@ -21,10 +21,10 @@ keywords:
   - load
   - data merging
   - merge data
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

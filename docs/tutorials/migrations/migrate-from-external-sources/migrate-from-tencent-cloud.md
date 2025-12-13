@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - tencent cloud
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

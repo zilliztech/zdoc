@@ -17,10 +17,10 @@ keywords:
   - cloud
   - autoindex
   - milvus
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 
 ---
 

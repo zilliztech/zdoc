@@ -18,10 +18,10 @@ keywords:
   - serverless
   - cost
   - billing
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 
