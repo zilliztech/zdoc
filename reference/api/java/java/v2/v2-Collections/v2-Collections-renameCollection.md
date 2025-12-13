@@ -12,19 +12,19 @@ type: docx
 token: JCutdOT9Polf2dxej0mcoP24n9c
 sidebar_position: 21
 keywords: 
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
   - zilliz
   - zilliz cloud
   - cloud
   - renameCollection()
   - javaV226
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,10 +12,10 @@ token: O6ngfC8y5lIhIWdEGDAcXHzcntl
 sidebar_position: 10
 sidebar_label: "Volume"
 keywords: 
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - zilliz
   - zilliz cloud
   - cloud

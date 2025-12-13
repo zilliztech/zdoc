@@ -12,19 +12,19 @@ type: docx
 token: Pl7Fd8C3zocPaZx3VrAcl54Dnkd
 sidebar_position: 3
 keywords: 
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - alter_collection_properties()
   - pymilvus26
-  - Managed vector database
-  - Pinecone vector database
   - Audio search
   - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

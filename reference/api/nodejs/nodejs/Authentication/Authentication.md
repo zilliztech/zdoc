@@ -12,10 +12,10 @@ token: H1JWfZh74lkVhgdfGiKcQfsinPg
 sidebar_position: 1
 sidebar_label: "Authentication"
 keywords: 
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
   - zilliz
   - zilliz cloud
   - cloud

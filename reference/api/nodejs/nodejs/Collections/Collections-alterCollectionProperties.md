@@ -12,19 +12,19 @@ type: docx
 token: EHPGdbCP5o7UzCxlDnRc6y5Pn1c
 sidebar_position: 3
 keywords: 
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
   - zilliz
   - zilliz cloud
   - cloud
   - alterCollectionProperties()
   - nodejs26
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

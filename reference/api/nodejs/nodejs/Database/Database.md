@@ -12,10 +12,10 @@ token: CEYUfuKoYlVIfod63clcDaS9nxc
 sidebar_position: 4
 sidebar_label: "Database"
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
   - zilliz
   - zilliz cloud
   - cloud

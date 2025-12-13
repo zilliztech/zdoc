@@ -12,19 +12,19 @@ type: docx
 token: AXcMd0xiOovIX6xR4ZrcKA15nwh
 sidebar_position: 13
 keywords: 
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
   - zilliz
   - zilliz cloud
   - cloud
   - get_compaction_state()
   - pymilvus26
+  - milvus benchmark
+  - managed milvus
   - Serverless vector database
   - milvus open source
-  - how does milvus work
-  - Zilliz vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

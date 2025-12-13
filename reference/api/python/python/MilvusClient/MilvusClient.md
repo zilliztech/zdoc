@@ -12,10 +12,10 @@ token: B2fdfjb1nl9Pjidkaa9cM6lAngd
 sidebar_position: 3
 sidebar_label: "MilvusClient"
 keywords: 
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud

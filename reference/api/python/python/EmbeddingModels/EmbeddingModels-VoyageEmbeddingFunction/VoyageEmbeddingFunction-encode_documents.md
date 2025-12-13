@@ -12,19 +12,19 @@ type: docx
 token: S9zrdw1etovCFKx0gcic6AiVn0e
 sidebar_position: 1
 keywords: 
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus26
+  - Neural Network
+  - Deep Learning
   - Knowledge base
   - natural language processing
-  - AI chatbots
-  - cosine distance
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

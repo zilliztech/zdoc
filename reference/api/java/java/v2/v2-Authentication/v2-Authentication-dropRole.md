@@ -12,19 +12,19 @@ type: docx
 token: OLVbdsTOAoQwybx7oLPcZE3wnCf
 sidebar_position: 8
 keywords: 
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
+  - vector database tutorial
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
   - zilliz
   - zilliz cloud
   - cloud
   - dropRole()
   - javaV226
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

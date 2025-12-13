@@ -12,19 +12,19 @@ type: docx
 token: GXXTd7JIgoUKhzxiI6ncWtwjnVc
 sidebar_position: 4
 keywords: 
-  - Chroma vs Milvus
   - Annoy vector search
   - milvus
   - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - using_database()
   - pymilvus26
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

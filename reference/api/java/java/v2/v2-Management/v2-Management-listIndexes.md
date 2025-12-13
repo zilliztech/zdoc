@@ -12,19 +12,19 @@ type: docx
 token: LxwIdeFiGoYaRAxKS72cdjNkneh
 sidebar_position: 12
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - listIndexes()
   - javaV226
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

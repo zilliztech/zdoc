@@ -12,19 +12,19 @@ type: docx
 token: LffbdiHhzoHe08xivF9ccmoen5d
 sidebar_position: 23
 keywords: 
+  - Multimodal search
+  - vector search algorithms
   - Question answering system
   - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - query_iterator()
   - pymilvus26
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

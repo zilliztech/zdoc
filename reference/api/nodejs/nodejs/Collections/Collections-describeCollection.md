@@ -12,19 +12,19 @@ type: docx
 token: FEnwdB0eCotS7wxpPXmcwgQwn8g
 sidebar_position: 8
 keywords: 
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
   - nodejs26
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

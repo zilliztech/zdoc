@@ -12,19 +12,19 @@ type: docx
 token: SVbSdttVjoTGJrxdLiIcr9VLnPg
 sidebar_position: 11
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
   - zilliz
   - zilliz cloud
   - cloud
   - IndexType
   - javaV226
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

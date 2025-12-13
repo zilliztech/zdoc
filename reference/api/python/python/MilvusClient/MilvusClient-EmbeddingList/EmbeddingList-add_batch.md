@@ -12,19 +12,19 @@ type: docx
 token: TJundbM8FoU8UKxczaMcix3QnHb
 sidebar_position: 2
 keywords: 
+  - milvus database
   - milvus lite
   - milvus benchmark
   - managed milvus
-  - Serverless vector database
   - zilliz
   - zilliz cloud
   - cloud
   - add_batch()
   - pymilvus26
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

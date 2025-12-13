@@ -12,19 +12,19 @@ type: docx
 token: S0ITdsnpYoDpH9xKv9fcBhe5nWA
 sidebar_position: 2
 keywords: 
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - bulkImport()
   - javaV226
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

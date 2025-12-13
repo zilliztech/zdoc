@@ -12,19 +12,19 @@ type: docx
 token: DCszdG9rCoZxhfxfAuOcNsXRnOc
 sidebar_position: 7
 keywords: 
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
   - zilliz
   - zilliz cloud
   - cloud
   - StructFieldSchema
   - javaV226
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

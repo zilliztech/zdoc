@@ -12,19 +12,19 @@ type: docx
 token: UBbndftiQo2HdOxUNtocIISnnVh
 sidebar_position: 5
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - dropIndex()
   - nodejs26
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

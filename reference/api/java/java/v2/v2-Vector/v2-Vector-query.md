@@ -12,19 +12,19 @@ type: docx
 token: DI5tdxM92oBdXHxk0LFcsBSInVe
 sidebar_position: 5
 keywords: 
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - javaV226
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

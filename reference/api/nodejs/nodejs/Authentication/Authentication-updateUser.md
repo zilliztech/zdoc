@@ -12,19 +12,19 @@ type: docx
 token: BCGKdCttdotF32xUJTec8UFlndg
 sidebar_position: 28
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - updateUser()
   - nodejs26
-  - AI chatbots
   - cosine distance
   - what is a vector database
   - vectordb
+  - multimodal vector database retrieval
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

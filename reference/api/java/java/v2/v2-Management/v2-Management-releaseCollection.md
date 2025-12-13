@@ -12,19 +12,19 @@ type: docx
 token: KJArdiXZvoBtdIxumpocfe5knJc
 sidebar_position: 16
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
   - zilliz
   - zilliz cloud
   - cloud
   - releaseCollection()
   - javaV226
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

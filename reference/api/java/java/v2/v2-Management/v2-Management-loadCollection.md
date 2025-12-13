@@ -12,19 +12,19 @@ type: docx
 token: SAAmdJbZxoYTlNxKrX7cDLvAnFy
 sidebar_position: 13
 keywords: 
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollection()
   - javaV226
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

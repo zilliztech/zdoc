@@ -12,19 +12,19 @@ type: docx
 token: Ru8IdsrG8oayAWxly1PcqMGFnxd
 sidebar_position: 7
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
   - zilliz
   - zilliz cloud
   - cloud
   - queryIterator()
   - nodejs26
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

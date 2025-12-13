@@ -12,19 +12,19 @@ type: docx
 token: JxXHdFBRhoDT8MxlTvEc42IsnEh
 sidebar_position: 11
 keywords: 
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
   - zilliz
   - zilliz cloud
   - cloud
   - SearchIteratorV2()
   - javaV226
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

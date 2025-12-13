@@ -12,19 +12,19 @@ type: docx
 token: WRSYdEZwroNY1Txpk2DcI1sSnVg
 sidebar_position: 25
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
   - zilliz
   - zilliz cloud
   - cloud
   - describeReplicas()
   - javaV226
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

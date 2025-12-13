@@ -12,19 +12,19 @@ type: docx
 token: XIIyd3bMzoAVx3xVsoLcnQ2pnKh
 sidebar_position: 14
 keywords: 
+  - Question answering system
+  - llm-as-a-judge
   - hybrid vector search
   - Video deduplication
-  - Video similarity search
-  - Vector retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - listRoles()
   - javaV226
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

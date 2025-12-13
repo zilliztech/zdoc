@@ -12,19 +12,19 @@ type: docx
 token: V0xwdLOrhog7OBxTX76cQGQknSb
 sidebar_position: 3
 keywords: 
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - createRole()
   - javaV226
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

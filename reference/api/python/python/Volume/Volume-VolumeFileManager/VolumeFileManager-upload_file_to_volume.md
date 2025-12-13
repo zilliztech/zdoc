@@ -12,19 +12,19 @@ type: docx
 token: Fr3rdPTuXoC0Lzx7urIcwBqWnDb
 sidebar_position: 1
 keywords: 
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
   - zilliz
   - zilliz cloud
   - cloud
   - upload_file_to_volume()
   - pymilvus26
+  - What is unstructured data
+  - Vector embeddings
   - Vector store
   - open source vector database
-  - Vector index
-  - vector database open source
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

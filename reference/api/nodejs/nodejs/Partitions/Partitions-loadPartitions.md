@@ -12,19 +12,19 @@ type: docx
 token: Pyh3dttWKoBqcBx8FGhcArhAnqg
 sidebar_position: 6
 keywords: 
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitions()
   - nodejs26
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

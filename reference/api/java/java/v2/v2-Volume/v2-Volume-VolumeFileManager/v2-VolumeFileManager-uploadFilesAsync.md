@@ -12,19 +12,19 @@ type: docx
 token: GE25dbBmMoU8glxCWbJckYObnN1
 sidebar_position: 1
 keywords: 
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
-  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - uploadFilesAsync
   - javaV226
-  - Large language model
   - Vectorization
   - k nearest neighbor algorithm
   - ANNS
+  - Vector search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

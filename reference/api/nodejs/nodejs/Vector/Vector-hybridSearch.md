@@ -12,19 +12,19 @@ type: docx
 token: X8BVdD5I2oCUaZxFKGxcMoionnh
 sidebar_position: 4
 keywords: 
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
   - zilliz
   - zilliz cloud
   - cloud
   - hybridSearch()
   - nodejs26
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

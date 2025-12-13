@@ -12,10 +12,10 @@ token: DFjqfW5yclNaqWdpjpqckLM2nud
 sidebar_position: 7
 sidebar_label: "Vector"
 keywords: 
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
   - zilliz
   - zilliz cloud
   - cloud

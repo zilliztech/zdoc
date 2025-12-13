@@ -21,10 +21,10 @@ keywords:
   - cloud
   - dropIndexProperties()
   - javaV226
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

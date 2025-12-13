@@ -12,19 +12,19 @@ type: docx
 token: C8kgdOn3pozkrtxCBMLcqcSTnTb
 sidebar_position: 8
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - nodejs26
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

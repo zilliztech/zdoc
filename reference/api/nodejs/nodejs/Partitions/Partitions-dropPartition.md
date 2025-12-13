@@ -12,19 +12,19 @@ type: docx
 token: BBmsddqZEozxWyxkoADcFfzpncW
 sidebar_position: 2
 keywords: 
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - dropPartition()
   - nodejs26
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

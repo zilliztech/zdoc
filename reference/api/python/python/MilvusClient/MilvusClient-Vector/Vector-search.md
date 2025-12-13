@@ -12,19 +12,19 @@ type: docx
 token: N6afdOON2o3U0YxMAt7cMiBqnXg
 sidebar_position: 6
 keywords: 
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - pymilvus26
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

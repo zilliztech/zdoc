@@ -12,10 +12,10 @@ token: N5ynfBUN2l7doCdZw7ecFSl5nqb
 sidebar_position: 7
 sidebar_label: "Vector"
 keywords: 
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud

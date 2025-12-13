@@ -12,19 +12,19 @@ type: docx
 token: DMh5d1uiGolDtLxSNpCcWx9On7c
 sidebar_position: 14
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollection()
   - javaV226
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

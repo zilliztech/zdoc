@@ -12,19 +12,19 @@ type: docx
 token: Va2Fd7J6EoKmKCxaww0caOdInpF
 sidebar_position: 4
 keywords: 
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
   - zilliz
   - zilliz cloud
   - cloud
   - FunctionType
   - javaV226
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - hybrid vector search
-  - Video deduplication
-  - Video similarity search
-  - Vector retrieval
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

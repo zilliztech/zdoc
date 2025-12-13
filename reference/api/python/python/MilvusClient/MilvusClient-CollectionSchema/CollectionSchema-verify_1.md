@@ -12,19 +12,19 @@ type: docx
 token: TfV3dOYPyoKVSMxShrTc9SZ2nqh
 sidebar_position: 5
 keywords: 
+  - Annoy vector search
+  - milvus
   - Zilliz
   - milvus vector database
-  - milvus db
-  - milvus vector db
   - zilliz
   - zilliz cloud
   - cloud
   - verify()
   - pymilvus26
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

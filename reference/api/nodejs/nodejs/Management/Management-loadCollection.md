@@ -12,19 +12,19 @@ type: docx
 token: LoNvdRK80oWllFxV0H6co0HrnBe
 sidebar_position: 17
 keywords: 
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
   - zilliz
   - zilliz cloud
   - cloud
   - loadCollection()
   - nodejs26
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

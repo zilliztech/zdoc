@@ -12,19 +12,19 @@ type: docx
 token: SDoYdccLWo1W3PxkNFncibwDnch
 sidebar_position: 6
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
   - zilliz
   - zilliz cloud
   - cloud
   - createRole()
   - nodejs26
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

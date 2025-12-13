@@ -12,19 +12,19 @@ type: docx
 token: DDvudeY20o6tV5xwwo4cKovjnHf
 sidebar_position: 2
 keywords: 
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
   - zilliz
   - zilliz cloud
   - cloud
   - checkHealth()
   - nodejs26
-  - Machine Learning
   - RAG
   - NLP
   - Neural Network
+  - Deep Learning
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

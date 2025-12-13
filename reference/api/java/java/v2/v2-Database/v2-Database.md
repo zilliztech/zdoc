@@ -12,10 +12,10 @@ token: TOZmfXZa3luWIMdjXUycMbaanCd
 sidebar_position: 4
 sidebar_label: "Database"
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud

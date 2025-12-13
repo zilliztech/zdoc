@@ -12,19 +12,19 @@ type: docx
 token: Ei2hd8dE4oGCvJxKbEvcamxTnke
 sidebar_position: 9
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
   - zilliz
   - zilliz cloud
   - cloud
   - upsert()
   - javaV226
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

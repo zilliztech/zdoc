@@ -12,10 +12,10 @@ token: AtkCfVN4Ll6GqMdVJfxcybHanDf
 sidebar_position: 9
 sidebar_label: "Data Import"
 keywords: 
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
   - zilliz
   - zilliz cloud
   - cloud

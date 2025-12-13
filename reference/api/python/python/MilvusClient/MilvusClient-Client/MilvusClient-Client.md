@@ -12,10 +12,10 @@ token: ZEQZf4BtildBijdf1T6cdDnmnZb
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud

@@ -12,19 +12,19 @@ type: docx
 token: FuSTdeSCdojDu0xSBEmcYgv9n4g
 sidebar_position: 6
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - RRFRanker
   - javaV226
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

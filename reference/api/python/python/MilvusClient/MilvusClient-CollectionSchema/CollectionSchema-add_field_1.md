@@ -12,19 +12,19 @@ type: docx
 token: Ehbdd1HRLoB34nxU6hQcRk2Mnug
 sidebar_position: 1
 keywords: 
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
   - zilliz
   - zilliz cloud
   - cloud
   - add_field()
   - pymilvus26
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

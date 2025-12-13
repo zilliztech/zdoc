@@ -12,19 +12,19 @@ type: docx
 token: PSdEdxU7ZoTxelx7sLzcAAXsnQH
 sidebar_position: 5
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud
   - getMaxCapacity()
   - javaV226
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

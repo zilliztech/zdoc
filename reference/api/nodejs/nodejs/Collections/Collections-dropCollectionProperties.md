@@ -12,19 +12,19 @@ type: docx
 token: EjFMdRFz0ofehXxxCPqc6raSnAg
 sidebar_position: 11
 keywords: 
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollectionProperties()
   - nodejs26
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

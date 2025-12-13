@@ -12,10 +12,10 @@ token: ALDZfPYy3lNm8ZdotPecBX7rnNd
 sidebar_position: 5
 sidebar_label: "Management"
 keywords: 
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud

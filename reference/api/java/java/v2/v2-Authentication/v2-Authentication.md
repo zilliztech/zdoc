@@ -12,10 +12,10 @@ token: HR9xfgwXylmfqOdKmJ7c9xCqnQb
 sidebar_position: 1
 sidebar_label: "Authentication"
 keywords: 
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
   - zilliz
   - zilliz cloud
   - cloud

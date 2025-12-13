@@ -12,10 +12,10 @@ token: QW8NfURhvl0NtOdmS3DcvQYCnFh
 sidebar_position: 2
 sidebar_label: "Client"
 keywords: 
-  - Zilliz database
-  - Unstructured Data
-  - vector database
   - IVF
+  - knn
+  - Image Search
+  - LLMs
   - zilliz
   - zilliz cloud
   - cloud

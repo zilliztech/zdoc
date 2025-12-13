@@ -12,19 +12,19 @@ type: docx
 token: Rz5rdpGzGoNlByxy8cVcbUy9nhd
 sidebar_position: 7
 keywords: 
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
   - zilliz
   - zilliz cloud
   - cloud
   - search()
   - javaV226
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

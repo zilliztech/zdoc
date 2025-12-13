@@ -12,10 +12,10 @@ token: LkxXfcSA7lKXqEdu8mpcHI8Fnqd
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
   - zilliz
   - zilliz cloud
   - cloud

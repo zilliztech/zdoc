@@ -12,19 +12,19 @@ type: docx
 token: CN9sdiCicoERZpx9GhmcLa4Wn7g
 sidebar_position: 4
 keywords: 
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - listImportJobs()
   - javaV226
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

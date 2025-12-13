@@ -12,19 +12,19 @@ type: docx
 token: OPPHd2AabonMIzxzfupcyNS9n1a
 sidebar_position: 15
 keywords: 
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - dropCollectionProperties()
   - javaV226
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

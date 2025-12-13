@@ -12,19 +12,19 @@ type: docx
 token: L115dnbLyoXAVSxkUKxcuK4gncf
 sidebar_position: 1
 keywords: 
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
   - zilliz
   - zilliz cloud
   - cloud
   - append_row()
   - javaV226
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

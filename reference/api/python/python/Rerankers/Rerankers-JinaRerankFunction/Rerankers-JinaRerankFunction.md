@@ -12,19 +12,19 @@ type: docx
 token: E3opdXwZCoY8igxMjQ1cwsTbnzh
 sidebar_position: 1
 keywords: 
-  - vector db comparison
   - openai vector db
   - natural language processing database
   - cheap vector database
+  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - JinaRerankFunction
   - pymilvus26
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
-  - Retrieval Augmented Generation
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

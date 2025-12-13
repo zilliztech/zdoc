@@ -12,19 +12,19 @@ type: docx
 token: Al8Pdbn4fomlIBxxYi0chTsgnWg
 sidebar_position: 5
 keywords: 
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - Sparse vector
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
   - zilliz
   - zilliz cloud
   - cloud
   - createCollection()
   - nodejs26
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: P66Mdx2aaooL9px9CnQcS2eTnng
 sidebar_position: 6
 keywords: 
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - nodejs26
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

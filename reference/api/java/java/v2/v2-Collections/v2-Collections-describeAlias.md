@@ -12,19 +12,19 @@ type: docx
 token: RWaHdvzdvoxGdbxj44cc5SmBnzd
 sidebar_position: 11
 keywords: 
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - zilliz
   - zilliz cloud
   - cloud
   - describeAlias()
   - javaV226
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

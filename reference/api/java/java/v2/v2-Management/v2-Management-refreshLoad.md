@@ -12,19 +12,19 @@ type: docx
 token: CAmHdisseogwBkx8XWUcM6aHnfe
 sidebar_position: 15
 keywords: 
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
   - zilliz
   - zilliz cloud
   - cloud
   - refreshLoad()
   - javaV226
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

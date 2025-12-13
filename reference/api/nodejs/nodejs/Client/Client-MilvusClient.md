@@ -12,19 +12,19 @@ type: docx
 token: ZxPXdeBXGopnvMxl7v6c9DSanFL
 sidebar_position: 5
 keywords: 
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
   - zilliz
   - zilliz cloud
   - cloud
   - MilvusClient
   - nodejs26
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

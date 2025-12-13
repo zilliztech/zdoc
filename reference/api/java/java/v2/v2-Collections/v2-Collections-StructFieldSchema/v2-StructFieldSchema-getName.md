@@ -12,19 +12,19 @@ type: docx
 token: DZcddGCD3oh29txhnB5cuxzzn4d
 sidebar_position: 6
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
   - zilliz
   - zilliz cloud
   - cloud
   - getName()
   - javaV226
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

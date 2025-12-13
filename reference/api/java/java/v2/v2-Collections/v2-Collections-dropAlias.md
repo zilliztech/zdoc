@@ -12,19 +12,19 @@ type: docx
 token: ARw0dIb0hojCNbxKkOacs1K7nQf
 sidebar_position: 13
 keywords: 
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
   - zilliz
   - zilliz cloud
   - cloud
   - dropAlias()
   - javaV226
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

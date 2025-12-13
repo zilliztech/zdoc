@@ -21,10 +21,10 @@ keywords:
   - cloud
   - upsert()
   - nodejs26
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
-  - knn algorithm
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

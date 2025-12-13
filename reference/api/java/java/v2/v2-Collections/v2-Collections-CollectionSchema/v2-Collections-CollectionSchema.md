@@ -12,19 +12,19 @@ type: docx
 token: FxUxdWGz2oUh1ixyquZcAndBnAf
 sidebar_position: 2
 keywords: 
+  - Dense vector
   - Hierarchical Navigable Small Worlds
   - Dense embedding
   - Faiss vector database
-  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - CollectionSchema
   - javaV226
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

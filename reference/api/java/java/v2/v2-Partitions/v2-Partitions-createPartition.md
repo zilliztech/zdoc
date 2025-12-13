@@ -12,19 +12,19 @@ type: docx
 token: WE4gduIjooCgQUxcKyLcwQe1n3g
 sidebar_position: 1
 keywords: 
-  - Natural language search
   - Similarity Search
   - multimodal RAG
   - llm hallucinations
+  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - createPartition()
   - javaV226
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

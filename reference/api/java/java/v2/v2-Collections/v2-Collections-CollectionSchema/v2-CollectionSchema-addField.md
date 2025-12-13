@@ -12,19 +12,19 @@ type: docx
 token: X6MudyTkmoIsE5x0XiKcbwPdntq
 sidebar_position: 1
 keywords: 
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
   - zilliz
   - zilliz cloud
   - cloud
   - addField()
   - javaV226
-  - Vector store
-  - open source vector database
   - Vector index
   - vector database open source
+  - open source vector db
+  - vector database example
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

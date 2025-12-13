@@ -12,19 +12,19 @@ type: docx
 token: MPJ0dxzDIoNKYPxGA5PcD2F8nRb
 sidebar_position: 1
 keywords: 
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
   - zilliz
   - zilliz cloud
   - cloud
   - getDataType()
   - javaV226
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

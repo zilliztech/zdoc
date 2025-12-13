@@ -12,19 +12,19 @@ type: docx
 token: AImudC3YNoa1PZxj4zNckcvsnXc
 sidebar_position: 23
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
   - zilliz
   - zilliz cloud
   - cloud
   - addCollectionField()
   - javaV226
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

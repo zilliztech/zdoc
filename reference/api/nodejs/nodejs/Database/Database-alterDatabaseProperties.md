@@ -12,19 +12,19 @@ type: docx
 token: NNWed9Vd1o7vDkxY4pncM4wYnaf
 sidebar_position: 7
 keywords: 
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
   - zilliz
   - zilliz cloud
   - cloud
   - alterDatabaseProperties()
   - nodejs26
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

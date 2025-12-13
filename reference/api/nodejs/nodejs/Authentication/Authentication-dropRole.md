@@ -12,19 +12,19 @@ type: docx
 token: AnkUdEHXmob3Vwx9GIWcDOQanng
 sidebar_position: 13
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - zilliz
   - zilliz cloud
   - cloud
   - dropRole()
   - nodejs26
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
   - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

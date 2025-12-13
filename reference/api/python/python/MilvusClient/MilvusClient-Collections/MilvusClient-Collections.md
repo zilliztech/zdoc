@@ -12,10 +12,10 @@ token: CqXrfDyXZlkNSrdh5eJcI0Fznjh
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
   - zilliz
   - zilliz cloud
   - cloud

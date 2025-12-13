@@ -12,19 +12,19 @@ type: docx
 token: SRI6dEn82oNe4Uxro8hcyFV3n1d
 sidebar_position: 30
 keywords: 
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - batchDescribeCollection()
   - javaV226
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

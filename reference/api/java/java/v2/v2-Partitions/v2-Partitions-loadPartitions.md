@@ -12,19 +12,19 @@ type: docx
 token: IBTSd8lrvoAYLzxl6Z8cEVoXnMd
 sidebar_position: 6
 keywords: 
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
+  - Zilliz vector database
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitions()
   - javaV226
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

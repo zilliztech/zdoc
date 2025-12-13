@@ -12,19 +12,19 @@ type: docx
 token: FIzIdKrRNooFttxaf3Pc1vOlnnc
 sidebar_position: 4
 keywords: 
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - zilliz
   - zilliz cloud
   - cloud
   - getFields()
   - javaV226
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: W7GJdpYrYoYhSaxW6uzcVAZinYf
 sidebar_position: 1
 keywords: 
+  - Chroma vs Milvus
+  - Annoy vector search
   - milvus
   - Zilliz
-  - milvus vector database
-  - milvus db
   - zilliz
   - zilliz cloud
   - cloud
   - add_user()
   - pymilvus26
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

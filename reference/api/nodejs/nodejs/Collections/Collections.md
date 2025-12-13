@@ -12,10 +12,10 @@ token: LOD4fz3qilpPyOdlfencoVEJnwd
 sidebar_position: 3
 sidebar_label: "Collections"
 keywords: 
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud

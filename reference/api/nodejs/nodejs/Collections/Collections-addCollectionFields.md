@@ -12,19 +12,19 @@ type: docx
 token: FmG6dw3O1ouzgbxnl4jc5T7cnXf
 sidebar_position: 20
 keywords: 
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
   - zilliz
   - zilliz cloud
   - cloud
   - addCollectionFields()
   - nodejs26
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar
