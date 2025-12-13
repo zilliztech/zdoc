@@ -18,10 +18,10 @@ keywords:
   - private link
   - payment
   - billing
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

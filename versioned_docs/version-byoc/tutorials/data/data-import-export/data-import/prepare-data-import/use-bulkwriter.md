@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

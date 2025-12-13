@@ -20,10 +20,10 @@ keywords:
   - array field
   - array of structs
   - structs
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - vectordb
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
 
 ---
 

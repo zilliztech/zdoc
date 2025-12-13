@@ -19,10 +19,10 @@ keywords:
   - drop
   - drop by filter
   - drop by id
+  - Sparse vs Dense
   - Dense vector
   - Hierarchical Navigable Small Worlds
   - Dense embedding
-  - Faiss vector database
 
 ---
 

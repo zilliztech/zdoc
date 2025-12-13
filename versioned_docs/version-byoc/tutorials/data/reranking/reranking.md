@@ -19,10 +19,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

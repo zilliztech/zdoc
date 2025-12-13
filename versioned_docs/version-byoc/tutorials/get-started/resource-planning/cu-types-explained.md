@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cu
   - select
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

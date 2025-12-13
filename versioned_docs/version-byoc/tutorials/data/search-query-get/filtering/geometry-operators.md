@@ -21,10 +21,10 @@ keywords:
   - filtering expressions
   - filtering
   - geometry
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

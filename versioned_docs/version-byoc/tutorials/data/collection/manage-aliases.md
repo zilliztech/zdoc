@@ -18,10 +18,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

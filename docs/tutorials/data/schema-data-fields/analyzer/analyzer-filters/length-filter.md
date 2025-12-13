@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

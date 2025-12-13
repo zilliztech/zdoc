@@ -19,10 +19,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - Zilliz Cloud
-  - what is milvus
-  - milvus database
-  - milvus lite
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organization
   - alerts
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

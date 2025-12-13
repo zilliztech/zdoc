@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data import
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

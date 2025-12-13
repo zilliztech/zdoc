@@ -18,10 +18,10 @@ keywords:
   - data import
   - export
   - milvus
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

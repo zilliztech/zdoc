@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

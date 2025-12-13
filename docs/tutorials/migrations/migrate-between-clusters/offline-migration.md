@@ -18,10 +18,10 @@ keywords:
   - migrations
   - clusters
   - offline
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

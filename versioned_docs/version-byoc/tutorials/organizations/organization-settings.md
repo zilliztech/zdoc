@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
+  - vector database
 
 ---
 

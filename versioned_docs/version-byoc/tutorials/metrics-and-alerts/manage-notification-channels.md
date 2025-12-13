@@ -17,10 +17,10 @@ keywords:
   - cloud
   - notification
   - channels
-  - Pinecone vector database
-  - Audio search
   - what is semantic search
   - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

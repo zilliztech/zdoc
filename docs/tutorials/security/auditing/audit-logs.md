@@ -18,10 +18,10 @@ keywords:
   - auditing
   - log
   - configure
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - mcp
   - milvus
   - mcp server
-  - Similarity Search
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - project
   - alerts
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
 
 ---
 

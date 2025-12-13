@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

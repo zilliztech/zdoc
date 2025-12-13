@@ -16,10 +16,10 @@ keywords:
   - byoc
   - milvus
   - vector database
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

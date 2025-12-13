@@ -19,10 +19,10 @@ keywords:
   - schema
   - schema design
   - hands-on
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

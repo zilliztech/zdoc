@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - qdrant
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

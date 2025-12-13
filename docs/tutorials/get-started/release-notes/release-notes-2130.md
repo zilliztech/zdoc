@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

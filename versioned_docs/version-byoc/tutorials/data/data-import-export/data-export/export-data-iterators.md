@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

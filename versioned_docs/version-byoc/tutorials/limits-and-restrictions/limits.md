@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

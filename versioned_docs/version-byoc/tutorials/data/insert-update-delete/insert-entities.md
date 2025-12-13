@@ -19,10 +19,10 @@ keywords:
   - data
   - insert
   - insert entities
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - hybrid vector search
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

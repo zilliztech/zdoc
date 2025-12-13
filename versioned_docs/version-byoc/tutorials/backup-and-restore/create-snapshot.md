@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - backup
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

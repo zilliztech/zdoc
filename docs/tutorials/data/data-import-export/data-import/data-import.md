@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

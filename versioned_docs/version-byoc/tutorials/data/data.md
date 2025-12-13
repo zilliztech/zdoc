@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

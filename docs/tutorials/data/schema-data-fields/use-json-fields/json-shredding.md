@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - json shredding
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
-  - Dense embedding
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

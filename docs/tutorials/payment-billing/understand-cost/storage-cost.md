@@ -18,10 +18,10 @@ keywords:
   - storage
   - cost
   - billing
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

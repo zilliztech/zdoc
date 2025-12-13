@@ -20,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

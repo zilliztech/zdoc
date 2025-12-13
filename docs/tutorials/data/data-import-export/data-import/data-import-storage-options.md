@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

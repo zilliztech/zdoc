@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - restful
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

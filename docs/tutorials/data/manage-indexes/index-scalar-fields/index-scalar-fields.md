@@ -17,10 +17,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

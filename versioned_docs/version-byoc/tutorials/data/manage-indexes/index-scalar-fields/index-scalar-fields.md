@@ -17,10 +17,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

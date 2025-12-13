@@ -17,10 +17,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

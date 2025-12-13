@@ -21,10 +21,10 @@ keywords:
   - index
   - path index
   - flat index
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
 
 ---
 

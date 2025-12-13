@@ -21,10 +21,10 @@ keywords:
   - index
   - path index
   - flat index
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

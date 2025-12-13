@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

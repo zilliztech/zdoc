@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

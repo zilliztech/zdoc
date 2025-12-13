@@ -17,10 +17,10 @@ keywords:
   - cloud
   - index
   - manage
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - notification
   - channels
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

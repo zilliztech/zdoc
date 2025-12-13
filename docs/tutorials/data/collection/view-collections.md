@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

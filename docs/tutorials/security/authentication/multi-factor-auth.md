@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

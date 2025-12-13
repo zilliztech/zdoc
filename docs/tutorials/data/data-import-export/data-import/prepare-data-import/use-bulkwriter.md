@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

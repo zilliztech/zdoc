@@ -18,10 +18,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

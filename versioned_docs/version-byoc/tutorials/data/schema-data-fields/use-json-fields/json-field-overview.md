@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - overview
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

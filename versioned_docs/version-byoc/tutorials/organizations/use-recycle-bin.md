@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - recycle bin
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

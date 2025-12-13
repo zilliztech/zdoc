@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - array field
-  - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

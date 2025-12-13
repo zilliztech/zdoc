@@ -18,10 +18,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

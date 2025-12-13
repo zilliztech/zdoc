@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - overview
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
 
 ---
 

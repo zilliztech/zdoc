@@ -18,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

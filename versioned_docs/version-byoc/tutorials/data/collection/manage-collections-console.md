@@ -18,10 +18,10 @@ keywords:
   - collection
   - manage
   - console
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

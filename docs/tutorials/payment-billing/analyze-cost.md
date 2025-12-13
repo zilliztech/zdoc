@@ -17,10 +17,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

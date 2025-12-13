@@ -18,10 +18,10 @@ keywords:
   - migrations
   - milvus
   - endpoint
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

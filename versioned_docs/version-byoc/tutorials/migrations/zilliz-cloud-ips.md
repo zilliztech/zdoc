@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - ips
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

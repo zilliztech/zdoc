@@ -18,10 +18,10 @@ keywords:
   - migrations
   - amazon
   - opensearch
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

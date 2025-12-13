@@ -17,10 +17,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

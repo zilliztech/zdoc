@@ -18,10 +18,10 @@ keywords:
   - migrations
   - external
   - data source
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

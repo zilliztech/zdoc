@@ -17,10 +17,10 @@ keywords:
   - cloud
   - sso
   - okta
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

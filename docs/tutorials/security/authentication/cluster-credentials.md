@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster credentials
-  - Audio search
-  - what is semantic search
-  - Embedding model
   - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

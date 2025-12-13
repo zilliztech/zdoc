@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - regex
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

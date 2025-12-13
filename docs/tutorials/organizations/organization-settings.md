@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - settings
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - minhash
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
 
 ---
 

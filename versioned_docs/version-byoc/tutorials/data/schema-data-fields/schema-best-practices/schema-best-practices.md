@@ -19,10 +19,10 @@ keywords:
   - schema
   - best practices
   - schema design
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Hierarchical Navigable Small Worlds
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - privileges
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

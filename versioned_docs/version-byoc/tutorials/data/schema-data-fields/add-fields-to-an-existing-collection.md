@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - add collection fields
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

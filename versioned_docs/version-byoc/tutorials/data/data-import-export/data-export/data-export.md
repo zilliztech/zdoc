@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
+  - Zilliz
 
 ---
 

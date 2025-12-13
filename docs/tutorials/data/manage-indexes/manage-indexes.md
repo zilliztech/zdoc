@@ -17,10 +17,10 @@ keywords:
   - cloud
   - index
   - manage
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - rag vector database
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
 
 ---
 

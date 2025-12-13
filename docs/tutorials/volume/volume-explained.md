@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - volume
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

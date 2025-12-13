@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - volume
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

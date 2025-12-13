@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
+  - k nearest neighbor algorithm
 
 ---
 

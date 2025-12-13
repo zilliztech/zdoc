@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - tencent cloud
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

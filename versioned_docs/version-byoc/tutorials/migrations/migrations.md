@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - llm hallucinations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

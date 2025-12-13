@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - postgresql
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

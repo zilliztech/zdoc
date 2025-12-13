@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Vector search
+  - knn algorithm
+  - HNSW
+  - What is unstructured data
 
 ---
 

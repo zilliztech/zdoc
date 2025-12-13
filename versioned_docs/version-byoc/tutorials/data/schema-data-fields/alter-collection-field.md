@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - alter collection field
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

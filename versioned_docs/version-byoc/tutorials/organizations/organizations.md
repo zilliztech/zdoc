@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
 
 ---
 

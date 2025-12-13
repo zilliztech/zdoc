@@ -19,10 +19,10 @@ keywords:
   - data
   - grouping search
   - group
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

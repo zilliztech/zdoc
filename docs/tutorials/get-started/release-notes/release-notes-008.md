@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

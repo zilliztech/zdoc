@@ -21,10 +21,10 @@ keywords:
   - hands-on
   - structs
   - array of structs
-  - Audio search
-  - what is semantic search
-  - Embedding model
-  - image similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

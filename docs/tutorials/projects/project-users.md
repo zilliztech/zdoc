@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

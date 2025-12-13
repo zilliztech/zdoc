@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - connect
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
-  - hallucinations llm
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

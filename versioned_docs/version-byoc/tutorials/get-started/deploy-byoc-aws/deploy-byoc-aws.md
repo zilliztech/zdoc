@@ -17,10 +17,10 @@ keywords:
   - aws
   - milvus
   - vector database
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

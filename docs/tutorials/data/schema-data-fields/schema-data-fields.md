@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - data fields
-  - Zilliz vector database
-  - Zilliz database
-  - Unstructured Data
-  - vector database
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - volume
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

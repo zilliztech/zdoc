@@ -18,10 +18,10 @@ keywords:
   - third-party
   - services
   - datadog
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

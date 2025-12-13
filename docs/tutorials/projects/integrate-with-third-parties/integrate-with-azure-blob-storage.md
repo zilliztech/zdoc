@@ -20,10 +20,10 @@ keywords:
   - azure
   - blob
   - storage
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

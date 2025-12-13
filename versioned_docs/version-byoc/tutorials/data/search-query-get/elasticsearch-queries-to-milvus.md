@@ -22,10 +22,10 @@ keywords:
   - filtering
   - elasticsearch queries
   - query mapping
-  - Embedding model
-  - image similarity search
-  - Context Window
-  - Natural language search
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

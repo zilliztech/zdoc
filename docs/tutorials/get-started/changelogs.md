@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - changelogs
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

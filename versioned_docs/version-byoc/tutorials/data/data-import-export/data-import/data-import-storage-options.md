@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - Elastic vector database
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
   - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

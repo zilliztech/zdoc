@@ -19,10 +19,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

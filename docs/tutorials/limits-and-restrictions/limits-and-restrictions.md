@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

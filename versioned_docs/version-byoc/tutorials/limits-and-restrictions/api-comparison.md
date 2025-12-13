@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

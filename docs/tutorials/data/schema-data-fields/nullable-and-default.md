@@ -19,10 +19,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

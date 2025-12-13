@@ -18,10 +18,10 @@ keywords:
   - data import
   - export
   - milvus
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
-  - What are vector embeddings
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

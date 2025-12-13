@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

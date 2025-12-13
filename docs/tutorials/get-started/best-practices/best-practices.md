@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

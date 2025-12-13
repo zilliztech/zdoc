@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Zilliz
+  - milvus vector database
+  - milvus db
+  - milvus vector db
 
 ---
 

@@ -21,10 +21,10 @@ keywords:
   - subnet
   - milvus
   - vector database
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

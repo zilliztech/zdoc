@@ -22,10 +22,10 @@ keywords:
   - decay
   - decay ranker
   - decay rankers
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
-  - vectordb
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

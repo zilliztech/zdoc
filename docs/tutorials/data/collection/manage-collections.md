@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - cosine distance
+  - what is a vector database
+  - vectordb
+  - multimodal vector database retrieval
 
 ---
 

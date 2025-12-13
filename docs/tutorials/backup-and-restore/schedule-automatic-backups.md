@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - automatic
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - upsert
   - update
   - count
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

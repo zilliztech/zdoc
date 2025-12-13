@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - NLP
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
 
 ---
 

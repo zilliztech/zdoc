@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data
   - security
-  - open source vector db
-  - vector database example
-  - rag vector database
-  - what is vector db
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

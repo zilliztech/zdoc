@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - gcp
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

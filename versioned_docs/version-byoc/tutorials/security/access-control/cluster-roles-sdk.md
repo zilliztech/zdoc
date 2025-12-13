@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - roles
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

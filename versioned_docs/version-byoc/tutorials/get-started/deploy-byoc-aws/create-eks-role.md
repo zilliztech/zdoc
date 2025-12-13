@@ -19,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
 
 ---
 

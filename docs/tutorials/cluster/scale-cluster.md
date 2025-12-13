@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
 
 ---
 

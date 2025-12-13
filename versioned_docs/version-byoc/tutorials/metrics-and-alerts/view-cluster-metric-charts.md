@@ -18,10 +18,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - natural language processing database
   - cheap vector database
   - Managed vector database
   - Pinecone vector database
+  - Audio search
 
 ---
 

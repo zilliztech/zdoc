@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - analyzer
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
+  - vector similarity search
 
 ---
 

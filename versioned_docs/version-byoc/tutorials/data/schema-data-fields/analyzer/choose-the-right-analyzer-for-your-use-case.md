@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - best
   - practice
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

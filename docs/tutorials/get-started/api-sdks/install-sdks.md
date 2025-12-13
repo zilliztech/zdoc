@@ -17,10 +17,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

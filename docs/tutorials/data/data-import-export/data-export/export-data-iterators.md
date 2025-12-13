@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - cheap vector database
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

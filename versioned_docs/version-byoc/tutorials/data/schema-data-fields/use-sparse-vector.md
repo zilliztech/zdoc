@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

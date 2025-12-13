@@ -17,10 +17,10 @@ keywords:
   - quickstart
   - cloud
   - milvus
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

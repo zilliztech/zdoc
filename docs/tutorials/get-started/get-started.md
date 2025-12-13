@@ -16,10 +16,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - milvus db
-  - milvus vector db
   - Zilliz Cloud
   - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

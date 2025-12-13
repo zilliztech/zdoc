@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
+  - Annoy vector search
+  - milvus
+  - Zilliz
+  - milvus vector database
 
 ---
 

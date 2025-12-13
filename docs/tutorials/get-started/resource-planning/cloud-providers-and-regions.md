@@ -17,10 +17,10 @@ keywords:
   - cloud
   - providers
   - regions
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

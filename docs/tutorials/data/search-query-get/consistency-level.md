@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - consistency level
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

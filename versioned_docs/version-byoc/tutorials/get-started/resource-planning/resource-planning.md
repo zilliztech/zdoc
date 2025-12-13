@@ -17,10 +17,10 @@ keywords:
   - cloud
   - resource
   - planning
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

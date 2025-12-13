@@ -18,10 +18,10 @@ keywords:
   - developer hub
   - home page
   - home
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 hide_title: true
 hide_table_of_contents: true

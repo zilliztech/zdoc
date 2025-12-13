@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

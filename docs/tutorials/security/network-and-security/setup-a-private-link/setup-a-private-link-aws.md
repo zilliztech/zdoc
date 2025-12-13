@@ -22,10 +22,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

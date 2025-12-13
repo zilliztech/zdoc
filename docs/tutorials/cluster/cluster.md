@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

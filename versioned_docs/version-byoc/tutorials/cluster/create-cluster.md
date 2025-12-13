@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

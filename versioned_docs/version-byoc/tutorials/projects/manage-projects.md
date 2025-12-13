@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

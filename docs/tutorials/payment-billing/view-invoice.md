@@ -17,10 +17,10 @@ keywords:
   - cloud
   - invoice
   - view
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - hnsw algorithm
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
 
 ---
 

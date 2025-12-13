@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - milvus benchmark
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

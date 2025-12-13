@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

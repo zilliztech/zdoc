@@ -19,10 +19,10 @@ keywords:
   - schema
   - field properties
   - add collection fields
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 
