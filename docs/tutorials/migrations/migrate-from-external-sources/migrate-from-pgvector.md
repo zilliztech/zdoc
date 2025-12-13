@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - postgresql
-  - vector databases comparison
-  - Faiss
   - Video search
   - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

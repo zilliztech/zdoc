@@ -18,10 +18,10 @@ keywords:
   - third-party
   - services
   - prometheus
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

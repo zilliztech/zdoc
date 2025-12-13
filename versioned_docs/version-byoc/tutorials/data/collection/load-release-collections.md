@@ -18,10 +18,10 @@ keywords:
   - collection
   - load
   - release
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - lexical search
+  - nearest neighbor search
+  - Agentic RAG
+  - rag llm architecture
 
 ---
 

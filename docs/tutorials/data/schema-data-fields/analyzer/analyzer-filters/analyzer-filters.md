@@ -19,10 +19,10 @@ keywords:
   - schema
   - analyzer
   - built-in filters
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - private llms
+  - nn search
+  - llm eval
+  - Sparse vs Dense
 
 ---
 

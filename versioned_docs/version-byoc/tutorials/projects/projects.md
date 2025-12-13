@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - projects
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
 
 ---
 

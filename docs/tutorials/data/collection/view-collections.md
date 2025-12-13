@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - view collections
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

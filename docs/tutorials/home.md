@@ -18,10 +18,10 @@ keywords:
   - developer hub
   - home page
   - home
-  - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 hide_title: true
 hide_table_of_contents: true

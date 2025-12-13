@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

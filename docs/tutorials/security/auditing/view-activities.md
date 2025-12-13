@@ -17,10 +17,10 @@ keywords:
   - cloud
   - activities
   - view
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

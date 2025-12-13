@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - aws
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

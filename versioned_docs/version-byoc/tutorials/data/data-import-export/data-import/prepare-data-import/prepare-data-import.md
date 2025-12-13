@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - prepare
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - Zilliz database
-  - Unstructured Data
-  - vector database
   - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

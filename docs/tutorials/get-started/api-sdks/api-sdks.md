@@ -23,10 +23,10 @@ keywords:
   - go
   - node
   - nodejs
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
+  - vector database example
 
 ---
 

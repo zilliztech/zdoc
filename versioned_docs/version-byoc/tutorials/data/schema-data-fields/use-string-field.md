@@ -19,10 +19,10 @@ keywords:
   - schema
   - string field
   - varchar field
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

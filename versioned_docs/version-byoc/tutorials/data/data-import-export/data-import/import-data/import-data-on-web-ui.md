@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - console
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
-  - Pinecone vs Milvus
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

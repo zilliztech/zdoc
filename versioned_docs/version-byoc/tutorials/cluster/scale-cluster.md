@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

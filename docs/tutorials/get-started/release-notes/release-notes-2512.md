@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

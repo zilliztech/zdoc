@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - Faiss
-  - Video search
-  - AI Hallucination
-  - AI Agent
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

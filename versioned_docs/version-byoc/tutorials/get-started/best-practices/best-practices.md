@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - best practices
-  - Video similarity search
-  - Vector retrieval
-  - Audio similarity search
-  - Elastic vector database
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
+  - nn search
 
 ---
 

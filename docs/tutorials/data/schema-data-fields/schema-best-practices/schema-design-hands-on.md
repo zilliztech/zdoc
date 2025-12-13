@@ -19,10 +19,10 @@ keywords:
   - schema
   - schema design
   - hands-on
+  - RAG
+  - NLP
   - Neural Network
   - Deep Learning
-  - Knowledge base
-  - natural language processing
 
 ---
 

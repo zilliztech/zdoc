@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

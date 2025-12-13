@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - volume
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

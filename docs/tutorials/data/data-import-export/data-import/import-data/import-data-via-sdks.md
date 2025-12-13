@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

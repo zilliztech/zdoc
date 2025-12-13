@@ -18,10 +18,10 @@ keywords:
   - scalar field
   - varchar
   - ngram
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
 
 ---
 

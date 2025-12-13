@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - overview
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 

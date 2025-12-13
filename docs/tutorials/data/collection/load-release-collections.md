@@ -18,10 +18,10 @@ keywords:
   - collection
   - load
   - release
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
 
 ---
 

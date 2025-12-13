@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - length
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

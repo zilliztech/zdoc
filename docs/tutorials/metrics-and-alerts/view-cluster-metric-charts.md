@@ -18,10 +18,10 @@ keywords:
   - metrics
   - alerts
   - view
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 
 ---
 

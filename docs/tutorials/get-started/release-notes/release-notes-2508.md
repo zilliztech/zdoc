@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

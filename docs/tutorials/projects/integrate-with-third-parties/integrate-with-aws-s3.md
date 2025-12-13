@@ -20,10 +20,10 @@ keywords:
   - integrate
   - object
   - storage
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Anomaly Detection
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
 
 ---
 

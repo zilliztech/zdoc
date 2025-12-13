@@ -17,10 +17,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - ann search
   - milvus
-  - Annoy vector search
-  - milvus
-  - Zilliz
-  - milvus vector database
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

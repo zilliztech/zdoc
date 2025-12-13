@@ -19,10 +19,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - openai vector db
+  - natural language processing database
+  - cheap vector database
+  - Managed vector database
 
 ---
 

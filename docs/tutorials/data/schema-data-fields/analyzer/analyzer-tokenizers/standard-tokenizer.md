@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - standard-tokenizer
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
-  - what is milvus
+  - open source vector database
+  - Vector index
+  - vector database open source
+  - open source vector db
 
 ---
 

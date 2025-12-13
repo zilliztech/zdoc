@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - Vector Dimension
+  - ANN Search
+  - What are vector embeddings
+  - vector database tutorial
 
 ---
 

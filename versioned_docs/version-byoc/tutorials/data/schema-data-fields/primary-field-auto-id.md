@@ -20,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
-  - cosine distance
+  - Video deduplication
+  - Video similarity search
+  - Vector retrieval
+  - Audio similarity search
 
 ---
 

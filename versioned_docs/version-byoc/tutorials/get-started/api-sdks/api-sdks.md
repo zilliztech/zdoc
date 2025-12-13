@@ -23,10 +23,10 @@ keywords:
   - go
   - node
   - nodejs
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

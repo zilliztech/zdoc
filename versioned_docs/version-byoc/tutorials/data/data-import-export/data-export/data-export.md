@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - data export
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 
 ---
 

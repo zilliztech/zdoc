@@ -20,10 +20,10 @@ keywords:
   - minimum permissions
   - milvus
   - vector database
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

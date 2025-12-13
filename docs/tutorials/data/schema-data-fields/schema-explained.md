@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
 
 ---
 

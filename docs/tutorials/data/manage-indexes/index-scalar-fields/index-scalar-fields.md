@@ -17,10 +17,10 @@ keywords:
   - cloud
   - scalar field
   - index
-  - vector database example
-  - rag vector database
-  - what is vector db
-  - what are vector databases
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

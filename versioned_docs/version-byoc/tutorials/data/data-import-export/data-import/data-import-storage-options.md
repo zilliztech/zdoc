@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - storage options
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - ANNS
+  - Vector search
+  - knn algorithm
+  - HNSW
 
 ---
 

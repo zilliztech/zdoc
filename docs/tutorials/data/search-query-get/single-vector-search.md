@@ -19,10 +19,10 @@ keywords:
   - data
   - vector search
   - ann
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

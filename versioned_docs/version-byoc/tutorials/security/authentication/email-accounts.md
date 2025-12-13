@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 
 ---
 

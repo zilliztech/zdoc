@@ -16,10 +16,10 @@ keywords:
   - byoc
   - milvus
   - vector database
-  - Dense embedding
-  - Faiss vector database
-  - Chroma vector database
-  - nlp search
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

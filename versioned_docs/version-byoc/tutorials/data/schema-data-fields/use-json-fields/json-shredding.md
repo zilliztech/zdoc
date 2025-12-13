@@ -19,10 +19,10 @@ keywords:
   - schema
   - json field
   - json shredding
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
 
 ---
 

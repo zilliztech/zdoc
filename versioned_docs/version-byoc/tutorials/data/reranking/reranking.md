@@ -19,10 +19,10 @@ keywords:
   - data
   - search result reranking
   - result reranking
-  - Vector embeddings
-  - Vector store
-  - open source vector database
-  - Vector index
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
+  - nlp search
 
 ---
 

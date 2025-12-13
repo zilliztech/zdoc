@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - range search
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - Question answering system
+  - llm-as-a-judge
+  - hybrid vector search
+  - Video deduplication
 
 ---
 

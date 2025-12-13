@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

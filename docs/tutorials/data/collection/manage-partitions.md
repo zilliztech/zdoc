@@ -18,10 +18,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 
 ---
 

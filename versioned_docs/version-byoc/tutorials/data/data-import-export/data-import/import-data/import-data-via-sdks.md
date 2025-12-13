@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - sdk
-  - IVF
-  - knn
-  - Image Search
-  - LLMs
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

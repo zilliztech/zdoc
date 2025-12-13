@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - knn
-  - Image Search
-  - LLMs
-  - Machine Learning
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

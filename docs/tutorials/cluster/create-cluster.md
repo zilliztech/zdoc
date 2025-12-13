@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - create
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - IVF
+  - knn
+  - Image Search
+  - LLMs
 
 ---
 

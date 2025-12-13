@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - mfa
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

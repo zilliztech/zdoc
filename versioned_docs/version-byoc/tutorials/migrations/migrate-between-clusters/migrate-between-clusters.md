@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - clusters
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

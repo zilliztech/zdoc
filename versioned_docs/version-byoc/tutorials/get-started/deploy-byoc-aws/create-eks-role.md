@@ -19,10 +19,10 @@ keywords:
   - IAM role
   - milvus
   - vector database
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - vector similarity search
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
 
 ---
 

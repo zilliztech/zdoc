@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - Managed vector database
-  - Pinecone vector database
-  - Audio search
-  - what is semantic search
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
+  - how does milvus work
 
 ---
 

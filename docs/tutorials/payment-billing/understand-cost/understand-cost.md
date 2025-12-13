@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cost
   - billing
-  - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
+  - sentence transformers
 
 ---
 

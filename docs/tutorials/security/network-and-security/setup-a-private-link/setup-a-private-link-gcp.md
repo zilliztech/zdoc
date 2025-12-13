@@ -22,10 +22,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - metrics
   - alerts
-  - rag llm architecture
-  - private llms
-  - nn search
-  - llm eval
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

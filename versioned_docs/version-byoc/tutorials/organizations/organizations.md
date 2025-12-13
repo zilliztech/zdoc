@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - organizations
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Vector retrieval
+  - Audio similarity search
+  - Elastic vector database
+  - Pinecone vs Milvus
 
 ---
 

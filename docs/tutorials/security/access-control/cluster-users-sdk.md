@@ -19,10 +19,10 @@ keywords:
   - access control
   - rbac
   - users
-  - RAG
-  - NLP
-  - Neural Network
-  - Deep Learning
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
+  - llm hallucinations
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - azure
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

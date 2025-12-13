@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - data operations
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

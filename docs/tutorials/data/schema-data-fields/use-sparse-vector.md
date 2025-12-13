@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - sparse vector
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
 
 ---
 

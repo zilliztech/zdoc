@@ -20,10 +20,10 @@ keywords:
   - get by id
   - query with filters
   - filtering
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Pinecone vector database
+  - Audio search
+  - what is semantic search
+  - Embedding model
 
 ---
 

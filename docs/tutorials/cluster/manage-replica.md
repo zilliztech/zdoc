@@ -17,10 +17,10 @@ keywords:
   - cloud
   - cluster
   - manage
-  - natural language processing
-  - AI chatbots
-  - cosine distance
-  - what is a vector database
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

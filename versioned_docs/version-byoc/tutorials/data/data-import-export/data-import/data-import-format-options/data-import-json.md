@@ -19,10 +19,10 @@ keywords:
   - milvus
   - format options
   - json
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - AI Hallucination
+  - AI Agent
+  - semantic search
+  - Anomaly Detection
 
 ---
 

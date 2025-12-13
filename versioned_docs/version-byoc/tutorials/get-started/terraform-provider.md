@@ -17,10 +17,10 @@ keywords:
   - cloud
   - terraform provider
   - terraform
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
 
 ---
 

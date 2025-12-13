@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - collection explained
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Context Window
+  - Natural language search
+  - Similarity Search
+  - multimodal RAG
 
 ---
 

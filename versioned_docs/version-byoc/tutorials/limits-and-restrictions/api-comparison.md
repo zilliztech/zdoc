@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - api availability
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - sso
   - okta
-  - Multimodal search
-  - vector search algorithms
-  - Question answering system
-  - llm-as-a-judge
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

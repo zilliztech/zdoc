@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - Vector index
-  - vector database open source
-  - open source vector db
-  - vector database example
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

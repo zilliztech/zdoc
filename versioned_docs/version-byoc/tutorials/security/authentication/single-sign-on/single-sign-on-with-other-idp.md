@@ -18,10 +18,10 @@ keywords:
   - sso
   - other
   - idp
-  - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

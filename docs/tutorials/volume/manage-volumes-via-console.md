@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - volume
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
+  - Zilliz Cloud
+  - what is milvus
+  - milvus database
+  - milvus lite
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - search iterators
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

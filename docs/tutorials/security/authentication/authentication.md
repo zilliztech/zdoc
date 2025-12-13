@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - authentication
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
-  - Video search
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

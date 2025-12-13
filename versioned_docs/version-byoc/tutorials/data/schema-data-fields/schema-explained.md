@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - schema explained
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - vector database
+  - IVF
+  - knn
+  - Image Search
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - migrations
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - nn search
+  - llm eval
+  - Sparse vs Dense
+  - Dense vector
 
 ---
 

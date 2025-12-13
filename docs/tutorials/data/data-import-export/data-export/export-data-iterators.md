@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data export
   - iterator
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Image Search
+  - LLMs
+  - Machine Learning
+  - RAG
 
 ---
 

@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - security
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 
 ---
 

@@ -18,10 +18,10 @@ keywords:
   - data import
   - milvus
   - format options
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
+  - milvus open source
 
 ---
 

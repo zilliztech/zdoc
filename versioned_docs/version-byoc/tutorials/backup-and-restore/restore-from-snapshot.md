@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - milvus open source
-  - how does milvus work
-  - Zilliz vector database
-  - Zilliz database
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 
 ---
 

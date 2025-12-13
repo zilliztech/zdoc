@@ -18,10 +18,10 @@ keywords:
   - serverless
   - cost
   - billing
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - HNSW
+  - What is unstructured data
+  - Vector embeddings
+  - Vector store
 
 ---
 

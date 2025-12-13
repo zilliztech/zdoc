@@ -18,10 +18,10 @@ keywords:
   - collection
   - create collection
   - custom setup
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - image similarity search
+  - Context Window
+  - Natural language search
+  - Similarity Search
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - vector field
   - index
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - rag llm architecture
+  - private llms
+  - nn search
+  - llm eval
 
 ---
 

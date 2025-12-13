@@ -22,10 +22,10 @@ keywords:
   - aws
   - gcp
   - azure
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

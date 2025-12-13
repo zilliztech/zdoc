@@ -18,10 +18,10 @@ keywords:
   - auditing
   - log
   - configure
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
+  - Embedding model
+  - image similarity search
+  - Context Window
+  - Natural language search
 
 ---
 

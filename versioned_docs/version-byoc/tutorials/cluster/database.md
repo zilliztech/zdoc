@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - milvus
-  - Vector store
-  - open source vector database
-  - Vector index
-  - vector database open source
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

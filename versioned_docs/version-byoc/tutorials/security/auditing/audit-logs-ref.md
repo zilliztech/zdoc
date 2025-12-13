@@ -17,10 +17,10 @@ keywords:
   - cloud
   - auditing
   - log
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 
 ---
 

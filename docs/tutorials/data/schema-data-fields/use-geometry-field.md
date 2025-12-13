@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - geometry field
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

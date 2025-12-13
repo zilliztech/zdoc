@@ -18,10 +18,10 @@ keywords:
   - sso
   - google
   - workspace
-  - Video search
-  - AI Hallucination
-  - AI Agent
-  - semantic search
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

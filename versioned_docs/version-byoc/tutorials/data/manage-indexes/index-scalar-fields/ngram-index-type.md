@@ -18,10 +18,10 @@ keywords:
   - scalar field
   - varchar
   - ngram
-  - What are vector embeddings
-  - vector database tutorial
-  - how do vector databases work
-  - vector db comparison
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
+  - vectordb
 
 ---
 

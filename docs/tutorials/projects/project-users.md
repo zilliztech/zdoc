@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - project users
-  - Zilliz database
-  - Unstructured Data
-  - vector database
-  - IVF
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

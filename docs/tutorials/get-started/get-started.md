@@ -16,10 +16,10 @@ keywords:
   - vector database
   - get started
   - milvus
-  - how do vector databases work
-  - vector db comparison
-  - openai vector db
-  - natural language processing database
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
 
 ---
 

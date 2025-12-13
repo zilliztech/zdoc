@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - cluster credentials
+  - RAG
+  - NLP
   - Neural Network
   - Deep Learning
-  - Knowledge base
-  - natural language processing
 
 ---
 

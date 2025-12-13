@@ -19,10 +19,10 @@ keywords:
   - data
   - search optimization
   - partition key
-  - Context Window
-  - Natural language search
-  - Similarity Search
-  - multimodal RAG
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - marketplace
   - gcp
+  - LLMs
+  - Machine Learning
+  - RAG
   - NLP
-  - Neural Network
-  - Deep Learning
-  - Knowledge base
 
 ---
 

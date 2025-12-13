@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - ANNS
-  - Vector search
-  - knn algorithm
-  - HNSW
+  - multimodal vector database retrieval
+  - Retrieval Augmented Generation
+  - Large language model
+  - Vectorization
 
 ---
 

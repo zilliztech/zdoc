@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - sso
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - milvus
+  - Zilliz
+  - milvus vector database
+  - milvus db
 
 ---
 

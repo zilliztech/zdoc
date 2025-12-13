@@ -18,10 +18,10 @@ keywords:
   - collection
   - partition
   - partitions
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - hallucinations llm
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
 
 ---
 

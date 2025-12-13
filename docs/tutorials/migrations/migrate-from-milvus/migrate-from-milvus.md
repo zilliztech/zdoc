@@ -17,10 +17,10 @@ keywords:
   - cloud
   - migrations
   - milvus
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
-  - rag llm architecture
+  - natural language processing
+  - AI chatbots
+  - cosine distance
+  - what is a vector database
 
 ---
 

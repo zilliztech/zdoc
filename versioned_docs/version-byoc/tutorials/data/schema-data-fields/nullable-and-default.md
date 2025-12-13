@@ -19,10 +19,10 @@ keywords:
   - schema
   - nullable
   - default value
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - Multimodal search
+  - vector search algorithms
+  - Question answering system
+  - llm-as-a-judge
 
 ---
 

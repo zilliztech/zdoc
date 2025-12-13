@@ -17,10 +17,10 @@ keywords:
   - cloud
   - milvus
   - limits
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
-  - Hierarchical Navigable Small Worlds
+  - Unstructured Data
+  - vector database
+  - IVF
+  - knn
 
 ---
 

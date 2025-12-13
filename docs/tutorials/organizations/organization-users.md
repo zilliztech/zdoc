@@ -17,10 +17,10 @@ keywords:
   - cloud
   - organizations
   - users
-  - image similarity search
-  - Context Window
-  - Natural language search
-  - Similarity Search
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

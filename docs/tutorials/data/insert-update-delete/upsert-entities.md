@@ -20,10 +20,10 @@ keywords:
   - upsert
   - update
   - insert
-  - LLMs
-  - Machine Learning
-  - RAG
-  - NLP
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 
 ---
 

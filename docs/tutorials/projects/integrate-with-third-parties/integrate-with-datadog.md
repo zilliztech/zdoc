@@ -18,10 +18,10 @@ keywords:
   - third-party
   - services
   - datadog
-  - private llms
-  - nn search
-  - llm eval
-  - Sparse vs Dense
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
+  - hnsw algorithm
 
 ---
 

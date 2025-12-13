@@ -17,10 +17,10 @@ keywords:
   - cloud
   - network
   - security
-  - Zilliz
-  - milvus vector database
-  - milvus db
-  - milvus vector db
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
+  - milvus
 
 ---
 

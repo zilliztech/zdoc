@@ -19,10 +19,10 @@ keywords:
   - schema
   - schema design
   - hands-on
+  - Dense embedding
+  - Faiss vector database
+  - Chroma vector database
   - nlp search
-  - hallucinations llm
-  - Multimodal search
-  - vector search algorithms
 
 ---
 

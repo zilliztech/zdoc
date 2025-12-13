@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - feature availability
-  - Pinecone vs Milvus
-  - Chroma vs Milvus
-  - Annoy vector search
-  - milvus
+  - what is semantic search
+  - Embedding model
+  - image similarity search
+  - Context Window
 
 ---
 

@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - bulk writer
-  - Recommender systems
-  - information retrieval
-  - dimension reduction
-  - hnsw algorithm
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - primary field
   - autoId
   - autoid
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

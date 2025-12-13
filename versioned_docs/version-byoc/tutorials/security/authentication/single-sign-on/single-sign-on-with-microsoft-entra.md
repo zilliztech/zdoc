@@ -18,10 +18,10 @@ keywords:
   - sso
   - microsoft
   - entra
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
-  - information retrieval
+  - milvus database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
 
 ---
 

@@ -19,10 +19,10 @@ keywords:
   - data
   - delete
   - delete entities
-  - vector database open source
-  - open source vector db
-  - vector database example
-  - rag vector database
+  - milvus lite
+  - milvus benchmark
+  - managed milvus
+  - Serverless vector database
 
 ---
 

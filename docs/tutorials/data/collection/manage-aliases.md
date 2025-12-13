@@ -18,10 +18,10 @@ keywords:
   - collection
   - alias
   - aliases
-  - Faiss
   - Video search
   - AI Hallucination
   - AI Agent
+  - semantic search
 
 ---
 

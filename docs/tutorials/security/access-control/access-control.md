@@ -18,10 +18,10 @@ keywords:
   - cluster
   - access control
   - rbac
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

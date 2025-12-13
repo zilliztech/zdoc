@@ -17,10 +17,10 @@ keywords:
   - register
   - cloud
   - milvus
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - vector databases comparison
+  - Faiss
+  - Video search
+  - AI Hallucination
 
 ---
 

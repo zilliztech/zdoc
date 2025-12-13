@@ -17,10 +17,10 @@ keywords:
   - cloud
   - sdk
   - milvus
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
-  - Vector embeddings
+  - vector database example
+  - rag vector database
+  - what is vector db
+  - what are vector databases
 
 ---
 

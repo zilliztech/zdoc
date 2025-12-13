@@ -19,10 +19,10 @@ keywords:
   - data
   - filtered search
   - filtering
-  - milvus
-  - Zilliz
-  - milvus vector database
-  - milvus db
+  - Zilliz database
+  - Unstructured Data
+  - vector database
+  - IVF
 
 ---
 

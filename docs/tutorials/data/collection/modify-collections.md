@@ -17,10 +17,10 @@ keywords:
   - cloud
   - collection
   - modify collections
-  - Image Search
-  - LLMs
-  - Machine Learning
-  - RAG
+  - multimodal RAG
+  - llm hallucinations
+  - hybrid search
+  - lexical search
 
 ---
 

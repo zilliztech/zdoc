@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - index build level
-  - Large language model
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 
 ---
 

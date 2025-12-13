@@ -18,10 +18,10 @@ keywords:
   - vector field
   - index
   - index build level
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
-  - ANN Search
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 
 ---
 

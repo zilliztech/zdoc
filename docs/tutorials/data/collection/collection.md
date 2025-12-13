@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - collection
-  - Unstructured Data
-  - vector database
-  - IVF
-  - knn
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

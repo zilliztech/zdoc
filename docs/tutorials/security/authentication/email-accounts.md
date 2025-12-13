@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - email accounts
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - Vector embeddings
+  - Vector store
+  - open source vector database
+  - Vector index
 
 ---
 

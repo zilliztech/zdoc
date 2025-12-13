@@ -18,10 +18,10 @@ keywords:
   - collection
   - data
   - DML
+  - dimension reduction
+  - hnsw algorithm
   - vector similarity search
   - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
 
 ---
 

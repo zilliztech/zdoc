@@ -17,10 +17,10 @@ keywords:
   - cloud
   - data import
   - milvus
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - llm hallucinations
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
 
 ---
 

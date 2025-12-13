@@ -21,10 +21,10 @@ keywords:
   - subnet
   - milvus
   - vector database
-  - managed milvus
-  - Serverless vector database
-  - milvus open source
-  - how does milvus work
+  - Audio search
+  - what is semantic search
+  - Embedding model
+  - image similarity search
 
 ---
 

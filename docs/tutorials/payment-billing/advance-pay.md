@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - advance pay
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
-  - AI chatbots
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
+  - Video search
 
 ---
 

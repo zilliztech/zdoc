@@ -16,10 +16,10 @@ keywords:
   - vector database
   - cloud
   - release notes
-  - openai vector db
-  - natural language processing database
-  - cheap vector database
-  - Managed vector database
+  - milvus vector database
+  - milvus db
+  - milvus vector db
+  - Zilliz Cloud
 
 ---
 

@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in filters
   - decompounder
-  - milvus db
-  - milvus vector db
-  - Zilliz Cloud
   - what is milvus
+  - milvus database
+  - milvus lite
+  - milvus benchmark
 
 ---
 

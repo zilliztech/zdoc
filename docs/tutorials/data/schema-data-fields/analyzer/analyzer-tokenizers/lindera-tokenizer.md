@@ -20,10 +20,10 @@ keywords:
   - analyzer
   - built-in tokenizer
   - lindera-tokenizer
-  - what is semantic search
-  - Embedding model
-  - image similarity search
-  - Context Window
+  - Faiss
+  - Video search
+  - AI Hallucination
+  - AI Agent
 
 ---
 

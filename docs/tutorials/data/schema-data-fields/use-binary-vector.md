@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - binary vector
-  - rag vector database
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
+  - how do vector databases work
+  - vector db comparison
+  - openai vector db
+  - natural language processing database
 
 ---
 

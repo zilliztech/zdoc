@@ -18,10 +18,10 @@ keywords:
   - collection
   - schema
   - analyzer
-  - vector databases comparison
-  - Faiss
-  - Video search
-  - AI Hallucination
+  - Vector store
+  - open source vector database
+  - Vector index
+  - vector database open source
 
 ---
 

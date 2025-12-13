@@ -17,10 +17,10 @@ keywords:
   - cloud
   - backup
   - restore
-  - open source vector database
-  - Vector index
-  - vector database open source
-  - open source vector db
+  - RAG
+  - NLP
+  - Neural Network
+  - Deep Learning
 
 ---
 
