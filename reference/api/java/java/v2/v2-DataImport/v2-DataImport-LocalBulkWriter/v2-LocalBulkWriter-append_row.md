@@ -12,19 +12,19 @@ type: docx
 token: HofVdjV0koj42QxX0iHcQb05nab
 sidebar_position: 1
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
+  - knn algorithm
   - zilliz
   - zilliz cloud
   - cloud
   - append_row()
   - javaV226
+  - knn
+  - Image Search
+  - LLMs
   - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

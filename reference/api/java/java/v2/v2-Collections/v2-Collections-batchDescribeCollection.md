@@ -12,19 +12,19 @@ type: docx
 token: SRI6dEn82oNe4Uxro8hcyFV3n1d
 sidebar_position: 30
 keywords: 
-  - vector database
-  - IVF
-  - knn
-  - Image Search
+  - vector database open source
+  - open source vector db
+  - vector database example
+  - rag vector database
   - zilliz
   - zilliz cloud
   - cloud
   - batchDescribeCollection()
   - javaV226
+  - Machine Learning
+  - RAG
+  - NLP
   - Neural Network
-  - Deep Learning
-  - Knowledge base
-  - natural language processing
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

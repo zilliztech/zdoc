@@ -21,10 +21,10 @@ keywords:
   - cloud
   - delete_user()
   - pymilvus26
-  - Agentic RAG
-  - rag llm architecture
   - private llms
   - nn search
+  - llm eval
+  - Sparse vs Dense
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

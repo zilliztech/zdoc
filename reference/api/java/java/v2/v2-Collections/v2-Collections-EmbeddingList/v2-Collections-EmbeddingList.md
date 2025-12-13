@@ -12,19 +12,19 @@ type: docx
 token: EXcNdtZrro7Ufkxp3G6cUArOn7b
 sidebar_position: 2
 keywords: 
+  - hybrid search
+  - lexical search
+  - nearest neighbor search
   - Agentic RAG
-  - rag llm architecture
-  - private llms
-  - nn search
   - zilliz
   - zilliz cloud
   - cloud
   - EmbeddingList
   - javaV226
-  - Vectorization
-  - k nearest neighbor algorithm
-  - ANNS
-  - Vector search
+  - knn
+  - Image Search
+  - LLMs
+  - Machine Learning
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

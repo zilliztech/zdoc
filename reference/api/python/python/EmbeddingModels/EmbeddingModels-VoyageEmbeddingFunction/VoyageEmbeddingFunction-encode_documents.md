@@ -12,19 +12,19 @@ type: docx
 token: S9zrdw1etovCFKx0gcic6AiVn0e
 sidebar_position: 1
 keywords: 
+  - Natural language search
   - Similarity Search
   - multimodal RAG
   - llm hallucinations
-  - hybrid search
   - zilliz
   - zilliz cloud
   - cloud
   - encode_documents()
   - pymilvus26
+  - Knowledge base
   - natural language processing
   - AI chatbots
   - cosine distance
-  - what is a vector database
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,19 +12,19 @@ type: docx
 token: PmHrdRirloGrFExMMfcc5un0n1g
 sidebar_position: 7
 keywords: 
+  - Dense vector
+  - Hierarchical Navigable Small Worlds
   - Dense embedding
   - Faiss vector database
-  - Chroma vector database
-  - nlp search
   - zilliz
   - zilliz cloud
   - cloud
   - flush()
   - javaV226
-  - dimension reduction
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
+  - LLMs
+  - Machine Learning
+  - RAG
+  - NLP
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

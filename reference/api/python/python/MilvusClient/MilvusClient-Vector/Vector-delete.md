@@ -12,19 +12,19 @@ type: docx
 token: DWLXdSCYnoPT4ExktRKceEqLnAd
 sidebar_position: 1
 keywords: 
+  - cheap vector database
+  - Managed vector database
   - Pinecone vector database
   - Audio search
-  - what is semantic search
-  - Embedding model
   - zilliz
   - zilliz cloud
   - cloud
   - delete()
   - pymilvus26
-  - what is milvus
-  - milvus database
-  - milvus lite
-  - milvus benchmark
+  - Video search
+  - AI Hallucination
+  - AI Agent
+  - semantic search
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

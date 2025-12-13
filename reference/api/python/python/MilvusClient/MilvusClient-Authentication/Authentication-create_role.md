@@ -12,19 +12,19 @@ type: docx
 token: OUz3drncZo1Er8xyITZcYz66nWE
 sidebar_position: 3
 keywords: 
+  - what is a vector database
+  - vectordb
   - multimodal vector database retrieval
   - Retrieval Augmented Generation
-  - Large language model
-  - Vectorization
   - zilliz
   - zilliz cloud
   - cloud
   - create_role()
   - pymilvus26
-  - approximate nearest neighbor search
-  - DiskANN
-  - Sparse vector
-  - Vector Dimension
+  - Machine Learning
+  - RAG
+  - NLP
+  - Neural Network
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

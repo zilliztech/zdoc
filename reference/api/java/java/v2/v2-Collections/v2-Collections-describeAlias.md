@@ -12,19 +12,19 @@ type: docx
 token: RWaHdvzdvoxGdbxj44cc5SmBnzd
 sidebar_position: 11
 keywords: 
+  - how do vector databases work
+  - vector db comparison
   - openai vector db
   - natural language processing database
-  - cheap vector database
-  - Managed vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describeAlias()
   - javaV226
-  - cosine distance
-  - what is a vector database
-  - vectordb
-  - multimodal vector database retrieval
+  - how does milvus work
+  - Zilliz vector database
+  - Zilliz database
+  - Unstructured Data
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar
