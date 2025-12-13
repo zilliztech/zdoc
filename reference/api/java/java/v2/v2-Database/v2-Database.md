@@ -12,10 +12,10 @@ token: TOZmfXZa3luWIMdjXUycMbaanCd
 sidebar_position: 4
 sidebar_label: "Database"
 keywords: 
-  - What is unstructured data
-  - Vector embeddings
-  - Vector store
-  - open source vector database
+  - Vectorization
+  - k nearest neighbor algorithm
+  - ANNS
+  - Vector search
   - zilliz
   - zilliz cloud
   - cloud

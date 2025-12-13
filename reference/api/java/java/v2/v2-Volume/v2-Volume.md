@@ -12,10 +12,10 @@ token: O6ngfC8y5lIhIWdEGDAcXHzcntl
 sidebar_position: 10
 sidebar_label: "Volume"
 keywords: 
-  - Machine Learning
-  - RAG
-  - NLP
-  - Neural Network
+  - cheap vector database
+  - Managed vector database
+  - Pinecone vector database
+  - Audio search
   - zilliz
   - zilliz cloud
   - cloud

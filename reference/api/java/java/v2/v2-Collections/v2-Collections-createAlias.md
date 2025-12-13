@@ -12,19 +12,19 @@ type: docx
 token: MQxvdwd7QoUu5zxyHTjc0MUKnhe
 sidebar_position: 6
 keywords: 
-  - AI Hallucination
-  - AI Agent
-  - semantic search
-  - Anomaly Detection
+  - Chroma vector database
+  - nlp search
+  - hallucinations llm
+  - Multimodal search
   - zilliz
   - zilliz cloud
   - cloud
   - createAlias()
   - javaV226
-  - semantic search
-  - Anomaly Detection
-  - sentence transformers
-  - Recommender systems
+  - what is vector db
+  - what are vector databases
+  - vector databases comparison
+  - Faiss
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

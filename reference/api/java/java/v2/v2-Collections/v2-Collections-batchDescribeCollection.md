@@ -12,19 +12,19 @@ type: docx
 token: SRI6dEn82oNe4Uxro8hcyFV3n1d
 sidebar_position: 30
 keywords: 
-  - milvus database
-  - milvus lite
-  - milvus benchmark
-  - managed milvus
+  - vector database
+  - IVF
+  - knn
+  - Image Search
   - zilliz
   - zilliz cloud
   - cloud
   - batchDescribeCollection()
   - javaV226
-  - Machine Learning
-  - RAG
-  - NLP
   - Neural Network
+  - Deep Learning
+  - Knowledge base
+  - natural language processing
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

@@ -12,19 +12,19 @@ type: docx
 token: FEnwdB0eCotS7wxpPXmcwgQwn8g
 sidebar_position: 8
 keywords: 
+  - how does milvus work
   - Zilliz vector database
   - Zilliz database
   - Unstructured Data
-  - vector database
   - zilliz
   - zilliz cloud
   - cloud
   - describeCollection()
   - nodejs26
-  - what is vector db
-  - what are vector databases
-  - vector databases comparison
-  - Faiss
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

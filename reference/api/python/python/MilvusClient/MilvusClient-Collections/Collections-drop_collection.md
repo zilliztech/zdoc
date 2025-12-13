@@ -21,10 +21,10 @@ keywords:
   - cloud
   - drop_collection()
   - pymilvus26
+  - knn algorithm
   - HNSW
   - What is unstructured data
   - Vector embeddings
-  - Vector store
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

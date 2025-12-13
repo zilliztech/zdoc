@@ -12,19 +12,19 @@ type: docx
 token: QsOsda2lRoJP32xNSLWcbgMOnKI
 sidebar_position: 16
 keywords: 
+  - Agentic RAG
+  - rag llm architecture
+  - private llms
   - nn search
-  - llm eval
-  - Sparse vs Dense
-  - Dense vector
   - zilliz
   - zilliz cloud
   - cloud
   - has_partition()
   - pymilvus26
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
-  - Video similarity search
+  - sentence transformers
+  - Recommender systems
+  - information retrieval
+  - dimension reduction
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar

@@ -12,10 +12,10 @@ token: AtkCfVN4Ll6GqMdVJfxcybHanDf
 sidebar_position: 9
 sidebar_label: "Data Import"
 keywords: 
-  - Question answering system
-  - llm-as-a-judge
-  - hybrid vector search
-  - Video deduplication
+  - Elastic vector database
+  - Pinecone vs Milvus
+  - Chroma vs Milvus
+  - Annoy vector search
   - zilliz
   - zilliz cloud
   - cloud

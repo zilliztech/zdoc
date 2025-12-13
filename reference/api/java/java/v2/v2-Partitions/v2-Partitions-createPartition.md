@@ -12,19 +12,19 @@ type: docx
 token: WE4gduIjooCgQUxcKyLcwQe1n3g
 sidebar_position: 1
 keywords: 
+  - Recommender systems
+  - information retrieval
   - dimension reduction
   - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
   - zilliz
   - zilliz cloud
   - cloud
   - createPartition()
   - javaV226
-  - Vector search
-  - knn algorithm
-  - HNSW
-  - What is unstructured data
+  - approximate nearest neighbor search
+  - DiskANN
+  - Sparse vector
+  - Vector Dimension
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

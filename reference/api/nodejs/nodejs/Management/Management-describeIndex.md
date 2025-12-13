@@ -12,19 +12,19 @@ type: docx
 token: PePIdiq9po6cplxAoF6ca5C2ntb
 sidebar_position: 4
 keywords: 
-  - hnsw algorithm
-  - vector similarity search
-  - approximate nearest neighbor search
-  - DiskANN
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
   - zilliz
   - zilliz cloud
   - cloud
   - describeIndex()
   - nodejs26
-  - what are vector databases
-  - vector databases comparison
   - Faiss
   - Video search
+  - AI Hallucination
+  - AI Agent
 displayed_sidebar: nodeSidebar
 
 displayed_sidbar: nodeSidebar

@@ -12,19 +12,19 @@ type: docx
 token: IBTSd8lrvoAYLzxl6Z8cEVoXnMd
 sidebar_position: 6
 keywords: 
+  - Chroma vector database
+  - nlp search
   - hallucinations llm
   - Multimodal search
-  - vector search algorithms
-  - Question answering system
   - zilliz
   - zilliz cloud
   - cloud
   - loadPartitions()
   - javaV226
-  - hybrid search
-  - lexical search
-  - nearest neighbor search
-  - Agentic RAG
+  - Knowledge base
+  - natural language processing
+  - AI chatbots
+  - cosine distance
 displayed_sidebar: javaSidebar
 
 displayed_sidbar: javaSidebar

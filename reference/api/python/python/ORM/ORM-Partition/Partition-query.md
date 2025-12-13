@@ -12,19 +12,19 @@ type: docx
 token: N97pdfkjlo9j61xrtL2cbB79nKe
 sidebar_position: 8
 keywords: 
+  - Pinecone vs Milvus
   - Chroma vs Milvus
   - Annoy vector search
   - milvus
-  - Zilliz
   - zilliz
   - zilliz cloud
   - cloud
   - query()
   - pymilvus26
-  - multimodal RAG
-  - llm hallucinations
-  - hybrid search
-  - lexical search
+  - open source vector db
+  - vector database example
+  - rag vector database
+  - what is vector db
 displayed_sidebar: pythonSidebar
 
 displayed_sidbar: pythonSidebar
