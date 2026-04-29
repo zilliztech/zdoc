@@ -1,0 +1,28 @@
+name: "check 404"
+
+on:
+  push:
+    branches:
+      - "backup/master-before-redesign"
+  pull_request:
+    branches:
+      - "backup/master-before-redesign"
+
+jobs:
+  Check-404:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check out git repository
+        uses: actions/checkout@v4
+
+      - name: "Setup node.js"
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+
+      - name: "Install dependencies"
+        run: npm ci
+
+      - name: "Checking"
+        run: |
+          node scripts/check-404.js

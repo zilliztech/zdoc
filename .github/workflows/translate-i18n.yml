@@ -1,0 +1,294 @@
+name: "translate to Japanese"
+
+on:
+  workflow_run:
+    workflows:
+      - "fetch lark docs (auto)"
+      - "fetch lark docs (manual)"
+    types: [completed]
+  workflow_dispatch:
+
+# Serialize translations so they never run in parallel.
+# If a new fetch lands while one is still running, it waits; only the latest
+# pending run is kept (GitHub drops older queued runs automatically).
+concurrency:
+  group: translate-i18n
+
+jobs:
+  translate:
+    runs-on: ubuntu-latest
+    # For workflow_run: only proceed if the upstream fetch succeeded.
+    # For workflow_dispatch: always run.
+    if: ${{ github.event.workflow_run.conclusion == 'success' || github.event_name == 'workflow_dispatch' }}
+    outputs:
+      card_id: ${{ steps.card.outputs.card_id }}
+      card_started_at: ${{ steps.card.outputs.card_started_at }}
+      card_stages: ${{ steps.card.outputs.card_stages }}
+      card_title: ${{ steps.card.outputs.card_title }}
+    steps:
+    - name: checkout backup/master-before-redesign branch
+      uses: actions/checkout@v4
+      with:
+        ref: backup/master-before-redesign
+
+    - name: set up Environment
+      uses: actions/setup-node@v4.0.1
+      with:
+        node-version: lts/*
+
+    - name: install dependencies & create progress card
+      id: card
+      run: |
+        npm ci
+        npx docusaurus report-to-lark --card-create \
+          --title "Japanese Translation" \
+          --stages "Translate JA,Agent Repair,Commit"
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+    # Persist translation.db across runs via Actions cache.
+    # This is much more reliable than committing the binary to git, since
+    # force-pushes from fetch-lark-docs can clobber a git-committed DB.
+    - name: restore translation DB
+      uses: actions/cache/restore@v4
+      with:
+        path: translation.db
+        # Falls back to any previous save for this branch
+        key: translation-db-backup-master-before-redesign-${{ github.run_id }}
+        restore-keys: |
+          translation-db-backup-master-before-redesign-
+
+    - name: translate to Japanese
+      run: |
+        npx docusaurus translate-i18n --locale ja-JP --stats-json /tmp/translate-stats.json
+        npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs/current/tutorials
+        npx docusaurus mdx-parse -d i18n/ja-JP/docusaurus-plugin-content-docs/version-byoc/tutorials
+        npx docusaurus translate-i18n --validate-and-revert --locale ja-JP --report-json /tmp/broken-files.json
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        TRANSLATION_MODEL_API_BASE_URL: ${{ vars.TRANSLATION_MODEL_API_BASE_URL }}
+        TRANSLATION_MODEL_API_KEY: ${{ secrets.TRANSLATION_MODEL_API_KEY }}
+        TRANSLATION_MODEL_ID: ${{ vars.TRANSLATION_MODEL_ID }}
+        THROTTLE_MIN_TIME: ${{ vars.THROTTLE_MIN_TIME }}
+        THROTTLE_MAX_CONCURRENT: ${{ vars.THROTTLE_MAX_CONCURRENT }}
+
+    - name: check for broken translations
+      id: check_broken
+      run: |
+        COUNT=$(jq length /tmp/broken-files.json 2>/dev/null || echo 0)
+        echo "count=${COUNT}" >> $GITHUB_OUTPUT
+        if [ "$COUNT" -gt 0 ]; then
+          echo "has_broken=true" >> $GITHUB_OUTPUT
+          echo "Broken files:"
+          jq -r '.[] | "  \(.destPath)  —  \(.error)"' /tmp/broken-files.json
+        else
+          echo "has_broken=false" >> $GITHUB_OUTPUT
+          echo "No broken translations."
+        fi
+
+    - name: advance Translate JA stage
+      run: |
+        TRANSLATED=$(jq -r '.translated // 0' /tmp/translate-stats.json 2>/dev/null || echo 0)
+        TOTAL=$(jq -r '.total // 0' /tmp/translate-stats.json 2>/dev/null || echo 0)
+        COUNT="${{ steps.check_broken.outputs.count }}"
+        {
+          printf '%s translated this run / %s total' "$TRANSLATED" "$TOTAL"
+          if [ "$COUNT" -gt 0 ]; then
+            printf '\n⚠️ %s failed MDX validation:\n' "$COUNT"
+            jq -r '.[] | "• " + .destPath' /tmp/broken-files.json
+          fi
+        } > /tmp/translate-note.txt
+        npx docusaurus report-to-lark --card-advance --note-file /tmp/translate-note.txt
+        if [ "${{ steps.check_broken.outputs.has_broken }}" = "false" ]; then
+          # No broken files: skip Agent Repair stage
+          npx docusaurus report-to-lark --card-advance --note "No repairs needed"
+        fi
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+    # Agent repair: for each file that failed MDX compilation, the agent reads
+    # the English source + the specific error, fixes the Japanese file, and
+    # verifies the fix by running the MDX compiler — iterating until it passes.
+    - name: agent repair of broken translations
+      if: steps.check_broken.outputs.has_broken == 'true'
+      uses: QwenLM/qwen-code-action@main
+      with:
+        openai_api_key: ${{ secrets.AGENT_MODEL_API_KEY }}
+        openai_base_url: ${{ vars.AGENT_MODEL_API_BASE_URL }}
+        openai_model: ${{ vars.AGENT_MODEL_ID }}
+        prompt: |
+          You are a technical editor repairing broken Japanese MDX translations for Zilliz Cloud documentation.
+
+          The bulk translation pipeline has already translated these files from English to Japanese,
+          but they failed MDX compilation or structural validation. The broken files have been reverted
+          to their previous state (or deleted if new). Your job is to produce a correct Japanese
+          translation that passes validation.
+
+          ## Your task
+
+          1. Read the list of broken files from `/tmp/broken-files.json`. Each entry has:
+             - `sourcePath`: the English source file (relative to repo root)
+             - `destPath`: where the Japanese translation should be written (relative to repo root)
+             - `error`: the specific MDX compilation or structural error
+
+          2. For each broken file:
+             a. Read the English source at `sourcePath`
+             b. Read the current file at `destPath` if it exists (may be an old/reverted version)
+             c. Analyse the `error` to understand what structural problem the previous translation introduced
+             d. Write a corrected Japanese translation to `destPath`
+             e. Verify with: node -e "const {compile}=require('@mdx-js/mdx');compile(require('fs').readFileSync('<destPath>','utf8'),{development:false}).then(()=>c
+onsole.log('PASS')).catch(e=>{console.error('FAIL:',e.message.split('\n')[0]);process.exit(1);})"
+             f. If that passes, also run the structural check: node -e "const {validateMdxStructure}=require('./plugins/mdx-parse/mdxPatcher');const c=require('fs')
+.readFileSync('<destPath>','utf8');const e=validateMdxStructure(c);console.log(e.length?'FAIL: '+e.join('; '):'PASS');"
+             g. If either check fails, read the new error and fix again (up to 3 attempts per file)
+
+          ## Translation rules
+
+          - Translate prose to Japanese; keep code blocks, JSX tags, and frontmatter unchanged
+          - Preserve ALL markdown syntax: ##, **, *, >, -, tables, numbered lists
+          - Preserve ALL markdown link URLs — only translate the visible link text
+          - Preserve ALL leading whitespace exactly — indentation is structurally significant in MDX
+          - Do NOT translate inline code (`backticks`) or fenced code blocks
+          - Keep frontmatter field names (title, sidebar_label, etc.) in English; translate values
+          - Strip these frontmatter fields from the output: added_since, last_modified, deprecate_since
+
+          ## Common error patterns and fixes
+
+          - **"YAML frontmatter error"**: The `description`, `title`, or `sidebar_label` field in the
+            `---` frontmatter block contains unescaped double-quotes inside a YAML double-quoted string.
+            For example: `description: "text with "quotes" inside"` is invalid YAML.
+            Fix by rewriting the value using single-quote YAML style:
+            `description: 'text with "quotes" inside'`
+            Or if the value also contains single quotes, use double-quote style with `\"` escaping.
+            Do NOT change any other frontmatter fields.
+
+          - **"Bad <Tabs> child <p>"** or **"prose between TabItems"**: The LLM inserted a paragraph
+            between `</TabItem>` and `<TabItem>`. Delete the inserted prose block entirely — the Tabs
+            component only accepts TabItem children, nothing else between them.
+
+          - **"Unexpected closing tag" / unbalanced tags**: A JSX tag was opened but not closed, or
+            a closing tag appears without a matching opener. Find and balance them.
+
+          - **"ReferenceError: X is not defined"**: The LLM hallucinated a `{VARIABLE}` or
+            `{{HANDLEBARS}}` expression. Remove or escape it (use `\{` to escape a literal brace).
+
+          - **"Unterminated string"**: A stray backtick or quote was introduced. Find and remove it.
+
+          - **"stray fenced code block"**: An extra ` ``` ` fence was inserted between two code blocks.
+            Delete the stray line.
+
+          - **Indentation errors in nested structures**: Content inside a `<TabItem>` that is itself
+            inside a list item must keep 4-space indentation. Restore it.
+
+          ## Important
+
+          - Prefer surgical fixes over full re-translation — if 90% of the file is correct Japanese,
+            only fix the broken section identified by the error.
+          - If you cannot fix a file after 3 attempts, skip it and move on; report it at the end.
+          - After processing all files, print a summary: how many fixed, how many skipped.
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+    # Re-validate after agent repairs to catch any regressions the agent introduced.
+    - name: re-validate after agent repairs
+      id: revalidate
+      if: steps.check_broken.outputs.has_broken == 'true'
+      run: |
+        npx docusaurus translate-i18n --validate-and-revert --locale ja-JP --report-json /tmp/still-broken.json
+        STILL=$(jq length /tmp/still-broken.json 2>/dev/null || echo 0)
+        echo "still_broken=${STILL}" >> $GITHUB_OUTPUT
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+    - name: mark repaired files in translation cache
+      if: steps.check_broken.outputs.has_broken == 'true'
+      run: |
+        npx docusaurus translate-i18n --mark-repaired /tmp/broken-files.json --locale ja-JP
+
+    # Save AFTER mark-repaired so the repaired-file markers are included in the cached DB.
+    # if: always() ensures we save even if agent repair or mark-repaired failed — partial
+    # progress (translations without repair marks) is still better than losing the whole DB.
+    - name: save translation DB
+      if: always()
+      uses: actions/cache/save@v4
+      with:
+        path: translation.db
+        key: translation-db-backup-master-before-redesign-${{ github.run_id }}
+
+    - name: advance Agent Repair stage
+      if: steps.check_broken.outputs.has_broken == 'true'
+      run: |
+        COUNT=${{ steps.check_broken.outputs.count }}
+        STILL=${{ steps.revalidate.outputs.still_broken || 0 }}
+        FIXED=$(( COUNT - STILL ))
+        if [ "$STILL" -eq 0 ]; then
+          NOTE="🔧 All ${COUNT} file(s) repaired"
+        else
+          NOTE="🔧 ${FIXED}/${COUNT} repaired · ${STILL} still reverted"
+        fi
+        npx docusaurus report-to-lark --card-advance --note "$NOTE"
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+    - name: commit translations to backup/master-before-redesign
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        branch: backup/master-before-redesign
+        push_options: --force
+
+    - name: advance Commit stage
+      run: npx docusaurus report-to-lark --card-advance
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+  failure:
+    needs: translate
+    runs-on: ubuntu-latest
+    if: failure()
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v4
+    - name: set up Environment
+      uses: actions/setup-node@v4.0.1
+      with:
+        node-version: lts/*
+    - name: report failure
+      run: |
+        npm ci
+        npx docusaurus report-to-lark --card-finish --message-id ${{ needs.translate.outputs.card_id }} --status fail --started-at "${{ needs.translate.outputs.card_started_at }}" --stages "${{ needs.translate.outputs.card_stages }}" --title "${{ needs.translate.outputs.card_title }}"
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+
+  success:
+    needs: translate
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v4
+    - name: set up Environment
+      uses: actions/setup-node@v4.0.1
+      with:
+        node-version: lts/*
+    - name: report success
+      run: |
+        npm ci
+        npx docusaurus report-to-lark --card-finish --message-id ${{ needs.translate.outputs.card_id }} --status success --started-at "${{ needs.translate.outputs.card_started_at }}" --stages "${{ needs.translate.outputs.card_stages }}" --title "${{ needs.translate.outputs.card_title }}"
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}

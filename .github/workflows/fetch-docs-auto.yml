@@ -1,0 +1,192 @@
+name: "fetch lark docs (auto)"
+on:
+  schedule:
+  - cron: "0 2,10,18 * * *"  # Every day at 2, 10, and 18 hours UTC
+  push:
+    branches:
+      - "backup/master-before-redesign"
+    paths:
+      - ".github/workflows/fetch-docs-auto.yml"
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    outputs:
+      card_id: ${{ steps.card.outputs.card_id }}
+      card_started_at: ${{ steps.card.outputs.card_started_at }}
+      card_stages: ${{ steps.card.outputs.card_stages }}
+      card_title: ${{ steps.card.outputs.card_title }}
+    steps:
+    - name: get current date
+      id: date
+      run: echo "::set-output name=date::$(date +'%Y%m%d')"
+    - name: checkout repo
+      uses: actions/checkout@v4
+    - name: set up Environment
+      uses: actions/setup-node@v4.0.1
+      with:
+        node-version: lts/*
+    - name: install deps & create progress card
+      id: card
+      run: |
+        npm ci
+        npx docusaurus report-to-lark --card-create \
+          --title "Global Docs Build" \
+          --stages "Fetch EN docs,Build EN docs,Check EN links,Fetch SDK refs,Build SDK docs,Check SDK links"
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+    - name: fetch english docs
+      id: fetch_en_docs
+      run: |
+        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -s3
+        npx docusaurus fetch-lark-docs -man guides -tar zilliz.saas -post
+        npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -s3 -skipS
+        npx docusaurus fetch-lark-docs -man guides -tar zilliz.paas -post
+        npx docusaurus report-to-lark --card-advance
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        SPACE_ID: ${{ secrets.SPACE_ID }}
+        FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
+        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+        MODEL_ID: ${{ vars.MODEL_ID }}
+        AWS_BUCKET: ${{ vars.AWS_BUCKET }}
+        AWS_REGION: ${{ vars.AWS_REGION }}
+        IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    - name: build docsite
+      run: |
+        npm run build
+        npx docusaurus report-to-lark --card-advance
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
+        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+        MODEL_ID: ${{ vars.MODEL_ID }}
+    - name: link checks
+      env:
+        TOKEN: ${{ secrets.ACTION_TOKEN }}
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
+        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+        MODEL_ID: ${{ vars.MODEL_ID }}
+      run: |
+        npx docusaurus link-checks
+        npx docusaurus report-to-lark --card-advance
+    - name: commit to backup/master-before-redesign
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        branch: backup/master-before-redesign
+        create_branch: true
+        push_options: --force
+    - name: fetch sdk references
+      id: fetch_sdk_refs
+      run: |
+        npx docusaurus fetch-lark-docs -man python -src-only
+        npx docusaurus fetch-lark-docs -man pymilvus25 -src-only
+        npx docusaurus fetch-lark-docs -man pymilvus26 -src-only
+        npx docusaurus fetch-lark-docs -man pymilvus30 -tar zilliz -s3
+        npx docusaurus fetch-lark-docs -man pymilvus30 -tar zilliz -post
+        npx docusaurus fetch-lark-docs -man javaV2 -src-only
+        npx docusaurus fetch-lark-docs -man javaV225 -src-only
+        npx docusaurus fetch-lark-docs -man javaV226 -tar zilliz -s3
+        npx docusaurus fetch-lark-docs -man javaV226 -tar zilliz -post
+        npx docusaurus fetch-lark-docs -man node -src-only
+        npx docusaurus fetch-lark-docs -man nodejs25 -src-only
+        npx docusaurus fetch-lark-docs -man nodejs26 -tar zilliz -s3
+        npx docusaurus fetch-lark-docs -man nodejs26 -tar zilliz -post
+        npx docusaurus fetch-lark-docs -man gov2 -src-only
+        npx docusaurus fetch-lark-docs -man gov226 -tar zilliz -s3
+        npx docusaurus fetch-lark-docs -man gov226 -tar zilliz -post
+        npx docusaurus fetch-apifox-docs -s plugins/apifox-docs/meta/openapi.json
+        npx docusaurus report-to-lark --card-advance
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        SPACE_ID: ${{ secrets.SPACE_ID }}
+        FIGMA_API_KEY: ${{ secrets.FIGMA_API_KEY }}
+        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
+        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+        MODEL_ID: ${{ vars.MODEL_ID }}
+        AWS_BUCKET: ${{ vars.AWS_BUCKET }}
+        AWS_REGION: ${{ vars.AWS_REGION }}
+        IMAGE_BED_URL: ${{ vars.IMAGE_BED_URL }}
+        AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+        AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+    - name: build docsite
+      run: |
+        npm run build
+        npx docusaurus report-to-lark --card-advance
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
+        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+        MODEL_ID: ${{ vars.MODEL_ID }}
+    - name: link checks
+      env:
+        TOKEN: ${{ secrets.ACTION_TOKEN }}
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+        MODEL_API_BASE_URL: ${{ vars.MODEL_API_BASE_URL }}
+        MODEL_API_KEY: ${{ secrets.MODEL_API_KEY }}
+        MODEL_ID: ${{ vars.MODEL_ID }}
+      run: |
+        npx docusaurus link-checks
+        npx docusaurus report-to-lark --card-advance
+    - name: commit to backup/master-before-redesign
+      uses: stefanzweifel/git-auto-commit-action@v5
+      with:
+        branch: backup/master-before-redesign
+        create_branch: true
+        push_options: --force
+  failure:
+    needs: fetch
+    runs-on: ubuntu-latest
+    if: failure()
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v4
+    - name: set up Environment
+      uses: actions/setup-node@v4.0.1
+      with:
+        node-version: lts/*
+    - name: report failure
+      run: |
+        npm ci
+        npx docusaurus report-to-lark --card-finish --message-id ${{ needs.fetch.outputs.card_id }} --status fail --started-at "${{ needs.fetch.outputs.card_started_at }}" --stages "${{ needs.fetch.outputs.card_stages }}" --title "${{ needs.fetch.outputs.card_title }}"
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
+  success:
+    needs: fetch
+    runs-on: ubuntu-latest
+    if: success()
+    steps:
+    - name: checkout repo
+      uses: actions/checkout@v4
+    - name: set up Environment
+      uses: actions/setup-node@v4.0.1
+      with:
+        node-version: lts/*
+    - name: report success
+      run: |
+        npm ci
+        npx docusaurus report-to-lark --card-finish --message-id ${{ needs.fetch.outputs.card_id }} --status success --started-at "${{ needs.fetch.outputs.card_started_at }}" --stages "${{ needs.fetch.outputs.card_stages }}" --title "${{ needs.fetch.outputs.card_title }}"
+      env:
+        APP_ID: ${{ secrets.APP_ID }}
+        APP_SECRET: ${{ secrets.APP_SECRET }}
+        FEISHU_HOST: ${{ vars.FEISHU_HOST }}
