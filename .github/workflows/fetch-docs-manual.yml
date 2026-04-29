@@ -28,7 +28,7 @@ jobs:
     - name: install deps & create progress card
       id: card
       run: |
-        npm ci
+        npm ci --legacy-peer-deps
         npx docusaurus report-to-lark --card-create \
           --title "Global Docs Build" \
           --stages "Fetch EN docs,Build EN docs,Check EN links,Fetch SDK refs,Build SDK docs,Check SDK links"
@@ -163,7 +163,7 @@ jobs:
         node-version: lts/*
     - name: report failure
       run: |
-        npm ci
+        npm ci --legacy-peer-deps
         npx docusaurus report-to-lark --card-finish --message-id ${{ needs.fetch.outputs.card_id }} --status fail --started-at "${{ needs.fetch.outputs.card_started_at }}" --stages "${{ needs.fetch.outputs.card_stages }}" --title "${{ needs.fetch.outputs.card_title }}"
       env:
         APP_ID: ${{ secrets.APP_ID }}
@@ -182,7 +182,7 @@ jobs:
         node-version: lts/*
     - name: report success
       run: |
-        npm ci
+        npm ci --legacy-peer-deps
         npx docusaurus report-to-lark --card-finish --message-id ${{ needs.fetch.outputs.card_id }} --status success --started-at "${{ needs.fetch.outputs.card_started_at }}" --stages "${{ needs.fetch.outputs.card_stages }}" --title "${{ needs.fetch.outputs.card_title }}"
       env:
         APP_ID: ${{ secrets.APP_ID }}

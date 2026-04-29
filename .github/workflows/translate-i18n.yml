@@ -39,7 +39,7 @@ jobs:
     - name: install dependencies & create progress card
       id: card
       run: |
-        npm ci
+        npm ci --legacy-peer-deps
         npx docusaurus report-to-lark --card-create \
           --title "Japanese Translation" \
           --stages "Translate JA,Agent Repair,Commit"
@@ -266,7 +266,7 @@ onsole.log('PASS')).catch(e=>{console.error('FAIL:',e.message.split('\n')[0]);pr
         node-version: lts/*
     - name: report failure
       run: |
-        npm ci
+        npm ci --legacy-peer-deps
         npx docusaurus report-to-lark --card-finish --message-id ${{ needs.translate.outputs.card_id }} --status fail --started-at "${{ needs.translate.outputs.card_started_at }}" --stages "${{ needs.translate.outputs.card_stages }}" --title "${{ needs.translate.outputs.card_title }}"
       env:
         APP_ID: ${{ secrets.APP_ID }}
@@ -286,7 +286,7 @@ onsole.log('PASS')).catch(e=>{console.error('FAIL:',e.message.split('\n')[0]);pr
         node-version: lts/*
     - name: report success
       run: |
-        npm ci
+        npm ci --legacy-peer-deps
         npx docusaurus report-to-lark --card-finish --message-id ${{ needs.translate.outputs.card_id }} --status success --started-at "${{ needs.translate.outputs.card_started_at }}" --stages "${{ needs.translate.outputs.card_stages }}" --title "${{ needs.translate.outputs.card_title }}"
       env:
         APP_ID: ${{ secrets.APP_ID }}
